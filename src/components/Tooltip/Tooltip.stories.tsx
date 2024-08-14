@@ -1,0 +1,47 @@
+import {Meta, StoryObj} from '@storybook/react'
+import React from 'react'
+import {Icon} from '../Icon'
+import {Tooltip} from './Tooltip'
+import {TooltipProps} from './Tooltip.interface'
+
+export const PlainVerticalEnd: StoryObj<TooltipProps> = {
+    args: {
+        children: <Icon name='addHome' />,
+        supportingPosition: 'verticalEnd',
+        supportingText: 'Supporting Text',
+        defaultVisible: true
+    }
+}
+
+export const PlainVerticalStart: StoryObj<TooltipProps> = {
+    args: {
+        children: <Icon name='addHome' />,
+        supportingPosition: 'verticalStart',
+        supportingText: 'Supporting Text',
+        visible: true
+    }
+}
+
+export const PlainHorizontalStart: StoryObj<TooltipProps> = {
+    args: {
+        children: <Icon name='addHome' />,
+        supportingPosition: 'horizontalStart',
+        supportingText: 'Supporting Text',
+        visible: true
+    }
+}
+
+export const PlainHorizontalEnd: StoryObj<TooltipProps> = {
+    args: {
+        children: <Icon name='addHome' />,
+        supportingPosition: 'horizontalEnd',
+        supportingText: 'Supporting Text',
+        visible: true
+    }
+}
+
+export default {
+    title: 'components/Tooltip',
+    argTypes: {onPress: {action: 'pressed'}},
+    component: Tooltip
+} as Meta<typeof Tooltip>

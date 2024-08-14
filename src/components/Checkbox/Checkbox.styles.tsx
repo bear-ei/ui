@@ -1,0 +1,72 @@
+import styled, {css} from 'styled-components/native'
+import {Shape} from '../Common'
+import {CheckboxContainerProps, CheckboxContentProps, CheckboxIconContainerProps} from './Checkbox.interface'
+
+export const Container = styled.View<CheckboxContainerProps>`
+    cursor: pointer;
+
+    ${({theme, densityScale = 0}) => css`
+        height: ${theme.adaptSize(
+            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
+        )}px;
+
+        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+        min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+        width: ${theme.adaptSize(
+            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
+        )}px;
+    `}
+`
+
+export const Content = styled(Shape)<CheckboxContentProps>`
+    align-items: center;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+
+    ${({theme, densityScale = 0}) => css`
+        height: ${theme.adaptSize(
+            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
+        )}px;
+
+        width: ${theme.adaptSize(
+            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
+        )}px;
+    `};
+`
+
+export const Main = styled(Shape)`
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+
+    ${({theme}) => css`
+        height: ${theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)}px;
+        width: ${theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)}px;
+    `}
+`
+
+export const IconContainer = styled.View<CheckboxIconContainerProps>`
+    overflow: hidden;
+    position: absolute;
+
+    ${({theme}) => css`
+        bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+        left: ${theme.adaptSize(theme.token.spacing.none)}px;
+        right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        top: ${theme.adaptSize(theme.token.spacing.none)}px;
+    `}
+
+    ${({zIndex = 0}) => css`
+        z-index: ${zIndex};
+    `}
+
+    ${({visible}) =>
+        !visible &&
+        css`
+            opacity: 0;
+        `}
+`

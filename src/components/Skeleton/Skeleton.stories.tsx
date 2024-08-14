@@ -1,0 +1,42 @@
+import {Meta, StoryObj} from '@storybook/react'
+import React from 'react'
+import {StyleProp, ViewStyle} from 'react-native'
+import {Skeleton} from './Skeleton'
+import {SkeletonProps} from './Skeleton.interface'
+
+const {Square, Rectangular, Circle} = Skeleton
+const SkeletonComponent = (props: SkeletonProps) => {
+    const rectangularStyle = {flex: 1} as StyleProp<ViewStyle>
+    const content = (
+        <>
+            <Square />
+            <Rectangular
+                containerLayout='vertical'
+                style={[rectangularStyle]}
+            >
+                <Rectangular height={16} />
+                <Rectangular height={16} />
+            </Rectangular>
+            <Circle />
+        </>
+    )
+
+    return (
+        <Skeleton
+            {...props}
+            content={content}
+            duration={-1}
+            style={{gap: 16}}
+        />
+    )
+}
+
+export const DefaultSkeleton: StoryObj<SkeletonProps> = {
+    args: {}
+}
+
+export default {
+    title: 'components/Skeleton',
+    argTypes: {onPress: {action: 'pressed'}},
+    component: SkeletonComponent
+} as Meta<typeof Skeleton>
