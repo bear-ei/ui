@@ -26,7 +26,12 @@ export const Text: StoryObj<ButtonProps> = {
 
 export const TextIcon: StoryObj<ButtonProps> = {
     args: {
-        icon: <EIIcon />,
+        icon: (
+            <EIIcon
+                type='filled'
+                iconStyle='outlined'
+            />
+        ),
         labelText: 'Label',
         type: 'text'
     }

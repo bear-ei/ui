@@ -15,6 +15,7 @@ const render = ({
     error,
     eventName,
     iconAnimatedStyle,
+    iconSvgStyle,
     id,
     onStateEvent,
     theme,
@@ -60,6 +61,7 @@ const render = ({
                                 fill={checkBoxOutlineFill}
                                 iconStyle='outlined'
                                 name='checkBoxOutlineBlank'
+                                svgStyle={iconSvgStyle}
                                 type='filled'
                             />
                         </IconContainer>
@@ -76,6 +78,7 @@ const render = ({
                                 fill={activeFill}
                                 iconStyle='outlined'
                                 name='indeterminateCheckBox'
+                                svgStyle={iconSvgStyle}
                                 type='filled'
                             />
                         </AnimatedIconContainer>
@@ -92,6 +95,7 @@ const render = ({
                                 fill={activeFill}
                                 iconStyle='outlined'
                                 name='checkBox'
+                                svgStyle={iconSvgStyle}
                                 type='filled'
                             />
                         </AnimatedIconContainer>

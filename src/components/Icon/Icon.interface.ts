@@ -1,5 +1,5 @@
 import {RefAttributes} from 'react'
-import {View, ViewProps, ViewStyle} from 'react-native'
+import {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {SvgProps} from 'react-native-svg'
 import {EventName} from '../Common'
@@ -11,18 +11,16 @@ export type IconType = 'filled' | 'outlined'
 export interface IconProps extends Omit<SvgProps, 'width' | 'height'>, RefAttributes<View>, ViewProps {
     densityScale?: number
     eventName?: EventName
-    horizontalStretch?: boolean
     icon?: React.FC<SvgProps>
     iconStyle?: IconStyle
     name?: IconName
-    SvgIcon?: React.FC<SvgProps>
-    svgIconElement?: React.JSX.Element
+    svgStyle?: StyleProp<ViewStyle>
     type?: IconType
-    verticalStretch?: boolean
 }
 
 export interface RenderIconProps extends IconProps {
     animatedStyle: AnimatedStyle<ViewStyle>
+    svgIconElement: React.JSX.Element
 }
 
 export interface IconBaseProps extends IconProps {
@@ -30,4 +28,4 @@ export interface IconBaseProps extends IconProps {
 }
 
 export type UseIconAnimatedOptions = Pick<RenderIconProps, 'eventName'>
-export type IconContainerProps = Pick<IconProps, 'verticalStretch' | 'densityScale' | 'horizontalStretch'>
+export type IconContainerProps = Pick<IconProps, 'densityScale'>

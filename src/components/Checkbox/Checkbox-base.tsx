@@ -90,6 +90,11 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 
         const id = useId()
         const theme = useTheme()
+        const iconSvgStyle = {
+            minWidth: theme.adaptSize(theme.token.spacing.large),
+            minHeight: theme.adaptSize(theme.token.spacing.large)
+        }
+
         const checkUnderlayColor =
             type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
 
@@ -136,6 +141,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
             error,
             eventName,
             iconAnimatedStyle,
+            iconSvgStyle,
             id,
             onStateEvent,
             ref,

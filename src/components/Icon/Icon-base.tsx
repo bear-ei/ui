@@ -15,6 +15,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
             iconStyle: style = 'outlined',
             name = 'circle',
             render,
+            svgStyle,
             type = 'outlined',
             ...renderProps
         },
@@ -26,15 +27,11 @@ export const IconBase = forwardRef<View, IconBaseProps>(
         const SvgIcon = icon ?? iconStyle[style]?.[type]?.[name]
         const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
         const animatedStyle = useIconAnimated({eventName})
-        const svgStyle = {
-            minWidth: theme.adaptSize(theme.token.spacing.large),
-            minHeight: theme.adaptSize(theme.token.spacing.large)
-        }
         const svgIconElement = SvgIcon && (
             <SvgIcon
                 fill={iconFill}
-                style={svgStyle}
                 height='100%'
+                style={svgStyle}
                 width='100%'
             />
         )
