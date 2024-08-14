@@ -1,7 +1,7 @@
-import React, { FC, useId } from 'react'
+import React, {FC, useId} from 'react'
 import StorybookUIRoot from '../.ondevice'
-import { Container, Text } from './App.styles'
-import { ThemeProvider } from './contexts'
+import {Container, Text} from './App.styles'
+import {ThemeProvider} from './contexts'
 
 const App: FC = () => {
     const id = useId()

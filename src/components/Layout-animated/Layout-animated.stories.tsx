@@ -8,15 +8,17 @@ import {LayoutAnimatedProps} from './Layout-animated.interface'
 const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
     const [visible, setVisible] = useState(false)
     const style = {display: 'flex', flexDirection: 'column'} as StyleProp<ViewStyle>
+    const contentStyle = {width: 200, height: 200}
+    const innerStyle = {width: 200, height: 200, backgroundColor: 'red'}
 
     return (
         <View style={[style]}>
-            <View style={{width: 200, height: 200}}>
+            <View style={contentStyle}>
                 <LayoutAnimated
                     {...props}
                     visible={visible}
                 >
-                    <View style={{width: 200, height: 200, backgroundColor: 'red'}} />
+                    <View style={innerStyle} />
                 </LayoutAnimated>
             </View>
 

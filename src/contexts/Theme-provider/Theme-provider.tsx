@@ -57,7 +57,9 @@ export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
             testID={`bearei__element--${id}`}
             story={story}
         >
-            {desktop ? <DesktopThemeProvider {...props} /> : <MobileThemeProvider {...props} />}
+            {desktop ?
+                <DesktopThemeProvider {...props} />
+            :   <MobileThemeProvider {...props} />}
         </Container>
     )
 }
