@@ -8,5 +8,5 @@
         }
     },
     "include": ["src/**/*"],
-    "exclude": ["**/*.stories.tsx", "node_modules", "lib", "!**/.ondevice", "**/App.tsx", "**/App.styles.tsx"]
+    "exclude": ["**/*.stories.tsx", "node_modules", "lib", "!**/.ondevice", "**/App.tsx", "**/App.style.tsx"]
 }

@@ -119,7 +119,7 @@
         "!**/__fixtures__",
         "!**/__mocks__",
         "!**/App.tsx",
-        "!**/App.styles.tsx",
+        "!**/App.style.tsx",
         "!**/*.stories.tsx",
         "!**/.ondevice"
     ],
@@ -154,7 +154,7 @@
             "**/__fixtures__",
             "**/__mocks__",
             "**/App.tsx",
-            "**/App.styles.tsx",
+            "**/App.style.tsx",
             "**/*.stories.tsx",
             "**/.ondevice"
         ]

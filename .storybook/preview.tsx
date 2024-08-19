@@ -1,6 +1,6 @@
 import {Preview} from '@storybook/react'
 import React from 'react'
-import {ThemeProvider} from '../src/contexts'
+import {ThemeProvider} from '../src/context'
 
 const preview: Preview = {
     decorators: [
