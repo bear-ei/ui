@@ -1,7 +1,7 @@
 import React, {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {IconBase} from './Icon-base'
+import {IconBase} from './Icon-base.component'
 import {IconProps, RenderIconProps} from './Icon.interface'
 import {Container} from './Icon.style'
 

@@ -1,2 +1,2 @@
-export * from './Form-item'
+export * from './Form-item.component'
 export * from './Form-item.interface'

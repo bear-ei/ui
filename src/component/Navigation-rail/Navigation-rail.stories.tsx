@@ -3,7 +3,7 @@ import React from 'react'
 import {FAB} from '../FAB'
 import {Icon} from '../Icon'
 import {IconButton} from '../Icon-button'
-import {NavigationRail} from './Navigation-rail'
+import {NavigationRail} from './Navigation-rail.component'
 import {NavigationRailProps} from './Navigation-rail.interface'
 
 export const Rail: StoryObj<NavigationRailProps> = {

@@ -1,6 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {SideSheetBase} from './Side-sheet-base'
+import {SideSheetBase} from './Side-sheet-base.component'
 import {SideSheetContent} from './Side-sheet-content'
 import {RenderSideSheetProps, SideSheetProps} from './Side-sheet.interface'
 import {Container} from './Side-sheet.style'

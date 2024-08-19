@@ -1,3 +1,3 @@
-export * from './Step'
 export * from './Step-item'
+export * from './Step.component'
 export * from './Step.interface'

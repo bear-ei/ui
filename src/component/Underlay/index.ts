@@ -1,2 +1,2 @@
-export * from './Underlay'
+export * from './Underlay.component'
 export * from './Underlay.interface'

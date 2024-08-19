@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from '@storybook/react'
 import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
-import {Step} from './Step'
+import {Step} from './Step.component'
 import {StepProps} from './Step.interface'
 
 const StepComponent = (props: StepProps) => {

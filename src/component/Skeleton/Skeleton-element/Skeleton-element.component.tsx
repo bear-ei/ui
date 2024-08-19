@@ -1,6 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {SkeletonElementBase} from './Skeleton-element-base'
+import {SkeletonElementBase} from './Skeleton-element-base.component'
 import {RenderSkeletonElementProps, SkeletonElementProps} from './Skeleton-element.interface'
 import {Container} from './Skeleton-element.style'
 

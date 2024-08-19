@@ -1,2 +1,2 @@
-export * from './FAB'
+export * from './FAB.component'
 export * from './FAB.interface'

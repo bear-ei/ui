@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {Progress} from './Progress'
+import {Progress} from './Progress.component'
 import {ProgressProps} from './Progress.interface'
 
 export const LinearDeterminate: StoryObj<ProgressProps> = {

@@ -1,7 +1,7 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {ProgressActiveIndicatorBase} from './Progress-active-indicator-base'
+import {ProgressActiveIndicatorBase} from './Progress-active-indicator-base.component'
 import {ProgressActiveIndicatorProps, RenderProgressActiveIndicatorProps} from './Progress-active-indicator.interface'
 import {Container} from './Progress-active-indicator.style'
 

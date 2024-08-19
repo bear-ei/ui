@@ -1,6 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {AvatarBase} from './Avatar-base'
+import {AvatarBase} from './Avatar-base.component'
 import {AvatarProps, RenderAvatarProps} from './Avatar.interface'
 import {Container, Content, Image, LabelText} from './Avatar.style'
 

@@ -1,2 +1,2 @@
-export * from './Avatar'
+export * from './Avatar.component'
 export * from './Avatar.interface'

@@ -1,2 +1,2 @@
-export * from './Skeleton'
+export * from './Skeleton.component'
 export * from './Skeleton.interface'

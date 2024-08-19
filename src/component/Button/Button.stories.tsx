@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from '@storybook/react'
 import React from 'react'
 import {Icon as EIIcon} from '../Icon'
-import {Button} from './Button'
+import {Button} from './Button.component'
 import {ButtonProps} from './Button.interface'
 
 export const Filled: StoryObj<ButtonProps> = {

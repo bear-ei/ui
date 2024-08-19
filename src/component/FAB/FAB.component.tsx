@@ -4,37 +4,37 @@ import Animated from 'react-native-reanimated'
 import {Elevation} from '../Elevation'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
-import {ButtonBase} from './Button-base'
-import {ButtonProps, RenderButtonProps} from './Button.interface'
-import {Container, Content, ContentUnderlay, IconContainer, LabelText, Main} from './Button.style'
+import {FABBase} from './FAB-base.component'
+import {FABProps, RenderFABProps} from './FAB.interface'
+import {Container, Content, ContentUnderlay, IconContainer, LabelText, Main} from './FAB.style'
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
 const render = ({
+    accessibilityLabel,
     contentUnderlayAnimatedStyle,
     densityScale,
-    disabled,
     elevation,
     eventName,
-    horizontalStretch,
+    extendedFAB,
     icon,
     id,
     labelText,
     labelTextAnimatedStyle,
-    loading,
     onStateEvent,
-    type = 'filled',
+    size,
+    type,
     underlayColor,
     ...contentProps
-}: RenderButtonProps) => {
-    const link = type === 'link'
-    const shape = link ? 'extraSmallTop' : 'full'
+}: RenderFABProps) => {
+    const sizeShape = size === 'medium' ? 'large' : 'medium'
+    const shape = size === 'large' ? 'extraLarge' : sizeShape
     const backgroundUnderlayElement = (
         <AnimatedContentUnderlay
             pointerEvents='none'
             shape={shape}
             style={[contentUnderlayAnimatedStyle]}
-            testID={`button__contentUnderlay--${id}`}
+            testID={`fab__contentUnderlay--${id}`}
         />
     )
 
@@ -48,51 +48,49 @@ const render = ({
     return (
         <Container
             densityScale={densityScale}
-            horizontalStretch={horizontalStretch}
-            testID={`button--${id}`}
-            type={type}
+            extendedFAB={extendedFAB}
+            size={size}
+            testID={`fab--${id}`}
         >
             <Touchable
                 {...onStateEvent}
                 backgroundUnderlay={backgroundUnderlayElement}
-                disabled={loading || disabled}
                 elevationUnderlay={elevationUnderlayElement}
-                horizontalStretch={horizontalStretch}
                 shape={shape}
                 underlayColor={underlayColor}
             >
                 <Content
                     {...contentProps}
-                    accessibilityLabel={labelText}
+                    accessibilityLabel={labelText ?? accessibilityLabel}
                     accessibilityRole='button'
                     densityScale={densityScale}
+                    extendedFAB={extendedFAB}
                     pointerEvents='none'
-                    shape={shape}
-                    testID={`button__content--${id}`}
+                    size={size}
+                    testID={`fab__content--${id}`}
                     type={type}
                 >
                     <Main
-                        iconShow={!!icon}
-                        testID={`button__main--${id}`}
+                        extendedFAB={extendedFAB}
+                        size={size}
+                        testID={`fab__main--${id}`}
                         type={type}
                     >
-                        {icon && !link && <IconContainer testID={`button__iconContainer--${id}`}>{icon}</IconContainer>}
-
-                        <AnimatedLabelText
-                            ellipsizeMode='tail'
-                            numberOfLines={1}
-                            size={link ? 'small' : 'large'}
-                            style={[labelTextAnimatedStyle]}
-                            testID={`button__labelText--${id}`}
-                            type={link ? 'body' : 'label'}
-                        >
-                            {labelText}
-                        </AnimatedLabelText>
+                        {icon && <IconContainer testID={`fab__iconContainer--${id}`}>{icon}</IconContainer>}
+                        {extendedFAB && labelText && (
+                            <AnimatedLabelText
+                                size='large'
+                                style={[labelTextAnimatedStyle]}
+                                testID={`fab__labelText--${id}`}
+                                type='label'
+                            >
+                                {labelText}
+                            </AnimatedLabelText>
+                        )}
                     </Main>
 
                     <Underlay
                         eventName={eventName}
-                        shape={shape}
                         underlayColor={underlayColor}
                     />
                 </Content>
@@ -101,12 +99,12 @@ const render = ({
     )
 }
 
-const ForwardRefButton = forwardRef<View, ButtonProps>((props, ref) => (
-    <ButtonBase
+const ForwardRefFAB = forwardRef<View, FABProps>((props, ref) => (
+    <FABBase
         {...props}
         ref={ref}
         render={render}
     />
 ))
 
-export const Button: FC<ButtonProps> = ForwardRefButton
+export const FAB: FC<FABProps> = ForwardRefFAB

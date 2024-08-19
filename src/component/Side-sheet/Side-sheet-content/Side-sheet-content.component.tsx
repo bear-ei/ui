@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Button} from '../../Button'
 import {Divider} from '../../Divider'
-import {SideSheetContentBase} from './Side-sheet-content-base'
+import {SideSheetContentBase} from './Side-sheet-content-base.component'
 import {RenderSideSheetContentProps, SideSheetContentProps} from './Side-sheet-content.interface'
 import {
     Container,

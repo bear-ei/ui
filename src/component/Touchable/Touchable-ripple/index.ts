@@ -1,2 +1,2 @@
-export * from './Touchable-ripple'
+export * from './Touchable-ripple.component'
 export * from './Touchable-ripple.interface'

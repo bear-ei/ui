@@ -3,8 +3,8 @@ import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {TextField} from '../Text-field'
-import {Form} from './Form'
 import {FormItemControlProps, FormItemProps} from './Form-item'
+import {Form} from './Form.component'
 
 export const FormA = () => {
     const form = Form.useForm<{name: string; age: number}>()

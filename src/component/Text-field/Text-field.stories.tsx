@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from '@storybook/react'
 import React from 'react'
 import {Icon} from '../Icon'
-import {TextField} from './Text-field'
+import {TextField} from './Text-field.component'
 import {TextFieldProps} from './Text-field.interface'
 
 export const Filled: StoryObj<TextFieldProps> = {

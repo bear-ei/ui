@@ -1,6 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {DividerBase} from './Divider-base'
+import {DividerBase} from './Divider-base.component'
 import {DividerProps, RenderDividerProps} from './Divider.interface'
 import {Container, Content, Subheader} from './Divider.style'
 

@@ -1,7 +1,7 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {ElevationBase} from './Elevation-base'
+import {ElevationBase} from './Elevation-base.component'
 import {ElevationProps, RenderElevationProps} from './Elevation.interface'
 import {Container, Shadow} from './Elevation.style'
 

@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {Icon} from './Icon'
+import {Icon} from './Icon.component'
 import {IconProps} from './Icon.interface'
 
 export const Filled: StoryObj<IconProps> = {

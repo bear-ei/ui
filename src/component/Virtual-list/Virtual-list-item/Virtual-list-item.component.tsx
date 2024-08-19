@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {AnimatedTimingOptions} from '../../../hook'
 import {LayoutAnimated} from '../../Layout-animated'
-import {VirtualListItemBase, processVirtualListItemPropsEqual} from './Virtual-list-item-base'
+import {VirtualListItemBase, processVirtualListItemPropsEqual} from './Virtual-list-item-base.component'
 import {RenderVirtualListItemProps, VirtualListItemProps} from './Virtual-list-item.interface'
 import {Container} from './Virtual-list-item.style'
 

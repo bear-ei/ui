@@ -1,7 +1,7 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {Skeleton} from '../../Skeleton'
-import {FormItemBase} from './Form-item-base'
+import {FormItemBase} from './Form-item-base.component'
 import {FormItemProps, RenderFormItemProps} from './Form-item.interface'
 import {Container} from './Form-item.style'
 

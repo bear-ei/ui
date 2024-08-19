@@ -1,6 +1,6 @@
 import {ForwardedRef, forwardRef} from 'react'
 import {View} from 'react-native'
-import {FormBase} from './Form-base'
+import {FormBase} from './Form-base.component'
 import {FormComponent, FormProps, FormStorage, RenderFormProps} from './Form.interface'
 import {Container} from './Form.style'
 import {FormContext} from './use-form-context.hook'

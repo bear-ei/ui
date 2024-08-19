@@ -1,7 +1,7 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {LayoutAnimatedBase} from './Layout-animated-base'
+import {LayoutAnimatedBase} from './Layout-animated-base.component'
 import {LayoutAnimatedProps, RenderLayoutAnimatedProps} from './Layout-animated.interface'
 import {Container} from './Layout-animated.style'
 

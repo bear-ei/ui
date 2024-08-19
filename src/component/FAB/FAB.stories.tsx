@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from '@storybook/react'
 import React from 'react'
 import {Icon} from '../Icon'
-import {FAB as Fab} from './FAB'
+import {FAB as Fab} from './FAB.component'
 import {FABProps} from './FAB.interface'
 
 export const Primary: StoryObj<FABProps> = {

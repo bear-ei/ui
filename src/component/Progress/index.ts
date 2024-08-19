@@ -1,2 +1,2 @@
-export * from './Progress'
+export * from './Progress.component'
 export * from './Progress.interface'

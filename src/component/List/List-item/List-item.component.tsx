@@ -4,8 +4,8 @@ import Animated from 'react-native-reanimated'
 import {Skeleton} from '../../Skeleton'
 import {Touchable} from '../../Touchable'
 import {ActiveAnimatedType, Underlay} from '../../Underlay'
-import {ListAfterAffordance} from '../List-after-affordance/List-after-affordance'
-import {ListItemBase, processListItemPropsEqual} from './List-item-base'
+import {ListAfterAffordance} from '../List-after-affordance/List-after-affordance.component'
+import {ListItemBase, processListItemPropsEqual} from './List-item-base.component'
 import {ListItemProps, RenderListItemProps} from './List-item.interface'
 import {
     BeforeAffordanceContainer,

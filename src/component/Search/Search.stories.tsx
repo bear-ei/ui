@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from '@storybook/react'
 import React from 'react'
 import {IconButton} from '../Icon-button'
-import {Search} from './Search'
+import {Search} from './Search.component'
 import {SearchProps} from './Search.interface'
 
 export const SearchBar: StoryObj<SearchProps> = {

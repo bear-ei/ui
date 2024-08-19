@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {SideSheet} from './Side-sheet'
+import {SideSheet} from './Side-sheet.component'
 import {SideSheetProps} from './Side-sheet.interface'
 
 export const SheetSide: StoryObj<SideSheetProps> = {

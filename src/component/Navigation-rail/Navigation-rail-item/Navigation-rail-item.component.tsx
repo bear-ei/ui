@@ -2,7 +2,7 @@ import React, {FC, forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Underlay} from '../../Underlay'
-import {NavigationRailItemBase, processNavigationRailItemPropsEqual} from './Navigation-rail-item-base'
+import {NavigationRailItemBase, processNavigationRailItemPropsEqual} from './Navigation-rail-item-base.component'
 import {NavigationRailItemProps, RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
 import {Container, Content, Header, Icon, IconContainer, Label, LabelText} from './Navigation-rail-item.style'
 

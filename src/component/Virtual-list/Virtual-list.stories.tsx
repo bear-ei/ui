@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import {StyleProp, Text, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {Icon} from '../Icon'
-import {VirtualList} from './Virtual-list'
+import {VirtualList} from './Virtual-list.component'
 
 export const BigVirtualList = () => {
     const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>

@@ -3,7 +3,7 @@ import React, {useMemo, useState} from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Icon} from '../Icon'
 import {Skeleton} from '../Skeleton'
-import {List} from './List'
+import {List} from './List.component'
 import {ListProps} from './List.interface'
 
 const renderListSkeleton = () => {

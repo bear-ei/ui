@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Icon} from '../../Icon'
 import {ListAffordanceButton} from '../List-affordance-button'
-import {ListAfterAffordanceBase} from './List-after-affordance-base'
+import {ListAfterAffordanceBase} from './List-after-affordance-base.component'
 import {ListAfterAffordanceProps, RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 import {Container, Danger} from './List-after-affordance.style'
 

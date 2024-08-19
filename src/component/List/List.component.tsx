@@ -1,6 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {VirtualList} from '../Virtual-list'
-import {ListBase} from './List-base'
+import {ListBase} from './List-base.component'
 import {ListData, ListProps, RenderListProps, VirtualListComponent} from './List.interface'
 import {Container} from './List.style'
 

@@ -2,7 +2,7 @@ import {FC, forwardRef} from 'react'
 import Animated from 'react-native-reanimated'
 import {Divider} from '../../Divider'
 import {List, ListData, VirtualListComponent} from '../../List'
-import {SearchListBase} from './Search-list-base'
+import {SearchListBase} from './Search-list-base.component'
 import {RenderSearchListProps, SearchListProps} from './Search-list.interface'
 import {Container} from './Search-list.style'
 

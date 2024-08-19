@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Touchable} from '../../Touchable'
 import {Underlay} from '../../Underlay'
-import {ListAffordanceButtonBase} from './List-affordance-button-base'
+import {ListAffordanceButtonBase} from './List-affordance-button-base.component'
 import {ListAffordanceButtonProps, RenderListAffordanceButtonProps} from './List-affordance-button.interface'
 import {Container, Content, ContentUnderlay, LabelText} from './List-affordance-button.style'
 

@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {validate} from '../../../util'
-import {useFormContext} from '../use-form-context'
+import {useFormContext} from '../use-form-context.hook'
 import {
     FormItemBaseProps,
     HandleFormItemInitOptions,

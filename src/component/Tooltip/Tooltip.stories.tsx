@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from '@storybook/react'
 import React from 'react'
 import {Icon} from '../Icon'
-import {Tooltip} from './Tooltip'
+import {Tooltip} from './Tooltip.component'
 import {TooltipProps} from './Tooltip.interface'
 
 export const PlainVerticalEnd: StoryObj<TooltipProps> = {

@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {Checkbox} from './Checkbox'
+import {Checkbox} from './Checkbox.component'
 import {CheckboxProps} from './Checkbox.interface'
 
 export const CheckboxSelected: StoryObj<CheckboxProps> = {

@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from '@storybook/react'
 import React from 'react'
 import {StyleProp, ViewStyle} from 'react-native'
-import {Skeleton} from './Skeleton'
+import {Skeleton} from './Skeleton.component'
 import {SkeletonProps} from './Skeleton.interface'
 
 const {Square, Rectangular, Circle} = Skeleton

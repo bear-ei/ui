@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from '@storybook/react'
 import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
-import {Elevation} from './Elevation'
+import {Elevation} from './Elevation.component'
 import {ElevationProps} from './Elevation.interface'
 
 const ElevationComponent = (props: ElevationProps) => {

@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
-import {IconButtonBase} from './Icon-button-base'
+import {IconButtonBase} from './Icon-button-base.component'
 import {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
 import {Container, Content, ContentUnderlay, Main} from './Icon-button.style'
 

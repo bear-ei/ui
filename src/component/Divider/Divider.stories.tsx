@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {Divider} from './Divider'
+import {Divider} from './Divider.component'
 import {DividerProps} from './Divider.interface'
 
 export const DividerHorizontal: StoryObj<DividerProps> = {

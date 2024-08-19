@@ -4,7 +4,7 @@ import Animated from 'react-native-reanimated'
 import {Icon} from '../Icon'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
-import {CheckboxBase} from './Checkbox-base'
+import {CheckboxBase} from './Checkbox-base.component'
 import {CheckboxProps, RenderCheckboxProps} from './Checkbox.interface'
 import {Container, Content, IconContainer, Main} from './Checkbox.style'
 
