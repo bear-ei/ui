@@ -1,7 +1,7 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {TooltipSupportingBase} from './Tooltip-supporting-base'
+import {TooltipSupportingBase} from './Tooltip-supporting-base.component'
 import {RenderTooltipSupportingProps, TooltipSupportingProps} from './Tooltip-supporting.interface'
 import {Container, Content, TooltipSupportingText, TouchableContent} from './Tooltip-supporting.style'
 

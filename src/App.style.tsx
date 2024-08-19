@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import {Typography} from './components/Common'
+import {Typography} from './component'
 
 export const Container = styled.View`
     align-items: center;

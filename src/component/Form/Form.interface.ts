@@ -3,9 +3,9 @@ import React, {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
 import {NamePath, ValidateOptions} from '../../util'
 import {ComponentStatus} from '../Common'
-import {ForwardRefForm} from './Form'
 import {FormItemProps} from './Form-item'
-import {useForm} from './use-form'
+import {ForwardRefForm} from './Form.component'
+import {useForm} from './use-form.hook'
 
 export interface FormFieldError extends Pick<ValidateOptions, 'rules'> {
     errors: ValidateError[]

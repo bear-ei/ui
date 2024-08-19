@@ -10,7 +10,7 @@ import {
     InitialFormState,
     RenderFormItemOptions
 } from './Form.interface'
-import {useForm} from './use-form'
+import {useForm} from './use-form.hook'
 
 const handleFormInit =
     <T,>(setState: Updater<InitialFormState>) =>

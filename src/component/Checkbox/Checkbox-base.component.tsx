@@ -10,7 +10,7 @@ import {
     HandleCheckboxStateChangeOptions,
     InitialCheckboxState
 } from './Checkbox.interface'
-import {useCheckboxAnimated} from './use-checkbox-animated'
+import {useCheckboxAnimated} from './use-checkbox-animated.hook'
 
 const createNextActiveCallback = (onActive?: (value?: boolean) => void) => (value?: boolean) => () => onActive?.(value)
 const handleCheckboxActive =

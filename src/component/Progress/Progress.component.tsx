@@ -1,7 +1,7 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {ProgressActiveIndicator} from './Progress-active-indicator'
-import {ProgressBase} from './Progress-base'
+import {ProgressBase} from './Progress-base.component'
 import {ProgressProps, RenderProgressProps} from './Progress.interface'
 import {Container, Stop, Track} from './Progress.style'
 

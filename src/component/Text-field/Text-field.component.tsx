@@ -2,7 +2,7 @@ import {FC, forwardRef} from 'react'
 import {TextInput} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Underlay} from '../Underlay'
-import {TextFieldBase} from './Text-field-base'
+import {TextFieldBase} from './Text-field-base.component'
 import {RenderTextFieldProps, TextFieldProps} from './Text-field.interface'
 import {
     ActiveIndicator,
