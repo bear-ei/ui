@@ -6,7 +6,7 @@ import {
     Platform,
     TargetedEvent
 } from 'react-native'
-import {State} from '../components/Common'
+import {State} from '../component/Common'
 import {
     HandleStateEventChangeOptions,
     HandleStateEventOptions,

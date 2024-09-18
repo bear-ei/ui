@@ -1,6 +1,6 @@
 import {ForwardedRef, forwardRef} from 'react'
 import {ScrollView as RNScrollView, StyleProp, ViewStyle} from 'react-native'
-import {VirtualListBase} from './Virtual-list-base'
+import {VirtualListBase} from './Virtual-list-base.component'
 import {RenderVirtualListProps, VirtualListProps} from './Virtual-list.interface'
 import {Container, Content, EmptyComponent, ScrollView} from './Virtual-list.style'
 

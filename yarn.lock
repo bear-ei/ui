@@ -1742,7 +1742,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.20.0"
     "@babel/preset-react": "npm:^7.24.7"
     "@babel/runtime": "npm:^7.20.0"
-    "@bearei/ui-token": "npm:^0.0.1"
+    "@bearei/ui-token": "npm:^0.0.3"
     "@material-symbols/svg-400": "npm:^0.17.4"
     "@react-native-async-storage/async-storage": "npm:^1.22.3"
     "@react-native-community/datetimepicker": "npm:^8.0.0"
@@ -1814,10 +1814,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bearei/ui-token@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "@bearei/ui-token@npm:0.0.1"
-  checksum: 10c0/e7f8264f3a7f1ce9b69d70cd3b540e37512f38f9abb28b2a072a08e5565a8fa4f9dc20468e6b4cd1b776e51d7d1b2d1b361e0370eab2a3abe6e37b3702c8ed41
+"@bearei/ui-token@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "@bearei/ui-token@npm:0.0.3"
+  checksum: 10c0/3b07c2091a1c9931c5dc58e901c1247bdfe42592e7de2edeae45839d4d0297cfeb7f3ea56eaeb10b47cd3275ad63f682ba5acea41461bbb4a70b44ead64dd5d4
   languageName: node
   linkType: hard
 

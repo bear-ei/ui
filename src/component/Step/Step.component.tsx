@@ -1,6 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {StepBase} from './Step-base'
+import {StepBase} from './Step-base.component'
 import {RenderStepProps, StepProps} from './Step.interface'
 import {Container} from './Step.style'
 

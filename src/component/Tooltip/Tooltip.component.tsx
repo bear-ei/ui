@@ -1,6 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {TooltipBase} from './Tooltip-base'
+import {TooltipBase} from './Tooltip-base.component'
 import {TooltipSupporting} from './Tooltip-supporting'
 import {RenderTooltipProps, TooltipProps} from './Tooltip.interface'
 import {Container, Content} from './Tooltip.style'

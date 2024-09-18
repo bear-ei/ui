@@ -2,7 +2,7 @@ import React, {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Underlay} from '../../Underlay'
-import {StepItemBase} from './Step-item-base'
+import {StepItemBase} from './Step-item-base.component'
 import {RenderStepItemProps, StepItemProps} from './Step-item.interface'
 import {Container, Content, Header, Icon, IconContainer, Label, LabelText} from './Step-item.style'
 

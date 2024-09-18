@@ -1,7 +1,7 @@
 import {FC, forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {TouchableRippleBase, processTouchableRipplePropsEqual} from './Touchable-ripple-base'
+import {TouchableRippleBase, processTouchableRipplePropsEqual} from './Touchable-ripple-base.component'
 import {RenderTouchableRippleProps, TouchableRippleProps} from './Touchable-ripple.interface'
 import {Container} from './Touchable-ripple.style'
 

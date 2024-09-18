@@ -1,6 +1,6 @@
 {
     "name": "@bearei/bearei-ui",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "source": "./src/index.tsx",
     "react-native": "./src/index.tsx",
     "main": "./dist/commonjs/index.js",
@@ -11,7 +11,7 @@
         "import": "./dist/module/index.js",
         "require": "./dist/commonjs/index.js"
     },
-    "license": "MIT",
+    "license": "UNLICENSED",
     "author": "bearei <bear_ei@outlook.com>",
     "description": "bear-ei project ui",
     "repository": {
@@ -32,7 +32,7 @@
         "fix": "eslint ./src --fix",
         "lint": "eslint ./src",
         "macos": "react-native run-macos",
-        "publish:build": "yarn build && yarn npm publish --access public",
+        "publish": "yarn build && yarn npm publish --access public",
         "start": "react-native start",
         "storybook-generate": "sb-rn-get-stories --config-path .ondevice",
         "storybook:android": "STORYBOOK_ENABLED=true react-native run-android",
@@ -43,7 +43,7 @@
         "test": "jest"
     },
     "dependencies": {
-        "@bearei/ui-token": "^0.0.1",
+        "@bearei/ui-token": "^0.0.3",
         "@material-symbols/svg-400": "^0.17.4",
         "async-validator": "^4.2.5",
         "immer": "^10.1.1",

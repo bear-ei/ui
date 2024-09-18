@@ -1,6 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {TouchableBase} from './Touchable-base'
+import {TouchableBase} from './Touchable-base.component'
 import {RenderTouchableProps, TouchableProps} from './Touchable.interface'
 import {Container, Content, Main} from './Touchable.style'
 
