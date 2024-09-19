@@ -1,8 +1,8 @@
-import {nanoid} from 'nanoid'
 import React, {forwardRef, useId, useMemo} from 'react'
 import {GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, NativeTouchEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
+import {generateRandomNumber} from '../../util'
 import {EventName, State} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
@@ -26,7 +26,7 @@ const handleAddTouchableRipple =
     (setState: Updater<InitialTouchableState>) =>
     (touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>) =>
         setState(draft => {
-            draft.rippleSequence[`${nanoid()}`] = {touchableLocation}
+            draft.rippleSequence[`${Date.now()}${generateRandomNumber(4)}`] = {touchableLocation}
         })
 
 const handleTouchablePressIn =
