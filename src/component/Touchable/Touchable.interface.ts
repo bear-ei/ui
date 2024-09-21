@@ -20,6 +20,7 @@ export interface TouchableProps
     elevationUnderlay?: React.JSX.Element
     enableTouchableRipple?: boolean
     horizontalStretch?: boolean
+    hotZone?: boolean
 }
 
 export interface RenderTouchableProps extends TouchableProps {
@@ -44,3 +45,4 @@ export type HandleTouchableStateChangeOptions = Pick<TouchableRippleProps, 'touc
     Pick<TouchableProps, 'enableTouchableRipple'>
 
 export type MainProps = Pick<RenderTouchableProps, 'horizontalStretch'>
+export type ContentProps = Pick<RenderTouchableProps, 'hotZone'>

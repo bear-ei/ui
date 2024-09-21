@@ -1,5 +1,5 @@
-import Schema, {ValidateError, ValidateFieldsError, Values} from 'async-validator'
-import {ValidateOptions, ValidateRuleError} from './util.interface'
+import Schema, {ValidateError} from 'async-validator'
+import {ProcessValidateErrorOptions, ValidateOptions, ValidateRuleError} from './util.interface'
 
 const validateRule =
     ({validateFirst, rules}: ValidateOptions) =>
@@ -7,20 +7,23 @@ const validateRule =
     (value: unknown) =>
         new Schema({[name]: rules}).validate({[name]: value}, {first: validateFirst, suppressWarning: true})
 
-export const validate = (options: ValidateOptions) => (name: string) => async (value: unknown) => {
-    const {rules} = options
-    const handleErrors = (fields: ValidateFieldsError | Values) => (errors: ValidateError[] | null) =>
-        fields[name] !== value ? {errors: errors || [], rules} : undefined
+export const validate = (options: ValidateOptions) => {
+    const processValidateError =
+        ({fields, name, rules}: ProcessValidateErrorOptions) =>
+        (errors: ValidateError[] | null) =>
+        (value: unknown) =>
+            fields[name] !== value ? {errors: errors || [], rules} : undefined
 
-    return validateRule(options)(name)(value)
-        .then(() => undefined)
-        .catch((error: ValidateRuleError) => {
-            if (!error.errors) {
-                throw error
-            }
+    return (name: string) => async (value: unknown) =>
+        validateRule(options)(name)(value)
+            .then(() => undefined)
+            .catch((error: ValidateRuleError) => {
+                if (!error.errors) {
+                    throw error
+                }
 
-            const {errors, fields} = error
+                const {errors, fields} = error
 
-            return handleErrors(fields)(errors)
-        })
+                return processValidateError({fields, name, rules: options.rules})(errors)(value)
+            })
 }

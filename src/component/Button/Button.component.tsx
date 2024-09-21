@@ -8,6 +8,9 @@ import {ButtonBase} from './Button-base.component'
 import {ButtonProps, RenderButtonProps} from './Button.interface'
 import {Container, Content, ContentUnderlay, IconContainer, LabelText, Main} from './Button.style'
 
+/**
+ * TODO: add loading style
+ */
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
 const render = ({
@@ -58,6 +61,7 @@ const render = ({
                 disabled={loading || disabled}
                 elevationUnderlay={elevationUnderlayElement}
                 horizontalStretch={horizontalStretch}
+                hotZone={!['link', 'text'].includes(type)}
                 shape={shape}
                 underlayColor={underlayColor}
             >

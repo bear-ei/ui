@@ -22,3 +22,9 @@ export interface AdaptDesignOptions {
     designHeight?: number
     designWidth?: number
 }
+
+export interface ProcessValidateErrorOptions {
+    fields: ValidateFieldsError | Values
+    name: string
+    rules: RuleItem[]
+}

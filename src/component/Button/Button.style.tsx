@@ -16,16 +16,13 @@ export const Container = styled.View<ButtonContainerProps>`
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
     `}
 
-    ${({theme, type = 'filled', densityScale = 0}) => {
+    ${({theme, type = 'filled'}) => {
         const contentType = {
             text: css`
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
             `,
             link: css`
-                height: ${theme.adaptSize(
-                    theme.token.spacing.medium + densityScale * theme.token.spacing.extraSmall
-                )}px;
-
+                height: auto;
                 min-height: ${theme.adaptSize(theme.token.spacing.medium)}px;
                 min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
             `
@@ -68,7 +65,7 @@ export const Content = styled(Shape)<ButtonContentProps>`
             `,
             link: css`
                 height: ${theme.adaptSize(theme.token.spacing.medium)}px;
-                min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
+                min-width: ${theme.adaptSize(theme.token.spacing.medium)}px;
             `
         } as Record<ButtonType, RuleSet<object> | undefined>
 
@@ -76,7 +73,7 @@ export const Content = styled(Shape)<ButtonContentProps>`
     }}
 `
 
-export const ContentUnderlay = styled(Content)`
+export const ContentUnderlay = styled(Shape)`
     position: absolute;
     z-index: -1;
 
