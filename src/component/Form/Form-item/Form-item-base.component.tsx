@@ -1,4 +1,4 @@
-import {ValidationError} from 'class-validator'
+import {IsString, ValidationError} from 'class-validator'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
@@ -10,6 +10,14 @@ import {
     ProcessFormItemInitOptions,
     ProcessFormItemValueChangeOptions
 } from './Form-item.interface'
+
+class NameRule {
+    @IsString()
+    name: string
+
+    @IsString()
+    age: string
+}
 
 const processFormItemValueChange =
     ({setFieldValue, storageValue}: ProcessFormItemValueChangeOptions) =>
@@ -60,9 +68,11 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         const {getFieldError, getFieldValue, setFieldValue, signInField, getInitialValue, getValidationRule} =
             useFormContext()
 
-        const rule = getValidationRule()
         const errors = getFieldError(name)
-        const errorMessage = Object.entries(errors?.[0].constraints ?? {})[0][1]
+
+        const errorMessage = ''
+        const rule = getValidationRule()
+
         const storageValue = getFieldValue(name) ?? getInitialValue(name)
         const onValueChange = useMemo(
             () => processFormItemValueChange({setFieldValue, storageValue})(name),
@@ -76,13 +86,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         )
 
         const controlElement = useMemo(
-            () =>
-                renderControl?.({
-                    errorMessage,
-                    labelText,
-                    onValueChange,
-                    value: storageValue
-                }),
+            () => renderControl?.({errorMessage, labelText, onValueChange, value: storageValue}),
             [errorMessage, labelText, onValueChange, renderControl, storageValue]
         )
 

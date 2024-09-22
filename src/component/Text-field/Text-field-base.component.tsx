@@ -1,4 +1,4 @@
-import {RefObject, forwardRef, useEffect, useId, useImperativeProcess, useMemo, useRef} from 'react'
+import {RefObject, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -64,7 +64,7 @@ const processTextFieldChangeText =
         setState(draft => {
             const prevTextInputValue = draft.textInputValue
 
-            draft.textInputValue = value
+            draft.textInputValue = value ?? ''
             typeof value === 'string' &&
                 prevTextInputValue !== value &&
                 (draft.nextChangeTextCallback = createNextChangeTextCallback(onChangeText)(value))
@@ -121,7 +121,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             nextContentSizeChangeCallback: undefined,
             nextPressOutEvent: undefined,
             state: 'enabled',
-            textInputValue: undefined
+            textInputValue: ''
         })
 
         const id = useId()
@@ -161,7 +161,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             type
         })
 
-        useImperativeProcess(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
+        useImperativeHandle(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
 
         useEffect(() => {
             onTextFieldChangeTextSource(value ?? defaultValue)
@@ -182,6 +182,8 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         useEffect(() => {
             nextContentSizeChangeCallback?.()
         }, [nextContentSizeChangeCallback])
+
+        console.info(textInputValue, 'textInputValue')
 
         return render({
             ...renderProps,

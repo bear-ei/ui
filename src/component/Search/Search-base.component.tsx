@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {RefObject, forwardRef, useEffect, useId, useImperativeProcess, useMemo, useRef} from 'react'
+import {RefObject, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -136,7 +136,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 
-        useImperativeProcess(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [])
+        useImperativeHandle(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [])
 
         useEffect(() => {
             onSearchChangeTextSource(value ?? defaultValue)

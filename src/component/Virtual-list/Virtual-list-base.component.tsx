@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {ForwardedRef, forwardRef, useEffect, useId, useImperativeProcess, useMemo, useRef} from 'react'
+import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {
     LayoutChangeEvent,
     LayoutRectangle,
@@ -251,7 +251,7 @@ export const VirtualListBaseInner = <T,>(
         renderItem
     })(startIndex)(visibleRangeData)
 
-    useImperativeProcess(ref, () => (scrollViewRef?.current ? scrollViewRef?.current : {}) as ScrollView, [])
+    useImperativeHandle(ref, () => (scrollViewRef?.current ? scrollViewRef?.current : {}) as ScrollView, [])
 
     useEffect(() => {
         onVirtualListDataInit(data)

@@ -1,7 +1,6 @@
 import {FlatCompat} from '@eslint/eslintrc'
 import js from '@eslint/js'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
-import tsParser from '@typescript-eslint/parser'
 import path from 'node:path'
 import {fileURLToPath} from 'node:url'
 
@@ -19,8 +18,8 @@ export default [
         plugins: {
             '@typescript-eslint': typescriptEslint
         },
-        languageOptions: {parser: tsParser},
         rules: {
+            ignoreRestArgs: true,
             'react/react-in-jsx-scope': 'off',
             'react/jsx-uses-react': 'off',
             '@typescript-eslint/no-unused-vars': [

@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useImperativeProcess, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
@@ -61,7 +61,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
             onStateEventChange
         })
 
-        useImperativeProcess(ref, () => (containerRef?.current ? containerRef?.current : {}) as View, [])
+        useImperativeHandle(ref, () => (containerRef?.current ? containerRef?.current : {}) as View, [])
 
         useEffect(() => {
             onTooltipVisible(visible ?? defaultVisible)

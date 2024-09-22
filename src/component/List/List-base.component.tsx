@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {forwardRef, useEffect, useId, useImperativeProcess, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {Updater, useImmer} from 'use-immer'
 import {RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
@@ -196,11 +196,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             type
         })
 
-        useImperativeProcess(
-            ref,
-            () => (listRef?.current ? listRef?.current : {}) as VirtualListComponent<ListData>,
-            []
-        )
+        useImperativeHandle(ref, () => (listRef?.current ? listRef?.current : {}) as VirtualListComponent<ListData>, [])
 
         useEffect(() => {
             onListActiveSource(activeKey ?? defaultActiveKey ?? activeKeys ?? defaultActiveKeys)

@@ -52,12 +52,12 @@ export interface FormStorage<T = Record<string, unknown>> {
     getValidationRule: () => ValidationRule
     isFieldTouched: (name?: NamePath) => boolean
     resetField: (name?: NamePath) => void
-    setValidationRule: (value: ValidationRule) => ValidationRule
     setCallback: (callback: FormCallback<T>) => void
     setFieldError: (error: FormError<T>) => void
     setFieldTouched: (touched?: boolean) => (name?: keyof T) => void
     setFieldValue: (skipValidate?: boolean) => (updateComponent?: boolean) => (value?: T) => void
     setInitialValue: (initialized?: boolean) => (value?: T) => void
+    setValidationRule: (value: ValidationRule) => ValidationRule
     signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
     signOutField: (name?: NamePath) => void
     submit: (skipValidate?: boolean) => void

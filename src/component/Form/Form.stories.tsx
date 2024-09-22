@@ -1,5 +1,5 @@
 import {Meta} from '@storybook/react'
-
+import {IsDefined, IsString} from 'class-validator'
 import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
@@ -7,14 +7,13 @@ import {TextField} from '../Text-field'
 import {FormItemControlProps, FormItemProps} from './Form-item'
 import {Form} from './Form.component'
 
-import {IsDefined, IsString} from 'class-validator'
 class NameRule {
     @IsDefined()
     @IsString()
-    name: 'string'
+    name: string
 
     @IsString()
-    age: 'string'
+    age: string
 }
 
 export const FormA = () => {
