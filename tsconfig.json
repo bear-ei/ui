@@ -1,8 +1,10 @@
 {
     "extends": ["@react-native/typescript-config/tsconfig.json", "./bob.config.json"],
     "compilerOptions": {
+        "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
-        "strict": true
+        "strict": true,
+        "target": "ES2022"
     }
 }

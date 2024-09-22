@@ -1,6 +1,7 @@
 import {ForwardedRef, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
+import {ValidationRule} from '../../util'
 import {ComponentStatus} from '../Common'
 import {FormItem, FormItemProps} from './Form-item'
 import {
@@ -15,15 +16,18 @@ import {useForm} from './use-form.hook'
 const processFormInit =
     <T,>(setState: Updater<InitialFormState>) =>
     (setInitialValue: (initialized?: boolean) => (value?: T) => void) =>
-    (initialValue?: T) =>
+    (value?: T) =>
         setState(draft => {
             if (draft.status !== 'idle') {
                 return
             }
 
-            initialValue && setInitialValue()(initialValue)
+            value && setInitialValue()(value)
             draft.status = 'succeeded'
         })
+
+const processValidationRule = (setValidationRule: (value: ValidationRule) => void) => (value?: ValidationRule) =>
+    value && setValidationRule(value)
 
 const processFormCallback =
     <T,>({onFinish, onFinishFailed, onValueChange}: ProcessFormCallbackOptions<T>) =>
@@ -34,8 +38,8 @@ const renderFormItem = (options: RenderFormItemOptions) => (status: ComponentSta
     status === 'succeeded' ?
         items?.map((item, index) => (
             <FormItem
-                {...options}
                 {...item}
+                {...options}
                 key={item.name ?? index}
             />
         ))
@@ -45,22 +49,24 @@ const FormBaseInner = <T,>(
     {
         form,
         initialValue,
+        items,
+        minSkeletonDuration,
         onFinish,
         onFinishFailed,
         onValueChange,
         render,
-        items,
         skeletonElement,
-        minSkeletonDuration,
+        validationRule,
         ...renderProps
     }: FormBaseProps<T>,
     ref: ForwardedRef<View>
 ) => {
     const [{status}, setState] = useImmer<InitialFormState>({status: 'idle'})
     const formStore = useForm(form)
-    const {setCallback, setInitialValue} = formStore
+    const {setCallback, setInitialValue, setValidationRule} = formStore
     const id = useId()
     const onFormInit = useMemo(() => processFormInit<T>(setState)(setInitialValue), [setInitialValue, setState])
+    const onValidationRule = useMemo(() => processValidationRule(setValidationRule), [setValidationRule])
     const onFormCallback = useCallback(
         () => processFormCallback<T>({onFinish, onFinishFailed, onValueChange})(setCallback),
         [onFinish, onFinishFailed, onValueChange, setCallback]
@@ -75,6 +81,10 @@ const FormBaseInner = <T,>(
     useEffect(() => {
         onFormInit(initialValue)
     }, [initialValue, onFormInit])
+
+    useEffect(() => {
+        onValidationRule(validationRule)
+    }, [onValidationRule, validationRule])
 
     if (status === 'idle') {
         return <></>

@@ -2,7 +2,7 @@ import * as validator from 'class-validator'
 import {ValidationError} from 'class-validator'
 import React, {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
-import {NamePath} from '../../util'
+import {NamePath, ValidationRule} from '../../util'
 import {ComponentStatus} from '../Common'
 import {FormItemProps} from './Form-item'
 import {ForwardRefForm} from './Form.component'
@@ -20,15 +20,16 @@ export interface FormCallback<T = Record<string, unknown>> {
     onValueChange?: (options: OnValueChangeOptions<T>) => void
 }
 
-export interface FormFieldEntity {
+export interface FormFieldEntity<T = Record<string, unknown>> {
+    name?: keyof T
     onFormStorageChange: () => void
-    props: FormItemProps
+    rule: ValidationRule
     touched: boolean
     validate: (value?: unknown) => Promise<ValidationError[]>
 }
 
 export interface FormStorage<T = Record<string, unknown>> {
-    getFieldEntities: (signOut?: boolean) => FormFieldEntity[]
+    getFieldEntities: (signOut?: boolean) => FormFieldEntity<T>[]
     getFieldEntitiesName: (signOut?: boolean) => (names?: (keyof T)[]) => (keyof T | undefined)[]
     getFieldError: {
         (): FormError<T>
@@ -48,14 +49,16 @@ export interface FormStorage<T = Record<string, unknown>> {
         (name?: keyof T): T[keyof T]
     }
 
+    getValidationRule: () => ValidationRule
     isFieldTouched: (name?: NamePath) => boolean
     resetField: (name?: NamePath) => void
+    setValidationRule: (value: ValidationRule) => ValidationRule
     setCallback: (callback: FormCallback<T>) => void
     setFieldError: (error: FormError<T>) => void
     setFieldTouched: (touched?: boolean) => (name?: keyof T) => void
     setFieldValue: (skipValidate?: boolean) => (updateComponent?: boolean) => (value?: T) => void
     setInitialValue: (initialized?: boolean) => (value?: T) => void
-    signInField: (entity: FormFieldEntity) => {signOut: () => void} | undefined
+    signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
     signOutField: (name?: NamePath) => void
     submit: (skipValidate?: boolean) => void
     validateField: {
@@ -74,6 +77,7 @@ export interface FormProps<T = Record<string, unknown>>
     formLayout?: 'horizontal' | 'vertical'
     initialValue?: T
     items?: FormItemProps[]
+    validationRule?: ValidationRule
 }
 
 export interface RenderFormProps<T> extends FormProps<T> {
@@ -88,7 +92,6 @@ export interface InitialFormState {
     status: ComponentStatus
 }
 
-export type ProcessFormInitOptions = Pick<FormStorage, 'setInitialValue'> & Pick<FormBaseProps, 'initialValue'>
 export type ProcessFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
 export type RenderFormItemOptions = Pick<FormItemProps, 'skeletonElement' | 'minSkeletonDuration'>
 export type FormComponent = typeof ForwardRefForm & {

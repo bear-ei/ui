@@ -45,7 +45,6 @@
     "dependencies": {
         "@bearei/ui-token": "^0.0.3",
         "@material-symbols/svg-400": "^0.17.4",
-        "async-validator": "^4.2.5",
         "class-validator": "^0.14.1",
         "immer": "^10.1.1",
         "mitt": "^3.0.1",
@@ -54,6 +53,7 @@
     },
     "devDependencies": {
         "@babel/core": "^7.20.0",
+        "@babel/plugin-proposal-decorators": "^7.24.7",
         "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
         "@babel/preset-env": "^7.20.0",
         "@babel/preset-react": "^7.24.7",
@@ -83,6 +83,8 @@
         "@types/jest": "^29.2.1",
         "@types/react": "^18.2.6",
         "@types/react-test-renderer": "^18.0.7",
+        "@typescript-eslint/eslint-plugin": "^7.0.0",
+        "@typescript-eslint/parser": "^7.0.0",
         "babel-jest": "^29.6.3",
         "babel-loader": "^8.2.4",
         "babel-plugin-react-docgen-typescript": "^1.5.1",
@@ -107,7 +109,8 @@
         "react-test-renderer": "^18.2.0",
         "shx": "^0.3.4",
         "storybook": "^7.6.13",
-        "typescript": "^5.4.5"
+        "typescript": "^5.6.2",
+        "typescript-eslint": "^8.1.0"
     },
     "engines": {
         "node": ">=18"

@@ -1,10 +1,21 @@
 import {Meta} from '@storybook/react'
+
 import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {TextField} from '../Text-field'
 import {FormItemControlProps, FormItemProps} from './Form-item'
 import {Form} from './Form.component'
+
+import {IsDefined, IsString} from 'class-validator'
+class NameRule {
+    @IsDefined()
+    @IsString()
+    name: 'string'
+
+    @IsString()
+    age: 'string'
+}
 
 export const FormA = () => {
     const form = Form.useForm<{name: string; age: number}>()
@@ -23,13 +34,11 @@ export const FormA = () => {
         {
             name: 'name',
             renderControl,
-            rules: [{type: 'string'}],
             labelText: 'name'
         },
         {
             name: 'age',
             renderControl,
-            rules: [{type: 'number'}],
             labelText: 'age'
         }
     ] as FormItemProps[]
@@ -52,8 +61,9 @@ export const FormA = () => {
         <View style={[style]}>
             <Form
                 form={form}
-                onFinish={processFinish}
                 items={items}
+                onFinish={processFinish}
+                validationRule={NameRule}
             />
 
             <Button

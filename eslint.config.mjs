@@ -1,5 +1,7 @@
 import {FlatCompat} from '@eslint/eslintrc'
 import js from '@eslint/js'
+import typescriptEslint from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
 import path from 'node:path'
 import {fileURLToPath} from 'node:url'
 
@@ -12,8 +14,12 @@ const compat = new FlatCompat({
 })
 
 export default [
-    ...compat.extends('@react-native', 'plugin:prettier/recommended'),
+    ...compat.extends('@react-native', 'plugin:prettier/recommended', 'plugin:@typescript-eslint/recommended'),
     {
+        plugins: {
+            '@typescript-eslint': typescriptEslint
+        },
+        languageOptions: {parser: tsParser},
         rules: {
             'react/react-in-jsx-scope': 'off',
             'react/jsx-uses-react': 'off',

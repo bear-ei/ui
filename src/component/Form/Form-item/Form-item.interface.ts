@@ -1,14 +1,13 @@
-import {ValidateError} from 'async-validator'
 import {ValidationError} from 'class-validator'
 import React, {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
-import {ValidateRule} from '../../../util'
+import {ValidationRule} from '../../../util'
 import {ComponentStatus} from '../../Common'
 import {FormStorage} from '../Form.interface'
 
 export interface FormItemControlProps {
     errorMessage?: string
-    errors?: ValidateError[]
+    errors?: ValidationError[]
     id?: string
     labelText?: string
     onValueChange?: (value?: unknown) => void
@@ -21,7 +20,6 @@ export interface FormItemProps
     minSkeletonDuration?: number
     name?: string
     renderControl?: (props: FormItemControlProps) => JSX.Element
-    rule: ValidateRule
     skeletonElement?: React.JSX.Element
 }
 
@@ -43,6 +41,7 @@ export interface ProcessFormItemValueChangeOptions extends Pick<FormStorage, 'se
     storageValue?: unknown
 }
 
-export type ProcessFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
+export type ProcessFormItemInitOptions = Pick<FormItemBaseProps, 'name'> & {
+    rule: ValidationRule
     validate: (value?: unknown) => Promise<ValidationError[]>
 } & Pick<FormStorage, 'signInField'>

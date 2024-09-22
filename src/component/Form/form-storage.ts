@@ -1,60 +1,67 @@
 import {ValidationError} from 'class-validator'
-import {NamePath, namePath} from '../../util'
+import {NamePath, namePath, ValidationRule} from '../../util'
 import {FormCallback, FormError, FormFieldEntity, FormStorage, OnValueChangeOptions} from './Form.interface'
 
 const createFormContext = <T>() => ({
     callback: {} as FormCallback<T>,
     error: {} as FormError<T>,
-    fieldEntities: [] as FormFieldEntity[],
+    fieldEntities: [] as FormFieldEntity<T>[],
     initialValue: {} as T,
-    storage: {} as T
+    storage: {} as T,
+    validationRule: {} as ValidationRule
 })
 
 export const formStorage = <T extends Record<string, unknown> = Record<string, unknown>>(): FormStorage<T> => {
-    let {callback, error, fieldEntities, initialValue, storage} = createFormContext<T>()
+    let {callback, error, fieldEntities, initialValue, storage, validationRule} = createFormContext<T>()
 
-    const getFieldEntities = (signOut = false) =>
-        signOut ? fieldEntities : fieldEntities.filter(fieldEntity => fieldEntity.props.name)
-
+    const getValidationRule = () => validationRule
+    const getFieldEntities = (signOut = false) => (signOut ? fieldEntities : fieldEntities.filter(({name}) => name))
     const getFieldEntitiesName =
         (signOut = false) =>
         (names?: (keyof T)[]) => {
-            const entityNames = getFieldEntities(signOut).map(({props}) => props.name)
+            const entityNames = getFieldEntities(signOut).map(({name}) => name)
 
             return [...(names ? entityNames.filter(name => name && names.includes(name)) : entityNames)]
         }
 
     const getFieldError = ((name?: NamePath<T>) => {
-        let err = {} as FormError<T>
         const names = namePath(name)
-        const processError = (entityName?: keyof T) => entityName && (err = {...err, [entityName]: error[entityName]})
-
-        names && getFieldEntitiesName()(names).forEach(processError)
-        !names && (err = {...err, ...error})
+        const err =
+            names ?
+                getFieldEntitiesName()(names).reduce(
+                    (accumulator, entityName) =>
+                        entityName ? {...accumulator, [entityName]: error[entityName]} : accumulator,
+                    {} as FormError<T>
+                )
+            :   error
 
         return !Array.isArray(name) && name ? err[name] : err
     }) as FormStorage<T>['getFieldError']
 
     const getFieldValue = ((name?: NamePath<T>) => {
-        let value = {} as T
         const names = namePath(name)
-        const processValue = (entityName?: keyof T) =>
-            entityName && (value = {...value, [entityName]: storage[entityName]})
-
-        names && getFieldEntitiesName()(names).forEach(processValue)
-        !names && (value = {...value, ...storage})
+        const value =
+            names ?
+                getFieldEntitiesName()(names).reduce(
+                    (accumulator, entityName) =>
+                        entityName ? {...accumulator, [entityName]: storage[entityName]} : accumulator,
+                    {} as T
+                )
+            :   storage
 
         return !Array.isArray(name) && name ? value[name] : value
     }) as FormStorage<T>['getFieldValue']
 
     const getInitialValue = ((name?: NamePath<T>) => {
-        let value = {} as T
         const names = namePath(name)
-        const processValue = (entityName?: keyof T) =>
-            entityName && (value = {...value, [entityName]: initialValue[entityName]})
-
-        names && getFieldEntitiesName()(names).forEach(processValue)
-        !names && (value = {...value, ...storage})
+        const value =
+            names ?
+                getFieldEntitiesName()(names).reduce(
+                    (accumulator, entityName) =>
+                        entityName ? {...accumulator, [entityName]: initialValue[entityName]} : accumulator,
+                    {} as T
+                )
+            :   storage
 
         return !Array.isArray(name) && name ? value[name] : value
     }) as FormStorage<T>['getInitialValue']
@@ -63,7 +70,7 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
         const names = namePath(name)
         const entities = getFieldEntities()
         const processFieldTouched = (entityName?: keyof T) =>
-            entityName && entities.find(({props}) => props.name === entityName)?.touched
+            entityName && entities.find(entity => entity.name === entityName)?.touched
 
         return getFieldEntitiesName()(names).map(processFieldTouched).every(Boolean)
     }
@@ -82,6 +89,7 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
         getFieldEntitiesName()(names).forEach(processReset)
     }
 
+    const setValidationRule = (value: ValidationRule) => (validationRule = value)
     const setCallback = (callbackValue: FormCallback<T>) => (callback = {...callback, ...callbackValue})
     const setFieldError = (err: FormError<T>) => (error = {...error, ...err})
     const setFieldTouched =
@@ -92,9 +100,7 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
             }
 
             fieldEntities = [
-                ...getFieldEntities().map(fieldEntity =>
-                    fieldEntity.props.name === name ? {...fieldEntity, touched} : fieldEntity
-                )
+                ...getFieldEntities().map(entity => (entity.name === name ? {...entity, touched} : entity))
             ]
         }
 
@@ -106,26 +112,26 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
         }
 
     const processValidateResult =
-        (entity: FormFieldEntity) =>
+        (entity: FormFieldEntity<T>) =>
         (value = {} as T) =>
-        (err?: ValidationError[]) => {
-            const name = entity.props.name
+        (errors?: ValidationError[]) => {
+            const {name} = entity
 
             if (!name) {
                 return
             }
 
             processStorageUpdate()(value)
-            setFieldError({[name]: err} as FormError<T>)
+            setFieldError({[name]: errors} as FormError<T>)
             setFieldTouched(true)(name)
 
             entity.onFormStorageChange()
         }
 
     const processFindEntity =
-        (name: keyof T) =>
-        ({props}: FormFieldEntity) =>
-            props.name === name
+        (rawName: keyof T) =>
+        ({name}: FormFieldEntity<T>) =>
+            name === rawName
 
     const processItemUpdate =
         (skipValidate?: boolean) =>
@@ -141,13 +147,14 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
 
             const processResult = processValidateResult(entity)(value)
 
-            skipValidate ? processResult() : await entity.validate(value[entity.props.name!]).then(processResult)
+            skipValidate ? processResult() : await entity.validate(value[entity.name!]).then(processResult)
         }
 
     const processValueChange =
         (value = {} as T) =>
         () => {
             const {onValueChange} = callback
+
             onValueChange?.({changedValue: value, value: storage})
         }
 
@@ -174,21 +181,21 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
             initialValue = {...initialValue, ...value}
         }
 
-    const signInField = (entity: FormFieldEntity) => {
-        const {name} = entity.props
+    const signInField = (rawEntity: FormFieldEntity<T>) => {
+        const {name} = rawEntity
 
         if (!name) {
             return
         }
 
         const entities = getFieldEntities(true)
-        const exist = entities.find(({props}) => props.name === name)
+        const exist = entities.find(entity => entity.name === name)
 
         if (exist) {
             return
         }
 
-        fieldEntities = [...entities, entity]
+        fieldEntities = [...entities, rawEntity]
 
         setFieldValue()(false)({[name]: initialValue[name]} as T)
         setFieldError({[name]: undefined} as FormError<T>)
@@ -206,7 +213,7 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
                 return
             }
 
-            const fieldEntity = entities.find(({props}) => props.name === signOutName)
+            const fieldEntity = entities.find(entity => entity.name === signOutName)
 
             if (!fieldEntity) {
                 return
@@ -218,7 +225,7 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
             setFieldValue()(false)(nextFormStorage as T)
             setFieldError(nextError as FormError<T>)
 
-            fieldEntities = entities.filter(({props}) => props.name !== signOutName)
+            fieldEntities = entities.filter(entity => entity.name !== signOutName)
         }
 
         getFieldEntitiesName()(names).forEach(processSignOut)
@@ -245,21 +252,25 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
             }
 
             const value = getFieldValue(entityName)
-            const entity = entities.find(({props}) => props.name === entityName)
+            const fieldEntity = entities.find(entity => entity.name === entityName)
 
-            return entity?.validate(value).then(errors => {
+            return fieldEntity?.validate(value).then(errors => {
                 const err = {[entityName]: errors} as FormError<T>
 
                 setFieldError(err)
-                errors && entity.onFormStorageChange()
+                errors && fieldEntity.onFormStorageChange()
 
                 return err
             })
         }
 
         const fieldErrors = await Promise.all(getFieldEntitiesName()(names).map(processValidate))
+        const err = fieldErrors.reduce(
+            (accumulator, currentValue) => ({...accumulator, ...currentValue}),
+            {} as FormError<T>
+        )
 
-        return fieldErrors.reduce((accumulator, currentValue) => ({...accumulator, ...currentValue}), {})
+        return !Array.isArray(name) && name ? err[name] : err
     }) as FormStorage<T>['validateField']
 
     return {
@@ -268,6 +279,7 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
         getFieldError,
         getFieldValue,
         getInitialValue,
+        getValidationRule,
         isFieldTouched,
         resetField,
         setCallback,
@@ -275,6 +287,7 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
         setFieldTouched,
         setFieldValue,
         setInitialValue,
+        setValidationRule,
         signInField,
         signOutField,
         submit,

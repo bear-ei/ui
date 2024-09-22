@@ -2,7 +2,7 @@ import {ValidationError} from 'class-validator'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {validate, ValidateRule} from '../../../util'
+import {validate, ValidationRule} from '../../../util'
 import {useFormContext} from '../use-form-context.hook'
 import {
     FormItemBaseProps,
@@ -17,7 +17,7 @@ const processFormItemValueChange =
     (value?: unknown) =>
         name && storageValue !== value && setFieldValue()()({[name]: value})
 
-const processFormItemValidate = (rule: ValidateRule) => (name?: string) => async (value?: unknown) =>
+const processFormItemValidate = (rule: ValidationRule) => (name?: string) => async (value?: unknown) =>
     name && rule ? validate(rule)(name)(value) : ([] as ValidationError[])
 
 const processFormStorageChange = (setState: Updater<InitialFormItemState>) => () =>
@@ -37,7 +37,8 @@ const processFormItemInit =
             const {signOut} =
                 signInField({
                     onFormStorageChange: processFormStorageChange(setState),
-                    props: {name, rule},
+                    name,
+                    rule,
                     touched: false,
                     validate: fieldValidate
                 }) ?? {}
@@ -48,7 +49,7 @@ const processFormItemInit =
     }
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-    ({labelText, name, render, renderControl, rule, minSkeletonDuration, ...renderProps}, ref) => {
+    ({labelText, name, render, renderControl, minSkeletonDuration, ...renderProps}, ref) => {
         const [{signOut, status}, setState] = useImmer<InitialFormItemState>({
             shouldUpdate: {},
             signOut: undefined,
@@ -56,7 +57,10 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         })
 
         const id = useId()
-        const {getFieldError, getFieldValue, setFieldValue, signInField, getInitialValue} = useFormContext()
+        const {getFieldError, getFieldValue, setFieldValue, signInField, getInitialValue, getValidationRule} =
+            useFormContext()
+
+        const rule = getValidationRule()
         const errors = getFieldError(name)
         const errorMessage = Object.entries(errors?.[0].constraints ?? {})[0][1]
         const storageValue = getFieldValue(name) ?? getInitialValue(name)
