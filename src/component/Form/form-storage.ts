@@ -1,5 +1,5 @@
 import {ValidationError} from 'class-validator'
-import {NamePath, namePath, ValidationRule} from '../../util'
+import {NamePath, namePath} from '../../util'
 import {FormCallback, FormError, FormFieldEntity, FormStorage, OnValueChangeOptions} from './Form.interface'
 
 const createFormContext = <T>() => ({
@@ -7,15 +7,13 @@ const createFormContext = <T>() => ({
     error: {} as FormError<T>,
     fieldEntities: [] as FormFieldEntity<T>[],
     initialValue: {} as T,
-    storage: {} as T,
-    validationRule: {} as ValidationRule
+    storage: {} as T
 })
 
 export const formStorage = <T extends Record<string, unknown> = Record<string, unknown>>(): FormStorage<T> => {
-    let {callback, error, fieldEntities, initialValue, storage, validationRule} = createFormContext<T>()
+    let {callback, error, fieldEntities, initialValue, storage} = createFormContext<T>()
 
     const getFieldEntities = (signOut = false) => (signOut ? fieldEntities : fieldEntities.filter(({name}) => name))
-    const getValidationRule = () => validationRule
     const getFieldEntitiesName =
         (signOut = false) =>
         (names?: (keyof T)[]) => {
@@ -91,7 +89,6 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
 
     const setCallback = (callbackValue: FormCallback<T>) => (callback = {...callback, ...callbackValue})
     const setFieldError = (err: FormError<T>) => (error = {...error, ...err})
-    const setValidationRule = (value: ValidationRule) => (validationRule = value)
     const setFieldTouched =
         (touched = false) =>
         (name?: keyof T) => {
@@ -276,7 +273,6 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
         getFieldError,
         getFieldValue,
         getInitialValue,
-        getValidationRule,
         isFieldTouched,
         resetField,
         setCallback,
@@ -284,7 +280,6 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
         setFieldTouched,
         setFieldValue,
         setInitialValue,
-        setValidationRule,
         signInField,
         signOutField,
         submit,

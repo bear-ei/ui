@@ -183,8 +183,6 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             nextContentSizeChangeCallback?.()
         }, [nextContentSizeChangeCallback])
 
-        console.info(textInputValue, 'textInputValue')
-
         return render({
             ...renderProps,
             activeIndicatorAnimatedStyle,

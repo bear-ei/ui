@@ -1,6 +1,6 @@
 import {ValidationError} from 'class-validator'
 import React, {RefAttributes} from 'react'
-import {View, ViewProps} from 'react-native'
+import {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native'
 import {ValidationRule} from '../../../util'
 import {ComponentStatus} from '../../Common'
 import {FormStorage} from '../Form.interface'
@@ -10,6 +10,7 @@ export interface FormItemControlProps {
     errors?: ValidationError[]
     id?: string
     labelText?: string
+    onBlur: (event: NativeSyntheticEvent<TargetedEvent>) => void
     onValueChange?: (value?: unknown) => void
     value?: unknown
 }
@@ -20,6 +21,7 @@ export interface FormItemProps
     minSkeletonDuration?: number
     name?: string
     renderControl?: (props: FormItemControlProps) => JSX.Element
+    rule?: ValidationRule
     skeletonElement?: React.JSX.Element
 }
 
@@ -41,7 +43,6 @@ export interface ProcessFormItemValueChangeOptions extends Pick<FormStorage, 'se
     storageValue?: unknown
 }
 
-export type ProcessFormItemInitOptions = Pick<FormItemBaseProps, 'name'> & {
-    rule: ValidationRule
-    validate: (value?: unknown) => Promise<ValidationError[]>
+export type ProcessFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
+    validate: (value?: unknown) => Promise<ValidationError[] | undefined>
 } & Pick<FormStorage, 'signInField'>

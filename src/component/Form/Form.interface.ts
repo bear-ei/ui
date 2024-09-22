@@ -23,9 +23,9 @@ export interface FormCallback<T = Record<string, unknown>> {
 export interface FormFieldEntity<T = Record<string, unknown>> {
     name?: keyof T
     onFormStorageChange: () => void
-    rule: ValidationRule
+    rule?: ValidationRule
     touched: boolean
-    validate: (value?: unknown) => Promise<ValidationError[]>
+    validate: (value?: unknown) => Promise<ValidationError[] | undefined>
 }
 
 export interface FormStorage<T = Record<string, unknown>> {
@@ -49,7 +49,6 @@ export interface FormStorage<T = Record<string, unknown>> {
         (name?: keyof T): T[keyof T]
     }
 
-    getValidationRule: () => ValidationRule
     isFieldTouched: (name?: NamePath) => boolean
     resetField: (name?: NamePath) => void
     setCallback: (callback: FormCallback<T>) => void
@@ -57,7 +56,6 @@ export interface FormStorage<T = Record<string, unknown>> {
     setFieldTouched: (touched?: boolean) => (name?: keyof T) => void
     setFieldValue: (skipValidate?: boolean) => (updateComponent?: boolean) => (value?: T) => void
     setInitialValue: (initialized?: boolean) => (value?: T) => void
-    setValidationRule: (value: ValidationRule) => ValidationRule
     signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
     signOutField: (name?: NamePath) => void
     submit: (skipValidate?: boolean) => void

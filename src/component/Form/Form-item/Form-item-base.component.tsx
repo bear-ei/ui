@@ -1,8 +1,9 @@
-import {IsString, ValidationError} from 'class-validator'
+import {ValidationError} from 'class-validator'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import {NativeSyntheticEvent, TargetedEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {validate, ValidationRule} from '../../../util'
+import {FormError} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
     FormItemBaseProps,
@@ -11,21 +12,13 @@ import {
     ProcessFormItemValueChangeOptions
 } from './Form-item.interface'
 
-class NameRule {
-    @IsString()
-    name: string
-
-    @IsString()
-    age: string
-}
-
 const processFormItemValueChange =
     ({setFieldValue, storageValue}: ProcessFormItemValueChangeOptions) =>
     (name?: string) =>
     (value?: unknown) =>
         name && storageValue !== value && setFieldValue()()({[name]: value})
 
-const processFormItemValidate = (rule: ValidationRule) => (name?: string) => async (value?: unknown) =>
+const processFormItemValidate = (rule?: ValidationRule) => (name?: string) => async (value?: unknown) =>
     name && rule ? validate(rule)(name)(value) : ([] as ValidationError[])
 
 const processFormStorageChange = (setState: Updater<InitialFormItemState>) => () =>
@@ -44,8 +37,8 @@ const processFormItemInit =
 
             const {signOut} =
                 signInField({
-                    onFormStorageChange: processFormStorageChange(setState),
                     name,
+                    onFormStorageChange: processFormStorageChange(setState),
                     rule,
                     touched: false,
                     validate: fieldValidate
@@ -56,8 +49,15 @@ const processFormItemInit =
         })
     }
 
+const processFormItemBlur =
+    (validateField: (name?: string) => Promise<FormError<any>>) =>
+    (name?: string) =>
+    (_event: NativeSyntheticEvent<TargetedEvent>) => {
+        name && validateField(name)
+    }
+
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-    ({labelText, name, render, renderControl, minSkeletonDuration, ...renderProps}, ref) => {
+    ({labelText, name, render, renderControl, minSkeletonDuration, rule, ...renderProps}, ref) => {
         const [{signOut, status}, setState] = useImmer<InitialFormItemState>({
             shouldUpdate: {},
             signOut: undefined,
@@ -65,14 +65,11 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         })
 
         const id = useId()
-        const {getFieldError, getFieldValue, setFieldValue, signInField, getInitialValue, getValidationRule} =
+        const {getFieldError, getFieldValue, setFieldValue, signInField, getInitialValue, validateField} =
             useFormContext()
 
         const errors = getFieldError(name)
-
-        const errorMessage = ''
-        const rule = getValidationRule()
-
+        const errorMessage = Object.entries(errors?.[0].constraints ?? {})[0]?.[1]
         const storageValue = getFieldValue(name) ?? getInitialValue(name)
         const onValueChange = useMemo(
             () => processFormItemValueChange({setFieldValue, storageValue})(name),
@@ -85,9 +82,10 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
             [onFieldValidate, rule, setState, signInField]
         )
 
+        const onControlBlur = useMemo(() => processFormItemBlur(validateField)(name), [name, validateField])
         const controlElement = useMemo(
-            () => renderControl?.({errorMessage, labelText, onValueChange, value: storageValue}),
-            [errorMessage, labelText, onValueChange, renderControl, storageValue]
+            () => renderControl?.({errorMessage, labelText, onValueChange, value: storageValue, onBlur: onControlBlur}),
+            [errorMessage, labelText, onControlBlur, onValueChange, renderControl, storageValue]
         )
 
         useEffect(() => {
@@ -100,12 +98,6 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
             return <></>
         }
 
-        return render({
-            ...renderProps,
-            control: controlElement,
-            id,
-            minSkeletonDuration,
-            ref
-        })
+        return render({...renderProps, control: controlElement, id, minSkeletonDuration, ref})
     }
 )

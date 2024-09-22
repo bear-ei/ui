@@ -1,5 +1,5 @@
 import {Meta} from '@storybook/react'
-import {IsDefined, IsString} from 'class-validator'
+import {IsNotEmpty} from 'class-validator'
 import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
@@ -7,38 +7,46 @@ import {TextField} from '../Text-field'
 import {FormItemControlProps, FormItemProps} from './Form-item'
 import {Form} from './Form.component'
 
+const {IsDefined, IsString} = Form.validator
+
 class NameRule {
     @IsDefined()
+    @IsNotEmpty()
     @IsString()
     name: string
+}
 
+class AgeRule {
     @IsString()
     age: string
 }
 
 export const FormA = () => {
     const form = Form.useForm<{name: string; age: number}>()
-    const renderControl = ({value, onValueChange, errorMessage, id, labelText}: FormItemControlProps) => (
+    const renderControl = ({value, onValueChange, errorMessage, id, labelText, onBlur}: FormItemControlProps) => (
         <TextField
+            error={!!errorMessage}
             key={id}
-            value={value as string}
+            labelText={labelText}
+            onBlur={onBlur}
             onChangeText={onValueChange}
             supportingText={errorMessage}
-            error={!!errorMessage}
-            labelText={labelText}
+            value={value as string}
         />
     )
 
     const items = [
         {
+            labelText: 'name',
             name: 'name',
             renderControl,
-            labelText: 'name'
+            rule: NameRule
         },
         {
             name: 'age',
             renderControl,
-            labelText: 'age'
+            labelText: 'age',
+            rule: AgeRule
         }
     ] as FormItemProps[]
 
@@ -62,7 +70,6 @@ export const FormA = () => {
                 form={form}
                 items={items}
                 onFinish={processFinish}
-                validationRule={NameRule}
             />
 
             <Button
