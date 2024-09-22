@@ -66,7 +66,7 @@ const render = ({
 
     return (
         <Container
-            {...panResponder?.panHandlers}
+            {...panResponder?.panProcessrs}
             accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
             accessibilityRole='list'
             densityScale={densityScale}

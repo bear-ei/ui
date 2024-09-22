@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {ForwardedRef, forwardRef, useEffect, useId, useImperativeProcess, useMemo, useRef} from 'react'
 import {
     LayoutChangeEvent,
     LayoutRectangle,
@@ -14,15 +14,15 @@ import {debounce} from '../../util'
 import {EventName, State} from '../Common'
 import {RenderVirtualListItemInfo, RenderVirtualListItemOptions, VirtualListItem} from './Virtual-list-item'
 import {
-    HandleVirtualListLayoutOptions,
-    HandleVirtualListScrollOptions,
     InitialVirtualListState,
+    ProcessVirtualListLayoutOptions,
+    ProcessVirtualListScrollOptions,
     VirtualListBaseProps,
     VirtualListData
 } from './Virtual-list.interface'
 
 const checkAllNumber = (array: unknown[]) => array.every(item => typeof item === 'number')
-const handleVirtualListVisibleRange =
+const processVirtualListVisibleRange =
     (itemSize = 0) =>
     (draft: WritableDraft<InitialVirtualListState>) =>
     (scrollOffset?: number) => {
@@ -46,8 +46,8 @@ const handleVirtualListVisibleRange =
     }
 
 const createNextLoadEndCallback = (onLoadEnd?: (value?: string) => void) => () => onLoadEnd?.()
-const handleVirtualListLayout =
-    ({itemSize, onLoadEnd}: HandleVirtualListLayoutOptions) =>
+const processVirtualListLayout =
+    ({itemSize, onLoadEnd}: ProcessVirtualListLayoutOptions) =>
     (setState: Updater<InitialVirtualListState>) =>
     (layout: LayoutRectangle) => {
         setState(draft => {
@@ -60,11 +60,11 @@ const handleVirtualListLayout =
             ;[draft.virtualListData, draft.virtualListData?.length].some(Boolean) &&
                 (draft.nextLoadEndCallback = createNextLoadEndCallback(onLoadEnd))
 
-            handleVirtualListVisibleRange(itemSize)(draft)()
+            processVirtualListVisibleRange(itemSize)(draft)()
         })
     }
 
-const handleVirtualListStateChange =
+const processVirtualListStateChange =
     ({eventName}: OnStateEventChangeOptions) =>
     (onVirtualListLayout: (layout: LayoutRectangle) => void) =>
     (event: StateEvent) => {
@@ -81,8 +81,8 @@ const createNextScrollEvent =
     () =>
         onScroll?.(event)
 
-const handleVirtualListScroll =
-    ({onScroll, itemSize = 0}: HandleVirtualListScrollOptions) =>
+const processVirtualListScroll =
+    ({onScroll, itemSize = 0}: ProcessVirtualListScrollOptions) =>
     (setState: Updater<InitialVirtualListState>) =>
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
@@ -92,12 +92,12 @@ const handleVirtualListScroll =
         !hitBottom &&
             contentOffset.y > 0 &&
             setState(draft => {
-                handleVirtualListVisibleRange(itemSize)(draft)(scrollOffset)
+                processVirtualListVisibleRange(itemSize)(draft)(scrollOffset)
                 draft.nextScrollEvent = createNextScrollEvent(onScroll)(event)
             })
     }
 
-const handleVirtualListMomentumScrollEnd =
+const processVirtualListMomentumScrollEnd =
     (onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void) =>
     (event: NativeSyntheticEvent<NativeScrollEvent>) =>
         onMomentumScrollEnd?.(event)
@@ -107,7 +107,7 @@ const createVisibleRangeDataFilter =
     ({indexKey}: VirtualListData) =>
         indexKey !== value
 
-const handleVirtualListItemUnmount =
+const processVirtualListItemUnmount =
     (itemSize = 0) =>
     (setState: Updater<InitialVirtualListState>) =>
     (value?: string) => {
@@ -115,12 +115,12 @@ const handleVirtualListItemUnmount =
             setState(draft => {
                 draft.virtualListData = draft.virtualListData?.filter(createVisibleRangeDataFilter(value))
 
-                handleVirtualListVisibleRange(itemSize)(draft)()
+                processVirtualListVisibleRange(itemSize)(draft)()
             })
         }
     }
 
-const handleVirtualListDataInit = (setState: Updater<InitialVirtualListState>) => (data?: VirtualListData[]) =>
+const processVirtualListDataInit = (setState: Updater<InitialVirtualListState>) => (data?: VirtualListData[]) =>
     setState(draft => {
         const contentVisible = !!data?.length
         draft.contentVisible = contentVisible
@@ -129,7 +129,7 @@ const handleVirtualListDataInit = (setState: Updater<InitialVirtualListState>) =
         draft.status = 'succeeded'
     })
 
-const handleVirtualListContentVisible =
+const processVirtualListContentVisible =
     (setState: Updater<InitialVirtualListState>) => (data?: VirtualListData[]) => (value?: boolean) => {
         !value &&
             setState(draft => {
@@ -142,7 +142,7 @@ const createVisibleRangeDataFindIndex =
     ({indexKey}: VirtualListData) =>
         indexKey === value
 
-const handleVirtualListLoadEnd =
+const processVirtualListLoadEnd =
     (setState: Updater<InitialVirtualListState>) => (onLoadEnd?: (value?: string) => void) => (value?: string) => {
         value &&
             setState(draft => {
@@ -154,13 +154,13 @@ const handleVirtualListLoadEnd =
             })
     }
 
-const handleVirtualListDataChange =
+const processVirtualListDataChange =
     (itemSize = 0) =>
     (setState: Updater<InitialVirtualListState>) =>
     (virtualListData?: VirtualListData[]) => {
         virtualListData &&
             setState(draft => {
-                handleVirtualListVisibleRange(itemSize)(draft)()
+                processVirtualListVisibleRange(itemSize)(draft)()
             })
     }
 
@@ -215,32 +215,32 @@ export const VirtualListBaseInner = <T,>(
     const contentSize = virtualListData ? virtualListData.length * itemSize : 0
     const scrollViewRef = useRef<ScrollView>(null)
     const onVirtualListVisibleRange = useMemo(
-        () => handleVirtualListDataChange(itemSize)(setState),
+        () => processVirtualListDataChange(itemSize)(setState),
         [itemSize, setState]
     )
 
     const onVirtualListScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) =>
-        handleVirtualListScroll({onScroll, itemSize})(setState)(event)
+        processVirtualListScroll({onScroll, itemSize})(setState)(event)
 
     const onVirtualListMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) =>
-        handleVirtualListMomentumScrollEnd(onMomentumScrollEnd)(event)
+        processVirtualListMomentumScrollEnd(onMomentumScrollEnd)(event)
 
-    const onVirtualListLoadEnd = handleVirtualListLoadEnd(setState)(onLoadEnd)
-    const onVirtualListDataInit = useMemo(() => handleVirtualListDataInit(setState), [setState])
-    const onVirtualListContentVisible = handleVirtualListContentVisible(setState)(data)
+    const onVirtualListLoadEnd = processVirtualListLoadEnd(setState)(onLoadEnd)
+    const onVirtualListDataInit = useMemo(() => processVirtualListDataInit(setState), [setState])
+    const onVirtualListContentVisible = processVirtualListContentVisible(setState)(data)
     const scrollEvent = useDesktopScrollEvent({
         onMomentumScrollEnd: onVirtualListMomentumScrollEnd,
         onScroll: onVirtualListScroll
     })
 
     const onVirtualListLayout = useMemo(
-        () => debounce(handleVirtualListLayout({itemSize, onLoadEnd})(setState))(150),
+        () => debounce(processVirtualListLayout({itemSize, onLoadEnd})(setState))(150),
         [itemSize, onLoadEnd, setState]
     )
 
-    const onVirtualListItemUnmount = handleVirtualListItemUnmount(itemSize)(setState)
+    const onVirtualListItemUnmount = processVirtualListItemUnmount(itemSize)(setState)
     const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-        handleVirtualListStateChange({...options, state})(onVirtualListLayout)(event)
+        processVirtualListStateChange({...options, state})(onVirtualListLayout)(event)
 
     const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
     const itemElements = renderVirtualListItem({
@@ -251,7 +251,7 @@ export const VirtualListBaseInner = <T,>(
         renderItem
     })(startIndex)(visibleRangeData)
 
-    useImperativeHandle(ref, () => (scrollViewRef?.current ? scrollViewRef?.current : {}) as ScrollView, [])
+    useImperativeProcess(ref, () => (scrollViewRef?.current ? scrollViewRef?.current : {}) as ScrollView, [])
 
     useEffect(() => {
         onVirtualListDataInit(data)

@@ -40,7 +40,7 @@ export interface InitialTouchableState {
 }
 
 export type RenderTouchableRipplesOptions = Omit<TouchableRippleProps, 'index'>
-export type HandleTouchableStateChangeOptions = Pick<TouchableRippleProps, 'touchableLocation'> &
+export type ProcessTouchableStateChangeOptions = Pick<TouchableRippleProps, 'touchableLocation'> &
     OnStateEventChangeOptions &
     Pick<TouchableProps, 'enableTouchableRipple'>
 

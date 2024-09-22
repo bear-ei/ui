@@ -9,13 +9,13 @@ import {IconButton} from '../../Icon-button'
 import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {ListType} from '../List.interface'
 import {
-    HandleListItemCloseOptions,
-    HandleListItemConfirmOptions,
-    HandleListItemStateEventChangeOptions,
-    HandleListItemTrailingPressOutOptions,
     InitialListItemState,
     ListItemBaseProps,
     ListItemProps,
+    ProcessListItemCloseOptions,
+    ProcessListItemConfirmOptions,
+    ProcessListItemStateEventChangeOptions,
+    ProcessListItemTrailingPressOutOptions,
     RenderListItemTrailingOptions
 } from './List-item.interface'
 import {useListItemAnimated} from './use-list-item-animated.hook'
@@ -58,17 +58,17 @@ export const processListItemPropsEqual = (prevProps: ListItemProps) => (nextProp
     ].some(Boolean)
 }
 
-const handleListItemPressOut = (type?: ListType) => (onActive?: (value?: string) => void) => (value: string) =>
+const processListItemPressOut = (type?: ListType) => (onActive?: (value?: string) => void) => (value: string) =>
     type !== 'standard' && onActive?.(value)
 
-const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
-const handleListItemStateChange =
-    ({eventName, itemKey, onActive, type, onLoadEnd, state, trailingTrigger}: HandleListItemStateEventChangeOptions) =>
+const processListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
+const processListItemStateChange =
+    ({eventName, itemKey, onActive, type, onLoadEnd, state, trailingTrigger}: ProcessListItemStateEventChangeOptions) =>
     (setState: Updater<InitialListItemState>) =>
     (_event: StateEvent) => {
         const nextEvent = {
-            layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
-            pressOut: () => handleListItemPressOut(type)(onActive)(itemKey)
+            layout: () => processListItemLoadEnd?.(onLoadEnd)(itemKey),
+            pressOut: () => processListItemPressOut(type)(onActive)(itemKey)
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -93,13 +93,13 @@ const handleListItemStateChange =
         })
     }
 
-const handleListItemTrailingPressOut =
+const processListItemTrailingPressOut =
     ({
         afterAffordance,
         closeTrailing,
         onActiveAfterAffordance,
         onListItemClose
-    }: HandleListItemTrailingPressOutOptions) =>
+    }: ProcessListItemTrailingPressOutOptions) =>
     (value: string) => {
         const nextEvent = {
             afterAffordance: () => onActiveAfterAffordance?.(value),
@@ -110,13 +110,13 @@ const handleListItemTrailingPressOut =
         closeTrailing && nextEvent.closeTrailing()
     }
 
-const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<InitialListItemState>) => (value?: boolean) =>
+const processItemListAfterAffordanceVisibleFinished = (setState: Updater<InitialListItemState>) => (value?: boolean) =>
     setState(draft => {
         draft.afterAffordanceClosed = !value
     })
 
-const handleListItemConfirm =
-    ({options, onConfirm, onActiveAfterAffordance, onListItemClose}: HandleListItemConfirmOptions) =>
+const processListItemConfirm =
+    ({options, onConfirm, onActiveAfterAffordance, onListItemClose}: ProcessListItemConfirmOptions) =>
     (value?: string) => {
         const {doubleConfirmed} = options
 
@@ -130,8 +130,8 @@ const handleListItemConfirm =
         onConfirm?.({...options, itemKey: value})
     }
 
-const handleListItemClose =
-    ({onClose, onVisible}: HandleListItemCloseOptions) =>
+const processListItemClose =
+    ({onClose, onVisible}: ProcessListItemCloseOptions) =>
     (itemKey: string) =>
     (value?: boolean) => {
         if (!value) {
@@ -252,16 +252,16 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         ).current
 
         const onListItemConfirm = ({itemKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
-            handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
+            processListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
 
         const onListItemClose = useMemo(
-            () => handleListItemClose({onClose, onVisible})(itemKey),
+            () => processListItemClose({onClose, onVisible})(itemKey),
             [itemKey, onClose, onVisible]
         )
 
         const onListItemTrailingPressOut = useCallback(
             () =>
-                handleListItemTrailingPressOut({
+                processListItemTrailingPressOut({
                     afterAffordance,
                     closeTrailing,
                     onActiveAfterAffordance,
@@ -271,12 +271,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         )
 
         const onListItemAfterAffordanceVisibleFinished = useMemo(
-            () => handleItemListAfterAffordanceVisibleFinished(setState),
+            () => processItemListAfterAffordanceVisibleFinished(setState),
             [setState]
         )
 
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleListItemStateChange({...options, itemKey, onActive, state, type, onLoadEnd, trailingTrigger})(
+            processListItemStateChange({...options, itemKey, onActive, state, type, onLoadEnd, trailingTrigger})(
                 setState
             )(event)
 

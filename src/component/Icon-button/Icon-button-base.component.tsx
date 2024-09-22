@@ -6,16 +6,16 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {State} from '../Common'
 import {Icon, IconProps} from '../Icon'
 import {
-    HandleIconButtonStateChangeOptions,
     IconButtonBaseProps,
     IconButtonType,
     InitialIconButtonState,
+    ProcessIconButtonStateChangeOptions,
     RenderIconButtonIconOptions
 } from './Icon-button.interface'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
-const handleIconButtonStateChange =
-    ({eventName}: HandleIconButtonStateChangeOptions) =>
+const processIconButtonStateChange =
+    ({eventName}: ProcessIconButtonStateChangeOptions) =>
     (setState: Updater<InitialIconButtonState>) =>
     (_event: StateEvent) =>
         eventName !== 'layout' &&
@@ -23,7 +23,7 @@ const handleIconButtonStateChange =
             draft.eventName = eventName
         })
 
-const handleIconButtonDisabled = (setState: Updater<InitialIconButtonState>) => (disabled?: boolean) =>
+const processIconButtonDisabled = (setState: Updater<InitialIconButtonState>) => (disabled?: boolean) =>
     disabled &&
     setState(draft => {
         draft.eventName = 'none'
@@ -70,9 +70,9 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
         const activeColor = theme.token.scheme.secondaryContainer
         const underlayColor = processIconButtonUnderlayColor(theme)(type)
         const iconElement = renderIconButtonIcon({disabled, fill, type, eventName})(theme)(icon)
-        const onIconButtonDisabled = useMemo(() => handleIconButtonDisabled(setState), [setState])
+        const onIconButtonDisabled = useMemo(() => processIconButtonDisabled(setState), [setState])
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleIconButtonStateChange({...options, state})(setState)(event)
+            processIconButtonStateChange({...options, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
         const contentUnderlayAnimatedStyle = useIconButtonAnimated({disabled, type})

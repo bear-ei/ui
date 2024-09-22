@@ -42,7 +42,7 @@ export interface UseUnderlayAnimatedOptions
     layoutWidth?: number
 }
 
-export interface HandleUnderlayHoveredAnimatedTimingOptions {
+export interface ProcessUnderlayHoveredAnimatedTimingOptions {
     activeValue: number
     animatedTiming: AnimatedTiming
 }

@@ -36,13 +36,16 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
     render: (props: RenderLayoutAnimatedProps) => React.JSX.Element
 }
 
-export type HandleLayoutAnimatedStateChangeOptions = OnStateEventChangeOptions & Pick<LayoutAnimatedProps, 'visible'>
-export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount' | 'onVisible'>
+export type ProcessLayoutAnimatedStateChangeOptions = OnStateEventChangeOptions & Pick<LayoutAnimatedProps, 'visible'>
+export type ProcessLayoutAnimatedFinishedOptions = Pick<
+    RenderLayoutAnimatedProps,
+    'onUnmount' | 'unmount' | 'onVisible'
+>
 export interface UseLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 'visible' | 'unmount' | 'entry' | 'exit'> {
     onAnimatedFinished: (value?: boolean) => void
 }
 
-export interface HandleLayoutAnimatedTimingOptions
+export interface ProcessLayoutAnimatedTimingOptions
     extends Pick<UseLayoutAnimatedOptions, 'onAnimatedFinished' | 'entry' | 'exit'> {
     animatedTiming: AnimatedTiming
 }

@@ -1,6 +1,6 @@
 {
     "name": "@bearei/bearei-ui",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "source": "./src/index.tsx",
     "react-native": "./src/index.tsx",
     "main": "./dist/commonjs/index.js",
@@ -46,6 +46,7 @@
         "@bearei/ui-token": "^0.0.3",
         "@material-symbols/svg-400": "^0.17.4",
         "async-validator": "^4.2.5",
+        "class-validator": "^0.14.1",
         "immer": "^10.1.1",
         "mitt": "^3.0.1",
         "styled-components": "^6.1.11",

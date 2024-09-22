@@ -10,12 +10,12 @@ import {
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hook'
 import {
-    HandleTooltipSupportingAnimatedTimingOptions,
+    ProcessTooltipSupportingAnimatedTimingOptions,
     UseTooltipSupportingAnimatedOptions
 } from './Tooltip-supporting.interface'
 
-const handleTooltipSupportingAnimatedTiming =
-    ({animatedTiming, onClose}: HandleTooltipSupportingAnimatedTimingOptions) =>
+const processTooltipSupportingAnimatedTiming =
+    ({animatedTiming, onClose}: ProcessTooltipSupportingAnimatedTimingOptions) =>
     (transformSharedValue: SharedValue<AnimatableValue>) =>
     (visible?: boolean) =>
         typeof visible === 'boolean' &&
@@ -35,7 +35,7 @@ export const useTooltipSupportingAnimated = ({visible, onClose}: UseTooltipSuppo
     }))
 
     const onTooltipSupportingAnimatedTiming = useMemo(
-        () => handleTooltipSupportingAnimatedTiming({animatedTiming, onClose})(transformSharedValue),
+        () => processTooltipSupportingAnimatedTiming({animatedTiming, onClose})(transformSharedValue),
         [animatedTiming, onClose, transformSharedValue]
     )
 

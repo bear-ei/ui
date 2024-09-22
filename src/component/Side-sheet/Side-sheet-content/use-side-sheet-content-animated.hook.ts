@@ -11,17 +11,17 @@ import {
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, AnimatedTimingOptions, useAnimatedTiming} from '../../../hook'
 import {
-    HandleSideSheetContentVisibleAnimatedTimingSharedValue,
+    ProcessSideSheetContentVisibleAnimatedTimingSharedValue,
     UseSideSheetContentAnimatedOptions
 } from './Side-sheet-content.interface'
 
-const handleSideSheetContentVisibleAnimatedTiming =
+const processSideSheetContentVisibleAnimatedTiming =
     (animatedTiming: AnimatedTiming) =>
     ({
         backgroundColorSharedValue,
         contentTranslateXSharedValue,
         widthSharedValue
-    }: HandleSideSheetContentVisibleAnimatedTimingSharedValue) =>
+    }: ProcessSideSheetContentVisibleAnimatedTimingSharedValue) =>
     (visible?: boolean) => {
         if (typeof visible !== 'boolean') {
             return
@@ -38,7 +38,7 @@ const handleSideSheetContentVisibleAnimatedTiming =
         animatedTiming(animatedTimingOptions)(widthSharedValue)(toValue)
     }
 
-const handleSideSheetContentFooterVisibleAnimatedTiming =
+const processSideSheetContentFooterVisibleAnimatedTiming =
     (animatedTiming: AnimatedTiming) =>
     (footerHeightSharedValue: SharedValue<AnimatableValue>) =>
     (footerVisible?: boolean) =>
@@ -109,7 +109,7 @@ export const useSideSheetContentAnimated = ({
 
     const onSideSheetContentVisibleAnimatedTiming = useMemo(
         () =>
-            handleSideSheetContentVisibleAnimatedTiming(animatedTiming)({
+            processSideSheetContentVisibleAnimatedTiming(animatedTiming)({
                 backgroundColorSharedValue,
                 contentTranslateXSharedValue,
                 widthSharedValue
@@ -118,7 +118,7 @@ export const useSideSheetContentAnimated = ({
     )
 
     const onSideSheetContentFooterVisibleAnimatedTiming = useMemo(
-        () => handleSideSheetContentFooterVisibleAnimatedTiming(animatedTiming)(footerHeightSharedValue),
+        () => processSideSheetContentFooterVisibleAnimatedTiming(animatedTiming)(footerHeightSharedValue),
         [animatedTiming, footerHeightSharedValue]
     )
 

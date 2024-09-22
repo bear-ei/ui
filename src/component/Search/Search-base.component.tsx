@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {RefObject, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {RefObject, forwardRef, useEffect, useId, useImperativeProcess, useMemo, useRef} from 'react'
 import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -9,15 +9,15 @@ import {EventName, State} from '../Common'
 import {ListData} from '../List'
 import {SearchListProps} from './Search-list'
 import {
-    HandleSearchChangeTextOptions,
-    HandleSearchStateChangeOptions,
     InitialSearchState,
+    ProcessSearchChangeTextOptions,
+    ProcessSearchStateChangeOptions,
     SearchBaseProps
 } from './Search.interface'
 
-const handleSearchFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
-const handleSearchStateChange =
-    ({eventName, ref, state}: HandleSearchStateChangeOptions) =>
+const processSearchFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
+const processSearchStateChange =
+    ({eventName, ref, state}: ProcessSearchStateChangeOptions) =>
     (setState: Updater<InitialSearchState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {
@@ -25,7 +25,7 @@ const handleSearchStateChange =
         }
 
         const nextEvent = {
-            pressOut: () => handleSearchFocus(ref)
+            pressOut: () => processSearchFocus(ref)
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -44,8 +44,8 @@ const handleSearchStateChange =
 const createNextChangeTextCallback = (onChangeText?: (value: string) => void) => (value: string) => () =>
     onChangeText?.(value)
 
-const handleSearchChangeText =
-    ({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) =>
+const processSearchChangeText =
+    ({data = [], onChangeText}: ProcessSearchChangeTextOptions = {}) =>
     (setState: Updater<InitialSearchState>) =>
     (value?: string) => {
         const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
@@ -61,7 +61,7 @@ const handleSearchChangeText =
         })
     }
 
-const handleSearchListVisible = (setState: Updater<InitialSearchState>) => (value?: boolean) =>
+const processSearchListVisible = (setState: Updater<InitialSearchState>) => (value?: boolean) =>
     typeof value === 'boolean' &&
     setState(draft => {
         draft.listVisible = value
@@ -79,7 +79,7 @@ const setSearchLayout = (setState: Updater<InitialSearchState>) => (containerCur
         })
     )
 
-const handleSearchContainerLayout =
+const processSearchContainerLayout =
     (setState: Updater<InitialSearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) =>
         listVisible && setSearchLayout(setState)(containerCurrent)
 
@@ -87,7 +87,7 @@ const handleSearchContainerLayout =
  * TODO:
  * - [macOS] Add support for trailingEvent
  *
- * Later handleing may deal with the trailingEvent to move into the event
+ * Later processing may deal with the trailingEvent to move into the event
  * penetration problem. Currently there is no trailingButton application
  * scenario, so we don't deal with it for now.
  */
@@ -123,20 +123,20 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         const placeholderTextColor = theme.token.scheme.onSurfaceVariant
         const underlayColor = theme.token.scheme.onSurface
         const {data} = listProps
-        const onDebounceSearchListVisible = useMemo(() => debounce(handleSearchListVisible(setState))(150), [setState])
-        const onSearchChangeText = handleSearchChangeText({data, onChangeText})(setState)
-        const onSearchChangeTextSource = useMemo(() => handleSearchChangeText()(setState), [setState])
+        const onDebounceSearchListVisible = useMemo(() => debounce(processSearchListVisible(setState))(150), [setState])
+        const onSearchChangeText = processSearchChangeText({data, onChangeText})(setState)
+        const onSearchChangeTextSource = useMemo(() => processSearchChangeText()(setState), [setState])
         const onSearchContainerLayout = useMemo(
-            () => handleSearchContainerLayout(setState)(containerRef.current),
+            () => processSearchContainerLayout(setState)(containerRef.current),
             [setState]
         )
 
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleSearchStateChange({...options, ref: inputRef, state})(setState)(event)
+            processSearchStateChange({...options, ref: inputRef, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 
-        useImperativeHandle(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [])
+        useImperativeProcess(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [])
 
         useEffect(() => {
             onSearchChangeTextSource(value ?? defaultValue)

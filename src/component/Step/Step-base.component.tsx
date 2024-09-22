@@ -3,8 +3,8 @@ import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {StepItem} from './Step-item'
 import {
-    HandleStepActiveOptions,
     InitialStepState,
+    ProcessStepActiveOptions,
     RenderStepItemOptions,
     StepBaseProps,
     StepData
@@ -12,8 +12,8 @@ import {
 import {ItemContainer, Line} from './Step.style'
 
 const createNextActiveCallback = (onActive?: (value?: string) => void) => (value?: string) => () => onActive?.(value)
-const handleStepActive =
-    ({onActive}: HandleStepActiveOptions = {}) =>
+const processStepActive =
+    ({onActive}: ProcessStepActiveOptions = {}) =>
     (setState: Updater<InitialStepState>) =>
     (value?: string) => {
         setState(draft => {
@@ -67,8 +67,8 @@ export const StepBase = forwardRef<View, StepBaseProps>(
         })
 
         const id = useId()
-        const onStepActive = handleStepActive({onActive, activeKey: stepActiveKey})(setState)
-        const onStepActiveSource = useMemo(() => handleStepActive()(setState), [setState])
+        const onStepActive = processStepActive({onActive, activeKey: stepActiveKey})(setState)
+        const onStepActiveSource = useMemo(() => processStepActive()(setState), [setState])
         const stepItemElements = renderStepItems({
             activeKey: stepActiveKey,
             densityScale,

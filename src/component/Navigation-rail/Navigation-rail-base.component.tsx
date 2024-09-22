@@ -3,17 +3,17 @@ import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {FABProps} from '../FAB'
 import {
-    HandleNavigationRailActiveOptions,
     InitialNavigationRailState,
     NavigationBaseProps,
     NavigationRailData,
+    ProcessNavigationRailActiveOptions,
     RenderNavigationRailItemOptions
 } from '././Navigation-rail.interface'
 import {NavigationRailItem} from './Navigation-rail-item'
 
 const createNextActiveCallback = (onActive?: (value?: string) => void) => (value?: string) => () => onActive?.(value)
-const handleNavigationRailActive =
-    ({onActive}: HandleNavigationRailActiveOptions = {}) =>
+const processNavigationRailActive =
+    ({onActive}: ProcessNavigationRailActiveOptions = {}) =>
     (setState: Updater<InitialNavigationRailState>) =>
     (value?: string) =>
         value &&
@@ -50,11 +50,11 @@ export const NavigationRailBase = forwardRef<View, NavigationBaseProps>(
         })
 
         const id = useId()
-        const onNavigationRailActive = handleNavigationRailActive({onActive, activeKey: navigationRailActiveKey})(
+        const onNavigationRailActive = processNavigationRailActive({onActive, activeKey: navigationRailActiveKey})(
             setState
         )
 
-        const onNavigationRailActiveSource = useMemo(() => handleNavigationRailActive()(setState), [setState])
+        const onNavigationRailActiveSource = useMemo(() => processNavigationRailActive()(setState), [setState])
         const navigationRailItemElements = renderNavigationRailItems({
             activeKey: navigationRailActiveKey,
             onActive: onNavigationRailActive,

@@ -31,4 +31,4 @@ export interface InitialStepState {
     stepActiveKey?: string
 }
 
-export type HandleStepActiveOptions = Pick<RenderStepProps, 'onActive' | 'activeKey'>
+export type ProcessStepActiveOptions = Pick<RenderStepProps, 'onActive' | 'activeKey'>

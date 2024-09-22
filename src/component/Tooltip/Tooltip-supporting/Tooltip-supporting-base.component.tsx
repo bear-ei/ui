@@ -6,14 +6,14 @@ import {emitter} from '../../../context'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hook'
 import {State} from '../../Common'
 import {
-    HandleTooltipSupportingEmitOptions,
-    HandleTooltipSupportingStateEventChangeOptions,
     InitialTooltipSupportingState,
+    ProcessTooltipSupportingEmitOptions,
+    ProcessTooltipSupportingStateEventChangeOptions,
     TooltipSupportingBaseProps
 } from './Tooltip-supporting.interface'
 import {useTooltipSupportingAnimated} from './use-tooltip-supporting-animated.hook'
 
-const handleTooltipSupportingLayout =
+const processTooltipSupportingLayout =
     (setState: Updater<InitialTooltipSupportingState>) => (event: LayoutChangeEvent) => {
         const nativeEventLayout = event.nativeEvent.layout
 
@@ -23,15 +23,15 @@ const handleTooltipSupportingLayout =
         })
     }
 
-const handleTooltipSupportingStateChange =
-    ({onVisible, eventName}: HandleTooltipSupportingStateEventChangeOptions) =>
+const processTooltipSupportingStateChange =
+    ({onVisible, eventName}: ProcessTooltipSupportingStateEventChangeOptions) =>
     (setState: Updater<InitialTooltipSupportingState>) =>
     (event: StateEvent) =>
         eventName === 'layout' ?
-            handleTooltipSupportingLayout(setState)(event as LayoutChangeEvent)
+            processTooltipSupportingLayout(setState)(event as LayoutChangeEvent)
         :   eventName && ['hoverIn', 'hoverOut', 'pressIn'].includes(eventName) && onVisible?.(eventName === 'hoverIn')
 
-const handleTooltipSupportingClose = (setState: Updater<InitialTooltipSupportingState>) => (value?: boolean) =>
+const processTooltipSupportingClose = (setState: Updater<InitialTooltipSupportingState>) => (value?: boolean) =>
     typeof value === 'boolean' &&
     setState(draft => {
         draft.closed = value
@@ -51,18 +51,18 @@ const setTooltipSupportingLayout =
             })
         )
 
-const handleTooltipSupportingContainerLayout =
+const processTooltipSupportingContainerLayout =
     (setState: Updater<InitialTooltipSupportingState>) => (containerCurrent: View | null) => (visible?: boolean) =>
         visible && setTooltipSupportingLayout(setState)(containerCurrent)
 
-const handleTooltipSupportingEmit =
-    ({id, status}: HandleTooltipSupportingEmitOptions) =>
+const processTooltipSupportingEmit =
+    ({id, status}: ProcessTooltipSupportingEmitOptions) =>
     (renderTooltipSupporting: () => React.JSX.Element) => {
         status === 'succeeded' &&
             emitter.emit('modal', {id: `tooltip__supporting--${id}`, render: renderTooltipSupporting})
     }
 
-const handleTooltipSupportingUnmount = (id: string) =>
+const processTooltipSupportingUnmount = (id: string) =>
     emitter.emit('modal', {id: `tooltip__supporting--${id}`, render: undefined})
 
 /**
@@ -79,15 +79,15 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 
         const id = useId()
         const theme = useTheme()
-        const onTooltipSupportingClose = useMemo(() => handleTooltipSupportingClose(setState), [setState])
+        const onTooltipSupportingClose = useMemo(() => processTooltipSupportingClose(setState), [setState])
         const onTooltipSupportingContainerLayout = useMemo(
-            () => handleTooltipSupportingContainerLayout(setState)(containerCurrent),
+            () => processTooltipSupportingContainerLayout(setState)(containerCurrent),
             [containerCurrent, setState]
         )
 
-        const onTooltipSupportingUnmount = useMemo(() => handleTooltipSupportingUnmount, [])
+        const onTooltipSupportingUnmount = useMemo(() => processTooltipSupportingUnmount, [])
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleTooltipSupportingStateChange({...options, onVisible, state})(setState)(event)
+            processTooltipSupportingStateChange({...options, onVisible, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled: !visible})
         const animatedStyle = useTooltipSupportingAnimated({visible, onClose: onTooltipSupportingClose})
@@ -121,7 +121,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
         )
 
         const onTooltipSupportingEmit = useCallback(
-            () => handleTooltipSupportingEmit({id, status})(renderTooltipSupporting),
+            () => processTooltipSupportingEmit({id, status})(renderTooltipSupporting),
             [id, status, renderTooltipSupporting]
         )
 

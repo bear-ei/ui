@@ -1,38 +1,32 @@
+import {ValidationError} from 'class-validator'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {validate} from '../../../util'
+import {validate, ValidateRule} from '../../../util'
 import {useFormContext} from '../use-form-context.hook'
 import {
     FormItemBaseProps,
-    HandleFormItemInitOptions,
-    HandleFormItemValidateOptions,
-    HandleFormItemValueChangeOptions,
-    InitialFormItemState
+    InitialFormItemState,
+    ProcessFormItemInitOptions,
+    ProcessFormItemValueChangeOptions
 } from './Form-item.interface'
 
-const handleFormItemValueChange =
-    ({setFieldValue, storageValue}: HandleFormItemValueChangeOptions) =>
+const processFormItemValueChange =
+    ({setFieldValue, storageValue}: ProcessFormItemValueChangeOptions) =>
     (name?: string) =>
     (value?: unknown) =>
         name && storageValue !== value && setFieldValue()()({[name]: value})
 
-const handleFormItemValidate =
-    ({rules, validateFirst}: HandleFormItemValidateOptions) =>
-    (name?: string) =>
-    async (value: unknown) => {
-        const isValidate = name && rules?.length !== 0
+const processFormItemValidate = (rule: ValidateRule) => (name?: string) => async (value?: unknown) =>
+    name && rule ? validate(rule)(name)(value) : ([] as ValidationError[])
 
-        return isValidate ? validate({rules: rules!, validateFirst})(name)(value) : undefined
-    }
-
-const handleFormStorageChange = (setState: Updater<InitialFormItemState>) => () =>
+const processFormStorageChange = (setState: Updater<InitialFormItemState>) => () =>
     setState(draft => {
         draft.shouldUpdate = {}
     })
 
-const handleFormItemInit =
-    ({rules, validate: fieldValidate, validateFirst, signInField}: HandleFormItemInitOptions) =>
+const processFormItemInit =
+    ({rule, validate: fieldValidate, signInField}: ProcessFormItemInitOptions) =>
     (setState: Updater<InitialFormItemState>) =>
     (name?: string) => {
         setState(draft => {
@@ -42,8 +36,8 @@ const handleFormItemInit =
 
             const {signOut} =
                 signInField({
-                    onFormStorageChange: handleFormStorageChange(setState),
-                    props: {name, rules, validateFirst},
+                    onFormStorageChange: processFormStorageChange(setState),
+                    props: {name, rule},
                     touched: false,
                     validate: fieldValidate
                 }) ?? {}
@@ -54,7 +48,7 @@ const handleFormItemInit =
     }
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-    ({labelText, name, render, renderControl, rules, validateFirst, minSkeletonDuration, ...renderProps}, ref) => {
+    ({labelText, name, render, renderControl, rule, minSkeletonDuration, ...renderProps}, ref) => {
         const [{signOut, status}, setState] = useImmer<InitialFormItemState>({
             shouldUpdate: {},
             signOut: undefined,
@@ -63,22 +57,18 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 
         const id = useId()
         const {getFieldError, getFieldValue, setFieldValue, signInField, getInitialValue} = useFormContext()
-        const errors = getFieldError(name)?.errors
-        const errorMessage = errors?.[0].message
+        const errors = getFieldError(name)
+        const errorMessage = Object.entries(errors?.[0].constraints ?? {})[0][1]
         const storageValue = getFieldValue(name) ?? getInitialValue(name)
         const onValueChange = useMemo(
-            () => handleFormItemValueChange({setFieldValue, storageValue})(name),
+            () => processFormItemValueChange({setFieldValue, storageValue})(name),
             [name, setFieldValue, storageValue]
         )
 
-        const onFieldValidate = useMemo(
-            () => handleFormItemValidate({rules, validateFirst})(name),
-            [name, rules, validateFirst]
-        )
-
+        const onFieldValidate = useMemo(() => processFormItemValidate(rule)(name), [name, rule])
         const onFormItemInit = useMemo(
-            () => handleFormItemInit({rules, validate: onFieldValidate, validateFirst, signInField})(setState),
-            [onFieldValidate, rules, setState, signInField, validateFirst]
+            () => processFormItemInit({rule, validate: onFieldValidate, signInField})(setState),
+            [onFieldValidate, rule, setState, signInField]
         )
 
         const controlElement = useMemo(

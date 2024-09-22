@@ -11,7 +11,7 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {UseProgressActiveIndicatorAnimatedOptions} from './Progress-active-indicator.interface'
 
-const handleProgressActiveIndicatorAnimatedTiming =
+const processProgressActiveIndicatorAnimatedTiming =
     (animatedTiming: AnimatedTiming) => (widthSharedValue: SharedValue<AnimatableValue>) => (value?: number) =>
         typeof value === 'number' && animatedTiming()(widthSharedValue)(Math.floor(value * 100))
 
@@ -39,7 +39,7 @@ export const useProgressActiveIndicatorAnimated = ({
     }))
 
     const onProgressActiveIndicatorAnimatedTiming = useMemo(
-        () => handleProgressActiveIndicatorAnimatedTiming(animatedTiming)(widthSharedValue),
+        () => processProgressActiveIndicatorAnimatedTiming(animatedTiming)(widthSharedValue),
         [animatedTiming, widthSharedValue]
     )
 

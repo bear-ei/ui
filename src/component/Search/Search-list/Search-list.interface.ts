@@ -16,9 +16,9 @@ export interface SearchListBaseProps extends SearchListProps {
     render: (props: RenderSearchListProps) => React.JSX.Element
 }
 
-export type HandleSearchListEmitOptions = Pick<RenderSearchListProps, 'visible' | 'id'>
+export type ProcessSearchListEmitOptions = Pick<RenderSearchListProps, 'visible' | 'id'>
 export type UseSearchListAnimatedOptions = Pick<RenderSearchListProps, 'visible' | 'containerLayout'>
-export interface HandleSearchListAnimatedTimingOptions extends Omit<UseSearchListAnimatedOptions, 'containerLayout'> {
+export interface ProcessSearchListAnimatedTimingOptions extends Omit<UseSearchListAnimatedOptions, 'containerLayout'> {
     heightSharedValue: SharedValue<AnimatableValue>
     animatedTiming: AnimatedTiming
 }

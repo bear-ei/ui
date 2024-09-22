@@ -6,15 +6,15 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {EventName, State} from '../Common'
 import {
     CheckboxBaseProps,
-    HandleCheckboxActiveOptions,
-    HandleCheckboxStateChangeOptions,
-    InitialCheckboxState
+    InitialCheckboxState,
+    ProcessCheckboxActiveOptions,
+    ProcessCheckboxStateChangeOptions
 } from './Checkbox.interface'
 import {useCheckboxAnimated} from './use-checkbox-animated.hook'
 
 const createNextActiveCallback = (onActive?: (value?: boolean) => void) => (value?: boolean) => () => onActive?.(value)
-const handleCheckboxActive =
-    ({indeterminate, onActive}: HandleCheckboxActiveOptions) =>
+const processCheckboxActive =
+    ({indeterminate, onActive}: ProcessCheckboxActiveOptions) =>
     (setState: Updater<InitialCheckboxState>) =>
     (value?: boolean) => {
         typeof value === 'boolean' &&
@@ -28,8 +28,8 @@ const handleCheckboxActive =
             })
     }
 
-const handleCheckboxStateChange =
-    ({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
+const processCheckboxStateChange =
+    ({active, eventName, indeterminate, onActive}: ProcessCheckboxStateChangeOptions) =>
     (setState: Updater<InitialCheckboxState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {
@@ -37,7 +37,7 @@ const handleCheckboxStateChange =
         }
 
         const nextEvent = {
-            pressOut: () => handleCheckboxActive({indeterminate, onActive})(setState)(!active)
+            pressOut: () => processCheckboxActive({indeterminate, onActive})(setState)(!active)
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -48,7 +48,7 @@ const handleCheckboxStateChange =
         })
     }
 
-const handleCheckboxInit = (setState: Updater<InitialCheckboxState>) => (indeterminate?: boolean) =>
+const processCheckboxInit = (setState: Updater<InitialCheckboxState>) => (indeterminate?: boolean) =>
     setState(draft => {
         if (draft.status !== 'idle') {
             return
@@ -63,7 +63,7 @@ const handleCheckboxInit = (setState: Updater<InitialCheckboxState>) => (indeter
         draft.status = 'succeeded'
     })
 
-const handleCheckboxIndeterminate = (setState: Updater<InitialCheckboxState>) => (indeterminate?: boolean) =>
+const processCheckboxIndeterminate = (setState: Updater<InitialCheckboxState>) => (indeterminate?: boolean) =>
     typeof indeterminate === 'boolean' &&
     setState(draft => {
         if (indeterminate) {
@@ -99,15 +99,15 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
             type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
 
         const underlayColor = error ? theme.token.scheme.error : checkUnderlayColor
-        const onCheckboxInit = useMemo(() => handleCheckboxInit(setState), [setState])
-        const onCheckboxIndeterminate = useMemo(() => handleCheckboxIndeterminate(setState), [setState])
+        const onCheckboxInit = useMemo(() => processCheckboxInit(setState), [setState])
+        const onCheckboxIndeterminate = useMemo(() => processCheckboxIndeterminate(setState), [setState])
         const onCheckboxActiveSource = useMemo(
-            () => handleCheckboxActive({indeterminate})(setState),
+            () => processCheckboxActive({indeterminate})(setState),
             [indeterminate, setState]
         )
 
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleCheckboxStateChange({...options, active: checkboxActive, indeterminate, state, onActive})(setState)(
+            processCheckboxStateChange({...options, active: checkboxActive, indeterminate, state, onActive})(setState)(
                 event
             )
 

@@ -4,13 +4,13 @@ import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hook'
 import {EventName} from '../Common'
 import {
-    HandleButtonAnimatedTimingOptions,
-    HandleButtonAnimatedTimingSharedValue,
+    ProcessButtonAnimatedTimingOptions,
+    ProcessButtonAnimatedTimingSharedValue,
     UseButtonAnimatedOptions
 } from './Button.interface'
 
-const handleButtonOutlinedAnimated =
-    ({animatedTiming, borderColorInputRange, disabled, type}: HandleButtonAnimatedTimingOptions) =>
+const processButtonOutlinedAnimated =
+    ({animatedTiming, borderColorInputRange, disabled, type}: ProcessButtonAnimatedTimingOptions) =>
     (borderSharedValue: SharedValue<AnimatableValue>) =>
     (eventName?: EventName) => {
         const value = disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
@@ -24,14 +24,14 @@ const handleButtonOutlinedAnimated =
         return animatedTiming()(borderSharedValue)(toValue)
     }
 
-const handleButtonAnimatedTiming =
-    ({animatedTiming, borderColorInputRange, disabled, type}: HandleButtonAnimatedTimingOptions) =>
-    ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
+const processButtonAnimatedTiming =
+    ({animatedTiming, borderColorInputRange, disabled, type}: ProcessButtonAnimatedTimingOptions) =>
+    ({borderSharedValue, colorSharedValue}: ProcessButtonAnimatedTimingSharedValue) =>
     (eventName?: EventName) => {
         const toValue = disabled ? 0 : 1
 
         if (type && ['link', 'outlined'].includes(type)) {
-            handleButtonOutlinedAnimated({animatedTiming, borderColorInputRange, type, disabled})(borderSharedValue)(
+            processButtonOutlinedAnimated({animatedTiming, borderColorInputRange, type, disabled})(borderSharedValue)(
                 eventName
             )
 
@@ -138,7 +138,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
 
     const onButtonAnimatedTiming = useMemo(
         () =>
-            handleButtonAnimatedTiming({animatedTiming, borderColorInputRange, type, disabled})({
+            processButtonAnimatedTiming({animatedTiming, borderColorInputRange, type, disabled})({
                 borderSharedValue,
                 colorSharedValue
             }),

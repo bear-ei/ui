@@ -1,17 +1,14 @@
-import {ValidateError} from 'async-validator'
+import * as validator from 'class-validator'
+import {ValidationError} from 'class-validator'
 import React, {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
-import {NamePath, ValidateOptions} from '../../util'
+import {NamePath} from '../../util'
 import {ComponentStatus} from '../Common'
 import {FormItemProps} from './Form-item'
 import {ForwardRefForm} from './Form.component'
 import {useForm} from './use-form.hook'
 
-export interface FormFieldError extends Pick<ValidateOptions, 'rules'> {
-    errors: ValidateError[]
-}
-
-export type FormError<T> = Record<keyof T, FormFieldError | undefined>
+export type FormError<T> = Record<keyof T, ValidationError[] | undefined>
 export interface OnValueChangeOptions<T> {
     changedValue: T
     value: T
@@ -27,7 +24,7 @@ export interface FormFieldEntity {
     onFormStorageChange: () => void
     props: FormItemProps
     touched: boolean
-    validate: (value?: unknown) => Promise<FormFieldError | undefined>
+    validate: (value?: unknown) => Promise<ValidationError[]>
 }
 
 export interface FormStorage<T = Record<string, unknown>> {
@@ -91,9 +88,10 @@ export interface InitialFormState {
     status: ComponentStatus
 }
 
-export type HandleFormInitOptions = Pick<FormStorage, 'setInitialValue'> & Pick<FormBaseProps, 'initialValue'>
-export type HandleFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
+export type ProcessFormInitOptions = Pick<FormStorage, 'setInitialValue'> & Pick<FormBaseProps, 'initialValue'>
+export type ProcessFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
 export type RenderFormItemOptions = Pick<FormItemProps, 'skeletonElement' | 'minSkeletonDuration'>
 export type FormComponent = typeof ForwardRefForm & {
     useForm: typeof useForm
+    validator: typeof validator
 }

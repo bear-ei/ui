@@ -1,15 +1,19 @@
-import {RefObject, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {RefObject, forwardRef, useEffect, useId, useImperativeProcess, useMemo, useRef} from 'react'
 import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
 import {EventName, State} from '../Common'
-import {HandleTextFieldStateEventChangeOptions, InitialTextFieldState, TextFieldBaseProps} from './Text-field.interface'
+import {
+    InitialTextFieldState,
+    ProcessTextFieldStateEventChangeOptions,
+    TextFieldBaseProps
+} from './Text-field.interface'
 import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
-const handleTextFieldFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
-const handleTextFieldStateChange =
-    ({eventName, ref, content, state}: HandleTextFieldStateEventChangeOptions) =>
+const processTextFieldFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
+const processTextFieldStateChange =
+    ({eventName, ref, content, state}: ProcessTextFieldStateEventChangeOptions) =>
     (setState: Updater<InitialTextFieldState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {
@@ -17,7 +21,7 @@ const handleTextFieldStateChange =
         }
 
         const nextEvent = {
-            pressOut: () => handleTextFieldFocus(ref)
+            pressOut: () => processTextFieldFocus(ref)
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -39,7 +43,7 @@ const createNextContentSizeChangeCallback =
     () =>
         onContentSizeChange?.(event)
 
-const handleTextFieldContentSizeChange =
+const processTextFieldContentSizeChange =
     (setState: Updater<InitialTextFieldState>) =>
     (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
     (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
@@ -55,7 +59,7 @@ const handleTextFieldContentSizeChange =
 const createNextChangeTextCallback = (onChangeText?: (value: string) => void) => (value: string) => () =>
     onChangeText?.(value)
 
-const handleTextFieldChangeText =
+const processTextFieldChangeText =
     (onChangeText?: (value: string) => void) => (setState: Updater<InitialTextFieldState>) => (value?: string) => {
         setState(draft => {
             const prevTextInputValue = draft.textInputValue
@@ -67,7 +71,7 @@ const handleTextFieldChangeText =
         })
     }
 
-const handleTextFieldEditable = (setState: Updater<InitialTextFieldState>) => (editable?: boolean) => {
+const processTextFieldEditable = (setState: Updater<InitialTextFieldState>) => (editable?: boolean) => {
     typeof editable === 'boolean' &&
         !editable &&
         setState(draft => {
@@ -130,14 +134,14 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
 
         const underlayColor = theme.token.scheme.onSurface
         const onTextFieldContentSizeChange = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) =>
-            handleTextFieldContentSizeChange(setState)(onContentSizeChange)(event)
+            processTextFieldContentSizeChange(setState)(onContentSizeChange)(event)
 
-        const onTextFieldChangeText = handleTextFieldChangeText(onChangeText)(setState)
-        const onTextFieldChangeTextSource = useMemo(() => handleTextFieldChangeText()(setState), [setState])
-        const onTextFieldEditable = useMemo(() => handleTextFieldEditable(setState), [setState])
+        const onTextFieldChangeText = processTextFieldChangeText(onChangeText)(setState)
+        const onTextFieldChangeTextSource = useMemo(() => processTextFieldChangeText()(setState), [setState])
+        const onTextFieldEditable = useMemo(() => processTextFieldEditable(setState), [setState])
         const onStateEventChange =
             (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
-                handleTextFieldStateChange({...options, ref: textFieldRef, content, state: changedState})(setState)(
+                processTextFieldStateChange({...options, ref: textFieldRef, content, state: changedState})(setState)(
                     event
                 )
 
@@ -157,7 +161,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             type
         })
 
-        useImperativeHandle(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
+        useImperativeProcess(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
 
         useEffect(() => {
             onTextFieldChangeTextSource(value ?? defaultValue)

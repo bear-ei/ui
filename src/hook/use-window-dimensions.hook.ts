@@ -4,7 +4,7 @@ import {Updater, useImmer} from 'use-immer'
 import {debounce} from '../util'
 import {UseWindowDimensionsOptions} from './hook.interface'
 
-const handleWindowScaledSize =
+const processWindowScaledSize =
     (setState: Updater<ScaledSize>) =>
     ({window}: {window: ScaledSize}) => {
         const {width, height, scale, fontScale} = window
@@ -38,8 +38,8 @@ export const useWindowDimensions = ({
     const onWindowScaledSize = useMemo(
         () =>
             scaledSize.width ?
-                debounce(handleWindowScaledSize(setState))(changeEventThrottle)
-            :   handleWindowScaledSize(setState),
+                debounce(processWindowScaledSize(setState))(changeEventThrottle)
+            :   processWindowScaledSize(setState),
         [changeEventThrottle, scaledSize.width, setState]
     )
 

@@ -1,29 +1,9 @@
-import Schema, {ValidateError} from 'async-validator'
-import {ProcessValidateErrorOptions, ValidateOptions, ValidateRuleError} from './util.interface'
+import {validate as classValidator} from 'class-validator'
+import {ValidateRule} from './util.interface'
 
-const validateRule =
-    ({validateFirst, rules}: ValidateOptions) =>
-    (name: string) =>
-    (value: unknown) =>
-        new Schema({[name]: rules}).validate({[name]: value}, {first: validateFirst, suppressWarning: true})
-
-export const validate = (options: ValidateOptions) => {
-    const processValidateError =
-        ({fields, name, rules}: ProcessValidateErrorOptions) =>
-        (errors: ValidateError[] | null) =>
-        (value: unknown) =>
-            fields[name] !== value ? {errors: errors || [], rules} : undefined
-
-    return (name: string) => async (value: unknown) =>
-        validateRule(options)(name)(value)
-            .then(() => undefined)
-            .catch((error: ValidateRuleError) => {
-                if (!error.errors) {
-                    throw error
-                }
-
-                const {errors, fields} = error
-
-                return processValidateError({fields, name, rules: options.rules})(errors)(value)
-            })
-}
+export const validate = (Rule: ValidateRule) => (name: string) => (value: unknown) =>
+    classValidator(Object.assign(new Rule(), {[name]: value}), {
+        forbidNonWhitelisted: true,
+        skipMissingProperties: true,
+        whitelist: true
+    })

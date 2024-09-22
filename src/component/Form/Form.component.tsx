@@ -1,3 +1,4 @@
+import * as validator from 'class-validator'
 import {ForwardedRef, forwardRef} from 'react'
 import {View} from 'react-native'
 import {FormBase} from './Form-base.component'
@@ -28,5 +29,6 @@ const FormInner = <T,>(props: FormProps<T>, ref: ForwardedRef<View>) => (
 export const ForwardRefForm = forwardRef(FormInner) as typeof FormInner
 
 Object.defineProperty(ForwardRefForm, 'useForm', {value: useForm})
+Object.defineProperty(ForwardRefForm, 'validator', {value: validator})
 
 export const Form = ForwardRefForm as FormComponent

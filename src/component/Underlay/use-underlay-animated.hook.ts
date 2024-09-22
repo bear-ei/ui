@@ -11,10 +11,10 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {debounce} from '../../util'
 import {EventName} from '../Common'
-import {HandleUnderlayHoveredAnimatedTimingOptions, UseUnderlayAnimatedOptions} from './Underlay.interface'
+import {ProcessUnderlayHoveredAnimatedTimingOptions, UseUnderlayAnimatedOptions} from './Underlay.interface'
 
-const handleUnderlayHoveredAnimatedTiming =
-    ({animatedTiming, activeValue}: HandleUnderlayHoveredAnimatedTimingOptions) =>
+const processUnderlayHoveredAnimatedTiming =
+    ({animatedTiming, activeValue}: ProcessUnderlayHoveredAnimatedTimingOptions) =>
     (hoverLayerSharedValue: SharedValue<AnimatableValue>) =>
     (eventName?: EventName) => {
         const event = {
@@ -32,7 +32,7 @@ const handleUnderlayHoveredAnimatedTiming =
         eventName && animatedTiming()(hoverLayerSharedValue)(event[eventName] ?? 0)
     }
 
-const handleUnderlayActiveAnimatedTiming =
+const processUnderlayActiveAnimatedTiming =
     (animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<AnimatableValue>) => (value?: boolean) =>
         typeof value === 'boolean' && animatedTiming()(activeLayerSharedValue)(value ? 1 : 0)
 
@@ -81,13 +81,13 @@ export const useUnderlayAnimated = ({
     const onUnderlayHoveredAnimatedTiming = useMemo(
         () =>
             debounce((value?: EventName) =>
-                handleUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(hoverLayerSharedValue)(value)
+                processUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(hoverLayerSharedValue)(value)
             )(100),
         [animatedTiming, activeValue, hoverLayerSharedValue]
     )
 
     const onUnderlayActiveAnimatedTiming = useMemo(
-        () => handleUnderlayActiveAnimatedTiming(animatedTiming)(activeLayerSharedValue),
+        () => processUnderlayActiveAnimatedTiming(animatedTiming)(activeLayerSharedValue),
         [animatedTiming, activeLayerSharedValue]
     )
 

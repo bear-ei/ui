@@ -11,7 +11,7 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {UseCheckboxAnimatedOptions} from './Checkbox.interface'
 
-const handleCheckboxIconAnimated =
+const processCheckboxIconAnimated =
     (animatedTiming: AnimatedTiming) => (iconScaleSharedValue: SharedValue<AnimatableValue>) => (value?: boolean) => {
         const toValue = value ? 1 : 0
 
@@ -30,7 +30,7 @@ export const useCheckboxAnimated = ({active}: UseCheckboxAnimatedOptions) => {
     }))
 
     const onCheckboxIconAnimated = useMemo(
-        () => handleCheckboxIconAnimated(animatedTiming)(iconScaleSharedValue),
+        () => processCheckboxIconAnimated(animatedTiming)(iconScaleSharedValue),
         [animatedTiming, iconScaleSharedValue]
     )
 

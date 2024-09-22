@@ -1,6 +1,7 @@
 {
     "extends": ["@react-native/typescript-config/tsconfig.json", "./bob.config.json"],
     "compilerOptions": {
+        "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true
     }

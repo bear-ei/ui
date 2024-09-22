@@ -61,7 +61,7 @@ const render = ({
                 disabled={loading || disabled}
                 elevationUnderlay={elevationUnderlayElement}
                 horizontalStretch={horizontalStretch}
-                hotZone={!['link', 'text'].includes(type)}
+                hotZone={type !== 'link'}
                 shape={shape}
                 underlayColor={underlayColor}
             >

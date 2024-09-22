@@ -107,4 +107,4 @@ export interface ListBaseProps extends ListProps {
     render: (props: RenderListProps) => React.JSX.Element
 }
 
-export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'type' | 'onActives' | 'deselect'>
+export type ProcessListActiveOptions = Pick<ListProps, 'onActive' | 'type' | 'onActives' | 'deselect'>

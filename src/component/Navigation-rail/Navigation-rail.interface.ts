@@ -35,5 +35,5 @@ export interface InitialNavigationRailState {
     nextActiveCallback?: () => void
 }
 
-export type HandleNavigationRailActiveOptions = Pick<RenderNavigationRailProps, 'onActive' | 'activeKey'>
+export type ProcessNavigationRailActiveOptions = Pick<RenderNavigationRailProps, 'onActive' | 'activeKey'>
 export type DestinationProps = Pick<RenderNavigationRailProps, 'destinationPosition'>

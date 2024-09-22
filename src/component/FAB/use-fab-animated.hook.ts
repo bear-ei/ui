@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {UseFABAnimatedOptions} from './FAB.interface'
 
-const handleFABAnimatedTiming =
+const processFABAnimatedTiming =
     (animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<AnimatableValue>) => (disabled?: boolean) =>
         animatedTiming()(colorSharedValue)(disabled ? 0 : 1)
 
@@ -67,7 +67,7 @@ export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptio
     }))
 
     const onFABAnimatedTiming = useMemo(
-        () => handleFABAnimatedTiming(animatedTiming)(colorSharedValue),
+        () => processFABAnimatedTiming(animatedTiming)(colorSharedValue),
         [animatedTiming, colorSharedValue]
     )
 

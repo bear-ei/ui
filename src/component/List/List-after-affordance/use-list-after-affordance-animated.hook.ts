@@ -11,7 +11,7 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
 
-const handleListAfterAffordanceAnimatedTiming =
+const processListAfterAffordanceAnimatedTiming =
     (animatedTiming: AnimatedTiming) =>
     (translateXSharedValue: SharedValue<AnimatableValue>) =>
     (doubleConfirmed?: boolean) =>
@@ -30,7 +30,7 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
     }))
 
     const onListAfterAffordanceAnimatedTiming = useMemo(
-        () => handleListAfterAffordanceAnimatedTiming(animatedTiming)(translateXSharedValue),
+        () => processListAfterAffordanceAnimatedTiming(animatedTiming)(translateXSharedValue),
         [animatedTiming, translateXSharedValue]
     )
 

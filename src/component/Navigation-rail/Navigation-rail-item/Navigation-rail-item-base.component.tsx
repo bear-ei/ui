@@ -6,10 +6,10 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../h
 import {EventName, State} from '../../Common'
 import {Icon, IconProps} from '../../Icon'
 import {
-    HandleNavigationRailItemStateEventChangeOptions,
     NavigationRailItemBaseProps,
     NavigationRailItemInitialState,
-    NavigationRailItemProps
+    NavigationRailItemProps,
+    ProcessNavigationRailItemStateEventChangeOptions
 } from './Navigation-rail-item.interface'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
 
@@ -23,9 +23,9 @@ export const processNavigationRailItemPropsEqual =
         return ![activeChange].some(Boolean)
     }
 
-const handleNavigationRailItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
-const handleNavigationRailItemStateChange =
-    ({itemKey, eventName, onActive}: HandleNavigationRailItemStateEventChangeOptions) =>
+const processNavigationRailItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
+const processNavigationRailItemStateChange =
+    ({itemKey, eventName, onActive}: ProcessNavigationRailItemStateEventChangeOptions) =>
     (setState: Updater<NavigationRailItemInitialState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {
@@ -33,7 +33,7 @@ const handleNavigationRailItemStateChange =
         }
 
         const nextEvent = {
-            pressOut: () => handleNavigationRailItemPressOut(onActive)(itemKey)
+            pressOut: () => processNavigationRailItemPressOut(onActive)(itemKey)
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -63,7 +63,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
         const underlayColor = theme.token.scheme.onSurface
         const active = activeKey === itemKey
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleNavigationRailItemStateChange({...options, itemKey, onActive, state})(setState)(event)
+            processNavigationRailItemStateChange({...options, itemKey, onActive, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
         const {labelAnimatedStyle, labelTextAnimatedStyle} = useNavigationRailItemAnimated({active, type})

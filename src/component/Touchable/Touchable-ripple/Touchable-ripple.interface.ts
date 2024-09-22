@@ -34,7 +34,7 @@ export interface ProcessTouchableRippleAnimatedTimingSharedValue {
     opacitySharedValue: SharedValue<AnimatableValue>
 }
 
-export interface HandleTouchableRippleAnimatedTimingOptions
+export interface ProcessTouchableRippleAnimatedTimingOptions
     extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {
     animatedTiming: AnimatedTiming
 }

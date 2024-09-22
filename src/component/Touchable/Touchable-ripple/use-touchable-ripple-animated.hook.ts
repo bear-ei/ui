@@ -3,12 +3,12 @@ import {Extrapolation, interpolate, useAnimatedStyle, useSharedValue} from 'reac
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {
-    HandleTouchableRippleAnimatedTimingOptions,
+    ProcessTouchableRippleAnimatedTimingOptions,
     ProcessTouchableRippleAnimatedTimingSharedValue,
     UseTouchableRippleAnimatedOptions
 } from './Touchable-ripple.interface'
 
-const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
+const processAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
 const processTouchableRippleAnimatedTiming =
     (animatedTiming: AnimatedTiming) =>
     ({scaleSharedValue, opacitySharedValue}: ProcessTouchableRippleAnimatedTimingSharedValue) =>
@@ -17,14 +17,14 @@ const processTouchableRippleAnimatedTiming =
         const visible = toValue === 1
 
         animatedTiming({
-            callback: handleAnimatedTimingCallback(callback),
+            callback: processAnimatedTimingCallback(callback),
             duration: 'short3',
             easing: 'emphasizedAccelerate'
         })(visible ? scaleSharedValue : opacitySharedValue)(toValue)
     }
 
-const handleTouchableRippleAnimatedTiming =
-    ({animatedTiming, onAnimatedFinished}: HandleTouchableRippleAnimatedTimingOptions) =>
+const processTouchableRippleAnimatedTiming =
+    ({animatedTiming, onAnimatedFinished}: ProcessTouchableRippleAnimatedTimingOptions) =>
     (sharedValue: ProcessTouchableRippleAnimatedTimingSharedValue) =>
     (index: string) => {
         const entryAnimatedTiming = processTouchableRippleAnimatedTiming(animatedTiming)(sharedValue)(1)
@@ -50,7 +50,7 @@ export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: 
 
     const onTouchableRippleAnimatedTiming = useMemo(
         () =>
-            handleTouchableRippleAnimatedTiming({animatedTiming, onAnimatedFinished})({
+            processTouchableRippleAnimatedTiming({animatedTiming, onAnimatedFinished})({
                 scaleSharedValue,
                 opacitySharedValue
             }),

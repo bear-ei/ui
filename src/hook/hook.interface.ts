@@ -24,27 +24,27 @@ export type OnStateEvent = {
     onPressOut?: (event: GestureResponderEvent) => void
 }
 
-export interface UseHandleStateEventOptions extends Partial<PressableProps & OnStateEvent> {
+export interface UseProcessStateEventOptions extends Partial<PressableProps & OnStateEvent> {
     disabled?: boolean
     onStateEventChange?: (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 
-export interface HandleStateEventChangeOptions
-    extends Pick<UseHandleStateEventOptions, 'disabled' | 'onStateEventChange'> {
+export interface ProcessStateEventChangeOptions
+    extends Pick<UseProcessStateEventOptions, 'disabled' | 'onStateEventChange'> {
     callback?: () => void
     eventName?: EventName
     state?: State
 }
 
-export type OnStateEventChangeOptions = HandleStateEventChangeOptions
-export interface HandleStateEventOptions {
+export type OnStateEventChangeOptions = ProcessStateEventChangeOptions
+export interface ProcessStateEventOptions {
     onStateEvent: (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
     mobileDevice?: boolean
 }
 
 export type WindowSize = 'compact' | 'medium' | 'expanded' | 'large' | 'extraLarge'
 export type UseDesktopScrollEventOptions = Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'>
-export interface HandleScrollOptions extends Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'> {
+export interface ProcessScrollOptions extends Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'> {
     momentumScrollEndTimer: React.MutableRefObject<ReturnType<typeof setTimeout> | null>
 }
 

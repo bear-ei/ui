@@ -1,15 +1,3 @@
-import {RuleItem, ValidateError, ValidateFieldsError, Values} from 'async-validator'
-
-export interface ValidateOptions {
-    rules: RuleItem[]
-    validateFirst?: boolean
-}
-
-export interface ValidateRuleError {
-    errors?: ValidateError[] | null
-    fields: ValidateFieldsError | Values
-}
-
 export type DebouncedFunction<T extends (...args: any[]) => any> = (...args: Parameters<T>) => void
 export type NamePath<T = Record<string, unknown>> = keyof T | (keyof T)[]
 export interface AdaptWindowOptions {
@@ -23,8 +11,4 @@ export interface AdaptDesignOptions {
     designWidth?: number
 }
 
-export interface ProcessValidateErrorOptions {
-    fields: ValidateFieldsError | Values
-    name: string
-    rules: RuleItem[]
-}
+export type ValidateRule = new (...args: any[]) => {}

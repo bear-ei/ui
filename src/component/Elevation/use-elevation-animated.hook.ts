@@ -11,7 +11,7 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {UseElevationAnimatedOptions} from './Elevation.interface'
 
-const handleElevationAnimatedTiming =
+const processElevationAnimatedTiming =
     (animatedTiming: AnimatedTiming) => (shadowSharedValue: SharedValue<AnimatableValue>) => (level: number) =>
         animatedTiming()(shadowSharedValue)(level)
 
@@ -34,7 +34,7 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
     }))
 
     const onElevationAnimatedTiming = useMemo(
-        () => handleElevationAnimatedTiming(animatedTiming)(shadowSharedValue),
+        () => processElevationAnimatedTiming(animatedTiming)(shadowSharedValue),
         [animatedTiming, shadowSharedValue]
     )
 

@@ -1,13 +1,13 @@
 import {WritableDraft} from 'immer'
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeProcess, useMemo, useRef} from 'react'
 import {Updater, useImmer} from 'use-immer'
 import {RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
 import {
-    HandleListActiveOptions,
     InitialListState,
     ListBaseProps,
     ListData,
+    ProcessListActiveOptions,
     ProcessRenderItemOptions,
     RenderListItemOptions,
     RenderListProps,
@@ -15,7 +15,7 @@ import {
 } from './List.interface'
 
 const processPrevListActiveKeysFilter = (value: string) => (key: string) => key !== value
-const handleListSelect =
+const processListSelect =
     (draft: WritableDraft<InitialListState>) => (deselect?: boolean) => (value?: string | string[]) => {
         if (Array.isArray(value)) {
             return
@@ -29,7 +29,7 @@ const handleListSelect =
         return prevListActiveKey !== value ? draft.listActiveKey : 'NOT_ACTIVE'
     }
 
-const handleListMultiselect = (draft: WritableDraft<InitialListState>) => (value: string | string[]) => {
+const processListMultiselect = (draft: WritableDraft<InitialListState>) => (value: string | string[]) => {
     const prevListActiveKeys = draft.listActiveKeys
     const nextListActiveKeys = Array.isArray(value) ? value : [...(prevListActiveKeys ?? []), value]
 
@@ -45,18 +45,20 @@ const handleListMultiselect = (draft: WritableDraft<InitialListState>) => (value
 }
 
 const createNextActiveCallback =
-    ({onActive, onActives}: HandleListActiveOptions) =>
+    ({onActive, onActives}: ProcessListActiveOptions) =>
     (value: string | string[] | undefined) =>
     () =>
         typeof value === 'string' ? onActive?.(value) : onActives?.(value)
 
-const handleListActive =
-    ({onActive, type, onActives, deselect}: HandleListActiveOptions = {}) =>
+const processListActive =
+    ({onActive, type, onActives, deselect}: ProcessListActiveOptions = {}) =>
     (setState: Updater<InitialListState>) =>
     (value?: string | string[]) => {
         setState(draft => {
             const callbackValue =
-                type === 'select' ? handleListSelect(draft)(deselect)(value) : handleListMultiselect(draft)(value ?? [])
+                type === 'select' ?
+                    processListSelect(draft)(deselect)(value)
+                :   processListMultiselect(draft)(value ?? [])
 
             !onActive && draft.status === 'idle' && (draft.status = 'succeeded')
 
@@ -71,8 +73,8 @@ const handleListActive =
 const createNextAfterAffordanceCallback = (onActive?: (value?: string) => void) => (value?: string) => () =>
     onActive?.(value)
 
-const handleActiveListAfterAffordance =
-    ({onActive, type}: HandleListActiveOptions) =>
+const processActiveListAfterAffordance =
+    ({onActive, type}: ProcessListActiveOptions) =>
     (setState: Updater<InitialListState>) =>
     (value?: string) =>
         type !== 'multiselect' &&
@@ -91,7 +93,7 @@ const handleActiveListAfterAffordance =
                 (draft.nextAfterAffordanceCallback = createNextAfterAffordanceCallback(onActive)(value))
         })
 
-const handleListClose = (onClose?: (value?: string) => void) => onClose
+const processListClose = (onClose?: (value?: string) => void) => onClose
 const renderCustomListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
     <ListItem
         {...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
@@ -159,10 +161,10 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 
         const listRef = useRef<VirtualListComponent<ListData>>(null)
         const id = useId()
-        const onListActiveSource = useMemo(() => handleListActive({type})(setState), [setState, type])
-        const onListActive = handleListActive({onActive, type, onActives, deselect})(setState)
-        const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, type})(setState)
-        const onListClose = handleListClose(onClose)
+        const onListActiveSource = useMemo(() => processListActive({type})(setState), [setState, type])
+        const onListActive = processListActive({onActive, type, onActives, deselect})(setState)
+        const onActiveAfterAffordance = processActiveListAfterAffordance({onActive, type})(setState)
+        const onListClose = processListClose(onClose)
         const idle =
             [
                 typeof defaultActiveKey === 'string' && !listActiveKey,
@@ -194,7 +196,11 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             type
         })
 
-        useImperativeHandle(ref, () => (listRef?.current ? listRef?.current : {}) as VirtualListComponent<ListData>, [])
+        useImperativeProcess(
+            ref,
+            () => (listRef?.current ? listRef?.current : {}) as VirtualListComponent<ListData>,
+            []
+        )
 
         useEffect(() => {
             onListActiveSource(activeKey ?? defaultActiveKey ?? activeKeys ?? defaultActiveKeys)

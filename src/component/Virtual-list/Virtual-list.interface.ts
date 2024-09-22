@@ -38,9 +38,9 @@ export interface InitialVirtualListState {
     visibleRangeData?: VirtualListData[]
 }
 
-export type HandleVirtualListScrollOptions = Pick<RenderVirtualListProps, 'onScroll' | 'itemSize'>
-export type HandleVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'onLoadEnd' | 'itemSize'>
-export interface HandleVirtualListLayoutChangedOptions {
+export type ProcessVirtualListScrollOptions = Pick<RenderVirtualListProps, 'onScroll' | 'itemSize'>
+export type ProcessVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'onLoadEnd' | 'itemSize'>
+export interface ProcessVirtualListLayoutChangedOptions {
     layout: LayoutRectangle
     onVirtualListVisibleRange?: (value?: number) => void
 }

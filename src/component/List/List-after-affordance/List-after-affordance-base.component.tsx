@@ -3,27 +3,27 @@ import {GestureResponderEvent} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {
-    HandleListAfterAffordanceCancelOptions,
-    HandleListAfterAffordanceConfirmOptions,
     ListAfterAffordanceBaseProps,
     ListAfterAffordanceInitialState,
-    ListAfterAffordancePressOutOptions
+    ListAfterAffordancePressOutOptions,
+    ProcessListAfterAffordanceCancelOptions,
+    ProcessListAfterAffordanceConfirmOptions
 } from './List-after-affordance.interface'
 import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animated.hook'
 
-const handleListAfterAffordanceConfirm =
-    ({onConfirm, doubleConfirmed, itemKey}: HandleListAfterAffordanceConfirmOptions) =>
+const processListAfterAffordanceConfirm =
+    ({onConfirm, doubleConfirmed, itemKey}: ProcessListAfterAffordanceConfirmOptions) =>
     (_event: GestureResponderEvent) =>
         onConfirm?.({itemKey, doubleConfirmed})
 
 const createNextCancelCallback =
     (onCancel?: (options: ListAfterAffordancePressOutOptions) => void) =>
-    ({itemKey, doubleConfirmed}: HandleListAfterAffordanceCancelOptions) =>
+    ({itemKey, doubleConfirmed}: ProcessListAfterAffordanceCancelOptions) =>
     () =>
         onCancel?.({itemKey, doubleConfirmed})
 
-const handleListAfterAffordanceCancel =
-    ({onCancel, doubleConfirmed, itemKey}: HandleListAfterAffordanceCancelOptions) =>
+const processListAfterAffordanceCancel =
+    ({onCancel, doubleConfirmed, itemKey}: ProcessListAfterAffordanceCancelOptions) =>
     (setState: Updater<ListAfterAffordanceInitialState>) =>
     (_event: GestureResponderEvent) => {
         setState(draft => {
@@ -32,7 +32,7 @@ const handleListAfterAffordanceCancel =
         })
     }
 
-const handleListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceInitialState>) => (value?: boolean) =>
+const processListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceInitialState>) => (value?: boolean) =>
     !value &&
     setState(draft => {
         draft.doubleConfirmed = false
@@ -54,9 +54,9 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
     const theme = useTheme()
     const id = useId()
     const fill = theme.token.scheme.onPrimary
-    const onListAfterAffordanceConfirm = handleListAfterAffordanceConfirm({doubleConfirmed, onConfirm, itemKey})
-    const onListAfterAffordanceCancel = handleListAfterAffordanceCancel({doubleConfirmed, onCancel, itemKey})(setState)
-    const onListAfterAffordanceVisible = useMemo(() => handleListAfterAffordanceVisible(setState), [setState])
+    const onListAfterAffordanceConfirm = processListAfterAffordanceConfirm({doubleConfirmed, onConfirm, itemKey})
+    const onListAfterAffordanceCancel = processListAfterAffordanceCancel({doubleConfirmed, onCancel, itemKey})(setState)
+    const onListAfterAffordanceVisible = useMemo(() => processListAfterAffordanceVisible(setState), [setState])
     const dangerAnimatedStyle = useListAfterAffordanceAnimated({doubleConfirmed})
 
     useEffect(() => {

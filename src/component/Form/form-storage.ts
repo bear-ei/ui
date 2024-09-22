@@ -1,12 +1,6 @@
+import {ValidationError} from 'class-validator'
 import {NamePath, namePath} from '../../util'
-import {
-    FormCallback,
-    FormError,
-    FormFieldEntity,
-    FormFieldError,
-    FormStorage,
-    OnValueChangeOptions
-} from './Form.interface'
+import {FormCallback, FormError, FormFieldEntity, FormStorage, OnValueChangeOptions} from './Form.interface'
 
 const createFormContext = <T>() => ({
     callback: {} as FormCallback<T>,
@@ -33,9 +27,9 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
     const getFieldError = ((name?: NamePath<T>) => {
         let err = {} as FormError<T>
         const names = namePath(name)
-        const handleError = (entityName?: keyof T) => entityName && (err = {...err, [entityName]: error[entityName]})
+        const processError = (entityName?: keyof T) => entityName && (err = {...err, [entityName]: error[entityName]})
 
-        names && getFieldEntitiesName()(names).forEach(handleError)
+        names && getFieldEntitiesName()(names).forEach(processError)
         !names && (err = {...err, ...error})
 
         return !Array.isArray(name) && name ? err[name] : err
@@ -44,10 +38,10 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
     const getFieldValue = ((name?: NamePath<T>) => {
         let value = {} as T
         const names = namePath(name)
-        const handleValue = (entityName?: keyof T) =>
+        const processValue = (entityName?: keyof T) =>
             entityName && (value = {...value, [entityName]: storage[entityName]})
 
-        names && getFieldEntitiesName()(names).forEach(handleValue)
+        names && getFieldEntitiesName()(names).forEach(processValue)
         !names && (value = {...value, ...storage})
 
         return !Array.isArray(name) && name ? value[name] : value
@@ -56,10 +50,10 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
     const getInitialValue = ((name?: NamePath<T>) => {
         let value = {} as T
         const names = namePath(name)
-        const handleValue = (entityName?: keyof T) =>
+        const processValue = (entityName?: keyof T) =>
             entityName && (value = {...value, [entityName]: initialValue[entityName]})
 
-        names && getFieldEntitiesName()(names).forEach(handleValue)
+        names && getFieldEntitiesName()(names).forEach(processValue)
         !names && (value = {...value, ...storage})
 
         return !Array.isArray(name) && name ? value[name] : value
@@ -68,15 +62,15 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
     const isFieldTouched = (name?: NamePath<T>) => {
         const names = namePath(name)
         const entities = getFieldEntities()
-        const handleFieldTouched = (entityName?: keyof T) =>
+        const processFieldTouched = (entityName?: keyof T) =>
             entityName && entities.find(({props}) => props.name === entityName)?.touched
 
-        return getFieldEntitiesName()(names).map(handleFieldTouched).every(Boolean)
+        return getFieldEntitiesName()(names).map(processFieldTouched).every(Boolean)
     }
 
     const resetField = (name?: NamePath<T>) => {
         const names = namePath(name)
-        const handleReset = (entityName?: keyof T) => {
+        const processReset = (entityName?: keyof T) => {
             if (!entityName) {
                 return
             }
@@ -85,7 +79,7 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
             setFieldError({[entityName]: undefined} as FormError<T>)
         }
 
-        getFieldEntitiesName()(names).forEach(handleReset)
+        getFieldEntitiesName()(names).forEach(processReset)
     }
 
     const setCallback = (callbackValue: FormCallback<T>) => (callback = {...callback, ...callbackValue})
@@ -104,53 +98,53 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
             ]
         }
 
-    const handleStorageUpdate =
+    const processStorageUpdate =
         (onStorageChange?: (options: OnValueChangeOptions<T>) => void) =>
         (value = {} as T) => {
             storage = {...storage, ...value}
             onStorageChange?.({changedValue: value, value: storage})
         }
 
-    const handleValidateResult =
+    const processValidateResult =
         (entity: FormFieldEntity) =>
         (value = {} as T) =>
-        (err?: FormFieldError) => {
+        (err?: ValidationError[]) => {
             const name = entity.props.name
 
             if (!name) {
                 return
             }
 
-            handleStorageUpdate()(value)
+            processStorageUpdate()(value)
             setFieldError({[name]: err} as FormError<T>)
             setFieldTouched(true)(name)
 
             entity.onFormStorageChange()
         }
 
-    const handleFindEntity =
+    const processFindEntity =
         (name: keyof T) =>
         ({props}: FormFieldEntity) =>
             props.name === name
 
-    const handleItemUpdate =
+    const processItemUpdate =
         (skipValidate?: boolean) =>
         (value = {} as T) =>
         async (name: keyof T) => {
             const entities = getFieldEntities()
-            const findEntity = handleFindEntity(name)
+            const findEntity = processFindEntity(name)
             const entity = entities.find(findEntity)
 
             if (!entity) {
                 return
             }
 
-            const handleResult = handleValidateResult(entity)(value)
+            const processResult = processValidateResult(entity)(value)
 
-            skipValidate ? handleResult() : await entity.validate(value[entity.props.name!]).then(handleResult)
+            skipValidate ? processResult() : await entity.validate(value[entity.props.name!]).then(processResult)
         }
 
-    const handleValueChange =
+    const processValueChange =
         (value = {} as T) =>
         () => {
             const {onValueChange} = callback
@@ -162,12 +156,12 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
         (updateItem = true) =>
         (value = {} as T) => {
             const {onValueChange} = callback
-            const handleUpdate = handleItemUpdate(skipValidate)(value)
-            const handleChange = handleValueChange(value)
+            const processUpdate = processItemUpdate(skipValidate)(value)
+            const processChange = processValueChange(value)
 
             updateItem ?
-                Promise.all(Object.keys(value).map(handleUpdate)).then(handleChange)
-            :   handleStorageUpdate(onValueChange)(value)
+                Promise.all(Object.keys(value).map(processUpdate)).then(processChange)
+            :   processStorageUpdate(onValueChange)(value)
         }
 
     const setInitialValue =
@@ -207,7 +201,7 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
     const signOutField = (name?: NamePath<T>) => {
         const names = namePath(name)
         const entities = getFieldEntities(true)
-        const handleSignOut = (signOutName?: keyof T) => {
+        const processSignOut = (signOutName?: keyof T) => {
             if (!signOutName) {
                 return
             }
@@ -227,17 +221,17 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
             fieldEntities = entities.filter(({props}) => props.name !== signOutName)
         }
 
-        getFieldEntitiesName()(names).forEach(handleSignOut)
+        getFieldEntitiesName()(names).forEach(processSignOut)
     }
 
     const submit = (skipValidate?: boolean) => {
         const {onFinish, onFinishFailed} = callback
-        const handleFailed = (err: FormError<T>) => onFinishFailed?.(err)
-        const handleFinish = () => onFinish?.(storage)
+        const processFailed = (err: FormError<T>) => onFinishFailed?.(err)
+        const processFinish = () => onFinish?.(storage)
 
-        skipValidate ? handleFinish() : (
+        skipValidate ? processFinish() : (
             validateField().then(err => {
-                Object.entries(err).some(([, value]) => value) ? handleFailed(err) : handleFinish()
+                Object.entries(err).some(([, value]) => value) ? processFailed(err) : processFinish()
             })
         )
     }
@@ -245,7 +239,7 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
     const validateField = (async (name?: NamePath<T>) => {
         const names = namePath(name)
         const entities = getFieldEntities()
-        const handleValidate = async (entityName?: keyof T) => {
+        const processValidate = async (entityName?: keyof T) => {
             if (!entityName) {
                 return
             }
@@ -253,29 +247,19 @@ export const formStorage = <T extends Record<string, unknown> = Record<string, u
             const value = getFieldValue(entityName)
             const entity = entities.find(({props}) => props.name === entityName)
 
-            return entity?.validate(value).then(err => {
-                setFieldError({[entityName]: err} as FormError<T>)
-                err && entity.onFormStorageChange()
+            return entity?.validate(value).then(errors => {
+                const err = {[entityName]: errors} as FormError<T>
+
+                setFieldError(err)
+                errors && entity.onFormStorageChange()
 
                 return err
             })
         }
 
-        const handleFieldError = (fieldErrors: (FormFieldError | undefined)[]) => {
-            let err = {} as FormError<T>
+        const fieldErrors = await Promise.all(getFieldEntitiesName()(names).map(processValidate))
 
-            fieldErrors.forEach(fieldError => {
-                const field = fieldError?.errors[0].field
-
-                field && (err = {...err, [field]: fieldError})
-            })
-
-            return !Array.isArray(name) && name ? err[name] : err
-        }
-
-        const fieldError = await Promise.all(getFieldEntitiesName()(names).map(handleValidate))
-
-        return handleFieldError(fieldError)
+        return fieldErrors.reduce((accumulator, currentValue) => ({...accumulator, ...currentValue}), {})
     }) as FormStorage<T>['validateField']
 
     return {

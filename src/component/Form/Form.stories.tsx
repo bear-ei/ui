@@ -34,15 +34,15 @@ export const FormA = () => {
         }
     ] as FormItemProps[]
 
-    const handleFinish = (value: any) => {
+    const processFinish = (value: any) => {
         console.info(value)
     }
 
-    const handleSubmit = () => {
+    const processSubmit = () => {
         form.submit()
     }
 
-    const handleReset = () => {
+    const processReset = () => {
         form.resetField()
     }
 
@@ -52,19 +52,19 @@ export const FormA = () => {
         <View style={[style]}>
             <Form
                 form={form}
-                onFinish={handleFinish}
+                onFinish={processFinish}
                 items={items}
             />
 
             <Button
                 labelText='submit'
-                onPress={handleSubmit}
+                onPress={processSubmit}
                 horizontalStretch={true}
             />
 
             <Button
                 labelText='reset'
-                onPress={handleReset}
+                onPress={processReset}
                 type='outlined'
                 horizontalStretch={true}
             />

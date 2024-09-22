@@ -41,18 +41,18 @@ export interface StepItemInitialState {
     nextPressOutEvent?: () => void
 }
 
-export type HandleStepItemStateEventChangeOptions = OnStateEventChangeOptions &
+export type ProcessStepItemStateEventChangeOptions = OnStateEventChangeOptions &
     Pick<StepItemProps, 'itemKey' | 'onActive'>
 
 export interface UseStepItemAnimatedOptions extends Pick<RenderStepItemProps, 'active' | 'type'> {
     defaultActive?: boolean
 }
 
-export interface HandleStepItemAnimatedTimingOptions extends UseStepItemAnimatedOptions {
+export interface ProcessStepItemAnimatedTimingOptions extends UseStepItemAnimatedOptions {
     animatedTiming: AnimatedTiming
 }
 
-export interface HandleStepItemAnimatedTimingSharedValue {
+export interface ProcessStepItemAnimatedTimingSharedValue {
     labelHeightSharedValue: SharedValue<AnimatableValue>
     labelTextColorSharedValue: SharedValue<AnimatableValue>
 }

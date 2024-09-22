@@ -10,13 +10,13 @@ import {IconProps} from '../Icon'
 import {
     FABBaseProps,
     FABType,
-    HandleFABStateChangeOptions,
     InitialFABState,
+    ProcessFABStateChangeOptions,
     RenderFABIconOptions
 } from './FAB.interface'
 import {useFABAnimated} from './use-fab-animated.hook'
 
-const handleFABElevation = (draft: WritableDraft<InitialFABState>) => (elevated?: boolean) => (state?: State) => {
+const processFABElevation = (draft: WritableDraft<InitialFABState>) => (elevated?: boolean) => (state?: State) => {
     if (!elevated) {
         return
     }
@@ -26,8 +26,8 @@ const handleFABElevation = (draft: WritableDraft<InitialFABState>) => (elevated?
     state && (draft.elevation = (state === 'disabled' ? level[state] : level[state] + 3) as ElevationLevel)
 }
 
-const handleFABStateChange =
-    ({eventName, elevated, state}: HandleFABStateChangeOptions) =>
+const processFABStateChange =
+    ({eventName, elevated, state}: ProcessFABStateChangeOptions) =>
     (setState: Updater<InitialFABState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {
@@ -38,11 +38,11 @@ const handleFABStateChange =
             const prevEventName = draft.eventName
 
             eventName && (draft.eventName = eventName)
-            prevEventName !== eventName && handleFABElevation(draft)(elevated)(state)
+            prevEventName !== eventName && processFABElevation(draft)(elevated)(state)
         })
     }
 
-const handleFABInit = (setState: Updater<InitialFABState>) => (disabled?: boolean) => (elevated?: boolean) =>
+const processFABInit = (setState: Updater<InitialFABState>) => (disabled?: boolean) => (elevated?: boolean) =>
     setState(draft => {
         if (draft.status !== 'idle') {
             return
@@ -52,7 +52,7 @@ const handleFABInit = (setState: Updater<InitialFABState>) => (disabled?: boolea
         draft.status = 'succeeded'
     })
 
-const handleFABDisabled = (setState: Updater<InitialFABState>) => (elevated?: boolean) => (disabled?: boolean) =>
+const processFABDisabled = (setState: Updater<InitialFABState>) => (elevated?: boolean) => (disabled?: boolean) =>
     typeof disabled === 'boolean' &&
     setState(draft => {
         disabled && (draft.eventName = 'none')
@@ -107,11 +107,11 @@ export const FABBase = forwardRef<View, FABBaseProps>(
         const id = useId()
         const theme = useTheme()
         const underlayColor = processFABUnderlayColor(theme)(type)
-        const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
-        const onFABInit = useMemo(() => handleFABInit(setState)(disabled), [disabled, setState])
+        const onFABDisabled = useMemo(() => processFABDisabled(setState)(elevated), [elevated, setState])
+        const onFABInit = useMemo(() => processFABInit(setState)(disabled), [disabled, setState])
         const fabIconElement = renderFABIcon({eventName, type, disabled, size})(theme)(icon)
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleFABStateChange({...options, state, elevated})(setState)(event)
+            processFABStateChange({...options, state, elevated})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
         const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled, type})

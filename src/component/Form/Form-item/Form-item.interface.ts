@@ -1,9 +1,10 @@
-import {RuleItem, ValidateError} from 'async-validator'
+import {ValidateError} from 'async-validator'
+import {ValidationError} from 'class-validator'
 import React, {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
-import {ValidateOptions} from '../../../util'
+import {ValidateRule} from '../../../util'
 import {ComponentStatus} from '../../Common'
-import {FormFieldError, FormStorage} from '../Form.interface'
+import {FormStorage} from '../Form.interface'
 
 export interface FormItemControlProps {
     errorMessage?: string
@@ -15,20 +16,16 @@ export interface FormItemControlProps {
 }
 
 export interface FormItemProps
-    extends Partial<
-        ViewProps &
-            Pick<FormItemControlProps, 'labelText'> &
-            Pick<ValidateOptions, 'rules' | 'validateFirst'> &
-            RefAttributes<View>
-    > {
+    extends Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>> {
     initialValue?: Record<string, unknown>
     minSkeletonDuration?: number
     name?: string
     renderControl?: (props: FormItemControlProps) => JSX.Element
+    rule: ValidateRule
     skeletonElement?: React.JSX.Element
 }
 
-export interface RenderFormItemProps extends Omit<FormItemProps, 'rules'> {
+export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {
     control?: React.JSX.Element
 }
 
@@ -42,15 +39,10 @@ export interface InitialFormItemState {
     status: ComponentStatus
 }
 
-export interface HandleFormItemValueChangeOptions extends Pick<FormStorage, 'setFieldValue'> {
+export interface ProcessFormItemValueChangeOptions extends Pick<FormStorage, 'setFieldValue'> {
     storageValue?: unknown
 }
 
-export interface HandleFormItemValidateOptions {
-    rules?: RuleItem[]
-    validateFirst?: boolean
-}
-
-export type HandleFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rules' | 'validateFirst'> & {
-    validate: (value?: unknown) => Promise<FormFieldError | undefined>
+export type ProcessFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
+    validate: (value?: unknown) => Promise<ValidationError[]>
 } & Pick<FormStorage, 'signInField'>

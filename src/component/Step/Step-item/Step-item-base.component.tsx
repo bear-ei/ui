@@ -5,12 +5,12 @@ import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hook'
 import {EventName, State} from '../../Common'
 import {Icon, IconProps} from '../../Icon'
-import {HandleStepItemStateEventChangeOptions, StepItemBaseProps, StepItemInitialState} from './Step-item.interface'
+import {ProcessStepItemStateEventChangeOptions, StepItemBaseProps, StepItemInitialState} from './Step-item.interface'
 import {useStepItemAnimated} from './use-step-item-animated.hook'
 
-const handleStepItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
-const handleStepItemStateChange =
-    ({itemKey, eventName, onActive}: HandleStepItemStateEventChangeOptions) =>
+const processStepItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
+const processStepItemStateChange =
+    ({itemKey, eventName, onActive}: ProcessStepItemStateEventChangeOptions) =>
     (setState: Updater<StepItemInitialState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {
@@ -18,7 +18,7 @@ const handleStepItemStateChange =
         }
 
         const nextEvent = {
-            pressOut: () => handleStepItemPressOut(onActive)(itemKey)
+            pressOut: () => processStepItemPressOut(onActive)(itemKey)
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -65,7 +65,7 @@ export const StepItemBase = forwardRef<View, StepItemBaseProps>(
         const underlayColor = theme.token.scheme.onSurface
         const active = activeKey === itemKey
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleStepItemStateChange({...options, itemKey, onActive, state})(setState)(event)
+            processStepItemStateChange({...options, itemKey, onActive, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled: disabled || finished, onStateEventChange})
         const {labelAnimatedStyle, labelTextAnimatedStyle} = useStepItemAnimated({active, type})

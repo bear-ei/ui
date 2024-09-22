@@ -38,6 +38,6 @@ export interface InitialFABState {
 export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'densityScale' | 'extendedFAB'>
 export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'densityScale' | 'extendedFAB'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
-export type HandleFABStateChangeOptions = OnStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
+export type ProcessFABStateChangeOptions = OnStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
 export type RenderFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'eventName'>
 export type UseFABAnimatedOptions = Pick<RenderFABProps, 'disabled' | 'type'>

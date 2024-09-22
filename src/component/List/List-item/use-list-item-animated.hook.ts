@@ -9,10 +9,13 @@ import {
 } from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hook'
-import {HandleListItemAfterAffordanceVisibleAnimatedOptions, UseListItemAnimatedOptions} from './List-item.interface'
+import {ProcessListItemAfterAffordanceVisibleAnimatedOptions, UseListItemAnimatedOptions} from './List-item.interface'
 
-const handleListAfterAffordanceVisibleAnimated =
-    ({animatedTiming, onListItemAfterAffordanceVisibleFinished}: HandleListItemAfterAffordanceVisibleAnimatedOptions) =>
+const processListAfterAffordanceVisibleAnimated =
+    ({
+        animatedTiming,
+        onListItemAfterAffordanceVisibleFinished
+    }: ProcessListItemAfterAffordanceVisibleAnimatedOptions) =>
     (contentLeftSharedValue: SharedValue<AnimatableValue>) =>
     (value?: boolean) =>
         animatedTiming({
@@ -36,7 +39,7 @@ export const useListItemAnimated = ({
 
     const onListAfterAffordanceVisibleAnimated = useMemo(
         () =>
-            handleListAfterAffordanceVisibleAnimated({animatedTiming, onListItemAfterAffordanceVisibleFinished})(
+            processListAfterAffordanceVisibleAnimated({animatedTiming, onListItemAfterAffordanceVisibleFinished})(
                 contentLeftSharedValue
             ),
         [animatedTiming, contentLeftSharedValue, onListItemAfterAffordanceVisibleFinished]

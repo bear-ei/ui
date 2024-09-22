@@ -11,7 +11,7 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {UseSearchListAnimatedOptions} from './Search-list.interface'
 
-const handleSearchListAnimatedTiming =
+const processSearchListAnimatedTiming =
     (animatedTiming: AnimatedTiming) => (heightSharedValue: SharedValue<AnimatableValue>) => (visible?: boolean) =>
         animatedTiming({
             duration: visible ? 'medium3' : 'short3',
@@ -33,7 +33,7 @@ export const useSearchListAnimated = ({visible, containerLayout}: UseSearchListA
     }))
 
     const onSearchListAnimatedTiming = useMemo(
-        () => handleSearchListAnimatedTiming(animatedTiming)(heightSharedValue),
+        () => processSearchListAnimatedTiming(animatedTiming)(heightSharedValue),
         [animatedTiming, heightSharedValue]
     )
 

@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {UseListAffordanceButtonAnimatedOptions} from './List-affordance-button.interface'
 
-const handleListAffordanceButtonAnimatedTiming =
+const processListAffordanceButtonAnimatedTiming =
     (animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<AnimatableValue>) => (disabled?: boolean) =>
         animatedTiming()(colorSharedValue)(disabled ? 0 : 1)
 
@@ -28,7 +28,7 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
     }))
 
     const onListAffordanceButtonAnimatedTiming = useMemo(
-        () => handleListAffordanceButtonAnimatedTiming(animatedTiming)(colorSharedValue),
+        () => processListAffordanceButtonAnimatedTiming(animatedTiming)(colorSharedValue),
         [animatedTiming, colorSharedValue]
     )
 

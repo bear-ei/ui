@@ -3,10 +3,10 @@ import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
 import {EventName, State} from '../Common'
-import {HandleSkeletonStateChangeOptions, InitialSkeletonState, SkeletonBaseProps} from './Skeleton.interface'
+import {InitialSkeletonState, ProcessSkeletonStateChangeOptions, SkeletonBaseProps} from './Skeleton.interface'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
-const handleSkeletonClose =
+const processSkeletonClose =
     (setState: Updater<InitialSkeletonState>) =>
     (duration = 150) => {
         duration >= 0 &&
@@ -18,12 +18,12 @@ const handleSkeletonClose =
             }, duration)
     }
 
-const handleSkeletonStateChange =
-    ({eventName, duration}: HandleSkeletonStateChangeOptions) =>
+const processSkeletonStateChange =
+    ({eventName, duration}: ProcessSkeletonStateChangeOptions) =>
     (setState: Updater<InitialSkeletonState>) =>
     (_event: StateEvent) => {
         const nextEvent = {
-            layout: () => handleSkeletonClose(setState)(duration)
+            layout: () => processSkeletonClose(setState)(duration)
         } as Record<EventName, () => void>
 
         eventName && nextEvent[eventName]?.()
@@ -38,7 +38,7 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
         })
 
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleSkeletonStateChange({...options, state, duration})(setState)(event)
+            processSkeletonStateChange({...options, state, duration})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
         const animatedStyle = useSkeletonAnimated({enableAnimated, skeletonVisible})
