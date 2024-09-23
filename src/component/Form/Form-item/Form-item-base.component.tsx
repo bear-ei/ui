@@ -1,12 +1,12 @@
-import {ValidationError} from 'class-validator'
+import {validate, ValidationError} from 'class-validator'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {NativeSyntheticEvent, TargetedEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {validate, ValidationRule} from '../../../util'
 import {FormError} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
     FormItemBaseProps,
+    FormItemValidationRule,
     HandleFormItemInitOptions,
     HandleFormItemValueChangeOptions,
     InitialFormItemState
@@ -18,8 +18,14 @@ const handleFormItemValueChange =
     (value?: unknown) =>
         name && storageValue !== value && setFieldValue()()({[name]: value})
 
-const handleFormItemValidate = (rule?: ValidationRule) => (name?: string) => async (value?: unknown) =>
-    name && rule ? validate(rule)(name)(value) : ([] as ValidationError[])
+const handleFormItemValidate = (rule?: FormItemValidationRule) => (name?: string) => async (value?: unknown) =>
+    name && rule ?
+        validate(Object.assign(new rule(), {[name]: value}), {
+            forbidNonWhitelisted: true,
+            skipMissingProperties: true,
+            whitelist: true
+        }).then(errors => (errors.length ? errors : undefined))
+    :   ([] as ValidationError[])
 
 const handleFormStorageChange = (setState: Updater<InitialFormItemState>) => () =>
     setState(draft => {

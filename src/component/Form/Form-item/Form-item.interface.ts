@@ -1,10 +1,10 @@
 import {ValidationError} from 'class-validator'
 import React, {RefAttributes} from 'react'
 import {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native'
-import {ValidationRule} from '../../../util'
 import {ComponentStatus} from '../../Common'
 import {FormStorage} from '../Form.interface'
 
+export type FormItemValidationRule = new (...args: any[]) => {}
 export interface FormItemControlProps {
     errorMessage?: string
     errors?: ValidationError[]
@@ -21,7 +21,7 @@ export interface FormItemProps
     minSkeletonDuration?: number
     name?: string
     renderControl?: (props: FormItemControlProps) => JSX.Element
-    rule?: ValidationRule
+    rule?: FormItemValidationRule
     skeletonElement?: React.JSX.Element
 }
 

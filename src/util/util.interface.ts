@@ -10,5 +10,3 @@ export interface AdaptDesignOptions {
     designHeight?: number
     designWidth?: number
 }
-
-export type ValidationRule = new (...args: any[]) => {}

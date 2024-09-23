@@ -67,11 +67,7 @@ export const Icon = styled.View<NavigationRailItemIconProps>`
 `
 
 export const Label = styled.View`
-    align-items: center;
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    position: relative;
     overflow: hidden;
 `
 
@@ -80,10 +76,10 @@ export const LabelText = styled(Typography)<NavigationRailItemLabelTextProps>`
 
     ${({theme, active}) => css`
         font-weight: ${active ? theme.token.font.weight.bold : theme.token.font.weight.medium};
-        height: ${theme.adaptSize(
-            theme.token.typography.label.medium.lineHeight + 2 * theme.token.spacing.extraSmall
-        )}px;
-
-        padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px ${theme.adaptSize(theme.token.spacing.none)}px;
+        height: ${theme.adaptSize(theme.token.spacing.large)}px;
+        left: ${theme.adaptSize(theme.token.spacing.none)}px;
+        line-height: ${theme.adaptSize(theme.token.spacing.large)}px;
+        right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        top: ${theme.adaptSize(theme.token.spacing.none)}px;
     `}
 `

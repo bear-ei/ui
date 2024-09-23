@@ -1,10 +1,9 @@
-import * as validator from 'class-validator'
 import {ValidationError} from 'class-validator'
 import React, {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
-import {NamePath, ValidationRule} from '../../util'
+import {NamePath} from '../../util'
 import {ComponentStatus} from '../Common'
-import {FormItemProps} from './Form-item'
+import {FormItemProps, FormItemValidationRule} from './Form-item'
 import {ForwardRefForm} from './Form.component'
 import {useForm} from './use-form.hook'
 
@@ -23,7 +22,7 @@ export interface FormCallback<T = Record<string, unknown>> {
 export interface FormFieldEntity<T = Record<string, unknown>> {
     name?: keyof T
     onFormStorageChange: () => void
-    rule?: ValidationRule
+    rule?: FormItemValidationRule
     touched: boolean
     validate: (value?: unknown) => Promise<ValidationError[] | undefined>
 }
@@ -75,7 +74,7 @@ export interface FormProps<T = Record<string, unknown>>
     formLayout?: 'horizontal' | 'vertical'
     initialValue?: T
     items?: FormItemProps[]
-    validationRule?: ValidationRule
+    validationRule?: FormItemValidationRule
 }
 
 export interface RenderFormProps<T> extends FormProps<T> {
@@ -94,5 +93,4 @@ export type HandleFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFi
 export type RenderFormItemOptions = Pick<FormItemProps, 'skeletonElement' | 'minSkeletonDuration'>
 export type FormComponent = typeof ForwardRefForm & {
     useForm: typeof useForm
-    validator: typeof validator
 }

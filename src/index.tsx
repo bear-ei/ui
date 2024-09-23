@@ -1,3 +1,5 @@
+export {token} from '@bearei/ui-token'
+export * from 'class-validator'
 export * from './component'
 export * from './context'
 export * from './hook'
