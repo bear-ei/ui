@@ -1,13 +1,11 @@
 import {Meta} from '@storybook/react'
-import {IsNotEmpty} from 'class-validator'
+import {IsDefined, IsNotEmpty, IsString} from 'class-validator'
 import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {TextField} from '../Text-field'
 import {FormItemControlProps, FormItemProps} from './Form-item'
 import {Form} from './Form.component'
-
-const {IsDefined, IsString} = Form.validator
 
 class NameRule {
     @IsDefined()

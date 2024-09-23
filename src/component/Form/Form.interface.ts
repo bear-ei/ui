@@ -1,4 +1,4 @@
-import {ValidationError} from 'class-validator'
+import {ValidationError, ValidatorOptions} from 'class-validator'
 import React, {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
 import {NamePath} from '../../util'
@@ -67,14 +67,14 @@ export interface FormStorage<T = Record<string, unknown>> {
 
 export interface FormProps<T = Record<string, unknown>>
     extends ViewProps,
-        RefAttributes<View>,
         FormCallback<T>,
-        Pick<FormItemProps, 'skeletonElement' | 'minSkeletonDuration'> {
+        Pick<FormItemProps, 'skeletonElement' | 'minSkeletonDuration'>,
+        RefAttributes<View> {
     form?: FormStorage<T>
     formLayout?: 'horizontal' | 'vertical'
     initialValue?: T
     items?: FormItemProps[]
-    validationRule?: FormItemValidationRule
+    validatorOptions?: ValidatorOptions
 }
 
 export interface RenderFormProps<T> extends FormProps<T> {
@@ -90,7 +90,7 @@ export interface InitialFormState {
 }
 
 export type HandleFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
-export type RenderFormItemOptions = Pick<FormItemProps, 'skeletonElement' | 'minSkeletonDuration'>
+export type RenderFormItemOptions = Pick<FormItemProps, 'skeletonElement' | 'minSkeletonDuration' | 'validatorOptions'>
 export type FormComponent = typeof ForwardRefForm & {
     useForm: typeof useForm
 }

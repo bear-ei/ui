@@ -1,4 +1,4 @@
-import {ValidationError} from 'class-validator'
+import {ValidationError, ValidatorOptions} from 'class-validator'
 import React, {RefAttributes} from 'react'
 import {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native'
 import {ComponentStatus} from '../../Common'
@@ -23,6 +23,7 @@ export interface FormItemProps
     renderControl?: (props: FormItemControlProps) => JSX.Element
     rule?: FormItemValidationRule
     skeletonElement?: React.JSX.Element
+    validatorOptions?: ValidatorOptions
 }
 
 export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {
@@ -46,3 +47,8 @@ export interface HandleFormItemValueChangeOptions extends Pick<FormStorage, 'set
 export type HandleFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
     validate: (value?: unknown) => Promise<ValidationError[] | undefined>
 } & Pick<FormStorage, 'signInField'>
+
+export interface HandleFormItemValidateOptions {
+    rule?: FormItemValidationRule
+    validatorOptions?: ValidatorOptions
+}
