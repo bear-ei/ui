@@ -3,14 +3,14 @@ import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-r
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hook'
 import {
-    ProcessIconButtonAnimatedTimingOptions,
-    ProcessIconButtonAnimatedTimingSharedValue,
+    HandleIconButtonAnimatedTimingOptions,
+    HandleIconButtonAnimatedTimingSharedValue,
     UseIconButtonAnimatedOptions
 } from './Icon-button.interface'
 
 const handleIconButtonAnimatedTiming =
-    ({animatedTiming, type}: ProcessIconButtonAnimatedTimingOptions) =>
-    ({borderSharedValue, colorSharedValue}: ProcessIconButtonAnimatedTimingSharedValue) =>
+    ({animatedTiming, type}: HandleIconButtonAnimatedTimingOptions) =>
+    ({borderSharedValue, colorSharedValue}: HandleIconButtonAnimatedTimingSharedValue) =>
     (disabled?: boolean) => {
         const toValue = disabled ? 0 : 1
 

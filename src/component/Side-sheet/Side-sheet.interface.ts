@@ -18,4 +18,4 @@ export interface InitialSideSheetState {
     sideSheetVisible?: boolean
 }
 
-export type ProcessSideSheetEmitOptions = Pick<SideSheetBaseProps, 'visible' | 'id' | 'type'>
+export type HandleSideSheetEmitOptions = Pick<SideSheetBaseProps, 'visible' | 'id' | 'type'>

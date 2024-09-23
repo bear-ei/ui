@@ -6,9 +6,9 @@ import {emitter} from '../../../context'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hook'
 import {State} from '../../Common'
 import {
+    HandleTooltipSupportingEmitOptions,
+    HandleTooltipSupportingStateEventChangeOptions,
     InitialTooltipSupportingState,
-    ProcessTooltipSupportingEmitOptions,
-    ProcessTooltipSupportingStateEventChangeOptions,
     TooltipSupportingBaseProps
 } from './Tooltip-supporting.interface'
 import {useTooltipSupportingAnimated} from './use-tooltip-supporting-animated.hook'
@@ -24,7 +24,7 @@ const handleTooltipSupportingLayout =
     }
 
 const handleTooltipSupportingStateChange =
-    ({onVisible, eventName}: ProcessTooltipSupportingStateEventChangeOptions) =>
+    ({onVisible, eventName}: HandleTooltipSupportingStateEventChangeOptions) =>
     (setState: Updater<InitialTooltipSupportingState>) =>
     (event: StateEvent) =>
         eventName === 'layout' ?
@@ -56,7 +56,7 @@ const handleTooltipSupportingContainerLayout =
         visible && setTooltipSupportingLayout(setState)(containerCurrent)
 
 const handleTooltipSupportingEmit =
-    ({id, status}: ProcessTooltipSupportingEmitOptions) =>
+    ({id, status}: HandleTooltipSupportingEmitOptions) =>
     (renderTooltipSupporting: () => React.JSX.Element) => {
         status === 'succeeded' &&
             emitter.emit('modal', {id: `tooltip__supporting--${id}`, render: renderTooltipSupporting})

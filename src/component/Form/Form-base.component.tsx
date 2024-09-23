@@ -6,8 +6,8 @@ import {FormItem, FormItemProps} from './Form-item'
 import {
     FormBaseProps,
     FormCallback,
+    HandleFormCallbackOptions,
     InitialFormState,
-    ProcessFormCallbackOptions,
     RenderFormItemOptions
 } from './Form.interface'
 import {useForm} from './use-form.hook'
@@ -26,7 +26,7 @@ const handleFormInit =
         })
 
 const handleFormCallback =
-    <T,>({onFinish, onFinishFailed, onValueChange}: ProcessFormCallbackOptions<T>) =>
+    <T,>({onFinish, onFinishFailed, onValueChange}: HandleFormCallbackOptions<T>) =>
     (setCallback: (callback: FormCallback<T>) => void) =>
         setCallback({onFinish, onFinishFailed, onValueChange})
 

@@ -24,7 +24,7 @@ export interface ListData
     extraData?: string[]
 }
 
-export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & ProcessRenderItemOptions
+export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
 export interface ListProps
     extends Partial<
         VirtualListProps<ListData> &
@@ -75,7 +75,7 @@ export interface InitialListState {
     status: ComponentStatus
 }
 
-export type ProcessRenderItemOptions = Pick<
+export type HandleRenderItemOptions = Pick<
     RenderListProps,
     | 'activeKey'
     | 'activeKeys'
@@ -107,4 +107,4 @@ export interface ListBaseProps extends ListProps {
     render: (props: RenderListProps) => React.JSX.Element
 }
 
-export type ProcessListActiveOptions = Pick<ListProps, 'onActive' | 'type' | 'onActives' | 'deselect'>
+export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'type' | 'onActives' | 'deselect'>

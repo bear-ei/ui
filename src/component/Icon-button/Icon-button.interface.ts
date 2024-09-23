@@ -33,13 +33,13 @@ export interface RenderIconButtonIconOptions extends Pick<RenderIconButtonProps,
     eventName?: EventName
 }
 
-export type ProcessIconButtonStateChangeOptions = OnStateEventChangeOptions
+export type HandleIconButtonStateChangeOptions = OnStateEventChangeOptions
 export type UseIconButtonAnimatedOptions = Pick<RenderIconButtonProps, 'disabled' | 'type'>
-export interface ProcessIconButtonAnimatedTimingOptions extends Pick<UseIconButtonAnimatedOptions, 'type'> {
+export interface HandleIconButtonAnimatedTimingOptions extends Pick<UseIconButtonAnimatedOptions, 'type'> {
     animatedTiming: AnimatedTiming
 }
 
-export interface ProcessIconButtonAnimatedTimingSharedValue {
+export interface HandleIconButtonAnimatedTimingSharedValue {
     borderSharedValue: SharedValue<AnimatableValue>
     colorSharedValue: SharedValue<AnimatableValue>
 }

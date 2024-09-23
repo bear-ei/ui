@@ -4,11 +4,11 @@ import {Updater, useImmer} from 'use-immer'
 import {RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
 import {
+    HandleListActiveOptions,
+    HandleRenderItemOptions,
     InitialListState,
     ListBaseProps,
     ListData,
-    ProcessListActiveOptions,
-    ProcessRenderItemOptions,
     RenderListItemOptions,
     RenderListProps,
     VirtualListComponent
@@ -45,13 +45,13 @@ const handleListMultiselect = (draft: WritableDraft<InitialListState>) => (value
 }
 
 const createNextActiveCallback =
-    ({onActive, onActives}: ProcessListActiveOptions) =>
+    ({onActive, onActives}: HandleListActiveOptions) =>
     (value: string | string[] | undefined) =>
     () =>
         typeof value === 'string' ? onActive?.(value) : onActives?.(value)
 
 const handleListActive =
-    ({onActive, type, onActives, deselect}: ProcessListActiveOptions = {}) =>
+    ({onActive, type, onActives, deselect}: HandleListActiveOptions = {}) =>
     (setState: Updater<InitialListState>) =>
     (value?: string | string[]) => {
         setState(draft => {
@@ -72,7 +72,7 @@ const createNextAfterAffordanceCallback = (onActive?: (value?: string) => void) 
     onActive?.(value)
 
 const handleActiveListAfterAffordance =
-    ({onActive, type}: ProcessListActiveOptions) =>
+    ({onActive, type}: HandleListActiveOptions) =>
     (setState: Updater<InitialListState>) =>
     (value?: string) =>
         type !== 'multiselect' &&
@@ -102,7 +102,7 @@ const renderCustomListItem = ({index, item, supportingTextNumberOfLines, ...prop
 )
 
 const handleRenderListItem =
-    ({renderItem, ...options}: ProcessRenderItemOptions) =>
+    ({renderItem, ...options}: HandleRenderItemOptions) =>
     (props: RenderVirtualListItemInfo<ListData>) =>
         renderItem ? renderItem({...options, ...props}) : renderCustomListItem({...options, ...props})
 

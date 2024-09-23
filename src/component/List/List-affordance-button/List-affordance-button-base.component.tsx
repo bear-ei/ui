@@ -5,14 +5,14 @@ import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hook'
 import {State} from '../../Common'
 import {
+    HandleListAffordanceButtonStateEventChangeOptions,
     ListAffordanceButtonBaseProps,
-    ListAffordanceButtonInitialState,
-    ProcessListAffordanceButtonStateEventChangeOptions
+    ListAffordanceButtonInitialState
 } from './List-affordance-button.interface'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
 const handleListAffordanceButtonStateChange =
-    ({eventName}: ProcessListAffordanceButtonStateEventChangeOptions) =>
+    ({eventName}: HandleListAffordanceButtonStateEventChangeOptions) =>
     (setState: Updater<ListAffordanceButtonInitialState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {

@@ -8,7 +8,7 @@ import {outlined} from './icon.outlined'
 export type IconName = keyof (typeof outlined)['outlined']
 export type IconStyle = 'outlined' | 'rounded' | 'sharp'
 export type IconType = 'filled' | 'outlined'
-export interface IconProps extends Omit<SvgProps, 'width' | 'height'>, RefAttributes<View>, ViewProps {
+export interface IconProps extends Omit<SvgProps, 'width' | 'height' | 'hitSlop'>, RefAttributes<View>, ViewProps {
     densityScale?: number
     eventName?: EventName
     icon?: React.FC<SvgProps>

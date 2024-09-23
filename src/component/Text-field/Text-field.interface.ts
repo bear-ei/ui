@@ -54,7 +54,7 @@ export interface InitialTextFieldState {
     textInputValue?: string
 }
 
-export type ProcessTextFieldStateEventChangeOptions = {
+export type HandleTextFieldStateEventChangeOptions = {
     ref?: RefObject<TextInput>
 } & OnStateEventChangeOptions &
     Pick<TextFieldProps, 'content'>
@@ -64,11 +64,11 @@ export interface UseTextFieldAnimatedOptions extends Pick<RenderTextFieldProps, 
     state: State
 }
 
-export interface ProcessTextFieldEnabledSharedOptions extends Pick<UseTextFieldAnimatedOptions, 'error'> {
+export interface HandleTextFieldEnabledSharedOptions extends Pick<UseTextFieldAnimatedOptions, 'error'> {
     filledToValue: number
 }
 
-export interface ProcessTextFieldEnabledSharedValue {
+export interface HandleTextFieldEnabledSharedValue {
     activeIndicatorHeightSharedValue: SharedValue<AnimatableValue>
     colorSharedValue: SharedValue<AnimatableValue>
     inputColorSharedValue: SharedValue<AnimatableValue>
@@ -76,7 +76,7 @@ export interface ProcessTextFieldEnabledSharedValue {
     supportingTextSharedValue: SharedValue<AnimatableValue>
 }
 
-export interface ProcessTextFieldDisabledSharedValue {
+export interface HandleTextFieldDisabledSharedValue {
     activeIndicatorHeightSharedValue: SharedValue<AnimatableValue>
     colorSharedValue: SharedValue<AnimatableValue>
     headerInnerBackgroundColorSharedValue: SharedValue<AnimatableValue>
@@ -84,21 +84,21 @@ export interface ProcessTextFieldDisabledSharedValue {
     supportingTextSharedValue: SharedValue<AnimatableValue>
 }
 
-export interface ProcessTextFieldErrorSharedValue {
+export interface HandleTextFieldErrorSharedValue {
     activeIndicatorHeightSharedValue: SharedValue<AnimatableValue>
     colorSharedValue: SharedValue<AnimatableValue>
     inputColorSharedValue: SharedValue<AnimatableValue>
     supportingTextSharedValue: SharedValue<AnimatableValue>
 }
 
-export interface ProcessTextFieldFocusedSharedValue {
+export interface HandleTextFieldFocusedSharedValue {
     activeIndicatorHeightSharedValue: SharedValue<AnimatableValue>
     colorSharedValue: SharedValue<AnimatableValue>
     labelTextSharedValue: SharedValue<AnimatableValue>
 }
 
 export type TextFieldStateAnimated = Partial<Record<State, () => void>>
-export type ProcessTextFieldNonerrorAnimatedOptions = Pick<UseTextFieldAnimatedOptions, 'disabled' | 'error'>
+export type HandleTextFieldNonerrorAnimatedOptions = Pick<UseTextFieldAnimatedOptions, 'disabled' | 'error'>
 export type TextFieldHeaderProps = Pick<RenderTextFieldProps, 'type' | 'densityScale'> & {
     leadingShow: boolean
     trailingShow: boolean

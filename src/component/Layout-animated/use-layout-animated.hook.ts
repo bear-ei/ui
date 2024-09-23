@@ -9,10 +9,10 @@ import {
 } from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hook'
-import {ProcessLayoutAnimatedTimingOptions, UseLayoutAnimatedOptions} from './Layout-animated.interface'
+import {HandleLayoutAnimatedTimingOptions, UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
 const handleLayoutAnimatedTiming =
-    ({animatedTiming, onAnimatedFinished, entry, exit}: ProcessLayoutAnimatedTimingOptions) =>
+    ({animatedTiming, onAnimatedFinished, entry, exit}: HandleLayoutAnimatedTimingOptions) =>
     (opacitySharedValue: SharedValue<AnimatableValue>) =>
     (visible?: boolean) =>
         typeof visible === 'boolean' &&

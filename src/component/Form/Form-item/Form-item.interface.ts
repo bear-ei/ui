@@ -39,10 +39,10 @@ export interface InitialFormItemState {
     status: ComponentStatus
 }
 
-export interface ProcessFormItemValueChangeOptions extends Pick<FormStorage, 'setFieldValue'> {
+export interface HandleFormItemValueChangeOptions extends Pick<FormStorage, 'setFieldValue'> {
     storageValue?: unknown
 }
 
-export type ProcessFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
+export type HandleFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
     validate: (value?: unknown) => Promise<ValidationError[] | undefined>
 } & Pick<FormStorage, 'signInField'>

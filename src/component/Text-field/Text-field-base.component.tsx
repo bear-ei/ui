@@ -4,16 +4,12 @@ import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
 import {EventName, State} from '../Common'
-import {
-    InitialTextFieldState,
-    ProcessTextFieldStateEventChangeOptions,
-    TextFieldBaseProps
-} from './Text-field.interface'
+import {HandleTextFieldStateEventChangeOptions, InitialTextFieldState, TextFieldBaseProps} from './Text-field.interface'
 import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
 const handleTextFieldFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
 const handleTextFieldStateChange =
-    ({eventName, ref, content, state}: ProcessTextFieldStateEventChangeOptions) =>
+    ({eventName, ref, content, state}: HandleTextFieldStateEventChangeOptions) =>
     (setState: Updater<InitialTextFieldState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {

@@ -3,17 +3,17 @@ import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {FABProps} from '../FAB'
 import {
+    HandleNavigationRailActiveOptions,
     InitialNavigationRailState,
     NavigationBaseProps,
     NavigationRailData,
-    ProcessNavigationRailActiveOptions,
     RenderNavigationRailItemOptions
 } from '././Navigation-rail.interface'
 import {NavigationRailItem} from './Navigation-rail-item'
 
 const createNextActiveCallback = (onActive?: (value?: string) => void) => (value?: string) => () => onActive?.(value)
 const handleNavigationRailActive =
-    ({onActive}: ProcessNavigationRailActiveOptions = {}) =>
+    ({onActive}: HandleNavigationRailActiveOptions = {}) =>
     (setState: Updater<InitialNavigationRailState>) =>
     (value?: string) =>
         value &&

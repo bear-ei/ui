@@ -90,7 +90,7 @@ export interface InitialFormState {
     status: ComponentStatus
 }
 
-export type ProcessFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
+export type HandleFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
 export type RenderFormItemOptions = Pick<FormItemProps, 'skeletonElement' | 'minSkeletonDuration'>
 export type FormComponent = typeof ForwardRefForm & {
     useForm: typeof useForm

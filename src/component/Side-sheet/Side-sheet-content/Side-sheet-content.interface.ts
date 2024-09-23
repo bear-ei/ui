@@ -46,13 +46,13 @@ export interface SideSheetContentBaseProps extends SideSheetContentProps {
     render: (props: RenderSideSheetContentProps) => React.JSX.Element
 }
 
-export type ProcessSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisible'>
+export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisible'>
 export type UseSideSheetContentAnimatedOptions = Pick<
     RenderSideSheetContentProps,
     'visible' | 'sheetPosition' | 'type' | 'footerVisible' | 'densityScale'
 >
 
-export interface ProcessSideSheetContentVisibleAnimatedTimingSharedValue
+export interface HandleSideSheetContentVisibleAnimatedTimingSharedValue
     extends Pick<UseSideSheetContentAnimatedOptions, 'visible'> {
     backgroundColorSharedValue: SharedValue<AnimatableValue>
     contentTranslateXSharedValue: SharedValue<AnimatableValue>

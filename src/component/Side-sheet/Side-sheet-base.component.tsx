@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {emitter} from '../../context'
-import {InitialSideSheetState, ProcessSideSheetEmitOptions, SheetType, SideSheetBaseProps} from './Side-sheet.interface'
+import {HandleSideSheetEmitOptions, InitialSideSheetState, SheetType, SideSheetBaseProps} from './Side-sheet.interface'
 
 const handleSideSheetClose = (setState: Updater<InitialSideSheetState>) => (onClose?: () => void) => {
     setState(draft => {
@@ -18,7 +18,7 @@ const handleSideSheetVisible = (setState: Updater<InitialSideSheetState>) => (vi
     })
 
 const handleSideSheetEmit =
-    ({id, type}: ProcessSideSheetEmitOptions) =>
+    ({id, type}: HandleSideSheetEmitOptions) =>
     (renderSheet: () => React.JSX.Element) =>
     (visible?: boolean) =>
         typeof visible === 'boolean' &&

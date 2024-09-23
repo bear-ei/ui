@@ -4,12 +4,12 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {State} from '../Common'
 import {
-    ProcessTextFieldDisabledSharedValue,
-    ProcessTextFieldEnabledSharedOptions,
-    ProcessTextFieldEnabledSharedValue,
-    ProcessTextFieldErrorSharedValue,
-    ProcessTextFieldFocusedSharedValue,
-    ProcessTextFieldNonerrorAnimatedOptions,
+    HandleTextFieldDisabledSharedValue,
+    HandleTextFieldEnabledSharedOptions,
+    HandleTextFieldEnabledSharedValue,
+    HandleTextFieldErrorSharedValue,
+    HandleTextFieldFocusedSharedValue,
+    HandleTextFieldNonerrorAnimatedOptions,
     TextFieldStateAnimated,
     UseTextFieldAnimatedOptions
 } from './Text-field.interface'
@@ -22,8 +22,8 @@ const handleTextFieldEnabled =
         inputColorSharedValue,
         labelTextSharedValue,
         supportingTextSharedValue
-    }: ProcessTextFieldEnabledSharedValue) =>
-    ({filledToValue, error}: ProcessTextFieldEnabledSharedOptions) => {
+    }: HandleTextFieldEnabledSharedValue) =>
+    ({filledToValue, error}: HandleTextFieldEnabledSharedOptions) => {
         if (error) {
             return animatedTiming()(labelTextSharedValue)(filledToValue)
         }
@@ -43,7 +43,7 @@ const handleTextFieldDisabled =
         headerInnerBackgroundColorSharedValue,
         inputColorSharedValue,
         supportingTextSharedValue
-    }: ProcessTextFieldDisabledSharedValue) => {
+    }: HandleTextFieldDisabledSharedValue) => {
         const toValue = 0
 
         animatedTiming()(activeIndicatorHeightSharedValue)(toValue)
@@ -60,7 +60,7 @@ const handleTextFieldError =
         colorSharedValue,
         inputColorSharedValue,
         supportingTextSharedValue
-    }: ProcessTextFieldErrorSharedValue) => {
+    }: HandleTextFieldErrorSharedValue) => {
         animatedTiming()(activeIndicatorHeightSharedValue)(1)
         animatedTiming()(colorSharedValue)(3)
         animatedTiming()(inputColorSharedValue)(1)
@@ -69,7 +69,7 @@ const handleTextFieldError =
 
 const handleTextFieldFocused =
     (animatedTiming: AnimatedTiming) =>
-    ({activeIndicatorHeightSharedValue, colorSharedValue, labelTextSharedValue}: ProcessTextFieldFocusedSharedValue) =>
+    ({activeIndicatorHeightSharedValue, colorSharedValue, labelTextSharedValue}: HandleTextFieldFocusedSharedValue) =>
     (error?: boolean) => {
         if (error) {
             return animatedTiming()(labelTextSharedValue)(0)
@@ -84,7 +84,7 @@ const handleTextFieldStateAnimated = (stateAnimated: TextFieldStateAnimated) => 
     stateAnimated[state]?.()
 
 const handleTextFieldNonerrorAnimated =
-    ({error, disabled}: ProcessTextFieldNonerrorAnimatedOptions) =>
+    ({error, disabled}: HandleTextFieldNonerrorAnimatedOptions) =>
     (stateAnimated: TextFieldStateAnimated) =>
     (state: State) => {
         const nonerror = typeof error !== 'boolean' && disabled

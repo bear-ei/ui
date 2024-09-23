@@ -3,8 +3,8 @@ import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {StepItem} from './Step-item'
 import {
+    HandleStepActiveOptions,
     InitialStepState,
-    ProcessStepActiveOptions,
     RenderStepItemOptions,
     StepBaseProps,
     StepData
@@ -13,7 +13,7 @@ import {ItemContainer, Line} from './Step.style'
 
 const createNextActiveCallback = (onActive?: (value?: string) => void) => (value?: string) => () => onActive?.(value)
 const handleStepActive =
-    ({onActive}: ProcessStepActiveOptions = {}) =>
+    ({onActive}: HandleStepActiveOptions = {}) =>
     (setState: Updater<InitialStepState>) =>
     (value?: string) => {
         setState(draft => {

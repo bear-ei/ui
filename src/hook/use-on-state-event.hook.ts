@@ -8,15 +8,15 @@ import {
 } from 'react-native'
 import {State} from '../component/Common'
 import {
+    HandleStateEventChangeOptions,
+    HandleStateEventOptions,
     OnStateEventChangeOptions,
-    ProcessStateEventChangeOptions,
-    ProcessStateEventOptions,
     StateEvent,
-    UseProcessStateEventOptions
+    UseHandleStateEventOptions
 } from './hook.interface'
 
 const handleStateEventChange =
-    ({callback, disabled, eventName, onStateEventChange}: ProcessStateEventChangeOptions) =>
+    ({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
     (state: State) =>
     (event: StateEvent) => {
         if (disabled) {
@@ -28,13 +28,13 @@ const handleStateEventChange =
     }
 
 const handlePressInEvent =
-    ({onStateEvent}: ProcessStateEventOptions) =>
+    ({onStateEvent}: HandleStateEventOptions) =>
     (onPressIn?: (event: GestureResponderEvent) => void) =>
     (event: GestureResponderEvent) =>
         onStateEvent({callback: () => onPressIn?.(event), eventName: 'pressIn'})('pressIn')(event)
 
 const handlePressEvent =
-    ({onStateEvent, mobileDevice}: ProcessStateEventOptions) =>
+    ({onStateEvent, mobileDevice}: HandleStateEventOptions) =>
     (onPress?: (event: GestureResponderEvent) => void) =>
     (event: GestureResponderEvent) =>
         onStateEvent({
@@ -43,13 +43,13 @@ const handlePressEvent =
         })(mobileDevice ? 'enabled' : 'hovered')(event)
 
 const handleLongPressEvent =
-    ({onStateEvent}: ProcessStateEventOptions) =>
+    ({onStateEvent}: HandleStateEventOptions) =>
     (onLongPress?: (event: GestureResponderEvent) => void) =>
     (event: GestureResponderEvent) =>
         onStateEvent({callback: () => onLongPress?.(event), eventName: 'longPress'})('longPressIn')(event)
 
 const handlePressOutEvent =
-    ({onStateEvent, mobileDevice}: ProcessStateEventOptions) =>
+    ({onStateEvent, mobileDevice}: HandleStateEventOptions) =>
     (onPressOut?: (event: GestureResponderEvent) => void) =>
     (event: GestureResponderEvent) =>
         onStateEvent({
@@ -58,31 +58,31 @@ const handlePressOutEvent =
         })(mobileDevice ? 'enabled' : 'hovered')(event)
 
 const handleHoverIntEvent =
-    ({onStateEvent}: ProcessStateEventOptions) =>
+    ({onStateEvent}: HandleStateEventOptions) =>
     (onHoverIn?: (event: MouseEvent) => void) =>
     (event: MouseEvent) =>
         onStateEvent({callback: () => onHoverIn?.(event), eventName: 'hoverIn'})('hovered')(event)
 
 const handleHoverOutEvent =
-    ({onStateEvent}: ProcessStateEventOptions) =>
+    ({onStateEvent}: HandleStateEventOptions) =>
     (onHoverOut?: (event: MouseEvent) => void) =>
     (event: MouseEvent) =>
         onStateEvent({callback: () => onHoverOut?.(event), eventName: 'hoverOut'})('enabled')(event)
 
 const handleFocusEvent =
-    ({onStateEvent}: ProcessStateEventOptions) =>
+    ({onStateEvent}: HandleStateEventOptions) =>
     (onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void) =>
     (event: NativeSyntheticEvent<TargetedEvent>) =>
         onStateEvent({callback: () => onFocus?.(event), eventName: 'focus'})('focused')(event)
 
 const handleBlurEvent =
-    ({onStateEvent}: ProcessStateEventOptions) =>
+    ({onStateEvent}: HandleStateEventOptions) =>
     (onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void) =>
     (event: NativeSyntheticEvent<TargetedEvent>) =>
         onStateEvent({callback: () => onBlur?.(event), eventName: 'blur'})('enabled')(event)
 
 const handleLayoutEvent =
-    ({onStateEvent}: ProcessStateEventOptions) =>
+    ({onStateEvent}: HandleStateEventOptions) =>
     (onLayout?: (event: LayoutChangeEvent) => void) =>
     (event: LayoutChangeEvent) =>
         onStateEvent({callback: () => onLayout?.(event), eventName: 'layout'})('enabled')(event)
@@ -99,7 +99,7 @@ export const useOnStateEvent = ({
     onPressIn,
     onPressOut,
     onStateEventChange
-}: UseProcessStateEventOptions) => {
+}: UseHandleStateEventOptions) => {
     const mobileDevice = ['ios', 'android'].includes(Platform.OS)
     const onStateEvent = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
         handleStateEventChange({...options, disabled, onStateEventChange})(disabled ? 'disabled' : state)(event)

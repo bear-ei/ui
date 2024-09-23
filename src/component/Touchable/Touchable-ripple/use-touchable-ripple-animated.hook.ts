@@ -3,17 +3,17 @@ import {Extrapolation, interpolate, useAnimatedStyle, useSharedValue} from 'reac
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hook'
 import {
-    ProcessTouchableRippleAnimatedTimingOptions,
-    ProcessTouchableRippleAnimatedTimingSharedValue,
+    HandleTouchableRippleAnimatedTimingOptions,
+    HandleTouchableRippleAnimatedTimingSharedValue,
     UseTouchableRippleAnimatedOptions
 } from './Touchable-ripple.interface'
 
 const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
 const handleTouchableRippleAnimatedTiming =
-    ({animatedTiming, onAnimatedFinished}: ProcessTouchableRippleAnimatedTimingOptions) =>
-    (sharedValue: ProcessTouchableRippleAnimatedTimingSharedValue) => {
+    ({animatedTiming, onAnimatedFinished}: HandleTouchableRippleAnimatedTimingOptions) =>
+    (sharedValue: HandleTouchableRippleAnimatedTimingSharedValue) => {
         const createTouchableRippleAnimatedTiming =
-            ({scaleSharedValue, opacitySharedValue}: ProcessTouchableRippleAnimatedTimingSharedValue) =>
+            ({scaleSharedValue, opacitySharedValue}: HandleTouchableRippleAnimatedTimingSharedValue) =>
             (toValue: number) =>
             (callback?: () => void) =>
                 animatedTiming({

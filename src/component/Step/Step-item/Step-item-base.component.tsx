@@ -5,12 +5,12 @@ import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hook'
 import {EventName, State} from '../../Common'
 import {Icon, IconProps} from '../../Icon'
-import {ProcessStepItemStateEventChangeOptions, StepItemBaseProps, StepItemInitialState} from './Step-item.interface'
+import {HandleStepItemStateEventChangeOptions, StepItemBaseProps, StepItemInitialState} from './Step-item.interface'
 import {useStepItemAnimated} from './use-step-item-animated.hook'
 
 const handleStepItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
 const handleStepItemStateChange =
-    ({itemKey, eventName, onActive}: ProcessStepItemStateEventChangeOptions) =>
+    ({itemKey, eventName, onActive}: HandleStepItemStateEventChangeOptions) =>
     (setState: Updater<StepItemInitialState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {

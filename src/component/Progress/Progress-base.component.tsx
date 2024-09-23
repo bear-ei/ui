@@ -3,7 +3,7 @@ import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
 import {EventName, State} from '../Common'
-import {InitialProgressState, ProcessProgressStateChangeOptions, ProgressBaseProps} from './Progress.interface'
+import {HandleProgressStateChangeOptions, InitialProgressState, ProgressBaseProps} from './Progress.interface'
 
 const handleProgressLayout = (setState: Updater<InitialProgressState>) => (event: LayoutChangeEvent) => {
     const nativeEventLayout = event.nativeEvent.layout
@@ -15,7 +15,7 @@ const handleProgressLayout = (setState: Updater<InitialProgressState>) => (event
 }
 
 const handleTouchableStateChange =
-    ({eventName}: ProcessProgressStateChangeOptions) =>
+    ({eventName}: HandleProgressStateChangeOptions) =>
     (setState: Updater<InitialProgressState>) =>
     (event: StateEvent) => {
         const nextEvent = {

@@ -7,13 +7,13 @@ import {FormError} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
     FormItemBaseProps,
-    InitialFormItemState,
-    ProcessFormItemInitOptions,
-    ProcessFormItemValueChangeOptions
+    HandleFormItemInitOptions,
+    HandleFormItemValueChangeOptions,
+    InitialFormItemState
 } from './Form-item.interface'
 
 const handleFormItemValueChange =
-    ({setFieldValue, storageValue}: ProcessFormItemValueChangeOptions) =>
+    ({setFieldValue, storageValue}: HandleFormItemValueChangeOptions) =>
     (name?: string) =>
     (value?: unknown) =>
         name && storageValue !== value && setFieldValue()()({[name]: value})
@@ -27,7 +27,7 @@ const handleFormStorageChange = (setState: Updater<InitialFormItemState>) => () 
     })
 
 const handleFormItemInit =
-    ({rule, validate: fieldValidate, signInField}: ProcessFormItemInitOptions) =>
+    ({rule, validate: fieldValidate, signInField}: HandleFormItemInitOptions) =>
     (setState: Updater<InitialFormItemState>) =>
     (name?: string) => {
         setState(draft => {

@@ -11,7 +11,7 @@ import {
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, AnimatedTimingOptions, useAnimatedTiming} from '../../../hook'
 import {
-    ProcessSideSheetContentVisibleAnimatedTimingSharedValue,
+    HandleSideSheetContentVisibleAnimatedTimingSharedValue,
     UseSideSheetContentAnimatedOptions
 } from './Side-sheet-content.interface'
 
@@ -21,7 +21,7 @@ const handleSideSheetContentVisibleAnimatedTiming =
         backgroundColorSharedValue,
         contentTranslateXSharedValue,
         widthSharedValue
-    }: ProcessSideSheetContentVisibleAnimatedTimingSharedValue) =>
+    }: HandleSideSheetContentVisibleAnimatedTimingSharedValue) =>
     (visible?: boolean) => {
         if (typeof visible !== 'boolean') {
             return

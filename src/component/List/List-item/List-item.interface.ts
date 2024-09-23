@@ -77,11 +77,11 @@ export interface InitialListItemState {
     trailingVisible?: boolean
 }
 
-export type ProcessListItemStateEventChangeOptions = OnStateEventChangeOptions &
+export type HandleListItemStateEventChangeOptions = OnStateEventChangeOptions &
     Pick<RenderListItemProps, 'itemKey' | 'onActive' | 'type' | 'onLoadEnd' | 'trailingTrigger'>
 
-export type ProcessListItemTrailingEventOptions = {callback?: () => void}
-export interface ProcessListItemConfirmOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
+export type HandleListItemTrailingEventOptions = {callback?: () => void}
+export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
     onConfirm?: ListItemProps['onConfirm']
     options: ListAfterAffordancePressOutOptions
     onListItemClose: (value?: boolean) => void
@@ -98,18 +98,18 @@ export interface UseListItemAnimatedOptions {
     onListItemAfterAffordanceVisibleFinished?: (value?: boolean) => false | void
 }
 
-export interface ProcessListItemAfterAffordanceVisibleAnimatedOptions
+export interface HandleListItemAfterAffordanceVisibleAnimatedOptions
     extends Pick<UseListItemAnimatedOptions, 'onListItemAfterAffordanceVisibleFinished'> {
     animatedTiming: AnimatedTiming
 }
 
-export interface ProcessListItemTrailingPressOutOptions
+export interface HandleListItemTrailingPressOutOptions
     extends Pick<ListItemProps, 'closeTrailing' | 'afterAffordance'> {
     onActiveAfterAffordance?: (value?: string) => void
     onListItemClose: (value?: boolean) => void
 }
 
-export type ProcessListItemCloseOptions = Pick<ListItemProps, 'onClose' | 'onVisible'>
+export type HandleListItemCloseOptions = Pick<ListItemProps, 'onClose' | 'onVisible'>
 export type ListItemContainerProps = Pick<RenderListItemProps, 'densityScale'>
 export interface ListItemMainProps
     extends Pick<RenderListItemProps, 'supportingTextNumberOfLines'>,

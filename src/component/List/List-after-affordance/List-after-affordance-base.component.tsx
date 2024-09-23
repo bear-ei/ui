@@ -3,27 +3,27 @@ import {GestureResponderEvent} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {
+    HandleListAfterAffordanceCancelOptions,
+    HandleListAfterAffordanceConfirmOptions,
     ListAfterAffordanceBaseProps,
     ListAfterAffordanceInitialState,
-    ListAfterAffordancePressOutOptions,
-    ProcessListAfterAffordanceCancelOptions,
-    ProcessListAfterAffordanceConfirmOptions
+    ListAfterAffordancePressOutOptions
 } from './List-after-affordance.interface'
 import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animated.hook'
 
 const handleListAfterAffordanceConfirm =
-    ({onConfirm, doubleConfirmed, itemKey}: ProcessListAfterAffordanceConfirmOptions) =>
+    ({onConfirm, doubleConfirmed, itemKey}: HandleListAfterAffordanceConfirmOptions) =>
     (_event: GestureResponderEvent) =>
         onConfirm?.({itemKey, doubleConfirmed})
 
 const createNextCancelCallback =
     (onCancel?: (options: ListAfterAffordancePressOutOptions) => void) =>
-    ({itemKey, doubleConfirmed}: ProcessListAfterAffordanceCancelOptions) =>
+    ({itemKey, doubleConfirmed}: HandleListAfterAffordanceCancelOptions) =>
     () =>
         onCancel?.({itemKey, doubleConfirmed})
 
 const handleListAfterAffordanceCancel =
-    ({onCancel, doubleConfirmed, itemKey}: ProcessListAfterAffordanceCancelOptions) =>
+    ({onCancel, doubleConfirmed, itemKey}: HandleListAfterAffordanceCancelOptions) =>
     (setState: Updater<ListAfterAffordanceInitialState>) =>
     (_event: GestureResponderEvent) => {
         setState(draft => {

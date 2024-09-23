@@ -4,7 +4,7 @@ import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
 import {debounce} from '../../util'
 import {EventName, State} from '../Common'
-import {InitialTooltipState, ProcessTooltipStateEventChangeOptions, TooltipBaseProps} from './Tooltip.interface'
+import {HandleTooltipStateEventChangeOptions, InitialTooltipState, TooltipBaseProps} from './Tooltip.interface'
 
 const createNextActiveCallback = (onActive?: (value?: boolean) => void) => (value?: boolean) => () => onActive?.(value)
 const handleTooltipVisible =
@@ -27,7 +27,7 @@ const handleTooltipEventNameChange =
     }
 
 const handleTooltipStateChange =
-    ({handleDebounceTooltipVisible, eventName}: ProcessTooltipStateEventChangeOptions) =>
+    ({handleDebounceTooltipVisible, eventName}: HandleTooltipStateEventChangeOptions) =>
     (_setState: Updater<InitialTooltipState>) =>
     (_event: StateEvent) =>
         handleTooltipEventNameChange(handleDebounceTooltipVisible)(eventName)

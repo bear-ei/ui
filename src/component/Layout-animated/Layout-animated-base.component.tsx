@@ -4,10 +4,10 @@ import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
 import {State} from '../Common'
 import {
+    HandleLayoutAnimatedFinishedOptions,
+    HandleLayoutAnimatedStateChangeOptions,
     InitialLayoutAnimatedState,
-    LayoutAnimatedBaseProps,
-    ProcessLayoutAnimatedFinishedOptions,
-    ProcessLayoutAnimatedStateChangeOptions
+    LayoutAnimatedBaseProps
 } from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
@@ -30,7 +30,7 @@ const handleLayoutVisible = (setState: Updater<InitialLayoutAnimatedState>) => (
     })
 
 const handleLayoutAnimatedStateChange =
-    ({eventName, visible}: ProcessLayoutAnimatedStateChangeOptions) =>
+    ({eventName, visible}: HandleLayoutAnimatedStateChangeOptions) =>
     (setState: Updater<InitialLayoutAnimatedState>) =>
     (_event: StateEvent) =>
         eventName === 'layout' &&
@@ -45,7 +45,7 @@ const createNextVisibleCallback = (onVisible?: (value?: boolean) => void) => (va
 
 const createNextUnmountCallback = (onUnmount?: () => void) => () => onUnmount?.()
 const handleLayoutAnimatedFinished =
-    ({onUnmount, unmount, onVisible}: ProcessLayoutAnimatedFinishedOptions) =>
+    ({onUnmount, unmount, onVisible}: HandleLayoutAnimatedFinishedOptions) =>
     (setState: Updater<InitialLayoutAnimatedState>) =>
     (value?: boolean) =>
         setState(draft => {

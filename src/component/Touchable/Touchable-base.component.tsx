@@ -6,8 +6,8 @@ import {generateRandomNumber} from '../../util'
 import {EventName, State} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
+    HandleTouchableStateChangeOptions,
     InitialTouchableState,
-    ProcessTouchableStateChangeOptions,
     RenderTouchableRipplesOptions,
     TouchableBaseProps,
     TouchableRippleSequence
@@ -39,7 +39,7 @@ const handleTouchablePressIn =
     }
 
 const handleTouchableStateChange =
-    ({eventName, enableTouchableRipple}: ProcessTouchableStateChangeOptions) =>
+    ({eventName, enableTouchableRipple}: HandleTouchableStateChangeOptions) =>
     (setState: Updater<InitialTouchableState>) =>
     (event: StateEvent) => {
         const nextEvent = {

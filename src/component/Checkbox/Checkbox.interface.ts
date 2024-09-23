@@ -38,13 +38,13 @@ export interface InitialCheckboxState {
     type?: CheckboxType
 }
 
-export type ProcessCheckboxActiveOptions = Pick<RenderCheckboxProps, 'onActive' | 'indeterminate'>
-export type ProcessCheckboxStateChangeOptions = OnStateEventChangeOptions &
+export type HandleCheckboxActiveOptions = Pick<RenderCheckboxProps, 'onActive' | 'indeterminate'>
+export type HandleCheckboxStateChangeOptions = OnStateEventChangeOptions &
     Pick<RenderCheckboxProps, 'active' | 'indeterminate'> &
-    ProcessCheckboxActiveOptions
+    HandleCheckboxActiveOptions
 
 export type UseCheckboxAnimatedOptions = Pick<RenderCheckboxProps, 'active'>
-export interface ProcessCheckboxIconAnimatedOptions {
+export interface HandleCheckboxIconAnimatedOptions {
     animatedTiming: AnimatedTiming
 }
 

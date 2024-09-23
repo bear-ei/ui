@@ -11,10 +11,10 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {debounce} from '../../util'
 import {EventName} from '../Common'
-import {ProcessUnderlayHoveredAnimatedTimingOptions, UseUnderlayAnimatedOptions} from './Underlay.interface'
+import {HandleUnderlayHoveredAnimatedTimingOptions, UseUnderlayAnimatedOptions} from './Underlay.interface'
 
 const handleUnderlayHoveredAnimatedTiming =
-    ({animatedTiming, activeValue}: ProcessUnderlayHoveredAnimatedTimingOptions) =>
+    ({animatedTiming, activeValue}: HandleUnderlayHoveredAnimatedTimingOptions) =>
     (hoverLayerSharedValue: SharedValue<AnimatableValue>) =>
     (eventName?: EventName) => {
         const event = {

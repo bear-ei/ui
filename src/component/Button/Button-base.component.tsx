@@ -10,8 +10,8 @@ import {IconProps} from '../Icon'
 import {
     ButtonBaseProps,
     ButtonType,
+    HandleButtonStateChangeOptions,
     InitialButtonState,
-    ProcessButtonStateChangeOptions,
     RenderButtonIconOptions
 } from './Button.interface'
 import {useButtonAnimated} from './use-button-animated.hook'
@@ -34,7 +34,7 @@ const handleButtonElevation = (draft: WritableDraft<InitialButtonState>) => (typ
 }
 
 const handleButtonStateChange =
-    ({eventName, type, state}: ProcessButtonStateChangeOptions) =>
+    ({eventName, type, state}: HandleButtonStateChangeOptions) =>
     (setState: Updater<InitialButtonState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {

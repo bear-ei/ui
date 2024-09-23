@@ -37,17 +37,17 @@ export interface InitialTooltipSupportingState {
     visible?: boolean
 }
 
-export type ProcessTooltipSupportingEmitOptions = Pick<InitialTooltipSupportingState, 'status'> &
+export type HandleTooltipSupportingEmitOptions = Pick<InitialTooltipSupportingState, 'status'> &
     Pick<RenderTooltipSupportingProps, 'id'>
 
-export type ProcessTooltipSupportingStateEventChangeOptions = OnStateEventChangeOptions &
+export type HandleTooltipSupportingStateEventChangeOptions = OnStateEventChangeOptions &
     Pick<TooltipSupportingProps, 'onVisible'>
 
 export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'visible'> {
     onClose?: (value?: boolean) => void
 }
 
-export interface ProcessTooltipSupportingAnimatedTimingOptions extends UseTooltipSupportingAnimatedOptions {
+export interface HandleTooltipSupportingAnimatedTimingOptions extends UseTooltipSupportingAnimatedOptions {
     animatedTiming: AnimatedTiming
 }
 

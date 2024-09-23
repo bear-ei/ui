@@ -4,13 +4,13 @@ import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hook'
 import {EventName} from '../Common'
 import {
-    ProcessButtonAnimatedTimingOptions,
-    ProcessButtonAnimatedTimingSharedValue,
+    HandleButtonAnimatedTimingOptions,
+    HandleButtonAnimatedTimingSharedValue,
     UseButtonAnimatedOptions
 } from './Button.interface'
 
 const handleButtonOutlinedAnimated =
-    ({animatedTiming, borderColorInputRange, disabled, type}: ProcessButtonAnimatedTimingOptions) =>
+    ({animatedTiming, borderColorInputRange, disabled, type}: HandleButtonAnimatedTimingOptions) =>
     (borderSharedValue: SharedValue<AnimatableValue>) =>
     (eventName?: EventName) => {
         const value = disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
@@ -25,8 +25,8 @@ const handleButtonOutlinedAnimated =
     }
 
 const handleButtonAnimatedTiming =
-    ({animatedTiming, borderColorInputRange, disabled, type}: ProcessButtonAnimatedTimingOptions) =>
-    ({borderSharedValue, colorSharedValue}: ProcessButtonAnimatedTimingSharedValue) =>
+    ({animatedTiming, borderColorInputRange, disabled, type}: HandleButtonAnimatedTimingOptions) =>
+    ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
     (eventName?: EventName) => {
         const toValue = disabled ? 0 : 1
 

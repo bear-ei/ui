@@ -6,16 +6,16 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {State} from '../Common'
 import {Icon, IconProps} from '../Icon'
 import {
+    HandleIconButtonStateChangeOptions,
     IconButtonBaseProps,
     IconButtonType,
     InitialIconButtonState,
-    ProcessIconButtonStateChangeOptions,
     RenderIconButtonIconOptions
 } from './Icon-button.interface'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
 const handleIconButtonStateChange =
-    ({eventName}: ProcessIconButtonStateChangeOptions) =>
+    ({eventName}: HandleIconButtonStateChangeOptions) =>
     (setState: Updater<InitialIconButtonState>) =>
     (_event: StateEvent) =>
         eventName !== 'layout' &&

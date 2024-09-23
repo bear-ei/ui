@@ -29,11 +29,11 @@ export interface InitialSkeletonState {
     status: ComponentStatus
 }
 
-export type ProcessSkeletonStateChangeOptions = OnStateEventChangeOptions & Pick<SkeletonProps, 'duration'>
+export type HandleSkeletonStateChangeOptions = OnStateEventChangeOptions & Pick<SkeletonProps, 'duration'>
 export type UseSkeletonAnimatedOptions = Pick<RenderSkeletonProps, 'enableAnimated'> &
     Pick<InitialSkeletonState, 'skeletonVisible'>
 
-export interface ProcessSkeletonAnimatedTimingOptions extends Pick<UseSkeletonAnimatedOptions, 'enableAnimated'> {
+export interface HandleSkeletonAnimatedTimingOptions extends Pick<UseSkeletonAnimatedOptions, 'enableAnimated'> {
     animatedTiming: AnimatedTiming
 }
 

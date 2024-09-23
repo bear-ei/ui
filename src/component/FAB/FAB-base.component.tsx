@@ -10,8 +10,8 @@ import {IconProps} from '../Icon'
 import {
     FABBaseProps,
     FABType,
+    HandleFABStateChangeOptions,
     InitialFABState,
-    ProcessFABStateChangeOptions,
     RenderFABIconOptions
 } from './FAB.interface'
 import {useFABAnimated} from './use-fab-animated.hook'
@@ -27,7 +27,7 @@ const handleFABElevation = (draft: WritableDraft<InitialFABState>) => (elevated?
 }
 
 const handleFABStateChange =
-    ({eventName, elevated, state}: ProcessFABStateChangeOptions) =>
+    ({eventName, elevated, state}: HandleFABStateChangeOptions) =>
     (setState: Updater<InitialFABState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {

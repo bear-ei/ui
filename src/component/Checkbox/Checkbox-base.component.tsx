@@ -6,15 +6,15 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {EventName, State} from '../Common'
 import {
     CheckboxBaseProps,
-    InitialCheckboxState,
-    ProcessCheckboxActiveOptions,
-    ProcessCheckboxStateChangeOptions
+    HandleCheckboxActiveOptions,
+    HandleCheckboxStateChangeOptions,
+    InitialCheckboxState
 } from './Checkbox.interface'
 import {useCheckboxAnimated} from './use-checkbox-animated.hook'
 
 const createNextActiveCallback = (onActive?: (value?: boolean) => void) => (value?: boolean) => () => onActive?.(value)
 const handleCheckboxActive =
-    ({indeterminate, onActive}: ProcessCheckboxActiveOptions) =>
+    ({indeterminate, onActive}: HandleCheckboxActiveOptions) =>
     (setState: Updater<InitialCheckboxState>) =>
     (value?: boolean) => {
         typeof value === 'boolean' &&
@@ -29,7 +29,7 @@ const handleCheckboxActive =
     }
 
 const handleCheckboxStateChange =
-    ({active, eventName, indeterminate, onActive}: ProcessCheckboxStateChangeOptions) =>
+    ({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
     (setState: Updater<InitialCheckboxState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {

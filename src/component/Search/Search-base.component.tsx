@@ -9,15 +9,15 @@ import {EventName, State} from '../Common'
 import {ListData} from '../List'
 import {SearchListProps} from './Search-list'
 import {
+    HandleSearchChangeTextOptions,
+    HandleSearchStateChangeOptions,
     InitialSearchState,
-    ProcessSearchChangeTextOptions,
-    ProcessSearchStateChangeOptions,
     SearchBaseProps
 } from './Search.interface'
 
 const handleSearchFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
 const handleSearchStateChange =
-    ({eventName, ref, state}: ProcessSearchStateChangeOptions) =>
+    ({eventName, ref, state}: HandleSearchStateChangeOptions) =>
     (setState: Updater<InitialSearchState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {
@@ -45,7 +45,7 @@ const createNextChangeTextCallback = (onChangeText?: (value: string) => void) =>
     onChangeText?.(value)
 
 const handleSearchChangeText =
-    ({data = [], onChangeText}: ProcessSearchChangeTextOptions = {}) =>
+    ({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) =>
     (setState: Updater<InitialSearchState>) =>
     (value?: string) => {
         const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []

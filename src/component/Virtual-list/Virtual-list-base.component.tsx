@@ -14,9 +14,9 @@ import {debounce} from '../../util'
 import {EventName, State} from '../Common'
 import {RenderVirtualListItemInfo, RenderVirtualListItemOptions, VirtualListItem} from './Virtual-list-item'
 import {
+    HandleVirtualListLayoutOptions,
+    HandleVirtualListScrollOptions,
     InitialVirtualListState,
-    ProcessVirtualListLayoutOptions,
-    ProcessVirtualListScrollOptions,
     VirtualListBaseProps,
     VirtualListData
 } from './Virtual-list.interface'
@@ -47,7 +47,7 @@ const handleVirtualListVisibleRange =
 
 const createNextLoadEndCallback = (onLoadEnd?: (value?: string) => void) => () => onLoadEnd?.()
 const handleVirtualListLayout =
-    ({itemSize, onLoadEnd}: ProcessVirtualListLayoutOptions) =>
+    ({itemSize, onLoadEnd}: HandleVirtualListLayoutOptions) =>
     (setState: Updater<InitialVirtualListState>) =>
     (layout: LayoutRectangle) => {
         setState(draft => {
@@ -82,7 +82,7 @@ const createNextScrollEvent =
         onScroll?.(event)
 
 const handleVirtualListScroll =
-    ({onScroll, itemSize = 0}: ProcessVirtualListScrollOptions) =>
+    ({onScroll, itemSize = 0}: HandleVirtualListScrollOptions) =>
     (setState: Updater<InitialVirtualListState>) =>
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent

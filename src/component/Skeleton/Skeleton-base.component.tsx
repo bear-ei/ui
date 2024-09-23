@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
 import {EventName, State} from '../Common'
-import {InitialSkeletonState, ProcessSkeletonStateChangeOptions, SkeletonBaseProps} from './Skeleton.interface'
+import {HandleSkeletonStateChangeOptions, InitialSkeletonState, SkeletonBaseProps} from './Skeleton.interface'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
 const handleSkeletonClose =
@@ -19,7 +19,7 @@ const handleSkeletonClose =
     }
 
 const handleSkeletonStateChange =
-    ({eventName, duration}: ProcessSkeletonStateChangeOptions) =>
+    ({eventName, duration}: HandleSkeletonStateChangeOptions) =>
     (setState: Updater<InitialSkeletonState>) =>
     (_event: StateEvent) => {
         const nextEvent = {

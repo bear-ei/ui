@@ -36,18 +36,18 @@ export interface NavigationRailItemInitialState {
     nextPressOutEvent?: () => void
 }
 
-export type ProcessNavigationRailItemStateEventChangeOptions = OnStateEventChangeOptions &
+export type HandleNavigationRailItemStateEventChangeOptions = OnStateEventChangeOptions &
     Pick<NavigationRailItemProps, 'itemKey' | 'onActive'>
 
 export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigationRailItemProps, 'active' | 'type'> {
     defaultActive?: boolean
 }
 
-export interface ProcessNavigationRailItemAnimatedTimingOptions extends UseNavigationRailItemAnimatedOptions {
+export interface HandleNavigationRailItemAnimatedTimingOptions extends UseNavigationRailItemAnimatedOptions {
     animatedTiming: AnimatedTiming
 }
 
-export interface ProcessNavigationRailItemAnimatedTimingSharedValue {
+export interface HandleNavigationRailItemAnimatedTimingSharedValue {
     labelHeightSharedValue: SharedValue<AnimatableValue>
     labelTextColorSharedValue: SharedValue<AnimatableValue>
 }

@@ -6,10 +6,10 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../h
 import {EventName, State} from '../../Common'
 import {Icon, IconProps} from '../../Icon'
 import {
+    HandleNavigationRailItemStateEventChangeOptions,
     NavigationRailItemBaseProps,
     NavigationRailItemInitialState,
-    NavigationRailItemProps,
-    ProcessNavigationRailItemStateEventChangeOptions
+    NavigationRailItemProps
 } from './Navigation-rail-item.interface'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
 
@@ -25,7 +25,7 @@ export const handleNavigationRailItemPropsEqual =
 
 const handleNavigationRailItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
 const handleNavigationRailItemStateChange =
-    ({itemKey, eventName, onActive}: ProcessNavigationRailItemStateEventChangeOptions) =>
+    ({itemKey, eventName, onActive}: HandleNavigationRailItemStateEventChangeOptions) =>
     (setState: Updater<NavigationRailItemInitialState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {

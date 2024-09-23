@@ -40,12 +40,12 @@ export interface InitialSearchState {
     state: State
 }
 
-export type ProcessSearchChangeTextOptions = Pick<RenderSearchProps, 'onChangeText'> & Pick<SearchListProps, 'data'>
-export interface ProcessSearchStateChangeOptions extends OnStateEventChangeOptions {
+export type HandleSearchChangeTextOptions = Pick<RenderSearchProps, 'onChangeText'> & Pick<SearchListProps, 'data'>
+export interface HandleSearchStateChangeOptions extends OnStateEventChangeOptions {
     ref?: RefObject<TextInput>
 }
 
-export interface ProcessSearchContainerLayoutOptions {
+export interface HandleSearchContainerLayoutOptions {
     containerCurrent?: View | null
 }
 

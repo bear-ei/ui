@@ -3,14 +3,14 @@ import {Extrapolation, interpolate, interpolateColor, useAnimatedStyle, useShare
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hook'
 import {
-    ProcessStepItemAnimatedTimingOptions,
-    ProcessStepItemAnimatedTimingSharedValue,
+    HandleStepItemAnimatedTimingOptions,
+    HandleStepItemAnimatedTimingSharedValue,
     UseStepItemAnimatedOptions
 } from './Step-item.interface'
 
 const handleStepItemAnimatedTiming =
-    ({animatedTiming, type}: ProcessStepItemAnimatedTimingOptions) =>
-    ({labelHeightSharedValue, labelTextColorSharedValue}: ProcessStepItemAnimatedTimingSharedValue) =>
+    ({animatedTiming, type}: HandleStepItemAnimatedTimingOptions) =>
+    ({labelHeightSharedValue, labelTextColorSharedValue}: HandleStepItemAnimatedTimingSharedValue) =>
     (value?: boolean) => {
         if (!(type === 'segment' && typeof value === 'boolean')) {
             return

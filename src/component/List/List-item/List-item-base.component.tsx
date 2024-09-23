@@ -9,13 +9,13 @@ import {IconButton} from '../../Icon-button'
 import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {ListType} from '../List.interface'
 import {
+    HandleListItemCloseOptions,
+    HandleListItemConfirmOptions,
+    HandleListItemStateEventChangeOptions,
+    HandleListItemTrailingPressOutOptions,
     InitialListItemState,
     ListItemBaseProps,
     ListItemProps,
-    ProcessListItemCloseOptions,
-    ProcessListItemConfirmOptions,
-    ProcessListItemStateEventChangeOptions,
-    ProcessListItemTrailingPressOutOptions,
     RenderListItemTrailingOptions
 } from './List-item.interface'
 import {useListItemAnimated} from './use-list-item-animated.hook'
@@ -63,7 +63,7 @@ const handleListItemPressOut = (type?: ListType) => (onActive?: (value?: string)
 
 const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
 const handleListItemStateChange =
-    ({eventName, itemKey, onActive, type, onLoadEnd, state, trailingTrigger}: ProcessListItemStateEventChangeOptions) =>
+    ({eventName, itemKey, onActive, type, onLoadEnd, state, trailingTrigger}: HandleListItemStateEventChangeOptions) =>
     (setState: Updater<InitialListItemState>) =>
     (_event: StateEvent) => {
         const nextEvent = {
@@ -99,7 +99,7 @@ const handleListItemTrailingPressOut =
         closeTrailing,
         onActiveAfterAffordance,
         onListItemClose
-    }: ProcessListItemTrailingPressOutOptions) =>
+    }: HandleListItemTrailingPressOutOptions) =>
     (value: string) => {
         const nextEvent = {
             afterAffordance: () => onActiveAfterAffordance?.(value),
@@ -116,7 +116,7 @@ const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<InitialL
     })
 
 const handleListItemConfirm =
-    ({options, onConfirm, onActiveAfterAffordance, onListItemClose}: ProcessListItemConfirmOptions) =>
+    ({options, onConfirm, onActiveAfterAffordance, onListItemClose}: HandleListItemConfirmOptions) =>
     (value?: string) => {
         const {doubleConfirmed} = options
 
@@ -131,7 +131,7 @@ const handleListItemConfirm =
     }
 
 const handleListItemClose =
-    ({onClose, onVisible}: ProcessListItemCloseOptions) =>
+    ({onClose, onVisible}: HandleListItemCloseOptions) =>
     (itemKey: string) =>
     (value?: boolean) => {
         if (!value) {

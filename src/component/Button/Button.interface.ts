@@ -33,15 +33,15 @@ export interface InitialButtonState {
     status: ComponentStatus
 }
 
-export type ProcessButtonStateChangeOptions = OnStateEventChangeOptions & Pick<RenderButtonProps, 'type'>
+export type HandleButtonStateChangeOptions = OnStateEventChangeOptions & Pick<RenderButtonProps, 'type'>
 export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName'>
 export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName'>
-export interface ProcessButtonAnimatedTimingOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
+export interface HandleButtonAnimatedTimingOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
     animatedTiming: AnimatedTiming
     borderColorInputRange: number[]
 }
 
-export interface ProcessButtonAnimatedTimingSharedValue {
+export interface HandleButtonAnimatedTimingSharedValue {
     borderSharedValue: SharedValue<AnimatableValue>
     colorSharedValue: SharedValue<AnimatableValue>
 }

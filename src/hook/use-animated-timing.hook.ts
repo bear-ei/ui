@@ -9,10 +9,10 @@ import {
     withRepeat,
     withTiming
 } from 'react-native-reanimated'
-import {AnimatedTimingOptions, ProcessAnimatedTimingOptions} from './hook.interface'
+import {AnimatedTimingOptions, HandleAnimatedTimingOptions} from './hook.interface'
 
 const handleAnimatedTiming =
-    ({duration = 'medium1', easing = 'standard', repeat, token, ...config}: ProcessAnimatedTimingOptions) =>
+    ({duration = 'medium1', easing = 'standard', repeat, token, ...config}: HandleAnimatedTimingOptions) =>
     (callback?: AnimationCallback) =>
     (toValue: number) => {
         const {bezier, duration: transitionDuration} = token.handleTransition(easing)(duration)

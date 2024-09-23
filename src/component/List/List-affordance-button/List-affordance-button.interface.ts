@@ -27,5 +27,5 @@ export interface ListAffordanceButtonInitialState {
 }
 
 export type UseListAffordanceButtonAnimatedOptions = Pick<RenderListAffordanceButtonProps, 'disabled'>
-export type ProcessListAffordanceButtonStateEventChangeOptions = OnStateEventChangeOptions
+export type HandleListAffordanceButtonStateEventChangeOptions = OnStateEventChangeOptions
 export type ListAffordanceButtonContainerProps = Pick<RenderListAffordanceButtonProps, 'disabled'>

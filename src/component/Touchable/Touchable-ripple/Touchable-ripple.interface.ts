@@ -29,12 +29,12 @@ export interface UseTouchableRippleAnimatedOptions extends Pick<RenderTouchableR
     radius: number
 }
 
-export interface ProcessTouchableRippleAnimatedTimingSharedValue {
+export interface HandleTouchableRippleAnimatedTimingSharedValue {
     scaleSharedValue: SharedValue<AnimatableValue>
     opacitySharedValue: SharedValue<AnimatableValue>
 }
 
-export interface ProcessTouchableRippleAnimatedTimingOptions
+export interface HandleTouchableRippleAnimatedTimingOptions
     extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {
     animatedTiming: AnimatedTiming
 }

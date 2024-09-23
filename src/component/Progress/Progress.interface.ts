@@ -27,7 +27,7 @@ export interface InitialProgressState {
     layout: LayoutRectangle
 }
 
-export type ProcessProgressStateChangeOptions = OnStateEventChangeOptions
+export type HandleProgressStateChangeOptions = OnStateEventChangeOptions
 export type ProgressContainerProps = {
     progress?: boolean
 }

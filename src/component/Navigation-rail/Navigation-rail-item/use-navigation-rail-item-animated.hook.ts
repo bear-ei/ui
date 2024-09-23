@@ -3,14 +3,14 @@ import {Extrapolation, interpolate, interpolateColor, useAnimatedStyle, useShare
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hook'
 import {
-    ProcessNavigationRailItemAnimatedTimingOptions,
-    ProcessNavigationRailItemAnimatedTimingSharedValue,
+    HandleNavigationRailItemAnimatedTimingOptions,
+    HandleNavigationRailItemAnimatedTimingSharedValue,
     UseNavigationRailItemAnimatedOptions
 } from './Navigation-rail-item.interface'
 
 const handleNavigationRailItemAnimatedTiming =
-    ({animatedTiming, type}: ProcessNavigationRailItemAnimatedTimingOptions) =>
-    ({labelHeightSharedValue, labelTextColorSharedValue}: ProcessNavigationRailItemAnimatedTimingSharedValue) =>
+    ({animatedTiming, type}: HandleNavigationRailItemAnimatedTimingOptions) =>
+    ({labelHeightSharedValue, labelTextColorSharedValue}: HandleNavigationRailItemAnimatedTimingSharedValue) =>
     (value?: boolean) => {
         if (!(type === 'segment' && typeof value === 'boolean')) {
             return
