@@ -15,7 +15,7 @@ import {
     UseSideSheetContentAnimatedOptions
 } from './Side-sheet-content.interface'
 
-const processSideSheetContentVisibleAnimatedTiming =
+const handleSideSheetContentVisibleAnimatedTiming =
     (animatedTiming: AnimatedTiming) =>
     ({
         backgroundColorSharedValue,
@@ -38,7 +38,7 @@ const processSideSheetContentVisibleAnimatedTiming =
         animatedTiming(animatedTimingOptions)(widthSharedValue)(toValue)
     }
 
-const processSideSheetContentFooterVisibleAnimatedTiming =
+const handleSideSheetContentFooterVisibleAnimatedTiming =
     (animatedTiming: AnimatedTiming) =>
     (footerHeightSharedValue: SharedValue<AnimatableValue>) =>
     (footerVisible?: boolean) =>
@@ -109,7 +109,7 @@ export const useSideSheetContentAnimated = ({
 
     const onSideSheetContentVisibleAnimatedTiming = useMemo(
         () =>
-            processSideSheetContentVisibleAnimatedTiming(animatedTiming)({
+            handleSideSheetContentVisibleAnimatedTiming(animatedTiming)({
                 backgroundColorSharedValue,
                 contentTranslateXSharedValue,
                 widthSharedValue
@@ -118,7 +118,7 @@ export const useSideSheetContentAnimated = ({
     )
 
     const onSideSheetContentFooterVisibleAnimatedTiming = useMemo(
-        () => processSideSheetContentFooterVisibleAnimatedTiming(animatedTiming)(footerHeightSharedValue),
+        () => handleSideSheetContentFooterVisibleAnimatedTiming(animatedTiming)(footerHeightSharedValue),
         [animatedTiming, footerHeightSharedValue]
     )
 

@@ -5,7 +5,7 @@ import {Skeleton} from '../../Skeleton'
 import {Touchable} from '../../Touchable'
 import {ActiveAnimatedType, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance/List-after-affordance.component'
-import {ListItemBase, processListItemPropsEqual} from './List-item-base.component'
+import {ListItemBase, handleListItemPropsEqual} from './List-item-base.component'
 import {ListItemProps, RenderListItemProps} from './List-item.interface'
 import {
     BeforeAffordanceContainer,
@@ -66,7 +66,7 @@ const render = ({
 
     return (
         <Container
-            {...panResponder?.panProcessrs}
+            {...panResponder?.panHandlers}
             accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
             accessibilityRole='list'
             densityScale={densityScale}
@@ -196,5 +196,5 @@ const ForwardRefListItem = forwardRef<View, ListItemProps>((props, ref) => (
 ))
 
 export const ListItem = memo(ForwardRefListItem, (prevProps, nextProps) =>
-    processListItemPropsEqual(prevProps)(nextProps)
+    handleListItemPropsEqual(prevProps)(nextProps)
 ) as FC<ListItemProps>

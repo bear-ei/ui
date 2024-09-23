@@ -8,8 +8,8 @@ import {Icon, IconProps} from '../../Icon'
 import {ProcessStepItemStateEventChangeOptions, StepItemBaseProps, StepItemInitialState} from './Step-item.interface'
 import {useStepItemAnimated} from './use-step-item-animated.hook'
 
-const processStepItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
-const processStepItemStateChange =
+const handleStepItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
+const handleStepItemStateChange =
     ({itemKey, eventName, onActive}: ProcessStepItemStateEventChangeOptions) =>
     (setState: Updater<StepItemInitialState>) =>
     (_event: StateEvent) => {
@@ -18,7 +18,7 @@ const processStepItemStateChange =
         }
 
         const nextEvent = {
-            pressOut: () => processStepItemPressOut(onActive)(itemKey)
+            pressOut: () => handleStepItemPressOut(onActive)(itemKey)
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -65,7 +65,7 @@ export const StepItemBase = forwardRef<View, StepItemBaseProps>(
         const underlayColor = theme.token.scheme.onSurface
         const active = activeKey === itemKey
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            processStepItemStateChange({...options, itemKey, onActive, state})(setState)(event)
+            handleStepItemStateChange({...options, itemKey, onActive, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled: disabled || finished, onStateEventChange})
         const {labelAnimatedStyle, labelTextAnimatedStyle} = useStepItemAnimated({active, type})

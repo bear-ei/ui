@@ -13,7 +13,7 @@ import {debounce} from '../../util'
 import {EventName} from '../Common'
 import {ProcessUnderlayHoveredAnimatedTimingOptions, UseUnderlayAnimatedOptions} from './Underlay.interface'
 
-const processUnderlayHoveredAnimatedTiming =
+const handleUnderlayHoveredAnimatedTiming =
     ({animatedTiming, activeValue}: ProcessUnderlayHoveredAnimatedTimingOptions) =>
     (hoverLayerSharedValue: SharedValue<AnimatableValue>) =>
     (eventName?: EventName) => {
@@ -32,7 +32,7 @@ const processUnderlayHoveredAnimatedTiming =
         eventName && animatedTiming()(hoverLayerSharedValue)(event[eventName] ?? 0)
     }
 
-const processUnderlayActiveAnimatedTiming =
+const handleUnderlayActiveAnimatedTiming =
     (animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<AnimatableValue>) => (value?: boolean) =>
         typeof value === 'boolean' && animatedTiming()(activeLayerSharedValue)(value ? 1 : 0)
 
@@ -81,13 +81,13 @@ export const useUnderlayAnimated = ({
     const onUnderlayHoveredAnimatedTiming = useMemo(
         () =>
             debounce((value?: EventName) =>
-                processUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(hoverLayerSharedValue)(value)
+                handleUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(hoverLayerSharedValue)(value)
             )(100),
         [animatedTiming, activeValue, hoverLayerSharedValue]
     )
 
     const onUnderlayActiveAnimatedTiming = useMemo(
-        () => processUnderlayActiveAnimatedTiming(animatedTiming)(activeLayerSharedValue),
+        () => handleUnderlayActiveAnimatedTiming(animatedTiming)(activeLayerSharedValue),
         [animatedTiming, activeLayerSharedValue]
     )
 

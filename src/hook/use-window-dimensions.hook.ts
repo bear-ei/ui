@@ -4,7 +4,7 @@ import {Updater, useImmer} from 'use-immer'
 import {debounce} from '../util'
 import {UseWindowDimensionsOptions} from './hook.interface'
 
-const processWindowScaledSize =
+const handleWindowScaledSize =
     (setState: Updater<ScaledSize>) =>
     ({window}: {window: ScaledSize}) => {
         const {width, height, scale, fontScale} = window
@@ -17,7 +17,7 @@ const processWindowScaledSize =
         })
     }
 
-const processEventListener =
+const handleEventListener =
     (onWindowScaledSize: ({window}: {window: ScaledSize}) => void) => (inspectionPlatform: boolean) => {
         const subscription = () => Dimensions.addEventListener('change', onWindowScaledSize)
 
@@ -38,13 +38,13 @@ export const useWindowDimensions = ({
     const onWindowScaledSize = useMemo(
         () =>
             scaledSize.width ?
-                debounce(processWindowScaledSize(setState))(changeEventThrottle)
-            :   processWindowScaledSize(setState),
+                debounce(handleWindowScaledSize(setState))(changeEventThrottle)
+            :   handleWindowScaledSize(setState),
         [changeEventThrottle, scaledSize.width, setState]
     )
 
     useEffect(() => {
-        const subscription = processEventListener(onWindowScaledSize)(inspectionPlatform)
+        const subscription = handleEventListener(onWindowScaledSize)(inspectionPlatform)
 
         return () => {
             subscription && subscription.remove()

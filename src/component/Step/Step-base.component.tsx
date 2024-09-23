@@ -12,7 +12,7 @@ import {
 import {ItemContainer, Line} from './Step.style'
 
 const createNextActiveCallback = (onActive?: (value?: string) => void) => (value?: string) => () => onActive?.(value)
-const processStepActive =
+const handleStepActive =
     ({onActive}: ProcessStepActiveOptions = {}) =>
     (setState: Updater<InitialStepState>) =>
     (value?: string) => {
@@ -67,8 +67,8 @@ export const StepBase = forwardRef<View, StepBaseProps>(
         })
 
         const id = useId()
-        const onStepActive = processStepActive({onActive, activeKey: stepActiveKey})(setState)
-        const onStepActiveSource = useMemo(() => processStepActive()(setState), [setState])
+        const onStepActive = handleStepActive({onActive, activeKey: stepActiveKey})(setState)
+        const onStepActiveSource = useMemo(() => handleStepActive()(setState), [setState])
         const stepItemElements = renderStepItems({
             activeKey: stepActiveKey,
             densityScale,

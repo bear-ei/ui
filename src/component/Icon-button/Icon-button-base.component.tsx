@@ -14,7 +14,7 @@ import {
 } from './Icon-button.interface'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
-const processIconButtonStateChange =
+const handleIconButtonStateChange =
     ({eventName}: ProcessIconButtonStateChangeOptions) =>
     (setState: Updater<InitialIconButtonState>) =>
     (_event: StateEvent) =>
@@ -23,13 +23,13 @@ const processIconButtonStateChange =
             draft.eventName = eventName
         })
 
-const processIconButtonDisabled = (setState: Updater<InitialIconButtonState>) => (disabled?: boolean) =>
+const handleIconButtonDisabled = (setState: Updater<InitialIconButtonState>) => (disabled?: boolean) =>
     disabled &&
     setState(draft => {
         draft.eventName = 'none'
     })
 
-const processIconButtonUnderlayColor =
+const handleIconButtonUnderlayColor =
     (theme: DefaultTheme) =>
     (type: IconButtonType = 'filled') => {
         const underlay = {
@@ -68,11 +68,11 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
         const id = useId()
         const theme = useTheme()
         const activeColor = theme.token.scheme.secondaryContainer
-        const underlayColor = processIconButtonUnderlayColor(theme)(type)
+        const underlayColor = handleIconButtonUnderlayColor(theme)(type)
         const iconElement = renderIconButtonIcon({disabled, fill, type, eventName})(theme)(icon)
-        const onIconButtonDisabled = useMemo(() => processIconButtonDisabled(setState), [setState])
+        const onIconButtonDisabled = useMemo(() => handleIconButtonDisabled(setState), [setState])
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            processIconButtonStateChange({...options, state})(setState)(event)
+            handleIconButtonStateChange({...options, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
         const contentUnderlayAnimatedStyle = useIconButtonAnimated({disabled, type})

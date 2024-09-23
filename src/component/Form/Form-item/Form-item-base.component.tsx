@@ -12,21 +12,21 @@ import {
     ProcessFormItemValueChangeOptions
 } from './Form-item.interface'
 
-const processFormItemValueChange =
+const handleFormItemValueChange =
     ({setFieldValue, storageValue}: ProcessFormItemValueChangeOptions) =>
     (name?: string) =>
     (value?: unknown) =>
         name && storageValue !== value && setFieldValue()()({[name]: value})
 
-const processFormItemValidate = (rule?: ValidationRule) => (name?: string) => async (value?: unknown) =>
+const handleFormItemValidate = (rule?: ValidationRule) => (name?: string) => async (value?: unknown) =>
     name && rule ? validate(rule)(name)(value) : ([] as ValidationError[])
 
-const processFormStorageChange = (setState: Updater<InitialFormItemState>) => () =>
+const handleFormStorageChange = (setState: Updater<InitialFormItemState>) => () =>
     setState(draft => {
         draft.shouldUpdate = {}
     })
 
-const processFormItemInit =
+const handleFormItemInit =
     ({rule, validate: fieldValidate, signInField}: ProcessFormItemInitOptions) =>
     (setState: Updater<InitialFormItemState>) =>
     (name?: string) => {
@@ -38,7 +38,7 @@ const processFormItemInit =
             const {signOut} =
                 signInField({
                     name,
-                    onFormStorageChange: processFormStorageChange(setState),
+                    onFormStorageChange: handleFormStorageChange(setState),
                     rule,
                     touched: false,
                     validate: fieldValidate
@@ -49,7 +49,7 @@ const processFormItemInit =
         })
     }
 
-const processFormItemBlur =
+const handleFormItemBlur =
     (validateField: (name?: string) => Promise<FormError<any>>) =>
     (name?: string) =>
     (_event: NativeSyntheticEvent<TargetedEvent>) => {
@@ -72,17 +72,17 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         const errorMessage = Object.entries(errors?.[0].constraints ?? {})[0]?.[1]
         const storageValue = getFieldValue(name) ?? getInitialValue(name)
         const onValueChange = useMemo(
-            () => processFormItemValueChange({setFieldValue, storageValue})(name),
+            () => handleFormItemValueChange({setFieldValue, storageValue})(name),
             [name, setFieldValue, storageValue]
         )
 
-        const onFieldValidate = useMemo(() => processFormItemValidate(rule)(name), [name, rule])
+        const onFieldValidate = useMemo(() => handleFormItemValidate(rule)(name), [name, rule])
         const onFormItemInit = useMemo(
-            () => processFormItemInit({rule, validate: onFieldValidate, signInField})(setState),
+            () => handleFormItemInit({rule, validate: onFieldValidate, signInField})(setState),
             [onFieldValidate, rule, setState, signInField]
         )
 
-        const onControlBlur = useMemo(() => processFormItemBlur(validateField)(name), [name, validateField])
+        const onControlBlur = useMemo(() => handleFormItemBlur(validateField)(name), [name, validateField])
         const controlElement = useMemo(
             () => renderControl?.({errorMessage, labelText, onValueChange, value: storageValue, onBlur: onControlBlur}),
             [errorMessage, labelText, onControlBlur, onValueChange, renderControl, storageValue]

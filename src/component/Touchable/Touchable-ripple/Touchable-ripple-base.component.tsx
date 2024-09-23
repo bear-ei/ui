@@ -3,7 +3,7 @@ import {NativeTouchEvent, View} from 'react-native'
 import {TouchableRippleBaseProps, TouchableRippleProps} from './Touchable-ripple.interface'
 import {useTouchableRippleAnimated} from './use-touchable-ripple-animated.hook'
 
-export const processTouchableRipplePropsEqual =
+export const handleTouchableRipplePropsEqual =
     (prevProps: TouchableRippleProps) => (nextProps: TouchableRippleProps) => {
         const {index: prevIndex} = prevProps
         const {index: nextIndex} = nextProps

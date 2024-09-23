@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import {UnderlayBaseProps, UnderlayProps} from './Underlay.interface'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
 
-export const processUnderlayPropsEqual = (prevProps: UnderlayProps) => (nextProps: UnderlayProps) => {
+export const handleUnderlayPropsEqual = (prevProps: UnderlayProps) => (nextProps: UnderlayProps) => {
     const {eventName: prevEventName, active: prevActive} = prevProps
     const {eventName: nextEventName, active: nextActive} = nextProps
 

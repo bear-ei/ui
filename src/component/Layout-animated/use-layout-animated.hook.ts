@@ -11,7 +11,7 @@ import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hook'
 import {ProcessLayoutAnimatedTimingOptions, UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
-const processLayoutAnimatedTiming =
+const handleLayoutAnimatedTiming =
     ({animatedTiming, onAnimatedFinished, entry, exit}: ProcessLayoutAnimatedTimingOptions) =>
     (opacitySharedValue: SharedValue<AnimatableValue>) =>
     (visible?: boolean) =>
@@ -30,7 +30,7 @@ export const useLayoutAnimated = ({visible = true, onAnimatedFinished, entry, ex
     }))
 
     const onLayoutAnimatedTiming = useMemo(
-        () => processLayoutAnimatedTiming({animatedTiming, onAnimatedFinished, entry, exit})(opacitySharedValue),
+        () => handleLayoutAnimatedTiming({animatedTiming, onAnimatedFinished, entry, exit})(opacitySharedValue),
         [animatedTiming, entry, exit, onAnimatedFinished, opacitySharedValue]
     )
 

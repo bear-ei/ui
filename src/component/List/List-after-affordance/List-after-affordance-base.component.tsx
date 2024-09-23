@@ -11,7 +11,7 @@ import {
 } from './List-after-affordance.interface'
 import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animated.hook'
 
-const processListAfterAffordanceConfirm =
+const handleListAfterAffordanceConfirm =
     ({onConfirm, doubleConfirmed, itemKey}: ProcessListAfterAffordanceConfirmOptions) =>
     (_event: GestureResponderEvent) =>
         onConfirm?.({itemKey, doubleConfirmed})
@@ -22,7 +22,7 @@ const createNextCancelCallback =
     () =>
         onCancel?.({itemKey, doubleConfirmed})
 
-const processListAfterAffordanceCancel =
+const handleListAfterAffordanceCancel =
     ({onCancel, doubleConfirmed, itemKey}: ProcessListAfterAffordanceCancelOptions) =>
     (setState: Updater<ListAfterAffordanceInitialState>) =>
     (_event: GestureResponderEvent) => {
@@ -32,7 +32,7 @@ const processListAfterAffordanceCancel =
         })
     }
 
-const processListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceInitialState>) => (value?: boolean) =>
+const handleListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceInitialState>) => (value?: boolean) =>
     !value &&
     setState(draft => {
         draft.doubleConfirmed = false
@@ -54,9 +54,9 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
     const theme = useTheme()
     const id = useId()
     const fill = theme.token.scheme.onPrimary
-    const onListAfterAffordanceConfirm = processListAfterAffordanceConfirm({doubleConfirmed, onConfirm, itemKey})
-    const onListAfterAffordanceCancel = processListAfterAffordanceCancel({doubleConfirmed, onCancel, itemKey})(setState)
-    const onListAfterAffordanceVisible = useMemo(() => processListAfterAffordanceVisible(setState), [setState])
+    const onListAfterAffordanceConfirm = handleListAfterAffordanceConfirm({doubleConfirmed, onConfirm, itemKey})
+    const onListAfterAffordanceCancel = handleListAfterAffordanceCancel({doubleConfirmed, onCancel, itemKey})(setState)
+    const onListAfterAffordanceVisible = useMemo(() => handleListAfterAffordanceVisible(setState), [setState])
     const dangerAnimatedStyle = useListAfterAffordanceAnimated({doubleConfirmed})
 
     useEffect(() => {

@@ -8,7 +8,7 @@ import {
     VirtualListItemProps
 } from './Virtual-list-item.interface'
 
-export const processVirtualListItemPropsEqual =
+export const handleVirtualListItemPropsEqual =
     (prevProps: VirtualListItemProps) => (nextProps: VirtualListItemProps) => {
         const {extraData: prevExtraData, index: prevIndex, item: prevItem} = prevProps
         const {extraData: nextExtraData, index: nextIndex, item: nextItem} = nextProps
@@ -20,13 +20,12 @@ export const processVirtualListItemPropsEqual =
         ].some(Boolean)
     }
 
-export const processVirtualListItemVisible = (setState: Updater<InitialVirtualListItemState>) =>
+export const handleVirtualListItemVisible = (setState: Updater<InitialVirtualListItemState>) =>
     setState(draft => {
         draft.virtualListItemVisible = false
     })
 
-export const processVirtualListUnmount = (onUnmount?: (value?: string) => void) => (value?: string) =>
-    onUnmount?.(value)
+export const handleVirtualListUnmount = (onUnmount?: (value?: string) => void) => (value?: string) => onUnmount?.(value)
 export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
     (
         {renderItem, item, render, index = 0, itemSize = 0, startIndex = 0, onUnmount, onLoadEnd, ...renderProps},
@@ -37,9 +36,9 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
         })
 
         const id = useId()
-        const onVirtualListItemVisible = useCallback(() => processVirtualListItemVisible(setState), [setState])
+        const onVirtualListItemVisible = useCallback(() => handleVirtualListItemVisible(setState), [setState])
         const onVirtualListUnmount = useCallback(
-            () => processVirtualListUnmount(onUnmount)(item?.indexKey as string | undefined),
+            () => handleVirtualListUnmount(onUnmount)(item?.indexKey as string | undefined),
             [item?.indexKey, onUnmount]
         )
 

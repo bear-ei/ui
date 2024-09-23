@@ -8,7 +8,7 @@ import {
     UseNavigationRailItemAnimatedOptions
 } from './Navigation-rail-item.interface'
 
-const processNavigationRailItemAnimatedTiming =
+const handleNavigationRailItemAnimatedTiming =
     ({animatedTiming, type}: ProcessNavigationRailItemAnimatedTimingOptions) =>
     ({labelHeightSharedValue, labelTextColorSharedValue}: ProcessNavigationRailItemAnimatedTimingSharedValue) =>
     (value?: boolean) => {
@@ -53,7 +53,7 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
 
     const onNavigationRailItemAnimatedTiming = useMemo(
         () =>
-            processNavigationRailItemAnimatedTiming({
+            handleNavigationRailItemAnimatedTiming({
                 animatedTiming,
                 type
             })({labelHeightSharedValue, labelTextColorSharedValue}),

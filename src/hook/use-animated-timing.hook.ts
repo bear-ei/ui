@@ -11,11 +11,11 @@ import {
 } from 'react-native-reanimated'
 import {AnimatedTimingOptions, ProcessAnimatedTimingOptions} from './hook.interface'
 
-const processAnimatedTiming =
+const handleAnimatedTiming =
     ({duration = 'medium1', easing = 'standard', repeat, token, ...config}: ProcessAnimatedTimingOptions) =>
     (callback?: AnimationCallback) =>
     (toValue: number) => {
-        const {bezier, duration: transitionDuration} = token.processTransition(easing)(duration)
+        const {bezier, duration: transitionDuration} = token.handleTransition(easing)(duration)
         const animation = withTiming(
             toValue,
             {
@@ -38,7 +38,7 @@ export const useAnimatedTiming = (token: Token) => {
             (sharedValue: SharedValue<AnimatableValue>) =>
             (toValue: number) =>
                 sharedValue.value !== toValue &&
-                (sharedValue.value = processAnimatedTiming({...options, token})(callback)(toValue)),
+                (sharedValue.value = handleAnimatedTiming({...options, token})(callback)(toValue)),
         [token]
     )
 

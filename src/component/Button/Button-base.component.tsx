@@ -16,7 +16,7 @@ import {
 } from './Button.interface'
 import {useButtonAnimated} from './use-button-animated.hook'
 
-const processButtonElevation = (draft: WritableDraft<InitialButtonState>) => (type?: ButtonType) => (state?: State) => {
+const handleButtonElevation = (draft: WritableDraft<InitialButtonState>) => (type?: ButtonType) => (state?: State) => {
     const elevationType = type && ['elevated', 'filled', 'tonal'].includes(type)
 
     if (!elevationType) {
@@ -33,7 +33,7 @@ const processButtonElevation = (draft: WritableDraft<InitialButtonState>) => (ty
             :   level[state] + correctionCoefficient) as ElevationLevel)
 }
 
-const processButtonStateChange =
+const handleButtonStateChange =
     ({eventName, type, state}: ProcessButtonStateChangeOptions) =>
     (setState: Updater<InitialButtonState>) =>
     (_event: StateEvent) => {
@@ -45,11 +45,11 @@ const processButtonStateChange =
             const prevEventName = draft.eventName
 
             draft.eventName = eventName
-            prevEventName !== eventName && processButtonElevation(draft)(type)(state)
+            prevEventName !== eventName && handleButtonElevation(draft)(type)(state)
         })
     }
 
-const processButtonInit = (setState: Updater<InitialButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
+const handleButtonInit = (setState: Updater<InitialButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
     setState(draft => {
         if (draft.status !== 'idle') {
             return
@@ -59,7 +59,7 @@ const processButtonInit = (setState: Updater<InitialButtonState>) => (disabled?:
         draft.status = 'succeeded'
     })
 
-const processButtonDisabled = (setState: Updater<InitialButtonState>) => (type?: ButtonType) => (disabled?: boolean) =>
+const handleButtonDisabled = (setState: Updater<InitialButtonState>) => (type?: ButtonType) => (disabled?: boolean) =>
     typeof disabled === 'boolean' &&
     setState(draft => {
         disabled && (draft.eventName = 'none')
@@ -85,7 +85,7 @@ const renderButtonIcon =
         return cloneElement<IconProps>(icon, {densityScale: -1.5, disabled, eventName, fill: fillType[type]})
     }
 
-const processButtonUnderlayColor = (theme: DefaultTheme) => (type: ButtonType) => {
+const handleButtonUnderlayColor = (theme: DefaultTheme) => (type: ButtonType) => {
     const underlay = {
         elevated: theme.token.scheme.primary,
         filled: theme.token.scheme.onPrimary,
@@ -112,11 +112,11 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
         const theme = useTheme()
         const iconButtonElement = renderButtonIcon({eventName, type, disabled})(theme)(icon)
         const id = useId()
-        const onButtonDisabled = useMemo(() => processButtonDisabled(setState)(type), [setState, type])
-        const onButtonInit = useMemo(() => processButtonInit(setState)(disabled), [disabled, setState])
-        const underlayColor = processButtonUnderlayColor(theme)(type)
+        const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
+        const onButtonInit = useMemo(() => handleButtonInit(setState)(disabled), [disabled, setState])
+        const underlayColor = handleButtonUnderlayColor(theme)(type)
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            processButtonStateChange({...options, state, type})(setState)(event)
+            handleButtonStateChange({...options, state, type})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
         const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({disabled, eventName, type})

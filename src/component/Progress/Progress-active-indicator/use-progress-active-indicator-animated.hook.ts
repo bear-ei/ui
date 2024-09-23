@@ -11,11 +11,11 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {UseProgressActiveIndicatorAnimatedOptions} from './Progress-active-indicator.interface'
 
-const processProgressActiveIndicatorAnimatedTiming =
+const handleProgressActiveIndicatorAnimatedTiming =
     (animatedTiming: AnimatedTiming) => (widthSharedValue: SharedValue<AnimatableValue>) => (value?: number) =>
         typeof value === 'number' && animatedTiming()(widthSharedValue)(Math.floor(value * 100))
 
-const processOutputRange = (width: number) => (increment: number) => {
+const handleOutputRange = (width: number) => (increment: number) => {
     const actualIncrement = width * (increment / 100)
 
     return Array.from({length: Math.ceil(width / actualIncrement) + 1}, (_, index) =>
@@ -32,14 +32,14 @@ export const useProgressActiveIndicatorAnimated = ({
     const widthSharedValue = useSharedValue(defaultValue)
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
-    const outputRange = Array.from(processOutputRange(containerLayout.width)(increment))
+    const outputRange = Array.from(handleOutputRange(containerLayout.width)(increment))
     const inputRange = outputRange.map((_value, index) => index)
     const animatedStyle = useAnimatedStyle(() => ({
         width: interpolate(widthSharedValue.value, inputRange, outputRange, Extrapolation.CLAMP)
     }))
 
     const onProgressActiveIndicatorAnimatedTiming = useMemo(
-        () => processProgressActiveIndicatorAnimatedTiming(animatedTiming)(widthSharedValue),
+        () => handleProgressActiveIndicatorAnimatedTiming(animatedTiming)(widthSharedValue),
         [animatedTiming, widthSharedValue]
     )
 

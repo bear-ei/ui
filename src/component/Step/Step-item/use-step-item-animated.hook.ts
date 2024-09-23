@@ -8,7 +8,7 @@ import {
     UseStepItemAnimatedOptions
 } from './Step-item.interface'
 
-const processStepItemAnimatedTiming =
+const handleStepItemAnimatedTiming =
     ({animatedTiming, type}: ProcessStepItemAnimatedTimingOptions) =>
     ({labelHeightSharedValue, labelTextColorSharedValue}: ProcessStepItemAnimatedTimingSharedValue) =>
     (value?: boolean) => {
@@ -53,7 +53,7 @@ export const useStepItemAnimated = ({active, type}: UseStepItemAnimatedOptions) 
 
     const onStepItemAnimatedTiming = useMemo(
         () =>
-            processStepItemAnimatedTiming({
+            handleStepItemAnimatedTiming({
                 animatedTiming,
                 type
             })({labelHeightSharedValue, labelTextColorSharedValue}),

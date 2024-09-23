@@ -14,7 +14,7 @@ import {
     UseTextFieldAnimatedOptions
 } from './Text-field.interface'
 
-const processTextFieldEnabled =
+const handleTextFieldEnabled =
     (animatedTiming: AnimatedTiming) =>
     ({
         activeIndicatorHeightSharedValue,
@@ -35,7 +35,7 @@ const processTextFieldEnabled =
         animatedTiming()(supportingTextSharedValue)(1)
     }
 
-const processTextFieldDisabled =
+const handleTextFieldDisabled =
     (animatedTiming: AnimatedTiming) =>
     ({
         activeIndicatorHeightSharedValue,
@@ -53,7 +53,7 @@ const processTextFieldDisabled =
         animatedTiming()(supportingTextSharedValue)(1)
     }
 
-const processTextFieldError =
+const handleTextFieldError =
     (animatedTiming: AnimatedTiming) =>
     ({
         activeIndicatorHeightSharedValue,
@@ -67,7 +67,7 @@ const processTextFieldError =
         animatedTiming()(supportingTextSharedValue)(2)
     }
 
-const processTextFieldFocused =
+const handleTextFieldFocused =
     (animatedTiming: AnimatedTiming) =>
     ({activeIndicatorHeightSharedValue, colorSharedValue, labelTextSharedValue}: ProcessTextFieldFocusedSharedValue) =>
     (error?: boolean) => {
@@ -80,10 +80,10 @@ const processTextFieldFocused =
         animatedTiming()(labelTextSharedValue)(0)
     }
 
-const processTextFieldStateAnimated = (stateAnimated: TextFieldStateAnimated) => (state: State) =>
+const handleTextFieldStateAnimated = (stateAnimated: TextFieldStateAnimated) => (state: State) =>
     stateAnimated[state]?.()
 
-const processTextFieldNonerrorAnimated =
+const handleTextFieldNonerrorAnimated =
     ({error, disabled}: ProcessTextFieldNonerrorAnimatedOptions) =>
     (stateAnimated: TextFieldStateAnimated) =>
     (state: State) => {
@@ -92,7 +92,7 @@ const processTextFieldNonerrorAnimated =
         !nonerror && stateAnimated[error ? 'error' : state]?.()
     }
 
-const processTextFieldDisabledAnimated =
+const handleTextFieldDisabledAnimated =
     (stateAnimated: TextFieldStateAnimated) => (state: State) => (disabled?: boolean) =>
         typeof disabled === 'boolean' && stateAnimated[disabled ? 'disabled' : state]?.()
 
@@ -242,9 +242,9 @@ export const useTextFieldAnimated = ({
         )
     }))
 
-    const processTextFieldEnabledState = useCallback(
+    const handleTextFieldEnabledState = useCallback(
         () =>
-            processTextFieldEnabled(animatedTiming)({
+            handleTextFieldEnabled(animatedTiming)({
                 activeIndicatorHeightSharedValue,
                 colorSharedValue,
                 inputColorSharedValue,
@@ -263,9 +263,9 @@ export const useTextFieldAnimated = ({
         ]
     )
 
-    const processTextFieldDisabledState = useCallback(
+    const handleTextFieldDisabledState = useCallback(
         () =>
-            processTextFieldDisabled(animatedTiming)({
+            handleTextFieldDisabled(animatedTiming)({
                 activeIndicatorHeightSharedValue,
                 headerInnerBackgroundColorSharedValue,
                 colorSharedValue,
@@ -282,9 +282,9 @@ export const useTextFieldAnimated = ({
         ]
     )
 
-    const processTextFieldErrorState = useCallback(
+    const handleTextFieldErrorState = useCallback(
         () =>
-            processTextFieldError(animatedTiming)({
+            handleTextFieldError(animatedTiming)({
                 activeIndicatorHeightSharedValue,
                 colorSharedValue,
                 inputColorSharedValue,
@@ -299,9 +299,9 @@ export const useTextFieldAnimated = ({
         ]
     )
 
-    const processTextFieldFocusedState = useCallback(
+    const handleTextFieldFocusedState = useCallback(
         () =>
-            processTextFieldFocused(animatedTiming)({
+            handleTextFieldFocused(animatedTiming)({
                 activeIndicatorHeightSharedValue,
                 colorSharedValue,
                 labelTextSharedValue
@@ -311,27 +311,27 @@ export const useTextFieldAnimated = ({
 
     const stateAnimated: TextFieldStateAnimated = useMemo(
         () => ({
-            disabled: processTextFieldDisabledState,
-            enabled: processTextFieldEnabledState,
-            error: processTextFieldErrorState,
-            focused: processTextFieldFocusedState
+            disabled: handleTextFieldDisabledState,
+            enabled: handleTextFieldEnabledState,
+            error: handleTextFieldErrorState,
+            focused: handleTextFieldFocusedState
         }),
         [
-            processTextFieldDisabledState,
-            processTextFieldEnabledState,
-            processTextFieldErrorState,
-            processTextFieldFocusedState
+            handleTextFieldDisabledState,
+            handleTextFieldEnabledState,
+            handleTextFieldErrorState,
+            handleTextFieldFocusedState
         ]
     )
 
-    const onTextFieldStateAnimated = useMemo(() => processTextFieldStateAnimated(stateAnimated), [stateAnimated])
+    const onTextFieldStateAnimated = useMemo(() => handleTextFieldStateAnimated(stateAnimated), [stateAnimated])
     const onTextFieldNonerrorAnimated = useMemo(
-        () => processTextFieldNonerrorAnimated({disabled, error})(stateAnimated),
+        () => handleTextFieldNonerrorAnimated({disabled, error})(stateAnimated),
         [disabled, error, stateAnimated]
     )
 
     const onTextFieldDisabledAnimated = useMemo(
-        () => processTextFieldDisabledAnimated(stateAnimated)(state),
+        () => handleTextFieldDisabledAnimated(stateAnimated)(state),
         [state, stateAnimated]
     )
 

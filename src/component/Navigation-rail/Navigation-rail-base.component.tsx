@@ -12,7 +12,7 @@ import {
 import {NavigationRailItem} from './Navigation-rail-item'
 
 const createNextActiveCallback = (onActive?: (value?: string) => void) => (value?: string) => () => onActive?.(value)
-const processNavigationRailActive =
+const handleNavigationRailActive =
     ({onActive}: ProcessNavigationRailActiveOptions = {}) =>
     (setState: Updater<InitialNavigationRailState>) =>
     (value?: string) =>
@@ -50,11 +50,11 @@ export const NavigationRailBase = forwardRef<View, NavigationBaseProps>(
         })
 
         const id = useId()
-        const onNavigationRailActive = processNavigationRailActive({onActive, activeKey: navigationRailActiveKey})(
+        const onNavigationRailActive = handleNavigationRailActive({onActive, activeKey: navigationRailActiveKey})(
             setState
         )
 
-        const onNavigationRailActiveSource = useMemo(() => processNavigationRailActive()(setState), [setState])
+        const onNavigationRailActiveSource = useMemo(() => handleNavigationRailActive()(setState), [setState])
         const navigationRailItemElements = renderNavigationRailItems({
             activeKey: navigationRailActiveKey,
             onActive: onNavigationRailActive,

@@ -14,7 +14,7 @@ import {
     UseTooltipSupportingAnimatedOptions
 } from './Tooltip-supporting.interface'
 
-const processTooltipSupportingAnimatedTiming =
+const handleTooltipSupportingAnimatedTiming =
     ({animatedTiming, onClose}: ProcessTooltipSupportingAnimatedTimingOptions) =>
     (transformSharedValue: SharedValue<AnimatableValue>) =>
     (visible?: boolean) =>
@@ -35,7 +35,7 @@ export const useTooltipSupportingAnimated = ({visible, onClose}: UseTooltipSuppo
     }))
 
     const onTooltipSupportingAnimatedTiming = useMemo(
-        () => processTooltipSupportingAnimatedTiming({animatedTiming, onClose})(transformSharedValue),
+        () => handleTooltipSupportingAnimatedTiming({animatedTiming, onClose})(transformSharedValue),
         [animatedTiming, onClose, transformSharedValue]
     )
 

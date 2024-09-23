@@ -11,7 +11,7 @@ import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hook'
 import {ProcessListItemAfterAffordanceVisibleAnimatedOptions, UseListItemAnimatedOptions} from './List-item.interface'
 
-const processListAfterAffordanceVisibleAnimated =
+const handleListAfterAffordanceVisibleAnimated =
     ({
         animatedTiming,
         onListItemAfterAffordanceVisibleFinished
@@ -39,7 +39,7 @@ export const useListItemAnimated = ({
 
     const onListAfterAffordanceVisibleAnimated = useMemo(
         () =>
-            processListAfterAffordanceVisibleAnimated({animatedTiming, onListItemAfterAffordanceVisibleFinished})(
+            handleListAfterAffordanceVisibleAnimated({animatedTiming, onListItemAfterAffordanceVisibleFinished})(
                 contentLeftSharedValue
             ),
         [animatedTiming, contentLeftSharedValue, onListItemAfterAffordanceVisibleFinished]

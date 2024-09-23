@@ -11,8 +11,8 @@ import {
 } from './Text-field.interface'
 import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
-const processTextFieldFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
-const processTextFieldStateChange =
+const handleTextFieldFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
+const handleTextFieldStateChange =
     ({eventName, ref, content, state}: ProcessTextFieldStateEventChangeOptions) =>
     (setState: Updater<InitialTextFieldState>) =>
     (_event: StateEvent) => {
@@ -21,7 +21,7 @@ const processTextFieldStateChange =
         }
 
         const nextEvent = {
-            pressOut: () => processTextFieldFocus(ref)
+            pressOut: () => handleTextFieldFocus(ref)
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -43,7 +43,7 @@ const createNextContentSizeChangeCallback =
     () =>
         onContentSizeChange?.(event)
 
-const processTextFieldContentSizeChange =
+const handleTextFieldContentSizeChange =
     (setState: Updater<InitialTextFieldState>) =>
     (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
     (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
@@ -59,7 +59,7 @@ const processTextFieldContentSizeChange =
 const createNextChangeTextCallback = (onChangeText?: (value: string) => void) => (value: string) => () =>
     onChangeText?.(value)
 
-const processTextFieldChangeText =
+const handleTextFieldChangeText =
     (onChangeText?: (value: string) => void) => (setState: Updater<InitialTextFieldState>) => (value?: string) => {
         setState(draft => {
             const prevTextInputValue = draft.textInputValue
@@ -71,7 +71,7 @@ const processTextFieldChangeText =
         })
     }
 
-const processTextFieldEditable = (setState: Updater<InitialTextFieldState>) => (editable?: boolean) => {
+const handleTextFieldEditable = (setState: Updater<InitialTextFieldState>) => (editable?: boolean) => {
     typeof editable === 'boolean' &&
         !editable &&
         setState(draft => {
@@ -134,14 +134,14 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
 
         const underlayColor = theme.token.scheme.onSurface
         const onTextFieldContentSizeChange = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) =>
-            processTextFieldContentSizeChange(setState)(onContentSizeChange)(event)
+            handleTextFieldContentSizeChange(setState)(onContentSizeChange)(event)
 
-        const onTextFieldChangeText = processTextFieldChangeText(onChangeText)(setState)
-        const onTextFieldChangeTextSource = useMemo(() => processTextFieldChangeText()(setState), [setState])
-        const onTextFieldEditable = useMemo(() => processTextFieldEditable(setState), [setState])
+        const onTextFieldChangeText = handleTextFieldChangeText(onChangeText)(setState)
+        const onTextFieldChangeTextSource = useMemo(() => handleTextFieldChangeText()(setState), [setState])
+        const onTextFieldEditable = useMemo(() => handleTextFieldEditable(setState), [setState])
         const onStateEventChange =
             (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
-                processTextFieldStateChange({...options, ref: textFieldRef, content, state: changedState})(setState)(
+                handleTextFieldStateChange({...options, ref: textFieldRef, content, state: changedState})(setState)(
                     event
                 )
 

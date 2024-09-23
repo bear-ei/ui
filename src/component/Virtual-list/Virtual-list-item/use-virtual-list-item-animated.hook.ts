@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
-const processVirtualListItemAnimated =
+const handleVirtualListItemAnimated =
     (animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<AnimatableValue>) => (value: number) =>
         animatedTiming({duration: 'short2'})(topSharedValue)(value)
 
@@ -14,7 +14,7 @@ export const useVirtualListItemAnimated = ({top = 0}: UseVirtualListItemAnimated
     const topSharedValue = useSharedValue(top)
     const containerAnimatedStyle = useAnimatedStyle(() => ({top: topSharedValue.value}))
     const onVirtualListItemAnimated = useMemo(
-        () => processVirtualListItemAnimated(animatedTiming)(topSharedValue),
+        () => handleVirtualListItemAnimated(animatedTiming)(topSharedValue),
         [animatedTiming, topSharedValue]
     )
 

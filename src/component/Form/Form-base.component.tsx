@@ -12,7 +12,7 @@ import {
 } from './Form.interface'
 import {useForm} from './use-form.hook'
 
-const processFormInit =
+const handleFormInit =
     <T,>(setState: Updater<InitialFormState>) =>
     (setInitialValue: (initialized?: boolean) => (value?: T) => void) =>
     (value?: T) =>
@@ -25,7 +25,7 @@ const processFormInit =
             draft.status = 'succeeded'
         })
 
-const processFormCallback =
+const handleFormCallback =
     <T,>({onFinish, onFinishFailed, onValueChange}: ProcessFormCallbackOptions<T>) =>
     (setCallback: (callback: FormCallback<T>) => void) =>
         setCallback({onFinish, onFinishFailed, onValueChange})
@@ -60,9 +60,9 @@ const FormBaseInner = <T,>(
     const formStore = useForm(form)
     const {setCallback, setInitialValue} = formStore
     const id = useId()
-    const onFormInit = useMemo(() => processFormInit<T>(setState)(setInitialValue), [setInitialValue, setState])
+    const onFormInit = useMemo(() => handleFormInit<T>(setState)(setInitialValue), [setInitialValue, setState])
     const onFormCallback = useCallback(
-        () => processFormCallback<T>({onFinish, onFinishFailed, onValueChange})(setCallback),
+        () => handleFormCallback<T>({onFinish, onFinishFailed, onValueChange})(setCallback),
         [onFinish, onFinishFailed, onValueChange, setCallback]
     )
 

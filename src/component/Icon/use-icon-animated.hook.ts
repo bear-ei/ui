@@ -12,7 +12,7 @@ import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {EventName} from '../Common'
 import {UseIconAnimatedOptions} from './Icon.interface'
 
-const processIconAnimatedTiming =
+const handleIconAnimatedTiming =
     (animatedTiming: AnimatedTiming) =>
     (scaleSharedValue: SharedValue<AnimatableValue>) =>
     (eventName: EventName = 'none') => {
@@ -30,7 +30,7 @@ export const useIconAnimated = ({eventName}: UseIconAnimatedOptions) => {
     }))
 
     const onIconAnimatedTiming = useMemo(
-        () => processIconAnimatedTiming(animatedTiming)(scaleSharedValue),
+        () => handleIconAnimatedTiming(animatedTiming)(scaleSharedValue),
         [animatedTiming, scaleSharedValue]
     )
 

@@ -8,8 +8,8 @@ import {
     UseTouchableRippleAnimatedOptions
 } from './Touchable-ripple.interface'
 
-const processAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
-const processTouchableRippleAnimatedTiming =
+const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
+const handleTouchableRippleAnimatedTiming =
     ({animatedTiming, onAnimatedFinished}: ProcessTouchableRippleAnimatedTimingOptions) =>
     (sharedValue: ProcessTouchableRippleAnimatedTimingSharedValue) => {
         const createTouchableRippleAnimatedTiming =
@@ -17,7 +17,7 @@ const processTouchableRippleAnimatedTiming =
             (toValue: number) =>
             (callback?: () => void) =>
                 animatedTiming({
-                    callback: processAnimatedTimingCallback(callback),
+                    callback: handleAnimatedTimingCallback(callback),
                     duration: 'short3',
                     easing: 'emphasizedAccelerate'
                 })(toValue === 1 ? scaleSharedValue : opacitySharedValue)(toValue)
@@ -47,7 +47,7 @@ export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: 
 
     const onTouchableRippleAnimatedTiming = useMemo(
         () =>
-            processTouchableRippleAnimatedTiming({animatedTiming, onAnimatedFinished})({
+            handleTouchableRippleAnimatedTiming({animatedTiming, onAnimatedFinished})({
                 scaleSharedValue,
                 opacitySharedValue
             }),

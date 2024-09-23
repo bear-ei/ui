@@ -2,7 +2,7 @@ import React, {FC, forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Underlay} from '../../Underlay'
-import {NavigationRailItemBase, processNavigationRailItemPropsEqual} from './Navigation-rail-item-base.component'
+import {NavigationRailItemBase, handleNavigationRailItemPropsEqual} from './Navigation-rail-item-base.component'
 import {NavigationRailItemProps, RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
 import {Container, Content, Header, Icon, IconContainer, Label, LabelText} from './Navigation-rail-item.style'
 
@@ -95,5 +95,5 @@ const ForwardRefNavigationRailItem = forwardRef<View, NavigationRailItemProps>((
 ))
 
 export const NavigationRailItem = memo(ForwardRefNavigationRailItem, (prevProps, nextProps) =>
-    processNavigationRailItemPropsEqual(prevProps)(nextProps)
+    handleNavigationRailItemPropsEqual(prevProps)(nextProps)
 ) as FC<NavigationRailItemProps>

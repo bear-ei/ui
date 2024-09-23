@@ -11,7 +11,7 @@ import {
 } from './List-affordance-button.interface'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
-const processListAffordanceButtonStateChange =
+const handleListAffordanceButtonStateChange =
     ({eventName}: ProcessListAffordanceButtonStateEventChangeOptions) =>
     (setState: Updater<ListAffordanceButtonInitialState>) =>
     (_event: StateEvent) => {
@@ -31,7 +31,7 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
         const theme = useTheme()
         const underlayColor = theme.token.scheme.onPrimary
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            processListAffordanceButtonStateChange({...options, state})(setState)(event)
+            handleListAffordanceButtonStateChange({...options, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})
         const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({disabled})

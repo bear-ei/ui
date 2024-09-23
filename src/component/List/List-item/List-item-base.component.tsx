@@ -20,7 +20,7 @@ import {
 } from './List-item.interface'
 import {useListItemAnimated} from './use-list-item-animated.hook'
 
-export const processListItemPropsEqual = (prevProps: ListItemProps) => (nextProps: ListItemProps) => {
+export const handleListItemPropsEqual = (prevProps: ListItemProps) => (nextProps: ListItemProps) => {
     const {
         activeKey: prevActiveKey,
         activeKeys: prevActiveKeys,
@@ -58,17 +58,17 @@ export const processListItemPropsEqual = (prevProps: ListItemProps) => (nextProp
     ].some(Boolean)
 }
 
-const processListItemPressOut = (type?: ListType) => (onActive?: (value?: string) => void) => (value: string) =>
+const handleListItemPressOut = (type?: ListType) => (onActive?: (value?: string) => void) => (value: string) =>
     type !== 'standard' && onActive?.(value)
 
-const processListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
-const processListItemStateChange =
+const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
+const handleListItemStateChange =
     ({eventName, itemKey, onActive, type, onLoadEnd, state, trailingTrigger}: ProcessListItemStateEventChangeOptions) =>
     (setState: Updater<InitialListItemState>) =>
     (_event: StateEvent) => {
         const nextEvent = {
-            layout: () => processListItemLoadEnd?.(onLoadEnd)(itemKey),
-            pressOut: () => processListItemPressOut(type)(onActive)(itemKey)
+            layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
+            pressOut: () => handleListItemPressOut(type)(onActive)(itemKey)
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -93,7 +93,7 @@ const processListItemStateChange =
         })
     }
 
-const processListItemTrailingPressOut =
+const handleListItemTrailingPressOut =
     ({
         afterAffordance,
         closeTrailing,
@@ -110,12 +110,12 @@ const processListItemTrailingPressOut =
         closeTrailing && nextEvent.closeTrailing()
     }
 
-const processItemListAfterAffordanceVisibleFinished = (setState: Updater<InitialListItemState>) => (value?: boolean) =>
+const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<InitialListItemState>) => (value?: boolean) =>
     setState(draft => {
         draft.afterAffordanceClosed = !value
     })
 
-const processListItemConfirm =
+const handleListItemConfirm =
     ({options, onConfirm, onActiveAfterAffordance, onListItemClose}: ProcessListItemConfirmOptions) =>
     (value?: string) => {
         const {doubleConfirmed} = options
@@ -130,7 +130,7 @@ const processListItemConfirm =
         onConfirm?.({...options, itemKey: value})
     }
 
-const processListItemClose =
+const handleListItemClose =
     ({onClose, onVisible}: ProcessListItemCloseOptions) =>
     (itemKey: string) =>
     (value?: boolean) => {
@@ -252,16 +252,16 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         ).current
 
         const onListItemConfirm = ({itemKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
-            processListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
+            handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
 
         const onListItemClose = useMemo(
-            () => processListItemClose({onClose, onVisible})(itemKey),
+            () => handleListItemClose({onClose, onVisible})(itemKey),
             [itemKey, onClose, onVisible]
         )
 
         const onListItemTrailingPressOut = useCallback(
             () =>
-                processListItemTrailingPressOut({
+                handleListItemTrailingPressOut({
                     afterAffordance,
                     closeTrailing,
                     onActiveAfterAffordance,
@@ -271,12 +271,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         )
 
         const onListItemAfterAffordanceVisibleFinished = useMemo(
-            () => processItemListAfterAffordanceVisibleFinished(setState),
+            () => handleItemListAfterAffordanceVisibleFinished(setState),
             [setState]
         )
 
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            processListItemStateChange({...options, itemKey, onActive, state, type, onLoadEnd, trailingTrigger})(
+            handleListItemStateChange({...options, itemKey, onActive, state, type, onLoadEnd, trailingTrigger})(
                 setState
             )(event)
 

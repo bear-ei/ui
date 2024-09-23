@@ -15,8 +15,8 @@ import {
     SearchBaseProps
 } from './Search.interface'
 
-const processSearchFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
-const processSearchStateChange =
+const handleSearchFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
+const handleSearchStateChange =
     ({eventName, ref, state}: ProcessSearchStateChangeOptions) =>
     (setState: Updater<InitialSearchState>) =>
     (_event: StateEvent) => {
@@ -25,7 +25,7 @@ const processSearchStateChange =
         }
 
         const nextEvent = {
-            pressOut: () => processSearchFocus(ref)
+            pressOut: () => handleSearchFocus(ref)
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -44,7 +44,7 @@ const processSearchStateChange =
 const createNextChangeTextCallback = (onChangeText?: (value: string) => void) => (value: string) => () =>
     onChangeText?.(value)
 
-const processSearchChangeText =
+const handleSearchChangeText =
     ({data = [], onChangeText}: ProcessSearchChangeTextOptions = {}) =>
     (setState: Updater<InitialSearchState>) =>
     (value?: string) => {
@@ -61,7 +61,7 @@ const processSearchChangeText =
         })
     }
 
-const processSearchListVisible = (setState: Updater<InitialSearchState>) => (value?: boolean) =>
+const handleSearchListVisible = (setState: Updater<InitialSearchState>) => (value?: boolean) =>
     typeof value === 'boolean' &&
     setState(draft => {
         draft.listVisible = value
@@ -79,7 +79,7 @@ const setSearchLayout = (setState: Updater<InitialSearchState>) => (containerCur
         })
     )
 
-const processSearchContainerLayout =
+const handleSearchContainerLayout =
     (setState: Updater<InitialSearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) =>
         listVisible && setSearchLayout(setState)(containerCurrent)
 
@@ -87,7 +87,7 @@ const processSearchContainerLayout =
  * TODO:
  * - [macOS] Add support for trailingEvent
  *
- * Later processing may deal with the trailingEvent to move into the event
+ * Later handleing may deal with the trailingEvent to move into the event
  * penetration problem. Currently there is no trailingButton application
  * scenario, so we don't deal with it for now.
  */
@@ -123,16 +123,16 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         const placeholderTextColor = theme.token.scheme.onSurfaceVariant
         const underlayColor = theme.token.scheme.onSurface
         const {data} = listProps
-        const onDebounceSearchListVisible = useMemo(() => debounce(processSearchListVisible(setState))(150), [setState])
-        const onSearchChangeText = processSearchChangeText({data, onChangeText})(setState)
-        const onSearchChangeTextSource = useMemo(() => processSearchChangeText()(setState), [setState])
+        const onDebounceSearchListVisible = useMemo(() => debounce(handleSearchListVisible(setState))(150), [setState])
+        const onSearchChangeText = handleSearchChangeText({data, onChangeText})(setState)
+        const onSearchChangeTextSource = useMemo(() => handleSearchChangeText()(setState), [setState])
         const onSearchContainerLayout = useMemo(
-            () => processSearchContainerLayout(setState)(containerRef.current),
+            () => handleSearchContainerLayout(setState)(containerRef.current),
             [setState]
         )
 
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            processSearchStateChange({...options, ref: inputRef, state})(setState)(event)
+            handleSearchStateChange({...options, ref: inputRef, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 

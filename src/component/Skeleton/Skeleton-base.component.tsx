@@ -6,7 +6,7 @@ import {EventName, State} from '../Common'
 import {InitialSkeletonState, ProcessSkeletonStateChangeOptions, SkeletonBaseProps} from './Skeleton.interface'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
-const processSkeletonClose =
+const handleSkeletonClose =
     (setState: Updater<InitialSkeletonState>) =>
     (duration = 150) => {
         duration >= 0 &&
@@ -18,12 +18,12 @@ const processSkeletonClose =
             }, duration)
     }
 
-const processSkeletonStateChange =
+const handleSkeletonStateChange =
     ({eventName, duration}: ProcessSkeletonStateChangeOptions) =>
     (setState: Updater<InitialSkeletonState>) =>
     (_event: StateEvent) => {
         const nextEvent = {
-            layout: () => processSkeletonClose(setState)(duration)
+            layout: () => handleSkeletonClose(setState)(duration)
         } as Record<EventName, () => void>
 
         eventName && nextEvent[eventName]?.()
@@ -38,7 +38,7 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
         })
 
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            processSkeletonStateChange({...options, state, duration})(setState)(event)
+            handleSkeletonStateChange({...options, state, duration})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
         const animatedStyle = useSkeletonAnimated({enableAnimated, skeletonVisible})

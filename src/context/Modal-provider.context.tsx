@@ -3,7 +3,7 @@ import React, {FC} from 'react'
 import {Updater, useImmer} from 'use-immer'
 import {EmitterEvent, Modal, ModalInitialState, ModalItemProps, ModalProps} from './context.interface'
 
-const processModal = (setState: Updater<ModalInitialState>) => (modal: Modal) => {
+const handleModal = (setState: Updater<ModalInitialState>) => (modal: Modal) => {
     const {id, render} = modal
 
     setState(draft => {
@@ -27,7 +27,7 @@ export const emitter = mitt<EmitterEvent>()
 export const ModalProvider: FC<ModalProps> = () => {
     const [{modals}, setState] = useImmer<ModalInitialState>({modals: []})
 
-    emitter.on('modal', modal => processModal(setState)(modal))
+    emitter.on('modal', modal => handleModal(setState)(modal))
 
     return (
         <>

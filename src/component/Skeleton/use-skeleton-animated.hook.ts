@@ -12,7 +12,7 @@ import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hook'
 import {ProcessSkeletonAnimatedTimingOptions, UseSkeletonAnimatedOptions} from './Skeleton.interface'
 
-const processSkeletonAnimatedTiming =
+const handleSkeletonAnimatedTiming =
     ({animatedTiming, enableAnimated}: ProcessSkeletonAnimatedTimingOptions) =>
     (opacitySharedValue: SharedValue<AnimatableValue>) =>
     (skeletonVisible?: boolean) =>
@@ -29,7 +29,7 @@ export const useSkeletonAnimated = ({enableAnimated, skeletonVisible}: UseSkelet
     }))
 
     const onSkeletonAnimatedTiming = useMemo(
-        () => processSkeletonAnimatedTiming({animatedTiming, enableAnimated})(opacitySharedValue),
+        () => handleSkeletonAnimatedTiming({animatedTiming, enableAnimated})(opacitySharedValue),
         [animatedTiming, enableAnimated, opacitySharedValue]
     )
 

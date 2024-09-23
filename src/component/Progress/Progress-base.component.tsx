@@ -5,7 +5,7 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {EventName, State} from '../Common'
 import {InitialProgressState, ProcessProgressStateChangeOptions, ProgressBaseProps} from './Progress.interface'
 
-const processProgressLayout = (setState: Updater<InitialProgressState>) => (event: LayoutChangeEvent) => {
+const handleProgressLayout = (setState: Updater<InitialProgressState>) => (event: LayoutChangeEvent) => {
     const nativeEventLayout = event.nativeEvent.layout
 
     setState(draft => {
@@ -14,12 +14,12 @@ const processProgressLayout = (setState: Updater<InitialProgressState>) => (even
     })
 }
 
-const processTouchableStateChange =
+const handleTouchableStateChange =
     ({eventName}: ProcessProgressStateChangeOptions) =>
     (setState: Updater<InitialProgressState>) =>
     (event: StateEvent) => {
         const nextEvent = {
-            layout: () => processProgressLayout(setState)(event as LayoutChangeEvent)
+            layout: () => handleProgressLayout(setState)(event as LayoutChangeEvent)
         } as Record<EventName, () => void>
 
         eventName && nextEvent[eventName]?.()
@@ -30,7 +30,7 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(
         const [{layout}, setState] = useImmer<InitialProgressState>({layout: {} as LayoutRectangle})
         const id = useId()
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            processTouchableStateChange({...options, state})(setState)(event)
+            handleTouchableStateChange({...options, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 

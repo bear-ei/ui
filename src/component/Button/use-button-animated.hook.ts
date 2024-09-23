@@ -9,7 +9,7 @@ import {
     UseButtonAnimatedOptions
 } from './Button.interface'
 
-const processButtonOutlinedAnimated =
+const handleButtonOutlinedAnimated =
     ({animatedTiming, borderColorInputRange, disabled, type}: ProcessButtonAnimatedTimingOptions) =>
     (borderSharedValue: SharedValue<AnimatableValue>) =>
     (eventName?: EventName) => {
@@ -24,14 +24,14 @@ const processButtonOutlinedAnimated =
         return animatedTiming()(borderSharedValue)(toValue)
     }
 
-const processButtonAnimatedTiming =
+const handleButtonAnimatedTiming =
     ({animatedTiming, borderColorInputRange, disabled, type}: ProcessButtonAnimatedTimingOptions) =>
     ({borderSharedValue, colorSharedValue}: ProcessButtonAnimatedTimingSharedValue) =>
     (eventName?: EventName) => {
         const toValue = disabled ? 0 : 1
 
         if (type && ['link', 'outlined'].includes(type)) {
-            processButtonOutlinedAnimated({animatedTiming, borderColorInputRange, type, disabled})(borderSharedValue)(
+            handleButtonOutlinedAnimated({animatedTiming, borderColorInputRange, type, disabled})(borderSharedValue)(
                 eventName
             )
 
@@ -138,7 +138,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
 
     const onButtonAnimatedTiming = useMemo(
         () =>
-            processButtonAnimatedTiming({animatedTiming, borderColorInputRange, type, disabled})({
+            handleButtonAnimatedTiming({animatedTiming, borderColorInputRange, type, disabled})({
                 borderSharedValue,
                 colorSharedValue
             }),

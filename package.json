@@ -43,7 +43,7 @@
         "test": "jest"
     },
     "dependencies": {
-        "@bearei/ui-token": "^0.0.3",
+        "@bearei/ui-token": "^0.0.4",
         "@material-symbols/svg-400": "^0.17.4",
         "class-validator": "^0.14.1",
         "immer": "^10.1.1",

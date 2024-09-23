@@ -11,7 +11,7 @@ import {
 } from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
-const processLayoutVisible = (setState: Updater<InitialLayoutAnimatedState>) => (value?: boolean) =>
+const handleLayoutVisible = (setState: Updater<InitialLayoutAnimatedState>) => (value?: boolean) =>
     setState(draft => {
         if (!value) {
             draft.layoutVisible = value
@@ -29,7 +29,7 @@ const processLayoutVisible = (setState: Updater<InitialLayoutAnimatedState>) => 
         draft.layoutWasVisible = value
     })
 
-const processLayoutAnimatedStateChange =
+const handleLayoutAnimatedStateChange =
     ({eventName, visible}: ProcessLayoutAnimatedStateChangeOptions) =>
     (setState: Updater<InitialLayoutAnimatedState>) =>
     (_event: StateEvent) =>
@@ -44,7 +44,7 @@ const createNextVisibleCallback = (onVisible?: (value?: boolean) => void) => (va
     onVisible?.(value)
 
 const createNextUnmountCallback = (onUnmount?: () => void) => () => onUnmount?.()
-const processLayoutAnimatedFinished =
+const handleLayoutAnimatedFinished =
     ({onUnmount, unmount, onVisible}: ProcessLayoutAnimatedFinishedOptions) =>
     (setState: Updater<InitialLayoutAnimatedState>) =>
     (value?: boolean) =>
@@ -67,7 +67,7 @@ const processLayoutAnimatedFinished =
             draft.nextVisibleCallback = createNextVisibleCallback(onVisible)(value)
         })
 
-const processLayoutAnimatedInit =
+const handleLayoutAnimatedInit =
     (setState: Updater<InitialLayoutAnimatedState>) => (unmount?: boolean) => (value?: boolean) =>
         setState(draft => {
             if (draft.status !== 'idle') {
@@ -94,15 +94,15 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
         const id = useId()
         const visible = visibleSource ?? defaultVisible
-        const onLayoutVisible = useMemo(() => processLayoutVisible(setState), [setState])
+        const onLayoutVisible = useMemo(() => handleLayoutVisible(setState), [setState])
         const onLayoutAnimatedFinished = useMemo(
-            () => processLayoutAnimatedFinished({onUnmount, unmount, onVisible})(setState),
+            () => handleLayoutAnimatedFinished({onUnmount, unmount, onVisible})(setState),
             [onUnmount, onVisible, setState, unmount]
         )
 
-        const onLayoutAnimatedInit = useMemo(() => processLayoutAnimatedInit(setState)(unmount), [setState, unmount])
+        const onLayoutAnimatedInit = useMemo(() => handleLayoutAnimatedInit(setState)(unmount), [setState, unmount])
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            processLayoutAnimatedStateChange({...options, state, visible})(setState)(event)
+            handleLayoutAnimatedStateChange({...options, state, visible})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
         const {opacityAnimatedStyle} = useLayoutAnimated({

@@ -8,7 +8,7 @@ import {
     UseIconButtonAnimatedOptions
 } from './Icon-button.interface'
 
-const processIconButtonAnimatedTiming =
+const handleIconButtonAnimatedTiming =
     ({animatedTiming, type}: ProcessIconButtonAnimatedTimingOptions) =>
     ({borderSharedValue, colorSharedValue}: ProcessIconButtonAnimatedTimingSharedValue) =>
     (disabled?: boolean) => {
@@ -71,7 +71,7 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
     }))
 
     const onIconButtonAnimatedTiming = useMemo(
-        () => processIconButtonAnimatedTiming({animatedTiming, type})({borderSharedValue, colorSharedValue}),
+        () => handleIconButtonAnimatedTiming({animatedTiming, type})({borderSharedValue, colorSharedValue}),
         [animatedTiming, borderSharedValue, colorSharedValue, type]
     )
 

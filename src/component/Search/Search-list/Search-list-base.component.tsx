@@ -4,10 +4,10 @@ import {ListData, RenderListProps, VirtualListComponent} from '../../List'
 import {SearchListBaseProps} from './Search-list.interface'
 import {useSearchListAnimated} from './use-search-list-animated.hook'
 
-const processSearchListEmit = (id: string) => (render: () => React.JSX.Element) => (visible?: boolean) =>
+const handleSearchListEmit = (id: string) => (render: () => React.JSX.Element) => (visible?: boolean) =>
     typeof visible === 'boolean' && emitter.emit('modal', {id: `search__list--${id}`, render})
 
-const processSearchListUnmount = (id: string) => emitter.emit('modal', {id: `search__list--${id}`, render: undefined})
+const handleSearchListUnmount = (id: string) => emitter.emit('modal', {id: `search__list--${id}`, render: undefined})
 
 export const SearchListBase = forwardRef<VirtualListComponent<ListData>, SearchListBaseProps>(
     ({containerLayout, render, visible, ...renderProps}, ref) => {
@@ -26,7 +26,7 @@ export const SearchListBase = forwardRef<VirtualListComponent<ListData>, SearchL
         )
 
         const onSearchListEmit = useMemo(
-            () => processSearchListEmit(id)(renderSearchListRender),
+            () => handleSearchListEmit(id)(renderSearchListRender),
             [id, renderSearchListRender]
         )
 
@@ -34,7 +34,7 @@ export const SearchListBase = forwardRef<VirtualListComponent<ListData>, SearchL
             onSearchListEmit(visible)
         }, [onSearchListEmit, visible])
 
-        useEffect(() => () => processSearchListUnmount(id), [id])
+        useEffect(() => () => handleSearchListUnmount(id), [id])
 
         return <></>
     }

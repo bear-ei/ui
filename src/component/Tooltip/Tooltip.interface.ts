@@ -39,5 +39,5 @@ export interface InitialTooltipState {
 }
 
 export interface ProcessTooltipStateEventChangeOptions extends OnStateEventChangeOptions {
-    processDebounceTooltipVisible: (value?: boolean) => void
+    handleDebounceTooltipVisible: (value?: boolean) => void
 }

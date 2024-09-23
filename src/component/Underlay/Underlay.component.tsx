@@ -1,7 +1,7 @@
 import {forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {UnderlayBase, processUnderlayPropsEqual} from './Underlay-base.component'
+import {UnderlayBase, handleUnderlayPropsEqual} from './Underlay-base.component'
 import {RenderUnderlayProps, UnderlayProps} from './Underlay.interface'
 import {ActiveLayer, Container, HoverLayer} from './Underlay.style'
 
@@ -59,5 +59,5 @@ const ForwardRefUnderlay = forwardRef<View, UnderlayProps>((props, ref) => (
 ))
 
 export const Underlay = memo(ForwardRefUnderlay, (prevProps, nextProps) =>
-    processUnderlayPropsEqual(prevProps)(nextProps)
+    handleUnderlayPropsEqual(prevProps)(nextProps)
 ) as typeof ForwardRefUnderlay
