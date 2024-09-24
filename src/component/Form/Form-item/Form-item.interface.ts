@@ -46,6 +46,7 @@ export interface HandleFormItemValueChangeOptions extends Pick<FormStore, 'setFi
 
 export type HandleFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
     validate: (value?: unknown) => Promise<ValidationError[] | undefined>
+    onComponentUpdate: () => void
 } & Pick<FormStore, 'signInField'>
 
 export interface HandleFormItemValidateOptions {

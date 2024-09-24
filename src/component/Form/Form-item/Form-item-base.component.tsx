@@ -37,13 +37,13 @@ const handleFormItemValidate = ({rule, validatorOptions}: HandleFormItemValidate
         :   ([] as ValidationError[])
 }
 
-const handleFormStoreChange = (setState: Updater<InitialFormItemState>) => () =>
+const handleComponentUpdate = (setState: Updater<InitialFormItemState>) => () =>
     setState(draft => {
         draft.shouldUpdate = {}
     })
 
 const handleFormItemInit =
-    ({rule, validate: fieldValidate, signInField}: HandleFormItemInitOptions) =>
+    ({rule, validate: fieldValidate, signInField, onComponentUpdate}: HandleFormItemInitOptions) =>
     (setState: Updater<InitialFormItemState>) =>
     (name?: string) => {
         setState(draft => {
@@ -52,13 +52,7 @@ const handleFormItemInit =
             }
 
             const {signOut} =
-                signInField({
-                    name,
-                    onFormStoreChange: handleFormStoreChange(setState),
-                    rule,
-                    touched: false,
-                    validate: fieldValidate
-                }) ?? {}
+                signInField({name, onComponentUpdate, rule, touched: false, validate: fieldValidate}) ?? {}
 
             draft.signOut = signOut
             draft.status = 'succeeded'
@@ -87,6 +81,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         const errors = getFieldError(name)
         const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
         const storeValue = getFieldValue(name) ?? getInitialValue(name)
+        const onComponentUpdate = useMemo(() => handleComponentUpdate(setState), [setState])
         const onValueChange = useMemo(
             () => handleFormItemValueChange({setFieldValue, storeValue})(name),
             [name, setFieldValue, storeValue]
@@ -98,8 +93,8 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         )
 
         const onFormItemInit = useMemo(
-            () => handleFormItemInit({rule, validate: onFieldValidate, signInField})(setState),
-            [onFieldValidate, rule, setState, signInField]
+            () => handleFormItemInit({rule, validate: onFieldValidate, signInField, onComponentUpdate})(setState),
+            [onComponentUpdate, onFieldValidate, rule, setState, signInField]
         )
 
         const onControlBlur = useMemo(() => handleFormItemBlur(validateField)(name), [name, validateField])

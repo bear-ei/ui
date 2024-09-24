@@ -80,15 +80,25 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 return
             }
 
+            setFieldError()({[entityName]: undefined} as FormError<T>)
             setFieldValue(true)()({[entityName]: undefined} as T)
-            setFieldError({[entityName]: undefined} as FormError<T>)
         }
 
         getFieldEntitiesName()(names).forEach(handleReset)
     }
 
     const setCallback = (callbackValue: FormCallback<T>) => (callback = {...callback, ...callbackValue})
-    const setFieldError = (err: FormError<T>) => (error = {...error, ...err})
+    const setFieldError = (componentUpdate?: boolean) => (err: FormError<T>) => {
+        error = {...error, ...err}
+
+        if (componentUpdate) {
+            const entities = getFieldEntities()
+            const errKeys = Object.keys(err) as (keyof T)[]
+
+            entities.forEach(entity => entity.name && errKeys.includes(entity.name) && entity.onComponentUpdate())
+        }
+    }
+
     const setFieldTouched =
         (touched = false) =>
         (name?: keyof T) => {
@@ -101,7 +111,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             ]
         }
 
-    const handleStorageUpdate =
+    const handleStoreUpdate =
         (onStorageChange?: (options: OnValueChangeOptions<T>) => void) =>
         (value = {} as T) => {
             store = {...store, ...value}
@@ -118,11 +128,12 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 return
             }
 
-            handleStorageUpdate()(value)
-            setFieldError({[name]: errors} as FormError<T>)
+            handleStoreUpdate()(value)
+
+            setFieldError()({[name]: errors} as FormError<T>)
             setFieldTouched(true)(name)
 
-            entity.onFormStoreChange()
+            entity.onComponentUpdate()
         }
 
     const handleFindEntity =
@@ -130,7 +141,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
         ({name}: FormFieldEntity<T>) =>
             name === rawName
 
-    const handleItemUpdate =
+    const handleComponentUpdate =
         (skipValidate?: boolean) =>
         (value = {} as T) =>
         async (name: keyof T) => {
@@ -154,15 +165,15 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 
     const setFieldValue =
         (skipValidate = false) =>
-        (updateItem = true) =>
+        (componentUpdate = true) =>
         (value = {} as T) => {
             const {onValueChange} = callback
             const handleChange = handleValueChange(value)
-            const handleUpdate = handleItemUpdate(skipValidate)(value)
+            const handleUpdate = handleComponentUpdate(skipValidate)(value)
 
-            updateItem ?
+            componentUpdate ?
                 Promise.all(Object.keys(value).map(handleUpdate)).then(handleChange)
-            :   handleStorageUpdate(onValueChange)(value)
+            :   handleStoreUpdate(onValueChange)(value)
         }
 
     const setInitialValue =
@@ -191,8 +202,8 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 
         fieldEntities = [...entities, rawEntity]
 
+        setFieldError()({[name]: undefined} as FormError<T>)
         setFieldValue()(false)({[name]: initialValue[name]} as T)
-        setFieldError({[name]: undefined} as FormError<T>)
 
         return {
             signOut: () => signOutField(name)
@@ -216,8 +227,8 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             const {[signOutName]: _signOutError, ...nextError} = error
             const {[signOutName]: _signOutStorage, ...nextFormStore} = store
 
+            setFieldError()(nextError as FormError<T>)
             setFieldValue()(false)(nextFormStore as T)
-            setFieldError(nextError as FormError<T>)
 
             fieldEntities = entities.filter(entity => entity.name !== signOutName)
         }
@@ -251,8 +262,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             return fieldEntity?.validate(value).then(errors => {
                 const err = {[entityName]: errors} as FormError<T>
 
-                setFieldError(err)
-                errors && fieldEntity.onFormStoreChange()
+                setFieldError(true)(err)
 
                 return err
             })
