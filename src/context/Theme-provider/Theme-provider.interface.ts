@@ -1,4 +1,4 @@
-import {Token} from '@bearei/ui-token'
+import {Token} from '@bearei/material-token'
 import {ReactNode} from 'react'
 import {AdaptDesignOptions} from '../../util'
 

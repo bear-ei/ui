@@ -1,4 +1,4 @@
-import {Shape, Typography} from '@bearei/ui-token'
+import {Shape, Typography} from '@bearei/material-token'
 
 export type BorderStyle = 'dotted' | 'solid' | 'dashed'
 export type Layout = 'horizontal' | 'vertical'

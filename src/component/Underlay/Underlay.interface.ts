@@ -1,4 +1,4 @@
-import {Shape} from '@bearei/ui-token'
+import {Shape} from '@bearei/material-token'
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'

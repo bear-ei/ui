@@ -1,4 +1,4 @@
-import {Token} from '@bearei/ui-token'
+import {Token} from '@bearei/material-token'
 import {useCallback} from 'react'
 import {
     AnimatableValue,

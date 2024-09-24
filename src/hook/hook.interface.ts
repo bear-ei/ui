@@ -1,4 +1,4 @@
-import {Duration, Easing, Token} from '@bearei/ui-token'
+import {Duration, Easing, Token} from '@bearei/material-token'
 import {
     GestureResponderEvent,
     LayoutChangeEvent,

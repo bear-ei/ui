@@ -1,4 +1,4 @@
-import {token} from '@bearei/ui-token'
+import {token} from '@bearei/material-token'
 import {FC, useId} from 'react'
 import {Platform, useColorScheme, useWindowDimensions} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'

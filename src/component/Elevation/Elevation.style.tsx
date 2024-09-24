@@ -1,4 +1,4 @@
-import {Elevation} from '@bearei/ui-token'
+import {Elevation} from '@bearei/material-token'
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
 import {ElevationShadowProps} from './Elevation.interface'
