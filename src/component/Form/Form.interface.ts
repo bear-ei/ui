@@ -21,13 +21,13 @@ export interface FormCallback<T = Record<string, unknown>> {
 
 export interface FormFieldEntity<T = Record<string, unknown>> {
     name?: keyof T
-    onFormStorageChange: () => void
+    onFormStoreChange: () => void
     rule?: FormItemValidationRule
     touched: boolean
     validate: (value?: unknown) => Promise<ValidationError[] | undefined>
 }
 
-export interface FormStorage<T = Record<string, unknown>> {
+export interface FormStore<T = Record<string, unknown>> {
     getFieldEntities: (signOut?: boolean) => FormFieldEntity<T>[]
     getFieldEntitiesName: (signOut?: boolean) => (names?: (keyof T)[]) => (keyof T | undefined)[]
     getFieldError: {
@@ -70,7 +70,7 @@ export interface FormProps<T = Record<string, unknown>>
         FormCallback<T>,
         Pick<FormItemProps, 'skeletonElement' | 'minSkeletonDuration'>,
         RefAttributes<View> {
-    form?: FormStorage<T>
+    form?: FormStore<T>
     formLayout?: 'horizontal' | 'vertical'
     initialValue?: T
     items?: FormItemProps[]

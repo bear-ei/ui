@@ -2,7 +2,7 @@ import {ValidationError, ValidatorOptions} from 'class-validator'
 import React, {RefAttributes} from 'react'
 import {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native'
 import {ComponentStatus} from '../../Common'
-import {FormStorage} from '../Form.interface'
+import {FormStore} from '../Form.interface'
 
 export type FormItemValidationRule = new (...args: any[]) => {}
 export interface FormItemControlProps {
@@ -40,13 +40,13 @@ export interface InitialFormItemState {
     status: ComponentStatus
 }
 
-export interface HandleFormItemValueChangeOptions extends Pick<FormStorage, 'setFieldValue'> {
-    storageValue?: unknown
+export interface HandleFormItemValueChangeOptions extends Pick<FormStore, 'setFieldValue'> {
+    storeValue?: unknown
 }
 
 export type HandleFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
     validate: (value?: unknown) => Promise<ValidationError[] | undefined>
-} & Pick<FormStorage, 'signInField'>
+} & Pick<FormStore, 'signInField'>
 
 export interface HandleFormItemValidateOptions {
     rule?: FormItemValidationRule

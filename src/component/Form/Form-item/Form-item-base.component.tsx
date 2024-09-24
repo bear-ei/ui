@@ -13,10 +13,10 @@ import {
 } from './Form-item.interface'
 
 const handleFormItemValueChange =
-    ({setFieldValue, storageValue}: HandleFormItemValueChangeOptions) =>
+    ({setFieldValue, storeValue}: HandleFormItemValueChangeOptions) =>
     (name?: string) =>
     (value?: unknown) =>
-        name && storageValue !== value && setFieldValue()()({[name]: value})
+        name && storeValue !== value && setFieldValue()()({[name]: value})
 
 const handleFormItemValidate = ({rule, validatorOptions}: HandleFormItemValidateOptions) => {
     const {
@@ -37,7 +37,7 @@ const handleFormItemValidate = ({rule, validatorOptions}: HandleFormItemValidate
         :   ([] as ValidationError[])
 }
 
-const handleFormStorageChange = (setState: Updater<InitialFormItemState>) => () =>
+const handleFormStoreChange = (setState: Updater<InitialFormItemState>) => () =>
     setState(draft => {
         draft.shouldUpdate = {}
     })
@@ -54,7 +54,7 @@ const handleFormItemInit =
             const {signOut} =
                 signInField({
                     name,
-                    onFormStorageChange: handleFormStorageChange(setState),
+                    onFormStoreChange: handleFormStoreChange(setState),
                     rule,
                     touched: false,
                     validate: fieldValidate
@@ -86,10 +86,10 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 
         const errors = getFieldError(name)
         const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
-        const storageValue = getFieldValue(name) ?? getInitialValue(name)
+        const storeValue = getFieldValue(name) ?? getInitialValue(name)
         const onValueChange = useMemo(
-            () => handleFormItemValueChange({setFieldValue, storageValue})(name),
-            [name, setFieldValue, storageValue]
+            () => handleFormItemValueChange({setFieldValue, storeValue})(name),
+            [name, setFieldValue, storeValue]
         )
 
         const onFieldValidate = useMemo(
@@ -104,8 +104,8 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 
         const onControlBlur = useMemo(() => handleFormItemBlur(validateField)(name), [name, validateField])
         const controlElement = useMemo(
-            () => renderControl?.({errorMessage, labelText, onValueChange, value: storageValue, onBlur: onControlBlur}),
-            [errorMessage, labelText, onControlBlur, onValueChange, renderControl, storageValue]
+            () => renderControl?.({errorMessage, labelText, onValueChange, value: storeValue, onBlur: onControlBlur}),
+            [errorMessage, labelText, onControlBlur, onValueChange, renderControl, storeValue]
         )
 
         useEffect(() => {

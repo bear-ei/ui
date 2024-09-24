@@ -1,9 +1,9 @@
 import {useLazyRef} from '../../hook'
-import {FormStorage} from './Form.interface'
-import {formStorage} from './form-storage'
+import {FormStore} from './Form.interface'
+import {formStore} from './form-store'
 
-export const useForm = <T>(form?: FormStorage<T>) => {
-    const formRef = useLazyRef(() => form ?? (formStorage() as FormStorage<T>))
+export const useForm = <T>(form?: FormStore<T>) => {
+    const formRef = useLazyRef(() => form ?? (formStore() as FormStore<T>))
 
-    return formRef.current as FormStorage<T>
+    return formRef.current as FormStore<T>
 }
