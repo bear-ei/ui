@@ -7,7 +7,7 @@ import {FormItemProps, FormItemValidationRule} from './Form-item'
 import {ForwardRefForm} from './Form.component'
 import {useForm} from './use-form.hook'
 
-export type FormError<T> = Record<keyof T, ValidationError[] | undefined>
+export type FormError<T> = Partial<Record<keyof T, ValidationError[] | undefined>>
 export interface OnValueChangeOptions<T> {
     changedValue: T
     value: T
