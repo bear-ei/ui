@@ -7,7 +7,7 @@ export const ElevationBase = forwardRef<View, ElevationBaseProps>(
     ({defaultLevel, level, render, ...renderProps}, ref) => {
         const id = useId()
         const elevationLevel = level ?? defaultLevel
-        const shadowAnimatedStyle = useElevationAnimated({level: elevationLevel})
+        const {shadowAnimatedStyle} = useElevationAnimated({level: elevationLevel})
 
         return render({...renderProps, id, level: elevationLevel, ref, shadowAnimatedStyle})
     }

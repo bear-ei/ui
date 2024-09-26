@@ -2,6 +2,7 @@ import {validate, ValidationError} from 'class-validator'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {NativeSyntheticEvent, TargetedEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
+import {asyncDebounce} from '../../../util'
 import {FormError} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
@@ -67,7 +68,20 @@ const handleFormItemBlur =
     }
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-    ({labelText, name, render, renderControl, minSkeletonDuration, rule, validatorOptions, ...renderProps}, ref) => {
+    (
+        {
+            labelText,
+            name,
+            render,
+            renderControl,
+            minSkeletonDuration,
+            rule,
+            validatorOptions,
+            validationDelay = 300,
+            ...renderProps
+        },
+        ref
+    ) => {
         const [{signOut, status}, setState] = useImmer<InitialFormItemState>({
             shouldUpdate: {},
             signOut: undefined,
@@ -82,26 +96,25 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
         const storeValue = getFieldValue(name) ?? getInitialValue(name)
         const onComponentUpdate = useMemo(() => handleComponentUpdate(setState), [setState])
-        const onValueChange = useMemo(
-            () => handleFormItemValueChange({setFieldValue, storeValue})(name),
-            [name, setFieldValue, storeValue]
-        )
-
+        const onValueChange = handleFormItemValueChange({setFieldValue, storeValue})(name)
         const onFieldValidate = useMemo(
-            () => handleFormItemValidate({rule, validatorOptions})(name),
-            [name, rule, validatorOptions]
-        )
+            () => asyncDebounce(handleFormItemValidate({rule, validatorOptions})(name))(validationDelay),
+            [name, rule, validationDelay, validatorOptions]
+        ) as (value?: unknown) => Promise<ValidationError[] | undefined>
 
         const onFormItemInit = useMemo(
             () => handleFormItemInit({rule, validate: onFieldValidate, signInField, onComponentUpdate})(setState),
             [onComponentUpdate, onFieldValidate, rule, setState, signInField]
         )
 
-        const onControlBlur = useMemo(() => handleFormItemBlur(validateField)(name), [name, validateField])
-        const controlElement = useMemo(
-            () => renderControl?.({errorMessage, labelText, onValueChange, value: storeValue, onBlur: onControlBlur}),
-            [errorMessage, labelText, onControlBlur, onValueChange, renderControl, storeValue]
-        )
+        const onControlBlur = handleFormItemBlur(validateField)(name)
+        const controlElement = renderControl?.({
+            errorMessage,
+            labelText,
+            onBlur: onControlBlur,
+            onValueChange,
+            value: storeValue
+        })
 
         useEffect(() => {
             onFormItemInit(name)

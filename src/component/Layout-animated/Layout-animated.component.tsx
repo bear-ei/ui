@@ -9,7 +9,7 @@ const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
     id,
     children,
-    opacityAnimatedStyle,
+    containerAnimatedStyle,
     style,
     onStateEvent,
     ...containerProps
@@ -17,7 +17,7 @@ const render = ({
     <AnimatedContainer
         {...containerProps}
         {...onStateEvent}
-        style={[style, opacityAnimatedStyle]}
+        style={[style, containerAnimatedStyle]}
         testID={`layoutAnimated--${id}`}
     >
         {children}

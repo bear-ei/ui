@@ -68,12 +68,7 @@ const handleButtonDisabled = (setState: Updater<InitialButtonState>) => (type?: 
 
 const renderButtonIcon =
     ({disabled, eventName, type = 'filled'}: RenderButtonIconOptions) =>
-    (theme: DefaultTheme) =>
-    (icon?: React.JSX.Element) => {
-        if (!icon) {
-            return icon
-        }
-
+    (theme: DefaultTheme) => {
         const fillType = {
             elevated: theme.token.scheme.primary,
             filled: theme.token.scheme.onPrimary,
@@ -82,10 +77,16 @@ const renderButtonIcon =
             tonal: theme.token.scheme.onSecondaryContainer
         } as Record<ButtonType, string>
 
-        return cloneElement<IconProps>(icon, {densityScale: -1.5, disabled, eventName, fill: fillType[type]})
+        return (icon?: React.JSX.Element) => {
+            if (!icon) {
+                return icon
+            }
+
+            return cloneElement<IconProps>(icon, {densityScale: -1.5, disabled, eventName, fill: fillType[type]})
+        }
     }
 
-const handleButtonUnderlayColor = (theme: DefaultTheme) => (type: ButtonType) => {
+const handleButtonUnderlayColor = (theme: DefaultTheme) => {
     const underlay = {
         elevated: theme.token.scheme.primary,
         filled: theme.token.scheme.onPrimary,
@@ -95,7 +96,7 @@ const handleButtonUnderlayColor = (theme: DefaultTheme) => (type: ButtonType) =>
         tonal: theme.token.scheme.onSecondaryContainer
     }
 
-    return underlay[type]
+    return (type: ButtonType) => underlay[type]
 }
 
 /**

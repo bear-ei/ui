@@ -19,7 +19,7 @@ export interface IconProps extends Omit<SvgProps, 'width' | 'height' | 'hitSlop'
 }
 
 export interface RenderIconProps extends IconProps {
-    animatedStyle: AnimatedStyle<ViewStyle>
+    containerAnimatedStyle: AnimatedStyle<ViewStyle>
     svgIconElement: React.JSX.Element
 }
 

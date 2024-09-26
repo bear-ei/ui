@@ -30,20 +30,16 @@ const handleFormCallback =
     (setCallback: (callback: FormCallback<T>) => void) =>
         setCallback({onFinish, onFinishFailed, onValueChange})
 
-const renderFormItem =
-    ({validatorOptions: formValidatorOptions, ...options}: RenderFormItemOptions) =>
-    (status: ComponentStatus) =>
-    (items?: FormItemProps[]) =>
-        status === 'succeeded' ?
-            items?.map(({validatorOptions: formItemValidatorOptions, ...item}, index) => (
-                <FormItem
-                    {...item}
-                    {...options}
-                    key={item.name ?? index}
-                    validatorOptions={formItemValidatorOptions ?? formValidatorOptions}
-                />
-            ))
-        :   <></>
+const renderFormItem = (options: RenderFormItemOptions) => (status: ComponentStatus) => (items?: FormItemProps[]) =>
+    status === 'succeeded' ?
+        items?.map((item, index) => (
+            <FormItem
+                {...item}
+                {...options}
+                key={item.name ?? index}
+            />
+        ))
+    :   <></>
 
 const FormBaseInner = <T,>(
     {
@@ -57,6 +53,7 @@ const FormBaseInner = <T,>(
         render,
         skeletonElement,
         validatorOptions,
+        validationDelay,
         ...renderProps
     }: FormBaseProps<T>,
     ref: ForwardedRef<View>
@@ -71,7 +68,9 @@ const FormBaseInner = <T,>(
         [onFinish, onFinishFailed, onValueChange, setCallback]
     )
 
-    const formItemElements = renderFormItem({skeletonElement, minSkeletonDuration, validatorOptions})(status)(items)
+    const formItemElements = renderFormItem({skeletonElement, minSkeletonDuration, validatorOptions, validationDelay})(
+        status
+    )(items)
 
     useEffect(() => {
         onFormCallback()

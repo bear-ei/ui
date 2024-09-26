@@ -57,7 +57,7 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
     const onListAfterAffordanceConfirm = handleListAfterAffordanceConfirm({doubleConfirmed, onConfirm, itemKey})
     const onListAfterAffordanceCancel = handleListAfterAffordanceCancel({doubleConfirmed, onCancel, itemKey})(setState)
     const onListAfterAffordanceVisible = useMemo(() => handleListAfterAffordanceVisible(setState), [setState])
-    const dangerAnimatedStyle = useListAfterAffordanceAnimated({doubleConfirmed})
+    const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed})
 
     useEffect(() => {
         onListAfterAffordanceVisible(visible)

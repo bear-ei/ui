@@ -105,7 +105,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
             handleLayoutAnimatedStateChange({...options, state, visible})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
-        const {opacityAnimatedStyle} = useLayoutAnimated({
+        const {containerAnimatedStyle} = useLayoutAnimated({
             onAnimatedFinished: onLayoutAnimatedFinished,
             visible: layoutVisible ?? visible
         })
@@ -135,7 +135,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
             :   render({
                     ...renderProps,
                     onStateEvent,
-                    opacityAnimatedStyle,
+                    containerAnimatedStyle,
                     ref,
                     visible: layoutWasVisible,
                     id

@@ -25,7 +25,7 @@ export const useIconAnimated = ({eventName}: UseIconAnimatedOptions) => {
     const scaleSharedValue = useSharedValue(1)
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
-    const animatedStyle = useAnimatedStyle(() => ({
+    const containerAnimatedStyle = useAnimatedStyle(() => ({
         transform: [{scale: interpolate(scaleSharedValue.value, [0, 1, 2], [0.97, 1, 1.03], Extrapolation.CLAMP)}]
     }))
 
@@ -38,5 +38,5 @@ export const useIconAnimated = ({eventName}: UseIconAnimatedOptions) => {
         onIconAnimatedTiming(eventName)
     }, [eventName, onIconAnimatedTiming])
 
-    return animatedStyle
+    return {containerAnimatedStyle}
 }

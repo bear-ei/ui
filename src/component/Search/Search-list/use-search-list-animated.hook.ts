@@ -41,5 +41,5 @@ export const useSearchListAnimated = ({visible, containerLayout}: UseSearchListA
         onSearchListAnimatedTiming(visible)
     }, [onSearchListAnimatedTiming, visible])
 
-    return containerAnimatedStyle
+    return {containerAnimatedStyle}
 }

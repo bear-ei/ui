@@ -1,4 +1,4 @@
-import React, {cloneElement, forwardRef, useCallback, useEffect, useId, useMemo, useRef} from 'react'
+import React, {cloneElement, forwardRef, useEffect, useId, useMemo, useRef} from 'react'
 import {PanResponder, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -20,7 +20,7 @@ import {
 } from './List-item.interface'
 import {useListItemAnimated} from './use-list-item-animated.hook'
 
-export const handleListItemPropsEqual = (prevProps: ListItemProps) => (nextProps: ListItemProps) => {
+export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
     const {
         activeKey: prevActiveKey,
         activeKeys: prevActiveKeys,
@@ -29,48 +29,56 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => (nextProps
         itemKey: prevItemKey
     } = prevProps
 
-    const {
-        activeKey: nextActiveKey,
-        activeKeys: nextActiveKeys,
-        afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
-        extraData: nextExtraData,
-        itemKey: nextItemKey
-    } = nextProps
+    return (nextProps: ListItemProps) => {
+        const {
+            activeKey: nextActiveKey,
+            activeKeys: nextActiveKeys,
+            afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
+            extraData: nextExtraData,
+            itemKey: nextItemKey
+        } = nextProps
 
-    const activeKeyChange =
-        prevActiveKey !== nextActiveKey && (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
+        const activeKeyChange =
+            prevActiveKey !== nextActiveKey && (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
 
-    const nextActive = nextActiveKeys?.includes(nextItemKey)
-    const prevActive = prevActiveKeys?.includes(prevItemKey)
-    const activeKeysChange =
-        nextActiveKeys?.join() !== prevActiveKeys?.join() &&
-        ((nextActive && !prevActive) || (prevActive && !nextActive))
+        const nextActive = nextActiveKeys?.includes(nextItemKey)
+        const prevActive = prevActiveKeys?.includes(prevItemKey)
+        const activeKeysChange =
+            nextActiveKeys?.join() !== prevActiveKeys?.join() &&
+            ((nextActive && !prevActive) || (prevActive && !nextActive))
 
-    const afterAffordanceActiveChange =
-        prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
-        (nextAfterAffordanceActiveKey === nextItemKey || prevAfterAffordanceActiveKey === prevItemKey)
+        const afterAffordanceActiveChange =
+            prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
+            (nextAfterAffordanceActiveKey === nextItemKey || prevAfterAffordanceActiveKey === prevItemKey)
 
-    return ![
-        activeKeyChange,
-        activeKeysChange,
-        afterAffordanceActiveChange,
-        prevExtraData?.join() !== nextExtraData?.join()
-    ].some(Boolean)
+        return ![
+            activeKeyChange,
+            activeKeysChange,
+            afterAffordanceActiveChange,
+            prevExtraData?.join() !== nextExtraData?.join()
+        ].some(Boolean)
+    }
 }
 
 const handleListItemPressOut = (type?: ListType) => (onActive?: (value?: string) => void) => (value: string) =>
     type !== 'standard' && onActive?.(value)
 
 const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
-const handleListItemStateChange =
-    ({eventName, itemKey, onActive, type, onLoadEnd, state, trailingTrigger}: HandleListItemStateEventChangeOptions) =>
-    (setState: Updater<InitialListItemState>) =>
-    (_event: StateEvent) => {
-        const nextEvent = {
-            layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
-            pressOut: () => handleListItemPressOut(type)(onActive)(itemKey)
-        } as Record<EventName, () => void>
+const handleListItemStateChange = ({
+    eventName,
+    itemKey,
+    onActive,
+    type,
+    onLoadEnd,
+    state,
+    trailingTrigger
+}: HandleListItemStateEventChangeOptions) => {
+    const nextEvent = {
+        layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
+        pressOut: () => handleListItemPressOut(type)(onActive)(itemKey)
+    } as Record<EventName, () => void>
 
+    return (setState: Updater<InitialListItemState>) => (_event: StateEvent) =>
         setState(draft => {
             const prevEventName = draft.eventName
 
@@ -91,7 +99,7 @@ const handleListItemStateChange =
                 eventName === 'pressOut' && (draft.nextPressOutEvent = nextEvent[eventName])
             }
         })
-    }
+}
 
 const handleListItemTrailingPressOut =
     ({
@@ -254,21 +262,11 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         const onListItemConfirm = ({itemKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
             handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
 
-        const onListItemClose = useMemo(
-            () => handleListItemClose({onClose, onVisible})(itemKey),
-            [itemKey, onClose, onVisible]
-        )
-
-        const onListItemTrailingPressOut = useCallback(
-            () =>
-                handleListItemTrailingPressOut({
-                    afterAffordance,
-                    closeTrailing,
-                    onActiveAfterAffordance,
-                    onListItemClose
-                })(itemKey),
-            [afterAffordance, closeTrailing, itemKey, onActiveAfterAffordance, onListItemClose]
-        )
+        const onListItemClose = handleListItemClose({onClose, onVisible})(itemKey)
+        const onListItemTrailingPressOut = () =>
+            handleListItemTrailingPressOut({afterAffordance, closeTrailing, onActiveAfterAffordance, onListItemClose})(
+                itemKey
+            )
 
         const onListItemAfterAffordanceVisibleFinished = useMemo(
             () => handleItemListAfterAffordanceVisibleFinished(setState),
@@ -286,17 +284,13 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             onListItemAfterAffordanceVisibleFinished
         })
 
-        const trailingElement = useMemo(
-            () =>
-                renderListItemTrailing({
-                    afterAffordance,
-                    closeTrailing,
-                    onStateEvent: {onPressOut: onListItemTrailingPressOut},
-                    theme,
-                    trailing
-                }),
-            [afterAffordance, closeTrailing, onListItemTrailingPressOut, theme, trailing]
-        )
+        const trailingElement = renderListItemTrailing({
+            afterAffordance,
+            closeTrailing,
+            onStateEvent: {onPressOut: onListItemTrailingPressOut},
+            theme,
+            trailing
+        })
 
         useEffect(() => {
             nextPressOutEvent?.()

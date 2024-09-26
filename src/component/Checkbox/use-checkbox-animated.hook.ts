@@ -38,5 +38,5 @@ export const useCheckboxAnimated = ({active}: UseCheckboxAnimatedOptions) => {
         onCheckboxIconAnimated(active)
     }, [active, onCheckboxIconAnimated])
 
-    return iconAnimatedStyle
+    return {iconAnimatedStyle}
 }

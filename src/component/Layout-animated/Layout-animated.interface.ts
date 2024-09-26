@@ -19,7 +19,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, ViewProps, Sha
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
     onStateEvent: OnStateEvent
-    opacityAnimatedStyle: AnimatedStyle<ViewStyle>
+    containerAnimatedStyle: AnimatedStyle<ViewStyle>
     visible?: boolean
 }
 

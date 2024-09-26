@@ -6,12 +6,12 @@ import {ProgressActiveIndicatorProps, RenderProgressActiveIndicatorProps} from '
 import {Container} from './Progress-active-indicator.style'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const render = ({id, activeIndicatorAnimatedStyle, ...containerProps}: RenderProgressActiveIndicatorProps) => (
+const render = ({id, containerAnimatedStyle, ...containerProps}: RenderProgressActiveIndicatorProps) => (
     <AnimatedContainer
         {...containerProps}
         pointerEvents='none'
         shape='small'
-        style={[activeIndicatorAnimatedStyle]}
+        style={[containerAnimatedStyle]}
         testID={`progressActiveIndicator--${id}`}
     />
 )

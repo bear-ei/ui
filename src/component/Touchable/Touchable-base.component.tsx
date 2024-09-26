@@ -2,7 +2,7 @@ import React, {forwardRef, useId, useMemo} from 'react'
 import {GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, NativeTouchEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
-import {generateRandomNumber} from '../../util'
+import {generateRandomNumberString} from '../../util'
 import {EventName, State} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
@@ -26,7 +26,7 @@ const handleAddTouchableRipple =
     (setState: Updater<InitialTouchableState>) =>
     (touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>) =>
         setState(draft => {
-            draft.rippleSequence[`${Date.now()}${generateRandomNumber(4)}`] = {touchableLocation}
+            draft.rippleSequence[`${Date.now()}${generateRandomNumberString(4)}`] = {touchableLocation}
         })
 
 const handleTouchablePressIn =

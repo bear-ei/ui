@@ -14,7 +14,7 @@ export interface SkeletonProps extends ViewProps, RefAttributes<View>, Pick<Skel
 }
 
 export interface RenderSkeletonProps extends SkeletonProps {
-    animatedStyle: AnimatedStyle<ViewStyle>
+    containerAnimatedStyle: AnimatedStyle<ViewStyle>
     onStateEvent: OnStateEvent
     skeletonVisible?: boolean
     status: ComponentStatus

@@ -11,19 +11,19 @@ import {
 } from '././Navigation-rail.interface'
 import {NavigationRailItem} from './Navigation-rail-item'
 
-const createNextActiveCallback = (onActive?: (value?: string) => void) => (value?: string) => () => onActive?.(value)
-const handleNavigationRailActive =
-    ({onActive}: HandleNavigationRailActiveOptions = {}) =>
-    (setState: Updater<InitialNavigationRailState>) =>
-    (value?: string) =>
+const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOptions = {}) => {
+    const createNextActiveCallback = (value?: string) => () => onActive?.(value)
+
+    return (setState: Updater<InitialNavigationRailState>) => (value?: string) =>
         value &&
         setState(draft => {
             const prevNavigationRailActiveKey = draft.navigationRailActiveKey
 
             draft.navigationRailActiveKey = value
             prevNavigationRailActiveKey !== draft.navigationRailActiveKey &&
-                (draft.nextActiveCallback = createNextActiveCallback(onActive)(value))
+                (draft.nextActiveCallback = createNextActiveCallback(value))
         })
+}
 
 const renderNavigationRailItems =
     (renderNavigationRailItemOptions: RenderNavigationRailItemOptions) => (data?: NavigationRailData[]) =>

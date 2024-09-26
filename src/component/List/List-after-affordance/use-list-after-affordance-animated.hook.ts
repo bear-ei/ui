@@ -38,5 +38,5 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
         onListAfterAffordanceAnimatedTiming(doubleConfirmed)
     }, [doubleConfirmed, onListAfterAffordanceAnimatedTiming])
 
-    return dangerAnimatedStyle
+    return {dangerAnimatedStyle}
 }

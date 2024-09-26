@@ -1,5 +1,5 @@
 import {Meta} from '@storybook/react'
-import {IsDefined, IsNotEmpty, IsString} from 'class-validator'
+import {IsDefined, IsNotEmpty, IsNumberString, IsString} from 'class-validator'
 import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
@@ -10,7 +10,7 @@ import {Form} from './Form.component'
 class NameRule {
     @IsDefined()
     @IsNotEmpty()
-    @IsString()
+    @IsNumberString()
     name: string
 }
 

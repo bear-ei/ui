@@ -29,24 +29,21 @@ const handleIconButtonDisabled = (setState: Updater<InitialIconButtonState>) => 
         draft.eventName = 'none'
     })
 
-const handleIconButtonUnderlayColor =
-    (theme: DefaultTheme) =>
-    (type: IconButtonType = 'filled') => {
-        const underlay = {
-            active: theme.token.scheme.onSurfaceVariant,
-            filled: theme.token.scheme.onPrimary,
-            outlined: theme.token.scheme.onSurfaceVariant,
-            standard: theme.token.scheme.onSurfaceVariant,
-            tonal: theme.token.scheme.onSecondaryContainer
-        }
-
-        return underlay[type]
+const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
+    const underlay = {
+        active: theme.token.scheme.onSurfaceVariant,
+        filled: theme.token.scheme.onPrimary,
+        outlined: theme.token.scheme.onSurfaceVariant,
+        standard: theme.token.scheme.onSurfaceVariant,
+        tonal: theme.token.scheme.onSecondaryContainer
     }
+
+    return (type: IconButtonType = 'filled') => underlay[type]
+}
 
 const renderIconButtonIcon =
     ({disabled, type, fill, eventName}: RenderIconButtonIconOptions) =>
-    (theme: DefaultTheme) =>
-    (icon?: React.JSX.Element) => {
+    (theme: DefaultTheme) => {
         const fillType = {
             active: theme.token.scheme.onSurfaceVariant,
             filled: theme.token.scheme.onPrimary,
@@ -55,11 +52,13 @@ const renderIconButtonIcon =
             tonal: theme.token.scheme.onSecondaryContainer
         }
 
-        return cloneElement<IconProps>(icon ?? <Icon />, {
-            disabled,
-            eventName,
-            fill: fill ?? fillType[type as keyof typeof fillType]
-        })
+        return (icon?: React.JSX.Element) => {
+            return cloneElement<IconProps>(icon ?? <Icon />, {
+                disabled,
+                eventName,
+                fill: fill ?? fillType[type as keyof typeof fillType]
+            })
+        }
     }
 
 export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
@@ -75,7 +74,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
             handleIconButtonStateChange({...options, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
-        const contentUnderlayAnimatedStyle = useIconButtonAnimated({disabled, type})
+        const {contentUnderlayAnimatedStyle} = useIconButtonAnimated({disabled, type})
 
         useEffect(() => {
             onIconButtonDisabled(disabled)

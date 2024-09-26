@@ -26,7 +26,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
         const id = useId()
         const SvgIcon = icon ?? iconStyle[style]?.[type]?.[name]
         const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
-        const animatedStyle = useIconAnimated({eventName})
+        const {containerAnimatedStyle} = useIconAnimated({eventName})
         const svgIconElement = SvgIcon && (
             <SvgIcon
                 fill={iconFill}
@@ -36,6 +36,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
             />
         )
 
-        return render({...renderProps, animatedStyle, fill: iconFill, id, ref, svgIconElement})
+        return render({...renderProps, containerAnimatedStyle, fill: iconFill, id, ref, svgIconElement})
     }
 )

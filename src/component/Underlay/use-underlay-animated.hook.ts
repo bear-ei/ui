@@ -79,10 +79,7 @@ export const useUnderlayAnimated = ({
     }))
 
     const onUnderlayHoveredAnimatedTiming = useMemo(
-        () =>
-            debounce((value?: EventName) =>
-                handleUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(hoverLayerSharedValue)(value)
-            )(100),
+        () => debounce(handleUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(hoverLayerSharedValue))(100),
         [animatedTiming, activeValue, hoverLayerSharedValue]
     )
 

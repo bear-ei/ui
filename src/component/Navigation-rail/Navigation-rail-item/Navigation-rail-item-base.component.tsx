@@ -24,17 +24,19 @@ export const handleNavigationRailItemPropsEqual =
     }
 
 const handleNavigationRailItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
-const handleNavigationRailItemStateChange =
-    ({itemKey, eventName, onActive}: HandleNavigationRailItemStateEventChangeOptions) =>
-    (setState: Updater<NavigationRailItemInitialState>) =>
-    (_event: StateEvent) => {
+const handleNavigationRailItemStateChange = ({
+    itemKey,
+    eventName,
+    onActive
+}: HandleNavigationRailItemStateEventChangeOptions) => {
+    const nextEvent = {
+        pressOut: () => handleNavigationRailItemPressOut(onActive)(itemKey)
+    } as Record<EventName, () => void>
+
+    return (setState: Updater<NavigationRailItemInitialState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
-
-        const nextEvent = {
-            pressOut: () => handleNavigationRailItemPressOut(onActive)(itemKey)
-        } as Record<EventName, () => void>
 
         setState(draft => {
             const prevEventName = draft.eventName
@@ -43,6 +45,7 @@ const handleNavigationRailItemStateChange =
             prevEventName !== eventName && eventName === 'pressOut' && (draft.nextPressOutEvent = nextEvent[eventName])
         })
     }
+}
 
 const renderNavigationRailItemIcon = (icon: React.JSX.Element) => (eventName?: EventName) =>
     cloneElement<IconProps>(icon, {eventName, iconStyle: 'outlined', type: 'outlined'})

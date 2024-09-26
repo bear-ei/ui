@@ -12,6 +12,7 @@ export interface FormItemControlProps {
     labelText?: string
     onBlur: (event: NativeSyntheticEvent<TargetedEvent>) => void
     onValueChange?: (value?: unknown) => void
+
     value?: unknown
 }
 
@@ -24,6 +25,7 @@ export interface FormItemProps
     rule?: FormItemValidationRule
     skeletonElement?: React.JSX.Element
     validatorOptions?: ValidatorOptions
+    validationDelay?: number
 }
 
 export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {

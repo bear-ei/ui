@@ -59,7 +59,7 @@ const handleFABDisabled = (setState: Updater<InitialFABState>) => (elevated?: bo
         elevated && (draft.elevation = disabled ? 0 : 1)
     })
 
-const handleFABUnderlayColor = (theme: DefaultTheme) => (type: FABType) => {
+const handleFABUnderlayColor = (theme: DefaultTheme) => {
     const underlay = {
         primary: theme.token.scheme.onPrimaryContainer,
         secondary: theme.token.scheme.onSecondaryContainer,
@@ -67,13 +67,12 @@ const handleFABUnderlayColor = (theme: DefaultTheme) => (type: FABType) => {
         tertiary: theme.token.scheme.onTertiaryContainer
     }
 
-    return underlay[type]
+    return (type: FABType) => underlay[type]
 }
 
 const renderFABIcon =
     ({disabled, eventName, size, type = 'primary'}: RenderFABIconOptions) =>
-    (theme: DefaultTheme) =>
-    (icon?: React.JSX.Element) => {
+    (theme: DefaultTheme) => {
         const fillType = {
             primary: theme.token.scheme.onPrimaryContainer,
             secondary: theme.token.scheme.onSecondaryContainer,
@@ -81,16 +80,18 @@ const renderFABIcon =
             tertiary: theme.token.scheme.onTertiaryContainer
         } as Record<FABType, string>
 
-        if (!icon) {
-            return icon
-        }
+        return (icon?: React.JSX.Element) => {
+            if (!icon) {
+                return icon
+            }
 
-        return cloneElement<IconProps>(icon, {
-            densityScale: size === 'large' ? 3 : 0,
-            disabled,
-            eventName,
-            fill: fillType[type]
-        })
+            return cloneElement<IconProps>(icon, {
+                densityScale: size === 'large' ? 3 : 0,
+                disabled,
+                eventName,
+                fill: fillType[type]
+            })
+        }
     }
 
 export const FABBase = forwardRef<View, FABBaseProps>(

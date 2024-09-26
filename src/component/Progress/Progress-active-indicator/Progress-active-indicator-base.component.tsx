@@ -6,8 +6,13 @@ import {useProgressActiveIndicatorAnimated} from './use-progress-active-indicato
 export const ProgressActiveIndicatorBase = forwardRef<View, ProgressActiveIndicatorBaseProps>(
     ({render, defaultValue, value, increment, containerLayout, ...renderProps}, ref) => {
         const id = useId()
-        const animatedStyle = useProgressActiveIndicatorAnimated({defaultValue, value, containerLayout, increment})
+        const {containerAnimatedStyle} = useProgressActiveIndicatorAnimated({
+            containerLayout,
+            defaultValue,
+            increment,
+            value
+        })
 
-        return render({...renderProps, id, ref, activeIndicatorAnimatedStyle: animatedStyle})
+        return render({...renderProps, id, ref, containerAnimatedStyle})
     }
 )

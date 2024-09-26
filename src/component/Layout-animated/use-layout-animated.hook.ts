@@ -25,7 +25,7 @@ export const useLayoutAnimated = ({visible = true, onAnimatedFinished, entry, ex
     const opacitySharedValue = useSharedValue(visible ? 1 : 0)
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
-    const opacityAnimatedStyle = useAnimatedStyle(() => ({
+    const containerAnimatedStyle = useAnimatedStyle(() => ({
         opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1], Extrapolation.CLAMP)
     }))
 
@@ -38,5 +38,5 @@ export const useLayoutAnimated = ({visible = true, onAnimatedFinished, entry, ex
         onLayoutAnimatedTiming(visible)
     }, [visible, onLayoutAnimatedTiming])
 
-    return {opacityAnimatedStyle}
+    return {containerAnimatedStyle}
 }

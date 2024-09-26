@@ -12,7 +12,7 @@ const handleSearchListUnmount = (id: string) => emitter.emit('modal', {id: `sear
 export const SearchListBase = forwardRef<VirtualListComponent<ListData>, SearchListBaseProps>(
     ({containerLayout, render, visible, ...renderProps}, ref) => {
         const id = useId()
-        const containerAnimatedStyle = useSearchListAnimated({visible, containerLayout})
+        const {containerAnimatedStyle} = useSearchListAnimated({visible, containerLayout})
         const renderSearchListRender = useCallback(
             () =>
                 render({

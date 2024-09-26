@@ -79,5 +79,5 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
         onIconButtonAnimatedTiming(disabled)
     }, [disabled, onIconButtonAnimatedTiming, type])
 
-    return contentUnderlayAnimatedStyle
+    return {contentUnderlayAnimatedStyle}
 }

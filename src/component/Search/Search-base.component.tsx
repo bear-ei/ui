@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {RefObject, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -15,18 +15,15 @@ import {
     SearchBaseProps
 } from './Search.interface'
 
-const handleSearchFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
-const handleSearchStateChange =
-    ({eventName, ref, state}: HandleSearchStateChangeOptions) =>
-    (setState: Updater<InitialSearchState>) =>
-    (_event: StateEvent) => {
+const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChangeOptions) => {
+    const nextEvent = {
+        pressOut: () => ref?.current?.focus()
+    } as Record<EventName, () => void>
+
+    return (setState: Updater<InitialSearchState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
-
-        const nextEvent = {
-            pressOut: () => handleSearchFocus(ref)
-        } as Record<EventName, () => void>
 
         setState(draft => {
             if (draft.state === 'focused' && eventName !== 'blur') {
@@ -40,14 +37,12 @@ const handleSearchStateChange =
             prevEventName !== eventName && eventName === 'pressOut' && (draft.nextPressOutEvent = nextEvent[eventName])
         })
     }
+}
 
-const createNextChangeTextCallback = (onChangeText?: (value: string) => void) => (value: string) => () =>
-    onChangeText?.(value)
+const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) => {
+    const createNextChangeTextCallback = (value: string) => () => onChangeText?.(value)
 
-const handleSearchChangeText =
-    ({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) =>
-    (setState: Updater<InitialSearchState>) =>
-    (value?: string) => {
+    return (setState: Updater<InitialSearchState>) => (value?: string) => {
         const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
 
         setState(draft => {
@@ -57,9 +52,10 @@ const handleSearchChangeText =
             draft.searchValue = value
             typeof value === 'string' &&
                 value !== prevSearchValue &&
-                (draft.nextChangeTextCallback = createNextChangeTextCallback(onChangeText)(value))
+                (draft.nextChangeTextCallback = createNextChangeTextCallback(value))
         })
     }
+}
 
 const handleSearchListVisible = (setState: Updater<InitialSearchState>) => (value?: boolean) =>
     typeof value === 'boolean' &&

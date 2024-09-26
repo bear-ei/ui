@@ -10,7 +10,7 @@ export interface ProgressActiveIndicatorProps extends ViewProps, RefAttributes<V
 }
 
 export interface RenderProgressActiveIndicatorProps extends Omit<ProgressActiveIndicatorProps, 'containerLayout'> {
-    activeIndicatorAnimatedStyle: AnimatedStyle<ViewStyle>
+    containerAnimatedStyle: AnimatedStyle<ViewStyle>
 }
 
 export interface ProgressActiveIndicatorBaseProps extends ProgressActiveIndicatorProps {

@@ -9,11 +9,15 @@ import {
     UseButtonAnimatedOptions
 } from './Button.interface'
 
-const handleButtonOutlinedAnimated =
-    ({animatedTiming, borderColorInputRange, disabled, type}: HandleButtonAnimatedTimingOptions) =>
-    (borderSharedValue: SharedValue<AnimatableValue>) =>
-    (eventName?: EventName) => {
-        const value = disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
+const handleButtonOutlinedAnimated = ({
+    animatedTiming,
+    borderColorInputRange,
+    disabled,
+    type
+}: HandleButtonAnimatedTimingOptions) => {
+    const value = disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
+
+    return (borderSharedValue: SharedValue<AnimatableValue>) => (eventName?: EventName) => {
         const responseEvent =
             type === 'link' ?
                 eventName && ['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
@@ -23,25 +27,31 @@ const handleButtonOutlinedAnimated =
 
         return animatedTiming()(borderSharedValue)(toValue)
     }
+}
 
-const handleButtonAnimatedTiming =
-    ({animatedTiming, borderColorInputRange, disabled, type}: HandleButtonAnimatedTimingOptions) =>
-    ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
-    (eventName?: EventName) => {
-        const toValue = disabled ? 0 : 1
+const handleButtonAnimatedTiming = ({
+    animatedTiming,
+    borderColorInputRange,
+    disabled,
+    type
+}: HandleButtonAnimatedTimingOptions) => {
+    const toValue = disabled ? 0 : 1
 
-        if (type && ['link', 'outlined'].includes(type)) {
-            handleButtonOutlinedAnimated({animatedTiming, borderColorInputRange, type, disabled})(borderSharedValue)(
-                eventName
-            )
+    return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
+        (eventName?: EventName) => {
+            if (type && ['link', 'outlined'].includes(type)) {
+                handleButtonOutlinedAnimated({animatedTiming, borderColorInputRange, type, disabled})(
+                    borderSharedValue
+                )(eventName)
+
+                animatedTiming()(colorSharedValue)(toValue)
+
+                return
+            }
 
             animatedTiming()(colorSharedValue)(toValue)
-
-            return
         }
-
-        animatedTiming()(colorSharedValue)(toValue)
-    }
+}
 
 export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseButtonAnimatedOptions) => {
     const theme = useTheme()
@@ -128,7 +138,6 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
         ...(!notBorderColor && {
             borderColor: interpolateColor(borderSharedValue.value, borderColorInputRange, borderColorOutputRange),
             borderStyle: 'solid',
-
             ...(type === 'link' ? {borderBottomWidth: borderWidth} : {borderWidth})
         })
     }))

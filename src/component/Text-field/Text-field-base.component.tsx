@@ -1,4 +1,4 @@
-import {RefObject, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -7,17 +7,16 @@ import {EventName, State} from '../Common'
 import {HandleTextFieldStateEventChangeOptions, InitialTextFieldState, TextFieldBaseProps} from './Text-field.interface'
 import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
-const handleTextFieldFocus = (ref?: RefObject<TextInput>) => ref?.current?.focus()
-const handleTextFieldStateChange =
-    ({eventName, ref, content, state}: HandleTextFieldStateEventChangeOptions) =>
-    (setState: Updater<InitialTextFieldState>) =>
-    (_event: StateEvent) => {
+const handleTextFieldStateChange = ({eventName, ref, content, state}: HandleTextFieldStateEventChangeOptions) => {
+    const handleTextFieldFocus = () => ref?.current?.focus()
+
+    return (setState: Updater<InitialTextFieldState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
 
         const nextEvent = {
-            pressOut: () => handleTextFieldFocus(ref)
+            pressOut: () => handleTextFieldFocus()
         } as Record<EventName, () => void>
 
         setState(draft => {
@@ -32,40 +31,40 @@ const handleTextFieldStateChange =
             prevEventName !== eventName && eventName === 'pressOut' && (draft.nextPressOutEvent = nextEvent[eventName])
         })
     }
-
-const createNextContentSizeChangeCallback =
-    (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
-    (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) =>
-    () =>
-        onContentSizeChange?.(event)
+}
 
 const handleTextFieldContentSizeChange =
     (setState: Updater<InitialTextFieldState>) =>
-    (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
-    (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
-        const contentSize = event.nativeEvent.contentSize
+    (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) => {
+        const createNextContentSizeChangeCallback =
+            (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => () =>
+                onContentSizeChange?.(event)
 
-        setState(draft => {
-            draft.contentSize.width = contentSize.width
-            draft.contentSize.height = contentSize.height
-            draft.nextContentSizeChangeCallback = createNextContentSizeChangeCallback(onContentSizeChange)(event)
-        })
+        return (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
+            const contentSize = event.nativeEvent.contentSize
+
+            setState(draft => {
+                draft.contentSize.width = contentSize.width
+                draft.contentSize.height = contentSize.height
+                draft.nextContentSizeChangeCallback = createNextContentSizeChangeCallback(event)
+            })
+        }
     }
 
-const createNextChangeTextCallback = (onChangeText?: (value: string) => void) => (value: string) => () =>
-    onChangeText?.(value)
+const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
+    const createNextChangeTextCallback = (value: string) => () => onChangeText?.(value)
 
-const handleTextFieldChangeText =
-    (onChangeText?: (value: string) => void) => (setState: Updater<InitialTextFieldState>) => (value?: string) => {
+    return (setState: Updater<InitialTextFieldState>) => (value?: string) => {
         setState(draft => {
             const prevTextInputValue = draft.textInputValue
 
             draft.textInputValue = value ?? ''
             typeof value === 'string' &&
                 prevTextInputValue !== value &&
-                (draft.nextChangeTextCallback = createNextChangeTextCallback(onChangeText)(value))
+                (draft.nextChangeTextCallback = createNextChangeTextCallback(value))
         })
     }
+}
 
 const handleTextFieldEditable = (setState: Updater<InitialTextFieldState>) => (editable?: boolean) => {
     typeof editable === 'boolean' &&
@@ -141,7 +140,12 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                     event
                 )
 
-        const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
+        const onStateEvent = useOnStateEvent({
+            ...renderProps,
+            disabled: disabled ?? (typeof editable === 'boolean' ? !editable : undefined),
+            onStateEventChange
+        })
+
         const {
             activeIndicatorAnimatedStyle,
             headerAnimatedStyle,

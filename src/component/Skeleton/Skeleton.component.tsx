@@ -9,7 +9,7 @@ import {Container} from './Skeleton.style'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
-    animatedStyle,
+    containerAnimatedStyle,
     children,
     content,
     id,
@@ -24,7 +24,7 @@ const render = ({
             <AnimatedContainer
                 {...containerProps}
                 {...onStateEvent}
-                style={[style, animatedStyle]}
+                style={[style, containerAnimatedStyle]}
                 testID={`skeleton--${id}`}
             >
                 {content}

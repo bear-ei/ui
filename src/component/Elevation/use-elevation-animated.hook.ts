@@ -42,5 +42,5 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
         onElevationAnimatedTiming(level)
     }, [level, onElevationAnimatedTiming])
 
-    return shadowAnimatedStyle
+    return {shadowAnimatedStyle}
 }

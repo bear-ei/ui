@@ -12,11 +12,10 @@ import {
 } from './Checkbox.interface'
 import {useCheckboxAnimated} from './use-checkbox-animated.hook'
 
-const createNextActiveCallback = (onActive?: (value?: boolean) => void) => (value?: boolean) => () => onActive?.(value)
-const handleCheckboxActive =
-    ({indeterminate, onActive}: HandleCheckboxActiveOptions) =>
-    (setState: Updater<InitialCheckboxState>) =>
-    (value?: boolean) => {
+const handleCheckboxActive = ({indeterminate, onActive}: HandleCheckboxActiveOptions) => {
+    const createNextActiveCallback = (value?: boolean) => () => onActive?.(value)
+
+    return (setState: Updater<InitialCheckboxState>) => (value?: boolean) => {
         typeof value === 'boolean' &&
             setState(draft => {
                 const activeType = indeterminate ? 'indeterminate' : 'selected'
@@ -24,9 +23,10 @@ const handleCheckboxActive =
 
                 draft.checkboxActive = value
                 draft.type = nextType
-                draft.nextActiveCallback = createNextActiveCallback(onActive)(value)
+                draft.nextActiveCallback = createNextActiveCallback(value)
             })
     }
+}
 
 const handleCheckboxStateChange =
     ({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
@@ -112,7 +112,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
             )
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
-        const iconAnimatedStyle = useCheckboxAnimated({active: checkboxActive})
+        const {iconAnimatedStyle} = useCheckboxAnimated({active: checkboxActive})
 
         useEffect(() => {
             onCheckboxInit(indeterminate)

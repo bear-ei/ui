@@ -34,7 +34,7 @@ export const useProgressActiveIndicatorAnimated = ({
     const animatedTiming = useAnimatedTiming(theme.token)
     const outputRange = Array.from(handleOutputRange(containerLayout.width)(increment))
     const inputRange = outputRange.map((_value, index) => index)
-    const animatedStyle = useAnimatedStyle(() => ({
+    const containerAnimatedStyle = useAnimatedStyle(() => ({
         width: interpolate(widthSharedValue.value, inputRange, outputRange, Extrapolation.CLAMP)
     }))
 
@@ -47,5 +47,5 @@ export const useProgressActiveIndicatorAnimated = ({
         onProgressActiveIndicatorAnimatedTiming(value)
     }, [onProgressActiveIndicatorAnimatedTiming, value])
 
-    return animatedStyle
+    return {containerAnimatedStyle}
 }

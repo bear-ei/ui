@@ -10,23 +10,24 @@ const handleSkeletonClose =
     (setState: Updater<InitialSkeletonState>) =>
     (duration = 150) => {
         duration >= 0 &&
-            setTimeout(() => {
-                setState(draft => {
-                    draft.skeletonVisible = false
-                    draft.status = 'succeeded'
-                })
-            }, duration)
+            setTimeout(
+                () =>
+                    setState(draft => {
+                        draft.skeletonVisible = false
+                        draft.status = 'succeeded'
+                    }),
+                duration
+            )
     }
 
 const handleSkeletonStateChange =
     ({eventName, duration}: HandleSkeletonStateChangeOptions) =>
-    (setState: Updater<InitialSkeletonState>) =>
-    (_event: StateEvent) => {
+    (setState: Updater<InitialSkeletonState>) => {
         const nextEvent = {
             layout: () => handleSkeletonClose(setState)(duration)
         } as Record<EventName, () => void>
 
-        eventName && nextEvent[eventName]?.()
+        return (_event: StateEvent) => eventName && nextEvent[eventName]?.()
     }
 
 export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
@@ -41,8 +42,8 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
             handleSkeletonStateChange({...options, state, duration})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
-        const animatedStyle = useSkeletonAnimated({enableAnimated, skeletonVisible})
+        const {containerAnimatedStyle} = useSkeletonAnimated({enableAnimated, skeletonVisible})
 
-        return render({...renderProps, id, ref, onStateEvent, animatedStyle, skeletonVisible, status})
+        return render({...renderProps, id, ref, onStateEvent, containerAnimatedStyle, skeletonVisible, status})
     }
 )

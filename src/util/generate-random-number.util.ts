@@ -1,6 +1,2 @@
-export const generateRandomNumber = (length: number) => {
-    const min = Math.pow(10, length - 1)
-    const max = Math.pow(10, length) - 1
-
-    return Math.floor(Math.random() * (max - min + 1)) + min
-}
+export const generateRandomNumberString = (length: number) =>
+    Array.from({length}, () => Math.floor(Math.random() * 10)).join('')
