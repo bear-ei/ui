@@ -1,6 +1,6 @@
 {
     "name": "@bearei/material",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "source": "./src/index.tsx",
     "react-native": "./src/index.tsx",
     "main": "./dist/commonjs/index.js",

@@ -46,5 +46,5 @@ export const useListItemAnimated = ({
         onListAfterAffordanceVisibleAnimated(afterAffordanceVisible)
     }, [afterAffordanceVisible, onListAfterAffordanceVisibleAnimated])
 
-    return contentAnimatedStyle
+    return {contentAnimatedStyle}
 }

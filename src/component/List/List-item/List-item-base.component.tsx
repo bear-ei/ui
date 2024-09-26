@@ -279,7 +279,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             )(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
-        const contentAnimatedStyle = useListItemAnimated({
+        const {contentAnimatedStyle} = useListItemAnimated({
             afterAffordanceVisible,
             onListItemAfterAffordanceVisibleFinished
         })
