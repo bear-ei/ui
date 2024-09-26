@@ -109,7 +109,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
 
     const borderColorInputRange = useMemo(() => [0, 1, 2], [])
     const borderColorOutputRange = [
-        disabledBackgroundColor,
+        type === 'link' ? convertHexToRGBA(scheme.outline)(0) : disabledBackgroundColor,
         type === 'link' ? convertHexToRGBA(scheme.outline)(0) : convertHexToRGBA(scheme.outline)(1),
         scheme.primary
     ]
@@ -128,6 +128,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
         ...(!notBorderColor && {
             borderColor: interpolateColor(borderSharedValue.value, borderColorInputRange, borderColorOutputRange),
             borderStyle: 'solid',
+
             ...(type === 'link' ? {borderBottomWidth: borderWidth} : {borderWidth})
         })
     }))

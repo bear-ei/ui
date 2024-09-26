@@ -31,7 +31,8 @@ const render = ({
     ...contentProps
 }: RenderButtonProps) => {
     const link = type === 'link'
-    const shape = link ? 'extraSmallTop' : 'full'
+    const linkShape = disabled ? 'none' : 'extraSmallTop'
+    const shape = link ? linkShape : 'full'
     const backgroundUnderlayElement = (
         <AnimatedContentUnderlay
             pointerEvents='none'
@@ -95,7 +96,7 @@ const render = ({
                     </Main>
 
                     <Underlay
-                        eventName={eventName}
+                        eventName={loading ? 'longPress' : eventName}
                         shape={shape}
                         underlayColor={underlayColor}
                     />
