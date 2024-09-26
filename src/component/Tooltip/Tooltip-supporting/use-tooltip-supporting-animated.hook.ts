@@ -29,7 +29,7 @@ export const useTooltipSupportingAnimated = ({visible, onClose}: UseTooltipSuppo
     const transformSharedValue = useSharedValue(visible ? 1 : 0)
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
-    const animatedStyle = useAnimatedStyle(() => ({
+    const contentAnimatedStyle = useAnimatedStyle(() => ({
         opacity: interpolate(transformSharedValue.value, [0, 1], [0, 1], Extrapolation.CLAMP),
         transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1], Extrapolation.CLAMP)}]
     }))
@@ -43,5 +43,5 @@ export const useTooltipSupportingAnimated = ({visible, onClose}: UseTooltipSuppo
         onTooltipSupportingAnimatedTiming(visible)
     }, [onTooltipSupportingAnimatedTiming, visible])
 
-    return animatedStyle
+    return {contentAnimatedStyle}
 }

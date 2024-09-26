@@ -22,5 +22,5 @@ export const useVirtualListItemAnimated = ({top = 0}: UseVirtualListItemAnimated
         onVirtualListItemAnimated(top)
     }, [onVirtualListItemAnimated, top])
 
-    return containerAnimatedStyle
+    return {containerAnimatedStyle}
 }

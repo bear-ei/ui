@@ -13,24 +13,25 @@ import {debounce} from '../../util'
 import {EventName} from '../Common'
 import {HandleUnderlayHoveredAnimatedTimingOptions, UseUnderlayAnimatedOptions} from './Underlay.interface'
 
-const handleUnderlayHoveredAnimatedTiming =
-    ({animatedTiming, activeValue}: HandleUnderlayHoveredAnimatedTimingOptions) =>
-    (hoverLayerSharedValue: SharedValue<AnimatableValue>) =>
-    (eventName?: EventName) => {
-        const event = {
-            blur: 0,
-            focus: activeValue,
-            hoverIn: 1,
-            hoverOut: 0,
-            longPress: activeValue,
-            none: 0,
-            press: 1,
-            pressIn: activeValue,
-            pressOut: 1
-        } as Record<EventName, number>
+const handleUnderlayHoveredAnimatedTiming = ({
+    animatedTiming,
+    activeValue
+}: HandleUnderlayHoveredAnimatedTimingOptions) => {
+    const event = {
+        blur: 0,
+        focus: activeValue,
+        hoverIn: 1,
+        hoverOut: 0,
+        longPress: activeValue,
+        none: 0,
+        press: 1,
+        pressIn: activeValue,
+        pressOut: 1
+    } as Record<EventName, number>
 
+    return (hoverLayerSharedValue: SharedValue<AnimatableValue>) => (eventName?: EventName) =>
         eventName && animatedTiming()(hoverLayerSharedValue)(event[eventName] ?? 0)
-    }
+}
 
 const handleUnderlayActiveAnimatedTiming =
     (animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<AnimatableValue>) => (value?: boolean) =>

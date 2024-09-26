@@ -7,7 +7,7 @@ import {Container, Content, TooltipSupportingText, TouchableContent} from './Too
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 const render = ({
-    animatedStyle,
+    contentAnimatedStyle,
     containerLayout,
     height = 0,
     id,
@@ -56,7 +56,7 @@ const render = ({
             >
                 <AnimatedContent
                     shape='extraSmall'
-                    style={[animatedStyle]}
+                    style={[contentAnimatedStyle]}
                     supportingPosition={supportingPosition}
                     testID={`tooltipSupporting__content--${id}`}
                     type={type}

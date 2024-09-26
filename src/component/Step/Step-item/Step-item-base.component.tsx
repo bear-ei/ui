@@ -8,18 +8,16 @@ import {Icon, IconProps} from '../../Icon'
 import {HandleStepItemStateEventChangeOptions, StepItemBaseProps, StepItemInitialState} from './Step-item.interface'
 import {useStepItemAnimated} from './use-step-item-animated.hook'
 
-const handleStepItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
-const handleStepItemStateChange =
-    ({itemKey, eventName, onActive}: HandleStepItemStateEventChangeOptions) =>
-    (setState: Updater<StepItemInitialState>) =>
-    (_event: StateEvent) => {
+const handleStepItemStateChange = ({itemKey, eventName, onActive}: HandleStepItemStateEventChangeOptions) => {
+    const handleStepItemPressOut = (value: string) => onActive?.(value)
+    const nextEvent = {
+        pressOut: () => handleStepItemPressOut(itemKey)
+    } as Record<EventName, () => void>
+
+    return (setState: Updater<StepItemInitialState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
-
-        const nextEvent = {
-            pressOut: () => handleStepItemPressOut(onActive)(itemKey)
-        } as Record<EventName, () => void>
 
         setState(draft => {
             const prevEventName = draft.eventName
@@ -28,6 +26,7 @@ const handleStepItemStateChange =
             prevEventName !== eventName && eventName === 'pressOut' && (draft.nextPressOutEvent = nextEvent[eventName])
         })
     }
+}
 
 const renderStepItemIcon = (icon: React.JSX.Element) => (disabled?: boolean) => (eventName?: EventName) =>
     cloneElement<IconProps>(icon, {eventName, iconStyle: 'outlined', type: 'outlined', disabled})

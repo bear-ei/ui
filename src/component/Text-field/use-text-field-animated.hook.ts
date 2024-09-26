@@ -83,14 +83,12 @@ const handleTextFieldFocused =
 const handleTextFieldStateAnimated = (stateAnimated: TextFieldStateAnimated) => (state: State) =>
     stateAnimated[state]?.()
 
-const handleTextFieldNonerrorAnimated =
-    ({error, disabled}: HandleTextFieldNonerrorAnimatedOptions) =>
-    (stateAnimated: TextFieldStateAnimated) =>
-    (state: State) => {
-        const nonerror = typeof error !== 'boolean' && disabled
+const handleTextFieldNonerrorAnimated = ({error, disabled}: HandleTextFieldNonerrorAnimatedOptions) => {
+    const nonerror = typeof error !== 'boolean' && disabled
 
+    return (stateAnimated: TextFieldStateAnimated) => (state: State) =>
         !nonerror && stateAnimated[error ? 'error' : state]?.()
-    }
+}
 
 const handleTextFieldDisabledAnimated =
     (stateAnimated: TextFieldStateAnimated) => (state: State) => (disabled?: boolean) =>

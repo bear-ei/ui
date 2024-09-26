@@ -16,7 +16,7 @@ export interface TooltipSupportingProps extends ViewProps, RefAttributes<View> {
 }
 
 export interface RenderTooltipSupportingProps extends Omit<TooltipSupportingProps, 'containerCurrent'> {
-    animatedStyle?: AnimatedStyle<ViewStyle>
+    contentAnimatedStyle?: AnimatedStyle<ViewStyle>
     closed?: boolean
     containerLayout: LayoutRectangle & {pageX: number; pageY: number}
     height?: number

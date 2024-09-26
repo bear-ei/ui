@@ -90,11 +90,11 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
             handleTooltipSupportingStateChange({...options, onVisible, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled: !visible})
-        const animatedStyle = useTooltipSupportingAnimated({visible, onClose: onTooltipSupportingClose})
+        const {contentAnimatedStyle} = useTooltipSupportingAnimated({visible, onClose: onTooltipSupportingClose})
         const renderTooltipSupporting = useCallback(
             () =>
                 render({
-                    animatedStyle,
+                    contentAnimatedStyle,
                     containerLayout,
                     height: layout.height,
                     id,
@@ -106,7 +106,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                     width: layout.width
                 }),
             [
-                animatedStyle,
+                contentAnimatedStyle,
                 containerLayout,
                 id,
                 layout.height,

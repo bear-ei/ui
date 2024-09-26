@@ -3,13 +3,15 @@ import {NativeTouchEvent, View} from 'react-native'
 import {TouchableRippleBaseProps, TouchableRippleProps} from './Touchable-ripple.interface'
 import {useTouchableRippleAnimated} from './use-touchable-ripple-animated.hook'
 
-export const handleTouchableRipplePropsEqual =
-    (prevProps: TouchableRippleProps) => (nextProps: TouchableRippleProps) => {
-        const {index: prevIndex} = prevProps
+export const handleTouchableRipplePropsEqual = (prevProps: TouchableRippleProps) => {
+    const {index: prevIndex} = prevProps
+
+    return (nextProps: TouchableRippleProps) => {
         const {index: nextIndex} = nextProps
 
         return ![prevIndex !== nextIndex].some(Boolean)
     }
+}
 
 export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
     (
@@ -34,11 +36,16 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
         const offsetY = Math.abs(centerY - locationY)
         const radius = Math.sqrt(Math.pow(centerX + offsetX, 2) + Math.pow(centerY + offsetY, 2))
         const diameter = radius * 2
-        const animatedStyle = useTouchableRippleAnimated({radius, index, onAnimatedFinished, containerWidth: width})
+        const {containerAnimatedStyle} = useTouchableRippleAnimated({
+            radius,
+            index,
+            onAnimatedFinished,
+            containerWidth: width
+        })
 
         return render({
             ...renderProps,
-            animatedStyle,
+            containerAnimatedStyle,
             height: diameter,
             id,
             locationX,

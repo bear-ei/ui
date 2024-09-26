@@ -9,15 +9,14 @@ import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
 const handleTextFieldStateChange = ({eventName, ref, content, state}: HandleTextFieldStateEventChangeOptions) => {
     const handleTextFieldFocus = () => ref?.current?.focus()
+    const nextEvent = {
+        pressOut: () => handleTextFieldFocus()
+    } as Record<EventName, () => void>
 
     return (setState: Updater<InitialTextFieldState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
-
-        const nextEvent = {
-            pressOut: () => handleTextFieldFocus()
-        } as Record<EventName, () => void>
 
         setState(draft => {
             if ((draft.state === 'focused' && eventName !== 'blur') || content) {

@@ -45,11 +45,10 @@ const handleVirtualListVisibleRange =
         draft.visibleRangeData = draft.virtualListData?.slice(startIndex, endIndex) ?? []
     }
 
-const createNextLoadEndCallback = (onLoadEnd?: (value?: string) => void) => () => onLoadEnd?.()
-const handleVirtualListLayout =
-    ({itemSize, onLoadEnd}: HandleVirtualListLayoutOptions) =>
-    (setState: Updater<InitialVirtualListState>) =>
-    (layout: LayoutRectangle) => {
+const handleVirtualListLayout = ({itemSize, onLoadEnd}: HandleVirtualListLayoutOptions) => {
+    const createNextLoadEndCallback = () => onLoadEnd?.()
+
+    return (setState: Updater<InitialVirtualListState>) => (layout: LayoutRectangle) => {
         setState(draft => {
             if (['web', 'macos', 'windows'].includes(Platform.OS) && draft.layout.height) {
                 return
@@ -58,11 +57,12 @@ const handleVirtualListLayout =
             draft.layout.height = layout.height
             draft.layout.width = layout.width
             ;[draft.virtualListData, draft.virtualListData?.length].some(Boolean) &&
-                (draft.nextLoadEndCallback = createNextLoadEndCallback(onLoadEnd))
+                (draft.nextLoadEndCallback = createNextLoadEndCallback)
 
             handleVirtualListVisibleRange(itemSize)(draft)()
         })
     }
+}
 
 const handleVirtualListStateChange =
     ({eventName}: OnStateEventChangeOptions) =>
@@ -110,15 +110,13 @@ const createVisibleRangeDataFilter =
 const handleVirtualListItemUnmount =
     (itemSize = 0) =>
     (setState: Updater<InitialVirtualListState>) =>
-    (value?: string) => {
-        if (value) {
-            setState(draft => {
-                draft.virtualListData = draft.virtualListData?.filter(createVisibleRangeDataFilter(value))
+    (value?: string) =>
+        value &&
+        setState(draft => {
+            draft.virtualListData = draft.virtualListData?.filter(createVisibleRangeDataFilter(value))
 
-                handleVirtualListVisibleRange(itemSize)(draft)()
-            })
-        }
-    }
+            handleVirtualListVisibleRange(itemSize)(draft)()
+        })
 
 const handleVirtualListDataInit = (setState: Updater<InitialVirtualListState>) => (data?: VirtualListData[]) =>
     setState(draft => {
@@ -130,12 +128,11 @@ const handleVirtualListDataInit = (setState: Updater<InitialVirtualListState>) =
     })
 
 const handleVirtualListContentVisible =
-    (setState: Updater<InitialVirtualListState>) => (data?: VirtualListData[]) => (value?: boolean) => {
+    (setState: Updater<InitialVirtualListState>) => (data?: VirtualListData[]) => (value?: boolean) =>
         !value &&
-            setState(draft => {
-                draft.virtualListData = data
-            })
-    }
+        setState(draft => {
+            draft.virtualListData = data
+        })
 
 const createVisibleRangeDataFindIndex =
     (value: string) =>
@@ -143,26 +140,24 @@ const createVisibleRangeDataFindIndex =
         indexKey === value
 
 const handleVirtualListLoadEnd =
-    (setState: Updater<InitialVirtualListState>) => (onLoadEnd?: (value?: string) => void) => (value?: string) => {
+    (setState: Updater<InitialVirtualListState>) => (onLoadEnd?: (value?: string) => void) => (value?: string) =>
         value &&
-            setState(draft => {
-                const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(createVisibleRangeDataFindIndex(value))
+        setState(draft => {
+            const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(createVisibleRangeDataFindIndex(value))
 
-                ;(draft.visibleRangeData?.length ?? 0) - 1 === visibleRangeDataIndex &&
-                    visibleRangeDataIndex !== -1 &&
-                    onLoadEnd?.(value)
-            })
-    }
+            ;(draft.visibleRangeData?.length ?? 0) - 1 === visibleRangeDataIndex &&
+                visibleRangeDataIndex !== -1 &&
+                onLoadEnd?.(value)
+        })
 
 const handleVirtualListDataChange =
     (itemSize = 0) =>
     (setState: Updater<InitialVirtualListState>) =>
-    (virtualListData?: VirtualListData[]) => {
+    (virtualListData?: VirtualListData[]) =>
         virtualListData &&
-            setState(draft => {
-                handleVirtualListVisibleRange(itemSize)(draft)()
-            })
-    }
+        setState(draft => {
+            handleVirtualListVisibleRange(itemSize)(draft)()
+        })
 
 const renderVirtualListItem =
     <T,>({renderItem, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>

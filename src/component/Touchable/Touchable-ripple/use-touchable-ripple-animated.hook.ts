@@ -36,7 +36,7 @@ export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: 
     const scaleSharedValue = useSharedValue(0)
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
-    const animatedStyle = useAnimatedStyle(() => ({
+    const containerAnimatedStyle = useAnimatedStyle(() => ({
         opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1], Extrapolation.CLAMP),
         transform: [
             {translateX: -radius},
@@ -58,5 +58,5 @@ export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: 
         onTouchableRippleAnimatedTiming(index)
     }, [onTouchableRippleAnimatedTiming, index])
 
-    return animatedStyle
+    return {containerAnimatedStyle}
 }

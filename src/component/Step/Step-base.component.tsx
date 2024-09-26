@@ -11,19 +11,18 @@ import {
 } from './Step.interface'
 import {ItemContainer, Line} from './Step.style'
 
-const createNextActiveCallback = (onActive?: (value?: string) => void) => (value?: string) => () => onActive?.(value)
-const handleStepActive =
-    ({onActive}: HandleStepActiveOptions = {}) =>
-    (setState: Updater<InitialStepState>) =>
-    (value?: string) => {
+const handleStepActive = ({onActive}: HandleStepActiveOptions = {}) => {
+    const createNextActiveCallback = (value?: string) => () => onActive?.(value)
+
+    return (setState: Updater<InitialStepState>) => (value?: string) => {
         setState(draft => {
             const prevStepActiveKey = draft.stepActiveKey
 
             draft.stepActiveKey = value
-            prevStepActiveKey !== draft.stepActiveKey &&
-                (draft.nextActiveCallback = createNextActiveCallback(onActive)(value))
+            prevStepActiveKey !== draft.stepActiveKey && (draft.nextActiveCallback = createNextActiveCallback(value))
         })
     }
+}
 
 const renderStepItems =
     ({id, ...renderStepItemOptions}: RenderStepItemOptions) =>

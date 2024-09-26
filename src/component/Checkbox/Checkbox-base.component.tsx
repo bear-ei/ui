@@ -30,22 +30,25 @@ const handleCheckboxActive = ({indeterminate, onActive}: HandleCheckboxActiveOpt
 
 const handleCheckboxStateChange =
     ({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
-    (setState: Updater<InitialCheckboxState>) =>
-    (_event: StateEvent) => {
-        if (eventName === 'layout') {
-            return
-        }
-
+    (setState: Updater<InitialCheckboxState>) => {
         const nextEvent = {
             pressOut: () => handleCheckboxActive({indeterminate, onActive})(setState)(!active)
         } as Record<EventName, () => void>
 
-        setState(draft => {
-            const prevEventName = draft.eventName
+        return (_event: StateEvent) => {
+            if (eventName === 'layout') {
+                return
+            }
 
-            eventName && (draft.eventName = eventName)
-            prevEventName !== eventName && eventName === 'pressOut' && (draft.nextPressOutEvent = nextEvent[eventName])
-        })
+            setState(draft => {
+                const prevEventName = draft.eventName
+
+                eventName && (draft.eventName = eventName)
+                prevEventName !== eventName &&
+                    eventName === 'pressOut' &&
+                    (draft.nextPressOutEvent = nextEvent[eventName])
+            })
+        }
     }
 
 const handleCheckboxInit = (setState: Updater<InitialCheckboxState>) => (indeterminate?: boolean) =>

@@ -8,9 +8,10 @@ import {
     VirtualListItemProps
 } from './Virtual-list-item.interface'
 
-export const handleVirtualListItemPropsEqual =
-    (prevProps: VirtualListItemProps) => (nextProps: VirtualListItemProps) => {
-        const {extraData: prevExtraData, index: prevIndex, item: prevItem} = prevProps
+export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps) => {
+    const {extraData: prevExtraData, index: prevIndex, item: prevItem} = prevProps
+
+    return (nextProps: VirtualListItemProps) => {
         const {extraData: nextExtraData, index: nextIndex, item: nextItem} = nextProps
 
         return ![
@@ -19,6 +20,7 @@ export const handleVirtualListItemPropsEqual =
             prevItem?.extraData?.join() !== nextItem?.extraData?.join()
         ].some(Boolean)
     }
+}
 
 export const handleVirtualListItemVisible = (setState: Updater<InitialVirtualListItemState>) =>
     setState(draft => {
@@ -42,7 +44,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
             [item?.indexKey, onUnmount]
         )
 
-        const containerAnimatedStyle = useVirtualListItemAnimated({top: (startIndex + index) * itemSize})
+        const {containerAnimatedStyle} = useVirtualListItemAnimated({top: (startIndex + index) * itemSize})
         const itemElement =
             !item ? <></> : renderItem?.({item: {...item, onVisible: onVirtualListItemVisible, onLoadEnd}, index})
 

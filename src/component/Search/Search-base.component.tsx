@@ -16,8 +16,9 @@ import {
 } from './Search.interface'
 
 const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChangeOptions) => {
+    const handleTextFieldFocus = () => ref?.current?.focus()
     const nextEvent = {
-        pressOut: () => ref?.current?.focus()
+        pressOut: () => handleTextFieldFocus()
     } as Record<EventName, () => void>
 
     return (setState: Updater<InitialSearchState>) => (_event: StateEvent) => {
@@ -119,7 +120,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         const placeholderTextColor = theme.token.scheme.onSurfaceVariant
         const underlayColor = theme.token.scheme.onSurface
         const {data} = listProps
-        const onDebounceSearchListVisible = useMemo(() => debounce(handleSearchListVisible(setState))(150), [setState])
+        const onSearchListVisible = useMemo(() => debounce(handleSearchListVisible(setState))(150), [setState])
         const onSearchChangeText = handleSearchChangeText({data, onChangeText})(setState)
         const onSearchChangeTextSource = useMemo(() => handleSearchChangeText()(setState), [setState])
         const onSearchContainerLayout = useMemo(
@@ -139,8 +140,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         }, [defaultValue, onSearchChangeTextSource, value])
 
         useEffect(() => {
-            data && onDebounceSearchListVisible(!data?.length)
-        }, [data, onDebounceSearchListVisible])
+            data && onSearchListVisible(!data?.length)
+        }, [data, onSearchListVisible])
 
         useEffect(() => {
             onSearchContainerLayout(listVisible)

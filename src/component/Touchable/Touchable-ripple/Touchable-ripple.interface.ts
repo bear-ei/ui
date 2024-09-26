@@ -12,7 +12,7 @@ export interface TouchableRippleProps extends ViewProps, React.RefAttributes<Vie
 }
 
 export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, 'index'> {
-    animatedStyle: AnimatedStyle<ViewStyle>
+    containerAnimatedStyle: AnimatedStyle<ViewStyle>
     height: number
     locationX: number
     locationY: number

@@ -6,31 +6,30 @@ import {debounce} from '../../util'
 import {EventName, State} from '../Common'
 import {HandleTooltipStateEventChangeOptions, InitialTooltipState, TooltipBaseProps} from './Tooltip.interface'
 
-const createNextActiveCallback = (onActive?: (value?: boolean) => void) => (value?: boolean) => () => onActive?.(value)
-const handleTooltipVisible =
-    (setState: Updater<InitialTooltipState>) => (onVisible?: (value?: boolean) => void) => (value?: boolean) => {
-        if (typeof value === 'boolean') {
-            setState(draft => {
-                draft.tooltipVisible = value
-                draft.nextActiveCallback = createNextActiveCallback(onVisible)(value)
-            })
-        }
-    }
+const handleTooltipVisible = (setState: Updater<InitialTooltipState>) => (onVisible?: (value?: boolean) => void) => {
+    const createNextActiveCallback = (value?: boolean) => () => onVisible?.(value)
 
-const handleTooltipEventNameChange =
-    (handleDebounceTooltipVisible: (value?: boolean) => void) => (eventName?: EventName) => {
-        if (eventName && ['hoverIn', 'hoverOut', 'pressIn'].includes(eventName)) {
-            const visible = eventName === 'hoverIn'
+    return (value?: boolean) =>
+        typeof value === 'boolean' &&
+        setState(draft => {
+            draft.tooltipVisible = value
+            draft.nextActiveCallback = createNextActiveCallback(value)
+        })
+}
 
-            handleDebounceTooltipVisible(visible)
-        }
+const handleTooltipEventNameChange = (onTooltipVisible: (value?: boolean) => void) => (eventName?: EventName) => {
+    if (eventName && ['hoverIn', 'hoverOut', 'pressIn'].includes(eventName)) {
+        const visible = eventName === 'hoverIn'
+
+        onTooltipVisible(visible)
     }
+}
 
 const handleTooltipStateChange =
-    ({handleDebounceTooltipVisible, eventName}: HandleTooltipStateEventChangeOptions) =>
+    ({onTooltipVisible, eventName}: HandleTooltipStateEventChangeOptions) =>
     (_setState: Updater<InitialTooltipState>) =>
     (_event: StateEvent) =>
-        handleTooltipEventNameChange(handleDebounceTooltipVisible)(eventName)
+        handleTooltipEventNameChange(onTooltipVisible)(eventName)
 
 export const TooltipBase = forwardRef<View, TooltipBaseProps>(
     ({defaultVisible, disabled = false, eventName, onVisible, render, visible, ...renderProps}, ref) => {
@@ -41,19 +40,14 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 
         const containerRef = useRef<View>(null)
         const id = useId()
-        const handleDebounceTooltipVisible = useMemo(
+        const onTooltipVisible = useMemo(
             () => debounce(handleTooltipVisible(setState)(onVisible))(150),
             [onVisible, setState]
         )
 
-        const onTooltipVisible = handleDebounceTooltipVisible
-        const onStateEventNameChange = useMemo(
-            () => handleTooltipEventNameChange(handleDebounceTooltipVisible),
-            [handleDebounceTooltipVisible]
-        )
-
+        const onStateEventNameChange = useMemo(() => handleTooltipEventNameChange(onTooltipVisible), [onTooltipVisible])
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleTooltipStateChange({...options, handleDebounceTooltipVisible, state})(setState)(event)
+            handleTooltipStateChange({...options, onTooltipVisible, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({
             ...renderProps,

@@ -7,7 +7,7 @@ import {Container} from './Touchable-ripple.style'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
-    animatedStyle,
+    containerAnimatedStyle,
     height,
     id,
     locationX,
@@ -23,7 +23,7 @@ const render = ({
         locationY={locationY}
         pointerEvents='none'
         shape='full'
-        style={[style, animatedStyle]}
+        style={[style, containerAnimatedStyle]}
         testID={`ripple--${id}`}
         width={width}
     />
