@@ -8,28 +8,29 @@ import {
     UseTouchableRippleAnimatedOptions
 } from './Touchable-ripple.interface'
 
-const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
-const handleTouchableRippleAnimatedTiming =
-    ({animatedTiming, onAnimatedFinished}: HandleTouchableRippleAnimatedTimingOptions) =>
-    (sharedValue: HandleTouchableRippleAnimatedTimingSharedValue) => {
-        const createTouchableRippleAnimatedTiming =
-            ({scaleSharedValue, opacitySharedValue}: HandleTouchableRippleAnimatedTimingSharedValue) =>
-            (toValue: number) =>
-            (callback?: () => void) =>
-                animatedTiming({
-                    callback: handleAnimatedTimingCallback(callback),
-                    duration: 'short3',
-                    easing: 'emphasizedAccelerate'
-                })(toValue === 1 ? scaleSharedValue : opacitySharedValue)(toValue)
+const handleTouchableRippleAnimatedTiming = ({
+    animatedTiming,
+    onAnimatedFinished
+}: HandleTouchableRippleAnimatedTimingOptions) => {
+    const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
+    const createTouchableRippleAnimatedTiming =
+        ({scaleSharedValue, opacitySharedValue}: HandleTouchableRippleAnimatedTimingSharedValue) =>
+        (toValue: number) =>
+        (callback?: () => void) =>
+            animatedTiming({
+                callback: handleAnimatedTimingCallback(callback),
+                duration: 'short3',
+                easing: 'emphasizedAccelerate'
+            })(toValue === 1 ? scaleSharedValue : opacitySharedValue)(toValue)
 
-        return (index: string) => {
-            const entryAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(1)
-            const exitAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(0)
-            const exitAnimatedFinished = () => onAnimatedFinished?.(index)
+    return (sharedValue: HandleTouchableRippleAnimatedTimingSharedValue) => (index: string) => {
+        const entryAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(1)
+        const exitAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(0)
+        const exitAnimatedFinished = () => onAnimatedFinished?.(index)
 
-            entryAnimatedTiming(() => exitAnimatedTiming(exitAnimatedFinished))
-        }
+        entryAnimatedTiming(() => exitAnimatedTiming(exitAnimatedFinished))
     }
+}
 
 export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: UseTouchableRippleAnimatedOptions) => {
     const opacitySharedValue = useSharedValue(1)

@@ -12,14 +12,14 @@ import {
 import {ItemContainer, Line} from './Step.style'
 
 const handleStepActive = ({onActive}: HandleStepActiveOptions = {}) => {
-    const createNextActiveCallback = (value?: string) => () => onActive?.(value)
+    const createNextActiveEvent = (value?: string) => () => onActive?.(value)
 
     return (setState: Updater<InitialStepState>) => (value?: string) => {
         setState(draft => {
             const prevStepActiveKey = draft.stepActiveKey
 
             draft.stepActiveKey = value
-            prevStepActiveKey !== draft.stepActiveKey && (draft.nextActiveCallback = createNextActiveCallback(value))
+            prevStepActiveKey !== draft.stepActiveKey && (draft.nextActiveEvent = createNextActiveEvent(value))
         })
     }
 }
@@ -60,8 +60,8 @@ const renderStepItems =
 
 export const StepBase = forwardRef<View, StepBaseProps>(
     ({activeKey, data, defaultActiveKey, onActive, render, type, densityScale, ...renderProps}, ref) => {
-        const [{stepActiveKey, nextActiveCallback}, setState] = useImmer<InitialStepState>({
-            nextActiveCallback: undefined,
+        const [{stepActiveKey, nextActiveEvent}, setState] = useImmer<InitialStepState>({
+            nextActiveEvent: undefined,
             stepActiveKey: undefined
         })
 
@@ -81,8 +81,8 @@ export const StepBase = forwardRef<View, StepBaseProps>(
         }, [activeKey, defaultActiveKey, onStepActiveSource])
 
         useEffect(() => {
-            nextActiveCallback?.()
-        }, [nextActiveCallback])
+            nextActiveEvent?.()
+        }, [nextActiveEvent])
 
         if (typeof defaultActiveKey === 'string' && !stepActiveKey) {
             return <></>

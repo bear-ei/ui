@@ -34,7 +34,7 @@ export interface InitialSearchState {
     eventName?: EventName
     layout: LayoutRectangle & {pageX?: number; pageY?: number}
     listVisible?: boolean
-    nextChangeTextCallback?: () => void
+    nextChangeTextEvent?: () => void
     nextPressOutEvent?: () => void
     searchValue?: string
     state: State

@@ -40,17 +40,14 @@ const handleLayoutAnimatedStateChange =
             draft.layoutWasVisible = visible
         })
 
-const createNextVisibleCallback = (onVisible?: (value?: boolean) => void) => (value?: boolean) => () =>
-    onVisible?.(value)
+const handleLayoutAnimatedFinished = ({onUnmount, unmount, onVisible}: HandleLayoutAnimatedFinishedOptions) => {
+    const createNextVisibleEvent = (value?: boolean) => () => onVisible?.(value)
+    const createNextUnmountEvent = () => () => onUnmount?.()
 
-const createNextUnmountCallback = (onUnmount?: () => void) => () => onUnmount?.()
-const handleLayoutAnimatedFinished =
-    ({onUnmount, unmount, onVisible}: HandleLayoutAnimatedFinishedOptions) =>
-    (setState: Updater<InitialLayoutAnimatedState>) =>
-    (value?: boolean) =>
+    return (setState: Updater<InitialLayoutAnimatedState>) => (value?: boolean) =>
         setState(draft => {
             if (value) {
-                draft.nextVisibleCallback = createNextVisibleCallback(onVisible)(value)
+                draft.nextVisibleEvent = createNextVisibleEvent(value)
 
                 return
             }
@@ -58,14 +55,15 @@ const handleLayoutAnimatedFinished =
             draft.layoutWasVisible = value
 
             if (unmount) {
-                draft.nextUnmountCallback = createNextUnmountCallback(onUnmount)
+                draft.nextUnmountEvent = createNextUnmountEvent()
                 draft.unmountLayout = true
 
                 return
             }
 
-            draft.nextVisibleCallback = createNextVisibleCallback(onVisible)(value)
+            draft.nextVisibleEvent = createNextVisibleEvent(value)
         })
+}
 
 const handleLayoutAnimatedInit =
     (setState: Updater<InitialLayoutAnimatedState>) => (unmount?: boolean) => (value?: boolean) =>
@@ -80,17 +78,15 @@ const handleLayoutAnimatedInit =
 
 export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
     ({render, visible: visibleSource, defaultVisible, unmount, onUnmount, onVisible, ...renderProps}, ref) => {
-        const [
-            {layoutVisible, unmountLayout, layoutWasVisible, nextUnmountCallback, nextVisibleCallback, status},
-            setState
-        ] = useImmer<InitialLayoutAnimatedState>({
-            layoutVisible: undefined,
-            layoutWasVisible: undefined,
-            nextUnmountCallback: undefined,
-            nextVisibleCallback: undefined,
-            status: 'idle',
-            unmountLayout: undefined
-        })
+        const [{layoutVisible, unmountLayout, layoutWasVisible, nextUnmountEvent, nextVisibleEvent, status}, setState] =
+            useImmer<InitialLayoutAnimatedState>({
+                layoutVisible: undefined,
+                layoutWasVisible: undefined,
+                nextUnmountEvent: undefined,
+                nextVisibleEvent: undefined,
+                status: 'idle',
+                unmountLayout: undefined
+            })
 
         const id = useId()
         const visible = visibleSource ?? defaultVisible
@@ -119,12 +115,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
         }, [onLayoutVisible, visible])
 
         useEffect(() => {
-            nextUnmountCallback?.()
-        }, [nextUnmountCallback])
+            nextUnmountEvent?.()
+        }, [nextUnmountEvent])
 
         useEffect(() => {
-            nextVisibleCallback?.()
-        }, [nextVisibleCallback])
+            nextVisibleEvent?.()
+        }, [nextVisibleEvent])
 
         if (status === 'idle') {
             return <></>

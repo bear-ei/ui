@@ -50,7 +50,7 @@ const handleTextFieldStateChange = ({
 const handleTextFieldContentSizeChange =
     (setState: Updater<InitialTextFieldState>) =>
     (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) => {
-        const createNextContentSizeChangeCallback =
+        const createNextContentSizeChangeEvent =
             (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => () =>
                 onContentSizeChange?.(event)
 
@@ -60,13 +60,13 @@ const handleTextFieldContentSizeChange =
             setState(draft => {
                 draft.contentSize.width = contentSize.width
                 draft.contentSize.height = contentSize.height
-                draft.nextContentSizeChangeCallback = createNextContentSizeChangeCallback(event)
+                draft.nextContentSizeChangeEvent = createNextContentSizeChangeEvent(event)
             })
         }
     }
 
 const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
-    const createNextChangeTextCallback = (value: string) => () => onChangeText?.(value)
+    const createNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
 
     return (setState: Updater<InitialTextFieldState>) => (value?: string) => {
         setState(draft => {
@@ -75,7 +75,7 @@ const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
             draft.textInputValue = value ?? ''
             typeof value === 'string' &&
                 prevTextInputValue !== value &&
-                (draft.nextChangeTextCallback = createNextChangeTextCallback(value))
+                (draft.nextChangeTextEvent = createNextChangeTextEvent(value))
         })
     }
 }
@@ -126,8 +126,8 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                 editable,
                 eventName,
                 nextBlurEvent,
-                nextChangeTextCallback,
-                nextContentSizeChangeCallback,
+                nextChangeTextEvent,
+                nextContentSizeChangeEvent,
                 nextPressOutEvent,
                 state,
                 textInputValue
@@ -137,8 +137,8 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             contentSize: {} as TextInputContentSizeChangeEventData['contentSize'],
             editable: undefined,
             eventName: undefined,
-            nextChangeTextCallback: undefined,
-            nextContentSizeChangeCallback: undefined,
+            nextChangeTextEvent: undefined,
+            nextContentSizeChangeEvent: undefined,
             nextPressOutEvent: undefined,
             state: 'enabled',
             textInputValue: ''
@@ -205,12 +205,12 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         }, [nextPressOutEvent])
 
         useEffect(() => {
-            nextChangeTextCallback?.()
-        }, [nextChangeTextCallback])
+            nextChangeTextEvent?.()
+        }, [nextChangeTextEvent])
 
         useEffect(() => {
-            nextContentSizeChangeCallback?.()
-        }, [nextContentSizeChangeCallback])
+            nextContentSizeChangeEvent?.()
+        }, [nextContentSizeChangeEvent])
 
         useEffect(() => {
             nextBlurEvent?.()

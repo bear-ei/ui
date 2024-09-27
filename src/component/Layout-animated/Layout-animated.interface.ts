@@ -26,8 +26,8 @@ export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
 export interface InitialLayoutAnimatedState {
     layoutVisible?: boolean
     layoutWasVisible?: boolean
-    nextUnmountCallback?: () => void
-    nextVisibleCallback?: () => void
+    nextUnmountEvent?: () => void
+    nextVisibleEvent?: () => void
     unmountLayout?: boolean
     status: ComponentStatus
 }

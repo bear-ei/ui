@@ -13,7 +13,7 @@ import {
 import {useCheckboxAnimated} from './use-checkbox-animated.hook'
 
 const handleCheckboxActive = ({indeterminate, onActive}: HandleCheckboxActiveOptions) => {
-    const createNextActiveCallback = (value?: boolean) => () => onActive?.(value)
+    const createNextActiveEvent = (value?: boolean) => () => onActive?.(value)
 
     return (setState: Updater<InitialCheckboxState>) => (value?: boolean) => {
         typeof value === 'boolean' &&
@@ -23,7 +23,7 @@ const handleCheckboxActive = ({indeterminate, onActive}: HandleCheckboxActiveOpt
 
                 draft.checkboxActive = value
                 draft.type = nextType
-                draft.nextActiveCallback = createNextActiveCallback(value)
+                draft.nextActiveEvent = createNextActiveEvent(value)
             })
     }
 }
@@ -81,11 +81,11 @@ const handleCheckboxIndeterminate = (setState: Updater<InitialCheckboxState>) =>
 
 export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
     ({active, defaultActive, disabled, error, indeterminate, render, onActive, ...renderProps}, ref) => {
-        const [{checkboxActive, eventName, status, type, nextPressOutEvent, nextActiveCallback}, setState] =
+        const [{checkboxActive, eventName, status, type, nextPressOutEvent, nextActiveEvent}, setState] =
             useImmer<InitialCheckboxState>({
                 checkboxActive: undefined,
                 eventName: undefined,
-                nextActiveCallback: undefined,
+                nextActiveEvent: undefined,
                 nextPressOutEvent: undefined,
                 status: 'idle',
                 type: 'unselected'
@@ -131,8 +131,8 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
         }, [nextPressOutEvent])
 
         useEffect(() => {
-            nextActiveCallback?.()
-        }, [nextActiveCallback])
+            nextActiveEvent?.()
+        }, [nextActiveEvent])
 
         if (status === 'idle') {
             return <></>

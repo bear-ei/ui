@@ -6,8 +6,7 @@ import {
     HandleListAfterAffordanceCancelOptions,
     HandleListAfterAffordanceConfirmOptions,
     ListAfterAffordanceBaseProps,
-    ListAfterAffordanceInitialState,
-    ListAfterAffordancePressOutOptions
+    ListAfterAffordanceInitialState
 } from './List-after-affordance.interface'
 import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animated.hook'
 
@@ -16,21 +15,19 @@ const handleListAfterAffordanceConfirm =
     (_event: GestureResponderEvent) =>
         onConfirm?.({itemKey, doubleConfirmed})
 
-const createNextCancelCallback =
-    (onCancel?: (options: ListAfterAffordancePressOutOptions) => void) =>
-    ({itemKey, doubleConfirmed}: HandleListAfterAffordanceCancelOptions) =>
-    () =>
-        onCancel?.({itemKey, doubleConfirmed})
+const handleListAfterAffordanceCancel = ({
+    onCancel,
+    doubleConfirmed,
+    itemKey
+}: HandleListAfterAffordanceCancelOptions) => {
+    const createNextCancelEvent = () => () => onCancel?.({itemKey, doubleConfirmed})
 
-const handleListAfterAffordanceCancel =
-    ({onCancel, doubleConfirmed, itemKey}: HandleListAfterAffordanceCancelOptions) =>
-    (setState: Updater<ListAfterAffordanceInitialState>) =>
-    (_event: GestureResponderEvent) => {
+    return (setState: Updater<ListAfterAffordanceInitialState>) => (_event: GestureResponderEvent) =>
         setState(draft => {
             draft.doubleConfirmed = !doubleConfirmed
-            draft.nextCancelCallback = createNextCancelCallback(onCancel)({itemKey, doubleConfirmed})
+            draft.nextCancelEvent = createNextCancelEvent()
         })
-    }
+}
 
 const handleListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceInitialState>) => (value?: boolean) =>
     !value &&
@@ -46,9 +43,9 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
     visible,
     ...renderProps
 }) => {
-    const [{doubleConfirmed, nextCancelCallback}, setState] = useImmer<ListAfterAffordanceInitialState>({
+    const [{doubleConfirmed, nextCancelEvent}, setState] = useImmer<ListAfterAffordanceInitialState>({
         doubleConfirmed: undefined,
-        nextCancelCallback: undefined
+        nextCancelEvent: undefined
     })
 
     const theme = useTheme()
@@ -64,8 +61,8 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
     }, [onListAfterAffordanceVisible, visible])
 
     useEffect(() => {
-        nextCancelCallback?.()
-    }, [nextCancelCallback])
+        nextCancelEvent?.()
+    }, [nextCancelEvent])
 
     return render({
         ...renderProps,

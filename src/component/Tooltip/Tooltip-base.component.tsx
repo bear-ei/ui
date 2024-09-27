@@ -7,13 +7,13 @@ import {EventName, State} from '../Common'
 import {HandleTooltipStateEventChangeOptions, InitialTooltipState, TooltipBaseProps} from './Tooltip.interface'
 
 const handleTooltipVisible = (setState: Updater<InitialTooltipState>) => (onVisible?: (value?: boolean) => void) => {
-    const createNextActiveCallback = (value?: boolean) => () => onVisible?.(value)
+    const createNextActiveEvent = (value?: boolean) => () => onVisible?.(value)
 
     return (value?: boolean) =>
         typeof value === 'boolean' &&
         setState(draft => {
             draft.tooltipVisible = value
-            draft.nextActiveCallback = createNextActiveCallback(value)
+            draft.nextActiveEvent = createNextActiveEvent(value)
         })
 }
 
@@ -33,8 +33,8 @@ const handleTooltipStateChange =
 
 export const TooltipBase = forwardRef<View, TooltipBaseProps>(
     ({defaultVisible, disabled = false, eventName, onVisible, render, visible, ...renderProps}, ref) => {
-        const [{tooltipVisible, nextActiveCallback}, setState] = useImmer<InitialTooltipState>({
-            nextActiveCallback: undefined,
+        const [{tooltipVisible, nextActiveEvent}, setState] = useImmer<InitialTooltipState>({
+            nextActiveEvent: undefined,
             tooltipVisible: undefined
         })
 
@@ -66,8 +66,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
         }, [eventName, onStateEventNameChange])
 
         useEffect(() => {
-            nextActiveCallback?.()
-        }, [nextActiveCallback])
+            nextActiveEvent?.()
+        }, [nextActiveEvent])
 
         return render({
             ...renderProps,

@@ -44,7 +44,7 @@ const handleListMultiselect = (draft: WritableDraft<InitialListState>) => (value
     return prevListActiveKeys?.join() !== nextListActiveKeys?.join() ? draft.listActiveKeys : 'NOT_ACTIVES'
 }
 
-const createNextActiveCallback =
+const createNextActiveEvent =
     ({onActive, onActives}: HandleListActiveOptions) =>
     (value: string | string[] | undefined) =>
     () =>
@@ -61,20 +61,16 @@ const handleListActive =
             !onActive && draft.status === 'idle' && (draft.status = 'succeeded')
 
             if (callbackValue && !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(callbackValue?.toString())) {
-                type === 'select' && (draft.nextActiveCallback = createNextActiveCallback({onActive})(callbackValue))
-                type === 'multiselect' &&
-                    (draft.nextActiveCallback = createNextActiveCallback({onActives})(callbackValue))
+                type === 'select' && (draft.nextActiveEvent = createNextActiveEvent({onActive})(callbackValue))
+                type === 'multiselect' && (draft.nextActiveEvent = createNextActiveEvent({onActives})(callbackValue))
             }
         })
     }
 
-const createNextAfterAffordanceCallback = (onActive?: (value?: string) => void) => (value?: string) => () =>
-    onActive?.(value)
+const handleActiveListAfterAffordance = ({onActive, type}: HandleListActiveOptions) => {
+    const createNextAfterAffordanceActiveEvent = (value?: string) => () => onActive?.(value)
 
-const handleActiveListAfterAffordance =
-    ({onActive, type}: HandleListActiveOptions) =>
-    (setState: Updater<InitialListState>) =>
-    (value?: string) =>
+    return (setState: Updater<InitialListState>) => (value?: string) =>
         type !== 'multiselect' &&
         setState(draft => {
             const prevListActiveKey = draft.listActiveKey
@@ -88,8 +84,9 @@ const handleActiveListAfterAffordance =
             draft.afterAffordanceActiveKey = value
             value && (draft.listActiveKey = value)
             prevListActiveKey !== draft.listActiveKey &&
-                (draft.nextAfterAffordanceCallback = createNextAfterAffordanceCallback(onActive)(value))
+                (draft.nextAfterAffordanceActiveEvent = createNextAfterAffordanceActiveEvent(value))
         })
+}
 
 const handleListClose = (onClose?: (value?: string) => void) => onClose
 const renderCustomListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
@@ -143,8 +140,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 afterAffordanceActiveKey,
                 listActiveKey,
                 listActiveKeys,
-                nextActiveCallback,
-                nextAfterAffordanceCallback,
+                nextActiveEvent,
+                nextAfterAffordanceActiveEvent,
                 status
             },
             setState
@@ -152,8 +149,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             afterAffordanceActiveKey: undefined,
             listActiveKey: undefined,
             listActiveKeys: undefined,
-            nextActiveCallback: undefined,
-            nextAfterAffordanceCallback: undefined,
+            nextActiveEvent: undefined,
+            nextAfterAffordanceActiveEvent: undefined,
             status: 'idle'
         })
 
@@ -201,12 +198,12 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
         }, [activeKey, activeKeys, defaultActiveKey, defaultActiveKeys, onListActiveSource])
 
         useEffect(() => {
-            nextActiveCallback?.()
-        }, [nextActiveCallback])
+            nextActiveEvent?.()
+        }, [nextActiveEvent])
 
         useEffect(() => {
-            nextAfterAffordanceCallback?.()
-        }, [nextAfterAffordanceCallback])
+            nextAfterAffordanceActiveEvent?.()
+        }, [nextAfterAffordanceActiveEvent])
 
         if (idle) {
             return <></>

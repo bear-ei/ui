@@ -49,8 +49,8 @@ export interface InitialTextFieldState {
     editable?: boolean
     eventName?: EventName
     nextBlurEvent?: () => void
-    nextChangeTextCallback?: () => void
-    nextContentSizeChangeCallback?: () => void
+    nextChangeTextEvent?: () => void
+    nextContentSizeChangeEvent?: () => void
     nextPressOutEvent?: () => void
     state: State
     textInputValue?: string

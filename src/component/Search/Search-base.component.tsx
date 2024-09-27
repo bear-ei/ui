@@ -41,7 +41,7 @@ const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChang
 }
 
 const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) => {
-    const createNextChangeTextCallback = (value: string) => () => onChangeText?.(value)
+    const createNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
 
     return (setState: Updater<InitialSearchState>) => (value?: string) => {
         const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
@@ -53,7 +53,7 @@ const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTex
             draft.searchValue = value
             typeof value === 'string' &&
                 value !== prevSearchValue &&
-                (draft.nextChangeTextCallback = createNextChangeTextCallback(value))
+                (draft.nextChangeTextEvent = createNextChangeTextEvent(value))
         })
     }
 }
@@ -102,12 +102,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         },
         ref
     ) => {
-        const [{searchValue, eventName, layout, listVisible, nextPressOutEvent, nextChangeTextCallback}, setState] =
+        const [{searchValue, eventName, layout, listVisible, nextPressOutEvent, nextChangeTextEvent}, setState] =
             useImmer<InitialSearchState>({
                 eventName: undefined,
                 layout: {} as InitialSearchState['layout'],
                 listVisible: undefined,
-                nextChangeTextCallback: undefined,
+                nextChangeTextEvent: undefined,
                 nextPressOutEvent: undefined,
                 searchValue: undefined,
                 state: 'enabled'
@@ -152,8 +152,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         }, [nextPressOutEvent])
 
         useEffect(() => {
-            nextChangeTextCallback?.()
-        }, [nextChangeTextCallback])
+            nextChangeTextEvent?.()
+        }, [nextChangeTextEvent])
 
         return render({
             ...renderProps,

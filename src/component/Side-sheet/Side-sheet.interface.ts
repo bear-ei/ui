@@ -14,7 +14,7 @@ export interface SideSheetBaseProps extends SideSheetProps {
 }
 
 export interface InitialSideSheetState {
-    nextCloseCallback?: () => void
+    nextCloseEvent?: () => void
     sideSheetVisible?: boolean
 }
 

@@ -34,7 +34,7 @@ export interface TooltipBaseProps extends TooltipProps {
 }
 
 export interface InitialTooltipState {
-    nextActiveCallback?: () => void
+    nextActiveEvent?: () => void
     tooltipVisible?: boolean
 }
 

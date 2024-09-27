@@ -70,8 +70,8 @@ export interface InitialListState {
     afterAffordanceActiveKey?: string
     listActiveKey?: string
     listActiveKeys?: string[]
-    nextAfterAffordanceCallback?: () => void
-    nextActiveCallback?: () => void
+    nextAfterAffordanceActiveEvent?: () => void
+    nextActiveEvent?: () => void
     status: ComponentStatus
 }
 

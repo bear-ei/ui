@@ -12,7 +12,7 @@ import {
 import {NavigationRailItem} from './Navigation-rail-item'
 
 const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOptions = {}) => {
-    const createNextActiveCallback = (value?: string) => () => onActive?.(value)
+    const createNextActiveEvent = (value?: string) => () => onActive?.(value)
 
     return (setState: Updater<InitialNavigationRailState>) => (value?: string) =>
         value &&
@@ -21,7 +21,7 @@ const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOption
 
             draft.navigationRailActiveKey = value
             prevNavigationRailActiveKey !== draft.navigationRailActiveKey &&
-                (draft.nextActiveCallback = createNextActiveCallback(value))
+                (draft.nextActiveEvent = createNextActiveEvent(value))
         })
 }
 
@@ -44,9 +44,9 @@ export const NavigationRailBase = forwardRef<View, NavigationBaseProps>(
         {activeKey, data, defaultActiveKey, fab, onActive, render, type, destinationPosition = 'top', ...renderProps},
         ref
     ) => {
-        const [{navigationRailActiveKey, nextActiveCallback}, setState] = useImmer<InitialNavigationRailState>({
+        const [{navigationRailActiveKey, nextActiveEvent}, setState] = useImmer<InitialNavigationRailState>({
             navigationRailActiveKey: undefined,
-            nextActiveCallback: undefined
+            nextActiveEvent: undefined
         })
 
         const id = useId()
@@ -68,8 +68,8 @@ export const NavigationRailBase = forwardRef<View, NavigationBaseProps>(
         }, [activeKey, defaultActiveKey, onNavigationRailActiveSource])
 
         useEffect(() => {
-            nextActiveCallback?.()
-        }, [nextActiveCallback])
+            nextActiveEvent?.()
+        }, [nextActiveEvent])
 
         if (typeof defaultActiveKey === 'string' && !navigationRailActiveKey) {
             return <></>

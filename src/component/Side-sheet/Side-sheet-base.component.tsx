@@ -7,7 +7,7 @@ import {HandleSideSheetEmitOptions, InitialSideSheetState, SheetType, SideSheetB
 const handleSideSheetClose = (setState: Updater<InitialSideSheetState>) => (onClose?: () => void) => {
     setState(draft => {
         draft.sideSheetVisible = false
-        draft.nextCloseCallback = () => onClose?.()
+        draft.nextCloseEvent = () => onClose?.()
     })
 }
 
@@ -30,8 +30,8 @@ const handleSideSheetUnmount = (id: string) => (type: SheetType) =>
 
 export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
     ({defaultVisible, onVisible, render, type = 'modal', visible, onClose, ...renderProps}, ref) => {
-        const [{sideSheetVisible, nextCloseCallback}, setState] = useImmer<InitialSideSheetState>({
-            nextCloseCallback: undefined,
+        const [{sideSheetVisible, nextCloseEvent}, setState] = useImmer<InitialSideSheetState>({
+            nextCloseEvent: undefined,
             sideSheetVisible: undefined
         })
 
@@ -61,8 +61,8 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
         )
 
         useEffect(() => {
-            nextCloseCallback?.()
-        }, [nextCloseCallback])
+            nextCloseEvent?.()
+        }, [nextCloseEvent])
 
         return type === 'standard' ? renderSheet() : <></>
     }

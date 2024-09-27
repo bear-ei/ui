@@ -32,7 +32,7 @@ export interface NavigationBaseProps extends NavigationRailProps {
 
 export interface InitialNavigationRailState {
     navigationRailActiveKey?: string
-    nextActiveCallback?: () => void
+    nextActiveEvent?: () => void
 }
 
 export type HandleNavigationRailActiveOptions = Pick<RenderNavigationRailProps, 'onActive' | 'activeKey'>

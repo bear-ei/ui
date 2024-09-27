@@ -27,7 +27,7 @@ export interface StepBaseProps extends StepProps {
 }
 
 export interface InitialStepState {
-    nextActiveCallback?: () => void
+    nextActiveEvent?: () => void
     stepActiveKey?: string
 }
 

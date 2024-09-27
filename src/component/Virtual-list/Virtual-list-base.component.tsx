@@ -46,7 +46,7 @@ const handleVirtualListVisibleRange =
     }
 
 const handleVirtualListLayout = ({itemSize, onLoadEnd}: HandleVirtualListLayoutOptions) => {
-    const createNextLoadEndCallback = () => onLoadEnd?.()
+    const createNextLoadEndEvent = () => onLoadEnd?.()
 
     return (setState: Updater<InitialVirtualListState>) => (layout: LayoutRectangle) => {
         setState(draft => {
@@ -57,7 +57,7 @@ const handleVirtualListLayout = ({itemSize, onLoadEnd}: HandleVirtualListLayoutO
             draft.layout.height = layout.height
             draft.layout.width = layout.width
             ;[draft.virtualListData, draft.virtualListData?.length].some(Boolean) &&
-                (draft.nextLoadEndCallback = createNextLoadEndCallback)
+                (draft.nextLoadEndEvent = createNextLoadEndEvent)
 
             handleVirtualListVisibleRange(itemSize)(draft)()
         })
@@ -192,13 +192,13 @@ export const VirtualListBaseInner = <T,>(
     ref: ForwardedRef<ScrollView>
 ) => {
     const [
-        {visibleRangeData, startIndex, virtualListData, status, nextScrollEvent, nextLoadEndCallback, contentVisible},
+        {visibleRangeData, startIndex, virtualListData, status, nextScrollEvent, nextLoadEndEvent, contentVisible},
         setState
     ] = useImmer<InitialVirtualListState>({
         contentVisible: undefined,
         endIndex: undefined,
         layout: {} as LayoutRectangle,
-        nextLoadEndCallback: undefined,
+        nextLoadEndEvent: undefined,
         nextScrollEvent: undefined,
         startIndex: undefined,
         status: 'idle',
@@ -261,8 +261,8 @@ export const VirtualListBaseInner = <T,>(
     }, [nextScrollEvent])
 
     useEffect(() => {
-        nextLoadEndCallback?.()
-    }, [nextLoadEndCallback])
+        nextLoadEndEvent?.()
+    }, [nextLoadEndEvent])
 
     if (status === 'idle') {
         return <></>

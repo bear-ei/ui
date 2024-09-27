@@ -29,7 +29,7 @@ export interface InitialVirtualListState {
     endIndex?: number
     contentVisible?: boolean
     layout: LayoutRectangle
-    nextLoadEndCallback?: () => void
+    nextLoadEndEvent?: () => void
     nextScrollEvent?: () => void
     scrollOffset?: number
     startIndex?: number

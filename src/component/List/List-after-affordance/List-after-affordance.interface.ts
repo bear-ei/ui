@@ -32,7 +32,7 @@ export interface ListAfterAffordanceBaseProps extends ListAfterAffordanceProps {
 
 export interface ListAfterAffordanceInitialState {
     doubleConfirmed?: boolean
-    nextCancelCallback?: () => void
+    nextCancelEvent?: () => void
 }
 
 export type HandleListAfterAffordanceConfirmOptions = Pick<ListAfterAffordanceProps, 'onConfirm' | 'itemKey'> &

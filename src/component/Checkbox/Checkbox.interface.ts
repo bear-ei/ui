@@ -32,7 +32,7 @@ export interface CheckboxBaseProps extends CheckboxProps {
 export interface InitialCheckboxState {
     checkboxActive?: boolean
     eventName?: EventName
-    nextActiveCallback?: () => void
+    nextActiveEvent?: () => void
     nextPressOutEvent?: () => void
     status: ComponentStatus
     type?: CheckboxType

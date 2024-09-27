@@ -1,4 +1,4 @@
-import {forwardRef, useCallback, useId} from 'react'
+import {forwardRef, useId} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
@@ -38,12 +38,8 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
         })
 
         const id = useId()
-        const onVirtualListItemVisible = useCallback(() => handleVirtualListItemVisible(setState), [setState])
-        const onVirtualListUnmount = useCallback(
-            () => handleVirtualListUnmount(onUnmount)(item?.indexKey as string | undefined),
-            [item?.indexKey, onUnmount]
-        )
-
+        const onVirtualListItemVisible = () => handleVirtualListItemVisible(setState)
+        const onVirtualListUnmount = () => handleVirtualListUnmount(onUnmount)(item?.indexKey as string | undefined)
         const {containerAnimatedStyle} = useVirtualListItemAnimated({top: (startIndex + index) * itemSize})
         const itemElement =
             !item ? <></> : renderItem?.({item: {...item, onVisible: onVirtualListItemVisible, onLoadEnd}, index})
