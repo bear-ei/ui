@@ -46,9 +46,7 @@ export interface TextFieldBaseProps extends TextFieldProps {
 
 export interface InitialTextFieldState {
     contentSize: TextInputContentSizeChangeEventData['contentSize']
-    editable?: boolean
     eventName?: EventName
-    nextBlurEvent?: () => void
     nextChangeTextEvent?: () => void
     nextContentSizeChangeEvent?: () => void
     nextPressOutEvent?: () => void
@@ -59,7 +57,7 @@ export interface InitialTextFieldState {
 export type HandleTextFieldStateEventChangeOptions = {
     ref?: RefObject<TextInput>
 } & OnStateEventChangeOptions &
-    Pick<TextFieldProps, 'content' | 'editable'>
+    Pick<TextFieldProps, 'content'>
 
 export interface UseTextFieldAnimatedOptions extends Pick<RenderTextFieldProps, 'type' | 'error' | 'disabled'> {
     filled: boolean

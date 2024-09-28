@@ -8,9 +8,6 @@ import {ButtonBase} from './Button-base.component'
 import {ButtonProps, RenderButtonProps} from './Button.interface'
 import {Container, Content, ContentUnderlay, IconContainer, LabelText, Main} from './Button.style'
 
-/**
- * TODO: add loading style
- */
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
 const render = ({
@@ -26,14 +23,14 @@ const render = ({
     labelTextAnimatedStyle,
     loading,
     onStateEvent,
+    ref,
     type = 'filled',
     underlayColor,
     ...contentProps
 }: RenderButtonProps) => {
     const link = type === 'link'
-    const linkShape = disabled ? 'none' : 'extraSmallTop'
     const loadingEventName = link ? 'none' : 'longPress'
-    const shape = link ? linkShape : 'full'
+    const shape = link ? 'extraSmall' : 'full'
     const backgroundUnderlayElement = (
         <AnimatedContentUnderlay
             pointerEvents='none'
@@ -43,12 +40,13 @@ const render = ({
         />
     )
 
-    const elevationUnderlayElement = (
-        <Elevation
-            level={elevation}
-            shape={shape}
-        />
-    )
+    const elevationUnderlayElement =
+        elevation ?
+            <Elevation
+                level={elevation}
+                shape={shape}
+            />
+        :   undefined
 
     return (
         <Container
@@ -64,8 +62,17 @@ const render = ({
                 elevationUnderlay={elevationUnderlayElement}
                 horizontalStretch={horizontalStretch}
                 hotZone={type !== 'link'}
+                ref={ref}
                 shape={shape}
                 underlayColor={underlayColor}
+                /**
+                 * enableFocusRing is used to disable the focus style in macOS,
+                 * this parameter has been implemented and is available.
+                 * However, react-native-macos does not have an official typescript declaration for this parameter,
+                 * so using it directly in a typescript will result in an undefined parameter.
+                 */
+                // @ts-ignore
+                enableFocusRing={false}
             >
                 <Content
                     {...contentProps}

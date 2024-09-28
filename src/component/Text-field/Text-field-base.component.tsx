@@ -7,22 +7,12 @@ import {EventName, State} from '../Common'
 import {HandleTextFieldStateEventChangeOptions, InitialTextFieldState, TextFieldBaseProps} from './Text-field.interface'
 import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
-const handleTextFieldStateChange = ({
-    content,
-    editable,
-    eventName,
-    ref,
-    state
-}: HandleTextFieldStateEventChangeOptions) => {
-    return (setState: Updater<InitialTextFieldState>) => {
-        const nextEvent = {
-            pressOut: () => ref?.current?.focus(),
-            blur: () =>
-                setState(draft => {
-                    draft.editable = editable
-                })
-        } as Record<EventName, () => void>
+const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleTextFieldStateEventChangeOptions) => {
+    const nextEvent = {
+        pressOut: () => ref?.current?.focus()
+    } as Record<EventName, () => void>
 
+    return (setState: Updater<InitialTextFieldState>) => {
         return (_event: StateEvent) => {
             if (eventName === 'layout') {
                 return
@@ -40,8 +30,6 @@ const handleTextFieldStateChange = ({
                 prevEventName !== eventName &&
                     eventName === 'pressOut' &&
                     (draft.nextPressOutEvent = nextEvent[eventName])
-
-                prevEventName !== eventName && eventName === 'blur' && (draft.nextBlurEvent = nextEvent[eventName])
             })
         }
     }
@@ -80,30 +68,13 @@ const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
     }
 }
 
-const handleTextFieldEditable =
-    (setState: Updater<InitialTextFieldState>) => (ref: React.RefObject<TextInput>) => (editable?: boolean) => {
-        if (typeof editable !== 'boolean') {
-            return
-        }
-
-        setState(draft => {
-            if (draft.state === 'focused') {
-                ref.current?.blur()
-
-                return
-            }
-
-            draft.editable = editable
-        })
-    }
-
 export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
     (
         {
             content,
             defaultValue,
             disabled,
-            editable: editableSource,
+            editable,
             error,
             labelText = 'Label',
             leading,
@@ -123,9 +94,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         const [
             {
                 contentSize,
-                editable,
                 eventName,
-                nextBlurEvent,
                 nextChangeTextEvent,
                 nextContentSizeChangeEvent,
                 nextPressOutEvent,
@@ -135,7 +104,6 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             setState
         ] = useImmer<InitialTextFieldState>({
             contentSize: {} as TextInputContentSizeChangeEventData['contentSize'],
-            editable: undefined,
             eventName: undefined,
             nextChangeTextEvent: undefined,
             nextContentSizeChangeEvent: undefined,
@@ -158,16 +126,11 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
 
         const onTextFieldChangeText = handleTextFieldChangeText(onChangeText)(setState)
         const onTextFieldChangeTextSource = useMemo(() => handleTextFieldChangeText()(setState), [setState])
-        const onTextFieldEditable = useMemo(() => handleTextFieldEditable(setState)(textFieldRef), [setState])
         const onStateEventChange =
             (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
-                handleTextFieldStateChange({
-                    ...options,
-                    content,
-                    editable: editableSource,
-                    ref: textFieldRef,
-                    state: changedState
-                })(setState)(event)
+                handleTextFieldStateChange({...options, content, ref: textFieldRef, state: changedState})(setState)(
+                    event
+                )
 
         const onStateEvent = useOnStateEvent({
             ...renderProps,
@@ -197,10 +160,6 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         }, [defaultValue, onTextFieldChangeTextSource, value])
 
         useEffect(() => {
-            onTextFieldEditable(editableSource)
-        }, [editableSource, onTextFieldEditable])
-
-        useEffect(() => {
             nextPressOutEvent?.()
         }, [nextPressOutEvent])
 
@@ -211,10 +170,6 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         useEffect(() => {
             nextContentSizeChangeEvent?.()
         }, [nextContentSizeChangeEvent])
-
-        useEffect(() => {
-            nextBlurEvent?.()
-        }, [nextBlurEvent])
 
         return render({
             ...renderProps,

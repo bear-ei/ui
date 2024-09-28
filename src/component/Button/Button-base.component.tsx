@@ -1,10 +1,10 @@
 import {WritableDraft} from 'immer'
-import React, {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
+import React, {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
-import {State} from '../Common'
+import {EventName, State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
 import {
@@ -33,10 +33,12 @@ const handleButtonElevation = (draft: WritableDraft<InitialButtonState>) => (typ
             :   level[state] + correctionCoefficient) as ElevationLevel)
 }
 
-const handleButtonStateChange =
-    ({eventName, type, state}: HandleButtonStateChangeOptions) =>
-    (setState: Updater<InitialButtonState>) =>
-    (_event: StateEvent) => {
+const handleButtonStateChange = ({eventName, type, state, touchableRef}: HandleButtonStateChangeOptions) => {
+    const nextEvent = {
+        pressIn: () => touchableRef?.current?.focus()
+    } as Record<EventName, () => void>
+
+    return (setState: Updater<InitialButtonState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
@@ -46,8 +48,10 @@ const handleButtonStateChange =
 
             draft.eventName = eventName
             prevEventName !== eventName && handleButtonElevation(draft)(type)(state)
+            prevEventName !== eventName && eventName === 'pressIn' && (draft.nextPressInEvent = nextEvent[eventName])
         })
     }
+}
 
 const handleButtonInit = (setState: Updater<InitialButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
     setState(draft => {
@@ -99,17 +103,16 @@ const handleButtonUnderlayColor = (theme: DefaultTheme) => {
     return (type: ButtonType) => underlay[type]
 }
 
-/**
- * TODO: Add loading animation
- */
 export const ButtonBase = forwardRef<View, ButtonBaseProps>(
     ({densityScale, disabled, icon, labelText = 'Label', render, type = 'filled', ...renderProps}, ref) => {
-        const [{elevation, eventName, status}, setState] = useImmer<InitialButtonState>({
+        const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<InitialButtonState>({
             elevation: undefined,
             eventName: undefined,
+            nextPressInEvent: undefined,
             status: 'idle'
         })
 
+        const touchableRef = useRef<View>(null)
         const theme = useTheme()
         const iconButtonElement = renderButtonIcon({eventName, type, disabled})(theme)(icon)
         const id = useId()
@@ -117,10 +120,12 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
         const onButtonInit = useMemo(() => handleButtonInit(setState)(disabled), [disabled, setState])
         const underlayColor = handleButtonUnderlayColor(theme)(type)
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleButtonStateChange({...options, state, type})(setState)(event)
+            handleButtonStateChange({...options, state, type, touchableRef})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
         const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({disabled, eventName, type})
+
+        useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
 
         useEffect(() => {
             onButtonInit(type)
@@ -129,6 +134,10 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
         useEffect(() => {
             onButtonDisabled(disabled)
         }, [disabled, onButtonDisabled])
+
+        useEffect(() => {
+            nextPressInEvent?.()
+        }, [nextPressInEvent])
 
         if (status === 'idle') {
             return <></>
@@ -146,7 +155,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
             labelText,
             labelTextAnimatedStyle,
             onStateEvent,
-            ref,
+            ref: touchableRef,
             type,
             underlayColor
         })

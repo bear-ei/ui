@@ -1,4 +1,4 @@
-import {TextStyle, ViewStyle} from 'react-native'
+import {TextStyle, View, ViewStyle} from 'react-native'
 import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hook'
 import {ComponentStatus, EventName} from '../Common'
@@ -30,10 +30,14 @@ export interface ButtonBaseProps extends ButtonProps {
 export interface InitialButtonState {
     elevation?: ElevationLevel
     eventName?: EventName
+    nextPressInEvent?: () => void
     status: ComponentStatus
 }
 
-export type HandleButtonStateChangeOptions = OnStateEventChangeOptions & Pick<RenderButtonProps, 'type'>
+export interface HandleButtonStateChangeOptions extends OnStateEventChangeOptions, Pick<RenderButtonProps, 'type'> {
+    touchableRef: React.RefObject<View>
+}
+
 export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName'>
 export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName'>
 export interface HandleButtonAnimatedTimingOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
