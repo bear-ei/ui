@@ -7,13 +7,13 @@ import {State} from '../../Common'
 import {
     HandleListAffordanceButtonStateEventChangeOptions,
     ListAffordanceButtonBaseProps,
-    ListAffordanceButtonInitialState
+    ListAffordanceButtonState
 } from './List-affordance-button.interface'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
 const handleListAffordanceButtonStateChange =
     ({eventName}: HandleListAffordanceButtonStateEventChangeOptions) =>
-    (setState: Updater<ListAffordanceButtonInitialState>) =>
+    (setState: Updater<ListAffordanceButtonState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
@@ -26,7 +26,7 @@ const handleListAffordanceButtonStateChange =
 
 export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBaseProps>(
     ({labelText = 'Label', render, disabled, ...renderProps}, ref) => {
-        const [{eventName}, setState] = useImmer<ListAffordanceButtonInitialState>({eventName: undefined})
+        const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({eventName: undefined})
         const id = useId()
         const theme = useTheme()
         const underlayColor = theme.token.scheme.onPrimary

@@ -84,7 +84,7 @@ export interface FormBaseProps<T = Record<string, unknown>> extends FormProps<T>
     render: (props: RenderFormProps<T>) => React.JSX.Element
 }
 
-export interface InitialFormState {
+export interface FormState {
     status: ComponentStatus
 }
 

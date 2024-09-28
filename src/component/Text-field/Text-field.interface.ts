@@ -44,7 +44,7 @@ export interface TextFieldBaseProps extends TextFieldProps {
     render: (props: RenderTextFieldProps) => React.JSX.Element
 }
 
-export interface InitialTextFieldState {
+export interface TextFieldState {
     contentSize: TextInputContentSizeChangeEventData['contentSize']
     eventName?: EventName
     nextChangeTextEvent?: () => void

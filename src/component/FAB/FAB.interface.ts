@@ -29,7 +29,7 @@ export interface FABBaseProps extends FABProps {
     render: (props: RenderFABProps) => React.JSX.Element
 }
 
-export interface InitialFABState {
+export interface FABState {
     elevation?: ElevationLevel
     eventName?: EventName
     status: ComponentStatus

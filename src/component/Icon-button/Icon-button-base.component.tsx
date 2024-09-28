@@ -8,22 +8,22 @@ import {Icon, IconProps} from '../Icon'
 import {
     HandleIconButtonStateChangeOptions,
     IconButtonBaseProps,
+    IconButtonState,
     IconButtonType,
-    InitialIconButtonState,
     RenderIconButtonIconOptions
 } from './Icon-button.interface'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
 const handleIconButtonStateChange =
     ({eventName}: HandleIconButtonStateChangeOptions) =>
-    (setState: Updater<InitialIconButtonState>) =>
+    (setState: Updater<IconButtonState>) =>
     (_event: StateEvent) =>
         eventName !== 'layout' &&
         setState(draft => {
             draft.eventName = eventName
         })
 
-const handleIconButtonDisabled = (setState: Updater<InitialIconButtonState>) => (disabled?: boolean) =>
+const handleIconButtonDisabled = (setState: Updater<IconButtonState>) => (disabled?: boolean) =>
     disabled &&
     setState(draft => {
         draft.eventName = 'none'
@@ -63,7 +63,7 @@ const renderIconButtonIcon =
 
 export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
     ({densityScale, disabled = false, fill, icon, render, type = 'filled', ...renderProps}, ref) => {
-        const [{eventName}, setState] = useImmer<InitialIconButtonState>({eventName: undefined})
+        const [{eventName}, setState] = useImmer<IconButtonState>({eventName: undefined})
         const id = useId()
         const theme = useTheme()
         const activeColor = theme.token.scheme.secondaryContainer

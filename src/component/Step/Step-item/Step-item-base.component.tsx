@@ -5,7 +5,7 @@ import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hook'
 import {EventName, State} from '../../Common'
 import {Icon, IconProps} from '../../Icon'
-import {HandleStepItemStateEventChangeOptions, StepItemBaseProps, StepItemInitialState} from './Step-item.interface'
+import {HandleStepItemStateEventChangeOptions, StepItemBaseProps, StepItemState} from './Step-item.interface'
 import {useStepItemAnimated} from './use-step-item-animated.hook'
 
 const handleStepItemStateChange = ({itemKey, eventName, onActive}: HandleStepItemStateEventChangeOptions) => {
@@ -14,7 +14,7 @@ const handleStepItemStateChange = ({itemKey, eventName, onActive}: HandleStepIte
         pressOut: () => handleStepItemPressOut(itemKey)
     } as Record<EventName, () => void>
 
-    return (setState: Updater<StepItemInitialState>) => (_event: StateEvent) => {
+    return (setState: Updater<StepItemState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
@@ -53,7 +53,7 @@ export const StepItemBase = forwardRef<View, StepItemBaseProps>(
         },
         ref
     ) => {
-        const [{eventName, nextPressOutEvent}, setState] = useImmer<StepItemInitialState>({
+        const [{eventName, nextPressOutEvent}, setState] = useImmer<StepItemState>({
             eventName: undefined,
             nextPressOutEvent: undefined
         })

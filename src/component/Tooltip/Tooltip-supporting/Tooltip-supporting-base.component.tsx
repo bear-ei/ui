@@ -8,51 +8,49 @@ import {State} from '../../Common'
 import {
     HandleTooltipSupportingEmitOptions,
     HandleTooltipSupportingStateEventChangeOptions,
-    InitialTooltipSupportingState,
-    TooltipSupportingBaseProps
+    TooltipSupportingBaseProps,
+    TooltipSupportingState
 } from './Tooltip-supporting.interface'
 import {useTooltipSupportingAnimated} from './use-tooltip-supporting-animated.hook'
 
-const handleTooltipSupportingLayout =
-    (setState: Updater<InitialTooltipSupportingState>) => (event: LayoutChangeEvent) => {
-        const nativeEventLayout = event.nativeEvent.layout
+const handleTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>) => (event: LayoutChangeEvent) => {
+    const nativeEventLayout = event.nativeEvent.layout
 
-        setState(draft => {
-            draft.layout.width = nativeEventLayout.width
-            draft.layout.height = nativeEventLayout.height
-        })
-    }
+    setState(draft => {
+        draft.layout.width = nativeEventLayout.width
+        draft.layout.height = nativeEventLayout.height
+    })
+}
 
 const handleTooltipSupportingStateChange =
     ({onVisible, eventName}: HandleTooltipSupportingStateEventChangeOptions) =>
-    (setState: Updater<InitialTooltipSupportingState>) =>
+    (setState: Updater<TooltipSupportingState>) =>
     (event: StateEvent) =>
         eventName === 'layout' ?
             handleTooltipSupportingLayout(setState)(event as LayoutChangeEvent)
         :   eventName && ['hoverIn', 'hoverOut', 'pressIn'].includes(eventName) && onVisible?.(eventName === 'hoverIn')
 
-const handleTooltipSupportingClose = (setState: Updater<InitialTooltipSupportingState>) => (value?: boolean) =>
+const handleTooltipSupportingClose = (setState: Updater<TooltipSupportingState>) => (value?: boolean) =>
     typeof value === 'boolean' &&
     setState(draft => {
         draft.closed = value
     })
 
-const setTooltipSupportingLayout =
-    (setState: Updater<InitialTooltipSupportingState>) => (containerCurrent: View | null) =>
-        containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
-            setState(draft => {
-                draft.containerLayout.height = height
-                draft.containerLayout.pageX = pageX
-                draft.containerLayout.pageY = pageY
-                draft.containerLayout.width = width
-                draft.containerLayout.x = x
-                draft.containerLayout.y = y
-                draft.status = 'succeeded'
-            })
-        )
+const setTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>) => (containerCurrent: View | null) =>
+    containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
+        setState(draft => {
+            draft.containerLayout.height = height
+            draft.containerLayout.pageX = pageX
+            draft.containerLayout.pageY = pageY
+            draft.containerLayout.width = width
+            draft.containerLayout.x = x
+            draft.containerLayout.y = y
+            draft.status = 'succeeded'
+        })
+    )
 
 const handleTooltipSupportingContainerLayout =
-    (setState: Updater<InitialTooltipSupportingState>) => (containerCurrent: View | null) => (visible?: boolean) =>
+    (setState: Updater<TooltipSupportingState>) => (containerCurrent: View | null) => (visible?: boolean) =>
         visible && setTooltipSupportingLayout(setState)(containerCurrent)
 
 const handleTooltipSupportingEmit =
@@ -70,9 +68,9 @@ const handleTooltipSupportingUnmount = (id: string) =>
  */
 export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps>(
     ({containerCurrent, onVisible, render, supportingPosition, supportingText, visible, ...renderProps}, ref) => {
-        const [{containerLayout, layout, status, closed}, setState] = useImmer<InitialTooltipSupportingState>({
+        const [{containerLayout, layout, status, closed}, setState] = useImmer<TooltipSupportingState>({
             closed: undefined,
-            containerLayout: {} as InitialTooltipSupportingState['containerLayout'],
+            containerLayout: {} as TooltipSupportingState['containerLayout'],
             layout: {} as LayoutRectangle,
             status: 'idle'
         })

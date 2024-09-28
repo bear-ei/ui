@@ -23,7 +23,7 @@ export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
     visible?: boolean
 }
 
-export interface InitialLayoutAnimatedState {
+export interface LayoutAnimatedState {
     layoutVisible?: boolean
     layoutWasVisible?: boolean
     nextUnmountEvent?: () => void

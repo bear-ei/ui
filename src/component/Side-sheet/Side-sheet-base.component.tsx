@@ -2,16 +2,16 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {emitter} from '../../context'
-import {HandleSideSheetEmitOptions, InitialSideSheetState, SheetType, SideSheetBaseProps} from './Side-sheet.interface'
+import {HandleSideSheetEmitOptions, SheetType, SideSheetBaseProps, SideSheetState} from './Side-sheet.interface'
 
-const handleSideSheetClose = (setState: Updater<InitialSideSheetState>) => (onClose?: () => void) => {
+const handleSideSheetClose = (setState: Updater<SideSheetState>) => (onClose?: () => void) => {
     setState(draft => {
         draft.sideSheetVisible = false
         draft.nextCloseEvent = () => onClose?.()
     })
 }
 
-const handleSideSheetVisible = (setState: Updater<InitialSideSheetState>) => (visible?: boolean) =>
+const handleSideSheetVisible = (setState: Updater<SideSheetState>) => (visible?: boolean) =>
     typeof visible === 'boolean' &&
     setState(draft => {
         draft.sideSheetVisible = visible
@@ -30,7 +30,7 @@ const handleSideSheetUnmount = (id: string) => (type: SheetType) =>
 
 export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
     ({defaultVisible, onVisible, render, type = 'modal', visible, onClose, ...renderProps}, ref) => {
-        const [{sideSheetVisible, nextCloseEvent}, setState] = useImmer<InitialSideSheetState>({
+        const [{sideSheetVisible, nextCloseEvent}, setState] = useImmer<SideSheetState>({
             nextCloseEvent: undefined,
             sideSheetVisible: undefined
         })

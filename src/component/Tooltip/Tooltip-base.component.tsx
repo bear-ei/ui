@@ -4,9 +4,9 @@ import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
 import {debounce} from '../../util'
 import {EventName, State} from '../Common'
-import {HandleTooltipStateEventChangeOptions, InitialTooltipState, TooltipBaseProps} from './Tooltip.interface'
+import {HandleTooltipStateEventChangeOptions, TooltipBaseProps, TooltipState} from './Tooltip.interface'
 
-const handleTooltipVisible = (setState: Updater<InitialTooltipState>) => (onVisible?: (value?: boolean) => void) => {
+const handleTooltipVisible = (setState: Updater<TooltipState>) => (onVisible?: (value?: boolean) => void) => {
     const createNextActiveEvent = (value?: boolean) => () => onVisible?.(value)
 
     return (value?: boolean) =>
@@ -27,13 +27,13 @@ const handleTooltipEventNameChange = (onTooltipVisible: (value?: boolean) => voi
 
 const handleTooltipStateChange =
     ({onTooltipVisible, eventName}: HandleTooltipStateEventChangeOptions) =>
-    (_setState: Updater<InitialTooltipState>) =>
+    (_setState: Updater<TooltipState>) =>
     (_event: StateEvent) =>
         handleTooltipEventNameChange(onTooltipVisible)(eventName)
 
 export const TooltipBase = forwardRef<View, TooltipBaseProps>(
     ({defaultVisible, disabled = false, eventName, onVisible, render, visible, ...renderProps}, ref) => {
-        const [{tooltipVisible, nextActiveEvent}, setState] = useImmer<InitialTooltipState>({
+        const [{tooltipVisible, nextActiveEvent}, setState] = useImmer<TooltipState>({
             nextActiveEvent: undefined,
             tooltipVisible: undefined
         })

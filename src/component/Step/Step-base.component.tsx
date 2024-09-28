@@ -2,19 +2,13 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {StepItem} from './Step-item'
-import {
-    HandleStepActiveOptions,
-    InitialStepState,
-    RenderStepItemOptions,
-    StepBaseProps,
-    StepData
-} from './Step.interface'
+import {HandleStepActiveOptions, RenderStepItemOptions, StepBaseProps, StepData, StepState} from './Step.interface'
 import {ItemContainer, Line} from './Step.style'
 
 const handleStepActive = ({onActive}: HandleStepActiveOptions = {}) => {
     const createNextActiveEvent = (value?: string) => () => onActive?.(value)
 
-    return (setState: Updater<InitialStepState>) => (value?: string) => {
+    return (setState: Updater<StepState>) => (value?: string) => {
         setState(draft => {
             const prevStepActiveKey = draft.stepActiveKey
 
@@ -60,7 +54,7 @@ const renderStepItems =
 
 export const StepBase = forwardRef<View, StepBaseProps>(
     ({activeKey, data, defaultActiveKey, onActive, render, type, densityScale, ...renderProps}, ref) => {
-        const [{stepActiveKey, nextActiveEvent}, setState] = useImmer<InitialStepState>({
+        const [{stepActiveKey, nextActiveEvent}, setState] = useImmer<StepState>({
             nextActiveEvent: undefined,
             stepActiveKey: undefined
         })

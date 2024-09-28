@@ -6,12 +6,12 @@ import {State} from '../Common'
 import {
     HandleLayoutAnimatedFinishedOptions,
     HandleLayoutAnimatedStateChangeOptions,
-    InitialLayoutAnimatedState,
-    LayoutAnimatedBaseProps
+    LayoutAnimatedBaseProps,
+    LayoutAnimatedState
 } from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
-const handleLayoutVisible = (setState: Updater<InitialLayoutAnimatedState>) => (value?: boolean) =>
+const handleLayoutVisible = (setState: Updater<LayoutAnimatedState>) => (value?: boolean) =>
     setState(draft => {
         if (!value) {
             draft.layoutVisible = value
@@ -31,7 +31,7 @@ const handleLayoutVisible = (setState: Updater<InitialLayoutAnimatedState>) => (
 
 const handleLayoutAnimatedStateChange =
     ({eventName, visible}: HandleLayoutAnimatedStateChangeOptions) =>
-    (setState: Updater<InitialLayoutAnimatedState>) =>
+    (setState: Updater<LayoutAnimatedState>) =>
     (_event: StateEvent) =>
         eventName === 'layout' &&
         visible &&
@@ -44,7 +44,7 @@ const handleLayoutAnimatedFinished = ({onUnmount, unmount, onVisible}: HandleLay
     const createNextVisibleEvent = (value?: boolean) => () => onVisible?.(value)
     const createNextUnmountEvent = () => () => onUnmount?.()
 
-    return (setState: Updater<InitialLayoutAnimatedState>) => (value?: boolean) =>
+    return (setState: Updater<LayoutAnimatedState>) => (value?: boolean) =>
         setState(draft => {
             if (value) {
                 draft.nextVisibleEvent = createNextVisibleEvent(value)
@@ -65,21 +65,20 @@ const handleLayoutAnimatedFinished = ({onUnmount, unmount, onVisible}: HandleLay
         })
 }
 
-const handleLayoutAnimatedInit =
-    (setState: Updater<InitialLayoutAnimatedState>) => (unmount?: boolean) => (value?: boolean) =>
-        setState(draft => {
-            if (draft.status !== 'idle') {
-                return
-            }
+const handleLayoutAnimatedInit = (setState: Updater<LayoutAnimatedState>) => (unmount?: boolean) => (value?: boolean) =>
+    setState(draft => {
+        if (draft.status !== 'idle') {
+            return
+        }
 
-            unmount && !value && (draft.unmountLayout = true)
-            draft.status = 'succeeded'
-        })
+        unmount && !value && (draft.unmountLayout = true)
+        draft.status = 'succeeded'
+    })
 
 export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
     ({render, visible: visibleSource, defaultVisible, unmount, onUnmount, onVisible, ...renderProps}, ref) => {
         const [{layoutVisible, unmountLayout, layoutWasVisible, nextUnmountEvent, nextVisibleEvent, status}, setState] =
-            useImmer<InitialLayoutAnimatedState>({
+            useImmer<LayoutAnimatedState>({
                 layoutVisible: undefined,
                 layoutWasVisible: undefined,
                 nextUnmountEvent: undefined,

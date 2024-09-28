@@ -8,8 +8,8 @@ import {Icon, IconProps} from '../../Icon'
 import {
     HandleNavigationRailItemStateEventChangeOptions,
     NavigationRailItemBaseProps,
-    NavigationRailItemInitialState,
-    NavigationRailItemProps
+    NavigationRailItemProps,
+    NavigationRailItemState
 } from './Navigation-rail-item.interface'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
 
@@ -33,7 +33,7 @@ const handleNavigationRailItemStateChange = ({
         pressOut: () => handleNavigationRailItemPressOut(onActive)(itemKey)
     } as Record<EventName, () => void>
 
-    return (setState: Updater<NavigationRailItemInitialState>) => (_event: StateEvent) => {
+    return (setState: Updater<NavigationRailItemState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
@@ -55,7 +55,7 @@ const renderNavigationRailItemActiveIcon = (icon: React.JSX.Element) => (eventNa
 
 export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBaseProps>(
     ({activeKey, icon = <Icon name='circle' />, itemKey, onActive, render, type = 'segment', ...renderProps}, ref) => {
-        const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemInitialState>({
+        const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({
             eventName: undefined,
             nextPressOutEvent: undefined
         })

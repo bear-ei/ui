@@ -23,7 +23,7 @@ export interface ProgressBaseProps extends ProgressProps {
     render: (props: RenderProgressProps) => React.JSX.Element
 }
 
-export interface InitialProgressState {
+export interface ProgressState {
     layout: LayoutRectangle
 }
 

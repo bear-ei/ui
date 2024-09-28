@@ -6,14 +6,14 @@ import {FormItem, FormItemProps} from './Form-item'
 import {
     FormBaseProps,
     FormCallback,
+    FormState,
     HandleFormCallbackOptions,
-    InitialFormState,
     RenderFormItemOptions
 } from './Form.interface'
 import {useForm} from './use-form.hook'
 
 const handleFormInit =
-    <T,>(setState: Updater<InitialFormState>) =>
+    <T,>(setState: Updater<FormState>) =>
     (setInitialValue: (initialized?: boolean) => (value?: T) => void) =>
     (value?: T) =>
         setState(draft => {
@@ -58,7 +58,7 @@ const FormBaseInner = <T,>(
     }: FormBaseProps<T>,
     ref: ForwardedRef<View>
 ) => {
-    const [{status}, setState] = useImmer<InitialFormState>({status: 'idle'})
+    const [{status}, setState] = useImmer<FormState>({status: 'idle'})
     const formStore = useForm(form)
     const {setCallback, setInitialValue} = formStore
     const id = useId()

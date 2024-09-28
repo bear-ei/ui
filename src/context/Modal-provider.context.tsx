@@ -1,9 +1,9 @@
 import mitt from 'mitt'
 import React, {FC} from 'react'
 import {Updater, useImmer} from 'use-immer'
-import {EmitterEvent, Modal, ModalInitialState, ModalItemProps, ModalProps} from './context.interface'
+import {EmitterEvent, Modal, ModalItemProps, ModalProps, ModalState} from './context.interface'
 
-const handleModal = (setState: Updater<ModalInitialState>) => (modal: Modal) => {
+const handleModal = (setState: Updater<ModalState>) => (modal: Modal) => {
     const {id, render} = modal
 
     setState(draft => {
@@ -25,7 +25,7 @@ const Item: FC<ModalItemProps> = ({render}) => <>{render?.()}</>
 
 export const emitter = mitt<EmitterEvent>()
 export const ModalProvider: FC<ModalProps> = () => {
-    const [{modals}, setState] = useImmer<ModalInitialState>({modals: []})
+    const [{modals}, setState] = useImmer<ModalState>({modals: []})
 
     emitter.on('modal', modal => handleModal(setState)(modal))
 

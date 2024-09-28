@@ -7,10 +7,10 @@ import {FormError} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
     FormItemBaseProps,
+    FormItemState,
     HandleFormItemInitOptions,
     HandleFormItemValidateOptions,
-    HandleFormItemValueChangeOptions,
-    InitialFormItemState
+    HandleFormItemValueChangeOptions
 } from './Form-item.interface'
 
 const handleFormItemValueChange =
@@ -38,14 +38,14 @@ const handleFormItemValidate = ({rule, validatorOptions}: HandleFormItemValidate
         :   ([] as ValidationError[])
 }
 
-const handleComponentUpdate = (setState: Updater<InitialFormItemState>) => () =>
+const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
     setState(draft => {
         draft.shouldUpdate = {}
     })
 
 const handleFormItemInit =
     ({rule, validate: fieldValidate, signInField, onComponentUpdate}: HandleFormItemInitOptions) =>
-    (setState: Updater<InitialFormItemState>) =>
+    (setState: Updater<FormItemState>) =>
     (name?: string) => {
         setState(draft => {
             if (draft.status !== 'idle') {
@@ -82,7 +82,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         },
         ref
     ) => {
-        const [{signOut, status}, setState] = useImmer<InitialFormItemState>({
+        const [{signOut, status}, setState] = useImmer<FormItemState>({
             shouldUpdate: {},
             signOut: undefined,
             status: 'idle'

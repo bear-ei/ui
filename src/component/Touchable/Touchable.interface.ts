@@ -34,7 +34,7 @@ export interface TouchableBaseProps extends TouchableProps {
 
 export type TouchableRipple = Pick<TouchableRippleProps, 'touchableLocation'>
 export type TouchableRippleSequence = Record<string, TouchableRipple>
-export interface InitialTouchableState {
+export interface TouchableState {
     contentLayout: LayoutRectangle
     rippleSequence: TouchableRippleSequence
 }

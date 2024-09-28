@@ -16,15 +16,15 @@ import {RenderVirtualListItemInfo, RenderVirtualListItemOptions, VirtualListItem
 import {
     HandleVirtualListLayoutOptions,
     HandleVirtualListScrollOptions,
-    InitialVirtualListState,
     VirtualListBaseProps,
-    VirtualListData
+    VirtualListData,
+    VirtualListState
 } from './Virtual-list.interface'
 
 const checkAllNumber = (array: unknown[]) => array.every(item => typeof item === 'number')
 const handleVirtualListVisibleRange =
     (itemSize = 0) =>
-    (draft: WritableDraft<InitialVirtualListState>) =>
+    (draft: WritableDraft<VirtualListState>) =>
     (scrollOffset?: number) => {
         if (!checkAllNumber([draft.layout.height, draft.layout.width])) {
             return
@@ -48,7 +48,7 @@ const handleVirtualListVisibleRange =
 const handleVirtualListLayout = ({itemSize, onLoadEnd}: HandleVirtualListLayoutOptions) => {
     const createNextLoadEndEvent = () => onLoadEnd?.()
 
-    return (setState: Updater<InitialVirtualListState>) => (layout: LayoutRectangle) => {
+    return (setState: Updater<VirtualListState>) => (layout: LayoutRectangle) => {
         setState(draft => {
             if (['web', 'macos', 'windows'].includes(Platform.OS) && draft.layout.height) {
                 return
@@ -83,7 +83,7 @@ const createNextScrollEvent =
 
 const handleVirtualListScroll =
     ({onScroll, itemSize = 0}: HandleVirtualListScrollOptions) =>
-    (setState: Updater<InitialVirtualListState>) =>
+    (setState: Updater<VirtualListState>) =>
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
         const scrollOffset = event.nativeEvent.contentOffset.y
@@ -109,7 +109,7 @@ const createVisibleRangeDataFilter =
 
 const handleVirtualListItemUnmount =
     (itemSize = 0) =>
-    (setState: Updater<InitialVirtualListState>) =>
+    (setState: Updater<VirtualListState>) =>
     (value?: string) =>
         value &&
         setState(draft => {
@@ -118,7 +118,7 @@ const handleVirtualListItemUnmount =
             handleVirtualListVisibleRange(itemSize)(draft)()
         })
 
-const handleVirtualListDataInit = (setState: Updater<InitialVirtualListState>) => (data?: VirtualListData[]) =>
+const handleVirtualListDataInit = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
     setState(draft => {
         const contentVisible = !!data?.length
         draft.contentVisible = contentVisible
@@ -128,7 +128,7 @@ const handleVirtualListDataInit = (setState: Updater<InitialVirtualListState>) =
     })
 
 const handleVirtualListContentVisible =
-    (setState: Updater<InitialVirtualListState>) => (data?: VirtualListData[]) => (value?: boolean) =>
+    (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) => (value?: boolean) =>
         !value &&
         setState(draft => {
             draft.virtualListData = data
@@ -140,7 +140,7 @@ const createVisibleRangeDataFindIndex =
         indexKey === value
 
 const handleVirtualListLoadEnd =
-    (setState: Updater<InitialVirtualListState>) => (onLoadEnd?: (value?: string) => void) => (value?: string) =>
+    (setState: Updater<VirtualListState>) => (onLoadEnd?: (value?: string) => void) => (value?: string) =>
         value &&
         setState(draft => {
             const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(createVisibleRangeDataFindIndex(value))
@@ -152,7 +152,7 @@ const handleVirtualListLoadEnd =
 
 const handleVirtualListDataChange =
     (itemSize = 0) =>
-    (setState: Updater<InitialVirtualListState>) =>
+    (setState: Updater<VirtualListState>) =>
     (virtualListData?: VirtualListData[]) =>
         virtualListData &&
         setState(draft => {
@@ -194,7 +194,7 @@ export const VirtualListBaseInner = <T,>(
     const [
         {visibleRangeData, startIndex, virtualListData, status, nextScrollEvent, nextLoadEndEvent, contentVisible},
         setState
-    ] = useImmer<InitialVirtualListState>({
+    ] = useImmer<VirtualListState>({
         contentVisible: undefined,
         endIndex: undefined,
         layout: {} as LayoutRectangle,

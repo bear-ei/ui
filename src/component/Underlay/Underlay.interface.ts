@@ -33,7 +33,7 @@ export interface UnderlayBaseProps extends UnderlayProps {
     render: (props: RenderUnderlayProps) => React.JSX.Element
 }
 
-export interface InitialUnderlayState {
+export interface UnderlayState {
     layout: LayoutRectangle
 }
 

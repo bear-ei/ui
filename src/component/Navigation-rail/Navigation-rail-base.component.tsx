@@ -4,9 +4,9 @@ import {Updater, useImmer} from 'use-immer'
 import {FABProps} from '../FAB'
 import {
     HandleNavigationRailActiveOptions,
-    InitialNavigationRailState,
     NavigationBaseProps,
     NavigationRailData,
+    NavigationRailState,
     RenderNavigationRailItemOptions
 } from '././Navigation-rail.interface'
 import {NavigationRailItem} from './Navigation-rail-item'
@@ -14,7 +14,7 @@ import {NavigationRailItem} from './Navigation-rail-item'
 const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOptions = {}) => {
     const createNextActiveEvent = (value?: string) => () => onActive?.(value)
 
-    return (setState: Updater<InitialNavigationRailState>) => (value?: string) =>
+    return (setState: Updater<NavigationRailState>) => (value?: string) =>
         value &&
         setState(draft => {
             const prevNavigationRailActiveKey = draft.navigationRailActiveKey
@@ -44,7 +44,7 @@ export const NavigationRailBase = forwardRef<View, NavigationBaseProps>(
         {activeKey, data, defaultActiveKey, fab, onActive, render, type, destinationPosition = 'top', ...renderProps},
         ref
     ) => {
-        const [{navigationRailActiveKey, nextActiveEvent}, setState] = useImmer<InitialNavigationRailState>({
+        const [{navigationRailActiveKey, nextActiveEvent}, setState] = useImmer<NavigationRailState>({
             navigationRailActiveKey: undefined,
             nextActiveEvent: undefined
         })

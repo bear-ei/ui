@@ -13,9 +13,9 @@ import {
     HandleListItemConfirmOptions,
     HandleListItemStateEventChangeOptions,
     HandleListItemTrailingPressOutOptions,
-    InitialListItemState,
     ListItemBaseProps,
     ListItemProps,
+    ListItemState,
     RenderListItemTrailingOptions
 } from './List-item.interface'
 import {useListItemAnimated} from './use-list-item-animated.hook'
@@ -78,7 +78,7 @@ const handleListItemStateChange = ({
         pressOut: () => handleListItemPressOut(type)(onActive)(itemKey)
     } as Record<EventName, () => void>
 
-    return (setState: Updater<InitialListItemState>) => (_event: StateEvent) =>
+    return (setState: Updater<ListItemState>) => (_event: StateEvent) =>
         setState(draft => {
             const prevEventName = draft.eventName
 
@@ -118,7 +118,7 @@ const handleListItemTrailingPressOut =
         closeTrailing && nextEvent.closeTrailing()
     }
 
-const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<InitialListItemState>) => (value?: boolean) =>
+const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<ListItemState>) => (value?: boolean) =>
     setState(draft => {
         draft.afterAffordanceClosed = !value
     })
@@ -230,7 +230,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         const [
             {afterAffordanceClosed, eventName, listItemState, nextLayoutEvent, nextPressOutEvent, trailingVisible},
             setState
-        ] = useImmer<InitialListItemState>({
+        ] = useImmer<ListItemState>({
             afterAffordanceClosed: undefined,
             eventName: undefined,
             listItemState: undefined,

@@ -11,8 +11,8 @@ import {SearchListProps} from './Search-list'
 import {
     HandleSearchChangeTextOptions,
     HandleSearchStateChangeOptions,
-    InitialSearchState,
-    SearchBaseProps
+    SearchBaseProps,
+    SearchState
 } from './Search.interface'
 
 const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChangeOptions) => {
@@ -21,7 +21,7 @@ const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChang
         pressOut: () => handleTextFieldFocus()
     } as Record<EventName, () => void>
 
-    return (setState: Updater<InitialSearchState>) => (_event: StateEvent) => {
+    return (setState: Updater<SearchState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
@@ -43,7 +43,7 @@ const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChang
 const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) => {
     const createNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
 
-    return (setState: Updater<InitialSearchState>) => (value?: string) => {
+    return (setState: Updater<SearchState>) => (value?: string) => {
         const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
 
         setState(draft => {
@@ -58,13 +58,13 @@ const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTex
     }
 }
 
-const handleSearchListVisible = (setState: Updater<InitialSearchState>) => (value?: boolean) =>
+const handleSearchListVisible = (setState: Updater<SearchState>) => (value?: boolean) =>
     typeof value === 'boolean' &&
     setState(draft => {
         draft.listVisible = value
     })
 
-const setSearchLayout = (setState: Updater<InitialSearchState>) => (containerCurrent?: View | null) =>
+const setSearchLayout = (setState: Updater<SearchState>) => (containerCurrent?: View | null) =>
     containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
         setState(draft => {
             draft.layout.height = height
@@ -77,7 +77,7 @@ const setSearchLayout = (setState: Updater<InitialSearchState>) => (containerCur
     )
 
 const handleSearchContainerLayout =
-    (setState: Updater<InitialSearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) =>
+    (setState: Updater<SearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) =>
         listVisible && setSearchLayout(setState)(containerCurrent)
 
 /**
@@ -103,9 +103,9 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         ref
     ) => {
         const [{searchValue, eventName, layout, listVisible, nextPressOutEvent, nextChangeTextEvent}, setState] =
-            useImmer<InitialSearchState>({
+            useImmer<SearchState>({
                 eventName: undefined,
-                layout: {} as InitialSearchState['layout'],
+                layout: {} as SearchState['layout'],
                 listVisible: undefined,
                 nextChangeTextEvent: undefined,
                 nextPressOutEvent: undefined,

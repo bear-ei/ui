@@ -7,13 +7,13 @@ import {EventName, State} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
     HandleTouchableStateChangeOptions,
-    InitialTouchableState,
     RenderTouchableRipplesOptions,
     TouchableBaseProps,
-    TouchableRippleSequence
+    TouchableRippleSequence,
+    TouchableState
 } from './Touchable.interface'
 
-const handleTouchableContentLayout = (setState: Updater<InitialTouchableState>) => (event: LayoutChangeEvent) => {
+const handleTouchableContentLayout = (setState: Updater<TouchableState>) => (event: LayoutChangeEvent) => {
     const nativeEventLayout = event.nativeEvent.layout
 
     setState(draft => {
@@ -23,16 +23,13 @@ const handleTouchableContentLayout = (setState: Updater<InitialTouchableState>) 
 }
 
 const handleAddTouchableRipple =
-    (setState: Updater<InitialTouchableState>) =>
-    (touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>) =>
+    (setState: Updater<TouchableState>) => (touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>) =>
         setState(draft => {
             draft.rippleSequence[`${Date.now()}${generateRandomNumberString(4)}`] = {touchableLocation}
         })
 
 const handleTouchablePressIn =
-    (setState: Updater<InitialTouchableState>) =>
-    (enableTouchableRipple?: boolean) =>
-    (event: GestureResponderEvent) => {
+    (setState: Updater<TouchableState>) => (enableTouchableRipple?: boolean) => (event: GestureResponderEvent) => {
         const {locationX, locationY} = event.nativeEvent
 
         enableTouchableRipple && handleAddTouchableRipple(setState)({locationX, locationY})
@@ -40,7 +37,7 @@ const handleTouchablePressIn =
 
 const handleTouchableStateChange =
     ({eventName, enableTouchableRipple}: HandleTouchableStateChangeOptions) =>
-    (setState: Updater<InitialTouchableState>) =>
+    (setState: Updater<TouchableState>) =>
     (event: StateEvent) => {
         const nextEvent = {
             layout: () => handleTouchableContentLayout(setState)(event as LayoutChangeEvent),
@@ -50,7 +47,7 @@ const handleTouchableStateChange =
         eventName && nextEvent[eventName]?.()
     }
 
-const handleTouchableAnimatedFinished = (setState: Updater<InitialTouchableState>) => (index: string) =>
+const handleTouchableAnimatedFinished = (setState: Updater<TouchableState>) => (index: string) =>
     setState(draft => {
         draft.rippleSequence[index] && delete draft.rippleSequence[index]
     })
@@ -77,7 +74,7 @@ const renderTouchableRipples =
 
 export const TouchableBase = forwardRef<View, TouchableBaseProps>(
     ({centered, disabled, render, underlayColor, enableTouchableRipple = true, ...renderProps}, ref) => {
-        const [{rippleSequence, contentLayout}, setState] = useImmer<InitialTouchableState>({
+        const [{rippleSequence, contentLayout}, setState] = useImmer<TouchableState>({
             contentLayout: {} as LayoutRectangle,
             rippleSequence: {} as TouchableRippleSequence
         })

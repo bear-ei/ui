@@ -13,7 +13,7 @@ export interface SideSheetBaseProps extends SideSheetProps {
     render: (props: RenderSideSheetProps) => React.JSX.Element
 }
 
-export interface InitialSideSheetState {
+export interface SideSheetState {
     nextCloseEvent?: () => void
     sideSheetVisible?: boolean
 }

@@ -29,7 +29,7 @@ export interface SearchBaseProps extends SearchProps {
     render: (props: RenderSearchProps) => React.JSX.Element
 }
 
-export interface InitialSearchState {
+export interface SearchState {
     data?: ListData[]
     eventName?: EventName
     layout: LayoutRectangle & {pageX?: number; pageY?: number}

@@ -22,7 +22,7 @@ export interface ListAffordanceButtonBaseProps extends ListAffordanceButtonProps
     render: (props: RenderListAffordanceButtonProps) => React.JSX.Element
 }
 
-export interface ListAffordanceButtonInitialState {
+export interface ListAffordanceButtonState {
     eventName?: EventName
 }
 

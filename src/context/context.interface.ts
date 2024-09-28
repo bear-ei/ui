@@ -9,7 +9,7 @@ export type EmitterEvent = {
     modal: Modal
 }
 
-export interface ModalInitialState {
+export interface ModalState {
     modals: Modal[]
 }
 

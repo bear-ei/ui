@@ -36,7 +36,7 @@ export interface FormItemBaseProps extends FormItemProps {
     render: (props: RenderFormItemProps) => React.JSX.Element
 }
 
-export interface InitialFormItemState {
+export interface FormItemState {
     shouldUpdate: Record<string, unknown>
     signOut?: () => void
     status: ComponentStatus

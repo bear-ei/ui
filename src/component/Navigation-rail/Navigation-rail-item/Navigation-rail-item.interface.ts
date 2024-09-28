@@ -31,7 +31,7 @@ export interface NavigationRailItemBaseProps extends NavigationRailItemProps {
     render: (props: RenderNavigationRailItemProps) => React.JSX.Element
 }
 
-export interface NavigationRailItemInitialState {
+export interface NavigationRailItemState {
     eventName?: EventName
     nextPressOutEvent?: () => void
 }

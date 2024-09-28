@@ -29,7 +29,7 @@ export interface TooltipSupportingBaseProps extends TooltipSupportingProps {
     render: (props: RenderTooltipSupportingProps) => React.JSX.Element
 }
 
-export interface InitialTooltipSupportingState {
+export interface TooltipSupportingState {
     closed?: boolean
     containerLayout: LayoutRectangle & {pageX: number; pageY: number}
     layout: LayoutRectangle
@@ -37,7 +37,7 @@ export interface InitialTooltipSupportingState {
     visible?: boolean
 }
 
-export type HandleTooltipSupportingEmitOptions = Pick<InitialTooltipSupportingState, 'status'> &
+export type HandleTooltipSupportingEmitOptions = Pick<TooltipSupportingState, 'status'> &
     Pick<RenderTooltipSupportingProps, 'id'>
 
 export type HandleTooltipSupportingStateEventChangeOptions = OnStateEventChangeOptions &

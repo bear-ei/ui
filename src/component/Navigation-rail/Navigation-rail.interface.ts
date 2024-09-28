@@ -30,7 +30,7 @@ export interface NavigationBaseProps extends NavigationRailProps {
     render: (props: RenderNavigationRailProps) => React.JSX.Element
 }
 
-export interface InitialNavigationRailState {
+export interface NavigationRailState {
     navigationRailActiveKey?: string
     nextActiveEvent?: () => void
 }

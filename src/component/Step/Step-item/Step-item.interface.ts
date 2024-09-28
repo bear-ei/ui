@@ -36,7 +36,7 @@ export interface StepItemBaseProps extends StepItemProps {
     render: (props: RenderStepItemProps) => React.JSX.Element
 }
 
-export interface StepItemInitialState {
+export interface StepItemState {
     eventName?: EventName
     nextPressOutEvent?: () => void
 }

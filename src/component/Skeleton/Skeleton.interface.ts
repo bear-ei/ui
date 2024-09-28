@@ -24,14 +24,14 @@ export interface SkeletonBaseProps extends SkeletonProps {
     render: (props: RenderSkeletonProps) => React.JSX.Element
 }
 
-export interface InitialSkeletonState {
+export interface SkeletonState {
     skeletonVisible: boolean
     status: ComponentStatus
 }
 
 export type HandleSkeletonStateChangeOptions = OnStateEventChangeOptions & Pick<SkeletonProps, 'duration'>
 export type UseSkeletonAnimatedOptions = Pick<RenderSkeletonProps, 'enableAnimated'> &
-    Pick<InitialSkeletonState, 'skeletonVisible'>
+    Pick<SkeletonState, 'skeletonVisible'>
 
 export interface HandleSkeletonAnimatedTimingOptions extends Pick<UseSkeletonAnimatedOptions, 'enableAnimated'> {
     animatedTiming: AnimatedTiming

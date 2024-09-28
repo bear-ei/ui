@@ -33,7 +33,7 @@ export interface TooltipBaseProps extends TooltipProps {
     render: (props: RenderTooltipProps) => React.JSX.Element
 }
 
-export interface InitialTooltipState {
+export interface TooltipState {
     nextActiveEvent?: () => void
     tooltipVisible?: boolean
 }

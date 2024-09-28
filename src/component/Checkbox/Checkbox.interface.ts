@@ -29,7 +29,7 @@ export interface CheckboxBaseProps extends CheckboxProps {
     render: (props: RenderCheckboxProps) => React.JSX.Element
 }
 
-export interface InitialCheckboxState {
+export interface CheckboxState {
     checkboxActive?: boolean
     eventName?: EventName
     nextActiveEvent?: () => void

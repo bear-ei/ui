@@ -30,16 +30,16 @@ export interface ListAfterAffordanceBaseProps extends ListAfterAffordanceProps {
     render: (props: RenderListAfterAffordanceProps) => React.JSX.Element
 }
 
-export interface ListAfterAffordanceInitialState {
+export interface ListAfterAffordanceState {
     doubleConfirmed?: boolean
     nextCancelEvent?: () => void
 }
 
 export type HandleListAfterAffordanceConfirmOptions = Pick<ListAfterAffordanceProps, 'onConfirm' | 'itemKey'> &
-    ListAfterAffordanceInitialState
+    ListAfterAffordanceState
 
 export type HandleListAfterAffordanceCancelOptions = Pick<ListAfterAffordanceProps, 'onCancel' | 'itemKey'> &
-    ListAfterAffordanceInitialState
+    ListAfterAffordanceState
 
 export interface UseListAfterAffordanceAnimatedOptions extends Pick<RenderListAfterAffordanceProps, 'doubleConfirmed'> {
     layoutWidth?: number

@@ -25,7 +25,7 @@ export interface VirtualListBaseProps<T> extends VirtualListProps<T> {
     render: (props: RenderVirtualListProps<T>) => React.JSX.Element
 }
 
-export interface InitialVirtualListState {
+export interface VirtualListState {
     endIndex?: number
     contentVisible?: boolean
     layout: LayoutRectangle

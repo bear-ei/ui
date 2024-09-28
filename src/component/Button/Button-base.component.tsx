@@ -9,14 +9,14 @@ import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
 import {
     ButtonBaseProps,
+    ButtonState,
     ButtonType,
     HandleButtonStateChangeOptions,
-    InitialButtonState,
     RenderButtonIconOptions
 } from './Button.interface'
 import {useButtonAnimated} from './use-button-animated.hook'
 
-const handleButtonElevation = (draft: WritableDraft<InitialButtonState>) => (type?: ButtonType) => (state?: State) => {
+const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
     const elevationType = type && ['elevated', 'filled', 'tonal'].includes(type)
 
     if (!elevationType) {
@@ -38,7 +38,7 @@ const handleButtonStateChange = ({eventName, type, state, touchableRef}: HandleB
         pressIn: () => touchableRef?.current?.focus()
     } as Record<EventName, () => void>
 
-    return (setState: Updater<InitialButtonState>) => (_event: StateEvent) => {
+    return (setState: Updater<ButtonState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
@@ -53,7 +53,7 @@ const handleButtonStateChange = ({eventName, type, state, touchableRef}: HandleB
     }
 }
 
-const handleButtonInit = (setState: Updater<InitialButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
+const handleButtonInit = (setState: Updater<ButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
     setState(draft => {
         if (draft.status !== 'idle') {
             return
@@ -63,7 +63,7 @@ const handleButtonInit = (setState: Updater<InitialButtonState>) => (disabled?: 
         draft.status = 'succeeded'
     })
 
-const handleButtonDisabled = (setState: Updater<InitialButtonState>) => (type?: ButtonType) => (disabled?: boolean) =>
+const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: ButtonType) => (disabled?: boolean) =>
     typeof disabled === 'boolean' &&
     setState(draft => {
         disabled && (draft.eventName = 'none')
@@ -105,7 +105,7 @@ const handleButtonUnderlayColor = (theme: DefaultTheme) => {
 
 export const ButtonBase = forwardRef<View, ButtonBaseProps>(
     ({densityScale, disabled, icon, labelText = 'Label', render, type = 'filled', ...renderProps}, ref) => {
-        const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<InitialButtonState>({
+        const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<ButtonState>({
             elevation: undefined,
             eventName: undefined,
             nextPressInEvent: undefined,

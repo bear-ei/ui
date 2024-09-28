@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
 import {EventName, State} from '../Common'
-import {HandleTextFieldStateEventChangeOptions, InitialTextFieldState, TextFieldBaseProps} from './Text-field.interface'
+import {HandleTextFieldStateEventChangeOptions, TextFieldBaseProps, TextFieldState} from './Text-field.interface'
 import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
 const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleTextFieldStateEventChangeOptions) => {
@@ -12,7 +12,7 @@ const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleText
         pressOut: () => ref?.current?.focus()
     } as Record<EventName, () => void>
 
-    return (setState: Updater<InitialTextFieldState>) => {
+    return (setState: Updater<TextFieldState>) => {
         return (_event: StateEvent) => {
             if (eventName === 'layout') {
                 return
@@ -36,7 +36,7 @@ const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleText
 }
 
 const handleTextFieldContentSizeChange =
-    (setState: Updater<InitialTextFieldState>) =>
+    (setState: Updater<TextFieldState>) =>
     (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) => {
         const createNextContentSizeChangeEvent =
             (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => () =>
@@ -56,7 +56,7 @@ const handleTextFieldContentSizeChange =
 const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
     const createNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
 
-    return (setState: Updater<InitialTextFieldState>) => (value?: string) => {
+    return (setState: Updater<TextFieldState>) => (value?: string) => {
         setState(draft => {
             const prevTextInputValue = draft.textInputValue
 
@@ -102,7 +102,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                 textInputValue
             },
             setState
-        ] = useImmer<InitialTextFieldState>({
+        ] = useImmer<TextFieldState>({
             contentSize: {} as TextInputContentSizeChangeEventData['contentSize'],
             eventName: undefined,
             nextChangeTextEvent: undefined,

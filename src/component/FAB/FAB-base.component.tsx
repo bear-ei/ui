@@ -7,16 +7,10 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
-import {
-    FABBaseProps,
-    FABType,
-    HandleFABStateChangeOptions,
-    InitialFABState,
-    RenderFABIconOptions
-} from './FAB.interface'
+import {FABBaseProps, FABState, FABType, HandleFABStateChangeOptions, RenderFABIconOptions} from './FAB.interface'
 import {useFABAnimated} from './use-fab-animated.hook'
 
-const handleFABElevation = (draft: WritableDraft<InitialFABState>) => (elevated?: boolean) => (state?: State) => {
+const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boolean) => (state?: State) => {
     if (!elevated) {
         return
     }
@@ -28,7 +22,7 @@ const handleFABElevation = (draft: WritableDraft<InitialFABState>) => (elevated?
 
 const handleFABStateChange =
     ({eventName, elevated, state}: HandleFABStateChangeOptions) =>
-    (setState: Updater<InitialFABState>) =>
+    (setState: Updater<FABState>) =>
     (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
@@ -42,7 +36,7 @@ const handleFABStateChange =
         })
     }
 
-const handleFABInit = (setState: Updater<InitialFABState>) => (disabled?: boolean) => (elevated?: boolean) =>
+const handleFABInit = (setState: Updater<FABState>) => (disabled?: boolean) => (elevated?: boolean) =>
     setState(draft => {
         if (draft.status !== 'idle') {
             return
@@ -52,7 +46,7 @@ const handleFABInit = (setState: Updater<InitialFABState>) => (disabled?: boolea
         draft.status = 'succeeded'
     })
 
-const handleFABDisabled = (setState: Updater<InitialFABState>) => (elevated?: boolean) => (disabled?: boolean) =>
+const handleFABDisabled = (setState: Updater<FABState>) => (elevated?: boolean) => (disabled?: boolean) =>
     typeof disabled === 'boolean' &&
     setState(draft => {
         disabled && (draft.eventName = 'none')
@@ -99,7 +93,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
         {densityScale, disabled, elevated = true, icon, render, size = 'medium', type = 'primary', ...renderProps},
         ref
     ) => {
-        const [{elevation, eventName, status}, setState] = useImmer<InitialFABState>({
+        const [{elevation, eventName, status}, setState] = useImmer<FABState>({
             elevation: undefined,
             eventName: undefined,
             status: 'idle'

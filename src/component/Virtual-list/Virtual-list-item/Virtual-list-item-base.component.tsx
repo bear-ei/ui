@@ -2,11 +2,7 @@ import {forwardRef, useId} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
-import {
-    InitialVirtualListItemState,
-    VirtualListItemBaseProps,
-    VirtualListItemProps
-} from './Virtual-list-item.interface'
+import {VirtualListItemBaseProps, VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
 
 export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps) => {
     const {extraData: prevExtraData, index: prevIndex, item: prevItem} = prevProps
@@ -22,7 +18,7 @@ export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps)
     }
 }
 
-export const handleVirtualListItemVisible = (setState: Updater<InitialVirtualListItemState>) =>
+export const handleVirtualListItemVisible = (setState: Updater<VirtualListItemState>) =>
     setState(draft => {
         draft.virtualListItemVisible = false
     })
@@ -33,7 +29,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
         {renderItem, item, render, index = 0, itemSize = 0, startIndex = 0, onUnmount, onLoadEnd, ...renderProps},
         ref
     ) => {
-        const [{virtualListItemVisible}, setState] = useImmer<InitialVirtualListItemState>({
+        const [{virtualListItemVisible}, setState] = useImmer<VirtualListItemState>({
             virtualListItemVisible: true
         })
 

@@ -6,30 +6,29 @@ import {ListItem} from './List-item'
 import {
     HandleListActiveOptions,
     HandleRenderItemOptions,
-    InitialListState,
     ListBaseProps,
     ListData,
+    ListState,
     RenderListItemOptions,
     RenderListProps,
     VirtualListComponent
 } from './List.interface'
 
 const handlePrevListActiveKeysFilter = (value: string) => (key: string) => key !== value
-const handleListSelect =
-    (draft: WritableDraft<InitialListState>) => (deselect?: boolean) => (value?: string | string[]) => {
-        if (Array.isArray(value)) {
-            return
-        }
-
-        const prevListActiveKey = draft.listActiveKey
-
-        draft.listActiveKey = value === prevListActiveKey && deselect ? undefined : value
-        draft.afterAffordanceActiveKey !== value && (draft.afterAffordanceActiveKey = undefined)
-
-        return prevListActiveKey !== value ? draft.listActiveKey : 'NOT_ACTIVE'
+const handleListSelect = (draft: WritableDraft<ListState>) => (deselect?: boolean) => (value?: string | string[]) => {
+    if (Array.isArray(value)) {
+        return
     }
 
-const handleListMultiselect = (draft: WritableDraft<InitialListState>) => (value: string | string[]) => {
+    const prevListActiveKey = draft.listActiveKey
+
+    draft.listActiveKey = value === prevListActiveKey && deselect ? undefined : value
+    draft.afterAffordanceActiveKey !== value && (draft.afterAffordanceActiveKey = undefined)
+
+    return prevListActiveKey !== value ? draft.listActiveKey : 'NOT_ACTIVE'
+}
+
+const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: string | string[]) => {
     const prevListActiveKeys = draft.listActiveKeys
     const nextListActiveKeys = Array.isArray(value) ? value : [...(prevListActiveKeys ?? []), value]
 
@@ -52,7 +51,7 @@ const createNextActiveEvent =
 
 const handleListActive =
     ({onActive, type, onActives, deselect}: HandleListActiveOptions = {}) =>
-    (setState: Updater<InitialListState>) =>
+    (setState: Updater<ListState>) =>
     (value?: string | string[]) => {
         setState(draft => {
             const callbackValue =
@@ -70,7 +69,7 @@ const handleListActive =
 const handleActiveListAfterAffordance = ({onActive, type}: HandleListActiveOptions) => {
     const createNextAfterAffordanceActiveEvent = (value?: string) => () => onActive?.(value)
 
-    return (setState: Updater<InitialListState>) => (value?: string) =>
+    return (setState: Updater<ListState>) => (value?: string) =>
         type !== 'multiselect' &&
         setState(draft => {
             const prevListActiveKey = draft.listActiveKey
@@ -145,7 +144,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 status
             },
             setState
-        ] = useImmer<InitialListState>({
+        ] = useImmer<ListState>({
             afterAffordanceActiveKey: undefined,
             listActiveKey: undefined,
             listActiveKeys: undefined,

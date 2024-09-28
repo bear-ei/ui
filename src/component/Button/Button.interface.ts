@@ -27,7 +27,7 @@ export interface ButtonBaseProps extends ButtonProps {
     render: (props: RenderButtonProps) => React.JSX.Element
 }
 
-export interface InitialButtonState {
+export interface ButtonState {
     elevation?: ElevationLevel
     eventName?: EventName
     nextPressInEvent?: () => void

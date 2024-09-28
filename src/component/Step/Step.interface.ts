@@ -26,7 +26,7 @@ export interface StepBaseProps extends StepProps {
     render: (props: RenderStepProps) => React.JSX.Element
 }
 
-export interface InitialStepState {
+export interface StepState {
     nextActiveEvent?: () => void
     stepActiveKey?: string
 }

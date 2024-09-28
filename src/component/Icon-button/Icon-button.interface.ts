@@ -25,7 +25,7 @@ export interface IconButtonBaseProps extends IconButtonProps {
     render: (props: RenderIconButtonProps) => React.JSX.Element
 }
 
-export interface InitialIconButtonState {
+export interface IconButtonState {
     eventName?: EventName
 }
 

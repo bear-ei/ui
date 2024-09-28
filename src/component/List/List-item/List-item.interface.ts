@@ -68,7 +68,7 @@ export interface ListItemBaseProps extends ListItemProps {
     render: (props: RenderListItemProps) => React.JSX.Element
 }
 
-export interface InitialListItemState {
+export interface ListItemState {
     afterAffordanceClosed?: boolean
     eventName?: EventName
     listItemState?: State

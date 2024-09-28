@@ -66,7 +66,7 @@ export interface RenderListProps extends ListProps {
     onUnmount?: (value?: string) => void
 }
 
-export interface InitialListState {
+export interface ListState {
     afterAffordanceActiveKey?: string
     listActiveKey?: string
     listActiveKeys?: string[]

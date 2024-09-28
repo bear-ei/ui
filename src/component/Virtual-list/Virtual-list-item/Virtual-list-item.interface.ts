@@ -32,7 +32,7 @@ export interface VirtualListItemBaseProps<T = Record<string, unknown>> extends V
     render: (props: RenderVirtualListItemProps<T>) => React.JSX.Element
 }
 
-export interface InitialVirtualListItemState {
+export interface VirtualListItemState {
     virtualListItemVisible?: boolean
 }
 
