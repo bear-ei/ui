@@ -22,7 +22,9 @@ export interface TextFieldProps
     error?: boolean
     labelText?: string
     leading?: React.JSX.Element
+    onSupportingTextVisible?: (value: boolean) => void
     supportingText?: string
+    supportingTextDelayTime?: number
     trailing?: React.JSX.Element
     type?: TextFieldType
 }
@@ -52,6 +54,7 @@ export interface TextFieldState {
     nextChangeTextEvent?: () => void
     nextContentSizeChangeEvent?: () => void
     nextPressOutEvent?: () => void
+    nextSupportingTextVisible?: () => void
     state: State
     supportingText?: string
     supportingTextVisible?: boolean
@@ -70,6 +73,10 @@ export interface UseTextFieldAnimatedOptions extends Pick<RenderTextFieldProps, 
 
 export interface HandleTextFieldEnabledSharedOptions extends Pick<UseTextFieldAnimatedOptions, 'error'> {
     filledToValue: number
+}
+
+export interface HandleTextFieldSupportingTextOptions extends Pick<TextFieldProps, 'supportingTextDelayTime'> {
+    timer: React.MutableRefObject<NodeJS.Timeout | undefined>
 }
 
 export interface HandleTextFieldEnabledSharedValue {
