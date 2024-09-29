@@ -76,7 +76,10 @@ const handleLayoutAnimatedInit = (setState: Updater<LayoutAnimatedState>) => (un
     })
 
 export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
-    ({render, visible: visibleSource, defaultVisible, unmount, onUnmount, onVisible, ...renderProps}, ref) => {
+    (
+        {render, visible: visibleSource, defaultVisible, unmount, onUnmount, onVisible, hidden = true, ...renderProps},
+        ref
+    ) => {
         const [{layoutVisible, unmountLayout, layoutWasVisible, nextUnmountEvent, nextVisibleEvent, status}, setState] =
             useImmer<LayoutAnimatedState>({
                 layoutVisible: undefined,
@@ -129,11 +132,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 <></>
             :   render({
                     ...renderProps,
-                    onStateEvent,
                     containerAnimatedStyle,
+                    hidden,
+                    id,
+                    onStateEvent,
                     ref,
-                    visible: layoutWasVisible,
-                    id
+                    visible: layoutWasVisible
                 })
     }
 )

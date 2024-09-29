@@ -11,6 +11,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, ViewProps, Sha
     easing?: Easing
     entry?: AnimatedTimingOptions
     exit?: AnimatedTimingOptions
+    hidden?: boolean
     onUnmount?: () => void
     onVisible?: (value?: boolean) => void
     unmount?: boolean
@@ -47,4 +48,4 @@ export interface HandleLayoutAnimatedTimingOptions
     animatedTiming: AnimatedTiming
 }
 
-export type LayoutAnimatedContainer = Pick<RenderLayoutAnimatedProps, 'visible'>
+export type LayoutAnimatedContainer = Pick<RenderLayoutAnimatedProps, 'visible' | 'hidden'>

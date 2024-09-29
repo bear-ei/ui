@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
+import {LayoutAnimated} from '../Layout-animated'
 import {
     TextFieldControlProps,
     TextFieldHeaderProps,
@@ -146,6 +147,7 @@ export const Input = styled.TextInput`
         `};
 `
 
+export const Supporting = styled(LayoutAnimated)``
 export const SupportingText = styled(Typography)`
     ${({theme}) => css`
         padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;

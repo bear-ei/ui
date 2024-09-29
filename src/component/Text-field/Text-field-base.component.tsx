@@ -53,6 +53,18 @@ const handleTextFieldContentSizeChange =
         }
     }
 
+const handleTextFieldSupportingText = (setState: Updater<TextFieldState>) => (value?: string) =>
+    setState(draft => {
+        value && (draft.supportingText = value)
+        draft.supportingTextVisible = !!value
+    })
+
+const handleTextFieldSupportingTextVisible = (setState: Updater<TextFieldState>) => (value?: boolean) =>
+    !value &&
+    setState(draft => {
+        draft.supportingText = undefined
+    })
+
 const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
     const createNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
 
@@ -83,7 +95,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             onContentSizeChange,
             placeholder,
             render,
-            supportingText,
+            supportingText: supportingTextSource,
             trailing,
             type = 'filled',
             value,
@@ -99,6 +111,8 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                 nextContentSizeChangeEvent,
                 nextPressOutEvent,
                 state,
+                supportingText,
+                supportingTextVisible,
                 textInputValue
             },
             setState
@@ -109,6 +123,8 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             nextContentSizeChangeEvent: undefined,
             nextPressOutEvent: undefined,
             state: 'enabled',
+            supportingText: undefined,
+            supportingTextVisible: undefined,
             textInputValue: ''
         })
 
@@ -123,6 +139,9 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         const underlayColor = theme.token.scheme.onSurface
         const onTextFieldContentSizeChange = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) =>
             handleTextFieldContentSizeChange(setState)(onContentSizeChange)(event)
+
+        const onTextFieldSupportingText = handleTextFieldSupportingText(setState)
+        const onTextFieldSupportingTextVisible = handleTextFieldSupportingTextVisible(setState)
 
         const onTextFieldChangeText = handleTextFieldChangeText(onChangeText)(setState)
         const onTextFieldChangeTextSource = useMemo(() => handleTextFieldChangeText()(setState), [setState])
@@ -154,6 +173,10 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         })
 
         useImperativeHandle(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
+
+        useEffect(() => {
+            onTextFieldSupportingText(supportingTextSource)
+        }, [onTextFieldSupportingText, supportingTextSource])
 
         useEffect(() => {
             onTextFieldChangeTextSource(value ?? defaultValue)
@@ -189,10 +212,12 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             onChangeText: onTextFieldChangeText,
             onContentSizeChange: onTextFieldContentSizeChange,
             onStateEvent,
+            onSupportingTextVisible: onTextFieldSupportingTextVisible,
             placeholderTextColor,
             ref: textFieldRef,
             supportingText,
             supportingTextAnimatedStyle,
+            supportingTextVisible,
             trailing,
             underlayColor,
             value: textInputValue

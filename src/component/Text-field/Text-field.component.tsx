@@ -15,6 +15,7 @@ import {
     LabelText,
     Leading,
     Main,
+    Supporting,
     SupportingText,
     TouchableHeader,
     Trailing
@@ -44,8 +45,10 @@ const render = ({
     leading,
     multiline,
     onStateEvent,
+    onSupportingTextVisible,
     supportingText,
     supportingTextAnimatedStyle,
+    supportingTextVisible,
     trailing,
     underlayColor,
     ...inputProps
@@ -139,13 +142,18 @@ const render = ({
                     </AnimatedHeader>
                 </TouchableHeader>
 
-                <AnimatedSupportingText
-                    size='small'
-                    style={[supportingTextAnimatedStyle]}
-                    type='body'
+                <Supporting
+                    onVisible={onSupportingTextVisible}
+                    visible={supportingTextVisible}
                 >
-                    {supportingText}
-                </AnimatedSupportingText>
+                    <AnimatedSupportingText
+                        size='small'
+                        style={[supportingTextAnimatedStyle]}
+                        type='body'
+                    >
+                        {supportingText}
+                    </AnimatedSupportingText>
+                </Supporting>
             </Content>
         </Container>
     )

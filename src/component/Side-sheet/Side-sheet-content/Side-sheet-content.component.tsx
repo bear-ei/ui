@@ -20,6 +20,9 @@ import {
     Trailing
 } from './Side-sheet-content.style'
 
+/**
+ * TODO: Refactoring uses layout animation components to control entry and exit.
+ */
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedFooterContainer = Animated.createAnimatedComponent(FooterContainer)

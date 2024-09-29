@@ -36,7 +36,9 @@ export interface RenderTextFieldProps extends TextFieldProps {
     labelAnimatedStyle: AnimatedStyle<ViewStyle>
     labelTextAnimatedStyle: AnimatedStyle<TextStyle>
     onStateEvent: OnStateEvent
+    onSupportingTextVisible?: (value?: boolean) => void
     supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
+    supportingTextVisible?: boolean
     underlayColor: string
 }
 
@@ -51,6 +53,8 @@ export interface TextFieldState {
     nextContentSizeChangeEvent?: () => void
     nextPressOutEvent?: () => void
     state: State
+    supportingText?: string
+    supportingTextVisible?: boolean
     textInputValue?: string
 }
 
