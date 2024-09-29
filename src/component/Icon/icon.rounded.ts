@@ -36,6 +36,8 @@ import CloseFill from '@material-symbols/svg-400/rounded/close-fill.svg'
 import Close from '@material-symbols/svg-400/rounded/close.svg'
 import CoffeeFill from '@material-symbols/svg-400/rounded/coffee-fill.svg'
 import Coffee from '@material-symbols/svg-400/rounded/coffee.svg'
+import ContentCopyFill from '@material-symbols/svg-400/rounded/content_copy-fill.svg'
+import ContentCopy from '@material-symbols/svg-400/rounded/content_copy.svg'
 import CottageFill from '@material-symbols/svg-400/rounded/cottage-fill.svg'
 import Cottage from '@material-symbols/svg-400/rounded/cottage.svg'
 import DeleteFill from '@material-symbols/svg-400/rounded/delete-fill.svg'
@@ -182,6 +184,7 @@ export const rounded = {
         circle: CircleFill,
         close: CloseFill,
         coffee: CoffeeFill,
+        contentCopy: ContentCopyFill,
         cottage: CottageFill,
         delete: DeleteFill,
         description: DescriptionFill,
@@ -265,6 +268,7 @@ export const rounded = {
         circle: Circle,
         close: Close,
         coffee: Coffee,
+        contentCopy: ContentCopy,
         cottage: Cottage,
         delete: Delete,
         description: Description,

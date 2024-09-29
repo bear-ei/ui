@@ -36,6 +36,8 @@ import CloseFill from '@material-symbols/svg-400/outlined/close-fill.svg'
 import Close from '@material-symbols/svg-400/outlined/close.svg'
 import CoffeeFill from '@material-symbols/svg-400/outlined/coffee-fill.svg'
 import Coffee from '@material-symbols/svg-400/outlined/coffee.svg'
+import ContentCopyFill from '@material-symbols/svg-400/outlined/content_copy-fill.svg'
+import ContentCopy from '@material-symbols/svg-400/outlined/content_copy.svg'
 import CottageFill from '@material-symbols/svg-400/outlined/cottage-fill.svg'
 import Cottage from '@material-symbols/svg-400/outlined/cottage.svg'
 import DeleteFill from '@material-symbols/svg-400/outlined/delete-fill.svg'
@@ -182,6 +184,7 @@ export const outlined = {
         circle: CircleFill,
         close: CloseFill,
         coffee: CoffeeFill,
+        contentCopy: ContentCopyFill,
         cottage: CottageFill,
         delete: DeleteFill,
         description: DescriptionFill,
@@ -265,6 +268,7 @@ export const outlined = {
         circle: Circle,
         close: Close,
         coffee: Coffee,
+        contentCopy: ContentCopy,
         cottage: Cottage,
         delete: Delete,
         description: Description,

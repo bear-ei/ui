@@ -36,6 +36,8 @@ import CloseFill from '@material-symbols/svg-400/sharp/close-fill.svg'
 import Close from '@material-symbols/svg-400/sharp/close.svg'
 import CoffeeFill from '@material-symbols/svg-400/sharp/coffee-fill.svg'
 import Coffee from '@material-symbols/svg-400/sharp/coffee.svg'
+import ContentCopyFill from '@material-symbols/svg-400/sharp/content_copy-fill.svg'
+import ContentCopy from '@material-symbols/svg-400/sharp/content_copy.svg'
 import CottageFill from '@material-symbols/svg-400/sharp/cottage-fill.svg'
 import Cottage from '@material-symbols/svg-400/sharp/cottage.svg'
 import DeleteFill from '@material-symbols/svg-400/sharp/delete-fill.svg'
@@ -182,6 +184,7 @@ export const sharp = {
         circle: CircleFill,
         close: CloseFill,
         coffee: CoffeeFill,
+        contentCopy: ContentCopyFill,
         cottage: CottageFill,
         delete: DeleteFill,
         description: DescriptionFill,
@@ -265,6 +268,7 @@ export const sharp = {
         circle: Circle,
         close: Close,
         coffee: Coffee,
+        contentCopy: ContentCopy,
         cottage: Cottage,
         delete: Delete,
         description: Description,
