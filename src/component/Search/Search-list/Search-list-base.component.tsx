@@ -4,8 +4,11 @@ import {ListData, RenderListProps, VirtualListComponent} from '../../List'
 import {SearchListBaseProps} from './Search-list.interface'
 import {useSearchListAnimated} from './use-search-list-animated.hook'
 
-const handleSearchListEmit = (id: string) => (render: () => React.JSX.Element) => (visible?: boolean) =>
-    typeof visible === 'boolean' && emitter.emit('modal', {id: `search__list--${id}`, render})
+const handleSearchListEmit = (id: string) => (render: () => JSX.Element) => (visible?: boolean) => {
+    if (typeof visible === 'boolean') {
+        emitter.emit('modal', {id: `search__list--${id}`, render})
+    }
+}
 
 const handleSearchListUnmount = (id: string) => emitter.emit('modal', {id: `search__list--${id}`, render: undefined})
 

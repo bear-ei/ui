@@ -16,7 +16,11 @@ const handleListAfterAffordanceVisibleAnimated =
     (contentLeftSharedValue: SharedValue<AnimatableValue>) =>
     (value?: boolean) =>
         animatedTiming({
-            callback: (finished?: boolean) => finished && onListItemAfterAffordanceVisibleFinished?.(value),
+            callback: (finished?: boolean) => {
+                if (finished) {
+                    onListItemAfterAffordanceVisibleFinished?.(value)
+                }
+            },
             duration: value ? 'medium0' : 'short3',
             easing: value ? 'standardDecelerate' : 'standardAccelerate'
         })(contentLeftSharedValue)(value ? 1 : 0)

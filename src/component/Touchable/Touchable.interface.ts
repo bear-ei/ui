@@ -14,10 +14,11 @@ export interface TouchableProps
             OnStateEvent,
         'children' | 'disabled' | 'hitSlop'
     > {
-    backgroundUnderlay?: React.JSX.Element
-    children?: React.JSX.Element
+    backgroundUnderlay?: JSX.Element
+    children?: JSX.Element
     disabled?: boolean
-    elevationUnderlay?: React.JSX.Element
+    elevationUnderlay?: JSX.Element
+    enableFocusRing?: boolean
     enableTouchableRipple?: boolean
     horizontalStretch?: boolean
     hotZone?: boolean
@@ -25,11 +26,11 @@ export interface TouchableProps
 
 export interface RenderTouchableProps extends TouchableProps {
     onStateEvent: OnStateEvent
-    rippleElements?: React.JSX.Element[]
+    rippleElements?: JSX.Element[]
 }
 
 export interface TouchableBaseProps extends TouchableProps {
-    render: (props: RenderTouchableProps) => React.JSX.Element
+    render: (props: RenderTouchableProps) => JSX.Element
 }
 
 export type TouchableRipple = Pick<TouchableRippleProps, 'touchableLocation'>

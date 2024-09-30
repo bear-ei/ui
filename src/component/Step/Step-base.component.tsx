@@ -13,7 +13,10 @@ const handleStepActive = ({onActive}: HandleStepActiveOptions = {}) => {
             const prevStepActiveKey = draft.stepActiveKey
 
             draft.stepActiveKey = value
-            prevStepActiveKey !== draft.stepActiveKey && (draft.nextActiveEvent = createNextActiveEvent(value))
+
+            if (prevStepActiveKey !== draft.stepActiveKey) {
+                draft.nextActiveEvent = createNextActiveEvent(value)
+            }
         })
     }
 }

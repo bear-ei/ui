@@ -14,8 +14,11 @@ import {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.int
 const handleListAfterAffordanceAnimatedTiming =
     (animatedTiming: AnimatedTiming) =>
     (translateXSharedValue: SharedValue<AnimatableValue>) =>
-    (doubleConfirmed?: boolean) =>
-        typeof doubleConfirmed === 'boolean' && animatedTiming()(translateXSharedValue)(doubleConfirmed ? 1 : 0)
+    (doubleConfirmed?: boolean) => {
+        if (typeof doubleConfirmed === 'boolean') {
+            animatedTiming()(translateXSharedValue)(doubleConfirmed ? 1 : 0)
+        }
+    }
 
 export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAffordanceAnimatedOptions) => {
     const translateXSharedValue = useSharedValue(0)

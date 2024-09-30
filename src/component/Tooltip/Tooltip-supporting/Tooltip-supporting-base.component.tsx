@@ -25,16 +25,21 @@ const handleTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>
 const handleTooltipSupportingStateChange =
     ({onVisible, eventName}: HandleTooltipSupportingStateEventChangeOptions) =>
     (setState: Updater<TooltipSupportingState>) =>
-    (event: StateEvent) =>
-        eventName === 'layout' ?
+    (event: StateEvent) => {
+        if (eventName === 'layout') {
             handleTooltipSupportingLayout(setState)(event as LayoutChangeEvent)
-        :   eventName && ['hoverIn', 'hoverOut', 'pressIn'].includes(eventName) && onVisible?.(eventName === 'hoverIn')
+        } else if (eventName && ['hoverIn', 'hoverOut', 'pressIn'].includes(eventName)) {
+            onVisible?.(eventName === 'hoverIn')
+        }
+    }
 
-const handleTooltipSupportingClose = (setState: Updater<TooltipSupportingState>) => (value?: boolean) =>
-    typeof value === 'boolean' &&
-    setState(draft => {
-        draft.closed = value
-    })
+const handleTooltipSupportingClose = (setState: Updater<TooltipSupportingState>) => (value?: boolean) => {
+    if (typeof value === 'boolean' && !value) {
+        setState(draft => {
+            draft.closed = value
+        })
+    }
+}
 
 const setTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>) => (containerCurrent: View | null) =>
     containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
@@ -50,14 +55,18 @@ const setTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>) =
     )
 
 const handleTooltipSupportingContainerLayout =
-    (setState: Updater<TooltipSupportingState>) => (containerCurrent: View | null) => (visible?: boolean) =>
-        visible && setTooltipSupportingLayout(setState)(containerCurrent)
+    (setState: Updater<TooltipSupportingState>) => (containerCurrent: View | null) => (visible?: boolean) => {
+        if (visible) {
+            setTooltipSupportingLayout(setState)(containerCurrent)
+        }
+    }
 
 const handleTooltipSupportingEmit =
     ({id, status}: HandleTooltipSupportingEmitOptions) =>
-    (renderTooltipSupporting: () => React.JSX.Element) => {
-        status === 'succeeded' &&
+    (renderTooltipSupporting: () => JSX.Element) => {
+        if (status === 'succeeded') {
             emitter.emit('modal', {id: `tooltip__supporting--${id}`, render: renderTooltipSupporting})
+        }
     }
 
 const handleTooltipSupportingUnmount = (id: string) =>
@@ -128,7 +137,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
         }, [onTooltipSupportingContainerLayout, visible])
 
         useEffect(() => {
-            visible && onTooltipSupportingClose(!visible)
+            onTooltipSupportingClose(visible)
         }, [onTooltipSupportingClose, visible])
 
         useEffect(() => {
@@ -136,7 +145,9 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
         }, [onTooltipSupportingEmit])
 
         useEffect(() => {
-            closed && onTooltipSupportingUnmount(id)
+            if (closed) {
+                onTooltipSupportingUnmount(id)
+            }
 
             return () => onTooltipSupportingUnmount(id)
         }, [id, closed, onTooltipSupportingUnmount])

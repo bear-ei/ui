@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {LayoutAnimated} from './Layout-animated.component'

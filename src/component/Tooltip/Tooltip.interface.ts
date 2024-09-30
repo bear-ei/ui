@@ -17,7 +17,7 @@ export interface TooltipProps
         >,
         'children' | 'disabled' | 'hitSlop'
     > {
-    children?: React.JSX.Element
+    children?: JSX.Element
     defaultVisible?: boolean
     disabled?: boolean
     eventName?: EventName
@@ -30,7 +30,7 @@ export interface RenderTooltipProps extends TooltipProps {
 }
 
 export interface TooltipBaseProps extends TooltipProps {
-    render: (props: RenderTooltipProps) => React.JSX.Element
+    render: (props: RenderTooltipProps) => JSX.Element
 }
 
 export interface TooltipState {

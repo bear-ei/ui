@@ -22,7 +22,9 @@ const handleTouchableStateChange =
             layout: () => handleProgressLayout(setState)(event as LayoutChangeEvent)
         } as Record<EventName, () => void>
 
-        eventName && nextEvent[eventName]?.()
+        if (eventName) {
+            nextEvent[eventName]?.()
+        }
     }
 
 export const ProgressBase = forwardRef<View, ProgressBaseProps>(

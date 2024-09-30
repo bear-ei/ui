@@ -21,7 +21,10 @@ const handleFormInit =
                 return
             }
 
-            value && setInitialValue()(value)
+            if (value) {
+                setInitialValue()(value)
+            }
+
             draft.status = 'succeeded'
         })
 

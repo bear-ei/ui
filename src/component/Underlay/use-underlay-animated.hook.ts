@@ -29,13 +29,19 @@ const handleUnderlayHoveredAnimatedTiming = ({
         pressOut: 1
     } as Record<EventName, number>
 
-    return (hoverLayerSharedValue: SharedValue<AnimatableValue>) => (eventName?: EventName) =>
-        eventName && animatedTiming()(hoverLayerSharedValue)(event[eventName] ?? 0)
+    return (hoverLayerSharedValue: SharedValue<AnimatableValue>) => (eventName?: EventName) => {
+        if (eventName) {
+            animatedTiming()(hoverLayerSharedValue)(event[eventName] ?? 0)
+        }
+    }
 }
 
 const handleUnderlayActiveAnimatedTiming =
-    (animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<AnimatableValue>) => (value?: boolean) =>
-        typeof value === 'boolean' && animatedTiming()(activeLayerSharedValue)(value ? 1 : 0)
+    (animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<AnimatableValue>) => (value?: boolean) => {
+        if (typeof value === 'boolean') {
+            animatedTiming()(activeLayerSharedValue)(value ? 1 : 0)
+        }
+    }
 
 export const useUnderlayAnimated = ({
     active,

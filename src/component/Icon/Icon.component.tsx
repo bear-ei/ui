@@ -1,4 +1,4 @@
-import React, {FC, forwardRef} from 'react'
+import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {IconBase} from './Icon-base.component'

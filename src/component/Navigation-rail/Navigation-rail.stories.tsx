@@ -1,5 +1,4 @@
 import {Meta, StoryObj} from '@storybook/react'
-import React from 'react'
 import {FAB} from '../FAB'
 import {Icon} from '../Icon'
 import {IconButton} from '../Icon-button'

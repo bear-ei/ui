@@ -5,14 +5,18 @@ import {EventName, Size, State} from '../Common'
 import {ListData, ListProps} from '../List'
 import {SearchListProps} from './Search-list'
 
+export interface SearchTextInputProps extends TextInputProps, RefAttributes<TextInput> {
+    enableFocusRing?: boolean
+}
+
 export interface SearchProps
     extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & OnStateEvent> {
     densityScale?: number
     disabled?: boolean
-    leading?: React.JSX.Element
+    leading?: JSX.Element
     listProps?: ListProps
     size?: Size
-    trailing?: React.JSX.Element
+    trailing?: JSX.Element
     type?: 'modal'
 }
 
@@ -26,7 +30,7 @@ export interface RenderSearchProps extends SearchProps {
 }
 
 export interface SearchBaseProps extends SearchProps {
-    render: (props: RenderSearchProps) => React.JSX.Element
+    render: (props: RenderSearchProps) => JSX.Element
 }
 
 export interface SearchState {

@@ -4,9 +4,10 @@ import {Icon} from '../Icon'
 import {Underlay} from '../Underlay'
 import {SearchBase} from './Search-base.component'
 import {SearchList} from './Search-list'
-import {RenderSearchProps, SearchProps} from './Search.interface'
+import {RenderSearchProps, SearchProps, SearchTextInputProps} from './Search.interface'
 import {Container, Content, Input, Leading, Main, TextField, Touchable, Trailing} from './Search.style'
 
+const SearchTextInput: FC<SearchTextInputProps> = props => <Input {...props} />
 const render = ({
     containerRef,
     densityScale,
@@ -57,7 +58,7 @@ const render = ({
 
                     <Main testID={`search__main--${id}`}>
                         <TextField testID={`search__textField--${id}`}>
-                            <Input
+                            <SearchTextInput
                                 {...textInputProps}
                                 /**
                                  * enableFocusRing is used to disable the focus style in macOS,
@@ -65,7 +66,6 @@ const render = ({
                                  * However, react-native-macos does not have an official typescript declaration for this parameter,
                                  * so using it directly in a typescript will result in an undefined parameter.
                                  */
-                                // @ts-ignore
                                 enableFocusRing={false}
                                 onBlur={onBlur}
                                 onChangeText={onChangeText}

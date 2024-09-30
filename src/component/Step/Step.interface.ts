@@ -17,13 +17,13 @@ export interface StepProps
 }
 
 export interface RenderStepProps extends StepProps {
-    fabElement?: React.JSX.Element
-    stepItemElements?: React.JSX.Element[]
+    fabElement?: JSX.Element
+    stepItemElements?: JSX.Element[]
     onActiveSource?: (value?: string) => void
 }
 
 export interface StepBaseProps extends StepProps {
-    render: (props: RenderStepProps) => React.JSX.Element
+    render: (props: RenderStepProps) => JSX.Element
 }
 
 export interface StepState {

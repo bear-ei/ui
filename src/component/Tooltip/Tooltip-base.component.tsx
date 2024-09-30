@@ -9,12 +9,14 @@ import {HandleTooltipStateEventChangeOptions, TooltipBaseProps, TooltipState} fr
 const handleTooltipVisible = (setState: Updater<TooltipState>) => (onVisible?: (value?: boolean) => void) => {
     const createNextActiveEvent = (value?: boolean) => () => onVisible?.(value)
 
-    return (value?: boolean) =>
-        typeof value === 'boolean' &&
-        setState(draft => {
-            draft.tooltipVisible = value
-            draft.nextActiveEvent = createNextActiveEvent(value)
-        })
+    return (value?: boolean) => {
+        if (typeof value === 'boolean') {
+            setState(draft => {
+                draft.tooltipVisible = value
+                draft.nextActiveEvent = createNextActiveEvent(value)
+            })
+        }
+    }
 }
 
 const handleTooltipEventNameChange = (onTooltipVisible: (value?: boolean) => void) => (eventName?: EventName) => {

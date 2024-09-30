@@ -14,7 +14,7 @@ export interface RenderProgressActiveIndicatorProps extends Omit<ProgressActiveI
 }
 
 export interface ProgressActiveIndicatorBaseProps extends ProgressActiveIndicatorProps {
-    render: (props: RenderProgressActiveIndicatorProps) => React.JSX.Element
+    render: (props: RenderProgressActiveIndicatorProps) => JSX.Element
 }
 
 export type UseProgressActiveIndicatorAnimatedOptions = Pick<

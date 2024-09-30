@@ -33,9 +33,17 @@ const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChang
 
             const prevEventName = draft.eventName
 
-            eventName && (draft.eventName = eventName)
-            state && (draft.state = state)
-            prevEventName !== eventName && eventName === 'pressOut' && (draft.nextPressOutEvent = nextEvent[eventName])
+            if (eventName) {
+                draft.eventName = eventName
+            }
+
+            if (state) {
+                draft.state = state
+            }
+
+            if (prevEventName !== eventName && eventName === 'pressOut') {
+                draft.nextPressOutEvent = nextEvent[eventName]
+            }
         })
     }
 }
@@ -51,18 +59,21 @@ const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTex
 
             draft.data = (matchedData.length ? matchedData : undefined) as WritableDraft<ListData>[]
             draft.searchValue = value
-            typeof value === 'string' &&
-                value !== prevSearchValue &&
-                (draft.nextChangeTextEvent = createNextChangeTextEvent(value))
+
+            if (typeof value === 'string' && value !== prevSearchValue) {
+                draft.nextChangeTextEvent = createNextChangeTextEvent(value)
+            }
         })
     }
 }
 
-const handleSearchListVisible = (setState: Updater<SearchState>) => (value?: boolean) =>
-    typeof value === 'boolean' &&
-    setState(draft => {
-        draft.listVisible = value
-    })
+const handleSearchListVisible = (setState: Updater<SearchState>) => (value?: boolean) => {
+    if (typeof value === 'boolean') {
+        setState(draft => {
+            draft.listVisible = value
+        })
+    }
+}
 
 const setSearchLayout = (setState: Updater<SearchState>) => (containerCurrent?: View | null) =>
     containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
@@ -77,8 +88,11 @@ const setSearchLayout = (setState: Updater<SearchState>) => (containerCurrent?: 
     )
 
 const handleSearchContainerLayout =
-    (setState: Updater<SearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) =>
-        listVisible && setSearchLayout(setState)(containerCurrent)
+    (setState: Updater<SearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) => {
+        if (listVisible) {
+            setSearchLayout(setState)(containerCurrent)
+        }
+    }
 
 /**
  * TODO:
@@ -140,7 +154,9 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         }, [defaultValue, onSearchChangeTextSource, value])
 
         useEffect(() => {
-            data && onSearchListVisible(!data?.length)
+            if (data) {
+                onSearchListVisible(!data?.length)
+            }
         }, [data, onSearchListVisible])
 
         useEffect(() => {

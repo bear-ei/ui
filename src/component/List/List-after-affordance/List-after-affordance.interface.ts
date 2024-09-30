@@ -27,7 +27,7 @@ export interface RenderListAfterAffordanceProps
 }
 
 export interface ListAfterAffordanceBaseProps extends ListAfterAffordanceProps {
-    render: (props: RenderListAfterAffordanceProps) => React.JSX.Element
+    render: (props: RenderListAfterAffordanceProps) => JSX.Element
 }
 
 export interface ListAfterAffordanceState {

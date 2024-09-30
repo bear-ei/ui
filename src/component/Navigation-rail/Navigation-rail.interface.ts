@@ -16,18 +16,18 @@ export interface NavigationRailProps
     data?: NavigationRailData[]
     defaultActiveKey?: string
     destinationPosition?: DestinationPosition
-    fab?: React.JSX.Element
-    menu?: React.JSX.Element
+    fab?: JSX.Element
+    menu?: JSX.Element
 }
 
 export interface RenderNavigationRailProps extends NavigationRailProps {
-    fabElement?: React.JSX.Element
-    navigationRailItemElements?: React.JSX.Element[]
+    fabElement?: JSX.Element
+    navigationRailItemElements?: JSX.Element[]
     onActiveSource?: (value?: string) => void
 }
 
 export interface NavigationBaseProps extends NavigationRailProps {
-    render: (props: RenderNavigationRailProps) => React.JSX.Element
+    render: (props: RenderNavigationRailProps) => JSX.Element
 }
 
 export interface NavigationRailState {

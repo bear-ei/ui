@@ -14,12 +14,14 @@ import {HandleLayoutAnimatedTimingOptions, UseLayoutAnimatedOptions} from './Lay
 const handleLayoutAnimatedTiming =
     ({animatedTiming, onAnimatedFinished, entry, exit}: HandleLayoutAnimatedTimingOptions) =>
     (opacitySharedValue: SharedValue<AnimatableValue>) =>
-    (visible?: boolean) =>
-        typeof visible === 'boolean' &&
-        animatedTiming({
-            ...(visible ? entry : exit),
-            callback: (finished?: boolean) => finished && onAnimatedFinished?.(visible)
-        })(opacitySharedValue)(visible ? 1 : 0)
+    (visible?: boolean) => {
+        if (typeof visible === 'boolean') {
+            animatedTiming({
+                ...(visible ? entry : exit),
+                callback: (finished?: boolean) => finished && onAnimatedFinished?.(visible)
+            })(opacitySharedValue)(visible ? 1 : 0)
+        }
+    }
 
 export const useLayoutAnimated = ({visible = true, onAnimatedFinished, entry, exit}: UseLayoutAnimatedOptions) => {
     const opacitySharedValue = useSharedValue(visible ? 1 : 0)

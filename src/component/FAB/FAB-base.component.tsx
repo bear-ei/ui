@@ -17,7 +17,9 @@ const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boole
 
     const level = {disabled: 0, enabled: 0, error: 0, focused: 0, hovered: 1, longPressIn: 0, pressIn: 0}
 
-    state && (draft.elevation = (state === 'disabled' ? level[state] : level[state] + 3) as ElevationLevel)
+    if (state) {
+        draft.elevation = (state === 'disabled' ? level[state] : level[state] + 3) as ElevationLevel
+    }
 }
 
 const handleFABStateChange =
@@ -31,8 +33,13 @@ const handleFABStateChange =
         setState(draft => {
             const prevEventName = draft.eventName
 
-            eventName && (draft.eventName = eventName)
-            prevEventName !== eventName && handleFABElevation(draft)(elevated)(state)
+            if (eventName) {
+                draft.eventName = eventName
+            }
+
+            if (prevEventName !== eventName) {
+                handleFABElevation(draft)(elevated)(state)
+            }
         })
     }
 
@@ -42,16 +49,26 @@ const handleFABInit = (setState: Updater<FABState>) => (disabled?: boolean) => (
             return
         }
 
-        elevated && !disabled && (draft.elevation = 3)
+        if (elevated && !disabled) {
+            draft.elevation = 3
+        }
+
         draft.status = 'succeeded'
     })
 
-const handleFABDisabled = (setState: Updater<FABState>) => (elevated?: boolean) => (disabled?: boolean) =>
-    typeof disabled === 'boolean' &&
-    setState(draft => {
-        disabled && (draft.eventName = 'none')
-        elevated && (draft.elevation = disabled ? 0 : 1)
-    })
+const handleFABDisabled = (setState: Updater<FABState>) => (elevated?: boolean) => (disabled?: boolean) => {
+    if (typeof disabled === 'boolean') {
+        setState(draft => {
+            if (disabled) {
+                draft.eventName = 'none'
+            }
+
+            if (elevated) {
+                draft.elevation = disabled ? 0 : 1
+            }
+        })
+    }
+}
 
 const handleFABUnderlayColor = (theme: DefaultTheme) => {
     const underlay = {
@@ -74,7 +91,7 @@ const renderFABIcon =
             tertiary: theme.token.scheme.onTertiaryContainer
         } as Record<FABType, string>
 
-        return (icon?: React.JSX.Element) => {
+        return (icon?: JSX.Element) => {
             if (!icon) {
                 return icon
             }

@@ -10,7 +10,7 @@ export interface RenderSideSheetProps extends SideSheetProps {
 }
 
 export interface SideSheetBaseProps extends SideSheetProps {
-    render: (props: RenderSideSheetProps) => React.JSX.Element
+    render: (props: RenderSideSheetProps) => JSX.Element
 }
 
 export interface SideSheetState {

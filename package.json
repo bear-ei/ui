@@ -1,15 +1,21 @@
 {
     "name": "BeareiMaterial",
     "version": "0.0.8",
-    "source": "./src/index.tsx",
-    "react-native": "./src/index.tsx",
+    "source": "./src/index.ts",
     "main": "./dist/commonjs/index.js",
     "module": "./dist/module/index.js",
-    "types": "./dist/typescript/index.d.ts",
+    "types": "./dist/typescript/commonjs/src/index.d.ts",
     "exports": {
-        "types": "./dist/typescript/index.d.ts",
-        "import": "./dist/module/index.js",
-        "require": "./dist/commonjs/index.js"
+        ".": {
+            "import": {
+                "types": "./dist/typescript/module/src/index.d.ts",
+                "default": "./dist/module/index.js"
+            },
+            "require": {
+                "types": "./dist/typescript/commonjs/src/index.d.ts",
+                "default": "./dist/commonjs/index.js"
+            }
+        }
     },
     "license": "UNLICENSED",
     "author": "bearei <bear_ei@outlook.com>",
@@ -36,7 +42,8 @@
         "start": "react-native start",
         "storybook-generate": "sb-rn-get-stories --config-path .ondevice",
         "test": "jest",
-        "web": "storybook dev -p 6006"
+        "web": "storybook dev -p 6006",
+        "prepare": "bob build"
     },
     "dependencies": {
         "@bearei/material-token": "^0.0.2",
@@ -94,6 +101,7 @@
         "react": "18.3.1",
         "react-dom": "^18.3.1",
         "react-native": "0.75.3",
+        "react-native-builder-bob": "^0.30.2",
         "react-native-gesture-handler": "^2.16.1",
         "react-native-reanimated": "^3.10.1",
         "react-native-safe-area-context": "^4.11.0",
@@ -120,5 +128,37 @@
         "!**/*.stories.*",
         "!**/.ondevice"
     ],
-    "packageManager": "yarn@4.5.0"
+    "packageManager": "yarn@4.5.0",
+    "react-native-builder-bob": {
+        "source": "src",
+        "output": "dist",
+        "targets": [
+            [
+                "commonjs",
+                {
+                    "esm": true
+                }
+            ],
+            [
+                "module",
+                {
+                    "esm": true
+                }
+            ],
+            [
+                "typescript",
+                {
+                    "esm": true
+                }
+            ]
+        ]
+    },
+    "eslintIgnore": [
+        "node_modules/",
+        "dist/",
+        "**/*.stories.*"
+    ],
+    "exclude": [
+        "**/*.stories.*"
+    ]
 }

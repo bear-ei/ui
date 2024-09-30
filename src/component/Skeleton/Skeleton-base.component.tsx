@@ -9,7 +9,7 @@ import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 const handleSkeletonClose =
     (setState: Updater<SkeletonState>) =>
     (duration = 150) => {
-        duration >= 0 &&
+        if (duration >= 0) {
             setTimeout(
                 () =>
                     setState(draft => {
@@ -18,6 +18,7 @@ const handleSkeletonClose =
                     }),
                 duration
             )
+        }
     }
 
 const handleSkeletonStateChange =
@@ -27,7 +28,11 @@ const handleSkeletonStateChange =
             layout: () => handleSkeletonClose(setState)(duration)
         } as Record<EventName, () => void>
 
-        return (_event: StateEvent) => eventName && nextEvent[eventName]?.()
+        return (_event: StateEvent) => {
+            if (eventName) {
+                nextEvent[eventName]?.()
+            }
+        }
     }
 
 export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(

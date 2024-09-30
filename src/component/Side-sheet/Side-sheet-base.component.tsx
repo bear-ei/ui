@@ -11,22 +11,28 @@ const handleSideSheetClose = (setState: Updater<SideSheetState>) => (onClose?: (
     })
 }
 
-const handleSideSheetVisible = (setState: Updater<SideSheetState>) => (visible?: boolean) =>
-    typeof visible === 'boolean' &&
-    setState(draft => {
-        draft.sideSheetVisible = visible
-    })
+const handleSideSheetVisible = (setState: Updater<SideSheetState>) => (visible?: boolean) => {
+    if (typeof visible === 'boolean') {
+        setState(draft => {
+            draft.sideSheetVisible = visible
+        })
+    }
+}
 
 const handleSideSheetEmit =
     ({id, type}: HandleSideSheetEmitOptions) =>
-    (renderSheet: () => React.JSX.Element) =>
-    (visible?: boolean) =>
-        typeof visible === 'boolean' &&
-        type === 'modal' &&
-        emitter.emit('modal', {id: `sideSheet__${id}`, render: renderSheet})
+    (renderSheet: () => JSX.Element) =>
+    (visible?: boolean) => {
+        if (typeof visible === 'boolean' && type === 'modal') {
+            emitter.emit('modal', {id: `sideSheet__${id}`, render: renderSheet})
+        }
+    }
 
-const handleSideSheetUnmount = (id: string) => (type: SheetType) =>
-    type === 'modal' && emitter.emit('modal', {id: `sideSheet__${id}`, render: undefined})
+const handleSideSheetUnmount = (id: string) => (type: SheetType) => {
+    if (type === 'modal') {
+        emitter.emit('modal', {id: `sideSheet__${id}`, render: undefined})
+    }
+}
 
 export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
     ({defaultVisible, onVisible, render, type = 'modal', visible, onClose, ...renderProps}, ref) => {

@@ -1,5 +1,5 @@
 import {Meta} from '@storybook/react'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {StyleProp, Text, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {Icon} from '../Icon'

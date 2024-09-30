@@ -14,15 +14,19 @@ import {NavigationRailItem} from './Navigation-rail-item'
 const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOptions = {}) => {
     const createNextActiveEvent = (value?: string) => () => onActive?.(value)
 
-    return (setState: Updater<NavigationRailState>) => (value?: string) =>
-        value &&
-        setState(draft => {
-            const prevNavigationRailActiveKey = draft.navigationRailActiveKey
+    return (setState: Updater<NavigationRailState>) => (value?: string) => {
+        if (value) {
+            setState(draft => {
+                const prevNavigationRailActiveKey = draft.navigationRailActiveKey
 
-            draft.navigationRailActiveKey = value
-            prevNavigationRailActiveKey !== draft.navigationRailActiveKey &&
-                (draft.nextActiveEvent = createNextActiveEvent(value))
-        })
+                draft.navigationRailActiveKey = value
+
+                if (prevNavigationRailActiveKey !== draft.navigationRailActiveKey) {
+                    draft.nextActiveEvent = createNextActiveEvent(value)
+                }
+            })
+        }
+    }
 }
 
 const renderNavigationRailItems =
@@ -36,7 +40,7 @@ const renderNavigationRailItems =
             />
         ))
 
-const renderNavigationRailFAB = (fab?: React.JSX.Element) =>
+const renderNavigationRailFAB = (fab?: JSX.Element) =>
     fab ? cloneElement<FABProps>(fab, {elevated: false, size: 'medium'}) : undefined
 
 export const NavigationRailBase = forwardRef<View, NavigationBaseProps>(

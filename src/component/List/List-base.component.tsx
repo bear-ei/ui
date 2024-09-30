@@ -23,7 +23,10 @@ const handleListSelect = (draft: WritableDraft<ListState>) => (deselect?: boolea
     const prevListActiveKey = draft.listActiveKey
 
     draft.listActiveKey = value === prevListActiveKey && deselect ? undefined : value
-    draft.afterAffordanceActiveKey !== value && (draft.afterAffordanceActiveKey = undefined)
+
+    if (draft.afterAffordanceActiveKey !== value) {
+        draft.afterAffordanceActiveKey = undefined
+    }
 
     return prevListActiveKey !== value ? draft.listActiveKey : 'NOT_ACTIVE'
 }
@@ -32,13 +35,16 @@ const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: strin
     const prevListActiveKeys = draft.listActiveKeys
     const nextListActiveKeys = Array.isArray(value) ? value : [...(prevListActiveKeys ?? []), value]
 
-    typeof value === 'string' &&
-        (draft.listActiveKeys =
+    if (typeof value === 'string') {
+        draft.listActiveKeys =
             prevListActiveKeys?.includes(value) ?
                 prevListActiveKeys?.filter(handlePrevListActiveKeysFilter(value))
-            :   nextListActiveKeys)
+            :   nextListActiveKeys
+    }
 
-    Array.isArray(value) && (draft.listActiveKeys = nextListActiveKeys)
+    if (Array.isArray(value)) {
+        draft.listActiveKeys = nextListActiveKeys
+    }
 
     return prevListActiveKeys?.join() !== nextListActiveKeys?.join() ? draft.listActiveKeys : 'NOT_ACTIVES'
 }
@@ -57,11 +63,18 @@ const handleListActive =
             const callbackValue =
                 type === 'select' ? handleListSelect(draft)(deselect)(value) : handleListMultiselect(draft)(value ?? [])
 
-            !onActive && draft.status === 'idle' && (draft.status = 'succeeded')
+            if (!onActive && draft.status === 'idle') {
+                draft.status = 'succeeded'
+            }
 
             if (callbackValue && !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(callbackValue?.toString())) {
-                type === 'select' && (draft.nextActiveEvent = createNextActiveEvent({onActive})(callbackValue))
-                type === 'multiselect' && (draft.nextActiveEvent = createNextActiveEvent({onActives})(callbackValue))
+                if (type === 'select') {
+                    draft.nextActiveEvent = createNextActiveEvent({onActive})(callbackValue)
+                }
+
+                if (type === 'multiselect') {
+                    draft.nextActiveEvent = createNextActiveEvent({onActives})(callbackValue)
+                }
             }
         })
     }
@@ -69,22 +82,29 @@ const handleListActive =
 const handleActiveListAfterAffordance = ({onActive, type}: HandleListActiveOptions) => {
     const createNextAfterAffordanceActiveEvent = (value?: string) => () => onActive?.(value)
 
-    return (setState: Updater<ListState>) => (value?: string) =>
-        type !== 'multiselect' &&
-        setState(draft => {
-            const prevListActiveKey = draft.listActiveKey
+    return (setState: Updater<ListState>) => (value?: string) => {
+        if (type !== 'multiselect') {
+            setState(draft => {
+                const prevListActiveKey = draft.listActiveKey
 
-            if (draft.afterAffordanceActiveKey === value) {
-                draft.afterAffordanceActiveKey = undefined
+                if (draft.afterAffordanceActiveKey === value) {
+                    draft.afterAffordanceActiveKey = undefined
 
-                return
-            }
+                    return
+                }
 
-            draft.afterAffordanceActiveKey = value
-            value && (draft.listActiveKey = value)
-            prevListActiveKey !== draft.listActiveKey &&
-                (draft.nextAfterAffordanceActiveEvent = createNextAfterAffordanceActiveEvent(value))
-        })
+                draft.afterAffordanceActiveKey = value
+
+                if (value) {
+                    draft.listActiveKey = value
+                }
+
+                if (prevListActiveKey !== draft.listActiveKey) {
+                    draft.nextAfterAffordanceActiveEvent = createNextAfterAffordanceActiveEvent(value)
+                }
+            })
+        }
+    }
 }
 
 const handleListClose = (onClose?: (value?: string) => void) => onClose

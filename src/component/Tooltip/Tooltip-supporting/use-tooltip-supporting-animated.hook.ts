@@ -17,13 +17,19 @@ import {
 const handleTooltipSupportingAnimatedTiming =
     ({animatedTiming, onClose}: HandleTooltipSupportingAnimatedTimingOptions) =>
     (transformSharedValue: SharedValue<AnimatableValue>) =>
-    (visible?: boolean) =>
-        typeof visible === 'boolean' &&
-        animatedTiming({
-            duration: visible ? 'medium0' : 'short3',
-            easing: visible ? 'standardDecelerate' : 'standardAccelerate',
-            callback: (finished?: boolean) => finished && !visible && onClose?.(true)
-        })(transformSharedValue)(visible ? 1 : 0)
+    (visible?: boolean) => {
+        if (typeof visible === 'boolean') {
+            animatedTiming({
+                duration: visible ? 'medium0' : 'short3',
+                easing: visible ? 'standardDecelerate' : 'standardAccelerate',
+                callback: (finished?: boolean) => {
+                    if (finished && !visible) {
+                        onClose?.(true)
+                    }
+                }
+            })(transformSharedValue)(visible ? 1 : 0)
+        }
+    }
 
 export const useTooltipSupportingAnimated = ({visible, onClose}: UseTooltipSupportingAnimatedOptions) => {
     const transformSharedValue = useSharedValue(visible ? 1 : 0)

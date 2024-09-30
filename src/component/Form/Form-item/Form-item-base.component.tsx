@@ -61,10 +61,12 @@ const handleFormItemInit =
     }
 
 const handleFormItemBlur =
-    (validateField: (name?: string) => Promise<FormError<any>>) =>
+    (validateField: (name?: string) => Promise<FormError<unknown>>) =>
     (name?: string) =>
     (_event: NativeSyntheticEvent<TargetedEvent>) => {
-        name && validateField(name)
+        if (name) {
+            validateField(name)
+        }
     }
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(

@@ -29,11 +29,13 @@ const handleListAfterAffordanceCancel = ({
         })
 }
 
-const handleListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceState>) => (value?: boolean) =>
-    !value &&
-    setState(draft => {
-        draft.doubleConfirmed = false
-    })
+const handleListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceState>) => (value?: boolean) => {
+    if (!value) {
+        setState(draft => {
+            draft.doubleConfirmed = false
+        })
+    }
+}
 
 export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
     itemKey,

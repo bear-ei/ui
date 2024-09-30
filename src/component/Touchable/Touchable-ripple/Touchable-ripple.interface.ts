@@ -2,7 +2,7 @@ import {LayoutRectangle, NativeTouchEvent, View, ViewProps, ViewStyle} from 'rea
 import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming} from '../../../hook'
 
-export interface TouchableRippleProps extends ViewProps, React.RefAttributes<View> {
+export interface TouchableRippleProps extends ViewProps, RefAttributes<View> {
     centered?: boolean
     containerLayout?: LayoutRectangle
     index: string
@@ -20,7 +20,7 @@ export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, '
 }
 
 export interface TouchableRippleBaseProps extends TouchableRippleProps {
-    render: (props: RenderTouchableRippleProps) => React.JSX.Element
+    render: (props: RenderTouchableRippleProps) => JSX.Element
 }
 
 export interface UseTouchableRippleAnimatedOptions extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {

@@ -1,9 +1,9 @@
 import {FC, forwardRef} from 'react'
-import {TextInput} from 'react-native'
+import {TextInput as RNTextInput} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Underlay} from '../Underlay'
 import {TextFieldBase} from './Text-field-base.component'
-import {RenderTextFieldProps, TextFieldProps} from './Text-field.interface'
+import {InputProps, RenderTextFieldProps, TextFieldProps} from './Text-field.interface'
 import {
     ActiveIndicator,
     Container,
@@ -21,6 +21,8 @@ import {
     Trailing
 } from './Text-field.style'
 
+const TextInput: FC<InputProps> = props => <Input {...props} />
+
 /**
  * FIXME: Multiline text [macos]
  */
@@ -29,7 +31,7 @@ const AnimatedHeader = Animated.createAnimatedComponent(Header)
 const AnimatedLabel = Animated.createAnimatedComponent(Label)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedSupportingText = Animated.createAnimatedComponent(SupportingText)
-const AnimatedTextInput = Animated.createAnimatedComponent(Input)
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
 const render = ({
     activeIndicatorAnimatedStyle,
     content,
@@ -100,7 +102,6 @@ const render = ({
                                          * However, react-native-macos does not have an official typescript declaration for this parameter,
                                          * so using it directly in a typescript will result in an undefined parameter.
                                          */
-                                        // @ts-ignore
                                         enableFocusRing={false}
                                         multiline={multiline}
                                         onBlur={onBlur}
@@ -160,7 +161,7 @@ const render = ({
     )
 }
 
-const ForwardRefTextField = forwardRef<TextInput, TextFieldProps>((props, ref) => (
+const ForwardRefTextField = forwardRef<RNTextInput, TextFieldProps>((props, ref) => (
     <TextFieldBase
         {...props}
         ref={ref}

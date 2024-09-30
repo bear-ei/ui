@@ -1,5 +1,4 @@
 import {Meta, StoryObj} from '@storybook/react'
-import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Touchable} from './Touchable.component'
 import {TouchableProps} from './Touchable.interface'
@@ -16,7 +15,7 @@ const TouchableComponent = (props: TouchableProps) => {
 
 const childrenStyle = {height: 300, width: 300, backgroundColor: '#0e0000'} as StyleProp<ViewStyle>
 
-export const ripple: StoryObj<TouchableProps> = {
+export const Ripple: StoryObj<TouchableProps> = {
     args: {
         children: <View style={[childrenStyle]} />
     }

@@ -1,5 +1,5 @@
 import mitt from 'mitt'
-import React, {FC} from 'react'
+import {FC} from 'react'
 import {Updater, useImmer} from 'use-immer'
 import {EmitterEvent, Modal, ModalItemProps, ModalProps, ModalState} from './context.interface'
 

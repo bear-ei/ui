@@ -11,7 +11,10 @@ const handleScroll =
             return
         }
 
-        momentumScrollEndTimer.current && clearTimeout(momentumScrollEndTimer.current)
+        if (momentumScrollEndTimer.current) {
+            clearTimeout(momentumScrollEndTimer.current)
+        }
+
         momentumScrollEndTimer.current = setTimeout(() => onMomentumScrollEnd?.(event), 150)
     }
 
@@ -22,7 +25,9 @@ export const useDesktopScrollEvent = ({onScroll, onMomentumScrollEnd}: UseDeskto
 
     useEffect(
         () => () => {
-            momentumScrollEndTimer.current && clearTimeout(momentumScrollEndTimer.current)
+            if (momentumScrollEndTimer.current) {
+                clearTimeout(momentumScrollEndTimer.current)
+            }
         },
         []
     )

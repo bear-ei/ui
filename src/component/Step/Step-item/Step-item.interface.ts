@@ -11,8 +11,8 @@ export interface StepItemProps extends Partial<ViewProps & RefAttributes<View> &
     disabled?: boolean
     extraData?: unknown[]
     finished?: boolean
-    finishedIcon?: React.JSX.Element
-    icon?: React.JSX.Element
+    finishedIcon?: JSX.Element
+    icon?: JSX.Element
     itemKey: string
     labelText?: string
     onActive?: (value?: string) => void
@@ -22,10 +22,10 @@ export interface StepItemProps extends Partial<ViewProps & RefAttributes<View> &
 export interface RenderStepItemProps extends Omit<StepItemProps, 'itemKey'> {
     active?: boolean
     activeColor: string
-    activeIconElement: React.JSX.Element
+    activeIconElement: JSX.Element
     eventName?: EventName
-    finishedIconElement: React.JSX.Element
-    iconElement: React.JSX.Element
+    finishedIconElement: JSX.Element
+    iconElement: JSX.Element
     labelAnimatedStyle: AnimatedStyle<ViewStyle>
     labelTextAnimatedStyle: AnimatedStyle<TextStyle>
     onStateEvent: OnStateEvent
@@ -33,7 +33,7 @@ export interface RenderStepItemProps extends Omit<StepItemProps, 'itemKey'> {
 }
 
 export interface StepItemBaseProps extends StepItemProps {
-    render: (props: RenderStepItemProps) => React.JSX.Element
+    render: (props: RenderStepItemProps) => JSX.Element
 }
 
 export interface StepItemState {

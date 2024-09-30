@@ -15,10 +15,11 @@ const handleCheckboxIconAnimated =
     (animatedTiming: AnimatedTiming) => (iconScaleSharedValue: SharedValue<AnimatableValue>) => (value?: boolean) => {
         const toValue = value ? 1 : 0
 
-        typeof value === 'boolean' &&
+        if (typeof value === 'boolean') {
             animatedTiming({
                 duration: toValue === 1 ? 'short2' : 'short1'
             })(iconScaleSharedValue)(toValue)
+        }
     }
 
 export const useCheckboxAnimated = ({active}: UseCheckboxAnimatedOptions) => {

@@ -1,6 +1,5 @@
 import {Meta} from '@storybook/react'
 import {IsDefined, IsNotEmpty, IsNumberString, IsString} from 'class-validator'
-import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {TextField} from '../Text-field'
@@ -48,7 +47,7 @@ export const FormA = () => {
         }
     ] as FormItemProps[]
 
-    const handleFinish = (value: any) => {
+    const handleFinish = (value: unknown) => {
         console.info(value)
     }
 

@@ -1,4 +1,4 @@
-import React, {FC, forwardRef, memo} from 'react'
+import {FC, forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Underlay} from '../../Underlay'

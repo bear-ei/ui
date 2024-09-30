@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import React, {useMemo, useState} from 'react'
+import {useMemo, useState} from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Icon} from '../Icon'
 import {Skeleton} from '../Skeleton'

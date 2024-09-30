@@ -1,4 +1,5 @@
 import {Duration, Easing, Token} from '@bearei/material-token'
+import {MutableRefObject} from 'react'
 import {
     GestureResponderEvent,
     LayoutChangeEvent,
@@ -45,7 +46,7 @@ export interface HandleStateEventOptions {
 export type WindowSize = 'compact' | 'medium' | 'expanded' | 'large' | 'extraLarge'
 export type UseDesktopScrollEventOptions = Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'>
 export interface HandleScrollOptions extends Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'> {
-    momentumScrollEndTimer: React.MutableRefObject<ReturnType<typeof setTimeout> | null>
+    momentumScrollEndTimer: MutableRefObject<ReturnType<typeof setTimeout> | null>
 }
 
 export interface AnimatedTimingOptions extends Omit<WithTimingConfig, 'duration' | 'easing'> {

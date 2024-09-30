@@ -1,10 +1,10 @@
 import {ValidationError, ValidatorOptions} from 'class-validator'
-import React, {RefAttributes} from 'react'
+import {RefAttributes} from 'react'
 import {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native'
 import {ComponentStatus} from '../../Common'
 import {FormStore} from '../Form.interface'
 
-export type FormItemValidationRule = new (...args: any[]) => {}
+export type FormItemValidationRule = new (...args: any[]) => Record<string, unknown>
 export interface FormItemControlProps {
     errorMessage?: string
     errors?: ValidationError[]
@@ -12,7 +12,6 @@ export interface FormItemControlProps {
     labelText?: string
     onBlur: (event: NativeSyntheticEvent<TargetedEvent>) => void
     onValueChange?: (value?: unknown) => void
-
     value?: unknown
 }
 
@@ -23,17 +22,17 @@ export interface FormItemProps
     name?: string
     renderControl?: (props: FormItemControlProps) => JSX.Element
     rule?: FormItemValidationRule
-    skeletonElement?: React.JSX.Element
+    skeletonElement?: JSX.Element
     validatorOptions?: ValidatorOptions
     validationDelay?: number
 }
 
 export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {
-    control?: React.JSX.Element
+    control?: JSX.Element
 }
 
 export interface FormItemBaseProps extends FormItemProps {
-    render: (props: RenderFormItemProps) => React.JSX.Element
+    render: (props: RenderFormItemProps) => JSX.Element
 }
 
 export interface FormItemState {

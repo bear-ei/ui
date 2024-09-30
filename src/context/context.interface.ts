@@ -2,7 +2,7 @@ import {ReactNode} from 'react'
 
 export interface Modal {
     id: string
-    render?: () => React.JSX.Element
+    render?: () => JSX.Element
 }
 
 export type EmitterEvent = {
@@ -14,7 +14,7 @@ export interface ModalState {
 }
 
 export interface ModalItemProps {
-    render?: () => React.JSX.Element
+    render?: () => JSX.Element
 }
 
 export interface ModalProps {

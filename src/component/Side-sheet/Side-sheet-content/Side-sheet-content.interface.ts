@@ -8,20 +8,20 @@ import {SheetType} from '../Side-sheet.interface'
 export interface SideSheetContentProps extends ViewProps, RefAttributes<View>, Pick<ShapeProps, 'shape'>, ModalProps {
     back?: boolean
     close?: boolean
-    content?: React.JSX.Element
+    content?: JSX.Element
     densityScale?: number
     disabledClose?: boolean
     footerVisible?: boolean
-    headlineLeading?: React.JSX.Element
+    headlineLeading?: JSX.Element
     headlineText?: string
-    headlineTrailing?: React.JSX.Element
+    headlineTrailing?: JSX.Element
     onCancel?: () => void
     onClose?: () => void
     onConfirm?: () => void
     onVisible?: (value?: boolean) => void
-    primaryButton?: React.JSX.Element
+    primaryButton?: JSX.Element
     primaryButtonProps?: ButtonProps
-    secondaryButton?: React.JSX.Element
+    secondaryButton?: JSX.Element
     secondaryButtonProps?: ButtonProps
     sheetPosition?: 'horizontalStart' | 'horizontalEnd'
     visible?: boolean
@@ -38,12 +38,12 @@ export interface RenderSideSheetContentProps extends SideSheetContentProps {
     containerAnimatedStyle: AnimatedStyle<ViewStyle>
     contentAnimatedStyle: AnimatedStyle<ViewStyle>
     footerAnimatedStyle: AnimatedStyle<ViewStyle>
-    leading?: React.JSX.Element
-    trailing?: React.JSX.Element
+    leading?: JSX.Element
+    trailing?: JSX.Element
 }
 
 export interface SideSheetContentBaseProps extends SideSheetContentProps {
-    render: (props: RenderSideSheetContentProps) => React.JSX.Element
+    render: (props: RenderSideSheetContentProps) => JSX.Element
 }
 
 export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisible'>

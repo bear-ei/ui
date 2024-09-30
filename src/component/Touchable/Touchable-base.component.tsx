@@ -1,4 +1,4 @@
-import React, {forwardRef, useId, useMemo} from 'react'
+import {forwardRef, useId, useMemo} from 'react'
 import {GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, NativeTouchEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
@@ -32,7 +32,9 @@ const handleTouchablePressIn =
     (setState: Updater<TouchableState>) => (enableTouchableRipple?: boolean) => (event: GestureResponderEvent) => {
         const {locationX, locationY} = event.nativeEvent
 
-        enableTouchableRipple && handleAddTouchableRipple(setState)({locationX, locationY})
+        if (enableTouchableRipple) {
+            handleAddTouchableRipple(setState)({locationX, locationY})
+        }
     }
 
 const handleTouchableStateChange =
@@ -44,12 +46,16 @@ const handleTouchableStateChange =
             pressIn: () => handleTouchablePressIn(setState)(enableTouchableRipple)(event as GestureResponderEvent)
         } as Record<EventName, () => void>
 
-        eventName && nextEvent[eventName]?.()
+        if (eventName) {
+            nextEvent[eventName]?.()
+        }
     }
 
 const handleTouchableAnimatedFinished = (setState: Updater<TouchableState>) => (index: string) =>
     setState(draft => {
-        draft.rippleSequence[index] && delete draft.rippleSequence[index]
+        if (draft.rippleSequence[index]) {
+            delete draft.rippleSequence[index]
+        }
     })
 
 const renderTouchableRipples =

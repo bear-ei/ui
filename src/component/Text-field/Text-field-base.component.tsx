@@ -31,10 +31,14 @@ const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleText
                 const prevEventName = draft.eventName
 
                 draft.eventName = eventName
-                state && (draft.state = state)
-                prevEventName !== eventName &&
-                    eventName === 'pressOut' &&
-                    (draft.nextPressOutEvent = nextEvent[eventName])
+
+                if (state) {
+                    draft.state = state
+                }
+
+                if (prevEventName !== eventName && eventName === 'pressOut') {
+                    draft.nextPressOutEvent = nextEvent[eventName]
+                }
             })
         }
     }
@@ -67,16 +71,18 @@ const handleTextFieldSupportingText =
             })
 
         return (value?: string) => {
-            timer.current && clearTimeout(timer.current)
-
+            clearTimeout(timer.current)
             setState(draft => {
-                value && (draft.supportingText = value)
+                if (value) {
+                    draft.supportingText = value
+                }
+
                 draft.supportingTextVisible = !!value
             })
 
-            supportingTextDelayTime &&
-                value &&
-                (timer.current = setTimeout(handleSupportingTextVisible, supportingTextDelayTime))
+            if (supportingTextDelayTime && value) {
+                timer.current = setTimeout(handleSupportingTextVisible, supportingTextDelayTime)
+            }
         }
     }
 
@@ -102,9 +108,10 @@ const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
             const prevTextInputValue = draft.textInputValue
 
             draft.textInputValue = value ?? ''
-            typeof value === 'string' &&
-                prevTextInputValue !== value &&
-                (draft.nextChangeTextEvent = createNextChangeTextEvent(value))
+
+            if (typeof value === 'string' && prevTextInputValue !== value) {
+                draft.nextChangeTextEvent = createNextChangeTextEvent(value)
+            }
         })
     }
 }

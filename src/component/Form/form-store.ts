@@ -155,7 +155,11 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 
             const handleResult = handleValidateResult(entity)(value)
 
-            skipValidate ? handleResult() : await entity.validate(value[entity.name!]).then(handleResult)
+            if (skipValidate) {
+                handleResult()
+            } else {
+                entity.validate(value[entity.name!]).then(handleResult)
+            }
         }
 
     const handleValueChange =
@@ -171,9 +175,11 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             const handleChange = handleValueChange(value)
             const handleUpdate = handleComponentUpdate(skipValidate)(value)
 
-            componentUpdate ?
+            if (componentUpdate) {
                 Promise.all(Object.keys(value).map(handleUpdate)).then(handleChange)
-            :   handleStoreUpdate(onValueChange)(value)
+            } else {
+                handleStoreUpdate(onValueChange)(value)
+            }
         }
 
     const setInitialValue =
@@ -241,11 +247,13 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
         const handleFailed = (err: FormError<T>) => onFinishFailed?.(err)
         const handleFinish = () => onFinish?.(store)
 
-        skipValidate ? handleFinish() : (
+        if (skipValidate) {
+            handleFinish()
+        } else {
             validateField().then(err =>
                 Object.entries(err).some(([, value]) => value) ? handleFailed(err) : handleFinish()
             )
-        )
+        }
     }
 
     const validateField = (async (name?: NamePath<T>) => {

@@ -86,13 +86,19 @@ const handleTextFieldStateAnimated = (stateAnimated: TextFieldStateAnimated) => 
 const handleTextFieldNonerrorAnimated = ({error, disabled}: HandleTextFieldNonerrorAnimatedOptions) => {
     const nonerror = typeof error !== 'boolean' && disabled
 
-    return (stateAnimated: TextFieldStateAnimated) => (state: State) =>
-        !nonerror && stateAnimated[error ? 'error' : state]?.()
+    return (stateAnimated: TextFieldStateAnimated) => (state: State) => {
+        if (!nonerror) {
+            stateAnimated[error ? 'error' : state]?.()
+        }
+    }
 }
 
 const handleTextFieldDisabledAnimated =
-    (stateAnimated: TextFieldStateAnimated) => (state: State) => (disabled?: boolean) =>
-        typeof disabled === 'boolean' && stateAnimated[disabled ? 'disabled' : state]?.()
+    (stateAnimated: TextFieldStateAnimated) => (state: State) => (disabled?: boolean) => {
+        if (typeof disabled === 'boolean') {
+            stateAnimated[disabled ? 'disabled' : state]?.()
+        }
+    }
 
 export const useTextFieldAnimated = ({
     disabled,

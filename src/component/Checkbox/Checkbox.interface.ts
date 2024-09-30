@@ -26,7 +26,7 @@ export interface RenderCheckboxProps extends CheckboxProps {
 }
 
 export interface CheckboxBaseProps extends CheckboxProps {
-    render: (props: RenderCheckboxProps) => React.JSX.Element
+    render: (props: RenderCheckboxProps) => JSX.Element
 }
 
 export interface CheckboxState {

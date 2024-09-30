@@ -17,17 +17,21 @@ import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 const handleIconButtonStateChange =
     ({eventName}: HandleIconButtonStateChangeOptions) =>
     (setState: Updater<IconButtonState>) =>
-    (_event: StateEvent) =>
-        eventName !== 'layout' &&
-        setState(draft => {
-            draft.eventName = eventName
-        })
+    (_event: StateEvent) => {
+        if (eventName !== 'layout') {
+            setState(draft => {
+                draft.eventName = eventName
+            })
+        }
+    }
 
-const handleIconButtonDisabled = (setState: Updater<IconButtonState>) => (disabled?: boolean) =>
-    disabled &&
-    setState(draft => {
-        draft.eventName = 'none'
-    })
+const handleIconButtonDisabled = (setState: Updater<IconButtonState>) => (disabled?: boolean) => {
+    if (disabled) {
+        setState(draft => {
+            draft.eventName = 'none'
+        })
+    }
+}
 
 const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
     const underlay = {
@@ -52,7 +56,7 @@ const renderIconButtonIcon =
             tonal: theme.token.scheme.onSecondaryContainer
         }
 
-        return (icon?: React.JSX.Element) => {
+        return (icon?: JSX.Element) => {
             return cloneElement<IconProps>(icon ?? <Icon />, {
                 disabled,
                 eventName,

@@ -30,7 +30,10 @@ const handleAnimatedTiming = ({
             },
             finished => {
                 'worklet'
-                callback && runOnJS(callback)(finished)
+
+                if (callback) {
+                    runOnJS(callback)(finished)
+                }
             }
         )
 
@@ -42,9 +45,11 @@ export const useAnimatedTiming = (token: Token) => {
     const animatedTiming = useCallback(
         ({callback, ...options} = {} as AnimatedTimingOptions) =>
             (sharedValue: SharedValue<AnimatableValue>) =>
-            (toValue: number) =>
-                sharedValue.value !== toValue &&
-                (sharedValue.value = handleAnimatedTiming({...options, token})(callback)(toValue)),
+            (toValue: number) => {
+                if (sharedValue.value !== toValue) {
+                    sharedValue.value = handleAnimatedTiming({...options, token})(callback)(toValue)
+                }
+            },
         [token]
     )
 

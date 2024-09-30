@@ -1,4 +1,4 @@
-import React, {cloneElement, forwardRef, useEffect, useId, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useEffect, useId, useMemo, useRef} from 'react'
 import {PanResponder, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -60,8 +60,11 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
     }
 }
 
-const handleListItemPressOut = (type?: ListType) => (onActive?: (value?: string) => void) => (value: string) =>
-    type !== 'standard' && onActive?.(value)
+const handleListItemPressOut = (type?: ListType) => (onActive?: (value?: string) => void) => (value: string) => {
+    if (type !== 'standard') {
+        onActive?.(value)
+    }
+}
 
 const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
 const handleListItemStateChange = ({
@@ -82,8 +85,13 @@ const handleListItemStateChange = ({
         setState(draft => {
             const prevEventName = draft.eventName
 
-            eventName && (draft.eventName = eventName)
-            state && (draft.listItemState = state)
+            if (eventName) {
+                draft.eventName = eventName
+            }
+
+            if (state) {
+                draft.listItemState = state
+            }
 
             if (trailingTrigger && state) {
                 const visible =
@@ -95,8 +103,13 @@ const handleListItemStateChange = ({
             }
 
             if (prevEventName !== eventName) {
-                eventName === 'layout' && (draft.nextLayoutEvent = nextEvent[eventName])
-                eventName === 'pressOut' && (draft.nextPressOutEvent = nextEvent[eventName])
+                if (eventName === 'layout') {
+                    draft.nextLayoutEvent = nextEvent[eventName]
+                }
+
+                if (eventName === 'pressOut') {
+                    draft.nextPressOutEvent = nextEvent[eventName]
+                }
             }
         })
 }
@@ -114,8 +127,13 @@ const handleListItemTrailingPressOut =
             closeTrailing: () => onListItemClose(true)
         }
 
-        afterAffordance && nextEvent.afterAffordance()
-        closeTrailing && nextEvent.closeTrailing()
+        if (afterAffordance) {
+            nextEvent.afterAffordance()
+        }
+
+        if (closeTrailing) {
+            nextEvent.closeTrailing()
+        }
     }
 
 const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<ListItemState>) => (value?: boolean) =>
@@ -253,8 +271,13 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 onPanResponderGrant: (_evt, _gestureState) => {},
                 onPanResponderMove: (_evt, _gestureState) => {},
                 onPanResponderRelease: (_evt, gestureState) => {
-                    gestureState.dx < -50 && onActiveAfterAffordance?.(itemKey)
-                    gestureState.dx > 50 && onActiveAfterAffordance?.()
+                    if (gestureState.dx < -50) {
+                        onActiveAfterAffordance?.(itemKey)
+                    }
+
+                    if (gestureState.dx > 50) {
+                        onActiveAfterAffordance?.()
+                    }
                 }
             })
         ).current

@@ -71,7 +71,6 @@ const render = ({
                  * However, react-native-macos does not have an official typescript declaration for this parameter,
                  * so using it directly in a typescript will result in an undefined parameter.
                  */
-                // @ts-ignore
                 enableFocusRing={false}
             >
                 <Content

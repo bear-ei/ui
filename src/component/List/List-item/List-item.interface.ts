@@ -11,11 +11,11 @@ export interface ListItemProps
     extends Partial<TouchableProps & Omit<ListAfterAffordanceProps, 'PrimaryButtonProps' | 'SecondaryButtonProps'>> {
     activeKey?: string
     activeKeys?: string[]
-    afterAffordance?: React.JSX.Element | boolean
+    afterAffordance?: JSX.Element | boolean
     afterAffordanceActiveKey?: string
     afterAffordancePrimaryButtonProps?: ListAfterAffordanceProps['primaryButtonProps']
     afterAffordanceSecondaryButtonProps?: ListAfterAffordanceProps['secondaryButtonProps']
-    beforeAffordance?: React.JSX.Element | boolean
+    beforeAffordance?: JSX.Element | boolean
     close?: boolean
     closeTrailing?: boolean
     customData?: unknown
@@ -23,10 +23,10 @@ export interface ListItemProps
     enableUnderlay?: boolean
     enableUnderlayActive?: boolean
     extraData?: string[]
-    headline?: React.JSX.Element | string
+    headline?: JSX.Element | string
     itemKey: string
     itemLayout?: {width?: number; height?: number}
-    leading?: React.JSX.Element
+    leading?: JSX.Element
     minSkeletonDuration?: number
     onActive?: (value?: string) => void
     onActiveAfterAffordance?: (value?: string) => void
@@ -34,10 +34,10 @@ export interface ListItemProps
     onClose?: (value?: string) => void
     onLoadEnd?: (value?: string) => void
     onVisible?: (value?: string) => void
-    skeletonElement?: React.JSX.Element
-    supporting?: string | React.JSX.Element
+    skeletonElement?: JSX.Element
+    supporting?: string | JSX.Element
     supportingTextNumberOfLines?: number
-    trailing?: React.JSX.Element
+    trailing?: JSX.Element
     trailingTrigger?: State
     type?: ListType
 
@@ -59,13 +59,13 @@ export interface RenderListItemProps extends ListItemProps {
     panResponder?: PanResponderInstance
     skeletonVisible?: boolean
     state?: State
-    trailingElement?: React.JSX.Element
+    trailingElement?: JSX.Element
     trailingVisible?: boolean
     underlayColor: string
 }
 
 export interface ListItemBaseProps extends ListItemProps {
-    render: (props: RenderListItemProps) => React.JSX.Element
+    render: (props: RenderListItemProps) => JSX.Element
 }
 
 export interface ListItemState {

@@ -34,7 +34,7 @@ export interface LayoutAnimatedState {
 }
 
 export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
-    render: (props: RenderLayoutAnimatedProps) => React.JSX.Element
+    render: (props: RenderLayoutAnimatedProps) => JSX.Element
 }
 
 export type HandleLayoutAnimatedStateChangeOptions = OnStateEventChangeOptions & Pick<LayoutAnimatedProps, 'visible'>

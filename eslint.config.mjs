@@ -16,6 +16,7 @@ const compat = new FlatCompat({
 export default [
     ...compat.extends(
         '@react-native',
+        'plugin:@typescript-eslint/recommended',
         'plugin:prettier/recommended',
         'plugin:react/jsx-runtime',
         'plugin:storybook/recommended'

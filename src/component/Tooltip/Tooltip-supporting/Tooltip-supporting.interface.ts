@@ -26,7 +26,7 @@ export interface RenderTooltipSupportingProps extends Omit<TooltipSupportingProp
 }
 
 export interface TooltipSupportingBaseProps extends TooltipSupportingProps {
-    render: (props: RenderTooltipSupportingProps) => React.JSX.Element
+    render: (props: RenderTooltipSupportingProps) => JSX.Element
 }
 
 export interface TooltipSupportingState {

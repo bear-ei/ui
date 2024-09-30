@@ -1,5 +1,4 @@
 import {Meta, StoryObj} from '@storybook/react'
-import React from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Elevation} from './Elevation.component'
 import {ElevationProps} from './Elevation.interface'
@@ -20,7 +19,7 @@ export default {
     component: ElevationComponent
 } as Meta<typeof Elevation>
 
-export const level1: StoryObj<ElevationProps> = {
+export const Level1: StoryObj<ElevationProps> = {
     args: {
         level: 1
     }

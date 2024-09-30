@@ -41,12 +41,14 @@ const handleSideSheetContentVisibleAnimatedTiming =
 const handleSideSheetContentFooterVisibleAnimatedTiming =
     (animatedTiming: AnimatedTiming) =>
     (footerHeightSharedValue: SharedValue<AnimatableValue>) =>
-    (footerVisible?: boolean) =>
-        typeof footerVisible === 'boolean' &&
-        animatedTiming({
-            duration: footerVisible ? 'medium0' : 'short3',
-            easing: footerVisible ? 'standardDecelerate' : 'standardAccelerate'
-        })(footerHeightSharedValue)(footerVisible ? 1 : 0)
+    (footerVisible?: boolean) => {
+        if (typeof footerVisible === 'boolean') {
+            animatedTiming({
+                duration: footerVisible ? 'medium0' : 'short3',
+                easing: footerVisible ? 'standardDecelerate' : 'standardAccelerate'
+            })(footerHeightSharedValue)(footerVisible ? 1 : 0)
+        }
+    }
 
 export const useSideSheetContentAnimated = ({
     densityScale = 0,

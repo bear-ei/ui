@@ -15,10 +15,13 @@ import {HandleSkeletonAnimatedTimingOptions, UseSkeletonAnimatedOptions} from '.
 const handleSkeletonAnimatedTiming =
     ({animatedTiming, enableAnimated}: HandleSkeletonAnimatedTimingOptions) =>
     (opacitySharedValue: SharedValue<AnimatableValue>) =>
-    (skeletonVisible?: boolean) =>
-        enableAnimated && skeletonVisible ?
+    (skeletonVisible?: boolean) => {
+        if (enableAnimated && skeletonVisible) {
             animatedTiming({repeat: 0, duration: 2500})(opacitySharedValue)(2)
-        :   cancelAnimation(opacitySharedValue)
+        } else {
+            cancelAnimation(opacitySharedValue)
+        }
+    }
 
 export const useSkeletonAnimated = ({enableAnimated, skeletonVisible}: UseSkeletonAnimatedOptions) => {
     const opacitySharedValue = useSharedValue(0)

@@ -23,18 +23,21 @@ const handleStepItemStateChange = ({itemKey, eventName, onActive}: HandleStepIte
             const prevEventName = draft.eventName
 
             draft.eventName = eventName
-            prevEventName !== eventName && eventName === 'pressOut' && (draft.nextPressOutEvent = nextEvent[eventName])
+
+            if (prevEventName !== eventName && eventName === 'pressOut') {
+                draft.nextPressOutEvent = nextEvent[eventName]
+            }
         })
     }
 }
 
-const renderStepItemIcon = (icon: React.JSX.Element) => (disabled?: boolean) => (eventName?: EventName) =>
+const renderStepItemIcon = (icon: JSX.Element) => (disabled?: boolean) => (eventName?: EventName) =>
     cloneElement<IconProps>(icon, {eventName, iconStyle: 'outlined', type: 'outlined', disabled})
 
-const renderStepItemActiveIcon = (icon: React.JSX.Element) => (eventName?: EventName) =>
+const renderStepItemActiveIcon = (icon: JSX.Element) => (eventName?: EventName) =>
     cloneElement<IconProps>(icon, {eventName, iconStyle: 'outlined', type: 'filled'})
 
-const renderStepItemFinishedIcon = (icon: React.JSX.Element) =>
+const renderStepItemFinishedIcon = (icon: JSX.Element) =>
     cloneElement<IconProps>(icon, {iconStyle: 'outlined', type: 'filled'})
 
 export const StepItemBase = forwardRef<View, StepItemBaseProps>(

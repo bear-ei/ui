@@ -30,7 +30,7 @@ export interface RenderUnderlayProps extends UnderlayProps {
 }
 
 export interface UnderlayBaseProps extends UnderlayProps {
-    render: (props: RenderUnderlayProps) => React.JSX.Element
+    render: (props: RenderUnderlayProps) => JSX.Element
 }
 
 export interface UnderlayState {

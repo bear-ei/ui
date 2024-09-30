@@ -12,8 +12,11 @@ import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {UseProgressActiveIndicatorAnimatedOptions} from './Progress-active-indicator.interface'
 
 const handleProgressActiveIndicatorAnimatedTiming =
-    (animatedTiming: AnimatedTiming) => (widthSharedValue: SharedValue<AnimatableValue>) => (value?: number) =>
-        typeof value === 'number' && animatedTiming()(widthSharedValue)(Math.floor(value * 100))
+    (animatedTiming: AnimatedTiming) => (widthSharedValue: SharedValue<AnimatableValue>) => (value?: number) => {
+        if (typeof value === 'number') {
+            animatedTiming()(widthSharedValue)(Math.floor(value * 100))
+        }
+    }
 
 const handleOutputRange = (width: number) => (increment: number) => {
     const actualIncrement = width * (increment / 100)

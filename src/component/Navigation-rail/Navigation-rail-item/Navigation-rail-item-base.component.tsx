@@ -41,16 +41,21 @@ const handleNavigationRailItemStateChange = ({
         setState(draft => {
             const prevEventName = draft.eventName
 
-            eventName && (draft.eventName = eventName)
-            prevEventName !== eventName && eventName === 'pressOut' && (draft.nextPressOutEvent = nextEvent[eventName])
+            if (eventName) {
+                draft.eventName = eventName
+            }
+
+            if (prevEventName !== eventName && eventName === 'pressOut') {
+                draft.nextPressOutEvent = nextEvent[eventName]
+            }
         })
     }
 }
 
-const renderNavigationRailItemIcon = (icon: React.JSX.Element) => (eventName?: EventName) =>
+const renderNavigationRailItemIcon = (icon: JSX.Element) => (eventName?: EventName) =>
     cloneElement<IconProps>(icon, {eventName, iconStyle: 'outlined', type: 'outlined'})
 
-const renderNavigationRailItemActiveIcon = (icon: React.JSX.Element) => (eventName?: EventName) =>
+const renderNavigationRailItemActiveIcon = (icon: JSX.Element) => (eventName?: EventName) =>
     cloneElement<IconProps>(icon, {eventName, iconStyle: 'outlined', type: 'filled'})
 
 export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBaseProps>(

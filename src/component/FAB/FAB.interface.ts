@@ -11,7 +11,7 @@ export interface FABProps extends TouchableProps {
     disabled?: boolean
     elevated?: boolean
     extendedFAB?: boolean
-    icon?: React.JSX.Element
+    icon?: JSX.Element
     labelText?: string
     size?: Size
     type?: FABType
@@ -26,7 +26,7 @@ export interface RenderFABProps extends FABProps {
 }
 
 export interface FABBaseProps extends FABProps {
-    render: (props: RenderFABProps) => React.JSX.Element
+    render: (props: RenderFABProps) => JSX.Element
 }
 
 export interface FABState {

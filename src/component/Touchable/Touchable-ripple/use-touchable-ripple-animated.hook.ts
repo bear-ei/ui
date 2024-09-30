@@ -12,7 +12,12 @@ const handleTouchableRippleAnimatedTiming = ({
     animatedTiming,
     onAnimatedFinished
 }: HandleTouchableRippleAnimatedTimingOptions) => {
-    const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
+    const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => {
+        if (finished) {
+            callback?.()
+        }
+    }
+
     const createTouchableRippleAnimatedTiming =
         ({scaleSharedValue, opacitySharedValue}: HandleTouchableRippleAnimatedTimingSharedValue) =>
         (toValue: number) =>

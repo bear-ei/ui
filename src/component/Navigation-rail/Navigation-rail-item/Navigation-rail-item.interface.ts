@@ -8,7 +8,7 @@ import {NavigationRailType} from '../Navigation-rail.interface'
 export interface NavigationRailItemProps
     extends Partial<ViewProps & RefAttributes<View> & PressableProps & OnStateEvent> {
     activeKey?: string
-    icon?: React.JSX.Element
+    icon?: JSX.Element
     itemKey: string
     labelText?: string
     onActive?: (value?: string) => void
@@ -18,9 +18,9 @@ export interface NavigationRailItemProps
 export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'itemKey'> {
     active?: boolean
     activeColor: string
-    activeIconElement: React.JSX.Element
+    activeIconElement: JSX.Element
     eventName?: EventName
-    iconElement: React.JSX.Element
+    iconElement: JSX.Element
     labelAnimatedStyle: AnimatedStyle<ViewStyle>
     labelTextAnimatedStyle: AnimatedStyle<TextStyle>
     onStateEvent: OnStateEvent
@@ -28,7 +28,7 @@ export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemPr
 }
 
 export interface NavigationRailItemBaseProps extends NavigationRailItemProps {
-    render: (props: RenderNavigationRailItemProps) => React.JSX.Element
+    render: (props: RenderNavigationRailItemProps) => JSX.Element
 }
 
 export interface NavigationRailItemState {

@@ -47,7 +47,9 @@ export const useWindowDimensions = ({
         const subscription = handleEventListener(onWindowScaledSize)(inspectionPlatform)
 
         return () => {
-            subscription && subscription.remove()
+            if (subscription) {
+                subscription.remove()
+            }
         }
     }, [inspectionPlatform, onWindowScaledSize])
 

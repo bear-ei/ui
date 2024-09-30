@@ -10,7 +10,7 @@ export interface SkeletonElementProps extends ViewProps, RefAttributes<View>, Pi
 
 export type RenderSkeletonElementProps = SkeletonElementProps
 export interface SkeletonElementBaseProps extends SkeletonElementProps {
-    render: (props: RenderSkeletonElementProps) => React.JSX.Element
+    render: (props: RenderSkeletonElementProps) => JSX.Element
 }
 
 export type SkeletonElementContainerProps = Pick<RenderSkeletonElementProps, 'width' | 'height' | 'containerLayout'> & {

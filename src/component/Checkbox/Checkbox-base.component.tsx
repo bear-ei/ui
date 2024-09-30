@@ -16,7 +16,7 @@ const handleCheckboxActive = ({indeterminate, onActive}: HandleCheckboxActiveOpt
     const createNextActiveEvent = (value?: boolean) => () => onActive?.(value)
 
     return (setState: Updater<CheckboxState>) => (value?: boolean) => {
-        typeof value === 'boolean' &&
+        if (typeof value === 'boolean') {
             setState(draft => {
                 const activeType = indeterminate ? 'indeterminate' : 'selected'
                 const nextType = value ? activeType : 'unselected'
@@ -25,6 +25,7 @@ const handleCheckboxActive = ({indeterminate, onActive}: HandleCheckboxActiveOpt
                 draft.type = nextType
                 draft.nextActiveEvent = createNextActiveEvent(value)
             })
+        }
     }
 }
 
@@ -43,10 +44,13 @@ const handleCheckboxStateChange =
             setState(draft => {
                 const prevEventName = draft.eventName
 
-                eventName && (draft.eventName = eventName)
-                prevEventName !== eventName &&
-                    eventName === 'pressOut' &&
-                    (draft.nextPressOutEvent = nextEvent[eventName])
+                if (eventName) {
+                    draft.eventName = eventName
+                }
+
+                if (prevEventName !== eventName && eventName === 'pressOut') {
+                    draft.nextPressOutEvent = nextEvent[eventName]
+                }
             })
         }
     }

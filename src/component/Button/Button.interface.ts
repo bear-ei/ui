@@ -1,3 +1,4 @@
+import {RefObject} from 'react'
 import {TextStyle, View, ViewStyle} from 'react-native'
 import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hook'
@@ -9,7 +10,7 @@ export type ButtonType = 'elevated' | 'filled' | 'link' | 'outlined' | 'text' | 
 export interface ButtonProps extends TouchableProps {
     densityScale?: number
     horizontalStretch?: boolean
-    icon?: React.JSX.Element
+    icon?: JSX.Element
     labelText?: string
     loading?: boolean
     type?: ButtonType
@@ -24,7 +25,7 @@ export interface RenderButtonProps extends ButtonProps {
 }
 
 export interface ButtonBaseProps extends ButtonProps {
-    render: (props: RenderButtonProps) => React.JSX.Element
+    render: (props: RenderButtonProps) => JSX.Element
 }
 
 export interface ButtonState {
@@ -35,7 +36,7 @@ export interface ButtonState {
 }
 
 export interface HandleButtonStateChangeOptions extends OnStateEventChangeOptions, Pick<RenderButtonProps, 'type'> {
-    touchableRef: React.RefObject<View>
+    touchableRef: RefObject<View>
 }
 
 export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName'>

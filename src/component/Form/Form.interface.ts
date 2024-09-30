@@ -1,5 +1,5 @@
 import {ValidationError} from 'class-validator'
-import React, {RefAttributes} from 'react'
+import {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
 import {NamePath} from '../../util'
 import {ComponentStatus} from '../Common'
@@ -77,11 +77,11 @@ export interface FormProps<T = Record<string, unknown>>
 }
 
 export interface RenderFormProps<T> extends FormProps<T> {
-    itemElements?: React.JSX.Element[] | React.JSX.Element
+    itemElements?: JSX.Element[] | JSX.Element
 }
 
 export interface FormBaseProps<T = Record<string, unknown>> extends FormProps<T> {
-    render: (props: RenderFormProps<T>) => React.JSX.Element
+    render: (props: RenderFormProps<T>) => JSX.Element
 }
 
 export interface FormState {

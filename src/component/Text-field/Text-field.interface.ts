@@ -1,4 +1,4 @@
-import {RefAttributes, RefObject} from 'react'
+import {MutableRefObject, RefAttributes, RefObject} from 'react'
 import {
     PressableProps,
     TextInput,
@@ -12,21 +12,26 @@ import {OnStateEvent, OnStateEventChangeOptions} from '../../hook'
 import {EventName, ShapeProps, State, TypographyProps} from '../Common'
 
 export type TextFieldType = 'filled' | 'outlined'
+export interface InputProps extends TextInputProps, RefAttributes<TextInput> {
+    enableFocusRing?: boolean
+}
+
 export interface TextFieldProps
     extends Partial<
         TextInputProps & PressableProps & RefAttributes<TextInput> & Pick<ShapeProps, 'shape'> & OnStateEvent
     > {
-    content?: React.JSX.Element
+    content?: JSX.Element
     densityScale?: number
     disabled?: boolean
     error?: boolean
     labelText?: string
-    leading?: React.JSX.Element
+    leading?: JSX.Element
     onSupportingTextVisible?: (value: boolean) => void
     supportingText?: string
     supportingTextDelayTime?: number
-    trailing?: React.JSX.Element
+    trailing?: JSX.Element
     type?: TextFieldType
+    enableFocusRing?: boolean
 }
 
 export interface RenderTextFieldProps extends TextFieldProps {
@@ -45,7 +50,7 @@ export interface RenderTextFieldProps extends TextFieldProps {
 }
 
 export interface TextFieldBaseProps extends TextFieldProps {
-    render: (props: RenderTextFieldProps) => React.JSX.Element
+    render: (props: RenderTextFieldProps) => JSX.Element
 }
 
 export interface TextFieldState {
@@ -76,7 +81,7 @@ export interface HandleTextFieldEnabledSharedOptions extends Pick<UseTextFieldAn
 }
 
 export interface HandleTextFieldSupportingTextOptions extends Pick<TextFieldProps, 'supportingTextDelayTime'> {
-    timer: React.MutableRefObject<NodeJS.Timeout | undefined>
+    timer: MutableRefObject<NodeJS.Timeout | undefined>
 }
 
 export interface HandleTextFieldEnabledSharedValue {

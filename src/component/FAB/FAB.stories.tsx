@@ -1,5 +1,4 @@
 import {Meta, StoryObj} from '@storybook/react'
-import React from 'react'
 import {Icon} from '../Icon'
 import {FAB as Fab} from './FAB.component'
 import {FABProps} from './FAB.interface'
@@ -48,7 +47,7 @@ export const Large: StoryObj<FABProps> = {
     }
 }
 
-export const small: StoryObj<FABProps> = {
+export const Small: StoryObj<FABProps> = {
     args: {
         icon: <Icon />,
         size: 'small',

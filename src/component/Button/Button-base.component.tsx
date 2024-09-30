@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import React, {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -26,11 +26,9 @@ const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: But
     const level = {disabled: 0, enabled: 0, error: 0, focused: 0, hovered: 1, longPressIn: 0, pressIn: 0}
     const correctionCoefficient = type === 'elevated' ? 1 : 0
 
-    state &&
-        (draft.elevation = (
-            state === 'disabled' ?
-                level[state]
-            :   level[state] + correctionCoefficient) as ElevationLevel)
+    if (state) {
+        draft.elevation = (state === 'disabled' ? level[state] : level[state] + correctionCoefficient) as ElevationLevel
+    }
 }
 
 const handleButtonStateChange = ({eventName, type, state, touchableRef}: HandleButtonStateChangeOptions) => {
@@ -47,8 +45,14 @@ const handleButtonStateChange = ({eventName, type, state, touchableRef}: HandleB
             const prevEventName = draft.eventName
 
             draft.eventName = eventName
-            prevEventName !== eventName && handleButtonElevation(draft)(type)(state)
-            prevEventName !== eventName && eventName === 'pressIn' && (draft.nextPressInEvent = nextEvent[eventName])
+
+            if (prevEventName !== eventName) {
+                handleButtonElevation(draft)(type)(state)
+            }
+
+            if (prevEventName !== eventName && eventName === 'pressIn') {
+                draft.nextPressInEvent = nextEvent[eventName]
+            }
         })
     }
 }
@@ -59,15 +63,23 @@ const handleButtonInit = (setState: Updater<ButtonState>) => (disabled?: boolean
             return
         }
 
-        type === 'elevated' && !disabled && (draft.elevation = 1)
+        if (type === 'elevated' && !disabled) {
+            draft.elevation = 1
+        }
+
         draft.status = 'succeeded'
     })
 
 const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: ButtonType) => (disabled?: boolean) =>
     typeof disabled === 'boolean' &&
     setState(draft => {
-        disabled && (draft.eventName = 'none')
-        type === 'elevated' && (draft.elevation = disabled ? 0 : 1)
+        if (disabled) {
+            draft.eventName = 'none'
+        }
+
+        if (type === 'elevated') {
+            draft.elevation = disabled ? 0 : 1
+        }
     })
 
 const renderButtonIcon =
@@ -81,7 +93,7 @@ const renderButtonIcon =
             tonal: theme.token.scheme.onSecondaryContainer
         } as Record<ButtonType, string>
 
-        return (icon?: React.JSX.Element) => {
+        return (icon?: JSX.Element) => {
             if (!icon) {
                 return icon
             }

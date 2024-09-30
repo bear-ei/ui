@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {Pressable, StyleProp, ViewStyle} from 'react-native'
 import {EventName} from '../Common'
 import {Underlay} from './Underlay.component'

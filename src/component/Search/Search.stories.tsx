@@ -1,5 +1,4 @@
 import {Meta, StoryObj} from '@storybook/react'
-import React from 'react'
 import {IconButton} from '../Icon-button'
 import {Search} from './Search.component'
 import {SearchProps} from './Search.interface'
