@@ -1,4 +1,4 @@
-package com.beareiui
+package com.beareimaterial
 
 import android.app.Application
 import com.facebook.react.PackageList

@@ -2,10 +2,6 @@
 #
 .DS_Store
 
-# VsCode
-#
-.vscode/*
-
 # Xcode
 #
 build/
@@ -77,6 +73,6 @@ yarn-error.log
 !.yarn/sdks
 !.yarn/versions
 
-
 # Dist
 dist
+*storybook.log

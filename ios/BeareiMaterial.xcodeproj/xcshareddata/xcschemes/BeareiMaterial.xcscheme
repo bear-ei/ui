@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "BeareiUI.app"
-               BlueprintName = "BeareiUI"
-               ReferencedContainer = "container:BeareiUI.xcodeproj">
+               BuildableName = "BeareiMaterial.app"
+               BlueprintName = "BeareiMaterial"
+               ReferencedContainer = "container:BeareiMaterial.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "BeareiUITests.xctest"
-               BlueprintName = "BeareiUITests"
-               ReferencedContainer = "container:BeareiUI.xcodeproj">
+               BuildableName = "BeareiMaterialTests.xctest"
+               BlueprintName = "BeareiMaterialTests"
+               ReferencedContainer = "container:BeareiMaterial.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "BeareiUI.app"
-            BlueprintName = "BeareiUI"
-            ReferencedContainer = "container:BeareiUI.xcodeproj">
+            BuildableName = "BeareiMaterial.app"
+            BlueprintName = "BeareiMaterial"
+            ReferencedContainer = "container:BeareiMaterial.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "BeareiUI.app"
-            BlueprintName = "BeareiUI"
-            ReferencedContainer = "container:BeareiUI.xcodeproj">
+            BuildableName = "BeareiMaterial.app"
+            BlueprintName = "BeareiMaterial"
+            ReferencedContainer = "container:BeareiMaterial.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

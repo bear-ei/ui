@@ -143,6 +143,7 @@ const render = ({
                 </TouchableHeader>
 
                 <Supporting
+                    hidden={false}
                     onVisible={onSupportingTextVisible}
                     visible={supportingTextVisible}
                 >

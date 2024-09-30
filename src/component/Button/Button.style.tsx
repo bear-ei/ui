@@ -23,6 +23,7 @@ export const Container = styled.View<ButtonContainerProps>`
             `,
             link: css`
                 height: auto;
+                margin-top: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                 min-height: ${theme.adaptSize(theme.token.spacing.medium)}px;
                 min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
             `

@@ -1,41 +1,28 @@
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config')
+const withStorybook = require('@storybook/react-native/metro/withStorybook')
 const path = require('path')
-const {generate} = require('@storybook/react-native/scripts/generate')
-
-generate({
-    configPath: path.resolve(__dirname, './.ondevice')
-})
 
 /**
  * Metro configuration
- * https://facebook.github.io/metro/docs/configuration
+ * https://reactnative.dev/docs/metro
  *
  * @type {import('metro-config').MetroConfig}
  */
-
 const defaultConfig = getDefaultConfig(__dirname)
 const {assetExts, sourceExts} = defaultConfig.resolver
-
 const config = {
     transformer: {
-        unstable_allowRequireContext: true,
-        babelTransformerPath: require.resolve('react-native-svg-transformer')
+        babelTransformerPath: require.resolve('react-native-svg-transformer/react-native')
     },
     resolver: {
         assetExts: assetExts.filter(ext => ext !== 'svg'),
-        sourceExts: [...sourceExts, 'svg'],
-        resolveRequest: (context, moduleName, platform) => {
-            const defaultResolveResult = context.resolveRequest(context, moduleName, platform)
-
-            if (process.env.STORYBOOK_ENABLED !== 'true' && defaultResolveResult?.filePath?.includes?.('.ondevice/')) {
-                return {
-                    type: 'empty'
-                }
-            }
-
-            return defaultResolveResult
-        }
+        sourceExts: [...sourceExts, 'svg']
     }
 }
 
-module.exports = mergeConfig(defaultConfig, config)
+const finalConfig = mergeConfig(defaultConfig, config)
+
+module.exports = withStorybook(finalConfig, {
+    enabled: true,
+    configPath: path.resolve(__dirname, './.storybook')
+})

@@ -1,25 +1,22 @@
-import {withBackgrounds} from '@storybook/addon-ondevice-backgrounds'
-import {Preview} from '@storybook/react'
+import type {Preview} from '@storybook/react'
+import {ThemeProvider} from '../src/context'
 
 const preview: Preview = {
+    decorators: [
+        Story => (
+            <ThemeProvider story={true}>
+                <Story />
+            </ThemeProvider>
+        )
+    ],
     parameters: {
-        backgrounds: {
-            default: 'plain',
-            values: [
-                {name: 'plain', value: 'white'},
-                {name: 'warm', value: 'hotpink'},
-                {name: 'cool', value: 'deepskyblue'}
-            ]
-        },
-        actions: {argTypesRegex: '^on[A-Z].*'},
         controls: {
             matchers: {
                 color: /(background|color)$/i,
                 date: /Date$/
             }
         }
-    },
-    decorators: [withBackgrounds]
+    }
 }
 
 export default preview

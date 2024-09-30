@@ -4,9 +4,9 @@
         "allowImportingTsExtensions": false,
         "rootDir": "./src",
         "paths": {
-            "@bearei/element": ["./src/index"]
+            "@bearei/material": ["./src/index"]
         }
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules", "lib", "!**/.ondevice", "**/App.tsx", "**/App.style.tsx"]
+    "exclude": ["node_modules", "lib", "**/App.tsx", "**/App.style.tsx"]
 }

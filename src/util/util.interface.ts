@@ -1,4 +1,3 @@
-export type DebouncedFunction<T extends (...args: any[]) => any> = (...args: Parameters<T>) => void
 export type NamePath<T = Record<string, unknown>> = keyof T | (keyof T)[]
 export interface AdaptWindowOptions {
     screenHeight?: number

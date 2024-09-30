@@ -1,12 +1,11 @@
-import {DebouncedFunction} from './util.interface'
-
 export const debounce =
-    <T extends (...args: any[]) => any>(func: T) =>
-    (delay: number): DebouncedFunction<T> => {
-        let timeoutId: ReturnType<typeof setTimeout>
+    <T extends (...args: any[]) => unknown>(func: T) =>
+    (delay: number) => {
+        let timeoutId: NodeJS.Timeout
 
         return (...args: Parameters<T>) => {
             clearTimeout(timeoutId)
+
             let result!: unknown
 
             timeoutId = setTimeout(() => (result = func(...args)), delay)
@@ -15,17 +14,17 @@ export const debounce =
         }
     }
 
-export const asyncDebounce = <T extends (...args: any[]) => Promise<any>>(func: T) => {
+export const asyncDebounce = <T extends (...args: any[]) => Promise<unknown>>(func: T) => {
     const timeoutFunc =
         (...args: Parameters<T>) =>
-        (resolve: (value: unknown) => void, reject: (reason?: any) => void) =>
+        (resolve: (value: unknown) => void, reject: (reason?: unknown) => void) =>
         () =>
             func(...args)
                 .then(resolve)
                 .catch(reject)
 
-    return (delay: number): DebouncedFunction<T> => {
-        let timeoutId: ReturnType<typeof setTimeout>
+    return (delay: number) => {
+        let timeoutId: NodeJS.Timeout
 
         return (...args: Parameters<T>) => {
             clearTimeout(timeoutId)

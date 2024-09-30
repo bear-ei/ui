@@ -80,8 +80,6 @@ import KidStarFill from '@material-symbols/svg-400/sharp/kid_star-fill.svg'
 import KidStar from '@material-symbols/svg-400/sharp/kid_star.svg'
 import LabelFill from '@material-symbols/svg-400/sharp/label-fill.svg'
 import Label from '@material-symbols/svg-400/sharp/label.svg'
-import LensFill from '@material-symbols/svg-400/sharp/lens-fill.svg'
-import Lens from '@material-symbols/svg-400/sharp/lens.svg'
 import LinkFill from '@material-symbols/svg-400/sharp/link-fill.svg'
 import Link from '@material-symbols/svg-400/sharp/link.svg'
 import LogoutFill from '@material-symbols/svg-400/sharp/logout-fill.svg'
@@ -206,7 +204,6 @@ export const sharp = {
         info: InfoFill,
         kidStar: KidStarFill,
         label: LabelFill,
-        lens: LensFill,
         link: LinkFill,
         logout: LogoutFill,
         mail: MailFill,
@@ -290,7 +287,6 @@ export const sharp = {
         info: Info,
         kidStar: KidStar,
         label: Label,
-        lens: Lens,
         link: Link,
         logout: Logout,
         mail: Mail,
