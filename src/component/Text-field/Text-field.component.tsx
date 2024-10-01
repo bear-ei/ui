@@ -1,6 +1,7 @@
 import {FC, forwardRef} from 'react'
 import {TextInput as RNTextInput} from 'react-native'
-import Animated from 'react-native-reanimated'
+import Animated, {AnimatedProps} from 'react-native-reanimated'
+import {FastOmit} from 'styled-components'
 import {Underlay} from '../Underlay'
 import {TextFieldBase} from './Text-field-base.component'
 import {InputProps, RenderTextFieldProps, TextFieldProps} from './Text-field.interface'
@@ -21,8 +22,6 @@ import {
     Trailing
 } from './Text-field.style'
 
-const TextInput: FC<InputProps> = props => <Input {...props} />
-
 /**
  * FIXME: Multiline text [macos]
  */
@@ -31,7 +30,9 @@ const AnimatedHeader = Animated.createAnimatedComponent(Header)
 const AnimatedLabel = Animated.createAnimatedComponent(Label)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedSupportingText = Animated.createAnimatedComponent(SupportingText)
-const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
+const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.FunctionComponent<
+    AnimatedProps<FastOmit<InputProps, never>>
+>
 const render = ({
     activeIndicatorAnimatedStyle,
     content,

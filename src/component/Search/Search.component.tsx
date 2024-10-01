@@ -7,7 +7,7 @@ import {SearchList} from './Search-list'
 import {RenderSearchProps, SearchProps, SearchTextInputProps} from './Search.interface'
 import {Container, Content, Input, Leading, Main, TextField, Touchable, Trailing} from './Search.style'
 
-const SearchTextInput: FC<SearchTextInputProps> = props => <Input {...props} />
+const SearchTextInput: FC<SearchTextInputProps> = Input
 const render = ({
     containerRef,
     densityScale,

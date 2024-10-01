@@ -52,8 +52,6 @@ export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
     const id = useId()
     const desktop = ['web', 'windows', 'macos'].includes(Platform.OS)
 
-    console.info(8787878787)
-
     return (
         <Container
             testID={`bearei__element--${id}`}
