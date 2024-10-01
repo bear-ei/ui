@@ -1636,6 +1636,80 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bearei/material@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@bearei/material@workspace:."
+  dependencies:
+    "@babel/core": "npm:^7.20.0"
+    "@babel/plugin-proposal-decorators": "npm:^7.24.7"
+    "@babel/plugin-proposal-export-namespace-from": "npm:^7.18.9"
+    "@babel/preset-env": "npm:^7.20.0"
+    "@babel/runtime": "npm:^7.20.0"
+    "@bearei/material-token": "npm:^0.0.2"
+    "@chromatic-com/storybook": "npm:^1.9.0"
+    "@gorhom/bottom-sheet": "npm:^4.6.4"
+    "@material-symbols/svg-400": "npm:^0.23.0"
+    "@react-native-async-storage/async-storage": "npm:^2.0.0"
+    "@react-native-community/datetimepicker": "npm:^8.2.0"
+    "@react-native-community/slider": "npm:^4.5.3"
+    "@react-native/babel-preset": "npm:0.75.3"
+    "@react-native/eslint-config": "npm:0.75.3"
+    "@react-native/metro-config": "npm:0.75.3"
+    "@react-native/typescript-config": "npm:0.75.3"
+    "@rnx-kit/align-deps": "npm:^3.0.1"
+    "@storybook/addon-essentials": "npm:^8.3.4"
+    "@storybook/addon-interactions": "npm:^8.3.4"
+    "@storybook/addon-links": "npm:^8.3.4"
+    "@storybook/addon-onboarding": "npm:^8.3.4"
+    "@storybook/addon-ondevice-actions": "npm:next"
+    "@storybook/addon-ondevice-backgrounds": "npm:next"
+    "@storybook/addon-ondevice-controls": "npm:next"
+    "@storybook/addon-ondevice-notes": "npm:next"
+    "@storybook/addon-react-native-web": "npm:^0.0.26"
+    "@storybook/blocks": "npm:^8.3.4"
+    "@storybook/react": "npm:^8.3.1"
+    "@storybook/react-native": "npm:next"
+    "@storybook/react-vite": "npm:^8.3.4"
+    "@storybook/test": "npm:^8.3.4"
+    "@types/react": "npm:^18.2.6"
+    "@types/react-test-renderer": "npm:^18.0.0"
+    "@typescript-eslint/eslint-plugin": "npm:^8.7.0"
+    "@typescript-eslint/parser": "npm:^8.7.0"
+    "@vitejs/plugin-react": "npm:^4.3.2"
+    babel-jest: "npm:^29.6.3"
+    babel-loader: "npm:^8.4.1"
+    babel-plugin-react-native-web: "npm:^0.19.12"
+    class-validator: "npm:^0.14.1"
+    eslint: "npm:^8.19.0"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-plugin-jest: "npm:^28.8.3"
+    eslint-plugin-prettier: "npm:^5.2.1"
+    eslint-plugin-storybook: "npm:^0.9.0"
+    immer: "npm:^10.1.1"
+    jest: "npm:^29.6.3"
+    mitt: "npm:^3.0.1"
+    prettier: "npm:^3.3.3"
+    react: "npm:18.3.1"
+    react-dom: "npm:^18.3.1"
+    react-native: "npm:0.75.3"
+    react-native-gesture-handler: "npm:^2.16.1"
+    react-native-reanimated: "npm:^3.10.1"
+    react-native-safe-area-context: "npm:^4.11.0"
+    react-native-svg: "npm:^15.7.1"
+    react-native-svg-transformer: "npm:^1.5.0"
+    react-native-web: "npm:^0.19.12"
+    react-test-renderer: "npm:18.3.1"
+    shx: "npm:^0.3.4"
+    storybook: "npm:^8.3.4"
+    styled-components: "npm:^6.1.13"
+    typescript: "npm:5.5.4"
+    use-immer: "npm:^0.10.0"
+    vite: "npm:^5.4.8"
+    vite-plugin-dts: "npm:^4.2.3"
+    vite-plugin-svgr: "npm:^4.2.0"
+  languageName: unknown
+  linkType: soft
+
 "@chromatic-com/storybook@npm:^1.9.0":
   version: 1.9.0
   resolution: "@chromatic-com/storybook@npm:1.9.0"
@@ -3077,6 +3151,15 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/2b52507497aff4f8b7204f0fef3562be10e76581f0ed787f817e7fb38f667f87208cd395e126bc911c685b69a5557e460c7b09cbc16a3d2b6d4640edf73cf9f9
+  languageName: node
+  linkType: hard
+
+"@rnx-kit/align-deps@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@rnx-kit/align-deps@npm:3.0.1"
+  bin:
+    rnx-align-deps: lib/index.js
+  checksum: 10c0/e3c0bad5e7aef5a09f43a6c4ad1bcf3163cf61c057b1a47e63abc95ff4f4ce522bc5d7d031833de804da7c37bfc59f4eb9e0020f0c35e9e28b3d7a10642513db
   languageName: node
   linkType: hard
 
@@ -4966,79 +5049,6 @@ __metadata:
   checksum: 10c0/cb3d06b6ba2026b6baa57a1f60110546cb1530e81d970fc770901c6a61adfe8a705d43cafb317f3b9b7c8f8f152b640a1a7a56e964bee7777c646c69b15e1e3f
   languageName: node
   linkType: hard
-
-"BeareiMaterial@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "BeareiMaterial@workspace:."
-  dependencies:
-    "@babel/core": "npm:^7.20.0"
-    "@babel/plugin-proposal-decorators": "npm:^7.24.7"
-    "@babel/plugin-proposal-export-namespace-from": "npm:^7.18.9"
-    "@babel/preset-env": "npm:^7.20.0"
-    "@babel/runtime": "npm:^7.20.0"
-    "@bearei/material-token": "npm:^0.0.2"
-    "@chromatic-com/storybook": "npm:^1.9.0"
-    "@gorhom/bottom-sheet": "npm:^4.6.4"
-    "@material-symbols/svg-400": "npm:^0.23.0"
-    "@react-native-async-storage/async-storage": "npm:^2.0.0"
-    "@react-native-community/datetimepicker": "npm:^8.2.0"
-    "@react-native-community/slider": "npm:^4.5.3"
-    "@react-native/babel-preset": "npm:0.75.3"
-    "@react-native/eslint-config": "npm:0.75.3"
-    "@react-native/metro-config": "npm:0.75.3"
-    "@react-native/typescript-config": "npm:0.75.3"
-    "@storybook/addon-essentials": "npm:^8.3.4"
-    "@storybook/addon-interactions": "npm:^8.3.4"
-    "@storybook/addon-links": "npm:^8.3.4"
-    "@storybook/addon-onboarding": "npm:^8.3.4"
-    "@storybook/addon-ondevice-actions": "npm:next"
-    "@storybook/addon-ondevice-backgrounds": "npm:next"
-    "@storybook/addon-ondevice-controls": "npm:next"
-    "@storybook/addon-ondevice-notes": "npm:next"
-    "@storybook/addon-react-native-web": "npm:^0.0.26"
-    "@storybook/blocks": "npm:^8.3.4"
-    "@storybook/react": "npm:^8.3.1"
-    "@storybook/react-native": "npm:next"
-    "@storybook/react-vite": "npm:^8.3.4"
-    "@storybook/test": "npm:^8.3.4"
-    "@types/react": "npm:^18.2.6"
-    "@types/react-test-renderer": "npm:^18.0.0"
-    "@typescript-eslint/eslint-plugin": "npm:^8.7.0"
-    "@typescript-eslint/parser": "npm:^8.7.0"
-    "@vitejs/plugin-react": "npm:^4.3.2"
-    babel-jest: "npm:^29.6.3"
-    babel-loader: "npm:^8.4.1"
-    babel-plugin-react-native-web: "npm:^0.19.12"
-    class-validator: "npm:^0.14.1"
-    eslint: "npm:^8.19.0"
-    eslint-config-prettier: "npm:^9.1.0"
-    eslint-plugin-jest: "npm:^28.8.3"
-    eslint-plugin-prettier: "npm:^5.2.1"
-    eslint-plugin-storybook: "npm:^0.9.0"
-    immer: "npm:^10.1.1"
-    jest: "npm:^29.6.3"
-    mitt: "npm:^3.0.1"
-    prettier: "npm:^3.3.3"
-    react: "npm:18.3.1"
-    react-dom: "npm:^18.3.1"
-    react-native: "npm:0.75.3"
-    react-native-gesture-handler: "npm:^2.16.1"
-    react-native-reanimated: "npm:^3.10.1"
-    react-native-safe-area-context: "npm:^4.11.0"
-    react-native-svg: "npm:^15.7.1"
-    react-native-svg-transformer: "npm:^1.5.0"
-    react-native-web: "npm:^0.19.12"
-    react-test-renderer: "npm:18.3.1"
-    shx: "npm:^0.3.4"
-    storybook: "npm:^8.3.4"
-    styled-components: "npm:^6.1.13"
-    typescript: "npm:5.5.4"
-    use-immer: "npm:^0.10.0"
-    vite: "npm:^5.4.8"
-    vite-plugin-dts: "npm:^4.2.3"
-    vite-plugin-svgr: "npm:^4.2.0"
-  languageName: unknown
-  linkType: soft
 
 "abbrev@npm:^2.0.0":
   version: 2.0.0
