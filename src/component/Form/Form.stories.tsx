@@ -32,7 +32,7 @@ export const FormA = () => {
         />
     )
 
-    const items = [
+    const items: FormItemProps[] = [
         {
             labelText: 'name',
             name: 'name',
@@ -45,7 +45,7 @@ export const FormA = () => {
             labelText: 'age',
             rule: AgeRule
         }
-    ] as FormItemProps[]
+    ]
 
     const handleFinish = (value: unknown) => {
         console.info(value)

@@ -24,11 +24,11 @@ export const Label: StoryObj<IconProps> = {
     }
 }
 
-export const Lens: StoryObj<IconProps> = {
+export const AddHome: StoryObj<IconProps> = {
     args: {
         iconStyle: 'outlined',
         type: 'outlined',
-        name: 'lens'
+        name: 'addHome'
     }
 }
 

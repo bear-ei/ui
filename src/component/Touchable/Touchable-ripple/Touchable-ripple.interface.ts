@@ -1,3 +1,4 @@
+import {RefAttributes} from 'react'
 import {LayoutRectangle, NativeTouchEvent, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming} from '../../../hook'

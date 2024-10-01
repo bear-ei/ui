@@ -4,7 +4,7 @@ import {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native
 import {ComponentStatus} from '../../Common'
 import {FormStore} from '../Form.interface'
 
-export type FormItemValidationRule = new (...args: any[]) => Record<string, unknown>
+export type FormItemValidationRule = new (...args: any[]) => object
 export interface FormItemControlProps {
     errorMessage?: string
     errors?: ValidationError[]
@@ -23,8 +23,8 @@ export interface FormItemProps
     renderControl?: (props: FormItemControlProps) => JSX.Element
     rule?: FormItemValidationRule
     skeletonElement?: JSX.Element
-    validatorOptions?: ValidatorOptions
     validationDelay?: number
+    validatorOptions?: ValidatorOptions
 }
 
 export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {

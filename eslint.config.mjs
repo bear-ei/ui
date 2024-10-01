@@ -49,6 +49,7 @@ export default [
                     caughtErrorsIgnorePattern: '^_'
                 }
             ]
-        }
+        },
+        ignores: ['storybook.requires.ts']
     }
 ]

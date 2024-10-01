@@ -70,17 +70,19 @@ const handleButtonInit = (setState: Updater<ButtonState>) => (disabled?: boolean
         draft.status = 'succeeded'
     })
 
-const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: ButtonType) => (disabled?: boolean) =>
-    typeof disabled === 'boolean' &&
-    setState(draft => {
-        if (disabled) {
-            draft.eventName = 'none'
-        }
+const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: ButtonType) => (disabled?: boolean) => {
+    if (typeof disabled === 'boolean') {
+        setState(draft => {
+            if (disabled) {
+                draft.eventName = 'none'
+            }
 
-        if (type === 'elevated') {
-            draft.elevation = disabled ? 0 : 1
-        }
-    })
+            if (type === 'elevated') {
+                draft.elevation = disabled ? 0 : 1
+            }
+        })
+    }
+}
 
 const renderButtonIcon =
     ({disabled, eventName, type = 'filled'}: RenderButtonIconOptions) =>
