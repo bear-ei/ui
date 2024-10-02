@@ -51,5 +51,8 @@ export default [
             ]
         },
         ignores: ['storybook.requires.ts']
+    },
+    {
+        ignores: ['**/metro.config.js', '**/storybook.requires.ts']
     }
 ]
