@@ -1,9 +1,10 @@
 {
     "name": "@bearei/material",
-    "version": "0.0.9",
+    "version": "0.0.11",
     "main": "./dist/index.umd.cjs",
     "module": "./dist/index.js",
     "source": "./src/index.ts",
+    "react-native": "./src/index.tsx",
     "types": "./dist/index.d.ts",
     "author": "bearei <bear_ei@outlook.com>",
     "description": "Bearei material",
@@ -25,7 +26,10 @@
     },
     "files": [
         "dist",
-        "src"
+        "src",
+        "!**/App.tsx",
+        "!**/App.style.tsx",
+        "!**/*.stories.*"
     ],
     "dependencies": {
         "@bearei/material-token": "^0.0.2",
@@ -115,24 +119,6 @@
     "engines": {
         "node": ">=18"
     },
-    "scripts": {
-        "android": "react-native run-android",
-        "build-storybook": "storybook build",
-        "build": "yarn lint && yarn run clean && yarn vite build",
-        "check-dependencies": "rnx-align-deps",
-        "clean": "yarn shx rm -rf dist",
-        "fix-dependencies": "rnx-align-deps --write",
-        "fix": "eslint ./src --fix",
-        "ios": "react-native run-ios",
-        "lint": "eslint ./src",
-        "macos": "react-native run-macos",
-        "publish": "yarn build && yarn npm publish --access public",
-        "start": "react-native start",
-        "storybook-generate": "sb-rn-get-stories --config-path .ondevice",
-        "test": "jest",
-        "web": "storybook dev -p 6006"
-    },
-    "packageManager": "yarn@4.5.0",
     "rnx-kit": {
         "kitType": "library",
         "alignDeps": {
@@ -162,5 +148,23 @@
                 "svg"
             ]
         }
-    }
+    },
+    "scripts": {
+        "android": "react-native run-android",
+        "build-storybook": "storybook build",
+        "build": "yarn lint && yarn run clean && yarn vite build",
+        "check-dependencies": "rnx-align-deps",
+        "clean": "yarn shx rm -rf dist",
+        "fix-dependencies": "rnx-align-deps --write",
+        "fix": "eslint ./src --fix",
+        "ios": "react-native run-ios",
+        "lint": "eslint ./src",
+        "macos": "react-native run-macos",
+        "publish": "yarn build && yarn npm publish --access public",
+        "start": "react-native start",
+        "storybook-generate": "sb-rn-get-stories --config-path .ondevice",
+        "test": "jest",
+        "web": "storybook dev -p 6006"
+    },
+    "packageManager": "yarn@4.5.0"
 }
