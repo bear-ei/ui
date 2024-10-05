@@ -1,4 +1,5 @@
-import {ViewStyle} from 'react-native'
+import {RefObject} from 'react'
+import {View, ViewStyle} from 'react-native'
 import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hook'
 import {EventName} from '../Common'
@@ -27,13 +28,17 @@ export interface IconButtonBaseProps extends IconButtonProps {
 
 export interface IconButtonState {
     eventName?: EventName
+    nextPressInEvent?: () => void
 }
 
 export interface RenderIconButtonIconOptions extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill'> {
     eventName?: EventName
 }
 
-export type HandleIconButtonStateChangeOptions = OnStateEventChangeOptions
+export interface HandleIconButtonStateChangeOptions extends OnStateEventChangeOptions {
+    touchableRef: RefObject<View>
+}
+
 export type UseIconButtonAnimatedOptions = Pick<RenderIconButtonProps, 'disabled' | 'type'>
 export interface HandleIconButtonAnimatedTimingOptions extends Pick<UseIconButtonAnimatedOptions, 'type'> {
     animatedTiming: AnimatedTiming
