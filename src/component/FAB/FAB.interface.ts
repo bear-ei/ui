@@ -1,4 +1,5 @@
-import {TextStyle, ViewStyle} from 'react-native'
+import {RefObject} from 'react'
+import {TextStyle, View, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hook'
 import {ComponentStatus, EventName, Size} from '../Common'
@@ -32,12 +33,16 @@ export interface FABBaseProps extends FABProps {
 export interface FABState {
     elevation?: ElevationLevel
     eventName?: EventName
+    nextPressInEvent?: () => void
     status: ComponentStatus
 }
 
 export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'densityScale' | 'extendedFAB'>
 export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'densityScale' | 'extendedFAB'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
-export type HandleFABStateChangeOptions = OnStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
+export interface HandleFABStateChangeOptions extends OnStateEventChangeOptions, Pick<RenderFABProps, 'elevated'> {
+    touchableRef: RefObject<View>
+}
+
 export type RenderFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'eventName'>
 export type UseFABAnimatedOptions = Pick<RenderFABProps, 'disabled' | 'type'>

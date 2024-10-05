@@ -1,10 +1,10 @@
 import {WritableDraft} from 'immer'
-import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
+import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
-import {State} from '../Common'
+import {EventName, State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
 import {FABBaseProps, FABState, FABType, HandleFABStateChangeOptions, RenderFABIconOptions} from './FAB.interface'
@@ -22,10 +22,12 @@ const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boole
     }
 }
 
-const handleFABStateChange =
-    ({eventName, elevated, state}: HandleFABStateChangeOptions) =>
-    (setState: Updater<FABState>) =>
-    (_event: StateEvent) => {
+const handleFABStateChange = ({eventName, elevated, state, touchableRef}: HandleFABStateChangeOptions) => {
+    const nextEvent = {
+        pressIn: () => touchableRef?.current?.focus()
+    } as Record<EventName, () => void>
+
+    return (setState: Updater<FABState>) => (_event: StateEvent) => {
         if (eventName === 'layout') {
             return
         }
@@ -40,8 +42,13 @@ const handleFABStateChange =
             if (prevEventName !== eventName) {
                 handleFABElevation(draft)(elevated)(state)
             }
+
+            if (prevEventName !== eventName && eventName === 'pressIn') {
+                draft.nextPressInEvent = nextEvent[eventName]
+            }
         })
     }
+}
 
 const handleFABInit = (setState: Updater<FABState>) => (disabled?: boolean) => (elevated?: boolean) =>
     setState(draft => {
@@ -110,12 +117,14 @@ export const FABBase = forwardRef<View, FABBaseProps>(
         {densityScale, disabled, elevated = true, icon, render, size = 'medium', type = 'primary', ...renderProps},
         ref
     ) => {
-        const [{elevation, eventName, status}, setState] = useImmer<FABState>({
+        const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<FABState>({
             elevation: undefined,
             eventName: undefined,
+            nextPressInEvent: undefined,
             status: 'idle'
         })
 
+        const touchableRef = useRef<View>(null)
         const id = useId()
         const theme = useTheme()
         const underlayColor = handleFABUnderlayColor(theme)(type)
@@ -123,10 +132,12 @@ export const FABBase = forwardRef<View, FABBaseProps>(
         const onFABInit = useMemo(() => handleFABInit(setState)(disabled), [disabled, setState])
         const fabIconElement = renderFABIcon({eventName, type, disabled, size})(theme)(icon)
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleFABStateChange({...options, state, elevated})(setState)(event)
+            handleFABStateChange({...options, state, elevated, touchableRef})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
         const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled, type})
+
+        useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
 
         useEffect(() => {
             onFABDisabled(disabled)
@@ -135,6 +146,10 @@ export const FABBase = forwardRef<View, FABBaseProps>(
         useEffect(() => {
             onFABInit(elevated)
         }, [elevated, onFABInit])
+
+        useEffect(() => {
+            nextPressInEvent?.()
+        }, [nextPressInEvent])
 
         if (status === 'idle') {
             return <></>
@@ -150,7 +165,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
             id,
             labelTextAnimatedStyle,
             onStateEvent,
-            ref,
+            ref: touchableRef,
             size,
             type,
             underlayColor
