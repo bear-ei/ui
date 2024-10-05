@@ -155,11 +155,10 @@ const handleVirtualListLoadEnd =
         if (value) {
             setState(draft => {
                 const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(createVisibleRangeDataFindIndex(value))
+                const loadEnd =
+                    (draft.visibleRangeData?.length ?? 0) - 1 === visibleRangeDataIndex && visibleRangeDataIndex !== -1
 
-                if (
-                    (draft.visibleRangeData?.length ?? 0) - 1 === visibleRangeDataIndex &&
-                    visibleRangeDataIndex !== -1
-                ) {
+                if (loadEnd) {
                     onLoadEnd?.(value)
                 }
             })

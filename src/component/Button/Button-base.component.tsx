@@ -137,6 +137,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
             handleButtonStateChange({...options, state, type, touchableRef})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
+
         const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({disabled, eventName, type})
 
         useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])

@@ -46,7 +46,7 @@ const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
 const handleFormItemInit =
     ({rule, validate: fieldValidate, signInField, onComponentUpdate}: HandleFormItemInitOptions) =>
     (setState: Updater<FormItemState>) =>
-    (name?: string) => {
+    (name?: string) =>
         setState(draft => {
             if (draft.status !== 'idle') {
                 return
@@ -58,7 +58,6 @@ const handleFormItemInit =
             draft.signOut = signOut
             draft.status = 'succeeded'
         })
-    }
 
 const handleFormItemBlur =
     (validateField: (name?: string) => Promise<FormError<unknown>>) =>
