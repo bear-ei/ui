@@ -20,6 +20,7 @@ const render = ({
     icon,
     id,
     onStateEvent,
+    ref,
     type,
     underlayColor,
     ...contentProps
@@ -43,7 +44,9 @@ const render = ({
                 {...onStateEvent}
                 backgroundUnderlay={backgroundUnderlayElement}
                 disabled={disabled}
+                enableFocusRing={false}
                 enableTouchableRipple={type !== 'active'}
+                ref={ref}
                 shape={shape}
                 underlayColor={underlayColor}
             >

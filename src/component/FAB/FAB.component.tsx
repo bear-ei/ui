@@ -22,6 +22,7 @@ const render = ({
     labelText,
     labelTextAnimatedStyle,
     onStateEvent,
+    ref,
     size,
     type,
     underlayColor,
@@ -56,6 +57,8 @@ const render = ({
                 {...onStateEvent}
                 backgroundUnderlay={backgroundUnderlayElement}
                 elevationUnderlay={elevationUnderlayElement}
+                enableFocusRing={false}
+                ref={ref}
                 shape={shape}
                 underlayColor={underlayColor}
             >
