@@ -1,4 +1,5 @@
 import styled, {css} from 'styled-components/native'
+import {Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 
 export const Container = styled.View`
@@ -22,7 +23,7 @@ export const Content = styled(LayoutAnimated)`
         `}
 `
 
-export const EmptyComponent = styled(LayoutAnimated)`
+export const EmptyContent = styled(LayoutAnimated)`
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -36,3 +37,6 @@ export const EmptyComponent = styled(LayoutAnimated)`
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
     `}
 `
+
+export const LoadingContent = styled(EmptyContent)``
+export const Supporting = styled(Typography)``

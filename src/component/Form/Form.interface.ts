@@ -53,7 +53,7 @@ export interface FormStore<T = Record<string, unknown>> {
     setCallback: (callback: FormCallback<T>) => void
     setFieldError: (componentUpdate?: boolean) => (error: FormError<T>) => void
     setFieldTouched: (touched?: boolean) => (name?: keyof T) => void
-    setFieldValue: (skipValidate?: boolean) => (componentUpdate?: boolean) => (value?: T) => void
+    setFieldValue: (componentUpdate?: boolean) => (value?: T) => void
     setInitialValue: (initialized?: boolean) => (value?: T) => void
     signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
     signOutField: (name?: NamePath) => void

@@ -2,7 +2,7 @@ import {ForwardedRef, forwardRef} from 'react'
 import {ScrollView as RNScrollView, StyleProp, ViewStyle} from 'react-native'
 import {VirtualListBase} from './Virtual-list-base.component'
 import {RenderVirtualListProps, VirtualListProps} from './Virtual-list.interface'
-import {Container, Content, EmptyComponent, ScrollView} from './Virtual-list.style'
+import {Container, Content, EmptyContent, LoadingContent, ScrollView, Supporting} from './Virtual-list.style'
 
 const render = <T,>({
     contentContainerStyle,
@@ -11,6 +11,8 @@ const render = <T,>({
     id,
     itemElements,
     listEmptyComponent,
+    loading,
+    loadingEmptyComponent,
     onContentVisible,
     onStateEvent,
     scrollEventThrottle = 50,
@@ -18,6 +20,7 @@ const render = <T,>({
 }: RenderVirtualListProps<T>) => {
     const defaultContentContainerStyle = {flex: 1, minHeight: contentSize} as StyleProp<ViewStyle>
     const {onLayout} = onStateEvent
+    const isLoading = typeof loading === 'boolean' && loading
 
     return (
         <Container testID={`virtualList--${id}`}>
@@ -31,19 +34,43 @@ const render = <T,>({
                 <Content
                     onVisible={onContentVisible}
                     testID={`virtualList__content--${id}`}
-                    visible={contentVisible}
+                    visible={isLoading ? !isLoading : contentVisible}
                 >
                     {itemElements}
                 </Content>
             </ScrollView>
 
-            <EmptyComponent
+            <EmptyContent
+                testID={`virtualList__emptyComponent--${id}`}
+                unmount={true}
+                visible={isLoading ? !isLoading : !contentVisible}
+            >
+                {listEmptyComponent ?? (
+                    <Supporting
+                        testID={`virtualList__supportingText--${id}`}
+                        type='body'
+                        size='medium'
+                    >
+                        No data
+                    </Supporting>
+                )}
+            </EmptyContent>
+
+            <LoadingContent
                 testID={`virtualList__content--${id}`}
                 unmount={true}
-                visible={!contentVisible}
+                visible={loading}
             >
-                {listEmptyComponent}
-            </EmptyComponent>
+                {loadingEmptyComponent ?? (
+                    <Supporting
+                        testID={`virtualList__supportingText--${id}`}
+                        type='body'
+                        size='medium'
+                    >
+                        Loading...
+                    </Supporting>
+                )}
+            </LoadingContent>
         </Container>
     )
 }

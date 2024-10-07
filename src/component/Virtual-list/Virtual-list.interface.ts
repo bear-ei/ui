@@ -11,6 +11,8 @@ export interface VirtualListProps<T>
         Pick<VirtualListItemProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd'> {
     data?: VirtualListData<T>[]
     listEmptyComponent?: JSX.Element
+    loading?: boolean
+    loadingEmptyComponent?: JSX.Element
 }
 
 export interface RenderVirtualListProps<T = Record<string, unknown>> extends VirtualListProps<T> {
@@ -26,8 +28,8 @@ export interface VirtualListBaseProps<T> extends VirtualListProps<T> {
 }
 
 export interface VirtualListState {
-    endIndex?: number
     contentVisible?: boolean
+    endIndex?: number
     layout: LayoutRectangle
     nextLoadEndEvent?: () => void
     nextScrollEvent?: () => void

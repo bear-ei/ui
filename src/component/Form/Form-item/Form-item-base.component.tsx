@@ -17,7 +17,7 @@ const handleFormItemValueChange =
     ({setFieldValue, storeValue}: HandleFormItemValueChangeOptions) =>
     (name?: string) =>
     (value?: unknown) =>
-        name && storeValue !== value && setFieldValue()()({[name]: value})
+        name && storeValue !== value && setFieldValue()({[name]: value})
 
 const handleFormItemValidate = ({rule, validatorOptions}: HandleFormItemValidateOptions) => {
     const {
@@ -78,7 +78,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
             minSkeletonDuration,
             rule,
             validatorOptions,
-            validationDelay = 300,
+            validationDelay = 350,
             ...renderProps
         },
         ref

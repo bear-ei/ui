@@ -44,7 +44,7 @@ export const Headline: StoryObj<ListProps> = {
     args: {
         defaultActiveKey: 'TitleB',
         activeKey: 'TitleA',
-        shape: 'extraSmall',
+        itemShape: 'extraSmall',
         data: [
             {
                 indexKey: 'TitleA',
@@ -76,7 +76,7 @@ export const HeadlineDensityScale: StoryObj<ListProps> = {
         defaultActiveKey: 'TitleB',
         densityScale: -4,
         itemSize: 40,
-        shape: 'extraSmall',
+        itemShape: 'extraSmall',
         data: [
             {
                 headline: 'TitleA',
@@ -125,6 +125,7 @@ export const Select = () => {
                 activeKey={activeKey}
                 onActive={onActiveKey}
                 afterAffordance={true}
+                loading={true}
             />
         </View>
     )

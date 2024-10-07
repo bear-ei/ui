@@ -1,5 +1,5 @@
 import {Meta} from '@storybook/react'
-import {IsDefined, IsNotEmpty, IsNumberString, IsString} from 'class-validator'
+import {IsDefined, IsNotEmpty, IsNumberString} from 'class-validator'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {TextField} from '../Text-field'
@@ -14,7 +14,8 @@ class NameRule {
 }
 
 class AgeRule {
-    @IsString()
+    @IsDefined()
+    @IsNumberString()
     age: string
 }
 

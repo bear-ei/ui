@@ -1,3 +1,4 @@
+import {Shape} from '@bearei/material-token'
 import {PanResponderInstance, StyleProp, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
@@ -18,6 +19,13 @@ export interface ListItemProps
     beforeAffordance?: JSX.Element | boolean
     close?: boolean
     closeTrailing?: boolean
+
+    /**
+     * Enabling ripples while using style to specify the background color can cause the ripple to be obscured, as the
+     * ripple is always one z-index level below the main container. This property is used to specify the background
+     * color when ripples are enabled.
+     */
+    contentStyle?: StyleProp<ViewStyle>
     customData?: unknown
     densityScale?: number
     enableUnderlay?: boolean
@@ -26,6 +34,7 @@ export interface ListItemProps
     headline?: JSX.Element | string
     itemKey: string
     itemLayout?: {width?: number; height?: number}
+    itemShape?: keyof Shape
     leading?: JSX.Element
     minSkeletonDuration?: number
     onActive?: (value?: string) => void
@@ -40,13 +49,6 @@ export interface ListItemProps
     trailing?: JSX.Element
     trailingTrigger?: State
     type?: ListType
-
-    /**
-     * Enabling ripples while using style to specify the background color can cause the ripple to be obscured, as the
-     * ripple is always one z-index level below the main container. This property is used to specify the background
-     * color when ripples are enabled.
-     */
-    contentStyle?: StyleProp<ViewStyle>
 }
 
 export interface RenderListItemProps extends ListItemProps {

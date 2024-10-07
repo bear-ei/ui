@@ -44,7 +44,7 @@ const render = ({
     onConfirm,
     onStateEvent,
     panResponder,
-    shape,
+    itemShape,
     skeletonElement,
     supporting,
     supportingTextNumberOfLines,
@@ -70,7 +70,7 @@ const render = ({
             accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
             accessibilityRole='list'
             densityScale={densityScale}
-            shape={shape}
+            shape={itemShape}
             testID={`listItem--${id}`}
         >
             <Skeleton
@@ -160,7 +160,7 @@ const render = ({
                                     {...underlayProps}
                                     activeAnimatedType='scaleX'
                                     eventName={eventName}
-                                    shape={shape}
+                                    shape={itemShape}
                                     underlayColor={underlayColor}
                                 />
                             )}

@@ -59,8 +59,9 @@ const reactNativeWeb = (options: {babelPlugins: PluginItem[]}): Plugin => {
 
 const babelPlugins = [
     '@babel/plugin-proposal-export-namespace-from',
-    'react-native-reanimated/plugin',
-    ['@babel/plugin-proposal-decorators', {legacy: true}]
+    ['@babel/plugin-proposal-decorators', {legacy: true}],
+    '@babel/plugin-transform-class-properties',
+    'react-native-reanimated/plugin'
 ]
 
 const config = defineConfig({
