@@ -12,7 +12,7 @@ export interface VirtualListProps<T>
     data?: VirtualListData<T>[]
     listEmptyComponent?: JSX.Element
     loading?: boolean
-    loadingEmptyComponent?: JSX.Element
+    listLoadingComponent?: JSX.Element
 }
 
 export interface RenderVirtualListProps<T = Record<string, unknown>> extends VirtualListProps<T> {

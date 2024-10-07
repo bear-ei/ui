@@ -12,7 +12,7 @@ const render = <T,>({
     itemElements,
     listEmptyComponent,
     loading,
-    loadingEmptyComponent,
+    listLoadingComponent,
     onContentVisible,
     onStateEvent,
     scrollEventThrottle = 50,
@@ -61,7 +61,7 @@ const render = <T,>({
                 unmount={true}
                 visible={loading}
             >
-                {loadingEmptyComponent ?? (
+                {listLoadingComponent ?? (
                     <Supporting
                         testID={`virtualList__supportingText--${id}`}
                         type='body'
