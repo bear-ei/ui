@@ -31,7 +31,7 @@ export interface ListItemProps
     enableUnderlay?: boolean
     enableUnderlayActive?: boolean
     extraData?: string[]
-    headline?: JSX.Element | string
+    headline?: React.ReactNode
     itemKey: string
     itemLayout?: {width?: number; height?: number}
     itemShape?: keyof Shape
