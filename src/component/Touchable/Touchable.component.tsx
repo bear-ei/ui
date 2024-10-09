@@ -2,17 +2,17 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {TouchableBase} from './Touchable-base.component'
 import {RenderTouchableProps, TouchableProps} from './Touchable.interface'
-import {Container, Content, Main} from './Touchable.style'
+import {Container, Content, Main, RippleContainer} from './Touchable.style'
 
 const render = ({
     backgroundUnderlay,
     children,
     elevationUnderlay,
+    horizontalStretch,
     id,
     onStateEvent,
     rippleElements,
     shape,
-    horizontalStretch,
     ...contentProps
 }: RenderTouchableProps) => {
     const {onLayout, ...onPressableEvent} = onStateEvent
@@ -25,13 +25,19 @@ const render = ({
                 testID={`touchable__content--${id}`}
             >
                 <Main
+                    horizontalStretch={horizontalStretch}
                     onLayout={onLayout}
                     shape={shape}
                     testID={`touchable__main--${id}`}
-                    horizontalStretch={horizontalStretch}
                 >
                     {children}
-                    {rippleElements}
+                    <RippleContainer
+                        shape={shape}
+                        testID={`touchable__main--${id}`}
+                    >
+                        {rippleElements}
+                    </RippleContainer>
+
                     {backgroundUnderlay}
                     {elevationUnderlay}
                 </Main>

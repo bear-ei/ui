@@ -4,10 +4,7 @@ import {CheckboxProps} from './Checkbox.interface'
 
 export const CheckboxSelected: StoryObj<CheckboxProps> = {
     args: {
-        active: true,
-        onActive: () => {
-            console.info('99999')
-        }
+        active: true
     }
 }
 

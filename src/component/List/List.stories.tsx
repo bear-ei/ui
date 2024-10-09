@@ -158,9 +158,6 @@ export const Multiselect = () => {
                 onActives={onActiveKeys}
                 skeletonElement={skeleton}
                 type='multiselect'
-                onLoadEnd={() => {
-                    console.info('onLoadEnd')
-                }}
             />
         </View>
     )

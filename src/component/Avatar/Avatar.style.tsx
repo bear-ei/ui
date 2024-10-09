@@ -14,8 +14,6 @@ export const Container = styled.View<AvatarContainerProps>`
             theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
         )}px;
 
-        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         width: ${theme.adaptSize(
             theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
         )}px;

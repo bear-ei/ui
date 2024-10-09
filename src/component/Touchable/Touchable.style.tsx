@@ -22,7 +22,6 @@ export const Content = styled.Pressable<ContentProps>`
 `
 
 export const Main = styled(Shape)<MainProps>`
-    overflow: hidden;
     position: relative;
     z-index: 3;
 
@@ -31,4 +30,16 @@ export const Main = styled(Shape)<MainProps>`
         css`
             align-self: stretch;
         `}
+`
+
+export const RippleContainer = styled(Shape)`
+    overflow: hidden;
+    position: absolute;
+
+    ${({theme}) => css`
+        bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+        left: ${theme.adaptSize(theme.token.spacing.none)}px;
+        right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        top: ${theme.adaptSize(theme.token.spacing.none)}px;
+    `}
 `
