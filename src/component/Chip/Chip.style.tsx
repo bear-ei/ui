@@ -138,13 +138,12 @@ export const AvatarContainer = styled.View`
 `
 
 export const FilterIcon = styled.View`
-    position: absolute;
     overflow: hidden;
+    position: absolute;
 
     ${({theme}) => css`
-        top: 0;
-        left: 0;
-
+        top: ${theme.adaptSize(theme.token.spacing.none)}px;
+        left: ${theme.adaptSize(theme.token.spacing.none)}px;
         height: ${theme.adaptSize(
             theme.token.spacing.extraSmall * 6 + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
         )}px;

@@ -147,17 +147,8 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
             handleChipStateChange({...options, state, touchableRef})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
-        const {
-            contentUnderlayAnimatedStyle,
-
-            filterIconContainerAnimatedStyle,
-            labelTextAnimatedStyle
-        } = useChipAnimated({
-            active,
-            disabled,
-            elevated,
-            type
-        })
+        const {contentUnderlayAnimatedStyle, filterIconContainerAnimatedStyle, labelTextAnimatedStyle} =
+            useChipAnimated({active, disabled, elevated, type})
 
         useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
 

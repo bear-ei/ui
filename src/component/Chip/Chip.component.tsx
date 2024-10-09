@@ -17,10 +17,9 @@ import {
     Main
 } from './Chip.style'
 
-const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
 const AnimatedIconContainer = Animated.createAnimatedComponent(IconContainer)
-
+const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
     active,
     activeColor,
@@ -30,6 +29,7 @@ const render = ({
     disabled,
     elevation,
     eventName,
+    filterIconContainerAnimatedStyle,
     horizontalStretch,
     id,
     labelText,
@@ -41,7 +41,6 @@ const render = ({
     trailingIcon,
     type = 'assist',
     underlayColor,
-    filterIconContainerAnimatedStyle,
     ...contentProps
 }: RenderChipProps) => {
     const shape = avatar ? 'full' : 'small'
