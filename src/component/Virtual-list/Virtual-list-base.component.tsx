@@ -136,7 +136,7 @@ const handleVirtualListContentVisible =
         }
     }
 
-const createVisibleRangeDataFindIndex =
+const findVisibleRangeDataIndex =
     (value: string) =>
     ({indexKey}: VirtualListData) =>
         indexKey === value
@@ -145,7 +145,7 @@ const handleVirtualListLoadEnd =
     (setState: Updater<VirtualListState>) => (onLoadEnd?: (value?: string) => void) => (value?: string) => {
         if (value) {
             setState(draft => {
-                const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(createVisibleRangeDataFindIndex(value))
+                const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(findVisibleRangeDataIndex(value))
                 const loadEnd =
                     (draft.visibleRangeData?.length ?? 0) - 1 === visibleRangeDataIndex && visibleRangeDataIndex !== -1
 

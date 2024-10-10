@@ -62,11 +62,8 @@ const handleChipAnimatedTiming = ({
                 }
             }
 
-            if (typeof elevated === 'boolean') {
-                borderAnimated(elevated)
-            }
-
             animatedTiming()(colorSharedValue)(toValue)
+            borderAnimated(elevated)
         }
 }
 
