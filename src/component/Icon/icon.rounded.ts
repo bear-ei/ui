@@ -152,6 +152,8 @@ import StyleFill from '@material-symbols/svg-400/rounded/style-fill.svg'
 import Style from '@material-symbols/svg-400/rounded/style.svg'
 import SyncAltFill from '@material-symbols/svg-400/rounded/sync_alt-fill.svg'
 import SyncAlt from '@material-symbols/svg-400/rounded/sync_alt.svg'
+import TagFill from '@material-symbols/svg-400/rounded/tag-fill.svg'
+import Tag from '@material-symbols/svg-400/rounded/tag.svg'
 import VisibilityFill from '@material-symbols/svg-400/rounded/visibility-fill.svg'
 import Visibility from '@material-symbols/svg-400/rounded/visibility.svg'
 import VisibilityOffFill from '@material-symbols/svg-400/rounded/visibility_off-fill.svg'
@@ -240,6 +242,7 @@ export const rounded = {
         star: StarFill,
         style: StyleFill,
         syncAlt: SyncAltFill,
+        tag: TagFill,
         visibility: VisibilityFill,
         visibilityOff: VisibilityOffFill,
         window: WindowFill,
@@ -323,6 +326,7 @@ export const rounded = {
         star: Star,
         style: Style,
         syncAlt: SyncAlt,
+        tag: Tag,
         visibility: Visibility,
         visibilityOff: VisibilityOff,
         window: Window,

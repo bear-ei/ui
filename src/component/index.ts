@@ -1,6 +1,7 @@
 export * from './Avatar'
 export * from './Button'
 export * from './Checkbox'
+export * from './Chip'
 export * from './Common'
 export * from './Divider'
 export * from './Elevation'
