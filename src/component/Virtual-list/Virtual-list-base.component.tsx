@@ -10,11 +10,9 @@ import {
 } from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hook'
-import {debounce} from '../../util'
 import {EventName, State} from '../Common'
 import {RenderVirtualListItemInfo, RenderVirtualListItemOptions, VirtualListItem} from './Virtual-list-item'
 import {
-    HandleVirtualListLayoutOptions,
     HandleVirtualListScrollOptions,
     VirtualListBaseProps,
     VirtualListData,
@@ -45,10 +43,8 @@ const handleVirtualListVisibleRange =
         draft.visibleRangeData = draft.virtualListData?.slice(startIndex, endIndex) ?? []
     }
 
-const handleVirtualListLayout = ({itemSize, onLoadEnd}: HandleVirtualListLayoutOptions) => {
-    const createNextLoadEndEvent = () => onLoadEnd?.()
-
-    return (setState: Updater<VirtualListState>) => (layout: LayoutRectangle) => {
+const handleVirtualListLayout =
+    (itemSize: number) => (setState: Updater<VirtualListState>) => (layout: LayoutRectangle) => {
         setState(draft => {
             if (['web', 'macos', 'windows'].includes(Platform.OS) && draft.layout.height) {
                 return
@@ -57,14 +53,9 @@ const handleVirtualListLayout = ({itemSize, onLoadEnd}: HandleVirtualListLayoutO
             draft.layout.height = layout.height
             draft.layout.width = layout.width
 
-            if ([draft.virtualListData, draft.virtualListData?.length].some(Boolean)) {
-                draft.nextLoadEndEvent = createNextLoadEndEvent
-            }
-
             handleVirtualListVisibleRange(itemSize)(draft)()
         })
     }
-}
 
 const handleVirtualListStateChange =
     ({eventName}: OnStateEventChangeOptions) =>
@@ -162,7 +153,11 @@ const handleVirtualListLoadEnd =
                     onLoadEnd?.(value)
                 }
             })
+
+            return
         }
+
+        onLoadEnd?.()
     }
 
 const handleVirtualListDataChange =
@@ -177,19 +172,27 @@ const handleVirtualListDataChange =
     }
 
 const renderVirtualListItem =
-    <T,>({renderItem, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>
+    <T,>({renderItem, onLoadEnd, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>
     (startIndex = 0) =>
-    (data?: VirtualListData[]) =>
-        data?.map((item, index) => (
+    (data?: VirtualListData[]) => {
+        if (data?.length === 0) {
+            onLoadEnd?.()
+
+            return
+        }
+
+        return data?.map((item, index) => (
             <VirtualListItem
                 {...virtualListItemProps}
                 index={index}
                 item={item as Record<string, unknown>}
                 key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
+                onLoadEnd={onLoadEnd}
                 renderItem={renderItem as (options: RenderVirtualListItemInfo<Record<string, unknown>>) => JSX.Element}
                 startIndex={startIndex}
             />
         ))
+    }
 
 export const VirtualListBaseInner = <T,>(
     {
@@ -243,11 +246,7 @@ export const VirtualListBaseInner = <T,>(
         onScroll: onVirtualListScroll
     })
 
-    const onVirtualListLayout = useMemo(
-        () => debounce(handleVirtualListLayout({itemSize, onLoadEnd})(setState))(150),
-        [itemSize, onLoadEnd, setState]
-    )
-
+    const onVirtualListLayout = useMemo(() => handleVirtualListLayout(itemSize)(setState), [itemSize, setState])
     const onVirtualListItemUnmount = handleVirtualListItemUnmount(itemSize)(setState)
     const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
         handleVirtualListStateChange({...options, state})(onVirtualListLayout)(event)
