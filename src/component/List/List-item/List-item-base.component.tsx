@@ -1,5 +1,5 @@
 import {cloneElement, forwardRef, useEffect, useId, useMemo, useRef} from 'react'
-import {PanResponder, View} from 'react-native'
+import {GestureResponderEvent, PanResponder, PanResponderGestureState, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hook'
@@ -11,6 +11,7 @@ import {ListType} from '../List.interface'
 import {
     HandleListItemCloseOptions,
     HandleListItemConfirmOptions,
+    HandleListItemPanResponderReleaseOptions,
     HandleListItemStateEventChangeOptions,
     HandleListItemTrailingPressOutOptions,
     ListItemBaseProps,
@@ -25,6 +26,7 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
         activeKey: prevActiveKey,
         activeKeys: prevActiveKeys,
         afterAffordanceActiveKey: prevAfterAffordanceActiveKey,
+        disabled: prevDisabled,
         extraData: prevExtraData,
         itemKey: prevItemKey
     } = prevProps
@@ -34,6 +36,7 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
             activeKey: nextActiveKey,
             activeKeys: nextActiveKeys,
             afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
+            disabled: nextDisabled,
             extraData: nextExtraData,
             itemKey: nextItemKey
         } = nextProps
@@ -55,7 +58,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
             activeKeyChange,
             activeKeysChange,
             afterAffordanceActiveChange,
-            prevExtraData?.join() !== nextExtraData?.join()
+            prevExtraData?.join() !== nextExtraData?.join(),
+            prevDisabled !== nextDisabled
         ].some(Boolean)
     }
 }
@@ -168,11 +172,29 @@ const handleListItemClose =
         onVisible?.()
     }
 
+const handleListItemPanResponderRelease =
+    ({onActiveAfterAffordance, disabled}: HandleListItemPanResponderReleaseOptions) =>
+    (itemKey: string) =>
+    (_evt: GestureResponderEvent, gestureState: PanResponderGestureState) => {
+        if (disabled) {
+            return
+        }
+
+        if (gestureState.dx < -50) {
+            onActiveAfterAffordance?.(itemKey)
+        }
+
+        if (gestureState.dx > 50) {
+            onActiveAfterAffordance?.()
+        }
+    }
+
 const renderListItemTrailing = ({
     afterAffordance,
+    closeTrailing,
+    disabled,
     onStateEvent,
-    trailing,
-    closeTrailing
+    trailing
 }: RenderListItemTrailingOptions) => {
     const {onHoverIn, onHoverOut} = onStateEvent
     const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
@@ -180,7 +202,7 @@ const renderListItemTrailing = ({
     const trailingElement = {
         afterAffordance:
             trailing ?
-                cloneElement(trailing, onStateEvent)
+                cloneElement(trailing, {...onStateEvent, disabled})
             :   <IconButton
                     {...onStateEvent}
                     icon={
@@ -190,12 +212,13 @@ const renderListItemTrailing = ({
                             type='filled'
                         />
                     }
+                    disabled={disabled}
                     pointerEvents='box-only'
                     type='standard'
                 />,
         closeTrailing:
             trailing ?
-                cloneElement(trailing, onStateEvent)
+                cloneElement(trailing, {...onStateEvent, disabled})
             :   <IconButton
                     {...onStateEvent}
                     icon={
@@ -205,18 +228,16 @@ const renderListItemTrailing = ({
                             type='filled'
                         />
                     }
+                    disabled={disabled}
                     pointerEvents='box-only'
                     type='standard'
                 />,
-        standard: trailing ? cloneElement(trailing, {onHoverIn, onHoverOut}) : undefined
+        standard: trailing ? cloneElement(trailing, {onHoverIn, onHoverOut, disabled}) : undefined
     }
 
     return trailingElement[trailingType]
 }
 
-/**
- * FIXME: Fixes styles caused by multiple rows and design scaling
- */
 export const ListItemBase = forwardRef<View, ListItemBaseProps>(
     (
         {
@@ -227,6 +248,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             beforeAffordance,
             close,
             closeTrailing,
+            disabled,
             enableUnderlay = true,
             enableUnderlayActive = true,
             itemKey,
@@ -260,9 +282,13 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         const active = type === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)
         const theme = useTheme()
         const activeColor = theme.token.scheme.secondaryContainer
-        const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
         const afterAffordanceVisible = afterAffordanceActiveKey === itemKey
         const id = useId()
+        const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
+        const onListItemPanResponderRelease = handleListItemPanResponderRelease({onActiveAfterAffordance, disabled})(
+            itemKey
+        )
+
         const panResponder = useRef(
             PanResponder.create({
                 onMoveShouldSetPanResponder: (_evt, gestureState) =>
@@ -270,15 +296,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
                 onPanResponderGrant: (_evt, _gestureState) => {},
                 onPanResponderMove: (_evt, _gestureState) => {},
-                onPanResponderRelease: (_evt, gestureState) => {
-                    if (gestureState.dx < -50) {
-                        onActiveAfterAffordance?.(itemKey)
-                    }
-
-                    if (gestureState.dx > 50) {
-                        onActiveAfterAffordance?.()
-                    }
-                }
+                onPanResponderRelease: onListItemPanResponderRelease
             })
         ).current
 
@@ -301,7 +319,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 setState
             )(event)
 
-        const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
+        const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})
         const {contentAnimatedStyle} = useListItemAnimated({
             afterAffordanceVisible,
             onListItemAfterAffordanceVisibleFinished
@@ -310,6 +328,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         const trailingElement = renderListItemTrailing({
             afterAffordance,
             closeTrailing,
+            disabled,
             onStateEvent: {onPressOut: onListItemTrailingPressOut},
             theme,
             trailing
@@ -335,6 +354,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             afterAffordanceVisible: !afterAffordanceClosed,
             beforeAffordance,
             contentAnimatedStyle,
+            disabled,
             enableUnderlay,
             enableUnderlayActive,
             eventName,

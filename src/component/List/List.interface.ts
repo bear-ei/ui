@@ -40,6 +40,7 @@ export interface ListProps
                 | 'beforeAffordance'
                 | 'closeTrailing'
                 | 'densityScale'
+                | 'disabled'
                 | 'enableUnderlay'
                 | 'enableUnderlayActive'
                 | 'itemShape'
@@ -70,8 +71,8 @@ export interface ListState {
     afterAffordanceActiveKey?: string
     listActiveKey?: string
     listActiveKeys?: string[]
-    nextAfterAffordanceActiveEvent?: () => void
     nextActiveEvent?: () => void
+    nextAfterAffordanceActiveEvent?: () => void
     status: ComponentStatus
 }
 
@@ -87,6 +88,7 @@ export type HandleRenderItemOptions = Pick<
     | 'closeTrailing'
     | 'defaultActiveKey'
     | 'densityScale'
+    | 'disabled'
     | 'enableUnderlay'
     | 'enableUnderlayActive'
     | 'itemShape'

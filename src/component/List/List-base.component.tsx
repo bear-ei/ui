@@ -52,8 +52,13 @@ const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: strin
 const createNextActiveEvent =
     ({onActive, onActives}: HandleListActiveOptions) =>
     (value: string | string[] | undefined) =>
-    () =>
-        typeof value === 'string' ? onActive?.(value) : onActives?.(value)
+    () => {
+        if (typeof value === 'string') {
+            onActive?.(value)
+        } else {
+            onActives?.(value)
+        }
+    }
 
 const handleListActive =
     ({onActive, type, onActives, deselect}: HandleListActiveOptions = {}) =>
@@ -136,6 +141,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             defaultActiveKeys,
             densityScale,
             deselect,
+            disabled,
             enableUnderlay,
             itemShape,
             minSkeletonDuration = 300,
@@ -173,11 +179,11 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             status: 'idle'
         })
 
-        const listRef = useRef<VirtualListComponent<ListData>>(null)
         const id = useId()
-        const onListActiveSource = useMemo(() => handleListActive({type})(setState), [setState, type])
-        const onListActive = handleListActive({onActive, type, onActives, deselect})(setState)
+        const listRef = useRef<VirtualListComponent<ListData>>(null)
         const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, type})(setState)
+        const onListActive = handleListActive({onActive, type, onActives, deselect})(setState)
+        const onListActiveSource = useMemo(() => handleListActive({type})(setState), [setState, type])
         const onListClose = handleListClose(onClose)
         const idle =
             [
@@ -195,6 +201,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             beforeAffordance,
             closeTrailing,
             densityScale,
+            disabled,
             enableUnderlay,
             itemShape,
             minSkeletonDuration,
@@ -233,6 +240,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             activeKey: listActiveKey,
             activeKeys: listActiveKeys,
             afterAffordanceActiveKey,
+            disabled,
             id,
             ref: listRef as RenderListProps['ref'],
             renderItem: renderListItem

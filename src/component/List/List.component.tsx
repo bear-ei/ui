@@ -9,6 +9,7 @@ const render = ({
     activeKeys,
     afterAffordanceActiveKey,
     data,
+    disabled,
     extraData = [],
     id,
     itemSize = 56,
@@ -19,13 +20,13 @@ const render = ({
     <Container
         accessibilityLabel='list'
         accessibilityRole='list'
-        testID={`list--${id}`}
         style={[style]}
+        testID={`list--${id}`}
     >
         <VirtualList
             {...virtualListProps}
             data={data}
-            extraData={[activeKey, afterAffordanceActiveKey, activeKeys?.join(), ...extraData]}
+            extraData={[activeKey, afterAffordanceActiveKey, activeKeys?.join(), disabled, ...extraData]}
             itemSize={itemSize}
             renderItem={renderItem}
         />

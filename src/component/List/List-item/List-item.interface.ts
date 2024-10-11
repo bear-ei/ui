@@ -90,7 +90,7 @@ export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 
 }
 
 export interface RenderListItemTrailingOptions
-    extends Pick<RenderListItemProps, 'afterAffordance' | 'closeTrailing' | 'trailing'> {
+    extends Pick<RenderListItemProps, 'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled'> {
     onStateEvent: Partial<OnStateEvent>
     theme: DefaultTheme
 }
@@ -111,6 +111,7 @@ export interface HandleListItemTrailingPressOutOptions
     onListItemClose: (value?: boolean) => void
 }
 
+export type HandleListItemPanResponderReleaseOptions = Pick<ListItemProps, 'onActiveAfterAffordance' | 'disabled'>
 export type HandleListItemCloseOptions = Pick<ListItemProps, 'onClose' | 'onVisible'>
 export type ListItemContainerProps = Pick<RenderListItemProps, 'densityScale'>
 export interface ListItemMainProps

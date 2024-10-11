@@ -32,19 +32,20 @@ const render = ({
     contentAnimatedStyle,
     contentStyle,
     densityScale,
+    disabled,
     enableUnderlay,
     enableUnderlayActive,
     eventName,
     headline,
     id,
     itemKey,
+    itemShape,
     leading,
     minSkeletonDuration,
     onCancel,
     onConfirm,
     onStateEvent,
     panResponder,
-    itemShape,
     skeletonElement,
     supporting,
     supportingTextNumberOfLines,
@@ -89,9 +90,10 @@ const render = ({
                 >
                     <Touchable
                         {...onStateEvent}
+                        disabled={disabled}
                         enableTouchableRipple={type === 'standard' ? enableUnderlay : false}
-                        underlayColor={underlayColor}
                         horizontalStretch={true}
+                        underlayColor={underlayColor}
                     >
                         <Main
                             {...mainProps}
