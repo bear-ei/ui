@@ -1,12 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {
-    AnimatableValue,
-    Extrapolation,
-    SharedValue,
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue
-} from 'react-native-reanimated'
+import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {EventName} from '../Common'
@@ -26,7 +19,7 @@ export const useIconAnimated = ({eventName}: UseIconAnimatedOptions) => {
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
     const containerAnimatedStyle = useAnimatedStyle(() => ({
-        transform: [{scale: interpolate(scaleSharedValue.value, [0, 1, 2], [0.97, 1, 1.03], Extrapolation.CLAMP)}]
+        transform: [{scale: interpolate(scaleSharedValue.value, [0, 1, 2], [0.97, 1, 1.03])}]
     }))
 
     const onIconAnimatedTiming = useMemo(

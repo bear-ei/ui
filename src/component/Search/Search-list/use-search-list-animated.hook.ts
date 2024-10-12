@@ -1,12 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {
-    AnimatableValue,
-    Extrapolation,
-    SharedValue,
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue
-} from 'react-native-reanimated'
+import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {UseSearchListAnimatedOptions} from './Search-list.interface'
@@ -29,7 +22,7 @@ export const useSearchListAnimated = ({visible, containerLayout}: UseSearchListA
     ]
 
     const containerAnimatedStyle = useAnimatedStyle(() => ({
-        height: interpolate(heightSharedValue.value, [0, 1], heightOutputRange, Extrapolation.CLAMP)
+        height: interpolate(heightSharedValue.value, [0, 1], heightOutputRange)
     }))
 
     const onSearchListAnimatedTiming = useMemo(

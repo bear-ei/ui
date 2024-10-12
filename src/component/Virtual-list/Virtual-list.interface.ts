@@ -21,6 +21,7 @@ export interface RenderVirtualListProps<T = Record<string, unknown>> extends Vir
     itemElements?: JSX.Element[]
     onContentVisible: (value?: boolean) => void
     onStateEvent: OnStateEvent
+    skeletonLoading?: boolean
 }
 
 export interface VirtualListBaseProps<T> extends VirtualListProps<T> {
@@ -45,3 +46,11 @@ export interface HandleVirtualListLayoutChangedOptions {
     layout: LayoutRectangle
     onVirtualListVisibleRange?: (value?: number) => void
 }
+
+export interface HandleVirtualListVisibleRangeOptions {
+    itemSize?: number
+    skeletonLoading?: boolean
+}
+
+export type HandleVirtualListLayoutOptions = HandleVirtualListVisibleRangeOptions
+export type HandleVirtualListDataChangeOptions = HandleVirtualListVisibleRangeOptions

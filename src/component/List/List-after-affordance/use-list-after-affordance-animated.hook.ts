@@ -1,12 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {
-    AnimatableValue,
-    Extrapolation,
-    SharedValue,
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue
-} from 'react-native-reanimated'
+import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
@@ -27,9 +20,7 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
     const animatedTiming = useAnimatedTiming(theme.token)
     const translateXOutputRange = [theme.adaptSize(spacing.none), -(theme.adaptSize(spacing.extraSmall * 28) / 2)]
     const dangerAnimatedStyle = useAnimatedStyle(() => ({
-        transform: [
-            {translateX: interpolate(translateXSharedValue.value, [0, 1], translateXOutputRange, Extrapolation.CLAMP)}
-        ]
+        transform: [{translateX: interpolate(translateXSharedValue.value, [0, 1], translateXOutputRange)}]
     }))
 
     const onListAfterAffordanceAnimatedTiming = useMemo(

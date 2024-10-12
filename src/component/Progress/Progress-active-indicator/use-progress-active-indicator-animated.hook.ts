@@ -1,12 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {
-    AnimatableValue,
-    Extrapolation,
-    SharedValue,
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue
-} from 'react-native-reanimated'
+import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hook'
 import {UseProgressActiveIndicatorAnimatedOptions} from './Progress-active-indicator.interface'
@@ -38,7 +31,7 @@ export const useProgressActiveIndicatorAnimated = ({
     const outputRange = Array.from(handleOutputRange(containerLayout.width)(increment))
     const inputRange = outputRange.map((_value, index) => index)
     const containerAnimatedStyle = useAnimatedStyle(() => ({
-        width: interpolate(widthSharedValue.value, inputRange, outputRange, Extrapolation.CLAMP)
+        width: interpolate(widthSharedValue.value, inputRange, outputRange)
     }))
 
     const onProgressActiveIndicatorAnimatedTiming = useMemo(

@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {Extrapolation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hook'
 import {
@@ -39,7 +39,7 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
     ]
 
     const labelAnimatedStyle = useAnimatedStyle(() => ({
-        height: interpolate(labelHeightSharedValue.value, [0, 1], labelHeightOutputRange, Extrapolation.CLAMP)
+        height: interpolate(labelHeightSharedValue.value, [0, 1], labelHeightOutputRange)
     }))
 
     const labelTextColorOutputRange = [

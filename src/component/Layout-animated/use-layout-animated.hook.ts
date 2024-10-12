@@ -1,12 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {
-    AnimatableValue,
-    Extrapolation,
-    SharedValue,
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue
-} from 'react-native-reanimated'
+import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hook'
 import {HandleLayoutAnimatedTimingOptions, UseLayoutAnimatedOptions} from './Layout-animated.interface'
@@ -28,7 +21,7 @@ export const useLayoutAnimated = ({visible = true, onAnimatedFinished, entry, ex
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
     const containerAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1], Extrapolation.CLAMP)
+        opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1])
     }))
 
     const onLayoutAnimatedTiming = useMemo(

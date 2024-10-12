@@ -1,12 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {
-    AnimatableValue,
-    Extrapolation,
-    SharedValue,
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue
-} from 'react-native-reanimated'
+import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hook'
 import {HandleListItemAfterAffordanceVisibleAnimatedOptions, UseListItemAnimatedOptions} from './List-item.interface'
@@ -35,7 +28,7 @@ export const useListItemAnimated = ({
     const contentLeftSharedValue = useSharedValue(0)
     const contentLeftOutputRange = [theme.adaptSize(spacing.none), -theme.adaptSize(spacing.extraSmall * 28)]
     const contentAnimatedStyle = useAnimatedStyle(() => ({
-        left: interpolate(contentLeftSharedValue.value, [0, 1], contentLeftOutputRange, Extrapolation.CLAMP)
+        left: interpolate(contentLeftSharedValue.value, [0, 1], contentLeftOutputRange)
     }))
 
     const onListAfterAffordanceVisibleAnimated = useMemo(

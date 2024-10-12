@@ -13,6 +13,7 @@ const render = ({
     extraData = [],
     id,
     itemSize = 56,
+    loading,
     renderItem,
     style,
     ...virtualListProps
@@ -26,8 +27,9 @@ const render = ({
         <VirtualList
             {...virtualListProps}
             data={data}
-            extraData={[activeKey, afterAffordanceActiveKey, activeKeys?.join(), disabled, ...extraData]}
+            extraData={[activeKey, afterAffordanceActiveKey, activeKeys?.join(), disabled, loading, ...extraData]}
             itemSize={itemSize}
+            loading={loading}
             renderItem={renderItem}
         />
     </Container>

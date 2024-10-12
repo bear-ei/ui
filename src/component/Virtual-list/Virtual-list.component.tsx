@@ -16,11 +16,13 @@ const render = <T,>({
     onContentVisible,
     onStateEvent,
     scrollEventThrottle = 50,
+    skeletonLoading,
     ...containerProps
 }: RenderVirtualListProps<T>) => {
     const defaultContentContainerStyle = {flex: 1, minHeight: contentSize} as StyleProp<ViewStyle>
     const {onLayout} = onStateEvent
-    const isLoading = typeof loading === 'boolean' && loading
+
+    const listContentVisible = loading ? !loading : contentVisible
 
     return (
         <Container testID={`virtualList--${id}`}>
@@ -34,7 +36,7 @@ const render = <T,>({
                 <Content
                     onVisible={onContentVisible}
                     testID={`virtualList__content--${id}`}
-                    visible={isLoading ? !isLoading : contentVisible}
+                    visible={skeletonLoading ? skeletonLoading : listContentVisible}
                 >
                     {itemElements}
                 </Content>
@@ -43,7 +45,7 @@ const render = <T,>({
             <EmptyContent
                 testID={`virtualList__emptyComponent--${id}`}
                 unmount={true}
-                visible={isLoading ? !isLoading : !contentVisible}
+                visible={loading || skeletonLoading ? false : !contentVisible}
             >
                 {listEmptyComponent ?? (
                     <Supporting
@@ -59,17 +61,9 @@ const render = <T,>({
             <LoadingContent
                 testID={`virtualList__content--${id}`}
                 unmount={true}
-                visible={loading}
+                visible={loading && !!listLoadingComponent}
             >
-                {listLoadingComponent ?? (
-                    <Supporting
-                        testID={`virtualList__supportingText--${id}`}
-                        type='body'
-                        size='medium'
-                    >
-                        Loading...
-                    </Supporting>
-                )}
+                {listLoadingComponent}
             </LoadingContent>
         </Container>
     )

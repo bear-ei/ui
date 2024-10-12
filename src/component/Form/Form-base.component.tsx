@@ -49,7 +49,7 @@ const FormBaseInner = <T,>(
         form,
         initialValue,
         items,
-        minSkeletonDuration,
+        skeletonMinDuration,
         onFinish,
         onFinishFailed,
         onValueChange,
@@ -71,7 +71,7 @@ const FormBaseInner = <T,>(
         [onFinish, onFinishFailed, onValueChange, setCallback]
     )
 
-    const formItemElements = renderFormItem({skeletonElement, minSkeletonDuration, validatorOptions, validationDelay})(
+    const formItemElements = renderFormItem({skeletonElement, skeletonMinDuration, validatorOptions, validationDelay})(
         status
     )(items)
 

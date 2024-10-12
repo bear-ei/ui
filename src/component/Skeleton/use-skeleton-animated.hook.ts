@@ -1,7 +1,6 @@
 import {useEffect, useMemo} from 'react'
 import {
     AnimatableValue,
-    Extrapolation,
     SharedValue,
     cancelAnimation,
     interpolate,
@@ -28,7 +27,7 @@ export const useSkeletonAnimated = ({enableAnimated, skeletonVisible}: UseSkelet
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
     const containerAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: interpolate(opacitySharedValue.value, [0, 1, 2], [0.24, 1, 0.24], Extrapolation.CLAMP)
+        opacity: interpolate(opacitySharedValue.value, [0, 1, 2], [0.24, 1, 0.24])
     }))
 
     const onSkeletonAnimatedTiming = useMemo(

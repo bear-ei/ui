@@ -1,4 +1,4 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook'
@@ -6,20 +6,21 @@ import {EventName, State} from '../Common'
 import {HandleSkeletonStateChangeOptions, SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
-const handleSkeletonClose =
-    (setState: Updater<SkeletonState>) =>
-    (duration = 150) => {
-        if (duration >= 0) {
-            setTimeout(
-                () =>
-                    setState(draft => {
-                        draft.skeletonVisible = false
-                        draft.status = 'succeeded'
-                    }),
-                duration
-            )
-        }
+const handleSkeletonClose = (setState: Updater<SkeletonState>) => (duration?: number) => {
+    if (typeof duration === 'number' && duration >= 0) {
+        setTimeout(
+            () =>
+                setState(draft => {
+                    draft.skeletonVisible = false
+                    draft.status = 'succeeded'
+                }),
+            duration
+        )
     }
+}
+
+const handleSkeletonDurationChange = (setState: Updater<SkeletonState>) => (duration?: number) =>
+    handleSkeletonClose(setState)(duration)
 
 const handleSkeletonStateChange =
     ({eventName, duration}: HandleSkeletonStateChangeOptions) =>
@@ -47,7 +48,15 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
             handleSkeletonStateChange({...options, state, duration})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
-        const {containerAnimatedStyle} = useSkeletonAnimated({enableAnimated, skeletonVisible})
+        const onSkeletonDurationChange = useMemo(() => handleSkeletonDurationChange(setState), [setState])
+        const {containerAnimatedStyle} = useSkeletonAnimated({
+            enableAnimated,
+            skeletonVisible: typeof duration === 'number' ? skeletonVisible : false
+        })
+
+        useEffect(() => {
+            onSkeletonDurationChange(duration)
+        }, [duration, onSkeletonDurationChange])
 
         return render({...renderProps, id, ref, onStateEvent, containerAnimatedStyle, skeletonVisible, status})
     }

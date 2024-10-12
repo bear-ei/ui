@@ -144,7 +144,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             disabled,
             enableUnderlay,
             itemShape,
-            minSkeletonDuration = 300,
+            skeletonMinDuration = 300,
             onActive,
             onActives,
             onCancel,
@@ -156,6 +156,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             supportingTextNumberOfLines,
             trailingTrigger,
             type,
+            loading,
+            listLoadingComponent,
             ...renderProps
         },
         ref
@@ -204,7 +206,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             disabled,
             enableUnderlay,
             itemShape,
-            minSkeletonDuration,
             onActive: onListActive,
             onActiveAfterAffordance,
             onCancel,
@@ -212,6 +213,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             onConfirm,
             renderItem,
             skeletonElement,
+            skeletonMinDuration: loading && !listLoadingComponent ? -1 : skeletonMinDuration,
             supportingTextNumberOfLines,
             trailingTrigger,
             type
@@ -242,6 +244,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             afterAffordanceActiveKey,
             disabled,
             id,
+            listLoadingComponent,
+            loading,
             ref: listRef as RenderListProps['ref'],
             renderItem: renderListItem
         })

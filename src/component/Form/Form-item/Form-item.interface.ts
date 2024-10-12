@@ -18,7 +18,7 @@ export interface FormItemControlProps {
 export interface FormItemProps
     extends Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>> {
     initialValue?: Record<string, unknown>
-    minSkeletonDuration?: number
+    skeletonMinDuration?: number
     name?: string
     renderControl?: (props: FormItemControlProps) => JSX.Element
     rule?: FormItemValidationRule

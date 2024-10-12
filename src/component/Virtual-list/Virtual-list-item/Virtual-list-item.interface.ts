@@ -16,6 +16,7 @@ export interface VirtualListItemProps<T = Record<string, unknown>> extends ViewP
     index?: number
     item?: T & Item
     itemSize?: number
+    loading?: boolean
     onLoadEnd?: (value?: string) => void
     onUnmount?: (value?: string) => void
     renderItem?: (options: RenderVirtualListItemInfo<T>) => JSX.Element

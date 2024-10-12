@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useMemo} from 'react'
-import {Extrapolation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {State} from '../Common'
@@ -165,12 +165,7 @@ export const useTextFieldAnimated = ({
     const labelAnimatedStyle = useAnimatedStyle(() => ({
         transform: [
             {
-                translateY: interpolate(
-                    labelTextSharedValue.value,
-                    [0, 1],
-                    labelTranslateYOutputRange,
-                    Extrapolation.CLAMP
-                )
+                translateY: interpolate(labelTextSharedValue.value, [0, 1], labelTranslateYOutputRange)
             }
         ]
     }))
@@ -198,15 +193,10 @@ export const useTextFieldAnimated = ({
     ]
 
     const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-        fontSize: interpolate(labelTextSharedValue.value, [0, 1], labelTextFontSizeOutputRange, Extrapolation.CLAMP),
-        letterSpacing: interpolate(
-            labelTextSharedValue.value,
-            [0, 1],
-            labelTextLetterSpacingOutputRange,
-            Extrapolation.CLAMP
-        ),
-        height: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRange, Extrapolation.CLAMP),
-        lineHeight: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRange, Extrapolation.CLAMP),
+        fontSize: interpolate(labelTextSharedValue.value, [0, 1], labelTextFontSizeOutputRange),
+        letterSpacing: interpolate(labelTextSharedValue.value, [0, 1], labelTextLetterSpacingOutputRange),
+        height: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRange),
+        lineHeight: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRange),
         color: interpolateColor(colorSharedValue.value, [0, 1, 2, 3], labelTextColorOutputRange)
     }))
 
@@ -224,12 +214,7 @@ export const useTextFieldAnimated = ({
             [0, 1, 2, 3],
             activeIndicatorBackgroundColorOutputRange
         ),
-        height: interpolate(
-            activeIndicatorHeightSharedValue.value,
-            [0, 1],
-            activeIndicatorHeightSharedValueOutputRange,
-            Extrapolation.CLAMP
-        )
+        height: interpolate(activeIndicatorHeightSharedValue.value, [0, 1], activeIndicatorHeightSharedValueOutputRange)
     }))
 
     const supportingTextSharedValueValueColorOutputRange = [

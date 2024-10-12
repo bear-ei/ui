@@ -28,7 +28,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
         afterAffordanceActiveKey: prevAfterAffordanceActiveKey,
         disabled: prevDisabled,
         extraData: prevExtraData,
-        itemKey: prevItemKey
+        itemKey: prevItemKey,
+        skeletonMinDuration: prevSkeletonMinDuration
     } = prevProps
 
     return (nextProps: ListItemProps) => {
@@ -38,7 +39,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
             afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
             disabled: nextDisabled,
             extraData: nextExtraData,
-            itemKey: nextItemKey
+            itemKey: nextItemKey,
+            skeletonMinDuration: nextSkeletonMinDuration
         } = nextProps
 
         const activeKeyChange =
@@ -58,8 +60,9 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
             activeKeyChange,
             activeKeysChange,
             afterAffordanceActiveChange,
+            prevDisabled !== nextDisabled,
             prevExtraData?.join() !== nextExtraData?.join(),
-            prevDisabled !== nextDisabled
+            prevSkeletonMinDuration !== nextSkeletonMinDuration
         ].some(Boolean)
     }
 }

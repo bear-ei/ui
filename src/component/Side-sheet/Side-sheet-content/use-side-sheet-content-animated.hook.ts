@@ -1,7 +1,6 @@
 import {useEffect, useMemo} from 'react'
 import {
     AnimatableValue,
-    Extrapolation,
     SharedValue,
     interpolate,
     interpolateColor,
@@ -80,7 +79,7 @@ export const useSideSheetContentAnimated = ({
             containerBackgroundColorOutputRange
         ),
         ...(type === 'standard' && {
-            width: interpolate(widthSharedValue.value, [0, 1], containerWidthOutputRange, Extrapolation.CLAMP)
+            width: interpolate(widthSharedValue.value, [0, 1], containerWidthOutputRange)
         })
     }))
 
@@ -93,12 +92,7 @@ export const useSideSheetContentAnimated = ({
         ...(type === 'modal' && {
             transform: [
                 {
-                    translateX: interpolate(
-                        contentTranslateXSharedValue.value,
-                        [0, 1],
-                        contentTranslateXOutputRange,
-                        Extrapolation.CLAMP
-                    )
+                    translateX: interpolate(contentTranslateXSharedValue.value, [0, 1], contentTranslateXOutputRange)
                 }
             ]
         })
@@ -106,7 +100,7 @@ export const useSideSheetContentAnimated = ({
 
     const footerHeightOutputRange = [theme.adaptSize(spacing.none), theme.adaptSize(spacing.extraSmall * 20)]
     const footerAnimatedStyle = useAnimatedStyle(() => ({
-        height: interpolate(footerHeightSharedValue.value, [0, 1], footerHeightOutputRange, Extrapolation.CLAMP)
+        height: interpolate(footerHeightSharedValue.value, [0, 1], footerHeightOutputRange)
     }))
 
     const onSideSheetContentVisibleAnimatedTiming = useMemo(

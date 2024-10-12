@@ -1,12 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {
-    AnimatableValue,
-    Extrapolation,
-    SharedValue,
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue
-} from 'react-native-reanimated'
+import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {UseElevationAnimatedOptions} from './Elevation.interface'
@@ -30,7 +23,7 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
     ]
 
     const shadowAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: interpolate(shadowSharedValue.value, [0, 1, 2, 3, 4, 5], shadowOpacityOutputRange, Extrapolation.CLAMP)
+        opacity: interpolate(shadowSharedValue.value, [0, 1, 2, 3, 4, 5], shadowOpacityOutputRange)
     }))
 
     const onElevationAnimatedTiming = useMemo(

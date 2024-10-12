@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {Extrapolation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hook'
 import {
@@ -43,11 +43,11 @@ export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: 
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
     const containerAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1], Extrapolation.CLAMP),
+        opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1]),
         transform: [
             {translateX: -radius},
             {translateY: -radius},
-            {scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1], Extrapolation.CLAMP)}
+            {scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1])}
         ]
     }))
 

@@ -56,13 +56,13 @@ export const Container = styled.View<DividerContainerProps>`
     ${({verticalStretch}) =>
         verticalStretch &&
         css`
-            flex: 1;
+            height: 100%;
         `}
 
     ${({horizontalStretch}) =>
         horizontalStretch &&
         css`
-            align-self: stretch;
+            width: 100%;
         `}
 `
 

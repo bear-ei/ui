@@ -1,12 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {
-    AnimatableValue,
-    Extrapolation,
-    SharedValue,
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue
-} from 'react-native-reanimated'
+import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hook'
 import {debounce} from '../../util'
@@ -59,7 +52,7 @@ export const useUnderlayAnimated = ({
     const animatedTiming = useAnimatedTiming(theme.token)
     const opacityInputRange = opacities.map((_value, index) => index)
     const hoverLayerAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: interpolate(hoverLayerSharedValue.value, opacityInputRange, opacities, Extrapolation.CLAMP)
+        opacity: interpolate(hoverLayerSharedValue.value, opacityInputRange, opacities)
     }))
 
     const isScaleX = ['scale', 'scaleX'].includes(activeAnimatedType)
@@ -68,21 +61,11 @@ export const useUnderlayAnimated = ({
     const activeLayerAnimatedStyle = useAnimatedStyle(() => ({
         ...(isScale && {
             transform: [
-                {
-                    scaleX:
-                        isScaleX ?
-                            interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleX], Extrapolation.CLAMP)
-                        :   1
-                },
-                {
-                    scaleY:
-                        isScaleY ?
-                            interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY], Extrapolation.CLAMP)
-                        :   1
-                }
+                {scaleX: isScaleX ? interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleX]) : 1},
+                {scaleY: isScaleY ? interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY]) : 1}
             ]
         }),
-        opacity: interpolate(activeLayerSharedValue.value, [0, 1], [0, 1], Extrapolation.CLAMP)
+        opacity: interpolate(activeLayerSharedValue.value, [0, 1], [0, 1])
     }))
 
     const onUnderlayHoveredAnimatedTiming = useMemo(

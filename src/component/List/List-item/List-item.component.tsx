@@ -41,7 +41,7 @@ const render = ({
     itemKey,
     itemShape,
     leading,
-    minSkeletonDuration,
+    skeletonMinDuration,
     onCancel,
     onConfirm,
     onStateEvent,
@@ -76,7 +76,7 @@ const render = ({
         >
             <Skeleton
                 content={skeletonElement}
-                duration={minSkeletonDuration}
+                duration={skeletonMinDuration}
             >
                 {beforeAffordance && (
                     <BeforeAffordanceContainer testID={`listItem__beforeAffordanceContainer--${id}`}>

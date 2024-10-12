@@ -55,7 +55,7 @@ const handleButtonAnimatedTiming = ({
 
 export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseButtonAnimatedOptions) => {
     const theme = useTheme()
-    const {palette, scheme} = theme.token
+    const {palette, scheme, spacing} = theme.token
     const {convertHexToRGBA} = palette
     const animatedTiming = useAnimatedTiming(theme.token)
     const animatedValue = disabled ? 0 : 1
@@ -126,7 +126,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
 
     const notBackgroundColor = ['text', 'link'].includes(type)
     const notBorderColor = !['outlined', 'link'].includes(type)
-    const borderWidth = theme.adaptSize(1)
+    const borderWidth = theme.adaptSize(spacing.extraSmall / 4)
     const contentUnderlayAnimatedStyle = useAnimatedStyle(() => ({
         ...(!notBackgroundColor && {
             backgroundColor: interpolateColor(

@@ -1,12 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {
-    AnimatableValue,
-    Extrapolation,
-    SharedValue,
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue
-} from 'react-native-reanimated'
+import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hook'
 import {
@@ -36,8 +29,8 @@ export const useTooltipSupportingAnimated = ({visible, onClose}: UseTooltipSuppo
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
     const contentAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: interpolate(transformSharedValue.value, [0, 1], [0, 1], Extrapolation.CLAMP),
-        transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1], Extrapolation.CLAMP)}]
+        opacity: interpolate(transformSharedValue.value, [0, 1], [0, 1]),
+        transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1])}]
     }))
 
     const onTooltipSupportingAnimatedTiming = useMemo(

@@ -36,7 +36,7 @@ export interface ListItemProps
     itemLayout?: {width?: number; height?: number}
     itemShape?: keyof Shape
     leading?: JSX.Element
-    minSkeletonDuration?: number
+    skeletonMinDuration?: number
     onActive?: (value?: string) => void
     onActiveAfterAffordance?: (value?: string) => void
     onActives?: (value?: string[]) => void
