@@ -1,9 +1,8 @@
-import {Shape} from '@bearei/material-token'
 import {PanResponderInstance, StyleProp, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hook'
-import {EventName, State} from '../../Common'
+import {EventName, ShapeType, State} from '../../Common'
 import {TouchableProps} from '../../Touchable'
 import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from '../List-after-affordance'
 import {ListType} from '../List.interface'
@@ -34,7 +33,7 @@ export interface ListItemProps
     headline?: React.ReactNode
     itemKey: string
     itemLayout?: {width?: number; height?: number}
-    itemShape?: keyof Shape
+    itemShape?: ShapeType
     leading?: JSX.Element
     skeletonMinDuration?: number
     onActive?: (value?: string) => void

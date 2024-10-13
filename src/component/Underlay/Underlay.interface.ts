@@ -1,9 +1,8 @@
-import {Shape} from '@bearei/material-token'
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {AnimatedTiming} from '../../hook'
-import {EventName, ShapeProps} from '../Common'
+import {EventName, ShapeProps, ShapeType} from '../Common'
 
 export type ActiveAnimatedType = 'fade' | 'scale' | 'scaleX' | 'scaleY'
 export interface UnderlayProps extends Pick<ShapeProps, 'shape'>, ViewProps, RefAttributes<View> {
@@ -16,7 +15,7 @@ export interface UnderlayProps extends Pick<ShapeProps, 'shape'>, ViewProps, Ref
      * When the active animation type is scale, set the x,y scaling factor of scale. Default 1.
      */
     activeScale?: {x?: number; y?: number}
-    activeShape?: keyof Shape
+    activeShape?: ShapeType
     eventName?: EventName
     height?: number
     opacities?: [number, number, number] | [number, number]
