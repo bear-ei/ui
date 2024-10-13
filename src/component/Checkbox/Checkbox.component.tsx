@@ -103,6 +103,7 @@ const render = ({
 
                     <Underlay
                         eventName={eventName}
+                        shape={shape}
                         underlayColor={underlayColor}
                     />
                 </Content>

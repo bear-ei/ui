@@ -61,6 +61,7 @@ export interface ListProps
     defaultActiveKeys?: string[]
     deselect?: boolean
     onActives?: (values?: string[]) => void
+    divider?: boolean
 }
 
 export interface RenderListProps extends ListProps {
@@ -89,10 +90,10 @@ export type HandleRenderItemOptions = Pick<
     | 'defaultActiveKey'
     | 'densityScale'
     | 'disabled'
+    | 'divider'
     | 'enableUnderlay'
     | 'enableUnderlayActive'
     | 'itemShape'
-    | 'skeletonMinDuration'
     | 'onActive'
     | 'onActiveAfterAffordance'
     | 'onCancel'
@@ -100,6 +101,7 @@ export type HandleRenderItemOptions = Pick<
     | 'onConfirm'
     | 'renderItem'
     | 'skeletonElement'
+    | 'skeletonMinDuration'
     | 'supportingTextNumberOfLines'
     | 'trailingTrigger'
     | 'type'

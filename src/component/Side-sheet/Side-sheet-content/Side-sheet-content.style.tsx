@@ -1,5 +1,7 @@
+import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
+import {SheetType} from '../Side-sheet.interface'
 import {SheetContainerProps, SheetHeaderProps, SheetViewContentProps} from './Side-sheet-content.interface'
 
 export const Container = styled.View<SheetContainerProps>`
@@ -28,12 +30,27 @@ export const Content = styled(Shape)<SheetViewContentProps>`
     flex-direction: column;
 
     ${({theme, densityScale = 0}) => css`
-        background-color: ${theme.token.scheme.surfaceContainerLow};
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 160)}px;
         width: ${theme.adaptSize(
             theme.token.spacing.extraSmall * 80 + densityScale * theme.token.spacing.extraSmall
         )}px;
     `}
+
+    ${({theme, type = 'standard'}) => {
+        const contentType = {
+            standard: css`
+                background-color: ${theme.token.scheme.surface};
+            `,
+            modal: css`
+                background-color: ${theme.token.scheme.surfaceContainerLow};
+            `,
+            standardContainer: css`
+                background-color: ${theme.token.scheme.surfaceContainer};
+            `
+        } as Record<SheetType, RuleSet<object> | undefined>
+
+        return contentType[type]
+    }}
 `
 
 export const Header = styled.View<SheetHeaderProps>`

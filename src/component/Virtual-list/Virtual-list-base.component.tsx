@@ -235,7 +235,7 @@ export const VirtualListBaseInner = <T,>(
     })
 
     const id = useId()
-    const skeletonLoading = useMemo(() => loading && !!listLoadingComponent, [listLoadingComponent, loading])
+    const skeletonLoading = useMemo(() => loading && !listLoadingComponent, [listLoadingComponent, loading])
     const contentSize = virtualListData ? virtualListData.length * itemSize : 0
     const scrollViewRef = useRef<ScrollView>(null)
     const onVirtualListVisibleRange = useMemo(

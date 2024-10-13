@@ -15,6 +15,7 @@ export interface SideSheetContentProps extends ViewProps, RefAttributes<View>, P
     headlineLeading?: JSX.Element
     headlineText?: string
     headlineTrailing?: JSX.Element
+    onBack?: () => void
     onCancel?: () => void
     onClose?: () => void
     onConfirm?: () => void
@@ -59,8 +60,12 @@ export interface HandleSideSheetContentVisibleAnimatedTimingSharedValue
     widthSharedValue: SharedValue<AnimatableValue>
 }
 
-export type RenderSideSheetContentLeadingOptions = Pick<SideSheetContentProps, 'headlineLeading' | 'back'>
+export type RenderSideSheetContentLeadingOptions = Pick<
+    SideSheetContentProps,
+    'headlineLeading' | 'back' | 'sheetPosition'
+>
+
 export type RenderSideSheetContentTrailingOptions = Pick<SideSheetContentProps, 'headlineTrailing' | 'close'>
 export type SheetContainerProps = Pick<RenderSideSheetContentProps, 'sheetPosition' | 'type'>
 export type SheetHeaderProps = {leadingShow?: boolean; trailingShow?: boolean}
-export type SheetViewContentProps = Pick<RenderSideSheetContentProps, 'densityScale'>
+export type SheetViewContentProps = Pick<RenderSideSheetContentProps, 'densityScale' | 'type'>

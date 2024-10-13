@@ -53,7 +53,7 @@ export const useSideSheetContentAnimated = ({
     densityScale = 0,
     footerVisible,
     sheetPosition,
-    type,
+    type = 'standard',
     visible
 }: UseSideSheetContentAnimatedOptions) => {
     const animatedValue = visible ? 1 : 0
@@ -65,9 +65,10 @@ export const useSideSheetContentAnimated = ({
     const footerHeightSharedValue = useSharedValue(footerVisible ? 1 : 0)
     const contentTranslateXSharedValue = useSharedValue(animatedValue)
     const widthSharedValue = useSharedValue(animatedValue)
+    const standard = ['standard', 'standardContainer'].includes(type)
     const containerBackgroundColorOutputRange = [
         convertHexToRGBA(scheme.scrim)(0),
-        type === 'standard' ? convertHexToRGBA(scheme.scrim)(0) : convertHexToRGBA(scheme.scrim)(0.32)
+        standard ? convertHexToRGBA(scheme.scrim)(0) : convertHexToRGBA(scheme.scrim)(0.32)
     ]
 
     const contentWidth = theme.adaptSize(spacing.extraSmall * 80 + densityScale * spacing.extraSmall)
@@ -78,7 +79,7 @@ export const useSideSheetContentAnimated = ({
             [0, 1],
             containerBackgroundColorOutputRange
         ),
-        ...(type === 'standard' && {
+        ...(standard && {
             width: interpolate(widthSharedValue.value, [0, 1], containerWidthOutputRange)
         })
     }))

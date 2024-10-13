@@ -10,19 +10,19 @@ import {
 import {useSideSheetContentAnimated} from './use-side-sheet-content-animated.hook'
 
 const renderSideSheetContentLeading =
-    ({headlineLeading, back}: RenderSideSheetContentLeadingOptions) =>
-    (onClose?: () => void) =>
+    ({headlineLeading, back, sheetPosition}: RenderSideSheetContentLeadingOptions) =>
+    (onBack?: () => void) =>
         headlineLeading ??
         (back ?
             <IconButton
                 icon={
                     <Icon
                         iconStyle='outlined'
-                        name='arrowBack'
+                        name={sheetPosition === 'horizontalStart' ? 'arrowBack' : 'arrowForward'}
                         type='filled'
                     />
                 }
-                onPressOut={onClose}
+                onPressOut={onBack}
                 type='standard'
             />
         :   undefined)
@@ -52,12 +52,13 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
             close,
             densityScale,
             footerVisible,
-            headlineText = 'Title',
             headlineLeading,
+            headlineText = 'Title',
+            headlineTrailing,
+            onBack,
             onClose,
             render,
             sheetPosition = 'horizontalEnd',
-            headlineTrailing,
             type,
             visible,
             ...renderProps
@@ -73,7 +74,7 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
             visible
         })
 
-        const leading = renderSideSheetContentLeading({headlineLeading, back})(onClose)
+        const leading = renderSideSheetContentLeading({headlineLeading, back, sheetPosition})(onBack)
         const trailing = renderSideSheetContentTrailing({headlineTrailing, close})(onClose)
 
         return render({

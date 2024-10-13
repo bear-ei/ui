@@ -1,6 +1,6 @@
 import {SideSheetContentProps} from './Side-sheet-content'
 
-export type SheetType = 'standard' | 'modal'
+export type SheetType = 'standard' | 'modal' | 'standardContainer'
 export interface SideSheetProps extends SideSheetContentProps {
     defaultVisible?: boolean
 }

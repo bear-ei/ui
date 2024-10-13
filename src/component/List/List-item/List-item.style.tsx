@@ -73,6 +73,9 @@ export const Main = styled.View<ListItemMainProps>`
 `
 
 export const Leading = styled.View<ListItemLeadingProps>`
+    display: flex;
+    flex-direction: column;
+
     ${({theme, densityScale = 0}) => css`
         max-height: ${theme.adaptSize(
             theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
@@ -82,8 +85,6 @@ export const Leading = styled.View<ListItemLeadingProps>`
     ${({supportingTextNumberOfLines = 0, theme, densityScale = 0}) =>
         supportingTextNumberOfLines > 1 &&
         css`
-            display: flex;
-            flex-direction: column;
             justify-content: flex-start;
             min-height: ${theme.adaptSize(
                 theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
@@ -111,10 +112,12 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 `
 
 export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
-    position: relative;
+    display: flex;
+    flex-direction: column;
 
     ${({theme, densityScale = 0}) => css`
-        min-height: ${theme.adaptSize(
+        justify-content: center;
+        max-height: ${theme.adaptSize(
             theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
         )}px;
     `};
@@ -122,9 +125,8 @@ export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
     ${({supportingTextNumberOfLines = 0, theme, densityScale = 0}) =>
         supportingTextNumberOfLines > 1 &&
         css`
-            display: flex;
             justify-content: flex-start;
-            min-height: ${theme.adaptSize(
+            max-height: ${theme.adaptSize(
                 theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
             )}px;
         `}

@@ -1,6 +1,7 @@
 import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {Updater, useImmer} from 'use-immer'
+import {Divider} from '../Divider'
 import {RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
 import {
@@ -113,19 +114,34 @@ const handleActiveListAfterAffordance = ({onActive, type}: HandleListActiveOptio
 }
 
 const handleListClose = (onClose?: (value?: string) => void) => onClose
-const renderCustomListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
-    <ListItem
-        {...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
-        {...item}
-        {...props}
-        itemKey={item?.indexKey ?? index.toString()}
-    />
+const renderDefaultListItem = ({
+    index,
+    item,
+    supportingTextNumberOfLines,
+    divider,
+    ...props
+}: RenderListItemOptions) => (
+    <>
+        <ListItem
+            {...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
+            {...item}
+            {...props}
+            itemKey={item?.indexKey ?? index.toString()}
+        />
+
+        {divider && (
+            <Divider
+                layout='horizontal'
+                horizontalStretch={true}
+            />
+        )}
+    </>
 )
 
 const handleRenderListItem =
     ({renderItem, ...options}: HandleRenderItemOptions) =>
     (props: RenderVirtualListItemInfo<ListData>) =>
-        renderItem ? renderItem({...options, ...props}) : renderCustomListItem({...options, ...props})
+        renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})
 
 export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps>(
     (
