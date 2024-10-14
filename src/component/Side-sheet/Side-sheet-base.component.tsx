@@ -70,6 +70,6 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
             nextCloseEvent?.()
         }, [nextCloseEvent])
 
-        return type === 'standard' ? renderSheet() : <></>
+        return ['standard', 'standardContainer'].includes(type) ? renderSheet() : <></>
     }
 )

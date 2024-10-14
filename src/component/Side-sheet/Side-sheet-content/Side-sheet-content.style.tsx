@@ -45,7 +45,7 @@ export const Content = styled(Shape)<SheetViewContentProps>`
                 background-color: ${theme.token.scheme.surfaceContainerLow};
             `,
             standardContainer: css`
-                background-color: ${theme.token.scheme.surfaceContainer};
+                background-color: ${theme.token.scheme.surfaceContainerLow};
             `
         } as Record<SheetType, RuleSet<object> | undefined>
 
