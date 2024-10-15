@@ -31,7 +31,7 @@
         "!**/*.stories.*"
     ],
     "dependencies": {
-        "@bearei/material-token": "^0.0.2",
+        "@bearei/material-token": "^0.0.4",
         "@material-symbols/svg-400": "^0.23.0",
         "class-validator": "^0.14.1",
         "immer": "^10.1.1",

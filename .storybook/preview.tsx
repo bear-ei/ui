@@ -1,5 +1,5 @@
 import type {Preview} from '@storybook/react'
-import {ThemeProvider} from '../src/context'
+import {ThemeProvider} from '../src/contexts'
 
 const preview: Preview = {
     decorators: [
