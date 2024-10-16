@@ -56,7 +56,7 @@ export const TouchableContent = styled.Pressable`
 
 export const Content = styled(Shape)<TooltipSupportingContentProps>`
     ${({theme, type = 'plain'}) => {
-        const supportingType = {
+        const contentType = {
             plain: css`
                 background-color: ${theme.token.scheme.inverseSurface};
                 min-height: ${theme.adaptSize(theme.token.spacing.large)}px;
@@ -66,7 +66,7 @@ export const Content = styled(Shape)<TooltipSupportingContentProps>`
             rich: css``
         }
 
-        return supportingType[type]
+        return contentType[type]
     }}
 
     ${({supportingPosition: position = 'verticalStart'}) => {

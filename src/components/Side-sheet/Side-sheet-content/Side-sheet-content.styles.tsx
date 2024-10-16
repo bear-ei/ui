@@ -79,7 +79,7 @@ export const Header = styled.View<SheetHeaderProps>`
         `}
 `
 
-export const HeaderTextContainer = styled.View`
+export const HeadlineContainer = styled.View`
     flex: 1;
 
     ${({theme}) => css`

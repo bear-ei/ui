@@ -18,7 +18,7 @@ const renderSideSheetContentLeading =
                 icon={
                     <Icon
                         iconStyle='outlined'
-                        name={sheetPosition === 'horizontalStart' ? 'arrowBack' : 'arrowForward'}
+                        name={sheetPosition === 'horizontalStart' ? 'arrowForward' : 'arrowBack'}
                         type='filled'
                     />
                 }

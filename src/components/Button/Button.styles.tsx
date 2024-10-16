@@ -17,7 +17,7 @@ export const Container = styled.View<ButtonContainerProps>`
     `}
 
     ${({theme, type = 'filled'}) => {
-        const contentType = {
+        const containerType = {
             text: css`
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
             `,
@@ -29,7 +29,7 @@ export const Container = styled.View<ButtonContainerProps>`
             `
         } as Record<ButtonType, RuleSet<object> | undefined>
 
-        return contentType[type]
+        return containerType[type]
     }}
 
 
@@ -104,7 +104,7 @@ export const Main = styled.View<ButtonMainProps>`
     `}
 
     ${({theme, type = 'filled'}) => {
-        const contentType = {
+        const mainType = {
             text: css`
                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                     ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
@@ -115,7 +115,7 @@ export const Main = styled.View<ButtonMainProps>`
             `
         } as Record<ButtonType, RuleSet<object> | undefined>
 
-        return contentType[type]
+        return mainType[type]
     }}
 
     ${({iconShow, theme, type = 'filled'}) =>

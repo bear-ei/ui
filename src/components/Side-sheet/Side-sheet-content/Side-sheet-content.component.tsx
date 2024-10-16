@@ -12,7 +12,7 @@ import {
     FooterContainer,
     Header,
     HeaderText,
-    HeaderTextContainer,
+    HeadlineContainer,
     Leading,
     Main,
     PrimaryButton,
@@ -70,7 +70,7 @@ const render = ({
                 >
                     {leading && <Leading testID={`sideSideSheetContent__leading--${id}`}>{leading}</Leading>}
 
-                    <HeaderTextContainer testID={`sideSideSheetContent__headerTextContainer--${id}`}>
+                    <HeadlineContainer testID={`sideSideSheetContent__headlineContainer--${id}`}>
                         <HeaderText
                             size='large'
                             testID={`sideSideSheetContent__headerText--${id}`}
@@ -79,7 +79,7 @@ const render = ({
                         >
                             {headlineText}
                         </HeaderText>
-                    </HeaderTextContainer>
+                    </HeadlineContainer>
 
                     {trailing && <Trailing testID={`sideSideSheetContent__trailing--${id}`}>{trailing}</Trailing>}
                 </Header>

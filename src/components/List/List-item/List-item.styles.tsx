@@ -1,6 +1,8 @@
+import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {LayoutAnimated} from '../../Layout-animated'
+import {ListType} from '../List.interface'
 import {
     ListItemBeforeAffordanceContainerProps,
     ListItemContainerProps,
@@ -14,11 +16,24 @@ export const Container = styled(Shape)<ListItemContainerProps>`
     position: relative;
     overflow: hidden;
 
-    ${({theme, densityScale = 0}) => css`
-        min-height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-    `};
+    ${({theme, type = 'standard', densityScale = 0}) => {
+        const containerType = {
+            menu: css`
+                min-height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
+                )}px;
+            `
+        } as Record<ListType, RuleSet<object> | undefined>
+
+        return (
+            containerType[type] ??
+            css`
+                min-height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
+                )}px;
+            `
+        )
+    }}
 `
 
 export const Content = styled.View`
@@ -46,15 +61,29 @@ export const Main = styled.View<ListItemMainProps>`
     position: relative;
     z-index: 1;
 
-    ${({theme, densityScale = 0}) => css`
-        min-height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+    ${({theme, type = 'standard', densityScale = 0}) => {
+        const containerType = {
+            menu: css`
+                min-height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
+                )}px;
 
-        padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
-            ${theme.adaptSize(theme.token.spacing.extraSmall)}px ${theme.adaptSize(theme.token.spacing.extraSmall)}px
-            ${theme.adaptSize(theme.token.spacing.medium)}px;
-    `}
+                padding: ${theme.adaptSize(theme.token.spacing.medium - theme.token.spacing.extraSmall)}px;
+            `
+        } as Record<ListType, RuleSet<object> | undefined>
+
+        return (
+            containerType[type] ??
+            css`
+                min-height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
+                )}px;
+
+                padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
+                    ${theme.adaptSize(theme.token.spacing.medium)}px;
+            `
+        )
+    }}
 
     ${({theme, supportingTextShow}) =>
         supportingTextShow &&
@@ -105,10 +134,40 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
             min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
         `}
 
-    ${({theme}) => css`
-        padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.extraSmall)}px
-            ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;
-    `};
+    ${({theme, type = 'standard', leadingShow}) => {
+        const mainInnerType = {
+            menu: css`
+                padding-left: ${theme.adaptSize(theme.token.spacing.medium - theme.token.spacing.extraSmall)}px;
+            `
+        } as Record<ListType, RuleSet<object> | undefined>
+
+        if (leadingShow) {
+            return (
+                mainInnerType[type] ??
+                css`
+                    padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                `
+            )
+        }
+    }}
+
+
+    ${({theme, type = 'standard', trailingShow}) => {
+        const mainInnerType = {
+            menu: css`
+                padding-right: ${theme.adaptSize(theme.token.spacing.medium - theme.token.spacing.extraSmall)}px;
+            `
+        } as Record<ListType, RuleSet<object> | undefined>
+
+        if (trailingShow) {
+            return (
+                mainInnerType[type] ??
+                css`
+                    padding-right: ${theme.adaptSize(theme.token.spacing.medium - theme.token.spacing.extraSmall)}px;
+                `
+            )
+        }
+    }}
 `
 
 export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
@@ -132,11 +191,7 @@ export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
         `}
 `
 
-export const HeadlineText = styled(Typography)`
-    ${({theme}) => css`
-        color: ${theme.token.scheme.onSurface};
-    `}
-`
+export const HeadlineText = styled(Typography)``
 
 export const SupportingText = styled(Typography)`
     height: auto;

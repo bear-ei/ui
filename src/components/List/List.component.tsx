@@ -12,10 +12,11 @@ const render = ({
     disabled,
     extraData = [],
     id,
-    itemSize = 56,
+    itemSize,
     loading,
     renderItem,
     style,
+    theme,
     ...virtualListProps
 }: RenderListProps) => (
     <Container
@@ -28,7 +29,7 @@ const render = ({
             {...virtualListProps}
             data={data}
             extraData={[activeKey, afterAffordanceActiveKey, activeKeys?.join(), disabled, loading, ...extraData]}
-            itemSize={itemSize}
+            itemSize={itemSize ?? theme.adaptSize(theme.token.spacing.extraSmall * 14)}
             loading={loading}
             renderItem={renderItem}
         />

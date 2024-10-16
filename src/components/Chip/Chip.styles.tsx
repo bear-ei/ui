@@ -73,14 +73,14 @@ export const Main = styled.View<ChipMainProps>`
     `}
 
     ${({theme, type = 'assist'}) => {
-        const contentType = {
+        const mainType = {
             input: css`
                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                     ${theme.adaptSize(theme.token.spacing.extraSmall * 3)}px;
             `
         } as Record<ChipType, RuleSet<object> | undefined>
 
-        return contentType[type]
+        return mainType[type]
     }}
 
     

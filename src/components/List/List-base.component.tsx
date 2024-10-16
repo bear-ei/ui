@@ -1,5 +1,6 @@
 import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {Divider} from '../Divider'
 import {RenderVirtualListItemInfo} from '../Virtual-list'
@@ -62,34 +63,36 @@ const createNextActiveEvent =
     }
 
 const handleListActive =
-    ({onActive, type, onActives, deselect}: HandleListActiveOptions = {}) =>
+    ({onActive, selectType, onActives, deselect}: HandleListActiveOptions = {}) =>
     (setState: Updater<ListState>) =>
     (value?: string | string[]) => {
         setState(draft => {
             const callbackValue =
-                type === 'select' ? handleListSelect(draft)(deselect)(value) : handleListMultiselect(draft)(value ?? [])
+                selectType === 'select' ?
+                    handleListSelect(draft)(deselect)(value)
+                :   handleListMultiselect(draft)(value ?? [])
 
             if (!onActive && draft.status === 'idle') {
                 draft.status = 'succeeded'
             }
 
             if (callbackValue && !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(callbackValue?.toString())) {
-                if (type === 'select') {
+                if (selectType === 'select') {
                     draft.nextActiveEvent = createNextActiveEvent({onActive})(callbackValue)
                 }
 
-                if (type === 'multiselect') {
+                if (selectType === 'multiselect') {
                     draft.nextActiveEvent = createNextActiveEvent({onActives})(callbackValue)
                 }
             }
         })
     }
 
-const handleActiveListAfterAffordance = ({onActive, type}: HandleListActiveOptions) => {
+const handleActiveListAfterAffordance = ({onActive, selectType}: HandleListActiveOptions) => {
     const createNextAfterAffordanceActiveEvent = (value?: string) => () => onActive?.(value)
 
     return (setState: Updater<ListState>) => (value?: string) => {
-        if (type !== 'multiselect') {
+        if (selectType !== 'multiselect') {
             setState(draft => {
                 const prevListActiveKey = draft.listActiveKey
 
@@ -174,6 +177,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             type,
             loading,
             listLoadingComponent,
+            selectType,
             ...renderProps
         },
         ref
@@ -199,10 +203,11 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 
         const id = useId()
         const listRef = useRef<VirtualListComponent<ListData>>(null)
-        const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, type})(setState)
-        const onListActive = handleListActive({onActive, type, onActives, deselect})(setState)
-        const onListActiveSource = useMemo(() => handleListActive({type})(setState), [setState, type])
+        const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, selectType})(setState)
+        const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
+        const onListActiveSource = useMemo(() => handleListActive({selectType})(setState), [setState, selectType])
         const onListClose = handleListClose(onClose)
+        const theme = useTheme()
         const idle =
             [
                 typeof defaultActiveKey === 'string' && !listActiveKey,
@@ -228,6 +233,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             onClose: onListClose,
             onConfirm,
             renderItem,
+            selectType,
             skeletonElement,
             skeletonMinDuration: loading && !listLoadingComponent ? -1 : skeletonMinDuration,
             supportingTextNumberOfLines,
@@ -263,7 +269,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             listLoadingComponent,
             loading,
             ref: listRef as RenderListProps['ref'],
-            renderItem: renderListItem
+            renderItem: renderListItem,
+            theme
         })
     }
 )

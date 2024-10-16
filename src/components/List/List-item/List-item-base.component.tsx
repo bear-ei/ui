@@ -178,7 +178,7 @@ const handleListItemClose =
 const handleListItemPanResponderRelease =
     ({onActiveAfterAffordance, disabled}: HandleListItemPanResponderReleaseOptions) =>
     (itemKey: string) =>
-    (_evt: GestureResponderEvent, gestureState: PanResponderGestureState) => {
+    (_event: GestureResponderEvent, gestureState: PanResponderGestureState) => {
         if (disabled) {
             return
         }
@@ -262,6 +262,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             onLoadEnd,
             onVisible,
             render,
+            selectType,
             supporting,
             trailing,
             trailingTrigger,
@@ -282,7 +283,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             trailingVisible: undefined
         })
 
-        const active = type === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)
+        const active = selectType === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)
         const theme = useTheme()
         const activeColor = theme.token.scheme.secondaryContainer
         const afterAffordanceVisible = afterAffordanceActiveKey === itemKey
@@ -294,11 +295,11 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
         const panResponder = useRef(
             PanResponder.create({
-                onMoveShouldSetPanResponder: (_evt, gestureState) =>
+                onMoveShouldSetPanResponder: (_event, gestureState) =>
                     Math.abs(gestureState.dx) > Math.abs(gestureState.dy),
 
-                onPanResponderGrant: (_evt, _gestureState) => {},
-                onPanResponderMove: (_evt, _gestureState) => {},
+                onPanResponderGrant: (_event, _gestureState) => {},
+                onPanResponderMove: (_event, _gestureState) => {},
                 onPanResponderRelease: onListItemPanResponderRelease
             })
         ).current
@@ -323,7 +324,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             )(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})
-        const {contentAnimatedStyle} = useListItemAnimated({
+        const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
+            active,
             afterAffordanceVisible,
             onListItemAfterAffordanceVisibleFinished
         })
@@ -361,12 +363,14 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             enableUnderlay,
             enableUnderlayActive,
             eventName,
+            headlineTextAnimatedStyle,
             id,
             itemKey,
             onConfirm: onListItemConfirm,
             onStateEvent,
             panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,
             ref,
+            selectType,
             state: listItemState,
             supporting,
             trailingElement,

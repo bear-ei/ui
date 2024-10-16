@@ -1,10 +1,11 @@
 import {RefAttributes} from 'react'
+import {DefaultTheme} from 'styled-components/native'
 import {ComponentStatus} from '../Common'
 import {RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
 import {ListItemProps} from './List-item'
 
 export type VirtualListComponent<T> = typeof VirtualList<T>
-export type ListType = 'select' | 'standard' | 'multiselect'
+export type ListType = 'standard' | 'menu'
 export interface ListData
     extends Pick<
         ListItemProps,
@@ -49,6 +50,7 @@ export interface ListProps
                 | 'onCancel'
                 | 'onClose'
                 | 'onConfirm'
+                | 'selectType'
                 | 'skeletonElement'
                 | 'skeletonMinDuration'
                 | 'supportingTextNumberOfLines'
@@ -66,6 +68,7 @@ export interface ListProps
 
 export interface RenderListProps extends ListProps {
     onUnmount?: (value?: string) => void
+    theme: DefaultTheme
 }
 
 export interface ListState {
@@ -100,6 +103,7 @@ export type HandleRenderItemOptions = Pick<
     | 'onClose'
     | 'onConfirm'
     | 'renderItem'
+    | 'selectType'
     | 'skeletonElement'
     | 'skeletonMinDuration'
     | 'supportingTextNumberOfLines'
@@ -111,4 +115,4 @@ export interface ListBaseProps extends ListProps {
     render: (props: RenderListProps) => JSX.Element
 }
 
-export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'type' | 'onActives' | 'deselect'>
+export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>

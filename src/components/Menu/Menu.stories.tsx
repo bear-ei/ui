@@ -3,15 +3,15 @@ import {useMemo, useState} from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Icon} from '../Icon'
 import {Skeleton} from '../Skeleton'
-import {List} from './List.component'
-import {ListProps} from './List.interface'
+import {Menu} from './Menu.component'
+import {MenuProps} from './Menu.interface'
 
-const renderListSkeleton = () => {
+const renderMenuSkeleton = () => {
     const {Square, Rectangular, Circle} = Skeleton
     const containerStyle = {
         paddingLeft: 16,
         flex: 1,
-        gap: 16,
+        gap: 12,
         paddingRight: 28
     } as StyleProp<ViewStyle>
 
@@ -40,15 +40,16 @@ const renderListSkeleton = () => {
     )
 }
 
-export const Headline: StoryObj<ListProps> = {
+export const Headline: StoryObj<MenuProps> = {
     args: {
         defaultActiveKey: 'TitleB',
         activeKey: 'TitleA',
-        itemShape: 'large',
         data: [
             {
+                leading: <Icon />,
                 indexKey: 'TitleA',
-                headline: 'TitleA'
+                headline: 'TitleA',
+                trailing: <Icon />
             },
             {
                 indexKey: 'TitleB',
@@ -66,7 +67,7 @@ export const Headline: StoryObj<ListProps> = {
     }
 }
 
-export const HeadlineDensityScale: StoryObj<ListProps> = {
+export const HeadlineDensityScale: StoryObj<MenuProps> = {
     args: {
         activeKey: 'TitleA',
         afterAffordance: true,
@@ -110,13 +111,12 @@ export const Select = () => {
     )
 
     const onActiveKey = (key?: string) => setActiveKey(key)
-    const skeleton = useMemo(() => renderListSkeleton(), [])
+    const skeleton = useMemo(() => renderMenuSkeleton(), [])
 
     return (
         <View style={[style]}>
-            <List
+            <Menu
                 data={data}
-                itemSize={56}
                 selectType='select'
                 skeletonElement={skeleton}
                 activeKey={activeKey}
@@ -143,24 +143,23 @@ export const Multiselect = () => {
     )
 
     const onActiveKeys = (keys?: string[]) => setActiveKeys(keys)
-    const skeleton = useMemo(() => renderListSkeleton(), [])
+    const skeleton = useMemo(() => renderMenuSkeleton(), [])
 
     return (
         <View style={[style]}>
-            <List
+            <Menu
                 activeKeys={activeKeys}
                 afterAffordance={true}
                 data={data}
-                itemSize={56}
                 onActives={onActiveKeys}
-                selectType='select'
                 skeletonElement={skeleton}
+                selectType='multiselect'
             />
         </View>
     )
 }
 
 export default {
-    title: 'components/List',
-    component: List
-} as Meta<typeof List>
+    title: 'components/Menu',
+    component: Menu
+} as Meta<typeof Menu>

@@ -21,6 +21,7 @@ import {
 } from './List-item.styles'
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
+const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 const render = ({
     active,
     activeColor,
@@ -37,16 +38,18 @@ const render = ({
     enableUnderlayActive,
     eventName,
     headline,
+    headlineTextAnimatedStyle,
     id,
     itemKey,
     itemShape,
     leading,
-    skeletonMinDuration,
     onCancel,
     onConfirm,
     onStateEvent,
     panResponder,
+    selectType,
     skeletonElement,
+    skeletonMinDuration,
     supporting,
     supportingTextNumberOfLines,
     trailingElement,
@@ -57,8 +60,8 @@ const render = ({
     ...mainProps
 }: RenderListItemProps) => {
     const supportingTextShow = !!supporting
-    const underlayProps = type &&
-        ['select', 'multiselect'].includes(type) &&
+    const underlayProps = selectType &&
+        ['select', 'multiselect'].includes(selectType) &&
         enableUnderlayActive && {
             active,
             activeAnimatedType: 'fade' as ActiveAnimatedType,
@@ -73,6 +76,7 @@ const render = ({
             densityScale={densityScale}
             shape={itemShape}
             testID={`listItem--${id}`}
+            type={type}
         >
             <Skeleton
                 content={skeletonElement}
@@ -101,6 +105,7 @@ const render = ({
                             supportingTextNumberOfLines={supportingTextNumberOfLines}
                             supportingTextShow={supportingTextShow}
                             testID={`listItem__main--${id}`}
+                            type={type}
                         >
                             {leading && (
                                 <Leading
@@ -113,21 +118,25 @@ const render = ({
                             )}
 
                             <MainInner
+                                leadingShow={!!leading}
                                 pointerEvents='none'
                                 supportingTextShow={supportingTextShow}
                                 testID={`listItem__mainInner--${id}`}
+                                trailingShow={!!trailingElement}
+                                type={type}
                             >
                                 {headline &&
                                     (isValidElement(headline) ? headline : (
-                                        <HeadlineText
+                                        <AnimatedHeadlineText
                                             ellipsizeMode='tail'
                                             numberOfLines={1}
                                             size='large'
+                                            style={[headlineTextAnimatedStyle]}
                                             testID={`listItem__headline--${id}`}
                                             type='body'
                                         >
                                             {headline}
-                                        </HeadlineText>
+                                        </AnimatedHeadlineText>
                                     ))}
 
                                 {supporting &&
