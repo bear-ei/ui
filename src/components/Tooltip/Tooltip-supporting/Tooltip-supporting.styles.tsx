@@ -1,10 +1,14 @@
+import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
+import {TooltipType} from '../'
 import {Shape, Typography} from '../../Common'
-import {TooltipSupportingContainerProps, TooltipSupportingContentProps} from './Tooltip-supporting.interface'
+import {
+    SupportingPosition,
+    TooltipSupportingContainerProps,
+    TooltipSupportingContentProps
+} from './Tooltip-supporting.interface'
 
 export const Container = styled.View<TooltipSupportingContainerProps>`
-    overflow: hidden;
-    position: absolute;
     z-index: 16384;
 
     ${({width = 0, height = 0}) => css`
@@ -20,28 +24,73 @@ export const Container = styled.View<TooltipSupportingContainerProps>`
         height = 0,
         supportingPosition: position = 'verticalStart',
         theme,
+        type = 'plain',
         width = 0
     }) => {
         const supportingPosition = {
-            verticalStart: css`
-                left: ${containerPageX + containerWidth / 2}px;
-                top: ${containerPageY - height - theme.adaptSize(theme.token.spacing.extraSmall)}px;
+            plain: {
+                verticalStart: css`
+                    left: ${containerPageX + containerWidth / 2}px;
+                    top: ${containerPageY - height - theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                `,
+                verticalEnd: css`
+                    left: ${containerPageX + containerWidth / 2}px;
+                    top: ${containerPageY + containerHeight + theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                `,
+                horizontalStart: css`
+                    left: ${containerPageX - width - theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    top: ${containerPageY + containerHeight / 2}px;
+                `,
+                horizontalEnd: css`
+                    left: ${containerPageX + containerWidth + theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    top: ${containerPageY + containerHeight / 2}px;
+                `
+            },
+            menu: {
+                verticalStart: css`
+                    /* left: ${containerPageX + containerWidth}px;
+                    top: ${containerPageY - height - theme.adaptSize(theme.token.spacing.extraSmall)}px; */
+                `,
+                verticalEnd: css`
+                    left: ${containerPageX}px;
+                    top: ${containerPageY + containerHeight + theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                `,
+                horizontalStart: css`
+                    /* left: ${containerPageX - width - theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    top: ${containerPageY + containerHeight}px; */
+                `,
+                horizontalEnd: css`
+                    /* left: ${containerPageX + containerWidth + theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    top: ${containerPageY + containerHeight}px; */
+                `
+            }
+        } as Record<TooltipType, Record<SupportingPosition, RuleSet<object> | undefined>>
+
+        console.info(containerPageX, containerPageY)
+
+        return supportingPosition[type]?.[position]
+    }}
+    
+    ${({theme}) => {
+        const containerOS = {
+            ios: css`
+                position: absolute;
             `,
-            verticalEnd: css`
-                left: ${containerPageX + containerWidth / 2}px;
-                top: ${containerPageY + containerHeight + theme.adaptSize(theme.token.spacing.extraSmall)}px;
+            web: css`
+                position: fixed;
             `,
-            horizontalStart: css`
-                left: ${containerPageX - width - theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                top: ${containerPageY + containerHeight / 2}px;
+            macos: css`
+                position: absolute;
             `,
-            horizontalEnd: css`
-                left: ${containerPageX + containerWidth + theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                top: ${containerPageY + containerHeight / 2}px;
+            android: css`
+                position: absolute;
+            `,
+            windows: css`
+                position: absolute;
             `
         }
 
-        return supportingPosition[position]
+        return containerOS[theme.OS]
     }}
 `
 
@@ -50,6 +99,7 @@ export const TouchableContent = styled.Pressable`
 
     ${({theme}) => css`
         left: ${theme.adaptSize(theme.token.spacing.none)}px;
+        right: ${theme.adaptSize(theme.token.spacing.none)}px;
         top: ${theme.adaptSize(theme.token.spacing.none)}px;
     `}
 `
@@ -63,7 +113,8 @@ export const Content = styled(Shape)<TooltipSupportingContentProps>`
                 padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
                     ${theme.adaptSize(theme.token.spacing.small)}px;
             `,
-            rich: css``
+            rich: css``,
+            menu: css``
         }
 
         return contentType[type]

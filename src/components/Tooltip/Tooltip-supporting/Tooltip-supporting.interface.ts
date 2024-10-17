@@ -6,11 +6,13 @@ import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../
 import {ComponentStatus} from '../../Common'
 import {TooltipType} from '../Tooltip.interface'
 
+export type SupportingPosition = 'horizontalStart' | 'horizontalEnd' | 'verticalStart' | 'verticalEnd'
+
 export interface TooltipSupportingProps extends ViewProps, RefAttributes<View> {
     containerCurrent: View | null
     onVisible?: (value?: boolean) => void
     supportingPosition?: 'horizontalStart' | 'horizontalEnd' | 'verticalStart' | 'verticalEnd'
-    supportingText?: string
+    supporting?: string | JSX.Element
     type?: TooltipType
     visible?: boolean
 }

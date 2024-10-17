@@ -4,11 +4,11 @@ import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {EventName, ShapeProps} from '../Common'
 import {TooltipSupportingProps} from './Tooltip-supporting'
 
-export type TooltipType = 'plain' | 'rich'
+export type TooltipType = 'plain' | 'rich' | 'menu'
 export interface TooltipProps
     extends Omit<
         Partial<
-            Pick<TooltipSupportingProps, 'supportingPosition' | 'supportingText' | 'type' | 'visible' | 'onVisible'> &
+            Pick<TooltipSupportingProps, 'supportingPosition' | 'supporting' | 'type' | 'visible' | 'onVisible'> &
                 Pick<ShapeProps, 'shape'> &
                 PressableProps &
                 RefAttributes<View> &
@@ -21,6 +21,7 @@ export interface TooltipProps
     defaultVisible?: boolean
     disabled?: boolean
     eventName?: EventName
+    type?: TooltipType
 }
 
 export interface RenderTooltipProps extends TooltipProps {

@@ -1,4 +1,4 @@
-import {FC, forwardRef} from 'react'
+import {FC, forwardRef, isValidElement} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {TooltipSupportingBase} from './Tooltip-supporting-base.component'
@@ -7,34 +7,34 @@ import {Container, Content, TooltipSupportingText, TouchableContent} from './Too
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 const render = ({
-    contentAnimatedStyle,
     containerLayout,
+    contentAnimatedStyle,
     height = 0,
     id,
     onStateEvent,
+    supporting,
     supportingPosition = 'verticalStart',
-    supportingText,
-    theme,
+    theme: _,
     type,
     width = 0,
     ...containerProps
 }: RenderTooltipSupportingProps) => {
-    const containerStyle = {
-        transform: [
-            {
-                translateX:
-                    supportingPosition?.startsWith('vertical') ?
-                        -(width / 2)
-                    :   theme.adaptSize(theme.token.spacing.none)
-            },
-            {
-                translateY:
-                    supportingPosition?.startsWith('horizontal') ?
-                        -(height / 2)
-                    :   theme.adaptSize(theme.token.spacing.none)
-            }
-        ]
-    }
+    // const containerStyle = {
+    //     transform: [
+    //         {
+    //             translateX:
+    //                 supportingPosition?.startsWith('vertical') ?
+    //                     -(width / 2)
+    //                 :   theme.adaptSize(theme.token.spacing.none)
+    //         },
+    //         {
+    //             translateY:
+    //                 supportingPosition?.startsWith('horizontal') ?
+    //                     -(height / 2)
+    //                 :   theme.adaptSize(theme.token.spacing.none)
+    //         }
+    //     ]
+    // }
 
     return (
         <Container
@@ -44,7 +44,7 @@ const render = ({
             containerPageY={containerLayout.pageY}
             containerWidth={containerLayout.width}
             height={height}
-            style={[containerStyle]}
+            // style={[containerStyle]}
             supportingPosition={supportingPosition}
             testID={`tooltipSupporting__supporting--${id}`}
             type={type}
@@ -52,7 +52,7 @@ const render = ({
         >
             <TouchableContent
                 {...onStateEvent}
-                testID={`tooltipSupporting__supportingInner--${id}`}
+                testID={`tooltipSupporting__supportingContent--${id}`}
             >
                 <AnimatedContent
                     shape='extraSmall'
@@ -61,15 +61,18 @@ const render = ({
                     testID={`tooltipSupporting__content--${id}`}
                     type={type}
                 >
-                    <TooltipSupportingText
-                        ellipsizeMode='tail'
-                        numberOfLines={1}
-                        size='small'
-                        testID={`tooltipSupporting__supportingText--${id}`}
-                        type='body'
-                    >
-                        {supportingText}
-                    </TooltipSupportingText>
+                    {isValidElement(supporting) ?
+                        supporting
+                    :   <TooltipSupportingText
+                            ellipsizeMode='tail'
+                            numberOfLines={1}
+                            size='small'
+                            testID={`tooltipSupporting__supportingText--${id}`}
+                            type='body'
+                        >
+                            {supporting}
+                        </TooltipSupportingText>
+                    }
                 </AnimatedContent>
             </TouchableContent>
         </Container>

@@ -1,4 +1,6 @@
 import {DefaultTheme} from 'styled-components/native'
+import {ComponentStatus} from '../Common'
+import {ListData} from '../List'
 import {MenuProps} from '../Menu'
 import {TextFieldProps} from '../Text-field/Text-field.interface'
 
@@ -9,4 +11,9 @@ export interface RenderTextFieldPickerProps extends TextFieldPickerProps {
 
 export interface TextFieldPickerBaseProps extends TextFieldPickerProps {
     render: (props: RenderTextFieldPickerProps) => JSX.Element
+}
+
+export interface TextFieldPickerState {
+    data?: ListData[]
+    status: ComponentStatus
 }

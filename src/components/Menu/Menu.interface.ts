@@ -1,18 +1,12 @@
-import {DefaultTheme} from 'styled-components/native'
-import {ElevationLevel} from '../Elevation'
-import {ListProps} from '../List'
+import {TooltipProps} from '../Tooltip'
+import {MenuListProps} from './Menu-list'
 
-export interface MenuProps extends ListProps {
-    defaultVisible?: boolean
-    elevation?: ElevationLevel
-    virtualList?: boolean
-    visible?: boolean
+export type MenuType = 'textFieldPicker'
+export interface MenuProps extends Omit<TooltipProps & MenuListProps, 'type'> {
+    type?: MenuType
 }
 
-export interface RenderMenuProps extends MenuProps {
-    theme: DefaultTheme
-}
-
+export type RenderMenuProps = MenuProps
 export interface MenuBaseProps extends MenuProps {
     render: (props: RenderMenuProps) => JSX.Element
 }

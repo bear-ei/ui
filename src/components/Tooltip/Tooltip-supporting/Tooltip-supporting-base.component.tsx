@@ -76,7 +76,7 @@ const handleTooltipSupportingUnmount = (id: string) =>
  *   Undebugged animation callbacks
  */
 export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps>(
-    ({containerCurrent, onVisible, render, supportingPosition, supportingText, visible, ...renderProps}, ref) => {
+    ({containerCurrent, onVisible, render, supportingPosition, supporting, visible, type, ...renderProps}, ref) => {
         const [{containerLayout, layout, status, closed}, setState] = useImmer<TooltipSupportingState>({
             closed: undefined,
             containerLayout: {} as TooltipSupportingState['containerLayout'],
@@ -98,32 +98,39 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled: !visible})
         const {contentAnimatedStyle} = useTooltipSupportingAnimated({visible, onClose: onTooltipSupportingClose})
+        const tooltipSupportingWidth = useMemo(
+            () => (type === 'menu' ? containerLayout.width : layout.width),
+            [containerLayout.width, layout.width, type]
+        )
+
         const renderTooltipSupporting = useCallback(
             () =>
                 render({
-                    contentAnimatedStyle,
                     containerLayout,
+                    contentAnimatedStyle,
                     height: layout.height,
                     id,
                     onStateEvent,
                     ref,
+                    supporting,
                     supportingPosition,
-                    supportingText,
                     theme,
-                    width: layout.width
+                    type,
+                    width: tooltipSupportingWidth
                 }),
             [
-                contentAnimatedStyle,
                 containerLayout,
+                contentAnimatedStyle,
                 id,
                 layout.height,
-                layout.width,
                 onStateEvent,
                 ref,
                 render,
+                supporting,
                 supportingPosition,
-                supportingText,
-                theme
+                theme,
+                tooltipSupportingWidth,
+                type
             ]
         )
 

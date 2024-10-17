@@ -15,8 +15,9 @@ const render = ({
     id,
     onStateEvent,
     onVisible,
+    supporting,
     supportingPosition,
-    supportingText,
+    type,
     visible,
     ...containerProps
 }: RenderTooltipProps) => (
@@ -31,12 +32,13 @@ const render = ({
             {children}
         </Content>
 
-        {typeof visible === 'boolean' && typeof supportingText === 'string' && (
+        {typeof visible === 'boolean' && supporting && (
             <TooltipSupporting
                 containerCurrent={containerCurrent}
                 onVisible={onVisible}
+                supporting={supporting}
                 supportingPosition={supportingPosition}
-                supportingText={supportingText}
+                type={type}
                 visible={visible}
             />
         )}
