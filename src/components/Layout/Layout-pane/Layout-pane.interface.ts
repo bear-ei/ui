@@ -10,4 +10,4 @@ export interface LayoutPaneBaseProps extends LayoutPaneProps {
     render: (props: RenderLayoutPaneProps) => JSX.Element
 }
 
-export type ContainerProps = Pick<LayoutPaneProps, 'width'>
+export type LayoutPaneContainerProps = Pick<LayoutPaneProps, 'width'>

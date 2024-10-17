@@ -1,7 +1,7 @@
 import styled, {css} from 'styled-components/native'
-import {ContainerProps} from './Layout-pane.interface'
+import {LayoutPaneContainerProps} from './Layout-pane.interface'
 
-export const Container = styled.View<ContainerProps>`
+export const Container = styled.View<LayoutPaneContainerProps>`
     align-self: stretch;
     flex: 1;
 

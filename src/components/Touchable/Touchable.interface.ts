@@ -51,7 +51,7 @@ export type HandleTouchableStateChangeOptions = Pick<TouchableRippleProps, 'touc
     OnStateEventChangeOptions &
     Pick<TouchableProps, 'enableTouchableRipple'>
 
-export type ContentProps = Pick<RenderTouchableProps, 'hotZone'>
-export interface MainProps {
+export type TouchableContentProps = Pick<RenderTouchableProps, 'hotZone'>
+export interface TouchableMainProps {
     alignSelf?: ViewStyle['alignSelf']
 }

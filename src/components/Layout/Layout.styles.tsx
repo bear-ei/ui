@@ -1,9 +1,9 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {WindowSize} from '../../hooks'
-import {ContainerProps} from './Layout.interface'
+import {LayoutContainerProps} from './Layout.interface'
 
-export const Container = styled.View<ContainerProps>`
+export const Container = styled.View<LayoutContainerProps>`
     align-self: stretch;
     display: flex;
     flex-direction: row;

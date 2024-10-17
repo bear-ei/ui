@@ -1,9 +1,9 @@
 import {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
-import {Layout, Size} from '../Common'
+import {LayoutType, Size} from '../Common'
 
 export interface DividerProps extends ViewProps, RefAttributes<View> {
-    layout?: Layout
+    layout?: LayoutType
     size?: Size
     subheader?: string
     verticalStretch?: boolean

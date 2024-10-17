@@ -1,6 +1,6 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
-import {Size, Typography} from '../Common'
+import {LayoutType, Size, Typography} from '../Common'
 import {DividerContainerProps} from './Divider.interface'
 
 export const Container = styled.View<DividerContainerProps>`
@@ -22,7 +22,7 @@ export const Container = styled.View<DividerContainerProps>`
                 height: 100%;
                 width: ${theme.adaptSize(1)}px;
             `
-        }
+        } as Record<LayoutType, RuleSet<object> | undefined>
 
         return containerLayout[layout]
     }}

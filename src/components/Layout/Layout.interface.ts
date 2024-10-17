@@ -13,7 +13,8 @@ export interface LayoutBaseProps extends LayoutProps {
     render: (props: RenderLayoutProps) => JSX.Element
 }
 
-export type ContainerProps = Pick<LayoutProps, 'windowSize' | 'navigationArea'>
 export interface LayoutComponent extends FC<LayoutProps> {
     Pane: FC<LayoutPaneProps>
 }
+
+export type LayoutContainerProps = Pick<LayoutProps, 'windowSize' | 'navigationArea'>

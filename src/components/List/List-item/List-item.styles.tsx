@@ -62,7 +62,7 @@ export const Main = styled.View<ListItemMainProps>`
     z-index: 1;
 
     ${({theme, type = 'standard', densityScale = 0}) => {
-        const containerType = {
+        const mainType = {
             menu: css`
                 min-height: ${theme.adaptSize(
                     theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
@@ -73,7 +73,7 @@ export const Main = styled.View<ListItemMainProps>`
         } as Record<ListType, RuleSet<object> | undefined>
 
         return (
-            containerType[type] ??
+            mainType[type] ??
             css`
                 min-height: ${theme.adaptSize(
                     theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall

@@ -3,7 +3,7 @@ import {LayoutPane} from './Layout-pane'
 import {Layout} from './Layout.component'
 import {LayoutProps} from './Layout.interface'
 
-export const Headline: StoryObj<LayoutProps> = {
+export const Pane: StoryObj<LayoutProps> = {
     args: {
         children: (
             <>

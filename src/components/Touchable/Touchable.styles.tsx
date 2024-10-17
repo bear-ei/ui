@@ -1,13 +1,13 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {ContentProps, MainProps} from './Touchable.interface'
+import {TouchableContentProps, TouchableMainProps} from './Touchable.interface'
 
 export const Container = styled.View`
     align-self: stretch;
     flex: 1;
 `
 
-export const Content = styled.Pressable<ContentProps>`
+export const Content = styled.Pressable<TouchableContentProps>`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,7 +21,7 @@ export const Content = styled.Pressable<ContentProps>`
         `}
 `
 
-export const Main = styled(Shape)<MainProps>`
+export const Main = styled(Shape)<TouchableMainProps>`
     position: relative;
     z-index: 3;
 
