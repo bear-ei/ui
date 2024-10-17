@@ -96,7 +96,6 @@ const render = ({
                         {...onStateEvent}
                         disabled={disabled}
                         enableTouchableRipple={type === 'standard' ? enableUnderlay : false}
-                        horizontalStretch={true}
                         underlayColor={underlayColor}
                     >
                         <Main

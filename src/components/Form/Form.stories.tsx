@@ -73,14 +73,12 @@ export const FormA = () => {
             <Button
                 labelText='submit'
                 onPress={handleSubmit}
-                horizontalStretch={true}
             />
 
             <Button
                 labelText='reset'
                 onPress={handleReset}
                 type='outlined'
-                horizontalStretch={true}
             />
         </View>
     )

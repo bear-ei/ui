@@ -4,7 +4,6 @@ import {Shape, Typography} from '../Common'
 import {ButtonContainerProps, ButtonContentProps, ButtonMainProps, ButtonType} from './Button.interface'
 
 export const Container = styled.View<ButtonContainerProps>`
-    align-self: flex-start;
     cursor: pointer;
 
     ${({theme, densityScale = 0}) => css`
@@ -31,13 +30,6 @@ export const Container = styled.View<ButtonContainerProps>`
 
         return containerType[type]
     }}
-
-
-    ${({horizontalStretch}) =>
-        horizontalStretch &&
-        css`
-            align-self: stretch;
-        `}
 `
 
 export const Content = styled(Shape)<ButtonContentProps>`

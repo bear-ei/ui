@@ -8,7 +8,6 @@ const render = ({
     backgroundUnderlay,
     children,
     elevationUnderlay,
-    horizontalStretch,
     id,
     onStateEvent,
     rippleElements,
@@ -25,7 +24,6 @@ const render = ({
                 testID={`touchable__content--${id}`}
             >
                 <Main
-                    horizontalStretch={horizontalStretch}
                     onLayout={onLayout}
                     shape={shape}
                     testID={`touchable__main--${id}`}

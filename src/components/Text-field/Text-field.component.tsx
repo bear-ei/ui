@@ -33,6 +33,7 @@ const AnimatedSupportingText = Animated.createAnimatedComponent(SupportingText)
 const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.FunctionComponent<
     AnimatedProps<FastOmit<InputProps, never>>
 >
+
 const render = ({
     activeIndicatorAnimatedStyle,
     content,

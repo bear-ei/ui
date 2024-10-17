@@ -12,7 +12,6 @@ export interface ChipProps extends TouchableProps {
     avatar?: JSX.Element
     densityScale?: number
     elevated?: boolean
-    horizontalStretch?: boolean
     labelText?: string
     leadingIcon?: JSX.Element
     loading?: boolean
@@ -59,7 +58,7 @@ export interface HandleChipAnimatedTimingSharedValue {
     filterIconContainerWidthSharedValue: SharedValue<AnimatableValue>
 }
 
-export type ChipContainerProps = Pick<RenderChipProps, 'horizontalStretch' | 'densityScale' | 'type'>
+export type ChipContainerProps = Pick<RenderChipProps, 'densityScale' | 'type'>
 export type ChipContentProps = Pick<RenderChipProps, 'type' | 'densityScale'>
 export interface ChipMainProps extends Pick<RenderChipProps, 'type'> {
     avatarShow: boolean

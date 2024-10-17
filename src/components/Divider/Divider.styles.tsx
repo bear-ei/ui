@@ -4,7 +4,6 @@ import {Size, Typography} from '../Common'
 import {DividerContainerProps} from './Divider.interface'
 
 export const Container = styled.View<DividerContainerProps>`
-    align-self: flex-start;
     display: flex;
     flex-direction: column;
 
@@ -16,11 +15,9 @@ export const Container = styled.View<DividerContainerProps>`
         const containerLayout = {
             horizontal: css`
                 height: ${theme.adaptSize(1)}px;
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
             `,
 
             vertical: css`
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
                 width: ${theme.adaptSize(1)}px;
             `
         }
@@ -52,18 +49,6 @@ export const Container = styled.View<DividerContainerProps>`
 
         return containerSize[size]
     }};
-
-    ${({verticalStretch}) =>
-        verticalStretch &&
-        css`
-            height: 100%;
-        `}
-
-    ${({horizontalStretch}) =>
-        horizontalStretch &&
-        css`
-            width: 100%;
-        `}
 `
 
 export const Content = styled.View`

@@ -132,12 +132,7 @@ const renderDefaultListItem = ({
             itemKey={item?.indexKey ?? index.toString()}
         />
 
-        {divider && (
-            <Divider
-                layout='horizontal'
-                horizontalStretch={true}
-            />
-        )}
+        {divider && <Divider layout='horizontal' />}
     </>
 )
 

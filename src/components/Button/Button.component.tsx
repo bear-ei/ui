@@ -16,7 +16,6 @@ const render = ({
     disabled,
     elevation,
     eventName,
-    horizontalStretch,
     icon,
     id,
     labelText,
@@ -51,7 +50,6 @@ const render = ({
     return (
         <Container
             densityScale={densityScale}
-            horizontalStretch={horizontalStretch}
             testID={`button--${id}`}
             type={type}
         >
@@ -61,7 +59,6 @@ const render = ({
                 disabled={loading || disabled}
                 elevationUnderlay={elevationUnderlayElement}
                 enableFocusRing={false}
-                horizontalStretch={horizontalStretch}
                 hotZone={type !== 'link'}
                 ref={ref}
                 shape={shape}

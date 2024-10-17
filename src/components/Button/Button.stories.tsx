@@ -71,13 +71,6 @@ export const DensityScale: StoryObj<ButtonProps> = {
     }
 }
 
-export const Block: StoryObj<ButtonProps> = {
-    args: {
-        labelText: 'Label',
-        horizontalStretch: true
-    }
-}
-
 export default {
     title: 'components/Button',
     argTypes: {onPress: {action: 'pressed'}},

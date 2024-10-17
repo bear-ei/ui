@@ -4,7 +4,6 @@ import {Shape, Typography} from '../Common'
 import {ChipContainerProps, ChipContentProps, ChipMainProps, ChipType} from './Chip.interface'
 
 export const Container = styled.View<ChipContainerProps>`
-    align-self: flex-start;
     cursor: pointer;
 
     ${({theme, densityScale = 0}) => css`
@@ -15,12 +14,6 @@ export const Container = styled.View<ChipContainerProps>`
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 8)}px;
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
     `}
-
-    ${({horizontalStretch}) =>
-        horizontalStretch &&
-        css`
-            align-self: stretch;
-        `}
 `
 
 export const Content = styled(Shape)<ChipContentProps>`

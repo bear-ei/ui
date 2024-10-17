@@ -26,7 +26,6 @@ export interface TouchableProps
      */
     enableFocusRing?: boolean
     enableTouchableRipple?: boolean
-    horizontalStretch?: boolean
     hotZone?: boolean
 }
 
@@ -51,5 +50,4 @@ export type HandleTouchableStateChangeOptions = Pick<TouchableRippleProps, 'touc
     OnStateEventChangeOptions &
     Pick<TouchableProps, 'enableTouchableRipple'>
 
-export type MainProps = Pick<RenderTouchableProps, 'horizontalStretch'>
 export type ContentProps = Pick<RenderTouchableProps, 'hotZone'>

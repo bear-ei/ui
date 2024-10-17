@@ -17,10 +17,7 @@ const render = ({containerAnimatedStyle, containerLayout, id, ...listProps}: Ren
         testID={`search__list--${id}`}
         width={containerLayout.width}
     >
-        <Divider
-            horizontalStretch={true}
-            size='large'
-        />
+        <Divider size='large' />
 
         <List {...listProps} />
     </AnimatedContainer>

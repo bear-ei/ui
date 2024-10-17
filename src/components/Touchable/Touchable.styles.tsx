@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {ContentProps, MainProps} from './Touchable.interface'
+import {ContentProps} from './Touchable.interface'
 
 export const Container = styled.View`
     align-self: stretch;
@@ -21,15 +21,9 @@ export const Content = styled.Pressable<ContentProps>`
         `}
 `
 
-export const Main = styled(Shape)<MainProps>`
+export const Main = styled(Shape)`
     position: relative;
     z-index: 3;
-
-    ${({horizontalStretch}) =>
-        horizontalStretch &&
-        css`
-            align-self: stretch;
-        `}
 `
 
 export const RippleContainer = styled(Shape)`

@@ -30,7 +30,6 @@ const render = ({
     elevation,
     eventName,
     filterIconContainerAnimatedStyle,
-    horizontalStretch,
     id,
     labelText,
     labelTextAnimatedStyle,
@@ -64,7 +63,6 @@ const render = ({
     return (
         <Container
             densityScale={densityScale}
-            horizontalStretch={horizontalStretch}
             testID={`chip--${id}`}
             type={type}
         >
@@ -74,7 +72,6 @@ const render = ({
                 disabled={loading || disabled}
                 elevationUnderlay={elevationUnderlayElement}
                 enableFocusRing={false}
-                horizontalStretch={horizontalStretch}
                 ref={ref}
                 shape={shape}
                 underlayColor={underlayColor}

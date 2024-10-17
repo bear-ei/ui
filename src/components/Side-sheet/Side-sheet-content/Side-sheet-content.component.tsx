@@ -89,17 +89,13 @@ const render = ({
                     style={[footerAnimatedStyle]}
                     testID={`sideSideSheetContent__footerContainer--${id}`}
                 >
-                    <Divider
-                        horizontalStretch={true}
-                        size='large'
-                    />
+                    <Divider size='large' />
 
                     <Footer testID={`sideSideSheetContent__footer--${id}`}>
                         <PrimaryButton testID={`sideSideSheetContent__primaryButton--${id}`}>
                             {primaryButton ?? (
                                 <Button
                                     {...{labelText: 'Confirm', ...primaryButtonProps}}
-                                    horizontalStretch={true}
                                     onPressOut={onConfirm}
                                     type='filled'
                                 />
@@ -110,7 +106,6 @@ const render = ({
                             {secondaryButton ?? (
                                 <Button
                                     {...{labelText: 'Cancel', ...secondaryButtonProps}}
-                                    horizontalStretch={true}
                                     onPressOut={onCancel}
                                     type='outlined'
                                 />
