@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
-import {EventName, State} from '../Common'
+import {EventName, State, TriggerEvent} from '../Common'
 import {HandleTooltipStateEventChangeOptions, TooltipBaseProps, TooltipState} from './Tooltip.interface'
 
 const handleTooltipVisible = (setState: Updater<TooltipState>) => (onVisible?: (value?: boolean) => void) => {
@@ -19,22 +19,34 @@ const handleTooltipVisible = (setState: Updater<TooltipState>) => (onVisible?: (
     }
 }
 
-const handleTooltipEventNameChange = (onTooltipVisible: (value?: boolean) => void) => (eventName?: EventName) => {
-    if (eventName && ['hoverIn', 'hoverOut', 'pressIn'].includes(eventName)) {
-        const visible = eventName === 'hoverIn'
+const handleTooltipEventNameChange =
+    (onTooltipVisible: (value?: boolean) => void) =>
+    (triggerEvent = 'hover' as TriggerEvent) => {
+        const trigger = {
+            focus: ['focus', 'blur'],
+            hover: ['hoverIn', 'hoverOut'],
+            press: ['pressIn']
+        }
 
-        onTooltipVisible(visible)
+        return (eventName?: EventName) => {
+            const triggerEventNames = trigger[triggerEvent]
+
+            if (eventName && triggerEventNames?.includes(eventName)) {
+                const visible = eventName === triggerEventNames[0]
+
+                onTooltipVisible(visible)
+            }
+        }
     }
-}
 
 const handleTooltipStateChange =
-    ({onTooltipVisible, eventName}: HandleTooltipStateEventChangeOptions) =>
+    ({onTooltipVisible, eventName, triggerEvent}: HandleTooltipStateEventChangeOptions) =>
     (_setState: Updater<TooltipState>) =>
     (_event: StateEvent) =>
-        handleTooltipEventNameChange(onTooltipVisible)(eventName)
+        handleTooltipEventNameChange(onTooltipVisible)(triggerEvent)(eventName)
 
 export const TooltipBase = forwardRef<View, TooltipBaseProps>(
-    ({defaultVisible, disabled = false, eventName, onVisible, render, visible, ...renderProps}, ref) => {
+    ({defaultVisible, disabled = false, eventName, onVisible, render, visible, triggerEvent, ...renderProps}, ref) => {
         const [{tooltipVisible, nextActiveEvent}, setState] = useImmer<TooltipState>({
             nextActiveEvent: undefined,
             tooltipVisible: undefined
@@ -47,9 +59,13 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
             [onVisible, setState]
         )
 
-        const onStateEventNameChange = useMemo(() => handleTooltipEventNameChange(onTooltipVisible), [onTooltipVisible])
+        const onStateEventNameChange = useMemo(
+            () => handleTooltipEventNameChange(onTooltipVisible)(triggerEvent),
+            [onTooltipVisible, triggerEvent]
+        )
+
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleTooltipStateChange({...options, onTooltipVisible, state})(setState)(event)
+            handleTooltipStateChange({...options, onTooltipVisible, state, triggerEvent})(setState)(event)
 
         const onStateEvent = useOnStateEvent({
             ...renderProps,

@@ -45,7 +45,7 @@ export type HandleTooltipSupportingEmitOptions = Pick<TooltipSupportingState, 's
 export type HandleTooltipSupportingStateEventChangeOptions = OnStateEventChangeOptions &
     Pick<TooltipSupportingProps, 'onVisible'>
 
-export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'visible'> {
+export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'visible' | 'type'> {
     onClose?: (value?: boolean) => void
 }
 

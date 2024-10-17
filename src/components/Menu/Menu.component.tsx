@@ -6,22 +6,25 @@ import {MenuList} from './Menu-list'
 import {MenuProps, RenderMenuProps} from './Menu.interface'
 import {Container} from './Menu.styles'
 
-const render = ({id, data, type, ...tooltipProps}: RenderMenuProps) => (
-    <Container testID={`menu--${id}`}>
-        <Tooltip
-            {...tooltipProps}
-            supporting={
-                <MenuList
-                    data={data}
-                    type={type}
-                />
-            }
-            supportingPosition='verticalEnd'
-            type='menu'
-            visible={true}
+const render = ({id, data, type, ...tooltipProps}: RenderMenuProps) => {
+    const supporting = (
+        <MenuList
+            data={data}
+            type={type}
         />
-    </Container>
-)
+    )
+
+    return (
+        <Container testID={`menu--${id}`}>
+            <Tooltip
+                {...tooltipProps}
+                supporting={supporting}
+                supportingPosition='verticalEnd'
+                type='menu'
+            />
+        </Container>
+    )
+}
 
 const ForwardRefMenu = forwardRef<VirtualListComponent<ListData>, MenuProps>((props, ref) => (
     <MenuBase

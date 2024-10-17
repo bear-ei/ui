@@ -1,7 +1,7 @@
 import {RefAttributes} from 'react'
 import {PressableProps, View, ViewProps} from 'react-native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
-import {EventName, ShapeProps} from '../Common'
+import {EventName, ShapeProps, TriggerEvent} from '../Common'
 import {TooltipSupportingProps} from './Tooltip-supporting'
 
 export type TooltipType = 'plain' | 'rich' | 'menu'
@@ -21,6 +21,7 @@ export interface TooltipProps
     defaultVisible?: boolean
     disabled?: boolean
     eventName?: EventName
+    triggerEvent?: TriggerEvent
     type?: TooltipType
 }
 
@@ -39,6 +40,8 @@ export interface TooltipState {
     tooltipVisible?: boolean
 }
 
-export interface HandleTooltipStateEventChangeOptions extends OnStateEventChangeOptions {
+export interface HandleTooltipStateEventChangeOptions
+    extends OnStateEventChangeOptions,
+        Pick<TooltipProps, 'triggerEvent'> {
     onTooltipVisible: (value?: boolean) => void
 }

@@ -24,13 +24,27 @@ const handleTooltipSupportingAnimatedTiming =
         }
     }
 
-export const useTooltipSupportingAnimated = ({visible, onClose}: UseTooltipSupportingAnimatedOptions) => {
+export const useTooltipSupportingAnimated = ({
+    visible,
+    onClose,
+    type = 'menu'
+}: UseTooltipSupportingAnimatedOptions) => {
     const transformSharedValue = useSharedValue(visible ? 1 : 0)
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
+    const contentTransformType = useMemo(
+        () => ({
+            menu: {height: interpolate(transformSharedValue.value, [0, 1], [0, 200])},
+            plain: {transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1])}]},
+            rich: {transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1])}]}
+        }),
+        [transformSharedValue.value]
+    )
+
+    const contentTransformStyle = contentTransformType[type]
     const contentAnimatedStyle = useAnimatedStyle(() => ({
         opacity: interpolate(transformSharedValue.value, [0, 1], [0, 1]),
-        transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1])}]
+        ...contentTransformStyle
     }))
 
     const onTooltipSupportingAnimatedTiming = useMemo(

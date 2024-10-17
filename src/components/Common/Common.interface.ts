@@ -45,3 +45,5 @@ export interface TypographyProps {
     size?: Size
     type?: TypographyType
 }
+
+export type TriggerEvent = 'focus' | 'hover' | 'press'

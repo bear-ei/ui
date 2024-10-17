@@ -29,12 +29,11 @@ const handleTooltipSupportingStateChange =
         if (eventName === 'layout') {
             handleTooltipSupportingLayout(setState)(event as LayoutChangeEvent)
         } else if (eventName && ['hoverIn', 'hoverOut', 'pressIn'].includes(eventName)) {
-            onVisible?.(eventName === 'hoverIn')
         }
     }
 
 const handleTooltipSupportingClose = (setState: Updater<TooltipSupportingState>) => (value?: boolean) => {
-    if (typeof value === 'boolean' && !value) {
+    if (typeof value === 'boolean' && value) {
         setState(draft => {
             draft.closed = value
         })
@@ -69,8 +68,11 @@ const handleTooltipSupportingEmit =
         }
     }
 
-const handleTooltipSupportingUnmount = (id: string) =>
+const handleTooltipSupportingUnmount = (id: string) => {
+    console.info(`Unmounting tooltip supporting ${id}`)
+
     emitter.emit('modal', {id: `tooltip__supporting--${id}`, render: undefined})
+}
 
 /**
  *   Undebugged animation callbacks
@@ -97,7 +99,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
             handleTooltipSupportingStateChange({...options, onVisible, state})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled: !visible})
-        const {contentAnimatedStyle} = useTooltipSupportingAnimated({visible, onClose: onTooltipSupportingClose})
+        const {contentAnimatedStyle} = useTooltipSupportingAnimated({visible, onClose: onTooltipSupportingClose, type})
         const tooltipSupportingWidth = useMemo(
             () => (type === 'menu' ? containerLayout.width : layout.width),
             [containerLayout.width, layout.width, type]

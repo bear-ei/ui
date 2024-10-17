@@ -7,12 +7,16 @@ const handleModal = (setState: Updater<ModalState>) => (modal: Modal) => {
     const {id, render} = modal
 
     setState(draft => {
-        const exist = draft.modals.find(item => item.id === id)
+        const modalIndex = draft.modals.findIndex(item => item.id === id)
 
-        if (exist) {
-            draft.modals = draft.modals
-                .map(item => (item.id === id ? {...item, render} : item))
-                .filter(item => item.render)
+        if (modalIndex !== -1) {
+            draft.modals = draft.modals.reduce((accumulator, item) => {
+                if (item.id === id && render) {
+                    return [...accumulator, {...item, render}]
+                }
+
+                return accumulator
+            }, [] as Modal[])
 
             return
         }

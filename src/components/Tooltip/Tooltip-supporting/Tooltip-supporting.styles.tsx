@@ -105,6 +105,8 @@ export const TouchableContent = styled.Pressable`
 `
 
 export const Content = styled(Shape)<TooltipSupportingContentProps>`
+    overflow: hidden;
+
     ${({theme, type = 'plain'}) => {
         const contentType = {
             plain: css`
