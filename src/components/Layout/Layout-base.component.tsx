@@ -10,7 +10,6 @@ export const LayoutBase = forwardRef<View, LayoutBaseProps>(({render, ...renderP
     return render({
         ...renderProps,
         id,
-
         ref,
         windowSize
     })

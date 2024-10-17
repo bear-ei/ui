@@ -1,6 +1,7 @@
-import {RefAttributes} from 'react'
+import {FC, RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
 import {WindowSize} from '../../hooks'
+import {LayoutPaneProps} from './Layout-pane'
 
 export interface LayoutProps extends ViewProps, RefAttributes<View> {
     navigationArea: boolean
@@ -13,3 +14,6 @@ export interface LayoutBaseProps extends LayoutProps {
 }
 
 export type ContainerProps = Pick<LayoutProps, 'windowSize' | 'navigationArea'>
+export interface LayoutComponent extends FC<LayoutProps> {
+    Pane: FC<LayoutPaneProps>
+}

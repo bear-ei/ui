@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {ContentProps} from './Touchable.interface'
+import {ContentProps, MainProps} from './Touchable.interface'
 
 export const Container = styled.View`
     align-self: stretch;
@@ -8,10 +8,10 @@ export const Container = styled.View`
 `
 
 export const Content = styled.Pressable<ContentProps>`
-    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 
     ${({theme, hotZone = true}) =>
         hotZone &&
@@ -21,9 +21,13 @@ export const Content = styled.Pressable<ContentProps>`
         `}
 `
 
-export const Main = styled(Shape)`
+export const Main = styled(Shape)<MainProps>`
     position: relative;
     z-index: 3;
+
+    ${({alignSelf = 'stretch'}) => css`
+        align-self: ${alignSelf};
+    `}
 `
 
 export const RippleContainer = styled(Shape)`

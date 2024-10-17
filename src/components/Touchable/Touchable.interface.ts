@@ -1,5 +1,5 @@
 import {RefAttributes} from 'react'
-import {LayoutRectangle, PressableProps, View, ViewProps} from 'react-native'
+import {LayoutRectangle, PressableProps, View, ViewProps, ViewStyle} from 'react-native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ShapeProps} from '../Common'
 import {TouchableRippleProps} from './Touchable-ripple'
@@ -27,6 +27,7 @@ export interface TouchableProps
     enableFocusRing?: boolean
     enableTouchableRipple?: boolean
     hotZone?: boolean
+    mainAlignSelf?: ViewStyle['alignSelf']
 }
 
 export interface RenderTouchableProps extends TouchableProps {
@@ -51,3 +52,6 @@ export type HandleTouchableStateChangeOptions = Pick<TouchableRippleProps, 'touc
     Pick<TouchableProps, 'enableTouchableRipple'>
 
 export type ContentProps = Pick<RenderTouchableProps, 'hotZone'>
+export interface MainProps {
+    alignSelf?: ViewStyle['alignSelf']
+}

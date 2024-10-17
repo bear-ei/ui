@@ -46,6 +46,7 @@ const render = ({
                 disabled={disabled}
                 enableFocusRing={false}
                 enableTouchableRipple={type !== 'active'}
+                mainAlignSelf='center'
                 ref={ref}
                 shape={shape}
                 underlayColor={underlayColor}

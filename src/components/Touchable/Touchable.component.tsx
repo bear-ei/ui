@@ -12,6 +12,7 @@ const render = ({
     onStateEvent,
     rippleElements,
     shape,
+    mainAlignSelf,
     ...contentProps
 }: RenderTouchableProps) => {
     const {onLayout, ...onPressableEvent} = onStateEvent
@@ -24,6 +25,7 @@ const render = ({
                 testID={`touchable__content--${id}`}
             >
                 <Main
+                    alignSelf={mainAlignSelf}
                     onLayout={onLayout}
                     shape={shape}
                     testID={`touchable__main--${id}`}

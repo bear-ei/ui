@@ -15,9 +15,11 @@ export const Container = styled.View<DividerContainerProps>`
         const containerLayout = {
             horizontal: css`
                 height: ${theme.adaptSize(1)}px;
+                width: 100%;
             `,
 
             vertical: css`
+                height: 100%;
                 width: ${theme.adaptSize(1)}px;
             `
         }
