@@ -89,11 +89,14 @@ const renderChipIcon =
             return icon
         }
 
+        const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+
         return cloneElement<IconProps>(icon, {
-            densityScale: -1.5,
             disabled,
             eventName,
-            fill: theme.token.scheme.primary
+            fill: theme.token.scheme.primary,
+            height: iconSize,
+            width: iconSize
         })
     }
 
@@ -101,7 +104,6 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
     (
         {
             active,
-            densityScale,
             disabled,
             elevated,
             labelText = 'Label',
@@ -177,7 +179,6 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
             active,
             activeColor,
             contentUnderlayAnimatedStyle,
-            densityScale,
             disabled,
             elevation,
             eventName,

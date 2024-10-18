@@ -100,7 +100,15 @@ const renderButtonIcon =
                 return icon
             }
 
-            return cloneElement<IconProps>(icon, {densityScale: -1.5, disabled, eventName, fill: fillType[type]})
+            const size = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+
+            return cloneElement<IconProps>(icon, {
+                disabled,
+                eventName,
+                fill: fillType[type],
+                height: size,
+                width: size
+            })
         }
     }
 
@@ -118,7 +126,7 @@ const handleButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const ButtonBase = forwardRef<View, ButtonBaseProps>(
-    ({densityScale, disabled, icon, labelText = 'Label', render, type = 'filled', ...renderProps}, ref) => {
+    ({disabled, icon, labelText = 'Label', render, type = 'filled', ...renderProps}, ref) => {
         const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<ButtonState>({
             elevation: undefined,
             eventName: undefined,
@@ -161,7 +169,6 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
         return render({
             ...renderProps,
             contentUnderlayAnimatedStyle,
-            densityScale,
             disabled,
             elevation,
             eventName,

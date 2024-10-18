@@ -21,8 +21,8 @@ const DesktopThemeProvider: FC<ThemeProps> = ({children, token: themeToken}) => 
                 token: themeToken ?? token()(colorScheme ?? 'light')('gemstoneBlue')
             }}
         >
-            <ModalProvider />
             {children}
+            <ModalProvider />
         </StyledComponentThemeProvider>
     )
 }
@@ -42,8 +42,8 @@ const MobileThemeProvider: FC<ThemeProps> = ({designOptions = {}, children, toke
                 token: themeToken ?? token()(colorScheme ?? 'light')('gemstoneBlue')
             }}
         >
-            <ModalProvider />
             {children}
+            <ModalProvider />
         </StyledComponentThemeProvider>
     )
 }

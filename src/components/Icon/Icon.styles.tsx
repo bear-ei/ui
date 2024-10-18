@@ -8,8 +8,8 @@ export const Container = styled.View<IconContainerProps>`
     justify-content: center;
     overflow: hidden;
 
-    ${({theme, densityScale = 0}) => css`
-        height: ${theme.adaptSize(theme.token.spacing.large + densityScale * theme.token.spacing.extraSmall)}px;
-        width: ${theme.adaptSize(theme.token.spacing.large + densityScale * theme.token.spacing.extraSmall)}px;
+    ${({theme, width, height}) => css`
+        height: ${width ?? theme.adaptSize(theme.token.spacing.large)}px;
+        width: ${height ?? theme.adaptSize(theme.token.spacing.large)}px;
     `}
 `

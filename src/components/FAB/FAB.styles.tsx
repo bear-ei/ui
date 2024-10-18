@@ -6,46 +6,29 @@ export const Container = styled.View<FABContainerProps>`
     align-self: flex-start;
     cursor: pointer;
 
-    ${({theme, size = 'medium', densityScale = 0}) => {
+    ${({theme, size = 'medium'}) => {
         const contentSize = {
             small: css`
-                height: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-                )}px;
-
-                min-width: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-                )}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
             `,
             medium: css`
-                height: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-                )}px;
-
-                min-width: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-                )}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
             `,
             large: css`
-                height: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 24 + densityScale * theme.token.spacing.extraSmall
-                )}px;
-
-                min-width: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 24 + densityScale * theme.token.spacing.extraSmall
-                )}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 24)}px;
+                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24)}px;
             `
         }
 
         return contentSize[size]
     }}
 
-    ${({theme, densityScale = 0, extendedFAB}) =>
+    ${({theme, extendedFAB}) =>
         extendedFAB &&
         css`
-            min-width: ${theme.adaptSize(
-                theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-            )}px;
+            min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
         `}
 
     ${({theme}) => css`
@@ -61,46 +44,29 @@ export const Content = styled(Shape)<FABContentProps>`
     position: relative;
     z-index: 1;
 
-    ${({theme, size = 'medium', densityScale = 0}) => {
+    ${({theme, size = 'medium'}) => {
         const contentSize = {
             small: css`
-                height: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-                )}px;
-
-                width: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-                )}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
             `,
             medium: css`
-                height: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-                )}px;
-
-                width: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-                )}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
             `,
             large: css`
-                height: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 24 + densityScale * theme.token.spacing.extraSmall
-                )}px;
-
-                width: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 24 + densityScale * theme.token.spacing.extraSmall
-                )}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 24)}px;
+                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24)}px;
             `
         }
 
         return contentSize[size]
     }}
 
-    ${({theme, densityScale = 0, extendedFAB}) =>
+    ${({theme, extendedFAB}) =>
         extendedFAB &&
         css`
-            height: ${theme.adaptSize(
-                theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-            )}px;
+            height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
 
             width: auto;
         `}

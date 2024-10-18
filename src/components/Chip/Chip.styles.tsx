@@ -6,11 +6,8 @@ import {ChipContainerProps, ChipContentProps, ChipMainProps, ChipType} from './C
 export const Container = styled.View<ChipContainerProps>`
     cursor: pointer;
 
-    ${({theme, densityScale = 0}) => css`
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
+    ${({theme}) => css`
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 8)}px;
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
     `}
@@ -29,10 +26,8 @@ export const Content = styled(Shape)<ChipContentProps>`
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
     `}
 
-    ${({theme, densityScale = 0}) => css`
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 8 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+    ${({theme}) => css`
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 8)}px;
     `}
 `
 

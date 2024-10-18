@@ -84,7 +84,7 @@ const renderIconButtonIcon =
     }
 
 export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
-    ({densityScale, disabled = false, fill, icon, render, type = 'filled', ...renderProps}, ref) => {
+    ({disabled = false, fill, icon, render, type = 'filled', ...renderProps}, ref) => {
         const [{eventName, nextPressInEvent}, setState] = useImmer<IconButtonState>({eventName: undefined})
         const id = useId()
         const touchableRef = useRef<View>(null)
@@ -113,7 +113,6 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
             ...renderProps,
             activeColor,
             contentUnderlayAnimatedStyle,
-            densityScale,
             disabled,
             eventName,
             icon: iconElement,

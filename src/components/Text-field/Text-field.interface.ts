@@ -21,8 +21,9 @@ export interface TextFieldProps
         TextInputProps & PressableProps & RefAttributes<TextInput> & Pick<ShapeProps, 'shape'> & OnStateEvent
     > {
     content?: JSX.Element
-    densityScale?: number
     disabled?: boolean
+    disabledBlur?: boolean
+    enableFocusRing?: boolean
     error?: boolean
     labelText?: string
     leading?: JSX.Element
@@ -31,7 +32,6 @@ export interface TextFieldProps
     supportingTextDelayTime?: number
     trailing?: JSX.Element
     type?: TextFieldType
-    enableFocusRing?: boolean
 }
 
 export interface RenderTextFieldProps extends TextFieldProps {
@@ -66,10 +66,11 @@ export interface TextFieldState {
     textInputValue?: string
 }
 
-export type HandleTextFieldStateEventChangeOptions = {
+export interface HandleTextFieldStateEventChangeOptions
+    extends OnStateEventChangeOptions,
+        Pick<TextFieldProps, 'content' | 'disabledBlur'> {
     ref?: RefObject<TextInput>
-} & OnStateEventChangeOptions &
-    Pick<TextFieldProps, 'content'>
+}
 
 export interface UseTextFieldAnimatedOptions extends Pick<RenderTextFieldProps, 'type' | 'error' | 'disabled'> {
     filled: boolean
@@ -115,7 +116,7 @@ export interface HandleTextFieldFocusedSharedValue {
 
 export type TextFieldStateAnimated = Partial<Record<State, () => void>>
 export type HandleTextFieldNonerrorAnimatedOptions = Pick<UseTextFieldAnimatedOptions, 'disabled' | 'error'>
-export type TextFieldHeaderProps = Pick<RenderTextFieldProps, 'type' | 'densityScale'> & {
+export type TextFieldHeaderProps = Pick<RenderTextFieldProps, 'type'> & {
     leadingShow: boolean
     trailingShow: boolean
 }
@@ -129,6 +130,6 @@ export interface TextFieldLabelProps extends TypographyProps {
     leadingShow: boolean
 }
 
-export interface TextFieldMainProps extends Pick<RenderTextFieldProps, 'densityScale'> {
+export interface TextFieldMainProps {
     contentShow?: boolean
 }

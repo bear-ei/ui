@@ -1,24 +1,19 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {CheckboxContainerProps, CheckboxContentProps, CheckboxIconContainerProps} from './Checkbox.interface'
+import {CheckboxIconContainerProps} from './Checkbox.interface'
 
-export const Container = styled.View<CheckboxContainerProps>`
+export const Container = styled.View`
     cursor: pointer;
 
-    ${({theme, densityScale = 0}) => css`
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
+    ${({theme}) => css`
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        width: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
     `}
 `
 
-export const Content = styled(Shape)<CheckboxContentProps>`
+export const Content = styled(Shape)`
     align-items: center;
     align-self: center;
     display: flex;
@@ -27,14 +22,9 @@ export const Content = styled(Shape)<CheckboxContentProps>`
     position: relative;
     z-index: 1;
 
-    ${({theme, densityScale = 0}) => css`
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
-        width: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+    ${({theme}) => css`
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
     `};
 `
 

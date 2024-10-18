@@ -1,32 +1,34 @@
 import {RefAttributes} from 'react'
-import {PressableProps, View, ViewProps} from 'react-native'
+import {LayoutRectangle, View, ViewProps} from 'react-native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
-import {EventName, ShapeProps, TriggerEvent} from '../Common'
+import {EventName} from '../Common'
 import {TooltipSupportingProps} from './Tooltip-supporting'
 
 export type TooltipType = 'plain' | 'rich' | 'menu'
 export interface TooltipProps
-    extends Omit<
-        Partial<
-            Pick<TooltipSupportingProps, 'supportingPosition' | 'supporting' | 'type' | 'visible' | 'onVisible'> &
-                Pick<ShapeProps, 'shape'> &
-                PressableProps &
-                RefAttributes<View> &
-                ViewProps &
-                OnStateEvent
+    extends Pick<
+            TooltipSupportingProps,
+            | 'elevation'
+            | 'onVisible'
+            | 'shape'
+            | 'supporting'
+            | 'supportingPosition'
+            | 'triggerEvent'
+            | 'type'
+            | 'visible'
         >,
-        'children' | 'disabled' | 'hitSlop'
-    > {
-    children?: JSX.Element
+        ViewProps,
+        RefAttributes<View> {
     defaultVisible?: boolean
     disabled?: boolean
     eventName?: EventName
-    triggerEvent?: TriggerEvent
     type?: TooltipType
+    visible?: boolean
 }
 
 export interface RenderTooltipProps extends TooltipProps {
     containerCurrent: View | null
+    layout: LayoutRectangle
     onStateEvent: OnStateEvent
     onVisible?: (value?: boolean) => void
 }
@@ -36,6 +38,7 @@ export interface TooltipBaseProps extends TooltipProps {
 }
 
 export interface TooltipState {
+    layout: LayoutRectangle
     nextActiveEvent?: () => void
     tooltipVisible?: boolean
 }

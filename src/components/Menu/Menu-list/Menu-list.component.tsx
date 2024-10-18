@@ -1,37 +1,27 @@
 import {FC, forwardRef} from 'react'
-import {Elevation} from '../../Elevation'
 import {List, ListData, VirtualListComponent} from '../../List'
 import {MenuListBase} from './Menu-list-base.component'
 import {MenuListProps, RenderMenuListProps} from './Menu-list.interface'
 import {Container, ListContainer} from './Menu-list.styles'
 
-const render = ({theme, selectType = 'select', id, elevation = 2, type, ...menuProps}: RenderMenuListProps) => {
-    const shape = 'extraSmall'
-
-    return (
-        <Container
-            testID={`menu--${id}`}
-            type={type}
+const render = ({theme, multiple, id, type, shape, ...menuProps}: RenderMenuListProps) => (
+    <Container
+        testID={`menu--${id}`}
+        type={type}
+    >
+        <ListContainer
+            shape={shape}
+            testID={`menu-listContainer--${id}`}
         >
-            <ListContainer
-                testID={`menu-listContainer--${id}`}
-                shape={shape}
-            >
-                <List
-                    {...menuProps}
-                    itemSize={theme.adaptSize(theme.token.spacing.extraSmall * 12)}
-                    selectType={selectType}
-                    type='menu'
-                />
-            </ListContainer>
-
-            <Elevation
-                level={elevation}
-                shape={shape}
+            <List
+                {...menuProps}
+                itemSize={theme.adaptSize(theme.token.spacing.extraSmall * 12)}
+                selectType={multiple ? 'multiselect' : 'select'}
+                type='menu'
             />
-        </Container>
-    )
-}
+        </ListContainer>
+    </Container>
+)
 
 const ForwardRefMenuList = forwardRef<VirtualListComponent<ListData>, MenuListProps>((props, ref) => (
     <MenuListBase

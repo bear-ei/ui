@@ -9,9 +9,9 @@ import {MenuProps} from './Menu.interface'
 const renderMenuSkeleton = () => {
     const {Square, Rectangular, Circle} = Skeleton
     const containerStyle = {
-        paddingLeft: 16,
         flex: 1,
         gap: 12,
+        paddingLeft: 16,
         paddingRight: 28
     } as StyleProp<ViewStyle>
 
@@ -23,8 +23,8 @@ const renderMenuSkeleton = () => {
             style={[containerStyle]}
         >
             <Square
-                width={24}
                 height={24}
+                width={24}
             />
 
             <Rectangular
@@ -33,8 +33,8 @@ const renderMenuSkeleton = () => {
             />
 
             <Circle
-                width={40}
                 height={40}
+                width={40}
             />
         </Rectangular>
     )
@@ -42,55 +42,26 @@ const renderMenuSkeleton = () => {
 
 export const Headline: StoryObj<MenuProps> = {
     args: {
-        defaultActiveKey: 'TitleB',
         activeKey: 'TitleA',
+        defaultActiveKey: 'TitleB',
         data: [
             {
-                leading: <Icon />,
-                indexKey: 'TitleA',
                 headline: 'TitleA',
+                indexKey: 'TitleA',
+                leading: <Icon />,
                 trailing: <Icon />
             },
             {
-                indexKey: 'TitleB',
-                headline: 'TitleB'
+                headline: 'TitleB',
+                indexKey: 'TitleB'
             },
             {
-                indexKey: 'TitleC',
-                headline: 'TitleC'
+                headline: 'TitleC',
+                indexKey: 'TitleC'
             },
             {
-                indexKey: 'TitleD',
-                headline: 'TitleD'
-            }
-        ]
-    }
-}
-
-export const HeadlineDensityScale: StoryObj<MenuProps> = {
-    args: {
-        activeKey: 'TitleA',
-        afterAffordance: true,
-        defaultActiveKey: 'TitleB',
-        densityScale: -4,
-        itemSize: 40,
-        itemShape: 'extraSmall',
-        data: [
-            {
-                headline: 'TitleA',
-                indexKey: 'TitleA'
-            },
-            {
-                indexKey: 'TitleB',
-                headline: 'TitleB'
-            },
-            {
-                indexKey: 'TitleC',
-                headline: 'TitleC'
-            },
-            {
-                indexKey: 'TitleD',
-                headline: 'TitleD'
+                headline: 'TitleD',
+                indexKey: 'TitleD'
             }
         ]
     }

@@ -1,22 +1,17 @@
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
-import {AvatarContainerProps, AvatarContentProps} from './Avatar.interface'
+import {AvatarContentProps} from './Avatar.interface'
 
-export const Container = styled.View<AvatarContainerProps>`
+export const Container = styled.View`
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
 
-    ${({theme, densityScale = 0}) => css`
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
-        width: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+    ${({theme}) => css`
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
     `}
 `
 
@@ -26,15 +21,10 @@ export const Content = styled(Shape)<AvatarContentProps>`
     flex-direction: column;
     justify-content: center;
 
-    ${({theme, backgroundColor, densityScale = 0}) => css`
+    ${({theme, backgroundColor}) => css`
         background-color: ${backgroundColor ?? theme.token.scheme.primaryContainer};
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
-        width: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
     `};
 `
 

@@ -1,15 +1,14 @@
-import {FC, RefAttributes} from 'react'
-import {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatedStyle} from 'react-native-reanimated'
-import {SvgProps} from 'react-native-svg'
-import {EventName} from '../Common'
-import {outlined} from './icon.outlined'
+import { FC, RefAttributes } from 'react'
+import { StyleProp, View, ViewProps, ViewStyle } from 'react-native'
+import { AnimatedStyle } from 'react-native-reanimated'
+import { SvgProps } from 'react-native-svg'
+import { EventName } from '../Common'
+import { outlined } from './icon.outlined'
 
 export type IconName = keyof (typeof outlined)['outlined']
 export type IconStyle = 'outlined' | 'rounded' | 'sharp'
 export type IconType = 'filled' | 'outlined'
-export interface IconProps extends Omit<SvgProps, 'width' | 'height' | 'hitSlop'>, RefAttributes<View>, ViewProps {
-    densityScale?: number
+export interface IconProps extends Omit<SvgProps, 'hitSlop'>, RefAttributes<View>, ViewProps {
     eventName?: EventName
     icon?: FC<SvgProps>
     iconStyle?: IconStyle
@@ -28,4 +27,4 @@ export interface IconBaseProps extends IconProps {
 }
 
 export type UseIconAnimatedOptions = Pick<RenderIconProps, 'eventName'>
-export type IconContainerProps = Pick<IconProps, 'densityScale'>
+export type IconContainerProps = Pick<IconProps, 'width' | 'height'>

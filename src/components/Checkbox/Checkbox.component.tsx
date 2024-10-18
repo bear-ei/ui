@@ -10,7 +10,6 @@ import {Container, Content, IconContainer, Main} from './Checkbox.styles'
 
 const AnimatedIconContainer = Animated.createAnimatedComponent(IconContainer)
 const render = ({
-    densityScale,
     disabled,
     error,
     eventName,
@@ -27,11 +26,15 @@ const render = ({
     const unselectedFill = type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
     const checkBoxOutlineFill = error ? theme.token.scheme.error : unselectedFill
     const shape = 'full'
+    const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+    const iconStyle = {
+        width: iconSize,
+        height: iconSize
+    }
 
     return (
         <Container
             accessibilityRole='checkbox'
-            densityScale={densityScale}
             testID={`checkbox--${id}`}
         >
             <Touchable
@@ -42,7 +45,6 @@ const render = ({
             >
                 <Content
                     {...contentProps}
-                    densityScale={densityScale}
                     pointerEvents='none'
                     shape={shape}
                     testID={`checkbox__content--${id}`}
@@ -56,7 +58,7 @@ const render = ({
                             visible={true}
                         >
                             <Icon
-                                densityScale={-1.5}
+                                {...iconStyle}
                                 disabled={disabled}
                                 fill={checkBoxOutlineFill}
                                 iconStyle='outlined'
@@ -73,7 +75,7 @@ const render = ({
                             zIndex={1}
                         >
                             <Icon
-                                densityScale={-1.5}
+                                {...iconStyle}
                                 disabled={disabled}
                                 fill={activeFill}
                                 iconStyle='outlined'
@@ -90,7 +92,7 @@ const render = ({
                             zIndex={1}
                         >
                             <Icon
-                                densityScale={-1.5}
+                                {...iconStyle}
                                 disabled={disabled}
                                 fill={activeFill}
                                 iconStyle='outlined'

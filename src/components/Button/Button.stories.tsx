@@ -64,13 +64,6 @@ export const Icon: StoryObj<ButtonProps> = {
     }
 }
 
-export const DensityScale: StoryObj<ButtonProps> = {
-    args: {
-        labelText: 'Label',
-        densityScale: -2
-    }
-}
-
 export default {
     title: 'components/Button',
     argTypes: {onPress: {action: 'pressed'}},

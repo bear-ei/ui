@@ -10,3 +10,11 @@ export const ListContainer = styled(Shape)`
     flex: 1;
     overflow: hidden;
 `
+
+export const Item = styled.View`
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 32px;
+    justify-content: center;
+`

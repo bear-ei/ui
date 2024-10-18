@@ -5,4 +5,6 @@ export const Container = styled.View`
     flex-direction: column;
 `
 
-export const Content = styled.Pressable``
+export const Content = styled.Pressable`
+    background-color: red;
+`

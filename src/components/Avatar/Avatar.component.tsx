@@ -7,7 +7,7 @@ import {Container, Content, Image, LabelText} from './Avatar.styles'
 const render = ({
     backgroundColor,
     defaultSource,
-    densityScale,
+
     id,
     labelText,
     source,
@@ -16,13 +16,11 @@ const render = ({
     <Container
         {...containerProps}
         accessibilityRole='image'
-        densityScale={densityScale}
         pointerEvents='none'
         testID={`avatar--${id}`}
     >
         <Content
             backgroundColor={backgroundColor}
-            densityScale={densityScale}
             shape='full'
             testID={`avatar__content--${id}`}
         >

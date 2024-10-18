@@ -71,8 +71,6 @@ export const useListItemAnimated = ({
     }, [afterAffordanceVisible, onListItemAfterAffordanceVisibleAnimated])
 
     useEffect(() => {
-        console.info(active, 'active')
-
         onListItemActiveAnimated(active)
     }, [active, onListItemActiveAnimated])
 

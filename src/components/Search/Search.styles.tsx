@@ -21,13 +21,10 @@ export const Content = styled(Shape)<SearchContentProps>`
     position: relative;
     z-index: 1;
 
-    ${({theme, densityScale = 0}) => css`
+    ${({theme}) => css`
         background-color: ${theme.token.scheme.surfaceContainerHigh};
         gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
         padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `};
 

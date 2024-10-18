@@ -16,10 +16,6 @@ export const CheckboxError: StoryObj<CheckboxProps> = {
     args: {error: true}
 }
 
-export const DensityScale: StoryObj<CheckboxProps> = {
-    args: {error: true, densityScale: -2}
-}
-
 export default {
     title: 'components/Checkbox',
     argTypes: {onActive: {action: 'active'}},

@@ -9,7 +9,6 @@ export interface SideSheetContentProps extends ViewProps, RefAttributes<View>, P
     back?: boolean
     close?: boolean
     content?: JSX.Element
-    densityScale?: number
     disabledClose?: boolean
     footerVisible?: boolean
     headlineLeading?: JSX.Element
@@ -50,7 +49,7 @@ export interface SideSheetContentBaseProps extends SideSheetContentProps {
 export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisible'>
 export type UseSideSheetContentAnimatedOptions = Pick<
     RenderSideSheetContentProps,
-    'visible' | 'sheetPosition' | 'type' | 'footerVisible' | 'densityScale'
+    'visible' | 'sheetPosition' | 'type' | 'footerVisible'
 >
 
 export interface HandleSideSheetContentVisibleAnimatedTimingSharedValue
@@ -68,4 +67,4 @@ export type RenderSideSheetContentLeadingOptions = Pick<
 export type RenderSideSheetContentTrailingOptions = Pick<SideSheetContentProps, 'headlineTrailing' | 'close'>
 export type SheetContainerProps = Pick<RenderSideSheetContentProps, 'sheetPosition' | 'type'>
 export type SheetHeaderProps = {leadingShow?: boolean; trailingShow?: boolean}
-export type SheetViewContentProps = Pick<RenderSideSheetContentProps, 'densityScale' | 'type'>
+export type SheetViewContentProps = Pick<RenderSideSheetContentProps, 'type'>

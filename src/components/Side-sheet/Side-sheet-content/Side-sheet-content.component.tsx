@@ -27,7 +27,6 @@ const render = ({
     containerAnimatedStyle,
     content,
     contentAnimatedStyle,
-    densityScale,
     footerAnimatedStyle,
     headlineText,
     id,
@@ -57,7 +56,6 @@ const render = ({
             <AnimatedContent
                 {...innerProps}
                 accessibilityRole='alert'
-                densityScale={densityScale}
                 shape={sheetShape}
                 style={[style, contentAnimatedStyle]}
                 testID={`sideSideSheetContent__content--${id}`}

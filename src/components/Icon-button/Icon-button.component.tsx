@@ -14,7 +14,7 @@ const render = ({
     activeColor,
     contentUnderlayAnimatedStyle,
     defaultActive,
-    densityScale,
+
     disabled,
     eventName,
     icon,
@@ -36,10 +36,7 @@ const render = ({
     )
 
     return (
-        <Container
-            testID={`iconButton--${id}`}
-            densityScale={densityScale}
-        >
+        <Container testID={`iconButton--${id}`}>
             <Touchable
                 {...onStateEvent}
                 backgroundUnderlay={backgroundUnderlayElement}
@@ -54,7 +51,6 @@ const render = ({
                 <Content
                     {...contentProps}
                     accessibilityRole='button'
-                    densityScale={densityScale}
                     pointerEvents='none'
                     shape={shape}
                     testID={`iconButton__content--${id}`}

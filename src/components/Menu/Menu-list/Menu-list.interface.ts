@@ -1,6 +1,6 @@
 import {LayoutRectangle} from 'react-native'
 import {DefaultTheme} from 'styled-components/native'
-import {ComponentStatus} from '../../Common'
+import {ComponentStatus, ShapeType} from '../../Common'
 import {ElevationLevel} from '../../Elevation'
 import {ListProps} from '../../List'
 import {MenuType} from '../Menu.interface'
@@ -8,6 +8,8 @@ import {MenuType} from '../Menu.interface'
 export interface MenuListProps extends Omit<ListProps, 'type'> {
     defaultVisible?: boolean
     elevation?: ElevationLevel
+    multiple?: boolean
+    shape?: ShapeType
     type?: MenuType
     virtualList?: boolean
     visible?: boolean

@@ -10,7 +10,6 @@ import {Container, Content, Input, Leading, Main, TextField, Touchable, Trailing
 const SearchTextInput: FC<SearchTextInputProps> = Input
 const render = ({
     containerRef,
-    densityScale,
     eventName,
     id,
     layout,
@@ -41,7 +40,6 @@ const render = ({
                 testID={`textfield__touchable--${id}`}
             >
                 <Content
-                    densityScale={densityScale}
                     shape={shape}
                     testID={`search__content--${id}`}
                     trailingShow={!!trailing}

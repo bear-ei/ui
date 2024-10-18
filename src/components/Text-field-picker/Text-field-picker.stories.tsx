@@ -1,13 +1,11 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {Icon} from '../Icon'
 import {TextFieldPicker} from './Text-field-picker.component'
 import {TextFieldPickerProps} from './Text-field-picker.interface'
 
-export const IconTextField: StoryObj<TextFieldPickerProps> = {
+export const SelectTextField: StoryObj<TextFieldPickerProps> = {
     args: {
         labelText: 'name',
         supportingText: 'supportingText',
-        leading: <Icon />,
         data: [
             {
                 indexKey: 'TitleA',
@@ -24,6 +22,48 @@ export const IconTextField: StoryObj<TextFieldPickerProps> = {
             {
                 indexKey: 'TitleD',
                 headline: 'TitleD'
+            }
+        ]
+    }
+}
+
+export const MultiselectTextField: StoryObj<TextFieldPickerProps> = {
+    args: {
+        labelText: 'name',
+        multiple: true,
+        supportingText: 'supportingText',
+        data: [
+            {
+                indexKey: 'TitleA',
+                headline: 'TitleA'
+            },
+            {
+                indexKey: 'TitleB',
+                headline: 'TitleB'
+            },
+            {
+                indexKey: 'TitleC',
+                headline: 'TitleC'
+            },
+            {
+                indexKey: 'TitleD',
+                headline: 'TitleD'
+            },
+            {
+                indexKey: 'TitleE',
+                headline: 'TitleE'
+            },
+            {
+                indexKey: 'TitleF',
+                headline: 'TitleF'
+            },
+            {
+                indexKey: 'TitleG',
+                headline: 'TitleG'
+            },
+            {
+                indexKey: 'TitleH',
+                headline: 'TitleH'
             }
         ]
     }

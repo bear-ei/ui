@@ -5,14 +5,56 @@ import {Shape, Typography} from '../../Common'
 import {
     SupportingPosition,
     TooltipSupportingContainerProps,
-    TooltipSupportingContentProps
+    TooltipSupportingContentProps,
+    TooltipSupportingMainProps
 } from './Tooltip-supporting.interface'
 
-export const Container = styled.View<TooltipSupportingContainerProps>`
-    z-index: 16384;
+export const Container = styled.Pressable<TooltipSupportingContainerProps>`
+    cursor: pointer;
+    z-index: 999998;
 
-    ${({width = 0, height = 0}) => css`
-        height: ${height}px;
+    ${({theme}) => {
+        const containerOS = {
+            ios: css`
+                position: absolute;
+            `,
+            web: css`
+                position: fixed;
+            `,
+            macos: css`
+                position: absolute;
+            `,
+            android: css`
+                position: absolute;
+            `,
+            windows: css`
+                position: absolute;
+            `
+        }
+
+        return containerOS[theme.OS]
+    }}
+
+    ${({theme}) => css`
+        bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+        left: ${theme.adaptSize(theme.token.spacing.none)}px;
+        right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        top: ${theme.adaptSize(theme.token.spacing.none)}px;
+    `}
+
+    ${({closed, theme}) =>
+        closed &&
+        css`
+            height: ${theme.adaptSize(theme.token.spacing.none)}px;
+            overflow: hidden;
+            width: ${theme.adaptSize(theme.token.spacing.none)}px;
+        `}
+`
+
+export const Content = styled.View<TooltipSupportingContentProps>`
+    z-index: 999999;
+
+    ${({width = 0}) => css`
         width: ${width}px;
     `}
 
@@ -66,8 +108,6 @@ export const Container = styled.View<TooltipSupportingContainerProps>`
             }
         } as Record<TooltipType, Record<SupportingPosition, RuleSet<object> | undefined>>
 
-        console.info(containerPageX, containerPageY)
-
         return supportingPosition[type]?.[position]
     }}
     
@@ -95,17 +135,17 @@ export const Container = styled.View<TooltipSupportingContainerProps>`
 `
 
 export const TouchableContent = styled.Pressable`
-    position: absolute;
-
-    ${({theme}) => css`
-        left: ${theme.adaptSize(theme.token.spacing.none)}px;
-        right: ${theme.adaptSize(theme.token.spacing.none)}px;
-        top: ${theme.adaptSize(theme.token.spacing.none)}px;
-    `}
+    flex: 1;
+    align-self: stretch;
 `
 
-export const Content = styled(Shape)<TooltipSupportingContentProps>`
+export const Main = styled(Shape)<TooltipSupportingMainProps>`
+    bottom: 0;
+    left: 0;
     overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
 
     ${({theme, type = 'plain'}) => {
         const contentType = {
@@ -115,8 +155,8 @@ export const Content = styled(Shape)<TooltipSupportingContentProps>`
                 padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
                     ${theme.adaptSize(theme.token.spacing.small)}px;
             `,
-            rich: css``,
-            menu: css``
+            menu: css``,
+            rich: css``
         }
 
         return contentType[type]
@@ -142,6 +182,7 @@ export const Content = styled(Shape)<TooltipSupportingContentProps>`
     }}
 `
 
+export const Supporting = styled.View``
 export const TooltipSupportingText = styled(Typography)`
     text-align: center;
     user-select: none;

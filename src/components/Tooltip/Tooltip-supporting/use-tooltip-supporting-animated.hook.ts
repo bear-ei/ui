@@ -1,55 +1,64 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {
     HandleTooltipSupportingAnimatedTimingOptions,
+    HandleTooltipSupportingAnimatedTimingSharedValue,
     UseTooltipSupportingAnimatedOptions
 } from './Tooltip-supporting.interface'
 
 const handleTooltipSupportingAnimatedTiming =
-    ({animatedTiming, onClose}: HandleTooltipSupportingAnimatedTimingOptions) =>
-    (transformSharedValue: SharedValue<AnimatableValue>) =>
+    ({animatedTiming, onClose, type}: HandleTooltipSupportingAnimatedTimingOptions) =>
+    ({transformSharedValue, heightSharedValue, opacitySharedValue}: HandleTooltipSupportingAnimatedTimingSharedValue) =>
     (visible?: boolean) => {
+        const toValue = visible ? 1 : 0
+
         if (typeof visible === 'boolean') {
+            if (type === 'menu') {
+                animatedTiming()(heightSharedValue)(toValue)
+            } else {
+                animatedTiming()(transformSharedValue)(toValue)
+            }
+
             animatedTiming({
-                duration: visible ? 'medium0' : 'short3',
-                easing: visible ? 'standardDecelerate' : 'standardAccelerate',
+                ...transformSharedValue,
                 callback: (finished?: boolean) => {
                     if (finished && !visible) {
                         onClose?.(true)
                     }
                 }
-            })(transformSharedValue)(visible ? 1 : 0)
+            })(opacitySharedValue)(toValue)
         }
     }
 
 export const useTooltipSupportingAnimated = ({
-    visible,
+    height = 0,
     onClose,
-    type = 'menu'
+    type = 'menu',
+    visible
 }: UseTooltipSupportingAnimatedOptions) => {
     const transformSharedValue = useSharedValue(visible ? 1 : 0)
+    const heightSharedValue = useSharedValue(visible ? 1 : 0)
+    const opacitySharedValue = useSharedValue(visible ? 1 : 0)
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
-    const contentTransformType = useMemo(
-        () => ({
-            menu: {height: interpolate(transformSharedValue.value, [0, 1], [0, 200])},
-            plain: {transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1])}]},
-            rich: {transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1])}]}
-        }),
-        [transformSharedValue.value]
-    )
-
-    const contentTransformStyle = contentTransformType[type]
     const contentAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: interpolate(transformSharedValue.value, [0, 1], [0, 1]),
-        ...contentTransformStyle
+        opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1]),
+
+        ...(type === 'menu' ?
+            {height: interpolate(heightSharedValue.value, [0, 1], [0, height])}
+        :   {transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1])}]})
     }))
 
     const onTooltipSupportingAnimatedTiming = useMemo(
-        () => handleTooltipSupportingAnimatedTiming({animatedTiming, onClose})(transformSharedValue),
-        [animatedTiming, onClose, transformSharedValue]
+        () =>
+            handleTooltipSupportingAnimatedTiming({animatedTiming, onClose, type})({
+                heightSharedValue,
+                opacitySharedValue,
+                transformSharedValue
+            }),
+        [animatedTiming, heightSharedValue, onClose, opacitySharedValue, transformSharedValue, type]
     )
 
     useEffect(() => {

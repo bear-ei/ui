@@ -13,7 +13,6 @@ const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay
 const render = ({
     accessibilityLabel,
     contentUnderlayAnimatedStyle,
-    densityScale,
     elevation,
     eventName,
     extendedFAB,
@@ -48,7 +47,6 @@ const render = ({
 
     return (
         <Container
-            densityScale={densityScale}
             extendedFAB={extendedFAB}
             size={size}
             testID={`fab--${id}`}
@@ -66,7 +64,6 @@ const render = ({
                     {...contentProps}
                     accessibilityLabel={labelText ?? accessibilityLabel}
                     accessibilityRole='button'
-                    densityScale={densityScale}
                     extendedFAB={extendedFAB}
                     pointerEvents='none'
                     size={size}

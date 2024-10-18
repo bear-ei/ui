@@ -29,11 +29,9 @@ export const Content = styled(Shape)<SheetViewContentProps>`
     display: flex;
     flex-direction: column;
 
-    ${({theme, densityScale = 0}) => css`
+    ${({theme}) => css`
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 160)}px;
-        width: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 80 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 80)}px;
     `}
 
     ${({theme, type = 'standard'}) => {

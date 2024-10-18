@@ -1,5 +1,5 @@
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {View} from 'react-native'
+import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
@@ -31,25 +31,38 @@ const handleTooltipEventNameChange =
         return (eventName?: EventName) => {
             const triggerEventNames = trigger[triggerEvent]
 
-            if (eventName && triggerEventNames?.includes(eventName)) {
-                const visible = eventName === triggerEventNames[0]
-
-                onTooltipVisible(visible)
+            if (eventName && triggerEventNames?.includes(eventName) && eventName === triggerEventNames[0]) {
+                onTooltipVisible(true)
             }
         }
     }
 
+const handleTooltipLayout = (setState: Updater<TooltipState>) => (event: LayoutChangeEvent) => {
+    const nativeEventLayout = event.nativeEvent.layout
+
+    setState(draft => {
+        draft.layout.height = nativeEventLayout.height
+        draft.layout.width = nativeEventLayout.width
+    })
+}
+
 const handleTooltipStateChange =
     ({onTooltipVisible, eventName, triggerEvent}: HandleTooltipStateEventChangeOptions) =>
-    (_setState: Updater<TooltipState>) =>
-    (_event: StateEvent) =>
+    (setState: Updater<TooltipState>) =>
+    (event: StateEvent) => {
+        if (eventName === 'layout') {
+            handleTooltipLayout(setState)(event as LayoutChangeEvent)
+        }
+
         handleTooltipEventNameChange(onTooltipVisible)(triggerEvent)(eventName)
+    }
 
 export const TooltipBase = forwardRef<View, TooltipBaseProps>(
     ({defaultVisible, disabled = false, eventName, onVisible, render, visible, triggerEvent, ...renderProps}, ref) => {
-        const [{tooltipVisible, nextActiveEvent}, setState] = useImmer<TooltipState>({
+        const [{tooltipVisible, nextActiveEvent, layout}, setState] = useImmer<TooltipState>({
             nextActiveEvent: undefined,
-            tooltipVisible: undefined
+            tooltipVisible: undefined,
+            layout: {} as LayoutRectangle
         })
 
         const containerRef = useRef<View>(null)
@@ -94,7 +107,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
             onStateEvent,
             onVisible: onTooltipVisible,
             ref: containerRef,
-            visible: tooltipVisible
+            visible: tooltipVisible,
+            layout
         })
     }
 )

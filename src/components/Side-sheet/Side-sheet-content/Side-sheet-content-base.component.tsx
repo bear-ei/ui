@@ -50,7 +50,6 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
         {
             back,
             close,
-            densityScale,
             footerVisible,
             headlineLeading,
             headlineText = 'Title',
@@ -67,7 +66,6 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
     ) => {
         const id = useId()
         const {contentAnimatedStyle, containerAnimatedStyle, footerAnimatedStyle} = useSideSheetContentAnimated({
-            densityScale,
             footerVisible,
             sheetPosition,
             type,
@@ -81,7 +79,6 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
             ...renderProps,
             containerAnimatedStyle,
             contentAnimatedStyle,
-            densityScale,
             footerAnimatedStyle,
             headlineText,
             id,

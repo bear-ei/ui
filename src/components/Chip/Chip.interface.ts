@@ -10,7 +10,6 @@ export type ChipType = 'input' | 'assist' | 'filter' | 'suggestion'
 export interface ChipProps extends TouchableProps {
     active?: boolean
     avatar?: JSX.Element
-    densityScale?: number
     elevated?: boolean
     labelText?: string
     leadingIcon?: JSX.Element
@@ -58,8 +57,8 @@ export interface HandleChipAnimatedTimingSharedValue {
     filterIconContainerWidthSharedValue: SharedValue<AnimatableValue>
 }
 
-export type ChipContainerProps = Pick<RenderChipProps, 'densityScale' | 'type'>
-export type ChipContentProps = Pick<RenderChipProps, 'type' | 'densityScale'>
+export type ChipContainerProps = Pick<RenderChipProps, 'type'>
+export type ChipContentProps = Pick<RenderChipProps, 'type'>
 export interface ChipMainProps extends Pick<RenderChipProps, 'type'> {
     avatarShow: boolean
     leadingIconShow: boolean

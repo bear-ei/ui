@@ -50,7 +50,6 @@ const handleSideSheetContentFooterVisibleAnimatedTiming =
     }
 
 export const useSideSheetContentAnimated = ({
-    densityScale = 0,
     footerVisible,
     sheetPosition,
     type = 'standard',
@@ -71,7 +70,7 @@ export const useSideSheetContentAnimated = ({
         standard ? convertHexToRGBA(scheme.scrim)(0) : convertHexToRGBA(scheme.scrim)(0.32)
     ]
 
-    const contentWidth = theme.adaptSize(spacing.extraSmall * 80 + densityScale * spacing.extraSmall)
+    const contentWidth = theme.adaptSize(spacing.extraSmall * 80)
     const containerWidthOutputRange = [theme.adaptSize(spacing.none), contentWidth]
     const containerAnimatedStyle = useAnimatedStyle(() => ({
         backgroundColor: interpolateColor(

@@ -72,13 +72,6 @@ export const SearchBarStandard: StoryObj<SearchProps> = {
     }
 }
 
-export const SearchBarDensityScale: StoryObj<SearchProps> = {
-    args: {
-        densityScale: -5,
-        placeholder: 'Hinted search text'
-    }
-}
-
 export default {
     title: 'components/Search',
     component: Search

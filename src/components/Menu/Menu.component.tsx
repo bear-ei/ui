@@ -6,10 +6,23 @@ import {MenuList} from './Menu-list'
 import {MenuProps, RenderMenuProps} from './Menu.interface'
 import {Container} from './Menu.styles'
 
-const render = ({id, data, type, ...tooltipProps}: RenderMenuProps) => {
+const render = ({
+    id,
+    data,
+    type,
+    onActive,
+    onActives,
+    shape = 'extraSmall',
+    multiple,
+    ...tooltipProps
+}: RenderMenuProps) => {
     const supporting = (
         <MenuList
             data={data}
+            multiple={multiple}
+            onActive={onActive}
+            onActives={onActives}
+            shape={shape}
             type={type}
         />
     )
@@ -18,6 +31,8 @@ const render = ({id, data, type, ...tooltipProps}: RenderMenuProps) => {
         <Container testID={`menu--${id}`}>
             <Tooltip
                 {...tooltipProps}
+                elevation={2}
+                shape={shape}
                 supporting={supporting}
                 supportingPosition='verticalEnd'
                 type='menu'

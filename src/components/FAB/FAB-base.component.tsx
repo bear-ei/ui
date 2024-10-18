@@ -103,8 +103,10 @@ const renderFABIcon =
                 return icon
             }
 
+            const iconSize = theme.adaptSize(theme.token.spacing.large + 3 * theme.token.spacing.extraSmall)
+
             return cloneElement<IconProps>(icon, {
-                densityScale: size === 'large' ? 3 : 0,
+                ...(size === 'large' && {width: iconSize, height: iconSize}),
                 disabled,
                 eventName,
                 fill: fillType[type]
@@ -113,10 +115,7 @@ const renderFABIcon =
     }
 
 export const FABBase = forwardRef<View, FABBaseProps>(
-    (
-        {densityScale, disabled, elevated = true, icon, render, size = 'medium', type = 'primary', ...renderProps},
-        ref
-    ) => {
+    ({disabled, elevated = true, icon, render, size = 'medium', type = 'primary', ...renderProps}, ref) => {
         const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<FABState>({
             elevation: undefined,
             eventName: undefined,
@@ -158,7 +157,6 @@ export const FABBase = forwardRef<View, FABBaseProps>(
         return render({
             ...renderProps,
             contentUnderlayAnimatedStyle,
-            densityScale,
             elevation,
             eventName,
             icon: fabIconElement,

@@ -1,26 +1,31 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatedStyle} from 'react-native-reanimated'
+import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
+import {Updater} from 'use-immer'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
-import {ComponentStatus} from '../../Common'
+import {ComponentStatus, ShapeType, TriggerEvent} from '../../Common'
+import {ElevationLevel} from '../../Elevation'
 import {TooltipType} from '../Tooltip.interface'
 
 export type SupportingPosition = 'horizontalStart' | 'horizontalEnd' | 'verticalStart' | 'verticalEnd'
-
 export interface TooltipSupportingProps extends ViewProps, RefAttributes<View> {
     containerCurrent: View | null
+    containerLayout: LayoutRectangle
+    elevation?: ElevationLevel
     onVisible?: (value?: boolean) => void
-    supportingPosition?: 'horizontalStart' | 'horizontalEnd' | 'verticalStart' | 'verticalEnd'
+    shape?: ShapeType
     supporting?: string | JSX.Element
+    supportingPosition?: 'horizontalStart' | 'horizontalEnd' | 'verticalStart' | 'verticalEnd'
+    triggerEvent?: TriggerEvent
     type?: TooltipType
     visible?: boolean
 }
 
 export interface RenderTooltipSupportingProps extends Omit<TooltipSupportingProps, 'containerCurrent'> {
-    contentAnimatedStyle?: AnimatedStyle<ViewStyle>
     closed?: boolean
     containerLayout: LayoutRectangle & {pageX: number; pageY: number}
+    contentAnimatedStyle?: AnimatedStyle<ViewStyle>
     height?: number
     onStateEvent: OnStateEvent
     theme: DefaultTheme
@@ -43,17 +48,33 @@ export type HandleTooltipSupportingEmitOptions = Pick<TooltipSupportingState, 's
     Pick<RenderTooltipSupportingProps, 'id'>
 
 export type HandleTooltipSupportingStateEventChangeOptions = OnStateEventChangeOptions &
-    Pick<TooltipSupportingProps, 'onVisible'>
+    Pick<TooltipSupportingProps, 'onVisible' | 'triggerEvent'>
 
 export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'visible' | 'type'> {
+    height?: number
     onClose?: (value?: boolean) => void
+}
+
+export interface HandleTooltipSupportingContainerLayoutOptions {
+    setState: Updater<TooltipSupportingState>
+    windowWidth: number
 }
 
 export interface HandleTooltipSupportingAnimatedTimingOptions extends UseTooltipSupportingAnimatedOptions {
     animatedTiming: AnimatedTiming
 }
 
-export interface TooltipSupportingContainerProps
+export interface HandleTooltipSupportingAnimatedTimingSharedValue {
+    transformSharedValue: SharedValue<AnimatableValue>
+    heightSharedValue: SharedValue<AnimatableValue>
+    opacitySharedValue: SharedValue<AnimatableValue>
+}
+
+export interface TooltipSupportingContainerProps {
+    closed?: boolean
+}
+
+export interface TooltipSupportingContentProps
     extends Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition' | 'width' | 'height'> {
     containerHeight?: number
     containerPageX?: number
@@ -61,4 +82,4 @@ export interface TooltipSupportingContainerProps
     containerWidth?: number
 }
 
-export type TooltipSupportingContentProps = Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition'>
+export type TooltipSupportingMainProps = Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition'>

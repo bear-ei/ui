@@ -9,7 +9,6 @@ export type IconButtonType = 'filled' | 'outlined' | 'standard' | 'tonal' | 'act
 export interface IconButtonProps extends TouchableProps {
     active?: boolean
     defaultActive?: boolean
-    densityScale?: number
     fill?: string
     icon?: JSX.Element
     type?: IconButtonType
@@ -48,6 +47,3 @@ export interface HandleIconButtonAnimatedTimingSharedValue {
     borderSharedValue: SharedValue<AnimatableValue>
     colorSharedValue: SharedValue<AnimatableValue>
 }
-
-export type IconButtonContainerProps = Pick<RenderIconButtonProps, 'densityScale'>
-export type IconButtonContentProps = Pick<RenderIconButtonProps, 'densityScale'>

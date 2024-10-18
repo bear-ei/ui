@@ -11,7 +11,6 @@ export interface SearchTextInputProps extends TextInputProps, RefAttributes<Text
 
 export interface SearchProps
     extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & OnStateEvent> {
-    densityScale?: number
     disabled?: boolean
     leading?: JSX.Element
     listProps?: ListProps
@@ -53,6 +52,6 @@ export interface HandleSearchContainerLayoutOptions {
     containerCurrent?: View | null
 }
 
-export interface SearchContentProps extends Pick<RenderSearchProps, 'densityScale'> {
+export interface SearchContentProps {
     trailingShow: boolean
 }

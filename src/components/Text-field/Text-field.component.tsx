@@ -90,29 +90,28 @@ const render = ({
                             contentShow={!!content}
                             testID={`textfield__main--${id}`}
                         >
-                            {content ?? (
-                                <Control
+                            {content}
+                            <Control
+                                multiline={multiline}
+                                height={contentSize?.height}
+                                testID={`textField__control--${id}`}
+                            >
+                                <AnimatedTextInput
+                                    {...inputProps}
+                                    /**
+                                     * enableFocusRing is used to disable the focus style in macOS,
+                                     * this parameter has been implemented and is available.
+                                     * However, react-native-macos does not have an official typescript declaration for this parameter,
+                                     * so using it directly in a typescript will result in an undefined parameter.
+                                     */
+                                    enableFocusRing={false}
                                     multiline={multiline}
-                                    height={contentSize?.height}
-                                    testID={`textField__control--${id}`}
-                                >
-                                    <AnimatedTextInput
-                                        {...inputProps}
-                                        /**
-                                         * enableFocusRing is used to disable the focus style in macOS,
-                                         * this parameter has been implemented and is available.
-                                         * However, react-native-macos does not have an official typescript declaration for this parameter,
-                                         * so using it directly in a typescript will result in an undefined parameter.
-                                         */
-                                        enableFocusRing={false}
-                                        multiline={multiline}
-                                        onBlur={onBlur}
-                                        onFocus={onFocus}
-                                        style={[inputAnimatedStyle]}
-                                        testID={`textField__input--${id}`}
-                                    />
-                                </Control>
-                            )}
+                                    onBlur={onBlur}
+                                    onFocus={onFocus}
+                                    style={[inputAnimatedStyle]}
+                                    testID={`textField__input--${id}`}
+                                />
+                            </Control>
                         </Main>
 
                         {trailing && <Trailing testID={`textfield__trailing--${id}`}>{trailing}</Trailing>}

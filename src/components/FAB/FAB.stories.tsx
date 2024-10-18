@@ -55,15 +55,6 @@ export const Small: StoryObj<FABProps> = {
     }
 }
 
-export const DensityScale: StoryObj<FABProps> = {
-    args: {
-        icon: <Icon />,
-        size: 'large',
-        type: 'primary',
-        densityScale: -4
-    }
-}
-
 export default {
     title: 'components/FAB',
     argTypes: {onPress: {action: 'pressed'}},

@@ -29,11 +29,8 @@ export const Header = styled(Shape)<TextFieldHeaderProps>`
     position: relative;
     z-index: 1;
 
-    ${({theme, densityScale = 0}) => css`
-        min-height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
+    ${({theme}) => css`
+        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
         padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px ${theme.adaptSize(theme.token.spacing.none)}px;
         gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `}
@@ -90,11 +87,8 @@ export const Main = styled.View<TextFieldMainProps>`
     justify-content: flex-end;
     z-index: 1;
 
-    ${({theme, densityScale = 0}) => css`
-        min-height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
+    ${({theme}) => css`
+        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         padding: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px
             ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `};
@@ -102,7 +96,12 @@ export const Main = styled.View<TextFieldMainProps>`
     ${({theme, contentShow}) =>
         contentShow &&
         css`
-            padding-bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: ${theme.adaptSize(theme.token.spacing.small)}px;
+            justify-content: flex-start;
+            padding: ${theme.adaptSize(theme.token.spacing.large + 1 * theme.token.spacing.extraSmall)}px
+                ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.small)}px;
         `};
 `
 
@@ -115,13 +114,13 @@ export const Control = styled.View<TextFieldControlProps>`
 
     ${({theme}) => css`
         min-height: ${theme.adaptSize(theme.token.typography.body.large.lineHeight)}px;
+        min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
         padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `};
 
-    ${({multiline, theme, height = 0}) =>
+    ${({multiline, height = 0}) =>
         multiline &&
         css`
-            min-height: ${theme.adaptSize(theme.token.typography.body.large.lineHeight)}px;
             min-height: ${height}px;
         `};
 `

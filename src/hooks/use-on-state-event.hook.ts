@@ -19,7 +19,7 @@ const handleStateEventChange =
     ({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
     (state: State) =>
     (event: StateEvent) => {
-        if (disabled) {
+        if (disabled && eventName !== 'layout') {
             return
         }
 

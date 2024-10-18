@@ -1,24 +1,18 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {IconButtonContainerProps, IconButtonContentProps} from './Icon-button.interface'
 
-export const Container = styled.View<IconButtonContainerProps>`
+export const Container = styled.View`
     cursor: pointer;
 
-    ${({theme, densityScale = 0}) => css`
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
+    ${({theme}) => css`
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        width: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
     `}
 `
 
-export const Content = styled(Shape)<IconButtonContentProps>`
+export const Content = styled(Shape)`
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -27,14 +21,9 @@ export const Content = styled(Shape)<IconButtonContentProps>`
     position: relative;
     z-index: 1;
 
-    ${({theme, densityScale = 0}) => css`
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
-        width: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+    ${({theme}) => css`
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
     `}
 `
 

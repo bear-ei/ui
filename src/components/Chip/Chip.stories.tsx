@@ -28,7 +28,7 @@ export const InputLeadingIcon: StoryObj<ChipProps> = {
 export const InputLeadingAvatar: StoryObj<ChipProps> = {
     args: {
         active: true,
-        avatar: <Avatar densityScale={-4} />,
+        avatar: <Avatar />,
         labelText: 'Label',
         type: 'input'
     }

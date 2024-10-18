@@ -12,7 +12,13 @@ import {
 } from './Text-field.interface'
 import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
-const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleTextFieldStateEventChangeOptions) => {
+const handleTextFieldStateChange = ({
+    content,
+    disabledBlur,
+    eventName,
+    ref,
+    state
+}: HandleTextFieldStateEventChangeOptions) => {
     const nextEvent = {
         pressOut: () => ref?.current?.focus()
     } as Record<EventName, () => void>
@@ -20,6 +26,12 @@ const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleText
     return (setState: Updater<TextFieldState>) => {
         return (_event: StateEvent) => {
             if (eventName === 'layout') {
+                return
+            }
+
+            if (disabledBlur && eventName === 'blur') {
+                ref?.current?.focus()
+
                 return
             }
 
@@ -122,6 +134,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             content,
             defaultValue,
             disabled,
+            disabledBlur,
             editable,
             error,
             labelText = 'Label',
@@ -191,9 +204,9 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         const onTextFieldSupportingTextVisible = handleTextFieldSupportingTextVisible(setState)(onSupportingTextVisible)
         const onStateEventChange =
             (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
-                handleTextFieldStateChange({...options, content, ref: textFieldRef, state: changedState})(setState)(
-                    event
-                )
+                handleTextFieldStateChange({...options, content, ref: textFieldRef, state: changedState, disabledBlur})(
+                    setState
+                )(event)
 
         const onStateEvent = useOnStateEvent({
             ...renderProps,

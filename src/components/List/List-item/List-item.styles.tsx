@@ -16,21 +16,17 @@ export const Container = styled(Shape)<ListItemContainerProps>`
     position: relative;
     overflow: hidden;
 
-    ${({theme, type = 'standard', densityScale = 0}) => {
+    ${({theme, type = 'standard'}) => {
         const containerType = {
             menu: css`
-                min-height: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-                )}px;
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
             `
         } as Record<ListType, RuleSet<object> | undefined>
 
         return (
             containerType[type] ??
             css`
-                min-height: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-                )}px;
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
             `
         )
     }}
@@ -61,13 +57,10 @@ export const Main = styled.View<ListItemMainProps>`
     position: relative;
     z-index: 1;
 
-    ${({theme, type = 'standard', densityScale = 0}) => {
+    ${({theme, type = 'standard'}) => {
         const mainType = {
             menu: css`
-                min-height: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-                )}px;
-
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 padding: ${theme.adaptSize(theme.token.spacing.medium - theme.token.spacing.extraSmall)}px;
             `
         } as Record<ListType, RuleSet<object> | undefined>
@@ -75,10 +68,7 @@ export const Main = styled.View<ListItemMainProps>`
         return (
             mainType[type] ??
             css`
-                min-height: ${theme.adaptSize(
-                    theme.token.spacing.extraSmall * 14 + densityScale * theme.token.spacing.extraSmall
-                )}px;
-
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                 padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
                     ${theme.adaptSize(theme.token.spacing.medium)}px;
             `
@@ -105,19 +95,15 @@ export const Leading = styled.View<ListItemLeadingProps>`
     display: flex;
     flex-direction: column;
 
-    ${({theme, densityScale = 0}) => css`
-        max-height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+    ${({theme}) => css`
+        max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
     `};
 
-    ${({supportingTextNumberOfLines = 0, theme, densityScale = 0}) =>
+    ${({supportingTextNumberOfLines = 0, theme}) =>
         supportingTextNumberOfLines > 1 &&
         css`
             justify-content: flex-start;
-            min-height: ${theme.adaptSize(
-                theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-            )}px;
+            min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `}
 `
 
@@ -174,20 +160,16 @@ export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
     display: flex;
     flex-direction: column;
 
-    ${({theme, densityScale = 0}) => css`
+    ${({theme}) => css`
         justify-content: center;
-        max-height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+        max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
     `};
 
-    ${({supportingTextNumberOfLines = 0, theme, densityScale = 0}) =>
+    ${({supportingTextNumberOfLines = 0, theme}) =>
         supportingTextNumberOfLines > 1 &&
         css`
             justify-content: flex-start;
-            max-height: ${theme.adaptSize(
-                theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-            )}px;
+            max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `}
 `
 

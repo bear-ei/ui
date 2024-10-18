@@ -66,35 +66,6 @@ export const Headline: StoryObj<ListProps> = {
     }
 }
 
-export const HeadlineDensityScale: StoryObj<ListProps> = {
-    args: {
-        activeKey: 'TitleA',
-        afterAffordance: true,
-        defaultActiveKey: 'TitleB',
-        densityScale: -4,
-        itemSize: 40,
-        itemShape: 'extraSmall',
-        data: [
-            {
-                headline: 'TitleA',
-                indexKey: 'TitleA'
-            },
-            {
-                indexKey: 'TitleB',
-                headline: 'TitleB'
-            },
-            {
-                indexKey: 'TitleC',
-                headline: 'TitleC'
-            },
-            {
-                indexKey: 'TitleD',
-                headline: 'TitleD'
-            }
-        ]
-    }
-}
-
 export const Select = () => {
     const [activeKey, setActiveKey] = useState<string | undefined>(undefined)
     const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>

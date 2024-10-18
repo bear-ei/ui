@@ -26,7 +26,6 @@ export interface ListItemProps
      */
     contentStyle?: StyleProp<ViewStyle>
     customData?: unknown
-    densityScale?: number
     enableUnderlay?: boolean
     enableUnderlayActive?: boolean
     extraData?: string[]
@@ -115,7 +114,7 @@ export interface HandleListItemTrailingPressOutOptions
 
 export type HandleListItemPanResponderReleaseOptions = Pick<ListItemProps, 'onActiveAfterAffordance' | 'disabled'>
 export type HandleListItemCloseOptions = Pick<ListItemProps, 'onClose' | 'onVisible'>
-export type ListItemContainerProps = Pick<RenderListItemProps, 'densityScale' | 'type'>
+export type ListItemContainerProps = Pick<RenderListItemProps, 'type'>
 export interface ListItemMainProps
     extends Pick<RenderListItemProps, 'supportingTextNumberOfLines'>,
         ListItemContainerProps {
@@ -127,7 +126,7 @@ export interface ListItemMainInnerProps extends Pick<ListItemMainProps, 'support
     trailingShow?: boolean
 }
 
-export type ListItemLeadingProps = Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'densityScale'>
+export type ListItemLeadingProps = Pick<RenderListItemProps, 'supportingTextNumberOfLines'>
 export type ListItemTrailingProps = ListItemLeadingProps
 export interface ListItemBeforeAffordanceContainerProps {
     visible?: boolean

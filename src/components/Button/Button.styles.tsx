@@ -6,11 +6,8 @@ import {ButtonContainerProps, ButtonContentProps, ButtonMainProps, ButtonType} f
 export const Container = styled.View<ButtonContainerProps>`
     cursor: pointer;
 
-    ${({theme, densityScale = 0}) => css`
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 12 + densityScale * theme.token.spacing.extraSmall
-        )}px;
-
+    ${({theme}) => css`
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
     `}
@@ -45,10 +42,8 @@ export const Content = styled(Shape)<ButtonContentProps>`
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
     `}
 
-    ${({theme, densityScale = 0}) => css`
-        height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 10 + densityScale * theme.token.spacing.extraSmall
-        )}px;
+    ${({theme}) => css`
+        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
     `}
 
     ${({theme, type = 'filled'}) => {

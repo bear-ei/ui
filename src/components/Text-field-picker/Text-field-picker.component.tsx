@@ -6,16 +6,34 @@ import {TextFieldPickerBase} from './Text-field-picker-base.component'
 import {RenderTextFieldPickerProps, TextFieldPickerProps} from './Text-field-picker.interface'
 import {Container} from './Text-field-picker.styles'
 
-const render = ({id, data, onStateEvent, eventName, ...textFieldProps}: RenderTextFieldPickerProps) => (
+const render = ({
+    contentElement,
+    data,
+    eventName,
+    id,
+    menuVisible,
+    multiple,
+    onActive,
+    onActives,
+    onMenuVisible,
+    onStateEvent,
+    ...textFieldProps
+}: RenderTextFieldPickerProps) => (
     <Container testID={`textFieldPicker--${id}`}>
         <Menu
             data={data}
             eventName={eventName}
+            multiple={multiple}
+            onActive={onActive}
+            onActives={onActives}
+            onVisible={onMenuVisible}
             triggerEvent='focus'
         >
             <TextField
-                {...textFieldProps}
                 {...onStateEvent}
+                {...textFieldProps}
+                content={contentElement}
+                disabledBlur={menuVisible}
             />
         </Menu>
     </Container>

@@ -8,7 +8,6 @@ import {TouchableProps} from '../Touchable'
 
 export type ButtonType = 'elevated' | 'filled' | 'link' | 'outlined' | 'text' | 'tonal'
 export interface ButtonProps extends TouchableProps {
-    densityScale?: number
     icon?: JSX.Element
     labelText?: string
     loading?: boolean
@@ -50,8 +49,8 @@ export interface HandleButtonAnimatedTimingSharedValue {
     colorSharedValue: SharedValue<AnimatableValue>
 }
 
-export type ButtonContainerProps = Pick<RenderButtonProps, 'densityScale' | 'type'>
-export type ButtonContentProps = Pick<RenderButtonProps, 'type' | 'densityScale'>
+export type ButtonContainerProps = Pick<RenderButtonProps, 'type'>
+export type ButtonContentProps = Pick<RenderButtonProps, 'type'>
 export interface ButtonMainProps extends Pick<RenderButtonProps, 'type'> {
     iconShow: boolean
 }

@@ -25,7 +25,6 @@ const render = ({
     activeColor,
     avatar,
     contentUnderlayAnimatedStyle,
-    densityScale,
     disabled,
     elevation,
     eventName,
@@ -62,7 +61,6 @@ const render = ({
 
     return (
         <Container
-            densityScale={densityScale}
             testID={`chip--${id}`}
             type={type}
         >
@@ -80,7 +78,6 @@ const render = ({
                     {...contentProps}
                     accessibilityLabel={labelText}
                     accessibilityRole='button'
-                    densityScale={densityScale}
                     pointerEvents='none'
                     shape={shape}
                     testID={`chip__content--${id}`}

@@ -32,7 +32,6 @@ const render = ({
     beforeAffordance,
     contentAnimatedStyle,
     contentStyle,
-    densityScale,
     disabled,
     enableUnderlay,
     enableUnderlayActive,
@@ -73,7 +72,6 @@ const render = ({
             {...panResponder?.panHandlers}
             accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
             accessibilityRole='list'
-            densityScale={densityScale}
             shape={itemShape}
             testID={`listItem--${id}`}
             type={type}
@@ -100,7 +98,6 @@ const render = ({
                     >
                         <Main
                             {...mainProps}
-                            densityScale={densityScale}
                             supportingTextNumberOfLines={supportingTextNumberOfLines}
                             supportingTextShow={supportingTextShow}
                             testID={`listItem__main--${id}`}
@@ -108,7 +105,6 @@ const render = ({
                         >
                             {leading && (
                                 <Leading
-                                    densityScale={densityScale}
                                     supportingTextNumberOfLines={supportingTextNumberOfLines}
                                     testID={`listItem__leading--${id}`}
                                 >
@@ -155,7 +151,6 @@ const render = ({
                             {trailingElement && (
                                 <Trailing
                                     defaultVisible={!trailingTrigger}
-                                    densityScale={densityScale}
                                     supportingTextNumberOfLines={supportingTextNumberOfLines}
                                     testID={`listItem__trailing--${id}`}
                                     unmount={true}

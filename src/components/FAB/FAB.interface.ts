@@ -8,7 +8,6 @@ import {TouchableProps} from '../Touchable'
 
 export type FABType = 'surface' | 'primary' | 'secondary' | 'tertiary'
 export interface FABProps extends TouchableProps {
-    densityScale?: number
     disabled?: boolean
     elevated?: boolean
     extendedFAB?: boolean
@@ -37,8 +36,8 @@ export interface FABState {
     status: ComponentStatus
 }
 
-export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'densityScale' | 'extendedFAB'>
-export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'densityScale' | 'extendedFAB'>
+export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
+export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export interface HandleFABStateChangeOptions extends OnStateEventChangeOptions, Pick<RenderFABProps, 'elevated'> {
     touchableRef: RefObject<View>
