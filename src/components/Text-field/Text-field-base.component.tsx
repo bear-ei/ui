@@ -154,6 +154,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         },
         ref
     ) => {
+        console.info(content, value)
         const [
             {
                 contentSize,
@@ -213,6 +214,8 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             disabled: disabled ?? (typeof editable === 'boolean' ? !editable : undefined),
             onStateEventChange
         })
+
+        console.info([value, defaultValue, placeholder, textInputValue, content].some(Boolean))
 
         const {
             activeIndicatorAnimatedStyle,

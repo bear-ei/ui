@@ -9,7 +9,7 @@ export const Container = styled(Shape)<UnderlayContainerProps>`
     justify-content: center;
     overflow: hidden;
     position: absolute;
-    z-index: -1;
+    z-index: -4;
     overflow: hidden;
 
     ${({theme}) => css`
@@ -27,7 +27,7 @@ export const Container = styled(Shape)<UnderlayContainerProps>`
 
 export const HoverLayer = styled(Shape)<HoverLayerProps>`
     position: absolute;
-    z-index: 2;
+    z-index: 8;
 
     ${({theme}) => css`
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
@@ -45,7 +45,7 @@ export const HoverLayer = styled(Shape)<HoverLayerProps>`
 
 export const ActiveLayer = styled(Shape)<ActiveLayerProps>`
     position: absolute;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme}) => css`
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;

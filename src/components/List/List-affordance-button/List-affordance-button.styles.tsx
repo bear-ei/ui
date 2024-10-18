@@ -31,7 +31,7 @@ export const Content = styled.View`
 
 export const ContentUnderlay = styled(Shape)`
     position: absolute;
-    z-index: -1;
+    z-index: -4;
 
     ${({theme}) => css`
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;

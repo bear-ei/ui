@@ -25,7 +25,7 @@ export const Header = styled.View<NavigationRailItemHeaderProps>`
     flex-direction: column;
     justify-content: center;
     position: relative;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme}) => css`
         height: ${theme.adaptSize(theme.token.spacing.extraLarge)}px;

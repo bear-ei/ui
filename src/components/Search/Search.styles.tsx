@@ -19,7 +19,7 @@ export const Content = styled(Shape)<SearchContentProps>`
     flex-direction: row;
     justify-content: space-between;
     position: relative;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme}) => css`
         background-color: ${theme.token.scheme.surfaceContainerHigh};
@@ -41,7 +41,7 @@ export const Main = styled.View`
     flex-direction: column;
     flex: 1;
     justify-content: center;
-    z-index: 1;
+    z-index: 4;
 `
 
 export const Leading = styled.View`

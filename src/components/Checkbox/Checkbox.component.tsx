@@ -72,7 +72,7 @@ const render = ({
                             style={[iconAnimatedStyle]}
                             testID={`checkbox__iconContainer--${id}`}
                             visible={type === 'indeterminate'}
-                            zIndex={1}
+                            zIndex={4}
                         >
                             <Icon
                                 {...iconStyle}
@@ -89,7 +89,7 @@ const render = ({
                             style={[iconAnimatedStyle]}
                             testID={`checkbox__iconContainer--${id}`}
                             visible={type === 'selected'}
-                            zIndex={1}
+                            zIndex={4}
                         >
                             <Icon
                                 {...iconStyle}

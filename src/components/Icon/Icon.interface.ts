@@ -1,9 +1,9 @@
-import { FC, RefAttributes } from 'react'
-import { StyleProp, View, ViewProps, ViewStyle } from 'react-native'
-import { AnimatedStyle } from 'react-native-reanimated'
-import { SvgProps } from 'react-native-svg'
-import { EventName } from '../Common'
-import { outlined } from './icon.outlined'
+import {FC, RefAttributes} from 'react'
+import {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
+import {AnimatedStyle} from 'react-native-reanimated'
+import {SvgProps} from 'react-native-svg'
+import {EventName} from '../Common'
+import {outlined} from './icon.outlined'
 
 export type IconName = keyof (typeof outlined)['outlined']
 export type IconStyle = 'outlined' | 'rounded' | 'sharp'

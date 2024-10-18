@@ -6,6 +6,7 @@ import {ListType} from '../List.interface'
 import {
     ListItemBeforeAffordanceContainerProps,
     ListItemContainerProps,
+    ListItemContentProps,
     ListItemLeadingProps,
     ListItemMainInnerProps,
     ListItemMainProps,
@@ -32,10 +33,10 @@ export const Container = styled(Shape)<ListItemContainerProps>`
     }}
 `
 
-export const Content = styled.View`
+export const Content = styled.View<ListItemContentProps>`
     position: absolute;
     width: 100%;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme}) => css`
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
@@ -43,9 +44,18 @@ export const Content = styled.View`
         top: ${theme.adaptSize(theme.token.spacing.none)}px;
     `};
 
-    ${({theme}) => css`
-        background-color: ${theme.token.scheme.surface};
-    `};
+    ${({theme, type = 'standard'}) => {
+        const contentType = {
+            menu: css`
+                background-color: ${theme.token.scheme.surfaceContainer};
+            `,
+            standard: css`
+                background-color: ${theme.token.scheme.surface};
+            `
+        } as Record<ListType, RuleSet<object> | undefined>
+
+        return contentType[type]
+    }}
 `
 
 export const Main = styled.View<ListItemMainProps>`
@@ -55,24 +65,22 @@ export const Main = styled.View<ListItemMainProps>`
     flex-direction: row;
     justify-content: space-between;
     position: relative;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme, type = 'standard'}) => {
         const mainType = {
             menu: css`
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 padding: ${theme.adaptSize(theme.token.spacing.medium - theme.token.spacing.extraSmall)}px;
-            `
-        } as Record<ListType, RuleSet<object> | undefined>
-
-        return (
-            mainType[type] ??
-            css`
+            `,
+            standard: css`
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                 padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
                     ${theme.adaptSize(theme.token.spacing.medium)}px;
             `
-        )
+        } as Record<ListType, RuleSet<object> | undefined>
+
+        return mainType[type]
     }}
 
     ${({theme, supportingTextShow}) =>

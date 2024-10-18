@@ -7,12 +7,12 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {textSearch} from '../../utils'
 import {Chip} from '../Chip'
 import {State} from '../Common'
-import {Icon} from '../Icon'
 import {ListData} from '../List'
 import {
     HandleTextFieldPickerInitOptions,
     HandleTextFieldPickerMenuVisibleOptions,
     HandleTextFieldPickerStateChangeOptions,
+    RenderContentOptions,
     TextFieldPickerBaseProps,
     TextFieldPickerState
 } from './Text-field-picker.interface'
@@ -52,12 +52,10 @@ const handleTextFieldPickerActive = (setState: Updater<TextFieldPickerState>) =>
     })
 }
 
-const handleTextFieldPickerActives = (setState: Updater<TextFieldPickerState>) => (activeKeys?: string[]) => {
+const handleTextFieldPickerActives = (setState: Updater<TextFieldPickerState>) => (activeKeys?: string[]) =>
     setState(draft => {
-        // draft.value = draft.data?.find(item => item.indexKey === activeKey)?.headline as string
         draft.activeKeys = activeKeys
     })
-}
 
 const handleTextFieldPickerChangeText =
     (setState: Updater<TextFieldPickerState>) =>
@@ -88,16 +86,35 @@ const handleTextFieldPickerMenuVisible =
         }
     }
 
-const renderContent = ({activeKeys}) =>
-    activeKeys?.map(key => (
-        <Item key={key}>
-            <Chip
-                elevated={true}
-                type='assist'
-                leadingIcon={<Icon name='tag' />}
-            />
-        </Item>
-    ))
+const handleTextFieldPickerClose = (setState: Updater<TextFieldPickerState>) => (key: string) => {
+    setState(draft => {
+        draft.activeKeys = draft.activeKeys?.filter(item => item !== key)
+    })
+}
+
+const renderContent = ({activeKeys, data, onClose, id}: RenderContentOptions) => {
+    const contents = activeKeys?.map(key => {
+        const {leading, headline} = data?.find(datum => datum.indexKey === key) ?? {}
+
+        return (
+            <Item
+                key={key}
+                testID={`textFieldPicker__content--${id}`}
+            >
+                <Chip
+                    close={true}
+                    elevated={true}
+                    labelText={headline as string}
+                    leadingIcon={leading}
+                    onClose={() => onClose?.(key)}
+                    type='assist'
+                />
+            </Item>
+        )
+    })
+
+    return contents?.length === 0 ? undefined : contents
+}
 
 export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProps>(
     (
@@ -125,19 +142,20 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
                 value: undefined
             })
 
-        const textFieldRef = useRef<TextInput>(null)
         const id = useId()
         const onTextFieldPickerActive = handleTextFieldPickerActive(setState)
         const onTextFieldPickerActives = handleTextFieldPickerActives(setState)
+        const onTextFieldPickerClose = handleTextFieldPickerClose(setState)
         const onTextFieldPickerInit = useMemo(() => handleTextFieldPickerInit(setState), [setState])
+        const textFieldRef = useRef<TextInput>(null)
         const theme = useTheme()
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
             handleTextFieldPickerStateChange({...options, state})(setState)(event)
 
+        const contentElements = renderContent({activeKeys, onClose: onTextFieldPickerClose, data: rawData, id})
         const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
         const onTextFieldPickerChangeText = handleTextFieldPickerChangeText(setState)(rawData)
         const onTextFieldPickerMenuVisible = handleTextFieldPickerMenuVisible({setState, data: rawData})(textFieldRef)
-        const contentElement = renderContent({activeKeys})
 
         useImperativeHandle(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
 
@@ -163,7 +181,7 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
             ...renderProps,
             activeKey,
             activeKeys,
-            contentElement,
+            contentElements,
             data,
             disabled,
             eventName,

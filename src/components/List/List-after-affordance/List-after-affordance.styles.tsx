@@ -17,7 +17,7 @@ export const Container = styled.View`
 export const Danger = styled.View<ListAfterAffordanceDangerProps>`
     position: absolute;
     width: 50%;
-    z-index: -1;
+    z-index: -4;
 
     ${({theme}) => css`
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;

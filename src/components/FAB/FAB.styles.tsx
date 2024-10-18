@@ -42,7 +42,7 @@ export const Content = styled(Shape)<FABContentProps>`
     justify-content: center;
     overflow: hidden;
     position: relative;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme, size = 'medium'}) => {
         const contentSize = {
@@ -74,7 +74,7 @@ export const Content = styled(Shape)<FABContentProps>`
 
 export const ContentUnderlay = styled(Shape)`
     position: absolute;
-    z-index: -1;
+    z-index: -4;
 
     ${({theme}) => css`
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
@@ -91,7 +91,7 @@ export const Main = styled.View<FABMainProps>`
     flex-direction: row;
     flex: 1;
     justify-content: center;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme, size = 'medium'}) => {
         const contentSize = {

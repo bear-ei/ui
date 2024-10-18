@@ -20,7 +20,7 @@ export interface TextFieldProps
     extends Partial<
         TextInputProps & PressableProps & RefAttributes<TextInput> & Pick<ShapeProps, 'shape'> & OnStateEvent
     > {
-    content?: JSX.Element
+    content?: React.ReactNode
     disabled?: boolean
     disabledBlur?: boolean
     enableFocusRing?: boolean

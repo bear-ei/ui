@@ -1,3 +1,4 @@
+import React from 'react'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
@@ -23,7 +24,7 @@ export interface TextFieldPickerProps
         > {}
 
 export interface RenderTextFieldPickerProps extends TextFieldPickerProps {
-    contentElement?: JSX.Element
+    contentElements?: React.ReactNode
     eventName?: EventName
     menuVisible?: boolean
     onMenuVisible: (value?: boolean) => void
@@ -56,4 +57,10 @@ export type HandleTextFieldPickerInitOptions = Pick<
 export type HandleTextFieldPickerStateChangeOptions = OnStateEventChangeOptions
 export interface HandleTextFieldPickerMenuVisibleOptions extends Pick<TextFieldPickerProps, 'data'> {
     setState: Updater<TextFieldPickerState>
+}
+
+export interface RenderContentOptions extends Pick<TextFieldPickerProps, 'data'> {
+    activeKeys?: string[]
+    id: string
+    onClose?: (value: string) => void
 }

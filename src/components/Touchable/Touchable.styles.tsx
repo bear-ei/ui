@@ -23,7 +23,7 @@ export const Content = styled.Pressable<TouchableContentProps>`
 
 export const Main = styled(Shape)<TouchableMainProps>`
     position: relative;
-    z-index: 3;
+    z-index: 12;
 
     ${({alignSelf = 'stretch'}) => css`
         align-self: ${alignSelf};

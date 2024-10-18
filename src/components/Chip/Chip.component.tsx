@@ -72,7 +72,6 @@ const render = ({
                 disabled={loading || disabled}
                 elevationUnderlay={elevationUnderlayElement}
                 enableFocusRing={false}
-                enableTouchableRipple={!close}
                 ref={ref}
                 shape={shape}
                 underlayColor={underlayColor}
@@ -122,16 +121,14 @@ const render = ({
                             :   <IconContainer testID={`chip__iconContainer--${id}`}>{trailing}</IconContainer>)}
                     </Main>
 
-                    {!close && (
-                        <Underlay
-                            active={active}
-                            activeAnimatedType='scaleX'
-                            activeColor={activeColor}
-                            eventName={eventName}
-                            shape={shape}
-                            underlayColor={underlayColor}
-                        />
-                    )}
+                    <Underlay
+                        active={active}
+                        activeAnimatedType='scaleX'
+                        activeColor={activeColor}
+                        eventName={eventName}
+                        shape={shape}
+                        underlayColor={underlayColor}
+                    />
                 </Content>
             </Touchable>
         </Container>

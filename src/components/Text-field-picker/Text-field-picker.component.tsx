@@ -7,7 +7,9 @@ import {RenderTextFieldPickerProps, TextFieldPickerProps} from './Text-field-pic
 import {Container} from './Text-field-picker.styles'
 
 const render = ({
-    contentElement,
+    activeKey,
+    activeKeys,
+    contentElements,
     data,
     eventName,
     id,
@@ -21,6 +23,8 @@ const render = ({
 }: RenderTextFieldPickerProps) => (
     <Container testID={`textFieldPicker--${id}`}>
         <Menu
+            activeKey={activeKey}
+            activeKeys={activeKeys}
             data={data}
             eventName={eventName}
             multiple={multiple}
@@ -32,7 +36,7 @@ const render = ({
             <TextField
                 {...onStateEvent}
                 {...textFieldProps}
-                content={contentElement}
+                content={contentElements}
                 disabledBlur={menuVisible}
             />
         </Menu>

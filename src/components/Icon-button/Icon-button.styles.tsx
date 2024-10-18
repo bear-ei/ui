@@ -20,7 +20,7 @@ export const Content = styled(Shape)<IconButtonContentProps>`
     justify-content: center;
     overflow: hidden;
     position: relative;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme, width, height}) => css`
         height: ${height ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
@@ -30,7 +30,7 @@ export const Content = styled(Shape)<IconButtonContentProps>`
 
 export const ContentUnderlay = styled(Shape)`
     position: absolute;
-    z-index: -1;
+    z-index: -4;
 
     ${({theme}) => css`
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
@@ -41,5 +41,5 @@ export const ContentUnderlay = styled(Shape)`
 `
 
 export const Main = styled.View`
-    z-index: 1;
+    z-index: 4;
 `

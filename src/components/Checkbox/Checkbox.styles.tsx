@@ -20,7 +20,7 @@ export const Content = styled(Shape)`
     flex-direction: column;
     justify-content: center;
     position: relative;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme}) => css`
         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
@@ -31,7 +31,7 @@ export const Content = styled(Shape)`
 export const Main = styled(Shape)`
     overflow: hidden;
     position: relative;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme}) => css`
         height: ${theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)}px;

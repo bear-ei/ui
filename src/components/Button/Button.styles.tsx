@@ -36,7 +36,7 @@ export const Content = styled(Shape)<ButtonContentProps>`
     justify-content: center;
     overflow: hidden;
     position: relative;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme}) => css`
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
@@ -63,7 +63,7 @@ export const Content = styled(Shape)<ButtonContentProps>`
 
 export const ContentUnderlay = styled(Shape)`
     position: absolute;
-    z-index: -1;
+    z-index: -4;
 
     ${({theme}) => css`
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
@@ -80,7 +80,7 @@ export const Main = styled.View<ButtonMainProps>`
     flex-direction: row;
     flex: 1;
     justify-content: center;
-    z-index: 1;
+    z-index: 4;
 
     ${({theme}) => css`
         padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.large)}px;

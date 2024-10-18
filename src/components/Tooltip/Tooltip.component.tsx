@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import {TooltipBase} from './Tooltip-base.component'
 import {TooltipSupporting} from './Tooltip-supporting'
 import {RenderTooltipProps, TooltipProps} from './Tooltip.interface'
-import {Container, Content} from './Tooltip.styles'
+import {Container, Content, ContentContainer} from './Tooltip.styles'
 
 /**
  * TODO: "rich"
@@ -28,15 +28,14 @@ const render = ({
             {...containerProps}
             testID={`tooltip--${id}`}
         >
-            <Content
-                {...onStateEvent}
-                // onLayout={e => {
-                //     console.info(e.nativeEvent.layout)
-                // }}
-                testID={`tooltip__content--${id}`}
-            >
-                {children}
-            </Content>
+            <ContentContainer testID={`tooltip__contentXXXXX--${id}`}>
+                <Content
+                    {...onStateEvent}
+                    testID={`tooltip__content--${id}`}
+                >
+                    {children}
+                </Content>
+            </ContentContainer>
 
             {typeof visible === 'boolean' && supporting && (
                 <TooltipSupporting

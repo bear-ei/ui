@@ -10,8 +10,9 @@ import {
 } from './Tooltip-supporting.interface'
 
 export const Container = styled.Pressable<TooltipSupportingContainerProps>`
-    cursor: pointer;
+    cursor: default;
     z-index: 999998;
+    background-color: red;
 
     ${({theme}) => {
         const containerOS = {

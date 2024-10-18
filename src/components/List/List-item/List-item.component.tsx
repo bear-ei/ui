@@ -89,6 +89,7 @@ const render = ({
                 <AnimatedContent
                     style={[contentStyle, contentAnimatedStyle]}
                     testID={`listItem_content--${id}`}
+                    type={type}
                 >
                     <Touchable
                         {...onStateEvent}

@@ -14,10 +14,14 @@ const render = ({
     onActives,
     shape = 'extraSmall',
     multiple,
+    activeKey,
+    activeKeys,
     ...tooltipProps
 }: RenderMenuProps) => {
     const supporting = (
         <MenuList
+            activeKey={activeKey}
+            activeKeys={activeKeys}
             data={data}
             multiple={multiple}
             onActive={onActive}
