@@ -14,15 +14,16 @@ const render = ({
     activeColor,
     contentUnderlayAnimatedStyle,
     defaultActive,
-
     disabled,
     eventName,
+    height,
     icon,
     id,
     onStateEvent,
     ref,
     type,
     underlayColor,
+    width,
     ...contentProps
 }: RenderIconButtonProps) => {
     const shape = 'full'
@@ -51,9 +52,11 @@ const render = ({
                 <Content
                     {...contentProps}
                     accessibilityRole='button'
+                    height={height}
                     pointerEvents='none'
                     shape={shape}
                     testID={`iconButton__content--${id}`}
+                    width={width}
                 >
                     <Main testID={`iconButton__main--${id}`}>{icon}</Main>
                     <Underlay

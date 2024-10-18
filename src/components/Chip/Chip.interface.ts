@@ -10,10 +10,12 @@ export type ChipType = 'input' | 'assist' | 'filter' | 'suggestion'
 export interface ChipProps extends TouchableProps {
     active?: boolean
     avatar?: JSX.Element
+    close?: boolean
     elevated?: boolean
     labelText?: string
     leadingIcon?: JSX.Element
     loading?: boolean
+    onClose?: () => void
     trailingIcon?: JSX.Element
     type?: ChipType
 }
@@ -26,6 +28,7 @@ export interface RenderChipProps extends ChipProps {
     filterIconContainerAnimatedStyle: AnimatedStyle<TextStyle>
     labelTextAnimatedStyle: AnimatedStyle<TextStyle>
     onStateEvent: OnStateEvent
+    trailing?: JSX.Element
 }
 
 export interface ChipBaseProps extends ChipProps {
@@ -44,7 +47,7 @@ export interface HandleChipStateChangeOptions extends OnStateEventChangeOptions 
 }
 
 export type HandleChipElevationOptions = Pick<ChipProps, 'disabled' | 'type' | 'elevated'>
-export type RenderChipIconOptions = Pick<RenderChipProps, 'disabled' | 'eventName'>
+export type RenderChipIconOptions = Pick<RenderChipProps, 'disabled' | 'eventName' | 'onClose'>
 export type UseChipAnimatedOptions = Pick<RenderChipProps, 'disabled' | 'type' | 'active' | 'elevated'>
 export interface HandleChipAnimatedTimingOptions extends Omit<UseChipAnimatedOptions, 'eventName'> {
     animatedTiming: AnimatedTiming

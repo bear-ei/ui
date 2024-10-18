@@ -36,6 +36,7 @@ export const InputLeadingAvatar: StoryObj<ChipProps> = {
 
 export const Assist: StoryObj<ChipProps> = {
     args: {
+        close: true,
         labelText: 'Label',
         type: 'assist'
     }

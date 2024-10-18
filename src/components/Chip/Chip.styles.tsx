@@ -112,6 +112,23 @@ export const IconContainer = styled.View`
     `}
 `
 
+export const Trailing = styled.View`
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    ${({theme}) => css`
+        width: ${theme.adaptSize(
+            theme.token.spacing.extraSmall * 6 + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+        )}px;
+
+        height: ${theme.adaptSize(
+            theme.token.spacing.extraSmall * 6 + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+        )}px;
+    `}
+`
+
 export const AvatarContainer = styled.View`
     align-items: center;
     display: flex;

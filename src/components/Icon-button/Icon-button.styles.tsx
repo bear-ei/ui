@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
+import {IconButtonContentProps} from './Icon-button.interface'
 
 export const Container = styled.View`
     cursor: pointer;
@@ -12,7 +13,7 @@ export const Container = styled.View`
     `}
 `
 
-export const Content = styled(Shape)`
+export const Content = styled(Shape)<IconButtonContentProps>`
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -21,9 +22,9 @@ export const Content = styled(Shape)`
     position: relative;
     z-index: 1;
 
-    ${({theme}) => css`
-        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+    ${({theme, width, height}) => css`
+        height: ${height ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+        width: ${width ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
     `}
 `
 

@@ -10,8 +10,10 @@ export interface IconButtonProps extends TouchableProps {
     active?: boolean
     defaultActive?: boolean
     fill?: string
+    height?: number
     icon?: JSX.Element
     type?: IconButtonType
+    width?: number
 }
 
 export interface RenderIconButtonProps extends IconButtonProps {
@@ -47,3 +49,5 @@ export interface HandleIconButtonAnimatedTimingSharedValue {
     borderSharedValue: SharedValue<AnimatableValue>
     colorSharedValue: SharedValue<AnimatableValue>
 }
+
+export type IconButtonContentProps = Pick<IconButtonProps, 'width' | 'height'>

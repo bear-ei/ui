@@ -6,6 +6,7 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {EventName, State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {Icon, IconProps} from '../Icon'
+import {IconButton} from '../Icon-button'
 import {
     ChipBaseProps,
     ChipState,
@@ -100,14 +101,42 @@ const renderChipIcon =
         })
     }
 
+const renderChipCloseButton =
+    ({disabled, onClose}: RenderChipIconOptions) =>
+    (theme: DefaultTheme) => {
+        const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+        const iconButtonSize = theme.adaptSize(theme.token.spacing.large)
+
+        return (
+            <IconButton
+                disabled={disabled}
+                height={iconButtonSize}
+                onPressOut={onClose}
+                type='standard'
+                width={iconButtonSize}
+                icon={
+                    <Icon
+                        height={iconSize}
+                        iconStyle='outlined'
+                        name='close'
+                        type='outlined'
+                        width={iconSize}
+                    />
+                }
+            />
+        )
+    }
+
 export const ChipBase = forwardRef<View, ChipBaseProps>(
     (
         {
             active,
+            close,
             disabled,
             elevated,
             labelText = 'Label',
             leadingIcon,
+            onClose,
             render,
             trailingIcon,
             type = 'assist',
@@ -135,6 +164,11 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
             :   leadingIcon
         )
 
+        const trailingElement =
+            close ?
+                renderChipCloseButton({disabled, onClose})(theme)
+            :   renderChipIcon({eventName, disabled})(theme)(trailingIcon)
+
         const onChipDisabled = useMemo(() => handleChipDisabled(setState), [setState])
         const onChipElevation = useMemo(
             () => handleChipElevation({type, disabled})(setState),
@@ -143,7 +177,6 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
 
         const onChipInit = useMemo(() => handleChipInit(setState)(disabled), [disabled, setState])
         const touchableRef = useRef<View>(null)
-        const trailingIconElement = renderChipIcon({eventName, disabled})(theme)(trailingIcon)
         const underlayColor = theme.token.scheme.onSurfaceVariant
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
             handleChipStateChange({...options, state, touchableRef})(setState)(event)
@@ -178,6 +211,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
             ...renderProps,
             active,
             activeColor,
+            close,
             contentUnderlayAnimatedStyle,
             disabled,
             elevation,
@@ -189,7 +223,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
             leadingIcon: leadingIconElement,
             onStateEvent,
             ref: touchableRef,
-            trailingIcon: trailingIconElement,
+            trailing: trailingElement,
             type,
             underlayColor
         })

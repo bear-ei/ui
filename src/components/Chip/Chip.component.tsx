@@ -14,7 +14,8 @@ import {
     FilterIcon,
     IconContainer,
     LabelText,
-    Main
+    Main,
+    Trailing
 } from './Chip.styles'
 
 const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
@@ -24,6 +25,7 @@ const render = ({
     active,
     activeColor,
     avatar,
+    close,
     contentUnderlayAnimatedStyle,
     disabled,
     elevation,
@@ -36,7 +38,7 @@ const render = ({
     loading,
     onStateEvent,
     ref,
-    trailingIcon,
+    trailing,
     type = 'assist',
     underlayColor,
     ...contentProps
@@ -70,6 +72,7 @@ const render = ({
                 disabled={loading || disabled}
                 elevationUnderlay={elevationUnderlayElement}
                 enableFocusRing={false}
+                enableTouchableRipple={!close}
                 ref={ref}
                 shape={shape}
                 underlayColor={underlayColor}
@@ -78,7 +81,6 @@ const render = ({
                     {...contentProps}
                     accessibilityLabel={labelText}
                     accessibilityRole='button'
-                    pointerEvents='none'
                     shape={shape}
                     testID={`chip__content--${id}`}
                     type={type}
@@ -87,10 +89,11 @@ const render = ({
                         avatarShow={!!avatar}
                         leadingIconShow={!!leadingIcon}
                         testID={`chip__main--${id}`}
-                        trailingIconShow={!!trailingIcon}
+                        trailingIconShow={!!trailing}
                         type={type}
                     >
                         {leadingIcon &&
+                            !avatar &&
                             (type === 'filter' ?
                                 <AnimatedIconContainer
                                     testID={`chip__iconContainer--${id}`}
@@ -113,19 +116,22 @@ const render = ({
                             {labelText}
                         </AnimatedLabelText>
 
-                        {trailingIcon && (
-                            <IconContainer testID={`chip__iconContainer--${id}`}>{trailingIcon}</IconContainer>
-                        )}
+                        {trailing &&
+                            (close ?
+                                <Trailing testID={`chip__trailing--${id}`}>{trailing}</Trailing>
+                            :   <IconContainer testID={`chip__iconContainer--${id}`}>{trailing}</IconContainer>)}
                     </Main>
 
-                    <Underlay
-                        active={active}
-                        activeAnimatedType='scaleX'
-                        activeColor={activeColor}
-                        eventName={eventName}
-                        shape={shape}
-                        underlayColor={underlayColor}
-                    />
+                    {!close && (
+                        <Underlay
+                            active={active}
+                            activeAnimatedType='scaleX'
+                            activeColor={activeColor}
+                            eventName={eventName}
+                            shape={shape}
+                            underlayColor={underlayColor}
+                        />
+                    )}
                 </Content>
             </Touchable>
         </Container>
