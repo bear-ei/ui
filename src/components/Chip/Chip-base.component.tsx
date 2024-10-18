@@ -20,7 +20,7 @@ const handleChipElevation =
     ({type, elevated, disabled}: HandleChipElevationOptions) =>
     (setState: Updater<ChipState>) =>
     (state = 'enabled' as State) => {
-        const elevationType = type && ['assist', 'filter', 'suggestion'].includes(type)
+        const elevationType = type && ['assist', 'filter', 'suggestion', 'inputFilled'].includes(type)
 
         if (!elevationType) {
             return
@@ -90,7 +90,7 @@ const renderChipIcon =
             return icon
         }
 
-        const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+        const iconSize = theme.adaptSize(theme.token.spacing.medium)
 
         return cloneElement<IconProps>(icon, {
             disabled,
@@ -102,10 +102,13 @@ const renderChipIcon =
     }
 
 const renderChipCloseButton =
-    ({disabled, onClose}: RenderChipIconOptions) =>
+    ({disabled, onClose, type}: RenderChipIconOptions) =>
     (theme: DefaultTheme) => {
-        const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
-        const iconButtonSize = theme.adaptSize(theme.token.spacing.large)
+        const iconSize = theme.adaptSize(theme.token.spacing.medium)
+        const iconButtonSize =
+            type === 'inputFilled' ?
+                theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+            :   theme.adaptSize(theme.token.spacing.large)
 
         return (
             <IconButton
@@ -166,7 +169,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
 
         const trailingElement =
             close ?
-                renderChipCloseButton({disabled, onClose})(theme)
+                renderChipCloseButton({disabled, onClose, type})(theme)
             :   renderChipIcon({eventName, disabled})(theme)(trailingIcon)
 
         const onChipDisabled = useMemo(() => handleChipDisabled(setState), [setState])

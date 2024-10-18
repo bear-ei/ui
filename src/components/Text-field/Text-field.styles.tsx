@@ -98,9 +98,9 @@ export const Main = styled.View<TextFieldMainProps>`
         css`
             flex-direction: row;
             flex-wrap: wrap;
-            gap: ${theme.adaptSize(theme.token.spacing.small)}px;
+            gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px ${theme.adaptSize(theme.token.spacing.small)}px;
             justify-content: flex-start;
-            padding: ${theme.adaptSize(theme.token.spacing.large + 0 * theme.token.spacing.extraSmall)}px
+            padding: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px
                 ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `};
 `

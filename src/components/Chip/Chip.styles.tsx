@@ -1,14 +1,13 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
-import {ChipContainerProps, ChipContentProps, ChipMainProps, ChipType} from './Chip.interface'
+import {ChipContainerProps, ChipContentProps, ChipMainProps, ChipTrailingProps, ChipType} from './Chip.interface'
 
 export const Container = styled.View<ChipContainerProps>`
     cursor: pointer;
 
     ${({theme}) => css`
         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 8)}px;
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
     `}
 `
@@ -29,6 +28,13 @@ export const Content = styled(Shape)<ChipContentProps>`
     ${({theme}) => css`
         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 8)}px;
     `}
+
+
+    ${({theme, type = 'assist'}) =>
+        type === 'inputFilled' &&
+        css`
+            height: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px;
+        `}
 `
 
 export const ContentUnderlay = styled(Shape)`
@@ -56,8 +62,8 @@ export const Main = styled.View<ChipMainProps>`
         padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;
     `}
 
-    ${({theme}) => css`
-        gap: ${theme.adaptSize(theme.token.spacing.small)}px;
+    ${({theme, type = 'assist'}) => css`
+        gap: ${theme.adaptSize(type === 'inputFilled' ? theme.token.spacing.extraSmall : theme.token.spacing.small)}px;
     `}
 
     ${({theme, type = 'assist'}) => {
@@ -65,6 +71,11 @@ export const Main = styled.View<ChipMainProps>`
             input: css`
                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                     ${theme.adaptSize(theme.token.spacing.extraSmall * 3)}px;
+            `,
+
+            inputFilled: css`
+                padding: ${theme.adaptSize(theme.token.spacing.none)}px
+                    ${theme.adaptSize(theme.token.spacing.extraSmall * 2)}px;
             `
         } as Record<ChipType, RuleSet<object> | undefined>
 
@@ -73,16 +84,20 @@ export const Main = styled.View<ChipMainProps>`
 
     
 
-    ${({leadingIconShow, theme}) =>
+    ${({leadingIconShow, theme, type = 'assist'}) =>
         leadingIconShow &&
         css`
-            padding-left: ${theme.adaptSize(theme.token.spacing.small)}px;
+            padding-left: ${theme.adaptSize(
+                type === 'inputFilled' ? theme.token.spacing.extraSmall : theme.token.spacing.small
+            )}px;
         `}
 
-    ${({trailingIconShow, theme}) =>
+    ${({trailingIconShow, theme, type}) =>
         trailingIconShow &&
         css`
-            padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
+            padding-right: ${theme.adaptSize(
+                type === 'inputFilled' ? theme.token.spacing.extraSmall : theme.token.spacing.small
+            )}px;
         `}
 
     ${({avatarShow, theme}) =>
@@ -107,26 +122,30 @@ export const IconContainer = styled.View`
 
     ${({theme}) => css`
         height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 6 + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+            theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
         )}px;
     `}
 `
 
-export const Trailing = styled.View`
+export const Trailing = styled.View<ChipTrailingProps>`
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
 
     ${({theme}) => css`
-        width: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 6 + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
-        )}px;
-
+        width: ${theme.adaptSize(theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall))}px;
         height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 6 + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+            theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
         )}px;
     `}
+
+    ${({theme, type}) =>
+        type === 'inputFilled' &&
+        css`
+            height: ${theme.adaptSize(theme.token.spacing.medium)}px;
+            width: ${theme.adaptSize(theme.token.spacing.medium)}px;
+        `}
 `
 
 export const AvatarContainer = styled.View`
@@ -147,10 +166,10 @@ export const FilterIcon = styled.View`
     position: absolute;
 
     ${({theme}) => css`
-        top: ${theme.adaptSize(theme.token.spacing.none)}px;
         left: ${theme.adaptSize(theme.token.spacing.none)}px;
+        top: ${theme.adaptSize(theme.token.spacing.none)}px;
         height: ${theme.adaptSize(
-            theme.token.spacing.extraSmall * 6 + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+            theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
         )}px;
     `}
 `

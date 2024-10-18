@@ -107,7 +107,7 @@ const renderContent = ({activeKeys, data, onClose, id}: RenderContentOptions) =>
                     labelText={headline as string}
                     leadingIcon={leading}
                     onClose={() => onClose?.(key)}
-                    type='assist'
+                    type='inputFilled'
                 />
             </Item>
         )

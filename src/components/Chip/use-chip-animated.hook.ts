@@ -87,6 +87,14 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
                 convertHexToRGBA(scheme.primary)(0)
             ]
         },
+        inputFilled: {
+            inputRange: [0, 1, 2],
+            outputRange: [
+                convertHexToRGBA(scheme.primary)(0),
+                elevated ? convertHexToRGBA(scheme.surfaceContainerLow)(1) : convertHexToRGBA(scheme.primary)(0),
+                convertHexToRGBA(scheme.primary)(0)
+            ]
+        },
         assist: {
             inputRange: [0, 1, 2],
             outputRange: [
@@ -115,6 +123,14 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
 
     const colorType = {
         input: {
+            inputRange: [0, 1, 2],
+            outputRange: [
+                convertHexToRGBA(scheme.onSurfaceVariant)(1),
+                convertHexToRGBA(scheme.onSurfaceVariant)(1),
+                convertHexToRGBA(scheme.onSecondaryContainer)(1)
+            ]
+        },
+        inputFilled: {
             inputRange: [0, 1, 2],
             outputRange: [
                 convertHexToRGBA(scheme.onSurfaceVariant)(1),

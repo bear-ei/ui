@@ -43,7 +43,10 @@ const render = ({
     underlayColor,
     ...contentProps
 }: RenderChipProps) => {
-    const shape = avatar ? 'full' : 'small'
+    const inputFilledShape = 'extraSmall'
+    const commonShape = avatar ? 'full' : 'small'
+    const shape = type === 'inputFilled' ? inputFilledShape : commonShape
+
     const backgroundUnderlayElement = (
         <AnimatedContentUnderlay
             pointerEvents='none'
@@ -107,7 +110,7 @@ const render = ({
                         <AnimatedLabelText
                             ellipsizeMode='tail'
                             numberOfLines={1}
-                            size='large'
+                            size={type === 'inputFilled' ? 'small' : 'large'}
                             style={[labelTextAnimatedStyle]}
                             testID={`chip__labelText--${id}`}
                             type='label'
@@ -117,7 +120,12 @@ const render = ({
 
                         {trailing &&
                             (close ?
-                                <Trailing testID={`chip__trailing--${id}`}>{trailing}</Trailing>
+                                <Trailing
+                                    testID={`chip__trailing--${id}`}
+                                    type={type}
+                                >
+                                    {trailing}
+                                </Trailing>
                             :   <IconContainer testID={`chip__iconContainer--${id}`}>{trailing}</IconContainer>)}
                     </Main>
 
