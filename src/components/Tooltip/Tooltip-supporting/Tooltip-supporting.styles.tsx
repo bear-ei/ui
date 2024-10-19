@@ -94,6 +94,7 @@ export const Container = styled.View<TooltipSupportingContentProps>`
 export const TouchableContent = styled.Pressable`
     flex: 1;
     align-self: stretch;
+    outline-style: none;
 `
 
 export const Content = styled.View`

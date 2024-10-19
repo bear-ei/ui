@@ -12,6 +12,7 @@ export const Content = styled.Pressable`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    outline-style: none;
 
     ${({theme}) => css`
         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;

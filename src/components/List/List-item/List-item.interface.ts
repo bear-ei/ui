@@ -30,7 +30,9 @@ export interface ListItemProps
     enableUnderlay?: boolean
     enableUnderlayActive?: boolean
     extraData?: string[]
+    focusedIndex?: number
     headline?: React.ReactNode
+    itemIndex?: number
     itemKey: string
     itemLayout?: {width?: number; height?: number}
     itemShape?: ShapeType
@@ -39,6 +41,7 @@ export interface ListItemProps
     onActiveAfterAffordance?: (value?: string) => void
     onActives?: (value?: string[]) => void
     onClose?: (value?: string) => void
+    onFocusedIndex?: (value?: number) => void
     onLoadEnd?: (value?: string) => void
     onVisible?: (value?: string) => void
     selectType?: SelectType
@@ -75,13 +78,17 @@ export interface ListItemState {
     afterAffordanceClosed?: boolean
     eventName?: EventName
     listItemState?: State
+    nextFocusEvent?: () => void
     nextLayoutEvent?: () => void
     nextPressOutEvent?: () => void
     trailingVisible?: boolean
 }
 
 export type HandleListItemStateEventChangeOptions = OnStateEventChangeOptions &
-    Pick<RenderListItemProps, 'itemKey' | 'onActive' | 'type' | 'onLoadEnd' | 'trailingTrigger'>
+    Pick<
+        RenderListItemProps,
+        'itemKey' | 'onActive' | 'type' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex' | 'onFocusedIndex'
+    >
 
 export type HandleListItemTrailingEventOptions = {callback?: () => void}
 export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {

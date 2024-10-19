@@ -10,6 +10,7 @@ export const Container = styled.View`
 
 export const Touchable = styled.Pressable`
     cursor: text;
+    outline-style: none;
 `
 
 export const Content = styled(Shape)<SearchContentProps>`

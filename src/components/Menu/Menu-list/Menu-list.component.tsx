@@ -1,16 +1,18 @@
 import {FC, forwardRef} from 'react'
+import {OnStateEvent} from '../../../hooks'
 import {List, ListData, VirtualListComponent} from '../../List'
 import {MenuListBase} from './Menu-list-base.component'
 import {MenuListProps, RenderMenuListProps} from './Menu-list.interface'
 import {Container, ListContainer} from './Menu-list.styles'
 
-const render = ({theme, multiple, id, type, shape, data, onFocus, ...menuProps}: RenderMenuListProps) => {
+const render = ({data, id, multiple, onFocus, onKeyDown, shape, theme, type, ...menuProps}: RenderMenuListProps) => {
     const dataNumber = data?.length ?? 0
     const itemSize = theme.adaptSize(theme.token.spacing.extraSmall * 12)
 
     return (
         <Container
             height={dataNumber * itemSize + theme.adaptSize(theme.token.spacing.medium)}
+            onKeyDown={onKeyDown}
             testID={`menu--${id}`}
             type={type}
         >
@@ -22,7 +24,7 @@ const render = ({theme, multiple, id, type, shape, data, onFocus, ...menuProps}:
                     {...menuProps}
                     data={data}
                     itemSize={theme.adaptSize(theme.token.spacing.extraSmall * 12)}
-                    onItemStateEvent={{onFocus}}
+                    onItemStateEvent={{onFocus} as OnStateEvent}
                     selectType={multiple ? 'multiselect' : 'select'}
                     type='menu'
                 />

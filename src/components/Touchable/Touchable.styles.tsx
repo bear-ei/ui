@@ -8,10 +8,11 @@ export const Container = styled.View`
 `
 
 export const Content = styled.Pressable<TouchableContentProps>`
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    outline-style: none;
 
     ${({theme, hotZone = true}) =>
         hotZone &&

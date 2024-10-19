@@ -1,14 +1,16 @@
-import {LayoutRectangle} from 'react-native'
+import {KeyboardEvent, RefAttributes} from 'react'
+import {PressableProps, ViewProps} from 'react-native'
 import {DefaultTheme} from 'styled-components/native'
-import {ComponentStatus, ShapeType} from '../../Common'
+import {ShapeType} from '../../Common'
 import {ElevationLevel} from '../../Elevation'
 import {ListProps} from '../../List'
 import {MenuType} from '../Menu.interface'
 
-export interface MenuListProps extends Omit<ListProps, 'type'> {
+export interface MenuListProps extends Omit<ListProps & PressableProps, 'type'> {
     defaultVisible?: boolean
     elevation?: ElevationLevel
     multiple?: boolean
+    onKeyDown?: (event: KeyboardEvent) => void
     shape?: ShapeType
     type?: MenuType
     virtualList?: boolean
@@ -16,6 +18,7 @@ export interface MenuListProps extends Omit<ListProps, 'type'> {
 }
 
 export interface RenderMenuListProps extends Omit<MenuListProps, 'containerCurrent'> {
+    focusedIndex?: number
     theme: DefaultTheme
 }
 
@@ -23,11 +26,7 @@ export interface MenuListBaseProps extends MenuListProps {
     render: (props: RenderMenuListProps) => JSX.Element
 }
 
-export interface MenuListState extends MenuListProps {
-    containerLayout: LayoutRectangle & {pageX: number; pageY: number}
-    status: ComponentStatus
-}
-
-export interface MenuListContainerProps extends Pick<MenuListProps, 'type'> {
+export interface MenuListContainerProps extends ViewProps, RefAttributes<ViewProps>, Pick<MenuListProps, 'type'> {
     height?: number
+    onKeyDown?: (event: KeyboardEvent) => void
 }

@@ -1,4 +1,4 @@
-import {cloneElement, forwardRef, useEffect, useId, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {GestureResponderEvent, PanResponder, PanResponderGestureState, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -28,6 +28,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
         afterAffordanceActiveKey: prevAfterAffordanceActiveKey,
         disabled: prevDisabled,
         extraData: prevExtraData,
+        focusedIndex: prevFocusedIndex,
+        itemIndex: prevItemIndex,
         itemKey: prevItemKey,
         skeletonMinDuration: prevSkeletonMinDuration
     } = prevProps
@@ -39,6 +41,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
             afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
             disabled: nextDisabled,
             extraData: nextExtraData,
+            focusedIndex: nextFocusedIndex,
+            itemIndex: nextItemIndex,
             itemKey: nextItemKey,
             skeletonMinDuration: nextSkeletonMinDuration
         } = nextProps
@@ -56,10 +60,15 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
             prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
             (nextAfterAffordanceActiveKey === nextItemKey || prevAfterAffordanceActiveKey === prevItemKey)
 
+        const focusedIndexChange =
+            nextFocusedIndex !== prevFocusedIndex &&
+            (nextFocusedIndex === nextItemIndex || prevFocusedIndex === prevItemIndex)
+
         return ![
             activeKeyChange,
             activeKeysChange,
             afterAffordanceActiveChange,
+            focusedIndexChange,
             prevDisabled !== nextDisabled,
             prevExtraData?.join() !== nextExtraData?.join(),
             prevSkeletonMinDuration !== nextSkeletonMinDuration
@@ -73,17 +82,21 @@ const handleListItemPressOut = (type?: ListType) => (onActive?: (value?: string)
     }
 }
 
+const handleListItemFocused = (onFocusedIndex?: (value?: number) => void) => (value?: number) => onFocusedIndex?.(value)
 const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
 const handleListItemStateChange = ({
     eventName,
+    itemIndex,
     itemKey,
     onActive,
-    type,
+    onFocusedIndex,
     onLoadEnd,
     state,
-    trailingTrigger
+    trailingTrigger,
+    type
 }: HandleListItemStateEventChangeOptions) => {
     const nextEvent = {
+        focus: () => handleListItemFocused(onFocusedIndex)(itemIndex),
         layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
         pressOut: () => handleListItemPressOut(type)(onActive)(itemKey)
     } as Record<EventName, () => void>
@@ -116,6 +129,10 @@ const handleListItemStateChange = ({
 
                 if (eventName === 'pressOut') {
                     draft.nextPressOutEvent = nextEvent[eventName]
+                }
+
+                if (eventName === 'focus') {
+                    draft.nextFocusEvent = nextEvent[eventName]
                 }
             }
         })
@@ -162,6 +179,16 @@ const handleListItemConfirm =
         onActiveAfterAffordance?.()
         onConfirm?.({...options, itemKey: value})
     }
+
+const handleListItemFocus = (ref: React.RefObject<View>) => (itemIndex?: number) => (focusedIndex?: number) => {
+    if (typeof focusedIndex !== 'number') {
+        return
+    }
+
+    if (itemIndex === focusedIndex) {
+        ref.current?.focus()
+    }
+}
 
 const handleListItemClose =
     ({onClose, onVisible}: HandleListItemCloseOptions) =>
@@ -254,11 +281,14 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             disabled,
             enableUnderlay = true,
             enableUnderlayActive = true,
+            focusedIndex,
+            itemIndex,
             itemKey,
             onActive,
             onActiveAfterAffordance,
             onClose,
             onConfirm,
+            onFocusedIndex,
             onLoadEnd,
             onVisible,
             render,
@@ -272,17 +302,27 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         ref
     ) => {
         const [
-            {afterAffordanceClosed, eventName, listItemState, nextLayoutEvent, nextPressOutEvent, trailingVisible},
+            {
+                afterAffordanceClosed,
+                eventName,
+                listItemState,
+                nextFocusEvent,
+                nextLayoutEvent,
+                nextPressOutEvent,
+                trailingVisible
+            },
             setState
         ] = useImmer<ListItemState>({
             afterAffordanceClosed: undefined,
             eventName: undefined,
             listItemState: undefined,
+            nextFocusEvent: undefined,
             nextLayoutEvent: undefined,
             nextPressOutEvent: undefined,
             trailingVisible: undefined
         })
 
+        const touchableRef = useRef<View>(null)
         const active = selectType === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)
         const theme = useTheme()
         const activeColor = theme.token.scheme.secondaryContainer
@@ -304,6 +344,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             })
         ).current
 
+        const onListItemFocus = useMemo(() => handleListItemFocus(touchableRef)(itemIndex), [itemIndex])
         const onListItemConfirm = ({itemKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
             handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
 
@@ -319,9 +360,17 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         )
 
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleListItemStateChange({...options, itemKey, onActive, state, type, onLoadEnd, trailingTrigger})(
-                setState
-            )(event)
+            handleListItemStateChange({
+                ...options,
+                itemIndex,
+                itemKey,
+                onActive,
+                onFocusedIndex,
+                onLoadEnd,
+                state,
+                trailingTrigger,
+                type
+            })(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})
         const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
@@ -339,6 +388,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             trailing
         })
 
+        useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
+
+        useEffect(() => {
+            onListItemFocus(focusedIndex)
+        }, [focusedIndex, onListItemFocus])
+
         useEffect(() => {
             nextPressOutEvent?.()
         }, [nextPressOutEvent])
@@ -346,6 +401,10 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         useEffect(() => {
             nextLayoutEvent?.()
         }, [nextLayoutEvent])
+
+        useEffect(() => {
+            nextFocusEvent?.()
+        }, [nextFocusEvent])
 
         useEffect(() => {
             onListItemClose(close)
@@ -369,7 +428,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             onConfirm: onListItemConfirm,
             onStateEvent,
             panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,
-            ref,
+            ref: touchableRef,
             selectType,
             state: listItemState,
             supporting,

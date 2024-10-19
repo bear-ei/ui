@@ -10,10 +10,14 @@ const render = ({
     activeKey,
     activeKeys,
     data,
+    focusedIndex,
     id,
     multiple,
     onActive,
     onActives,
+    onFocusedIndex,
+    onKeyDown,
+    onVisible,
     shape = 'extraSmall',
     type,
     ...tooltipProps
@@ -23,9 +27,12 @@ const render = ({
             activeKey={activeKey}
             activeKeys={activeKeys}
             data={data}
+            focusedIndex={focusedIndex}
             multiple={multiple}
             onActive={onActive}
             onActives={onActives}
+            onFocusedIndex={onFocusedIndex}
+            onKeyDown={onKeyDown}
             shape={shape}
             type={type}
         />
@@ -36,6 +43,7 @@ const render = ({
             <Tooltip
                 {...tooltipProps}
                 elevation={2}
+                onVisible={onVisible}
                 shape={shape}
                 supporting={supporting}
                 supportingPosition='verticalEnd'

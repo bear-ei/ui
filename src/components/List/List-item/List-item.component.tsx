@@ -46,6 +46,7 @@ const render = ({
     onConfirm,
     onStateEvent,
     panResponder,
+    ref,
     selectType,
     skeletonElement,
     skeletonMinDuration,
@@ -95,6 +96,7 @@ const render = ({
                         {...onStateEvent}
                         disabled={disabled}
                         enableTouchableRipple={type === 'standard' ? enableUnderlay : false}
+                        ref={ref}
                         underlayColor={underlayColor}
                     >
                         <Main

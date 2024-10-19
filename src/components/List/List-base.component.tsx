@@ -129,6 +129,7 @@ const renderDefaultListItem = ({
             {...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
             {...item}
             {...props}
+            itemIndex={index}
             itemKey={item?.indexKey ?? index.toString()}
         />
 
@@ -156,6 +157,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             deselect,
             disabled,
             enableUnderlay,
+            focusedIndex,
             itemShape,
             listLoadingComponent,
             loading,
@@ -164,6 +166,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             onCancel,
             onClose,
             onConfirm,
+            onFocusedIndex,
             onItemStateEvent,
             render,
             renderItem,
@@ -221,12 +224,14 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             closeTrailing,
             disabled,
             enableUnderlay,
+            focusedIndex,
             itemShape,
             onActive: onListActive,
             onActiveAfterAffordance,
             onCancel,
             onClose: onListClose,
             onConfirm,
+            onFocusedIndex,
             renderItem,
             selectType,
             skeletonElement,
@@ -260,6 +265,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             activeKeys: listActiveKeys,
             afterAffordanceActiveKey,
             disabled,
+            focusedIndex,
             id,
             listLoadingComponent,
             loading,

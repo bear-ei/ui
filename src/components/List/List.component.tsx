@@ -11,6 +11,7 @@ const render = ({
     data,
     disabled,
     extraData = [],
+    focusedIndex,
     id,
     itemSize,
     loading,
@@ -28,7 +29,15 @@ const render = ({
         <VirtualList
             {...virtualListProps}
             data={data}
-            extraData={[activeKey, afterAffordanceActiveKey, activeKeys?.join(), disabled, loading, ...extraData]}
+            extraData={[
+                activeKey,
+                activeKeys?.join(),
+                afterAffordanceActiveKey,
+                disabled,
+                focusedIndex,
+                loading,
+                ...extraData
+            ]}
             itemSize={itemSize ?? theme.adaptSize(theme.token.spacing.extraSmall * 14)}
             loading={loading}
             renderItem={renderItem}

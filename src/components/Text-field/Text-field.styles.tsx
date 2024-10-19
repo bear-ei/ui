@@ -20,6 +20,7 @@ export const Content = styled.View`
 
 export const TouchableHeader = styled.Pressable`
     cursor: text;
+    outline-style: none;
 `
 
 export const Header = styled(Shape)<TextFieldHeaderProps>`
@@ -132,7 +133,7 @@ export const Control = styled.View<TextFieldControlProps>`
  * in macos, it does not provide text styles.
  */
 export const Input = styled.TextInput`
-    outline: none;
+    outline-style: none;
 
     ${({theme, secureTextEntry}) =>
         !secureTextEntry &&

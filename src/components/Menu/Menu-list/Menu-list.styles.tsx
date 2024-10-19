@@ -1,8 +1,9 @@
+import {View} from 'react-native'
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../../Common'
 import {MenuListContainerProps} from './Menu-list.interface'
 
-export const Container = styled.View<MenuListContainerProps>`
+export const Container = styled(View)<MenuListContainerProps>`
     display: flex;
     flex-direction: column;
     position: relative;

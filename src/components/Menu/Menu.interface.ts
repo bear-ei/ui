@@ -1,3 +1,4 @@
+import {KeyboardEvent} from 'react'
 import {PressableProps} from 'react-native'
 import {TooltipProps} from '../Tooltip'
 import {MenuListProps} from './Menu-list'
@@ -7,7 +8,15 @@ export interface MenuProps extends Omit<PressableProps & TooltipProps & MenuList
     type?: MenuType
 }
 
-export type RenderMenuProps = MenuProps
+export interface RenderMenuProps extends MenuProps {
+    focusedIndex?: number
+    onKeyDown: (event: KeyboardEvent) => void
+}
+
 export interface MenuBaseProps extends MenuProps {
     render: (props: RenderMenuProps) => JSX.Element
+}
+
+export interface MenuState {
+    focusedIndex?: number
 }
