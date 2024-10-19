@@ -10,9 +10,10 @@ export interface VirtualListProps<T>
         RefAttributes<ScrollView>,
         Pick<VirtualListItemProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd'> {
     data?: VirtualListData<T>[]
+    focusedIndex?: number
     listEmptyComponent?: JSX.Element
-    loading?: boolean
     listLoadingComponent?: JSX.Element
+    loading?: boolean
 }
 
 export interface RenderVirtualListProps<T = Record<string, unknown>> extends VirtualListProps<T> {

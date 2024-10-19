@@ -5,6 +5,7 @@ import {MenuListProps} from './Menu-list'
 
 export type MenuType = 'textFieldPicker'
 export interface MenuProps extends Omit<PressableProps & TooltipProps & MenuListProps, 'type'> {
+    keyCode?: string
     type?: MenuType
 }
 
@@ -19,4 +20,13 @@ export interface MenuBaseProps extends MenuProps {
 
 export interface MenuState {
     focusedIndex?: number
+    keyCode?: string
+    nextActiveEvent?: () => void
+    nextActivesEvent?: () => void
+    nextVisibleEvent?: () => void
 }
+
+export type HandleMenuKeyDownOptions = Pick<
+    MenuProps,
+    'data' | 'multiple' | 'onActives' | 'onActive' | 'activeKeys' | 'activeKey'
+>

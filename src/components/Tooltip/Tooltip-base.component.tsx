@@ -55,9 +55,9 @@ const handleTooltipStateChange = ({
 export const TooltipBase = forwardRef<View, TooltipBaseProps>(
     ({defaultVisible, disabled = false, onVisible, render, visible, triggerEvent, ...renderProps}, ref) => {
         const [{tooltipVisible, nextActiveEvent, layout}, setState] = useImmer<TooltipState>({
+            layout: {} as LayoutRectangle,
             nextActiveEvent: undefined,
-            tooltipVisible: undefined,
-            layout: {} as LayoutRectangle
+            tooltipVisible: undefined
         })
 
         const containerRef = useRef<View>(null)
@@ -94,7 +94,6 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
             onStateEvent,
             onVisible: onTooltipVisible,
             ref: containerRef,
-            triggerEvent,
             visible: tooltipVisible
         })
     }

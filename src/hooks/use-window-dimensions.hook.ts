@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {Dimensions, Platform, ScaledSize} from 'react-native'
+import {Dimensions, ScaledSize} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {debounce} from '../utils'
 import {UseWindowDimensionsOptions} from './hooks.interface'
@@ -17,17 +17,13 @@ const handleWindowScaledSize =
         })
     }
 
-const handleEventListener =
-    (onWindowScaledSize: ({window}: {window: ScaledSize}) => void) => (inspectionPlatform: boolean) => {
-        const subscription = () => Dimensions.addEventListener('change', onWindowScaledSize)
+const handleEventListener = (onWindowScaledSize: ({window}: {window: ScaledSize}) => void) => {
+    const subscription = () => Dimensions.addEventListener('change', onWindowScaledSize)
 
-        return inspectionPlatform ? ['ios', 'android'].includes(Platform.OS) && subscription() : subscription()
-    }
+    return subscription()
+}
 
-export const useWindowDimensions = ({
-    changeEventThrottle = 50,
-    inspectionPlatform = true
-}: UseWindowDimensionsOptions = {}) => {
+export const useWindowDimensions = ({changeEventThrottle = 50}: UseWindowDimensionsOptions = {}) => {
     const [scaledSize, setState] = useImmer<ScaledSize>({
         width: 0,
         height: 0,
@@ -36,22 +32,24 @@ export const useWindowDimensions = ({
     })
 
     const onWindowScaledSize = useMemo(
-        () =>
-            scaledSize.width ?
-                debounce(handleWindowScaledSize(setState))(changeEventThrottle)
-            :   handleWindowScaledSize(setState),
-        [changeEventThrottle, scaledSize.width, setState]
+        () => debounce(handleWindowScaledSize(setState))(changeEventThrottle),
+        [changeEventThrottle, setState]
     )
 
     useEffect(() => {
-        const subscription = handleEventListener(onWindowScaledSize)(inspectionPlatform)
+        const subscription = handleEventListener(onWindowScaledSize)
 
         return () => {
             if (subscription) {
                 subscription.remove()
             }
         }
-    }, [inspectionPlatform, onWindowScaledSize])
+    }, [onWindowScaledSize])
+
+    useEffect(() => {
+        const initialWindow = Dimensions.get('window')
+        handleWindowScaledSize(setState)({window: initialWindow})
+    }, [setState])
 
     return scaledSize
 }

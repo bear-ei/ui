@@ -1,6 +1,6 @@
 import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {TextInput} from 'react-native'
+import {NativeSyntheticEvent, TextInput, TextInputKeyPressEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -77,27 +77,23 @@ const handleTextFieldPickerChangeText =
     }
 
 const handleTextFieldPickerContentPressOut = (ref: React.RefObject<TextInput>) => () => ref.current?.focus()
-const handleTextFieldPickerMenuVisible =
-    ({setState, data}: HandleTextFieldPickerMenuVisibleOptions) =>
-    (ref: React.RefObject<TextInput>) => {
-        const handleNextBlurEvent = () => ref.current?.blur()
-        const handleFindData = (draft: WritableDraft<TextFieldPickerState>) => (item: ListData) =>
-            item.indexKey === draft.activeKey
+const handleTextFieldPickerMenuVisible = ({setState, data}: HandleTextFieldPickerMenuVisibleOptions) => {
+    const handleFindData = (draft: WritableDraft<TextFieldPickerState>) => (item: ListData) =>
+        item.indexKey === draft.activeKey
 
-        return (value?: boolean) => {
-            if (typeof value === 'boolean') {
-                setState(draft => {
-                    draft.menuVisible = value
+    return (value?: boolean) => {
+        if (typeof value === 'boolean') {
+            setState(draft => {
+                draft.menuVisible = value
 
-                    if (!value) {
-                        draft.data = data as WritableDraft<ListData>[]
-                        draft.nextBlurEvent = handleNextBlurEvent
-                        draft.value = data?.find(handleFindData(draft))?.headline as string
-                    }
-                })
-            }
+                if (!value) {
+                    draft.data = data as WritableDraft<ListData>[]
+                    draft.value = data?.find(handleFindData(draft))?.headline as string
+                }
+            })
         }
     }
+}
 
 const handleTextFieldPickerClose = (setState: Updater<TextFieldPickerState>) => (ref: React.RefObject<TextInput>) => {
     const handleFilterData = (key: string) => (item: string) => item !== key
@@ -111,7 +107,6 @@ const handleTextFieldPickerClose = (setState: Updater<TextFieldPickerState>) => 
     }
 }
 
-const handleTextFieldPickerMenuFocus = (ref: React.RefObject<TextInput>) => () => ref.current?.focus()
 const renderTextFieldPickerContent = ({
     activeKeys,
     data,
@@ -143,6 +138,18 @@ const renderTextFieldPickerContent = ({
     return contents?.length === 0 ? undefined : contents
 }
 
+const handleTextFieldPickerKeyPress =
+    (setState: Updater<TextFieldPickerState>) => (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+        event.preventDefault()
+        const {key} = event.nativeEvent
+
+        setState(draft => {
+            if (draft.menuVisible) {
+                draft.keyCode = `${key}${event.timeStamp}`
+            }
+        })
+    }
+
 export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProps>(
     (
         {
@@ -157,12 +164,13 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
         },
         ref
     ) => {
-        const [{data, status, eventName, value, menuVisible, nextBlurEvent, activeKey, activeKeys}, setState] =
+        const [{data, status, eventName, value, menuVisible, nextBlurEvent, activeKey, activeKeys, keyCode}, setState] =
             useImmer<TextFieldPickerState>({
                 activeKey: undefined,
                 activeKeys: undefined,
                 data: undefined,
                 eventName: undefined,
+                keyCode: undefined,
                 menuVisible: undefined,
                 nextBlurEvent: undefined,
                 status: 'idle',
@@ -171,12 +179,11 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
 
         const id = useId()
         const textFieldRef = useRef<TextInput>(null)
-        const onTextFieldPickerActive = handleTextFieldPickerActive(setState)(textFieldRef)
-        const onTextFieldPickerActives = handleTextFieldPickerActives(setState)(textFieldRef)
+        const onTextFieldPickerActive = useMemo(() => handleTextFieldPickerActive(setState)(textFieldRef), [setState])
+        const onTextFieldPickerActives = useMemo(() => handleTextFieldPickerActives(setState)(textFieldRef), [setState])
         const onTextFieldPickerClose = handleTextFieldPickerClose(setState)(textFieldRef)
         const onTextFieldPickerContentPressOut = handleTextFieldPickerContentPressOut(textFieldRef)
         const onTextFieldPickerInit = useMemo(() => handleTextFieldPickerInit(setState), [setState])
-        const onTextFieldPickerMenuFocus = handleTextFieldPickerMenuFocus(textFieldRef)
         const theme = useTheme()
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
             handleTextFieldPickerStateChange({...options, state})(setState)(event)
@@ -195,8 +202,9 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
             [rawData, setState]
         )
 
+        const onTextFieldPickerKeyPress = handleTextFieldPickerKeyPress(setState)
         const onTextFieldPickerMenuVisible = useMemo(
-            () => handleTextFieldPickerMenuVisible({setState, data: rawData})(textFieldRef),
+            () => handleTextFieldPickerMenuVisible({setState, data: rawData}),
             [rawData, setState]
         )
 
@@ -229,11 +237,12 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
             disabled,
             eventName,
             id,
+            keyCode,
             menuVisible,
             onActive: onTextFieldPickerActive,
             onActives: onTextFieldPickerActives,
             onChangeText: onTextFieldPickerChangeText,
-            onMenuFocus: onTextFieldPickerMenuFocus,
+            onKeyPress: onTextFieldPickerKeyPress,
             onMenuVisible: onTextFieldPickerMenuVisible,
             onStateEvent,
             ref: textFieldRef,

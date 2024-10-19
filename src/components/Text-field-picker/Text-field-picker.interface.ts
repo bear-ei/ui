@@ -27,6 +27,7 @@ export interface TextFieldPickerProps
 export interface RenderTextFieldPickerProps extends TextFieldPickerProps {
     contentElements?: React.ReactNode
     eventName?: EventName
+    keyCode?: string
     menuVisible?: boolean
     onMenuFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
     onMenuVisible: (value?: boolean) => void
@@ -45,6 +46,7 @@ export interface TextFieldPickerState {
     defaultActiveKey?: string
     defaultActiveKeys?: string[]
     eventName?: EventName
+    keyCode?: string
     menuVisible?: boolean
     nextBlurEvent?: () => void
     status: ComponentStatus

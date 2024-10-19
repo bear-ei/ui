@@ -12,6 +12,7 @@ const render = ({
     contentElements,
     data,
     id,
+    keyCode,
     menuVisible,
     multiple,
     onActive,
@@ -25,6 +26,7 @@ const render = ({
             activeKey={activeKey}
             activeKeys={activeKeys}
             data={data}
+            keyCode={keyCode}
             multiple={multiple}
             onActive={onActive}
             onActives={onActives}

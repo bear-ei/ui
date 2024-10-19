@@ -38,6 +38,7 @@ const render = ({
                 loading,
                 ...extraData
             ]}
+            focusedIndex={focusedIndex}
             itemSize={itemSize ?? theme.adaptSize(theme.token.spacing.extraSmall * 14)}
             loading={loading}
             renderItem={renderItem}

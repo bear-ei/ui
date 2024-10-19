@@ -105,6 +105,10 @@ const handleListItemStateChange = ({
         setState(draft => {
             const prevEventName = draft.eventName
 
+            if (eventName && prevEventName === 'focus' && ['hoverIn', 'hoverOut'].includes(eventName)) {
+                return
+            }
+
             if (eventName) {
                 draft.eventName = eventName
             }
@@ -123,16 +127,21 @@ const handleListItemStateChange = ({
             }
 
             if (prevEventName !== eventName) {
-                if (eventName === 'layout') {
-                    draft.nextLayoutEvent = nextEvent[eventName]
-                }
+                switch (eventName) {
+                    case 'layout':
+                        draft.nextLayoutEvent = nextEvent[eventName]
+                        break
 
-                if (eventName === 'pressOut') {
-                    draft.nextPressOutEvent = nextEvent[eventName]
-                }
+                    case 'pressOut':
+                        draft.nextPressOutEvent = nextEvent[eventName]
+                        break
 
-                if (eventName === 'focus') {
-                    draft.nextFocusEvent = nextEvent[eventName]
+                    case 'focus':
+                        draft.nextFocusEvent = nextEvent[eventName]
+                        break
+
+                    default:
+                        break
                 }
             }
         })
@@ -180,15 +189,14 @@ const handleListItemConfirm =
         onConfirm?.({...options, itemKey: value})
     }
 
-const handleListItemFocus = (ref: React.RefObject<View>) => (itemIndex?: number) => (focusedIndex?: number) => {
-    if (typeof focusedIndex !== 'number') {
-        return
-    }
-
-    if (itemIndex === focusedIndex) {
-        ref.current?.focus()
-    }
-}
+/**
+ * When using the component Text-field-picker, you only need to change the focus style. Do not get the real focus.
+ * Otherwise the Text-field-picker will lose focus.
+ */
+const handleListItemFocus = (setState: Updater<ListItemState>) => (itemIndex?: number) => (focusedIndex?: number) =>
+    setState(draft => {
+        draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
+    })
 
 const handleListItemClose =
     ({onClose, onVisible}: HandleListItemCloseOptions) =>
@@ -344,7 +352,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             })
         ).current
 
-        const onListItemFocus = useMemo(() => handleListItemFocus(touchableRef)(itemIndex), [itemIndex])
+        const onListItemFocus = useMemo(() => handleListItemFocus(setState)(itemIndex), [itemIndex, setState])
         const onListItemConfirm = ({itemKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
             handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
 

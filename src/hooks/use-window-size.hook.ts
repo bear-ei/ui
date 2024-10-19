@@ -2,7 +2,7 @@ import {WindowSize} from './hooks.interface'
 import {useWindowDimensions} from './use-window-dimensions.hook'
 
 export const useWindowSize = (): WindowSize => {
-    const {width} = useWindowDimensions({inspectionPlatform: false})
+    const {width} = useWindowDimensions()
 
     let windowSize!: WindowSize
 

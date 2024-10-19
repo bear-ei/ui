@@ -19,7 +19,6 @@ const render = ({
     shape,
     supporting,
     supportingPosition,
-    triggerEvent,
     type,
     visible,
     ...containerProps
@@ -44,7 +43,6 @@ const render = ({
                     shape={shape}
                     supporting={supporting}
                     supportingPosition={supportingPosition}
-                    triggerEvent={triggerEvent}
                     type={type}
                     visible={visible}
                 />

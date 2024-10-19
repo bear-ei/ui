@@ -1,26 +1,21 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps} from 'react-native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {TriggerEvent} from '../Common'
 import {TooltipSupportingProps} from './Tooltip-supporting'
 
 export type TooltipType = 'plain' | 'rich' | 'menu'
 export interface TooltipProps
     extends Pick<
             TooltipSupportingProps,
-            | 'elevation'
-            | 'onVisible'
-            | 'shape'
-            | 'supporting'
-            | 'supportingPosition'
-            | 'triggerEvent'
-            | 'type'
-            | 'visible'
+            'elevation' | 'onVisible' | 'shape' | 'supporting' | 'supportingPosition' | 'type' | 'visible'
         >,
         ViewProps,
         RefAttributes<View> {
     children?: JSX.Element
     defaultVisible?: boolean
     disabled?: boolean
+    triggerEvent?: TriggerEvent
     type?: TooltipType
     visible?: boolean
 }

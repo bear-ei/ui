@@ -4,7 +4,7 @@ import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimat
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
-import {ComponentStatus, ShapeType, TriggerEvent} from '../../Common'
+import {ComponentStatus, ShapeType} from '../../Common'
 import {ElevationLevel} from '../../Elevation'
 import {TooltipType} from '../Tooltip.interface'
 
@@ -17,7 +17,7 @@ export interface TooltipSupportingProps extends ViewProps, RefAttributes<View> {
     shape?: ShapeType
     supporting?: string | JSX.Element
     supportingPosition?: 'horizontalStart' | 'horizontalEnd' | 'verticalStart' | 'verticalEnd'
-    triggerEvent?: TriggerEvent
+
     type?: TooltipType
     visible?: boolean
 }
@@ -39,6 +39,7 @@ export interface TooltipSupportingBaseProps extends TooltipSupportingProps {
 export interface TooltipSupportingState {
     closed?: boolean
     containerLayout: LayoutRectangle & {pageX: number; pageY: number}
+    invertY?: boolean
     layout: LayoutRectangle
     status: ComponentStatus
     visible?: boolean
@@ -48,7 +49,7 @@ export type HandleTooltipSupportingEmitOptions = Pick<TooltipSupportingState, 's
     Pick<RenderTooltipSupportingProps, 'id'>
 
 export type HandleTooltipSupportingStateEventChangeOptions = OnStateEventChangeOptions &
-    Pick<TooltipSupportingProps, 'onVisible' | 'triggerEvent'>
+    Pick<TooltipSupportingProps, 'onVisible'>
 
 export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'visible' | 'type'> {
     height?: number

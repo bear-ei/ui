@@ -19,8 +19,8 @@ const render = <T,>({
     skeletonLoading,
     ...containerProps
 }: RenderVirtualListProps<T>) => {
-    const defaultContentContainerStyle = {flex: 1, minHeight: contentSize} as StyleProp<ViewStyle>
     const {onLayout} = onStateEvent
+    const defaultContentContainerStyle = {flex: 1, minHeight: contentSize} as StyleProp<ViewStyle>
     const listContentVisible = loading ? !loading : contentVisible
 
     return (

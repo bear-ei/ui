@@ -180,6 +180,13 @@ const handleVirtualListDataChange =
         }
     }
 
+const handleVirtualListFocusedIndexScroll =
+    (ref: React.RefObject<ScrollView>) => (itemSize: number) => (focusedIndex?: number) => {
+        if (typeof focusedIndex === 'number') {
+            ref.current?.scrollTo({y: focusedIndex * itemSize, animated: true})
+        }
+    }
+
 const renderVirtualListItem =
     <T,>({renderItem, onLoadEnd, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>
     (startIndex = 0) =>
@@ -207,6 +214,7 @@ export const VirtualListBaseInner = <T,>(
     {
         data,
         extraData,
+        focusedIndex,
         itemSize = 0,
         listLoadingComponent,
         loading,
@@ -252,6 +260,11 @@ export const VirtualListBaseInner = <T,>(
     const onVirtualListLoadEnd = handleVirtualListLoadEnd(setState)(onLoadEnd)
     const onVirtualListDataInit = useMemo(() => handleVirtualListDataInit(setState), [setState])
     const onVirtualListContentVisible = handleVirtualListContentVisible(setState)(data)
+    const onVirtualListFocusedIndexScroll = useMemo(
+        () => handleVirtualListFocusedIndexScroll(scrollViewRef)(itemSize),
+        [itemSize]
+    )
+
     const scrollEvent = useDesktopScrollEvent({
         onMomentumScrollEnd: onVirtualListMomentumScrollEnd,
         onScroll: onVirtualListScroll
@@ -292,6 +305,10 @@ export const VirtualListBaseInner = <T,>(
     useEffect(() => {
         nextLoadEndEvent?.()
     }, [nextLoadEndEvent])
+
+    useEffect(() => {
+        onVirtualListFocusedIndexScroll(focusedIndex)
+    }, [focusedIndex, onVirtualListFocusedIndexScroll])
 
     if (status === 'idle') {
         return <></>

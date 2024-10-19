@@ -1,64 +1,148 @@
-import {forwardRef, KeyboardEvent, useId} from 'react'
+import {forwardRef, KeyboardEvent, useEffect, useId, useMemo} from 'react'
 import {Updater, useImmer} from 'use-immer'
 import {ListData, VirtualListComponent} from '../List'
-import {MenuBaseProps, MenuState} from './Menu.interface'
+import {HandleMenuKeyDownOptions, MenuBaseProps, MenuState} from './Menu.interface'
 
-const handleMenuKeyDown = (data?: ListData[]) => (setState: Updater<MenuState>) => (event: KeyboardEvent) => {
+const handleMenuActiveKeys =
+    (activeKeys = [] as string[]) =>
+    (key: string) => {
+        if (activeKeys.findIndex(item => item === key) !== -1) {
+            return activeKeys?.filter(item => item !== key)
+        }
+
+        return [...activeKeys, key]
+    }
+
+const handleMenuKeyDown =
+    ({data, multiple, onActives, onActive, activeKeys, activeKey}: HandleMenuKeyDownOptions) =>
+    (setState: Updater<MenuState>) =>
+    (keyCode?: string) => {
+        if (!data?.length) {
+            return
+        }
+
+        setState(draft => {
+            const currentFocusedIndex = draft.focusedIndex ?? -1
+            const lastIndex = data?.length - 1
+
+            switch (true) {
+                case keyCode?.startsWith('ArrowUp'):
+                    draft.focusedIndex = currentFocusedIndex - 1 < 0 ? lastIndex : currentFocusedIndex - 1
+                    break
+
+                case keyCode?.startsWith('ArrowDown'):
+                    draft.focusedIndex = currentFocusedIndex + 1 > lastIndex ? 0 : currentFocusedIndex + 1
+                    break
+
+                case keyCode?.startsWith('Enter') && draft.keyCode !== keyCode:
+                    if (typeof draft.focusedIndex !== 'number') {
+                        return
+                    }
+
+                    const focusData = data?.[draft.focusedIndex]
+
+                    if (!focusData) {
+                        return
+                    }
+
+                    if (multiple) {
+                        draft.nextActivesEvent = () =>
+                            onActives?.(handleMenuActiveKeys(activeKeys)(focusData?.indexKey))
+                    } else {
+                        draft.nextActiveEvent = () =>
+                            onActive?.(focusData.indexKey === activeKey ? undefined : focusData?.indexKey)
+                    }
+
+                    draft.keyCode = keyCode
+                    break
+
+                default:
+                    break
+            }
+        })
+    }
+
+const handleMenuKeyDownEvent = (data?: ListData[]) => (setState: Updater<MenuState>) => (event: KeyboardEvent) => {
     const {code} = event
 
     if (['ArrowUp', 'ArrowDown'].includes(code)) {
         event.preventDefault()
     }
 
-    if (!data?.length) {
-        return
-    }
-
-    setState(draft => {
-        const curFocusedIndex = draft.focusedIndex ?? -1
-        const lastIndex = data?.length - 1
-
-        if (code === 'ArrowUp') {
-            console.info('ArrowUp', curFocusedIndex - 1)
-            draft.focusedIndex = curFocusedIndex - 1 < 0 ? lastIndex : curFocusedIndex - 1
-        }
-
-        if (code === 'ArrowDown') {
-            console.info('ArrowDown', curFocusedIndex + 1)
-            draft.focusedIndex = curFocusedIndex + 1 > lastIndex ? 0 : curFocusedIndex + 1
-        }
-    })
+    handleMenuKeyDown({data})(setState)(code)
 }
 
-const handleMenuVisible = (setState: Updater<MenuState>) => (value?: boolean) => {
-    if (typeof value === 'undefined' && !value) {
+const handleMenuVisible = (setState: Updater<MenuState>) => (onVisible?: (value?: boolean) => void) => {
+    const handleNextVisibleEvent = (value?: boolean) => () => onVisible?.(value)
+
+    return (value?: boolean) => {
+        if (typeof value === 'undefined') {
+            return
+        }
+
         setState(draft => {
-            draft.focusedIndex = undefined
+            if (!value) {
+                draft.focusedIndex = undefined
+            }
+
+            draft.nextVisibleEvent = handleNextVisibleEvent(value)
         })
     }
 }
 
 const handleMenuFocusedIndex = (setState: Updater<MenuState>) => (value?: number) =>
     setState(draft => {
-        console.info('focusedIndex', value)
         draft.focusedIndex = value
     })
 
 export const MenuBase = forwardRef<VirtualListComponent<ListData>, MenuBaseProps>(
-    ({render, data, ...renderProps}, ref) => {
-        const [{focusedIndex}, setState] = useImmer<MenuState>({focusedIndex: undefined})
+    ({render, data, keyCode, onVisible, onActive, onActives, multiple, activeKeys, activeKey, ...renderProps}, ref) => {
+        const [{focusedIndex, nextVisibleEvent, nextActivesEvent, nextActiveEvent}, setState] = useImmer<MenuState>({
+            focusedIndex: undefined,
+            keyCode: undefined,
+            nextActiveEvent: undefined,
+            nextActivesEvent: undefined,
+            nextVisibleEvent: undefined
+        })
+
         const id = useId()
-        const onMenuKeyDown = handleMenuKeyDown(data)(setState)
-        const onMenuVisible = handleMenuVisible(setState)
         const onMenuFocusedIndex = handleMenuFocusedIndex(setState)
+        const onMenuKeyDown = useMemo(
+            () => handleMenuKeyDown({data, multiple, onActives, onActive, activeKeys, activeKey})(setState),
+            [activeKey, activeKeys, data, multiple, onActive, onActives, setState]
+        )
+
+        const onMenuKeyDownEvent = handleMenuKeyDownEvent(data)(setState)
+        const onMenuVisible = useMemo(() => handleMenuVisible(setState)(onVisible), [onVisible, setState])
+
+        useEffect(() => {
+            onMenuKeyDown(keyCode)
+        }, [keyCode, onMenuKeyDown])
+
+        useEffect(() => {
+            nextVisibleEvent?.()
+        }, [nextVisibleEvent])
+
+        useEffect(() => {
+            nextActivesEvent?.()
+        }, [nextActivesEvent])
+
+        useEffect(() => {
+            nextActiveEvent?.()
+        }, [nextActiveEvent])
 
         return render({
             ...renderProps,
+            activeKey,
+            activeKeys,
             data,
             focusedIndex,
             id,
+            multiple,
+            onActive,
+            onActives,
             onFocusedIndex: onMenuFocusedIndex,
-            onKeyDown: onMenuKeyDown,
+            onKeyDown: onMenuKeyDownEvent,
             onVisible: onMenuVisible,
             ref: ref as MenuBaseProps['ref']
         })

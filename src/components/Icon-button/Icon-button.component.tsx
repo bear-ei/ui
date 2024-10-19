@@ -45,6 +45,7 @@ const render = ({
                 enableFocusRing={false}
                 enableTouchableRipple={type !== 'active'}
                 mainAlignSelf='center'
+                pointerEvents='box-only'
                 ref={ref}
                 shape={shape}
                 underlayColor={underlayColor}

@@ -66,5 +66,4 @@ export type AnimatedTiming = (
 
 export interface UseWindowDimensionsOptions {
     changeEventThrottle?: number
-    inspectionPlatform?: boolean
 }
