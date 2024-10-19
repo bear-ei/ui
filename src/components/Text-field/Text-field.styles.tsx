@@ -132,6 +132,8 @@ export const Control = styled.View<TextFieldControlProps>`
  * in macos, it does not provide text styles.
  */
 export const Input = styled.TextInput`
+    outline: none;
+
     ${({theme, secureTextEntry}) =>
         !secureTextEntry &&
         css`

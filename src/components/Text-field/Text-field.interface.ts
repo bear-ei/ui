@@ -25,6 +25,7 @@ export interface TextFieldProps
     disabledBlur?: boolean
     enableFocusRing?: boolean
     error?: boolean
+    filled?: boolean
     labelText?: string
     leading?: JSX.Element
     onSupportingTextVisible?: (value: boolean) => void
@@ -42,6 +43,7 @@ export interface RenderTextFieldProps extends TextFieldProps {
     inputAnimatedStyle: AnimatedStyle<TextStyle>
     labelAnimatedStyle: AnimatedStyle<ViewStyle>
     labelTextAnimatedStyle: AnimatedStyle<TextStyle>
+    onHeaderFocus?: () => void
     onStateEvent: OnStateEvent
     onSupportingTextVisible?: (value?: boolean) => void
     supportingTextAnimatedStyle: AnimatedStyle<TextStyle>

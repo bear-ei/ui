@@ -23,16 +23,29 @@ const handleTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>
     })
 }
 
-const handleTooltipSupportingStateChange =
-    ({onVisible, eventName, triggerEvent}: HandleTooltipSupportingStateEventChangeOptions) =>
-    (setState: Updater<TooltipSupportingState>) =>
-    (event: StateEvent) => {
+const handleTooltipSupportingStateChange = ({
+    eventName,
+    onVisible,
+    triggerEvent = 'hover'
+}: HandleTooltipSupportingStateEventChangeOptions) => {
+    const trigger = {
+        focus: ['focus', 'blur'],
+        hover: ['hoverIn', 'hoverOut'],
+        press: ['pressIn']
+    }
+
+    return (setState: Updater<TooltipSupportingState>) => (event: StateEvent) => {
         if (eventName === 'layout') {
             handleTooltipSupportingLayout(setState)(event as LayoutChangeEvent)
-        } else if (eventName && triggerEvent === 'hover' && eventName === 'hoverIn') {
-            onVisible?.(true)
+        }
+
+        const triggerEventNames = trigger[triggerEvent]
+
+        if (eventName && triggerEventNames?.includes(eventName)) {
+            onVisible?.(eventName === triggerEventNames[0])
         }
     }
+}
 
 const handleTooltipSupportingClose = (setState: Updater<TooltipSupportingState>) => (value?: boolean) => {
     if (typeof value === 'boolean' && value) {
@@ -77,13 +90,18 @@ const handleTooltipSupportingUnmount = (id: string) => {
     emitter.emit('modal', {id: `tooltip__supporting--${id}`, render: undefined})
 }
 
-const handleTooltipSupportingVisible = (onVisible?: (value?: boolean) => void) => (value?: boolean) => {
-    onVisible?.(value)
-}
-
 export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps>(
     (
-        {containerCurrent, onVisible, render, type, visible, containerLayout: rawContainerLayout, ...renderProps},
+        {
+            containerCurrent,
+            containerLayout: rawContainerLayout,
+            onVisible,
+            render,
+            triggerEvent,
+            type,
+            visible,
+            ...renderProps
+        },
         ref
     ) => {
         const [{containerLayout, layout, status, closed}, setState] = useImmer<TooltipSupportingState>({
@@ -96,7 +114,6 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
         const {width: windowWidth} = useWindowDimensions()
         const id = useId()
         const onTooltipSupportingClose = useMemo(() => handleTooltipSupportingClose(setState), [setState])
-        const onTooltipSupportingVisible = useMemo(() => handleTooltipSupportingVisible(onVisible), [onVisible])
         const theme = useTheme()
         const onTooltipSupportingContainerLayout = useMemo(
             () => handleTooltipSupportingContainerLayout({setState, windowWidth})(containerCurrent),
@@ -117,7 +134,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
         )
 
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleTooltipSupportingStateChange({...options, state})(setState)(event)
+            handleTooltipSupportingStateChange({...options, state, triggerEvent, onVisible})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
         const renderTooltipSupporting = useCallback(
@@ -129,7 +146,6 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                     height: layout.height,
                     id,
                     onStateEvent,
-                    onVisible: onTooltipSupportingVisible,
                     ref,
                     theme,
                     type,
@@ -143,7 +159,6 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                 id,
                 layout.height,
                 onStateEvent,
-                onTooltipSupportingVisible,
                 ref,
                 render,
                 renderProps,

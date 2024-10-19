@@ -28,4 +28,6 @@ export interface MenuListState extends MenuListProps {
     status: ComponentStatus
 }
 
-export type MenuListContainerProps = Pick<MenuListProps, 'type'>
+export interface MenuListContainerProps extends Pick<MenuListProps, 'type'> {
+    height?: number
+}

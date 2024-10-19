@@ -1,4 +1,4 @@
-import {FC, forwardRef, isValidElement} from 'react'
+import {cloneElement, FC, forwardRef, isValidElement} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Elevation} from '../../Elevation'
@@ -13,16 +13,15 @@ import {
     TouchableContent
 } from './Tooltip-supporting.styles'
 
-const AnimateContent = Animated.createAnimatedComponent(Content)
+const AnimateContainer = Animated.createAnimatedComponent(Container)
 const render = ({
-    closed,
+    // closed,
     containerLayout,
     contentAnimatedStyle,
     elevation,
     height = 0,
     id,
     onStateEvent,
-    onVisible,
     shape,
     supporting,
     supportingPosition = 'verticalStart',
@@ -31,82 +30,65 @@ const render = ({
     width = 0,
     ...containerProps
 }: RenderTooltipSupportingProps) => {
-    // const containerStyle = {
-    //     transform: [
-    //         {
-    //             translateX:
-    //                 supportingPosition?.startsWith('vertical') ?
-    //                     -(width / 2)
-    //                 :   theme.adaptSize(theme.token.spacing.none)
-    //         },
-    //         {
-    //             translateY:
-    //                 supportingPosition?.startsWith('horizontal') ?
-    //                     -(height / 2)
-    //                 :   theme.adaptSize(theme.token.spacing.none)
-    //         }
-    //     ]
-    // }
-
-    const {onLayout, ...contentStateEvent} = onStateEvent
+    const {onLayout, ...mainStateEvent} = onStateEvent
+    const mainElement = (
+        <Main
+            shape={shape ?? 'extraSmall'}
+            supportingPosition={supportingPosition}
+            testID={`tooltipSupporting__main--${id}`}
+            type={type}
+        >
+            {isValidElement(supporting) ?
+                <Supporting
+                    onLayout={onLayout}
+                    testID={`tooltipSupporting__supporting--${id}`}
+                >
+                    {type === 'menu' ? cloneElement(supporting, {...mainStateEvent}) : supporting}
+                </Supporting>
+            :   <TooltipSupportingText
+                    ellipsizeMode='tail'
+                    numberOfLines={1}
+                    size='small'
+                    testID={`tooltipSupporting__supportingText--${id}`}
+                    type='body'
+                >
+                    {supporting}
+                </TooltipSupportingText>
+            }
+        </Main>
+    )
 
     return (
-        <Container
-            closed={closed}
-            onPressOut={() => onVisible?.(false)}
+        <AnimateContainer
+            {...containerProps}
+            containerHeight={containerLayout.height}
+            containerPageX={containerLayout.pageX}
+            containerPageY={containerLayout.pageY}
+            containerWidth={containerLayout.width}
+            height={height}
+            style={[contentAnimatedStyle]}
+            supportingPosition={supportingPosition}
             testID={`tooltipSupporting__supporting--${id}`}
+            type={type}
+            width={width}
         >
-            <AnimateContent
-                {...containerProps}
-                containerHeight={containerLayout.height}
-                containerPageX={containerLayout.pageX}
-                containerPageY={containerLayout.pageY}
-                containerWidth={containerLayout.width}
-                height={height}
-                style={[contentAnimatedStyle]}
-                supportingPosition={supportingPosition}
-                testID={`tooltipSupporting__supporting--${id}`}
-                type={type}
-                width={width}
-            >
-                <TouchableContent
-                    {...contentStateEvent}
+            {type === 'menu' ?
+                <Content testID={`tooltipSupporting_content--${id}`}>{mainElement}</Content>
+            :   <TouchableContent
+                    {...mainStateEvent}
                     testID={`tooltipSupporting_content--${id}`}
                 >
-                    <Main
-                        shape={shape ?? 'extraSmall'}
-                        supportingPosition={supportingPosition}
-                        testID={`tooltipSupporting__main--${id}`}
-                        type={type}
-                    >
-                        {isValidElement(supporting) ?
-                            <Supporting
-                                onLayout={onLayout}
-                                testID={`tooltipSupporting__supporting--${id}`}
-                            >
-                                {supporting}
-                            </Supporting>
-                        :   <TooltipSupportingText
-                                ellipsizeMode='tail'
-                                numberOfLines={1}
-                                size='small'
-                                testID={`tooltipSupporting__supportingText--${id}`}
-                                type='body'
-                            >
-                                {supporting}
-                            </TooltipSupportingText>
-                        }
-                    </Main>
+                    {mainElement}
                 </TouchableContent>
+            }
 
-                {elevation && (
-                    <Elevation
-                        level={elevation}
-                        shape={shape}
-                    />
-                )}
-            </AnimateContent>
-        </Container>
+            {elevation && (
+                <Elevation
+                    level={elevation}
+                    shape={shape}
+                />
+            )}
+        </AnimateContainer>
     )
 }
 

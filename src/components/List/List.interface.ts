@@ -1,5 +1,6 @@
 import {RefAttributes} from 'react'
 import {DefaultTheme} from 'styled-components/native'
+import {OnStateEvent} from '../../hooks'
 import {ComponentStatus} from '../Common'
 import {RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
 import {ListItemProps} from './List-item'
@@ -61,8 +62,9 @@ export interface ListProps
     defaultActiveKey?: string
     defaultActiveKeys?: string[]
     deselect?: boolean
-    onActives?: (values?: string[]) => void
     divider?: boolean
+    onActives?: (values?: string[]) => void
+    onItemStateEvent?: OnStateEvent
 }
 
 export interface RenderListProps extends ListProps {

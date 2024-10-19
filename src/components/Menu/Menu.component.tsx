@@ -7,15 +7,15 @@ import {MenuProps, RenderMenuProps} from './Menu.interface'
 import {Container} from './Menu.styles'
 
 const render = ({
-    id,
+    activeKey,
+    activeKeys,
     data,
-    type,
+    id,
+    multiple,
     onActive,
     onActives,
     shape = 'extraSmall',
-    multiple,
-    activeKey,
-    activeKeys,
+    type,
     ...tooltipProps
 }: RenderMenuProps) => {
     const supporting = (

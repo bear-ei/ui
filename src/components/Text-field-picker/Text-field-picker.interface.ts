@@ -1,4 +1,5 @@
 import React from 'react'
+import {GestureResponderEvent, NativeSyntheticEvent, TargetedEvent} from 'react-native'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
@@ -27,6 +28,7 @@ export interface RenderTextFieldPickerProps extends TextFieldPickerProps {
     contentElements?: React.ReactNode
     eventName?: EventName
     menuVisible?: boolean
+    onMenuFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
     onMenuVisible: (value?: boolean) => void
     onStateEvent: OnStateEvent
     theme: DefaultTheme
@@ -59,8 +61,9 @@ export interface HandleTextFieldPickerMenuVisibleOptions extends Pick<TextFieldP
     setState: Updater<TextFieldPickerState>
 }
 
-export interface RenderContentOptions extends Pick<TextFieldPickerProps, 'data'> {
+export interface RenderTextFieldPickerContentOptions extends Pick<TextFieldPickerProps, 'data'> {
     activeKeys?: string[]
     id: string
     onClose?: (value: string) => void
+    onPressOut?: (event: GestureResponderEvent) => void
 }

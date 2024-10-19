@@ -3,7 +3,7 @@ import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
-import {EventName, State, TriggerEvent} from '../Common'
+import {State} from '../Common'
 import {HandleTooltipStateEventChangeOptions, TooltipBaseProps, TooltipState} from './Tooltip.interface'
 
 const handleTooltipVisible = (setState: Updater<TooltipState>) => (onVisible?: (value?: boolean) => void) => {
@@ -19,24 +19,6 @@ const handleTooltipVisible = (setState: Updater<TooltipState>) => (onVisible?: (
     }
 }
 
-const handleTooltipEventNameChange =
-    (onTooltipVisible: (value?: boolean) => void) =>
-    (triggerEvent = 'hover' as TriggerEvent) => {
-        const trigger = {
-            focus: ['focus', 'blur'],
-            hover: ['hoverIn', 'hoverOut'],
-            press: ['pressIn']
-        }
-
-        return (eventName?: EventName) => {
-            const triggerEventNames = trigger[triggerEvent]
-
-            if (eventName && triggerEventNames?.includes(eventName) && eventName === triggerEventNames[0]) {
-                onTooltipVisible(true)
-            }
-        }
-    }
-
 const handleTooltipLayout = (setState: Updater<TooltipState>) => (event: LayoutChangeEvent) => {
     const nativeEventLayout = event.nativeEvent.layout
 
@@ -46,19 +28,32 @@ const handleTooltipLayout = (setState: Updater<TooltipState>) => (event: LayoutC
     })
 }
 
-const handleTooltipStateChange =
-    ({onTooltipVisible, eventName, triggerEvent}: HandleTooltipStateEventChangeOptions) =>
-    (setState: Updater<TooltipState>) =>
-    (event: StateEvent) => {
+const handleTooltipStateChange = ({
+    eventName,
+    onTooltipVisible,
+    triggerEvent = 'hover'
+}: HandleTooltipStateEventChangeOptions) => {
+    const trigger = {
+        focus: ['focus', 'blur'],
+        hover: ['hoverIn', 'hoverOut'],
+        press: ['pressIn']
+    }
+
+    return (setState: Updater<TooltipState>) => (event: StateEvent) => {
         if (eventName === 'layout') {
             handleTooltipLayout(setState)(event as LayoutChangeEvent)
         }
 
-        handleTooltipEventNameChange(onTooltipVisible)(triggerEvent)(eventName)
+        const triggerEventNames = trigger[triggerEvent]
+
+        if (eventName && triggerEventNames?.includes(eventName)) {
+            onTooltipVisible(eventName === triggerEventNames[0])
+        }
     }
+}
 
 export const TooltipBase = forwardRef<View, TooltipBaseProps>(
-    ({defaultVisible, disabled = false, eventName, onVisible, render, visible, triggerEvent, ...renderProps}, ref) => {
+    ({defaultVisible, disabled = false, onVisible, render, visible, triggerEvent, ...renderProps}, ref) => {
         const [{tooltipVisible, nextActiveEvent, layout}, setState] = useImmer<TooltipState>({
             nextActiveEvent: undefined,
             tooltipVisible: undefined,
@@ -68,13 +63,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
         const containerRef = useRef<View>(null)
         const id = useId()
         const onTooltipVisible = useMemo(
-            () => debounce(handleTooltipVisible(setState)(onVisible))(150),
+            () => debounce(handleTooltipVisible(setState)(onVisible))(250),
             [onVisible, setState]
-        )
-
-        const onStateEventNameChange = useMemo(
-            () => handleTooltipEventNameChange(onTooltipVisible)(triggerEvent),
-            [onTooltipVisible, triggerEvent]
         )
 
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -82,7 +72,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 
         const onStateEvent = useOnStateEvent({
             ...renderProps,
-            disabled: typeof eventName === 'string' ? true : disabled,
+            disabled,
             onStateEventChange
         })
 
@@ -93,10 +83,6 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
         }, [onTooltipVisible, visible, defaultVisible])
 
         useEffect(() => {
-            onStateEventNameChange(eventName)
-        }, [eventName, onStateEventNameChange])
-
-        useEffect(() => {
             nextActiveEvent?.()
         }, [nextActiveEvent])
 
@@ -104,11 +90,12 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
             ...renderProps,
             containerCurrent: containerRef.current,
             id,
+            layout,
             onStateEvent,
             onVisible: onTooltipVisible,
             ref: containerRef,
-            visible: tooltipVisible,
-            layout
+            triggerEvent,
+            visible: tooltipVisible
         })
     }
 )

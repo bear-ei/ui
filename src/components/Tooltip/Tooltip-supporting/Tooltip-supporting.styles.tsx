@@ -4,54 +4,11 @@ import {TooltipType} from '../'
 import {Shape, Typography} from '../../Common'
 import {
     SupportingPosition,
-    TooltipSupportingContainerProps,
     TooltipSupportingContentProps,
     TooltipSupportingMainProps
 } from './Tooltip-supporting.interface'
 
-export const Container = styled.Pressable<TooltipSupportingContainerProps>`
-    /* cursor: default;
-    z-index: 999998;
-
-    ${({theme}) => {
-        const containerOS = {
-            ios: css`
-                position: absolute;
-            `,
-            web: css`
-                position: fixed;
-            `,
-            macos: css`
-                position: absolute;
-            `,
-            android: css`
-                position: absolute;
-            `,
-            windows: css`
-                position: absolute;
-            `
-        }
-
-        return containerOS[theme.OS]
-    }}
-
-    ${({theme}) => css`
-        bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-        left: ${theme.adaptSize(theme.token.spacing.none)}px;
-        right: ${theme.adaptSize(theme.token.spacing.none)}px;
-        top: ${theme.adaptSize(theme.token.spacing.none)}px;
-    `}
-
-    ${({closed, theme}) =>
-        closed &&
-        css`
-            height: ${theme.adaptSize(theme.token.spacing.none)}px;
-            overflow: hidden;
-            width: ${theme.adaptSize(theme.token.spacing.none)}px;
-        `} */
-`
-
-export const Content = styled.View<TooltipSupportingContentProps>`
+export const Container = styled.View<TooltipSupportingContentProps>`
     z-index: 999999;
 
     ${({width = 0}) => css`
@@ -135,6 +92,11 @@ export const Content = styled.View<TooltipSupportingContentProps>`
 `
 
 export const TouchableContent = styled.Pressable`
+    flex: 1;
+    align-self: stretch;
+`
+
+export const Content = styled.View`
     flex: 1;
     align-self: stretch;
 `

@@ -11,7 +11,6 @@ const render = ({
     activeKeys,
     contentElements,
     data,
-    eventName,
     id,
     menuVisible,
     multiple,
@@ -26,7 +25,6 @@ const render = ({
             activeKey={activeKey}
             activeKeys={activeKeys}
             data={data}
-            eventName={eventName}
             multiple={multiple}
             onActive={onActive}
             onActives={onActives}
@@ -37,7 +35,7 @@ const render = ({
                 {...onStateEvent}
                 {...textFieldProps}
                 content={contentElements}
-                disabledBlur={menuVisible}
+                filled={menuVisible}
             />
         </Menu>
     </Container>

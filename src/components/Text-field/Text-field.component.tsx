@@ -48,6 +48,7 @@ const render = ({
     labelTextAnimatedStyle,
     leading,
     multiline,
+    onHeaderFocus,
     onStateEvent,
     onSupportingTextVisible,
     supportingText,
@@ -76,6 +77,7 @@ const render = ({
                         accessibilityLabel: labelText,
                         accessibilityRole: 'keyboardkey'
                     })}
+                    onFocus={onHeaderFocus}
                     testID={`textfield__touchableHeader--${id}`}
                 >
                     <AnimatedHeader

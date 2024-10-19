@@ -12,13 +12,7 @@ import {
 } from './Text-field.interface'
 import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
-const handleTextFieldStateChange = ({
-    content,
-    disabledBlur,
-    eventName,
-    ref,
-    state
-}: HandleTextFieldStateEventChangeOptions) => {
+const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleTextFieldStateEventChangeOptions) => {
     const nextEvent = {
         pressOut: () => ref?.current?.focus()
     } as Record<EventName, () => void>
@@ -26,12 +20,6 @@ const handleTextFieldStateChange = ({
     return (setState: Updater<TextFieldState>) => {
         return (_event: StateEvent) => {
             if (eventName === 'layout') {
-                return
-            }
-
-            if (disabledBlur && eventName === 'blur') {
-                ref?.current?.focus()
-
                 return
             }
 
@@ -128,6 +116,8 @@ const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
     }
 }
 
+const handleTouchableHeaderFocus = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
+
 export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
     (
         {
@@ -137,6 +127,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             disabledBlur,
             editable,
             error,
+            filled,
             labelText = 'Label',
             leading,
             multiline,
@@ -154,7 +145,6 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         },
         ref
     ) => {
-        console.info(content, value)
         const [
             {
                 contentSize,
@@ -203,6 +193,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         const onTextFieldChangeText = handleTextFieldChangeText(onChangeText)(setState)
         const onTextFieldChangeTextSource = useMemo(() => handleTextFieldChangeText()(setState), [setState])
         const onTextFieldSupportingTextVisible = handleTextFieldSupportingTextVisible(setState)(onSupportingTextVisible)
+        const onTouchableHeaderFocus = handleTouchableHeaderFocus(textFieldRef)
         const onStateEventChange =
             (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
                 handleTextFieldStateChange({...options, content, ref: textFieldRef, state: changedState, disabledBlur})(
@@ -215,8 +206,6 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             onStateEventChange
         })
 
-        console.info([value, defaultValue, placeholder, textInputValue, content].some(Boolean))
-
         const {
             activeIndicatorAnimatedStyle,
             headerAnimatedStyle,
@@ -227,7 +216,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         } = useTextFieldAnimated({
             disabled,
             error,
-            filled: [value, defaultValue, placeholder, textInputValue, content].some(Boolean),
+            filled: [value, defaultValue, placeholder, textInputValue, content, filled].some(Boolean),
             state,
             type
         })
@@ -275,6 +264,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             multiline,
             onChangeText: onTextFieldChangeText,
             onContentSizeChange: onTextFieldContentSizeChange,
+            onHeaderFocus: onTouchableHeaderFocus,
             onStateEvent,
             onSupportingTextVisible: onTextFieldSupportingTextVisible,
             placeholderTextColor,

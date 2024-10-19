@@ -1,9 +1,9 @@
-import {FC, forwardRef} from 'react'
+import {cloneElement, FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {TooltipBase} from './Tooltip-base.component'
 import {TooltipSupporting} from './Tooltip-supporting'
 import {RenderTooltipProps, TooltipProps} from './Tooltip.interface'
-import {Container, Content, ContentContainer} from './Tooltip.styles'
+import {Container, ContentContainer} from './Tooltip.styles'
 
 /**
  * TODO: "rich"
@@ -19,22 +19,20 @@ const render = ({
     shape,
     supporting,
     supportingPosition,
+    triggerEvent,
     type,
     visible,
     ...containerProps
 }: RenderTooltipProps) => {
+    const {onFocus, ...onChildrenStateEvent} = onStateEvent
+
     return (
         <Container
             {...containerProps}
             testID={`tooltip--${id}`}
         >
-            <ContentContainer testID={`tooltip__contentXXXXX--${id}`}>
-                <Content
-                    {...onStateEvent}
-                    testID={`tooltip__content--${id}`}
-                >
-                    {children}
-                </Content>
+            <ContentContainer testID={`tooltip__content--${id}`}>
+                {children && cloneElement(children, {onFocus, ...onChildrenStateEvent})}
             </ContentContainer>
 
             {typeof visible === 'boolean' && supporting && (
@@ -46,6 +44,7 @@ const render = ({
                     shape={shape}
                     supporting={supporting}
                     supportingPosition={supportingPosition}
+                    triggerEvent={triggerEvent}
                     type={type}
                     visible={visible}
                 />

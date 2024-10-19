@@ -6,4 +6,3 @@ export const Container = styled.View`
 `
 
 export const ContentContainer = styled.View``
-export const Content = styled.Pressable``

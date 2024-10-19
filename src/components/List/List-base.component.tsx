@@ -157,21 +157,22 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             disabled,
             enableUnderlay,
             itemShape,
-            skeletonMinDuration = 300,
+            listLoadingComponent,
+            loading,
             onActive,
             onActives,
             onCancel,
             onClose,
             onConfirm,
+            onItemStateEvent,
             render,
             renderItem,
+            selectType,
             skeletonElement,
+            skeletonMinDuration = 300,
             supportingTextNumberOfLines,
             trailingTrigger,
             type,
-            loading,
-            listLoadingComponent,
-            selectType,
             ...renderProps
         },
         ref
@@ -209,6 +210,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             ].some(Boolean) && status === 'idle'
 
         const renderListItem = handleRenderListItem({
+            ...onItemStateEvent,
             activeKey: listActiveKey,
             activeKeys: listActiveKeys,
             afterAffordance,

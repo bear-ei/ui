@@ -7,6 +7,7 @@ import {TouchableProps} from '../../Touchable'
 import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from '../List-after-affordance'
 import {ListType} from '../List.interface'
 
+export type SelectType = 'select' | 'multiselect'
 export interface ListItemProps
     extends Partial<TouchableProps & Omit<ListAfterAffordanceProps, 'PrimaryButtonProps' | 'SecondaryButtonProps'>> {
     activeKey?: string
@@ -40,7 +41,7 @@ export interface ListItemProps
     onClose?: (value?: string) => void
     onLoadEnd?: (value?: string) => void
     onVisible?: (value?: string) => void
-    selectType?: 'select' | 'multiselect'
+    selectType?: SelectType
     skeletonElement?: JSX.Element
     skeletonMinDuration?: number
     supporting?: string | JSX.Element

@@ -1,7 +1,6 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps} from 'react-native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
-import {EventName} from '../Common'
 import {TooltipSupportingProps} from './Tooltip-supporting'
 
 export type TooltipType = 'plain' | 'rich' | 'menu'
@@ -19,9 +18,9 @@ export interface TooltipProps
         >,
         ViewProps,
         RefAttributes<View> {
+    children?: JSX.Element
     defaultVisible?: boolean
     disabled?: boolean
-    eventName?: EventName
     type?: TooltipType
     visible?: boolean
 }
