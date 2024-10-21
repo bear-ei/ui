@@ -91,7 +91,8 @@ const handleListItemStateChange = ({
     onLoadEnd,
     selectType,
     state,
-    trailingTrigger
+    trailingTrigger,
+    type
 }: HandleListItemStateEventChangeOptions) => {
     const nextEvent = {
         layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
@@ -102,8 +103,10 @@ const handleListItemStateChange = ({
         setState(draft => {
             const prevEventName = draft.eventName
 
-            if (eventName && prevEventName === 'focus' && ['hoverIn', 'hoverOut'].includes(eventName)) {
-                return
+            if (eventName === 'blur' && prevEventName === 'focus') {
+                if (type === 'menu' && ['hoverIn', 'hoverOut'].includes(eventName)) {
+                    return
+                }
             }
 
             if (eventName) {
@@ -244,6 +247,7 @@ const renderListItemTrailing = ({
                         />
                     }
                     disabled={disabled}
+                    pointerEvents='box-only'
                     type='standard'
                 />,
         closeTrailing:
@@ -259,6 +263,7 @@ const renderListItemTrailing = ({
                         />
                     }
                     disabled={disabled}
+                    pointerEvents='box-only'
                     type='standard'
                 />,
         standard: trailing ? cloneElement(trailing, {onHoverIn, onHoverOut, disabled}) : undefined
@@ -367,7 +372,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 onLoadEnd,
                 selectType,
                 state,
-                trailingTrigger
+                trailingTrigger,
+                type
             })(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})
