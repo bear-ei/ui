@@ -288,6 +288,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             focusedIndex,
             itemIndex,
             itemKey,
+            leading,
             onActive,
             onActiveAfterAffordance,
             onClose,
@@ -392,6 +393,9 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             trailing
         })
 
+        const leadingElement =
+            leading && selectType ? cloneElement(leading, {type: active ? 'filled' : 'outlined'}) : leading
+
         useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
 
         useEffect(() => {
@@ -429,6 +433,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             headlineTextAnimatedStyle,
             id,
             itemKey,
+            leadingElement,
             onConfirm: onListItemConfirm,
             onStateEvent,
             panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,

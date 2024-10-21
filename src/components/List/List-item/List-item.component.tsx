@@ -5,7 +5,7 @@ import {Divider} from '../../Divider'
 import {Touchable} from '../../Touchable'
 import {ActiveAnimatedType, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance/List-after-affordance.component'
-import {ListItemBase, handleListItemPropsEqual} from './List-item-base.component'
+import {handleListItemPropsEqual, ListItemBase} from './List-item-base.component'
 import {ListItemProps, RenderListItemProps} from './List-item.interface'
 import {
     BeforeAffordanceContainer,
@@ -43,7 +43,7 @@ const render = ({
     headlineTextAnimatedStyle,
     id,
     itemKey,
-    leading,
+    leadingElement,
     onCancel,
     onConfirm,
     onStateEvent,
@@ -109,17 +109,17 @@ const render = ({
                             testID={`listItem__main--${id}`}
                             type={type}
                         >
-                            {leading && (
+                            {leadingElement && (
                                 <Leading
                                     supportingTextNumberOfLines={supportingTextNumberOfLines}
                                     testID={`listItem__leading--${id}`}
                                 >
-                                    {leading}
+                                    {leadingElement}
                                 </Leading>
                             )}
 
                             <MainInner
-                                leadingShow={!!leading}
+                                leadingShow={!!leadingElement}
                                 pointerEvents='none'
                                 supportingTextShow={supportingTextShow}
                                 testID={`listItem__mainInner--${id}`}

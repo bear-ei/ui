@@ -61,6 +61,7 @@ export interface RenderListItemProps extends ListItemProps {
     contentAnimatedStyle: AnimatedStyle<ViewStyle>
     eventName?: EventName
     headlineTextAnimatedStyle: AnimatedStyle<TextStyle>
+    leadingElement?: JSX.Element
     onStateEvent: OnStateEvent
     panResponder?: PanResponderInstance
     skeletonVisible?: boolean
