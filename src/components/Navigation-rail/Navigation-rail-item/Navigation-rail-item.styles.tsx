@@ -7,7 +7,7 @@ import {
 } from './Navigation-rail-item.interface'
 
 export const Container = styled.View``
-export const Content = styled.Pressable`
+export const TouchableContent = styled.Pressable`
     align-items: center;
     display: flex;
     flex-direction: column;

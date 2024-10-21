@@ -15,7 +15,6 @@ const render = ({
     multiple,
     onActive,
     onActives,
-    onFocusedIndex,
     onKeyDown,
     onVisible,
     shape = 'extraSmall',
@@ -31,7 +30,6 @@ const render = ({
             multiple={multiple}
             onActive={onActive}
             onActives={onActives}
-            onFocusedIndex={onFocusedIndex}
             onKeyDown={onKeyDown}
             shape={shape}
             type={type}

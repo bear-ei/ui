@@ -90,11 +90,6 @@ const handleMenuVisible = (setState: Updater<MenuState>) => (onVisible?: (value?
     }
 }
 
-const handleMenuFocusedIndex = (setState: Updater<MenuState>) => (value?: number) =>
-    setState(draft => {
-        draft.focusedIndex = value
-    })
-
 export const MenuBase = forwardRef<VirtualListComponent<ListData>, MenuBaseProps>(
     ({render, data, keyCode, onVisible, onActive, onActives, multiple, activeKeys, activeKey, ...renderProps}, ref) => {
         const [{focusedIndex, nextVisibleEvent, nextActivesEvent, nextActiveEvent}, setState] = useImmer<MenuState>({
@@ -106,7 +101,6 @@ export const MenuBase = forwardRef<VirtualListComponent<ListData>, MenuBaseProps
         })
 
         const id = useId()
-        const onMenuFocusedIndex = handleMenuFocusedIndex(setState)
         const onMenuKeyDown = useMemo(
             () => handleMenuKeyDown({data, multiple, onActives, onActive, activeKeys, activeKey})(setState),
             [activeKey, activeKeys, data, multiple, onActive, onActives, setState]
@@ -141,7 +135,6 @@ export const MenuBase = forwardRef<VirtualListComponent<ListData>, MenuBaseProps
             multiple,
             onActive,
             onActives,
-            onFocusedIndex: onMenuFocusedIndex,
             onKeyDown: onMenuKeyDownEvent,
             onVisible: onMenuVisible,
             ref: ref as MenuBaseProps['ref']

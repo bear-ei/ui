@@ -4,7 +4,7 @@ import Animated from 'react-native-reanimated'
 import {Underlay} from '../../Underlay'
 import {NavigationRailItemBase, handleNavigationRailItemPropsEqual} from './Navigation-rail-item-base.component'
 import {NavigationRailItemProps, RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
-import {Container, Content, Header, Icon, IconContainer, Label, LabelText} from './Navigation-rail-item.styles'
+import {Container, Header, Icon, IconContainer, Label, LabelText, TouchableContent} from './Navigation-rail-item.styles'
 
 const AnimatedLabel = Animated.createAnimatedComponent(Label)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
@@ -29,8 +29,9 @@ const render = ({
         accessibilityRole='tab'
         testID={`navigationRailItem--${id}`}
     >
-        <Content
+        <TouchableContent
             {...onStateEvent}
+            pointerEvents='box-only'
             testID={`navigationRailItem__content--${id}`}
         >
             <Header
@@ -82,7 +83,7 @@ const render = ({
                     </AnimatedLabelText>
                 </AnimatedLabel>
             )}
-        </Content>
+        </TouchableContent>
     </Container>
 )
 

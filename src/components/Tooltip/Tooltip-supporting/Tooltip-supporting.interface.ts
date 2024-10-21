@@ -16,10 +16,10 @@ export interface TooltipSupportingProps extends ViewProps, RefAttributes<View> {
     onVisible?: (value?: boolean) => void
     shape?: ShapeType
     supporting?: string | JSX.Element
-    supportingPosition?: 'horizontalStart' | 'horizontalEnd' | 'verticalStart' | 'verticalEnd'
-
+    supportingPosition?: SupportingPosition
     type?: TooltipType
     visible?: boolean
+    zIndex?: number
 }
 
 export interface RenderTooltipSupportingProps extends Omit<TooltipSupportingProps, 'containerCurrent'> {
@@ -39,6 +39,7 @@ export interface TooltipSupportingBaseProps extends TooltipSupportingProps {
 export interface TooltipSupportingState {
     closed?: boolean
     containerLayout: LayoutRectangle & {pageX: number; pageY: number}
+    invert?: boolean
     invertY?: boolean
     layout: LayoutRectangle
     status: ComponentStatus
@@ -71,12 +72,32 @@ export interface HandleTooltipSupportingAnimatedTimingSharedValue {
     opacitySharedValue: SharedValue<AnimatableValue>
 }
 
+export interface HandleTooltipSupportingInvertOptions {
+    height: number
+    pageX: number
+    pageY: number
+    width: number
+    windowHeight: number
+    windowWidth: number
+}
+
+export interface HandleTooltipSupportingPositionInvertOptions
+    extends Pick<TooltipSupportingProps, 'supportingPosition'> {
+    setState: Updater<TooltipSupportingState>
+}
+
+export type HandleTooltipSupportingPositionInvertWindowOptions = Pick<
+    HandleTooltipSupportingInvertOptions,
+    'width' | 'height'
+>
+
 export interface TooltipSupportingContainerProps {
     closed?: boolean
 }
 
 export interface TooltipSupportingContentProps
-    extends Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition' | 'width' | 'height'> {
+    extends Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition' | 'width' | 'height' | 'zIndex'> {
+    closed?: boolean
     containerHeight?: number
     containerPageX?: number
     containerPageY?: number

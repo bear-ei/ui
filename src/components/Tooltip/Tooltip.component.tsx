@@ -21,6 +21,7 @@ const render = ({
     supportingPosition,
     type,
     visible,
+    zIndex,
     ...containerProps
 }: RenderTooltipProps) => {
     const {onFocus, ...onChildrenStateEvent} = onStateEvent
@@ -45,6 +46,7 @@ const render = ({
                     supportingPosition={supportingPosition}
                     type={type}
                     visible={visible}
+                    zIndex={zIndex}
                 />
             )}
         </Container>

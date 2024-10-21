@@ -9,11 +9,17 @@ import {
 } from './Tooltip-supporting.interface'
 
 export const Container = styled.View<TooltipSupportingContentProps>`
-    z-index: 999999;
-
-    ${({width = 0}) => css`
+    ${({width = 0, zIndex = 8208}) => css`
         width: ${width}px;
+        z-index: ${zIndex};
     `}
+
+    ${({closed, theme}) =>
+        closed &&
+        css`
+            height: ${theme.adaptSize(theme.token.spacing.none)}px;
+            overflow: hidden;
+        `}
 
     ${({
         containerHeight = 0,

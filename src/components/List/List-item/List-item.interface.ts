@@ -41,7 +41,6 @@ export interface ListItemProps
     onActiveAfterAffordance?: (value?: string) => void
     onActives?: (value?: string[]) => void
     onClose?: (value?: string) => void
-    onFocusedIndex?: (value?: number) => void
     onLoadEnd?: (value?: string) => void
     onVisible?: (value?: string) => void
     selectType?: SelectType
@@ -85,10 +84,7 @@ export interface ListItemState {
 }
 
 export type HandleListItemStateEventChangeOptions = OnStateEventChangeOptions &
-    Pick<
-        RenderListItemProps,
-        'itemKey' | 'onActive' | 'type' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex' | 'onFocusedIndex'
-    >
+    Pick<RenderListItemProps, 'itemKey' | 'onActive' | 'type' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex'>
 
 export type HandleListItemTrailingEventOptions = {callback?: () => void}
 export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {

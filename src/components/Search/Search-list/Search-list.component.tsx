@@ -18,7 +18,6 @@ const render = ({containerAnimatedStyle, containerLayout, id, ...listProps}: Ren
         width={containerLayout.width}
     >
         <Divider size='large' />
-
         <List {...listProps} />
     </AnimatedContainer>
 )

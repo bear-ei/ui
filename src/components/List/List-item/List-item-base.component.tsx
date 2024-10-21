@@ -82,21 +82,17 @@ const handleListItemPressOut = (type?: ListType) => (onActive?: (value?: string)
     }
 }
 
-const handleListItemFocused = (onFocusedIndex?: (value?: number) => void) => (value?: number) => onFocusedIndex?.(value)
 const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
 const handleListItemStateChange = ({
     eventName,
-    itemIndex,
     itemKey,
     onActive,
-    onFocusedIndex,
     onLoadEnd,
     state,
     trailingTrigger,
     type
 }: HandleListItemStateEventChangeOptions) => {
     const nextEvent = {
-        focus: () => handleListItemFocused(onFocusedIndex)(itemIndex),
         layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
         pressOut: () => handleListItemPressOut(type)(onActive)(itemKey)
     } as Record<EventName, () => void>
@@ -134,10 +130,6 @@ const handleListItemStateChange = ({
 
                     case 'pressOut':
                         draft.nextPressOutEvent = nextEvent[eventName]
-                        break
-
-                    case 'focus':
-                        draft.nextFocusEvent = nextEvent[eventName]
                         break
 
                     default:
@@ -251,7 +243,6 @@ const renderListItemTrailing = ({
                         />
                     }
                     disabled={disabled}
-                    pointerEvents='box-only'
                     type='standard'
                 />,
         closeTrailing:
@@ -267,7 +258,6 @@ const renderListItemTrailing = ({
                         />
                     }
                     disabled={disabled}
-                    pointerEvents='box-only'
                     type='standard'
                 />,
         standard: trailing ? cloneElement(trailing, {onHoverIn, onHoverOut, disabled}) : undefined
@@ -296,7 +286,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             onActiveAfterAffordance,
             onClose,
             onConfirm,
-            onFocusedIndex,
             onLoadEnd,
             onVisible,
             render,
@@ -373,7 +362,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 itemIndex,
                 itemKey,
                 onActive,
-                onFocusedIndex,
                 onLoadEnd,
                 state,
                 trailingTrigger,

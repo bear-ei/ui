@@ -1,3 +1,4 @@
+import {WritableDraft} from 'immer'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
@@ -8,7 +9,11 @@ import {State} from '../../Common'
 import {
     HandleTooltipSupportingContainerLayoutOptions,
     HandleTooltipSupportingEmitOptions,
+    HandleTooltipSupportingInvertOptions,
+    HandleTooltipSupportingPositionInvertOptions,
+    HandleTooltipSupportingPositionInvertWindowOptions,
     HandleTooltipSupportingStateEventChangeOptions,
+    SupportingPosition,
     TooltipSupportingBaseProps,
     TooltipSupportingState
 } from './Tooltip-supporting.interface'
@@ -81,6 +86,39 @@ const handleTooltipSupportingUnmount = (id: string) => {
     emitter.emit('modal', {id: `tooltip__supporting--${id}`, render: undefined})
 }
 
+// TODO: Add more directional support.
+const handleTooltipSupportingPositionInvert =
+    ({supportingPosition, setState}: HandleTooltipSupportingPositionInvertOptions) =>
+    (ref: React.MutableRefObject<View | undefined>) => {
+        const handleTooltipSupportingInvert =
+            ({width, height, pageX, pageY, windowHeight, windowWidth}: HandleTooltipSupportingInvertOptions) =>
+            (draft: WritableDraft<TooltipSupportingState>) => {
+                draft.invert =
+                    supportingPosition?.startsWith('horizontal') ?
+                        width + pageX >= windowWidth && pageX > width
+                    :   height + pageY >= windowHeight && pageY > height
+            }
+
+        return ({height: windowHeight, width: windowWidth}: HandleTooltipSupportingPositionInvertWindowOptions) =>
+            ref?.current?.measure((_x, _y, width, height, pageX, pageY) =>
+                setState(handleTooltipSupportingInvert({width, height, pageX, pageY, windowHeight, windowWidth}))
+            )
+    }
+
+const handleTooltipSupportingPosition = (supportingPosition?: SupportingPosition) => (invert?: boolean) => {
+    const position = {
+        invertY: supportingPosition === 'verticalEnd' ? 'verticalStart' : 'verticalEnd',
+        invertX: supportingPosition === 'horizontalEnd' ? 'horizontalStart' : 'horizontalEnd'
+    }
+
+    const invertPosition = (
+        supportingPosition?.startsWith('horizontal') ?
+            position.invertX
+        :   position.invertY) as SupportingPosition
+
+    return invert ? invertPosition : supportingPosition
+}
+
 export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps>(
     (
         {
@@ -88,19 +126,19 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
             containerLayout: rawContainerLayout,
             onVisible,
             render,
+            supportingPosition,
             type,
             visible,
-            supportingPosition,
             ...renderProps
         },
         ref
     ) => {
-        const [{containerLayout, layout, status, closed, invertY}, setState] = useImmer<TooltipSupportingState>({
+        const [{containerLayout, layout, status, closed, invert}, setState] = useImmer<TooltipSupportingState>({
             closed: undefined,
             containerLayout: {} as TooltipSupportingState['containerLayout'],
             layout: {} as LayoutRectangle,
             status: 'idle',
-            invertY: undefined
+            invert: undefined
         })
 
         const {width: windowWidth, height: windowHeight} = useWindowDimensions()
@@ -114,6 +152,13 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
         )
 
         const onTooltipSupportingUnmount = useMemo(() => handleTooltipSupportingUnmount, [])
+        const onTooltipSupportingPositionInvert = useMemo(
+            () => handleTooltipSupportingPositionInvert({setState, supportingPosition})(containerRef),
+            [setState, supportingPosition]
+        )
+
+        const position = handleTooltipSupportingPosition(supportingPosition)(invert)
+
         const {contentAnimatedStyle} = useTooltipSupportingAnimated({
             height: layout.height,
             onClose: onTooltipSupportingClose,
@@ -130,20 +175,6 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
             handleTooltipSupportingStateChange({...options, state, onVisible})(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
-
-        /**
-         * TODO:
-         */
-        const position = useMemo(
-            () =>
-                invertY ?
-                    supportingPosition === 'verticalEnd' ?
-                        'verticalStart'
-                    :   'verticalEnd'
-                :   supportingPosition,
-            [invertY, supportingPosition]
-        )
-
         const renderTooltipSupporting = useCallback(
             () =>
                 render({
@@ -193,16 +224,9 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
             onTooltipSupportingEmit()
         }, [onTooltipSupportingEmit])
 
-        /**
-         * TODO: 封装
-         */
         useEffect(() => {
-            containerRef.current?.measure((x, y, width, height, pageX, pageY) => {
-                setState(d => {
-                    d.invertY = height + pageY >= windowHeight && pageY > height
-                })
-            })
-        }, [windowWidth, windowHeight, setState])
+            onTooltipSupportingPositionInvert({height: windowHeight, width: windowWidth})
+        }, [onTooltipSupportingPositionInvert, windowHeight, windowWidth])
 
         useEffect(() => {
             return () => onTooltipSupportingUnmount(id)

@@ -15,7 +15,7 @@ import {
 
 const AnimateContainer = Animated.createAnimatedComponent(Container)
 const render = ({
-    // closed,
+    closed,
     containerLayout,
     contentAnimatedStyle,
     elevation,
@@ -28,6 +28,7 @@ const render = ({
     theme: _,
     type,
     width = 0,
+    zIndex,
     ...containerProps
 }: RenderTooltipSupportingProps) => {
     const {onLayout, ...mainStateEvent} = onStateEvent
@@ -61,6 +62,7 @@ const render = ({
     return (
         <AnimateContainer
             {...containerProps}
+            closed={closed}
             containerHeight={containerLayout.height}
             containerPageX={containerLayout.pageX}
             containerPageY={containerLayout.pageY}
@@ -71,11 +73,13 @@ const render = ({
             testID={`tooltipSupporting__supporting--${id}`}
             type={type}
             width={width}
+            zIndex={zIndex}
         >
             {type === 'menu' ?
                 <Content testID={`tooltipSupporting_content--${id}`}>{mainElement}</Content>
             :   <TouchableContent
                     {...mainStateEvent}
+                    pointerEvents='box-only'
                     testID={`tooltipSupporting_content--${id}`}
                 >
                     {mainElement}

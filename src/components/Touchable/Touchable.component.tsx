@@ -2,7 +2,7 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {TouchableBase} from './Touchable-base.component'
 import {RenderTouchableProps, TouchableProps} from './Touchable.interface'
-import {Container, Content, Main, RippleContainer} from './Touchable.styles'
+import {Container, Main, RippleContainer, TouchableContent} from './Touchable.styles'
 
 const render = ({
     backgroundUnderlay,
@@ -19,9 +19,10 @@ const render = ({
 
     return (
         <Container testID={`touchable--${id}`}>
-            <Content
+            <TouchableContent
                 {...contentProps}
                 {...onPressableEvent}
+                pointerEvents='box-only'
                 testID={`touchable__content--${id}`}
             >
                 <Main
@@ -41,7 +42,7 @@ const render = ({
                     {backgroundUnderlay}
                     {elevationUnderlay}
                 </Main>
-            </Content>
+            </TouchableContent>
         </Container>
     )
 }

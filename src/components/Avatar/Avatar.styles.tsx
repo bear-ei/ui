@@ -29,8 +29,8 @@ export const Content = styled(Shape)<AvatarContentProps>`
 `
 
 export const Image = styled.Image`
-    width: 100%;
     height: 100%;
+    width: 100%;
 `
 
 export const LabelText = styled(Typography)`

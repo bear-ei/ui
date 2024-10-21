@@ -7,7 +7,7 @@ export const Container = styled.View`
     flex: 1;
 `
 
-export const Content = styled.Pressable<TouchableContentProps>`
+export const TouchableContent = styled.Pressable<TouchableContentProps>`
     align-items: center;
     display: flex;
     flex-direction: column;
