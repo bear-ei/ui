@@ -1,8 +1,8 @@
-import {WindowSize} from './hooks.interface'
+import {WindowSize} from '@bearei/material-token'
 import {useWindowDimensions} from './use-window-dimensions.hook'
 
 export const useWindowSize = (): WindowSize => {
-    const {width} = useWindowDimensions()
+    const {width} = useWindowDimensions({changeEventThrottle: 150})
 
     let windowSize!: WindowSize
 

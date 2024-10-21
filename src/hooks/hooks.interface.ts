@@ -43,7 +43,6 @@ export interface HandleStateEventOptions {
     mobileDevice?: boolean
 }
 
-export type WindowSize = 'compact' | 'medium' | 'expanded' | 'large' | 'extraLarge'
 export type UseDesktopScrollEventOptions = Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'>
 export interface HandleScrollOptions extends Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'> {
     momentumScrollEndTimer: MutableRefObject<ReturnType<typeof setTimeout> | null>
