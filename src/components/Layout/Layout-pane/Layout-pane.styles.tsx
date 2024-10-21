@@ -4,10 +4,11 @@ import {LayoutPaneContainerProps} from './Layout-pane.interface'
 
 export const Container = styled(Shape)<LayoutPaneContainerProps>`
     align-self: stretch;
-    flex: 1;
+    overflow: hidden;
 
-    ${({theme}) => css`
+    ${({theme, flex = 1}) => css`
         background-color: ${theme.token.scheme.surfaceContainerLow};
+        flex: ${flex};
     `}
 
     ${({width}) =>

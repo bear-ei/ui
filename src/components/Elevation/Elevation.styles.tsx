@@ -9,7 +9,7 @@ export const Container = styled.View`
     flex-direction: column;
     justify-content: center;
     position: absolute;
-    z-index: -2;
+    z-index: -8;
 
     ${({theme}) => css`
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;

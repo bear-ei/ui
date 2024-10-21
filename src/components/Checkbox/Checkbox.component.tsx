@@ -40,6 +40,7 @@ const render = ({
             <Touchable
                 {...onStateEvent}
                 disabled={disabled}
+                mainAlignSelf='center'
                 shape={shape}
                 underlayColor={underlayColor}
             >

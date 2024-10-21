@@ -29,6 +29,9 @@ const render = ({
     const link = type === 'link'
     const loadingEventName = link ? 'none' : 'longPress'
     const shape = link ? 'extraSmall' : 'full'
+
+    console.info(underlayColor)
+
     const backgroundUnderlayElement = (
         <AnimatedContentUnderlay
             pointerEvents='none'
@@ -38,13 +41,12 @@ const render = ({
         />
     )
 
-    const elevationUnderlayElement =
-        elevation ?
-            <Elevation
-                level={elevation}
-                shape={shape}
-            />
-        :   undefined
+    const elevationUnderlayElement = (
+        <Elevation
+            level={elevation}
+            shape={shape}
+        />
+    )
 
     return (
         <Container
