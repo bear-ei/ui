@@ -30,3 +30,8 @@ export type HandleMenuKeyDownOptions = Pick<
     MenuProps,
     'data' | 'multiple' | 'onActives' | 'onActive' | 'activeKeys' | 'activeKey'
 >
+
+export interface HandleNextActivesEventOptions {
+    activeKeys: string[]
+    indexKey: string
+}

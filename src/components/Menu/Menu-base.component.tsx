@@ -13,17 +13,15 @@ const handleMenuActiveKeys =
         return [...activeKeys, key]
     }
 
-const handleMenuKeyDown =
-    ({data, multiple, onActives, onActive, activeKeys, activeKey}: HandleMenuKeyDownOptions) =>
-    (setState: Updater<MenuState>) =>
-    (keyCode?: string) => {
-        if (!data?.length) {
-            return
-        }
-
+const handleMenuKeyDown = ({data, multiple, onActives, onActive, activeKeys, activeKey}: HandleMenuKeyDownOptions) => {
+    const handleNextActivesEvent = (indexKey: string) => () => onActives?.(handleMenuActiveKeys(activeKeys)(indexKey))
+    const handleNextActiveEvent = (indexKey: string) => () => onActive?.(indexKey === activeKey ? undefined : indexKey)
+    const handleMenuKeyCode = (setState: Updater<MenuState>) => (keyCode?: string) =>
         setState(draft => {
             const currentFocusedIndex = draft.focusedIndex ?? -1
-            const lastIndex = data?.length - 1
+            const lastIndex = data!.length - 1
+            const focusData =
+                currentFocusedIndex && currentFocusedIndex !== -1 ? data?.[currentFocusedIndex] : undefined
 
             switch (true) {
                 case keyCode?.startsWith('ArrowUp'):
@@ -35,22 +33,14 @@ const handleMenuKeyDown =
                     break
 
                 case keyCode?.startsWith('Enter') && draft.keyCode !== keyCode:
-                    if (typeof draft.focusedIndex !== 'number') {
-                        return
-                    }
-
-                    const focusData = data?.[draft.focusedIndex]
-
-                    if (!focusData) {
+                    if (!focusData || typeof draft.focusedIndex !== 'number') {
                         return
                     }
 
                     if (multiple) {
-                        draft.nextActivesEvent = () =>
-                            onActives?.(handleMenuActiveKeys(activeKeys)(focusData?.indexKey))
+                        draft.nextActivesEvent = handleNextActivesEvent(focusData.indexKey)
                     } else {
-                        draft.nextActiveEvent = () =>
-                            onActive?.(focusData.indexKey === activeKey ? undefined : focusData?.indexKey)
+                        draft.nextActiveEvent = handleNextActiveEvent(focusData.indexKey)
                     }
 
                     draft.keyCode = keyCode
@@ -60,7 +50,15 @@ const handleMenuKeyDown =
                     break
             }
         })
+
+    return (setState: Updater<MenuState>) => (keyCode?: string) => {
+        if (!data) {
+            return
+        }
+
+        handleMenuKeyCode(setState)(keyCode)
     }
+}
 
 const handleMenuKeyDownEvent = (data?: ListData[]) => (setState: Updater<MenuState>) => (event: KeyboardEvent) => {
     const {code} = event
