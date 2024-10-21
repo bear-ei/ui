@@ -2,6 +2,7 @@ import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {LayoutAnimated} from '../../Layout-animated'
+import {Skeleton} from '../../Skeleton'
 import {ListType} from '../List.interface'
 import {
     ListItemBeforeAffordanceContainerProps,
@@ -31,6 +32,10 @@ export const Container = styled(Shape)<ListItemContainerProps>`
             `
         )
     }}
+`
+
+export const ContentSkeleton = styled(Skeleton)`
+    position: relative;
 `
 
 export const Content = styled.View<ListItemContentProps>`
@@ -182,7 +187,6 @@ export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
 `
 
 export const HeadlineText = styled(Typography)``
-
 export const SupportingText = styled(Typography)`
     height: auto;
 
@@ -212,5 +216,17 @@ export const ListAfterAffordanceContainer = styled(BeforeAffordanceContainer)<Li
         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
         right: ${theme.adaptSize(theme.token.spacing.none)}px;
         top: ${theme.adaptSize(theme.token.spacing.none)}px;
+    `};
+`
+
+export const DividerContainer = styled.View`
+    position: absolute;
+
+    ${({theme}) => css`
+        bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+        height: ${theme.adaptSize(1)}px;
+        left: ${theme.adaptSize(theme.token.spacing.none)}px;
+        right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        z-index: 8;
     `};
 `

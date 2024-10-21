@@ -2,7 +2,6 @@ import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {Divider} from '../Divider'
 import {RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
 import {
@@ -117,24 +116,14 @@ const handleActiveListAfterAffordance = ({onActive, selectType}: HandleListActiv
 }
 
 const handleListClose = (onClose?: (value?: string) => void) => onClose
-const renderDefaultListItem = ({
-    index,
-    item,
-    supportingTextNumberOfLines,
-    divider,
-    ...props
-}: RenderListItemOptions) => (
-    <>
-        <ListItem
-            {...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
-            {...item}
-            {...props}
-            itemIndex={index}
-            itemKey={item?.indexKey ?? index.toString()}
-        />
-
-        {divider && <Divider layout='horizontal' />}
-    </>
+const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
+    <ListItem
+        {...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
+        {...item}
+        {...props}
+        itemIndex={index}
+        itemKey={item?.indexKey ?? index.toString()}
+    />
 )
 
 const handleRenderListItem =
@@ -156,9 +145,9 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             defaultActiveKeys,
             deselect,
             disabled,
+            divider,
             enableUnderlay,
             focusedIndex,
-            itemShape,
             listLoadingComponent,
             loading,
             onActive,
@@ -170,6 +159,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             render,
             renderItem,
             selectType,
+            shape,
             skeletonElement,
             skeletonMinDuration = 300,
             supportingTextNumberOfLines,
@@ -222,9 +212,9 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             beforeAffordance,
             closeTrailing,
             disabled,
+            divider,
             enableUnderlay,
             focusedIndex,
-            itemShape,
             onActive: onListActive,
             onActiveAfterAffordance,
             onCancel,
@@ -232,6 +222,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             onConfirm,
             renderItem,
             selectType,
+            shape,
             skeletonElement,
             skeletonMinDuration: loading && !listLoadingComponent ? -1 : skeletonMinDuration,
             supportingTextNumberOfLines,

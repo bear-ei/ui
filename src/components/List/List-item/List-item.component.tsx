@@ -1,7 +1,7 @@
 import {FC, forwardRef, isValidElement, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Skeleton} from '../../Skeleton'
+import {Divider} from '../../Divider'
 import {Touchable} from '../../Touchable'
 import {ActiveAnimatedType, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance/List-after-affordance.component'
@@ -11,6 +11,8 @@ import {
     BeforeAffordanceContainer,
     Container,
     Content,
+    ContentSkeleton,
+    DividerContainer,
     HeadlineText,
     Leading,
     ListAfterAffordanceContainer,
@@ -33,6 +35,7 @@ const render = ({
     contentAnimatedStyle,
     contentStyle,
     disabled,
+    divider,
     enableUnderlay,
     enableUnderlayActive,
     eventName,
@@ -40,7 +43,6 @@ const render = ({
     headlineTextAnimatedStyle,
     id,
     itemKey,
-    itemShape,
     leading,
     onCancel,
     onConfirm,
@@ -48,6 +50,7 @@ const render = ({
     panResponder,
     ref,
     selectType,
+    shape,
     skeletonElement,
     skeletonMinDuration,
     supporting,
@@ -73,11 +76,11 @@ const render = ({
             {...panResponder?.panHandlers}
             accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
             accessibilityRole='list'
-            shape={itemShape}
+            shape={shape}
             testID={`listItem--${id}`}
             type={type}
         >
-            <Skeleton
+            <ContentSkeleton
                 content={skeletonElement}
                 duration={skeletonMinDuration}
             >
@@ -168,7 +171,7 @@ const render = ({
                                     {...underlayProps}
                                     activeAnimatedType='scaleX'
                                     eventName={eventName}
-                                    shape={itemShape}
+                                    shape={shape}
                                     underlayColor={underlayColor}
                                 />
                             )}
@@ -190,7 +193,16 @@ const render = ({
                         :   afterAffordance}
                     </ListAfterAffordanceContainer>
                 )}
-            </Skeleton>
+
+                {divider && (
+                    <DividerContainer testID={`listItem__divider--${id}`}>
+                        <Divider
+                            layout='horizontal'
+                            size='large'
+                        />
+                    </DividerContainer>
+                )}
+            </ContentSkeleton>
         </Container>
     )
 }

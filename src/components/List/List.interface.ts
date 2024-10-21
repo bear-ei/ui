@@ -42,16 +42,17 @@ export interface ListProps
                 | 'beforeAffordance'
                 | 'closeTrailing'
                 | 'disabled'
+                | 'divider'
                 | 'enableUnderlay'
                 | 'enableUnderlayActive'
                 | 'focusedIndex'
-                | 'itemShape'
                 | 'onActive'
                 | 'onActiveAfterAffordance'
                 | 'onCancel'
                 | 'onClose'
                 | 'onConfirm'
                 | 'selectType'
+                | 'shape'
                 | 'skeletonElement'
                 | 'skeletonMinDuration'
                 | 'supportingTextNumberOfLines'
@@ -63,7 +64,6 @@ export interface ListProps
     defaultActiveKey?: string
     defaultActiveKeys?: string[]
     deselect?: boolean
-    divider?: boolean
     onActives?: (values?: string[]) => void
     onItemStateEvent?: OnStateEvent
 }
@@ -98,7 +98,6 @@ export type HandleRenderItemOptions = Pick<
     | 'enableUnderlay'
     | 'enableUnderlayActive'
     | 'focusedIndex'
-    | 'itemShape'
     | 'onActive'
     | 'onActiveAfterAffordance'
     | 'onCancel'
@@ -106,6 +105,7 @@ export type HandleRenderItemOptions = Pick<
     | 'onConfirm'
     | 'renderItem'
     | 'selectType'
+    | 'shape'
     | 'skeletonElement'
     | 'skeletonMinDuration'
     | 'supportingTextNumberOfLines'

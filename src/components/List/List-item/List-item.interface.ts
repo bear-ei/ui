@@ -27,6 +27,7 @@ export interface ListItemProps
      */
     contentStyle?: StyleProp<ViewStyle>
     customData?: unknown
+    divider?: boolean
     enableUnderlay?: boolean
     enableUnderlayActive?: boolean
     extraData?: string[]
@@ -35,7 +36,6 @@ export interface ListItemProps
     itemIndex?: number
     itemKey: string
     itemLayout?: {width?: number; height?: number}
-    itemShape?: ShapeType
     leading?: JSX.Element
     onActive?: (value?: string) => void
     onActiveAfterAffordance?: (value?: string) => void
@@ -44,6 +44,7 @@ export interface ListItemProps
     onLoadEnd?: (value?: string) => void
     onVisible?: (value?: string) => void
     selectType?: SelectType
+    shape?: ShapeType
     skeletonElement?: JSX.Element
     skeletonMinDuration?: number
     supporting?: string | JSX.Element
