@@ -9,8 +9,10 @@ export const Container = styled.View`
 
 export const TouchableContent = styled.Pressable<TouchableContentProps>`
     align-items: center;
+    align-self: stretch;
     display: flex;
     flex-direction: column;
+    flex: 1;
     justify-content: center;
     outline-style: none;
 

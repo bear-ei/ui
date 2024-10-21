@@ -3,10 +3,12 @@ import {Shape, Typography} from '../../Common'
 import {ListAffordanceButtonContainerProps} from './List-affordance-button.interface'
 
 export const Container = styled.View<ListAffordanceButtonContainerProps>`
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+    cursor: pointer;
+
+    ${({theme}) => css`
+        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+        min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+    `}
 
     ${({theme, disabled}) =>
         disabled &&
@@ -19,7 +21,6 @@ export const Content = styled.View`
     align-items: center;
     display: flex;
     flex-direction: column;
-    flex: 1;
     justify-content: center;
     position: relative;
 

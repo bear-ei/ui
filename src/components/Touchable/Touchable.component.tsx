@@ -22,7 +22,6 @@ const render = ({
             <TouchableContent
                 {...contentProps}
                 {...onPressableEvent}
-                pointerEvents='box-only'
                 testID={`touchable__content--${id}`}
             >
                 <Main

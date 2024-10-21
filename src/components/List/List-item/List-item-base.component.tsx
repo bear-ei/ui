@@ -7,7 +7,6 @@ import {EventName, State} from '../../Common'
 import {Icon} from '../../Icon'
 import {IconButton} from '../../Icon-button'
 import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
-import {ListType} from '../List.interface'
 import {
     HandleListItemCloseOptions,
     HandleListItemConfirmOptions,
@@ -17,7 +16,8 @@ import {
     ListItemBaseProps,
     ListItemProps,
     ListItemState,
-    RenderListItemTrailingOptions
+    RenderListItemTrailingOptions,
+    SelectType
 } from './List-item.interface'
 import {useListItemAnimated} from './use-list-item-animated.hook'
 
@@ -76,11 +76,12 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
     }
 }
 
-const handleListItemPressOut = (type?: ListType) => (onActive?: (value?: string) => void) => (value: string) => {
-    if (type !== 'standard') {
-        onActive?.(value)
+const handleListItemPressOut =
+    (selectType?: SelectType) => (onActive?: (value?: string) => void) => (value: string) => {
+        if (selectType) {
+            onActive?.(value)
+        }
     }
-}
 
 const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
 const handleListItemStateChange = ({
@@ -88,13 +89,13 @@ const handleListItemStateChange = ({
     itemKey,
     onActive,
     onLoadEnd,
+    selectType,
     state,
-    trailingTrigger,
-    type
+    trailingTrigger
 }: HandleListItemStateEventChangeOptions) => {
     const nextEvent = {
         layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
-        pressOut: () => handleListItemPressOut(type)(onActive)(itemKey)
+        pressOut: () => handleListItemPressOut(selectType)(onActive)(itemKey)
     } as Record<EventName, () => void>
 
     return (setState: Updater<ListItemState>) => (_event: StateEvent) =>
@@ -363,9 +364,9 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 itemKey,
                 onActive,
                 onLoadEnd,
+                selectType,
                 state,
-                trailingTrigger,
-                type
+                trailingTrigger
             })(setState)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})

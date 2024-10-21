@@ -31,7 +31,6 @@ const render = ({
     >
         <TouchableContent
             {...onStateEvent}
-            pointerEvents='box-only'
             testID={`navigationRailItem__content--${id}`}
         >
             <Header

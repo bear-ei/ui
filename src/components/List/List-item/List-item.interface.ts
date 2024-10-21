@@ -84,7 +84,7 @@ export interface ListItemState {
 }
 
 export type HandleListItemStateEventChangeOptions = OnStateEventChangeOptions &
-    Pick<RenderListItemProps, 'itemKey' | 'onActive' | 'type' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex'>
+    Pick<RenderListItemProps, 'itemKey' | 'onActive' | 'selectType' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex'>
 
 export type HandleListItemTrailingEventOptions = {callback?: () => void}
 export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {

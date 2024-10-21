@@ -79,7 +79,6 @@ const render = ({
                 <Content testID={`tooltipSupporting_content--${id}`}>{mainElement}</Content>
             :   <TouchableContent
                     {...mainStateEvent}
-                    pointerEvents='box-only'
                     testID={`tooltipSupporting_content--${id}`}
                 >
                     {mainElement}
