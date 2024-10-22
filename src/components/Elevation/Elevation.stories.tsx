@@ -4,7 +4,11 @@ import {Elevation} from './Elevation.component'
 import {ElevationProps} from './Elevation.interface'
 
 const ElevationComponent = (props: ElevationProps) => {
-    const style = {height: 80, width: 200, backgroundColor: '#ececf0'} as StyleProp<ViewStyle>
+    const style = {
+        height: 80,
+        width: 200,
+        backgroundColor: '#ececf0'
+    } as StyleProp<ViewStyle>
 
     return (
         <View style={[style]}>

@@ -21,14 +21,18 @@ export const Container = styled(Shape)<ListItemContainerProps>`
     ${({theme, type = 'standard'}) => {
         const containerType = {
             menu: css`
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                min-height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 12
+                )}px;
             `
         } as Record<ListType, RuleSet<object> | undefined>
 
         return (
             containerType[type] ??
             css`
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                min-height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 14
+                )}px;
             `
         )
     }}
@@ -75,11 +79,19 @@ export const Main = styled.View<ListItemMainProps>`
     ${({theme, type = 'standard'}) => {
         const mainType = {
             menu: css`
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                padding: ${theme.adaptSize(theme.token.spacing.medium - theme.token.spacing.extraSmall)}px;
+                min-height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 12
+                )}px;
+
+                padding: ${theme.adaptSize(
+                    theme.token.spacing.medium - theme.token.spacing.extraSmall
+                )}px;
             `,
             standard: css`
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                min-height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 14
+                )}px;
+
                 padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
                     ${theme.adaptSize(theme.token.spacing.medium)}px;
             `
@@ -99,8 +111,13 @@ export const Main = styled.View<ListItemMainProps>`
     ${({theme, supportingTextNumberOfLines = 0}) =>
         supportingTextNumberOfLines > 1 &&
         css`
-            padding-bottom: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
-            padding-top: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
+            padding-bottom: ${theme.adaptSize(
+                theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+            )}px;
+
+            padding-top: ${theme.adaptSize(
+                theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+            )}px;
         `}
 `
 
@@ -116,7 +133,9 @@ export const Leading = styled.View<ListItemLeadingProps>`
         supportingTextNumberOfLines > 1 &&
         css`
             justify-content: flex-start;
-            min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+            min-height: ${theme.adaptSize(
+                theme.token.spacing.extraSmall * 12
+            )}px;
         `}
 `
 
@@ -130,13 +149,17 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
     ${({theme, supportingTextShow}) =>
         supportingTextShow &&
         css`
-            min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+            min-height: ${theme.adaptSize(
+                theme.token.spacing.extraSmall * 14
+            )}px;
         `}
 
     ${({theme, type = 'standard', leadingShow}) => {
         const mainInnerType = {
             menu: css`
-                padding-left: ${theme.adaptSize(theme.token.spacing.medium - theme.token.spacing.extraSmall)}px;
+                padding-left: ${theme.adaptSize(
+                    theme.token.spacing.medium - theme.token.spacing.extraSmall
+                )}px;
             `
         } as Record<ListType, RuleSet<object> | undefined>
 
@@ -144,7 +167,9 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
             return (
                 mainInnerType[type] ??
                 css`
-                    padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                    padding-left: ${theme.adaptSize(
+                        theme.token.spacing.medium
+                    )}px;
                 `
             )
         }
@@ -154,7 +179,9 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
     ${({theme, type = 'standard', trailingShow}) => {
         const mainInnerType = {
             menu: css`
-                padding-right: ${theme.adaptSize(theme.token.spacing.medium - theme.token.spacing.extraSmall)}px;
+                padding-right: ${theme.adaptSize(
+                    theme.token.spacing.medium - theme.token.spacing.extraSmall
+                )}px;
             `
         } as Record<ListType, RuleSet<object> | undefined>
 
@@ -162,7 +189,10 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
             return (
                 mainInnerType[type] ??
                 css`
-                    padding-right: ${theme.adaptSize(theme.token.spacing.medium - theme.token.spacing.extraSmall)}px;
+                    padding-right: ${theme.adaptSize(
+                        theme.token.spacing.medium -
+                            theme.token.spacing.extraSmall
+                    )}px;
                 `
             )
         }
@@ -182,7 +212,9 @@ export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
         supportingTextNumberOfLines > 1 &&
         css`
             justify-content: flex-start;
-            max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+            max-height: ${theme.adaptSize(
+                theme.token.spacing.extraSmall * 12
+            )}px;
         `}
 `
 
@@ -209,7 +241,9 @@ export const BeforeAffordanceContainer = styled.View<ListItemBeforeAffordanceCon
     `};
 `
 
-export const ListAfterAffordanceContainer = styled(BeforeAffordanceContainer)<ListItemBeforeAffordanceContainerProps>`
+export const ListAfterAffordanceContainer = styled(
+    BeforeAffordanceContainer
+)<ListItemBeforeAffordanceContainerProps>`
     left: auto;
 
     ${({theme}) => css`

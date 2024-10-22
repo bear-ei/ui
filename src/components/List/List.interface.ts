@@ -2,7 +2,11 @@ import {RefAttributes} from 'react'
 import {DefaultTheme} from 'styled-components/native'
 import {OnStateEvent} from '../../hooks'
 import {ComponentStatus} from '../Common'
-import {RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
+import {
+    RenderVirtualListItemInfo,
+    VirtualList,
+    VirtualListProps
+} from '../Virtual-list'
 import {ListItemProps} from './List-item'
 
 export type VirtualListComponent<T> = typeof VirtualList<T>
@@ -26,7 +30,8 @@ export interface ListData
     extraData?: string[]
 }
 
-export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
+export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> &
+    HandleRenderItemOptions
 export interface ListProps
     extends Partial<
         VirtualListProps<ListData> &
@@ -117,4 +122,7 @@ export interface ListBaseProps extends ListProps {
     render: (props: RenderListProps) => JSX.Element
 }
 
-export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
+export type HandleListActiveOptions = Pick<
+    ListProps,
+    'onActive' | 'selectType' | 'onActives' | 'deselect'
+>

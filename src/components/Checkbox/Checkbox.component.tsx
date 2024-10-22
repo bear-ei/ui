@@ -22,11 +22,22 @@ const render = ({
     underlayColor,
     ...contentProps
 }: RenderCheckboxProps) => {
-    const activeFill = error ? theme.token.scheme.error : theme.token.scheme.primary
-    const unselectedFill = type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
-    const checkBoxOutlineFill = error ? theme.token.scheme.error : unselectedFill
+    const activeFill =
+        error ? theme.token.scheme.error : theme.token.scheme.primary
+
+    const unselectedFill =
+        type === 'unselected' ?
+            theme.token.scheme.onSurfaceVariant
+        :   theme.token.scheme.primary
+
+    const checkBoxOutlineFill =
+        error ? theme.token.scheme.error : unselectedFill
+
     const shape = 'full'
-    const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+    const iconSize = theme.adaptSize(
+        theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall
+    )
+
     const iconStyle = {
         width: iconSize,
         height: iconSize

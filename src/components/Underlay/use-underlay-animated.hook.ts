@@ -1,10 +1,19 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    AnimatableValue,
+    SharedValue,
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
 import {debounce} from '../../utils'
 import {EventName} from '../Common'
-import {HandleUnderlayHoveredAnimatedTimingOptions, UseUnderlayAnimatedOptions} from './Underlay.interface'
+import {
+    HandleUnderlayHoveredAnimatedTimingOptions,
+    UseUnderlayAnimatedOptions
+} from './Underlay.interface'
 
 const handleUnderlayHoveredAnimatedTiming = ({
     animatedTiming,
@@ -22,15 +31,18 @@ const handleUnderlayHoveredAnimatedTiming = ({
         pressOut: 1
     } as Record<EventName, number>
 
-    return (hoverLayerSharedValue: SharedValue<AnimatableValue>) => (eventName?: EventName) => {
-        if (eventName) {
-            animatedTiming()(hoverLayerSharedValue)(event[eventName] ?? 0)
+    return (hoverLayerSharedValue: SharedValue<AnimatableValue>) =>
+        (eventName?: EventName) => {
+            if (eventName) {
+                animatedTiming()(hoverLayerSharedValue)(event[eventName] ?? 0)
+            }
         }
-    }
 }
 
 const handleUnderlayActiveAnimatedTiming =
-    (animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<AnimatableValue>) => (value?: boolean) => {
+    (animatedTiming: AnimatedTiming) =>
+    (activeLayerSharedValue: SharedValue<AnimatableValue>) =>
+    (value?: boolean) => {
         if (typeof value === 'boolean') {
             animatedTiming()(activeLayerSharedValue)(value ? 1 : 0)
         }
@@ -47,12 +59,19 @@ export const useUnderlayAnimated = ({
     const defaultScaleValue = active ? 1 : 0
     const activeValue = opacities.length === 3 ? opacities.length - 1 : 0
     const hoverLayerSharedValue = useSharedValue(0)
-    const activeLayerSharedValue = useSharedValue(typeof active === 'boolean' ? defaultScaleValue : 0)
+    const activeLayerSharedValue = useSharedValue(
+        typeof active === 'boolean' ? defaultScaleValue : 0
+    )
+
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
     const opacityInputRange = opacities.map((_value, index) => index)
     const hoverLayerAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: interpolate(hoverLayerSharedValue.value, opacityInputRange, opacities)
+        opacity: interpolate(
+            hoverLayerSharedValue.value,
+            opacityInputRange,
+            opacities
+        )
     }))
 
     const isScaleX = ['scale', 'scaleX'].includes(activeAnimatedType)
@@ -61,20 +80,47 @@ export const useUnderlayAnimated = ({
     const activeLayerAnimatedStyle = useAnimatedStyle(() => ({
         ...(isScale && {
             transform: [
-                {scaleX: isScaleX ? interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleX]) : 1},
-                {scaleY: isScaleY ? interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY]) : 1}
+                {
+                    scaleX:
+                        isScaleX ?
+                            interpolate(
+                                activeLayerSharedValue.value,
+                                [0, 1],
+                                [0, scaleX]
+                            )
+                        :   1
+                },
+                {
+                    scaleY:
+                        isScaleY ?
+                            interpolate(
+                                activeLayerSharedValue.value,
+                                [0, 1],
+                                [0, scaleY]
+                            )
+                        :   1
+                }
             ]
         }),
         opacity: interpolate(activeLayerSharedValue.value, [0, 1], [0, 1])
     }))
 
     const onUnderlayHoveredAnimatedTiming = useMemo(
-        () => debounce(handleUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(hoverLayerSharedValue))(100),
+        () =>
+            debounce(
+                handleUnderlayHoveredAnimatedTiming({
+                    activeValue,
+                    animatedTiming
+                })(hoverLayerSharedValue)
+            )(100),
         [animatedTiming, activeValue, hoverLayerSharedValue]
     )
 
     const onUnderlayActiveAnimatedTiming = useMemo(
-        () => handleUnderlayActiveAnimatedTiming(animatedTiming)(activeLayerSharedValue),
+        () =>
+            handleUnderlayActiveAnimatedTiming(animatedTiming)(
+                activeLayerSharedValue
+            ),
         [animatedTiming, activeLayerSharedValue]
     )
 

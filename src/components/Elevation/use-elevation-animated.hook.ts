@@ -1,14 +1,24 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    AnimatableValue,
+    SharedValue,
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
 import {UseElevationAnimatedOptions} from './Elevation.interface'
 
 const handleElevationAnimatedTiming =
-    (animatedTiming: AnimatedTiming) => (shadowSharedValue: SharedValue<AnimatableValue>) => (level: number) =>
+    (animatedTiming: AnimatedTiming) =>
+    (shadowSharedValue: SharedValue<AnimatableValue>) =>
+    (level: number) =>
         animatedTiming()(shadowSharedValue)(level)
 
-export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) => {
+export const useElevationAnimated = ({
+    level = 0
+}: UseElevationAnimatedOptions) => {
     const shadowSharedValue = useSharedValue(level)
     const theme = useTheme()
     const {elevation} = theme.token
@@ -23,7 +33,11 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
     ]
 
     const shadowAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: interpolate(shadowSharedValue.value, [0, 1, 2, 3, 4, 5], shadowOpacityOutputRange)
+        opacity: interpolate(
+            shadowSharedValue.value,
+            [0, 1, 2, 3, 4, 5],
+            shadowOpacityOutputRange
+        )
     }))
 
     const onElevationAnimatedTiming = useMemo(

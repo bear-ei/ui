@@ -4,10 +4,20 @@ import Animated from 'react-native-reanimated'
 import {Touchable} from '../../Touchable'
 import {Underlay} from '../../Underlay'
 import {ListAffordanceButtonBase} from './List-affordance-button-base.component'
-import {ListAffordanceButtonProps, RenderListAffordanceButtonProps} from './List-affordance-button.interface'
-import {Container, Content, ContentUnderlay, LabelText} from './List-affordance-button.styles'
+import {
+    ListAffordanceButtonProps,
+    RenderListAffordanceButtonProps
+} from './List-affordance-button.interface'
+import {
+    Container,
+    Content,
+    ContentUnderlay,
+    LabelText
+} from './List-affordance-button.styles'
 
-const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
+const AnimatedContentUnderlay =
+    Animated.createAnimatedComponent(ContentUnderlay)
+
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
     contentUnderlayAnimatedStyle,
@@ -68,7 +78,10 @@ const render = ({
     )
 }
 
-const ForwardRefListAffordanceButton = forwardRef<View, ListAffordanceButtonProps>((props, ref) => (
+const ForwardRefListAffordanceButton = forwardRef<
+    View,
+    ListAffordanceButtonProps
+>((props, ref) => (
     <ListAffordanceButtonBase
         {...props}
         ref={ref}
@@ -76,4 +89,5 @@ const ForwardRefListAffordanceButton = forwardRef<View, ListAffordanceButtonProp
     />
 ))
 
-export const ListAffordanceButton: FC<ListAffordanceButtonProps> = ForwardRefListAffordanceButton
+export const ListAffordanceButton: FC<ListAffordanceButtonProps> =
+    ForwardRefListAffordanceButton

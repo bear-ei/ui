@@ -1,8 +1,17 @@
 import {ValidationError, ValidatorOptions} from 'class-validator'
 import {RefAttributes} from 'react'
-import {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native'
+import {
+    NativeSyntheticEvent,
+    TargetedEvent,
+    View,
+    ViewProps
+} from 'react-native'
 import {ComponentStatus} from '../../Common'
-import {FormStore, FormValidatorOptions, ValidationRule} from '../Form.interface'
+import {
+    FormStore,
+    FormValidatorOptions,
+    ValidationRule
+} from '../Form.interface'
 
 export interface FormItemControlProps {
     errorMessage?: string
@@ -15,7 +24,11 @@ export interface FormItemControlProps {
 }
 
 export interface FormItemProps
-    extends Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>> {
+    extends Partial<
+        ViewProps &
+            Pick<FormItemControlProps, 'labelText'> &
+            RefAttributes<View>
+    > {
     initialValues?: Record<string, unknown>
     name?: string
     renderControl?: (props: FormItemControlProps) => JSX.Element
@@ -39,15 +52,20 @@ export interface FormItemState {
     status: ComponentStatus
 }
 
-export interface HandleFormItemValueChangeOptions extends Pick<FormStore, 'setFieldsValue'> {
+export interface HandleFormItemValueChangeOptions
+    extends Pick<FormStore, 'setFieldsValue'> {
     storeValue?: unknown
 }
 
-export interface HandleFormItemRuleChangeOptions extends Pick<FormStore, 'setFieldsValidate'> {
+export interface HandleFormItemRuleChangeOptions
+    extends Pick<FormStore, 'setFieldsValidate'> {
     validatorOptions?: FormValidatorOptions
 }
 
-export type HandleFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
+export type HandleFormItemInitOptions = Pick<
+    FormItemBaseProps,
+    'name' | 'rule'
+> & {
     onComponentUpdate: () => void
     validationDelay?: number
     validatorOptions?: ValidatorOptions

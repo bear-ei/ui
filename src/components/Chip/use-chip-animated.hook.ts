@@ -16,14 +16,19 @@ import {
     UseChipAnimatedOptions
 } from './Chip.interface'
 
-const handleChipBorderAnimated = ({animatedTiming, borderInputRange, disabled}: HandleChipAnimatedTimingOptions) => {
+const handleChipBorderAnimated = ({
+    animatedTiming,
+    borderInputRange,
+    disabled
+}: HandleChipAnimatedTimingOptions) => {
     const value = disabled ? 0 : borderInputRange[borderInputRange.length - 2]
 
-    return (borderSharedValue: SharedValue<AnimatableValue>) => (active?: boolean) => {
-        const toValue = active && !disabled ? 2 : value
+    return (borderSharedValue: SharedValue<AnimatableValue>) =>
+        (active?: boolean) => {
+            const toValue = active && !disabled ? 2 : value
 
-        return animatedTiming()(borderSharedValue)(toValue)
-    }
+            return animatedTiming()(borderSharedValue)(toValue)
+        }
 }
 
 const handleChipFilterIcon =
@@ -50,15 +55,19 @@ const handleChipAnimatedTiming = ({
             colorSharedValue,
             filterIconContainerWidthSharedValue
         }: HandleChipAnimatedTimingSharedValue) => {
-            const borderAnimated = handleChipBorderAnimated({animatedTiming, borderInputRange, disabled})(
-                borderSharedValue
-            )
+            const borderAnimated = handleChipBorderAnimated({
+                animatedTiming,
+                borderInputRange,
+                disabled
+            })(borderSharedValue)
 
             if (typeof active === 'boolean') {
                 borderAnimated(active)
 
                 if (type === 'filter') {
-                    handleChipFilterIcon(animatedTiming)(filterIconContainerWidthSharedValue)(active)
+                    handleChipFilterIcon(animatedTiming)(
+                        filterIconContainerWidthSharedValue
+                    )(active)
                 }
             }
 
@@ -67,13 +76,21 @@ const handleChipAnimatedTiming = ({
         }
 }
 
-export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: UseChipAnimatedOptions) => {
+export const useChipAnimated = ({
+    disabled,
+    type = 'assist',
+    active,
+    elevated
+}: UseChipAnimatedOptions) => {
     const theme = useTheme()
     const {palette, scheme} = theme.token
     const {convertHexToRGBA} = palette
     const animatedTiming = useAnimatedTiming(theme.token)
     const animatedValue = disabled ? 0 : 1
-    const borderSharedValue = useSharedValue(elevated || active ? 2 : animatedValue)
+    const borderSharedValue = useSharedValue(
+        elevated || active ? 2 : animatedValue
+    )
+
     const colorSharedValue = useSharedValue(active ? 2 : animatedValue)
     const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(0.12)
     const disabledColor = convertHexToRGBA(scheme.onSurface)(0.38)
@@ -91,7 +108,9 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
             inputRange: [0, 1, 2],
             outputRange: [
                 convertHexToRGBA(scheme.primary)(0),
-                elevated ? convertHexToRGBA(scheme.surfaceContainerLow)(1) : convertHexToRGBA(scheme.primary)(0),
+                elevated ?
+                    convertHexToRGBA(scheme.surfaceContainerLow)(1)
+                :   convertHexToRGBA(scheme.primary)(0),
                 convertHexToRGBA(scheme.primary)(0)
             ]
         },
@@ -99,7 +118,9 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
             inputRange: [0, 1, 2],
             outputRange: [
                 disabledBackgroundColor,
-                elevated ? convertHexToRGBA(scheme.surfaceContainerLow)(1) : convertHexToRGBA(scheme.primary)(0),
+                elevated ?
+                    convertHexToRGBA(scheme.surfaceContainerLow)(1)
+                :   convertHexToRGBA(scheme.primary)(0),
                 convertHexToRGBA(scheme.primary)(0)
             ]
         },
@@ -107,7 +128,9 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
             inputRange: [0, 1, 2],
             outputRange: [
                 disabledBackgroundColor,
-                elevated ? convertHexToRGBA(scheme.surfaceContainerLow)(1) : convertHexToRGBA(scheme.primary)(0),
+                elevated ?
+                    convertHexToRGBA(scheme.surfaceContainerLow)(1)
+                :   convertHexToRGBA(scheme.primary)(0),
                 convertHexToRGBA(scheme.primary)(0)
             ]
         },
@@ -115,7 +138,9 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
             inputRange: [0, 1, 2],
             outputRange: [
                 disabledBackgroundColor,
-                elevated ? convertHexToRGBA(scheme.surfaceContainerLow)(1) : convertHexToRGBA(scheme.primary)(0),
+                elevated ?
+                    convertHexToRGBA(scheme.surfaceContainerLow)(1)
+                :   convertHexToRGBA(scheme.primary)(0),
                 convertHexToRGBA(scheme.primary)(0)
             ]
         }
@@ -183,27 +208,52 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
             backgroundColorType[type].inputRange,
             backgroundColorType[type].outputRange
         ),
-        borderColor: interpolateColor(borderSharedValue.value, borderInputRange, borderColorOutputRange),
+        borderColor: interpolateColor(
+            borderSharedValue.value,
+            borderInputRange,
+            borderColorOutputRange
+        ),
         borderStyle: 'solid',
-        borderWidth: interpolate(borderSharedValue.value, borderInputRange, borderWidthOutputRange)
+        borderWidth: interpolate(
+            borderSharedValue.value,
+            borderInputRange,
+            borderWidthOutputRange
+        )
     }))
 
     const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-        color: interpolateColor(colorSharedValue.value, colorType[type].inputRange, colorType[type].outputRange)
+        color: interpolateColor(
+            colorSharedValue.value,
+            colorType[type].inputRange,
+            colorType[type].outputRange
+        )
     }))
 
     const filterIconContainerWidthOutputRange = [
         theme.adaptSize(theme.token.spacing.none),
-        theme.adaptSize(theme.token.spacing.extraSmall * 6 + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall))
+        theme.adaptSize(
+            theme.token.spacing.extraSmall * 6 +
+                -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+        )
     ]
 
     const filterIconContainerAnimatedStyle = useAnimatedStyle(() => ({
-        width: interpolate(filterIconContainerWidthSharedValue.value, [0, 1], filterIconContainerWidthOutputRange)
+        width: interpolate(
+            filterIconContainerWidthSharedValue.value,
+            [0, 1],
+            filterIconContainerWidthOutputRange
+        )
     }))
 
     const onChipAnimatedTiming = useCallback(
         () =>
-            handleChipAnimatedTiming({animatedTiming, borderInputRange, disabled, active, elevated})(type)({
+            handleChipAnimatedTiming({
+                animatedTiming,
+                borderInputRange,
+                disabled,
+                active,
+                elevated
+            })(type)({
                 borderSharedValue,
                 colorSharedValue,
                 filterIconContainerWidthSharedValue

@@ -19,7 +19,10 @@ const createFormContext = <T>() => ({
     store: {} as T
 })
 
-const handleFormValidate = ({rule, validatorOptions}: HandleFormValidateOptions) => {
+const handleFormValidate = ({
+    rule,
+    validatorOptions
+}: HandleFormValidateOptions) => {
     const {
         forbidNonWhitelisted = true,
         skipMissingProperties = true,
@@ -38,16 +41,25 @@ const handleFormValidate = ({rule, validatorOptions}: HandleFormValidateOptions)
         :   ([] as ValidationError[])
 }
 
-export const formStore = <T extends Record<string, unknown> = Record<string, unknown>>(): FormStore<T> => {
-    let {callback, error, fieldsEntities, initialValues, store} = createFormContext<T>()
+export const formStore = <
+    T extends Record<string, unknown> = Record<string, unknown>
+>(): FormStore<T> => {
+    let {callback, error, fieldsEntities, initialValues, store} =
+        createFormContext<T>()
 
-    const getFieldsEntities = (signOut = false) => (signOut ? fieldsEntities : fieldsEntities.filter(({name}) => name))
+    const getFieldsEntities = (signOut = false) =>
+        signOut ? fieldsEntities : fieldsEntities.filter(({name}) => name)
+
     const getFieldsEntitiesName =
         (signOut = false) =>
         (names?: (keyof T)[]) => {
             const entityNames = getFieldsEntities(signOut).map(({name}) => name)
 
-            return [...(names ? entityNames.filter(name => name && names.includes(name)) : entityNames)]
+            return [
+                ...(names ?
+                    entityNames.filter(name => name && names.includes(name))
+                :   entityNames)
+            ]
         }
 
     const getFieldsError = ((name?: NamePath<T>) => {
@@ -56,7 +68,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             names ?
                 getFieldsEntitiesName()(names).reduce(
                     (accumulator, entityName) =>
-                        entityName ? {...accumulator, [entityName]: error[entityName]} : accumulator,
+                        entityName ?
+                            {...accumulator, [entityName]: error[entityName]}
+                        :   accumulator,
                     {} as FormError<T>
                 )
             :   error
@@ -70,7 +84,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             names ?
                 getFieldsEntitiesName()(names).reduce(
                     (accumulator, entityName) =>
-                        entityName ? {...accumulator, [entityName]: store[entityName]} : accumulator,
+                        entityName ?
+                            {...accumulator, [entityName]: store[entityName]}
+                        :   accumulator,
                     {} as T
                 )
             :   store
@@ -84,7 +100,12 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             names ?
                 getFieldsEntitiesName()(names).reduce(
                     (accumulator, entityName) =>
-                        entityName ? {...accumulator, [entityName]: initialValues[entityName]} : accumulator,
+                        entityName ?
+                            {
+                                ...accumulator,
+                                [entityName]: initialValues[entityName]
+                            }
+                        :   accumulator,
                     {} as T
                 )
             :   store
@@ -96,9 +117,12 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
         const entities = getFieldsEntities()
         const names = namePath(name)
         const handleFieldsTouched = (entityName?: keyof T) =>
-            entityName && entities.find(entity => entity.name === entityName)?.touched
+            entityName &&
+            entities.find(entity => entity.name === entityName)?.touched
 
-        return getFieldsEntitiesName()(names).map(handleFieldsTouched).every(Boolean)
+        return getFieldsEntitiesName()(names)
+            .map(handleFieldsTouched)
+            .every(Boolean)
     }
 
     const resetFields = (name?: NamePath<T>) => {
@@ -115,21 +139,24 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
         getFieldsEntitiesName()(names).forEach(handleReset)
     }
 
-    const setCallbacks = (callbackValue: FormCallbacks<T>) => (callback = {...callback, ...callbackValue})
-    const setFieldsError = (componentUpdate?: boolean) => (err: FormError<T>) => {
-        error = {...error, ...err}
+    const setCallbacks = (callbackValue: FormCallbacks<T>) =>
+        (callback = {...callback, ...callbackValue})
 
-        if (componentUpdate) {
-            const entities = getFieldsEntities()
-            const errKeys = Object.keys(err) as (keyof T)[]
+    const setFieldsError =
+        (componentUpdate?: boolean) => (err: FormError<T>) => {
+            error = {...error, ...err}
 
-            entities.forEach(entity => {
-                if (entity.name && errKeys.includes(entity.name)) {
-                    entity.onComponentUpdate()
-                }
-            })
+            if (componentUpdate) {
+                const entities = getFieldsEntities()
+                const errKeys = Object.keys(err) as (keyof T)[]
+
+                entities.forEach(entity => {
+                    if (entity.name && errKeys.includes(entity.name)) {
+                        entity.onComponentUpdate()
+                    }
+                })
+            }
         }
-    }
 
     const setFieldsValidate =
         ({delay = 350, ...validatorOptions}: FormValidatorOptions = {}) =>
@@ -140,10 +167,18 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             fieldsEntities = entities.reduce((accumulator, entity) => {
                 if (entity.name && ruleKeys.includes(entity.name)) {
                     const asyncDebouncedValidate = asyncDebounce(
-                        handleFormValidate({rule: validateRule[entity.name], validatorOptions})(entity.name as string)
-                    )(delay) as (value?: unknown) => Promise<ValidationError[] | undefined>
+                        handleFormValidate({
+                            rule: validateRule[entity.name],
+                            validatorOptions
+                        })(entity.name as string)
+                    )(delay) as (
+                        value?: unknown
+                    ) => Promise<ValidationError[] | undefined>
 
-                    return [...accumulator, {...entity, validate: asyncDebouncedValidate}]
+                    return [
+                        ...accumulator,
+                        {...entity, validate: asyncDebouncedValidate}
+                    ]
                 }
 
                 return accumulator
@@ -158,7 +193,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             }
 
             fieldsEntities = [
-                ...getFieldsEntities().map(entity => (entity.name === name ? {...entity, touched} : entity))
+                ...getFieldsEntities().map(entity =>
+                    entity.name === name ? {...entity, touched} : entity
+                )
             ]
         }
 
@@ -203,7 +240,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             const handleUpdate = handleComponentUpdate(value)
 
             if (componentUpdate) {
-                Promise.all(Object.keys(value).map(handleUpdate)).then(handleChange)
+                Promise.all(Object.keys(value).map(handleUpdate)).then(
+                    handleChange
+                )
             } else {
                 handleStoreUpdate(onValuesChange)(value)
             }
@@ -236,7 +275,10 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
         fieldsEntities = [...entities, rawEntity]
 
         setFieldsError()({[name]: undefined} as FormError<T>)
-        setFieldsValidate(validatorOptions)({[name]: rule} as FormValidateRule<T>)
+        setFieldsValidate(validatorOptions)({
+            [name]: rule
+        } as FormValidateRule<T>)
+
         setFieldsValue(false)({[name]: initialValues[name]} as T)
 
         return {
@@ -252,7 +294,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 return
             }
 
-            const fieldEntity = entities.find(entity => entity.name === signOutName)
+            const fieldEntity = entities.find(
+                entity => entity.name === signOutName
+            )
 
             if (!fieldEntity) {
                 return
@@ -264,7 +308,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             setFieldsError()(nextError as FormError<T>)
             setFieldsValue(false)(nextFormStore as T)
 
-            fieldsEntities = entities.filter(entity => entity.name !== signOutName)
+            fieldsEntities = entities.filter(
+                entity => entity.name !== signOutName
+            )
         }
 
         getFieldsEntitiesName()(names).forEach(handleSignOut)
@@ -279,7 +325,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             handleFinish()
         } else {
             validateFields().then(err =>
-                Object.entries(err).some(([, value]) => value) ? handleFailed(err) : handleFinish()
+                Object.entries(err).some(([, value]) => value) ?
+                    handleFailed(err)
+                :   handleFinish()
             )
         }
     }
@@ -293,7 +341,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             }
 
             const value = getFieldsValue(entityName)
-            const fieldEntity = entities.find(entity => entity.name === entityName)
+            const fieldEntity = entities.find(
+                entity => entity.name === entityName
+            )
 
             return fieldEntity?.validate?.(value).then(errors => {
                 const err = {[entityName]: errors} as FormError<T>
@@ -304,7 +354,10 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
             })
         }
 
-        const fieldErrors = await Promise.all(getFieldsEntitiesName()(names).map(handleValidate))
+        const fieldErrors = await Promise.all(
+            getFieldsEntitiesName()(names).map(handleValidate)
+        )
+
         const err = fieldErrors.reduce(
             (accumulator, currentValue) => ({...accumulator, ...currentValue}),
             {} as FormError<T>

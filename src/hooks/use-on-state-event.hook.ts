@@ -16,7 +16,12 @@ import {
 } from './hooks.interface'
 
 const handleStateEventChange =
-    ({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
+    ({
+        callback,
+        disabled,
+        eventName,
+        onStateEventChange
+    }: HandleStateEventChangeOptions) =>
     (state: State) =>
     (event: StateEvent) => {
         if (disabled && eventName !== 'layout') {
@@ -31,7 +36,10 @@ const handlePressInEvent =
     ({onStateEvent}: HandleStateEventOptions) =>
     (onPressIn?: (event: GestureResponderEvent) => void) =>
     (event: GestureResponderEvent) =>
-        onStateEvent({callback: () => onPressIn?.(event), eventName: 'pressIn'})('pressIn')(event)
+        onStateEvent({
+            callback: () => onPressIn?.(event),
+            eventName: 'pressIn'
+        })('pressIn')(event)
 
 const handlePressEvent =
     ({onStateEvent, mobileDevice}: HandleStateEventOptions) =>
@@ -46,7 +54,10 @@ const handleLongPressEvent =
     ({onStateEvent}: HandleStateEventOptions) =>
     (onLongPress?: (event: GestureResponderEvent) => void) =>
     (event: GestureResponderEvent) =>
-        onStateEvent({callback: () => onLongPress?.(event), eventName: 'longPress'})('longPressIn')(event)
+        onStateEvent({
+            callback: () => onLongPress?.(event),
+            eventName: 'longPress'
+        })('longPressIn')(event)
 
 const handlePressOutEvent =
     ({onStateEvent, mobileDevice}: HandleStateEventOptions) =>
@@ -61,31 +72,43 @@ const handleHoverIntEvent =
     ({onStateEvent}: HandleStateEventOptions) =>
     (onHoverIn?: (event: MouseEvent) => void) =>
     (event: MouseEvent) =>
-        onStateEvent({callback: () => onHoverIn?.(event), eventName: 'hoverIn'})('hovered')(event)
+        onStateEvent({
+            callback: () => onHoverIn?.(event),
+            eventName: 'hoverIn'
+        })('hovered')(event)
 
 const handleHoverOutEvent =
     ({onStateEvent}: HandleStateEventOptions) =>
     (onHoverOut?: (event: MouseEvent) => void) =>
     (event: MouseEvent) =>
-        onStateEvent({callback: () => onHoverOut?.(event), eventName: 'hoverOut'})('enabled')(event)
+        onStateEvent({
+            callback: () => onHoverOut?.(event),
+            eventName: 'hoverOut'
+        })('enabled')(event)
 
 const handleFocusEvent =
     ({onStateEvent}: HandleStateEventOptions) =>
     (onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void) =>
     (event: NativeSyntheticEvent<TargetedEvent>) =>
-        onStateEvent({callback: () => onFocus?.(event), eventName: 'focus'})('focused')(event)
+        onStateEvent({callback: () => onFocus?.(event), eventName: 'focus'})(
+            'focused'
+        )(event)
 
 const handleBlurEvent =
     ({onStateEvent}: HandleStateEventOptions) =>
     (onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void) =>
     (event: NativeSyntheticEvent<TargetedEvent>) =>
-        onStateEvent({callback: () => onBlur?.(event), eventName: 'blur'})('enabled')(event)
+        onStateEvent({callback: () => onBlur?.(event), eventName: 'blur'})(
+            'enabled'
+        )(event)
 
 const handleLayoutEvent =
     ({onStateEvent}: HandleStateEventOptions) =>
     (onLayout?: (event: LayoutChangeEvent) => void) =>
     (event: LayoutChangeEvent) =>
-        onStateEvent({callback: () => onLayout?.(event), eventName: 'layout'})('enabled')(event)
+        onStateEvent({callback: () => onLayout?.(event), eventName: 'layout'})(
+            'enabled'
+        )(event)
 
 export const useOnStateEvent = ({
     disabled,
@@ -101,8 +124,13 @@ export const useOnStateEvent = ({
     onStateEventChange
 }: UseHandleStateEventOptions) => {
     const mobileDevice = ['ios', 'android'].includes(Platform.OS)
-    const onStateEvent = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-        handleStateEventChange({...options, disabled, onStateEventChange})(disabled ? 'disabled' : state)(event)
+    const onStateEvent =
+        (options: OnStateEventChangeOptions) =>
+        (state: State) =>
+        (event: StateEvent) =>
+            handleStateEventChange({...options, disabled, onStateEventChange})(
+                disabled ? 'disabled' : state
+            )(event)
 
     const handleBlur = handleBlurEvent({onStateEvent})(onBlur)
     const handleFocus = handleFocusEvent({onStateEvent})(onFocus)
@@ -112,7 +140,9 @@ export const useOnStateEvent = ({
     const handleLongPress = handleLongPressEvent({onStateEvent})(onLongPress)
     const handlePress = handlePressEvent({onStateEvent, mobileDevice})(onPress)
     const handlePressIn = handlePressInEvent({onStateEvent})(onPressIn)
-    const handlePressOut = handlePressOutEvent({onStateEvent, mobileDevice})(onPressOut)
+    const handlePressOut = handlePressOutEvent({onStateEvent, mobileDevice})(
+        onPressOut
+    )
 
     return {
         mobileDevice,

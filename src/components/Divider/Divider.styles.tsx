@@ -32,10 +32,14 @@ export const Container = styled.View<DividerContainerProps>`
             medium:
                 layout === 'horizontal' ?
                     css`
-                        padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                        padding-left: ${theme.adaptSize(
+                            theme.token.spacing.medium
+                        )}px;
                     `
                 :   css`
-                        padding-top: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                        padding-top: ${theme.adaptSize(
+                            theme.token.spacing.medium
+                        )}px;
                     `,
             small:
                 layout === 'horizontal' ?
@@ -44,7 +48,9 @@ export const Container = styled.View<DividerContainerProps>`
                             ${theme.adaptSize(theme.token.spacing.medium)}px;
                     `
                 :   css`
-                        padding: ${theme.adaptSize(theme.token.spacing.medium)}px
+                        padding: ${theme.adaptSize(
+                                theme.token.spacing.medium
+                            )}px
                             ${theme.adaptSize(theme.token.spacing.none)}px;
                     `
         } as Record<Size, RuleSet<object> | undefined>

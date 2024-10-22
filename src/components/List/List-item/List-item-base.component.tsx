@@ -1,8 +1,25 @@
-import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {GestureResponderEvent, PanResponder, PanResponderGestureState, View} from 'react-native'
+import {
+    cloneElement,
+    forwardRef,
+    useEffect,
+    useId,
+    useImperativeHandle,
+    useMemo,
+    useRef
+} from 'react'
+import {
+    GestureResponderEvent,
+    PanResponder,
+    PanResponderGestureState,
+    View
+} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
+import {
+    OnStateEventChangeOptions,
+    StateEvent,
+    useOnStateEvent
+} from '../../../hooks'
 import {EventName, State} from '../../Common'
 import {Icon} from '../../Icon'
 import {IconButton} from '../../Icon-button'
@@ -48,7 +65,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
         } = nextProps
 
         const activeKeyChange =
-            prevActiveKey !== nextActiveKey && (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
+            prevActiveKey !== nextActiveKey &&
+            (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
 
         const nextActive = nextActiveKeys?.includes(nextItemKey)
         const prevActive = prevActiveKeys?.includes(prevItemKey)
@@ -58,11 +76,13 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 
         const afterAffordanceActiveChange =
             prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
-            (nextAfterAffordanceActiveKey === nextItemKey || prevAfterAffordanceActiveKey === prevItemKey)
+            (nextAfterAffordanceActiveKey === nextItemKey ||
+                prevAfterAffordanceActiveKey === prevItemKey)
 
         const focusedIndexChange =
             nextFocusedIndex !== prevFocusedIndex &&
-            (nextFocusedIndex === nextItemIndex || prevFocusedIndex === prevItemIndex)
+            (nextFocusedIndex === nextItemIndex ||
+                prevFocusedIndex === prevItemIndex)
 
         return ![
             activeKeyChange,
@@ -77,13 +97,18 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 }
 
 const handleListItemPressOut =
-    (selectType?: SelectType) => (onActive?: (value?: string) => void) => (value: string) => {
+    (selectType?: SelectType) =>
+    (onActive?: (value?: string) => void) =>
+    (value: string) => {
         if (selectType) {
             onActive?.(value)
         }
     }
 
-const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
+const handleListItemLoadEnd =
+    (onLoadEnd?: (value?: string) => void) => (value?: string) =>
+        onLoadEnd?.(value)
+
 const handleListItemStateChange = ({
     eventName,
     itemKey,
@@ -104,7 +129,10 @@ const handleListItemStateChange = ({
             const prevEventName = draft.eventName
 
             if (eventName === 'blur' && prevEventName === 'focus') {
-                if (type === 'menu' && ['hoverIn', 'hoverOut'].includes(eventName)) {
+                if (
+                    type === 'menu' &&
+                    ['hoverIn', 'hoverOut'].includes(eventName)
+                ) {
                     return
                 }
             }
@@ -165,13 +193,19 @@ const handleListItemTrailingPressOut =
         }
     }
 
-const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<ListItemState>) => (value?: boolean) =>
-    setState(draft => {
-        draft.afterAffordanceClosed = !value
-    })
+const handleItemListAfterAffordanceVisibleFinished =
+    (setState: Updater<ListItemState>) => (value?: boolean) =>
+        setState(draft => {
+            draft.afterAffordanceClosed = !value
+        })
 
 const handleListItemConfirm =
-    ({options, onConfirm, onActiveAfterAffordance, onListItemClose}: HandleListItemConfirmOptions) =>
+    ({
+        options,
+        onConfirm,
+        onActiveAfterAffordance,
+        onListItemClose
+    }: HandleListItemConfirmOptions) =>
     (value?: string) => {
         const {doubleConfirmed} = options
 
@@ -189,10 +223,13 @@ const handleListItemConfirm =
  * When using the component Text-field-picker, you only need to change the focus style. Do not get the real focus.
  * Otherwise the Text-field-picker will lose focus.
  */
-const handleListItemFocus = (setState: Updater<ListItemState>) => (itemIndex?: number) => (focusedIndex?: number) =>
-    setState(draft => {
-        draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
-    })
+const handleListItemFocus =
+    (setState: Updater<ListItemState>) =>
+    (itemIndex?: number) =>
+    (focusedIndex?: number) =>
+        setState(draft => {
+            draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
+        })
 
 const handleListItemClose =
     ({onClose, onVisible}: HandleListItemCloseOptions) =>
@@ -207,7 +244,10 @@ const handleListItemClose =
     }
 
 const handleListItemPanResponderRelease =
-    ({onActiveAfterAffordance, disabled}: HandleListItemPanResponderReleaseOptions) =>
+    ({
+        onActiveAfterAffordance,
+        disabled
+    }: HandleListItemPanResponderReleaseOptions) =>
     (itemKey: string) =>
     (_event: GestureResponderEvent, gestureState: PanResponderGestureState) => {
         if (disabled) {
@@ -266,7 +306,10 @@ const renderListItemTrailing = ({
                     pointerEvents='box-only'
                     type='standard'
                 />,
-        standard: trailing ? cloneElement(trailing, {onHoverIn, onHoverOut, disabled}) : undefined
+        standard:
+            trailing ?
+                cloneElement(trailing, {onHoverIn, onHoverOut, disabled})
+            :   undefined
     }
 
     return trailingElement[trailingType]
@@ -328,15 +371,23 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         })
 
         const touchableRef = useRef<View>(null)
-        const active = selectType === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)
+        const active =
+            selectType === 'select' ?
+                activeKey === itemKey
+            :   activeKeys?.includes(itemKey)
+
         const theme = useTheme()
         const activeColor = theme.token.scheme.secondaryContainer
         const afterAffordanceVisible = afterAffordanceActiveKey === itemKey
         const id = useId()
-        const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
-        const onListItemPanResponderRelease = handleListItemPanResponderRelease({onActiveAfterAffordance, disabled})(
-            itemKey
-        )
+        const underlayColor =
+            active ?
+                theme.token.scheme.onSecondaryContainer
+            :   theme.token.scheme.onSurface
+
+        const onListItemPanResponderRelease = handleListItemPanResponderRelease(
+            {onActiveAfterAffordance, disabled}
+        )(itemKey)
 
         const panResponder = useRef(
             PanResponder.create({
@@ -349,40 +400,67 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             })
         ).current
 
-        const onListItemFocus = useMemo(() => handleListItemFocus(setState)(itemIndex), [itemIndex, setState])
-        const onListItemConfirm = ({itemKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
-            handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
+        const onListItemFocus = useMemo(
+            () => handleListItemFocus(setState)(itemIndex),
+            [itemIndex, setState]
+        )
 
-        const onListItemClose = handleListItemClose({onClose, onVisible})(itemKey)
+        const onListItemConfirm = ({
+            itemKey: value,
+            ...options
+        }: ListAfterAffordancePressOutOptions) =>
+            handleListItemConfirm({
+                options,
+                onActiveAfterAffordance,
+                onListItemClose,
+                onConfirm
+            })(value)
+
+        const onListItemClose = handleListItemClose({onClose, onVisible})(
+            itemKey
+        )
+
         const onListItemTrailingPressOut = () =>
-            handleListItemTrailingPressOut({afterAffordance, closeTrailing, onActiveAfterAffordance, onListItemClose})(
-                itemKey
-            )
+            handleListItemTrailingPressOut({
+                afterAffordance,
+                closeTrailing,
+                onActiveAfterAffordance,
+                onListItemClose
+            })(itemKey)
 
         const onListItemAfterAffordanceVisibleFinished = useMemo(
             () => handleItemListAfterAffordanceVisibleFinished(setState),
             [setState]
         )
 
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleListItemStateChange({
-                ...options,
-                itemIndex,
-                itemKey,
-                onActive,
-                onLoadEnd,
-                selectType,
-                state,
-                trailingTrigger,
-                type
-            })(setState)(event)
+        const onStateEventChange =
+            (options: OnStateEventChangeOptions) =>
+            (state: State) =>
+            (event: StateEvent) =>
+                handleListItemStateChange({
+                    ...options,
+                    itemIndex,
+                    itemKey,
+                    onActive,
+                    onLoadEnd,
+                    selectType,
+                    state,
+                    trailingTrigger,
+                    type
+                })(setState)(event)
 
-        const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})
-        const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
-            active,
-            afterAffordanceVisible,
-            onListItemAfterAffordanceVisibleFinished
+        const onStateEvent = useOnStateEvent({
+            ...renderProps,
+            onStateEventChange,
+            disabled
         })
+
+        const {contentAnimatedStyle, headlineTextAnimatedStyle} =
+            useListItemAnimated({
+                active,
+                afterAffordanceVisible,
+                onListItemAfterAffordanceVisibleFinished
+            })
 
         const trailingElement = renderListItemTrailing({
             afterAffordance,
@@ -394,9 +472,15 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
         })
 
         const leadingElement =
-            leading && selectType ? cloneElement(leading, {type: active ? 'filled' : 'outlined'}) : leading
+            leading && selectType ?
+                cloneElement(leading, {type: active ? 'filled' : 'outlined'})
+            :   leading
 
-        useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
+        useImperativeHandle(
+            ref,
+            () => (touchableRef?.current ? touchableRef?.current : {}) as View,
+            []
+        )
 
         useEffect(() => {
             onListItemFocus(focusedIndex)
@@ -436,7 +520,10 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             leadingElement,
             onConfirm: onListItemConfirm,
             onStateEvent,
-            panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,
+            panResponder:
+                [afterAffordance, beforeAffordance].some(Boolean) ? panResponder
+                :   undefined,
+
             ref: touchableRef,
             selectType,
             shape,

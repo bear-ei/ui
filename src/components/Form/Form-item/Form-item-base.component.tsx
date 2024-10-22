@@ -35,7 +35,12 @@ const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
     })
 
 const handleFormItemInit =
-    ({rule, signInFields, onComponentUpdate, validatorOptions}: HandleFormItemInitOptions) =>
+    ({
+        rule,
+        signInFields,
+        onComponentUpdate,
+        validatorOptions
+    }: HandleFormItemInitOptions) =>
     (setState: Updater<FormItemState>) =>
     (name?: string) =>
         setState(draft => {
@@ -66,7 +71,19 @@ const handleFormItemBlur =
     }
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-    ({labelText, name, render, renderControl, rule, skeletonMinDuration, validatorOptions, ...renderProps}, ref) => {
+    (
+        {
+            labelText,
+            name,
+            render,
+            renderControl,
+            rule,
+            skeletonMinDuration,
+            validatorOptions,
+            ...renderProps
+        },
+        ref
+    ) => {
         const [{signOut, status}, setState] = useImmer<FormItemState>({
             shouldUpdate: {},
             signOut: undefined,
@@ -85,10 +102,21 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         } = useFormContext()
 
         const errors = getFieldsError(name)
-        const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
-        const onComponentUpdate = useMemo(() => handleComponentUpdate(setState), [setState])
+        const errorMessage = Object.entries(
+            errors?.[0]?.constraints ?? {}
+        )[0]?.[1]
+
+        const onComponentUpdate = useMemo(
+            () => handleComponentUpdate(setState),
+            [setState]
+        )
+
         const storeValue = getFieldsValue(name) ?? getInitialValues(name)
-        const onValuesChange = handleFormItemValueChange({setFieldsValue, storeValue})(name)
+        const onValuesChange = handleFormItemValueChange({
+            setFieldsValue,
+            storeValue
+        })(name)
+
         const onFormItemRuleChange = useMemo(
             () =>
                 handleFormItemRuleChange({
@@ -99,7 +127,13 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         )
 
         const onFormItemInit = useMemo(
-            () => handleFormItemInit({rule, signInFields, onComponentUpdate, validatorOptions})(setState),
+            () =>
+                handleFormItemInit({
+                    rule,
+                    signInFields,
+                    onComponentUpdate,
+                    validatorOptions
+                })(setState),
             [onComponentUpdate, rule, setState, signInFields, validatorOptions]
         )
 
@@ -126,6 +160,12 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
             return <></>
         }
 
-        return render({...renderProps, control: controlElement, id, skeletonMinDuration, ref})
+        return render({
+            ...renderProps,
+            control: controlElement,
+            id,
+            skeletonMinDuration,
+            ref
+        })
     }
 )

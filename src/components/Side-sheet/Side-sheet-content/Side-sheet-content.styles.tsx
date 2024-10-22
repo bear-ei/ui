@@ -2,7 +2,11 @@ import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {SheetType} from '../Side-sheet.interface'
-import {SheetContainerProps, SheetHeaderProps, SheetViewContentProps} from './Side-sheet-content.interface'
+import {
+    SheetContainerProps,
+    SheetHeaderProps,
+    SheetViewContentProps
+} from './Side-sheet-content.interface'
 
 export const Container = styled.View<SheetContainerProps>`
     align-self: stretch;
@@ -58,9 +62,14 @@ export const Header = styled.View<SheetHeaderProps>`
 
     ${({theme}) => css`
         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 19)}px;
-        padding: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px
-            ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px
-            ${theme.adaptSize(theme.token.spacing.medium)}px ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+        padding: ${theme.adaptSize(
+                theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+            )}px
+            ${theme.adaptSize(
+                theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+            )}px
+            ${theme.adaptSize(theme.token.spacing.medium)}px
+            ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `}
 
     ${({theme, leadingShow}) =>
@@ -82,7 +91,9 @@ export const HeadlineContainer = styled.View`
 
     ${({theme}) => css`
         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-        padding-top: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
+        padding-top: ${theme.adaptSize(
+            theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+        )}px;
     `}
 `
 
@@ -136,8 +147,12 @@ export const Footer = styled.View`
 
     ${({theme}) => css`
         gap: ${theme.adaptSize(theme.token.spacing.small)}px;
-        padding: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px
+        padding: ${theme.adaptSize(
+                theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+            )}px
             ${theme.adaptSize(theme.token.spacing.large)}px
-            ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px;
+            ${theme.adaptSize(
+                theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
+            )}px;
     `}
 `

@@ -5,13 +5,26 @@ import {MenuListBase} from './Menu-list-base.component'
 import {MenuListProps, RenderMenuListProps} from './Menu-list.interface'
 import {Container, ListContainer} from './Menu-list.styles'
 
-const render = ({data, id, multiple, onFocus, onKeyDown, shape, theme, type, ...menuProps}: RenderMenuListProps) => {
+const render = ({
+    data,
+    id,
+    multiple,
+    onFocus,
+    onKeyDown,
+    shape,
+    theme,
+    type,
+    ...menuProps
+}: RenderMenuListProps) => {
     const dataNumber = data?.length ?? 0
     const itemSize = theme.adaptSize(theme.token.spacing.extraSmall * 12)
 
     return (
         <Container
-            height={dataNumber * itemSize + theme.adaptSize(theme.token.spacing.medium)}
+            height={
+                dataNumber * itemSize +
+                theme.adaptSize(theme.token.spacing.medium)
+            }
             onKeyDown={onKeyDown}
             testID={`menu--${id}`}
             type={type}
@@ -23,7 +36,9 @@ const render = ({data, id, multiple, onFocus, onKeyDown, shape, theme, type, ...
                 <List
                     {...menuProps}
                     data={data}
-                    itemSize={theme.adaptSize(theme.token.spacing.extraSmall * 12)}
+                    itemSize={theme.adaptSize(
+                        theme.token.spacing.extraSmall * 12
+                    )}
                     onItemStateEvent={{onFocus} as OnStateEvent}
                     selectType={multiple ? 'multiselect' : 'select'}
                     type='menu'
@@ -33,7 +48,10 @@ const render = ({data, id, multiple, onFocus, onKeyDown, shape, theme, type, ...
     )
 }
 
-const ForwardRefMenuList = forwardRef<VirtualListComponent<ListData>, MenuListProps>((props, ref) => (
+const ForwardRefMenuList = forwardRef<
+    VirtualListComponent<ListData>,
+    MenuListProps
+>((props, ref) => (
     <MenuListBase
         {...props}
         ref={ref}

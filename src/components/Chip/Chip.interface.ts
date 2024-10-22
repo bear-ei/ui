@@ -1,12 +1,26 @@
 import {RefObject} from 'react'
 import {TextStyle, View, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {
+    AnimatableValue,
+    AnimatedStyle,
+    SharedValue
+} from 'react-native-reanimated'
+import {
+    AnimatedTiming,
+    OnStateEvent,
+    OnStateEventChangeOptions
+} from '../../hooks'
 import {ComponentStatus, EventName, ShapeType} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {TouchableProps} from '../Touchable'
 
-export type ChipType = 'input' | 'assist' | 'filter' | 'suggestion' | 'inputFilled'
+export type ChipType =
+    | 'input'
+    | 'assist'
+    | 'filter'
+    | 'suggestion'
+    | 'inputFilled'
+
 export interface ChipProps extends TouchableProps {
     active?: boolean
     avatar?: JSX.Element
@@ -43,14 +57,28 @@ export interface ChipState {
     status: ComponentStatus
 }
 
-export interface HandleChipStateChangeOptions extends OnStateEventChangeOptions {
+export interface HandleChipStateChangeOptions
+    extends OnStateEventChangeOptions {
     touchableRef: RefObject<View>
 }
 
-export type HandleChipElevationOptions = Pick<ChipProps, 'disabled' | 'type' | 'elevated'>
-export type RenderChipIconOptions = Pick<RenderChipProps, 'disabled' | 'eventName' | 'onClose' | 'type'>
-export type UseChipAnimatedOptions = Pick<RenderChipProps, 'disabled' | 'type' | 'active' | 'elevated'>
-export interface HandleChipAnimatedTimingOptions extends Omit<UseChipAnimatedOptions, 'eventName'> {
+export type HandleChipElevationOptions = Pick<
+    ChipProps,
+    'disabled' | 'type' | 'elevated'
+>
+
+export type RenderChipIconOptions = Pick<
+    RenderChipProps,
+    'disabled' | 'eventName' | 'onClose' | 'type'
+>
+
+export type UseChipAnimatedOptions = Pick<
+    RenderChipProps,
+    'disabled' | 'type' | 'active' | 'elevated'
+>
+
+export interface HandleChipAnimatedTimingOptions
+    extends Omit<UseChipAnimatedOptions, 'eventName'> {
     animatedTiming: AnimatedTiming
     borderInputRange: number[]
 }

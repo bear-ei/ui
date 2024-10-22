@@ -22,10 +22,17 @@ export const IconBase = forwardRef<View, IconBaseProps>(
         ref
     ) => {
         const theme = useTheme()
-        const disabledFill = theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(0.38)
+        const disabledFill = theme.token.palette.convertHexToRGBA(
+            theme.token.scheme.onSurface
+        )(0.38)
+
         const id = useId()
         const SvgIcon = icon ?? iconStyle[style]?.[type]?.[name]
-        const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
+        const iconFill =
+            disabled ? disabledFill : (
+                (fill ?? theme.token.scheme.onSurfaceVariant)
+            )
+
         const {containerAnimatedStyle} = useIconAnimated({eventName})
         const svgIconElement = SvgIcon && (
             <SvgIcon
@@ -36,6 +43,13 @@ export const IconBase = forwardRef<View, IconBaseProps>(
             />
         )
 
-        return render({...renderProps, containerAnimatedStyle, fill: iconFill, id, ref, svgIconElement})
+        return render({
+            ...renderProps,
+            containerAnimatedStyle,
+            fill: iconFill,
+            id,
+            ref,
+            svgIconElement
+        })
     }
 )

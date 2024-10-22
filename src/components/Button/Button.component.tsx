@@ -6,10 +6,19 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {ButtonBase} from './Button-base.component'
 import {ButtonProps, RenderButtonProps} from './Button.interface'
-import {Container, Content, ContentUnderlay, IconContainer, LabelText, Main} from './Button.styles'
+import {
+    Container,
+    Content,
+    ContentUnderlay,
+    IconContainer,
+    LabelText,
+    Main
+} from './Button.styles'
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
-const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
+const AnimatedContentUnderlay =
+    Animated.createAnimatedComponent(ContentUnderlay)
+
 const render = ({
     contentUnderlayAnimatedStyle,
     disabled,
@@ -76,7 +85,13 @@ const render = ({
                         testID={`button__main--${id}`}
                         type={type}
                     >
-                        {icon && !link && <IconContainer testID={`button__iconContainer--${id}`}>{icon}</IconContainer>}
+                        {icon && !link && (
+                            <IconContainer
+                                testID={`button__iconContainer--${id}`}
+                            >
+                                {icon}
+                            </IconContainer>
+                        )}
 
                         <AnimatedLabelText
                             ellipsizeMode='tail'

@@ -6,9 +6,9 @@ export const Container = styled(Shape)<SkeletonElementContainerProps>`
     display: flex;
 
     ${({theme, showChildren}) => css`
-        background-color: ${theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(
-            showChildren ? 0 : 0.12
-        )};
+        background-color: ${theme.token.palette.convertHexToRGBA(
+            theme.token.scheme.onSurface
+        )(showChildren ? 0 : 0.12)};
 
         gap: ${theme.adaptSize(theme.token.spacing.small)}px;
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;

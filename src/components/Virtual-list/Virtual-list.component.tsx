@@ -1,8 +1,18 @@
 import {ForwardedRef, forwardRef} from 'react'
 import {ScrollView as RNScrollView, StyleProp, ViewStyle} from 'react-native'
 import {VirtualListBase} from './Virtual-list-base.component'
-import {RenderVirtualListProps, VirtualListProps} from './Virtual-list.interface'
-import {Container, Content, EmptyContent, LoadingContent, ScrollView, Supporting} from './Virtual-list.styles'
+import {
+    RenderVirtualListProps,
+    VirtualListProps
+} from './Virtual-list.interface'
+import {
+    Container,
+    Content,
+    EmptyContent,
+    LoadingContent,
+    ScrollView,
+    Supporting
+} from './Virtual-list.styles'
 
 const render = <T,>({
     contentContainerStyle,
@@ -20,14 +30,21 @@ const render = <T,>({
     ...containerProps
 }: RenderVirtualListProps<T>) => {
     const {onLayout} = onStateEvent
-    const defaultContentContainerStyle = {flex: 1, minHeight: contentSize} as StyleProp<ViewStyle>
+    const defaultContentContainerStyle = {
+        flex: 1,
+        minHeight: contentSize
+    } as StyleProp<ViewStyle>
+
     const listContentVisible = loading ? !loading : contentVisible
 
     return (
         <Container testID={`virtualList--${id}`}>
             <ScrollView
                 {...containerProps}
-                contentContainerStyle={[contentContainerStyle, defaultContentContainerStyle]}
+                contentContainerStyle={[
+                    contentContainerStyle,
+                    defaultContentContainerStyle
+                ]}
                 onLayout={onLayout}
                 scrollEventThrottle={scrollEventThrottle}
                 testID={`virtualList__scrollView--${id}`}
@@ -68,7 +85,10 @@ const render = <T,>({
     )
 }
 
-const VirtualListInner = <T,>(props: VirtualListProps<T>, ref: ForwardedRef<RNScrollView>) => (
+const VirtualListInner = <T,>(
+    props: VirtualListProps<T>,
+    ref: ForwardedRef<RNScrollView>
+) => (
     <VirtualListBase
         {...props}
         ref={ref}

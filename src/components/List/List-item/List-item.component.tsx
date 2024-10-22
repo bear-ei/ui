@@ -5,7 +5,10 @@ import {Divider} from '../../Divider'
 import {Touchable} from '../../Touchable'
 import {ActiveAnimatedType, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance/List-after-affordance.component'
-import {handleListItemPropsEqual, ListItemBase} from './List-item-base.component'
+import {
+    handleListItemPropsEqual,
+    ListItemBase
+} from './List-item-base.component'
 import {ListItemProps, RenderListItemProps} from './List-item.interface'
 import {
     BeforeAffordanceContainer,
@@ -74,7 +77,9 @@ const render = ({
     return (
         <Container
             {...panResponder?.panHandlers}
-            accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
+            accessibilityLabel={
+                typeof headline === 'string' ? headline : 'headline'
+            }
             accessibilityRole='list'
             shape={shape}
             testID={`listItem--${id}`}
@@ -85,7 +90,9 @@ const render = ({
                 duration={skeletonMinDuration}
             >
                 {beforeAffordance && (
-                    <BeforeAffordanceContainer testID={`listItem__beforeAffordanceContainer--${id}`}>
+                    <BeforeAffordanceContainer
+                        testID={`listItem__beforeAffordanceContainer--${id}`}
+                    >
                         {beforeAffordance}
                     </BeforeAffordanceContainer>
                 )}
@@ -98,20 +105,26 @@ const render = ({
                     <Touchable
                         {...onStateEvent}
                         disabled={disabled}
-                        enableTouchableRipple={type === 'standard' ? enableUnderlay : false}
+                        enableTouchableRipple={
+                            type === 'standard' ? enableUnderlay : false
+                        }
                         ref={ref}
                         underlayColor={underlayColor}
                     >
                         <Main
                             {...mainProps}
-                            supportingTextNumberOfLines={supportingTextNumberOfLines}
+                            supportingTextNumberOfLines={
+                                supportingTextNumberOfLines
+                            }
                             supportingTextShow={supportingTextShow}
                             testID={`listItem__main--${id}`}
                             type={type}
                         >
                             {leadingElement && (
                                 <Leading
-                                    supportingTextNumberOfLines={supportingTextNumberOfLines}
+                                    supportingTextNumberOfLines={
+                                        supportingTextNumberOfLines
+                                    }
                                     testID={`listItem__leading--${id}`}
                                 >
                                     {leadingElement}
@@ -144,7 +157,9 @@ const render = ({
                                     (isValidElement(supporting) ? supporting : (
                                         <SupportingText
                                             ellipsizeMode='tail'
-                                            numberOfLines={supportingTextNumberOfLines}
+                                            numberOfLines={
+                                                supportingTextNumberOfLines
+                                            }
                                             size='medium'
                                             testID={`listItem__supportingText--${id}`}
                                             type='body'
@@ -157,7 +172,9 @@ const render = ({
                             {trailingElement && (
                                 <Trailing
                                     defaultVisible={!trailingTrigger}
-                                    supportingTextNumberOfLines={supportingTextNumberOfLines}
+                                    supportingTextNumberOfLines={
+                                        supportingTextNumberOfLines
+                                    }
                                     testID={`listItem__trailing--${id}`}
                                     unmount={true}
                                     visible={trailingVisible}
@@ -180,14 +197,20 @@ const render = ({
                 </AnimatedContent>
 
                 {afterAffordance && (
-                    <ListAfterAffordanceContainer testID={`listItem__afterAffordanceContainer--${id}`}>
+                    <ListAfterAffordanceContainer
+                        testID={`listItem__afterAffordanceContainer--${id}`}
+                    >
                         {typeof afterAffordance === 'boolean' ?
                             <ListAfterAffordance
                                 itemKey={itemKey}
                                 onCancel={onCancel}
                                 onConfirm={onConfirm}
-                                primaryButtonProps={afterAffordancePrimaryButtonProps}
-                                secondaryButtonProps={afterAffordanceSecondaryButtonProps}
+                                primaryButtonProps={
+                                    afterAffordancePrimaryButtonProps
+                                }
+                                secondaryButtonProps={
+                                    afterAffordanceSecondaryButtonProps
+                                }
                                 visible={afterAffordanceVisible}
                             />
                         :   afterAffordance}

@@ -23,8 +23,11 @@ export const Content = styled(Shape)<IconButtonContentProps>`
     z-index: 4;
 
     ${({theme, width, height}) => css`
-        height: ${height ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-        width: ${width ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+        height: ${height ??
+        theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+
+        width: ${width ??
+        theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
     `}
 `
 

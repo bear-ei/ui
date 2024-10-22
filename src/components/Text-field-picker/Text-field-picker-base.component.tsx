@@ -1,9 +1,24 @@
 import {WritableDraft} from 'immer'
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {NativeSyntheticEvent, TextInput, TextInputKeyPressEventData} from 'react-native'
+import {
+    forwardRef,
+    useEffect,
+    useId,
+    useImperativeHandle,
+    useMemo,
+    useRef
+} from 'react'
+import {
+    NativeSyntheticEvent,
+    TextInput,
+    TextInputKeyPressEventData
+} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {
+    OnStateEventChangeOptions,
+    StateEvent,
+    useOnStateEvent
+} from '../../hooks'
 import {debounce, textSearch} from '../../utils'
 import {Chip} from '../Chip'
 import {State} from '../Common'
@@ -20,7 +35,13 @@ import {Item} from './Text-field-picker.styles'
 
 const handleTextFieldPickerInit =
     (setState: Updater<TextFieldPickerState>) =>
-    ({data, activeKey, activeKeys, defaultActiveKey, defaultActiveKeys}: HandleTextFieldPickerInitOptions) => {
+    ({
+        activeKey,
+        activeKeys,
+        data,
+        defaultActiveKey,
+        defaultActiveKeys
+    }: HandleTextFieldPickerInitOptions) => {
         setState(draft => {
             if (draft.status !== 'idle') {
                 return
@@ -33,30 +54,38 @@ const handleTextFieldPickerInit =
         })
     }
 
-const handleTextFieldPickerStateChange = ({eventName}: HandleTextFieldPickerStateChangeOptions) => {
-    return (setState: Updater<TextFieldPickerState>) => (_event: StateEvent) => {
-        if (eventName === 'layout') {
-            return
-        }
+const handleTextFieldPickerStateChange = ({
+    eventName
+}: HandleTextFieldPickerStateChangeOptions) => {
+    return (setState: Updater<TextFieldPickerState>) =>
+        (_event: StateEvent) => {
+            if (eventName === 'layout') {
+                return
+            }
 
-        setState(draft => {
-            draft.eventName = eventName
-        })
-    }
+            setState(draft => {
+                draft.eventName = eventName
+            })
+        }
 }
 
 const handleTextFieldPickerActive =
-    (setState: Updater<TextFieldPickerState>) => (ref: React.RefObject<TextInput>) => (activeKey?: string) => {
+    (setState: Updater<TextFieldPickerState>) =>
+    (ref: React.RefObject<TextInput>) =>
+    (activeKey?: string) => {
         ref.current?.focus()
 
         setState(draft => {
-            draft.value = draft.data?.find(item => item.indexKey === activeKey)?.headline as string
+            draft.value = draft.data?.find(item => item.indexKey === activeKey)
+                ?.headline as string
             draft.activeKey = activeKey
         })
     }
 
 const handleTextFieldPickerActives =
-    (setState: Updater<TextFieldPickerState>) => (ref: React.RefObject<TextInput>) => (activeKeys?: string[]) => {
+    (setState: Updater<TextFieldPickerState>) =>
+    (ref: React.RefObject<TextInput>) =>
+    (activeKeys?: string[]) => {
         ref.current?.focus()
 
         setState(draft => {
@@ -70,16 +99,26 @@ const handleTextFieldPickerChangeText =
     (value: string) => {
         if (data) {
             setState(draft => {
-                draft.data = (value ? textSearch(data)(['headline'])(value) : data) as WritableDraft<ListData>[]
+                draft.data = (
+                    value ?
+                        textSearch(data)(['headline'])(value)
+                    :   data) as WritableDraft<ListData>[]
                 draft.value = value
             })
         }
     }
 
-const handleTextFieldPickerContentPressOut = (ref: React.RefObject<TextInput>) => () => ref.current?.focus()
-const handleTextFieldPickerMenuVisible = ({setState, data}: HandleTextFieldPickerMenuVisibleOptions) => {
-    const handleFindData = (draft: WritableDraft<TextFieldPickerState>) => (item: ListData) =>
-        item.indexKey === draft.activeKey
+const handleTextFieldPickerContentPressOut =
+    (ref: React.RefObject<TextInput>) => () =>
+        ref.current?.focus()
+
+const handleTextFieldPickerMenuVisible = ({
+    setState,
+    data
+}: HandleTextFieldPickerMenuVisibleOptions) => {
+    const handleFindData =
+        (draft: WritableDraft<TextFieldPickerState>) => (item: ListData) =>
+            item.indexKey === draft.activeKey
 
     return (value?: boolean) => {
         if (typeof value === 'boolean') {
@@ -88,24 +127,29 @@ const handleTextFieldPickerMenuVisible = ({setState, data}: HandleTextFieldPicke
 
                 if (!value) {
                     draft.data = data as WritableDraft<ListData>[]
-                    draft.value = data?.find(handleFindData(draft))?.headline as string
+                    draft.value = data?.find(handleFindData(draft))
+                        ?.headline as string
                 }
             })
         }
     }
 }
 
-const handleTextFieldPickerClose = (setState: Updater<TextFieldPickerState>) => (ref: React.RefObject<TextInput>) => {
-    const handleFilterData = (key: string) => (item: string) => item !== key
+const handleTextFieldPickerClose =
+    (setState: Updater<TextFieldPickerState>) =>
+    (ref: React.RefObject<TextInput>) => {
+        const handleFilterData = (key: string) => (item: string) => item !== key
 
-    return (key: string) => {
-        ref.current?.focus()
+        return (key: string) => {
+            ref.current?.focus()
 
-        setState(draft => {
-            draft.activeKeys = draft.activeKeys?.filter(handleFilterData(key))
-        })
+            setState(draft => {
+                draft.activeKeys = draft.activeKeys?.filter(
+                    handleFilterData(key)
+                )
+            })
+        }
     }
-}
 
 const renderTextFieldPickerContent = ({
     activeKeys,
@@ -115,7 +159,8 @@ const renderTextFieldPickerContent = ({
     onPressOut
 }: RenderTextFieldPickerContentOptions) => {
     const contents = activeKeys?.map(key => {
-        const {leading, headline} = data?.find(datum => datum.indexKey === key) ?? {}
+        const {leading, headline} =
+            data?.find(datum => datum.indexKey === key) ?? {}
 
         return (
             <Item
@@ -139,7 +184,8 @@ const renderTextFieldPickerContent = ({
 }
 
 const handleTextFieldPickerKeyPress =
-    (setState: Updater<TextFieldPickerState>) => (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+    (setState: Updater<TextFieldPickerState>) =>
+    (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
         event.preventDefault()
         const {key} = event.nativeEvent
 
@@ -150,7 +196,10 @@ const handleTextFieldPickerKeyPress =
         })
     }
 
-export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProps>(
+export const TextFieldPickerBase = forwardRef<
+    TextInput,
+    TextFieldPickerBaseProps
+>(
     (
         {
             activeKey: rawActiveKey,
@@ -164,29 +213,62 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
         },
         ref
     ) => {
-        const [{data, status, eventName, value, menuVisible, nextBlurEvent, activeKey, activeKeys, keyCode}, setState] =
-            useImmer<TextFieldPickerState>({
-                activeKey: undefined,
-                activeKeys: undefined,
-                data: undefined,
-                eventName: undefined,
-                keyCode: undefined,
-                menuVisible: undefined,
-                nextBlurEvent: undefined,
-                status: 'idle',
-                value: undefined
-            })
+        const [
+            {
+                activeKey,
+                activeKeys,
+                data,
+                eventName,
+                keyCode,
+                menuVisible,
+                nextBlurEvent,
+                status,
+                value
+            },
+            setState
+        ] = useImmer<TextFieldPickerState>({
+            activeKey: undefined,
+            activeKeys: undefined,
+            data: undefined,
+            eventName: undefined,
+            keyCode: undefined,
+            menuVisible: undefined,
+            nextBlurEvent: undefined,
+            status: 'idle',
+            value: undefined
+        })
 
         const id = useId()
         const textFieldRef = useRef<TextInput>(null)
-        const onTextFieldPickerActive = useMemo(() => handleTextFieldPickerActive(setState)(textFieldRef), [setState])
-        const onTextFieldPickerActives = useMemo(() => handleTextFieldPickerActives(setState)(textFieldRef), [setState])
-        const onTextFieldPickerClose = handleTextFieldPickerClose(setState)(textFieldRef)
-        const onTextFieldPickerContentPressOut = handleTextFieldPickerContentPressOut(textFieldRef)
-        const onTextFieldPickerInit = useMemo(() => handleTextFieldPickerInit(setState), [setState])
+        const onTextFieldPickerActive = useMemo(
+            () => handleTextFieldPickerActive(setState)(textFieldRef),
+            [setState]
+        )
+
+        const onTextFieldPickerActives = useMemo(
+            () => handleTextFieldPickerActives(setState)(textFieldRef),
+            [setState]
+        )
+
+        const onTextFieldPickerClose =
+            handleTextFieldPickerClose(setState)(textFieldRef)
+
+        const onTextFieldPickerContentPressOut =
+            handleTextFieldPickerContentPressOut(textFieldRef)
+
+        const onTextFieldPickerInit = useMemo(
+            () => handleTextFieldPickerInit(setState),
+            [setState]
+        )
+
         const theme = useTheme()
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleTextFieldPickerStateChange({...options, state})(setState)(event)
+        const onStateEventChange =
+            (options: OnStateEventChangeOptions) =>
+            (state: State) =>
+            (event: StateEvent) =>
+                handleTextFieldPickerStateChange({...options, state})(setState)(
+                    event
+                )
 
         const contentElements = renderTextFieldPickerContent({
             activeKeys,
@@ -196,19 +278,36 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
             onPressOut: onTextFieldPickerContentPressOut
         })
 
-        const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
+        const onStateEvent = useOnStateEvent({
+            ...renderProps,
+            disabled,
+            onStateEventChange
+        })
+
         const onTextFieldPickerChangeText = useMemo(
-            () => debounce(handleTextFieldPickerChangeText(setState)(rawData))(250),
+            () =>
+                debounce(handleTextFieldPickerChangeText(setState)(rawData))(
+                    250
+                ),
             [rawData, setState]
         )
 
-        const onTextFieldPickerKeyPress = handleTextFieldPickerKeyPress(setState)
+        const onTextFieldPickerKeyPress =
+            handleTextFieldPickerKeyPress(setState)
+
         const onTextFieldPickerMenuVisible = useMemo(
             () => handleTextFieldPickerMenuVisible({setState, data: rawData}),
             [rawData, setState]
         )
 
-        useImperativeHandle(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
+        useImperativeHandle(
+            ref,
+            () =>
+                (textFieldRef?.current ?
+                    textFieldRef?.current
+                :   {}) as TextInput,
+            []
+        )
 
         useEffect(() => {
             onTextFieldPickerInit({
@@ -218,7 +317,14 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
                 defaultActiveKey,
                 defaultActiveKeys
             })
-        }, [defaultActiveKey, defaultActiveKeys, onTextFieldPickerInit, rawActiveKey, rawActiveKeys, rawData])
+        }, [
+            defaultActiveKey,
+            defaultActiveKeys,
+            onTextFieldPickerInit,
+            rawActiveKey,
+            rawActiveKeys,
+            rawData
+        ])
 
         useEffect(() => {
             nextBlurEvent?.()

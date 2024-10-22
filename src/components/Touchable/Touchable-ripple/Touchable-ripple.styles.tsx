@@ -13,6 +13,8 @@ export const Container = styled(Shape)<TouchableRippleContainerProps>`
     `}
 
     ${({underlayColor, theme}) => css`
-        background-color: ${theme.token.palette.convertHexToRGBA(underlayColor ?? theme.token.scheme.onSurface)(0.12)};
+        background-color: ${theme.token.palette.convertHexToRGBA(
+            underlayColor ?? theme.token.scheme.onSurface
+        )(0.12)};
     `};
 `

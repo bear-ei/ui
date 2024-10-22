@@ -5,7 +5,12 @@ import {SideSheetContent} from './Side-sheet-content'
 import {RenderSideSheetProps, SideSheetProps} from './Side-sheet.interface'
 import {Container} from './Side-sheet.styles'
 
-const render = ({id, visible, type = 'standard', ...sheetProps}: RenderSideSheetProps) => {
+const render = ({
+    id,
+    visible,
+    type = 'standard',
+    ...sheetProps
+}: RenderSideSheetProps) => {
     const sheetContentElement = typeof visible === 'boolean' && (
         <SideSheetContent
             {...sheetProps}
@@ -18,7 +23,10 @@ const render = ({id, visible, type = 'standard', ...sheetProps}: RenderSideSheet
         <>
             {['standard', 'standardContainer'].includes(type) ?
                 sheetContentElement
-            :   <Container testID={`sideSheet--${id}`}>{sheetContentElement}</Container>}
+            :   <Container testID={`sideSheet--${id}`}>
+                    {sheetContentElement}
+                </Container>
+            }
         </>
     )
 }

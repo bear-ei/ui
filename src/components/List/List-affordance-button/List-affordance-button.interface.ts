@@ -11,14 +11,16 @@ export interface ListAffordanceButtonProps extends TouchableProps {
     underlayColor?: string
 }
 
-export interface RenderListAffordanceButtonProps extends ListAffordanceButtonProps {
+export interface RenderListAffordanceButtonProps
+    extends ListAffordanceButtonProps {
     contentUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
     eventName?: EventName
     labelTextAnimatedStyle: AnimatedStyle<TextStyle>
     onStateEvent: OnStateEvent
 }
 
-export interface ListAffordanceButtonBaseProps extends ListAffordanceButtonProps {
+export interface ListAffordanceButtonBaseProps
+    extends ListAffordanceButtonProps {
     render: (props: RenderListAffordanceButtonProps) => JSX.Element
 }
 
@@ -26,6 +28,15 @@ export interface ListAffordanceButtonState {
     eventName?: EventName
 }
 
-export type UseListAffordanceButtonAnimatedOptions = Pick<RenderListAffordanceButtonProps, 'disabled'>
-export type HandleListAffordanceButtonStateEventChangeOptions = OnStateEventChangeOptions
-export type ListAffordanceButtonContainerProps = Pick<RenderListAffordanceButtonProps, 'disabled'>
+export type UseListAffordanceButtonAnimatedOptions = Pick<
+    RenderListAffordanceButtonProps,
+    'disabled'
+>
+
+export type HandleListAffordanceButtonStateEventChangeOptions =
+    OnStateEventChangeOptions
+
+export type ListAffordanceButtonContainerProps = Pick<
+    RenderListAffordanceButtonProps,
+    'disabled'
+>

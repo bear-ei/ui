@@ -21,7 +21,14 @@ class AgeRule {
 
 export const FormA = () => {
     const form = Form.useForm<{name: string; age: number}>()
-    const renderControl = ({value, onValuesChange, errorMessage, id, labelText, onBlur}: FormItemControlProps) => (
+    const renderControl = ({
+        errorMessage,
+        id,
+        labelText,
+        onBlur,
+        onValuesChange,
+        value
+    }: FormItemControlProps) => (
         <TextField
             error={!!errorMessage}
             key={id}
@@ -60,7 +67,10 @@ export const FormA = () => {
         form.resetFields()
     }
 
-    const style = {display: 'flex', flexDirection: 'column'} as StyleProp<ViewStyle>
+    const style = {
+        display: 'flex',
+        flexDirection: 'column'
+    } as StyleProp<ViewStyle>
 
     return (
         <View style={[style]}>

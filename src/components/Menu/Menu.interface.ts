@@ -4,7 +4,8 @@ import {TooltipProps} from '../Tooltip'
 import {MenuListProps} from './Menu-list'
 
 export type MenuType = 'textFieldPicker'
-export interface MenuProps extends Omit<PressableProps & TooltipProps & MenuListProps, 'type'> {
+export interface MenuProps
+    extends Omit<PressableProps & TooltipProps & MenuListProps, 'type'> {
     keyCode?: string
     type?: MenuType
 }

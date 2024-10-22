@@ -8,11 +8,15 @@ import {ModalProvider} from '../Modal-provider.context'
 import {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'
 
-const DesktopThemeProvider: FC<ThemeProps> = ({children, token: themeToken}) => {
+const DesktopThemeProvider: FC<ThemeProps> = ({
+    children,
+    token: themeToken
+}) => {
     const {adaptFontSize, adaptSize} = adaptWindow()()(true)
     const colorScheme = useColorScheme()
     const windowSize = useWindowSize()
-    const token = themeToken ?? materialToken()(colorScheme ?? 'light')('gemstoneBlue')
+    const token =
+        themeToken ?? materialToken()(colorScheme ?? 'light')('gemstoneBlue')
 
     return (
         <StyledComponentThemeProvider
@@ -31,12 +35,21 @@ const DesktopThemeProvider: FC<ThemeProps> = ({children, token: themeToken}) => 
     )
 }
 
-const MobileThemeProvider: FC<ThemeProps> = ({designOptions = {}, children, token: themeToken}) => {
+const MobileThemeProvider: FC<ThemeProps> = ({
+    designOptions = {},
+    children,
+    token: themeToken
+}) => {
     const {width, height} = useWindowDimensions()
-    const {adaptFontSize, adaptSize} = adaptWindow({screenWidth: width, screenHeight: height})(designOptions)(false)
+    const {adaptFontSize, adaptSize} = adaptWindow({
+        screenWidth: width,
+        screenHeight: height
+    })(designOptions)(false)
+
     const colorScheme = useColorScheme()
     const windowSize = useWindowSize()
-    const token = themeToken ?? materialToken()(colorScheme ?? 'light')('gemstoneBlue')
+    const token =
+        themeToken ?? materialToken()(colorScheme ?? 'light')('gemstoneBlue')
 
     return (
         <StyledComponentThemeProvider

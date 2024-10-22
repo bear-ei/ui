@@ -27,16 +27,24 @@ export const Shadow = styled(Shape)<ElevationShadowProps>`
     flex: 1;
 
     ${({theme, level = 0}) => {
-        const levelString: keyof Elevation = level === 0 ? `level${1}` : `level${level}`
+        const levelString: keyof Elevation =
+            level === 0 ? `level${1}` : `level${level}`
 
         return css`
             background-color: ${theme.token.scheme.surfaceContainerLow};
             elevation: ${theme.token.elevation[levelString].elevation};
             shadow-color: ${theme.token.elevation.shadowColor};
-            shadow-offset: ${theme.adaptSize(theme.token.elevation[levelString].shadowOffset.width)}px
-                ${theme.adaptSize(theme.token.elevation[levelString].shadowOffset.height)}px;
+            shadow-offset: ${theme.adaptSize(
+                    theme.token.elevation[levelString].shadowOffset.width
+                )}px
+                ${theme.adaptSize(
+                    theme.token.elevation[levelString].shadowOffset.height
+                )}px;
 
-            shadow-radius: ${theme.adaptSize(theme.token.elevation[levelString].shadowRadius)}px;
+            shadow-radius: ${theme.adaptSize(
+                theme.token.elevation[levelString].shadowRadius
+            )}px;
+
             shadow-opacity: 1;
         `
     }};

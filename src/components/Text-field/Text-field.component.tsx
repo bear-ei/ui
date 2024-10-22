@@ -4,7 +4,11 @@ import Animated, {AnimatedProps} from 'react-native-reanimated'
 import {FastOmit} from 'styled-components'
 import {Underlay} from '../Underlay'
 import {TextFieldBase} from './Text-field-base.component'
-import {InputProps, RenderTextFieldProps, TextFieldProps} from './Text-field.interface'
+import {
+    InputProps,
+    RenderTextFieldProps,
+    TextFieldProps
+} from './Text-field.interface'
 import {
     ActiveIndicator,
     Container,
@@ -25,14 +29,15 @@ import {
 /**
  * FIXME: Multiline text [macos]
  */
-const AnimatedActiveIndicator = Animated.createAnimatedComponent(ActiveIndicator)
+const AnimatedActiveIndicator =
+    Animated.createAnimatedComponent(ActiveIndicator)
 const AnimatedHeader = Animated.createAnimatedComponent(Header)
 const AnimatedLabel = Animated.createAnimatedComponent(Label)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedSupportingText = Animated.createAnimatedComponent(SupportingText)
-const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.FunctionComponent<
-    AnimatedProps<FastOmit<InputProps, never>>
->
+const AnimatedTextInput = Animated.createAnimatedComponent(
+    Input
+) as React.FunctionComponent<AnimatedProps<FastOmit<InputProps, never>>>
 
 const render = ({
     activeIndicatorAnimatedStyle,
@@ -87,7 +92,11 @@ const render = ({
                         testID={`textfield__header--${id}`}
                         trailingShow={!!trailing}
                     >
-                        {leading && <Leading testID={`textfield__leading--${id}`}>{leading}</Leading>}
+                        {leading && (
+                            <Leading testID={`textfield__leading--${id}`}>
+                                {leading}
+                            </Leading>
+                        )}
                         <Main
                             contentShow={!!content}
                             testID={`textfield__main--${id}`}
@@ -116,7 +125,11 @@ const render = ({
                             </Control>
                         </Main>
 
-                        {trailing && <Trailing testID={`textfield__trailing--${id}`}>{trailing}</Trailing>}
+                        {trailing && (
+                            <Trailing testID={`textfield__trailing--${id}`}>
+                                {trailing}
+                            </Trailing>
+                        )}
 
                         <AnimatedLabel
                             leadingShow={leadingShow}
@@ -164,12 +177,14 @@ const render = ({
     )
 }
 
-const ForwardRefTextField = forwardRef<RNTextInput, TextFieldProps>((props, ref) => (
-    <TextFieldBase
-        {...props}
-        ref={ref}
-        render={render}
-    />
-))
+const ForwardRefTextField = forwardRef<RNTextInput, TextFieldProps>(
+    (props, ref) => (
+        <TextFieldBase
+            {...props}
+            ref={ref}
+            render={render}
+        />
+    )
+)
 
 export const TextField: FC<TextFieldProps> = ForwardRefTextField

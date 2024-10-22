@@ -9,7 +9,10 @@ type ProgressAnimated = 'determinate' | 'indeterminate'
 export interface ProgressProps
     extends ViewProps,
         RefAttributes<View>,
-        Pick<ProgressActiveIndicatorProps, 'increment' | 'defaultValue' | 'value'> {
+        Pick<
+            ProgressActiveIndicatorProps,
+            'increment' | 'defaultValue' | 'value'
+        > {
     animated?: ProgressAnimated
     type?: ProgressType
 }

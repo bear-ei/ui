@@ -4,7 +4,14 @@ import {AvatarBase} from './Avatar-base.component'
 import {AvatarProps, RenderAvatarProps} from './Avatar.interface'
 import {Container, Content, Image, LabelText} from './Avatar.styles'
 
-const render = ({backgroundColor, defaultSource, id, labelText, source, ...containerProps}: RenderAvatarProps) => (
+const render = ({
+    backgroundColor,
+    defaultSource,
+    id,
+    labelText,
+    source,
+    ...containerProps
+}: RenderAvatarProps) => (
     <Container
         {...containerProps}
         accessibilityRole='image'

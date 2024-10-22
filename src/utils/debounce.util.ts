@@ -14,10 +14,15 @@ export const debounce =
         }
     }
 
-export const asyncDebounce = <T extends (...args: any[]) => Promise<unknown>>(func: T) => {
+export const asyncDebounce = <T extends (...args: any[]) => Promise<unknown>>(
+    func: T
+) => {
     const timeoutFunc =
         (...args: Parameters<T>) =>
-        (resolve: (value: unknown) => void, reject: (reason?: unknown) => void) =>
+        (
+            resolve: (value: unknown) => void,
+            reject: (reason?: unknown) => void
+        ) =>
         () =>
             func(...args)
                 .then(resolve)
@@ -30,7 +35,11 @@ export const asyncDebounce = <T extends (...args: any[]) => Promise<unknown>>(fu
             clearTimeout(timeoutId)
 
             return new Promise(
-                (resolve, reject) => (timeoutId = setTimeout(timeoutFunc(...args)(resolve, reject), delay))
+                (resolve, reject) =>
+                    (timeoutId = setTimeout(
+                        timeoutFunc(...args)(resolve, reject),
+                        delay
+                    ))
             )
         }
     }

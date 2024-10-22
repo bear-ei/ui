@@ -19,8 +19,13 @@ export const TouchableContent = styled.Pressable<TouchableContentProps>`
     ${({theme, hotZone = true}) =>
         hotZone &&
         css`
-            min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-            min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+            min-height: ${theme.adaptSize(
+                theme.token.spacing.extraSmall * 12
+            )}px;
+
+            min-width: ${theme.adaptSize(
+                theme.token.spacing.extraSmall * 12
+            )}px;
         `}
 `
 

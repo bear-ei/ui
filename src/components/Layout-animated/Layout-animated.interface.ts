@@ -2,10 +2,18 @@ import {Duration, Easing} from '@bearei/material-token'
 import {RefAttributes} from 'react'
 import {View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
-import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {
+    AnimatedTiming,
+    AnimatedTimingOptions,
+    OnStateEvent,
+    OnStateEventChangeOptions
+} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
-export interface LayoutAnimatedProps extends RefAttributes<View>, ViewProps, ShapeProps {
+export interface LayoutAnimatedProps
+    extends RefAttributes<View>,
+        ViewProps,
+        ShapeProps {
     defaultVisible?: boolean
     duration?: Duration
     easing?: Easing
@@ -37,15 +45,30 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
     render: (props: RenderLayoutAnimatedProps) => JSX.Element
 }
 
-export type HandleLayoutAnimatedStateChangeOptions = OnStateEventChangeOptions & Pick<LayoutAnimatedProps, 'visible'>
-export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount' | 'onVisible'>
-export interface UseLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 'visible' | 'unmount' | 'entry' | 'exit'> {
+export type HandleLayoutAnimatedStateChangeOptions = OnStateEventChangeOptions &
+    Pick<LayoutAnimatedProps, 'visible'>
+
+export type HandleLayoutAnimatedFinishedOptions = Pick<
+    RenderLayoutAnimatedProps,
+    'onUnmount' | 'unmount' | 'onVisible'
+>
+export interface UseLayoutAnimatedOptions
+    extends Pick<
+        LayoutAnimatedProps,
+        'visible' | 'unmount' | 'entry' | 'exit'
+    > {
     onAnimatedFinished: (value?: boolean) => void
 }
 
 export interface HandleLayoutAnimatedTimingOptions
-    extends Pick<UseLayoutAnimatedOptions, 'onAnimatedFinished' | 'entry' | 'exit'> {
+    extends Pick<
+        UseLayoutAnimatedOptions,
+        'onAnimatedFinished' | 'entry' | 'exit'
+    > {
     animatedTiming: AnimatedTiming
 }
 
-export type LayoutAnimatedContainer = Pick<RenderLayoutAnimatedProps, 'visible' | 'hidden'>
+export type LayoutAnimatedContainer = Pick<
+    RenderLayoutAnimatedProps,
+    'visible' | 'hidden'
+>

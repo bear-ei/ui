@@ -1,12 +1,27 @@
 import {RefObject} from 'react'
 import {TextStyle, View, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {
+    AnimatableValue,
+    AnimatedStyle,
+    SharedValue
+} from 'react-native-reanimated'
+import {
+    AnimatedTiming,
+    OnStateEvent,
+    OnStateEventChangeOptions
+} from '../../hooks'
 import {ComponentStatus, EventName} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {TouchableProps} from '../Touchable'
 
-export type ButtonType = 'elevated' | 'filled' | 'link' | 'outlined' | 'text' | 'tonal'
+export type ButtonType =
+    | 'elevated'
+    | 'filled'
+    | 'link'
+    | 'outlined'
+    | 'text'
+    | 'tonal'
+
 export interface ButtonProps extends TouchableProps {
     icon?: JSX.Element
     labelText?: string
@@ -33,13 +48,24 @@ export interface ButtonState {
     status: ComponentStatus
 }
 
-export interface HandleButtonStateChangeOptions extends OnStateEventChangeOptions, Pick<RenderButtonProps, 'type'> {
+export interface HandleButtonStateChangeOptions
+    extends OnStateEventChangeOptions,
+        Pick<RenderButtonProps, 'type'> {
     touchableRef: RefObject<View>
 }
 
-export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName'>
-export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName'>
-export interface HandleButtonAnimatedTimingOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
+export type RenderButtonIconOptions = Pick<
+    RenderButtonProps,
+    'disabled' | 'type' | 'eventName'
+>
+
+export type UseButtonAnimatedOptions = Pick<
+    RenderButtonProps,
+    'disabled' | 'type' | 'eventName'
+>
+
+export interface HandleButtonAnimatedTimingOptions
+    extends Omit<UseButtonAnimatedOptions, 'eventName'> {
     animatedTiming: AnimatedTiming
     borderColorInputRange: number[]
 }

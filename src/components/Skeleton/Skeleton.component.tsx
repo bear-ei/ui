@@ -4,7 +4,11 @@ import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {SkeletonBase} from './Skeleton-base.component'
 import {SkeletonElement, SkeletonElementProps} from './Skeleton-element'
-import {RenderSkeletonProps, SkeletonComponent, SkeletonProps} from './Skeleton.interface'
+import {
+    RenderSkeletonProps,
+    SkeletonComponent,
+    SkeletonProps
+} from './Skeleton.interface'
 import {Container} from './Skeleton.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
@@ -102,4 +106,5 @@ Object.defineProperty(ForwardRefSkeleton, 'Circle', {value: Circle})
 Object.defineProperty(ForwardRefSkeleton, 'Rectangular', {value: Rectangular})
 Object.defineProperty(ForwardRefSkeleton, 'Square', {value: Square})
 
-export const Skeleton = ForwardRefSkeleton as FC<SkeletonProps> as SkeletonComponent
+export const Skeleton =
+    ForwardRefSkeleton as FC<SkeletonProps> as SkeletonComponent

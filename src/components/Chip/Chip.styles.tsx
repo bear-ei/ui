@@ -1,7 +1,13 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
-import {ChipContainerProps, ChipContentProps, ChipMainProps, ChipTrailingProps, ChipType} from './Chip.interface'
+import {
+    ChipContainerProps,
+    ChipContentProps,
+    ChipMainProps,
+    ChipTrailingProps,
+    ChipType
+} from './Chip.interface'
 
 export const Container = styled.View<ChipContainerProps>`
     cursor: pointer;
@@ -33,7 +39,9 @@ export const Content = styled(Shape)<ChipContentProps>`
     ${({theme, type = 'assist'}) =>
         type === 'inputFilled' &&
         css`
-            height: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px;
+            height: ${theme.adaptSize(
+                theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
+            )}px;
         `}
 `
 
@@ -59,11 +67,16 @@ export const Main = styled.View<ChipMainProps>`
     z-index: 4;
 
     ${({theme}) => css`
-        padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;
+        padding: ${theme.adaptSize(theme.token.spacing.none)}px
+            ${theme.adaptSize(theme.token.spacing.medium)}px;
     `}
 
     ${({theme, type = 'assist'}) => css`
-        gap: ${theme.adaptSize(type === 'inputFilled' ? theme.token.spacing.extraSmall : theme.token.spacing.small)}px;
+        gap: ${theme.adaptSize(
+            type === 'inputFilled' ?
+                theme.token.spacing.extraSmall
+            :   theme.token.spacing.small
+        )}px;
     `}
 
     ${({theme, type = 'assist'}) => {
@@ -88,7 +101,9 @@ export const Main = styled.View<ChipMainProps>`
         leadingIconShow &&
         css`
             padding-left: ${theme.adaptSize(
-                type === 'inputFilled' ? theme.token.spacing.extraSmall : theme.token.spacing.small
+                type === 'inputFilled' ?
+                    theme.token.spacing.extraSmall
+                :   theme.token.spacing.small
             )}px;
         `}
 
@@ -96,7 +111,9 @@ export const Main = styled.View<ChipMainProps>`
         trailingIconShow &&
         css`
             padding-right: ${theme.adaptSize(
-                type === 'inputFilled' ? theme.token.spacing.extraSmall : theme.token.spacing.small
+                type === 'inputFilled' ?
+                    theme.token.spacing.extraSmall
+                :   theme.token.spacing.small
             )}px;
         `}
 
@@ -122,7 +139,8 @@ export const IconContainer = styled.View`
 
     ${({theme}) => css`
         height: ${theme.adaptSize(
-            theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+            theme.token.spacing.large +
+                -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
         )}px;
     `}
 `
@@ -134,9 +152,13 @@ export const Trailing = styled.View<ChipTrailingProps>`
     justify-content: center;
 
     ${({theme}) => css`
-        width: ${theme.adaptSize(theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall))}px;
+        width: ${theme.adaptSize(
+            theme.token.spacing.large +
+                -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+        )}px;
         height: ${theme.adaptSize(
-            theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+            theme.token.spacing.large +
+                -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
         )}px;
     `}
 
@@ -169,7 +191,8 @@ export const FilterIcon = styled.View`
         left: ${theme.adaptSize(theme.token.spacing.none)}px;
         top: ${theme.adaptSize(theme.token.spacing.none)}px;
         height: ${theme.adaptSize(
-            theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+            theme.token.spacing.large +
+                -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
         )}px;
     `}
 `

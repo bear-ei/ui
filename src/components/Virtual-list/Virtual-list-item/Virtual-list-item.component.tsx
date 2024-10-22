@@ -3,8 +3,14 @@ import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {AnimatedTimingOptions} from '../../../hooks'
 import {LayoutAnimated} from '../../Layout-animated'
-import {VirtualListItemBase, handleVirtualListItemPropsEqual} from './Virtual-list-item-base.component'
-import {RenderVirtualListItemProps, VirtualListItemProps} from './Virtual-list-item.interface'
+import {
+    VirtualListItemBase,
+    handleVirtualListItemPropsEqual
+} from './Virtual-list-item-base.component'
+import {
+    RenderVirtualListItemProps,
+    VirtualListItemProps
+} from './Virtual-list-item.interface'
 import {Container} from './Virtual-list-item.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
@@ -39,14 +45,18 @@ const render = ({
     )
 }
 
-const ForwardRefVirtualListItem = forwardRef<View, VirtualListItemProps>((props, ref) => (
-    <VirtualListItemBase
-        {...props}
-        ref={ref}
-        render={render}
-    />
-))
+const ForwardRefVirtualListItem = forwardRef<View, VirtualListItemProps>(
+    (props, ref) => (
+        <VirtualListItemBase
+            {...props}
+            ref={ref}
+            render={render}
+        />
+    )
+)
 
-export const VirtualListItem = memo(ForwardRefVirtualListItem, (prevProps, nextProps) =>
-    handleVirtualListItemPropsEqual(prevProps)(nextProps)
+export const VirtualListItem = memo(
+    ForwardRefVirtualListItem,
+    (prevProps, nextProps) =>
+        handleVirtualListItemPropsEqual(prevProps)(nextProps)
 )

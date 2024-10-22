@@ -9,10 +9,16 @@ import {
 } from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
-import {HandleListItemAfterAffordanceVisibleAnimatedOptions, UseListItemAnimatedOptions} from './List-item.interface'
+import {
+    HandleListItemAfterAffordanceVisibleAnimatedOptions,
+    UseListItemAnimatedOptions
+} from './List-item.interface'
 
 const handleListItemAfterAffordanceVisibleAnimated =
-    ({animatedTiming, onListItemAfterAffordanceVisibleFinished}: HandleListItemAfterAffordanceVisibleAnimatedOptions) =>
+    ({
+        animatedTiming,
+        onListItemAfterAffordanceVisibleFinished
+    }: HandleListItemAfterAffordanceVisibleAnimatedOptions) =>
     (contentLeftSharedValue: SharedValue<AnimatableValue>) =>
     (value?: boolean) =>
         animatedTiming({
@@ -26,7 +32,9 @@ const handleListItemAfterAffordanceVisibleAnimated =
         })(contentLeftSharedValue)(value ? 1 : 0)
 
 const handleListItemActiveAnimated =
-    (animatedTiming: AnimatedTiming) => (headlineTextSharedValue: SharedValue<AnimatableValue>) => (value?: boolean) =>
+    (animatedTiming: AnimatedTiming) =>
+    (headlineTextSharedValue: SharedValue<AnimatableValue>) =>
+    (value?: boolean) =>
         animatedTiming()(headlineTextSharedValue)(value ? 1 : 0)
 
 export const useListItemAnimated = ({
@@ -39,9 +47,17 @@ export const useListItemAnimated = ({
     const animatedTiming = useAnimatedTiming(theme.token)
     const contentLeftSharedValue = useSharedValue(0)
     const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
-    const contentLeftOutputRange = [theme.adaptSize(spacing.none), -theme.adaptSize(spacing.extraSmall * 28)]
+    const contentLeftOutputRange = [
+        theme.adaptSize(spacing.none),
+        -theme.adaptSize(spacing.extraSmall * 28)
+    ]
+
     const contentAnimatedStyle = useAnimatedStyle(() => ({
-        left: interpolate(contentLeftSharedValue.value, [0, 1], contentLeftOutputRange)
+        left: interpolate(
+            contentLeftSharedValue.value,
+            [0, 1],
+            contentLeftOutputRange
+        )
     }))
 
     const headlineTextColorOutputRange = [
@@ -50,19 +66,31 @@ export const useListItemAnimated = ({
     ]
 
     const headlineTextAnimatedStyle = useAnimatedStyle(() => ({
-        color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRange)
+        color: interpolateColor(
+            headlineTextSharedValue.value,
+            [0, 1],
+            headlineTextColorOutputRange
+        )
     }))
 
     const onListItemAfterAffordanceVisibleAnimated = useMemo(
         () =>
-            handleListItemAfterAffordanceVisibleAnimated({animatedTiming, onListItemAfterAffordanceVisibleFinished})(
-                contentLeftSharedValue
-            ),
-        [animatedTiming, contentLeftSharedValue, onListItemAfterAffordanceVisibleFinished]
+            handleListItemAfterAffordanceVisibleAnimated({
+                animatedTiming,
+                onListItemAfterAffordanceVisibleFinished
+            })(contentLeftSharedValue),
+        [
+            animatedTiming,
+            contentLeftSharedValue,
+            onListItemAfterAffordanceVisibleFinished
+        ]
     )
 
     const onListItemActiveAnimated = useMemo(
-        () => handleListItemActiveAnimated(animatedTiming)(headlineTextSharedValue),
+        () =>
+            handleListItemActiveAnimated(animatedTiming)(
+                headlineTextSharedValue
+            ),
         [animatedTiming, headlineTextSharedValue]
     )
 

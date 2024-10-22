@@ -1,8 +1,20 @@
-import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {
+    cloneElement,
+    forwardRef,
+    useEffect,
+    useId,
+    useImperativeHandle,
+    useMemo,
+    useRef
+} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {
+    OnStateEventChangeOptions,
+    StateEvent,
+    useOnStateEvent
+} from '../../hooks'
 import {EventName, State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {Icon, IconProps} from '../Icon'
@@ -20,13 +32,23 @@ const handleChipElevation =
     ({type, elevated, disabled}: HandleChipElevationOptions) =>
     (setState: Updater<ChipState>) =>
     (state = 'enabled' as State) => {
-        const elevationType = type && ['assist', 'filter', 'suggestion', 'inputFilled'].includes(type)
+        const elevationType =
+            type &&
+            ['assist', 'filter', 'suggestion', 'inputFilled'].includes(type)
 
         if (!elevationType) {
             return
         }
 
-        const level = {disabled: 0, enabled: 0, error: 0, focused: 0, hovered: 1, longPressIn: 0, pressIn: 0}
+        const level = {
+            disabled: 0,
+            enabled: 0,
+            error: 0,
+            focused: 0,
+            hovered: 1,
+            longPressIn: 0,
+            pressIn: 0
+        }
         const correctionCoefficient = elevated ? 1 : 0
 
         if (state) {
@@ -39,7 +61,10 @@ const handleChipElevation =
         }
     }
 
-const handleChipStateChange = ({eventName, touchableRef}: HandleChipStateChangeOptions) => {
+const handleChipStateChange = ({
+    eventName,
+    touchableRef
+}: HandleChipStateChangeOptions) => {
     const nextEvent = {
         pressIn: () => touchableRef?.current?.focus()
     } as Record<EventName, () => void>
@@ -61,26 +86,30 @@ const handleChipStateChange = ({eventName, touchableRef}: HandleChipStateChangeO
     }
 }
 
-const handleChipInit = (setState: Updater<ChipState>) => (disabled?: boolean) => (elevated?: boolean) =>
-    setState(draft => {
-        if (draft.status !== 'idle') {
-            return
-        }
-
-        if (elevated && !disabled) {
-            draft.elevation = 1
-        }
-
-        draft.status = 'succeeded'
-    })
-
-const handleChipDisabled = (setState: Updater<ChipState>) => (disabled?: boolean) => {
-    if (typeof disabled === 'boolean' && disabled) {
+const handleChipInit =
+    (setState: Updater<ChipState>) =>
+    (disabled?: boolean) =>
+    (elevated?: boolean) =>
         setState(draft => {
-            draft.eventName = 'none'
+            if (draft.status !== 'idle') {
+                return
+            }
+
+            if (elevated && !disabled) {
+                draft.elevation = 1
+            }
+
+            draft.status = 'succeeded'
         })
+
+const handleChipDisabled =
+    (setState: Updater<ChipState>) => (disabled?: boolean) => {
+        if (typeof disabled === 'boolean' && disabled) {
+            setState(draft => {
+                draft.eventName = 'none'
+            })
+        }
     }
-}
 
 const renderChipIcon =
     ({disabled, eventName}: RenderChipIconOptions) =>
@@ -107,7 +136,10 @@ const renderChipCloseButton =
         const iconSize = theme.adaptSize(theme.token.spacing.medium)
         const iconButtonSize =
             type === 'inputFilled' ?
-                theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+                theme.adaptSize(
+                    theme.token.spacing.large +
+                        -1.5 * theme.token.spacing.extraSmall
+                )
             :   theme.adaptSize(theme.token.spacing.large)
 
         return (
@@ -147,12 +179,13 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
         },
         ref
     ) => {
-        const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<ChipState>({
-            elevation: undefined,
-            eventName: undefined,
-            nextPressInEvent: undefined,
-            status: 'idle'
-        })
+        const [{elevation, eventName, status, nextPressInEvent}, setState] =
+            useImmer<ChipState>({
+                elevation: undefined,
+                eventName: undefined,
+                nextPressInEvent: undefined,
+                status: 'idle'
+            })
 
         const theme = useTheme()
         const activeColor = theme.token.scheme.secondaryContainer
@@ -172,23 +205,48 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 renderChipCloseButton({disabled, onClose, type})(theme)
             :   renderChipIcon({eventName, disabled})(theme)(trailingIcon)
 
-        const onChipDisabled = useMemo(() => handleChipDisabled(setState), [setState])
+        const onChipDisabled = useMemo(
+            () => handleChipDisabled(setState),
+            [setState]
+        )
+
         const onChipElevation = useMemo(
             () => handleChipElevation({type, disabled})(setState),
             [disabled, setState, type]
         )
 
-        const onChipInit = useMemo(() => handleChipInit(setState)(disabled), [disabled, setState])
+        const onChipInit = useMemo(
+            () => handleChipInit(setState)(disabled),
+            [disabled, setState]
+        )
+
         const touchableRef = useRef<View>(null)
         const underlayColor = theme.token.scheme.onSurfaceVariant
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleChipStateChange({...options, state, touchableRef})(setState)(event)
+        const onStateEventChange =
+            (options: OnStateEventChangeOptions) =>
+            (state: State) =>
+            (event: StateEvent) =>
+                handleChipStateChange({...options, state, touchableRef})(
+                    setState
+                )(event)
 
-        const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
-        const {contentUnderlayAnimatedStyle, filterIconContainerAnimatedStyle, labelTextAnimatedStyle} =
-            useChipAnimated({active, disabled, elevated, type})
+        const onStateEvent = useOnStateEvent({
+            ...renderProps,
+            disabled,
+            onStateEventChange
+        })
 
-        useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
+        const {
+            contentUnderlayAnimatedStyle,
+            filterIconContainerAnimatedStyle,
+            labelTextAnimatedStyle
+        } = useChipAnimated({active, disabled, elevated, type})
+
+        useImperativeHandle(
+            ref,
+            () => (touchableRef?.current ? touchableRef?.current : {}) as View,
+            []
+        )
 
         useEffect(() => {
             onChipElevation(elevated ? 'enabled' : 'disabled')

@@ -11,7 +11,9 @@ export interface RenderVirtualListItemInfo<T> {
     item: T & Item
 }
 
-export interface VirtualListItemProps<T = Record<string, unknown>> extends ViewProps, RefAttributes<View> {
+export interface VirtualListItemProps<T = Record<string, unknown>>
+    extends ViewProps,
+        RefAttributes<View> {
     extraData?: unknown[]
     index?: number
     item?: T & Item
@@ -24,13 +26,15 @@ export interface VirtualListItemProps<T = Record<string, unknown>> extends ViewP
     visible?: boolean
 }
 
-export interface RenderVirtualListItemProps<T = Record<string, unknown>> extends VirtualListItemProps<T> {
+export interface RenderVirtualListItemProps<T = Record<string, unknown>>
+    extends VirtualListItemProps<T> {
     containerAnimatedStyle: AnimatedStyle<ViewStyle>
     itemElement?: JSX.Element
     unmount?: boolean
 }
 
-export interface VirtualListItemBaseProps<T = Record<string, unknown>> extends VirtualListItemProps<T> {
+export interface VirtualListItemBaseProps<T = Record<string, unknown>>
+    extends VirtualListItemProps<T> {
     render: (props: RenderVirtualListItemProps<T>) => JSX.Element
 }
 

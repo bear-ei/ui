@@ -7,7 +7,12 @@ import {RenderSearchListProps, SearchListProps} from './Search-list.interface'
 import {Container} from './Search-list.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const render = ({containerAnimatedStyle, containerLayout, id, ...listProps}: RenderSearchListProps) => (
+const render = ({
+    containerAnimatedStyle,
+    containerLayout,
+    id,
+    ...listProps
+}: RenderSearchListProps) => (
     <AnimatedContainer
         containerHeight={containerLayout.height}
         containerPageX={containerLayout.pageX}
@@ -22,7 +27,10 @@ const render = ({containerAnimatedStyle, containerLayout, id, ...listProps}: Ren
     </AnimatedContainer>
 )
 
-const ForwardRefSearch = forwardRef<VirtualListComponent<ListData>, SearchListProps>((props, ref) => (
+const ForwardRefSearch = forwardRef<
+    VirtualListComponent<ListData>,
+    SearchListProps
+>((props, ref) => (
     <SearchListBase
         {...props}
         ref={ref}

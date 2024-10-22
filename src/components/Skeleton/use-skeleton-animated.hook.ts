@@ -9,7 +9,10 @@ import {
 } from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {HandleSkeletonAnimatedTimingOptions, UseSkeletonAnimatedOptions} from './Skeleton.interface'
+import {
+    HandleSkeletonAnimatedTimingOptions,
+    UseSkeletonAnimatedOptions
+} from './Skeleton.interface'
 
 const handleSkeletonAnimatedTiming =
     ({animatedTiming, enableAnimated}: HandleSkeletonAnimatedTimingOptions) =>
@@ -22,16 +25,26 @@ const handleSkeletonAnimatedTiming =
         }
     }
 
-export const useSkeletonAnimated = ({enableAnimated, skeletonVisible}: UseSkeletonAnimatedOptions) => {
+export const useSkeletonAnimated = ({
+    enableAnimated,
+    skeletonVisible
+}: UseSkeletonAnimatedOptions) => {
     const opacitySharedValue = useSharedValue(0)
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
     const containerAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: interpolate(opacitySharedValue.value, [0, 1, 2], [0.24, 1, 0.24])
+        opacity: interpolate(
+            opacitySharedValue.value,
+            [0, 1, 2],
+            [0.24, 1, 0.24]
+        )
     }))
 
     const onSkeletonAnimatedTiming = useMemo(
-        () => handleSkeletonAnimatedTiming({animatedTiming, enableAnimated})(opacitySharedValue),
+        () =>
+            handleSkeletonAnimatedTiming({animatedTiming, enableAnimated})(
+                opacitySharedValue
+            ),
         [animatedTiming, enableAnimated, opacitySharedValue]
     )
 

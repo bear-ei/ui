@@ -8,7 +8,14 @@ export type TooltipType = 'plain' | 'rich' | 'menu'
 export interface TooltipProps
     extends Pick<
             TooltipSupportingProps,
-            'elevation' | 'onVisible' | 'shape' | 'supporting' | 'supportingPosition' | 'type' | 'visible' | 'zIndex'
+            | 'elevation'
+            | 'onVisible'
+            | 'shape'
+            | 'supporting'
+            | 'supportingPosition'
+            | 'type'
+            | 'visible'
+            | 'zIndex'
         >,
         ViewProps,
         RefAttributes<View> {

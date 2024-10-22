@@ -1,5 +1,11 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    AnimatableValue,
+    SharedValue,
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
 import {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
@@ -13,18 +19,35 @@ const handleListAfterAffordanceAnimatedTiming =
         }
     }
 
-export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAffordanceAnimatedOptions) => {
+export const useListAfterAffordanceAnimated = ({
+    doubleConfirmed
+}: UseListAfterAffordanceAnimatedOptions) => {
     const translateXSharedValue = useSharedValue(0)
     const theme = useTheme()
     const {spacing} = theme.token
     const animatedTiming = useAnimatedTiming(theme.token)
-    const translateXOutputRange = [theme.adaptSize(spacing.none), -(theme.adaptSize(spacing.extraSmall * 28) / 2)]
+    const translateXOutputRange = [
+        theme.adaptSize(spacing.none),
+        -(theme.adaptSize(spacing.extraSmall * 28) / 2)
+    ]
+
     const dangerAnimatedStyle = useAnimatedStyle(() => ({
-        transform: [{translateX: interpolate(translateXSharedValue.value, [0, 1], translateXOutputRange)}]
+        transform: [
+            {
+                translateX: interpolate(
+                    translateXSharedValue.value,
+                    [0, 1],
+                    translateXOutputRange
+                )
+            }
+        ]
     }))
 
     const onListAfterAffordanceAnimatedTiming = useMemo(
-        () => handleListAfterAffordanceAnimatedTiming(animatedTiming)(translateXSharedValue),
+        () =>
+            handleListAfterAffordanceAnimatedTiming(animatedTiming)(
+                translateXSharedValue
+            ),
         [animatedTiming, translateXSharedValue]
     )
 

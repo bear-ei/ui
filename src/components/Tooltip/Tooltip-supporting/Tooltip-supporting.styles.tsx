@@ -36,40 +36,59 @@ export const Container = styled.View<TooltipSupportingContentProps>`
             plain: {
                 verticalStart: css`
                     left: ${containerPageX + containerWidth / 2}px;
-                    top: ${containerPageY - height - theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    top: ${containerPageY -
+                    height -
+                    theme.adaptSize(theme.token.spacing.extraSmall)}px;
                 `,
                 verticalEnd: css`
                     left: ${containerPageX + containerWidth / 2}px;
-                    top: ${containerPageY + containerHeight + theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    top: ${containerPageY +
+                    containerHeight +
+                    theme.adaptSize(theme.token.spacing.extraSmall)}px;
                 `,
                 horizontalStart: css`
-                    left: ${containerPageX - width - theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    left: ${containerPageX -
+                    width -
+                    theme.adaptSize(theme.token.spacing.extraSmall)}px;
                     top: ${containerPageY + containerHeight / 2}px;
                 `,
                 horizontalEnd: css`
-                    left: ${containerPageX + containerWidth + theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    left: ${containerPageX +
+                    containerWidth +
+                    theme.adaptSize(theme.token.spacing.extraSmall)}px;
                     top: ${containerPageY + containerHeight / 2}px;
                 `
             },
             menu: {
                 verticalStart: css`
                     /* left: ${containerPageX + containerWidth}px;
-                    top: ${containerPageY - height - theme.adaptSize(theme.token.spacing.extraSmall)}px; */
+                    top: ${containerPageY -
+                    height -
+                    theme.adaptSize(theme.token.spacing.extraSmall)}px; */
                 `,
                 verticalEnd: css`
                     left: ${containerPageX}px;
-                    top: ${containerPageY + containerHeight + theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    top: ${containerPageY +
+                    containerHeight +
+                    theme.adaptSize(theme.token.spacing.extraSmall)}px;
                 `,
                 horizontalStart: css`
-                    /* left: ${containerPageX - width - theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    /* left: ${containerPageX -
+                    width -
+                    theme.adaptSize(theme.token.spacing.extraSmall)}px;
                     top: ${containerPageY + containerHeight}px; */
                 `,
                 horizontalEnd: css`
-                    /* left: ${containerPageX + containerWidth + theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                    /* left: ${containerPageX +
+                    containerWidth +
+                    theme.adaptSize(theme.token.spacing.extraSmall)}px;
                     top: ${containerPageY + containerHeight}px; */
                 `
             }
-        } as Record<TooltipType, Record<SupportingPosition, RuleSet<object> | undefined>>
+        } as Record<
+            TooltipType,
+            Record<SupportingPosition, RuleSet<object> | undefined>
+        >
 
         return supportingPosition[type]?.[position]
     }}

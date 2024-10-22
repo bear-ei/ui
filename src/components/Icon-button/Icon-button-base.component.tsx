@@ -1,8 +1,20 @@
-import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {
+    cloneElement,
+    forwardRef,
+    useEffect,
+    useId,
+    useImperativeHandle,
+    useMemo,
+    useRef
+} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {
+    OnStateEventChangeOptions,
+    StateEvent,
+    useOnStateEvent
+} from '../../hooks'
 import {EventName, State} from '../Common'
 import {Icon, IconProps} from '../Icon'
 import {
@@ -14,7 +26,10 @@ import {
 } from './Icon-button.interface'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
-const handleIconButtonStateChange = ({eventName, touchableRef}: HandleIconButtonStateChangeOptions) => {
+const handleIconButtonStateChange = ({
+    eventName,
+    touchableRef
+}: HandleIconButtonStateChangeOptions) => {
     const nextEvent = {
         pressIn: () => touchableRef?.current?.focus()
     } as Record<EventName, () => void>
@@ -36,13 +51,14 @@ const handleIconButtonStateChange = ({eventName, touchableRef}: HandleIconButton
     }
 }
 
-const handleIconButtonDisabled = (setState: Updater<IconButtonState>) => (disabled?: boolean) => {
-    if (disabled) {
-        setState(draft => {
-            draft.eventName = 'none'
-        })
+const handleIconButtonDisabled =
+    (setState: Updater<IconButtonState>) => (disabled?: boolean) => {
+        if (disabled) {
+            setState(draft => {
+                draft.eventName = 'none'
+            })
+        }
     }
-}
 
 const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
     const underlay = {
@@ -84,22 +100,54 @@ const renderIconButtonIcon =
     }
 
 export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
-    ({disabled = false, fill, icon, render, type = 'filled', ...renderProps}, ref) => {
-        const [{eventName, nextPressInEvent}, setState] = useImmer<IconButtonState>({eventName: undefined})
+    (
+        {disabled = false, fill, icon, render, type = 'filled', ...renderProps},
+        ref
+    ) => {
+        const [{eventName, nextPressInEvent}, setState] =
+            useImmer<IconButtonState>({eventName: undefined})
+
         const id = useId()
         const touchableRef = useRef<View>(null)
         const theme = useTheme()
         const activeColor = theme.token.scheme.secondaryContainer
         const underlayColor = handleIconButtonUnderlayColor(theme)(type)
-        const iconElement = renderIconButtonIcon({disabled, fill, type, eventName})(theme)(icon)
-        const onIconButtonDisabled = useMemo(() => handleIconButtonDisabled(setState), [setState])
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleIconButtonStateChange({...options, state, touchableRef})(setState)(event)
+        const iconElement = renderIconButtonIcon({
+            disabled,
+            fill,
+            type,
+            eventName
+        })(theme)(icon)
 
-        const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
-        const {contentUnderlayAnimatedStyle} = useIconButtonAnimated({disabled, type})
+        const onIconButtonDisabled = useMemo(
+            () => handleIconButtonDisabled(setState),
+            [setState]
+        )
 
-        useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
+        const onStateEventChange =
+            (options: OnStateEventChangeOptions) =>
+            (state: State) =>
+            (event: StateEvent) =>
+                handleIconButtonStateChange({...options, state, touchableRef})(
+                    setState
+                )(event)
+
+        const onStateEvent = useOnStateEvent({
+            ...renderProps,
+            disabled,
+            onStateEventChange
+        })
+
+        const {contentUnderlayAnimatedStyle} = useIconButtonAnimated({
+            disabled,
+            type
+        })
+
+        useImperativeHandle(
+            ref,
+            () => (touchableRef?.current ? touchableRef?.current : {}) as View,
+            []
+        )
 
         useEffect(() => {
             onIconButtonDisabled(disabled)

@@ -2,7 +2,12 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {TouchableBase} from './Touchable-base.component'
 import {RenderTouchableProps, TouchableProps} from './Touchable.interface'
-import {Container, Main, RippleContainer, TouchableContent} from './Touchable.styles'
+import {
+    Container,
+    Main,
+    RippleContainer,
+    TouchableContent
+} from './Touchable.styles'
 
 const render = ({
     backgroundUnderlay,

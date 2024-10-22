@@ -1,11 +1,19 @@
 import {RefAttributes} from 'react'
 import {ModalProps, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {
+    AnimatableValue,
+    AnimatedStyle,
+    SharedValue
+} from 'react-native-reanimated'
 import {ButtonProps} from '../../Button'
 import {ShapeProps} from '../../Common'
 import {SheetType} from '../Side-sheet.interface'
 
-export interface SideSheetContentProps extends ViewProps, RefAttributes<View>, Pick<ShapeProps, 'shape'>, ModalProps {
+export interface SideSheetContentProps
+    extends ViewProps,
+        RefAttributes<View>,
+        Pick<ShapeProps, 'shape'>,
+        ModalProps {
     back?: boolean
     close?: boolean
     content?: JSX.Element
@@ -46,7 +54,11 @@ export interface SideSheetContentBaseProps extends SideSheetContentProps {
     render: (props: RenderSideSheetContentProps) => JSX.Element
 }
 
-export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisible'>
+export type HandleSheetWasVisibleOptions = Pick<
+    SideSheetContentProps,
+    'onVisible'
+>
+
 export type UseSideSheetContentAnimatedOptions = Pick<
     RenderSideSheetContentProps,
     'visible' | 'sheetPosition' | 'type' | 'footerVisible'
@@ -64,7 +76,15 @@ export type RenderSideSheetContentLeadingOptions = Pick<
     'headlineLeading' | 'back' | 'sheetPosition'
 >
 
-export type RenderSideSheetContentTrailingOptions = Pick<SideSheetContentProps, 'headlineTrailing' | 'close'>
-export type SheetContainerProps = Pick<RenderSideSheetContentProps, 'sheetPosition' | 'type'>
+export type RenderSideSheetContentTrailingOptions = Pick<
+    SideSheetContentProps,
+    'headlineTrailing' | 'close'
+>
+
+export type SheetContainerProps = Pick<
+    RenderSideSheetContentProps,
+    'sheetPosition' | 'type'
+>
+
 export type SheetHeaderProps = {leadingShow?: boolean; trailingShow?: boolean}
 export type SheetViewContentProps = Pick<RenderSideSheetContentProps, 'type'>

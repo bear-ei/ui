@@ -32,7 +32,9 @@ export const Header = styled(Shape)<TextFieldHeaderProps>`
 
     ${({theme}) => css`
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-        padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px ${theme.adaptSize(theme.token.spacing.none)}px;
+        padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
+            ${theme.adaptSize(theme.token.spacing.none)}px;
+
         gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `}
 
@@ -63,7 +65,10 @@ export const Label = styled.View<TextFieldLabelProps>`
     ${({theme, leadingShow}) =>
         leadingShow &&
         css`
-            left: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + 1 * theme.token.spacing.extraSmall)}px;
+            left: ${theme.adaptSize(
+                theme.token.spacing.extraSmall * 12 +
+                    1 * theme.token.spacing.extraSmall
+            )}px;
         `}
 `
 
@@ -90,8 +95,11 @@ export const Main = styled.View<TextFieldMainProps>`
 
     ${({theme}) => css`
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        padding: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px
-            ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+        padding: ${theme.adaptSize(
+                theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
+            )}px
+            ${theme.adaptSize(theme.token.spacing.none)}px
+            ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `};
 
     ${({theme, contentShow}) =>
@@ -99,10 +107,16 @@ export const Main = styled.View<TextFieldMainProps>`
         css`
             flex-direction: row;
             flex-wrap: wrap;
-            gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px ${theme.adaptSize(theme.token.spacing.small)}px;
+            gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
+                ${theme.adaptSize(theme.token.spacing.small)}px;
+
             justify-content: flex-start;
-            padding: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px
-                ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+            padding: ${theme.adaptSize(
+                    theme.token.spacing.large +
+                        -1 * theme.token.spacing.extraSmall
+                )}px
+                ${theme.adaptSize(theme.token.spacing.none)}px
+                ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `};
 `
 
@@ -114,7 +128,10 @@ export const Control = styled.View<TextFieldControlProps>`
     justify-content: center;
 
     ${({theme}) => css`
-        min-height: ${theme.adaptSize(theme.token.typography.body.large.lineHeight)}px;
+        min-height: ${theme.adaptSize(
+            theme.token.typography.body.large.lineHeight
+        )}px;
+
         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
         padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `};
@@ -140,10 +157,16 @@ export const Input = styled.TextInput`
         css`
             align-self: stretch;
             flex: 1;
-            font-size: ${theme.adaptFontSize(theme.token.typography.body.large.size)}px;
+            font-size: ${theme.adaptFontSize(
+                theme.token.typography.body.large.size
+            )}px;
+
             font-style: ${theme.token.typography.body.large.style};
             font-weight: ${theme.token.typography.body.large.weight};
-            letter-spacing: ${theme.adaptSize(theme.token.typography.body.large.letterSpacing)}px;
+            letter-spacing: ${theme.adaptSize(
+                theme.token.typography.body.large.letterSpacing
+            )}px;
+
             padding: ${theme.adaptSize(theme.token.spacing.none)}px;
             text-align: left;
         `};
@@ -152,7 +175,8 @@ export const Input = styled.TextInput`
 export const Supporting = styled(LayoutAnimated)``
 export const SupportingText = styled(Typography)`
     ${({theme}) => css`
-        padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;
+        padding: ${theme.adaptSize(theme.token.spacing.none)}px
+            ${theme.adaptSize(theme.token.spacing.medium)}px;
     `}
 `
 

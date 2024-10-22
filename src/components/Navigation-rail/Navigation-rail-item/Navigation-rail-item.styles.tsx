@@ -76,7 +76,10 @@ export const LabelText = styled(Typography)<NavigationRailItemLabelTextProps>`
     user-select: none;
 
     ${({theme, active}) => css`
-        font-weight: ${active ? theme.token.font.weight.bold : theme.token.font.weight.medium};
+        font-weight: ${active ?
+            theme.token.font.weight.bold
+        :   theme.token.font.weight.medium};
+
         height: ${theme.adaptSize(theme.token.spacing.large)}px;
         left: ${theme.adaptSize(theme.token.spacing.none)}px;
         line-height: ${theme.adaptSize(theme.token.spacing.large)}px;

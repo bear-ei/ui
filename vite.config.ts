@@ -24,7 +24,9 @@ const reactNativeWeb = (options: {babelPlugins: PluginItem[]}): Plugin => {
                     _frameTimestamp: undefined,
                     _WORKLET: false,
                     __DEV__: `${env.mode === 'development'}`,
-                    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || env.mode)
+                    'process.env.NODE_ENV': JSON.stringify(
+                        process.env.NODE_ENV || env.mode
+                    )
                 },
                 optimizeDeps: {
                     include: ['react-native-reanimated'],
@@ -47,7 +49,17 @@ const reactNativeWeb = (options: {babelPlugins: PluginItem[]}): Plugin => {
                     }
                 },
                 resolve: {
-                    extensions: ['.web.js', '.web.ts', '.web.tsx', '.js', '.jsx', '.json', '.ts', '.tsx', '.mjs'],
+                    extensions: [
+                        '.web.js',
+                        '.web.ts',
+                        '.web.tsx',
+                        '.js',
+                        '.jsx',
+                        '.json',
+                        '.ts',
+                        '.tsx',
+                        '.mjs'
+                    ],
                     alias: {'react-native': 'react-native-web'}
                 }
             }
@@ -89,10 +101,21 @@ const config = defineConfig({
         }
     },
     plugins: [
-        dts({include: ['src'], exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx']}),
+        dts({
+            include: ['src'],
+            exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx']
+        }),
         react({babel: {plugins: babelPlugins}}),
         reactNativeWeb({babelPlugins}),
-        svgr({include: '**/*.svg', svgrOptions: {exportType: 'default', ref: true, svgo: false, titleProp: true}})
+        svgr({
+            include: '**/*.svg',
+            svgrOptions: {
+                exportType: 'default',
+                ref: true,
+                svgo: false,
+                titleProp: true
+            }
+        })
     ]
 })
 

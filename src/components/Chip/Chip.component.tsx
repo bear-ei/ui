@@ -18,7 +18,9 @@ import {
     Trailing
 } from './Chip.styles'
 
-const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
+const AnimatedContentUnderlay =
+    Animated.createAnimatedComponent(ContentUnderlay)
+
 const AnimatedIconContainer = Animated.createAnimatedComponent(IconContainer)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
@@ -46,7 +48,6 @@ const render = ({
     const inputFilledShape = 'extraSmall'
     const commonShape = avatar ? 'full' : 'small'
     const shape = type === 'inputFilled' ? inputFilledShape : commonShape
-
     const backgroundUnderlayElement = (
         <AnimatedContentUnderlay
             pointerEvents='none'
@@ -101,11 +102,25 @@ const render = ({
                                     testID={`chip__iconContainer--${id}`}
                                     style={[filterIconContainerAnimatedStyle]}
                                 >
-                                    <FilterIcon testID={`chip__filterIcon--${id}`}>{leadingIcon}</FilterIcon>
+                                    <FilterIcon
+                                        testID={`chip__filterIcon--${id}`}
+                                    >
+                                        {leadingIcon}
+                                    </FilterIcon>
                                 </AnimatedIconContainer>
-                            :   <IconContainer testID={`chip__iconContainer--${id}`}>{leadingIcon}</IconContainer>)}
+                            :   <IconContainer
+                                    testID={`chip__iconContainer--${id}`}
+                                >
+                                    {leadingIcon}
+                                </IconContainer>)}
 
-                        {avatar && <AvatarContainer testID={`chip__avatarContainer--${id}`}>{avatar}</AvatarContainer>}
+                        {avatar && (
+                            <AvatarContainer
+                                testID={`chip__avatarContainer--${id}`}
+                            >
+                                {avatar}
+                            </AvatarContainer>
+                        )}
 
                         <AnimatedLabelText
                             ellipsizeMode='tail'
@@ -126,7 +141,11 @@ const render = ({
                                 >
                                     {trailing}
                                 </Trailing>
-                            :   <IconContainer testID={`chip__iconContainer--${id}`}>{trailing}</IconContainer>)}
+                            :   <IconContainer
+                                    testID={`chip__iconContainer--${id}`}
+                                >
+                                    {trailing}
+                                </IconContainer>)}
                     </Main>
 
                     <Underlay

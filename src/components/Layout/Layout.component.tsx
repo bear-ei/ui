@@ -3,7 +3,11 @@ import {View} from 'react-native'
 import {LayoutBase} from './Layout-base.component'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
-import {LayoutComponent, LayoutProps, RenderLayoutProps} from './Layout.interface'
+import {
+    LayoutComponent,
+    LayoutProps,
+    RenderLayoutProps
+} from './Layout.interface'
 import {Container} from './Layout.styles'
 
 const render = ({id, children, ...containerProps}: RenderLayoutProps) => (

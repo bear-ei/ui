@@ -22,7 +22,8 @@ export const Content = styled(Shape)<AvatarContentProps>`
     justify-content: center;
 
     ${({theme, backgroundColor}) => css`
-        background-color: ${backgroundColor ?? theme.token.scheme.primaryContainer};
+        background-color: ${backgroundColor ??
+        theme.token.scheme.primaryContainer};
         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
         width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
     `};

@@ -1,5 +1,9 @@
 import {useEffect, useMemo} from 'react'
-import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {
@@ -12,14 +16,18 @@ const handleTouchableRippleAnimatedTiming = ({
     animatedTiming,
     onAnimatedFinished
 }: HandleTouchableRippleAnimatedTimingOptions) => {
-    const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => {
-        if (finished) {
-            callback?.()
+    const handleAnimatedTimingCallback =
+        (callback?: () => void) => (finished?: boolean) => {
+            if (finished) {
+                callback?.()
+            }
         }
-    }
 
     const createTouchableRippleAnimatedTiming =
-        ({scaleSharedValue, opacitySharedValue}: HandleTouchableRippleAnimatedTimingSharedValue) =>
+        ({
+            scaleSharedValue,
+            opacitySharedValue
+        }: HandleTouchableRippleAnimatedTimingSharedValue) =>
         (toValue: number) =>
         (callback?: () => void) =>
             animatedTiming({
@@ -28,16 +36,25 @@ const handleTouchableRippleAnimatedTiming = ({
                 easing: 'emphasizedAccelerate'
             })(toValue === 1 ? scaleSharedValue : opacitySharedValue)(toValue)
 
-    return (sharedValue: HandleTouchableRippleAnimatedTimingSharedValue) => (index: string) => {
-        const entryAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(1)
-        const exitAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(0)
-        const exitAnimatedFinished = () => onAnimatedFinished?.(index)
+    return (sharedValue: HandleTouchableRippleAnimatedTimingSharedValue) =>
+        (index: string) => {
+            const entryAnimatedTiming =
+                createTouchableRippleAnimatedTiming(sharedValue)(1)
 
-        entryAnimatedTiming(() => exitAnimatedTiming(exitAnimatedFinished))
-    }
+            const exitAnimatedTiming =
+                createTouchableRippleAnimatedTiming(sharedValue)(0)
+
+            const exitAnimatedFinished = () => onAnimatedFinished?.(index)
+
+            entryAnimatedTiming(() => exitAnimatedTiming(exitAnimatedFinished))
+        }
 }
 
-export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: UseTouchableRippleAnimatedOptions) => {
+export const useTouchableRippleAnimated = ({
+    radius,
+    index,
+    onAnimatedFinished
+}: UseTouchableRippleAnimatedOptions) => {
     const opacitySharedValue = useSharedValue(1)
     const scaleSharedValue = useSharedValue(0)
     const theme = useTheme()
@@ -53,11 +70,19 @@ export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: 
 
     const onTouchableRippleAnimatedTiming = useMemo(
         () =>
-            handleTouchableRippleAnimatedTiming({animatedTiming, onAnimatedFinished})({
+            handleTouchableRippleAnimatedTiming({
+                animatedTiming,
+                onAnimatedFinished
+            })({
                 scaleSharedValue,
                 opacitySharedValue
             }),
-        [animatedTiming, onAnimatedFinished, opacitySharedValue, scaleSharedValue]
+        [
+            animatedTiming,
+            onAnimatedFinished,
+            opacitySharedValue,
+            scaleSharedValue
+        ]
     )
 
     useEffect(() => {

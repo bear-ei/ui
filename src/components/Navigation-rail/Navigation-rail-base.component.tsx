@@ -11,17 +11,23 @@ import {
 } from '././Navigation-rail.interface'
 import {NavigationRailItem} from './Navigation-rail-item'
 
-const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOptions = {}) => {
+const handleNavigationRailActive = ({
+    onActive
+}: HandleNavigationRailActiveOptions = {}) => {
     const createNextActiveEvent = (value?: string) => () => onActive?.(value)
 
     return (setState: Updater<NavigationRailState>) => (value?: string) => {
         if (value) {
             setState(draft => {
-                const prevNavigationRailActiveKey = draft.navigationRailActiveKey
+                const prevNavigationRailActiveKey =
+                    draft.navigationRailActiveKey
 
                 draft.navigationRailActiveKey = value
 
-                if (prevNavigationRailActiveKey !== draft.navigationRailActiveKey) {
+                if (
+                    prevNavigationRailActiveKey !==
+                    draft.navigationRailActiveKey
+                ) {
                     draft.nextActiveEvent = createNextActiveEvent(value)
                 }
             })
@@ -30,7 +36,8 @@ const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOption
 }
 
 const renderNavigationRailItems =
-    (renderNavigationRailItemOptions: RenderNavigationRailItemOptions) => (data?: NavigationRailData[]) =>
+    (renderNavigationRailItemOptions: RenderNavigationRailItemOptions) =>
+    (data?: NavigationRailData[]) =>
         data?.map(({indexKey, ...props}, index) => (
             <NavigationRailItem
                 {...props}
@@ -41,24 +48,42 @@ const renderNavigationRailItems =
         ))
 
 const renderNavigationRailFAB = (fab?: JSX.Element) =>
-    fab ? cloneElement<FABProps>(fab, {elevated: false, size: 'medium'}) : undefined
+    fab ?
+        cloneElement<FABProps>(fab, {elevated: false, size: 'medium'})
+    :   undefined
 
 export const NavigationRailBase = forwardRef<View, NavigationBaseProps>(
     (
-        {activeKey, data, defaultActiveKey, fab, onActive, render, type, destinationPosition = 'top', ...renderProps},
+        {
+            activeKey,
+            data,
+            defaultActiveKey,
+            fab,
+            onActive,
+            render,
+            type,
+            destinationPosition = 'top',
+            ...renderProps
+        },
         ref
     ) => {
-        const [{navigationRailActiveKey, nextActiveEvent}, setState] = useImmer<NavigationRailState>({
-            navigationRailActiveKey: undefined,
-            nextActiveEvent: undefined
-        })
+        const [{navigationRailActiveKey, nextActiveEvent}, setState] =
+            useImmer<NavigationRailState>({
+                navigationRailActiveKey: undefined,
+                nextActiveEvent: undefined
+            })
 
         const id = useId()
-        const onNavigationRailActive = handleNavigationRailActive({onActive, activeKey: navigationRailActiveKey})(
-            setState
+        const onNavigationRailActive = handleNavigationRailActive({
+            onActive,
+            activeKey: navigationRailActiveKey
+        })(setState)
+
+        const onNavigationRailActiveSource = useMemo(
+            () => handleNavigationRailActive()(setState),
+            [setState]
         )
 
-        const onNavigationRailActiveSource = useMemo(() => handleNavigationRailActive()(setState), [setState])
         const navigationRailItemElements = renderNavigationRailItems({
             activeKey: navigationRailActiveKey,
             onActive: onNavigationRailActive,

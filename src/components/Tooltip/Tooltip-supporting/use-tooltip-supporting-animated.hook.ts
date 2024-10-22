@@ -1,5 +1,9 @@
 import {useEffect, useMemo} from 'react'
-import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {
@@ -9,8 +13,16 @@ import {
 } from './Tooltip-supporting.interface'
 
 const handleTooltipSupportingAnimatedTiming =
-    ({animatedTiming, onClose, type}: HandleTooltipSupportingAnimatedTimingOptions) =>
-    ({transformSharedValue, heightSharedValue, opacitySharedValue}: HandleTooltipSupportingAnimatedTimingSharedValue) =>
+    ({
+        animatedTiming,
+        onClose,
+        type
+    }: HandleTooltipSupportingAnimatedTimingOptions) =>
+    ({
+        transformSharedValue,
+        heightSharedValue,
+        opacitySharedValue
+    }: HandleTooltipSupportingAnimatedTimingSharedValue) =>
     (visible?: boolean) => {
         const toValue = visible ? 1 : 0
 
@@ -48,17 +60,38 @@ export const useTooltipSupportingAnimated = ({
 
         ...(type === 'menu' ?
             {height: interpolate(heightSharedValue.value, [0, 1], [0, height])}
-        :   {transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1])}]})
+        :   {
+                transform: [
+                    {
+                        scale: interpolate(
+                            transformSharedValue.value,
+                            [0, 1],
+                            [0.8, 1]
+                        )
+                    }
+                ]
+            })
     }))
 
     const onTooltipSupportingAnimatedTiming = useMemo(
         () =>
-            handleTooltipSupportingAnimatedTiming({animatedTiming, onClose, type})({
+            handleTooltipSupportingAnimatedTiming({
+                animatedTiming,
+                onClose,
+                type
+            })({
                 heightSharedValue,
                 opacitySharedValue,
                 transformSharedValue
             }),
-        [animatedTiming, heightSharedValue, onClose, opacitySharedValue, transformSharedValue, type]
+        [
+            animatedTiming,
+            heightSharedValue,
+            onClose,
+            opacitySharedValue,
+            transformSharedValue,
+            type
+        ]
     )
 
     useEffect(() => {

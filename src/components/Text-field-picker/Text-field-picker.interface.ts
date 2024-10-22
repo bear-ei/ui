@@ -1,5 +1,9 @@
 import React from 'react'
-import {GestureResponderEvent, NativeSyntheticEvent, TargetedEvent} from 'react-native'
+import {
+    GestureResponderEvent,
+    NativeSyntheticEvent,
+    TargetedEvent
+} from 'react-native'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
@@ -55,15 +59,21 @@ export interface TextFieldPickerState {
 
 export type HandleTextFieldPickerInitOptions = Pick<
     TextFieldPickerProps,
-    'data' | 'activeKey' | 'activeKeys' | 'defaultActiveKey' | 'defaultActiveKeys'
+    | 'data'
+    | 'activeKey'
+    | 'activeKeys'
+    | 'defaultActiveKey'
+    | 'defaultActiveKeys'
 >
 
 export type HandleTextFieldPickerStateChangeOptions = OnStateEventChangeOptions
-export interface HandleTextFieldPickerMenuVisibleOptions extends Pick<TextFieldPickerProps, 'data'> {
+export interface HandleTextFieldPickerMenuVisibleOptions
+    extends Pick<TextFieldPickerProps, 'data'> {
     setState: Updater<TextFieldPickerState>
 }
 
-export interface RenderTextFieldPickerContentOptions extends Pick<TextFieldPickerProps, 'data'> {
+export interface RenderTextFieldPickerContentOptions
+    extends Pick<TextFieldPickerProps, 'data'> {
     activeKeys?: string[]
     id: string
     onClose?: (value: string) => void

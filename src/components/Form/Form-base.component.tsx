@@ -1,4 +1,11 @@
-import {ForwardedRef, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {
+    ForwardedRef,
+    forwardRef,
+    useCallback,
+    useEffect,
+    useId,
+    useMemo
+} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {ComponentStatus} from '../Common'
@@ -29,20 +36,27 @@ const handleFormInit =
         })
 
 const handleFormCallbacks =
-    <T,>({onFinish, onFinishFailed, onValuesChange}: HandleFormCallbacksOptions<T>) =>
+    <T,>({
+        onFinish,
+        onFinishFailed,
+        onValuesChange
+    }: HandleFormCallbacksOptions<T>) =>
     (setCallbacks: (callback: FormCallbacks<T>) => void) =>
         setCallbacks({onFinish, onFinishFailed, onValuesChange})
 
-const renderFormItem = (options: RenderFormItemOptions) => (status: ComponentStatus) => (items?: FormItemProps[]) =>
-    status === 'succeeded' ?
-        items?.map((item, index) => (
-            <FormItem
-                {...item}
-                {...options}
-                key={item.name ?? index}
-            />
-        ))
-    :   <></>
+const renderFormItem =
+    (options: RenderFormItemOptions) =>
+    (status: ComponentStatus) =>
+    (items?: FormItemProps[]) =>
+        status === 'succeeded' ?
+            items?.map((item, index) => (
+                <FormItem
+                    {...item}
+                    {...options}
+                    key={item.name ?? index}
+                />
+            ))
+        :   <></>
 
 const FormBaseInner = <T,>(
     {
@@ -64,13 +78,24 @@ const FormBaseInner = <T,>(
     const formStore = useForm(form)
     const {setCallbacks, setInitialValues} = formStore
     const id = useId()
-    const onFormInit = useMemo(() => handleFormInit<T>(setState)(setInitialValues), [setInitialValues, setState])
+    const onFormInit = useMemo(
+        () => handleFormInit<T>(setState)(setInitialValues),
+        [setInitialValues, setState]
+    )
+
     const onFormCallbacks = useCallback(
-        () => handleFormCallbacks<T>({onFinish, onFinishFailed, onValuesChange})(setCallbacks),
+        () =>
+            handleFormCallbacks<T>({onFinish, onFinishFailed, onValuesChange})(
+                setCallbacks
+            ),
         [onFinish, onFinishFailed, onValuesChange, setCallbacks]
     )
 
-    const formItemElements = renderFormItem({skeletonElement, skeletonMinDuration, validatorOptions})(status)(items)
+    const formItemElements = renderFormItem({
+        skeletonElement,
+        skeletonMinDuration,
+        validatorOptions
+    })(status)(items)
 
     useEffect(() => {
         onFormCallbacks()
@@ -84,7 +109,13 @@ const FormBaseInner = <T,>(
         return <></>
     }
 
-    return render({...renderProps, form: formStore, id, ref, itemElements: formItemElements})
+    return render({
+        ...renderProps,
+        form: formStore,
+        id,
+        ref,
+        itemElements: formItemElements
+    })
 }
 
 export const FormBase = forwardRef(FormBaseInner) as typeof FormBaseInner

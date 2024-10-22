@@ -2,29 +2,37 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {emitter} from '../../contexts'
-import {HandleSideSheetEmitOptions, SheetType, SideSheetBaseProps, SideSheetState} from './Side-sheet.interface'
+import {
+    HandleSideSheetEmitOptions,
+    SheetType,
+    SideSheetBaseProps,
+    SideSheetState
+} from './Side-sheet.interface'
 
-const handleSideSheetClose = (setState: Updater<SideSheetState>) => (onClose?: () => void) => {
-    setState(draft => {
-        draft.sideSheetVisible = false
-        draft.nextCloseEvent = () => onClose?.()
-    })
-}
-
-const handleSideSheetBack = (setState: Updater<SideSheetState>) => (onBack?: () => void) => {
-    setState(draft => {
-        draft.sideSheetVisible = false
-        draft.nextBackEvent = () => onBack?.()
-    })
-}
-
-const handleSideSheetVisible = (setState: Updater<SideSheetState>) => (visible?: boolean) => {
-    if (typeof visible === 'boolean') {
+const handleSideSheetClose =
+    (setState: Updater<SideSheetState>) => (onClose?: () => void) => {
         setState(draft => {
-            draft.sideSheetVisible = visible
+            draft.sideSheetVisible = false
+            draft.nextCloseEvent = () => onClose?.()
         })
     }
-}
+
+const handleSideSheetBack =
+    (setState: Updater<SideSheetState>) => (onBack?: () => void) => {
+        setState(draft => {
+            draft.sideSheetVisible = false
+            draft.nextBackEvent = () => onBack?.()
+        })
+    }
+
+const handleSideSheetVisible =
+    (setState: Updater<SideSheetState>) => (visible?: boolean) => {
+        if (typeof visible === 'boolean') {
+            setState(draft => {
+                draft.sideSheetVisible = visible
+            })
+        }
+    }
 
 const handleSideSheetEmit =
     ({id, type}: HandleSideSheetEmitOptions) =>
@@ -42,17 +50,42 @@ const handleSideSheetUnmount = (id: string) => (type: SheetType) => {
 }
 
 export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
-    ({defaultVisible, onVisible, render, type = 'modal', visible, onClose, onBack, ...renderProps}, ref) => {
-        const [{sideSheetVisible, nextCloseEvent, nextBackEvent}, setState] = useImmer<SideSheetState>({
-            nextBackEvent: undefined,
-            nextCloseEvent: undefined,
-            sideSheetVisible: undefined
-        })
+    (
+        {
+            defaultVisible,
+            onVisible,
+            render,
+            type = 'modal',
+            visible,
+            onClose,
+            onBack,
+            ...renderProps
+        },
+        ref
+    ) => {
+        const [{sideSheetVisible, nextCloseEvent, nextBackEvent}, setState] =
+            useImmer<SideSheetState>({
+                nextBackEvent: undefined,
+                nextCloseEvent: undefined,
+                sideSheetVisible: undefined
+            })
 
         const id = useId()
-        const onSideSheetBack = useCallback(() => handleSideSheetBack(setState)(onBack), [onBack, setState])
-        const onSideSheetClose = useCallback(() => handleSideSheetClose(setState)(onClose), [onClose, setState])
-        const onSideSheetVisible = useMemo(() => handleSideSheetVisible(setState), [setState])
+        const onSideSheetBack = useCallback(
+            () => handleSideSheetBack(setState)(onBack),
+            [onBack, setState]
+        )
+
+        const onSideSheetClose = useCallback(
+            () => handleSideSheetClose(setState)(onClose),
+            [onClose, setState]
+        )
+
+        const onSideSheetVisible = useMemo(
+            () => handleSideSheetVisible(setState),
+            [setState]
+        )
+
         const renderSheet = useCallback(
             () =>
                 render({
@@ -64,10 +97,22 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                     type,
                     visible: sideSheetVisible
                 }),
-            [onSideSheetBack, onSideSheetClose, onVisible, ref, render, renderProps, sideSheetVisible, type]
+            [
+                onSideSheetBack,
+                onSideSheetClose,
+                onVisible,
+                ref,
+                render,
+                renderProps,
+                sideSheetVisible,
+                type
+            ]
         )
 
-        const onSideSheetEmit = useMemo(() => handleSideSheetEmit({id, type})(renderSheet), [id, renderSheet, type])
+        const onSideSheetEmit = useMemo(
+            () => handleSideSheetEmit({id, type})(renderSheet),
+            [id, renderSheet, type]
+        )
 
         useEffect(() => {
             onSideSheetVisible(visible ?? defaultVisible)
@@ -92,6 +137,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
             nextBackEvent?.()
         }, [nextBackEvent])
 
-        return ['standard', 'standardContainer'].includes(type) ? renderSheet() : <></>
+        return ['standard', 'standardContainer'].includes(type) ? renderSheet()
+            :   <></>
     }
 )

@@ -1,5 +1,11 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    AnimatableValue,
+    SharedValue,
+    interpolateColor,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {EventName} from '../Common'
@@ -15,18 +21,28 @@ const handleButtonOutlinedAnimated = ({
     disabled,
     type
 }: HandleButtonAnimatedTimingOptions) => {
-    const value = disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
+    const value =
+        disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
 
-    return (borderSharedValue: SharedValue<AnimatableValue>) => (eventName?: EventName) => {
-        const responseEvent =
-            type === 'link' ?
-                eventName && ['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
-            :   eventName === 'focus'
+    return (borderSharedValue: SharedValue<AnimatableValue>) =>
+        (eventName?: EventName) => {
+            const responseEvent =
+                type === 'link' ?
+                    eventName &&
+                    [
+                        'focus',
+                        'hoverIn',
+                        'longPress',
+                        'press',
+                        'pressIn',
+                        'pressOut'
+                    ].includes(eventName)
+                :   eventName === 'focus'
 
-        const toValue = responseEvent ? borderColorInputRange[2] : value
+            const toValue = responseEvent ? borderColorInputRange[2] : value
 
-        return animatedTiming()(borderSharedValue)(toValue)
-    }
+            return animatedTiming()(borderSharedValue)(toValue)
+        }
 }
 
 const handleButtonAnimatedTiming = ({
@@ -37,12 +53,18 @@ const handleButtonAnimatedTiming = ({
 }: HandleButtonAnimatedTimingOptions) => {
     const toValue = disabled ? 0 : 1
 
-    return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
+    return ({
+            borderSharedValue,
+            colorSharedValue
+        }: HandleButtonAnimatedTimingSharedValue) =>
         (eventName?: EventName) => {
             if (type && ['link', 'outlined'].includes(type)) {
-                handleButtonOutlinedAnimated({animatedTiming, borderColorInputRange, type, disabled})(
-                    borderSharedValue
-                )(eventName)
+                handleButtonOutlinedAnimated({
+                    animatedTiming,
+                    borderColorInputRange,
+                    type,
+                    disabled
+                })(borderSharedValue)(eventName)
 
                 animatedTiming()(colorSharedValue)(toValue)
 
@@ -53,7 +75,11 @@ const handleButtonAnimatedTiming = ({
         }
 }
 
-export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseButtonAnimatedOptions) => {
+export const useButtonAnimated = ({
+    disabled,
+    eventName,
+    type = 'filled'
+}: UseButtonAnimatedOptions) => {
     const theme = useTheme()
     const {palette, scheme, spacing} = theme.token
     const {convertHexToRGBA} = palette
@@ -66,27 +92,45 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
     const backgroundColorType = {
         elevated: {
             inputRange: [0, 1],
-            outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.surfaceContainerLow)(1)]
+            outputRange: [
+                disabledBackgroundColor,
+                convertHexToRGBA(scheme.surfaceContainerLow)(1)
+            ]
         },
         filled: {
             inputRange: [0, 1],
-            outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.primary)(1)]
+            outputRange: [
+                disabledBackgroundColor,
+                convertHexToRGBA(scheme.primary)(1)
+            ]
         },
         outlined: {
             inputRange: [0, 1],
-            outputRange: [convertHexToRGBA(scheme.primary)(0), convertHexToRGBA(scheme.primary)(0)]
+            outputRange: [
+                convertHexToRGBA(scheme.primary)(0),
+                convertHexToRGBA(scheme.primary)(0)
+            ]
         },
         text: {
             inputRange: [0, 1],
-            outputRange: [convertHexToRGBA(scheme.primary)(0), convertHexToRGBA(scheme.primary)(0)]
+            outputRange: [
+                convertHexToRGBA(scheme.primary)(0),
+                convertHexToRGBA(scheme.primary)(0)
+            ]
         },
         link: {
             inputRange: [0, 1],
-            outputRange: [convertHexToRGBA(scheme.primary)(0), convertHexToRGBA(scheme.primary)(0)]
+            outputRange: [
+                convertHexToRGBA(scheme.primary)(0),
+                convertHexToRGBA(scheme.primary)(0)
+            ]
         },
         tonal: {
             inputRange: [0, 1],
-            outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.secondaryContainer)(1)]
+            outputRange: [
+                disabledBackgroundColor,
+                convertHexToRGBA(scheme.secondaryContainer)(1)
+            ]
         }
     }
 
@@ -113,14 +157,21 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
         },
         tonal: {
             inputRange: [0, 1],
-            outputRange: [disabledColor, convertHexToRGBA(scheme.onSecondaryContainer)(1)]
+            outputRange: [
+                disabledColor,
+                convertHexToRGBA(scheme.onSecondaryContainer)(1)
+            ]
         }
     }
 
     const borderColorInputRange = useMemo(() => [0, 1, 2], [])
     const borderColorOutputRange = [
-        type === 'link' ? convertHexToRGBA(scheme.outline)(0) : disabledBackgroundColor,
-        type === 'link' ? convertHexToRGBA(scheme.outline)(0) : convertHexToRGBA(scheme.outline)(1),
+        type === 'link' ?
+            convertHexToRGBA(scheme.outline)(0)
+        :   disabledBackgroundColor,
+        type === 'link' ?
+            convertHexToRGBA(scheme.outline)(0)
+        :   convertHexToRGBA(scheme.outline)(1),
         scheme.primary
     ]
 
@@ -136,23 +187,45 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
             )
         }),
         ...(!notBorderColor && {
-            borderColor: interpolateColor(borderSharedValue.value, borderColorInputRange, borderColorOutputRange),
+            borderColor: interpolateColor(
+                borderSharedValue.value,
+                borderColorInputRange,
+                borderColorOutputRange
+            ),
             borderStyle: 'solid',
-            ...(type === 'link' ? {borderBottomWidth: borderWidth} : {borderWidth})
+            ...(type === 'link' ?
+                {borderBottomWidth: borderWidth}
+            :   {borderWidth})
         })
     }))
 
     const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-        color: interpolateColor(colorSharedValue.value, colorType[type].inputRange, colorType[type].outputRange)
+        color: interpolateColor(
+            colorSharedValue.value,
+            colorType[type].inputRange,
+            colorType[type].outputRange
+        )
     }))
 
     const onButtonAnimatedTiming = useMemo(
         () =>
-            handleButtonAnimatedTiming({animatedTiming, borderColorInputRange, type, disabled})({
+            handleButtonAnimatedTiming({
+                animatedTiming,
+                borderColorInputRange,
+                type,
+                disabled
+            })({
                 borderSharedValue,
                 colorSharedValue
             }),
-        [animatedTiming, borderColorInputRange, borderSharedValue, colorSharedValue, disabled, type]
+        [
+            animatedTiming,
+            borderColorInputRange,
+            borderSharedValue,
+            colorSharedValue,
+            disabled,
+            type
+        ]
     )
 
     useEffect(() => {

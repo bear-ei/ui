@@ -1,14 +1,25 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    AnimatableValue,
+    SharedValue,
+    interpolateColor,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
 import {UseFABAnimatedOptions} from './FAB.interface'
 
 const handleFABAnimatedTiming =
-    (animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<AnimatableValue>) => (disabled?: boolean) =>
+    (animatedTiming: AnimatedTiming) =>
+    (colorSharedValue: SharedValue<AnimatableValue>) =>
+    (disabled?: boolean) =>
         animatedTiming()(colorSharedValue)(disabled ? 0 : 1)
 
-export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptions) => {
+export const useFABAnimated = ({
+    disabled,
+    type = 'primary'
+}: UseFABAnimatedOptions) => {
     const colorSharedValue = useSharedValue(disabled ? 0 : 1)
     const theme = useTheme()
     const {palette, scheme} = theme.token
@@ -19,19 +30,31 @@ export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptio
     const backgroundColorType = {
         surface: {
             inputRange: [0, 1],
-            outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.surfaceContainerHigh)(1)]
+            outputRange: [
+                disabledBackgroundColor,
+                convertHexToRGBA(scheme.surfaceContainerHigh)(1)
+            ]
         },
         primary: {
             inputRange: [0, 1],
-            outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.primaryContainer)(1)]
+            outputRange: [
+                disabledBackgroundColor,
+                convertHexToRGBA(scheme.primaryContainer)(1)
+            ]
         },
         secondary: {
             inputRange: [0, 1],
-            outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.secondaryContainer)(1)]
+            outputRange: [
+                disabledBackgroundColor,
+                convertHexToRGBA(scheme.secondaryContainer)(1)
+            ]
         },
         tertiary: {
             inputRange: [0, 1],
-            outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.tertiaryContainer)(1)]
+            outputRange: [
+                disabledBackgroundColor,
+                convertHexToRGBA(scheme.tertiaryContainer)(1)
+            ]
         }
     }
 
@@ -42,15 +65,24 @@ export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptio
         },
         primary: {
             inputRange: [0, 1],
-            outputRange: [disabledColor, convertHexToRGBA(scheme.onPrimaryContainer)(1)]
+            outputRange: [
+                disabledColor,
+                convertHexToRGBA(scheme.onPrimaryContainer)(1)
+            ]
         },
         secondary: {
             inputRange: [0, 1],
-            outputRange: [disabledColor, convertHexToRGBA(scheme.onSecondaryContainer)(1)]
+            outputRange: [
+                disabledColor,
+                convertHexToRGBA(scheme.onSecondaryContainer)(1)
+            ]
         },
         tertiary: {
             inputRange: [0, 1],
-            outputRange: [disabledColor, convertHexToRGBA(scheme.onTertiaryContainer)(1)]
+            outputRange: [
+                disabledColor,
+                convertHexToRGBA(scheme.onTertiaryContainer)(1)
+            ]
         }
     }
 
@@ -63,7 +95,11 @@ export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptio
     }))
 
     const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-        color: interpolateColor(colorSharedValue.value, colorType[type].inputRange, colorType[type].outputRange)
+        color: interpolateColor(
+            colorSharedValue.value,
+            colorType[type].inputRange,
+            colorType[type].outputRange
+        )
     }))
 
     const onFABAnimatedTiming = useMemo(

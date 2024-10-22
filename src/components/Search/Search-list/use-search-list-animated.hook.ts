@@ -1,17 +1,28 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    AnimatableValue,
+    SharedValue,
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
 import {UseSearchListAnimatedOptions} from './Search-list.interface'
 
 const handleSearchListAnimatedTiming =
-    (animatedTiming: AnimatedTiming) => (heightSharedValue: SharedValue<AnimatableValue>) => (visible?: boolean) =>
+    (animatedTiming: AnimatedTiming) =>
+    (heightSharedValue: SharedValue<AnimatableValue>) =>
+    (visible?: boolean) =>
         animatedTiming({
             duration: visible ? 'medium3' : 'short3',
             easing: visible ? 'emphasizedDecelerate' : 'emphasizedAccelerate'
         })(heightSharedValue)(visible ? 1 : 0)
 
-export const useSearchListAnimated = ({visible, containerLayout}: UseSearchListAnimatedOptions) => {
+export const useSearchListAnimated = ({
+    visible,
+    containerLayout
+}: UseSearchListAnimatedOptions) => {
     const heightSharedValue = useSharedValue(visible ? 1 : 0)
     const theme = useTheme()
     const {spacing} = theme.token

@@ -51,12 +51,14 @@ const render = ({
     )
 }
 
-const ForwardRefMenu = forwardRef<VirtualListComponent<ListData>, MenuProps>((props, ref) => (
-    <MenuBase
-        {...props}
-        ref={ref}
-        render={render}
-    />
-))
+const ForwardRefMenu = forwardRef<VirtualListComponent<ListData>, MenuProps>(
+    (props, ref) => (
+        <MenuBase
+            {...props}
+            ref={ref}
+            render={render}
+        />
+    )
+)
 
 export const Menu = ForwardRefMenu as FC<MenuProps>

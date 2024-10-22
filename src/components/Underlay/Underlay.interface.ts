@@ -5,7 +5,10 @@ import {AnimatedTiming} from '../../hooks'
 import {EventName, ShapeProps, ShapeType} from '../Common'
 
 export type ActiveAnimatedType = 'fade' | 'scale' | 'scaleX' | 'scaleY'
-export interface UnderlayProps extends Pick<ShapeProps, 'shape'>, ViewProps, RefAttributes<View> {
+export interface UnderlayProps
+    extends Pick<ShapeProps, 'shape'>,
+        ViewProps,
+        RefAttributes<View> {
     active?: boolean
     defaultActive?: boolean
     activeAnimatedType?: 'fade' | 'scale' | 'scaleX' | 'scaleY'
@@ -37,7 +40,14 @@ export interface UnderlayState {
 }
 
 export interface UseUnderlayAnimatedOptions
-    extends Pick<RenderUnderlayProps, 'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'> {
+    extends Pick<
+        RenderUnderlayProps,
+        | 'active'
+        | 'activeAnimatedType'
+        | 'activeScale'
+        | 'eventName'
+        | 'opacities'
+    > {
     layoutWidth?: number
 }
 
@@ -46,6 +56,10 @@ export interface HandleUnderlayHoveredAnimatedTimingOptions {
     animatedTiming: AnimatedTiming
 }
 
-export type UnderlayContainerProps = Pick<RenderUnderlayProps, 'height' | 'width'>
+export type UnderlayContainerProps = Pick<
+    RenderUnderlayProps,
+    'height' | 'width'
+>
+
 export type HoverLayerProps = Pick<RenderUnderlayProps, 'underlayColor'>
 export type ActiveLayerProps = Pick<RenderUnderlayProps, 'activeColor'>

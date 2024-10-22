@@ -1,5 +1,11 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    AnimatableValue,
+    SharedValue,
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
 import {EventName} from '../Common'
@@ -11,7 +17,9 @@ const handleIconAnimatedTiming =
     (eventName: EventName = 'none') => {
         const toValue = ['pressIn', 'longPress'].includes(eventName) ? 0 : 1
 
-        animatedTiming()(scaleSharedValue)(eventName === 'hoverIn' ? 2 : toValue)
+        animatedTiming()(scaleSharedValue)(
+            eventName === 'hoverIn' ? 2 : toValue
+        )
     }
 
 export const useIconAnimated = ({eventName}: UseIconAnimatedOptions) => {
@@ -19,7 +27,15 @@ export const useIconAnimated = ({eventName}: UseIconAnimatedOptions) => {
     const theme = useTheme()
     const animatedTiming = useAnimatedTiming(theme.token)
     const containerAnimatedStyle = useAnimatedStyle(() => ({
-        transform: [{scale: interpolate(scaleSharedValue.value, [0, 1, 2], [0.97, 1, 1.03])}]
+        transform: [
+            {
+                scale: interpolate(
+                    scaleSharedValue.value,
+                    [0, 1, 2],
+                    [0.97, 1, 1.03]
+                )
+            }
+        ]
     }))
 
     const onIconAnimatedTiming = useMemo(

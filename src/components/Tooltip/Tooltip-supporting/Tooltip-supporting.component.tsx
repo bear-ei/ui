@@ -3,7 +3,10 @@ import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Elevation} from '../../Elevation'
 import {TooltipSupportingBase} from './Tooltip-supporting-base.component'
-import {RenderTooltipSupportingProps, TooltipSupportingProps} from './Tooltip-supporting.interface'
+import {
+    RenderTooltipSupportingProps,
+    TooltipSupportingProps
+} from './Tooltip-supporting.interface'
 import {
     Container,
     Content,
@@ -44,7 +47,9 @@ const render = ({
                     onLayout={onLayout}
                     testID={`tooltipSupporting__supporting--${id}`}
                 >
-                    {type === 'menu' ? cloneElement(supporting, {...mainStateEvent}) : supporting}
+                    {type === 'menu' ?
+                        cloneElement(supporting, {...mainStateEvent})
+                    :   supporting}
                 </Supporting>
             :   <TooltipSupportingText
                     ellipsizeMode='tail'
@@ -76,7 +81,9 @@ const render = ({
             zIndex={zIndex}
         >
             {type === 'menu' ?
-                <Content testID={`tooltipSupporting_content--${id}`}>{mainElement}</Content>
+                <Content testID={`tooltipSupporting_content--${id}`}>
+                    {mainElement}
+                </Content>
             :   <TouchableContent
                     {...mainStateEvent}
                     testID={`tooltipSupporting_content--${id}`}
@@ -95,12 +102,15 @@ const render = ({
     )
 }
 
-const ForwardRefTooltipSupporting = forwardRef<View, TooltipSupportingProps>((props, ref) => (
-    <TooltipSupportingBase
-        {...props}
-        ref={ref}
-        render={render}
-    />
-))
+const ForwardRefTooltipSupporting = forwardRef<View, TooltipSupportingProps>(
+    (props, ref) => (
+        <TooltipSupportingBase
+            {...props}
+            ref={ref}
+            render={render}
+        />
+    )
+)
 
-export const TooltipSupporting: FC<TooltipSupportingProps> = ForwardRefTooltipSupporting
+export const TooltipSupporting: FC<TooltipSupportingProps> =
+    ForwardRefTooltipSupporting

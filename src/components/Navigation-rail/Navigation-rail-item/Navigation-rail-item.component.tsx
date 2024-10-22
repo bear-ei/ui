@@ -2,9 +2,23 @@ import {FC, forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Underlay} from '../../Underlay'
-import {NavigationRailItemBase, handleNavigationRailItemPropsEqual} from './Navigation-rail-item-base.component'
-import {NavigationRailItemProps, RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
-import {Container, Header, Icon, IconContainer, Label, LabelText, TouchableContent} from './Navigation-rail-item.styles'
+import {
+    NavigationRailItemBase,
+    handleNavigationRailItemPropsEqual
+} from './Navigation-rail-item-base.component'
+import {
+    NavigationRailItemProps,
+    RenderNavigationRailItemProps
+} from './Navigation-rail-item.interface'
+import {
+    Container,
+    Header,
+    Icon,
+    IconContainer,
+    Label,
+    LabelText,
+    TouchableContent
+} from './Navigation-rail-item.styles'
 
 const AnimatedLabel = Animated.createAnimatedComponent(Label)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
@@ -37,7 +51,9 @@ const render = ({
                 testID={`navigationRailItem__header--${id}`}
                 type={type}
             >
-                <IconContainer testID={`navigationRailItem__iconContainer--${id}`}>
+                <IconContainer
+                    testID={`navigationRailItem__iconContainer--${id}`}
+                >
                     <Icon
                         testID={`navigationRailItem__icon--${id}`}
                         visible={!active}
@@ -86,14 +102,18 @@ const render = ({
     </Container>
 )
 
-const ForwardRefNavigationRailItem = forwardRef<View, NavigationRailItemProps>((props, ref) => (
-    <NavigationRailItemBase
-        {...props}
-        ref={ref}
-        render={render}
-    />
-))
+const ForwardRefNavigationRailItem = forwardRef<View, NavigationRailItemProps>(
+    (props, ref) => (
+        <NavigationRailItemBase
+            {...props}
+            ref={ref}
+            render={render}
+        />
+    )
+)
 
-export const NavigationRailItem = memo(ForwardRefNavigationRailItem, (prevProps, nextProps) =>
-    handleNavigationRailItemPropsEqual(prevProps)(nextProps)
+export const NavigationRailItem = memo(
+    ForwardRefNavigationRailItem,
+    (prevProps, nextProps) =>
+        handleNavigationRailItemPropsEqual(prevProps)(nextProps)
 ) as FC<NavigationRailItemProps>

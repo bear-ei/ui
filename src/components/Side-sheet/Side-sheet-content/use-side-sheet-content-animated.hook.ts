@@ -8,7 +8,11 @@ import {
     useSharedValue
 } from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, AnimatedTimingOptions, useAnimatedTiming} from '../../../hooks'
+import {
+    AnimatedTiming,
+    AnimatedTimingOptions,
+    useAnimatedTiming
+} from '../../../hooks'
 import {
     HandleSideSheetContentVisibleAnimatedTimingSharedValue,
     UseSideSheetContentAnimatedOptions
@@ -32,8 +36,14 @@ const handleSideSheetContentVisibleAnimatedTiming =
             easing: visible ? 'emphasizedDecelerate' : 'emphasizedAccelerate'
         } as AnimatedTimingOptions
 
-        animatedTiming(animatedTimingOptions)(backgroundColorSharedValue)(toValue)
-        animatedTiming(animatedTimingOptions)(contentTranslateXSharedValue)(toValue)
+        animatedTiming(animatedTimingOptions)(backgroundColorSharedValue)(
+            toValue
+        )
+
+        animatedTiming(animatedTimingOptions)(contentTranslateXSharedValue)(
+            toValue
+        )
+
         animatedTiming(animatedTimingOptions)(widthSharedValue)(toValue)
     }
 
@@ -44,7 +54,8 @@ const handleSideSheetContentFooterVisibleAnimatedTiming =
         if (typeof footerVisible === 'boolean') {
             animatedTiming({
                 duration: footerVisible ? 'medium0' : 'short3',
-                easing: footerVisible ? 'standardDecelerate' : 'standardAccelerate'
+                easing:
+                    footerVisible ? 'standardDecelerate' : 'standardAccelerate'
             })(footerHeightSharedValue)(footerVisible ? 1 : 0)
         }
     }
@@ -67,11 +78,17 @@ export const useSideSheetContentAnimated = ({
     const standard = ['standard', 'standardContainer'].includes(type)
     const containerBackgroundColorOutputRange = [
         convertHexToRGBA(scheme.scrim)(0),
-        standard ? convertHexToRGBA(scheme.scrim)(0) : convertHexToRGBA(scheme.scrim)(0.32)
+        standard ?
+            convertHexToRGBA(scheme.scrim)(0)
+        :   convertHexToRGBA(scheme.scrim)(0.32)
     ]
 
     const contentWidth = theme.adaptSize(spacing.extraSmall * 80)
-    const containerWidthOutputRange = [theme.adaptSize(spacing.none), contentWidth]
+    const containerWidthOutputRange = [
+        theme.adaptSize(spacing.none),
+        contentWidth
+    ]
+
     const containerAnimatedStyle = useAnimatedStyle(() => ({
         backgroundColor: interpolateColor(
             backgroundColorSharedValue.value,
@@ -79,7 +96,11 @@ export const useSideSheetContentAnimated = ({
             containerBackgroundColorOutputRange
         ),
         ...(standard && {
-            width: interpolate(widthSharedValue.value, [0, 1], containerWidthOutputRange)
+            width: interpolate(
+                widthSharedValue.value,
+                [0, 1],
+                containerWidthOutputRange
+            )
         })
     }))
 
@@ -92,15 +113,27 @@ export const useSideSheetContentAnimated = ({
         ...(type === 'modal' && {
             transform: [
                 {
-                    translateX: interpolate(contentTranslateXSharedValue.value, [0, 1], contentTranslateXOutputRange)
+                    translateX: interpolate(
+                        contentTranslateXSharedValue.value,
+                        [0, 1],
+                        contentTranslateXOutputRange
+                    )
                 }
             ]
         })
     }))
 
-    const footerHeightOutputRange = [theme.adaptSize(spacing.none), theme.adaptSize(spacing.extraSmall * 20)]
+    const footerHeightOutputRange = [
+        theme.adaptSize(spacing.none),
+        theme.adaptSize(spacing.extraSmall * 20)
+    ]
+
     const footerAnimatedStyle = useAnimatedStyle(() => ({
-        height: interpolate(footerHeightSharedValue.value, [0, 1], footerHeightOutputRange)
+        height: interpolate(
+            footerHeightSharedValue.value,
+            [0, 1],
+            footerHeightOutputRange
+        )
     }))
 
     const onSideSheetContentVisibleAnimatedTiming = useMemo(
@@ -110,11 +143,19 @@ export const useSideSheetContentAnimated = ({
                 contentTranslateXSharedValue,
                 widthSharedValue
             }),
-        [animatedTiming, backgroundColorSharedValue, contentTranslateXSharedValue, widthSharedValue]
+        [
+            animatedTiming,
+            backgroundColorSharedValue,
+            contentTranslateXSharedValue,
+            widthSharedValue
+        ]
     )
 
     const onSideSheetContentFooterVisibleAnimatedTiming = useMemo(
-        () => handleSideSheetContentFooterVisibleAnimatedTiming(animatedTiming)(footerHeightSharedValue),
+        () =>
+            handleSideSheetContentFooterVisibleAnimatedTiming(animatedTiming)(
+                footerHeightSharedValue
+            ),
         [animatedTiming, footerHeightSharedValue]
     )
 

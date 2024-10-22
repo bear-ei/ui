@@ -1,15 +1,33 @@
-import {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
+import {
+    PanResponderInstance,
+    StyleProp,
+    TextStyle,
+    ViewStyle
+} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
+import {
+    AnimatedTiming,
+    OnStateEvent,
+    OnStateEventChangeOptions
+} from '../../../hooks'
 import {EventName, ShapeType, State} from '../../Common'
 import {TouchableProps} from '../../Touchable'
-import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from '../List-after-affordance'
+import {
+    ListAfterAffordancePressOutOptions,
+    ListAfterAffordanceProps
+} from '../List-after-affordance'
 import {ListType} from '../List.interface'
 
 export type SelectType = 'select' | 'multiselect'
 export interface ListItemProps
-    extends Partial<TouchableProps & Omit<ListAfterAffordanceProps, 'PrimaryButtonProps' | 'SecondaryButtonProps'>> {
+    extends Partial<
+        TouchableProps &
+            Omit<
+                ListAfterAffordanceProps,
+                'PrimaryButtonProps' | 'SecondaryButtonProps'
+            >
+    > {
     activeKey?: string
     activeKeys?: string[]
     afterAffordance?: JSX.Element | boolean
@@ -88,18 +106,28 @@ export interface ListItemState {
 export type HandleListItemStateEventChangeOptions = OnStateEventChangeOptions &
     Pick<
         RenderListItemProps,
-        'itemKey' | 'onActive' | 'selectType' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex' | 'type'
+        | 'itemKey'
+        | 'onActive'
+        | 'selectType'
+        | 'onLoadEnd'
+        | 'trailingTrigger'
+        | 'itemIndex'
+        | 'type'
     >
 
 export type HandleListItemTrailingEventOptions = {callback?: () => void}
-export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
+export interface HandleListItemConfirmOptions
+    extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
     onConfirm?: ListItemProps['onConfirm']
     options: ListAfterAffordancePressOutOptions
     onListItemClose: (value?: boolean) => void
 }
 
 export interface RenderListItemTrailingOptions
-    extends Pick<RenderListItemProps, 'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled'> {
+    extends Pick<
+        RenderListItemProps,
+        'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled'
+    > {
     onStateEvent: Partial<OnStateEvent>
     theme: DefaultTheme
 }
@@ -111,7 +139,10 @@ export interface UseListItemAnimatedOptions {
 }
 
 export interface HandleListItemAfterAffordanceVisibleAnimatedOptions
-    extends Pick<UseListItemAnimatedOptions, 'onListItemAfterAffordanceVisibleFinished'> {
+    extends Pick<
+        UseListItemAnimatedOptions,
+        'onListItemAfterAffordanceVisibleFinished'
+    > {
     animatedTiming: AnimatedTiming
 }
 
@@ -121,8 +152,16 @@ export interface HandleListItemTrailingPressOutOptions
     onListItemClose: (value?: boolean) => void
 }
 
-export type HandleListItemPanResponderReleaseOptions = Pick<ListItemProps, 'onActiveAfterAffordance' | 'disabled'>
-export type HandleListItemCloseOptions = Pick<ListItemProps, 'onClose' | 'onVisible'>
+export type HandleListItemPanResponderReleaseOptions = Pick<
+    ListItemProps,
+    'onActiveAfterAffordance' | 'disabled'
+>
+
+export type HandleListItemCloseOptions = Pick<
+    ListItemProps,
+    'onClose' | 'onVisible'
+>
+
 export type ListItemContainerProps = Pick<RenderListItemProps, 'type'>
 export interface ListItemMainProps
     extends Pick<RenderListItemProps, 'supportingTextNumberOfLines'>,
@@ -131,12 +170,17 @@ export interface ListItemMainProps
 }
 
 export type ListItemContentProps = ListItemContainerProps
-export interface ListItemMainInnerProps extends Pick<ListItemMainProps, 'supportingTextShow' | 'type'> {
+export interface ListItemMainInnerProps
+    extends Pick<ListItemMainProps, 'supportingTextShow' | 'type'> {
     leadingShow?: boolean
     trailingShow?: boolean
 }
 
-export type ListItemLeadingProps = Pick<RenderListItemProps, 'supportingTextNumberOfLines'>
+export type ListItemLeadingProps = Pick<
+    RenderListItemProps,
+    'supportingTextNumberOfLines'
+>
+
 export type ListItemTrailingProps = ListItemLeadingProps
 export interface ListItemBeforeAffordanceContainerProps {
     visible?: boolean

@@ -18,7 +18,10 @@ export const Item = styled.View`
     justify-content: center;
 
     ${({theme}) => css`
-        height: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px;
+        height: ${theme.adaptSize(
+            theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
+        )}px;
+
         margin-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `};
 `

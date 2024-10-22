@@ -15,22 +15,26 @@ export const SearchBar: StoryObj<SearchProps> = {
                 {
                     indexKey: 'TitleB',
                     headline: 'TitleB',
-                    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+                    supporting:
+                        'Supporting line text lorem ipsum dolor sit amet, consectetur.'
                 },
                 {
                     indexKey: 'TitleC',
                     headline: 'TitleC',
-                    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+                    supporting:
+                        'Supporting line text lorem ipsum dolor sit amet, consectetur.'
                 },
                 {
                     indexKey: 'TitleD',
                     headline: 'TitleD',
-                    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+                    supporting:
+                        'Supporting line text lorem ipsum dolor sit amet, consectetur.'
                 },
                 {
                     indexKey: 'TitleE',
                     headline: 'TitleE',
-                    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+                    supporting:
+                        'Supporting line text lorem ipsum dolor sit amet, consectetur.'
                 }
             ]
         }
@@ -50,22 +54,26 @@ export const SearchBarStandard: StoryObj<SearchProps> = {
                 {
                     indexKey: 'TitleB',
                     headline: 'TitleB',
-                    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+                    supporting:
+                        'Supporting line text lorem ipsum dolor sit amet, consectetur.'
                 },
                 {
                     indexKey: 'TitleC',
                     headline: 'TitleC',
-                    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+                    supporting:
+                        'Supporting line text lorem ipsum dolor sit amet, consectetur.'
                 },
                 {
                     indexKey: 'TitleD',
                     headline: 'TitleD',
-                    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+                    supporting:
+                        'Supporting line text lorem ipsum dolor sit amet, consectetur.'
                 },
                 {
                     indexKey: 'TitleE',
                     headline: 'TitleE',
-                    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+                    supporting:
+                        'Supporting line text lorem ipsum dolor sit amet, consectetur.'
                 }
             ]
         }

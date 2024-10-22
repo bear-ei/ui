@@ -36,12 +36,26 @@ export interface FABState {
     status: ComponentStatus
 }
 
-export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
-export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
+export type FABContainerProps = Pick<
+    RenderFABProps,
+    'size' | 'type' | 'extendedFAB'
+>
+
+export type FABContentProps = Pick<
+    RenderFABProps,
+    'size' | 'type' | 'extendedFAB'
+>
+
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
-export interface HandleFABStateChangeOptions extends OnStateEventChangeOptions, Pick<RenderFABProps, 'elevated'> {
+export interface HandleFABStateChangeOptions
+    extends OnStateEventChangeOptions,
+        Pick<RenderFABProps, 'elevated'> {
     touchableRef: RefObject<View>
 }
 
-export type RenderFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'eventName'>
+export type RenderFABIconOptions = Pick<
+    RenderFABProps,
+    'size' | 'disabled' | 'type' | 'eventName'
+>
+
 export type UseFABAnimatedOptions = Pick<RenderFABProps, 'disabled' | 'type'>

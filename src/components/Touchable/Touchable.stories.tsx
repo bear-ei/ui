@@ -4,7 +4,12 @@ import {Touchable} from './Touchable.component'
 import {TouchableProps} from './Touchable.interface'
 
 const TouchableComponent = (props: TouchableProps) => {
-    const style = {display: 'flex', height: 300, width: 300, flexDirection: 'row'} as StyleProp<ViewStyle>
+    const style = {
+        display: 'flex',
+        height: 300,
+        width: 300,
+        flexDirection: 'row'
+    } as StyleProp<ViewStyle>
 
     return (
         <View style={style}>
@@ -13,7 +18,11 @@ const TouchableComponent = (props: TouchableProps) => {
     )
 }
 
-const childrenStyle = {height: 300, width: 300, backgroundColor: '#0e0000'} as StyleProp<ViewStyle>
+const childrenStyle = {
+    height: 300,
+    width: 300,
+    backgroundColor: '#0e0000'
+} as StyleProp<ViewStyle>
 
 export const Ripple: StoryObj<TouchableProps> = {
     args: {

@@ -7,7 +7,8 @@ import {IconButtonBase} from './Icon-button-base.component'
 import {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
 import {Container, Content, ContentUnderlay, Main} from './Icon-button.styles'
 
-const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
+const AnimatedContentUnderlay =
+    Animated.createAnimatedComponent(ContentUnderlay)
 
 const render = ({
     active,

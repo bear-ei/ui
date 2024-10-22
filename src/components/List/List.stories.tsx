@@ -44,7 +44,6 @@ export const Headline: StoryObj<ListProps> = {
     args: {
         defaultActiveKey: 'TitleB',
         activeKey: 'TitleA',
-        itemShape: 'large',
         data: [
             {
                 indexKey: 'TitleA',
@@ -100,7 +99,9 @@ export const Select = () => {
 }
 
 export const Multiselect = () => {
-    const [activeKeys, setActiveKeys] = useState<string[] | undefined>(undefined)
+    const [activeKeys, setActiveKeys] = useState<string[] | undefined>(
+        undefined
+    )
     const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>
     const data = useMemo(
         () =>

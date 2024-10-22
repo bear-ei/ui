@@ -1,10 +1,23 @@
 import {WritableDraft} from 'immer'
-import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {
+    forwardRef,
+    useCallback,
+    useEffect,
+    useId,
+    useImperativeHandle,
+    useMemo,
+    useRef
+} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {emitter} from '../../../contexts'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent, useWindowDimensions} from '../../../hooks'
+import {
+    OnStateEventChangeOptions,
+    StateEvent,
+    useOnStateEvent,
+    useWindowDimensions
+} from '../../../hooks'
 import {State} from '../../Common'
 import {
     HandleTooltipSupportingContainerLayoutOptions,
@@ -19,14 +32,16 @@ import {
 } from './Tooltip-supporting.interface'
 import {useTooltipSupportingAnimated} from './use-tooltip-supporting-animated.hook'
 
-const handleTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>) => (event: LayoutChangeEvent) => {
-    const nativeEventLayout = event.nativeEvent.layout
+const handleTooltipSupportingLayout =
+    (setState: Updater<TooltipSupportingState>) =>
+    (event: LayoutChangeEvent) => {
+        const nativeEventLayout = event.nativeEvent.layout
 
-    setState(draft => {
-        draft.layout.height = nativeEventLayout.height
-        draft.layout.width = nativeEventLayout.width
-    })
-}
+        setState(draft => {
+            draft.layout.height = nativeEventLayout.height
+            draft.layout.width = nativeEventLayout.width
+        })
+    }
 
 const handleTooltipSupportingStateChange =
     ({eventName, onVisible}: HandleTooltipSupportingStateEventChangeOptions) =>
@@ -43,27 +58,30 @@ const handleTooltipSupportingStateChange =
         }
     }
 
-const handleTooltipSupportingClose = (setState: Updater<TooltipSupportingState>) => (value?: boolean) => {
-    if (typeof value === 'boolean' && value) {
-        setState(draft => {
-            draft.closed = value
-        })
+const handleTooltipSupportingClose =
+    (setState: Updater<TooltipSupportingState>) => (value?: boolean) => {
+        if (typeof value === 'boolean' && value) {
+            setState(draft => {
+                draft.closed = value
+            })
+        }
     }
-}
 
-const setTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>) => (containerCurrent: View | null) =>
-    containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
-        setState(draft => {
-            draft.closed = false
-            draft.containerLayout.height = height
-            draft.containerLayout.pageX = pageX
-            draft.containerLayout.pageY = pageY
-            draft.containerLayout.width = width
-            draft.containerLayout.x = x
-            draft.containerLayout.y = y
-            draft.status = 'succeeded'
-        })
-    )
+const setTooltipSupportingLayout =
+    (setState: Updater<TooltipSupportingState>) =>
+    (containerCurrent: View | null) =>
+        containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
+            setState(draft => {
+                draft.closed = false
+                draft.containerLayout.height = height
+                draft.containerLayout.pageX = pageX
+                draft.containerLayout.pageY = pageY
+                draft.containerLayout.width = width
+                draft.containerLayout.x = x
+                draft.containerLayout.y = y
+                draft.status = 'succeeded'
+            })
+        )
 
 const handleTooltipSupportingContainerLayout =
     ({setState, windowWidth}: HandleTooltipSupportingContainerLayoutOptions) =>
@@ -78,7 +96,10 @@ const handleTooltipSupportingEmit =
     ({id, status}: HandleTooltipSupportingEmitOptions) =>
     (renderTooltipSupporting: () => JSX.Element) => {
         if (status === 'succeeded') {
-            emitter.emit('modal', {id: `tooltip__supporting--${id}`, render: renderTooltipSupporting})
+            emitter.emit('modal', {
+                id: `tooltip__supporting--${id}`,
+                render: renderTooltipSupporting
+            })
         }
     }
 
@@ -88,10 +109,20 @@ const handleTooltipSupportingUnmount = (id: string) => {
 
 // TODO: Add more directional support.
 const handleTooltipSupportingPositionInvert =
-    ({supportingPosition, setState}: HandleTooltipSupportingPositionInvertOptions) =>
+    ({
+        supportingPosition,
+        setState
+    }: HandleTooltipSupportingPositionInvertOptions) =>
     (ref: React.MutableRefObject<View | undefined>) => {
         const handleTooltipSupportingInvert =
-            ({width, height, pageX, pageY, windowHeight, windowWidth}: HandleTooltipSupportingInvertOptions) =>
+            ({
+                width,
+                height,
+                pageX,
+                pageY,
+                windowHeight,
+                windowWidth
+            }: HandleTooltipSupportingInvertOptions) =>
             (draft: WritableDraft<TooltipSupportingState>) => {
                 draft.invert =
                     supportingPosition?.startsWith('horizontal') ?
@@ -99,27 +130,49 @@ const handleTooltipSupportingPositionInvert =
                     :   height + pageY >= windowHeight && pageY > height
             }
 
-        return ({height: windowHeight, width: windowWidth}: HandleTooltipSupportingPositionInvertWindowOptions) =>
+        return ({
+            height: windowHeight,
+            width: windowWidth
+        }: HandleTooltipSupportingPositionInvertWindowOptions) =>
             ref?.current?.measure((_x, _y, width, height, pageX, pageY) =>
-                setState(handleTooltipSupportingInvert({width, height, pageX, pageY, windowHeight, windowWidth}))
+                setState(
+                    handleTooltipSupportingInvert({
+                        width,
+                        height,
+                        pageX,
+                        pageY,
+                        windowHeight,
+                        windowWidth
+                    })
+                )
             )
     }
 
-const handleTooltipSupportingPosition = (supportingPosition?: SupportingPosition) => (invert?: boolean) => {
-    const position = {
-        invertY: supportingPosition === 'verticalEnd' ? 'verticalStart' : 'verticalEnd',
-        invertX: supportingPosition === 'horizontalEnd' ? 'horizontalStart' : 'horizontalEnd'
+const handleTooltipSupportingPosition =
+    (supportingPosition?: SupportingPosition) => (invert?: boolean) => {
+        const position = {
+            invertY:
+                supportingPosition === 'verticalEnd' ? 'verticalStart' : (
+                    'verticalEnd'
+                ),
+            invertX:
+                supportingPosition === 'horizontalEnd' ? 'horizontalStart' : (
+                    'horizontalEnd'
+                )
+        }
+
+        const invertPosition = (
+            supportingPosition?.startsWith('horizontal') ?
+                position.invertX
+            :   position.invertY) as SupportingPosition
+
+        return invert ? invertPosition : supportingPosition
     }
 
-    const invertPosition = (
-        supportingPosition?.startsWith('horizontal') ?
-            position.invertX
-        :   position.invertY) as SupportingPosition
-
-    return invert ? invertPosition : supportingPosition
-}
-
-export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps>(
+export const TooltipSupportingBase = forwardRef<
+    View,
+    TooltipSupportingBaseProps
+>(
     (
         {
             containerCurrent,
@@ -133,31 +186,49 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
         },
         ref
     ) => {
-        const [{containerLayout, layout, status, closed, invert}, setState] = useImmer<TooltipSupportingState>({
-            closed: undefined,
-            containerLayout: {} as TooltipSupportingState['containerLayout'],
-            layout: {} as LayoutRectangle,
-            status: 'idle',
-            invert: undefined
-        })
+        const [{containerLayout, layout, status, closed, invert}, setState] =
+            useImmer<TooltipSupportingState>({
+                closed: undefined,
+                containerLayout:
+                    {} as TooltipSupportingState['containerLayout'],
+                layout: {} as LayoutRectangle,
+                status: 'idle',
+                invert: undefined
+            })
 
         const {width: windowWidth, height: windowHeight} = useWindowDimensions()
         const containerRef = useRef<View>()
         const id = useId()
-        const onTooltipSupportingClose = useMemo(() => handleTooltipSupportingClose(setState), [setState])
+        const onTooltipSupportingClose = useMemo(
+            () => handleTooltipSupportingClose(setState),
+            [setState]
+        )
+
         const theme = useTheme()
         const onTooltipSupportingContainerLayout = useMemo(
-            () => handleTooltipSupportingContainerLayout({setState, windowWidth})(containerCurrent),
+            () =>
+                handleTooltipSupportingContainerLayout({setState, windowWidth})(
+                    containerCurrent
+                ),
             [containerCurrent, setState, windowWidth]
         )
 
-        const onTooltipSupportingUnmount = useMemo(() => handleTooltipSupportingUnmount, [])
+        const onTooltipSupportingUnmount = useMemo(
+            () => handleTooltipSupportingUnmount,
+            []
+        )
+
         const onTooltipSupportingPositionInvert = useMemo(
-            () => handleTooltipSupportingPositionInvert({setState, supportingPosition})(containerRef),
+            () =>
+                handleTooltipSupportingPositionInvert({
+                    setState,
+                    supportingPosition
+                })(containerRef),
             [setState, supportingPosition]
         )
 
-        const position = handleTooltipSupportingPosition(supportingPosition)(invert)
+        const position =
+            handleTooltipSupportingPosition(supportingPosition)(invert)
 
         const {contentAnimatedStyle} = useTooltipSupportingAnimated({
             height: layout.height,
@@ -171,10 +242,21 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
             [containerLayout.width, layout.width, type]
         )
 
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleTooltipSupportingStateChange({...options, state, onVisible})(setState)(event)
+        const onStateEventChange =
+            (options: OnStateEventChangeOptions) =>
+            (state: State) =>
+            (event: StateEvent) =>
+                handleTooltipSupportingStateChange({
+                    ...options,
+                    state,
+                    onVisible
+                })(setState)(event)
 
-        const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
+        const onStateEvent = useOnStateEvent({
+            ...renderProps,
+            onStateEventChange
+        })
+
         const renderTooltipSupporting = useCallback(
             () =>
                 render({
@@ -208,24 +290,38 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
         )
 
         const onTooltipSupportingEmit = useCallback(
-            () => handleTooltipSupportingEmit({id, status})(renderTooltipSupporting),
+            () =>
+                handleTooltipSupportingEmit({id, status})(
+                    renderTooltipSupporting
+                ),
             [id, status, renderTooltipSupporting]
         )
 
-        useImperativeHandle(ref, () => (containerRef?.current ? containerRef?.current : {}) as View, [])
+        useImperativeHandle(
+            ref,
+            () => (containerRef?.current ? containerRef?.current : {}) as View,
+            []
+        )
 
         useEffect(() => {
             if (rawContainerLayout?.height) {
                 onTooltipSupportingContainerLayout(visible)
             }
-        }, [onTooltipSupportingContainerLayout, visible, rawContainerLayout?.height])
+        }, [
+            onTooltipSupportingContainerLayout,
+            visible,
+            rawContainerLayout?.height
+        ])
 
         useEffect(() => {
             onTooltipSupportingEmit()
         }, [onTooltipSupportingEmit])
 
         useEffect(() => {
-            onTooltipSupportingPositionInvert({height: windowHeight, width: windowWidth})
+            onTooltipSupportingPositionInvert({
+                height: windowHeight,
+                width: windowWidth
+            })
         }, [onTooltipSupportingPositionInvert, windowHeight, windowWidth])
 
         useEffect(() => {

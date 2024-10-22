@@ -4,11 +4,16 @@ import {NavigationRailItemProps} from './Navigation-rail-item'
 
 export type NavigationRailType = 'segment' | 'block'
 export type DestinationPosition = 'top' | 'middle' | 'bottom'
-export interface NavigationRailData extends Pick<NavigationRailItemProps, 'icon' | 'labelText'> {
+export interface NavigationRailData
+    extends Pick<NavigationRailItemProps, 'icon' | 'labelText'> {
     indexKey: string
 }
 
-export type RenderNavigationRailItemOptions = Omit<NavigationRailItemProps, 'itemKey'>
+export type RenderNavigationRailItemOptions = Omit<
+    NavigationRailItemProps,
+    'itemKey'
+>
+
 export interface NavigationRailProps
     extends Pick<NavigationRailItemProps, 'activeKey' | 'onActive' | 'type'>,
         ViewProps,
@@ -35,5 +40,12 @@ export interface NavigationRailState {
     nextActiveEvent?: () => void
 }
 
-export type HandleNavigationRailActiveOptions = Pick<RenderNavigationRailProps, 'onActive' | 'activeKey'>
-export type DestinationProps = Pick<RenderNavigationRailProps, 'destinationPosition'>
+export type HandleNavigationRailActiveOptions = Pick<
+    RenderNavigationRailProps,
+    'onActive' | 'activeKey'
+>
+
+export type DestinationProps = Pick<
+    RenderNavigationRailProps,
+    'destinationPosition'
+>

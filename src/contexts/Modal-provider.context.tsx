@@ -1,7 +1,13 @@
 import mitt from 'mitt'
 import {FC} from 'react'
 import {Updater, useImmer} from 'use-immer'
-import {EmitterEvent, Modal, ModalItemProps, ModalProps, ModalState} from './contexts.interface'
+import {
+    EmitterEvent,
+    Modal,
+    ModalItemProps,
+    ModalProps,
+    ModalState
+} from './contexts.interface'
 
 const handleModal = (setState: Updater<ModalState>) => (modal: Modal) => {
     const {id, render} = modal

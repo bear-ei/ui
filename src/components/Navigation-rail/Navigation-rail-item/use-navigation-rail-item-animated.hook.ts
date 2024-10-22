@@ -1,5 +1,10 @@
 import {useEffect, useMemo} from 'react'
-import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    interpolate,
+    interpolateColor,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {
@@ -10,7 +15,10 @@ import {
 
 const handleNavigationRailItemAnimatedTiming =
     ({animatedTiming, type}: HandleNavigationRailItemAnimatedTimingOptions) =>
-    ({labelHeightSharedValue, labelTextColorSharedValue}: HandleNavigationRailItemAnimatedTimingSharedValue) =>
+    ({
+        labelHeightSharedValue,
+        labelTextColorSharedValue
+    }: HandleNavigationRailItemAnimatedTimingSharedValue) =>
     (value?: boolean) => {
         if (!(type === 'segment' && typeof value === 'boolean')) {
             return
@@ -25,7 +33,10 @@ const handleNavigationRailItemAnimatedTiming =
         })(labelHeightSharedValue)(toValue)
     }
 
-export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailItemAnimatedOptions) => {
+export const useNavigationRailItemAnimated = ({
+    active,
+    type
+}: UseNavigationRailItemAnimatedOptions) => {
     const labelValue = active ? 1 : 0
     const theme = useTheme()
     const {palette, scheme, typography, spacing} = theme.token
@@ -39,7 +50,11 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
     ]
 
     const labelAnimatedStyle = useAnimatedStyle(() => ({
-        height: interpolate(labelHeightSharedValue.value, [0, 1], labelHeightOutputRange)
+        height: interpolate(
+            labelHeightSharedValue.value,
+            [0, 1],
+            labelHeightOutputRange
+        )
     }))
 
     const labelTextColorOutputRange = [
@@ -48,7 +63,11 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
     ]
 
     const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-        color: interpolateColor(labelTextColorSharedValue.value, [0, 1], labelTextColorOutputRange)
+        color: interpolateColor(
+            labelTextColorSharedValue.value,
+            [0, 1],
+            labelTextColorOutputRange
+        )
     }))
 
     const onNavigationRailItemAnimatedTiming = useMemo(
@@ -57,7 +76,12 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
                 animatedTiming,
                 type
             })({labelHeightSharedValue, labelTextColorSharedValue}),
-        [animatedTiming, labelHeightSharedValue, labelTextColorSharedValue, type]
+        [
+            animatedTiming,
+            labelHeightSharedValue,
+            labelTextColorSharedValue,
+            type
+        ]
     )
 
     useEffect(() => {

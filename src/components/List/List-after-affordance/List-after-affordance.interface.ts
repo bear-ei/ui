@@ -8,7 +8,9 @@ export interface ListAfterAffordancePressOutOptions {
     itemKey?: string
 }
 
-export interface ListAfterAffordanceProps extends ViewProps, RefAttributes<View> {
+export interface ListAfterAffordanceProps
+    extends ViewProps,
+        RefAttributes<View> {
     itemKey: string
     onCancel?: (options: ListAfterAffordancePressOutOptions) => void
     onConfirm?: (options: ListAfterAffordancePressOutOptions) => void
@@ -18,7 +20,10 @@ export interface ListAfterAffordanceProps extends ViewProps, RefAttributes<View>
 }
 
 export interface RenderListAfterAffordanceProps
-    extends Omit<ListAfterAffordanceProps, 'itemKey' | 'onCancel' | 'onConfirm'> {
+    extends Omit<
+        ListAfterAffordanceProps,
+        'itemKey' | 'onCancel' | 'onConfirm'
+    > {
     dangerAnimatedStyle: AnimatedStyle<ViewStyle>
     doubleConfirmed?: boolean
     fill: string
@@ -35,13 +40,20 @@ export interface ListAfterAffordanceState {
     nextCancelEvent?: () => void
 }
 
-export type HandleListAfterAffordanceConfirmOptions = Pick<ListAfterAffordanceProps, 'onConfirm' | 'itemKey'> &
+export type HandleListAfterAffordanceConfirmOptions = Pick<
+    ListAfterAffordanceProps,
+    'onConfirm' | 'itemKey'
+> &
     ListAfterAffordanceState
 
-export type HandleListAfterAffordanceCancelOptions = Pick<ListAfterAffordanceProps, 'onCancel' | 'itemKey'> &
+export type HandleListAfterAffordanceCancelOptions = Pick<
+    ListAfterAffordanceProps,
+    'onCancel' | 'itemKey'
+> &
     ListAfterAffordanceState
 
-export interface UseListAfterAffordanceAnimatedOptions extends Pick<RenderListAfterAffordanceProps, 'doubleConfirmed'> {
+export interface UseListAfterAffordanceAnimatedOptions
+    extends Pick<RenderListAfterAffordanceProps, 'doubleConfirmed'> {
     layoutWidth?: number
 }
 

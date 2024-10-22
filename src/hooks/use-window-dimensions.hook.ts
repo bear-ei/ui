@@ -17,13 +17,18 @@ const handleWindowScaledSize =
         })
     }
 
-const handleEventListener = (onWindowScaledSize: ({window}: {window: ScaledSize}) => void) => {
-    const subscription = () => Dimensions.addEventListener('change', onWindowScaledSize)
+const handleEventListener = (
+    onWindowScaledSize: ({window}: {window: ScaledSize}) => void
+) => {
+    const subscription = () =>
+        Dimensions.addEventListener('change', onWindowScaledSize)
 
     return subscription()
 }
 
-export const useWindowDimensions = ({changeEventThrottle = 50}: UseWindowDimensionsOptions = {}) => {
+export const useWindowDimensions = ({
+    changeEventThrottle = 50
+}: UseWindowDimensionsOptions = {}) => {
     const [scaledSize, setState] = useImmer<ScaledSize>({
         width: 0,
         height: 0,

@@ -1,9 +1,20 @@
 import {WritableDraft} from 'immer'
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {
+    forwardRef,
+    useEffect,
+    useId,
+    useImperativeHandle,
+    useMemo,
+    useRef
+} from 'react'
 import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {
+    OnStateEventChangeOptions,
+    StateEvent,
+    useOnStateEvent
+} from '../../hooks'
 import {debounce, textSearch} from '../../utils'
 import {EventName, State} from '../Common'
 import {ListData} from '../List'
@@ -15,7 +26,11 @@ import {
     SearchState
 } from './Search.interface'
 
-const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChangeOptions) => {
+const handleSearchStateChange = ({
+    eventName,
+    ref,
+    state
+}: HandleSearchStateChangeOptions) => {
     const handleTextFieldFocus = () => ref?.current?.focus()
     const nextEvent = {
         pressOut: () => handleTextFieldFocus()
@@ -48,16 +63,25 @@ const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChang
     }
 }
 
-const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) => {
-    const createNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
+const handleSearchChangeText = ({
+    data = [],
+    onChangeText
+}: HandleSearchChangeTextOptions = {}) => {
+    const createNextChangeTextEvent = (value: string) => () =>
+        onChangeText?.(value)
 
     return (setState: Updater<SearchState>) => (value?: string) => {
-        const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
+        const matchedData =
+            value ? textSearch(data)(['headline', 'supporting'])(value) : []
 
         setState(draft => {
             const prevSearchValue = draft.searchValue
 
-            draft.data = (matchedData.length ? matchedData : undefined) as WritableDraft<ListData>[]
+            draft.data = (
+                matchedData.length ? matchedData : (
+                    undefined
+                )) as WritableDraft<ListData>[]
+
             draft.searchValue = value
 
             if (typeof value === 'string' && value !== prevSearchValue) {
@@ -67,28 +91,32 @@ const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTex
     }
 }
 
-const handleSearchListVisible = (setState: Updater<SearchState>) => (value?: boolean) => {
-    if (typeof value === 'boolean') {
-        setState(draft => {
-            draft.listVisible = value
-        })
+const handleSearchListVisible =
+    (setState: Updater<SearchState>) => (value?: boolean) => {
+        if (typeof value === 'boolean') {
+            setState(draft => {
+                draft.listVisible = value
+            })
+        }
     }
-}
 
-const setSearchLayout = (setState: Updater<SearchState>) => (containerCurrent?: View | null) =>
-    containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
-        setState(draft => {
-            draft.layout.height = height
-            draft.layout.pageX = pageX
-            draft.layout.pageY = pageY
-            draft.layout.width = width
-            draft.layout.x = x
-            draft.layout.y = y
-        })
-    )
+const setSearchLayout =
+    (setState: Updater<SearchState>) => (containerCurrent?: View | null) =>
+        containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
+            setState(draft => {
+                draft.layout.height = height
+                draft.layout.pageX = pageX
+                draft.layout.pageY = pageY
+                draft.layout.width = width
+                draft.layout.x = x
+                draft.layout.y = y
+            })
+        )
 
 const handleSearchContainerLayout =
-    (setState: Updater<SearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) => {
+    (setState: Updater<SearchState>) =>
+    (containerCurrent?: View | null) =>
+    (listVisible?: boolean) => {
         if (listVisible) {
             setSearchLayout(setState)(containerCurrent)
         }
@@ -116,16 +144,25 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         },
         ref
     ) => {
-        const [{searchValue, eventName, layout, listVisible, nextPressOutEvent, nextChangeTextEvent}, setState] =
-            useImmer<SearchState>({
-                eventName: undefined,
-                layout: {} as SearchState['layout'],
-                listVisible: undefined,
-                nextChangeTextEvent: undefined,
-                nextPressOutEvent: undefined,
-                searchValue: undefined,
-                state: 'enabled'
-            })
+        const [
+            {
+                searchValue,
+                eventName,
+                layout,
+                listVisible,
+                nextPressOutEvent,
+                nextChangeTextEvent
+            },
+            setState
+        ] = useImmer<SearchState>({
+            eventName: undefined,
+            layout: {} as SearchState['layout'],
+            listVisible: undefined,
+            nextChangeTextEvent: undefined,
+            nextPressOutEvent: undefined,
+            searchValue: undefined,
+            state: 'enabled'
+        })
 
         const containerRef = useRef<View>(null)
         const id = useId()
@@ -134,20 +171,43 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         const placeholderTextColor = theme.token.scheme.onSurfaceVariant
         const underlayColor = theme.token.scheme.onSurface
         const {data} = listProps
-        const onSearchListVisible = useMemo(() => debounce(handleSearchListVisible(setState))(150), [setState])
-        const onSearchChangeText = handleSearchChangeText({data, onChangeText})(setState)
-        const onSearchChangeTextSource = useMemo(() => handleSearchChangeText()(setState), [setState])
+        const onSearchListVisible = useMemo(
+            () => debounce(handleSearchListVisible(setState))(150),
+            [setState]
+        )
+
+        const onSearchChangeText = handleSearchChangeText({data, onChangeText})(
+            setState
+        )
+
+        const onSearchChangeTextSource = useMemo(
+            () => handleSearchChangeText()(setState),
+            [setState]
+        )
+
         const onSearchContainerLayout = useMemo(
             () => handleSearchContainerLayout(setState)(containerRef.current),
             [setState]
         )
 
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleSearchStateChange({...options, ref: inputRef, state})(setState)(event)
+        const onStateEventChange =
+            (options: OnStateEventChangeOptions) =>
+            (state: State) =>
+            (event: StateEvent) =>
+                handleSearchStateChange({...options, ref: inputRef, state})(
+                    setState
+                )(event)
 
-        const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
+        const onStateEvent = useOnStateEvent({
+            ...renderProps,
+            onStateEventChange
+        })
 
-        useImperativeHandle(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [])
+        useImperativeHandle(
+            ref,
+            () => (inputRef?.current ? inputRef?.current : {}) as TextInput,
+            []
+        )
 
         useEffect(() => {
             onSearchChangeTextSource(value ?? defaultValue)

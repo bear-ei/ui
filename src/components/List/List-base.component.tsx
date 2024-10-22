@@ -1,5 +1,12 @@
 import {WritableDraft} from 'immer'
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {
+    forwardRef,
+    useEffect,
+    useId,
+    useImperativeHandle,
+    useMemo,
+    useRef
+} from 'react'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {RenderVirtualListItemInfo} from '../Virtual-list'
@@ -15,40 +22,54 @@ import {
     VirtualListComponent
 } from './List.interface'
 
-const handlePrevListActiveKeysFilter = (value: string) => (key: string) => key !== value
-const handleListSelect = (draft: WritableDraft<ListState>) => (deselect?: boolean) => (value?: string | string[]) => {
-    if (Array.isArray(value)) {
-        return
+const handlePrevListActiveKeysFilter = (value: string) => (key: string) =>
+    key !== value
+
+const handleListSelect =
+    (draft: WritableDraft<ListState>) =>
+    (deselect?: boolean) =>
+    (value?: string | string[]) => {
+        if (Array.isArray(value)) {
+            return
+        }
+
+        const prevListActiveKey = draft.listActiveKey
+
+        draft.listActiveKey =
+            value === prevListActiveKey && deselect ? undefined : value
+
+        if (draft.afterAffordanceActiveKey !== value) {
+            draft.afterAffordanceActiveKey = undefined
+        }
+
+        return prevListActiveKey !== value ? draft.listActiveKey : 'NOT_ACTIVE'
     }
 
-    const prevListActiveKey = draft.listActiveKey
+const handleListMultiselect =
+    (draft: WritableDraft<ListState>) => (value: string | string[]) => {
+        const prevListActiveKeys = draft.listActiveKeys
+        const nextListActiveKeys =
+            Array.isArray(value) ? value : (
+                [...(prevListActiveKeys ?? []), value]
+            )
 
-    draft.listActiveKey = value === prevListActiveKey && deselect ? undefined : value
+        if (typeof value === 'string') {
+            draft.listActiveKeys =
+                prevListActiveKeys?.includes(value) ?
+                    prevListActiveKeys?.filter(
+                        handlePrevListActiveKeysFilter(value)
+                    )
+                :   nextListActiveKeys
+        }
 
-    if (draft.afterAffordanceActiveKey !== value) {
-        draft.afterAffordanceActiveKey = undefined
+        if (Array.isArray(value)) {
+            draft.listActiveKeys = nextListActiveKeys
+        }
+
+        return prevListActiveKeys?.join() !== nextListActiveKeys?.join() ?
+                draft.listActiveKeys
+            :   'NOT_ACTIVES'
     }
-
-    return prevListActiveKey !== value ? draft.listActiveKey : 'NOT_ACTIVE'
-}
-
-const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: string | string[]) => {
-    const prevListActiveKeys = draft.listActiveKeys
-    const nextListActiveKeys = Array.isArray(value) ? value : [...(prevListActiveKeys ?? []), value]
-
-    if (typeof value === 'string') {
-        draft.listActiveKeys =
-            prevListActiveKeys?.includes(value) ?
-                prevListActiveKeys?.filter(handlePrevListActiveKeysFilter(value))
-            :   nextListActiveKeys
-    }
-
-    if (Array.isArray(value)) {
-        draft.listActiveKeys = nextListActiveKeys
-    }
-
-    return prevListActiveKeys?.join() !== nextListActiveKeys?.join() ? draft.listActiveKeys : 'NOT_ACTIVES'
-}
 
 const createNextActiveEvent =
     ({onActive, onActives}: HandleListActiveOptions) =>
@@ -62,7 +83,12 @@ const createNextActiveEvent =
     }
 
 const handleListActive =
-    ({onActive, selectType, onActives, deselect}: HandleListActiveOptions = {}) =>
+    ({
+        onActive,
+        selectType,
+        onActives,
+        deselect
+    }: HandleListActiveOptions = {}) =>
     (setState: Updater<ListState>) =>
     (value?: string | string[]) => {
         setState(draft => {
@@ -75,20 +101,33 @@ const handleListActive =
                 draft.status = 'succeeded'
             }
 
-            if (callbackValue && !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(callbackValue?.toString())) {
+            if (
+                callbackValue &&
+                !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(
+                    callbackValue?.toString()
+                )
+            ) {
                 if (selectType === 'select') {
-                    draft.nextActiveEvent = createNextActiveEvent({onActive})(callbackValue)
+                    draft.nextActiveEvent = createNextActiveEvent({onActive})(
+                        callbackValue
+                    )
                 }
 
                 if (selectType === 'multiselect') {
-                    draft.nextActiveEvent = createNextActiveEvent({onActives})(callbackValue)
+                    draft.nextActiveEvent = createNextActiveEvent({onActives})(
+                        callbackValue
+                    )
                 }
             }
         })
     }
 
-const handleActiveListAfterAffordance = ({onActive, selectType}: HandleListActiveOptions) => {
-    const createNextAfterAffordanceActiveEvent = (value?: string) => () => onActive?.(value)
+const handleActiveListAfterAffordance = ({
+    onActive,
+    selectType
+}: HandleListActiveOptions) => {
+    const createNextAfterAffordanceActiveEvent = (value?: string) => () =>
+        onActive?.(value)
 
     return (setState: Updater<ListState>) => (value?: string) => {
         if (selectType !== 'multiselect') {
@@ -108,7 +147,8 @@ const handleActiveListAfterAffordance = ({onActive, selectType}: HandleListActiv
                 }
 
                 if (prevListActiveKey !== draft.listActiveKey) {
-                    draft.nextAfterAffordanceActiveEvent = createNextAfterAffordanceActiveEvent(value)
+                    draft.nextAfterAffordanceActiveEvent =
+                        createNextAfterAffordanceActiveEvent(value)
                 }
             })
         }
@@ -116,9 +156,16 @@ const handleActiveListAfterAffordance = ({onActive, selectType}: HandleListActiv
 }
 
 const handleListClose = (onClose?: (value?: string) => void) => onClose
-const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
+const renderDefaultListItem = ({
+    index,
+    item,
+    supportingTextNumberOfLines,
+    ...props
+}: RenderListItemOptions) => (
     <ListItem
-        {...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
+        {...(typeof item?.supportingTextNumberOfLines !== 'number' && {
+            supportingTextNumberOfLines
+        })}
         {...item}
         {...props}
         itemIndex={index}
@@ -129,9 +176,14 @@ const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...pro
 const handleRenderListItem =
     ({renderItem, ...options}: HandleRenderItemOptions) =>
     (props: RenderVirtualListItemInfo<ListData>) =>
-        renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})
+        renderItem ?
+            renderItem({...options, ...props})
+        :   renderDefaultListItem({...options, ...props})
 
-export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps>(
+export const ListBase = forwardRef<
+    VirtualListComponent<ListData>,
+    ListBaseProps
+>(
     (
         {
             activeKey,
@@ -190,9 +242,23 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 
         const id = useId()
         const listRef = useRef<VirtualListComponent<ListData>>(null)
-        const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, selectType})(setState)
-        const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
-        const onListActiveSource = useMemo(() => handleListActive({selectType})(setState), [setState, selectType])
+        const onActiveAfterAffordance = handleActiveListAfterAffordance({
+            onActive,
+            selectType
+        })(setState)
+
+        const onListActive = handleListActive({
+            onActive,
+            selectType,
+            onActives,
+            deselect
+        })(setState)
+
+        const onListActiveSource = useMemo(
+            () => handleListActive({selectType})(setState),
+            [setState, selectType]
+        )
+
         const onListClose = handleListClose(onClose)
         const theme = useTheme()
         const idle =
@@ -224,17 +290,34 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
             selectType,
             shape,
             skeletonElement,
-            skeletonMinDuration: loading && !listLoadingComponent ? -1 : skeletonMinDuration,
+            skeletonMinDuration:
+                loading && !listLoadingComponent ? -1 : skeletonMinDuration,
+
             supportingTextNumberOfLines,
             trailingTrigger,
             type
         })
 
-        useImperativeHandle(ref, () => (listRef?.current ? listRef?.current : {}) as VirtualListComponent<ListData>, [])
+        useImperativeHandle(
+            ref,
+            () =>
+                (listRef?.current ?
+                    listRef?.current
+                :   {}) as VirtualListComponent<ListData>,
+            []
+        )
 
         useEffect(() => {
-            onListActiveSource(activeKey ?? defaultActiveKey ?? activeKeys ?? defaultActiveKeys)
-        }, [activeKey, activeKeys, defaultActiveKey, defaultActiveKeys, onListActiveSource])
+            onListActiveSource(
+                activeKey ?? defaultActiveKey ?? activeKeys ?? defaultActiveKeys
+            )
+        }, [
+            activeKey,
+            activeKeys,
+            defaultActiveKey,
+            defaultActiveKeys,
+            onListActiveSource
+        ])
 
         useEffect(() => {
             nextActiveEvent?.()

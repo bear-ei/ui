@@ -10,7 +10,11 @@ import {
 import {useSideSheetContentAnimated} from './use-side-sheet-content-animated.hook'
 
 const renderSideSheetContentLeading =
-    ({headlineLeading, back, sheetPosition}: RenderSideSheetContentLeadingOptions) =>
+    ({
+        headlineLeading,
+        back,
+        sheetPosition
+    }: RenderSideSheetContentLeadingOptions) =>
     (onBack?: () => void) =>
         headlineLeading ??
         (back ?
@@ -18,7 +22,10 @@ const renderSideSheetContentLeading =
                 icon={
                     <Icon
                         iconStyle='outlined'
-                        name={sheetPosition === 'horizontalStart' ? 'arrowForward' : 'arrowBack'}
+                        name={
+                            sheetPosition === 'horizontalStart' ? 'arrowForward'
+                            :   'arrowBack'
+                        }
                         type='filled'
                     />
                 }
@@ -65,15 +72,27 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
         ref
     ) => {
         const id = useId()
-        const {contentAnimatedStyle, containerAnimatedStyle, footerAnimatedStyle} = useSideSheetContentAnimated({
+        const {
+            contentAnimatedStyle,
+            containerAnimatedStyle,
+            footerAnimatedStyle
+        } = useSideSheetContentAnimated({
             footerVisible,
             sheetPosition,
             type,
             visible
         })
 
-        const leading = renderSideSheetContentLeading({headlineLeading, back, sheetPosition})(onBack)
-        const trailing = renderSideSheetContentTrailing({headlineTrailing, close})(onClose)
+        const leading = renderSideSheetContentLeading({
+            headlineLeading,
+            back,
+            sheetPosition
+        })(onBack)
+
+        const trailing = renderSideSheetContentTrailing({
+            headlineTrailing,
+            close
+        })(onClose)
 
         return render({
             ...renderProps,

@@ -32,7 +32,8 @@ const render = ({
             testID={`tooltip--${id}`}
         >
             <ContentContainer testID={`tooltip__content--${id}`}>
-                {children && cloneElement(children, {onFocus, ...onChildrenStateEvent})}
+                {children &&
+                    cloneElement(children, {onFocus, ...onChildrenStateEvent})}
             </ContentContainer>
 
             {typeof visible === 'boolean' && supporting && (

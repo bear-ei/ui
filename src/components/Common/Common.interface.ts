@@ -21,7 +21,15 @@ export type ShadowType = keyof Shadow
 export type ShapeType = keyof Shape
 export type Size = 'large' | 'medium' | 'small'
 export type SpacingType = keyof Spacing
-export type State = 'enabled' | 'focused' | 'hovered' | 'longPressIn' | 'pressIn' | 'error' | 'disabled'
+export type State =
+    | 'enabled'
+    | 'focused'
+    | 'hovered'
+    | 'longPressIn'
+    | 'pressIn'
+    | 'error'
+    | 'disabled'
+
 export type TypographyType = keyof Typography
 export type EventName =
     | 'blur'

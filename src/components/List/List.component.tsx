@@ -1,7 +1,12 @@
 import {FC, forwardRef} from 'react'
 import {VirtualList} from '../Virtual-list'
 import {ListBase} from './List-base.component'
-import {ListData, ListProps, RenderListProps, VirtualListComponent} from './List.interface'
+import {
+    ListData,
+    ListProps,
+    RenderListProps,
+    VirtualListComponent
+} from './List.interface'
 import {Container} from './List.styles'
 
 const render = ({
@@ -39,19 +44,23 @@ const render = ({
                 ...extraData
             ]}
             focusedIndex={focusedIndex}
-            itemSize={itemSize ?? theme.adaptSize(theme.token.spacing.extraSmall * 14)}
+            itemSize={
+                itemSize ?? theme.adaptSize(theme.token.spacing.extraSmall * 14)
+            }
             loading={loading}
             renderItem={renderItem}
         />
     </Container>
 )
 
-const ForwardRefList = forwardRef<VirtualListComponent<ListData>, ListProps>((props, ref) => (
-    <ListBase
-        {...props}
-        ref={ref}
-        render={render}
-    />
-))
+const ForwardRefList = forwardRef<VirtualListComponent<ListData>, ListProps>(
+    (props, ref) => (
+        <ListBase
+            {...props}
+            ref={ref}
+            render={render}
+        />
+    )
+)
 
 export const List = ForwardRefList as FC<ListProps>

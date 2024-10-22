@@ -1,5 +1,10 @@
 import {RefAttributes} from 'react'
-import {ImageSourcePropType, ImageURISource, View, ViewProps} from 'react-native'
+import {
+    ImageSourcePropType,
+    ImageURISource,
+    View,
+    ViewProps
+} from 'react-native'
 
 export interface AvatarProps extends ViewProps, RefAttributes<View> {
     backgroundColor?: string

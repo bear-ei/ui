@@ -26,13 +26,16 @@ export const Content = styled(Shape)<SearchContentProps>`
         background-color: ${theme.token.scheme.surfaceContainerHigh};
         gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-        padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+        padding: ${theme.adaptSize(theme.token.spacing.none)}px
+            ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `};
 
     ${({theme, trailingShow}) =>
         !trailingShow &&
         css`
-            padding-right: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+            padding-right: ${theme.adaptSize(
+                theme.token.spacing.extraSmall * 14
+            )}px;
         `};
 `
 
@@ -59,7 +62,10 @@ export const Leading = styled.View`
 
 export const TextField = styled.View`
     ${({theme}) => css`
-        height: ${theme.adaptSize(theme.token.typography.body.large.lineHeight)}px;
+        height: ${theme.adaptSize(
+            theme.token.typography.body.large.lineHeight
+        )}px;
+
         padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
     `};
 `
@@ -82,10 +88,16 @@ export const Input = styled.TextInput`
          */
         !secureTextEntry &&
         css`
-            font-size: ${theme.adaptFontSize(theme.token.typography.body.large.size)}px;
+            font-size: ${theme.adaptFontSize(
+                theme.token.typography.body.large.size
+            )}px;
+
             font-style: ${theme.token.typography.body.large.style};
             font-weight: ${theme.token.typography.body.large.weight};
-            letter-spacing: ${theme.adaptSize(theme.token.typography.body.large.letterSpacing)}px;
+            letter-spacing: ${theme.adaptSize(
+                theme.token.typography.body.large.letterSpacing
+            )}px;
+
             padding: ${theme.token.spacing.none}px;
         `}
 `

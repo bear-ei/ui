@@ -9,16 +9,31 @@ export const Container = styled.View<FABContainerProps>`
     ${({theme, size = 'medium'}) => {
         const contentSize = {
             small: css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 12
+                )}px;
+
+                min-width: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 12
+                )}px;
             `,
             medium: css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 14
+                )}px;
+
+                min-width: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 14
+                )}px;
             `,
             large: css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 24)}px;
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24)}px;
+                height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 24
+                )}px;
+
+                min-width: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 24
+                )}px;
             `
         }
 
@@ -28,7 +43,9 @@ export const Container = styled.View<FABContainerProps>`
     ${({theme, extendedFAB}) =>
         extendedFAB &&
         css`
-            min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+            min-width: ${theme.adaptSize(
+                theme.token.spacing.extraSmall * 14
+            )}px;
         `}
 
     ${({theme}) => css`
@@ -47,16 +64,31 @@ export const Content = styled(Shape)<FABContentProps>`
     ${({theme, size = 'medium'}) => {
         const contentSize = {
             small: css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+                height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 10
+                )}px;
+
+                width: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 10
+                )}px;
             `,
             medium: css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 14
+                )}px;
+
+                width: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 14
+                )}px;
             `,
             large: css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 24)}px;
-                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24)}px;
+                height: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 24
+                )}px;
+
+                width: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 24
+                )}px;
             `
         }
 
@@ -96,14 +128,19 @@ export const Main = styled.View<FABMainProps>`
     ${({theme, size = 'medium'}) => {
         const contentSize = {
             small: css`
-                padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.small)}px;
+                padding: ${theme.adaptSize(theme.token.spacing.none)}px
+                    ${theme.adaptSize(theme.token.spacing.small)}px;
             `,
             medium: css`
-                padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;
+                padding: ${theme.adaptSize(theme.token.spacing.none)}px
+                    ${theme.adaptSize(theme.token.spacing.medium)}px;
             `,
             large: css`
                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
-                    ${theme.adaptSize(theme.token.spacing.extraLarge + -0.5 * theme.token.spacing.extraSmall)}px;
+                    ${theme.adaptSize(
+                        theme.token.spacing.extraLarge +
+                            -0.5 * theme.token.spacing.extraSmall
+                    )}px;
             `
         }
 
@@ -113,10 +150,17 @@ export const Main = styled.View<FABMainProps>`
     ${({theme, extendedFAB}) =>
         extendedFAB &&
         css`
-            gap: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
+            gap: ${theme.adaptSize(
+                theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+            )}px;
+
             padding: ${theme.adaptSize(theme.token.spacing.none)}px
-                ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px
-                ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;
+                ${theme.adaptSize(
+                    theme.token.spacing.large +
+                        -1 * theme.token.spacing.extraSmall
+                )}px
+                ${theme.adaptSize(theme.token.spacing.none)}px
+                ${theme.adaptSize(theme.token.spacing.medium)}px;
         `}
 `
 

@@ -1,7 +1,12 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
-import {ButtonContainerProps, ButtonContentProps, ButtonMainProps, ButtonType} from './Button.interface'
+import {
+    ButtonContainerProps,
+    ButtonContentProps,
+    ButtonMainProps,
+    ButtonType
+} from './Button.interface'
 
 export const Container = styled.View<ButtonContainerProps>`
     cursor: pointer;
@@ -15,11 +20,16 @@ export const Container = styled.View<ButtonContainerProps>`
     ${({theme, type = 'filled'}) => {
         const containerType = {
             text: css`
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                min-width: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 14
+                )}px;
             `,
             link: css`
                 height: auto;
-                margin-top: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
+                margin-top: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall / 4
+                )}px;
+
                 min-height: ${theme.adaptSize(theme.token.spacing.medium)}px;
                 min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
             `
@@ -49,7 +59,9 @@ export const Content = styled(Shape)<ButtonContentProps>`
     ${({theme, type = 'filled'}) => {
         const contentType = {
             text: css`
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                min-width: ${theme.adaptSize(
+                    theme.token.spacing.extraSmall * 14
+                )}px;
             `,
             link: css`
                 height: ${theme.adaptSize(theme.token.spacing.medium)}px;
@@ -83,7 +95,8 @@ export const Main = styled.View<ButtonMainProps>`
     z-index: 4;
 
     ${({theme}) => css`
-        padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.large)}px;
+        padding: ${theme.adaptSize(theme.token.spacing.none)}px
+            ${theme.adaptSize(theme.token.spacing.large)}px;
     `}
 
     ${({theme}) => css`
@@ -94,7 +107,10 @@ export const Main = styled.View<ButtonMainProps>`
         const mainType = {
             text: css`
                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
-                    ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
+                    ${theme.adaptSize(
+                        theme.token.spacing.medium +
+                            -1 * theme.token.spacing.extraSmall
+                    )}px;
             `,
             link: css`
                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
@@ -109,7 +125,10 @@ export const Main = styled.View<ButtonMainProps>`
         iconShow &&
         (type === 'text' ?
             css`
-                padding-left: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
+                padding-left: ${theme.adaptSize(
+                    theme.token.spacing.medium +
+                        -1 * theme.token.spacing.extraSmall
+                )}px;
                 padding-right: ${theme.adaptSize(theme.token.spacing.medium)}px;
             `
         :   css`

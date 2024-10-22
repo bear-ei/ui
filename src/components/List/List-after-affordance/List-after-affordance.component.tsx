@@ -4,7 +4,10 @@ import Animated from 'react-native-reanimated'
 import {Icon} from '../../Icon'
 import {ListAffordanceButton} from '../List-affordance-button'
 import {ListAfterAffordanceBase} from './List-after-affordance-base.component'
-import {ListAfterAffordanceProps, RenderListAfterAffordanceProps} from './List-after-affordance.interface'
+import {
+    ListAfterAffordanceProps,
+    RenderListAfterAffordanceProps
+} from './List-after-affordance.interface'
 import {Container, Danger} from './List-after-affordance.styles'
 
 const AnimatedDanger = Animated.createAnimatedComponent(Danger)
@@ -50,7 +53,9 @@ const render = ({
         />
 
         <AnimatedDanger
-            disabled={secondaryButtonProps?.loading || secondaryButtonProps?.disabled}
+            disabled={
+                secondaryButtonProps?.loading || secondaryButtonProps?.disabled
+            }
             pointerEvents='none'
             style={[dangerAnimatedStyle]}
             testID={`listAfterAffordance__danger--${id}`}
@@ -58,7 +63,10 @@ const render = ({
     </Container>
 )
 
-export const ForwardRefListAfterAffordance = forwardRef<View, ListAfterAffordanceProps>((props, ref) => (
+export const ForwardRefListAfterAffordance = forwardRef<
+    View,
+    ListAfterAffordanceProps
+>((props, ref) => (
     <ListAfterAffordanceBase
         {...props}
         ref={ref}

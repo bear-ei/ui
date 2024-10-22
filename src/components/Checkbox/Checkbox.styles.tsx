@@ -34,8 +34,13 @@ export const Main = styled(Shape)`
     z-index: 4;
 
     ${({theme}) => css`
-        height: ${theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)}px;
-        width: ${theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)}px;
+        height: ${theme.adaptSize(
+            theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall
+        )}px;
+
+        width: ${theme.adaptSize(
+            theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall
+        )}px;
     `}
 `
 

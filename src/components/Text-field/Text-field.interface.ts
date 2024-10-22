@@ -7,7 +7,11 @@ import {
     TextStyle,
     ViewStyle
 } from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {
+    AnimatableValue,
+    AnimatedStyle,
+    SharedValue
+} from 'react-native-reanimated'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {EventName, ShapeProps, State, TypographyProps} from '../Common'
 
@@ -18,7 +22,11 @@ export interface InputProps extends TextInputProps, RefAttributes<TextInput> {
 
 export interface TextFieldProps
     extends Partial<
-        TextInputProps & PressableProps & RefAttributes<TextInput> & Pick<ShapeProps, 'shape'> & OnStateEvent
+        TextInputProps &
+            PressableProps &
+            RefAttributes<TextInput> &
+            Pick<ShapeProps, 'shape'> &
+            OnStateEvent
     > {
     content?: React.ReactNode
     disabled?: boolean
@@ -74,16 +82,19 @@ export interface HandleTextFieldStateEventChangeOptions
     ref?: RefObject<TextInput>
 }
 
-export interface UseTextFieldAnimatedOptions extends Pick<RenderTextFieldProps, 'type' | 'error' | 'disabled'> {
+export interface UseTextFieldAnimatedOptions
+    extends Pick<RenderTextFieldProps, 'type' | 'error' | 'disabled'> {
     filled: boolean
     state: State
 }
 
-export interface HandleTextFieldEnabledSharedOptions extends Pick<UseTextFieldAnimatedOptions, 'error'> {
+export interface HandleTextFieldEnabledSharedOptions
+    extends Pick<UseTextFieldAnimatedOptions, 'error'> {
     filledToValue: number
 }
 
-export interface HandleTextFieldSupportingTextOptions extends Pick<TextFieldProps, 'supportingTextDelayTime'> {
+export interface HandleTextFieldSupportingTextOptions
+    extends Pick<TextFieldProps, 'supportingTextDelayTime'> {
     timer: MutableRefObject<NodeJS.Timeout | undefined>
 }
 
@@ -117,7 +128,11 @@ export interface HandleTextFieldFocusedSharedValue {
 }
 
 export type TextFieldStateAnimated = Partial<Record<State, () => void>>
-export type HandleTextFieldNonerrorAnimatedOptions = Pick<UseTextFieldAnimatedOptions, 'disabled' | 'error'>
+export type HandleTextFieldNonerrorAnimatedOptions = Pick<
+    UseTextFieldAnimatedOptions,
+    'disabled' | 'error'
+>
+
 export type TextFieldHeaderProps = Pick<RenderTextFieldProps, 'type'> & {
     leadingShow: boolean
     trailingShow: boolean

@@ -1,9 +1,21 @@
 import {WritableDraft} from 'immer'
-import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {
+    cloneElement,
+    forwardRef,
+    useEffect,
+    useId,
+    useImperativeHandle,
+    useMemo,
+    useRef
+} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {
+    OnStateEventChangeOptions,
+    StateEvent,
+    useOnStateEvent
+} from '../../hooks'
 import {EventName, State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
@@ -16,22 +28,43 @@ import {
 } from './Button.interface'
 import {useButtonAnimated} from './use-button-animated.hook'
 
-const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
-    const elevationType = type && ['elevated', 'filled', 'tonal'].includes(type)
+const handleButtonElevation =
+    (draft: WritableDraft<ButtonState>) =>
+    (type?: ButtonType) =>
+    (state?: State) => {
+        const elevationType =
+            type && ['elevated', 'filled', 'tonal'].includes(type)
 
-    if (!elevationType) {
-        return
+        if (!elevationType) {
+            return
+        }
+
+        const level = {
+            disabled: 0,
+            enabled: 0,
+            error: 0,
+            focused: 0,
+            hovered: 1,
+            longPressIn: 0,
+            pressIn: 0
+        }
+
+        const correctionCoefficient = type === 'elevated' ? 1 : 0
+
+        if (state) {
+            draft.elevation = (
+                state === 'disabled' ?
+                    level[state]
+                :   level[state] + correctionCoefficient) as ElevationLevel
+        }
     }
 
-    const level = {disabled: 0, enabled: 0, error: 0, focused: 0, hovered: 1, longPressIn: 0, pressIn: 0}
-    const correctionCoefficient = type === 'elevated' ? 1 : 0
-
-    if (state) {
-        draft.elevation = (state === 'disabled' ? level[state] : level[state] + correctionCoefficient) as ElevationLevel
-    }
-}
-
-const handleButtonStateChange = ({eventName, type, state, touchableRef}: HandleButtonStateChangeOptions) => {
+const handleButtonStateChange = ({
+    eventName,
+    type,
+    state,
+    touchableRef
+}: HandleButtonStateChangeOptions) => {
     const nextEvent = {
         pressIn: () => touchableRef?.current?.focus()
     } as Record<EventName, () => void>
@@ -57,32 +90,38 @@ const handleButtonStateChange = ({eventName, type, state, touchableRef}: HandleB
     }
 }
 
-const handleButtonInit = (setState: Updater<ButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
-    setState(draft => {
-        if (draft.status !== 'idle') {
-            return
-        }
-
-        if (type === 'elevated' && !disabled) {
-            draft.elevation = 1
-        }
-
-        draft.status = 'succeeded'
-    })
-
-const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: ButtonType) => (disabled?: boolean) => {
-    if (typeof disabled === 'boolean') {
+const handleButtonInit =
+    (setState: Updater<ButtonState>) =>
+    (disabled?: boolean) =>
+    (type?: ButtonType) =>
         setState(draft => {
-            if (disabled) {
-                draft.eventName = 'none'
+            if (draft.status !== 'idle') {
+                return
             }
 
-            if (type === 'elevated') {
-                draft.elevation = disabled ? 0 : 1
+            if (type === 'elevated' && !disabled) {
+                draft.elevation = 1
             }
+
+            draft.status = 'succeeded'
         })
+
+const handleButtonDisabled =
+    (setState: Updater<ButtonState>) =>
+    (type?: ButtonType) =>
+    (disabled?: boolean) => {
+        if (typeof disabled === 'boolean') {
+            setState(draft => {
+                if (disabled) {
+                    draft.eventName = 'none'
+                }
+
+                if (type === 'elevated') {
+                    draft.elevation = disabled ? 0 : 1
+                }
+            })
+        }
     }
-}
 
 const renderButtonIcon =
     ({disabled, eventName, type = 'filled'}: RenderButtonIconOptions) =>
@@ -100,7 +139,10 @@ const renderButtonIcon =
                 return icon
             }
 
-            const size = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+            const size = theme.adaptSize(
+                theme.token.spacing.large +
+                    -1.5 * theme.token.spacing.extraSmall
+            )
 
             return cloneElement<IconProps>(icon, {
                 disabled,
@@ -126,29 +168,68 @@ const handleButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const ButtonBase = forwardRef<View, ButtonBaseProps>(
-    ({disabled, icon, labelText = 'Label', render, type = 'filled', ...renderProps}, ref) => {
-        const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<ButtonState>({
-            elevation: undefined,
-            eventName: undefined,
-            nextPressInEvent: undefined,
-            status: 'idle'
-        })
+    (
+        {
+            disabled,
+            icon,
+            labelText = 'Label',
+            render,
+            type = 'filled',
+            ...renderProps
+        },
+        ref
+    ) => {
+        const [{elevation, eventName, status, nextPressInEvent}, setState] =
+            useImmer<ButtonState>({
+                elevation: undefined,
+                eventName: undefined,
+                nextPressInEvent: undefined,
+                status: 'idle'
+            })
 
         const touchableRef = useRef<View>(null)
         const theme = useTheme()
-        const iconButtonElement = renderButtonIcon({eventName, type, disabled})(theme)(icon)
+        const iconButtonElement = renderButtonIcon({eventName, type, disabled})(
+            theme
+        )(icon)
+
         const id = useId()
-        const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
-        const onButtonInit = useMemo(() => handleButtonInit(setState)(disabled), [disabled, setState])
+        const onButtonDisabled = useMemo(
+            () => handleButtonDisabled(setState)(type),
+            [setState, type]
+        )
+
+        const onButtonInit = useMemo(
+            () => handleButtonInit(setState)(disabled),
+            [disabled, setState]
+        )
+
         const underlayColor = handleButtonUnderlayColor(theme)(type)
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-            handleButtonStateChange({...options, state, type, touchableRef})(setState)(event)
+        const onStateEventChange =
+            (options: OnStateEventChangeOptions) =>
+            (state: State) =>
+            (event: StateEvent) =>
+                handleButtonStateChange({
+                    ...options,
+                    state,
+                    type,
+                    touchableRef
+                })(setState)(event)
 
-        const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
+        const onStateEvent = useOnStateEvent({
+            ...renderProps,
+            disabled,
+            onStateEventChange
+        })
 
-        const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({disabled, eventName, type})
+        const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} =
+            useButtonAnimated({disabled, eventName, type})
 
-        useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
+        useImperativeHandle(
+            ref,
+            () => (touchableRef?.current ? touchableRef?.current : {}) as View,
+            []
+        )
 
         useEffect(() => {
             onButtonInit(type)

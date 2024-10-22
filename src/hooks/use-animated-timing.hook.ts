@@ -9,7 +9,10 @@ import {
     withRepeat,
     withTiming
 } from 'react-native-reanimated'
-import {AnimatedTimingOptions, HandleAnimatedTimingOptions} from './hooks.interface'
+import {
+    AnimatedTimingOptions,
+    HandleAnimatedTimingOptions
+} from './hooks.interface'
 
 const handleAnimatedTiming = ({
     duration = 'medium1',
@@ -18,14 +21,20 @@ const handleAnimatedTiming = ({
     token,
     ...config
 }: HandleAnimatedTimingOptions) => {
-    const {bezier, duration: transitionDuration} = token.handleTransition(easing)(duration)
+    const {bezier, duration: transitionDuration} =
+        token.handleTransition(easing)(duration)
 
     return (callback?: AnimationCallback) => (toValue: number) => {
         const animation = withTiming(
             toValue,
             {
                 duration: transitionDuration,
-                easing: Easing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1),
+                easing: Easing.bezier(
+                    bezier.x0,
+                    bezier.y0,
+                    bezier.x1,
+                    bezier.y1
+                ),
                 ...config
             },
             finished => {
@@ -37,7 +46,9 @@ const handleAnimatedTiming = ({
             }
         )
 
-        return repeat !== undefined && typeof repeat === 'number' ? withRepeat(animation, repeat) : animation
+        return repeat !== undefined && typeof repeat === 'number' ?
+                withRepeat(animation, repeat)
+            :   animation
     }
 }
 
@@ -47,7 +58,10 @@ export const useAnimatedTiming = (token: Token) => {
             (sharedValue: SharedValue<AnimatableValue>) =>
             (toValue: number) => {
                 if (sharedValue.value !== toValue) {
-                    sharedValue.value = handleAnimatedTiming({...options, token})(callback)(toValue)
+                    sharedValue.value = handleAnimatedTiming({
+                        ...options,
+                        token
+                    })(callback)(toValue)
                 }
             },
         [token]

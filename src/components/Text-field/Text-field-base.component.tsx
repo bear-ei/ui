@@ -1,8 +1,23 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
+import {
+    forwardRef,
+    useEffect,
+    useId,
+    useImperativeHandle,
+    useMemo,
+    useRef
+} from 'react'
+import {
+    NativeSyntheticEvent,
+    TextInput,
+    TextInputContentSizeChangeEventData
+} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {
+    OnStateEventChangeOptions,
+    StateEvent,
+    useOnStateEvent
+} from '../../hooks'
 import {EventName, State} from '../Common'
 import {
     HandleTextFieldStateEventChangeOptions,
@@ -12,7 +27,12 @@ import {
 } from './Text-field.interface'
 import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
-const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleTextFieldStateEventChangeOptions) => {
+const handleTextFieldStateChange = ({
+    content,
+    eventName,
+    ref,
+    state
+}: HandleTextFieldStateEventChangeOptions) => {
     const nextEvent = {
         pressOut: () => ref?.current?.focus()
     } as Record<EventName, () => void>
@@ -24,7 +44,10 @@ const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleText
             }
 
             setState(draft => {
-                if ((draft.state === 'focused' && eventName !== 'blur') || content) {
+                if (
+                    (draft.state === 'focused' && eventName !== 'blur') ||
+                    content
+                ) {
                     return
                 }
 
@@ -46,18 +69,28 @@ const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleText
 
 const handleTextFieldContentSizeChange =
     (setState: Updater<TextFieldState>) =>
-    (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) => {
+    (
+        onContentSizeChange?: (
+            event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
+        ) => void
+    ) => {
         const createNextContentSizeChangeEvent =
-            (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => () =>
+            (
+                event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
+            ) =>
+            () =>
                 onContentSizeChange?.(event)
 
-        return (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
+        return (
+            event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
+        ) => {
             const contentSize = event.nativeEvent.contentSize
 
             setState(draft => {
                 draft.contentSize.width = contentSize.width
                 draft.contentSize.height = contentSize.height
-                draft.nextContentSizeChangeEvent = createNextContentSizeChangeEvent(event)
+                draft.nextContentSizeChangeEvent =
+                    createNextContentSizeChangeEvent(event)
             })
         }
     }
@@ -81,7 +114,10 @@ const handleTextFieldSupportingText =
             })
 
             if (supportingTextDelayTime && value) {
-                timer.current = setTimeout(handleSupportingTextVisible, supportingTextDelayTime)
+                timer.current = setTimeout(
+                    handleSupportingTextVisible,
+                    supportingTextDelayTime
+                )
             }
         }
     }
@@ -96,12 +132,14 @@ const handleTextFieldSupportingTextVisible =
 
         setState(draft => {
             draft.supportingText = value ? draft.supportingText : undefined
-            draft.nextSupportingTextVisible = () => onSupportingTextVisible?.(value)
+            draft.nextSupportingTextVisible = () =>
+                onSupportingTextVisible?.(value)
         })
     }
 
 const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
-    const createNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
+    const createNextChangeTextEvent = (value: string) => () =>
+        onChangeText?.(value)
 
     return (setState: Updater<TextFieldState>) => (value?: string) => {
         setState(draft => {
@@ -116,7 +154,8 @@ const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
     }
 }
 
-const handleTouchableHeaderFocus = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
+const handleTouchableHeaderFocus = (ref: React.RefObject<TextInput>) => () =>
+    ref?.current?.focus()
 
 export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
     (
@@ -160,7 +199,9 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             },
             setState
         ] = useImmer<TextFieldState>({
-            contentSize: {} as TextInputContentSizeChangeEventData['contentSize'],
+            contentSize:
+                {} as TextInputContentSizeChangeEventData['contentSize'],
+
             eventName: undefined,
             nextChangeTextEvent: undefined,
             nextContentSizeChangeEvent: undefined,
@@ -178,31 +219,58 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         const theme = useTheme()
         const placeholderTextColor =
             state === 'disabled' ?
-                theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(0.38)
+                theme.token.palette.convertHexToRGBA(
+                    theme.token.scheme.onSurface
+                )(0.38)
             :   theme.token.scheme.onSurfaceVariant
 
         const underlayColor = theme.token.scheme.onSurface
-        const onTextFieldContentSizeChange = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) =>
-            handleTextFieldContentSizeChange(setState)(onContentSizeChange)(event)
+        const onTextFieldContentSizeChange = (
+            event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
+        ) =>
+            handleTextFieldContentSizeChange(setState)(onContentSizeChange)(
+                event
+            )
 
         const onTextFieldSupportingText = useMemo(
-            () => handleTextFieldSupportingText({timer: supportingTextTimer, supportingTextDelayTime})(setState),
+            () =>
+                handleTextFieldSupportingText({
+                    timer: supportingTextTimer,
+                    supportingTextDelayTime
+                })(setState),
             [setState, supportingTextDelayTime]
         )
 
-        const onTextFieldChangeText = handleTextFieldChangeText(onChangeText)(setState)
-        const onTextFieldChangeTextSource = useMemo(() => handleTextFieldChangeText()(setState), [setState])
-        const onTextFieldSupportingTextVisible = handleTextFieldSupportingTextVisible(setState)(onSupportingTextVisible)
+        const onTextFieldChangeText =
+            handleTextFieldChangeText(onChangeText)(setState)
+
+        const onTextFieldChangeTextSource = useMemo(
+            () => handleTextFieldChangeText()(setState),
+            [setState]
+        )
+        const onTextFieldSupportingTextVisible =
+            handleTextFieldSupportingTextVisible(setState)(
+                onSupportingTextVisible
+            )
+
         const onTouchableHeaderFocus = handleTouchableHeaderFocus(textFieldRef)
         const onStateEventChange =
-            (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
-                handleTextFieldStateChange({...options, content, ref: textFieldRef, state: changedState, disabledBlur})(
-                    setState
-                )(event)
+            (options: OnStateEventChangeOptions) =>
+            (changedState: State) =>
+            (event: StateEvent) =>
+                handleTextFieldStateChange({
+                    ...options,
+                    content,
+                    ref: textFieldRef,
+                    state: changedState,
+                    disabledBlur
+                })(setState)(event)
 
         const onStateEvent = useOnStateEvent({
             ...renderProps,
-            disabled: disabled ?? (typeof editable === 'boolean' ? !editable : undefined),
+            disabled:
+                disabled ??
+                (typeof editable === 'boolean' ? !editable : undefined),
             onStateEventChange
         })
 
@@ -216,12 +284,26 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         } = useTextFieldAnimated({
             disabled,
             error,
-            filled: [value, defaultValue, placeholder, textInputValue, content, filled].some(Boolean),
+            filled: [
+                value,
+                defaultValue,
+                placeholder,
+                textInputValue,
+                content,
+                filled
+            ].some(Boolean),
             state,
             type
         })
 
-        useImperativeHandle(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
+        useImperativeHandle(
+            ref,
+            () =>
+                (textFieldRef?.current ?
+                    textFieldRef?.current
+                :   {}) as TextInput,
+            []
+        )
 
         useEffect(() => {
             onTextFieldSupportingText(supportingTextSource)

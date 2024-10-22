@@ -1,6 +1,16 @@
 import {RefAttributes} from 'react'
-import {LayoutRectangle, NativeTouchEvent, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {
+    LayoutRectangle,
+    NativeTouchEvent,
+    View,
+    ViewProps,
+    ViewStyle
+} from 'react-native'
+import {
+    AnimatableValue,
+    AnimatedStyle,
+    SharedValue
+} from 'react-native-reanimated'
 import {AnimatedTiming} from '../../../hooks'
 
 export interface TouchableRippleProps extends ViewProps, RefAttributes<View> {
@@ -12,7 +22,8 @@ export interface TouchableRippleProps extends ViewProps, RefAttributes<View> {
     underlayColor?: string
 }
 
-export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, 'index'> {
+export interface RenderTouchableRippleProps
+    extends Omit<TouchableRippleProps, 'index'> {
     containerAnimatedStyle: AnimatedStyle<ViewStyle>
     height: number
     locationX: number
@@ -24,7 +35,8 @@ export interface TouchableRippleBaseProps extends TouchableRippleProps {
     render: (props: RenderTouchableRippleProps) => JSX.Element
 }
 
-export interface UseTouchableRippleAnimatedOptions extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {
+export interface UseTouchableRippleAnimatedOptions
+    extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {
     containerWidth: number
     index: string
     radius: number
@@ -40,7 +52,8 @@ export interface HandleTouchableRippleAnimatedTimingOptions
     animatedTiming: AnimatedTiming
 }
 
-export interface TouchableRippleContainerProps extends Pick<RenderTouchableRippleProps, 'underlayColor'> {
+export interface TouchableRippleContainerProps
+    extends Pick<RenderTouchableRippleProps, 'underlayColor'> {
     height?: number
     locationX?: number
     locationY?: number

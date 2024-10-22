@@ -1,11 +1,18 @@
 import {FC, ReactNode, RefAttributes} from 'react'
 import {View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {
+    AnimatedTiming,
+    OnStateEvent,
+    OnStateEventChangeOptions
+} from '../../hooks'
 import {ComponentStatus} from '../Common'
 import {SkeletonElementProps} from './Skeleton-element'
 
-export interface SkeletonProps extends ViewProps, RefAttributes<View>, Pick<SkeletonElementProps, 'containerLayout'> {
+export interface SkeletonProps
+    extends ViewProps,
+        RefAttributes<View>,
+        Pick<SkeletonElementProps, 'containerLayout'> {
     content?: ReactNode
     duration?: number
     enableAnimated?: boolean
@@ -29,11 +36,16 @@ export interface SkeletonState {
     status: ComponentStatus
 }
 
-export type HandleSkeletonStateChangeOptions = OnStateEventChangeOptions & Pick<SkeletonProps, 'duration'>
-export type UseSkeletonAnimatedOptions = Pick<RenderSkeletonProps, 'enableAnimated'> &
+export type HandleSkeletonStateChangeOptions = OnStateEventChangeOptions &
+    Pick<SkeletonProps, 'duration'>
+export type UseSkeletonAnimatedOptions = Pick<
+    RenderSkeletonProps,
+    'enableAnimated'
+> &
     Pick<SkeletonState, 'skeletonVisible'>
 
-export interface HandleSkeletonAnimatedTimingOptions extends Pick<UseSkeletonAnimatedOptions, 'enableAnimated'> {
+export interface HandleSkeletonAnimatedTimingOptions
+    extends Pick<UseSkeletonAnimatedOptions, 'enableAnimated'> {
     animatedTiming: AnimatedTiming
 }
 
@@ -43,6 +55,9 @@ export interface SkeletonComponent extends FC<SkeletonProps> {
     Square: FC<SkeletonElementProps>
 }
 
-export type SkeletonContainerProps = Pick<RenderSkeletonProps, 'width' | 'height' | 'containerLayout'> & {
+export type SkeletonContainerProps = Pick<
+    RenderSkeletonProps,
+    'width' | 'height' | 'containerLayout'
+> & {
     showChildren?: boolean
 }

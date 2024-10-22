@@ -1,5 +1,9 @@
 import {useEffect, useMemo} from 'react'
-import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+    interpolateColor,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {
@@ -10,7 +14,10 @@ import {
 
 const handleIconButtonAnimatedTiming =
     ({animatedTiming, type}: HandleIconButtonAnimatedTimingOptions) =>
-    ({borderSharedValue, colorSharedValue}: HandleIconButtonAnimatedTimingSharedValue) =>
+    ({
+        borderSharedValue,
+        colorSharedValue
+    }: HandleIconButtonAnimatedTimingSharedValue) =>
     (disabled?: boolean) => {
         const toValue = disabled ? 0 : 1
 
@@ -24,7 +31,10 @@ const handleIconButtonAnimatedTiming =
         animatedTiming()(colorSharedValue)(toValue)
     }
 
-export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButtonAnimatedOptions) => {
+export const useIconButtonAnimated = ({
+    disabled,
+    type = 'filled'
+}: UseIconButtonAnimatedOptions) => {
     const animatedValue = disabled ? 0 : 1
     const borderSharedValue = useSharedValue(animatedValue)
     const colorSharedValue = useSharedValue(animatedValue)
@@ -36,23 +46,38 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
     const backgroundColorType = {
         filled: {
             inputRange: [0, 1],
-            outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.primary)(1)]
+            outputRange: [
+                disabledBackgroundColor,
+                convertHexToRGBA(scheme.primary)(1)
+            ]
         },
         outlined: {
             inputRange: [0, 1],
-            outputRange: [convertHexToRGBA(scheme.primary)(0), convertHexToRGBA(scheme.primary)(0)]
+            outputRange: [
+                convertHexToRGBA(scheme.primary)(0),
+                convertHexToRGBA(scheme.primary)(0)
+            ]
         },
         standard: {
             inputRange: [0, 1],
-            outputRange: [convertHexToRGBA(scheme.primary)(0), convertHexToRGBA(scheme.primary)(0)]
+            outputRange: [
+                convertHexToRGBA(scheme.primary)(0),
+                convertHexToRGBA(scheme.primary)(0)
+            ]
         },
         tonal: {
             inputRange: [0, 1],
-            outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.secondaryContainer)(1)]
+            outputRange: [
+                disabledBackgroundColor,
+                convertHexToRGBA(scheme.secondaryContainer)(1)
+            ]
         },
         active: {
             inputRange: [0, 1],
-            outputRange: [convertHexToRGBA(scheme.primary)(0), convertHexToRGBA(scheme.primary)(0)]
+            outputRange: [
+                convertHexToRGBA(scheme.primary)(0),
+                convertHexToRGBA(scheme.primary)(0)
+            ]
         }
     }
 
@@ -64,14 +89,22 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
             backgroundColorType[type].outputRange
         ),
         ...(type === 'outlined' && {
-            borderColor: interpolateColor(borderSharedValue.value, [0, 1], [disabledBackgroundColor, scheme.outline]),
+            borderColor: interpolateColor(
+                borderSharedValue.value,
+                [0, 1],
+                [disabledBackgroundColor, scheme.outline]
+            ),
             borderStyle: 'solid',
             borderWidth
         })
     }))
 
     const onIconButtonAnimatedTiming = useMemo(
-        () => handleIconButtonAnimatedTiming({animatedTiming, type})({borderSharedValue, colorSharedValue}),
+        () =>
+            handleIconButtonAnimatedTiming({animatedTiming, type})({
+                borderSharedValue,
+                colorSharedValue
+            }),
         [animatedTiming, borderSharedValue, colorSharedValue, type]
     )
 

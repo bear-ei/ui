@@ -7,7 +7,11 @@ import {UnderlayProps} from './Underlay.interface'
 
 const UnderlayComponent = (props: UnderlayProps) => {
     const [eventName, setEventName] = useState<EventName>('none')
-    const style = {height: 80, width: 200, backgroundColor: '#ececf0'} as StyleProp<ViewStyle>
+    const style = {
+        height: 80,
+        width: 200,
+        backgroundColor: '#ececf0'
+    } as StyleProp<ViewStyle>
 
     return (
         <Pressable

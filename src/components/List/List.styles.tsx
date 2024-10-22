@@ -5,6 +5,7 @@ export const Container = styled.View`
     flex: 1;
 
     ${({theme}) => css`
-        padding: ${theme.adaptSize(theme.token.spacing.small)}px ${theme.adaptSize(theme.token.spacing.none)}px;
+        padding: ${theme.adaptSize(theme.token.spacing.small)}px
+            ${theme.adaptSize(theme.token.spacing.none)}px;
     `};
 `

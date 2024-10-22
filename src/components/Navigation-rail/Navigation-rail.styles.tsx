@@ -11,7 +11,8 @@ export const Container = styled.View`
     ${({theme}) => css`
         width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
         padding: ${theme.adaptSize(theme.token.spacing.extraSmall * 11)}px
-            ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+            ${theme.adaptSize(theme.token.spacing.none)}px
+            ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
     `}
 `
 
@@ -23,7 +24,9 @@ export const Destination = styled.View<DestinationProps>`
     flex: 1;
 
     ${({theme}) => css`
-        gap: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
+        gap: ${theme.adaptSize(
+            theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+        )}px;
     `}
 
     ${({destinationPosition = 'top'}) => {
@@ -58,6 +61,8 @@ export const Fab = styled.View`
     ${({theme}) => css`
         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
         width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-        margin-bottom: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+        margin-bottom: ${theme.adaptSize(
+            theme.token.spacing.extraSmall * 10
+        )}px;
     `};
 `
