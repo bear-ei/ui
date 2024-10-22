@@ -1,13 +1,16 @@
-import {ValidationError} from 'class-validator'
+import {ValidationError, ValidatorOptions} from 'class-validator'
 import {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
 import {NamePath} from '../../utils'
 import {ComponentStatus} from '../Common'
-import {FormItemProps, FormItemValidationRule} from './Form-item'
+import {FormItemProps} from './Form-item'
 import {ForwardRefForm} from './Form.component'
 import {useForm} from './use-form.hook'
 
 export type FormError<T> = Partial<Record<keyof T, ValidationError[] | undefined>>
+export type FormValidateRule<T> = Partial<Record<keyof T, ValidationRule | undefined>>
+export type FormValidatorOptions = ValidatorOptions & {delay?: number}
+export type ValidationRule = new (...args: any[]) => object
 export interface OnValuesChangeOptions<T> {
     changedValue: T
     value: T
@@ -22,9 +25,10 @@ export interface FormCallbacks<T = Record<string, unknown>> {
 export interface FormFieldsEntity<T = Record<string, unknown>> {
     name?: keyof T
     onComponentUpdate: () => void
-    rule?: FormItemValidationRule
+    rule?: ValidationRule
     touched: boolean
-    validate: (value?: unknown) => Promise<ValidationError[] | undefined>
+    validate?: (value?: unknown) => Promise<ValidationError[] | undefined>
+    validatorOptions?: FormValidatorOptions
 }
 
 export interface FormStore<T = Record<string, unknown>> {
@@ -53,6 +57,7 @@ export interface FormStore<T = Record<string, unknown>> {
     setCallbacks: (formCallbacks: FormCallbacks<T>) => void
     setFieldsError: (componentUpdate?: boolean) => (error: FormError<T>) => void
     setFieldsTouched: (touched?: boolean) => (name?: keyof T) => void
+    setFieldsValidate: (options?: FormValidatorOptions) => (rule: FormValidateRule<T>) => void
     setFieldsValue: (componentUpdate?: boolean) => (value?: T) => void
     setInitialValues: (initialized?: boolean) => (value?: T) => void
     signInFields: (entity: FormFieldsEntity<T>) => {signOut: () => void} | undefined
@@ -68,7 +73,7 @@ export interface FormStore<T = Record<string, unknown>> {
 export interface FormProps<T = Record<string, unknown>>
     extends ViewProps,
         FormCallbacks<T>,
-        Pick<FormItemProps, 'skeletonElement' | 'skeletonMinDuration' | 'validatorOptions' | 'validationDelay'>,
+        Pick<FormItemProps, 'skeletonElement' | 'skeletonMinDuration' | 'validatorOptions'>,
         RefAttributes<View> {
     form?: FormStore<T>
     formLayout?: 'horizontal' | 'vertical'
@@ -89,10 +94,12 @@ export interface FormState {
 }
 
 export type HandleFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
-export type RenderFormItemOptions = Pick<
-    FormItemProps,
-    'skeletonElement' | 'skeletonMinDuration' | 'validatorOptions' | 'validationDelay'
->
+export type RenderFormItemOptions = Pick<FormItemProps, 'skeletonElement' | 'skeletonMinDuration' | 'validatorOptions'>
+
+export interface HandleFormValidateOptions {
+    rule?: ValidationRule
+    validatorOptions?: ValidatorOptions
+}
 
 export type FormComponent = typeof ForwardRefForm & {
     useForm: typeof useForm

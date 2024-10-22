@@ -2,9 +2,8 @@ import {ValidationError, ValidatorOptions} from 'class-validator'
 import {RefAttributes} from 'react'
 import {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native'
 import {ComponentStatus} from '../../Common'
-import {FormStore} from '../Form.interface'
+import {FormStore, FormValidatorOptions, ValidationRule} from '../Form.interface'
 
-export type FormItemValidationRule = new (...args: any[]) => object
 export interface FormItemControlProps {
     errorMessage?: string
     errors?: ValidationError[]
@@ -18,13 +17,12 @@ export interface FormItemControlProps {
 export interface FormItemProps
     extends Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>> {
     initialValues?: Record<string, unknown>
-    skeletonMinDuration?: number
     name?: string
     renderControl?: (props: FormItemControlProps) => JSX.Element
-    rule?: FormItemValidationRule
+    rule?: ValidationRule
     skeletonElement?: JSX.Element
-    validationDelay?: number
-    validatorOptions?: ValidatorOptions
+    skeletonMinDuration?: number
+    validatorOptions?: FormValidatorOptions
 }
 
 export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {
@@ -45,12 +43,12 @@ export interface HandleFormItemValueChangeOptions extends Pick<FormStore, 'setFi
     storeValue?: unknown
 }
 
-export type HandleFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
-    validate: (value?: unknown) => Promise<ValidationError[] | undefined>
-    onComponentUpdate: () => void
-} & Pick<FormStore, 'signInFields'>
-
-export interface HandleFormItemValidateOptions {
-    rule?: FormItemValidationRule
-    validatorOptions?: ValidatorOptions
+export interface HandleFormItemRuleChangeOptions extends Pick<FormStore, 'setFieldsValidate'> {
+    validatorOptions?: FormValidatorOptions
 }
+
+export type HandleFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
+    onComponentUpdate: () => void
+    validationDelay?: number
+    validatorOptions?: ValidatorOptions
+} & Pick<FormStore, 'signInFields'>

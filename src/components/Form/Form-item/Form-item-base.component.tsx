@@ -1,15 +1,13 @@
-import {validate, ValidationError} from 'class-validator'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {NativeSyntheticEvent, TargetedEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {asyncDebounce} from '../../../utils'
-import {FormError} from '../Form.interface'
+import {FormError, ValidationRule} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
     FormItemBaseProps,
     FormItemState,
     HandleFormItemInitOptions,
-    HandleFormItemValidateOptions,
+    HandleFormItemRuleChangeOptions,
     HandleFormItemValueChangeOptions
 } from './Form-item.interface'
 
@@ -22,24 +20,14 @@ const handleFormItemValueChange =
         }
     }
 
-const handleFormItemValidate = ({rule, validatorOptions}: HandleFormItemValidateOptions) => {
-    const {
-        forbidNonWhitelisted = true,
-        skipMissingProperties = true,
-        whitelist = true,
-        ...otherValidatorOptions
-    } = validatorOptions ?? {}
-
-    return (name?: string) => async (value?: unknown) =>
-        name && rule ?
-            validate(Object.assign(new rule(), {[name]: value}), {
-                forbidNonWhitelisted,
-                skipMissingProperties,
-                whitelist,
-                ...otherValidatorOptions
-            }).then(errors => (errors.length ? errors : undefined))
-        :   ([] as ValidationError[])
-}
+const handleFormItemRuleChange =
+    ({validatorOptions, setFieldsValidate}: HandleFormItemRuleChangeOptions) =>
+    (name?: string) =>
+    (rule?: ValidationRule) => {
+        if (name) {
+            setFieldsValidate(validatorOptions)({[name]: rule})
+        }
+    }
 
 const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
     setState(draft => {
@@ -47,7 +35,7 @@ const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
     })
 
 const handleFormItemInit =
-    ({rule, validate: fieldsValidate, signInFields, onComponentUpdate}: HandleFormItemInitOptions) =>
+    ({rule, signInFields, onComponentUpdate, validatorOptions}: HandleFormItemInitOptions) =>
     (setState: Updater<FormItemState>) =>
     (name?: string) =>
         setState(draft => {
@@ -56,7 +44,13 @@ const handleFormItemInit =
             }
 
             const {signOut} =
-                signInFields({name, onComponentUpdate, rule, touched: false, validate: fieldsValidate}) ?? {}
+                signInFields({
+                    name,
+                    onComponentUpdate,
+                    rule,
+                    touched: false,
+                    validatorOptions
+                }) ?? {}
 
             draft.signOut = signOut
             draft.status = 'succeeded'
@@ -72,20 +66,7 @@ const handleFormItemBlur =
     }
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-    (
-        {
-            labelText,
-            name,
-            render,
-            renderControl,
-            rule,
-            skeletonMinDuration,
-            validationDelay = 350,
-            validatorOptions,
-            ...renderProps
-        },
-        ref
-    ) => {
+    ({labelText, name, render, renderControl, rule, skeletonMinDuration, validatorOptions, ...renderProps}, ref) => {
         const [{signOut, status}, setState] = useImmer<FormItemState>({
             shouldUpdate: {},
             signOut: undefined,
@@ -93,22 +74,33 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         })
 
         const id = useId()
-        const {getFieldsError, getFieldsValue, setFieldsValue, signInFields, getInitialValues, validateFields} =
-            useFormContext()
+        const {
+            getFieldsError,
+            getFieldsValue,
+            getInitialValues,
+            setFieldsValidate,
+            setFieldsValue,
+            signInFields,
+            validateFields
+        } = useFormContext()
 
         const errors = getFieldsError(name)
         const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
-        const storeValue = getFieldsValue(name) ?? getInitialValues(name)
         const onComponentUpdate = useMemo(() => handleComponentUpdate(setState), [setState])
+        const storeValue = getFieldsValue(name) ?? getInitialValues(name)
         const onValuesChange = handleFormItemValueChange({setFieldsValue, storeValue})(name)
-        const onFieldsValidate = useMemo(
-            () => asyncDebounce(handleFormItemValidate({rule, validatorOptions})(name))(validationDelay),
-            [name, rule, validationDelay, validatorOptions]
-        ) as (value?: unknown) => Promise<ValidationError[] | undefined>
+        const onFormItemRuleChange = useMemo(
+            () =>
+                handleFormItemRuleChange({
+                    setFieldsValidate,
+                    validatorOptions: {...validatorOptions}
+                })(name),
+            [name, setFieldsValidate, validatorOptions]
+        )
 
         const onFormItemInit = useMemo(
-            () => handleFormItemInit({rule, validate: onFieldsValidate, signInFields, onComponentUpdate})(setState),
-            [onComponentUpdate, onFieldsValidate, rule, setState, signInFields]
+            () => handleFormItemInit({rule, signInFields, onComponentUpdate, validatorOptions})(setState),
+            [onComponentUpdate, rule, setState, signInFields, validatorOptions]
         )
 
         const onControlBlur = handleFormItemBlur(validateFields)(name)
@@ -123,6 +115,10 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         useEffect(() => {
             onFormItemInit(name)
         }, [name, onFormItemInit])
+
+        useEffect(() => {
+            onFormItemRuleChange(rule)
+        }, [onFormItemRuleChange, rule])
 
         useEffect(() => () => signOut?.(), [signOut])
 
