@@ -55,7 +55,6 @@ const FormBaseInner = <T,>(
         render,
         skeletonElement,
         skeletonMinDuration,
-        validationDelay,
         validatorOptions,
         ...renderProps
     }: FormBaseProps<T>,
@@ -71,9 +70,7 @@ const FormBaseInner = <T,>(
         [onFinish, onFinishFailed, onValuesChange, setCallbacks]
     )
 
-    const formItemElements = renderFormItem({skeletonElement, skeletonMinDuration, validatorOptions, validationDelay})(
-        status
-    )(items)
+    const formItemElements = renderFormItem({skeletonElement, skeletonMinDuration, validatorOptions})(status)(items)
 
     useEffect(() => {
         onFormCallbacks()
