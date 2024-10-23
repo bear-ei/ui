@@ -201,7 +201,6 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
         ] = useImmer<TextFieldState>({
             contentSize:
                 {} as TextInputContentSizeChangeEventData['contentSize'],
-
             eventName: undefined,
             nextChangeTextEvent: undefined,
             nextContentSizeChangeEvent: undefined,
@@ -248,6 +247,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
             () => handleTextFieldChangeText()(setState),
             [setState]
         )
+
         const onTextFieldSupportingTextVisible =
             handleTextFieldSupportingTextVisible(setState)(
                 onSupportingTextVisible

@@ -68,11 +68,13 @@ export interface FormStore<T = Record<string, unknown>> {
     setFieldsValidate: (
         options?: FormValidatorOptions
     ) => (rule: FormValidateRule<T>) => void
+
     setFieldsValue: (componentUpdate?: boolean) => (value?: T) => void
     setInitialValues: (initialized?: boolean) => (value?: T) => void
     signInFields: (
         entity: FormFieldsEntity<T>
     ) => {signOut: () => void} | undefined
+
     signOutFields: (name?: NamePath) => void
     submit: (skipValidate?: boolean) => void
     validateFields: {

@@ -523,7 +523,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
             panResponder:
                 [afterAffordance, beforeAffordance].some(Boolean) ? panResponder
                 :   undefined,
-
             ref: touchableRef,
             selectType,
             shape,

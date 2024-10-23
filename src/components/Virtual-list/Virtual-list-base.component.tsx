@@ -349,6 +349,7 @@ export const VirtualListBaseInner = <T,>(
         () => handleVirtualListDataInit(setState),
         [setState]
     )
+
     const onVirtualListContentVisible =
         handleVirtualListContentVisible(setState)(data)
 

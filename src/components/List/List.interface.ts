@@ -32,6 +32,7 @@ export interface ListData
 
 export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> &
     HandleRenderItemOptions
+
 export interface ListProps
     extends Partial<
         VirtualListProps<ListData> &

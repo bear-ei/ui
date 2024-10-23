@@ -20,35 +20,33 @@ const render = ({
     shape,
     activeShape,
     ...containerProps
-}: RenderUnderlayProps) => {
-    return (
-        <Container
-            {...containerProps}
-            height={height}
-            pointerEvents='none'
+}: RenderUnderlayProps) => (
+    <Container
+        {...containerProps}
+        height={height}
+        pointerEvents='none'
+        shape={shape}
+        style={[style]}
+        testID={`underlay--${id}`}
+        width={width}
+    >
+        <AnimatedHoverLayer
             shape={shape}
-            style={[style]}
-            testID={`underlay--${id}`}
-            width={width}
-        >
-            <AnimatedHoverLayer
-                shape={shape}
-                style={[hoverLayerAnimatedStyle]}
-                testID={`underlay__hoverLayer--${id}`}
-                underlayColor={underlayColor}
-            />
+            style={[hoverLayerAnimatedStyle]}
+            testID={`underlay__hoverLayer--${id}`}
+            underlayColor={underlayColor}
+        />
 
-            {typeof active === 'boolean' && activeColor && (
-                <AnimatedActiveLayer
-                    activeColor={activeColor}
-                    shape={activeShape ?? shape}
-                    style={[activeLayerAnimatedStyle]}
-                    testID={`underlay__activeLayer--${id}`}
-                />
-            )}
-        </Container>
-    )
-}
+        {typeof active === 'boolean' && activeColor && (
+            <AnimatedActiveLayer
+                activeColor={activeColor}
+                shape={activeShape ?? shape}
+                style={[activeLayerAnimatedStyle]}
+                testID={`underlay__activeLayer--${id}`}
+            />
+        )}
+    </Container>
+)
 
 const ForwardRefUnderlay = forwardRef<View, UnderlayProps>((props, ref) => (
     <UnderlayBase

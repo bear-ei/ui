@@ -78,6 +78,7 @@ const handleTextFieldPickerActive =
         setState(draft => {
             draft.value = draft.data?.find(item => item.indexKey === activeKey)
                 ?.headline as string
+
             draft.activeKey = activeKey
         })
     }

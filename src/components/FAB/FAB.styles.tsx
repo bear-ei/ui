@@ -99,7 +99,6 @@ export const Content = styled(Shape)<FABContentProps>`
         extendedFAB &&
         css`
             height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-
             width: auto;
         `}
 `

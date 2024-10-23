@@ -21,6 +21,7 @@ export type SupportingPosition =
     | 'horizontalEnd'
     | 'verticalStart'
     | 'verticalEnd'
+
 export interface TooltipSupportingProps extends ViewProps, RefAttributes<View> {
     containerCurrent: View | null
     containerLayout: LayoutRectangle

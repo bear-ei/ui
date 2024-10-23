@@ -38,6 +38,7 @@ export interface SkeletonState {
 
 export type HandleSkeletonStateChangeOptions = OnStateEventChangeOptions &
     Pick<SkeletonProps, 'duration'>
+
 export type UseSkeletonAnimatedOptions = Pick<
     RenderSkeletonProps,
     'enableAnimated'
