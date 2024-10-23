@@ -1,13 +1,12 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {NativeSyntheticEvent, TargetedEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {FormError, ValidationRule} from '../Form.interface'
+import {FormError} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
     FormItemBaseProps,
     FormItemState,
     HandleFormItemInitOptions,
-    HandleFormItemRuleChangeOptions,
     HandleFormItemValueChangeOptions
 } from './Form-item.interface'
 
@@ -17,15 +16,6 @@ const handleFormItemValueChange =
     (value?: unknown) => {
         if (name && storeValue !== value) {
             setFieldsValue()({[name]: value})
-        }
-    }
-
-const handleFormItemRuleChange =
-    ({validatorOptions, setFieldsValidate}: HandleFormItemRuleChangeOptions) =>
-    (name?: string) =>
-    (rule?: ValidationRule) => {
-        if (name) {
-            setFieldsValidate(validatorOptions)({[name]: rule})
         }
     }
 
@@ -95,7 +85,6 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
             getFieldsError,
             getFieldsValue,
             getInitialValues,
-            setFieldsValidate,
             setFieldsValue,
             signInFields,
             validateFields
@@ -116,15 +105,6 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
             setFieldsValue,
             storeValue
         })(name)
-
-        const onFormItemRuleChange = useMemo(
-            () =>
-                handleFormItemRuleChange({
-                    setFieldsValidate,
-                    validatorOptions: {...validatorOptions}
-                })(name),
-            [name, setFieldsValidate, validatorOptions]
-        )
 
         const onFormItemInit = useMemo(
             () =>
@@ -149,10 +129,6 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         useEffect(() => {
             onFormItemInit(name)
         }, [name, onFormItemInit])
-
-        useEffect(() => {
-            onFormItemRuleChange(rule)
-        }, [onFormItemRuleChange, rule])
 
         useEffect(() => () => signOut?.(), [signOut])
 

@@ -19,7 +19,7 @@ const createFormContext = <T>() => ({
     store: {} as T
 })
 
-const handleFormValidate = ({
+const handleFormValidate = <T>({
     rule,
     validatorOptions
 }: HandleFormValidateOptions) => {
@@ -30,7 +30,7 @@ const handleFormValidate = ({
         ...otherValidatorOptions
     } = validatorOptions ?? {}
 
-    return (name?: string) => async (value?: unknown) =>
+    return (name?: keyof T) => async (value?: unknown) =>
         name && rule ?
             validate(Object.assign(new rule(), {[name]: value}), {
                 forbidNonWhitelisted,
@@ -167,10 +167,10 @@ export const formStore = <
             fieldsEntities = entities.reduce((accumulator, entity) => {
                 if (entity.name && ruleKeys.includes(entity.name)) {
                     const asyncDebouncedValidate = asyncDebounce(
-                        handleFormValidate({
+                        handleFormValidate<T>({
                             rule: validateRule[entity.name],
                             validatorOptions
-                        })(entity.name as string)
+                        })(entity.name)
                     )(delay) as (
                         value?: unknown
                     ) => Promise<ValidationError[] | undefined>
@@ -260,6 +260,7 @@ export const formStore = <
 
     const signInFields = (rawEntity: FormFieldsEntity<T>) => {
         const {name, validatorOptions, rule} = rawEntity
+        const {delay = 350, ...restValidatorOptions} = validatorOptions ?? {}
 
         if (!name) {
             return
@@ -272,13 +273,19 @@ export const formStore = <
             return
         }
 
-        fieldsEntities = [...entities, rawEntity]
+        const asyncDebouncedValidate = asyncDebounce(
+            handleFormValidate<T>({
+                rule: rule,
+                validatorOptions: restValidatorOptions
+            })(rawEntity.name)
+        )(delay) as (value?: unknown) => Promise<ValidationError[] | undefined>
+
+        fieldsEntities = [
+            ...entities,
+            {...rawEntity, validate: asyncDebouncedValidate}
+        ]
 
         setFieldsError()({[name]: undefined} as FormError<T>)
-        setFieldsValidate(validatorOptions)({
-            [name]: rule
-        } as FormValidateRule<T>)
-
         setFieldsValue(false)({[name]: initialValues[name]} as T)
 
         return {
