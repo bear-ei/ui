@@ -16,7 +16,10 @@ const DesktopThemeProvider: FC<ThemeProps> = ({
     const colorScheme = useColorScheme()
     const windowSize = useWindowSize()
     const token =
-        themeToken ?? materialToken()(colorScheme ?? 'light')('gemstoneBlue')
+        themeToken ??
+        materialToken()({scheme: colorScheme ?? 'light', contrast: 'standard'})(
+            'frostyTurquoise'
+        )
 
     return (
         <StyledComponentThemeProvider
@@ -49,7 +52,10 @@ const MobileThemeProvider: FC<ThemeProps> = ({
     const colorScheme = useColorScheme()
     const windowSize = useWindowSize()
     const token =
-        themeToken ?? materialToken()(colorScheme ?? 'light')('gemstoneBlue')
+        themeToken ??
+        materialToken()({scheme: colorScheme ?? 'light', contrast: 'standard'})(
+            'frostyTurquoise'
+        )
 
     return (
         <StyledComponentThemeProvider

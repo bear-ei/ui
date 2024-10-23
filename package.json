@@ -1,6 +1,6 @@
 {
     "name": "@bearei/material",
-    "version": "0.0.30",
+    "version": "0.0.31",
     "main": "./dist/index.umd.cjs",
     "module": "./dist/index.js",
     "react-native": "./src/index.ts",
@@ -31,7 +31,7 @@
         "!**/*.stories.*"
     ],
     "dependencies": {
-        "@bearei/material-token": "^0.0.6",
+        "@bearei/material-token": "^0.0.7",
         "@material-symbols/svg-400": "^0.23.0",
         "class-validator": "^0.14.1",
         "immer": "^10.1.1",
