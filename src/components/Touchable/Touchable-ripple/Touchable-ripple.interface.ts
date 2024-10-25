@@ -1,61 +1,48 @@
 import {RefAttributes} from 'react'
-import {
-    LayoutRectangle,
-    NativeTouchEvent,
-    View,
-    ViewProps,
-    ViewStyle
-} from 'react-native'
-import {
-    AnimatableValue,
-    AnimatedStyle,
-    SharedValue
-} from 'react-native-reanimated'
+import {LayoutRectangle, NativeTouchEvent, View, ViewProps, ViewStyle} from 'react-native'
+import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming} from '../../../hooks'
 
 export interface TouchableRippleProps extends ViewProps, RefAttributes<View> {
-    centered?: boolean
-    containerLayout?: LayoutRectangle
-    index: string
-    onAnimatedFinished?: (value: string) => void
-    touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>
-    underlayColor?: string
+        centered?: boolean
+        containerLayout?: LayoutRectangle
+        index: string
+        onAnimatedFinished?: (value: string) => void
+        touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>
+        underlayColor?: string
 }
 
-export interface RenderTouchableRippleProps
-    extends Omit<TouchableRippleProps, 'index'> {
-    containerAnimatedStyle: AnimatedStyle<ViewStyle>
-    height: number
-    locationX: number
-    locationY: number
-    width: number
+export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, 'index'> {
+        containerAnimatedStyle: AnimatedStyle<ViewStyle>
+        height: number
+        locationX: number
+        locationY: number
+        width: number
 }
 
 export interface TouchableRippleBaseProps extends TouchableRippleProps {
-    render: (props: RenderTouchableRippleProps) => JSX.Element
+        render: (props: RenderTouchableRippleProps) => JSX.Element
 }
 
-export interface UseTouchableRippleAnimatedOptions
-    extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {
-    containerWidth: number
-    index: string
-    radius: number
+export interface UseTouchableRippleAnimatedOptions extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {
+        containerWidth: number
+        index: string
+        radius: number
 }
 
 export interface HandleTouchableRippleAnimatedTimingSharedValue {
-    scaleSharedValue: SharedValue<AnimatableValue>
-    opacitySharedValue: SharedValue<AnimatableValue>
+        scaleSharedValue: SharedValue<AnimatableValue>
+        opacitySharedValue: SharedValue<AnimatableValue>
 }
 
 export interface HandleTouchableRippleAnimatedTimingOptions
-    extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {
-    animatedTiming: AnimatedTiming
+        extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {
+        animatedTiming: AnimatedTiming
 }
 
-export interface TouchableRippleContainerProps
-    extends Pick<RenderTouchableRippleProps, 'underlayColor'> {
-    height?: number
-    locationX?: number
-    locationY?: number
-    width?: number
+export interface TouchableRippleContainerProps extends Pick<RenderTouchableRippleProps, 'underlayColor'> {
+        height?: number
+        locationX?: number
+        locationY?: number
+        width?: number
 }

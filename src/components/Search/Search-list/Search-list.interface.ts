@@ -1,44 +1,31 @@
 import {LayoutRectangle, ViewStyle} from 'react-native'
-import {
-    AnimatableValue,
-    AnimatedStyle,
-    SharedValue
-} from 'react-native-reanimated'
+import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming} from '../../../hooks'
 import {ListProps} from '../../List'
 
 export interface SearchListProps extends ListProps {
-    containerLayout: LayoutRectangle & {pageX?: number; pageY?: number}
-    visible?: boolean
+        containerLayout: LayoutRectangle & {pageX?: number; pageY?: number}
+        visible?: boolean
 }
 
 export interface RenderSearchListProps extends SearchListProps {
-    containerAnimatedStyle: AnimatedStyle<ViewStyle>
+        containerAnimatedStyle: AnimatedStyle<ViewStyle>
 }
 
 export interface SearchListBaseProps extends SearchListProps {
-    render: (props: RenderSearchListProps) => JSX.Element
+        render: (props: RenderSearchListProps) => JSX.Element
 }
 
-export type HandleSearchListEmitOptions = Pick<
-    RenderSearchListProps,
-    'visible' | 'id'
->
-
-export type UseSearchListAnimatedOptions = Pick<
-    RenderSearchListProps,
-    'visible' | 'containerLayout'
->
-
-export interface HandleSearchListAnimatedTimingOptions
-    extends Omit<UseSearchListAnimatedOptions, 'containerLayout'> {
-    heightSharedValue: SharedValue<AnimatableValue>
-    animatedTiming: AnimatedTiming
+export type HandleSearchListEmitOptions = Pick<RenderSearchListProps, 'visible' | 'id'>
+export type UseSearchListAnimatedOptions = Pick<RenderSearchListProps, 'visible' | 'containerLayout'>
+export interface HandleSearchListAnimatedTimingOptions extends Omit<UseSearchListAnimatedOptions, 'containerLayout'> {
+        heightSharedValue: SharedValue<AnimatableValue>
+        animatedTiming: AnimatedTiming
 }
 
 export type SearchListContainerProps = {
-    containerHeight?: number
-    containerPageX?: number
-    containerPageY?: number
-    width?: number
+        containerHeight?: number
+        containerPageX?: number
+        containerPageY?: number
+        width?: number
 }

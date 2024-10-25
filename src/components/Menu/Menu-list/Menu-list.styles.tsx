@@ -4,21 +4,21 @@ import {Shape} from '../../Common'
 import {MenuListContainerProps} from './Menu-list.interface'
 
 export const Container = styled(View)<MenuListContainerProps>`
-    display: flex;
-    flex-direction: column;
-    position: relative;
+        display: flex;
+        flex-direction: column;
+        position: relative;
 
-    ${({theme, height}) => css`
-        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 36)}px;
-        max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 60)}px;
-        height: ${height}px;
-    `}
+        ${({theme, height}) => css`
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 36)}px;
+                max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 60)}px;
+                height: ${height}px;
+        `}
 `
 
 export const ListContainer = styled(Shape)`
-    flex: 1;
+        flex: 1;
 
-    ${({theme}) => css`
-        background-color: ${theme.token.scheme.surfaceContainer};
-    `}
+        ${({theme}) => css`
+                background-color: ${theme.token.scheme.surfaceContainer};
+        `}
 `

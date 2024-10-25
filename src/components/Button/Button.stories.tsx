@@ -4,68 +4,68 @@ import {Button} from './Button.component'
 import {ButtonProps} from './Button.interface'
 
 export const Filled: StoryObj<ButtonProps> = {
-    args: {
-        labelText: 'Label'
-    }
+        args: {
+                labelText: 'Label'
+        }
 }
 
 export const Outlined: StoryObj<ButtonProps> = {
-    args: {
-        labelText: 'Label',
-        type: 'outlined'
-    }
+        args: {
+                labelText: 'Label',
+                type: 'outlined'
+        }
 }
 
 export const Text: StoryObj<ButtonProps> = {
-    args: {
-        labelText: 'Label',
-        type: 'text'
-    }
+        args: {
+                labelText: 'Label',
+                type: 'text'
+        }
 }
 
 export const TextIcon: StoryObj<ButtonProps> = {
-    args: {
-        icon: (
-            <EIIcon
-                type='filled'
-                iconStyle='outlined'
-            />
-        ),
-        labelText: 'Label',
-        type: 'text'
-    }
+        args: {
+                icon: (
+                        <EIIcon
+                                type='filled'
+                                iconStyle='outlined'
+                        />
+                ),
+                labelText: 'Label',
+                type: 'text'
+        }
 }
 
 export const Tonal: StoryObj<ButtonProps> = {
-    args: {
-        labelText: 'Label',
-        type: 'tonal'
-    }
+        args: {
+                labelText: 'Label',
+                type: 'tonal'
+        }
 }
 
 export const Elevated: StoryObj<ButtonProps> = {
-    args: {
-        labelText: 'Label',
-        type: 'elevated'
-    }
+        args: {
+                labelText: 'Label',
+                type: 'elevated'
+        }
 }
 
 export const Link: StoryObj<ButtonProps> = {
-    args: {
-        labelText: 'Label',
-        type: 'link'
-    }
+        args: {
+                labelText: 'Label',
+                type: 'link'
+        }
 }
 
 export const Icon: StoryObj<ButtonProps> = {
-    args: {
-        icon: <EIIcon />,
-        labelText: 'Label'
-    }
+        args: {
+                icon: <EIIcon />,
+                labelText: 'Label'
+        }
 }
 
 export default {
-    title: 'components/Button',
-    argTypes: {onPress: {action: 'pressed'}},
-    component: Button
+        title: 'components/Button',
+        argTypes: {onPress: {action: 'pressed'}},
+        component: Button
 } as Meta<typeof Button>

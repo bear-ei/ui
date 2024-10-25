@@ -3,35 +3,35 @@ import {IconButton} from './Icon-button.component'
 import {IconButtonProps} from './Icon-button.interface'
 
 export const Filled: StoryObj<IconButtonProps> = {
-    args: {}
+        args: {}
 }
 
 export const Outlined: StoryObj<IconButtonProps> = {
-    args: {
-        type: 'outlined'
-    }
+        args: {
+                type: 'outlined'
+        }
 }
 
 export const Standard: StoryObj<IconButtonProps> = {
-    args: {
-        type: 'standard'
-    }
+        args: {
+                type: 'standard'
+        }
 }
 
 export const Tonal: StoryObj<IconButtonProps> = {
-    args: {
-        type: 'tonal'
-    }
+        args: {
+                type: 'tonal'
+        }
 }
 
 export const Active: StoryObj<IconButtonProps> = {
-    args: {
-        type: 'active'
-    }
+        args: {
+                type: 'active'
+        }
 }
 
 export default {
-    title: 'components/IconButton',
-    argTypes: {onPress: {action: 'pressed'}},
-    component: IconButton
+        title: 'components/IconButton',
+        argTypes: {onPress: {action: 'pressed'}},
+        component: IconButton
 } as Meta<typeof IconButton>

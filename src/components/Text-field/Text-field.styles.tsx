@@ -2,145 +2,136 @@ import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {
-    TextFieldControlProps,
-    TextFieldHeaderProps,
-    TextFieldLabelProps,
-    TextFieldMainProps
+        TextFieldControlProps,
+        TextFieldHeaderProps,
+        TextFieldLabelProps,
+        TextFieldMainProps
 } from './Text-field.interface'
 
 export const Container = styled.View``
 export const Content = styled.View`
-    display: flex;
-    flex-direction: column;
+        display: flex;
+        flex-direction: column;
 
-    ${({theme}) => css`
-        gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-    `}
+        ${({theme}) => css`
+                gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+        `}
 `
 
 export const TouchableHeader = styled.Pressable`
-    cursor: text;
-    outline-style: none;
+        cursor: text;
+        outline-style: none;
 `
 
 export const Header = styled(Shape)<TextFieldHeaderProps>`
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    z-index: 4;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        z-index: 4;
 
-    ${({theme}) => css`
-        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-        padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
-            ${theme.adaptSize(theme.token.spacing.none)}px;
+        ${({theme}) => css`
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
+                        ${theme.adaptSize(theme.token.spacing.none)}px;
 
-        gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-    `}
-
-    ${({theme, leadingShow}) =>
-        !leadingShow &&
-        css`
-            padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `}
+
+        ${({theme, leadingShow}) =>
+                !leadingShow &&
+                css`
+                        padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                `}
 
     ${({theme, trailingShow}) =>
-        !trailingShow &&
-        css`
-            padding-right: ${theme.adaptSize(theme.token.spacing.medium)}px;
-        `}
+                !trailingShow &&
+                css`
+                        padding-right: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                `}
 `
 
 export const Label = styled.View<TextFieldLabelProps>`
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    z-index: 8;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        z-index: 8;
 
-    ${({theme}) => css`
-        left: ${theme.adaptSize(theme.token.spacing.medium)}px;
-        top: ${theme.adaptSize(theme.token.spacing.medium)}px;
-    `}
-
-    ${({theme, leadingShow}) =>
-        leadingShow &&
-        css`
-            left: ${theme.adaptSize(
-                theme.token.spacing.extraSmall * 12 +
-                    1 * theme.token.spacing.extraSmall
-            )}px;
+        ${({theme}) => css`
+                left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                top: ${theme.adaptSize(theme.token.spacing.medium)}px;
         `}
+
+        ${({theme, leadingShow}) =>
+                leadingShow &&
+                css`
+                        left: ${theme.adaptSize(
+                                theme.token.spacing.extraSmall * 12 + 1 * theme.token.spacing.extraSmall
+                        )}px;
+                `}
 `
 
 export const LabelText = styled(Typography)``
 export const Leading = styled.View`
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-    ${({theme}) => css`
-        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-    `}
+        ${({theme}) => css`
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+        `}
 `
 
 export const Trailing = styled(Leading)``
 export const Main = styled.View<TextFieldMainProps>`
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    justify-content: flex-end;
-    z-index: 4;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        justify-content: flex-end;
+        z-index: 4;
 
-    ${({theme}) => css`
-        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        padding: ${theme.adaptSize(
-                theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
-            )}px
-            ${theme.adaptSize(theme.token.spacing.none)}px
-            ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-    `};
-
-    ${({theme, contentShow}) =>
-        contentShow &&
-        css`
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
-                ${theme.adaptSize(theme.token.spacing.small)}px;
-
-            justify-content: flex-start;
-            padding: ${theme.adaptSize(
-                    theme.token.spacing.large +
-                        -1 * theme.token.spacing.extraSmall
-                )}px
-                ${theme.adaptSize(theme.token.spacing.none)}px
-                ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+        ${({theme}) => css`
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                padding: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px
+                        ${theme.adaptSize(theme.token.spacing.none)}px
+                        ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `};
+
+        ${({theme, contentShow}) =>
+                contentShow &&
+                css`
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
+                                ${theme.adaptSize(theme.token.spacing.small)}px;
+
+                        justify-content: flex-start;
+                        padding: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px
+                                ${theme.adaptSize(theme.token.spacing.none)}px
+                                ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                `};
 `
 
 export const Control = styled.View<TextFieldControlProps>`
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    justify-content: center;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        justify-content: center;
 
-    ${({theme}) => css`
-        min-height: ${theme.adaptSize(
-            theme.token.typography.body.large.lineHeight
-        )}px;
-
-        min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
-        padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-    `};
-
-    ${({multiline, height = 0}) =>
-        multiline &&
-        css`
-            min-height: ${height}px;
+        ${({theme}) => css`
+                min-height: ${theme.adaptSize(theme.token.typography.body.large.lineHeight)}px;
+                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
+                padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `};
+
+        ${({multiline, height = 0}) =>
+                multiline &&
+                css`
+                        min-height: ${height}px;
+                `};
 `
 
 /**
@@ -150,43 +141,36 @@ export const Control = styled.View<TextFieldControlProps>`
  * in macos, it does not provide text styles.
  */
 export const Input = styled.TextInput`
-    outline-style: none;
+        outline-style: none;
 
-    ${({theme, secureTextEntry}) =>
-        !secureTextEntry &&
-        css`
-            align-self: stretch;
-            flex: 1;
-            font-size: ${theme.adaptFontSize(
-                theme.token.typography.body.large.size
-            )}px;
-
-            font-style: ${theme.token.typography.body.large.style};
-            font-weight: ${theme.token.typography.body.large.weight};
-            letter-spacing: ${theme.adaptSize(
-                theme.token.typography.body.large.letterSpacing
-            )}px;
-
-            padding: ${theme.adaptSize(theme.token.spacing.none)}px;
-            text-align: left;
-        `};
+        ${({theme, secureTextEntry}) =>
+                !secureTextEntry &&
+                css`
+                        align-self: stretch;
+                        flex: 1;
+                        font-size: ${theme.adaptFontSize(theme.token.typography.body.large.size)}px;
+                        font-style: ${theme.token.typography.body.large.style};
+                        font-weight: ${theme.token.typography.body.large.weight};
+                        letter-spacing: ${theme.adaptSize(theme.token.typography.body.large.letterSpacing)}px;
+                        padding: ${theme.adaptSize(theme.token.spacing.none)}px;
+                        text-align: left;
+                `};
 `
 
 export const Supporting = styled(LayoutAnimated)``
 export const SupportingText = styled(Typography)`
-    ${({theme}) => css`
-        padding: ${theme.adaptSize(theme.token.spacing.none)}px
-            ${theme.adaptSize(theme.token.spacing.medium)}px;
-    `}
+        ${({theme}) => css`
+                padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;
+        `}
 `
 
 export const ActiveIndicator = styled.View`
-    position: absolute;
-    z-index: 8;
+        position: absolute;
+        z-index: 8;
 
-    ${({theme}) => css`
-        bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-        left: ${theme.adaptSize(theme.token.spacing.none)}px;
-        right: ${theme.adaptSize(theme.token.spacing.none)}px;
-    `}
+        ${({theme}) => css`
+                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+                left: ${theme.adaptSize(theme.token.spacing.none)}px;
+                right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        `}
 `

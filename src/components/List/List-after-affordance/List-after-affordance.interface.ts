@@ -4,59 +4,47 @@ import {AnimatedStyle} from 'react-native-reanimated'
 import {ListAffordanceButtonProps} from '../List-affordance-button'
 
 export interface ListAfterAffordancePressOutOptions {
-    doubleConfirmed?: boolean
-    itemKey?: string
+        doubleConfirmed?: boolean
+        itemKey?: string
 }
 
-export interface ListAfterAffordanceProps
-    extends ViewProps,
-        RefAttributes<View> {
-    itemKey: string
-    onCancel?: (options: ListAfterAffordancePressOutOptions) => void
-    onConfirm?: (options: ListAfterAffordancePressOutOptions) => void
-    primaryButtonProps?: ListAffordanceButtonProps
-    secondaryButtonProps?: ListAffordanceButtonProps
-    visible?: boolean
+export interface ListAfterAffordanceProps extends ViewProps, RefAttributes<View> {
+        itemKey: string
+        onCancel?: (options: ListAfterAffordancePressOutOptions) => void
+        onConfirm?: (options: ListAfterAffordancePressOutOptions) => void
+        primaryButtonProps?: ListAffordanceButtonProps
+        secondaryButtonProps?: ListAffordanceButtonProps
+        visible?: boolean
 }
 
 export interface RenderListAfterAffordanceProps
-    extends Omit<
-        ListAfterAffordanceProps,
-        'itemKey' | 'onCancel' | 'onConfirm'
-    > {
-    dangerAnimatedStyle: AnimatedStyle<ViewStyle>
-    doubleConfirmed?: boolean
-    fill: string
-    onCancel: (event: GestureResponderEvent) => void
-    onConfirm: (event: GestureResponderEvent) => void
+        extends Omit<ListAfterAffordanceProps, 'itemKey' | 'onCancel' | 'onConfirm'> {
+        dangerAnimatedStyle: AnimatedStyle<ViewStyle>
+        doubleConfirmed?: boolean
+        fill: string
+        onCancel: (event: GestureResponderEvent) => void
+        onConfirm: (event: GestureResponderEvent) => void
 }
 
 export interface ListAfterAffordanceBaseProps extends ListAfterAffordanceProps {
-    render: (props: RenderListAfterAffordanceProps) => JSX.Element
+        render: (props: RenderListAfterAffordanceProps) => JSX.Element
 }
 
 export interface ListAfterAffordanceState {
-    doubleConfirmed?: boolean
-    nextCancelEvent?: () => void
+        doubleConfirmed?: boolean
+        nextCancelEvent?: () => void
 }
 
-export type HandleListAfterAffordanceConfirmOptions = Pick<
-    ListAfterAffordanceProps,
-    'onConfirm' | 'itemKey'
-> &
-    ListAfterAffordanceState
+export type HandleListAfterAffordanceConfirmOptions = Pick<ListAfterAffordanceProps, 'onConfirm' | 'itemKey'> &
+        ListAfterAffordanceState
 
-export type HandleListAfterAffordanceCancelOptions = Pick<
-    ListAfterAffordanceProps,
-    'onCancel' | 'itemKey'
-> &
-    ListAfterAffordanceState
+export type HandleListAfterAffordanceCancelOptions = Pick<ListAfterAffordanceProps, 'onCancel' | 'itemKey'> &
+        ListAfterAffordanceState
 
-export interface UseListAfterAffordanceAnimatedOptions
-    extends Pick<RenderListAfterAffordanceProps, 'doubleConfirmed'> {
-    layoutWidth?: number
+export interface UseListAfterAffordanceAnimatedOptions extends Pick<RenderListAfterAffordanceProps, 'doubleConfirmed'> {
+        layoutWidth?: number
 }
 
 export interface ListAfterAffordanceDangerProps {
-    disabled?: boolean
+        disabled?: boolean
 }

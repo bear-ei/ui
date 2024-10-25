@@ -3,28 +3,24 @@ import {View} from 'react-native'
 import {LayoutBase} from './Layout-base.component'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
-import {
-    LayoutComponent,
-    LayoutProps,
-    RenderLayoutProps
-} from './Layout.interface'
+import {LayoutComponent, LayoutProps, RenderLayoutProps} from './Layout.interface'
 import {Container} from './Layout.styles'
 
 const render = ({id, children, ...containerProps}: RenderLayoutProps) => (
-    <Container
-        {...containerProps}
-        testID={`layout--${id}`}
-    >
-        {children}
-    </Container>
+        <Container
+                {...containerProps}
+                testID={`layout--${id}`}
+        >
+                {children}
+        </Container>
 )
 
 const ForwardRefLayout = forwardRef<View, LayoutProps>((props, ref) => (
-    <LayoutBase
-        {...props}
-        ref={ref}
-        render={render}
-    />
+        <LayoutBase
+                {...props}
+                ref={ref}
+                render={render}
+        />
 ))
 
 Object.defineProperty(ForwardRefLayout, 'Pane', {value: LayoutPane})

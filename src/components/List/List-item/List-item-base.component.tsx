@@ -1,538 +1,468 @@
-import {
-    cloneElement,
-    forwardRef,
-    useEffect,
-    useId,
-    useImperativeHandle,
-    useMemo,
-    useRef
-} from 'react'
-import {
-    GestureResponderEvent,
-    PanResponder,
-    PanResponderGestureState,
-    View
-} from 'react-native'
+import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {GestureResponderEvent, PanResponder, PanResponderGestureState, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {
-    OnStateEventChangeOptions,
-    StateEvent,
-    useOnStateEvent
-} from '../../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
 import {EventName, State} from '../../Common'
 import {Icon} from '../../Icon'
 import {IconButton} from '../../Icon-button'
 import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {
-    HandleListItemCloseOptions,
-    HandleListItemConfirmOptions,
-    HandleListItemPanResponderReleaseOptions,
-    HandleListItemStateEventChangeOptions,
-    HandleListItemTrailingPressOutOptions,
-    ListItemBaseProps,
-    ListItemProps,
-    ListItemState,
-    RenderListItemTrailingOptions,
-    SelectType
+        HandleListItemCloseOptions,
+        HandleListItemConfirmOptions,
+        HandleListItemPanResponderReleaseOptions,
+        HandleListItemStateEventChangeOptions,
+        HandleListItemTrailingPressOutOptions,
+        ListItemBaseProps,
+        ListItemProps,
+        ListItemState,
+        RenderListItemTrailingOptions,
+        SelectType
 } from './List-item.interface'
 import {useListItemAnimated} from './use-list-item-animated.hook'
 
 export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
-    const {
-        activeKey: prevActiveKey,
-        activeKeys: prevActiveKeys,
-        afterAffordanceActiveKey: prevAfterAffordanceActiveKey,
-        disabled: prevDisabled,
-        extraData: prevExtraData,
-        focusedIndex: prevFocusedIndex,
-        itemIndex: prevItemIndex,
-        itemKey: prevItemKey,
-        skeletonMinDuration: prevSkeletonMinDuration
-    } = prevProps
-
-    return (nextProps: ListItemProps) => {
         const {
-            activeKey: nextActiveKey,
-            activeKeys: nextActiveKeys,
-            afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
-            disabled: nextDisabled,
-            extraData: nextExtraData,
-            focusedIndex: nextFocusedIndex,
-            itemIndex: nextItemIndex,
-            itemKey: nextItemKey,
-            skeletonMinDuration: nextSkeletonMinDuration
-        } = nextProps
+                activeKey: prevActiveKey,
+                activeKeys: prevActiveKeys,
+                afterAffordanceActiveKey: prevAfterAffordanceActiveKey,
+                disabled: prevDisabled,
+                extraData: prevExtraData,
+                focusedIndex: prevFocusedIndex,
+                itemIndex: prevItemIndex,
+                itemKey: prevItemKey,
+                skeletonMinDuration: prevSkeletonMinDuration
+        } = prevProps
 
-        const activeKeyChange =
-            prevActiveKey !== nextActiveKey &&
-            (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
+        return (nextProps: ListItemProps) => {
+                const {
+                        activeKey: nextActiveKey,
+                        activeKeys: nextActiveKeys,
+                        afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
+                        disabled: nextDisabled,
+                        extraData: nextExtraData,
+                        focusedIndex: nextFocusedIndex,
+                        itemIndex: nextItemIndex,
+                        itemKey: nextItemKey,
+                        skeletonMinDuration: nextSkeletonMinDuration
+                } = nextProps
 
-        const nextActive = nextActiveKeys?.includes(nextItemKey)
-        const prevActive = prevActiveKeys?.includes(prevItemKey)
-        const activeKeysChange =
-            nextActiveKeys?.join() !== prevActiveKeys?.join() &&
-            ((nextActive && !prevActive) || (prevActive && !nextActive))
+                const activeKeyChange =
+                        prevActiveKey !== nextActiveKey &&
+                        (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
 
-        const afterAffordanceActiveChange =
-            prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
-            (nextAfterAffordanceActiveKey === nextItemKey ||
-                prevAfterAffordanceActiveKey === prevItemKey)
+                const nextActive = nextActiveKeys?.includes(nextItemKey)
+                const prevActive = prevActiveKeys?.includes(prevItemKey)
+                const activeKeysChange =
+                        nextActiveKeys?.join() !== prevActiveKeys?.join() &&
+                        ((nextActive && !prevActive) || (prevActive && !nextActive))
 
-        const focusedIndexChange =
-            nextFocusedIndex !== prevFocusedIndex &&
-            (nextFocusedIndex === nextItemIndex ||
-                prevFocusedIndex === prevItemIndex)
+                const afterAffordanceActiveChange =
+                        prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
+                        (nextAfterAffordanceActiveKey === nextItemKey || prevAfterAffordanceActiveKey === prevItemKey)
 
-        return ![
-            activeKeyChange,
-            activeKeysChange,
-            afterAffordanceActiveChange,
-            focusedIndexChange,
-            prevDisabled !== nextDisabled,
-            prevExtraData?.join() !== nextExtraData?.join(),
-            prevSkeletonMinDuration !== nextSkeletonMinDuration
-        ].some(Boolean)
-    }
+                const focusedIndexChange =
+                        nextFocusedIndex !== prevFocusedIndex &&
+                        (nextFocusedIndex === nextItemIndex || prevFocusedIndex === prevItemIndex)
+
+                return ![
+                        activeKeyChange,
+                        activeKeysChange,
+                        afterAffordanceActiveChange,
+                        focusedIndexChange,
+                        prevDisabled !== nextDisabled,
+                        prevExtraData?.join() !== nextExtraData?.join(),
+                        prevSkeletonMinDuration !== nextSkeletonMinDuration
+                ].some(Boolean)
+        }
 }
 
 const handleListItemPressOut =
-    (selectType?: SelectType) =>
-    (onActive?: (value?: string) => void) =>
-    (value: string) => {
-        if (selectType) {
-            onActive?.(value)
+        (selectType?: SelectType) => (onActive?: (value?: string) => void) => (value: string) => {
+                if (selectType) {
+                        onActive?.(value)
+                }
         }
-    }
 
-const handleListItemLoadEnd =
-    (onLoadEnd?: (value?: string) => void) => (value?: string) =>
-        onLoadEnd?.(value)
-
+const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
 const handleListItemStateChange = ({
-    eventName,
-    itemKey,
-    onActive,
-    onLoadEnd,
-    selectType,
-    state,
-    trailingTrigger,
-    type
+        eventName,
+        itemKey,
+        onActive,
+        onLoadEnd,
+        selectType,
+        state,
+        trailingTrigger,
+        type
 }: HandleListItemStateEventChangeOptions) => {
-    const nextEvent = {
-        layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
-        pressOut: () => handleListItemPressOut(selectType)(onActive)(itemKey)
-    } as Record<EventName, () => void>
+        const nextEvent = {
+                layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
+                pressOut: () => handleListItemPressOut(selectType)(onActive)(itemKey)
+        } as Record<EventName, () => void>
 
-    return (setState: Updater<ListItemState>) => (_event: StateEvent) =>
-        setState(draft => {
-            const prevEventName = draft.eventName
+        return (setState: Updater<ListItemState>) => (_event: StateEvent) =>
+                setState(draft => {
+                        const prevEventName = draft.eventName
 
-            if (eventName === 'blur' && prevEventName === 'focus') {
-                if (
-                    type === 'menu' &&
-                    ['hoverIn', 'hoverOut'].includes(eventName)
-                ) {
-                    return
-                }
-            }
+                        if (eventName === 'blur' && prevEventName === 'focus') {
+                                if (type === 'menu' && ['hoverIn', 'hoverOut'].includes(eventName)) {
+                                        return
+                                }
+                        }
 
-            if (eventName) {
-                draft.eventName = eventName
-            }
+                        if (eventName) {
+                                draft.eventName = eventName
+                        }
 
-            if (state) {
-                draft.listItemState = state
-            }
+                        if (state) {
+                                draft.listItemState = state
+                        }
 
-            if (trailingTrigger && state) {
-                const visible =
-                    trailingTrigger === 'hovered' ?
-                        ['hovered', 'longPressIn', 'pressIn'].includes(state)
-                    :   trailingTrigger === state
+                        if (trailingTrigger && state) {
+                                const visible =
+                                        trailingTrigger === 'hovered' ?
+                                                ['hovered', 'longPressIn', 'pressIn'].includes(state)
+                                        :       trailingTrigger === state
 
-                draft.trailingVisible = visible
-            }
+                                draft.trailingVisible = visible
+                        }
 
-            if (prevEventName !== eventName) {
-                switch (eventName) {
-                    case 'layout':
-                        draft.nextLayoutEvent = nextEvent[eventName]
-                        break
+                        if (prevEventName !== eventName) {
+                                switch (eventName) {
+                                        case 'layout':
+                                                draft.nextLayoutEvent = nextEvent[eventName]
+                                                break
 
-                    case 'pressOut':
-                        draft.nextPressOutEvent = nextEvent[eventName]
-                        break
+                                        case 'pressOut':
+                                                draft.nextPressOutEvent = nextEvent[eventName]
+                                                break
 
-                    default:
-                        break
-                }
-            }
-        })
+                                        default:
+                                                break
+                                }
+                        }
+                })
 }
 
 const handleListItemTrailingPressOut =
-    ({
-        afterAffordance,
-        closeTrailing,
-        onActiveAfterAffordance,
-        onListItemClose
-    }: HandleListItemTrailingPressOutOptions) =>
-    (value: string) => {
-        const nextEvent = {
-            afterAffordance: () => onActiveAfterAffordance?.(value),
-            closeTrailing: () => onListItemClose(true)
+        ({
+                afterAffordance,
+                closeTrailing,
+                onActiveAfterAffordance,
+                onListItemClose
+        }: HandleListItemTrailingPressOutOptions) =>
+        (value: string) => {
+                const nextEvent = {
+                        afterAffordance: () => onActiveAfterAffordance?.(value),
+                        closeTrailing: () => onListItemClose(true)
+                }
+
+                if (afterAffordance) {
+                        nextEvent.afterAffordance()
+                }
+
+                if (closeTrailing) {
+                        nextEvent.closeTrailing()
+                }
         }
 
-        if (afterAffordance) {
-            nextEvent.afterAffordance()
-        }
-
-        if (closeTrailing) {
-            nextEvent.closeTrailing()
-        }
-    }
-
-const handleItemListAfterAffordanceVisibleFinished =
-    (setState: Updater<ListItemState>) => (value?: boolean) =>
+const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<ListItemState>) => (value?: boolean) =>
         setState(draft => {
-            draft.afterAffordanceClosed = !value
+                draft.afterAffordanceClosed = !value
         })
 
 const handleListItemConfirm =
-    ({
-        options,
-        onConfirm,
-        onActiveAfterAffordance,
-        onListItemClose
-    }: HandleListItemConfirmOptions) =>
-    (value?: string) => {
-        const {doubleConfirmed} = options
+        ({options, onConfirm, onActiveAfterAffordance, onListItemClose}: HandleListItemConfirmOptions) =>
+        (value?: string) => {
+                const {doubleConfirmed} = options
 
-        if (doubleConfirmed) {
-            onListItemClose(doubleConfirmed)
+                if (doubleConfirmed) {
+                        onListItemClose(doubleConfirmed)
 
-            return
+                        return
+                }
+
+                onActiveAfterAffordance?.()
+                onConfirm?.({...options, itemKey: value})
         }
-
-        onActiveAfterAffordance?.()
-        onConfirm?.({...options, itemKey: value})
-    }
 
 /**
  * When using the component Text-field-picker, you only need to change the focus style. Do not get the real focus.
  * Otherwise the Text-field-picker will lose focus.
  */
-const handleListItemFocus =
-    (setState: Updater<ListItemState>) =>
-    (itemIndex?: number) =>
-    (focusedIndex?: number) =>
+const handleListItemFocus = (setState: Updater<ListItemState>) => (itemIndex?: number) => (focusedIndex?: number) =>
         setState(draft => {
-            draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
+                draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
         })
 
 const handleListItemClose =
-    ({onClose, onVisible}: HandleListItemCloseOptions) =>
-    (itemKey: string) =>
-    (value?: boolean) => {
-        if (!value) {
-            return
-        }
+        ({onClose, onVisible}: HandleListItemCloseOptions) =>
+        (itemKey: string) =>
+        (value?: boolean) => {
+                if (!value) {
+                        return
+                }
 
-        onClose?.(itemKey)
-        onVisible?.()
-    }
+                onClose?.(itemKey)
+                onVisible?.()
+        }
 
 const handleListItemPanResponderRelease =
-    ({
-        onActiveAfterAffordance,
-        disabled
-    }: HandleListItemPanResponderReleaseOptions) =>
-    (itemKey: string) =>
-    (_event: GestureResponderEvent, gestureState: PanResponderGestureState) => {
-        if (disabled) {
-            return
-        }
+        ({onActiveAfterAffordance, disabled}: HandleListItemPanResponderReleaseOptions) =>
+        (itemKey: string) =>
+        (_event: GestureResponderEvent, gestureState: PanResponderGestureState) => {
+                if (disabled) {
+                        return
+                }
 
-        if (gestureState.dx < -50) {
-            onActiveAfterAffordance?.(itemKey)
-        }
+                if (gestureState.dx < -50) {
+                        onActiveAfterAffordance?.(itemKey)
+                }
 
-        if (gestureState.dx > 50) {
-            onActiveAfterAffordance?.()
+                if (gestureState.dx > 50) {
+                        onActiveAfterAffordance?.()
+                }
         }
-    }
 
 const renderListItemTrailing = ({
-    afterAffordance,
-    closeTrailing,
-    disabled,
-    onStateEvent,
-    trailing
+        afterAffordance,
+        closeTrailing,
+        disabled,
+        onStateEvent,
+        trailing
 }: RenderListItemTrailingOptions) => {
-    const {onHoverIn, onHoverOut} = onStateEvent
-    const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
-    const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
-    const trailingElement = {
-        afterAffordance:
-            trailing ?
-                cloneElement(trailing, {...onStateEvent, disabled})
-            :   <IconButton
-                    {...onStateEvent}
-                    icon={
-                        <Icon
-                            iconStyle='outlined'
-                            name='moreHoriz'
-                            type='filled'
-                        />
-                    }
-                    disabled={disabled}
-                    pointerEvents='box-only'
-                    type='standard'
-                />,
-        closeTrailing:
-            trailing ?
-                cloneElement(trailing, {...onStateEvent, disabled})
-            :   <IconButton
-                    {...onStateEvent}
-                    icon={
-                        <Icon
-                            iconStyle='outlined'
-                            name='close'
-                            type='filled'
-                        />
-                    }
-                    disabled={disabled}
-                    pointerEvents='box-only'
-                    type='standard'
-                />,
-        standard:
-            trailing ?
-                cloneElement(trailing, {onHoverIn, onHoverOut, disabled})
-            :   undefined
-    }
+        const {onHoverIn, onHoverOut} = onStateEvent
+        const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
+        const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
+        const trailingElement = {
+                afterAffordance:
+                        trailing ?
+                                cloneElement(trailing, {...onStateEvent, disabled})
+                        :       <IconButton
+                                        {...onStateEvent}
+                                        icon={
+                                                <Icon
+                                                        iconStyle='outlined'
+                                                        name='moreHoriz'
+                                                        type='filled'
+                                                />
+                                        }
+                                        disabled={disabled}
+                                        pointerEvents='box-only'
+                                        type='standard'
+                                />,
+                closeTrailing:
+                        trailing ?
+                                cloneElement(trailing, {...onStateEvent, disabled})
+                        :       <IconButton
+                                        {...onStateEvent}
+                                        icon={
+                                                <Icon
+                                                        iconStyle='outlined'
+                                                        name='close'
+                                                        type='filled'
+                                                />
+                                        }
+                                        disabled={disabled}
+                                        pointerEvents='box-only'
+                                        type='standard'
+                                />,
+                standard: trailing ? cloneElement(trailing, {onHoverIn, onHoverOut, disabled}) : undefined
+        }
 
-    return trailingElement[trailingType]
+        return trailingElement[trailingType]
 }
 
 export const ListItemBase = forwardRef<View, ListItemBaseProps>(
-    (
-        {
-            activeKey,
-            activeKeys,
-            afterAffordance,
-            afterAffordanceActiveKey,
-            beforeAffordance,
-            close,
-            closeTrailing,
-            disabled,
-            enableUnderlay = true,
-            enableUnderlayActive = true,
-            focusedIndex,
-            itemIndex,
-            itemKey,
-            leading,
-            onActive,
-            onActiveAfterAffordance,
-            onClose,
-            onConfirm,
-            onLoadEnd,
-            onVisible,
-            render,
-            selectType,
-            shape,
-            supporting,
-            trailing,
-            trailingTrigger,
-            type = 'standard',
-            ...renderProps
-        },
-        ref
-    ) => {
-        const [
-            {
-                afterAffordanceClosed,
-                eventName,
-                listItemState,
-                nextFocusEvent,
-                nextLayoutEvent,
-                nextPressOutEvent,
-                trailingVisible
-            },
-            setState
-        ] = useImmer<ListItemState>({
-            afterAffordanceClosed: undefined,
-            eventName: undefined,
-            listItemState: undefined,
-            nextFocusEvent: undefined,
-            nextLayoutEvent: undefined,
-            nextPressOutEvent: undefined,
-            trailingVisible: undefined
-        })
+        (
+                {
+                        activeKey,
+                        activeKeys,
+                        afterAffordance,
+                        afterAffordanceActiveKey,
+                        beforeAffordance,
+                        close,
+                        closeTrailing,
+                        disabled,
+                        enableUnderlay = true,
+                        enableUnderlayActive = true,
+                        focusedIndex,
+                        itemIndex,
+                        itemKey,
+                        leading,
+                        onActive,
+                        onActiveAfterAffordance,
+                        onClose,
+                        onConfirm,
+                        onLoadEnd,
+                        onVisible,
+                        render,
+                        selectType,
+                        shape,
+                        supporting,
+                        trailing,
+                        trailingTrigger,
+                        type = 'standard',
+                        ...renderProps
+                },
+                ref
+        ) => {
+                const [
+                        {
+                                afterAffordanceClosed,
+                                eventName,
+                                listItemState,
+                                nextFocusEvent,
+                                nextLayoutEvent,
+                                nextPressOutEvent,
+                                trailingVisible
+                        },
+                        setState
+                ] = useImmer<ListItemState>({
+                        afterAffordanceClosed: undefined,
+                        eventName: undefined,
+                        listItemState: undefined,
+                        nextFocusEvent: undefined,
+                        nextLayoutEvent: undefined,
+                        nextPressOutEvent: undefined,
+                        trailingVisible: undefined
+                })
 
-        const touchableRef = useRef<View>(null)
-        const active =
-            selectType === 'select' ?
-                activeKey === itemKey
-            :   activeKeys?.includes(itemKey)
+                const touchableRef = useRef<View>(null)
+                const active = selectType === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)
+                const theme = useTheme()
+                const activeColor = theme.token.scheme.secondaryContainer
+                const afterAffordanceVisible = afterAffordanceActiveKey === itemKey
+                const id = useId()
+                const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
+                const onListItemPanResponderRelease = handleListItemPanResponderRelease({
+                        onActiveAfterAffordance,
+                        disabled
+                })(itemKey)
 
-        const theme = useTheme()
-        const activeColor = theme.token.scheme.secondaryContainer
-        const afterAffordanceVisible = afterAffordanceActiveKey === itemKey
-        const id = useId()
-        const underlayColor =
-            active ?
-                theme.token.scheme.onSecondaryContainer
-            :   theme.token.scheme.onSurface
+                const panResponder = useRef(
+                        PanResponder.create({
+                                onMoveShouldSetPanResponder: (_event, gestureState) =>
+                                        Math.abs(gestureState.dx) > Math.abs(gestureState.dy),
 
-        const onListItemPanResponderRelease = handleListItemPanResponderRelease(
-            {onActiveAfterAffordance, disabled}
-        )(itemKey)
+                                onPanResponderGrant: (_event, _gestureState) => {},
+                                onPanResponderMove: (_event, _gestureState) => {},
+                                onPanResponderRelease: onListItemPanResponderRelease
+                        })
+                ).current
 
-        const panResponder = useRef(
-            PanResponder.create({
-                onMoveShouldSetPanResponder: (_event, gestureState) =>
-                    Math.abs(gestureState.dx) > Math.abs(gestureState.dy),
+                const onListItemFocus = useMemo(() => handleListItemFocus(setState)(itemIndex), [itemIndex, setState])
+                const onListItemConfirm = ({itemKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
+                        handleListItemConfirm({
+                                options,
+                                onActiveAfterAffordance,
+                                onListItemClose,
+                                onConfirm
+                        })(value)
 
-                onPanResponderGrant: (_event, _gestureState) => {},
-                onPanResponderMove: (_event, _gestureState) => {},
-                onPanResponderRelease: onListItemPanResponderRelease
-            })
-        ).current
+                const onListItemClose = handleListItemClose({onClose, onVisible})(itemKey)
+                const onListItemTrailingPressOut = () =>
+                        handleListItemTrailingPressOut({
+                                afterAffordance,
+                                closeTrailing,
+                                onActiveAfterAffordance,
+                                onListItemClose
+                        })(itemKey)
 
-        const onListItemFocus = useMemo(
-            () => handleListItemFocus(setState)(itemIndex),
-            [itemIndex, setState]
-        )
+                const onListItemAfterAffordanceVisibleFinished = useMemo(
+                        () => handleItemListAfterAffordanceVisibleFinished(setState),
+                        [setState]
+                )
 
-        const onListItemConfirm = ({
-            itemKey: value,
-            ...options
-        }: ListAfterAffordancePressOutOptions) =>
-            handleListItemConfirm({
-                options,
-                onActiveAfterAffordance,
-                onListItemClose,
-                onConfirm
-            })(value)
+                const onStateEventChange =
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleListItemStateChange({
+                                        ...options,
+                                        itemIndex,
+                                        itemKey,
+                                        onActive,
+                                        onLoadEnd,
+                                        selectType,
+                                        state,
+                                        trailingTrigger,
+                                        type
+                                })(setState)(event)
 
-        const onListItemClose = handleListItemClose({onClose, onVisible})(
-            itemKey
-        )
+                const onStateEvent = useOnStateEvent({
+                        ...renderProps,
+                        onStateEventChange,
+                        disabled
+                })
 
-        const onListItemTrailingPressOut = () =>
-            handleListItemTrailingPressOut({
-                afterAffordance,
-                closeTrailing,
-                onActiveAfterAffordance,
-                onListItemClose
-            })(itemKey)
+                const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
+                        active,
+                        afterAffordanceVisible,
+                        onListItemAfterAffordanceVisibleFinished
+                })
 
-        const onListItemAfterAffordanceVisibleFinished = useMemo(
-            () => handleItemListAfterAffordanceVisibleFinished(setState),
-            [setState]
-        )
+                const trailingElement = renderListItemTrailing({
+                        afterAffordance,
+                        closeTrailing,
+                        disabled,
+                        onStateEvent: {onPressOut: onListItemTrailingPressOut},
+                        theme,
+                        trailing
+                })
 
-        const onStateEventChange =
-            (options: OnStateEventChangeOptions) =>
-            (state: State) =>
-            (event: StateEvent) =>
-                handleListItemStateChange({
-                    ...options,
-                    itemIndex,
-                    itemKey,
-                    onActive,
-                    onLoadEnd,
-                    selectType,
-                    state,
-                    trailingTrigger,
-                    type
-                })(setState)(event)
+                const leadingElement =
+                        leading && selectType ? cloneElement(leading, {type: active ? 'filled' : 'outlined'}) : leading
 
-        const onStateEvent = useOnStateEvent({
-            ...renderProps,
-            onStateEventChange,
-            disabled
-        })
+                useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
 
-        const {contentAnimatedStyle, headlineTextAnimatedStyle} =
-            useListItemAnimated({
-                active,
-                afterAffordanceVisible,
-                onListItemAfterAffordanceVisibleFinished
-            })
+                useEffect(() => {
+                        onListItemFocus(focusedIndex)
+                }, [focusedIndex, onListItemFocus])
 
-        const trailingElement = renderListItemTrailing({
-            afterAffordance,
-            closeTrailing,
-            disabled,
-            onStateEvent: {onPressOut: onListItemTrailingPressOut},
-            theme,
-            trailing
-        })
+                useEffect(() => {
+                        nextPressOutEvent?.()
+                }, [nextPressOutEvent])
 
-        const leadingElement =
-            leading && selectType ?
-                cloneElement(leading, {type: active ? 'filled' : 'outlined'})
-            :   leading
+                useEffect(() => {
+                        nextLayoutEvent?.()
+                }, [nextLayoutEvent])
 
-        useImperativeHandle(
-            ref,
-            () => (touchableRef?.current ? touchableRef?.current : {}) as View,
-            []
-        )
+                useEffect(() => {
+                        nextFocusEvent?.()
+                }, [nextFocusEvent])
 
-        useEffect(() => {
-            onListItemFocus(focusedIndex)
-        }, [focusedIndex, onListItemFocus])
+                useEffect(() => {
+                        onListItemClose(close)
+                }, [close, onListItemClose])
 
-        useEffect(() => {
-            nextPressOutEvent?.()
-        }, [nextPressOutEvent])
-
-        useEffect(() => {
-            nextLayoutEvent?.()
-        }, [nextLayoutEvent])
-
-        useEffect(() => {
-            nextFocusEvent?.()
-        }, [nextFocusEvent])
-
-        useEffect(() => {
-            onListItemClose(close)
-        }, [close, onListItemClose])
-
-        return render({
-            ...renderProps,
-            active,
-            activeColor,
-            afterAffordance,
-            afterAffordanceVisible: !afterAffordanceClosed,
-            beforeAffordance,
-            contentAnimatedStyle,
-            disabled,
-            enableUnderlay,
-            enableUnderlayActive,
-            eventName,
-            headlineTextAnimatedStyle,
-            id,
-            itemKey,
-            leadingElement,
-            onConfirm: onListItemConfirm,
-            onStateEvent,
-            panResponder:
-                [afterAffordance, beforeAffordance].some(Boolean) ? panResponder
-                :   undefined,
-            ref: touchableRef,
-            selectType,
-            shape,
-            state: listItemState,
-            supporting,
-            trailingElement,
-            trailingTrigger,
-            trailingVisible,
-            type,
-            underlayColor
-        })
-    }
+                return render({
+                        ...renderProps,
+                        active,
+                        activeColor,
+                        afterAffordance,
+                        afterAffordanceVisible: !afterAffordanceClosed,
+                        beforeAffordance,
+                        contentAnimatedStyle,
+                        disabled,
+                        enableUnderlay,
+                        enableUnderlayActive,
+                        eventName,
+                        headlineTextAnimatedStyle,
+                        id,
+                        itemKey,
+                        leadingElement,
+                        onConfirm: onListItemConfirm,
+                        onStateEvent,
+                        panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,
+                        ref: touchableRef,
+                        selectType,
+                        shape,
+                        state: listItemState,
+                        supporting,
+                        trailingElement,
+                        trailingTrigger,
+                        trailingVisible,
+                        type,
+                        underlayColor
+                })
+        }
 )

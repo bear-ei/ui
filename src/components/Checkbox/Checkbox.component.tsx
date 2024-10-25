@@ -10,128 +10,117 @@ import {Container, Content, IconContainer, Main} from './Checkbox.styles'
 
 const AnimatedIconContainer = Animated.createAnimatedComponent(IconContainer)
 const render = ({
-    disabled,
-    error,
-    eventName,
-    iconAnimatedStyle,
-    iconSvgStyle,
-    id,
-    onStateEvent,
-    theme,
-    type,
-    underlayColor,
-    ...contentProps
+        disabled,
+        error,
+        eventName,
+        iconAnimatedStyle,
+        iconSvgStyle,
+        id,
+        onStateEvent,
+        theme,
+        type,
+        underlayColor,
+        ...contentProps
 }: RenderCheckboxProps) => {
-    const activeFill =
-        error ? theme.token.scheme.error : theme.token.scheme.primary
+        const activeFill = error ? theme.token.scheme.error : theme.token.scheme.primary
+        const unselectedFill = type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
+        const checkBoxOutlineFill = error ? theme.token.scheme.error : unselectedFill
+        const shape = 'full'
+        const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+        const iconStyle = {
+                width: iconSize,
+                height: iconSize
+        }
 
-    const unselectedFill =
-        type === 'unselected' ?
-            theme.token.scheme.onSurfaceVariant
-        :   theme.token.scheme.primary
-
-    const checkBoxOutlineFill =
-        error ? theme.token.scheme.error : unselectedFill
-
-    const shape = 'full'
-    const iconSize = theme.adaptSize(
-        theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall
-    )
-
-    const iconStyle = {
-        width: iconSize,
-        height: iconSize
-    }
-
-    return (
-        <Container
-            accessibilityRole='checkbox'
-            testID={`checkbox--${id}`}
-        >
-            <Touchable
-                {...onStateEvent}
-                disabled={disabled}
-                mainAlignSelf='center'
-                shape={shape}
-                underlayColor={underlayColor}
-            >
-                <Content
-                    {...contentProps}
-                    pointerEvents='none'
-                    shape={shape}
-                    testID={`checkbox__content--${id}`}
+        return (
+                <Container
+                        accessibilityRole='checkbox'
+                        testID={`checkbox--${id}`}
                 >
-                    <Main
-                        shape='tinySmall'
-                        testID={`checkbox__main--${id}`}
-                    >
-                        <IconContainer
-                            testID={`checkbox__iconContainer--${id}`}
-                            visible={true}
-                        >
-                            <Icon
-                                {...iconStyle}
+                        <Touchable
+                                {...onStateEvent}
                                 disabled={disabled}
-                                fill={checkBoxOutlineFill}
-                                iconStyle='outlined'
-                                name='checkBoxOutlineBlank'
-                                svgStyle={iconSvgStyle}
-                                type='filled'
-                            />
-                        </IconContainer>
-
-                        <AnimatedIconContainer
-                            style={[iconAnimatedStyle]}
-                            testID={`checkbox__iconContainer--${id}`}
-                            visible={type === 'indeterminate'}
-                            zIndex={4}
+                                mainAlignSelf='center'
+                                shape={shape}
+                                underlayColor={underlayColor}
                         >
-                            <Icon
-                                {...iconStyle}
-                                disabled={disabled}
-                                fill={activeFill}
-                                iconStyle='outlined'
-                                name='indeterminateCheckBox'
-                                svgStyle={iconSvgStyle}
-                                type='filled'
-                            />
-                        </AnimatedIconContainer>
+                                <Content
+                                        {...contentProps}
+                                        pointerEvents='none'
+                                        shape={shape}
+                                        testID={`checkbox__content--${id}`}
+                                >
+                                        <Main
+                                                shape='tinySmall'
+                                                testID={`checkbox__main--${id}`}
+                                        >
+                                                <IconContainer
+                                                        testID={`checkbox__iconContainer--${id}`}
+                                                        visible={true}
+                                                >
+                                                        <Icon
+                                                                {...iconStyle}
+                                                                disabled={disabled}
+                                                                fill={checkBoxOutlineFill}
+                                                                iconStyle='outlined'
+                                                                name='checkBoxOutlineBlank'
+                                                                svgStyle={iconSvgStyle}
+                                                                type='filled'
+                                                        />
+                                                </IconContainer>
 
-                        <AnimatedIconContainer
-                            style={[iconAnimatedStyle]}
-                            testID={`checkbox__iconContainer--${id}`}
-                            visible={type === 'selected'}
-                            zIndex={4}
-                        >
-                            <Icon
-                                {...iconStyle}
-                                disabled={disabled}
-                                fill={activeFill}
-                                iconStyle='outlined'
-                                name='checkBox'
-                                svgStyle={iconSvgStyle}
-                                type='filled'
-                            />
-                        </AnimatedIconContainer>
-                    </Main>
+                                                <AnimatedIconContainer
+                                                        style={[iconAnimatedStyle]}
+                                                        testID={`checkbox__iconContainer--${id}`}
+                                                        visible={type === 'indeterminate'}
+                                                        zIndex={4}
+                                                >
+                                                        <Icon
+                                                                {...iconStyle}
+                                                                disabled={disabled}
+                                                                fill={activeFill}
+                                                                iconStyle='outlined'
+                                                                name='indeterminateCheckBox'
+                                                                svgStyle={iconSvgStyle}
+                                                                type='filled'
+                                                        />
+                                                </AnimatedIconContainer>
 
-                    <Underlay
-                        eventName={eventName}
-                        shape={shape}
-                        underlayColor={underlayColor}
-                    />
-                </Content>
-            </Touchable>
-        </Container>
-    )
+                                                <AnimatedIconContainer
+                                                        style={[iconAnimatedStyle]}
+                                                        testID={`checkbox__iconContainer--${id}`}
+                                                        visible={type === 'selected'}
+                                                        zIndex={4}
+                                                >
+                                                        <Icon
+                                                                {...iconStyle}
+                                                                disabled={disabled}
+                                                                fill={activeFill}
+                                                                iconStyle='outlined'
+                                                                name='checkBox'
+                                                                svgStyle={iconSvgStyle}
+                                                                type='filled'
+                                                        />
+                                                </AnimatedIconContainer>
+                                        </Main>
+
+                                        <Underlay
+                                                eventName={eventName}
+                                                shape={shape}
+                                                underlayColor={underlayColor}
+                                        />
+                                </Content>
+                        </Touchable>
+                </Container>
+        )
 }
 
 const ForwardRefCheckbox = forwardRef<View, CheckboxProps>((props, ref) => (
-    <CheckboxBase
-        {...props}
-        ref={ref}
-        render={render}
-    />
+        <CheckboxBase
+                {...props}
+                ref={ref}
+                render={render}
+        />
 ))
 
 export const Checkbox: FC<CheckboxProps> = ForwardRefCheckbox

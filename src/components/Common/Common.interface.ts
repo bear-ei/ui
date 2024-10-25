@@ -1,13 +1,13 @@
 import {
-    Bezier,
-    BorderRadius,
-    Elevation,
-    Font,
-    Palette,
-    Shadow,
-    Shape,
-    Spacing,
-    Typography
+        Bezier,
+        BorderRadius,
+        Elevation,
+        Font,
+        Palette,
+        Shadow,
+        Shape,
+        Spacing,
+        Typography
 } from '@bearei/material-token'
 
 export type BezierType = keyof Bezier
@@ -21,37 +21,29 @@ export type ShadowType = keyof Shadow
 export type ShapeType = keyof Shape
 export type Size = 'large' | 'medium' | 'small'
 export type SpacingType = keyof Spacing
-export type State =
-    | 'enabled'
-    | 'focused'
-    | 'hovered'
-    | 'longPressIn'
-    | 'pressIn'
-    | 'error'
-    | 'disabled'
-
+export type State = 'enabled' | 'focused' | 'hovered' | 'longPressIn' | 'pressIn' | 'error' | 'disabled'
 export type TypographyType = keyof Typography
 export type EventName =
-    | 'blur'
-    | 'focus'
-    | 'hoverIn'
-    | 'hoverOut'
-    | 'layout'
-    | 'longPress'
-    | 'none'
-    | 'press'
-    | 'pressIn'
-    | 'pressOut'
+        | 'blur'
+        | 'focus'
+        | 'hoverIn'
+        | 'hoverOut'
+        | 'layout'
+        | 'longPress'
+        | 'none'
+        | 'press'
+        | 'pressIn'
+        | 'pressOut'
 
 export type ComponentStatus = 'idle' | 'loading' | 'failed' | 'succeeded'
 export interface ShapeProps {
-    shape?: ShapeType
+        shape?: ShapeType
 }
 
 export interface TypographyProps {
-    multiline?: boolean
-    size?: Size
-    type?: TypographyType
+        multiline?: boolean
+        size?: Size
+        type?: TypographyType
 }
 
 export type TriggerEvent = 'focus' | 'hover' | 'press'

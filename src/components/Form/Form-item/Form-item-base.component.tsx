@@ -4,144 +4,117 @@ import {Updater, useImmer} from 'use-immer'
 import {FormError} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
-    FormItemBaseProps,
-    FormItemState,
-    HandleFormItemInitOptions,
-    HandleFormItemValueChangeOptions
+        FormItemBaseProps,
+        FormItemState,
+        HandleFormItemInitOptions,
+        HandleFormItemValueChangeOptions
 } from './Form-item.interface'
 
 const handleFormItemValueChange =
-    ({setFieldsValue, storeValue}: HandleFormItemValueChangeOptions) =>
-    (name?: string) =>
-    (value?: unknown) => {
-        if (name && storeValue !== value) {
-            setFieldsValue()({[name]: value})
+        ({setFieldsValue, storeValue}: HandleFormItemValueChangeOptions) =>
+        (name?: string) =>
+        (value?: unknown) => {
+                if (name && storeValue !== value) {
+                        setFieldsValue()({[name]: value})
+                }
         }
-    }
 
 const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
-    setState(draft => {
-        draft.shouldUpdate = {}
-    })
+        setState(draft => {
+                draft.shouldUpdate = {}
+        })
 
 const handleFormItemInit =
-    ({
-        rule,
-        signInFields,
-        onComponentUpdate,
-        validatorOptions
-    }: HandleFormItemInitOptions) =>
-    (setState: Updater<FormItemState>) =>
-    (name?: string) =>
-        setState(draft => {
-            if (draft.status !== 'idle') {
-                return
-            }
+        ({rule, signInFields, onComponentUpdate, validatorOptions}: HandleFormItemInitOptions) =>
+        (setState: Updater<FormItemState>) =>
+        (name?: string) =>
+                setState(draft => {
+                        if (draft.status !== 'idle') {
+                                return
+                        }
 
-            const {signOut} =
-                signInFields({
-                    name,
-                    onComponentUpdate,
-                    rule,
-                    touched: false,
-                    validatorOptions
-                }) ?? {}
+                        const {signOut} =
+                                signInFields({
+                                        name,
+                                        onComponentUpdate,
+                                        rule,
+                                        touched: false,
+                                        validatorOptions
+                                }) ?? {}
 
-            draft.signOut = signOut
-            draft.status = 'succeeded'
-        })
+                        draft.signOut = signOut
+                        draft.status = 'succeeded'
+                })
 
 const handleFormItemBlur =
-    (validateFields: (name?: string) => Promise<FormError<unknown>>) =>
-    (name?: string) =>
-    (_event: NativeSyntheticEvent<TargetedEvent>) => {
-        if (name) {
-            validateFields(name)
+        (validateFields: (name?: string) => Promise<FormError<unknown>>) =>
+        (name?: string) =>
+        (_event: NativeSyntheticEvent<TargetedEvent>) => {
+                if (name) {
+                        validateFields(name)
+                }
         }
-    }
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-    (
-        {
-            labelText,
-            name,
-            render,
-            renderControl,
-            rule,
-            skeletonMinDuration,
-            validatorOptions,
-            ...renderProps
-        },
-        ref
-    ) => {
-        const [{signOut, status}, setState] = useImmer<FormItemState>({
-            shouldUpdate: {},
-            signOut: undefined,
-            status: 'idle'
-        })
+        (
+                {labelText, name, render, renderControl, rule, skeletonMinDuration, validatorOptions, ...renderProps},
+                ref
+        ) => {
+                const [{signOut, status}, setState] = useImmer<FormItemState>({
+                        shouldUpdate: {},
+                        signOut: undefined,
+                        status: 'idle'
+                })
 
-        const id = useId()
-        const {
-            getFieldsError,
-            getFieldsValue,
-            getInitialValues,
-            setFieldsValue,
-            signInFields,
-            validateFields
-        } = useFormContext()
+                const id = useId()
+                const {getFieldsError, getFieldsValue, getInitialValues, setFieldsValue, signInFields, validateFields} =
+                        useFormContext()
 
-        const errors = getFieldsError(name)
-        const errorMessage = Object.entries(
-            errors?.[0]?.constraints ?? {}
-        )[0]?.[1]
+                const errors = getFieldsError(name)
+                const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
+                const onComponentUpdate = useMemo(() => handleComponentUpdate(setState), [setState])
+                const storeValue = getFieldsValue(name) ?? getInitialValues(name)
+                const onValuesChange = handleFormItemValueChange({
+                        setFieldsValue,
+                        storeValue
+                })(name)
 
-        const onComponentUpdate = useMemo(
-            () => handleComponentUpdate(setState),
-            [setState]
-        )
+                const onFormItemInit = useMemo(
+                        () =>
+                                handleFormItemInit({
+                                        rule,
+                                        signInFields,
+                                        onComponentUpdate,
+                                        validatorOptions
+                                })(setState),
+                        [onComponentUpdate, rule, setState, signInFields, validatorOptions]
+                )
 
-        const storeValue = getFieldsValue(name) ?? getInitialValues(name)
-        const onValuesChange = handleFormItemValueChange({
-            setFieldsValue,
-            storeValue
-        })(name)
+                const onControlBlur = handleFormItemBlur(validateFields)(name)
+                const controlElement = renderControl?.({
+                        errorMessage,
+                        labelText,
+                        onBlur: onControlBlur,
+                        onValuesChange,
+                        value: storeValue
+                })
 
-        const onFormItemInit = useMemo(
-            () =>
-                handleFormItemInit({
-                    rule,
-                    signInFields,
-                    onComponentUpdate,
-                    validatorOptions
-                })(setState),
-            [onComponentUpdate, rule, setState, signInFields, validatorOptions]
-        )
+                useEffect(() => {
+                        onFormItemInit(name)
+                }, [name, onFormItemInit])
 
-        const onControlBlur = handleFormItemBlur(validateFields)(name)
-        const controlElement = renderControl?.({
-            errorMessage,
-            labelText,
-            onBlur: onControlBlur,
-            onValuesChange,
-            value: storeValue
-        })
+                useEffect(() => () => signOut?.(), [signOut])
 
-        useEffect(() => {
-            onFormItemInit(name)
-        }, [name, onFormItemInit])
+                if (status === 'idle') {
+                        return <></>
+                }
 
-        useEffect(() => () => signOut?.(), [signOut])
-
-        if (status === 'idle') {
-            return <></>
+                return render({
+                        ...renderProps,
+                        control: controlElement,
+                        id,
+                        skeletonMinDuration,
+                        ref
+                })
         }
-
-        return render({
-            ...renderProps,
-            control: controlElement,
-            id,
-            skeletonMinDuration,
-            ref
-        })
-    }
 )

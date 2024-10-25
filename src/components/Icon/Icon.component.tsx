@@ -6,30 +6,24 @@ import {IconProps, RenderIconProps} from './Icon.interface'
 import {Container} from './Icon.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const render = ({
-    containerAnimatedStyle,
-    id,
-    style,
-    svgIconElement,
-    ...containerProps
-}: RenderIconProps) => (
-    <AnimatedContainer
-        {...containerProps}
-        accessibilityRole='image'
-        pointerEvents='none'
-        style={[style, containerAnimatedStyle]}
-        testID={`icon--${id}`}
-    >
-        {svgIconElement}
-    </AnimatedContainer>
+const render = ({containerAnimatedStyle, id, style, svgIconElement, ...containerProps}: RenderIconProps) => (
+        <AnimatedContainer
+                {...containerProps}
+                accessibilityRole='image'
+                pointerEvents='none'
+                style={[style, containerAnimatedStyle]}
+                testID={`icon--${id}`}
+        >
+                {svgIconElement}
+        </AnimatedContainer>
 )
 
 const ForwardRefIcon = forwardRef<View, IconProps>((props, ref) => (
-    <IconBase
-        {...props}
-        ref={ref}
-        render={render}
-    />
+        <IconBase
+                {...props}
+                ref={ref}
+                render={render}
+        />
 ))
 
 export const Icon: FC<IconProps> = ForwardRefIcon

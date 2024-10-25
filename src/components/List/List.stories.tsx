@@ -7,132 +7,130 @@ import {List} from './List.component'
 import {ListProps} from './List.interface'
 
 const renderListSkeleton = () => {
-    const {Square, Rectangular, Circle} = Skeleton
-    const containerStyle = {
-        paddingLeft: 16,
-        flex: 1,
-        gap: 16,
-        paddingRight: 28
-    } as StyleProp<ViewStyle>
+        const {Square, Rectangular, Circle} = Skeleton
+        const containerStyle = {
+                paddingLeft: 16,
+                flex: 1,
+                gap: 16,
+                paddingRight: 28
+        } as StyleProp<ViewStyle>
 
-    const rectangularStyle = {flex: 1} as StyleProp<ViewStyle>
+        const rectangularStyle = {flex: 1} as StyleProp<ViewStyle>
 
-    return (
-        <Rectangular
-            height={56}
-            style={[containerStyle]}
-        >
-            <Square
-                width={24}
-                height={24}
-            />
+        return (
+                <Rectangular
+                        height={56}
+                        style={[containerStyle]}
+                >
+                        <Square
+                                width={24}
+                                height={24}
+                        />
 
-            <Rectangular
-                height={48}
-                style={[rectangularStyle]}
-            />
+                        <Rectangular
+                                height={48}
+                                style={[rectangularStyle]}
+                        />
 
-            <Circle
-                width={40}
-                height={40}
-            />
-        </Rectangular>
-    )
+                        <Circle
+                                width={40}
+                                height={40}
+                        />
+                </Rectangular>
+        )
 }
 
 export const Headline: StoryObj<ListProps> = {
-    args: {
-        defaultActiveKey: 'TitleB',
-        activeKey: 'TitleA',
-        data: [
-            {
-                indexKey: 'TitleA',
-                headline: 'TitleA'
-            },
-            {
-                indexKey: 'TitleB',
-                headline: 'TitleB'
-            },
-            {
-                indexKey: 'TitleC',
-                headline: 'TitleC'
-            },
-            {
-                indexKey: 'TitleD',
-                headline: 'TitleD'
-            }
-        ]
-    }
+        args: {
+                defaultActiveKey: 'TitleB',
+                activeKey: 'TitleA',
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA'
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB'
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC'
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD'
+                        }
+                ]
+        }
 }
 
 export const Select = () => {
-    const [activeKey, setActiveKey] = useState<string | undefined>(undefined)
-    const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>
-    const data = useMemo(
-        () =>
-            Array.from({length: 1255}, (_, index) => ({
-                indexKey: `Title${index + 1}`,
-                headline: `Title${index + 1}`,
-                leading: <Icon />,
-                extraData: []
-            })),
-        []
-    )
+        const [activeKey, setActiveKey] = useState<string | undefined>(undefined)
+        const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>
+        const data = useMemo(
+                () =>
+                        Array.from({length: 1255}, (_, index) => ({
+                                indexKey: `Title${index + 1}`,
+                                headline: `Title${index + 1}`,
+                                leading: <Icon />,
+                                extraData: []
+                        })),
+                []
+        )
 
-    const onActiveKey = (key?: string) => setActiveKey(key)
-    const skeleton = useMemo(() => renderListSkeleton(), [])
+        const onActiveKey = (key?: string) => setActiveKey(key)
+        const skeleton = useMemo(() => renderListSkeleton(), [])
 
-    return (
-        <View style={[style]}>
-            <List
-                data={data}
-                itemSize={56}
-                selectType='select'
-                skeletonElement={skeleton}
-                activeKey={activeKey}
-                onActive={onActiveKey}
-                afterAffordance={true}
-                loading={true}
-            />
-        </View>
-    )
+        return (
+                <View style={[style]}>
+                        <List
+                                data={data}
+                                itemSize={56}
+                                selectType='select'
+                                skeletonElement={skeleton}
+                                activeKey={activeKey}
+                                onActive={onActiveKey}
+                                afterAffordance={true}
+                                loading={true}
+                        />
+                </View>
+        )
 }
 
 export const Multiselect = () => {
-    const [activeKeys, setActiveKeys] = useState<string[] | undefined>(
-        undefined
-    )
-    const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>
-    const data = useMemo(
-        () =>
-            Array.from({length: 1255}, (_, index) => ({
-                indexKey: `Title${index + 1}`,
-                headline: `Title${index + 1}`,
-                leading: <Icon />,
-                extraData: []
-            })),
-        []
-    )
+        const [activeKeys, setActiveKeys] = useState<string[] | undefined>(undefined)
+        const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>
+        const data = useMemo(
+                () =>
+                        Array.from({length: 1255}, (_, index) => ({
+                                indexKey: `Title${index + 1}`,
+                                headline: `Title${index + 1}`,
+                                leading: <Icon />,
+                                extraData: []
+                        })),
+                []
+        )
 
-    const onActiveKeys = (keys?: string[]) => setActiveKeys(keys)
-    const skeleton = useMemo(() => renderListSkeleton(), [])
+        const onActiveKeys = (keys?: string[]) => setActiveKeys(keys)
+        const skeleton = useMemo(() => renderListSkeleton(), [])
 
-    return (
-        <View style={[style]}>
-            <List
-                activeKeys={activeKeys}
-                afterAffordance={true}
-                data={data}
-                itemSize={56}
-                onActives={onActiveKeys}
-                selectType='select'
-                skeletonElement={skeleton}
-            />
-        </View>
-    )
+        return (
+                <View style={[style]}>
+                        <List
+                                activeKeys={activeKeys}
+                                afterAffordance={true}
+                                data={data}
+                                itemSize={56}
+                                onActives={onActiveKeys}
+                                selectType='select'
+                                skeletonElement={skeleton}
+                        />
+                </View>
+        )
 }
 
 export default {
-    title: 'components/List',
-    component: List
+        title: 'components/List',
+        component: List
 } as Meta<typeof List>

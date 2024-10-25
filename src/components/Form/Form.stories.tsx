@@ -7,94 +7,87 @@ import {FormItemControlProps, FormItemProps} from './Form-item'
 import {Form} from './Form.component'
 
 class NameRule {
-    @IsDefined()
-    @IsNotEmpty()
-    @IsNumberString()
-    name: string
+        @IsDefined()
+        @IsNotEmpty()
+        @IsNumberString()
+        name: string
 }
 
 class AgeRule {
-    @IsDefined()
-    @IsNumberString()
-    age: string
+        @IsDefined()
+        @IsNumberString()
+        age: string
 }
 
 export const FormA = () => {
-    const form = Form.useForm<{name: string; age: number}>()
-    const renderControl = ({
-        errorMessage,
-        id,
-        labelText,
-        onBlur,
-        onValuesChange,
-        value
-    }: FormItemControlProps) => (
-        <TextField
-            error={!!errorMessage}
-            key={id}
-            labelText={labelText}
-            onBlur={onBlur}
-            onChangeText={onValuesChange}
-            supportingText={errorMessage}
-            value={value as string}
-        />
-    )
+        const form = Form.useForm<{name: string; age: number}>()
+        const renderControl = ({errorMessage, id, labelText, onBlur, onValuesChange, value}: FormItemControlProps) => (
+                <TextField
+                        error={!!errorMessage}
+                        key={id}
+                        labelText={labelText}
+                        onBlur={onBlur}
+                        onChangeText={onValuesChange}
+                        supportingText={errorMessage}
+                        value={value as string}
+                />
+        )
 
-    const items: FormItemProps[] = [
-        {
-            labelText: 'name',
-            name: 'name',
-            renderControl,
-            rule: NameRule
-        },
-        {
-            name: 'age',
-            renderControl,
-            labelText: 'age',
-            rule: AgeRule
+        const items: FormItemProps[] = [
+                {
+                        labelText: 'name',
+                        name: 'name',
+                        renderControl,
+                        rule: NameRule
+                },
+                {
+                        name: 'age',
+                        renderControl,
+                        labelText: 'age',
+                        rule: AgeRule
+                }
+        ]
+
+        const handleFinish = (value: unknown) => {
+                console.info(value)
         }
-    ]
 
-    const handleFinish = (value: unknown) => {
-        console.info(value)
-    }
+        const handleSubmit = () => {
+                form.submit()
+        }
 
-    const handleSubmit = () => {
-        form.submit()
-    }
+        const handleReset = () => {
+                form.resetFields()
+        }
 
-    const handleReset = () => {
-        form.resetFields()
-    }
+        const style = {
+                display: 'flex',
+                flexDirection: 'column'
+        } as StyleProp<ViewStyle>
 
-    const style = {
-        display: 'flex',
-        flexDirection: 'column'
-    } as StyleProp<ViewStyle>
+        return (
+                <View style={[style]}>
+                        <Form
+                                form={form}
+                                items={items}
+                                onFinish={handleFinish}
+                        />
 
-    return (
-        <View style={[style]}>
-            <Form
-                form={form}
-                items={items}
-                onFinish={handleFinish}
-            />
+                        <Button
+                                labelText='submit'
+                                onPress={handleSubmit}
+                        />
 
-            <Button
-                labelText='submit'
-                onPress={handleSubmit}
-            />
-
-            <Button
-                labelText='reset'
-                onPress={handleReset}
-                type='outlined'
-            />
-        </View>
-    )
+                        <Button
+                                labelText='reset'
+                                onPress={handleReset}
+                                type='outlined'
+                        />
+                </View>
+        )
 }
 
 export default {
-    title: 'components/Form',
-    component: Form
+        title: 'components/Form',
+        component: Form
 } as Meta<typeof Form>

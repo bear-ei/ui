@@ -4,21 +4,17 @@ import {AnimatedStyle} from 'react-native-reanimated'
 import {ShapeProps} from '../Common'
 
 export type ElevationLevel = 0 | 1 | 2 | 3 | 4 | 5 | undefined
-export interface ElevationProps
-    extends ViewProps,
-        RefAttributes<View>,
-        Pick<ShapeProps, 'shape'> {
-    defaultLevel?: ElevationLevel
-    level?: ElevationLevel
+export interface ElevationProps extends ViewProps, RefAttributes<View>, Pick<ShapeProps, 'shape'> {
+        defaultLevel?: ElevationLevel
+        level?: ElevationLevel
 }
 
-export interface RenderElevationProps
-    extends Omit<ElevationProps, 'renderStyle'> {
-    shadowAnimatedStyle: AnimatedStyle<ViewStyle>
+export interface RenderElevationProps extends Omit<ElevationProps, 'renderStyle'> {
+        shadowAnimatedStyle: AnimatedStyle<ViewStyle>
 }
 
 export interface ElevationBaseProps extends ElevationProps {
-    render: (props: RenderElevationProps) => JSX.Element
+        render: (props: RenderElevationProps) => JSX.Element
 }
 
 export type UseElevationAnimatedOptions = Pick<RenderElevationProps, 'level'>

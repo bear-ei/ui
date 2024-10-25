@@ -1,11 +1,11 @@
 import {useRef} from 'react'
 
 export const useLazyRef = <T>(callback: () => T) => {
-    const lazyRef = useRef<T>()
+        const lazyRef = useRef<T>()
 
-    if (!lazyRef.current) {
-        lazyRef.current = callback()
-    }
+        if (!lazyRef.current) {
+                lazyRef.current = callback()
+        }
 
-    return lazyRef
+        return lazyRef
 }

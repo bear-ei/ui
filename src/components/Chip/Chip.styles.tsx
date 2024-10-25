@@ -1,198 +1,179 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
-import {
-    ChipContainerProps,
-    ChipContentProps,
-    ChipMainProps,
-    ChipTrailingProps,
-    ChipType
-} from './Chip.interface'
+import {ChipContainerProps, ChipContentProps, ChipMainProps, ChipTrailingProps, ChipType} from './Chip.interface'
 
 export const Container = styled.View<ChipContainerProps>`
-    cursor: pointer;
+        cursor: pointer;
 
-    ${({theme}) => css`
-        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
-    `}
-`
-
-export const Content = styled(Shape)<ChipContentProps>`
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-    z-index: 4;
-
-    ${({theme}) => css`
-        min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
-    `}
-
-    ${({theme}) => css`
-        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 8)}px;
-    `}
-
-
-    ${({theme, type = 'assist'}) =>
-        type === 'inputFilled' &&
-        css`
-            height: ${theme.adaptSize(
-                theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
-            )}px;
+        ${({theme}) => css`
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
         `}
 `
 
-export const ContentUnderlay = styled(Shape)`
-    position: absolute;
-    z-index: -4;
+export const Content = styled(Shape)<ChipContentProps>`
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+        z-index: 4;
 
-    ${({theme}) => css`
-        bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-        left: ${theme.adaptSize(theme.token.spacing.none)}px;
-        right: ${theme.adaptSize(theme.token.spacing.none)}px;
-        top: ${theme.adaptSize(theme.token.spacing.none)}px;
-    `}
+        ${({theme}) => css`
+                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
+        `}
+
+        ${({theme}) => css`
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 8)}px;
+        `}
+
+
+    ${({theme, type = 'assist'}) =>
+                type === 'inputFilled' &&
+                css`
+                        height: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px;
+                `}
+`
+
+export const ContentUnderlay = styled(Shape)`
+        position: absolute;
+        z-index: -4;
+
+        ${({theme}) => css`
+                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+                left: ${theme.adaptSize(theme.token.spacing.none)}px;
+                right: ${theme.adaptSize(theme.token.spacing.none)}px;
+                top: ${theme.adaptSize(theme.token.spacing.none)}px;
+        `}
 `
 
 export const Main = styled.View<ChipMainProps>`
-    align-items: center;
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    justify-content: center;
-    z-index: 4;
+        align-items: center;
+        align-self: stretch;
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        justify-content: center;
+        z-index: 4;
 
-    ${({theme}) => css`
-        padding: ${theme.adaptSize(theme.token.spacing.none)}px
-            ${theme.adaptSize(theme.token.spacing.medium)}px;
-    `}
+        ${({theme}) => css`
+                padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;
+        `}
 
-    ${({theme, type = 'assist'}) => css`
-        gap: ${theme.adaptSize(
-            type === 'inputFilled' ?
-                theme.token.spacing.extraSmall
-            :   theme.token.spacing.small
-        )}px;
-    `}
+        ${({theme, type = 'assist'}) => css`
+                gap: ${theme.adaptSize(
+                        type === 'inputFilled' ? theme.token.spacing.extraSmall : theme.token.spacing.small
+                )}px;
+        `}
 
     ${({theme, type = 'assist'}) => {
-        const mainType = {
-            input: css`
-                padding: ${theme.adaptSize(theme.token.spacing.none)}px
-                    ${theme.adaptSize(theme.token.spacing.extraSmall * 3)}px;
-            `,
+                const mainType = {
+                        input: css`
+                                padding: ${theme.adaptSize(theme.token.spacing.none)}px
+                                        ${theme.adaptSize(theme.token.spacing.extraSmall * 3)}px;
+                        `,
 
-            inputFilled: css`
-                padding: ${theme.adaptSize(theme.token.spacing.none)}px
-                    ${theme.adaptSize(theme.token.spacing.extraSmall * 2)}px;
-            `
-        } as Record<ChipType, RuleSet<object> | undefined>
+                        inputFilled: css`
+                                padding: ${theme.adaptSize(theme.token.spacing.none)}px
+                                        ${theme.adaptSize(theme.token.spacing.extraSmall * 2)}px;
+                        `
+                } as Record<ChipType, RuleSet<object> | undefined>
 
-        return mainType[type]
-    }}
+                return mainType[type]
+        }}
 
     
 
     ${({leadingIconShow, theme, type = 'assist'}) =>
-        leadingIconShow &&
-        css`
-            padding-left: ${theme.adaptSize(
-                type === 'inputFilled' ?
-                    theme.token.spacing.extraSmall
-                :   theme.token.spacing.small
-            )}px;
-        `}
+                leadingIconShow &&
+                css`
+                        padding-left: ${theme.adaptSize(
+                                type === 'inputFilled' ? theme.token.spacing.extraSmall : theme.token.spacing.small
+                        )}px;
+                `}
 
     ${({trailingIconShow, theme, type}) =>
-        trailingIconShow &&
-        css`
-            padding-right: ${theme.adaptSize(
-                type === 'inputFilled' ?
-                    theme.token.spacing.extraSmall
-                :   theme.token.spacing.small
-            )}px;
-        `}
+                trailingIconShow &&
+                css`
+                        padding-right: ${theme.adaptSize(
+                                type === 'inputFilled' ? theme.token.spacing.extraSmall : theme.token.spacing.small
+                        )}px;
+                `}
 
     ${({avatarShow, theme}) =>
-        avatarShow &&
-        css`
-            padding-left: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-        `}
+                avatarShow &&
+                css`
+                        padding-left: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                `}
 `
 
 export const LabelText = styled(Typography)`
-    text-align: center;
-    user-select: none;
+        text-align: center;
+        user-select: none;
 `
 
 export const IconContainer = styled.View`
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
 
-    ${({theme}) => css`
-        height: ${theme.adaptSize(
-            theme.token.spacing.large +
-                -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
-        )}px;
-    `}
-`
-
-export const Trailing = styled.View<ChipTrailingProps>`
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    ${({theme}) => css`
-        width: ${theme.adaptSize(
-            theme.token.spacing.large +
-                -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
-        )}px;
-        height: ${theme.adaptSize(
-            theme.token.spacing.large +
-                -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
-        )}px;
-    `}
-
-    ${({theme, type}) =>
-        type === 'inputFilled' &&
-        css`
-            height: ${theme.adaptSize(theme.token.spacing.medium)}px;
-            width: ${theme.adaptSize(theme.token.spacing.medium)}px;
+        ${({theme}) => css`
+                height: ${theme.adaptSize(
+                        theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+                )}px;
         `}
 `
 
-export const AvatarContainer = styled.View`
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
+export const Trailing = styled.View<ChipTrailingProps>`
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-    ${({theme}) => css`
-        height: ${theme.adaptSize(theme.token.spacing.large)}px;
-        width: ${theme.adaptSize(theme.token.spacing.large)}px;
-    `}
+        ${({theme}) => css`
+                width: ${theme.adaptSize(
+                        theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+                )}px;
+                height: ${theme.adaptSize(
+                        theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+                )}px;
+        `}
+
+        ${({theme, type}) =>
+                type === 'inputFilled' &&
+                css`
+                        height: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                        width: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                `}
+`
+
+export const AvatarContainer = styled.View`
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+
+        ${({theme}) => css`
+                height: ${theme.adaptSize(theme.token.spacing.large)}px;
+                width: ${theme.adaptSize(theme.token.spacing.large)}px;
+        `}
 `
 
 export const FilterIcon = styled.View`
-    overflow: hidden;
-    position: absolute;
+        overflow: hidden;
+        position: absolute;
 
-    ${({theme}) => css`
-        left: ${theme.adaptSize(theme.token.spacing.none)}px;
-        top: ${theme.adaptSize(theme.token.spacing.none)}px;
-        height: ${theme.adaptSize(
-            theme.token.spacing.large +
-                -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
-        )}px;
-    `}
+        ${({theme}) => css`
+                left: ${theme.adaptSize(theme.token.spacing.none)}px;
+                top: ${theme.adaptSize(theme.token.spacing.none)}px;
+                height: ${theme.adaptSize(
+                        theme.token.spacing.large + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
+                )}px;
+        `}
 `

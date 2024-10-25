@@ -4,7 +4,7 @@ The Bearei material library is a library of React Native components based on the
 
 # Related Links:
 
--   [Material Design](https://m3.material.io/)
+- [Material Design](https://m3.material.io/)
 
 ## Installation
 

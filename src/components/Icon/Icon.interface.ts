@@ -8,25 +8,22 @@ import {outlined} from './icon.outlined'
 export type IconName = keyof (typeof outlined)['outlined']
 export type IconStyle = 'outlined' | 'rounded' | 'sharp'
 export type IconType = 'filled' | 'outlined'
-export interface IconProps
-    extends Omit<SvgProps, 'hitSlop'>,
-        RefAttributes<View>,
-        ViewProps {
-    eventName?: EventName
-    icon?: FC<SvgProps>
-    iconStyle?: IconStyle
-    name?: IconName
-    svgStyle?: StyleProp<ViewStyle>
-    type?: IconType
+export interface IconProps extends Omit<SvgProps, 'hitSlop'>, RefAttributes<View>, ViewProps {
+        eventName?: EventName
+        icon?: FC<SvgProps>
+        iconStyle?: IconStyle
+        name?: IconName
+        svgStyle?: StyleProp<ViewStyle>
+        type?: IconType
 }
 
 export interface RenderIconProps extends IconProps {
-    containerAnimatedStyle: AnimatedStyle<ViewStyle>
-    svgIconElement: JSX.Element
+        containerAnimatedStyle: AnimatedStyle<ViewStyle>
+        svgIconElement: JSX.Element
 }
 
 export interface IconBaseProps extends IconProps {
-    render: (props: RenderIconProps) => JSX.Element
+        render: (props: RenderIconProps) => JSX.Element
 }
 
 export type UseIconAnimatedOptions = Pick<RenderIconProps, 'eventName'>

@@ -4,48 +4,36 @@ import {NavigationRailItemProps} from './Navigation-rail-item'
 
 export type NavigationRailType = 'segment' | 'block'
 export type DestinationPosition = 'top' | 'middle' | 'bottom'
-export interface NavigationRailData
-    extends Pick<NavigationRailItemProps, 'icon' | 'labelText'> {
-    indexKey: string
+export interface NavigationRailData extends Pick<NavigationRailItemProps, 'icon' | 'labelText'> {
+        indexKey: string
 }
 
-export type RenderNavigationRailItemOptions = Omit<
-    NavigationRailItemProps,
-    'itemKey'
->
-
+export type RenderNavigationRailItemOptions = Omit<NavigationRailItemProps, 'itemKey'>
 export interface NavigationRailProps
-    extends Pick<NavigationRailItemProps, 'activeKey' | 'onActive' | 'type'>,
-        ViewProps,
-        RefAttributes<View> {
-    data?: NavigationRailData[]
-    defaultActiveKey?: string
-    destinationPosition?: DestinationPosition
-    fab?: JSX.Element
-    menu?: JSX.Element
+        extends Pick<NavigationRailItemProps, 'activeKey' | 'onActive' | 'type'>,
+                ViewProps,
+                RefAttributes<View> {
+        data?: NavigationRailData[]
+        defaultActiveKey?: string
+        destinationPosition?: DestinationPosition
+        fab?: JSX.Element
+        menu?: JSX.Element
 }
 
 export interface RenderNavigationRailProps extends NavigationRailProps {
-    fabElement?: JSX.Element
-    navigationRailItemElements?: JSX.Element[]
-    onActiveSource?: (value?: string) => void
+        fabElement?: JSX.Element
+        navigationRailItemElements?: JSX.Element[]
+        onActiveSource?: (value?: string) => void
 }
 
 export interface NavigationBaseProps extends NavigationRailProps {
-    render: (props: RenderNavigationRailProps) => JSX.Element
+        render: (props: RenderNavigationRailProps) => JSX.Element
 }
 
 export interface NavigationRailState {
-    navigationRailActiveKey?: string
-    nextActiveEvent?: () => void
+        navigationRailActiveKey?: string
+        nextActiveEvent?: () => void
 }
 
-export type HandleNavigationRailActiveOptions = Pick<
-    RenderNavigationRailProps,
-    'onActive' | 'activeKey'
->
-
-export type DestinationProps = Pick<
-    RenderNavigationRailProps,
-    'destinationPosition'
->
+export type HandleNavigationRailActiveOptions = Pick<RenderNavigationRailProps, 'onActive' | 'activeKey'>
+export type DestinationProps = Pick<RenderNavigationRailProps, 'destinationPosition'>

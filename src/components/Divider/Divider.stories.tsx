@@ -3,18 +3,18 @@ import {Divider} from './Divider.component'
 import {DividerProps} from './Divider.interface'
 
 export const DividerHorizontal: StoryObj<DividerProps> = {
-    args: {size: 'large'}
+        args: {size: 'large'}
 }
 
 export const DividerSubheader: StoryObj<DividerProps> = {
-    args: {layout: 'horizontal', subheader: 'Subheader'}
+        args: {layout: 'horizontal', subheader: 'Subheader'}
 }
 
 export const DividerVertical: StoryObj<DividerProps> = {
-    args: {size: 'large', layout: 'vertical'}
+        args: {size: 'large', layout: 'vertical'}
 }
 
 export default {
-    title: 'components/Divider',
-    component: Divider
+        title: 'components/Divider',
+        component: Divider
 } as Meta<typeof Divider>

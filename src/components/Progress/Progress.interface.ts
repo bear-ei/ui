@@ -7,30 +7,27 @@ type ProgressType = 'linear' | 'circular'
 type ProgressAnimated = 'determinate' | 'indeterminate'
 
 export interface ProgressProps
-    extends ViewProps,
-        RefAttributes<View>,
-        Pick<
-            ProgressActiveIndicatorProps,
-            'increment' | 'defaultValue' | 'value'
-        > {
-    animated?: ProgressAnimated
-    type?: ProgressType
+        extends ViewProps,
+                RefAttributes<View>,
+                Pick<ProgressActiveIndicatorProps, 'increment' | 'defaultValue' | 'value'> {
+        animated?: ProgressAnimated
+        type?: ProgressType
 }
 
 export interface RenderProgressProps extends ProgressProps {
-    layout: LayoutRectangle
-    onStateEvent: OnStateEvent
+        layout: LayoutRectangle
+        onStateEvent: OnStateEvent
 }
 
 export interface ProgressBaseProps extends ProgressProps {
-    render: (props: RenderProgressProps) => JSX.Element
+        render: (props: RenderProgressProps) => JSX.Element
 }
 
 export interface ProgressState {
-    layout: LayoutRectangle
+        layout: LayoutRectangle
 }
 
 export type HandleProgressStateChangeOptions = OnStateEventChangeOptions
 export type ProgressContainerProps = {
-    progress?: boolean
+        progress?: boolean
 }
