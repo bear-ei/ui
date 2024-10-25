@@ -1,7 +1,6 @@
 import {cloneElement, FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {TooltipBase} from './Tooltip-base.component'
-import {TooltipSupporting} from './Tooltip-supporting'
 import {RenderTooltipProps, TooltipProps} from './Tooltip.interface'
 import {Container, ContentContainer} from './Tooltip.styles'
 
@@ -10,18 +9,8 @@ import {Container, ContentContainer} from './Tooltip.styles'
  */
 const render = ({
     children,
-    containerCurrent,
-    elevation,
     id,
-    layout,
     onStateEvent,
-    onVisible,
-    shape,
-    supporting,
-    supportingPosition,
-    type,
-    visible,
-    zIndex,
     ...containerProps
 }: RenderTooltipProps) => {
     const {onFocus, ...onChildrenStateEvent} = onStateEvent
@@ -35,21 +24,6 @@ const render = ({
                 {children &&
                     cloneElement(children, {onFocus, ...onChildrenStateEvent})}
             </ContentContainer>
-
-            {typeof visible === 'boolean' && supporting && (
-                <TooltipSupporting
-                    containerCurrent={containerCurrent}
-                    containerLayout={layout}
-                    elevation={elevation}
-                    onVisible={onVisible}
-                    shape={shape}
-                    supporting={supporting}
-                    supportingPosition={supportingPosition}
-                    type={type}
-                    visible={visible}
-                    zIndex={zIndex}
-                />
-            )}
         </Container>
     )
 }

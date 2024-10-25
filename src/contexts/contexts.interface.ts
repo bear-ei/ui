@@ -1,8 +1,12 @@
-import {ReactNode} from 'react'
+import {RefAttributes} from 'react'
+import {View, ViewProps} from 'react-native'
 
+export type ModalName = 'tooltip' | 'sideSheet'
 export interface Modal {
     id: string
-    render?: () => JSX.Element
+    name: ModalName
+    props?: Record<string, unknown>
+    unmount?: boolean
 }
 
 export type EmitterEvent = {
@@ -13,10 +17,9 @@ export interface ModalState {
     modals: Modal[]
 }
 
-export interface ModalItemProps {
-    render?: () => JSX.Element
+export interface ModalItemProps extends ViewProps, RefAttributes<View> {
+    name: ModalName
+    props?: ViewProps & RefAttributes<View>
 }
 
-export interface ModalProps {
-    children?: ReactNode
-}
+export type ModalProps = Pick<Modal, 'name' | 'props'>

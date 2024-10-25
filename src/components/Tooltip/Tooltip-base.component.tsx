@@ -1,5 +1,6 @@
 import {
     forwardRef,
+    useCallback,
     useEffect,
     useId,
     useImperativeHandle,
@@ -8,6 +9,7 @@ import {
 } from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
+import {emitter} from '../../contexts'
 import {
     OnStateEventChangeOptions,
     StateEvent,
@@ -15,6 +17,7 @@ import {
 } from '../../hooks'
 import {debounce} from '../../utils'
 import {State} from '../Common'
+import {TooltipSupportingProps} from './Tooltip-supporting'
 import {
     HandleTooltipStateEventChangeOptions,
     TooltipBaseProps,
@@ -71,15 +74,41 @@ const handleTooltipStateChange = ({
     }
 }
 
+const handleTooltipSupportingEmit =
+    (id: string) =>
+    ({visible, supporting, ...props}: TooltipSupportingProps) => {
+        if (typeof visible === 'boolean' && supporting) {
+            emitter.emit('modal', {
+                id: `tooltip__supporting--${id}`,
+                name: 'tooltip',
+                props: {...props, visible, supporting}
+            })
+        }
+    }
+
+const handleTooltipSupportingUnmount = (id: string) => {
+    emitter.emit('modal', {
+        id: `tooltip__supporting--${id}`,
+        name: 'tooltip',
+        unmount: true
+    })
+}
+
 export const TooltipBase = forwardRef<View, TooltipBaseProps>(
     (
         {
             defaultVisible,
             disabled = false,
+            elevation,
             onVisible,
             render,
-            visible,
+            shape,
+            supporting,
+            supportingPosition,
             triggerEvent,
+            type,
+            visible,
+            zIndex,
             ...renderProps
         },
         ref
@@ -115,11 +144,52 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
             onStateEventChange
         })
 
+        const onTooltipSupportingEmit = useCallback(
+            () =>
+                handleTooltipSupportingEmit(id)({
+                    containerCurrent: containerRef.current,
+                    containerLayout: layout,
+                    elevation,
+                    onVisible: onTooltipVisible,
+                    shape,
+                    supporting,
+                    supportingPosition,
+                    type,
+                    visible: tooltipVisible,
+                    zIndex
+                }),
+            [
+                elevation,
+                id,
+                layout,
+                onTooltipVisible,
+                shape,
+                supporting,
+                supportingPosition,
+                tooltipVisible,
+                type,
+                zIndex
+            ]
+        )
+
+        const onTooltipSupportingUnmount = useMemo(
+            () => handleTooltipSupportingUnmount,
+            []
+        )
+
         useImperativeHandle(
             ref,
             () => (containerRef?.current ? containerRef?.current : {}) as View,
             []
         )
+
+        useEffect(() => {
+            onTooltipSupportingEmit()
+        }, [onTooltipSupportingEmit])
+
+        useEffect(() => {
+            return () => onTooltipSupportingUnmount(id)
+        }, [id, onTooltipSupportingUnmount])
 
         useEffect(() => {
             onTooltipVisible(visible ?? defaultVisible)
@@ -131,13 +201,9 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 
         return render({
             ...renderProps,
-            containerCurrent: containerRef.current,
             id,
-            layout,
             onStateEvent,
-            onVisible: onTooltipVisible,
-            ref: containerRef,
-            visible: tooltipVisible
+            ref: containerRef
         })
     }
 )

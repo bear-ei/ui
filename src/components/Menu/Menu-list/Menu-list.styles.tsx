@@ -11,7 +11,7 @@ export const Container = styled(View)<MenuListContainerProps>`
     ${({theme, height}) => css`
         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 36)}px;
         max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 60)}px;
-        height: ${height};
+        height: ${height}px;
     `}
 `
 

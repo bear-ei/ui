@@ -1,7 +1,6 @@
 import {WritableDraft} from 'immer'
 import {
     forwardRef,
-    useCallback,
     useEffect,
     useId,
     useImperativeHandle,
@@ -11,7 +10,6 @@ import {
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {emitter} from '../../../contexts'
 import {
     OnStateEventChangeOptions,
     StateEvent,
@@ -21,7 +19,6 @@ import {
 import {State} from '../../Common'
 import {
     HandleTooltipSupportingContainerLayoutOptions,
-    HandleTooltipSupportingEmitOptions,
     HandleTooltipSupportingInvertOptions,
     HandleTooltipSupportingPositionInvertOptions,
     HandleTooltipSupportingPositionInvertWindowOptions,
@@ -91,21 +88,6 @@ const handleTooltipSupportingContainerLayout =
             setTooltipSupportingLayout(setState)(containerCurrent)
         }
     }
-
-const handleTooltipSupportingEmit =
-    ({id, status}: HandleTooltipSupportingEmitOptions) =>
-    (renderTooltipSupporting: () => JSX.Element) => {
-        if (status === 'succeeded') {
-            emitter.emit('modal', {
-                id: `tooltip__supporting--${id}`,
-                render: renderTooltipSupporting
-            })
-        }
-    }
-
-const handleTooltipSupportingUnmount = (id: string) => {
-    emitter.emit('modal', {id: `tooltip__supporting--${id}`, render: undefined})
-}
 
 // TODO: Add more directional support.
 const handleTooltipSupportingPositionInvert =
@@ -213,11 +195,6 @@ export const TooltipSupportingBase = forwardRef<
             [containerCurrent, setState, windowWidth]
         )
 
-        const onTooltipSupportingUnmount = useMemo(
-            () => handleTooltipSupportingUnmount,
-            []
-        )
-
         const onTooltipSupportingPositionInvert = useMemo(
             () =>
                 handleTooltipSupportingPositionInvert({
@@ -257,46 +234,6 @@ export const TooltipSupportingBase = forwardRef<
             onStateEventChange
         })
 
-        const renderTooltipSupporting = useCallback(
-            () =>
-                render({
-                    closed,
-                    containerLayout,
-                    contentAnimatedStyle,
-                    height: layout.height,
-                    id,
-                    onStateEvent,
-                    ref: containerRef as React.LegacyRef<View>,
-                    supportingPosition: position,
-                    theme,
-                    type,
-                    width: tooltipSupportingWidth,
-                    ...renderProps
-                }),
-            [
-                closed,
-                containerLayout,
-                contentAnimatedStyle,
-                id,
-                layout.height,
-                onStateEvent,
-                position,
-                render,
-                renderProps,
-                theme,
-                tooltipSupportingWidth,
-                type
-            ]
-        )
-
-        const onTooltipSupportingEmit = useCallback(
-            () =>
-                handleTooltipSupportingEmit({id, status})(
-                    renderTooltipSupporting
-                ),
-            [id, status, renderTooltipSupporting]
-        )
-
         useImperativeHandle(
             ref,
             () => (containerRef?.current ? containerRef?.current : {}) as View,
@@ -314,20 +251,29 @@ export const TooltipSupportingBase = forwardRef<
         ])
 
         useEffect(() => {
-            onTooltipSupportingEmit()
-        }, [onTooltipSupportingEmit])
-
-        useEffect(() => {
             onTooltipSupportingPositionInvert({
                 height: windowHeight,
                 width: windowWidth
             })
         }, [onTooltipSupportingPositionInvert, windowHeight, windowWidth])
 
-        useEffect(() => {
-            return () => onTooltipSupportingUnmount(id)
-        }, [id, onTooltipSupportingUnmount])
+        if (status === 'idle') {
+            return <></>
+        }
 
-        return <></>
+        return render({
+            closed,
+            containerLayout,
+            contentAnimatedStyle,
+            height: layout.height,
+            id,
+            onStateEvent,
+            ref: containerRef as React.LegacyRef<View>,
+            supportingPosition: position,
+            theme,
+            type,
+            width: tooltipSupportingWidth,
+            ...renderProps
+        })
     }
 )

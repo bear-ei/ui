@@ -28,10 +28,7 @@ export interface TooltipProps
 }
 
 export interface RenderTooltipProps extends TooltipProps {
-    containerCurrent: View | null
-    layout: LayoutRectangle
     onStateEvent: OnStateEvent
-    onVisible?: (value?: boolean) => void
 }
 
 export interface TooltipBaseProps extends TooltipProps {

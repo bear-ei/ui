@@ -60,12 +60,6 @@ export interface TooltipSupportingState {
     visible?: boolean
 }
 
-export type HandleTooltipSupportingEmitOptions = Pick<
-    TooltipSupportingState,
-    'status'
-> &
-    Pick<RenderTooltipSupportingProps, 'id'>
-
 export type HandleTooltipSupportingStateEventChangeOptions =
     OnStateEventChangeOptions & Pick<TooltipSupportingProps, 'onVisible'>
 

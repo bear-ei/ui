@@ -128,12 +128,15 @@ export const Content = styled.View`
 `
 
 export const Main = styled(Shape)<TooltipSupportingMainProps>`
-    bottom: 0;
-    left: 0;
     overflow: hidden;
     position: absolute;
-    right: 0;
-    top: 0;
+
+    ${({theme}) => css`
+        bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+        left: ${theme.adaptSize(theme.token.spacing.none)}px;
+        right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        top: ${theme.adaptSize(theme.token.spacing.none)}px;
+    `}
 
     ${({theme, type = 'plain'}) => {
         const contentType = {

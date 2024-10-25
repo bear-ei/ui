@@ -26,22 +26,23 @@ const handleTooltipSupportingAnimatedTiming =
     (visible?: boolean) => {
         const toValue = visible ? 1 : 0
 
-        if (typeof visible === 'boolean') {
-            if (type === 'menu') {
-                animatedTiming()(heightSharedValue)(toValue)
-            } else {
-                animatedTiming()(transformSharedValue)(toValue)
-            }
-
-            animatedTiming({
-                ...transformSharedValue,
-                callback: (finished?: boolean) => {
-                    if (finished && !visible) {
-                        onClose?.(true)
-                    }
-                }
-            })(opacitySharedValue)(toValue)
+        if (typeof visible !== 'boolean') {
+            return
         }
+
+        if (type === 'menu') {
+            animatedTiming()(heightSharedValue)(toValue)
+        } else {
+            animatedTiming()(transformSharedValue)(toValue)
+        }
+
+        animatedTiming({
+            callback: (finished?: boolean) => {
+                if (finished && !visible) {
+                    onClose?.(true)
+                }
+            }
+        })(opacitySharedValue)(toValue)
     }
 
 export const useTooltipSupportingAnimated = ({
