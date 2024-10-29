@@ -1,11 +1,11 @@
 import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {GestureResponderEvent, PanResponder, PanResponderGestureState, View} from 'react-native'
+import {GestureResponderEvent, PanResponder, PanResponderGestureState, View, ViewProps} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
 import {EventName, State} from '../../Common'
 import {Icon} from '../../Icon'
-import {IconButton} from '../../Icon-button'
+import {IconButton, IconButtonType} from '../../Icon-button'
 import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {
         HandleListItemCloseOptions,
@@ -229,17 +229,26 @@ const renderListItemTrailing = ({
         closeTrailing,
         disabled,
         onStateEvent,
-        trailing
+        trailing,
+        trailingProps
 }: RenderListItemTrailingOptions) => {
         const {onHoverIn, onHoverOut} = onStateEvent
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
+        const props = {
+                disabled,
+                pointerEvents: 'box-only' as ViewProps['pointerEvents'],
+                type: 'standard' as IconButtonType,
+                ...onStateEvent,
+                ...trailingProps
+        }
+
         const trailingElement = {
                 afterAffordance:
                         trailing ?
-                                cloneElement(trailing, {...onStateEvent, disabled})
+                                cloneElement(trailing, props)
                         :       <IconButton
-                                        {...onStateEvent}
+                                        {...props}
                                         icon={
                                                 <Icon
                                                         iconStyle='outlined'
@@ -247,15 +256,12 @@ const renderListItemTrailing = ({
                                                         type='filled'
                                                 />
                                         }
-                                        disabled={disabled}
-                                        pointerEvents='box-only'
-                                        type='standard'
                                 />,
                 closeTrailing:
                         trailing ?
-                                cloneElement(trailing, {...onStateEvent, disabled})
+                                cloneElement(trailing, props)
                         :       <IconButton
-                                        {...onStateEvent}
+                                        {...props}
                                         icon={
                                                 <Icon
                                                         iconStyle='outlined'
@@ -263,11 +269,8 @@ const renderListItemTrailing = ({
                                                         type='filled'
                                                 />
                                         }
-                                        disabled={disabled}
-                                        pointerEvents='box-only'
-                                        type='standard'
                                 />,
-                standard: trailing ? cloneElement(trailing, {onHoverIn, onHoverOut, disabled}) : undefined
+                standard: trailing ? cloneElement(trailing, {onHoverIn, onHoverOut, ...props}) : undefined
         }
 
         return trailingElement[trailingType]
@@ -301,6 +304,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         shape,
                         supporting,
                         trailing,
+                        trailingProps,
                         trailingTrigger,
                         type = 'standard',
                         ...renderProps
@@ -406,7 +410,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         disabled,
                         onStateEvent: {onPressOut: onListItemTrailingPressOut},
                         theme,
-                        trailing
+                        trailing,
+                        trailingProps
                 })
 
                 const leadingElement =

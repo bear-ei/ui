@@ -20,3 +20,4 @@ export interface SideSheetState {
 }
 
 export type HandleSideSheetEmitOptions = Pick<SideSheetBaseProps, 'visible' | 'id' | 'type'>
+export type HandleSideSheetBackOptions = Pick<SideSheetBaseProps, 'type' | 'disabledClose' | 'onBack'>

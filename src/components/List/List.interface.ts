@@ -11,12 +11,12 @@ export interface ListData
         extends Pick<
                 ListItemProps,
                 | 'contentStyle'
-                | 'customData'
                 | 'headline'
                 | 'leading'
                 | 'supporting'
                 | 'supportingTextNumberOfLines'
                 | 'trailing'
+                | 'trailingProps'
         > {
         indexKey: string
 
@@ -56,6 +56,7 @@ export interface ListProps
                                 | 'skeletonElement'
                                 | 'skeletonMinDuration'
                                 | 'supportingTextNumberOfLines'
+                                | 'trailing'
                                 | 'trailingTrigger'
                                 | 'type'
                         >
@@ -109,6 +110,7 @@ export type HandleRenderItemOptions = Pick<
         | 'skeletonElement'
         | 'skeletonMinDuration'
         | 'supportingTextNumberOfLines'
+        | 'trailing'
         | 'trailingTrigger'
         | 'type'
 >

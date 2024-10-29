@@ -81,6 +81,7 @@ const render = ({
                         type={type}
                 >
                         <ContentSkeleton
+                                containerLayout='horizontal'
                                 content={skeletonElement}
                                 duration={skeletonMinDuration}
                         >

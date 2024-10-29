@@ -3,6 +3,7 @@ import {AnimatedStyle} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
 import {EventName, ShapeType, State} from '../../Common'
+import {IconButtonProps} from '../../Icon-button'
 import {TouchableProps} from '../../Touchable'
 import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from '../List-after-affordance'
 import {ListType} from '../List.interface'
@@ -28,7 +29,6 @@ export interface ListItemProps
          * color when ripples are enabled.
          */
         contentStyle?: StyleProp<ViewStyle>
-        customData?: unknown
         divider?: boolean
         enableUnderlay?: boolean
         enableUnderlayActive?: boolean
@@ -52,6 +52,7 @@ export interface ListItemProps
         supporting?: string | JSX.Element
         supportingTextNumberOfLines?: number
         trailing?: JSX.Element
+        trailingProps?: IconButtonProps
         trailingTrigger?: State
         type?: ListType
 }
@@ -101,7 +102,10 @@ export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 
 }
 
 export interface RenderListItemTrailingOptions
-        extends Pick<RenderListItemProps, 'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled'> {
+        extends Pick<
+                RenderListItemProps,
+                'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps'
+        > {
         onStateEvent: Partial<OnStateEvent>
         theme: DefaultTheme
 }
