@@ -56,7 +56,7 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
                 }
         }
 
-        const borderWidth = theme.adaptSize(1)
+        const borderWidth = theme.adaptSize(theme.token.spacing.extraSmall / 4)
         const contentUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(
                         colorSharedValue.value,

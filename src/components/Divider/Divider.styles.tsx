@@ -14,13 +14,13 @@ export const Container = styled.View<DividerContainerProps>`
         ${({layout = 'horizontal', theme}) => {
                 const containerLayout = {
                         horizontal: css`
-                                height: ${theme.adaptSize(1)}px;
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                                 width: 100%;
                         `,
 
                         vertical: css`
                                 height: 100%;
-                                width: ${theme.adaptSize(1)}px;
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                         `
                 } as Record<LayoutType, RuleSet<object> | undefined>
 
@@ -58,7 +58,7 @@ export const Content = styled.View`
 
         ${({theme}) => css`
                 background-color: ${theme.token.scheme.outlineVariant};
-                min-height: ${theme.adaptSize(1)}px;
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
         `}
 `
 

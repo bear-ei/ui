@@ -215,7 +215,7 @@ export const useTextFieldAnimated = ({
         ]
 
         const activeIndicatorHeightSharedValueOutputRange = [
-                theme.adaptSize(1),
+                theme.adaptSize(theme.token.spacing.extraSmall / 4),
                 theme.adaptSize(spacing.extraSmall - 1)
         ]
 

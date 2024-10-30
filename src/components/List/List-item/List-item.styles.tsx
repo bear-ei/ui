@@ -18,7 +18,7 @@ export const Container = styled(Shape)<ListItemContainerProps>`
         position: relative;
         overflow: hidden;
 
-        ${({theme, type = 'standard'}) => {
+        ${({theme, type = 'standard', density = 0}) => {
                 const containerType = {
                         menu: css`
                                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
@@ -28,7 +28,9 @@ export const Container = styled(Shape)<ListItemContainerProps>`
                 return (
                         containerType[type] ??
                         css`
-                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                                min-height: ${theme.adaptSize(
+                                        theme.token.spacing.extraSmall * 14 + density * theme.token.spacing.extraSmall
+                                )}px;
                         `
                 )
         }}
@@ -72,7 +74,7 @@ export const Main = styled.View<ListItemMainProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme, type = 'standard'}) => {
+        ${({theme, type = 'standard', density = 0}) => {
                 const mainType = {
                         menu: css`
                                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
@@ -81,7 +83,10 @@ export const Main = styled.View<ListItemMainProps>`
                                 )}px;
                         `,
                         standard: css`
-                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                                min-height: ${theme.adaptSize(
+                                        theme.token.spacing.extraSmall * 14 + density * theme.token.spacing.extraSmall
+                                )}px;
+
                                 padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
                                         ${theme.adaptSize(theme.token.spacing.medium)}px;
                         `
@@ -237,7 +242,7 @@ export const DividerContainer = styled.View`
 
         ${({theme}) => css`
                 bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-                height: ${theme.adaptSize(1)}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                 left: ${theme.adaptSize(theme.token.spacing.none)}px;
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
                 z-index: 8;

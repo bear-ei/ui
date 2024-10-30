@@ -29,6 +29,7 @@ export interface ListItemProps
          * color when ripples are enabled.
          */
         contentStyle?: StyleProp<ViewStyle>
+        density?: 0 | -2 | -4
         divider?: boolean
         enableUnderlay?: boolean
         enableUnderlayActive?: boolean
@@ -129,9 +130,9 @@ export interface HandleListItemTrailingPressOutOptions
 
 export type HandleListItemPanResponderReleaseOptions = Pick<ListItemProps, 'onActiveAfterAffordance' | 'disabled'>
 export type HandleListItemCloseOptions = Pick<ListItemProps, 'onClose' | 'onVisible'>
-export type ListItemContainerProps = Pick<RenderListItemProps, 'type'>
+export type ListItemContainerProps = Pick<RenderListItemProps, 'type' | 'density'>
 export interface ListItemMainProps
-        extends Pick<RenderListItemProps, 'supportingTextNumberOfLines'>,
+        extends Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'density'>,
                 ListItemContainerProps {
         supportingTextShow?: boolean
 }
