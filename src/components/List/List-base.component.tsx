@@ -146,11 +146,14 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         closeTrailing,
                         defaultActiveKey,
                         defaultActiveKeys,
+                        density,
                         deselect,
                         disabled,
                         divider,
                         enableUnderlay,
+                        enableUnderlayActive,
                         focusedIndex,
+                        itemSize,
                         listLoadingComponent,
                         loading,
                         onActive,
@@ -228,9 +231,11 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceSecondaryButtonProps,
                         beforeAffordance,
                         closeTrailing,
+                        density,
                         disabled,
                         divider,
                         enableUnderlay,
+                        enableUnderlayActive,
                         focusedIndex,
                         onActive: onListActive,
                         onActiveAfterAffordance,
@@ -277,11 +282,13 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         disabled,
                         focusedIndex,
                         id,
+                        itemSize:
+                                itemSize ??
+                                theme.adaptSize(theme.token.spacing.extraSmall * (type === 'menu' ? 12 : 14)),
                         listLoadingComponent,
                         loading,
                         ref: listRef as RenderListProps['ref'],
-                        renderItem: renderListItem,
-                        theme
+                        renderItem: renderListItem
                 })
         }
 )

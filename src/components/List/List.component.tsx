@@ -13,11 +13,9 @@ const render = ({
         extraData = [],
         focusedIndex,
         id,
-        itemSize,
         loading,
         renderItem,
         style,
-        theme,
         ...virtualListProps
 }: RenderListProps) => (
         <Container
@@ -39,7 +37,6 @@ const render = ({
                                 ...extraData
                         ]}
                         focusedIndex={focusedIndex}
-                        itemSize={itemSize ?? theme.adaptSize(theme.token.spacing.extraSmall * 14)}
                         loading={loading}
                         renderItem={renderItem}
                 />

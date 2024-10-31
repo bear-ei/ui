@@ -135,6 +135,7 @@ export interface ListItemMainProps
         extends Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'density'>,
                 ListItemContainerProps {
         supportingTextShow?: boolean
+        trailingShow?: boolean
 }
 
 export type ListItemContentProps = ListItemContainerProps

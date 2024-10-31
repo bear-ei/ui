@@ -1,5 +1,4 @@
 import {RefAttributes} from 'react'
-import {DefaultTheme} from 'styled-components/native'
 import {OnStateEvent} from '../../hooks'
 import {ComponentStatus} from '../Common'
 import {RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
@@ -72,7 +71,6 @@ export interface ListProps
 
 export interface RenderListProps extends ListProps {
         onUnmount?: (value?: string) => void
-        theme: DefaultTheme
 }
 
 export interface ListState {

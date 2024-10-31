@@ -34,6 +34,7 @@ const render = ({
         beforeAffordance,
         contentAnimatedStyle,
         contentStyle,
+        density,
         disabled,
         divider,
         enableUnderlay,
@@ -63,6 +64,7 @@ const render = ({
         ...mainProps
 }: RenderListItemProps) => {
         const supportingTextShow = !!supporting
+        const trailingShow = !!trailingElement
         const underlayProps = selectType &&
                 ['select', 'multiselect'].includes(selectType) &&
                 enableUnderlayActive && {
@@ -76,6 +78,7 @@ const render = ({
                         {...panResponder?.panHandlers}
                         accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
                         accessibilityRole='list'
+                        density={density}
                         shape={shape}
                         testID={`listItem--${id}`}
                         type={type}
@@ -101,15 +104,17 @@ const render = ({
                                         <Touchable
                                                 {...onStateEvent}
                                                 disabled={disabled}
-                                                enableTouchableRipple={type === 'standard' ? enableUnderlay : false}
+                                                enableTouchableRipple={!enableUnderlayActive ? enableUnderlay : false}
                                                 ref={ref}
                                                 underlayColor={underlayColor}
                                         >
                                                 <Main
                                                         {...mainProps}
+                                                        density={density}
                                                         supportingTextNumberOfLines={supportingTextNumberOfLines}
                                                         supportingTextShow={supportingTextShow}
                                                         testID={`listItem__main--${id}`}
+                                                        trailingShow={trailingShow}
                                                         type={type}
                                                 >
                                                         {leadingElement && (
@@ -128,7 +133,7 @@ const render = ({
                                                                 pointerEvents='none'
                                                                 supportingTextShow={supportingTextShow}
                                                                 testID={`listItem__mainInner--${id}`}
-                                                                trailingShow={!!trailingElement}
+                                                                trailingShow={trailingShow}
                                                                 type={type}
                                                         >
                                                                 {headline &&

@@ -78,16 +78,17 @@ export const Main = styled.View<ListItemMainProps>`
                 const mainType = {
                         menu: css`
                                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                                padding: ${theme.adaptSize(
-                                        theme.token.spacing.medium - theme.token.spacing.extraSmall
-                                )}px;
+                                padding: ${theme.adaptSize(theme.token.spacing.none)}px
+                                        ${theme.adaptSize(
+                                                theme.token.spacing.medium - theme.token.spacing.extraSmall
+                                        )}px;
                         `,
                         standard: css`
                                 min-height: ${theme.adaptSize(
                                         theme.token.spacing.extraSmall * 14 + density * theme.token.spacing.extraSmall
                                 )}px;
 
-                                padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
+                                padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                         ${theme.adaptSize(theme.token.spacing.medium)}px;
                         `
                 } as Record<ListType, RuleSet<object> | undefined>
@@ -103,7 +104,7 @@ export const Main = styled.View<ListItemMainProps>`
                 `}
 
 
-    ${({theme, supportingTextNumberOfLines = 0}) =>
+        ${({theme, supportingTextNumberOfLines = 0}) =>
                 supportingTextNumberOfLines > 1 &&
                 css`
                         padding-bottom: ${theme.adaptSize(
@@ -113,6 +114,15 @@ export const Main = styled.View<ListItemMainProps>`
                         padding-top: ${theme.adaptSize(
                                 theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
                         )}px;
+                `}
+
+
+
+        ${({theme, trailingShow, type}) =>
+                trailingShow &&
+                type === 'menu' &&
+                css`
+                        padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
                 `}
 `
 
@@ -165,12 +175,10 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
         }}
 
 
-    ${({theme, type = 'standard', trailingShow}) => {
+        ${({theme, type = 'standard', trailingShow}) => {
                 const mainInnerType = {
                         menu: css`
-                                padding-right: ${theme.adaptSize(
-                                        theme.token.spacing.medium - theme.token.spacing.extraSmall
-                                )}px;
+                                padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
                         `
                 } as Record<ListType, RuleSet<object> | undefined>
 
