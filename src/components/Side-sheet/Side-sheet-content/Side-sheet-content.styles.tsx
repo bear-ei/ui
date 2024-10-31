@@ -57,7 +57,7 @@ export const Header = styled.View<SheetHeaderProps>`
         flex-direction: row;
 
         ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 19)}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 18)}px;
                 padding: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px
                         ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px
                         ${theme.adaptSize(theme.token.spacing.medium)}px
