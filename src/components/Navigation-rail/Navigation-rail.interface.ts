@@ -3,7 +3,7 @@ import {View, ViewProps} from 'react-native'
 import {NavigationRailItemProps} from './Navigation-rail-item'
 
 export type NavigationRailType = 'segment' | 'block'
-export type DestinationPosition = 'top' | 'middle' | 'bottom'
+export type DestinationPosition = 'top' | 'center' | 'bottom'
 export interface NavigationRailData extends Pick<NavigationRailItemProps, 'icon' | 'labelText'> {
         indexKey: string
 }
@@ -26,7 +26,7 @@ export interface RenderNavigationRailProps extends NavigationRailProps {
         onActiveSource?: (value?: string) => void
 }
 
-export interface NavigationBaseProps extends NavigationRailProps {
+export interface NavigationRailBaseProps extends NavigationRailProps {
         render: (props: RenderNavigationRailProps) => JSX.Element
 }
 

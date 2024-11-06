@@ -57,7 +57,6 @@ export const Header = styled.View<SheetHeaderProps>`
         flex-direction: row;
 
         ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 18)}px;
                 padding: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px
                         ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px
                         ${theme.adaptSize(theme.token.spacing.medium)}px
@@ -82,7 +81,7 @@ export const HeadlineContainer = styled.View`
         flex: 1;
 
         ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 padding-top: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
         `}
 `

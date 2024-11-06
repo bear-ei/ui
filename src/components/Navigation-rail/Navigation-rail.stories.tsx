@@ -85,7 +85,7 @@ export const TopRail: StoryObj<NavigationRailProps> = {
 export const MiddleRail: StoryObj<NavigationRailProps> = {
         args: {
                 defaultActiveKey: 'A',
-                destinationPosition: 'middle',
+                destinationPosition: 'center',
                 menu: (
                         <IconButton
                                 icon={<Icon name='menu' />}

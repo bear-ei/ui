@@ -20,8 +20,8 @@ const render = ({
                 {fabElement && <Fab testID={`navigationRail__fab--${id}`}>{fabElement}</Fab>}
 
                 <Destination
-                        testID={`navigationRail__destination--${id}`}
                         destinationPosition={destinationPosition}
+                        testID={`navigationRail__destination--${id}`}
                 >
                         {navigationRailItemElements}
                 </Destination>

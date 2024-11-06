@@ -4,7 +4,7 @@ import {Updater, useImmer} from 'use-immer'
 import {FABProps} from '../FAB'
 import {
         HandleNavigationRailActiveOptions,
-        NavigationBaseProps,
+        NavigationRailBaseProps,
         NavigationRailData,
         NavigationRailState,
         RenderNavigationRailItemOptions
@@ -43,17 +43,17 @@ const renderNavigationRailItems =
 const renderNavigationRailFAB = (fab?: JSX.Element) =>
         fab ? cloneElement<FABProps>(fab, {elevated: false, size: 'medium'}) : undefined
 
-export const NavigationRailBase = forwardRef<View, NavigationBaseProps>(
+export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
         (
                 {
                         activeKey,
                         data,
                         defaultActiveKey,
+                        destinationPosition = 'top',
                         fab,
                         onActive,
                         render,
                         type,
-                        destinationPosition = 'top',
                         ...renderProps
                 },
                 ref

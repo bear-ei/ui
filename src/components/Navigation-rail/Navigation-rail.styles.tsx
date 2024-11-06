@@ -32,7 +32,7 @@ export const Destination = styled.View<DestinationProps>`
                         top: css`
                                 justify-content: flex-start;
                         `,
-                        middle: css`
+                        center: css`
                                 justify-content: center;
                         `,
                         bottom: css`

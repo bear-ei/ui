@@ -5,7 +5,7 @@ export const Container = styled.View`
         flex-direction: column;
 
         ${({theme}) => css`
-                gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                gap: ${theme.adaptSize(theme.token.spacing.medium)}px;
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `}
 `
