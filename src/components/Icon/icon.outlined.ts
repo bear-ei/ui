@@ -54,6 +54,8 @@ import EditFill from '@material-symbols/svg-400/outlined/edit-fill.svg'
 import Edit from '@material-symbols/svg-400/outlined/edit.svg'
 import FavoriteFill from '@material-symbols/svg-400/outlined/favorite-fill.svg'
 import Favorite from '@material-symbols/svg-400/outlined/favorite.svg'
+import FilterListFill from '@material-symbols/svg-400/outlined/filter_list-fill.svg'
+import FilterList from '@material-symbols/svg-400/outlined/filter_list.svg'
 import FolderSpecialFill from '@material-symbols/svg-400/outlined/folder_special-fill.svg'
 import FolderSpecial from '@material-symbols/svg-400/outlined/folder_special.svg'
 import FullscreenFill from '@material-symbols/svg-400/outlined/fullscreen-fill.svg'
@@ -108,6 +110,10 @@ import PaletteFill from '@material-symbols/svg-400/outlined/palette-fill.svg'
 import Palette from '@material-symbols/svg-400/outlined/palette.svg'
 import PartlyCloudyDayFill from '@material-symbols/svg-400/outlined/partly_cloudy_day-fill.svg'
 import PartlyCloudyDay from '@material-symbols/svg-400/outlined/partly_cloudy_day.svg'
+import PersonFill from '@material-symbols/svg-400/outlined/person-fill.svg'
+import Person from '@material-symbols/svg-400/outlined/person.svg'
+import PersonRemoveFill from '@material-symbols/svg-400/outlined/person_remove-fill.svg'
+import PersonRemove from '@material-symbols/svg-400/outlined/person_remove.svg'
 import PetSuppliesFill from '@material-symbols/svg-400/outlined/pet_supplies-fill.svg'
 import PetSupplies from '@material-symbols/svg-400/outlined/pet_supplies.svg'
 import PhotoCameraFill from '@material-symbols/svg-400/outlined/photo_camera-fill.svg'
@@ -138,6 +144,8 @@ import SettingsFill from '@material-symbols/svg-400/outlined/settings-fill.svg'
 import Settings from '@material-symbols/svg-400/outlined/settings.svg'
 import ShoppingCartFill from '@material-symbols/svg-400/outlined/shopping_cart-fill.svg'
 import ShoppingCart from '@material-symbols/svg-400/outlined/shopping_cart.svg'
+import SortFill from '@material-symbols/svg-400/outlined/sort-fill.svg'
+import Sort from '@material-symbols/svg-400/outlined/sort.svg'
 import SpaceDashboardFill from '@material-symbols/svg-400/outlined/space_dashboard-fill.svg'
 import SpaceDashboard from '@material-symbols/svg-400/outlined/space_dashboard.svg'
 import SportsBasketballFill from '@material-symbols/svg-400/outlined/sports_basketball-fill.svg'
@@ -193,6 +201,7 @@ export const outlined = {
                 dvr: DvrFill,
                 edit: EditFill,
                 favorite: FavoriteFill,
+                filterList: FilterListFill,
                 folderSpecial: FolderSpecialFill,
                 fullscreen: FullscreenFill,
                 fullscreenExit: FullscreenExitFill,
@@ -220,6 +229,8 @@ export const outlined = {
                 paid: PaidFill,
                 palette: PaletteFill,
                 partlyCloudyDay: PartlyCloudyDayFill,
+                person: PersonFill,
+                personRemove: PersonRemove,
                 petSupplies: PetSuppliesFill,
                 photoCamera: PhotoCameraFill,
                 pill: PillFill,
@@ -235,6 +246,7 @@ export const outlined = {
                 sell: SellFill,
                 settings: SettingsFill,
                 shoppingCart: ShoppingCartFill,
+                sort: SortFill,
                 spaceDashboard: SpaceDashboardFill,
                 sportsBasketball: SportsBasketballFill,
                 sportsEsports: SportsEsportsFill,
@@ -277,6 +289,7 @@ export const outlined = {
                 dvr: Dvr,
                 edit: Edit,
                 favorite: Favorite,
+                filterList: FilterList,
                 folderSpecial: FolderSpecial,
                 fullscreen: Fullscreen,
                 fullscreenExit: FullscreenExit,
@@ -304,6 +317,8 @@ export const outlined = {
                 paid: Paid,
                 palette: Palette,
                 partlyCloudyDay: PartlyCloudyDay,
+                person: Person,
+                personRemove: PersonRemoveFill,
                 petSupplies: PetSupplies,
                 photoCamera: PhotoCamera,
                 pill: Pill,
@@ -319,6 +334,7 @@ export const outlined = {
                 sell: Sell,
                 settings: Settings,
                 shoppingCart: ShoppingCart,
+                sort: Sort,
                 spaceDashboard: SpaceDashboard,
                 sportsBasketball: SportsBasketball,
                 sportsEsports: SportsEsports,

@@ -54,6 +54,8 @@ import EditFill from '@material-symbols/svg-400/rounded/edit-fill.svg'
 import Edit from '@material-symbols/svg-400/rounded/edit.svg'
 import FavoriteFill from '@material-symbols/svg-400/rounded/favorite-fill.svg'
 import Favorite from '@material-symbols/svg-400/rounded/favorite.svg'
+import FilterListFill from '@material-symbols/svg-400/rounded/filter_list-fill.svg'
+import FilterList from '@material-symbols/svg-400/rounded/filter_list.svg'
 import FolderSpecialFill from '@material-symbols/svg-400/rounded/folder_special-fill.svg'
 import FolderSpecial from '@material-symbols/svg-400/rounded/folder_special.svg'
 import FullscreenFill from '@material-symbols/svg-400/rounded/fullscreen-fill.svg'
@@ -108,6 +110,10 @@ import PaletteFill from '@material-symbols/svg-400/rounded/palette-fill.svg'
 import Palette from '@material-symbols/svg-400/rounded/palette.svg'
 import PartlyCloudyDayFill from '@material-symbols/svg-400/rounded/partly_cloudy_day-fill.svg'
 import PartlyCloudyDay from '@material-symbols/svg-400/rounded/partly_cloudy_day.svg'
+import PersonFill from '@material-symbols/svg-400/rounded/person-fill.svg'
+import Person from '@material-symbols/svg-400/rounded/person.svg'
+import PersonRemoveFill from '@material-symbols/svg-400/rounded/person_remove-fill.svg'
+import PersonRemove from '@material-symbols/svg-400/rounded/person_remove.svg'
 import PetSuppliesFill from '@material-symbols/svg-400/rounded/pet_supplies-fill.svg'
 import PetSupplies from '@material-symbols/svg-400/rounded/pet_supplies.svg'
 import PhotoCameraFill from '@material-symbols/svg-400/rounded/photo_camera-fill.svg'
@@ -138,6 +144,8 @@ import SettingsFill from '@material-symbols/svg-400/rounded/settings-fill.svg'
 import Settings from '@material-symbols/svg-400/rounded/settings.svg'
 import ShoppingCartFill from '@material-symbols/svg-400/rounded/shopping_cart-fill.svg'
 import ShoppingCart from '@material-symbols/svg-400/rounded/shopping_cart.svg'
+import SortFill from '@material-symbols/svg-400/rounded/sort-fill.svg'
+import Sort from '@material-symbols/svg-400/rounded/sort.svg'
 import SpaceDashboardFill from '@material-symbols/svg-400/rounded/space_dashboard-fill.svg'
 import SpaceDashboard from '@material-symbols/svg-400/rounded/space_dashboard.svg'
 import SportsBasketballFill from '@material-symbols/svg-400/rounded/sports_basketball-fill.svg'
@@ -193,6 +201,7 @@ export const rounded = {
                 dvr: DvrFill,
                 edit: EditFill,
                 favorite: FavoriteFill,
+                filterList: FilterListFill,
                 folderSpecial: FolderSpecialFill,
                 fullscreen: FullscreenFill,
                 fullscreenExit: FullscreenExitFill,
@@ -220,6 +229,8 @@ export const rounded = {
                 paid: PaidFill,
                 palette: PaletteFill,
                 partlyCloudyDay: PartlyCloudyDayFill,
+                person: PersonFill,
+                personRemove: PersonRemove,
                 petSupplies: PetSuppliesFill,
                 photoCamera: PhotoCameraFill,
                 pill: PillFill,
@@ -235,6 +246,7 @@ export const rounded = {
                 sell: SellFill,
                 settings: SettingsFill,
                 shoppingCart: ShoppingCartFill,
+                sort: SortFill,
                 spaceDashboard: SpaceDashboardFill,
                 sportsBasketball: SportsBasketballFill,
                 sportsEsports: SportsEsportsFill,
@@ -277,6 +289,7 @@ export const rounded = {
                 dvr: Dvr,
                 edit: Edit,
                 favorite: Favorite,
+                filterList: FilterList,
                 folderSpecial: FolderSpecial,
                 fullscreen: Fullscreen,
                 fullscreenExit: FullscreenExit,
@@ -304,6 +317,8 @@ export const rounded = {
                 paid: Paid,
                 palette: Palette,
                 partlyCloudyDay: PartlyCloudyDay,
+                person: Person,
+                personRemove: PersonRemoveFill,
                 petSupplies: PetSupplies,
                 photoCamera: PhotoCamera,
                 pill: Pill,
@@ -319,6 +334,7 @@ export const rounded = {
                 sell: Sell,
                 settings: Settings,
                 shoppingCart: ShoppingCart,
+                sort: Sort,
                 spaceDashboard: SpaceDashboard,
                 sportsBasketball: SportsBasketball,
                 sportsEsports: SportsEsports,
