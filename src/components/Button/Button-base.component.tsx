@@ -138,7 +138,7 @@ const handleButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const ButtonBase = forwardRef<View, ButtonBaseProps>(
-        ({disabled, icon, labelText = 'Label', render, type = 'filled', ...renderProps}, ref) => {
+        ({disabled, icon, labelText = 'Label', render, type = 'filled', error, ...renderProps}, ref) => {
                 const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<ButtonState>({
                         elevation: undefined,
                         eventName: undefined,
@@ -171,7 +171,8 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
                         disabled,
                         eventName,
-                        type
+                        type,
+                        error
                 })
 
                 useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])

@@ -8,6 +8,7 @@ import {TouchableProps} from '../Touchable'
 
 export type ButtonType = 'elevated' | 'filled' | 'link' | 'outlined' | 'text' | 'tonal'
 export interface ButtonProps extends TouchableProps {
+        error?: boolean
         icon?: JSX.Element
         labelText?: string
         loading?: boolean
@@ -38,7 +39,7 @@ export interface HandleButtonStateChangeOptions extends OnStateEventChangeOption
 }
 
 export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName'>
-export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName'>
+export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName' | 'error'>
 export interface HandleButtonAnimatedTimingOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
         animatedTiming: AnimatedTiming
         borderColorInputRange: number[]

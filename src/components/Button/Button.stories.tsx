@@ -64,6 +64,13 @@ export const Icon: StoryObj<ButtonProps> = {
         }
 }
 
+export const Error: StoryObj<ButtonProps> = {
+        args: {
+                labelText: 'Label',
+                error: true
+        }
+}
+
 export default {
         title: 'components/Button',
         argTypes: {onPress: {action: 'pressed'}},

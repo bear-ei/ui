@@ -57,7 +57,7 @@ const handleButtonAnimatedTiming = ({
                 }
 }
 
-export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseButtonAnimatedOptions) => {
+export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}: UseButtonAnimatedOptions) => {
         const theme = useTheme()
         const {palette, scheme, spacing} = theme.token
         const {convertHexToRGBA} = palette
@@ -74,7 +74,10 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
                 },
                 filled: {
                         inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.primary)(1)]
+                        outputRange: [
+                                disabledBackgroundColor,
+                                error ? convertHexToRGBA(scheme.error)(1) : convertHexToRGBA(scheme.primary)(1)
+                        ]
                 },
                 outlined: {
                         inputRange: [0, 1],
@@ -90,34 +93,59 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled'}: UseBut
                 },
                 tonal: {
                         inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.secondaryContainer)(1)]
+                        outputRange: [
+                                disabledBackgroundColor,
+                                error ?
+                                        convertHexToRGBA(scheme.errorContainer)(1)
+                                :       convertHexToRGBA(scheme.secondaryContainer)(1)
+                        ]
                 }
         }
 
         const colorType = {
                 elevated: {
                         inputRange: [0, 1],
-                        outputRange: [disabledColor, convertHexToRGBA(scheme.primary)(1)]
+                        outputRange: [
+                                disabledColor,
+                                error ? convertHexToRGBA(scheme.error)(1) : convertHexToRGBA(scheme.primary)(1)
+                        ]
                 },
                 filled: {
                         inputRange: [0, 1],
-                        outputRange: [disabledColor, convertHexToRGBA(scheme.onPrimary)(1)]
+                        outputRange: [
+                                disabledColor,
+                                error ? convertHexToRGBA(scheme.onError)(1) : convertHexToRGBA(scheme.onPrimary)(1)
+                        ]
                 },
                 outlined: {
                         inputRange: [0, 1],
-                        outputRange: [disabledColor, convertHexToRGBA(scheme.primary)(1)]
+                        outputRange: [
+                                disabledColor,
+                                error ? convertHexToRGBA(scheme.error)(1) : convertHexToRGBA(scheme.primary)(1)
+                        ]
                 },
                 text: {
                         inputRange: [0, 1],
-                        outputRange: [disabledColor, convertHexToRGBA(scheme.primary)(1)]
+                        outputRange: [
+                                disabledColor,
+                                error ? convertHexToRGBA(scheme.error)(1) : convertHexToRGBA(scheme.primary)(1)
+                        ]
                 },
                 link: {
                         inputRange: [0, 1],
-                        outputRange: [disabledColor, convertHexToRGBA(scheme.primary)(1)]
+                        outputRange: [
+                                disabledColor,
+                                error ? convertHexToRGBA(scheme.error)(1) : convertHexToRGBA(scheme.primary)(1)
+                        ]
                 },
                 tonal: {
                         inputRange: [0, 1],
-                        outputRange: [disabledColor, convertHexToRGBA(scheme.onSecondaryContainer)(1)]
+                        outputRange: [
+                                disabledColor,
+                                error ?
+                                        convertHexToRGBA(scheme.onErrorContainer)(1)
+                                :       convertHexToRGBA(scheme.onSecondaryContainer)(1)
+                        ]
                 }
         }
 
