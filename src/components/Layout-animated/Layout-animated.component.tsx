@@ -12,6 +12,7 @@ const render = ({
         containerAnimatedStyle,
         style,
         onStateEvent,
+        visible,
         ...containerProps
 }: RenderLayoutAnimatedProps) => (
         <AnimatedContainer
@@ -19,6 +20,7 @@ const render = ({
                 {...onStateEvent}
                 style={[style, containerAnimatedStyle]}
                 testID={`layoutAnimated--${id}`}
+                visible={visible}
         >
                 {children}
         </AnimatedContainer>

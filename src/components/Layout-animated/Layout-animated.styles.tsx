@@ -1,8 +1,7 @@
 import styled, {css} from 'styled-components/native'
-import {Shape} from '../Common'
-import {LayoutAnimatedContainer} from './Layout-animated.interface'
+import {LayoutAnimatedContentProps} from './Layout-animated.interface'
 
-export const Container = styled(Shape)<LayoutAnimatedContainer>`
+export const Container = styled.View<LayoutAnimatedContentProps>`
         ${({theme, visible, hidden}) =>
                 hidden &&
                 (visible ?

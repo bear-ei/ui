@@ -12,23 +12,11 @@ const DesktopThemeProvider: FC<ThemeProps> = ({children, token: themeToken}) => 
         const {adaptFontSize, adaptSize} = adaptWindow()()(true)
         const colorScheme = useColorScheme()
         const windowSize = useWindowSize()
-        const token =
-                themeToken ??
-                materialToken()({
-                        scheme: colorScheme ?? 'light',
-                        contrast: 'standard'
-                })('frostyTurquoise')
+        const token = themeToken ?? materialToken()({scheme: colorScheme ?? 'light', contrast: 'standard'})('frostyIce')
 
         return (
                 <StyledComponentThemeProvider
-                        theme={{
-                                adaptFontSize,
-                                adaptSize,
-                                colorScheme,
-                                OS: Platform.OS,
-                                token,
-                                windowSize
-                        }}
+                        theme={{adaptFontSize, adaptSize, colorScheme, OS: Platform.OS, token, windowSize}}
                 >
                         {children}
                         <ModalProvider />
@@ -38,30 +26,14 @@ const DesktopThemeProvider: FC<ThemeProps> = ({children, token: themeToken}) => 
 
 const MobileThemeProvider: FC<ThemeProps> = ({designOptions = {}, children, token: themeToken}) => {
         const {width, height} = useWindowDimensions()
-        const {adaptFontSize, adaptSize} = adaptWindow({
-                screenWidth: width,
-                screenHeight: height
-        })(designOptions)(false)
-
+        const {adaptFontSize, adaptSize} = adaptWindow({screenWidth: width, screenHeight: height})(designOptions)(false)
         const colorScheme = useColorScheme()
         const windowSize = useWindowSize()
-        const token =
-                themeToken ??
-                materialToken()({
-                        scheme: colorScheme ?? 'light',
-                        contrast: 'standard'
-                })('frostyTurquoise')
+        const token = themeToken ?? materialToken()({scheme: colorScheme ?? 'light', contrast: 'standard'})('frostyIce')
 
         return (
                 <StyledComponentThemeProvider
-                        theme={{
-                                adaptFontSize,
-                                adaptSize,
-                                colorScheme,
-                                OS: Platform.OS,
-                                token,
-                                windowSize
-                        }}
+                        theme={{adaptFontSize, adaptSize, colorScheme, OS: Platform.OS, token, windowSize}}
                 >
                         {children}
                         <ModalProvider />

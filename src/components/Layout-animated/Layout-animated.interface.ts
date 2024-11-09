@@ -48,4 +48,5 @@ export interface HandleLayoutAnimatedTimingOptions
         animatedTiming: AnimatedTiming
 }
 
-export type LayoutAnimatedContainer = Pick<RenderLayoutAnimatedProps, 'visible' | 'hidden'>
+export type LayoutAnimatedContainerProps = Pick<RenderLayoutAnimatedProps, 'visible' | 'hidden'>
+export type LayoutAnimatedContentProps = LayoutAnimatedContainerProps
