@@ -190,10 +190,9 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
 
                 const onTextFieldSupportingText = useMemo(
                         () =>
-                                handleTextFieldSupportingText({
-                                        timer: supportingTextTimer,
-                                        supportingTextDelayTime
-                                })(setState),
+                                handleTextFieldSupportingText({timer: supportingTextTimer, supportingTextDelayTime})(
+                                        setState
+                                ),
                         [setState, supportingTextDelayTime]
                 )
 
