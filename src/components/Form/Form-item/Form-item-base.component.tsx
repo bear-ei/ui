@@ -57,7 +57,17 @@ const handleFormItemBlur =
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         (
-                {labelText, name, render, renderControl, rule, skeletonMinDuration, validatorOptions, ...renderProps},
+                {
+                        labelText,
+                        name,
+                        onLoadEnd,
+                        render,
+                        renderControl,
+                        rule,
+                        skeletonMinDuration,
+                        validatorOptions,
+                        ...renderProps
+                },
                 ref
         ) => {
                 const [{signOut, status}, setState] = useImmer<FormItemState>({
@@ -74,19 +84,9 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
                 const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
                 const onComponentUpdate = useMemo(() => handleComponentUpdate(setState), [setState])
                 const storeValue = getFieldsValue(name) ?? getInitialValues(name)
-                const onValuesChange = handleFormItemValueChange({
-                        setFieldsValue,
-                        storeValue
-                })(name)
-
+                const onValuesChange = handleFormItemValueChange({setFieldsValue, storeValue})(name)
                 const onFormItemInit = useMemo(
-                        () =>
-                                handleFormItemInit({
-                                        rule,
-                                        signInFields,
-                                        onComponentUpdate,
-                                        validatorOptions
-                                })(setState),
+                        () => handleFormItemInit({rule, signInFields, onComponentUpdate, validatorOptions})(setState),
                         [onComponentUpdate, rule, setState, signInFields, validatorOptions]
                 )
 
@@ -95,6 +95,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
                         errorMessage,
                         labelText,
                         onBlur: onControlBlur,
+                        onLoadEnd,
                         onValuesChange,
                         value: storeValue
                 })

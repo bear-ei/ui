@@ -21,7 +21,15 @@ class AgeRule {
 
 export const FormA = () => {
         const form = Form.useForm<{name: string; age: number}>()
-        const renderControl = ({errorMessage, id, labelText, onBlur, onValuesChange, value}: FormItemControlProps) => (
+        const renderControl = ({
+                errorMessage,
+                id,
+                labelText,
+                onBlur,
+                onLoadEnd,
+                onValuesChange,
+                value
+        }: FormItemControlProps) => (
                 <TextField
                         error={!!errorMessage}
                         key={id}
@@ -30,6 +38,7 @@ export const FormA = () => {
                         onChangeText={onValuesChange}
                         supportingText={errorMessage}
                         value={value as string}
+                        onLayout={() => onLoadEnd?.()}
                 />
         )
 
@@ -71,6 +80,9 @@ export const FormA = () => {
                                 form={form}
                                 items={items}
                                 onFinish={handleFinish}
+                                onLoadEnd={() => {
+                                        console.info('onLoadEnd')
+                                }}
                         />
 
                         <Button

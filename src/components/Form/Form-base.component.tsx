@@ -33,16 +33,20 @@ const handleFormCallbacks =
         (setCallbacks: (callback: FormCallbacks<T>) => void) =>
                 setCallbacks({onFinish, onFinishFailed, onValuesChange})
 
-const renderFormItem = (options: RenderFormItemOptions) => (status: ComponentStatus) => (items?: FormItemProps[]) =>
-        status === 'succeeded' ?
-                items?.map((item, index) => (
-                        <FormItem
-                                {...item}
-                                {...options}
-                                key={item.name ?? index}
-                        />
-                ))
-        :       <></>
+const renderFormItem =
+        ({onLoadEnd, ...options}: RenderFormItemOptions) =>
+        (status: ComponentStatus) =>
+        (items?: FormItemProps[]) =>
+                status === 'succeeded' ?
+                        items?.map((item, index) => (
+                                <FormItem
+                                        {...item}
+                                        {...options}
+                                        {...(index === items.length - 1 && {onLoadEnd})}
+                                        key={item.name ?? index}
+                                />
+                        ))
+                :       <></>
 
 const FormBaseInner = <T,>(
         {
@@ -51,6 +55,7 @@ const FormBaseInner = <T,>(
                 items,
                 onFinish,
                 onFinishFailed,
+                onLoadEnd,
                 onValuesChange,
                 render,
                 skeletonElement,
@@ -71,6 +76,7 @@ const FormBaseInner = <T,>(
         )
 
         const formItemElements = renderFormItem({
+                onLoadEnd,
                 skeletonElement,
                 skeletonMinDuration,
                 validatorOptions
