@@ -1,5 +1,5 @@
 export const debounce =
-        <T extends (...args: any[]) => unknown>(func: T) =>
+        <T extends (...args: any[]) => unknown>(func?: T) =>
         (delay: number) => {
                 let timeoutId: NodeJS.Timeout
 
@@ -8,18 +8,18 @@ export const debounce =
 
                         let result!: unknown
 
-                        timeoutId = setTimeout(() => (result = func(...args)), delay)
+                        timeoutId = setTimeout(() => (result = func?.(...args)), delay)
 
                         return result
                 }
         }
 
-export const asyncDebounce = <T extends (...args: any[]) => Promise<unknown>>(func: T) => {
+export const asyncDebounce = <T extends (...args: any[]) => Promise<unknown>>(func?: T) => {
         const timeoutFunc =
                 (...args: Parameters<T>) =>
                 (resolve: (value: unknown) => void, reject: (reason?: unknown) => void) =>
                 () =>
-                        func(...args)
+                        func?.(...args)
                                 .then(resolve)
                                 .catch(reject)
 

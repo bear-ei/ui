@@ -13,7 +13,6 @@ import {
 } from './List-item.interface'
 
 export const Container = styled(Shape)<ListItemContainerProps>`
-        align-items: space-between;
         display: flex;
         flex-direction: column;
         overflow: hidden;

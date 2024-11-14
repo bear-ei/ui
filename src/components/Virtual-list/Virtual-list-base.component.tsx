@@ -110,7 +110,7 @@ const handleVirtualListMomentumScrollEnd =
         (event: NativeSyntheticEvent<NativeScrollEvent>) =>
                 onMomentumScrollEnd?.(event)
 
-const createVisibleRangeDataFilter =
+const handleVisibleRangeDataFilter =
         (value: string) =>
         ({indexKey}: VirtualListData) =>
                 indexKey !== value
@@ -121,9 +121,13 @@ const handleVirtualListItemUnmount =
         (value?: string) => {
                 if (value) {
                         setState(draft => {
-                                draft.virtualListData = draft.virtualListData?.filter(
-                                        createVisibleRangeDataFilter(value)
+                                const nextVirtualListData = draft.virtualListData?.filter(
+                                        handleVisibleRangeDataFilter(value)
                                 )
+
+                                const contentVisible = !!nextVirtualListData?.length
+                                draft.contentVisible = contentVisible
+                                draft.virtualListData = nextVirtualListData
 
                                 handleVirtualListVisibleRange({itemSize})(draft)()
                         })
