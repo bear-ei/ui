@@ -26,7 +26,6 @@ import {
  * FIXME: Multiline text [macos]
  */
 const AnimatedActiveIndicator = Animated.createAnimatedComponent(ActiveIndicator)
-
 const AnimatedHeader = Animated.createAnimatedComponent(Header)
 const AnimatedLabel = Animated.createAnimatedComponent(Label)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)

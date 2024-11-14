@@ -1,6 +1,7 @@
 import {FC, forwardRef, isValidElement, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {ShapeType} from '../../Common'
 import {Divider} from '../../Divider'
 import {Touchable} from '../../Touchable'
 import {ActiveAnimatedType, Underlay} from '../../Underlay'
@@ -51,7 +52,7 @@ const render = ({
         panResponder,
         ref,
         selectType,
-        shape,
+        shape: rawShape,
         skeletonElement,
         skeletonMinDuration,
         supporting,
@@ -72,6 +73,8 @@ const render = ({
                         activeAnimatedType: 'fade' as ActiveAnimatedType,
                         activeColor
                 }
+
+        const shape = (afterAffordanceVisible ? `${rawShape}Start` : rawShape) as ShapeType
 
         return (
                 <Container
