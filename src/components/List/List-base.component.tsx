@@ -50,7 +50,7 @@ const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: strin
         return prevListActiveKeys?.join() !== nextListActiveKeys?.join() ? draft.listActiveKeys : 'NOT_ACTIVES'
 }
 
-const createNextActiveEvent =
+const handleNextActiveEvent =
         ({onActive, onActives}: HandleListActiveOptions) =>
         (value: string | string[] | undefined) =>
         () => {
@@ -77,18 +77,18 @@ const handleListActive =
 
                         if (callbackValue && !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(callbackValue?.toString())) {
                                 if (selectType === 'select') {
-                                        draft.nextActiveEvent = createNextActiveEvent({onActive})(callbackValue)
+                                        draft.nextActiveEvent = handleNextActiveEvent({onActive})(callbackValue)
                                 }
 
                                 if (selectType === 'multiselect') {
-                                        draft.nextActiveEvent = createNextActiveEvent({onActives})(callbackValue)
+                                        draft.nextActiveEvent = handleNextActiveEvent({onActives})(callbackValue)
                                 }
                         }
                 })
         }
 
 const handleActiveListAfterAffordance = ({onActive, selectType}: HandleListActiveOptions) => {
-        const createNextAfterAffordanceActiveEvent = (value?: string) => () => onActive?.(value)
+        const handleNextAfterAffordanceActiveEvent = (value?: string) => () => onActive?.(value)
 
         return (setState: Updater<ListState>) => (value?: string) => {
                 if (selectType !== 'multiselect') {
@@ -109,7 +109,7 @@ const handleActiveListAfterAffordance = ({onActive, selectType}: HandleListActiv
 
                                 if (prevListActiveKey !== draft.listActiveKey) {
                                         draft.nextAfterAffordanceActiveEvent =
-                                                createNextAfterAffordanceActiveEvent(value)
+                                                handleNextAfterAffordanceActiveEvent(value)
                                 }
                         })
                 }

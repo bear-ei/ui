@@ -83,7 +83,7 @@ const handleVirtualListStateChange =
                 }
         }
 
-const createNextScrollEvent =
+const handleNextScrollEvent =
         (onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void) =>
         (event: NativeSyntheticEvent<NativeScrollEvent>) =>
         () =>
@@ -100,7 +100,7 @@ const handleVirtualListScroll =
                 if (!hitBottom && contentOffset.y > 0) {
                         setState(draft => {
                                 handleVirtualListVisibleRange({itemSize})(draft)(scrollOffset)
-                                draft.nextScrollEvent = createNextScrollEvent(onScroll)(event)
+                                draft.nextScrollEvent = handleNextScrollEvent(onScroll)(event)
                         })
                 }
         }

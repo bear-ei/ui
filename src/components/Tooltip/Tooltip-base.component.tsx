@@ -9,13 +9,13 @@ import {TooltipSupportingProps} from './Tooltip-supporting'
 import {HandleTooltipStateEventChangeOptions, TooltipBaseProps, TooltipState} from './Tooltip.interface'
 
 const handleTooltipVisible = (setState: Updater<TooltipState>) => (onVisible?: (value?: boolean) => void) => {
-        const createNextActiveEvent = (value?: boolean) => () => onVisible?.(value)
+        const handleNextActiveEvent = (value?: boolean) => () => onVisible?.(value)
 
         return (value?: boolean) => {
                 if (typeof value === 'boolean') {
                         setState(draft => {
                                 draft.tooltipVisible = value
-                                draft.nextActiveEvent = createNextActiveEvent(value)
+                                draft.nextActiveEvent = handleNextActiveEvent(value)
                         })
                 }
         }

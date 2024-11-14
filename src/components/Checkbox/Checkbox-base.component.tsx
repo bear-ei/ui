@@ -13,7 +13,7 @@ import {
 import {useCheckboxAnimated} from './use-checkbox-animated.hook'
 
 const handleCheckboxActive = ({indeterminate, onActive}: HandleCheckboxActiveOptions) => {
-        const createNextActiveEvent = (value?: boolean) => () => onActive?.(value)
+        const handleNextActiveEvent = (value?: boolean) => () => onActive?.(value)
 
         return (setState: Updater<CheckboxState>) => (value?: boolean) => {
                 if (typeof value === 'boolean') {
@@ -23,7 +23,7 @@ const handleCheckboxActive = ({indeterminate, onActive}: HandleCheckboxActiveOpt
 
                                 draft.checkboxActive = value
                                 draft.type = nextType
-                                draft.nextActiveEvent = createNextActiveEvent(value)
+                                draft.nextActiveEvent = handleNextActiveEvent(value)
                         })
                 }
         }

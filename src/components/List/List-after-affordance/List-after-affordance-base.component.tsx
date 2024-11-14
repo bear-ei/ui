@@ -20,12 +20,12 @@ const handleListAfterAffordanceCancel = ({
         doubleConfirmed,
         itemKey
 }: HandleListAfterAffordanceCancelOptions) => {
-        const createNextCancelEvent = () => () => onCancel?.({itemKey, doubleConfirmed})
+        const handleNextCancelEvent = () => () => onCancel?.({itemKey, doubleConfirmed})
 
         return (setState: Updater<ListAfterAffordanceState>) => (_event: GestureResponderEvent) =>
                 setState(draft => {
                         draft.doubleConfirmed = !doubleConfirmed
-                        draft.nextCancelEvent = createNextCancelEvent()
+                        draft.nextCancelEvent = handleNextCancelEvent()
                 })
 }
 

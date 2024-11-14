@@ -42,13 +42,12 @@ const handleLayoutAnimatedStateChange =
         }
 
 const handleLayoutAnimatedFinished = ({onUnmount, unmount, onVisible}: HandleLayoutAnimatedFinishedOptions) => {
-        const createNextVisibleEvent = (value?: boolean) => () => onVisible?.(value)
-        const createNextUnmountEvent = () => () => onUnmount?.()
+        const handleNextVisibleEvent = (value?: boolean) => () => onVisible?.(value)
 
         return (setState: Updater<LayoutAnimatedState>) => (value?: boolean) =>
                 setState(draft => {
                         if (value) {
-                                draft.nextVisibleEvent = createNextVisibleEvent(value)
+                                draft.nextVisibleEvent = handleNextVisibleEvent(value)
 
                                 return
                         }
@@ -56,13 +55,13 @@ const handleLayoutAnimatedFinished = ({onUnmount, unmount, onVisible}: HandleLay
                         draft.layoutWasVisible = value
 
                         if (unmount) {
-                                draft.nextUnmountEvent = createNextUnmountEvent()
+                                draft.nextUnmountEvent = onUnmount
                                 draft.unmountLayout = true
 
                                 return
                         }
 
-                        draft.nextVisibleEvent = createNextVisibleEvent(value)
+                        draft.nextVisibleEvent = handleNextVisibleEvent(value)
                 })
 }
 

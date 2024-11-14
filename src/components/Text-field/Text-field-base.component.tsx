@@ -47,7 +47,7 @@ const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleText
 const handleTextFieldContentSizeChange =
         (setState: Updater<TextFieldState>) =>
         (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) => {
-                const createNextContentSizeChangeEvent =
+                const handleNextContentSizeChangeEvent =
                         (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => () =>
                                 onContentSizeChange?.(event)
 
@@ -57,7 +57,7 @@ const handleTextFieldContentSizeChange =
                         setState(draft => {
                                 draft.contentSize.width = contentSize.width
                                 draft.contentSize.height = contentSize.height
-                                draft.nextContentSizeChangeEvent = createNextContentSizeChangeEvent(event)
+                                draft.nextContentSizeChangeEvent = handleNextContentSizeChangeEvent(event)
                         })
                 }
         }
@@ -103,7 +103,7 @@ const handleTextFieldSupportingTextVisible =
         }
 
 const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
-        const createNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
+        const handleNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
 
         return (setState: Updater<TextFieldState>) => (value?: string) => {
                 setState(draft => {
@@ -112,7 +112,7 @@ const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
                         draft.textInputValue = value ?? ''
 
                         if (typeof value === 'string' && prevTextInputValue !== value) {
-                                draft.nextChangeTextEvent = createNextChangeTextEvent(value)
+                                draft.nextChangeTextEvent = handleNextChangeTextEvent(value)
                         }
                 })
         }

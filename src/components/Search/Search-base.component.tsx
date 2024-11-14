@@ -49,7 +49,7 @@ const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChang
 }
 
 const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) => {
-        const createNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
+        const handleNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
 
         return (setState: Updater<SearchState>) => (value?: string) => {
                 const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
@@ -61,7 +61,7 @@ const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTex
                         draft.searchValue = value
 
                         if (typeof value === 'string' && value !== prevSearchValue) {
-                                draft.nextChangeTextEvent = createNextChangeTextEvent(value)
+                                draft.nextChangeTextEvent = handleNextChangeTextEvent(value)
                         }
                 })
         }

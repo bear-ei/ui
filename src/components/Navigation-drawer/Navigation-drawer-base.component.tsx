@@ -11,7 +11,7 @@ import {
 } from './Navigation-drawer.interface'
 
 const handleNavigationDrawerActive = ({onActive}: HandleNavigationDrawerActiveOptions = {}) => {
-        const createNextActiveEvent = (value?: string) => () => onActive?.(value)
+        const handleNextActiveEvent = (value?: string) => () => onActive?.(value)
 
         return (setState: Updater<NavigationDrawerState>) => (value?: string) => {
                 if (value) {
@@ -21,7 +21,7 @@ const handleNavigationDrawerActive = ({onActive}: HandleNavigationDrawerActiveOp
                                 draft.navigationDrawerActiveKey = value
 
                                 if (prevNavigationDrawerActiveKey !== draft.navigationDrawerActiveKey) {
-                                        draft.nextActiveEvent = createNextActiveEvent(value)
+                                        draft.nextActiveEvent = handleNextActiveEvent(value)
                                 }
                         })
                 }

@@ -12,7 +12,7 @@ import {
 import {NavigationRailItem} from './Navigation-rail-item'
 
 const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOptions = {}) => {
-        const createNextActiveEvent = (value?: string) => () => onActive?.(value)
+        const handleNextActiveEvent = (value?: string) => () => onActive?.(value)
 
         return (setState: Updater<NavigationRailState>) => (value?: string) => {
                 if (value) {
@@ -22,7 +22,7 @@ const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOption
                                 draft.navigationRailActiveKey = value
 
                                 if (prevNavigationRailActiveKey !== draft.navigationRailActiveKey) {
-                                        draft.nextActiveEvent = createNextActiveEvent(value)
+                                        draft.nextActiveEvent = handleNextActiveEvent(value)
                                 }
                         })
                 }

@@ -14,7 +14,7 @@ import {
 const handleSideSheetClose = (setState: Updater<SideSheetState>) => (onClose?: () => void) => {
         setState(draft => {
                 draft.sideSheetVisible = false
-                draft.nextCloseEvent = () => onClose?.()
+                draft.nextCloseEvent = onClose
         })
 }
 
@@ -26,7 +26,7 @@ const handleSideSheetBack =
                                 draft.sideSheetVisible = false
                         }
 
-                        draft.nextBackEvent = () => onBack?.()
+                        draft.nextBackEvent = onBack
                 })
         }
 
