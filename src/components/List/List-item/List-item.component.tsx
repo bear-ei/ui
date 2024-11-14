@@ -1,22 +1,21 @@
 import {FC, forwardRef, isValidElement, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {ShapeType} from '../../Common'
 import {Divider} from '../../Divider'
+import {Skeleton} from '../../Skeleton'
 import {Touchable} from '../../Touchable'
 import {ActiveAnimatedType, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance/List-after-affordance.component'
 import {handleListItemPropsEqual, ListItemBase} from './List-item-base.component'
 import {ListItemProps, RenderListItemProps} from './List-item.interface'
 import {
+        AfterAffordanceContainer,
         BeforeAffordanceContainer,
         Container,
         Content,
-        ContentSkeleton,
         DividerContainer,
         HeadlineText,
         Leading,
-        ListAfterAffordanceContainer,
         Main,
         MainInner,
         SupportingText,
@@ -52,7 +51,7 @@ const render = ({
         panResponder,
         ref,
         selectType,
-        shape: rawShape,
+        shape,
         skeletonElement,
         skeletonMinDuration,
         supporting,
@@ -74,8 +73,6 @@ const render = ({
                         activeColor
                 }
 
-        const shape = (afterAffordanceVisible ? `${rawShape}Start` : rawShape) as ShapeType
-
         return (
                 <Container
                         {...panResponder?.panHandlers}
@@ -86,7 +83,7 @@ const render = ({
                         testID={`listItem--${id}`}
                         type={type}
                 >
-                        <ContentSkeleton
+                        <Skeleton
                                 containerLayout='horizontal'
                                 content={skeletonElement}
                                 duration={skeletonMinDuration}
@@ -190,7 +187,6 @@ const render = ({
                                                                         {...underlayProps}
                                                                         activeAnimatedType='scaleX'
                                                                         eventName={eventName}
-                                                                        shape={shape}
                                                                         underlayColor={underlayColor}
                                                                 />
                                                         )}
@@ -199,9 +195,7 @@ const render = ({
                                 </AnimatedContent>
 
                                 {afterAffordance && (
-                                        <ListAfterAffordanceContainer
-                                                testID={`listItem__afterAffordanceContainer--${id}`}
-                                        >
+                                        <AfterAffordanceContainer testID={`listItem__afterAffordanceContainer--${id}`}>
                                                 {typeof afterAffordance === 'boolean' ?
                                                         <ListAfterAffordance
                                                                 itemKey={itemKey}
@@ -214,7 +208,7 @@ const render = ({
                                                                 visible={afterAffordanceVisible}
                                                         />
                                                 :       afterAffordance}
-                                        </ListAfterAffordanceContainer>
+                                        </AfterAffordanceContainer>
                                 )}
 
                                 {divider && (
@@ -225,7 +219,7 @@ const render = ({
                                                 />
                                         </DividerContainer>
                                 )}
-                        </ContentSkeleton>
+                        </Skeleton>
                 </Container>
         )
 }

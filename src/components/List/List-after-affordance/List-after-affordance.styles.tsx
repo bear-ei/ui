@@ -2,7 +2,6 @@ import styled, {css} from 'styled-components/native'
 import {ListAfterAffordanceDangerProps} from './List-after-affordance.interface'
 
 export const Container = styled.View`
-        align-self: stretch;
         display: flex;
         flex-direction: row;
         position: relative;

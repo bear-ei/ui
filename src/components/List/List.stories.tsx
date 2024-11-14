@@ -85,14 +85,15 @@ export const Select = () => {
         return (
                 <View style={[style]}>
                         <List
+                                activeKey={activeKey}
+                                afterAffordance={true}
                                 data={data}
                                 itemSize={56}
-                                selectType='select'
-                                skeletonElement={skeleton}
-                                activeKey={activeKey}
-                                onActive={onActiveKey}
-                                afterAffordance={true}
                                 loading={true}
+                                onActive={onActiveKey}
+                                selectType='select'
+                                shape='extraSmall'
+                                skeletonElement={skeleton}
                         />
                 </View>
         )
@@ -118,6 +119,7 @@ export const Multiselect = () => {
         return (
                 <View style={[style]}>
                         <List
+                                shape='full'
                                 activeKeys={activeKeys}
                                 afterAffordance={true}
                                 data={data}

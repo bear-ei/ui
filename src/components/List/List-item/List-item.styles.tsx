@@ -2,10 +2,8 @@ import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {LayoutAnimated} from '../../Layout-animated'
-import {Skeleton} from '../../Skeleton'
 import {ListType} from '../List.interface'
 import {
-        ListItemBeforeAffordanceContainerProps,
         ListItemContainerProps,
         ListItemContentProps,
         ListItemLeadingProps,
@@ -15,8 +13,11 @@ import {
 } from './List-item.interface'
 
 export const Container = styled(Shape)<ListItemContainerProps>`
-        position: relative;
+        align-items: space-between;
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
+        position: relative;
 
         ${({theme, type = 'standard', density = 0}) => {
                 const containerType = {
@@ -34,10 +35,6 @@ export const Container = styled(Shape)<ListItemContainerProps>`
                         `
                 )
         }}
-`
-
-export const ContentSkeleton = styled(Skeleton)`
-        position: relative;
 `
 
 export const Content = styled.View<ListItemContentProps>`
@@ -221,28 +218,15 @@ export const SupportingText = styled(Typography)`
         `}
 `
 
-export const BeforeAffordanceContainer = styled.View<ListItemBeforeAffordanceContainerProps>`
+export const BeforeAffordanceContainer = styled.View`
         align-items: center;
         display: flex;
         flex-direction: row;
         justify-content: center;
-        position: absolute;
-
-        ${({theme}) => css`
-                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-                left: ${theme.adaptSize(theme.token.spacing.none)}px;
-                top: ${theme.adaptSize(theme.token.spacing.none)}px;
-        `};
 `
 
-export const ListAfterAffordanceContainer = styled(BeforeAffordanceContainer)<ListItemBeforeAffordanceContainerProps>`
-        left: auto;
-
-        ${({theme}) => css`
-                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-                right: ${theme.adaptSize(theme.token.spacing.none)}px;
-                top: ${theme.adaptSize(theme.token.spacing.none)}px;
-        `};
+export const AfterAffordanceContainer = styled(BeforeAffordanceContainer)`
+        align-self: flex-end;
 `
 
 export const DividerContainer = styled.View`
