@@ -1,5 +1,5 @@
 import {cloneElement, forwardRef, useEffect, useId} from 'react'
-import {View} from 'react-native'
+import {InteractionManager, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
@@ -56,14 +56,14 @@ const handleNavigationDrawerItemStateChange = ({
 const renderNavigationDrawerItemIcon = (icon: JSX.Element) => (eventName?: EventName) =>
         cloneElement<IconProps>(icon, {
                 eventName,
-                iconStyle: 'outlined',
+                iconStyle: 'rounded',
                 type: 'outlined'
         })
 
 const renderNavigationDrawerItemActiveIcon = (icon: JSX.Element) => (eventName?: EventName) =>
         cloneElement<IconProps>(icon, {
                 eventName,
-                iconStyle: 'outlined',
+                iconStyle: 'rounded',
                 type: 'filled'
         })
 
@@ -91,7 +91,7 @@ export const NavigationDrawerItemBase = forwardRef<View, NavigationDrawerItemBas
                 const activeIconElement = renderNavigationDrawerItemActiveIcon(icon)(eventName)
 
                 useEffect(() => {
-                        nextPressOutEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextPressOutEvent?.())
                 }, [nextPressOutEvent])
 
                 return render({

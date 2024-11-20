@@ -1,6 +1,6 @@
 import {WritableDraft} from 'immer'
 import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {View} from 'react-native'
+import {InteractionManager, View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -166,7 +166,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 }, [elevated, onFABInit])
 
                 useEffect(() => {
-                        nextPressInEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextPressInEvent?.())
                 }, [nextPressInEvent])
 
                 if (status === 'idle') {

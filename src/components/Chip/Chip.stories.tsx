@@ -17,7 +17,7 @@ export const InputLeadingIcon: StoryObj<ChipProps> = {
                 leadingIcon: (
                         <Icon
                                 type='outlined'
-                                iconStyle='outlined'
+                                iconStyle='rounded'
                                 name='cottage'
                         />
                 ),

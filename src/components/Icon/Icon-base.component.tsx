@@ -12,7 +12,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
                         eventName,
                         fill,
                         icon,
-                        iconStyle: style = 'outlined',
+                        iconStyle: style = 'rounded',
                         name = 'circle',
                         render,
                         svgStyle,

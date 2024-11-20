@@ -62,7 +62,7 @@ const render = ({
                                                                 {...iconStyle}
                                                                 disabled={disabled}
                                                                 fill={checkBoxOutlineFill}
-                                                                iconStyle='outlined'
+                                                                iconStyle='rounded'
                                                                 name='checkBoxOutlineBlank'
                                                                 svgStyle={iconSvgStyle}
                                                                 type='filled'
@@ -79,7 +79,7 @@ const render = ({
                                                                 {...iconStyle}
                                                                 disabled={disabled}
                                                                 fill={activeFill}
-                                                                iconStyle='outlined'
+                                                                iconStyle='rounded'
                                                                 name='indeterminateCheckBox'
                                                                 svgStyle={iconSvgStyle}
                                                                 type='filled'
@@ -96,7 +96,7 @@ const render = ({
                                                                 {...iconStyle}
                                                                 disabled={disabled}
                                                                 fill={activeFill}
-                                                                iconStyle='outlined'
+                                                                iconStyle='rounded'
                                                                 name='checkBox'
                                                                 svgStyle={iconSvgStyle}
                                                                 type='filled'

@@ -17,7 +17,7 @@ const renderSideSheetContentLeading =
                         <IconButton
                                 icon={
                                         <Icon
-                                                iconStyle='outlined'
+                                                iconStyle='rounded'
                                                 name={
                                                         sheetPosition === 'horizontalStart' ? 'arrowForward' : (
                                                                 'arrowBack'
@@ -39,7 +39,7 @@ const renderSideSheetContentTrailing =
                         <IconButton
                                 icon={
                                         <Icon
-                                                iconStyle='outlined'
+                                                iconStyle='rounded'
                                                 name='close'
                                                 type='filled'
                                         />

@@ -1,5 +1,5 @@
 import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {View} from 'react-native'
+import {InteractionManager, View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -71,7 +71,7 @@ const renderIconButtonIcon =
                         cloneElement<IconProps>(
                                 icon ?? (
                                         <Icon
-                                                iconStyle='outlined'
+                                                iconStyle='rounded'
                                                 type='outlined'
                                         />
                                 ),
@@ -121,7 +121,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
                 }, [disabled, onIconButtonDisabled])
 
                 useEffect(() => {
-                        nextPressInEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextPressInEvent?.())
                 }, [nextPressInEvent])
 
                 return render({

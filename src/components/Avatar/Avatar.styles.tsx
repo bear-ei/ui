@@ -2,7 +2,7 @@ import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
 import {AvatarContentProps} from './Avatar.interface'
 
-export const Container = styled.View`
+export const Container = styled(Shape)`
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -15,7 +15,7 @@ export const Container = styled.View`
         `}
 `
 
-export const Content = styled(Shape)<AvatarContentProps>`
+export const Content = styled.View<AvatarContentProps>`
         align-items: center;
         display: flex;
         flex-direction: column;

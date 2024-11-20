@@ -94,6 +94,8 @@ import MenuBookFill from '@material-symbols/svg-400/sharp/menu_book-fill.svg'
 import MenuBook from '@material-symbols/svg-400/sharp/menu_book.svg'
 import MenuOpenFill from '@material-symbols/svg-400/sharp/menu_open-fill.svg'
 import MenuOpen from '@material-symbols/svg-400/sharp/menu_open.svg'
+import MoreFill from '@material-symbols/svg-400/sharp/more-fill.svg'
+import More from '@material-symbols/svg-400/sharp/more.svg'
 import MoreHorizFill from '@material-symbols/svg-400/sharp/more_horiz-fill.svg'
 import MoreHoriz from '@material-symbols/svg-400/sharp/more_horiz.svg'
 import MoreVertFill from '@material-symbols/svg-400/sharp/more_vert-fill.svg'
@@ -162,6 +164,8 @@ import SyncAltFill from '@material-symbols/svg-400/sharp/sync_alt-fill.svg'
 import SyncAlt from '@material-symbols/svg-400/sharp/sync_alt.svg'
 import TagFill from '@material-symbols/svg-400/sharp/tag-fill.svg'
 import Tag from '@material-symbols/svg-400/sharp/tag.svg'
+import TravelExploreFill from '@material-symbols/svg-400/sharp/travel_explore-fill.svg'
+import TravelExplore from '@material-symbols/svg-400/sharp/travel_explore.svg'
 import VisibilityFill from '@material-symbols/svg-400/sharp/visibility-fill.svg'
 import Visibility from '@material-symbols/svg-400/sharp/visibility.svg'
 import VisibilityOffFill from '@material-symbols/svg-400/sharp/visibility_off-fill.svg'
@@ -221,6 +225,7 @@ export const sharp = {
                 menu: MenuFill,
                 menuBook: MenuBookFill,
                 menuOpen: MenuOpenFill,
+                more: MoreFill,
                 moreHoriz: MoreHorizFill,
                 moreVert: MoreVertFill,
                 newLabel: NewLabelFill,
@@ -255,6 +260,7 @@ export const sharp = {
                 style: StyleFill,
                 syncAlt: SyncAltFill,
                 tag: TagFill,
+                travelExplore: TravelExploreFill,
                 visibility: VisibilityFill,
                 visibilityOff: VisibilityOffFill,
                 window: WindowFill,
@@ -309,6 +315,7 @@ export const sharp = {
                 menu: Menu,
                 menuBook: MenuBook,
                 menuOpen: MenuOpen,
+                more: More,
                 moreHoriz: MoreHoriz,
                 moreVert: MoreVert,
                 newLabel: NewLabel,
@@ -343,6 +350,7 @@ export const sharp = {
                 style: Style,
                 syncAlt: SyncAlt,
                 tag: Tag,
+                travelExplore: TravelExplore,
                 visibility: Visibility,
                 visibilityOff: VisibilityOff,
                 window: Window,

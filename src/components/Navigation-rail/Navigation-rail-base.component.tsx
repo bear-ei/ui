@@ -1,5 +1,5 @@
 import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import {InteractionManager, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {FABProps} from '../FAB'
 import {
@@ -83,7 +83,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                 }, [activeKey, defaultActiveKey, onNavigationRailActiveSource])
 
                 useEffect(() => {
-                        nextActiveEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextActiveEvent?.())
                 }, [nextActiveEvent])
 
                 if (typeof defaultActiveKey === 'string' && !navigationRailActiveKey) {

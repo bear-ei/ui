@@ -4,21 +4,21 @@ import {IconProps} from './Icon.interface'
 
 export const Filled: StoryObj<IconProps> = {
         args: {
-                iconStyle: 'outlined',
+                iconStyle: 'rounded',
                 type: 'filled'
         }
 }
 
 export const Outlined: StoryObj<IconProps> = {
         args: {
-                iconStyle: 'outlined',
+                iconStyle: 'rounded',
                 type: 'outlined'
         }
 }
 
 export const Label: StoryObj<IconProps> = {
         args: {
-                iconStyle: 'outlined',
+                iconStyle: 'rounded',
                 type: 'outlined',
                 name: 'label'
         }
@@ -26,7 +26,7 @@ export const Label: StoryObj<IconProps> = {
 
 export const AddHome: StoryObj<IconProps> = {
         args: {
-                iconStyle: 'outlined',
+                iconStyle: 'rounded',
                 type: 'outlined',
                 name: 'addHome'
         }

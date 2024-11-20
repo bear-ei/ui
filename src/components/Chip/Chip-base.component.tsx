@@ -1,5 +1,5 @@
 import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {View} from 'react-native'
+import {InteractionManager, View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -128,7 +128,7 @@ const renderChipCloseButton =
                                 icon={
                                         <Icon
                                                 height={iconSize}
-                                                iconStyle='outlined'
+                                                iconStyle='rounded'
                                                 name='close'
                                                 type='outlined'
                                                 width={iconSize}
@@ -168,7 +168,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 const leadingIconElement = renderChipIcon({eventName, disabled})(theme)(
                         type === 'filter' ?
                                 <Icon
-                                        iconStyle='outlined'
+                                        iconStyle='rounded'
                                         name='check'
                                         type='outlined'
                                 />
@@ -217,7 +217,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 }, [disabled, onChipDisabled])
 
                 useEffect(() => {
-                        nextPressInEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextPressInEvent?.())
                 }, [nextPressInEvent])
 
                 if (status === 'idle') {

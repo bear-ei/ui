@@ -13,7 +13,6 @@ const render = ({backgroundColor, defaultSource, id, labelText, source, ...conta
         >
                 <Content
                         backgroundColor={backgroundColor}
-                        shape='full'
                         testID={`avatar__content--${id}`}
                 >
                         {source || defaultSource ?

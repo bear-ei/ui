@@ -1,5 +1,12 @@
 import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {GestureResponderEvent, PanResponder, PanResponderGestureState, View, ViewProps} from 'react-native'
+import {
+        GestureResponderEvent,
+        InteractionManager,
+        PanResponder,
+        PanResponderGestureState,
+        View,
+        ViewProps
+} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
@@ -251,7 +258,7 @@ const renderListItemTrailing = ({
                                         {...props}
                                         icon={
                                                 <Icon
-                                                        iconStyle='outlined'
+                                                        iconStyle='rounded'
                                                         name='moreHoriz'
                                                         type='filled'
                                                 />
@@ -264,7 +271,7 @@ const renderListItemTrailing = ({
                                         {...props}
                                         icon={
                                                 <Icon
-                                                        iconStyle='outlined'
+                                                        iconStyle='rounded'
                                                         name='close'
                                                         type='filled'
                                                 />
@@ -424,20 +431,20 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 }, [focusedIndex, onListItemFocus])
 
                 useEffect(() => {
-                        nextPressOutEvent?.()
+                        onListItemClose(close)
+                }, [close, onListItemClose])
+
+                useEffect(() => {
+                        InteractionManager.runAfterInteractions(() => nextPressOutEvent?.())
                 }, [nextPressOutEvent])
 
                 useEffect(() => {
-                        nextLayoutEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextLayoutEvent?.())
                 }, [nextLayoutEvent])
 
                 useEffect(() => {
-                        nextFocusEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextFocusEvent?.())
                 }, [nextFocusEvent])
-
-                useEffect(() => {
-                        onListItemClose(close)
-                }, [close, onListItemClose])
 
                 return render({
                         ...renderProps,

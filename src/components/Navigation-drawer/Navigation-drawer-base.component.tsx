@@ -1,5 +1,5 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import {InteractionManager, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {NavigationDrawerItem} from './Navigation-drawer-item'
 import {
@@ -66,7 +66,7 @@ export const NavigationDrawerBase = forwardRef<View, NavigationDrawerBaseProps>(
                 }, [activeKey, defaultActiveKey, onNavigationDrawerActiveSource])
 
                 useEffect(() => {
-                        nextActiveEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextActiveEvent?.())
                 }, [nextActiveEvent])
 
                 if (typeof defaultActiveKey === 'string' && !navigationDrawerActiveKey) {

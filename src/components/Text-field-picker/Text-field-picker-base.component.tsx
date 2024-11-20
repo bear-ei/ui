@@ -1,6 +1,6 @@
 import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {NativeSyntheticEvent, TextInput, TextInputKeyPressEventData} from 'react-native'
+import {InteractionManager, NativeSyntheticEvent, TextInput, TextInputKeyPressEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -246,7 +246,7 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
                 }, [defaultActiveKey, defaultActiveKeys, onTextFieldPickerInit, rawActiveKey, rawActiveKeys, rawData])
 
                 useEffect(() => {
-                        nextBlurEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextBlurEvent?.())
                 }, [nextBlurEvent])
 
                 if (status === 'idle') {

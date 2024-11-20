@@ -47,7 +47,7 @@ const render = ({
                                         <Leading testID={`search__leading--${id}`}>
                                                 {leading ?? (
                                                         <Icon
-                                                                iconStyle='outlined'
+                                                                iconStyle='rounded'
                                                                 type='filled'
                                                                 name='search'
                                                         />

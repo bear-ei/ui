@@ -1,7 +1,8 @@
 import {RefAttributes} from 'react'
 import {ImageSourcePropType, ImageURISource, View, ViewProps} from 'react-native'
+import {ShapeProps} from '../Common'
 
-export interface AvatarProps extends ViewProps, RefAttributes<View> {
+export interface AvatarProps extends ViewProps, RefAttributes<View>, ShapeProps {
         backgroundColor?: string
         defaultSource?: ImageURISource | number
         labelText?: string

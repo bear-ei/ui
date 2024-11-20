@@ -28,7 +28,7 @@ export const TextIcon: StoryObj<ButtonProps> = {
                 icon: (
                         <EIIcon
                                 type='filled'
-                                iconStyle='outlined'
+                                iconStyle='rounded'
                         />
                 ),
                 labelText: 'Label',

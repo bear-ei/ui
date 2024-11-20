@@ -1,6 +1,7 @@
 import {WritableDraft} from 'immer'
 import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {
+        InteractionManager,
         LayoutChangeEvent,
         LayoutRectangle,
         NativeScrollEvent,
@@ -330,16 +331,16 @@ export const VirtualListBaseInner = <T,>(
         }, [onVirtualListVisibleRange, virtualListData])
 
         useEffect(() => {
-                nextScrollEvent?.()
+                onVirtualListFocusedIndexScroll(focusedIndex)
+        }, [focusedIndex, onVirtualListFocusedIndexScroll])
+
+        useEffect(() => {
+                InteractionManager.runAfterInteractions(() => nextScrollEvent?.())
         }, [nextScrollEvent])
 
         useEffect(() => {
-                nextLoadEndEvent?.()
+                InteractionManager.runAfterInteractions(() => nextLoadEndEvent?.())
         }, [nextLoadEndEvent])
-
-        useEffect(() => {
-                onVirtualListFocusedIndexScroll(focusedIndex)
-        }, [focusedIndex, onVirtualListFocusedIndexScroll])
 
         if (status === 'idle') {
                 return <></>

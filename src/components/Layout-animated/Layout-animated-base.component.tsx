@@ -1,5 +1,5 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import {InteractionManager, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {State} from '../Common'
@@ -140,11 +140,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 }, [onLayoutVisible, visible])
 
                 useEffect(() => {
-                        nextUnmountEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextUnmountEvent?.())
                 }, [nextUnmountEvent])
 
                 useEffect(() => {
-                        nextVisibleEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextVisibleEvent?.())
                 }, [nextVisibleEvent])
 
                 if (status === 'idle') {

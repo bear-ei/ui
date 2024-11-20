@@ -1,5 +1,5 @@
 import {FC, useEffect, useId, useMemo} from 'react'
-import {GestureResponderEvent} from 'react-native'
+import {GestureResponderEvent, InteractionManager} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {
@@ -20,12 +20,12 @@ const handleListAfterAffordanceCancel = ({
         doubleConfirmed,
         itemKey
 }: HandleListAfterAffordanceCancelOptions) => {
-        const handleNextCancelEvent = () => () => onCancel?.({itemKey, doubleConfirmed})
+        const handleNextCancelEvent = () => onCancel?.({itemKey, doubleConfirmed})
 
         return (setState: Updater<ListAfterAffordanceState>) => (_event: GestureResponderEvent) =>
                 setState(draft => {
                         draft.doubleConfirmed = !doubleConfirmed
-                        draft.nextCancelEvent = handleNextCancelEvent()
+                        draft.nextCancelEvent = handleNextCancelEvent
                 })
 }
 
@@ -75,7 +75,7 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
         }, [onListAfterAffordanceVisible, visible])
 
         useEffect(() => {
-                nextCancelEvent?.()
+                InteractionManager.runAfterInteractions(() => nextCancelEvent?.())
         }, [nextCancelEvent])
 
         return render({
