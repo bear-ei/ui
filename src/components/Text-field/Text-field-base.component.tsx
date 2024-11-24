@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {InteractionManager, NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -126,7 +126,6 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                         content,
                         defaultValue,
                         disabled,
-                        disabledBlur,
                         editable,
                         error,
                         filled,
@@ -202,15 +201,16 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                         handleTextFieldSupportingTextVisible(setState)(onSupportingTextVisible)
 
                 const onTouchableHeaderFocus = handleTouchableHeaderFocus(textFieldRef)
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
                                 handleTextFieldStateChange({
                                         ...options,
                                         content,
                                         ref: textFieldRef,
-                                        state: changedState,
-                                        disabledBlur
-                                })(setState)(event)
+                                        state: changedState
+                                })(setState)(event),
+                        [content, setState]
+                )
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

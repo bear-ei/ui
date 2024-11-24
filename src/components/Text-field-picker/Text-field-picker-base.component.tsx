@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {InteractionManager, NativeSyntheticEvent, TextInput, TextInputKeyPressEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -204,9 +204,11 @@ export const TextFieldPickerBase = forwardRef<TextInput, TextFieldPickerBaseProp
                 const onTextFieldPickerContentPressOut = handleTextFieldPickerContentPressOut(textFieldRef)
                 const onTextFieldPickerInit = useMemo(() => handleTextFieldPickerInit(setState), [setState])
                 const theme = useTheme()
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleTextFieldPickerStateChange({...options, state})(setState)(event)
+                                handleTextFieldPickerStateChange({...options, state})(setState)(event),
+                        [setState]
+                )
 
                 const contentElements = renderTextFieldPickerContent({
                         activeKeys,

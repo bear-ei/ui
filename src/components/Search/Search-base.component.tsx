@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {InteractionManager, TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -144,9 +144,11 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         [setState]
                 )
 
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleSearchStateChange({...options, ref: inputRef, state})(setState)(event)
+                                handleSearchStateChange({...options, ref: inputRef, state})(setState)(event),
+                        [setState]
+                )
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

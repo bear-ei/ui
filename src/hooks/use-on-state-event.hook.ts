@@ -1,3 +1,4 @@
+import {useCallback, useMemo} from 'react'
 import {
         GestureResponderEvent,
         LayoutChangeEvent,
@@ -112,19 +113,39 @@ export const useOnStateEvent = ({
         onPressOut,
         onStateEventChange
 }: UseHandleStateEventOptions) => {
-        const mobileDevice = ['ios', 'android'].includes(Platform.OS)
-        const onStateEvent = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleStateEventChange({...options, disabled, onStateEventChange})(disabled ? 'disabled' : state)(event)
+        const mobileDevice = useMemo(() => ['ios', 'android'].includes(Platform.OS), [])
+        const onStateEvent = useCallback(
+                (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                        handleStateEventChange({...options, disabled, onStateEventChange})(
+                                disabled ? 'disabled' : state
+                        )(event),
+                [disabled, onStateEventChange]
+        )
 
-        const handleBlur = handleBlurEvent({onStateEvent})(onBlur)
-        const handleFocus = handleFocusEvent({onStateEvent})(onFocus)
-        const handleHoverIn = handleHoverIntEvent({onStateEvent})(onHoverIn)
-        const handleHoverOut = handleHoverOutEvent({onStateEvent})(onHoverOut)
-        const handleLayout = handleLayoutEvent({onStateEvent})(onLayout)
-        const handleLongPress = handleLongPressEvent({onStateEvent})(onLongPress)
-        const handlePress = handlePressEvent({onStateEvent, mobileDevice})(onPress)
-        const handlePressIn = handlePressInEvent({onStateEvent})(onPressIn)
-        const handlePressOut = handlePressOutEvent({onStateEvent, mobileDevice})(onPressOut)
+        const handleBlur = useMemo(() => handleBlurEvent({onStateEvent})(onBlur), [onBlur, onStateEvent])
+        const handleFocus = useMemo(() => handleFocusEvent({onStateEvent})(onFocus), [onFocus, onStateEvent])
+        const handleHoverIn = useMemo(() => handleHoverIntEvent({onStateEvent})(onHoverIn), [onHoverIn, onStateEvent])
+        const handleHoverOut = useMemo(
+                () => handleHoverOutEvent({onStateEvent})(onHoverOut),
+                [onHoverOut, onStateEvent]
+        )
+
+        const handleLayout = useMemo(() => handleLayoutEvent({onStateEvent})(onLayout), [onLayout, onStateEvent])
+        const handleLongPress = useMemo(
+                () => handleLongPressEvent({onStateEvent})(onLongPress),
+                [onLongPress, onStateEvent]
+        )
+
+        const handlePress = useMemo(
+                () => handlePressEvent({onStateEvent, mobileDevice})(onPress),
+                [mobileDevice, onPress, onStateEvent]
+        )
+
+        const handlePressIn = useMemo(() => handlePressInEvent({onStateEvent})(onPressIn), [onPressIn, onStateEvent])
+        const handlePressOut = useMemo(
+                () => handlePressOutEvent({onStateEvent, mobileDevice})(onPressOut),
+                [mobileDevice, onPressOut, onStateEvent]
+        )
 
         return {
                 mobileDevice,

@@ -1832,7 +1832,7 @@ __metadata:
     "@bearei/material-token": "npm:^0.0.13"
     "@chromatic-com/storybook": "npm:^1.9.0"
     "@gorhom/bottom-sheet": "npm:^4.6.4"
-    "@material-symbols/svg-400": "npm:^0.23.0"
+    "@material-symbols/svg-200": "npm:^0.27.1"
     "@react-native-async-storage/async-storage": "npm:^2.0.0"
     "@react-native-community/cli": "npm:^14.0.0"
     "@react-native-community/cli-platform-android": "npm:^14.0.0"
@@ -2761,10 +2761,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-symbols/svg-400@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "@material-symbols/svg-400@npm:0.23.0"
-  checksum: 10c0/7e23431496121375b19f86cf09a63ca6b7f583f53c171b7be960166ec3d0d718b8b3f9e66f85cb6e866c92a02d9d57c3a0390dd2d3f8f4d8c89ed914d9deaa75
+"@material-symbols/svg-200@npm:^0.27.1":
+  version: 0.27.1
+  resolution: "@material-symbols/svg-200@npm:0.27.1"
+  checksum: 10c0/6fc337ff0c5ee50860430135fd55addaf43e1c787d4f4cc170e480006f6353352e4b59b31de1e7cdd4999f3ad8edbf3a07473d24c0a28f062956892b87418587
   languageName: node
   linkType: hard
 

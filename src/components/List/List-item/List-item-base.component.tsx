@@ -1,4 +1,4 @@
-import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {
         GestureResponderEvent,
         InteractionManager,
@@ -385,7 +385,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         [setState]
                 )
 
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleListItemStateChange({
                                         ...options,
@@ -397,7 +397,9 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                                         state,
                                         trailingTrigger,
                                         type
-                                })(setState)(event)
+                                })(setState)(event),
+                        [itemIndex, itemKey, onActive, onLoadEnd, selectType, setState, trailingTrigger, type]
+                )
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

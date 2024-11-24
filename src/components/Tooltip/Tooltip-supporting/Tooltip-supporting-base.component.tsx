@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -178,13 +178,15 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                         [containerLayout.width, layout.width, type]
                 )
 
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleTooltipSupportingStateChange({
                                         ...options,
                                         state,
                                         onVisible
-                                })(setState)(event)
+                                })(setState)(event),
+                        [onVisible, setState]
+                )
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

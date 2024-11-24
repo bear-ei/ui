@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -44,9 +44,11 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
                         status: 'idle'
                 })
 
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleSkeletonStateChange({...options, state, duration})(setState)(event)
+                                handleSkeletonStateChange({...options, state, duration})(setState)(event),
+                        [duration, setState]
+                )
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

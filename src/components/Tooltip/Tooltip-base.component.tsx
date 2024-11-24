@@ -106,14 +106,16 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                         [onVisible, setState]
                 )
 
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleTooltipStateChange({
                                         ...options,
                                         onTooltipVisible,
                                         state,
                                         triggerEvent
-                                })(setState)(event)
+                                })(setState)(event),
+                        [onTooltipVisible, setState, triggerEvent]
+                )
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

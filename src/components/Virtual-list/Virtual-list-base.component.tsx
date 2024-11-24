@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {ForwardedRef, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {
         InteractionManager,
         LayoutChangeEvent,
@@ -303,8 +303,11 @@ export const VirtualListBaseInner = <T,>(
         )
 
         const onVirtualListItemUnmount = handleVirtualListItemUnmount(itemSize)(setState)
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleVirtualListStateChange({...options, state})(onVirtualListLayout)(event)
+        const onStateEventChange = useCallback(
+                (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                        handleVirtualListStateChange({...options, state})(onVirtualListLayout)(event),
+                [onVirtualListLayout]
+        )
 
         const onStateEvent = useOnStateEvent({
                 ...renderProps,

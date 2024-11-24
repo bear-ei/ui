@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {InteractionManager, View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -138,14 +138,16 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
                 const onFABInit = useMemo(() => handleFABInit(setState)(disabled), [disabled, setState])
                 const fabIconElement = renderFABIcon({eventName, type, disabled, size})(theme)(icon)
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleFABStateChange({
                                         ...options,
                                         state,
                                         elevated,
                                         touchableRef
-                                })(setState)(event)
+                                })(setState)(event),
+                        [elevated, setState]
+                )
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

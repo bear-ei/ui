@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {InteractionManager, View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -153,14 +153,16 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
                 const onButtonInit = useMemo(() => handleButtonInit(setState)(disabled), [disabled, setState])
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleButtonStateChange({
                                         ...options,
                                         state,
-                                        type,
-                                        touchableRef
-                                })(setState)(event)
+                                        touchableRef,
+                                        type
+                                })(setState)(event),
+                        [setState, type]
+                )
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

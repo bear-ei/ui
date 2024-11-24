@@ -22,7 +22,6 @@ export interface TextFieldProps
         > {
         content?: React.ReactNode
         disabled?: boolean
-        disabledBlur?: boolean
         enableFocusRing?: boolean
         error?: boolean
         filled?: boolean
@@ -70,7 +69,7 @@ export interface TextFieldState {
 
 export interface HandleTextFieldStateEventChangeOptions
         extends OnStateEventChangeOptions,
-                Pick<TextFieldProps, 'content' | 'disabledBlur'> {
+                Pick<TextFieldProps, 'content'> {
         ref?: RefObject<TextInput>
 }
 

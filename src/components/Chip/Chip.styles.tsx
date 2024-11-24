@@ -30,7 +30,7 @@ export const Content = styled(Shape)<ChipContentProps>`
         `}
 
 
-    ${({theme, type = 'assist'}) =>
+        ${({theme, type = 'assist'}) =>
                 type === 'inputFilled' &&
                 css`
                         height: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px;
@@ -68,7 +68,7 @@ export const Main = styled.View<ChipMainProps>`
                 )}px;
         `}
 
-    ${({theme, type = 'assist'}) => {
+        ${({theme, type = 'assist'}) => {
                 const mainType = {
                         input: css`
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
@@ -86,7 +86,7 @@ export const Main = styled.View<ChipMainProps>`
 
     
 
-    ${({leadingIconShow, theme, type = 'assist'}) =>
+        ${({leadingIconShow, theme, type = 'assist'}) =>
                 leadingIconShow &&
                 css`
                         padding-left: ${theme.adaptSize(
@@ -94,7 +94,7 @@ export const Main = styled.View<ChipMainProps>`
                         )}px;
                 `}
 
-    ${({trailingIconShow, theme, type}) =>
+        ${({trailingIconShow, theme, type}) =>
                 trailingIconShow &&
                 css`
                         padding-right: ${theme.adaptSize(
@@ -102,7 +102,7 @@ export const Main = styled.View<ChipMainProps>`
                         )}px;
                 `}
 
-    ${({avatarShow, theme}) =>
+        ${({avatarShow, theme}) =>
                 avatarShow &&
                 css`
                         padding-left: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
@@ -110,6 +110,7 @@ export const Main = styled.View<ChipMainProps>`
 `
 
 export const LabelText = styled(Typography)`
+        flex: 1;
         text-align: center;
         user-select: none;
 `

@@ -1,4 +1,4 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef, useCallback, useId} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -33,9 +33,11 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
                 const id = useId()
                 const theme = useTheme()
                 const underlayColor = theme.token.scheme.onPrimary
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleListAffordanceButtonStateChange({...options, state})(setState)(event)
+                                handleListAffordanceButtonStateChange({...options, state})(setState)(event),
+                        [setState]
+                )
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

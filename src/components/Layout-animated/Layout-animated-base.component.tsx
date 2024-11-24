@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {InteractionManager, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -117,9 +117,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [setState, unmount]
                 )
 
-                const onStateEventChange =
+                const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleLayoutAnimatedStateChange({...options, state, visible})(setState)(event)
+                                handleLayoutAnimatedStateChange({...options, state, visible})(setState)(event),
+                        [setState, visible]
+                )
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,
