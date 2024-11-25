@@ -14,13 +14,14 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, ViewProps, Sha
         hidden?: boolean
         onUnmount?: () => void
         onVisible?: (value?: boolean) => void
+        opacity?: number
         unmount?: boolean
         visible?: boolean
 }
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
-        onStateEvent: OnStateEvent
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
+        onStateEvent: OnStateEvent
         visible?: boolean
 }
 
@@ -29,17 +30,18 @@ export interface LayoutAnimatedState {
         layoutWasVisible?: boolean
         nextUnmountEvent?: () => void
         nextVisibleEvent?: () => void
-        unmountLayout?: boolean
         status: ComponentStatus
+        unmountLayout?: boolean
 }
 
 export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
         render: (props: RenderLayoutAnimatedProps) => JSX.Element
 }
 
-export type HandleLayoutAnimatedStateChangeOptions = OnStateEventChangeOptions & Pick<LayoutAnimatedProps, 'visible'>
 export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount' | 'onVisible'>
-export interface UseLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 'visible' | 'unmount' | 'entry' | 'exit'> {
+export type HandleLayoutAnimatedStateChangeOptions = OnStateEventChangeOptions & Pick<LayoutAnimatedProps, 'visible'>
+export interface UseLayoutAnimatedOptions
+        extends Pick<LayoutAnimatedProps, 'visible' | 'unmount' | 'entry' | 'exit' | 'opacity'> {
         onAnimatedFinished: (value?: boolean) => void
 }
 

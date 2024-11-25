@@ -79,10 +79,10 @@ const handleMenuKeyDownEvent = (data?: ListData[]) => (setState: Updater<MenuSta
         handleMenuKeyDown({data})(setState)(code)
 }
 
-const handleMenuVisible = (setState: Updater<MenuState>) => (onVisible?: (value?: boolean) => void) => {
-        const handleNextVisibleEvent = (value?: boolean) => () => onVisible?.(value)
+const handleMenuVisible =
+        (setState: Updater<MenuState>) => (onVisible?: (value?: boolean) => void) => (value?: boolean) => {
+                const handleNextVisibleEvent = () => onVisible?.(value)
 
-        return (value?: boolean) => {
                 if (typeof value === 'undefined') {
                         return
                 }
@@ -92,10 +92,9 @@ const handleMenuVisible = (setState: Updater<MenuState>) => (onVisible?: (value?
                                 draft.focusedIndex = undefined
                         }
 
-                        draft.nextVisibleEvent = handleNextVisibleEvent(value)
+                        draft.nextVisibleEvent = handleNextVisibleEvent
                 })
         }
-}
 
 export const MenuBase = forwardRef<VirtualListComponent<ListData>, MenuBaseProps>(
         (

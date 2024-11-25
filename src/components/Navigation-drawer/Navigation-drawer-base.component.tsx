@@ -10,10 +10,12 @@ import {
         RenderNavigationDrawerItemOptions
 } from './Navigation-drawer.interface'
 
-const handleNavigationDrawerActive = ({onActive}: HandleNavigationDrawerActiveOptions = {}) => {
-        const handleNextActiveEvent = (value?: string) => () => onActive?.(value)
+const handleNavigationDrawerActive =
+        ({onActive}: HandleNavigationDrawerActiveOptions = {}) =>
+        (setState: Updater<NavigationDrawerState>) =>
+        (value?: string) => {
+                const handleNextActiveEvent = () => onActive?.(value)
 
-        return (setState: Updater<NavigationDrawerState>) => (value?: string) => {
                 if (value) {
                         setState(draft => {
                                 const prevNavigationDrawerActiveKey = draft.navigationDrawerActiveKey
@@ -21,12 +23,11 @@ const handleNavigationDrawerActive = ({onActive}: HandleNavigationDrawerActiveOp
                                 draft.navigationDrawerActiveKey = value
 
                                 if (prevNavigationDrawerActiveKey !== draft.navigationDrawerActiveKey) {
-                                        draft.nextActiveEvent = handleNextActiveEvent(value)
+                                        draft.nextActiveEvent = handleNextActiveEvent
                                 }
                         })
                 }
         }
-}
 
 const renderNavigationDrawerItems =
         (renderNavigationDrawerItemOptions: RenderNavigationDrawerItemOptions) => (data?: NavigationDrawerData[]) =>

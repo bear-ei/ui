@@ -12,10 +12,12 @@ import {
 } from './Checkbox.interface'
 import {useCheckboxAnimated} from './use-checkbox-animated.hook'
 
-const handleCheckboxActive = ({indeterminate, onActive}: HandleCheckboxActiveOptions) => {
-        const handleNextActiveEvent = (value?: boolean) => () => onActive?.(value)
+const handleCheckboxActive =
+        ({indeterminate, onActive}: HandleCheckboxActiveOptions) =>
+        (setState: Updater<CheckboxState>) =>
+        (value?: boolean) => {
+                const handleNextActiveEvent = () => onActive?.(value)
 
-        return (setState: Updater<CheckboxState>) => (value?: boolean) => {
                 if (typeof value === 'boolean') {
                         setState(draft => {
                                 const activeType = indeterminate ? 'indeterminate' : 'selected'
@@ -23,36 +25,34 @@ const handleCheckboxActive = ({indeterminate, onActive}: HandleCheckboxActiveOpt
 
                                 draft.checkboxActive = value
                                 draft.type = nextType
-                                draft.nextActiveEvent = handleNextActiveEvent(value)
+                                draft.nextActiveEvent = handleNextActiveEvent
                         })
                 }
         }
-}
 
 const handleCheckboxStateChange =
         ({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
-        (setState: Updater<CheckboxState>) => {
+        (setState: Updater<CheckboxState>) =>
+        (_event: StateEvent) => {
                 const nextEvent = {
                         pressOut: () => handleCheckboxActive({indeterminate, onActive})(setState)(!active)
                 } as Record<EventName, () => void>
 
-                return (_event: StateEvent) => {
-                        if (eventName === 'layout') {
-                                return
+                if (eventName === 'layout') {
+                        return
+                }
+
+                setState(draft => {
+                        const prevEventName = draft.eventName
+
+                        if (eventName) {
+                                draft.eventName = eventName
                         }
 
-                        setState(draft => {
-                                const prevEventName = draft.eventName
-
-                                if (eventName) {
-                                        draft.eventName = eventName
-                                }
-
-                                if (prevEventName !== eventName && eventName === 'pressOut') {
-                                        draft.nextPressOutEvent = nextEvent[eventName]
-                                }
-                        })
-                }
+                        if (prevEventName !== eventName && eventName === 'pressOut') {
+                                draft.nextPressOutEvent = nextEvent[eventName]
+                        }
+                })
         }
 
 const handleCheckboxInit = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>

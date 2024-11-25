@@ -30,12 +30,14 @@ const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boole
         }
 }
 
-const handleFABStateChange = ({eventName, elevated, state, touchableRef}: HandleFABStateChangeOptions) => {
-        const nextEvent = {
-                pressIn: () => touchableRef?.current?.focus()
-        } as Record<EventName, () => void>
+const handleFABStateChange =
+        ({eventName, elevated, state, touchableRef}: HandleFABStateChangeOptions) =>
+        (setState: Updater<FABState>) =>
+        (_event: StateEvent) => {
+                const nextEvent = {
+                        pressIn: () => touchableRef?.current?.focus()
+                } as Record<EventName, () => void>
 
-        return (setState: Updater<FABState>) => (_event: StateEvent) => {
                 if (eventName === 'layout') {
                         return
                 }
@@ -56,7 +58,6 @@ const handleFABStateChange = ({eventName, elevated, state, touchableRef}: Handle
                         }
                 })
         }
-}
 
 const handleFABInit = (setState: Updater<FABState>) => (disabled?: boolean) => (elevated?: boolean) =>
         setState(draft => {

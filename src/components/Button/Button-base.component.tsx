@@ -43,12 +43,14 @@ const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: But
         }
 }
 
-const handleButtonStateChange = ({eventName, type, state, touchableRef}: HandleButtonStateChangeOptions) => {
-        const nextEvent = {
-                pressIn: () => touchableRef?.current?.focus()
-        } as Record<EventName, () => void>
+const handleButtonStateChange =
+        ({eventName, type, state, touchableRef}: HandleButtonStateChangeOptions) =>
+        (setState: Updater<ButtonState>) =>
+        (_event: StateEvent) => {
+                const nextEvent = {
+                        pressIn: () => touchableRef?.current?.focus()
+                } as Record<EventName, () => void>
 
-        return (setState: Updater<ButtonState>) => (_event: StateEvent) => {
                 if (eventName === 'layout') {
                         return
                 }
@@ -67,7 +69,6 @@ const handleButtonStateChange = ({eventName, type, state, touchableRef}: HandleB
                         }
                 })
         }
-}
 
 const handleButtonInit = (setState: Updater<ButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
         setState(draft => {

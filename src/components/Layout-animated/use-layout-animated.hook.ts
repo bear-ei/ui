@@ -16,22 +16,22 @@ const handleLayoutAnimatedTiming =
                 }
         }
 
-export const useLayoutAnimated = ({visible = true, onAnimatedFinished, entry, exit}: UseLayoutAnimatedOptions) => {
+export const useLayoutAnimated = ({
+        entry,
+        exit,
+        onAnimatedFinished,
+        opacity = 1,
+        visible = true
+}: UseLayoutAnimatedOptions) => {
         const opacitySharedValue = useSharedValue(visible ? 1 : 0)
         const theme = useTheme()
         const animatedTiming = useAnimatedTiming(theme.token)
         const containerAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1])
+                opacity: interpolate(opacitySharedValue.value, [0, 1], [0, opacity])
         }))
 
         const onLayoutAnimatedTiming = useMemo(
-                () =>
-                        handleLayoutAnimatedTiming({
-                                animatedTiming,
-                                onAnimatedFinished,
-                                entry,
-                                exit
-                        })(opacitySharedValue),
+                () => handleLayoutAnimatedTiming({animatedTiming, onAnimatedFinished, entry, exit})(opacitySharedValue),
                 [animatedTiming, entry, exit, onAnimatedFinished, opacitySharedValue]
         )
 

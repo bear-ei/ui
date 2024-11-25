@@ -15,19 +15,17 @@ const handleListAfterAffordanceConfirm =
         (_event: GestureResponderEvent) =>
                 onConfirm?.({itemKey, doubleConfirmed})
 
-const handleListAfterAffordanceCancel = ({
-        onCancel,
-        doubleConfirmed,
-        itemKey
-}: HandleListAfterAffordanceCancelOptions) => {
-        const handleNextCancelEvent = () => onCancel?.({itemKey, doubleConfirmed})
+const handleListAfterAffordanceCancel =
+        ({onCancel, doubleConfirmed, itemKey}: HandleListAfterAffordanceCancelOptions) =>
+        (setState: Updater<ListAfterAffordanceState>) =>
+        (_event: GestureResponderEvent) => {
+                const handleNextCancelEvent = () => onCancel?.({itemKey, doubleConfirmed})
 
-        return (setState: Updater<ListAfterAffordanceState>) => (_event: GestureResponderEvent) =>
                 setState(draft => {
                         draft.doubleConfirmed = !doubleConfirmed
                         draft.nextCancelEvent = handleNextCancelEvent
                 })
-}
+        }
 
 const handleListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceState>) => (value?: boolean) => {
         if (!value) {

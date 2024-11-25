@@ -12,52 +12,48 @@ import {
 } from './Text-field.interface'
 import {useTextFieldAnimated} from './use-text-field-animated.hook'
 
-const handleTextFieldStateChange = ({content, eventName, ref, state}: HandleTextFieldStateEventChangeOptions) => {
-        const nextEvent = {
-                pressOut: () => ref?.current?.focus()
-        } as Record<EventName, () => void>
+const handleTextFieldStateChange =
+        ({content, eventName, ref, state}: HandleTextFieldStateEventChangeOptions) =>
+        (setState: Updater<TextFieldState>) =>
+        (_event: StateEvent) => {
+                const nextEvent = {
+                        pressOut: () => ref?.current?.focus()
+                } as Record<EventName, () => void>
 
-        return (setState: Updater<TextFieldState>) => {
-                return (_event: StateEvent) => {
-                        if (eventName === 'layout') {
+                if (eventName === 'layout') {
+                        return
+                }
+
+                setState(draft => {
+                        if ((draft.state === 'focused' && eventName !== 'blur') || content) {
                                 return
                         }
 
-                        setState(draft => {
-                                if ((draft.state === 'focused' && eventName !== 'blur') || content) {
-                                        return
-                                }
+                        const prevEventName = draft.eventName
 
-                                const prevEventName = draft.eventName
+                        draft.eventName = eventName
 
-                                draft.eventName = eventName
+                        if (state) {
+                                draft.state = state
+                        }
 
-                                if (state) {
-                                        draft.state = state
-                                }
-
-                                if (prevEventName !== eventName && eventName === 'pressOut') {
-                                        draft.nextPressOutEvent = nextEvent[eventName]
-                                }
-                        })
-                }
+                        if (prevEventName !== eventName && eventName === 'pressOut') {
+                                draft.nextPressOutEvent = nextEvent[eventName]
+                        }
+                })
         }
-}
 
 const handleTextFieldContentSizeChange =
         (setState: Updater<TextFieldState>) =>
         (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) => {
-                const handleNextContentSizeChangeEvent =
-                        (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => () =>
-                                onContentSizeChange?.(event)
-
                 return (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
+                        const handleNextContentSizeChangeEvent = () => onContentSizeChange?.(event)
                         const contentSize = event.nativeEvent.contentSize
 
                         setState(draft => {
                                 draft.contentSize.width = contentSize.width
                                 draft.contentSize.height = contentSize.height
-                                draft.nextContentSizeChangeEvent = handleNextContentSizeChangeEvent(event)
+                                draft.nextContentSizeChangeEvent = handleNextContentSizeChangeEvent
                         })
                 }
         }
@@ -87,36 +83,43 @@ const handleTextFieldSupportingText =
         }
 
 const handleTextFieldSupportingTextVisible =
-        (setState: Updater<TextFieldState>) => (onSupportingTextVisible?: (value: boolean) => void) => {
-                const handleNextSupportingTextVisible = (value: boolean) => () => onSupportingTextVisible?.(value)
-
-                return (value?: boolean) => {
-                        if (typeof value !== 'boolean') {
-                                return
+        (setState: Updater<TextFieldState>) =>
+        (onSupportingTextVisible?: (value: boolean) => void) =>
+        (value?: boolean) => {
+                const handleNextSupportingTextVisible = () => {
+                        if (value) {
+                                onSupportingTextVisible?.(value)
                         }
-
-                        setState(draft => {
-                                draft.supportingText = value ? draft.supportingText : undefined
-                                draft.nextSupportingTextVisible = handleNextSupportingTextVisible(value)
-                        })
                 }
+
+                if (typeof value !== 'boolean') {
+                        return
+                }
+
+                setState(draft => {
+                        draft.supportingText = value ? draft.supportingText : undefined
+                        draft.nextSupportingTextVisible = handleNextSupportingTextVisible
+                })
         }
 
-const handleTextFieldChangeText = (onChangeText?: (value: string) => void) => {
-        const handleNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
+const handleTextFieldChangeText =
+        (onChangeText?: (value: string) => void) => (setState: Updater<TextFieldState>) => (value?: string) => {
+                const handleNextChangeTextEvent = () => {
+                        if (value) {
+                                onChangeText?.(value)
+                        }
+                }
 
-        return (setState: Updater<TextFieldState>) => (value?: string) => {
                 setState(draft => {
                         const prevTextInputValue = draft.textInputValue
 
                         draft.textInputValue = value ?? ''
 
                         if (typeof value === 'string' && prevTextInputValue !== value) {
-                                draft.nextChangeTextEvent = handleNextChangeTextEvent(value)
+                                draft.nextChangeTextEvent = handleNextChangeTextEvent
                         }
                 })
         }
-}
 
 const handleTouchableHeaderFocus = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
 

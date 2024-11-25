@@ -41,13 +41,15 @@ const handleLayoutAnimatedStateChange =
                 }
         }
 
-const handleLayoutAnimatedFinished = ({onUnmount, unmount, onVisible}: HandleLayoutAnimatedFinishedOptions) => {
-        const handleNextVisibleEvent = (value?: boolean) => () => onVisible?.(value)
+const handleLayoutAnimatedFinished =
+        ({onUnmount, unmount, onVisible}: HandleLayoutAnimatedFinishedOptions) =>
+        (setState: Updater<LayoutAnimatedState>) =>
+        (value?: boolean) => {
+                const handleNextVisibleEvent = () => onVisible?.(value)
 
-        return (setState: Updater<LayoutAnimatedState>) => (value?: boolean) =>
                 setState(draft => {
                         if (value) {
-                                draft.nextVisibleEvent = handleNextVisibleEvent(value)
+                                draft.nextVisibleEvent = handleNextVisibleEvent
 
                                 return
                         }
@@ -61,9 +63,9 @@ const handleLayoutAnimatedFinished = ({onUnmount, unmount, onVisible}: HandleLay
                                 return
                         }
 
-                        draft.nextVisibleEvent = handleNextVisibleEvent(value)
+                        draft.nextVisibleEvent = handleNextVisibleEvent
                 })
-}
+        }
 
 const handleLayoutAnimatedInit = (setState: Updater<LayoutAnimatedState>) => (unmount?: boolean) => (value?: boolean) =>
         setState(draft => {
@@ -81,13 +83,14 @@ const handleLayoutAnimatedInit = (setState: Updater<LayoutAnimatedState>) => (un
 export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
         (
                 {
-                        render,
-                        visible: visibleSource,
                         defaultVisible,
-                        unmount,
+                        hidden = true,
                         onUnmount,
                         onVisible,
-                        hidden = true,
+                        opacity,
+                        render,
+                        unmount,
+                        visible: visibleSource,
                         ...renderProps
                 },
                 ref
@@ -123,14 +126,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [setState, visible]
                 )
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        onStateEventChange
-                })
-
+                const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
                 const {containerAnimatedStyle} = useLayoutAnimated({
                         onAnimatedFinished: onLayoutAnimatedFinished,
-                        visible: layoutVisible ?? visible
+                        visible: layoutVisible ?? visible,
+                        opacity
                 })
 
                 useEffect(() => {

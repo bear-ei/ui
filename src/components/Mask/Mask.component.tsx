@@ -7,6 +7,7 @@ import {Container, Content} from './Mask.styles'
 const render = ({id, ref, onStateEvent, ...containerProps}: RenderMaskProps) => (
         <Container
                 {...containerProps}
+                opacity={0.32}
                 testID={`mask--${id}`}
         >
                 <Content

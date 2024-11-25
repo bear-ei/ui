@@ -14,12 +14,14 @@ import {
 } from './Icon-button.interface'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
-const handleIconButtonStateChange = ({eventName, touchableRef}: HandleIconButtonStateChangeOptions) => {
-        const nextEvent = {
-                pressIn: () => touchableRef?.current?.focus()
-        } as Record<EventName, () => void>
+const handleIconButtonStateChange =
+        ({eventName, touchableRef}: HandleIconButtonStateChangeOptions) =>
+        (setState: Updater<IconButtonState>) =>
+        (_event: StateEvent) => {
+                const nextEvent = {
+                        pressIn: () => touchableRef?.current?.focus()
+                } as Record<EventName, () => void>
 
-        return (setState: Updater<IconButtonState>) => (_event: StateEvent) => {
                 if (eventName === 'layout') {
                         return
                 }
@@ -34,8 +36,6 @@ const handleIconButtonStateChange = ({eventName, touchableRef}: HandleIconButton
                         }
                 })
         }
-}
-
 const handleIconButtonDisabled = (setState: Updater<IconButtonState>) => (disabled?: boolean) => {
         if (disabled) {
                 setState(draft => {

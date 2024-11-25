@@ -8,18 +8,17 @@ import {State} from '../Common'
 import {TooltipSupportingProps} from './Tooltip-supporting'
 import {HandleTooltipStateEventChangeOptions, TooltipBaseProps, TooltipState} from './Tooltip.interface'
 
-const handleTooltipVisible = (setState: Updater<TooltipState>) => (onVisible?: (value?: boolean) => void) => {
-        const handleNextActiveEvent = (value?: boolean) => () => onVisible?.(value)
+const handleTooltipVisible =
+        (setState: Updater<TooltipState>) => (onVisible?: (value?: boolean) => void) => (value?: boolean) => {
+                const handleNextActiveEvent = () => onVisible?.(value)
 
-        return (value?: boolean) => {
                 if (typeof value === 'boolean') {
                         setState(draft => {
                                 draft.tooltipVisible = value
-                                draft.nextActiveEvent = handleNextActiveEvent(value)
+                                draft.nextActiveEvent = handleNextActiveEvent
                         })
                 }
         }
-}
 
 const handleTooltipLayout = (setState: Updater<TooltipState>) => (event: LayoutChangeEvent) => {
         const nativeEventLayout = event.nativeEvent.layout

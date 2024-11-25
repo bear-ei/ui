@@ -15,13 +15,15 @@ import {
         SearchState
 } from './Search.interface'
 
-const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChangeOptions) => {
-        const handleTextFieldFocus = () => ref?.current?.focus()
-        const nextEvent = {
-                pressOut: () => handleTextFieldFocus()
-        } as Record<EventName, () => void>
+const handleSearchStateChange =
+        ({eventName, ref, state}: HandleSearchStateChangeOptions) =>
+        (setState: Updater<SearchState>) =>
+        (_event: StateEvent) => {
+                const handleTextFieldFocus = () => ref?.current?.focus()
+                const nextEvent = {
+                        pressOut: () => handleTextFieldFocus()
+                } as Record<EventName, () => void>
 
-        return (setState: Updater<SearchState>) => (_event: StateEvent) => {
                 if (eventName === 'layout') {
                         return
                 }
@@ -46,12 +48,17 @@ const handleSearchStateChange = ({eventName, ref, state}: HandleSearchStateChang
                         }
                 })
         }
-}
 
-const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) => {
-        const handleNextChangeTextEvent = (value: string) => () => onChangeText?.(value)
+const handleSearchChangeText =
+        ({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) =>
+        (setState: Updater<SearchState>) =>
+        (value?: string) => {
+                const handleNextChangeTextEvent = () => {
+                        if (value) {
+                                onChangeText?.(value)
+                        }
+                }
 
-        return (setState: Updater<SearchState>) => (value?: string) => {
                 const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
 
                 setState(draft => {
@@ -61,11 +68,10 @@ const handleSearchChangeText = ({data = [], onChangeText}: HandleSearchChangeTex
                         draft.searchValue = value
 
                         if (typeof value === 'string' && value !== prevSearchValue) {
-                                draft.nextChangeTextEvent = handleNextChangeTextEvent(value)
+                                draft.nextChangeTextEvent = handleNextChangeTextEvent
                         }
                 })
         }
-}
 
 const handleSearchListVisible = (setState: Updater<SearchState>) => (value?: boolean) => {
         if (typeof value === 'boolean') {

@@ -25,16 +25,14 @@ export const handleNavigationDrawerItemPropsEqual =
         }
 
 const handleNavigationDrawerItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
-const handleNavigationDrawerItemStateChange = ({
-        itemKey,
-        eventName,
-        onActive
-}: HandleNavigationDrawerItemStateEventChangeOptions) => {
-        const nextEvent = {
-                pressOut: () => handleNavigationDrawerItemPressOut(onActive)(itemKey)
-        } as Record<EventName, () => void>
+const handleNavigationDrawerItemStateChange =
+        ({itemKey, eventName, onActive}: HandleNavigationDrawerItemStateEventChangeOptions) =>
+        (setState: Updater<NavigationDrawerItemState>) =>
+        (_event: StateEvent) => {
+                const nextEvent = {
+                        pressOut: () => handleNavigationDrawerItemPressOut(onActive)(itemKey)
+                } as Record<EventName, () => void>
 
-        return (setState: Updater<NavigationDrawerItemState>) => (_event: StateEvent) => {
                 if (eventName === 'layout') {
                         return
                 }
@@ -51,7 +49,6 @@ const handleNavigationDrawerItemStateChange = ({
                         }
                 })
         }
-}
 
 const renderNavigationDrawerItemIcon = (icon: JSX.Element) => (eventName?: EventName) =>
         cloneElement<IconProps>(icon, {

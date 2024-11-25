@@ -11,10 +11,12 @@ import {
 } from '././Navigation-rail.interface'
 import {NavigationRailItem} from './Navigation-rail-item'
 
-const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOptions = {}) => {
-        const handleNextActiveEvent = (value?: string) => () => onActive?.(value)
+const handleNavigationRailActive =
+        ({onActive}: HandleNavigationRailActiveOptions = {}) =>
+        (setState: Updater<NavigationRailState>) =>
+        (value?: string) => {
+                const handleNextActiveEvent = () => onActive?.(value)
 
-        return (setState: Updater<NavigationRailState>) => (value?: string) => {
                 if (value) {
                         setState(draft => {
                                 const prevNavigationRailActiveKey = draft.navigationRailActiveKey
@@ -22,12 +24,11 @@ const handleNavigationRailActive = ({onActive}: HandleNavigationRailActiveOption
                                 draft.navigationRailActiveKey = value
 
                                 if (prevNavigationRailActiveKey !== draft.navigationRailActiveKey) {
-                                        draft.nextActiveEvent = handleNextActiveEvent(value)
+                                        draft.nextActiveEvent = handleNextActiveEvent
                                 }
                         })
                 }
         }
-}
 
 const renderNavigationRailItems =
         (renderNavigationRailItemOptions: RenderNavigationRailItemOptions) => (data?: NavigationRailData[]) =>

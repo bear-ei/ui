@@ -65,7 +65,7 @@ const handleNextActiveEvent =
 const handleListActive =
         ({onActive, selectType, onActives, deselect}: HandleListActiveOptions = {}) =>
         (setState: Updater<ListState>) =>
-        (value?: string | string[]) => {
+        (value?: string | string[]) =>
                 setState(draft => {
                         const callbackValue =
                                 selectType === 'select' ?
@@ -86,12 +86,13 @@ const handleListActive =
                                 }
                         }
                 })
-        }
 
-const handleActiveListAfterAffordance = ({onActive, selectType}: HandleListActiveOptions) => {
-        const handleNextAfterAffordanceActiveEvent = (value?: string) => () => onActive?.(value)
+const handleActiveListAfterAffordance =
+        ({onActive, selectType}: HandleListActiveOptions) =>
+        (setState: Updater<ListState>) =>
+        (value?: string) => {
+                const handleNextAfterAffordanceActiveEvent = () => onActive?.(value)
 
-        return (setState: Updater<ListState>) => (value?: string) => {
                 if (selectType !== 'multiselect') {
                         setState(draft => {
                                 const prevListActiveKey = draft.listActiveKey
@@ -109,14 +110,11 @@ const handleActiveListAfterAffordance = ({onActive, selectType}: HandleListActiv
                                 }
 
                                 if (prevListActiveKey !== draft.listActiveKey) {
-                                        draft.nextAfterAffordanceActiveEvent =
-                                                handleNextAfterAffordanceActiveEvent(value)
+                                        draft.nextAfterAffordanceActiveEvent = handleNextAfterAffordanceActiveEvent
                                 }
                         })
                 }
         }
-}
-
 const handleListClose = (onClose?: (value?: string) => void) => onClose
 const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
         <ListItem

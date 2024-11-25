@@ -19,7 +19,6 @@ export const Container = styled(LayoutAnimated)<MaskContainerProps>`
                         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
                         height: auto;
                         left: ${theme.adaptSize(theme.token.spacing.none)}px;
-                        opacity: 0.32;
                         right: ${theme.adaptSize(theme.token.spacing.none)}px;
                         top: ${theme.adaptSize(theme.token.spacing.none)}px;
                         width: auto;

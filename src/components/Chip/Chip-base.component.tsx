@@ -47,12 +47,14 @@ const handleChipElevation =
                 }
         }
 
-const handleChipStateChange = ({eventName, touchableRef}: HandleChipStateChangeOptions) => {
-        const nextEvent = {
-                pressIn: () => touchableRef?.current?.focus()
-        } as Record<EventName, () => void>
+const handleChipStateChange =
+        ({eventName, touchableRef}: HandleChipStateChangeOptions) =>
+        (setState: Updater<ChipState>) =>
+        (_event: StateEvent) => {
+                const nextEvent = {
+                        pressIn: () => touchableRef?.current?.focus()
+                } as Record<EventName, () => void>
 
-        return (setState: Updater<ChipState>) => (_event: StateEvent) => {
                 if (eventName === 'layout') {
                         return
                 }
@@ -67,7 +69,6 @@ const handleChipStateChange = ({eventName, touchableRef}: HandleChipStateChangeO
                         }
                 })
         }
-}
 
 const handleChipInit = (setState: Updater<ChipState>) => (disabled?: boolean) => (elevated?: boolean) =>
         setState(draft => {

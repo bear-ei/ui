@@ -92,22 +92,24 @@ const handleListItemPressOut =
         }
 
 const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
-const handleListItemStateChange = ({
-        eventName,
-        itemKey,
-        onActive,
-        onLoadEnd,
-        selectType,
-        state,
-        trailingTrigger,
-        type
-}: HandleListItemStateEventChangeOptions) => {
-        const nextEvent = {
-                layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
-                pressOut: () => handleListItemPressOut(selectType)(onActive)(itemKey)
-        } as Record<EventName, () => void>
+const handleListItemStateChange =
+        ({
+                eventName,
+                itemKey,
+                onActive,
+                onLoadEnd,
+                selectType,
+                state,
+                trailingTrigger,
+                type
+        }: HandleListItemStateEventChangeOptions) =>
+        (setState: Updater<ListItemState>) =>
+        (_event: StateEvent) => {
+                const nextEvent = {
+                        layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
+                        pressOut: () => handleListItemPressOut(selectType)(onActive)(itemKey)
+                } as Record<EventName, () => void>
 
-        return (setState: Updater<ListItemState>) => (_event: StateEvent) =>
                 setState(draft => {
                         const prevEventName = draft.eventName
 
@@ -149,7 +151,7 @@ const handleListItemStateChange = ({
                                 }
                         }
                 })
-}
+        }
 
 const handleListItemTrailingPressOut =
         ({
