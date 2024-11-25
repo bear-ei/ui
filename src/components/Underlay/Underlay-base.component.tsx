@@ -1,6 +1,10 @@
-import {forwardRef, useId} from 'react'
-import {View} from 'react-native'
-import {UnderlayBaseProps, UnderlayProps} from './Underlay.interface'
+import {forwardRef, useCallback, useId} from 'react'
+import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
+
+import {Updater, useImmer} from 'use-immer'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {EventName, State} from '../Common'
+import {HandleUnderlayStateChangeOptions, UnderlayBaseProps, UnderlayProps, UnderlayState} from './Underlay.interface'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
 
 export const handleUnderlayPropsEqual = (prevProps: UnderlayProps) => {
@@ -12,6 +16,28 @@ export const handleUnderlayPropsEqual = (prevProps: UnderlayProps) => {
                 return ![prevEventName !== nextEventName, prevActive !== nextActive].some(Boolean)
         }
 }
+
+const handleUnderlayContentLayout = (setState: Updater<UnderlayState>) => (event: LayoutChangeEvent) => {
+        const nativeEventLayout = event.nativeEvent.layout
+
+        setState(draft => {
+                draft.layout.width = nativeEventLayout.width
+                draft.layout.height = nativeEventLayout.height
+        })
+}
+
+const handleUnderlayStateChange =
+        ({eventName}: HandleUnderlayStateChangeOptions) =>
+        (setState: Updater<UnderlayState>) =>
+        (event: StateEvent) => {
+                const nextEvent = {
+                        layout: () => handleUnderlayContentLayout(setState)(event as LayoutChangeEvent)
+                } as Record<EventName, () => void>
+
+                if (eventName) {
+                        nextEvent[eventName]?.()
+                }
+        }
 
 export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
         (
@@ -27,6 +53,7 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
                 },
                 ref
         ) => {
+                const [{layout}, setState] = useImmer<UnderlayState>({layout: {} as LayoutRectangle})
                 const id = useId()
                 const active = activeSource ?? defaultActive
                 const {hoverLayerAnimatedStyle, activeLayerAnimatedStyle} = useUnderlayAnimated({
@@ -34,16 +61,26 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
                         activeAnimatedType,
                         activeScale,
                         eventName,
+                        layout,
                         opacities
                 })
 
+                const onStateEventChange = useCallback(
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleUnderlayStateChange({...options, state})(setState)(event),
+                        [setState]
+                )
+
+                const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
+
                 return render({
                         ...renderProps,
-                        hoverLayerAnimatedStyle,
+                        active,
                         activeLayerAnimatedStyle,
+                        hoverLayerAnimatedStyle,
                         id,
-                        ref,
-                        active
+                        onStateEvent,
+                        ref
                 })
         }
 )

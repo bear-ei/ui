@@ -19,10 +19,12 @@ const render = ({
         width,
         shape,
         activeShape,
+        onStateEvent,
         ...containerProps
 }: RenderUnderlayProps) => (
         <Container
                 {...containerProps}
+                {...onStateEvent}
                 height={height}
                 pointerEvents='none'
                 shape={shape}

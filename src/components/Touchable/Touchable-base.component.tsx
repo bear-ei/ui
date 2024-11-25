@@ -92,11 +92,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                 const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
                 const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleTouchableStateChange({
-                                        ...options,
-                                        state,
-                                        enableTouchableRipple
-                                })(setState)(event),
+                                handleTouchableStateChange({...options, state, enableTouchableRipple})(setState)(event),
                         [enableTouchableRipple, setState]
                 )
 

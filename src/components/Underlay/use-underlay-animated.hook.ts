@@ -1,10 +1,14 @@
 import {useEffect, useMemo} from 'react'
 import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
+import {useAnimatedTiming} from '../../hooks'
 import {debounce} from '../../utils'
 import {EventName} from '../Common'
-import {HandleUnderlayHoveredAnimatedTimingOptions, UseUnderlayAnimatedOptions} from './Underlay.interface'
+import {
+        HandleUnderlayActiveAnimatedTimingOptions,
+        HandleUnderlayHoveredAnimatedTimingOptions,
+        UseUnderlayAnimatedOptions
+} from './Underlay.interface'
 
 const handleUnderlayHoveredAnimatedTiming = ({
         animatedTiming,
@@ -30,11 +34,13 @@ const handleUnderlayHoveredAnimatedTiming = ({
 }
 
 const handleUnderlayActiveAnimatedTiming =
-        (animatedTiming: AnimatedTiming) =>
+        ({animatedTiming, layout}: HandleUnderlayActiveAnimatedTimingOptions) =>
         (activeLayerSharedValue: SharedValue<AnimatableValue>) =>
         (value?: boolean) => {
                 if (typeof value === 'boolean') {
-                        animatedTiming()(activeLayerSharedValue)(value ? 1 : 0)
+                        animatedTiming({
+                                duration: Math.max(300, (layout.width ?? 300) / 2)
+                        })(activeLayerSharedValue)(value ? 1 : 0)
                 }
         }
 
@@ -43,7 +49,8 @@ export const useUnderlayAnimated = ({
         activeAnimatedType = 'scale',
         activeScale,
         eventName,
-        opacities = [0, 0.08, 0.12]
+        opacities = [0, 0.08, 0.12],
+        layout
 }: UseUnderlayAnimatedOptions) => {
         const {x: scaleX = 1, y: scaleY = 1} = activeScale ?? {}
         const defaultScaleValue = active ? 1 : 0
@@ -92,8 +99,8 @@ export const useUnderlayAnimated = ({
         )
 
         const onUnderlayActiveAnimatedTiming = useMemo(
-                () => handleUnderlayActiveAnimatedTiming(animatedTiming)(activeLayerSharedValue),
-                [animatedTiming, activeLayerSharedValue]
+                () => handleUnderlayActiveAnimatedTiming({animatedTiming, layout})(activeLayerSharedValue),
+                [animatedTiming, layout, activeLayerSharedValue]
         )
 
         useEffect(() => {
