@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components/native'
 export const Container = styled.View`
         overflow: hidden;
         position: absolute;
-        z-index: 8192;
+        z-index: 4096;
 
         ${({theme}) => css`
                 bottom: ${theme.adaptSize(theme.token.spacing.none)}px;

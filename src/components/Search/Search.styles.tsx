@@ -5,7 +5,7 @@ import {SearchContentProps} from './Search.interface'
 
 export const Container = styled.View`
         position: relative;
-        z-index: 8192;
+        z-index: 4096;
 `
 
 export const Touchable = styled.Pressable`

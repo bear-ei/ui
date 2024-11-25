@@ -5,7 +5,7 @@ import {SearchListContainerProps} from './Search-list.interface'
 export const Container = styled(Shape)<SearchListContainerProps>`
         overflow: hidden;
         position: absolute;
-        z-index: 7168;
+        z-index: 4096;
 
         ${({theme}) => css`
                 background-color: ${theme.token.scheme.surfaceContainerHigh};

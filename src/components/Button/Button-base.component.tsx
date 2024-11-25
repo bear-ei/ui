@@ -155,21 +155,11 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
                 const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleButtonStateChange({
-                                        ...options,
-                                        state,
-                                        touchableRef,
-                                        type
-                                })(setState)(event),
+                                handleButtonStateChange({...options, state, touchableRef, type})(setState)(event),
                         [setState, type]
                 )
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        disabled,
-                        onStateEventChange
-                })
-
+                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
                 const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
                         disabled,
                         eventName,
