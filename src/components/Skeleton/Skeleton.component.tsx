@@ -16,11 +16,10 @@ const render = ({
         onStateEvent,
         skeletonVisible,
         style,
-        status,
         ...containerProps
 }: RenderSkeletonProps) => (
         <>
-                {content && skeletonVisible && status !== 'succeeded' ?
+                {content && skeletonVisible ?
                         <AnimatedContainer
                                 {...containerProps}
                                 {...onStateEvent}

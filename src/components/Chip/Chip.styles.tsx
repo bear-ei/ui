@@ -110,7 +110,6 @@ export const Main = styled.View<ChipMainProps>`
 `
 
 export const LabelText = styled(Typography)`
-        flex: 1;
         text-align: center;
         user-select: none;
 `

@@ -2,7 +2,6 @@ import {FC, ReactNode, RefAttributes} from 'react'
 import {View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
-import {ComponentStatus} from '../Common'
 import {SkeletonElementProps} from './Skeleton-element'
 
 export interface SkeletonProps extends ViewProps, RefAttributes<View>, Pick<SkeletonElementProps, 'containerLayout'> {
@@ -17,7 +16,6 @@ export interface RenderSkeletonProps extends SkeletonProps {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
         onStateEvent: OnStateEvent
         skeletonVisible?: boolean
-        status: ComponentStatus
 }
 
 export interface SkeletonBaseProps extends SkeletonProps {
@@ -26,7 +24,7 @@ export interface SkeletonBaseProps extends SkeletonProps {
 
 export interface SkeletonState {
         skeletonVisible: boolean
-        status: ComponentStatus
+        nextSkeletonVisible?: () => void
 }
 
 export type HandleSkeletonStateChangeOptions = OnStateEventChangeOptions & Pick<SkeletonProps, 'duration'>

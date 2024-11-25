@@ -1,32 +1,39 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import {InteractionManager, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {HandleSkeletonStateChangeOptions, SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
-const handleSkeletonClose = (setState: Updater<SkeletonState>) => (duration?: number) => {
+const handleSkeletonVisible = (setState: Updater<SkeletonState>) => (duration?: number) => {
         if (typeof duration === 'number' && duration >= 0) {
-                setTimeout(
-                        () =>
-                                setState(draft => {
-                                        draft.skeletonVisible = false
-                                        draft.status = 'succeeded'
-                                }),
-                        duration
-                )
+                setState(draft => {
+                        draft.skeletonVisible = true
+                        draft.nextSkeletonVisible = debounce(() =>
+                                setState(nextDraft => {
+                                        nextDraft.skeletonVisible = false
+                                })
+                        )(duration)
+                })
+
+                return
         }
+
+        setState(draft => {
+                draft.skeletonVisible = true
+        })
 }
 
 const handleSkeletonDurationChange = (setState: Updater<SkeletonState>) => (duration?: number) =>
-        handleSkeletonClose(setState)(duration)
+        handleSkeletonVisible(setState)(duration)
 
 const handleSkeletonStateChange =
         ({eventName, duration}: HandleSkeletonStateChangeOptions) =>
         (setState: Updater<SkeletonState>) => {
                 const nextEvent = {
-                        layout: () => handleSkeletonClose(setState)(duration)
+                        layout: () => handleSkeletonVisible(setState)(duration)
                 } as Record<EventName, () => void>
 
                 return (_event: StateEvent) => {
@@ -39,9 +46,9 @@ const handleSkeletonStateChange =
 export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
         ({render, enableAnimated = true, duration, ...renderProps}, ref) => {
                 const id = useId()
-                const [{skeletonVisible, status}, setState] = useImmer<SkeletonState>({
+                const [{skeletonVisible, nextSkeletonVisible}, setState] = useImmer<SkeletonState>({
                         skeletonVisible: true,
-                        status: 'idle'
+                        nextSkeletonVisible: undefined
                 })
 
                 const onStateEventChange = useCallback(
@@ -50,11 +57,7 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
                         [duration, setState]
                 )
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        onStateEventChange
-                })
-
+                const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
                 const onSkeletonDurationChange = useMemo(() => handleSkeletonDurationChange(setState), [setState])
                 const {containerAnimatedStyle} = useSkeletonAnimated({
                         enableAnimated,
@@ -65,14 +68,17 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
                         onSkeletonDurationChange(duration)
                 }, [duration, onSkeletonDurationChange])
 
+                useEffect(() => {
+                        InteractionManager.runAfterInteractions(() => nextSkeletonVisible?.())
+                }, [nextSkeletonVisible])
+
                 return render({
                         ...renderProps,
-                        id,
-                        ref,
-                        onStateEvent,
                         containerAnimatedStyle,
-                        skeletonVisible,
-                        status
+                        id,
+                        onStateEvent,
+                        ref,
+                        skeletonVisible
                 })
         }
 )
