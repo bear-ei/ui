@@ -1,9 +1,10 @@
 import {RefObject} from 'react'
-import {PressableProps, View} from 'react-native'
+import {View} from 'react-native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {LayoutAnimatedProps} from '../Layout-animated'
+import {TouchableProps} from '../Touchable'
 
-export interface MaskProps extends Omit<LayoutAnimatedProps & PressableProps, 'ref'> {
+export interface MaskProps extends Omit<LayoutAnimatedProps & TouchableProps, 'ref'> {
         backgroundColor?: string
         ref?: React.ForwardedRef<View>
 }
