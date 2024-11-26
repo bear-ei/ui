@@ -11,7 +11,7 @@ const handleSkeletonVisible = (setState: Updater<SkeletonState>) => (duration?: 
         if (typeof duration === 'number' && duration >= 0) {
                 setState(draft => {
                         draft.skeletonVisible = true
-                        draft.nextSkeletonVisible = debounce(() =>
+                        draft.nextSkeletonVisibleEvent = debounce(() =>
                                 setState(nextDraft => {
                                         nextDraft.skeletonVisible = false
                                 })
@@ -46,9 +46,9 @@ const handleSkeletonStateChange =
 export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
         ({render, enableAnimated = true, duration, ...renderProps}, ref) => {
                 const id = useId()
-                const [{skeletonVisible, nextSkeletonVisible}, setState] = useImmer<SkeletonState>({
+                const [{skeletonVisible, nextSkeletonVisibleEvent}, setState] = useImmer<SkeletonState>({
                         skeletonVisible: true,
-                        nextSkeletonVisible: undefined
+                        nextSkeletonVisibleEvent: undefined
                 })
 
                 const onStateEventChange = useCallback(
@@ -69,8 +69,8 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
                 }, [duration, onSkeletonDurationChange])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextSkeletonVisible?.())
-                }, [nextSkeletonVisible])
+                        InteractionManager.runAfterInteractions(() => nextSkeletonVisibleEvent?.())
+                }, [nextSkeletonVisibleEvent])
 
                 return render({
                         ...renderProps,

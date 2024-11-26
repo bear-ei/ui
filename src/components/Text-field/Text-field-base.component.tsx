@@ -86,7 +86,7 @@ const handleTextFieldSupportingTextVisible =
         (setState: Updater<TextFieldState>) =>
         (onSupportingTextVisible?: (value: boolean) => void) =>
         (value?: boolean) => {
-                const handleNextSupportingTextVisible = () => {
+                const handlenextSupportingTextVisibleEvent = () => {
                         if (value) {
                                 onSupportingTextVisible?.(value)
                         }
@@ -98,7 +98,7 @@ const handleTextFieldSupportingTextVisible =
 
                 setState(draft => {
                         draft.supportingText = value ? draft.supportingText : undefined
-                        draft.nextSupportingTextVisible = handleNextSupportingTextVisible
+                        draft.nextSupportingTextVisibleEvent = handlenextSupportingTextVisibleEvent
                 })
         }
 
@@ -156,7 +156,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                                 nextChangeTextEvent,
                                 nextContentSizeChangeEvent,
                                 nextPressOutEvent,
-                                nextSupportingTextVisible,
+                                nextSupportingTextVisibleEvent,
                                 state,
                                 supportingText,
                                 supportingTextVisible,
@@ -169,7 +169,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                         nextChangeTextEvent: undefined,
                         nextContentSizeChangeEvent: undefined,
                         nextPressOutEvent: undefined,
-                        nextSupportingTextVisible: undefined,
+                        nextSupportingTextVisibleEvent: undefined,
                         state: 'enabled',
                         supportingText: undefined,
                         supportingTextVisible: undefined,
@@ -259,8 +259,8 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                 }, [nextContentSizeChangeEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextSupportingTextVisible?.())
-                }, [nextSupportingTextVisible])
+                        InteractionManager.runAfterInteractions(() => nextSupportingTextVisibleEvent?.())
+                }, [nextSupportingTextVisibleEvent])
 
                 return render({
                         ...renderProps,

@@ -60,7 +60,7 @@ export interface TextFieldState {
         nextChangeTextEvent?: () => void
         nextContentSizeChangeEvent?: () => void
         nextPressOutEvent?: () => void
-        nextSupportingTextVisible?: () => void
+        nextSupportingTextVisibleEvent?: () => void
         state: State
         supportingText?: string
         supportingTextVisible?: boolean

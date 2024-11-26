@@ -5,11 +5,11 @@ import {LayoutNavigationProps, RenderLayoutNavigationProps} from './Layout-navig
 import {Container} from './Layout-navigation.styles'
 
 const render = ({
-        id,
+        animatedType = 'collapse',
         children,
+        id,
         theme,
         width,
-        animatedType = 'collapse',
         ...containerProps
 }: RenderLayoutNavigationProps) => (
         <Container

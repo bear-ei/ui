@@ -3,6 +3,7 @@ import {InteractionManager, View, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {debounce} from '../../utils'
 import {State} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
@@ -32,7 +33,11 @@ const handleLayoutVisible = (setState: Updater<LayoutAnimatedState>) => (value?:
                 draft.layoutWasVisible = value
 
                 if (draft.status === 'idle') {
-                        draft.status = 'succeeded'
+                        draft.nextStatusEvent = debounce(() =>
+                                setState(nextDraft => {
+                                        nextDraft.status = 'succeeded'
+                                })
+                        )(350)
                 }
         })
 
@@ -103,16 +108,26 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         render,
                         unmount,
                         visible: visibleSource,
+                        width,
                         ...renderProps
                 },
                 ref
         ) => {
                 const [
-                        {layoutVisible, unmountLayout, layoutWasVisible, nextUnmountEvent, nextVisibleEvent, status},
+                        {
+                                layoutVisible,
+                                layoutWasVisible,
+                                nextStatusEvent,
+                                nextUnmountEvent,
+                                nextVisibleEvent,
+                                status,
+                                unmountLayout
+                        },
                         setState
                 ] = useImmer<LayoutAnimatedState>({
                         layoutVisible: undefined,
                         layoutWasVisible: undefined,
+                        nextStatusEvent: undefined,
                         nextUnmountEvent: undefined,
                         nextVisibleEvent: undefined,
                         status: 'idle',
@@ -141,8 +156,9 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
                 const {fadeAnimatedStyle, collapseAnimatedStyle} = useLayoutAnimated({
                         onAnimatedFinished: onLayoutAnimatedFinished,
+                        opacity,
                         visible: layoutVisible ?? visible,
-                        opacity
+                        width
                 })
 
                 const animatedStyle = {fade: fadeAnimatedStyle, collapse: collapseAnimatedStyle} as Record<
@@ -166,9 +182,9 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         InteractionManager.runAfterInteractions(() => nextVisibleEvent?.())
                 }, [nextVisibleEvent])
 
-                if (status === 'idle') {
-                        return <></>
-                }
+                useEffect(() => {
+                        InteractionManager.runAfterInteractions(() => nextStatusEvent?.())
+                }, [nextStatusEvent])
 
                 return unmountLayout ?
                                 <></>
@@ -179,7 +195,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         id,
                                         onStateEvent,
                                         ref,
-                                        visible: layoutWasVisible
+                                        visible: layoutWasVisible,
+                                        status
                                 })
         }
 )

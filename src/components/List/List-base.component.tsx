@@ -104,10 +104,7 @@ const handleActiveListAfterAffordance =
                                 }
 
                                 draft.afterAffordanceActiveKey = value
-
-                                if (value) {
-                                        draft.listActiveKey = value
-                                }
+                                draft.listActiveKey = value
 
                                 if (prevListActiveKey !== draft.listActiveKey) {
                                         draft.nextAfterAffordanceActiveEvent = handleNextAfterAffordanceActiveEvent
@@ -138,14 +135,14 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
         (
                 {
                         activeKey,
-                        activeKeys = [],
+                        activeKeys,
                         afterAffordance,
                         afterAffordancePrimaryButtonProps,
                         afterAffordanceSecondaryButtonProps,
                         beforeAffordance,
                         closeTrailing,
                         defaultActiveKey,
-                        defaultActiveKeys = [],
+                        defaultActiveKeys,
                         density,
                         deselect,
                         disabled,

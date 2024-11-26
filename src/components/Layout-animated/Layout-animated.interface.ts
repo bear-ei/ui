@@ -26,12 +26,14 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, ViewProps, Sha
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
         animatedStyle: AnimatedStyle<ViewStyle>
         onStateEvent: OnStateEvent
+        status?: ComponentStatus
         visible?: boolean
 }
 
 export interface LayoutAnimatedState {
         layoutVisible?: boolean
         layoutWasVisible?: boolean
+        nextStatusEvent?: () => void
         nextUnmountEvent?: () => void
         nextVisibleEvent?: () => void
         status: ComponentStatus

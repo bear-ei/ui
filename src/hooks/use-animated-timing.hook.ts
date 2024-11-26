@@ -47,10 +47,7 @@ export const useAnimatedTiming = (token: Token) => {
                         (sharedValue: SharedValue<AnimatableValue>) =>
                         (toValue: number) => {
                                 if (sharedValue.value !== toValue) {
-                                        sharedValue.value = handleAnimatedTiming({
-                                                ...options,
-                                                token
-                                        })(callback)(toValue)
+                                        sharedValue.value = handleAnimatedTiming({...options, token})(callback)(toValue)
                                 }
                         },
                 [token]

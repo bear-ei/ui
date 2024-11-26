@@ -24,7 +24,7 @@ export interface SkeletonBaseProps extends SkeletonProps {
 
 export interface SkeletonState {
         skeletonVisible: boolean
-        nextSkeletonVisible?: () => void
+        nextSkeletonVisibleEvent?: () => void
 }
 
 export type HandleSkeletonStateChangeOptions = OnStateEventChangeOptions & Pick<SkeletonProps, 'duration'>
