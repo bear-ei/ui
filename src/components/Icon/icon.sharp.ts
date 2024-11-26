@@ -136,6 +136,10 @@ import RefreshFill from '@material-symbols/svg-200/sharp/refresh-fill.svg'
 import Refresh from '@material-symbols/svg-200/sharp/refresh.svg'
 import RemoveFill from '@material-symbols/svg-200/sharp/remove-fill.svg'
 import Remove from '@material-symbols/svg-200/sharp/remove.svg'
+import RightPanelCloseFill from '@material-symbols/svg-200/sharp/right_panel_close-fill.svg'
+import RightPanelClose from '@material-symbols/svg-200/sharp/right_panel_close.svg'
+import RightPanelOpenFill from '@material-symbols/svg-200/sharp/right_panel_open-fill.svg'
+import RightPanelOpen from '@material-symbols/svg-200/sharp/right_panel_open.svg'
 import SailingFill from '@material-symbols/svg-200/sharp/sailing-fill.svg'
 import Sailing from '@material-symbols/svg-200/sharp/sailing.svg'
 import SearchFill from '@material-symbols/svg-200/sharp/search-fill.svg'
@@ -246,6 +250,8 @@ export const sharp = {
                 radioButtonUnchecked: RadioButtonUncheckedFill,
                 refresh: RefreshFill,
                 remove: RemoveFill,
+                rightPanelClose: RightPanelCloseFill,
+                rightPanelOpen: RightPanelOpenFill,
                 sailing: SailingFill,
                 search: SearchFill,
                 sell: SellFill,
@@ -336,6 +342,8 @@ export const sharp = {
                 radioButtonUnchecked: RadioButtonUnchecked,
                 refresh: Refresh,
                 remove: Remove,
+                rightPanelClose: RightPanelClose,
+                rightPanelOpen: RightPanelOpen,
                 sailing: Sailing,
                 search: Search,
                 sell: Sell,

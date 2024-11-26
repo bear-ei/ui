@@ -67,11 +67,14 @@ const handleChipAnimatedTiming = ({
                         }
 
                         animatedTiming()(colorSharedValue)(toValue)
-                        borderAnimated(elevated)
+
+                        if (typeof elevated === 'boolean') {
+                                borderAnimated(elevated)
+                        }
                 }
 }
 
-export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: UseChipAnimatedOptions) => {
+export const useChipAnimated = ({disabled, type = 'assist', active, elevated, chipStyle}: UseChipAnimatedOptions) => {
         const theme = useTheme()
         const {palette, scheme} = theme.token
         const {convertHexToRGBA} = palette
@@ -79,14 +82,20 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
         const animatedValue = disabled ? 0 : 1
         const borderSharedValue = useSharedValue(elevated || active ? 2 : animatedValue)
         const colorSharedValue = useSharedValue(active ? 2 : animatedValue)
-        const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(0.12)
+        const disabledBackgroundColor =
+                elevated ? convertHexToRGBA(scheme.onSurface)(0.12) : convertHexToRGBA(scheme.primary)(0)
+
         const disabledColor = convertHexToRGBA(scheme.onSurface)(0.38)
+        const elevatedBackgroundColor =
+                elevated ? convertHexToRGBA(scheme.surfaceContainerLow)(1) : convertHexToRGBA(scheme.primary)(0)
+
+        const filledBackgroundColor = convertHexToRGBA(scheme.surfaceContainerHigh)(1)
         const filterIconContainerWidthSharedValue = useSharedValue(active ? 1 : 0)
         const backgroundColorType = {
                 input: {
                         inputRange: [0, 1, 2],
                         outputRange: [
-                                convertHexToRGBA(scheme.primary)(0),
+                                disabledBackgroundColor,
                                 convertHexToRGBA(scheme.primary)(0),
                                 convertHexToRGBA(scheme.primary)(0)
                         ]
@@ -94,10 +103,8 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
                 inputFilled: {
                         inputRange: [0, 1, 2],
                         outputRange: [
-                                convertHexToRGBA(scheme.primary)(0),
-                                elevated ?
-                                        convertHexToRGBA(scheme.surfaceContainerLow)(1)
-                                :       convertHexToRGBA(scheme.primary)(0),
+                                disabledBackgroundColor,
+                                chipStyle === 'filled' ? filledBackgroundColor : elevatedBackgroundColor,
                                 convertHexToRGBA(scheme.primary)(0)
                         ]
                 },
@@ -105,9 +112,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
                         inputRange: [0, 1, 2],
                         outputRange: [
                                 disabledBackgroundColor,
-                                elevated ?
-                                        convertHexToRGBA(scheme.surfaceContainerLow)(1)
-                                :       convertHexToRGBA(scheme.primary)(0),
+                                chipStyle === 'filled' ? filledBackgroundColor : elevatedBackgroundColor,
                                 convertHexToRGBA(scheme.primary)(0)
                         ]
                 },
@@ -115,9 +120,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
                         inputRange: [0, 1, 2],
                         outputRange: [
                                 disabledBackgroundColor,
-                                elevated ?
-                                        convertHexToRGBA(scheme.surfaceContainerLow)(1)
-                                :       convertHexToRGBA(scheme.primary)(0),
+                                chipStyle === 'filled' ? filledBackgroundColor : elevatedBackgroundColor,
                                 convertHexToRGBA(scheme.primary)(0)
                         ]
                 },
@@ -125,9 +128,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
                         inputRange: [0, 1, 2],
                         outputRange: [
                                 disabledBackgroundColor,
-                                elevated ?
-                                        convertHexToRGBA(scheme.surfaceContainerLow)(1)
-                                :       convertHexToRGBA(scheme.primary)(0),
+                                chipStyle === 'filled' ? filledBackgroundColor : elevatedBackgroundColor,
                                 convertHexToRGBA(scheme.primary)(0)
                         ]
                 }
@@ -179,13 +180,15 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated}: U
         const borderInputRange = useMemo(() => [0, 1, 2], [])
         const borderColorOutputRange = [
                 disabledBackgroundColor,
-                convertHexToRGBA(scheme.outline)(1),
+                chipStyle === 'outlined' ? convertHexToRGBA(scheme.outline)(1) : convertHexToRGBA(scheme.surface)(1),
                 convertHexToRGBA(scheme.outline)(0)
         ]
 
         const borderWidthOutputRange = [
                 theme.adaptSize(theme.token.spacing.extraSmall / 4),
-                theme.adaptSize(theme.token.spacing.extraSmall / 4),
+                chipStyle === 'outlined' ?
+                        theme.adaptSize(theme.token.spacing.extraSmall / 4)
+                :       theme.adaptSize(theme.token.spacing.none),
                 theme.adaptSize(theme.token.spacing.none)
         ]
 

@@ -1,22 +1,8 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {View} from 'react-native'
 import {Avatar} from '../Avatar'
 import {Icon} from '../Icon'
 import {Chip} from './Chip.component'
 import {ChipProps} from './Chip.interface'
-
-const ChipComponent = (props: ChipProps) => {
-        const style = {
-                width: 80,
-                backgroundColor: '#ececf0'
-        }
-
-        return (
-                <View style={[style]}>
-                        <Chip {...props} />
-                </View>
-        )
-}
 
 export const Input: StoryObj<ChipProps> = {
         args: {
@@ -45,6 +31,14 @@ export const InputLeadingAvatar: StoryObj<ChipProps> = {
                 avatar: <Avatar />,
                 labelText: 'Label',
                 type: 'input'
+        }
+}
+
+export const AssistFilled: StoryObj<ChipProps> = {
+        args: {
+                labelText: 'Label',
+                type: 'assist',
+                chipStyle: 'filled'
         }
 }
 
@@ -97,5 +91,5 @@ export const Suggestion: StoryObj<ChipProps> = {
 export default {
         title: 'components/Chip',
         argTypes: {onPress: {action: 'pressed'}},
-        component: ChipComponent
+        component: Chip
 } as Meta<typeof Chip>

@@ -1,9 +1,11 @@
-import {RefAttributes} from 'react'
-import {View, ViewProps} from 'react-native'
-import {ShapeProps} from '../../Common'
+import {DefaultTheme} from 'styled-components'
+import {LayoutAnimatedProps} from '../../Layout-animated'
 
-export interface LayoutNavigationProps extends ViewProps, RefAttributes<View>, ShapeProps {}
-export type RenderLayoutNavigationProps = LayoutNavigationProps
+export type LayoutNavigationProps = LayoutAnimatedProps
+export interface RenderLayoutNavigationProps extends LayoutNavigationProps {
+        theme: DefaultTheme
+}
+
 export interface LayoutNavigationBaseProps extends LayoutNavigationProps {
         render: (props: RenderLayoutNavigationProps) => JSX.Element
 }

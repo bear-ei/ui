@@ -1,21 +1,18 @@
 import styled, {css} from 'styled-components/native'
-import {Shape} from '../../Common'
+import {LayoutAnimated, LayoutAnimatedProps} from '../../Layout-animated'
 import {LayoutPaneContainerProps} from './Layout-pane.interface'
 
-export const Container = styled(Shape)<LayoutPaneContainerProps>`
+export const Container = styled(LayoutAnimated)<LayoutPaneContainerProps & LayoutAnimatedProps>`
         align-self: stretch;
         overflow: hidden;
 
-        ${({theme, flex = 1}) => css`
+        ${({theme}) => css`
                 background-color: ${theme.token.scheme.surfaceContainerLow};
-                flex: ${flex};
         `}
 
-        ${({width}) =>
-                width &&
+        ${({width, flex = 1}) =>
+                typeof width !== 'number' &&
                 css`
-                        max-width: ${width}px;
-                        min-width: ${width}px;
-                        width: ${width}px;
+                        flex: ${flex};
                 `}
 `

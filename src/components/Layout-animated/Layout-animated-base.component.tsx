@@ -1,13 +1,16 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import {InteractionManager, View} from 'react-native'
+import {InteractionManager, View, ViewStyle} from 'react-native'
+import {AnimatedStyle} from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {State} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
+        HandleLayoutAnimatedInitOptions,
         HandleLayoutAnimatedStateChangeOptions,
         LayoutAnimatedBaseProps,
-        LayoutAnimatedState
+        LayoutAnimatedState,
+        LayoutAnimatedType
 } from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
@@ -27,6 +30,10 @@ const handleLayoutVisible = (setState: Updater<LayoutAnimatedState>) => (value?:
 
                 draft.layoutVisible = value
                 draft.layoutWasVisible = value
+
+                if (draft.status === 'idle') {
+                        draft.status = 'succeeded'
+                }
         })
 
 const handleLayoutAnimatedStateChange =
@@ -67,24 +74,29 @@ const handleLayoutAnimatedFinished =
                 })
         }
 
-const handleLayoutAnimatedInit = (setState: Updater<LayoutAnimatedState>) => (unmount?: boolean) => (value?: boolean) =>
-        setState(draft => {
-                if (draft.status !== 'idle') {
-                        return
-                }
+const handleLayoutAnimatedInit =
+        ({unmount, lazy}: HandleLayoutAnimatedInitOptions) =>
+        (setState: Updater<LayoutAnimatedState>) =>
+        (value?: boolean) =>
+                setState(draft => {
+                        if (draft.status !== 'idle') {
+                                return
+                        }
 
-                if (unmount && !value) {
-                        draft.unmountLayout = true
-                }
+                        if (unmount && !value) {
+                                draft.unmountLayout = true
+                        }
 
-                draft.status = 'succeeded'
-        })
+                        draft.status = lazy ? 'idle' : 'succeeded'
+                })
 
 export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
         (
                 {
+                        animatedType = 'fade',
                         defaultVisible,
                         hidden = true,
+                        lazy = false,
                         onUnmount,
                         onVisible,
                         opacity,
@@ -116,8 +128,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 )
 
                 const onLayoutAnimatedInit = useMemo(
-                        () => handleLayoutAnimatedInit(setState)(unmount),
-                        [setState, unmount]
+                        () => handleLayoutAnimatedInit({unmount, lazy})(setState),
+                        [lazy, setState, unmount]
                 )
 
                 const onStateEventChange = useCallback(
@@ -127,11 +139,16 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 )
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
-                const {containerAnimatedStyle} = useLayoutAnimated({
+                const {fadeAnimatedStyle, collapseAnimatedStyle} = useLayoutAnimated({
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         visible: layoutVisible ?? visible,
                         opacity
                 })
+
+                const animatedStyle = {fade: fadeAnimatedStyle, collapse: collapseAnimatedStyle} as Record<
+                        LayoutAnimatedType,
+                        AnimatedStyle<ViewStyle>
+                >
 
                 useEffect(() => {
                         onLayoutAnimatedInit(visible)
@@ -157,7 +174,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                 <></>
                         :       render({
                                         ...renderProps,
-                                        containerAnimatedStyle,
+                                        animatedStyle: animatedStyle[animatedType],
                                         hidden,
                                         id,
                                         onStateEvent,

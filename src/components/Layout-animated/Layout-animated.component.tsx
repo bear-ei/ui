@@ -7,8 +7,8 @@ import {Container} from './Layout-animated.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
+        animatedStyle,
         children,
-        containerAnimatedStyle,
         id,
         onStateEvent,
         style,
@@ -18,7 +18,7 @@ const render = ({
         <AnimatedContainer
                 {...containerProps}
                 {...onStateEvent}
-                style={[style, containerAnimatedStyle]}
+                style={[style, animatedStyle]}
                 testID={`layoutAnimated--${id}`}
                 visible={visible}
         >

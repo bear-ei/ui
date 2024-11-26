@@ -6,10 +6,12 @@ import {ComponentStatus, EventName, ShapeType} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {TouchableProps} from '../Touchable'
 
+export type ChipStyle = 'filled' | 'outlined'
 export type ChipType = 'input' | 'assist' | 'filter' | 'suggestion' | 'inputFilled'
 export interface ChipProps extends TouchableProps {
         active?: boolean
         avatar?: JSX.Element
+        chipStyle?: ChipStyle
         close?: boolean
         elevated?: boolean
         labelText?: string
@@ -23,7 +25,7 @@ export interface ChipProps extends TouchableProps {
 
 export interface RenderChipProps extends ChipProps {
         activeColor?: string
-        contentUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
+        contentUnderlayAnimatedStyle?: AnimatedStyle<ViewStyle>
         elevation: ElevationLevel
         eventName?: EventName
         filterIconContainerAnimatedStyle: AnimatedStyle<TextStyle>
@@ -49,7 +51,7 @@ export interface HandleChipStateChangeOptions extends OnStateEventChangeOptions 
 
 export type HandleChipElevationOptions = Pick<ChipProps, 'disabled' | 'type' | 'elevated'>
 export type RenderChipIconOptions = Pick<RenderChipProps, 'disabled' | 'eventName' | 'onClose' | 'type'>
-export type UseChipAnimatedOptions = Pick<RenderChipProps, 'disabled' | 'type' | 'active' | 'elevated'>
+export type UseChipAnimatedOptions = Pick<RenderChipProps, 'disabled' | 'type' | 'active' | 'elevated' | 'chipStyle'>
 export interface HandleChipAnimatedTimingOptions extends Omit<UseChipAnimatedOptions, 'eventName'> {
         animatedTiming: AnimatedTiming
         borderInputRange: number[]

@@ -143,6 +143,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
         (
                 {
                         active,
+                        chipStyle = 'outlined',
                         close,
                         disabled,
                         elevated,
@@ -203,7 +204,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 })
 
                 const {contentUnderlayAnimatedStyle, filterIconContainerAnimatedStyle, labelTextAnimatedStyle} =
-                        useChipAnimated({active, disabled, elevated, type})
+                        useChipAnimated({active, disabled, elevated, type, chipStyle})
 
                 useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
 

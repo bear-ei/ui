@@ -4,16 +4,24 @@ import {LayoutNavigationBase} from './Layout-navigation-base.component'
 import {LayoutNavigationProps, RenderLayoutNavigationProps} from './Layout-navigation.interface'
 import {Container} from './Layout-navigation.styles'
 
-const render = ({id, children, ...containerProps}: RenderLayoutNavigationProps) => {
-        return (
-                <Container
-                        {...containerProps}
-                        testID={`layoutNavigation--${id}`}
-                >
-                        {children}
-                </Container>
-        )
-}
+const render = ({
+        id,
+        children,
+        theme,
+        width,
+        animatedType = 'collapse',
+        ...containerProps
+}: RenderLayoutNavigationProps) => (
+        <Container
+                {...containerProps}
+                animatedType={animatedType}
+                defaultVisible={true}
+                testID={`layoutNavigation--${id}`}
+                width={width ?? theme.adaptSize(theme.token.spacing.extraSmall * 20)}
+        >
+                {children}
+        </Container>
+)
 
 const ForwardRefLayoutNavigation = forwardRef<View, LayoutNavigationProps>((props, ref) => (
         <LayoutNavigationBase

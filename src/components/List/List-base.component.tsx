@@ -115,6 +115,7 @@ const handleActiveListAfterAffordance =
                         })
                 }
         }
+
 const handleListClose = (onClose?: (value?: string) => void) => onClose
 const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
         <ListItem
@@ -137,14 +138,14 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
         (
                 {
                         activeKey,
-                        activeKeys,
+                        activeKeys = [],
                         afterAffordance,
                         afterAffordancePrimaryButtonProps,
                         afterAffordanceSecondaryButtonProps,
                         beforeAffordance,
                         closeTrailing,
                         defaultActiveKey,
-                        defaultActiveKeys,
+                        defaultActiveKeys = [],
                         density,
                         deselect,
                         disabled,
@@ -195,18 +196,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 
                 const id = useId()
                 const listRef = useRef<VirtualListComponent<ListData>>(null)
-                const onActiveAfterAffordance = handleActiveListAfterAffordance({
-                        onActive,
-                        selectType
-                })(setState)
-
-                const onListActive = handleListActive({
-                        onActive,
-                        selectType,
-                        onActives,
-                        deselect
-                })(setState)
-
+                const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, selectType})(setState)
+                const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
                 const onListActiveSource = useMemo(
                         () => handleListActive({selectType})(setState),
                         [setState, selectType]
