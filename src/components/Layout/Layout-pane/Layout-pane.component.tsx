@@ -9,6 +9,8 @@ const render = ({id, children, animatedType = 'collapse', width, testID, ...cont
                 {...containerProps}
                 animatedType={animatedType}
                 defaultVisible={true}
+                entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
+                exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
                 testID={testID ?? `layoutPane--${id}`}
                 width={width}
         >

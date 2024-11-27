@@ -8,7 +8,7 @@ import {
         useSharedValue
 } from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, AnimatedTimingOptions, useAnimatedTiming} from '../../../hooks'
+import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
 import {UseSideSheetContentAnimatedOptions} from './Side-sheet-content.interface'
 
 const handleSideSheetContentVisibleAnimatedTiming =
@@ -20,12 +20,8 @@ const handleSideSheetContentVisibleAnimatedTiming =
                 }
 
                 const toValue = visible ? 1 : 0
-                const animatedTimingOptions = {
-                        duration: visible ? 'medium3' : 'short3',
-                        easing: visible ? 'emphasizedDecelerate' : 'emphasizedAccelerate'
-                } as AnimatedTimingOptions
 
-                animatedTiming(animatedTimingOptions)(backgroundColorSharedValue)(toValue)
+                animatedTiming()(backgroundColorSharedValue)(toValue)
         }
 
 const handleSideSheetContentFooterVisibleAnimatedTiming =
@@ -34,7 +30,7 @@ const handleSideSheetContentFooterVisibleAnimatedTiming =
         (footerVisible?: boolean) => {
                 if (typeof footerVisible === 'boolean') {
                         animatedTiming({
-                                duration: footerVisible ? 'medium0' : 'short3',
+                                duration: footerVisible ? 'medium3' : 'short3',
                                 easing: footerVisible ? 'standardDecelerate' : 'standardAccelerate'
                         })(footerHeightSharedValue)(footerVisible ? 1 : 0)
                 }
