@@ -20,14 +20,14 @@ import {
         Trailing
 } from './Side-sheet-content.styles'
 
+/**
+ * TODO: Add visible animation for modal layer types.
+ */
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedFooterContainer = Animated.createAnimatedComponent(FooterContainer)
-
 const render = ({
         containerAnimatedStyle,
         content,
-        contentAnimatedStyle,
         footerAnimatedStyle,
         headlineText,
         id,
@@ -55,11 +55,11 @@ const render = ({
                         testID={testID ?? `sideSideSheetContent--${id}`}
                         type={type}
                 >
-                        <AnimatedContent
+                        <Content
                                 {...innerProps}
                                 accessibilityRole='alert'
                                 shape={sheetShape}
-                                style={[style, contentAnimatedStyle]}
+                                style={[style]}
                                 testID={`sideSideSheetContent__content--${id}`}
                                 type={type}
                         >
@@ -93,7 +93,6 @@ const render = ({
                                 </Header>
 
                                 <Main testID={`sideSideSheetContent__main--${id}`}>{content}</Main>
-
                                 <AnimatedFooterContainer
                                         style={[footerAnimatedStyle]}
                                         testID={`sideSideSheetContent__footerContainer--${id}`}
@@ -129,7 +128,7 @@ const render = ({
                                                 </SecondaryButton>
                                         </Footer>
                                 </AnimatedFooterContainer>
-                        </AnimatedContent>
+                        </Content>
                 </AnimatedContainer>
         )
 }

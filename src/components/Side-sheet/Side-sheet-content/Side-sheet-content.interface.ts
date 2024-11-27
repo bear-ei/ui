@@ -1,6 +1,6 @@
 import {RefAttributes} from 'react'
 import {ModalProps, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {AnimatedStyle} from 'react-native-reanimated'
 import {ButtonProps} from '../../Button'
 import {ShapeProps} from '../../Common'
 import {SheetType} from '../Side-sheet.interface'
@@ -36,7 +36,6 @@ export interface SideSheetContentProps extends ViewProps, RefAttributes<View>, P
 
 export interface RenderSideSheetContentProps extends SideSheetContentProps {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
-        contentAnimatedStyle: AnimatedStyle<ViewStyle>
         footerAnimatedStyle: AnimatedStyle<ViewStyle>
         leading?: JSX.Element
         trailing?: JSX.Element
@@ -47,18 +46,7 @@ export interface SideSheetContentBaseProps extends SideSheetContentProps {
 }
 
 export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisible'>
-export type UseSideSheetContentAnimatedOptions = Pick<
-        RenderSideSheetContentProps,
-        'visible' | 'sheetPosition' | 'type' | 'footerVisible'
->
-
-export interface HandleSideSheetContentVisibleAnimatedTimingSharedValue
-        extends Pick<UseSideSheetContentAnimatedOptions, 'visible'> {
-        backgroundColorSharedValue: SharedValue<AnimatableValue>
-        contentTranslateXSharedValue: SharedValue<AnimatableValue>
-        widthSharedValue: SharedValue<AnimatableValue>
-}
-
+export type UseSideSheetContentAnimatedOptions = Pick<RenderSideSheetContentProps, 'visible' | 'type' | 'footerVisible'>
 export type RenderSideSheetContentLeadingOptions = Pick<
         SideSheetContentProps,
         'headlineLeading' | 'back' | 'sheetPosition'

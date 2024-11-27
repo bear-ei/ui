@@ -69,30 +69,18 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
                 ref
         ) => {
                 const id = useId()
-                const {contentAnimatedStyle, containerAnimatedStyle, footerAnimatedStyle} = useSideSheetContentAnimated(
-                        {
-                                footerVisible,
-                                sheetPosition,
-                                type,
-                                visible
-                        }
-                )
+                const {containerAnimatedStyle, footerAnimatedStyle} = useSideSheetContentAnimated({
+                        footerVisible,
+                        type,
+                        visible
+                })
 
-                const leading = renderSideSheetContentLeading({
-                        headlineLeading,
-                        back,
-                        sheetPosition
-                })(onBack)
-
-                const trailing = renderSideSheetContentTrailing({
-                        headlineTrailing,
-                        close
-                })(onClose)
+                const leading = renderSideSheetContentLeading({headlineLeading, back, sheetPosition})(onBack)
+                const trailing = renderSideSheetContentTrailing({headlineTrailing, close})(onClose)
 
                 return render({
                         ...renderProps,
                         containerAnimatedStyle,
-                        contentAnimatedStyle,
                         footerAnimatedStyle,
                         headlineText,
                         id,

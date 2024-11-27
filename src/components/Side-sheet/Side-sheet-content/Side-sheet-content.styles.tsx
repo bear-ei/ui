@@ -5,10 +5,8 @@ import {SheetType} from '../Side-sheet.interface'
 import {SheetContainerProps, SheetHeaderProps, SheetViewContentProps} from './Side-sheet-content.interface'
 
 export const Container = styled.View<SheetContainerProps>`
-        align-self: stretch;
         display: flex;
         flex-direction: row;
-        flex: 1;
         overflow: hidden;
 
         ${({sheetPosition = 'horizontalEnd', type}) => {
@@ -23,6 +21,16 @@ export const Container = styled.View<SheetContainerProps>`
 
                 return type === 'modal' && contentPosition[sheetPosition]
         }}
+
+        ${({type = 'standard', theme}) =>
+                ['standardContainer', 'standard'].includes(type) ?
+                        css`
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 80)}px;
+                        `
+                :       css`
+                                align-self: stretch;
+                                flex: 1;
+                        `}
 `
 
 export const Content = styled(Shape)<SheetViewContentProps>`

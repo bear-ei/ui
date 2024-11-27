@@ -15,6 +15,8 @@ const render = ({
 }: RenderLayoutNavigationProps) => (
         <Container
                 {...containerProps}
+                entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
+                exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
                 animatedType={animatedType}
                 defaultVisible={true}
                 testID={testID ?? `layoutNavigation--${id}`}
