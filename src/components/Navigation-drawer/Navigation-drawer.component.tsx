@@ -8,11 +8,12 @@ const render = ({
         headlineText = 'Drawer',
         id,
         navigationDrawerItemElements,
+        testID,
         ...containerProps
 }: RenderNavigationDrawerProps) => (
         <Container
                 {...containerProps}
-                testID={`navigationDrawer--${id}`}
+                testID={testID ?? `navigationDrawer--${id}`}
         >
                 <Headline testID={`navigationDrawer__headline--${id}`}>
                         <HeadlineText

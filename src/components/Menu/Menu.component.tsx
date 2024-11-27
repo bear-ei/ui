@@ -18,6 +18,7 @@ const render = ({
         onKeyDown,
         onVisible,
         shape = 'extraSmall',
+        testID,
         type,
         ...tooltipProps
 }: RenderMenuProps) => {
@@ -37,7 +38,7 @@ const render = ({
         )
 
         return (
-                <Container testID={`menu--${id}`}>
+                <Container testID={testID ?? `menu--${id}`}>
                         <Tooltip
                                 {...tooltipProps}
                                 elevation={2}

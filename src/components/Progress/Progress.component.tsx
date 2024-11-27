@@ -12,6 +12,7 @@ const render = ({
         increment,
         layout,
         onStateEvent,
+        testID,
         type,
         value,
         ...containerProps
@@ -22,7 +23,7 @@ const render = ({
                 pointerEvents='none'
                 progress={!!(value && value > 0)}
                 shape='small'
-                testID={`progress--${id}`}
+                testID={testID ?? `progress--${id}`}
         >
                 {typeof layout.width === 'number' && layout.width !== 0 && (
                         <ProgressActiveIndicator

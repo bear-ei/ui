@@ -6,10 +6,10 @@ import {LayoutPane} from './Layout-pane'
 import {LayoutComponent, LayoutProps, RenderLayoutProps} from './Layout.interface'
 import {Container} from './Layout.styles'
 
-const render = ({id, children, ...containerProps}: RenderLayoutProps) => (
+const render = ({id, children, testID, ...containerProps}: RenderLayoutProps) => (
         <Container
                 {...containerProps}
-                testID={`layout--${id}`}
+                testID={testID ?? `layout--${id}`}
         >
                 {children}
         </Container>

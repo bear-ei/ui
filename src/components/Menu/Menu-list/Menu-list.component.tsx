@@ -5,7 +5,18 @@ import {MenuListBase} from './Menu-list-base.component'
 import {MenuListProps, RenderMenuListProps} from './Menu-list.interface'
 import {Container, ListContainer} from './Menu-list.styles'
 
-const render = ({data, id, multiple, onFocus, onKeyDown, shape, theme, type, ...menuProps}: RenderMenuListProps) => {
+const render = ({
+        data,
+        id,
+        multiple,
+        onFocus,
+        onKeyDown,
+        shape,
+        testID,
+        theme,
+        type,
+        ...menuProps
+}: RenderMenuListProps) => {
         const dataNumber = data?.length ?? 0
         const itemSize = theme.adaptSize(theme.token.spacing.extraSmall * 12)
 
@@ -13,7 +24,7 @@ const render = ({data, id, multiple, onFocus, onKeyDown, shape, theme, type, ...
                 <Container
                         height={dataNumber * itemSize + theme.adaptSize(theme.token.spacing.medium)}
                         onKeyDown={onKeyDown}
-                        testID={`menu--${id}`}
+                        testID={testID ?? `menu--${id}`}
                         type={type}
                 >
                         <ListContainer

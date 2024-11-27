@@ -13,6 +13,7 @@ const render = ({
         id,
         itemElement,
         onUnmount,
+        testID,
         visible,
         ...containerProps
 }: RenderVirtualListItemProps) => {
@@ -24,7 +25,7 @@ const render = ({
                 <AnimatedContainer
                         {...containerProps}
                         style={[containerAnimatedStyle]}
-                        testID={`virtualListItem--${id}`}
+                        testID={testID ?? `virtualListItem--${id}`}
                 >
                         <LayoutAnimated
                                 entry={animatedTimingOptions}

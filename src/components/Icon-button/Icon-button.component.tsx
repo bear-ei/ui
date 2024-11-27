@@ -20,6 +20,7 @@ const render = ({
         id,
         onStateEvent,
         ref,
+        testID,
         type,
         underlayColor,
         width,
@@ -36,7 +37,7 @@ const render = ({
         )
 
         return (
-                <Container testID={`iconButton--${id}`}>
+                <Container testID={testID ?? `iconButton--${id}`}>
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}

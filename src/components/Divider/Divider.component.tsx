@@ -4,10 +4,10 @@ import {DividerBase} from './Divider-base.component'
 import {DividerProps, RenderDividerProps} from './Divider.interface'
 import {Container, Content, Subheader} from './Divider.styles'
 
-const render = ({id, subheader, style, ...containerProps}: RenderDividerProps) => (
+const render = ({id, subheader, style, testID, ...containerProps}: RenderDividerProps) => (
         <Container
                 {...containerProps}
-                testID={`divider--${id}`}
+                testID={testID ?? `divider--${id}`}
         >
                 <Content
                         style={[style]}

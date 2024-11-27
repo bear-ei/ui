@@ -38,6 +38,7 @@ const render = ({
         loading,
         onStateEvent,
         ref,
+        testID,
         trailing,
         type = 'assist',
         underlayColor,
@@ -65,7 +66,7 @@ const render = ({
 
         return (
                 <Container
-                        testID={`chip--${id}`}
+                        testID={testID ?? `chip--${id}`}
                         type={type}
                 >
                         <Touchable

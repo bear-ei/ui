@@ -7,13 +7,13 @@ import {Container, ContentContainer} from './Tooltip.styles'
 /**
  * TODO: "rich"
  */
-const render = ({children, id, onStateEvent, ...containerProps}: RenderTooltipProps) => {
+const render = ({children, id, onStateEvent, testID, ...containerProps}: RenderTooltipProps) => {
         const {onFocus, ...onChildrenStateEvent} = onStateEvent
 
         return (
                 <Container
                         {...containerProps}
-                        testID={`tooltip--${id}`}
+                        testID={testID ?? `tooltip--${id}`}
                 >
                         <ContentContainer testID={`tooltip__content--${id}`}>
                                 {children && cloneElement(children, {onFocus, ...onChildrenStateEvent})}

@@ -4,11 +4,11 @@ import {MaskBase} from './Mask-base.component'
 import {MaskProps, RenderMaskProps} from './Mask.interface'
 import {Container, Content} from './Mask.styles'
 
-const render = ({id, ref, onStateEvent, ...containerProps}: RenderMaskProps) => (
+const render = ({id, ref, onStateEvent, testID, ...containerProps}: RenderMaskProps) => (
         <Container
                 {...containerProps}
                 opacity={0.32}
-                testID={`mask--${id}`}
+                testID={testID ?? `mask--${id}`}
         >
                 <Content
                         {...onStateEvent}

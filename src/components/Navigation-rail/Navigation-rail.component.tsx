@@ -5,16 +5,17 @@ import {NavigationRailProps, RenderNavigationRailProps} from './Navigation-rail.
 import {Container, Destination, Fab, Menu} from './Navigation-rail.styles'
 
 const render = ({
+        destinationPosition,
+        fabElement,
         id,
         menu,
-        fabElement,
         navigationRailItemElements,
-        destinationPosition,
+        testID,
         ...containerProps
 }: RenderNavigationRailProps) => (
         <Container
                 {...containerProps}
-                testID={`navigationRail--${id}`}
+                testID={testID ?? `navigationRail--${id}`}
         >
                 {menu && <Menu testID={`navigationRail__menu--${id}`}>{menu}</Menu>}
                 {fabElement && <Fab testID={`navigationRail__fab--${id}`}>{fabElement}</Fab>}

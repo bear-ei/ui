@@ -9,16 +9,17 @@ const render = ({
         children,
         elevationUnderlay,
         id,
+        mainAlignSelf,
         onStateEvent,
         rippleElements,
         shape,
-        mainAlignSelf,
+        testID,
         ...contentProps
 }: RenderTouchableProps) => {
         const {onLayout, ...onPressableEvent} = onStateEvent
 
         return (
-                <Container testID={`touchable--${id}`}>
+                <Container testID={testID ?? `touchable--${id}`}>
                         <TouchableContent
                                 {...contentProps}
                                 {...onPressableEvent}

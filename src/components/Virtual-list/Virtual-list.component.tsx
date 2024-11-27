@@ -17,6 +17,7 @@ const render = <T,>({
         onStateEvent,
         scrollEventThrottle = 50,
         skeletonLoading,
+        testID,
         ...containerProps
 }: RenderVirtualListProps<T>) => {
         const {onLayout} = onStateEvent
@@ -34,7 +35,7 @@ const render = <T,>({
                                 contentContainerStyle={[contentContainerStyle, defaultContentContainerStyle]}
                                 onLayout={onLayout}
                                 scrollEventThrottle={scrollEventThrottle}
-                                testID={`virtualList__scrollView--${id}`}
+                                testID={testID ?? `virtualList__scrollView--${id}`}
                         >
                                 <Content
                                         onVisible={onContentVisible}

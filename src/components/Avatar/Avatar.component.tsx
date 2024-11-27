@@ -9,8 +9,9 @@ const render = ({
         defaultSource,
         id,
         labelText,
-        source,
         shape = 'full',
+        source,
+        testID,
         ...containerProps
 }: RenderAvatarProps) => (
         <Container
@@ -18,7 +19,7 @@ const render = ({
                 accessibilityRole='image'
                 pointerEvents='none'
                 shape={shape}
-                testID={`avatar--${id}`}
+                testID={testID ?? `avatar--${id}`}
         >
                 <Content
                         backgroundColor={backgroundColor}

@@ -19,9 +19,10 @@ const render = ({
         onActives,
         onMenuVisible,
         onStateEvent,
+        testID,
         ...textFieldProps
 }: RenderTextFieldPickerProps) => (
-        <Container testID={`textFieldPicker--${id}`}>
+        <Container testID={testID ?? `textFieldPicker--${id}`}>
                 <Menu
                         activeKey={activeKey}
                         activeKeys={activeKeys}

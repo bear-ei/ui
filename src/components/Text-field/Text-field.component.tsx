@@ -54,6 +54,7 @@ const render = ({
         supportingText,
         supportingTextAnimatedStyle,
         supportingTextVisible,
+        testID,
         trailing,
         underlayColor,
         ...inputProps
@@ -68,7 +69,7 @@ const render = ({
                                 accessibilityLabel: supportingText,
                                 accessibilityRole: 'alert'
                         })}
-                        testID={`textfield--${id}`}
+                        testID={testID ?? `textfield--${id}`}
                 >
                         <Content testID={`textfield__content--${id}`}>
                                 <TouchableHeader

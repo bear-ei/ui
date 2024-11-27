@@ -9,13 +9,14 @@ import {Container} from './Skeleton.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
-        containerAnimatedStyle,
         children,
+        containerAnimatedStyle,
         content,
         id,
         onStateEvent,
         skeletonVisible,
         style,
+        testID,
         ...containerProps
 }: RenderSkeletonProps) => (
         <>
@@ -24,7 +25,7 @@ const render = ({
                                 {...containerProps}
                                 {...onStateEvent}
                                 style={[style, containerAnimatedStyle]}
-                                testID={`skeleton--${id}`}
+                                testID={testID ?? `skeleton--${id}`}
                         >
                                 {content}
                         </AnimatedContainer>

@@ -41,6 +41,7 @@ const render = ({
         shape,
         sheetPosition,
         style,
+        testID,
         trailing,
         type,
         ...innerProps
@@ -51,7 +52,7 @@ const render = ({
                 <AnimatedContainer
                         sheetPosition={sheetPosition}
                         style={[containerAnimatedStyle]}
-                        testID={`sideSideSheetContent--${id}`}
+                        testID={testID ?? `sideSideSheetContent--${id}`}
                         type={type}
                 >
                         <AnimatedContent

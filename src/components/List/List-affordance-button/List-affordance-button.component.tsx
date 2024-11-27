@@ -18,6 +18,7 @@ const render = ({
         labelText,
         labelTextAnimatedStyle,
         onStateEvent,
+        testID,
         underlayColor
 }: RenderListAffordanceButtonProps) => {
         const backgroundUnderlayElement = (
@@ -33,7 +34,7 @@ const render = ({
                         accessibilityLabel={labelText}
                         accessibilityRole='button'
                         disabled={disabled}
-                        testID={`listAffordanceButton--${id}`}
+                        testID={testID ?? `listAffordanceButton--${id}`}
                 >
                         <Touchable
                                 {...onStateEvent}

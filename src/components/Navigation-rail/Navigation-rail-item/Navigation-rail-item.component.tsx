@@ -19,6 +19,7 @@ const render = ({
         labelText,
         labelTextAnimatedStyle,
         onStateEvent,
+        testID,
         type,
         underlayColor,
         ...containerProps
@@ -27,7 +28,7 @@ const render = ({
                 {...containerProps}
                 accessibilityLabel={labelText}
                 accessibilityRole='tab'
-                testID={`navigationRailItem--${id}`}
+                testID={testID ?? `navigationRailItem--${id}`}
         >
                 <TouchableContent
                         {...onStateEvent}

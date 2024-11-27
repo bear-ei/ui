@@ -17,11 +17,12 @@ const render = ({
         onConfirm,
         primaryButtonProps,
         secondaryButtonProps,
+        testID,
         ...containerProps
 }: RenderListAfterAffordanceProps) => (
         <Container
                 {...containerProps}
-                testID={`listAfterAffordance--${id}`}
+                testID={testID ?? `listAfterAffordance--${id}`}
         >
                 <ListAffordanceButton
                         {...(doubleConfirmed && {

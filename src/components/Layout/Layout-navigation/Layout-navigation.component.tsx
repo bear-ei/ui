@@ -8,6 +8,7 @@ const render = ({
         animatedType = 'collapse',
         children,
         id,
+        testID,
         theme,
         width,
         ...containerProps
@@ -16,7 +17,7 @@ const render = ({
                 {...containerProps}
                 animatedType={animatedType}
                 defaultVisible={true}
-                testID={`layoutNavigation--${id}`}
+                testID={testID ?? `layoutNavigation--${id}`}
                 width={width ?? theme.adaptSize(theme.token.spacing.extraSmall * 20)}
         >
                 {children}

@@ -20,6 +20,7 @@ const render = ({
         onStateEvent,
         placeholder,
         placeholderTextColor,
+        testID,
         trailing,
         underlayColor,
         value,
@@ -31,7 +32,7 @@ const render = ({
         return (
                 <Container
                         {...(containerRef && {ref: containerRef})}
-                        testID={`search__container--${id}`}
+                        testID={testID ?? `search__container--${id}`}
                 >
                         <Touchable
                                 {...onTouchableEvent}

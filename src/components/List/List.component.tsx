@@ -16,13 +16,14 @@ const render = ({
         loading,
         renderItem,
         style,
+        testID,
         ...virtualListProps
 }: RenderListProps) => (
         <Container
                 accessibilityLabel='list'
                 accessibilityRole='list'
                 style={[style]}
-                testID={`list--${id}`}
+                testID={testID ?? `list--${id}`}
         >
                 <VirtualList
                         {...virtualListProps}

@@ -25,6 +25,7 @@ const render = ({
         labelText,
         labelTextAnimatedStyle,
         onStateEvent,
+        testID,
         underlayColor,
         ...containerProps
 }: RenderNavigationDrawerItemProps) => (
@@ -32,7 +33,7 @@ const render = ({
                 {...containerProps}
                 accessibilityLabel={labelText}
                 accessibilityRole='tab'
-                testID={`navigationDrawerItem--${id}`}
+                testID={testID ?? `navigationDrawerItem--${id}`}
         >
                 <TouchableContent
                         {...onStateEvent}

@@ -13,6 +13,7 @@ const render = ({
         locationX,
         locationY,
         style,
+        testID,
         width,
         ...containerProps
 }: RenderTouchableRippleProps) => (
@@ -24,7 +25,7 @@ const render = ({
                 pointerEvents='none'
                 shape='full'
                 style={[style, containerAnimatedStyle]}
-                testID={`ripple--${id}`}
+                testID={testID ?? `ripple--${id}`}
                 width={width}
         />
 )

@@ -56,6 +56,7 @@ const render = ({
         skeletonMinDuration,
         supporting,
         supportingTextNumberOfLines,
+        testID,
         trailingElement,
         trailingTrigger,
         trailingVisible,
@@ -80,7 +81,7 @@ const render = ({
                         accessibilityRole='list'
                         density={density}
                         shape={shape}
-                        testID={`listItem--${id}`}
+                        testID={testID ?? `listItem--${id}`}
                         type={type}
                 >
                         <Skeleton

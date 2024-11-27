@@ -25,6 +25,7 @@ const render = ({
         shape,
         supporting,
         supportingPosition = 'verticalStart',
+        testID,
         theme: _,
         type,
         width = 0,
@@ -36,7 +37,7 @@ const render = ({
                 <Main
                         shape={shape ?? 'extraSmall'}
                         supportingPosition={supportingPosition}
-                        testID={`tooltipSupporting__main--${id}`}
+                        testID={testID ?? `tooltipSupporting__main--${id}`}
                         type={type}
                 >
                         {isValidElement(supporting) ?

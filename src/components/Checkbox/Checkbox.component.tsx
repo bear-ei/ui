@@ -17,6 +17,7 @@ const render = ({
         iconSvgStyle,
         id,
         onStateEvent,
+        testID,
         theme,
         type,
         underlayColor,
@@ -35,7 +36,7 @@ const render = ({
         return (
                 <Container
                         accessibilityRole='checkbox'
-                        testID={`checkbox--${id}`}
+                        testID={testID ?? `checkbox--${id}`}
                 >
                         <Touchable
                                 {...onStateEvent}

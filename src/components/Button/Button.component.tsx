@@ -22,6 +22,7 @@ const render = ({
         loading,
         onStateEvent,
         ref,
+        testID,
         type = 'filled',
         underlayColor,
         ...contentProps
@@ -48,7 +49,7 @@ const render = ({
 
         return (
                 <Container
-                        testID={`button--${id}`}
+                        testID={testID ?? `button--${id}`}
                         type={type}
                 >
                         <Touchable

@@ -24,6 +24,7 @@ const render = ({
         onStateEvent,
         ref,
         size,
+        testID,
         type,
         underlayColor,
         ...contentProps
@@ -50,7 +51,7 @@ const render = ({
                 <Container
                         extendedFAB={extendedFAB}
                         size={size}
-                        testID={`fab--${id}`}
+                        testID={testID ?? `fab--${id}`}
                 >
                         <Touchable
                                 {...onStateEvent}
