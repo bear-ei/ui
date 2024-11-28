@@ -10,8 +10,8 @@ const render = <T,>({
         contentVisible,
         id,
         itemElements,
-        listEmptyComponent,
-        listLoadingComponent,
+        emptyComponent,
+        loadingComponent,
         loading,
         onContentVisible,
         onStateEvent,
@@ -51,7 +51,7 @@ const render = <T,>({
                                 unmount={true}
                                 visible={loading || skeletonLoading ? false : !contentVisible}
                         >
-                                {listEmptyComponent ?? (
+                                {emptyComponent ?? (
                                         <Supporting
                                                 size='medium'
                                                 testID={`virtualList__supportingText--${id}`}
@@ -65,9 +65,9 @@ const render = <T,>({
                         <LoadingContent
                                 testID={`virtualList__content--${id}`}
                                 unmount={true}
-                                visible={loading && !!listLoadingComponent}
+                                visible={loading && !!loadingComponent}
                         >
-                                {listLoadingComponent}
+                                {loadingComponent}
                         </LoadingContent>
                 </Container>
         )

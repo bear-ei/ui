@@ -151,7 +151,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         enableUnderlayActive,
                         focusedIndex,
                         itemSize,
-                        listLoadingComponent,
+                        loadingComponent,
                         loading,
                         onActive,
                         onActives,
@@ -233,7 +233,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         selectType,
                         shape,
                         skeletonElement,
-                        skeletonMinDuration: loading && !listLoadingComponent ? -1 : skeletonMinDuration,
+                        skeletonMinDuration: loading && !loadingComponent ? -1 : skeletonMinDuration,
                         supportingTextNumberOfLines,
                         trailingTrigger,
                         type
@@ -272,7 +272,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         itemSize:
                                 itemSize ??
                                 theme.adaptSize(theme.token.spacing.extraSmall * (type === 'menu' ? 12 : 14)),
-                        listLoadingComponent,
+                        loadingComponent,
                         loading,
                         ref: listRef as RenderListProps['ref'],
                         renderItem: renderListItem

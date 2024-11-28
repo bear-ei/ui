@@ -14,8 +14,8 @@ export interface VirtualListProps<T>
                 Pick<VirtualListItemProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd'> {
         data?: VirtualListData<T>[]
         focusedIndex?: number
-        listEmptyComponent?: JSX.Element
-        listLoadingComponent?: JSX.Element
+        emptyComponent?: JSX.Element
+        loadingComponent?: JSX.Element
         loading?: boolean
 }
 

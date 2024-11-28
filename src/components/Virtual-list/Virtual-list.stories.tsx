@@ -62,7 +62,7 @@ export const EmptyVirtualList = () => {
                         <VirtualList
                                 data={data}
                                 itemSize={56}
-                                listEmptyComponent={
+                                emptyComponent={
                                         <View>
                                                 <Text>Empty data</Text>
                                         </View>
