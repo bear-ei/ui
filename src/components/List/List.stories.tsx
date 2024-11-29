@@ -87,9 +87,9 @@ export const Select = () => {
                         <List
                                 activeKey={activeKey}
                                 afterAffordance={true}
+                                autoActive={true}
                                 data={data}
                                 itemSize={56}
-                                loading={true}
                                 onActive={onActiveKey}
                                 selectType='select'
                                 shape='extraSmall'

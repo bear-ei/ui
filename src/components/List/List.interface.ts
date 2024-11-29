@@ -66,7 +66,14 @@ export interface ListProps
         defaultActiveKeys?: string[]
         deselect?: boolean
         onActives?: (values?: string[]) => void
+
         onItemStateEvent?: OnStateEvent
+
+        /**
+         * Whether to enable auto-associative selection in radio mode. If the deleted item is an active item of the
+         * current year, the list will automatically look for neighboring items with the active option.
+         */
+        autoActive?: boolean
 }
 
 export interface RenderListProps extends ListProps {
@@ -79,6 +86,7 @@ export interface ListState {
         listActiveKeys?: string[]
         nextActiveEvent?: () => void
         nextAfterAffordanceActiveEvent?: () => void
+        nextCloseEvent?: () => void
         status: ComponentStatus
 }
 
@@ -115,6 +123,7 @@ export type HandleRenderItemOptions = Pick<
         | 'type'
 >
 
+export type HandleListCloseOptions = Pick<ListProps, 'onClose' | 'autoActive' | 'data' | 'selectType'>
 export interface ListBaseProps extends ListProps {
         render: (props: RenderListProps) => JSX.Element
 }

@@ -7,6 +7,7 @@ import {RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
 import {
         HandleListActiveOptions,
+        HandleListCloseOptions,
         HandleRenderItemOptions,
         ListBaseProps,
         ListData,
@@ -113,7 +114,22 @@ const handleActiveListAfterAffordance =
                 }
         }
 
-const handleListClose = (onClose?: (value?: string) => void) => onClose
+const handleListClose =
+        ({selectType, onClose, autoActive, data = []}: HandleListCloseOptions) =>
+        (setState: Updater<ListState>) =>
+        (value?: string) => {
+                const handleNextCloseEvent = () => onClose?.(value)
+
+                setState(draft => {
+                        if (selectType === 'select' && autoActive) {
+                                const datumIndex = data.findIndex(datum => datum.indexKey === value)
+                                draft.listActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
+                        }
+
+                        draft.nextCloseEvent = handleNextCloseEvent
+                })
+        }
+
 const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
         <ListItem
                 {...(typeof item?.supportingTextNumberOfLines !== 'number' && {
@@ -139,6 +155,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordance,
                         afterAffordancePrimaryButtonProps,
                         afterAffordanceSecondaryButtonProps,
+                        autoActive = false,
                         beforeAffordance,
                         closeTrailing,
                         defaultActiveKey,
@@ -151,8 +168,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         enableUnderlayActive,
                         focusedIndex,
                         itemSize,
-                        loadingComponent,
                         loading,
+                        loadingComponent,
                         onActive,
                         onActives,
                         onCancel,
@@ -168,6 +185,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         supportingTextNumberOfLines,
                         trailingTrigger,
                         type,
+                        data,
                         ...renderProps
                 },
                 ref
@@ -179,6 +197,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                                 listActiveKeys,
                                 nextActiveEvent,
                                 nextAfterAffordanceActiveEvent,
+                                nextCloseEvent,
                                 status
                         },
                         setState
@@ -188,6 +207,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         listActiveKeys: undefined,
                         nextActiveEvent: undefined,
                         nextAfterAffordanceActiveEvent: undefined,
+                        nextCloseEvent: undefined,
                         status: 'idle'
                 })
 
@@ -200,7 +220,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         [setState, selectType]
                 )
 
-                const onListClose = handleListClose(onClose)
+                const onListClose = handleListClose({onClose, autoActive, data, selectType})(setState)
                 const theme = useTheme()
                 const idle =
                         [
@@ -257,6 +277,10 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         InteractionManager.runAfterInteractions(() => nextAfterAffordanceActiveEvent?.())
                 }, [nextAfterAffordanceActiveEvent])
 
+                useEffect(() => {
+                        InteractionManager.runAfterInteractions(() => nextCloseEvent?.())
+                }, [nextCloseEvent])
+
                 if (idle) {
                         return <></>
                 }
@@ -272,8 +296,9 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         itemSize:
                                 itemSize ??
                                 theme.adaptSize(theme.token.spacing.extraSmall * (type === 'menu' ? 12 : 14)),
-                        loadingComponent,
+                        data,
                         loading,
+                        loadingComponent,
                         ref: listRef as RenderListProps['ref'],
                         renderItem: renderListItem
                 })

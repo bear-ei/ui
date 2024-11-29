@@ -8,13 +8,11 @@ const render = ({
         activeKey,
         activeKeys,
         afterAffordanceActiveKey,
-        data,
         disabled,
         extraData = [],
         focusedIndex,
         id,
         loading,
-        renderItem,
         style,
         testID,
         ...virtualListProps
@@ -27,7 +25,6 @@ const render = ({
         >
                 <VirtualList
                         {...virtualListProps}
-                        data={data}
                         extraData={[
                                 activeKey,
                                 activeKeys?.join(),
@@ -39,7 +36,6 @@ const render = ({
                         ]}
                         focusedIndex={focusedIndex}
                         loading={loading}
-                        renderItem={renderItem}
                 />
         </Container>
 )

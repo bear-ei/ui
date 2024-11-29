@@ -1,7 +1,6 @@
 import {forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {AnimatedTimingOptions} from '../../../hooks'
 import {LayoutAnimated} from '../../Layout-animated'
 import {VirtualListItemBase, handleVirtualListItemPropsEqual} from './Virtual-list-item-base.component'
 import {RenderVirtualListItemProps, VirtualListItemProps} from './Virtual-list-item.interface'
@@ -17,10 +16,6 @@ const render = ({
         visible,
         ...containerProps
 }: RenderVirtualListItemProps) => {
-        const animatedTimingOptions = {
-                duration: 'short2'
-        } as AnimatedTimingOptions
-
         return (
                 <AnimatedContainer
                         {...containerProps}
@@ -28,8 +23,6 @@ const render = ({
                         testID={testID ?? `virtualListItem--${id}`}
                 >
                         <LayoutAnimated
-                                entry={animatedTimingOptions}
-                                exit={animatedTimingOptions}
                                 onUnmount={onUnmount}
                                 unmount={true}
                                 visible={visible}
