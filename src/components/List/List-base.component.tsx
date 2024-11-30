@@ -115,7 +115,7 @@ const handleActiveListAfterAffordance =
         }
 
 const handleListClose =
-        ({selectType, onClose, autoActive, data = []}: HandleListCloseOptions) =>
+        ({selectType, onClose, autoActive, data = [], onActive}: HandleListCloseOptions) =>
         (setState: Updater<ListState>) =>
         (value?: string) => {
                 const handleNextCloseEvent = () => onClose?.(value)
@@ -123,7 +123,10 @@ const handleListClose =
                 setState(draft => {
                         if (selectType === 'select' && autoActive) {
                                 const datumIndex = data.findIndex(datum => datum.indexKey === value)
-                                draft.listActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
+                                const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
+
+                                draft.listActiveKey = nextActiveKey
+                                draft.nextActiveEvent = handleNextActiveEvent({onActive})(nextActiveKey)
                         }
 
                         draft.nextCloseEvent = handleNextCloseEvent
@@ -220,7 +223,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         [setState, selectType]
                 )
 
-                const onListClose = handleListClose({onClose, autoActive, data, selectType})(setState)
+                const onListClose = handleListClose({onClose, autoActive, data, selectType, onActive})(setState)
                 const theme = useTheme()
                 const idle =
                         [

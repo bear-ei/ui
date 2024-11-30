@@ -48,7 +48,6 @@ const render = <T,>({
 
                         <EmptyContent
                                 testID={`virtualList__emptyComponent--${id}`}
-                                unmount={true}
                                 visible={loading || skeletonLoading ? false : !contentVisible}
                         >
                                 {emptyComponent ?? (
@@ -64,7 +63,6 @@ const render = <T,>({
 
                         <LoadingContent
                                 testID={`virtualList__content--${id}`}
-                                unmount={true}
                                 visible={loading && !!loadingComponent}
                         >
                                 {loadingComponent}

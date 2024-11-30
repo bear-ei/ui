@@ -123,7 +123,7 @@ export type HandleRenderItemOptions = Pick<
         | 'type'
 >
 
-export type HandleListCloseOptions = Pick<ListProps, 'onClose' | 'autoActive' | 'data' | 'selectType'>
+export type HandleListCloseOptions = Pick<ListProps, 'onClose' | 'autoActive' | 'data' | 'selectType' | 'onActive'>
 export interface ListBaseProps extends ListProps {
         render: (props: RenderListProps) => JSX.Element
 }
