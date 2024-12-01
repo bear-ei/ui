@@ -6,7 +6,6 @@ export const Container = styled.View`
         flex: 1;
 `
 
-export const ScrollView = styled.ScrollView``
 export const Content = styled(LayoutAnimated)`
         align-items: center;
         display: flex;

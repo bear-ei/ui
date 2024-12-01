@@ -11,7 +11,6 @@ const render = ({
         children,
         id,
         onStateEvent,
-        status,
         style,
         testID,
         visible,
@@ -24,7 +23,7 @@ const render = ({
                 testID={testID ?? `layoutAnimated--${id}`}
                 visible={visible}
         >
-                {status === 'succeeded' && children}
+                {children}
         </AnimatedContainer>
 )
 

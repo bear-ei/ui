@@ -3,7 +3,6 @@ import {InteractionManager, View, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {debounce} from '../../utils'
 import {State} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
@@ -33,11 +32,7 @@ const handleLayoutVisible = (setState: Updater<LayoutAnimatedState>) => (value?:
                 draft.layoutWasVisible = value
 
                 if (draft.status === 'idle') {
-                        draft.nextStatusEvent = debounce(() =>
-                                setState(nextDraft => {
-                                        nextDraft.status = 'succeeded'
-                                })
-                        )(350)
+                        draft.status = 'succeeded'
                 }
         })
 
@@ -100,6 +95,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 {
                         animatedType = 'fade',
                         defaultVisible,
+                        entry,
+                        exit,
                         hidden = true,
                         lazy = false,
                         onUnmount,
@@ -109,8 +106,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         unmount,
                         visible: visibleSource,
                         width,
-                        entry,
-                        exit,
                         ...renderProps
                 },
                 ref
@@ -191,6 +186,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         InteractionManager.runAfterInteractions(() => nextStatusEvent?.())
                 }, [nextStatusEvent])
 
+                if (status === 'idle') {
+                        return <></>
+                }
+
                 return unmountLayout ?
                                 <></>
                         :       render({
@@ -200,8 +199,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         id,
                                         onStateEvent,
                                         ref,
-                                        visible: layoutWasVisible,
-                                        status
+                                        status,
+                                        visible: layoutWasVisible
                                 })
         }
 )

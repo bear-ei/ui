@@ -6,29 +6,25 @@ import {
         LayoutRectangle,
         NativeScrollEvent,
         NativeSyntheticEvent,
-        Platform,
-        ScrollView
+        Platform
 } from 'react-native'
+import Animated from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
 import {EventName, State} from '../Common'
 import {RenderVirtualListItemInfo, RenderVirtualListItemOptions, VirtualListItem} from './Virtual-list-item'
 import {
-        HandleVirtualListDataChangeOptions,
-        HandleVirtualListLayoutOptions,
         HandleVirtualListScrollOptions,
-        HandleVirtualListVisibleRangeOptions,
         VirtualListBaseProps,
         VirtualListData,
         VirtualListState
 } from './Virtual-list.interface'
 
-const checkAllNumber = (array: unknown[]) => array.every(item => typeof item === 'number')
 const handleVirtualListVisibleRange =
-        ({itemSize = 0, skeletonLoading}: HandleVirtualListVisibleRangeOptions) =>
+        (itemSize = 0) =>
         (draft: WritableDraft<VirtualListState>) =>
         (scrollOffset?: number) => {
-                if (!checkAllNumber([draft.layout.height, draft.layout.width])) {
+                if (!draft.layout.height) {
                         return
                 }
 
@@ -45,18 +41,15 @@ const handleVirtualListVisibleRange =
                 draft.scrollOffset = nextScrollOffset
                 draft.startIndex = startIndex
 
-                const skeletonLoadingData =
-                        skeletonLoading ?
-                                Array.from({length: visibleItemCount}, (_, index) => ({
-                                        itemKey: index
-                                }))
-                        :       undefined
+                const nextVisibleRangeData = [...(draft.virtualListData ?? [])].slice(startIndex, endIndex)
 
-                draft.visibleRangeData = skeletonLoadingData ?? draft.virtualListData?.slice(startIndex, endIndex) ?? []
+                draft.visibleRangeData = nextVisibleRangeData
+                draft.emptyList = !nextVisibleRangeData.length
+                draft.status = 'succeeded'
         }
 
 const handleVirtualListLayout =
-        ({itemSize, skeletonLoading}: HandleVirtualListLayoutOptions) =>
+        (itemSize = 0) =>
         (setState: Updater<VirtualListState>) =>
         (layout: LayoutRectangle) => {
                 setState(draft => {
@@ -67,7 +60,7 @@ const handleVirtualListLayout =
                         draft.layout.height = layout.height
                         draft.layout.width = layout.width
 
-                        handleVirtualListVisibleRange({itemSize, skeletonLoading})(draft)()
+                        handleVirtualListVisibleRange(itemSize)(draft)()
                 })
         }
 
@@ -100,7 +93,7 @@ const handleVirtualListScroll =
 
                 if (!hitBottom && contentOffset.y > 0) {
                         setState(draft => {
-                                handleVirtualListVisibleRange({itemSize})(draft)(scrollOffset)
+                                handleVirtualListVisibleRange(itemSize)(draft)(scrollOffset)
                                 draft.nextScrollEvent = handleNextScrollEvent(onScroll)(event)
                         })
                 }
@@ -126,35 +119,18 @@ const handleVirtualListItemUnmount =
                                         handleVisibleRangeDataFilter(value)
                                 )
 
-                                const contentVisible = !!nextVirtualListData?.length
-                                draft.contentVisible = contentVisible
                                 draft.virtualListData = nextVirtualListData
 
-                                handleVirtualListVisibleRange({itemSize})(draft)()
+                                handleVirtualListVisibleRange(itemSize)(draft)()
                         })
                 }
         }
 
 const handleVirtualListDataInit = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
         setState(draft => {
-                const contentVisible = !!data?.length
-                draft.contentVisible = contentVisible
-
-                if (contentVisible) {
-                        draft.virtualListData = data
-                }
-
-                draft.status = 'succeeded'
+                draft.virtualListData = data
+                draft.status = 'loading'
         })
-
-const handleVirtualListContentVisible =
-        (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) => (value?: boolean) => {
-                if (!value) {
-                        setState(draft => {
-                                draft.virtualListData = data
-                        })
-                }
-        }
 
 const findVisibleRangeDataIndex =
         (value: string) =>
@@ -185,18 +161,18 @@ const handleVirtualListLoadEnd =
         }
 
 const handleVirtualListDataChange =
-        ({itemSize, skeletonLoading}: HandleVirtualListDataChangeOptions) =>
+        (itemSize = 0) =>
         (setState: Updater<VirtualListState>) =>
         (virtualListData?: VirtualListData[]) => {
                 if (virtualListData) {
                         setState(draft => {
-                                handleVirtualListVisibleRange({itemSize, skeletonLoading})(draft)()
+                                handleVirtualListVisibleRange(itemSize)(draft)()
                         })
                 }
         }
 
 const handleVirtualListFocusedIndexScroll =
-        (ref: React.RefObject<ScrollView>) => (itemSize: number) => (focusedIndex?: number) => {
+        (ref: React.RefObject<Animated.ScrollView>) => (itemSize: number) => (focusedIndex?: number) => {
                 if (typeof focusedIndex === 'number') {
                         ref.current?.scrollTo({y: focusedIndex * itemSize, animated: true})
                 }
@@ -235,8 +211,8 @@ export const VirtualListBaseInner = <T,>(
                 extraData,
                 focusedIndex,
                 itemSize = 0,
-                loadingComponent,
                 loading,
+                loadingComponent,
                 onLoadEnd,
                 onMomentumScrollEnd,
                 onScroll,
@@ -244,21 +220,13 @@ export const VirtualListBaseInner = <T,>(
                 renderItem,
                 ...renderProps
         }: VirtualListBaseProps<T>,
-        ref: ForwardedRef<ScrollView>
+        ref: ForwardedRef<Animated.ScrollView>
 ) => {
         const [
-                {
-                        visibleRangeData,
-                        startIndex,
-                        virtualListData,
-                        status,
-                        nextScrollEvent,
-                        nextLoadEndEvent,
-                        contentVisible
-                },
+                {emptyList, nextLoadEndEvent, nextScrollEvent, startIndex, status, virtualListData, visibleRangeData},
                 setState
         ] = useImmer<VirtualListState>({
-                contentVisible: undefined,
+                emptyList: undefined,
                 endIndex: undefined,
                 layout: {} as LayoutRectangle,
                 nextLoadEndEvent: undefined,
@@ -269,13 +237,12 @@ export const VirtualListBaseInner = <T,>(
                 visibleRangeData: undefined
         })
 
-        const id = useId()
-        const skeletonLoading = useMemo(() => loading && !loadingComponent, [loadingComponent, loading])
         const contentSize = virtualListData ? virtualListData.length * itemSize : 0
-        const scrollViewRef = useRef<ScrollView>(null)
+        const id = useId()
+        const scrollViewRef = useRef<Animated.ScrollView>(null)
         const onVirtualListVisibleRange = useMemo(
-                () => handleVirtualListDataChange({itemSize, skeletonLoading})(setState),
-                [itemSize, setState, skeletonLoading]
+                () => handleVirtualListDataChange(itemSize)(setState),
+                [itemSize, setState]
         )
 
         const onVirtualListScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) =>
@@ -284,9 +251,8 @@ export const VirtualListBaseInner = <T,>(
         const onVirtualListMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) =>
                 handleVirtualListMomentumScrollEnd(onMomentumScrollEnd)(event)
 
-        const onVirtualListLoadEnd = handleVirtualListLoadEnd(setState)(onLoadEnd)
         const onVirtualListDataInit = useMemo(() => handleVirtualListDataInit(setState), [setState])
-        const onVirtualListContentVisible = handleVirtualListContentVisible(setState)(data)
+        const onVirtualListLoadEnd = handleVirtualListLoadEnd(setState)(onLoadEnd)
         const onVirtualListFocusedIndexScroll = useMemo(
                 () => handleVirtualListFocusedIndexScroll(scrollViewRef)(itemSize),
                 [itemSize]
@@ -297,12 +263,8 @@ export const VirtualListBaseInner = <T,>(
                 onScroll: onVirtualListScroll
         })
 
-        const onVirtualListLayout = useMemo(
-                () => handleVirtualListLayout({itemSize, skeletonLoading})(setState),
-                [itemSize, setState, skeletonLoading]
-        )
-
         const onVirtualListItemUnmount = handleVirtualListItemUnmount(itemSize)(setState)
+        const onVirtualListLayout = useMemo(() => handleVirtualListLayout(itemSize)(setState), [itemSize, setState])
         const onStateEventChange = useCallback(
                 (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                         handleVirtualListStateChange({...options, state})(onVirtualListLayout)(event),
@@ -323,7 +285,11 @@ export const VirtualListBaseInner = <T,>(
                 renderItem
         })(startIndex)(visibleRangeData)
 
-        useImperativeHandle(ref, () => (scrollViewRef?.current ? scrollViewRef?.current : {}) as ScrollView, [])
+        useImperativeHandle(
+                ref,
+                () => (scrollViewRef?.current ? scrollViewRef?.current : {}) as Animated.ScrollView,
+                []
+        )
 
         useEffect(() => {
                 onVirtualListDataInit(data)
@@ -353,15 +319,14 @@ export const VirtualListBaseInner = <T,>(
                 ...renderProps,
                 ...scrollEvent,
                 contentSize,
-                contentVisible,
+                emptyList,
                 id,
                 itemElements,
-                loadingComponent,
                 loading,
-                onContentVisible: onVirtualListContentVisible,
+                loadingComponent,
                 onStateEvent,
                 ref: scrollViewRef,
-                skeletonLoading
+                status
         })
 }
 

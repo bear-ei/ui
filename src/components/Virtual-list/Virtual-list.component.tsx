@@ -1,23 +1,23 @@
 import {ForwardedRef, forwardRef} from 'react'
-import {ScrollView as RNScrollView, StyleProp, ViewStyle} from 'react-native'
+import {StyleProp, ViewStyle} from 'react-native'
+import Animated from 'react-native-reanimated'
 import {VirtualListBase} from './Virtual-list-base.component'
 import {RenderVirtualListProps, VirtualListProps} from './Virtual-list.interface'
-import {Container, Content, EmptyContent, LoadingContent, ScrollView, Supporting} from './Virtual-list.styles'
+import {Container, Content, EmptyContent, LoadingContent, Supporting} from './Virtual-list.styles'
 
 const render = <T,>({
         contentContainerStyle,
         contentSize,
-        contentVisible,
+        emptyList,
+        emptyComponent,
         id,
         itemElements,
-        emptyComponent,
-        loadingComponent,
         loading,
-        onContentVisible,
+        loadingComponent,
         onStateEvent,
         scrollEventThrottle = 50,
-        skeletonLoading,
         testID,
+        status,
         ...containerProps
 }: RenderVirtualListProps<T>) => {
         const {onLayout} = onStateEvent
@@ -26,11 +26,9 @@ const render = <T,>({
                 minHeight: contentSize
         } as StyleProp<ViewStyle>
 
-        const listContentVisible = loading ? !loading : contentVisible
-
         return (
                 <Container testID={`virtualList--${id}`}>
-                        <ScrollView
+                        <Animated.ScrollView
                                 {...containerProps}
                                 contentContainerStyle={[contentContainerStyle, defaultContentContainerStyle]}
                                 onLayout={onLayout}
@@ -38,17 +36,16 @@ const render = <T,>({
                                 testID={testID ?? `virtualList__scrollView--${id}`}
                         >
                                 <Content
-                                        onVisible={onContentVisible}
                                         testID={`virtualList__content--${id}`}
-                                        visible={skeletonLoading || listContentVisible}
+                                        visible={!loading && !emptyList && typeof emptyList === 'boolean'}
                                 >
                                         {itemElements}
                                 </Content>
-                        </ScrollView>
+                        </Animated.ScrollView>
 
                         <EmptyContent
                                 testID={`virtualList__emptyComponent--${id}`}
-                                visible={loading || skeletonLoading ? false : !contentVisible}
+                                visible={!loading && emptyList && status === 'succeeded'}
                         >
                                 {emptyComponent ?? (
                                         <Supporting
@@ -71,7 +68,7 @@ const render = <T,>({
         )
 }
 
-const VirtualListInner = <T,>(props: VirtualListProps<T>, ref: ForwardedRef<RNScrollView>) => (
+const VirtualListInner = <T,>(props: VirtualListProps<T>, ref: ForwardedRef<Animated.ScrollView>) => (
         <VirtualListBase
                 {...props}
                 ref={ref}
