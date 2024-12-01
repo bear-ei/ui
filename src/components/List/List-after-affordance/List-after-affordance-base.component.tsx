@@ -64,16 +64,14 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
         })(setState)
 
         const onListAfterAffordanceVisible = useMemo(() => handleListAfterAffordanceVisible(setState), [setState])
-        const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({
-                doubleConfirmed
-        })
+        const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed})
 
         useEffect(() => {
                 onListAfterAffordanceVisible(visible)
         }, [onListAfterAffordanceVisible, visible])
 
         useEffect(() => {
-                ;() => nextCancelEvent?.()
+                nextCancelEvent?.()
         }, [nextCancelEvent])
 
         return render({

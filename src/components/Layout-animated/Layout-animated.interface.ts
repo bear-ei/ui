@@ -55,7 +55,6 @@ export interface UseLayoutAnimatedOptions
 }
 
 export type HandleLayoutAnimatedInitOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>
-
 export interface HandleLayoutAnimatedTimingOptions
         extends Pick<UseLayoutAnimatedOptions, 'onAnimatedFinished' | 'entry' | 'exit' | 'animatedType'> {
         animatedTiming: AnimatedTiming

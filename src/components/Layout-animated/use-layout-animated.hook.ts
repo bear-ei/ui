@@ -2,6 +2,7 @@ import {useEffect, useMemo} from 'react'
 import {AnimatableValue, interpolate, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
+import {debounce} from '../../utils'
 import {
         HandleLayoutAnimatedTimingOptions,
         HandleLayoutAnimatedTimingSharedValue,
@@ -54,10 +55,18 @@ export const useLayoutAnimated = ({
 
         const onLayoutAnimatedTiming = useMemo(
                 () =>
-                        handleLayoutAnimatedTiming({animatedTiming, onAnimatedFinished, entry, exit, animatedType})({
-                                opacitySharedValue,
-                                widthSharedValue
-                        }),
+                        debounce(
+                                handleLayoutAnimatedTiming({
+                                        animatedTiming,
+                                        animatedType,
+                                        entry,
+                                        exit,
+                                        onAnimatedFinished
+                                })({
+                                        opacitySharedValue,
+                                        widthSharedValue
+                                })
+                        )(50),
                 [animatedTiming, animatedType, entry, exit, onAnimatedFinished, opacitySharedValue, widthSharedValue]
         )
 

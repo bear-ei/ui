@@ -36,8 +36,8 @@ const handleVirtualListVisibleRange =
 
                 const nextVisibleRangeData = [...(draft.virtualListData ?? [])].slice(startIndex, endIndex)
 
+                draft.emptyList = !draft.virtualListData?.length
                 draft.visibleRangeData = nextVisibleRangeData
-                draft.emptyList = !nextVisibleRangeData.length
                 draft.status = 'succeeded'
         }
 
@@ -81,8 +81,8 @@ const handleVirtualListScroll =
         (setState: Updater<VirtualListState>) =>
         (event: NativeSyntheticEvent<NativeScrollEvent>) => {
                 const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
-                const scrollOffset = event.nativeEvent.contentOffset.y
                 const hitBottom = contentSize.height - layoutMeasurement.height - contentOffset.y < 1
+                const scrollOffset = event.nativeEvent.contentOffset.y
 
                 if (!hitBottom && contentOffset.y > 0) {
                         setState(draft => {
@@ -106,17 +106,17 @@ const handleVirtualListItemUnmount =
         (itemSize = 0) =>
         (setState: Updater<VirtualListState>) =>
         (value?: string) => {
-                if (value) {
-                        setState(draft => {
-                                const nextVirtualListData = draft.virtualListData?.filter(
-                                        handleVisibleRangeDataFilter(value)
-                                )
-
-                                draft.virtualListData = nextVirtualListData
-
-                                handleVirtualListVisibleRange(itemSize)(draft)()
-                        })
+                if (!value) {
+                        return
                 }
+
+                setState(draft => {
+                        const nextVirtualListData = draft.virtualListData?.filter(handleVisibleRangeDataFilter(value))
+
+                        draft.virtualListData = nextVirtualListData
+
+                        handleVirtualListVisibleRange(itemSize)(draft)()
+                })
         }
 
 const handleVirtualListDataInit = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
@@ -132,6 +132,8 @@ const findVisibleRangeDataIndex =
 
 const handleVirtualListLoadEnd =
         (setState: Updater<VirtualListState>) => (onLoadEnd?: (value?: string) => void) => (value?: string) => {
+                const handleLoadEnd = () => onLoadEnd?.(value)
+
                 if (value) {
                         setState(draft => {
                                 const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(
@@ -143,14 +145,14 @@ const handleVirtualListLoadEnd =
                                         visibleRangeDataIndex !== -1
 
                                 if (loadEnd) {
-                                        onLoadEnd?.(value)
+                                        draft.nextLoadEndEvent = handleLoadEnd
                                 }
                         })
 
                         return
                 }
 
-                onLoadEnd?.()
+                onLoadEnd?.(value)
         }
 
 const handleVirtualListDataChange =
@@ -159,7 +161,9 @@ const handleVirtualListDataChange =
         (virtualListData?: VirtualListData[]) => {
                 if (virtualListData) {
                         setState(draft => {
-                                handleVirtualListVisibleRange(itemSize)(draft)()
+                                if (draft.layout.height) {
+                                        handleVirtualListVisibleRange(itemSize)(draft)()
+                                }
                         })
                 }
         }

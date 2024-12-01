@@ -90,7 +90,7 @@ export const NavigationDrawerItemBase = forwardRef<View, NavigationDrawerItemBas
                 const activeIconElement = renderNavigationDrawerItemActiveIcon(icon)(eventName)
 
                 useEffect(() => {
-                        ;() => nextPressOutEvent?.()
+                        nextPressOutEvent?.()
                 }, [nextPressOutEvent])
 
                 return render({
