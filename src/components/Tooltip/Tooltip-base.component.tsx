@@ -1,5 +1,5 @@
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {InteractionManager, LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
+import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {emitter} from '../../contexts'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -167,7 +167,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                 }, [onTooltipVisible, visible, defaultVisible])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextActiveEvent?.())
+                        nextActiveEvent?.()
                 }, [nextActiveEvent])
 
                 return render({

@@ -1,6 +1,6 @@
 import {WritableDraft} from 'immer'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {InteractionManager, TextInput, View} from 'react-native'
+import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -178,11 +178,11 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 }, [listVisible, onSearchContainerLayout])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextPressOutEvent?.())
+                        nextPressOutEvent?.()
                 }, [nextPressOutEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextChangeTextEvent?.())
+                        nextChangeTextEvent?.()
                 }, [nextChangeTextEvent])
 
                 return render({

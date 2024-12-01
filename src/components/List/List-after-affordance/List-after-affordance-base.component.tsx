@@ -1,5 +1,5 @@
 import {FC, useEffect, useId, useMemo} from 'react'
-import {GestureResponderEvent, InteractionManager} from 'react-native'
+import {GestureResponderEvent} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {
@@ -73,7 +73,7 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
         }, [onListAfterAffordanceVisible, visible])
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => nextCancelEvent?.())
+                ;() => nextCancelEvent?.()
         }, [nextCancelEvent])
 
         return render({

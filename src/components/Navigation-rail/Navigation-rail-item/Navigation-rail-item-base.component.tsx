@@ -1,5 +1,5 @@
 import {cloneElement, forwardRef, useCallback, useEffect, useId} from 'react'
-import {InteractionManager, View} from 'react-native'
+import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
@@ -101,7 +101,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                 const activeIconElement = renderNavigationRailItemActiveIcon(icon)(eventName)
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextPressOutEvent?.())
+                        nextPressOutEvent?.()
                 }, [nextPressOutEvent])
 
                 return render({

@@ -1,5 +1,5 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import {InteractionManager, View} from 'react-native'
+import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
@@ -69,7 +69,7 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
                 }, [duration, onSkeletonDurationChange])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextSkeletonVisibleEvent?.())
+                        nextSkeletonVisibleEvent?.()
                 }, [nextSkeletonVisibleEvent])
 
                 return render({

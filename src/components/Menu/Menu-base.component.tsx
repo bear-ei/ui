@@ -1,5 +1,4 @@
 import {forwardRef, KeyboardEvent, useEffect, useId, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {ListData, VirtualListComponent} from '../List'
 import {HandleMenuKeyDownOptions, MenuBaseProps, MenuState} from './Menu.interface'
@@ -143,15 +142,15 @@ export const MenuBase = forwardRef<VirtualListComponent<ListData>, MenuBaseProps
                 }, [keyCode, onMenuKeyDown])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextVisibleEvent?.())
+                        nextVisibleEvent?.()
                 }, [nextVisibleEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextActivesEvent?.())
+                        nextActivesEvent?.()
                 }, [nextActivesEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextActiveEvent?.())
+                        nextActiveEvent?.()
                 }, [nextActiveEvent])
 
                 return render({

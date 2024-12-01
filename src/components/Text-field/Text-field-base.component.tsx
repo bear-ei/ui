@@ -1,5 +1,5 @@
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {InteractionManager, NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
+import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -247,19 +247,19 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                 }, [defaultValue, onTextFieldChangeTextSource, value])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextPressOutEvent?.())
+                        nextPressOutEvent?.()
                 }, [nextPressOutEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextChangeTextEvent?.())
+                        nextChangeTextEvent?.()
                 }, [nextChangeTextEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextContentSizeChangeEvent?.())
+                        nextContentSizeChangeEvent?.()
                 }, [nextContentSizeChangeEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextSupportingTextVisibleEvent?.())
+                        nextSupportingTextVisibleEvent?.()
                 }, [nextSupportingTextVisibleEvent])
 
                 return render({

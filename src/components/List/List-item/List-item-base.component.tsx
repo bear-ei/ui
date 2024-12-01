@@ -1,12 +1,5 @@
 import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {
-        GestureResponderEvent,
-        InteractionManager,
-        PanResponder,
-        PanResponderGestureState,
-        View,
-        ViewProps
-} from 'react-native'
+import {GestureResponderEvent, PanResponder, PanResponderGestureState, View, ViewProps} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
@@ -439,15 +432,15 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 }, [close, onListItemClose])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextPressOutEvent?.())
+                        nextPressOutEvent?.()
                 }, [nextPressOutEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextLayoutEvent?.())
+                        nextLayoutEvent?.()
                 }, [nextLayoutEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextFocusEvent?.())
+                        nextFocusEvent?.()
                 }, [nextFocusEvent])
 
                 return render({

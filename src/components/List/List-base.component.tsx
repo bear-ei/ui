@@ -1,6 +1,5 @@
 import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {InteractionManager} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {RenderVirtualListItemInfo} from '../Virtual-list'
@@ -273,15 +272,15 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 }, [activeKey, activeKeys, defaultActiveKey, defaultActiveKeys, onListActiveSource])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextActiveEvent?.())
+                        nextActiveEvent?.()
                 }, [nextActiveEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextAfterAffordanceActiveEvent?.())
+                        nextAfterAffordanceActiveEvent?.()
                 }, [nextAfterAffordanceActiveEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextCloseEvent?.())
+                        nextCloseEvent?.()
                 }, [nextCloseEvent])
 
                 if (idle) {

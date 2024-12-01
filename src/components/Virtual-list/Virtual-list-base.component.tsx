@@ -1,13 +1,6 @@
 import {WritableDraft} from 'immer'
 import {ForwardedRef, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {
-        InteractionManager,
-        LayoutChangeEvent,
-        LayoutRectangle,
-        NativeScrollEvent,
-        NativeSyntheticEvent,
-        Platform
-} from 'react-native'
+import {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, Platform} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
@@ -304,11 +297,11 @@ export const VirtualListBaseInner = <T,>(
         }, [focusedIndex, onVirtualListFocusedIndexScroll])
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => nextScrollEvent?.())
+                nextScrollEvent?.()
         }, [nextScrollEvent])
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => nextLoadEndEvent?.())
+                nextLoadEndEvent?.()
         }, [nextLoadEndEvent])
 
         if (status === 'idle') {

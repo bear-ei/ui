@@ -1,5 +1,5 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import {InteractionManager, View} from 'react-native'
+import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {emitter} from '../../contexts'
 import {
@@ -134,11 +134,11 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                 )
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextCloseEvent?.())
+                        nextCloseEvent?.()
                 }, [nextCloseEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextBackEvent?.())
+                        nextBackEvent?.()
                 }, [nextBackEvent])
 
                 return ['standard', 'standardContainer'].includes(type) ? render(renderSheetProps) : <></>
