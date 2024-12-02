@@ -168,6 +168,9 @@ const handleVirtualListDataChange =
                 }
         }
 
+/**
+ * TODO: Refactoring to use the react-native-reanimated API
+ */
 const handleVirtualListFocusedIndexScroll =
         (ref: React.RefObject<Animated.ScrollView>) => (itemSize: number) => (focusedIndex?: number) => {
                 if (typeof focusedIndex === 'number') {

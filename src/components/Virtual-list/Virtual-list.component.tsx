@@ -8,16 +8,16 @@ import {Container, Content, EmptyContent, LoadingContent, Supporting} from './Vi
 const render = <T,>({
         contentContainerStyle,
         contentSize,
-        emptyList,
         emptyComponent,
+        emptyList,
         id,
         itemElements,
         loading,
         loadingComponent,
         onStateEvent,
         scrollEventThrottle = 50,
-        testID,
         status,
+        testID,
         ...containerProps
 }: RenderVirtualListProps<T>) => {
         const {onLayout} = onStateEvent
