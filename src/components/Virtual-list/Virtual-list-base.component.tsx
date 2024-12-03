@@ -26,7 +26,7 @@ const handleVirtualListVisibleRange =
                 const dataSize = draft.virtualListData?.length ?? 0
                 const windowSize = Math.max(draft.layout.height, 0)
                 const visibleItemCount = Math.ceil(windowSize / itemSize)
-                const extraItem = 16
+                const extraItem = 32
                 const endIndex = Math.min(dataSize, baseStartIndex + visibleItemCount + extraItem)
                 const startIndex = Math.max(0, baseStartIndex - extraItem)
 
@@ -34,7 +34,7 @@ const handleVirtualListVisibleRange =
                 draft.scrollOffset = nextScrollOffset
                 draft.startIndex = startIndex
 
-                const nextVisibleRangeData = [...(draft.virtualListData ?? [])].slice(startIndex, endIndex)
+                const nextVisibleRangeData = (draft.virtualListData ?? []).slice(startIndex, endIndex)
 
                 draft.emptyList = !draft.virtualListData?.length
                 draft.visibleRangeData = nextVisibleRangeData

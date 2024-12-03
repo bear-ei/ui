@@ -5,7 +5,7 @@ import {RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtu
 import {ListItemProps} from './List-item'
 
 export type VirtualListComponent<T> = typeof VirtualList<T>
-export type ListType = 'standard' | 'menu'
+export type ListType = 'standard' | 'menu' | 'navigation'
 export interface ListData
         extends Pick<
                 ListItemProps,
@@ -40,7 +40,6 @@ export interface ListProps
                                 | 'afterAffordanceSecondaryButtonProps'
                                 | 'beforeAffordance'
                                 | 'closeTrailing'
-                                | 'density'
                                 | 'disabled'
                                 | 'divider'
                                 | 'enableUnderlay'
@@ -101,7 +100,6 @@ export type HandleRenderItemOptions = Pick<
         | 'beforeAffordance'
         | 'closeTrailing'
         | 'defaultActiveKey'
-        | 'density'
         | 'disabled'
         | 'divider'
         | 'enableUnderlay'

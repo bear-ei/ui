@@ -111,13 +111,10 @@ const renderChipIcon =
         }
 
 const renderChipCloseButton =
-        ({disabled, onClose, type}: RenderChipIconOptions) =>
+        ({disabled, onClose}: RenderChipIconOptions) =>
         (theme: DefaultTheme) => {
-                const iconSize = theme.adaptSize(theme.token.spacing.medium)
-                const iconButtonSize =
-                        type === 'inputFilled' ?
-                                theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
-                        :       theme.adaptSize(theme.token.spacing.large)
+                const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+                const iconButtonSize = theme.adaptSize(theme.token.spacing.large)
 
                 return (
                         <IconButton

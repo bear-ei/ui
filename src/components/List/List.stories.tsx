@@ -2,6 +2,7 @@ import {Meta, StoryObj} from '@storybook/react'
 import {useMemo, useState} from 'react'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Icon} from '../Icon'
+import {IconButton} from '../Icon-button'
 import {Skeleton} from '../Skeleton'
 import {List} from './List.component'
 import {ListProps} from './List.interface'
@@ -127,6 +128,53 @@ export const Multiselect = () => {
                                 onActives={onActiveKeys}
                                 selectType='select'
                                 skeletonElement={skeleton}
+                        />
+                </View>
+        )
+}
+
+export const Navigation = () => {
+        const [activeKeys, setActiveKeys] = useState<string[] | undefined>(undefined)
+        const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>
+        const data = useMemo(
+                () =>
+                        Array.from({length: 1255}, (_, index) => ({
+                                indexKey: `Title${index + 1}`,
+                                headline: `Title${index + 1}`,
+                                leading: <Icon />,
+                                trailing: (
+                                        <IconButton
+                                                width={24}
+                                                height={24}
+                                                icon={
+                                                        <Icon
+                                                                iconStyle='rounded'
+                                                                name='close'
+                                                                type='filled'
+                                                                width={18}
+                                                                height={18}
+                                                        />
+                                                }
+                                                pointerEvents='box-only'
+                                                type='standard'
+                                        />
+                                ),
+                                extraData: []
+                        })),
+                []
+        )
+
+        const onActiveKeys = (keys?: string[]) => setActiveKeys(keys)
+
+        return (
+                <View style={[style]}>
+                        <List
+                                activeKeys={activeKeys}
+                                data={data}
+                                itemSize={36}
+                                onActives={onActiveKeys}
+                                selectType='select'
+                                type='navigation'
                         />
                 </View>
         )

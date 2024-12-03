@@ -1,6 +1,6 @@
 import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {useTheme} from 'styled-components/native'
+import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
@@ -11,6 +11,7 @@ import {
         ListBaseProps,
         ListData,
         ListState,
+        ListType,
         RenderListItemOptions,
         RenderListProps,
         VirtualListComponent
@@ -149,6 +150,18 @@ const handleRenderListItem =
         (props: RenderVirtualListItemInfo<ListData>) =>
                 renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})
 
+const handleListItemSize =
+        (theme: DefaultTheme) =>
+        (type = 'standard' as ListType) => {
+                const itemSize = {
+                        menu: theme.adaptSize(theme.token.spacing.extraSmall * 12),
+                        navigation: theme.adaptSize(theme.token.spacing.extraSmall * 9),
+                        standard: theme.adaptSize(theme.token.spacing.extraSmall * 14)
+                }
+
+                return itemSize[type]
+        }
+
 export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps>(
         (
                 {
@@ -160,9 +173,9 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         autoActive = false,
                         beforeAffordance,
                         closeTrailing,
+                        data,
                         defaultActiveKey,
                         defaultActiveKeys,
-                        density,
                         deselect,
                         disabled,
                         divider,
@@ -187,7 +200,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         supportingTextNumberOfLines,
                         trailingTrigger,
                         type,
-                        data,
                         ...renderProps
                 },
                 ref
@@ -240,7 +252,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceSecondaryButtonProps,
                         beforeAffordance,
                         closeTrailing,
-                        density,
                         disabled,
                         divider,
                         enableUnderlay,
@@ -292,13 +303,11 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         activeKey: listActiveKey,
                         activeKeys: listActiveKeys,
                         afterAffordanceActiveKey,
+                        data,
                         disabled,
                         focusedIndex,
                         id,
-                        itemSize:
-                                itemSize ??
-                                theme.adaptSize(theme.token.spacing.extraSmall * (type === 'menu' ? 12 : 14)),
-                        data,
+                        itemSize: itemSize ?? handleListItemSize(theme)(type),
                         loading,
                         loadingComponent,
                         ref: listRef as RenderListProps['ref'],

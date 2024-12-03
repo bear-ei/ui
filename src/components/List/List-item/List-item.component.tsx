@@ -34,7 +34,6 @@ const render = ({
         beforeAffordance,
         contentAnimatedStyle,
         contentStyle,
-        density,
         disabled,
         divider,
         enableUnderlay,
@@ -79,7 +78,6 @@ const render = ({
                         {...panResponder?.panHandlers}
                         accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
                         accessibilityRole='list'
-                        density={density}
                         shape={shape}
                         testID={testID ?? `listItem--${id}`}
                         type={type}
@@ -106,12 +104,12 @@ const render = ({
                                                 {...onStateEvent}
                                                 disabled={disabled}
                                                 enableTouchableRipple={!enableUnderlayActive ? enableUnderlay : false}
+                                                hotZone={type !== 'navigation'}
                                                 ref={ref}
                                                 underlayColor={underlayColor}
                                         >
                                                 <Main
                                                         {...mainProps}
-                                                        density={density}
                                                         supportingTextNumberOfLines={supportingTextNumberOfLines}
                                                         supportingTextShow={supportingTextShow}
                                                         testID={`listItem__main--${id}`}
@@ -142,7 +140,11 @@ const render = ({
                                                                                 <AnimatedHeadlineText
                                                                                         ellipsizeMode='tail'
                                                                                         numberOfLines={1}
-                                                                                        size='large'
+                                                                                        size={
+                                                                                                type === 'navigation' ?
+                                                                                                        'medium'
+                                                                                                :       'large'
+                                                                                        }
                                                                                         style={[
                                                                                                 headlineTextAnimatedStyle
                                                                                         ]}

@@ -18,21 +18,20 @@ export const Container = styled(Shape)<ListItemContainerProps>`
         overflow: hidden;
         position: relative;
 
-        ${({theme, type = 'standard', density = 0}) => {
+        ${({theme, type = 'standard'}) => {
                 const containerType = {
+                        navigation: css`
+                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 9)}px;
+                        `,
                         menu: css`
                                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                        `,
+                        standard: css`
+                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                         `
                 } as Record<ListType, RuleSet<object> | undefined>
 
-                return (
-                        containerType[type] ??
-                        css`
-                                min-height: ${theme.adaptSize(
-                                        theme.token.spacing.extraSmall * 14 + density * theme.token.spacing.extraSmall
-                                )}px;
-                        `
-                )
+                return containerType[type]
         }}
 `
 
@@ -49,6 +48,9 @@ export const Content = styled.View<ListItemContentProps>`
 
         ${({theme, type = 'standard'}) => {
                 const contentType = {
+                        navigation: css`
+                                background-color: ${theme.token.scheme.surface};
+                        `,
                         menu: css`
                                 background-color: ${theme.token.scheme.surfaceContainer};
                         `,
@@ -70,8 +72,15 @@ export const Main = styled.View<ListItemMainProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme, type = 'standard', density = 0}) => {
+        ${({theme, type = 'standard'}) => {
                 const mainType = {
+                        navigation: css`
+                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 9)}px;
+                                padding: ${theme.adaptSize(theme.token.spacing.none)}px
+                                        ${theme.adaptSize(
+                                                theme.token.spacing.medium - theme.token.spacing.extraSmall
+                                        )}px;
+                        `,
                         menu: css`
                                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
@@ -80,10 +89,7 @@ export const Main = styled.View<ListItemMainProps>`
                                         )}px;
                         `,
                         standard: css`
-                                min-height: ${theme.adaptSize(
-                                        theme.token.spacing.extraSmall * 14 + density * theme.token.spacing.extraSmall
-                                )}px;
-
+                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                         ${theme.adaptSize(theme.token.spacing.medium)}px;
                         `
@@ -153,40 +159,44 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 
         ${({theme, type = 'standard', leadingShow}) => {
                 const mainInnerType = {
+                        navigation: css`
+                                padding-left: ${theme.adaptSize(
+                                        theme.token.spacing.medium - theme.token.spacing.extraSmall
+                                )}px;
+                        `,
                         menu: css`
                                 padding-left: ${theme.adaptSize(
                                         theme.token.spacing.medium - theme.token.spacing.extraSmall
                                 )}px;
+                        `,
+                        standard: css`
+                                padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
                         `
                 } as Record<ListType, RuleSet<object> | undefined>
 
                 if (leadingShow) {
-                        return (
-                                mainInnerType[type] ??
-                                css`
-                                        padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
-                                `
-                        )
+                        return mainInnerType[type]
                 }
         }}
 
 
         ${({theme, type = 'standard', trailingShow}) => {
                 const mainInnerType = {
+                        navigation: css`
+                                padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
+                        `,
                         menu: css`
                                 padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
+                        `,
+                        standard: css`
+                                padding-right: ${theme.adaptSize(
+                                        theme.token.spacing.medium - theme.token.spacing.extraSmall
+                                )}px;
                         `
                 } as Record<ListType, RuleSet<object> | undefined>
 
                 if (trailingShow) {
-                        return (
-                                mainInnerType[type] ??
-                                css`
-                                        padding-right: ${theme.adaptSize(
-                                                theme.token.spacing.medium - theme.token.spacing.extraSmall
-                                        )}px;
-                                `
-                        )
+                        return mainInnerType[type]
                 }
         }}
 `
