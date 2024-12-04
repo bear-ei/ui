@@ -17,7 +17,7 @@ import {
 const handleTextFieldEnabled =
         (animatedTiming: AnimatedTiming) =>
         ({
-                activeIndicatorHeightSharedValue,
+                activeIndicatorScaleYSharedValue,
                 colorSharedValue,
                 inputColorSharedValue,
                 labelTextSharedValue,
@@ -28,7 +28,7 @@ const handleTextFieldEnabled =
                         return animatedTiming()(labelTextSharedValue)(filledToValue)
                 }
 
-                animatedTiming()(activeIndicatorHeightSharedValue)(0)
+                animatedTiming()(activeIndicatorScaleYSharedValue)(0)
                 animatedTiming()(colorSharedValue)(1)
                 animatedTiming()(inputColorSharedValue)(1)
                 animatedTiming()(labelTextSharedValue)(filledToValue)
@@ -38,7 +38,7 @@ const handleTextFieldEnabled =
 const handleTextFieldDisabled =
         (animatedTiming: AnimatedTiming) =>
         ({
-                activeIndicatorHeightSharedValue,
+                activeIndicatorScaleYSharedValue,
                 colorSharedValue,
                 headerInnerBackgroundColorSharedValue,
                 inputColorSharedValue,
@@ -46,7 +46,7 @@ const handleTextFieldDisabled =
         }: HandleTextFieldDisabledSharedValue) => {
                 const toValue = 0
 
-                animatedTiming()(activeIndicatorHeightSharedValue)(toValue)
+                animatedTiming()(activeIndicatorScaleYSharedValue)(toValue)
                 animatedTiming()(colorSharedValue)(toValue)
                 animatedTiming()(headerInnerBackgroundColorSharedValue)(toValue)
                 animatedTiming()(inputColorSharedValue)(1)
@@ -56,12 +56,12 @@ const handleTextFieldDisabled =
 const handleTextFieldError =
         (animatedTiming: AnimatedTiming) =>
         ({
-                activeIndicatorHeightSharedValue,
+                activeIndicatorScaleYSharedValue,
                 colorSharedValue,
                 inputColorSharedValue,
                 supportingTextSharedValue
         }: HandleTextFieldErrorSharedValue) => {
-                animatedTiming()(activeIndicatorHeightSharedValue)(1)
+                animatedTiming()(activeIndicatorScaleYSharedValue)(1)
                 animatedTiming()(colorSharedValue)(3)
                 animatedTiming()(inputColorSharedValue)(1)
                 animatedTiming()(supportingTextSharedValue)(2)
@@ -70,7 +70,7 @@ const handleTextFieldError =
 const handleTextFieldFocused =
         (animatedTiming: AnimatedTiming) =>
         ({
-                activeIndicatorHeightSharedValue,
+                activeIndicatorScaleYSharedValue,
                 colorSharedValue,
                 labelTextSharedValue
         }: HandleTextFieldFocusedSharedValue) =>
@@ -79,7 +79,7 @@ const handleTextFieldFocused =
                         return animatedTiming()(labelTextSharedValue)(0)
                 }
 
-                animatedTiming()(activeIndicatorHeightSharedValue)(1)
+                animatedTiming()(activeIndicatorScaleYSharedValue)(1)
                 animatedTiming()(colorSharedValue)(2)
                 animatedTiming()(labelTextSharedValue)(0)
         }
@@ -116,14 +116,14 @@ export const useTextFieldAnimated = ({
         const {convertHexToRGBA} = palette
         const disabledAnimatedValue = disabled ? 0 : 1
         const defaultAnimatedValue = {
-                activeIndicatorHeightSharedValue: error ? 1 : 0,
+                activeIndicatorScaleYSharedValue: error ? 1 : 0,
                 colorSharedValue: error ? 3 : 1,
                 inputColorSharedValue: error ? 3 : 1,
                 supportingTextSharedValueValue: error ? 2 : 1
         }
 
-        const activeIndicatorHeightSharedValue = useSharedValue(
-                disabled ? disabledAnimatedValue : defaultAnimatedValue.activeIndicatorHeightSharedValue
+        const activeIndicatorScaleYSharedValue = useSharedValue(
+                disabled ? disabledAnimatedValue : defaultAnimatedValue.activeIndicatorScaleYSharedValue
         )
 
         const headerInnerBackgroundColorSharedValue = useSharedValue(disabledAnimatedValue)
@@ -214,10 +214,10 @@ export const useTextFieldAnimated = ({
                 convertHexToRGBA(scheme.error)(1)
         ]
 
-        const activeIndicatorHeightSharedValueOutputRange = [
-                theme.adaptSize(theme.token.spacing.extraSmall / 4),
-                theme.adaptSize(spacing.extraSmall - 1)
-        ]
+        // const activeIndicatorScaleYSharedValueOutputRange = [
+        //         theme.adaptSize(theme.token.spacing.extraSmall / 4),
+        //         theme.adaptSize(spacing.extraSmall - 1)
+        // ]
 
         const activeIndicatorAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(
@@ -225,11 +225,17 @@ export const useTextFieldAnimated = ({
                         [0, 1, 2, 3],
                         activeIndicatorBackgroundColorOutputRange
                 ),
-                height: interpolate(
-                        activeIndicatorHeightSharedValue.value,
-                        [0, 1],
-                        activeIndicatorHeightSharedValueOutputRange
-                )
+
+                transform: [
+                        {
+                                scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.3333, 1])
+                        }
+                ]
+                // height: interpolate(
+                //         activeIndicatorScaleYSharedValue.value,
+                //         [0, 1],
+                //         activeIndicatorScaleYSharedValueOutputRange
+                // )
         }))
 
         const supportingTextSharedValueValueColorOutputRange = [
@@ -249,14 +255,14 @@ export const useTextFieldAnimated = ({
         const handleTextFieldEnabledState = useCallback(
                 () =>
                         handleTextFieldEnabled(animatedTiming)({
-                                activeIndicatorHeightSharedValue,
+                                activeIndicatorScaleYSharedValue,
                                 colorSharedValue,
                                 inputColorSharedValue,
                                 labelTextSharedValue,
                                 supportingTextSharedValue
                         })({error, filledToValue}),
                 [
-                        activeIndicatorHeightSharedValue,
+                        activeIndicatorScaleYSharedValue,
                         animatedTiming,
                         colorSharedValue,
                         error,
@@ -270,14 +276,14 @@ export const useTextFieldAnimated = ({
         const handleTextFieldDisabledState = useCallback(
                 () =>
                         handleTextFieldDisabled(animatedTiming)({
-                                activeIndicatorHeightSharedValue,
+                                activeIndicatorScaleYSharedValue,
                                 headerInnerBackgroundColorSharedValue,
                                 colorSharedValue,
                                 inputColorSharedValue,
                                 supportingTextSharedValue
                         }),
                 [
-                        activeIndicatorHeightSharedValue,
+                        activeIndicatorScaleYSharedValue,
                         animatedTiming,
                         colorSharedValue,
                         headerInnerBackgroundColorSharedValue,
@@ -289,13 +295,13 @@ export const useTextFieldAnimated = ({
         const handleTextFieldErrorState = useCallback(
                 () =>
                         handleTextFieldError(animatedTiming)({
-                                activeIndicatorHeightSharedValue,
+                                activeIndicatorScaleYSharedValue,
                                 colorSharedValue,
                                 inputColorSharedValue,
                                 supportingTextSharedValue
                         }),
                 [
-                        activeIndicatorHeightSharedValue,
+                        activeIndicatorScaleYSharedValue,
                         animatedTiming,
                         colorSharedValue,
                         inputColorSharedValue,
@@ -306,11 +312,11 @@ export const useTextFieldAnimated = ({
         const handleTextFieldFocusedState = useCallback(
                 () =>
                         handleTextFieldFocused(animatedTiming)({
-                                activeIndicatorHeightSharedValue,
+                                activeIndicatorScaleYSharedValue,
                                 colorSharedValue,
                                 labelTextSharedValue
                         })(error),
-                [activeIndicatorHeightSharedValue, animatedTiming, colorSharedValue, error, labelTextSharedValue]
+                [activeIndicatorScaleYSharedValue, animatedTiming, colorSharedValue, error, labelTextSharedValue]
         )
 
         const stateAnimated: TextFieldStateAnimated = useMemo(

@@ -87,7 +87,7 @@ export interface HandleTextFieldSupportingTextOptions extends Pick<TextFieldProp
 }
 
 export interface HandleTextFieldEnabledSharedValue {
-        activeIndicatorHeightSharedValue: SharedValue<AnimatableValue>
+        activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
         colorSharedValue: SharedValue<AnimatableValue>
         inputColorSharedValue: SharedValue<AnimatableValue>
         labelTextSharedValue: SharedValue<AnimatableValue>
@@ -95,7 +95,7 @@ export interface HandleTextFieldEnabledSharedValue {
 }
 
 export interface HandleTextFieldDisabledSharedValue {
-        activeIndicatorHeightSharedValue: SharedValue<AnimatableValue>
+        activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
         colorSharedValue: SharedValue<AnimatableValue>
         headerInnerBackgroundColorSharedValue: SharedValue<AnimatableValue>
         inputColorSharedValue: SharedValue<AnimatableValue>
@@ -103,14 +103,14 @@ export interface HandleTextFieldDisabledSharedValue {
 }
 
 export interface HandleTextFieldErrorSharedValue {
-        activeIndicatorHeightSharedValue: SharedValue<AnimatableValue>
+        activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
         colorSharedValue: SharedValue<AnimatableValue>
         inputColorSharedValue: SharedValue<AnimatableValue>
         supportingTextSharedValue: SharedValue<AnimatableValue>
 }
 
 export interface HandleTextFieldFocusedSharedValue {
-        activeIndicatorHeightSharedValue: SharedValue<AnimatableValue>
+        activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
         colorSharedValue: SharedValue<AnimatableValue>
         labelTextSharedValue: SharedValue<AnimatableValue>
 }
