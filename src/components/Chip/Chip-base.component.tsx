@@ -176,7 +176,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
 
                 const trailingElement =
                         close ?
-                                renderChipCloseButton({disabled, onClose, type})(theme)
+                                renderChipCloseButton({disabled, onClose})(theme)
                         :       renderChipIcon({eventName, disabled})(theme)(trailingIcon)
 
                 const onChipDisabled = useMemo(() => handleChipDisabled(setState), [setState])

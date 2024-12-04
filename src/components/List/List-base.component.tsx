@@ -311,7 +311,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         loading,
                         loadingComponent,
                         ref: listRef as RenderListProps['ref'],
-                        renderItem: renderListItem
+                        renderItem: renderListItem,
+                        type
                 })
         }
 )

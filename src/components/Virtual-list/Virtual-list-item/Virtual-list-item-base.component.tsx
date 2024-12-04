@@ -27,14 +27,15 @@ export const handleVirtualListUnmount = (onUnmount?: (value?: string) => void) =
 export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
         (
                 {
-                        renderItem,
-                        item,
-                        render,
+                        gap = 0,
                         index = 0,
+                        item,
                         itemSize = 0,
-                        startIndex = 0,
-                        onUnmount,
                         onLoadEnd,
+                        onUnmount,
+                        render,
+                        renderItem,
+                        startIndex = 0,
                         ...renderProps
                 },
                 ref
@@ -49,7 +50,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                         handleVirtualListUnmount(onUnmount)(item?.indexKey as string | undefined)
 
                 const {containerAnimatedStyle} = useVirtualListItemAnimated({
-                        top: (startIndex + index) * itemSize
+                        top: (startIndex + index) * (itemSize + gap)
                 })
 
                 const itemElement =
@@ -65,6 +66,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                         containerAnimatedStyle,
                         id,
                         itemElement,
+                        itemSize,
                         onUnmount: onVirtualListUnmount,
                         ref,
                         visible: virtualListItemVisible

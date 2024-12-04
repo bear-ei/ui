@@ -171,7 +171,7 @@ export const Navigation = () => {
                         <List
                                 activeKeys={activeKeys}
                                 data={data}
-                                itemSize={36}
+                                itemSize={48}
                                 onActives={onActiveKeys}
                                 selectType='select'
                                 type='navigation'

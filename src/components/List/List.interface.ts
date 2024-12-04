@@ -45,6 +45,7 @@ export interface ListProps
                                 | 'enableUnderlay'
                                 | 'enableUnderlayActive'
                                 | 'focusedIndex'
+                                | 'gap'
                                 | 'onActive'
                                 | 'onActiveAfterAffordance'
                                 | 'onCancel'
@@ -65,7 +66,6 @@ export interface ListProps
         defaultActiveKeys?: string[]
         deselect?: boolean
         onActives?: (values?: string[]) => void
-
         onItemStateEvent?: OnStateEvent
 
         /**
@@ -127,3 +127,4 @@ export interface ListBaseProps extends ListProps {
 }
 
 export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
+export type ListContainerProps = Pick<ListProps, 'type'>

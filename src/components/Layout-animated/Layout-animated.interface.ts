@@ -1,12 +1,12 @@
 import {Duration, Easing} from '@bearei/material-token'
 import {RefAttributes} from 'react'
-import {View, ViewProps, ViewStyle} from 'react-native'
+import {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
 export type LayoutAnimatedType = 'fade' | 'collapse'
-export interface LayoutAnimatedProps extends RefAttributes<View>, ViewProps, ShapeProps {
+export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
         animatedType?: LayoutAnimatedType
         defaultVisible?: boolean
         duration?: Duration
@@ -18,6 +18,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, ViewProps, Sha
         onUnmount?: () => void
         onVisible?: (value?: boolean) => void
         opacity?: number
+        style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>
         unmount?: boolean
         visible?: boolean
         width?: number

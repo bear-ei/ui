@@ -34,6 +34,7 @@ export interface ListItemProps
         enableUnderlayActive?: boolean
         extraData?: string[]
         focusedIndex?: number
+        gap?: number
         headline?: React.ReactNode
         itemIndex?: number
         itemKey: string
@@ -143,5 +144,5 @@ export interface ListItemMainInnerProps extends Pick<ListItemMainProps, 'support
         trailingShow?: boolean
 }
 
-export type ListItemLeadingProps = Pick<RenderListItemProps, 'supportingTextNumberOfLines'>
+export type ListItemLeadingProps = Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'type'>
 export type ListItemTrailingProps = ListItemLeadingProps

@@ -104,7 +104,6 @@ const render = ({
                                                 {...onStateEvent}
                                                 disabled={disabled}
                                                 enableTouchableRipple={!enableUnderlayActive ? enableUnderlay : false}
-                                                hotZone={type !== 'navigation'}
                                                 ref={ref}
                                                 underlayColor={underlayColor}
                                         >
@@ -115,6 +114,7 @@ const render = ({
                                                         testID={`listItem__main--${id}`}
                                                         trailingShow={trailingShow}
                                                         type={type}
+                                                        {...(type === 'navigation' && {shape})}
                                                 >
                                                         {leadingElement && (
                                                                 <Leading
@@ -122,6 +122,7 @@ const render = ({
                                                                                 supportingTextNumberOfLines
                                                                         }
                                                                         testID={`listItem__leading--${id}`}
+                                                                        type={type}
                                                                 >
                                                                         {leadingElement}
                                                                 </Leading>
@@ -180,6 +181,7 @@ const render = ({
                                                                         testID={`listItem__trailing--${id}`}
                                                                         unmount={true}
                                                                         visible={trailingVisible}
+                                                                        type={type}
                                                                 >
                                                                         {trailingElement}
                                                                 </Trailing>

@@ -1,16 +1,14 @@
 import {forwardRef, memo} from 'react'
 import {View} from 'react-native'
-import Animated from 'react-native-reanimated'
-import {LayoutAnimated} from '../../Layout-animated'
 import {VirtualListItemBase, handleVirtualListItemPropsEqual} from './Virtual-list-item-base.component'
 import {RenderVirtualListItemProps, VirtualListItemProps} from './Virtual-list-item.interface'
-import {Container} from './Virtual-list-item.styles'
+import {AnimatedContainer} from './Virtual-list-item.styles'
 
-const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
         containerAnimatedStyle,
         id,
         itemElement,
+        itemSize,
         onUnmount,
         testID,
         visible,
@@ -19,16 +17,14 @@ const render = ({
         return (
                 <AnimatedContainer
                         {...containerProps}
+                        height={itemSize}
+                        onUnmount={onUnmount}
                         style={[containerAnimatedStyle]}
                         testID={testID ?? `virtualListItem--${id}`}
+                        unmount={true}
+                        visible={visible}
                 >
-                        <LayoutAnimated
-                                onUnmount={onUnmount}
-                                unmount={true}
-                                visible={visible}
-                        >
-                                {itemElement}
-                        </LayoutAnimated>
+                        {itemElement}
                 </AnimatedContainer>
         )
 }

@@ -12,7 +12,7 @@ export type VirtualListData<T = Record<string, unknown>> = T & {
 export interface VirtualListProps<T>
         extends ScrollViewProps,
                 RefAttributes<Animated.ScrollView>,
-                Pick<VirtualListItemProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd'> {
+                Pick<VirtualListItemProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap'> {
         data?: VirtualListData<T>[]
         emptyComponent?: JSX.Element
         focusedIndex?: number

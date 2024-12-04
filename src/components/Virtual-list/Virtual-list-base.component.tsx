@@ -218,6 +218,7 @@ export const VirtualListBaseInner = <T,>(
                 onScroll,
                 render,
                 renderItem,
+                gap = 0,
                 ...renderProps
         }: VirtualListBaseProps<T>,
         ref: ForwardedRef<Animated.ScrollView>
@@ -279,6 +280,7 @@ export const VirtualListBaseInner = <T,>(
 
         const itemElements = renderVirtualListItem({
                 extraData,
+                gap,
                 itemSize,
                 onLoadEnd: onVirtualListLoadEnd,
                 onUnmount: onVirtualListItemUnmount,

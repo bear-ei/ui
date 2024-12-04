@@ -15,6 +15,7 @@ export interface VirtualListItemProps<T = Record<string, unknown>> extends ViewP
         extraData?: unknown[]
         index?: number
         item?: T & Item
+        gap?: number
         itemSize?: number
         loading?: boolean
         onLoadEnd?: (value?: string) => void
@@ -40,9 +41,13 @@ export interface VirtualListItemState {
 
 export type RenderVirtualListItemOptions<T> = Pick<
         VirtualListItemProps<T>,
-        'itemSize' | 'renderItem' | 'extraData' | 'onUnmount' | 'onLoadEnd'
+        'itemSize' | 'renderItem' | 'extraData' | 'onUnmount' | 'onLoadEnd' | 'gap'
 >
 
 export interface UseVirtualListItemAnimatedOptions {
         top?: number
+}
+
+export interface VirtualListItemContainerOptions {
+        height?: number
 }

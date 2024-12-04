@@ -13,6 +13,7 @@ import {
 } from './List-item.interface'
 
 export const Container = styled(Shape)<ListItemContainerProps>`
+        align-self: stretch;
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -21,7 +22,7 @@ export const Container = styled(Shape)<ListItemContainerProps>`
         ${({theme, type = 'standard'}) => {
                 const containerType = {
                         navigation: css`
-                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 9)}px;
+                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                         `,
                         menu: css`
                                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
@@ -63,26 +64,27 @@ export const Content = styled.View<ListItemContentProps>`
         }}
 `
 
-export const Main = styled.View<ListItemMainProps>`
+export const Main = styled(Shape)<ListItemMainProps>`
         align-items: center;
         align-self: stretch;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        overflow: hidden;
         position: relative;
         z-index: 4;
 
         ${({theme, type = 'standard'}) => {
                 const mainType = {
                         navigation: css`
-                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 9)}px;
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 9)}px;
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                         ${theme.adaptSize(
                                                 theme.token.spacing.medium - theme.token.spacing.extraSmall
                                         )}px;
                         `,
                         menu: css`
-                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                         ${theme.adaptSize(
                                                 theme.token.spacing.medium - theme.token.spacing.extraSmall
@@ -117,12 +119,10 @@ export const Main = styled.View<ListItemMainProps>`
                                 theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
                         )}px;
                 `}
-
-
-
-        ${({theme, trailingShow, type}) =>
+                
+        ${({theme, trailingShow, type = 'standard'}) =>
                 trailingShow &&
-                type === 'menu' &&
+                ['menu', 'navigation'].includes(type) &&
                 css`
                         padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
                 `}
@@ -133,14 +133,22 @@ export const Leading = styled.View<ListItemLeadingProps>`
         flex-direction: column;
 
         ${({theme}) => css`
-                max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                justify-content: center;
         `};
+
+        ${({theme, type}) =>
+                type === 'navigation' &&
+                css`
+                        width: ${theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)}px;
+                        align-items: center;
+                `};
 
         ${({supportingTextNumberOfLines = 0, theme}) =>
                 supportingTextNumberOfLines > 1 &&
                 css`
                         justify-content: flex-start;
-                        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 `}
 `
 
@@ -206,15 +214,22 @@ export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
         flex-direction: column;
 
         ${({theme}) => css`
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 justify-content: center;
-                max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `};
+
+        ${({theme, type}) =>
+                type === 'navigation' &&
+                css`
+                        width: ${theme.adaptSize(theme.token.spacing.large)}px;
+                        align-items: center;
+                `};
 
         ${({supportingTextNumberOfLines = 0, theme}) =>
                 supportingTextNumberOfLines > 1 &&
                 css`
+                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                         justify-content: flex-start;
-                        max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 `}
 `
 
