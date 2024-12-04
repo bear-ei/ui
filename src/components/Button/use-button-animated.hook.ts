@@ -12,18 +12,12 @@ import {
 const handleButtonOutlinedAnimated = ({
         animatedTiming,
         borderColorInputRange,
-        disabled,
-        type
+        disabled
 }: HandleButtonAnimatedTimingOptions) => {
         const value = disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
 
         return (borderSharedValue: SharedValue<AnimatableValue>) => (eventName?: EventName) => {
-                const responseEvent =
-                        type === 'link' ?
-                                eventName &&
-                                ['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
-                        :       eventName === 'focus'
-
+                const responseEvent = eventName === 'focus'
                 const toValue = responseEvent ? borderColorInputRange[2] : value
 
                 return animatedTiming()(borderSharedValue)(toValue)
@@ -40,13 +34,10 @@ const handleButtonAnimatedTiming = ({
 
         return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
                 (eventName?: EventName) => {
-                        if (type && ['link', 'outlined'].includes(type)) {
-                                handleButtonOutlinedAnimated({
-                                        animatedTiming,
-                                        borderColorInputRange,
-                                        type,
-                                        disabled
-                                })(borderSharedValue)(eventName)
+                        if (type === 'outlined') {
+                                handleButtonOutlinedAnimated({animatedTiming, borderColorInputRange, disabled})(
+                                        borderSharedValue
+                                )(eventName)
 
                                 animatedTiming()(colorSharedValue)(toValue)
 
@@ -150,14 +141,9 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         }
 
         const borderColorInputRange = useMemo(() => [0, 1, 2], [])
-        const borderColorOutputRange = [
-                type === 'link' ? convertHexToRGBA(scheme.outline)(0) : disabledBackgroundColor,
-                type === 'link' ? convertHexToRGBA(scheme.outline)(0) : convertHexToRGBA(scheme.outline)(1),
-                scheme.primary
-        ]
-
+        const borderColorOutputRange = [disabledBackgroundColor, convertHexToRGBA(scheme.outline)(1), scheme.primary]
         const notBackgroundColor = ['text', 'link'].includes(type)
-        const notBorderColor = !['outlined', 'link'].includes(type)
+        const notBorderColor = type !== 'outlined'
         const borderWidth = theme.adaptSize(spacing.extraSmall / 4)
         const contentUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 ...(!notBackgroundColor && {
@@ -174,7 +160,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                                 borderColorOutputRange
                         ),
                         borderStyle: 'solid',
-                        ...(type === 'link' ? {borderBottomWidth: borderWidth} : {borderWidth})
+                        borderWidth
                 })
         }))
 

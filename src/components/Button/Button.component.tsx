@@ -6,7 +6,7 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {ButtonBase} from './Button-base.component'
 import {ButtonProps, RenderButtonProps} from './Button.interface'
-import {Container, Content, ContentUnderlay, IconContainer, LabelText, Main} from './Button.styles'
+import {ActiveIndicator, Container, Content, ContentUnderlay, IconContainer, LabelText, Main} from './Button.styles'
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
@@ -46,6 +46,11 @@ const render = ({
                                 shape={shape}
                         />
                 :       <></>
+
+        const activeIndicatorVisible =
+                type === 'link' &&
+                eventName &&
+                ['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
 
         return (
                 <Container
@@ -94,6 +99,13 @@ const render = ({
                                                         {labelText}
                                                 </AnimatedLabelText>
                                         </Main>
+
+                                        {type === 'link' && (
+                                                <ActiveIndicator
+                                                        testID={`button__activeIndicator--${id}`}
+                                                        visible={activeIndicatorVisible}
+                                                />
+                                        )}
 
                                         <Underlay
                                                 eventName={loading ? loadingEventName : eventName}

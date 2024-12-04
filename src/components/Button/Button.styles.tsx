@@ -1,6 +1,7 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
+import {LayoutAnimated} from '../Layout-animated'
 import {ButtonContainerProps, ButtonContentProps, ButtonMainProps, ButtonType} from './Button.interface'
 
 export const Container = styled.View<ButtonContainerProps>`
@@ -19,7 +20,6 @@ export const Container = styled.View<ButtonContainerProps>`
                         `,
                         link: css`
                                 height: auto;
-                                margin-top: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                                 min-height: ${theme.adaptSize(theme.token.spacing.medium)}px;
                                 min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
                         `
@@ -132,4 +132,17 @@ export const IconContainer = styled.View`
         flex-direction: column;
         justify-content: center;
         overflow: hidden;
+`
+
+export const ActiveIndicator = styled(LayoutAnimated)`
+        position: absolute;
+        z-index: 8;
+
+        ${({theme}) => css`
+                background-color: ${theme.token.scheme.primary};
+                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
+                left: ${theme.adaptSize(theme.token.spacing.none)}px;
+                right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        `};
 `

@@ -33,7 +33,7 @@ export const useLayoutAnimated = ({
         exit,
         onAnimatedFinished,
         opacity = 1,
-        visible = true,
+        visible,
         width
 }: UseLayoutAnimatedOptions) => {
         const opacitySharedValue = useSharedValue(visible ? 1 : 0)

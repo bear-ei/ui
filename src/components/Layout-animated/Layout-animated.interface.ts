@@ -18,7 +18,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         onUnmount?: () => void
         onVisible?: (value?: boolean) => void
         opacity?: number
-        style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>
+        style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> & StyleProp<ViewStyle>
         unmount?: boolean
         visible?: boolean
         width?: number
