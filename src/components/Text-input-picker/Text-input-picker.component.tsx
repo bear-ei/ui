@@ -20,9 +20,9 @@ const render = ({
         onMenuVisible,
         onStateEvent,
         testID,
-        ...textFieldProps
+        ...textInputProps
 }: RenderTextInputPickerProps) => (
-        <Container testID={testID ?? `textFieldPicker--${id}`}>
+        <Container testID={testID ?? `textInputPicker--${id}`}>
                 <Menu
                         activeKey={activeKey}
                         activeKeys={activeKeys}
@@ -36,7 +36,7 @@ const render = ({
                 >
                         <TextInput
                                 {...onStateEvent}
-                                {...textFieldProps}
+                                {...textInputProps}
                                 content={contentElements}
                                 filled={menuVisible}
                         />

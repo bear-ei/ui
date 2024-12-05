@@ -101,7 +101,7 @@ const render = ({
                                                         <Control
                                                                 multiline={multiline}
                                                                 height={contentSize?.height}
-                                                                testID={`textField__control--${id}`}
+                                                                testID={`textInput__control--${id}`}
                                                         >
                                                                 <AnimatedTextInput
                                                                         {...inputProps}
@@ -116,7 +116,7 @@ const render = ({
                                                                         onBlur={onBlur}
                                                                         onFocus={onFocus}
                                                                         style={[inputAnimatedStyle]}
-                                                                        testID={`textField__input--${id}`}
+                                                                        testID={`textInput__input--${id}`}
                                                                 />
                                                         </Control>
                                                 </Main>
@@ -130,12 +130,12 @@ const render = ({
                                                 <AnimatedLabel
                                                         leadingShow={leadingShow}
                                                         style={[labelAnimatedStyle]}
-                                                        testID={`textField__label--${id}`}
+                                                        testID={`textInput__label--${id}`}
                                                 >
                                                         <AnimatedLabelText
                                                                 size='large'
                                                                 style={[labelTextAnimatedStyle]}
-                                                                testID={`textField__labelText--${id}`}
+                                                                testID={`textInput__labelText--${id}`}
                                                                 type='body'
                                                         >
                                                                 {labelText}

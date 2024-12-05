@@ -129,7 +129,7 @@ const renderTextInputPickerContent = ({
                 return (
                         <Item
                                 key={key}
-                                testID={`textFieldPicker__content--${id}`}
+                                testID={`textInputPicker__content--${id}`}
                         >
                                 <Chip
                                         close={true}
@@ -189,19 +189,19 @@ export const TextInputPickerBase = forwardRef<TextInput, TextInputPickerBaseProp
                 })
 
                 const id = useId()
-                const textFieldRef = useRef<TextInput>(null)
+                const textInputRef = useRef<TextInput>(null)
                 const onTextInputPickerActive = useMemo(
-                        () => handleTextInputPickerActive(setState)(textFieldRef),
+                        () => handleTextInputPickerActive(setState)(textInputRef),
                         [setState]
                 )
 
                 const onTextInputPickerActives = useMemo(
-                        () => handleTextInputPickerActives(setState)(textFieldRef),
+                        () => handleTextInputPickerActives(setState)(textInputRef),
                         [setState]
                 )
 
-                const onTextInputPickerClose = handleTextInputPickerClose(setState)(textFieldRef)
-                const onTextInputPickerContentPressOut = handleTextInputPickerContentPressOut(textFieldRef)
+                const onTextInputPickerClose = handleTextInputPickerClose(setState)(textInputRef)
+                const onTextInputPickerContentPressOut = handleTextInputPickerContentPressOut(textInputRef)
                 const onTextInputPickerInit = useMemo(() => handleTextInputPickerInit(setState), [setState])
                 const theme = useTheme()
                 const onStateEventChange = useCallback(
@@ -235,7 +235,7 @@ export const TextInputPickerBase = forwardRef<TextInput, TextInputPickerBaseProp
                         [rawData, setState]
                 )
 
-                useImperativeHandle(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
+                useImperativeHandle(ref, () => (textInputRef?.current ? textInputRef?.current : {}) as TextInput, [])
 
                 useEffect(() => {
                         onTextInputPickerInit({
@@ -272,7 +272,7 @@ export const TextInputPickerBase = forwardRef<TextInput, TextInputPickerBaseProp
                         onKeyPress: onTextInputPickerKeyPress,
                         onMenuVisible: onTextInputPickerMenuVisible,
                         onStateEvent,
-                        ref: textFieldRef,
+                        ref: textInputRef,
                         theme,
                         value
                 })

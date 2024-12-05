@@ -1,13 +1,13 @@
 import {FC, forwardRef} from 'react'
-import {TextInput} from 'react-native'
+import {TextInput as RNTextInput} from 'react-native'
 import {Icon} from '../Icon'
 import {Underlay} from '../Underlay'
 import {SearchBase} from './Search-base.component'
 import {SearchList} from './Search-list'
 import {RenderSearchProps, SearchProps, SearchTextInputProps} from './Search.interface'
-import {Container, Content, Input, Leading, Main, Touchable, Trailing} from './Search.styles'
+import {Container, Content, Leading, Main, TextInput, TextInputContainer, Touchable, Trailing} from './Search.styles'
 
-const SearchTextInput: FC<SearchTextInputProps> = Input
+const SearchTextInput: FC<SearchTextInputProps> = TextInput
 const render = ({
         containerRef,
         eventName,
@@ -56,7 +56,7 @@ const render = ({
                                         </Leading>
 
                                         <Main testID={`search__main--${id}`}>
-                                                <TextInput testID={`search__textField--${id}`}>
+                                                <TextInputContainer testID={`search__textInput--${id}`}>
                                                         <SearchTextInput
                                                                 {...textInputProps}
                                                                 /**
@@ -74,7 +74,7 @@ const render = ({
                                                                 testID={`search__input--${id}`}
                                                                 value={value}
                                                         />
-                                                </TextInput>
+                                                </TextInputContainer>
                                         </Main>
 
                                         {trailing && <Trailing testID={`search__trailing--${id}`}>{trailing}</Trailing>}
@@ -95,7 +95,7 @@ const render = ({
         )
 }
 
-const ForwardRefSearch = forwardRef<TextInput, SearchProps>((props, ref) => (
+const ForwardRefSearch = forwardRef<RNTextInput, SearchProps>((props, ref) => (
         <SearchBase
                 {...props}
                 ref={ref}

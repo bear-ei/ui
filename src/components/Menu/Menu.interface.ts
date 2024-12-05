@@ -3,7 +3,7 @@ import {PressableProps} from 'react-native'
 import {TooltipProps} from '../Tooltip'
 import {MenuListProps} from './Menu-list'
 
-export type MenuType = 'textFieldPicker'
+export type MenuType = 'textInputPicker'
 export interface MenuProps extends Omit<PressableProps & TooltipProps & MenuListProps, 'type'> {
         keyCode?: string
         type?: MenuType

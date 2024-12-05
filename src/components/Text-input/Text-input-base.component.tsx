@@ -183,7 +183,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 
                 const value = rawValue ?? defaultValue
                 const id = useId()
-                const textFieldRef = useRef<TextInput>(null)
+                const textInputRef = useRef<TextInput>(null)
                 const supportingTextTimer = useRef<NodeJS.Timeout>()
                 const theme = useTheme()
                 const placeholderTextColor =
@@ -209,13 +209,13 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 const onTextInputSupportingTextVisible =
                         handleTextInputSupportingTextVisible(setState)(onSupportingTextVisible)
 
-                const onTouchableHeaderFocus = handleTouchableHeaderFocus(textFieldRef)
+                const onTouchableHeaderFocus = handleTouchableHeaderFocus(textInputRef)
                 const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
                                 handleTextInputStateChange({
                                         ...options,
                                         content,
-                                        ref: textFieldRef,
+                                        ref: textInputRef,
                                         state: changedState
                                 })(setState)(event),
                         [content, setState]
@@ -242,7 +242,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         type
                 })
 
-                useImperativeHandle(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
+                useImperativeHandle(ref, () => (textInputRef?.current ? textInputRef?.current : {}) as TextInput, [])
 
                 useEffect(() => {
                         onTextInputSupportingText(supportingTextSource)
@@ -289,7 +289,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         onStateEvent,
                         onSupportingTextVisible: onTextInputSupportingTextVisible,
                         placeholderTextColor,
-                        ref: textFieldRef,
+                        ref: textInputRef,
                         supportingText,
                         supportingTextAnimatedStyle,
                         supportingTextVisible,

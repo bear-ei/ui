@@ -58,14 +58,14 @@ export const Leading = styled.View`
         `}
 `
 
-export const TextInput = styled.View`
+export const TextInputContainer = styled.View`
         ${({theme}) => css`
                 height: ${theme.adaptSize(theme.token.typography.body.large.lineHeight)}px;
                 padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `};
 `
 
-export const Input = styled.TextInput`
+export const TextInput = styled.TextInput`
         align-self: stretch;
         flex: 1;
 
