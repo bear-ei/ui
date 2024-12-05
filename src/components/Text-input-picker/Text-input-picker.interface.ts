@@ -6,10 +6,10 @@ import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, EventName} from '../Common'
 import {ListData} from '../List'
 import {MenuProps} from '../Menu'
-import {TextFieldProps} from '../Text-field/Text-field.interface'
+import {TextInputProps} from '../Text-input/Text-input.interface'
 
-export interface TextFieldPickerProps
-        extends TextFieldProps,
+export interface TextInputPickerProps
+        extends TextInputProps,
                 Pick<
                         MenuProps,
                         | 'activeKey'
@@ -24,7 +24,7 @@ export interface TextFieldPickerProps
                         | 'visible'
                 > {}
 
-export interface RenderTextFieldPickerProps extends TextFieldPickerProps {
+export interface RenderTextInputPickerProps extends TextInputPickerProps {
         contentElements?: React.ReactNode
         eventName?: EventName
         keyCode?: string
@@ -35,11 +35,11 @@ export interface RenderTextFieldPickerProps extends TextFieldPickerProps {
         theme: DefaultTheme
 }
 
-export interface TextFieldPickerBaseProps extends TextFieldPickerProps {
-        render: (props: RenderTextFieldPickerProps) => JSX.Element
+export interface TextInputPickerBaseProps extends TextInputPickerProps {
+        render: (props: RenderTextInputPickerProps) => JSX.Element
 }
 
-export interface TextFieldPickerState {
+export interface TextInputPickerState {
         activeKey?: string
         activeKeys?: string[]
         data?: ListData[]
@@ -53,17 +53,17 @@ export interface TextFieldPickerState {
         value?: string
 }
 
-export type HandleTextFieldPickerInitOptions = Pick<
-        TextFieldPickerProps,
+export type HandleTextInputPickerInitOptions = Pick<
+        TextInputPickerProps,
         'data' | 'activeKey' | 'activeKeys' | 'defaultActiveKey' | 'defaultActiveKeys'
 >
 
-export type HandleTextFieldPickerStateChangeOptions = OnStateEventChangeOptions
-export interface HandleTextFieldPickerMenuVisibleOptions extends Pick<TextFieldPickerProps, 'data'> {
-        setState: Updater<TextFieldPickerState>
+export type HandleTextInputPickerStateChangeOptions = OnStateEventChangeOptions
+export interface HandleTextInputPickerMenuVisibleOptions extends Pick<TextInputPickerProps, 'data'> {
+        setState: Updater<TextInputPickerState>
 }
 
-export interface RenderTextFieldPickerContentOptions extends Pick<TextFieldPickerProps, 'data'> {
+export interface RenderTextInputPickerContentOptions extends Pick<TextInputPickerProps, 'data'> {
         activeKeys?: string[]
         id: string
         onClose?: (value: string) => void

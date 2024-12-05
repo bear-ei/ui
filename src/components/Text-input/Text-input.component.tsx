@@ -3,8 +3,8 @@ import {TextInput as RNTextInput} from 'react-native'
 import Animated, {AnimatedProps} from 'react-native-reanimated'
 import {FastOmit} from 'styled-components'
 import {Underlay} from '../Underlay'
-import {TextFieldBase} from './Text-field-base.component'
-import {InputProps, RenderTextFieldProps, TextFieldProps} from './Text-field.interface'
+import {TextInputBase} from './Text-input-base.component'
+import {InputProps, RenderTextInputProps, TextInputProps} from './Text-input.interface'
 import {
         ActiveIndicator,
         Container,
@@ -20,7 +20,7 @@ import {
         SupportingText,
         TouchableHeader,
         Trailing
-} from './Text-field.styles'
+} from './Text-input.styles'
 
 /**
  * FIXME: Multiline text [macos]
@@ -58,7 +58,7 @@ const render = ({
         trailing,
         underlayColor,
         ...inputProps
-}: RenderTextFieldProps) => {
+}: RenderTextInputProps) => {
         const shape = 'extraSmallTop'
         const leadingShow = !!leading
         const {onFocus, onBlur, ...onTouchableHeaderEvent} = onStateEvent
@@ -173,12 +173,12 @@ const render = ({
         )
 }
 
-const ForwardRefTextField = forwardRef<RNTextInput, TextFieldProps>((props, ref) => (
-        <TextFieldBase
+const ForwardRefTextInput = forwardRef<RNTextInput, TextInputProps>((props, ref) => (
+        <TextInputBase
                 {...props}
                 ref={ref}
                 render={render}
         />
 ))
 
-export const TextField: FC<TextFieldProps> = ForwardRefTextField
+export const TextInput: FC<TextInputProps> = ForwardRefTextInput

@@ -1,8 +1,8 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {TextFieldPicker} from './Text-field-picker.component'
-import {TextFieldPickerProps} from './Text-field-picker.interface'
+import {TextInputPicker} from './Text-input-picker.component'
+import {TextInputPickerProps} from './Text-input-picker.interface'
 
-export const SelectTextField: StoryObj<TextFieldPickerProps> = {
+export const SelectTextInput: StoryObj<TextInputPickerProps> = {
         args: {
                 labelText: 'name',
                 supportingText: 'supportingText',
@@ -27,7 +27,7 @@ export const SelectTextField: StoryObj<TextFieldPickerProps> = {
         }
 }
 
-export const MultiselectTextField: StoryObj<TextFieldPickerProps> = {
+export const MultiselectTextInput: StoryObj<TextInputPickerProps> = {
         args: {
                 labelText: 'name',
                 multiple: true,
@@ -70,6 +70,6 @@ export const MultiselectTextField: StoryObj<TextFieldPickerProps> = {
 }
 
 export default {
-        title: 'components/TextFieldPicker',
-        component: TextFieldPicker
-} as Meta<typeof TextFieldPicker>
+        title: 'components/TextInputPicker',
+        component: TextInputPicker
+} as Meta<typeof TextInputPicker>

@@ -58,7 +58,7 @@ export const Leading = styled.View`
         `}
 `
 
-export const TextField = styled.View`
+export const TextInput = styled.View`
         ${({theme}) => css`
                 height: ${theme.adaptSize(theme.token.typography.body.large.lineHeight)}px;
                 padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;

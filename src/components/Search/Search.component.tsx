@@ -5,7 +5,7 @@ import {Underlay} from '../Underlay'
 import {SearchBase} from './Search-base.component'
 import {SearchList} from './Search-list'
 import {RenderSearchProps, SearchProps, SearchTextInputProps} from './Search.interface'
-import {Container, Content, Input, Leading, Main, TextField, Touchable, Trailing} from './Search.styles'
+import {Container, Content, Input, Leading, Main, Touchable, Trailing} from './Search.styles'
 
 const SearchTextInput: FC<SearchTextInputProps> = Input
 const render = ({
@@ -56,7 +56,7 @@ const render = ({
                                         </Leading>
 
                                         <Main testID={`search__main--${id}`}>
-                                                <TextField testID={`search__textField--${id}`}>
+                                                <TextInput testID={`search__textField--${id}`}>
                                                         <SearchTextInput
                                                                 {...textInputProps}
                                                                 /**
@@ -74,7 +74,7 @@ const render = ({
                                                                 testID={`search__input--${id}`}
                                                                 value={value}
                                                         />
-                                                </TextField>
+                                                </TextInput>
                                         </Main>
 
                                         {trailing && <Trailing testID={`search__trailing--${id}`}>{trailing}</Trailing>}

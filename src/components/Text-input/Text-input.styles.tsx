@@ -2,11 +2,11 @@ import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {
-        TextFieldControlProps,
-        TextFieldHeaderProps,
-        TextFieldLabelProps,
-        TextFieldMainProps
-} from './Text-field.interface'
+        TextInputControlProps,
+        TextInputHeaderProps,
+        TextInputLabelProps,
+        TextInputMainProps
+} from './Text-input.interface'
 
 export const Container = styled.View``
 export const Content = styled.View`
@@ -23,7 +23,7 @@ export const TouchableHeader = styled.Pressable`
         outline-style: none;
 `
 
-export const Header = styled(Shape)<TextFieldHeaderProps>`
+export const Header = styled(Shape)<TextInputHeaderProps>`
         align-items: center;
         display: flex;
         flex-direction: row;
@@ -51,7 +51,7 @@ export const Header = styled(Shape)<TextFieldHeaderProps>`
                 `}
 `
 
-export const Label = styled.View<TextFieldLabelProps>`
+export const Label = styled.View<TextInputLabelProps>`
         display: flex;
         flex-direction: column;
         position: absolute;
@@ -85,7 +85,7 @@ export const Leading = styled.View`
 `
 
 export const Trailing = styled(Leading)``
-export const Main = styled.View<TextFieldMainProps>`
+export const Main = styled.View<TextInputMainProps>`
         display: flex;
         flex-direction: column;
         flex: 1;
@@ -114,7 +114,7 @@ export const Main = styled.View<TextFieldMainProps>`
                 `};
 `
 
-export const Control = styled.View<TextFieldControlProps>`
+export const Control = styled.View<TextInputControlProps>`
         align-self: stretch;
         display: flex;
         flex-direction: column;
@@ -122,6 +122,7 @@ export const Control = styled.View<TextFieldControlProps>`
         justify-content: center;
 
         ${({theme}) => css`
+                max-height: ${theme.adaptSize(theme.token.spacing.large)}px;
                 min-height: ${theme.adaptSize(theme.token.typography.body.large.lineHeight)}px;
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
                 padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
@@ -142,6 +143,7 @@ export const Control = styled.View<TextFieldControlProps>`
  */
 export const Input = styled.TextInput`
         outline-style: none;
+        text-align: left;
 
         ${({theme, secureTextEntry}) =>
                 !secureTextEntry &&
@@ -151,9 +153,9 @@ export const Input = styled.TextInput`
                         font-size: ${theme.adaptFontSize(theme.token.typography.body.large.size)}px;
                         font-style: ${theme.token.typography.body.large.style};
                         font-weight: ${theme.token.typography.body.large.weight};
+                        height: ${theme.adaptFontSize(theme.token.typography.body.large.lineHeight)}px;
                         letter-spacing: ${theme.adaptSize(theme.token.typography.body.large.letterSpacing)}px;
                         padding: ${theme.adaptSize(theme.token.spacing.none)}px;
-                        text-align: left;
                 `};
 `
 

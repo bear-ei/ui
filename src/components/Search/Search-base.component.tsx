@@ -19,9 +19,9 @@ const handleSearchStateChange =
         ({eventName, ref, state}: HandleSearchStateChangeOptions) =>
         (setState: Updater<SearchState>) =>
         (_event: StateEvent) => {
-                const handleTextFieldFocus = () => ref?.current?.focus()
+                const handleTextInputFocus = () => ref?.current?.focus()
                 const nextEvent = {
-                        pressOut: () => handleTextFieldFocus()
+                        pressOut: () => handleTextInputFocus()
                 } as Record<EventName, () => void>
 
                 if (eventName === 'layout') {

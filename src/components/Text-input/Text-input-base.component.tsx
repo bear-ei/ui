@@ -5,16 +5,16 @@ import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {EventName, State} from '../Common'
 import {
-        HandleTextFieldStateEventChangeOptions,
-        HandleTextFieldSupportingTextOptions,
-        TextFieldBaseProps,
-        TextFieldState
-} from './Text-field.interface'
-import {useTextFieldAnimated} from './use-text-field-animated.hook'
+        HandleTextInputStateEventChangeOptions,
+        HandleTextInputSupportingTextOptions,
+        TextInputBaseProps,
+        TextInputState
+} from './Text-input.interface'
+import {useTextInputAnimated} from './use-text-input-animated.hook'
 
-const handleTextFieldStateChange =
-        ({content, eventName, ref, state}: HandleTextFieldStateEventChangeOptions) =>
-        (setState: Updater<TextFieldState>) =>
+const handleTextInputStateChange =
+        ({content, eventName, ref, state}: HandleTextInputStateEventChangeOptions) =>
+        (setState: Updater<TextInputState>) =>
         (_event: StateEvent) => {
                 const nextEvent = {
                         pressOut: () => ref?.current?.focus()
@@ -43,24 +43,23 @@ const handleTextFieldStateChange =
                 })
         }
 
-const handleTextFieldContentSizeChange =
-        (setState: Updater<TextFieldState>) =>
-        (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) => {
-                return (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
-                        const handleNextContentSizeChangeEvent = () => onContentSizeChange?.(event)
-                        const contentSize = event.nativeEvent.contentSize
+const handleTextInputContentSizeChange =
+        (setState: Updater<TextInputState>) =>
+        (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
+        (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
+                const handleNextContentSizeChangeEvent = () => onContentSizeChange?.(event)
+                const contentSize = event.nativeEvent.contentSize
 
-                        setState(draft => {
-                                draft.contentSize.width = contentSize.width
-                                draft.contentSize.height = contentSize.height
-                                draft.nextContentSizeChangeEvent = handleNextContentSizeChangeEvent
-                        })
-                }
+                setState(draft => {
+                        draft.contentSize.width = contentSize.width
+                        draft.contentSize.height = contentSize.height
+                        draft.nextContentSizeChangeEvent = handleNextContentSizeChangeEvent
+                })
         }
 
-const handleTextFieldSupportingText =
-        ({timer, supportingTextDelayTime}: HandleTextFieldSupportingTextOptions) =>
-        (setState: Updater<TextFieldState>) => {
+const handleTextInputSupportingText =
+        ({timer, supportingTextDelayTime}: HandleTextInputSupportingTextOptions) =>
+        (setState: Updater<TextInputState>) => {
                 const handleSupportingTextVisible = () =>
                         setState(draft => {
                                 draft.supportingTextVisible = false
@@ -82,11 +81,11 @@ const handleTextFieldSupportingText =
                 }
         }
 
-const handleTextFieldSupportingTextVisible =
-        (setState: Updater<TextFieldState>) =>
+const handleTextInputSupportingTextVisible =
+        (setState: Updater<TextInputState>) =>
         (onSupportingTextVisible?: (value: boolean) => void) =>
         (value?: boolean) => {
-                const handlenextSupportingTextVisibleEvent = () => {
+                const handleNextSupportingTextVisibleEvent = () => {
                         if (value) {
                                 onSupportingTextVisible?.(value)
                         }
@@ -98,32 +97,38 @@ const handleTextFieldSupportingTextVisible =
 
                 setState(draft => {
                         draft.supportingText = value ? draft.supportingText : undefined
-                        draft.nextSupportingTextVisibleEvent = handlenextSupportingTextVisibleEvent
+                        draft.nextSupportingTextVisibleEvent = handleNextSupportingTextVisibleEvent
                 })
         }
 
-const handleTextFieldChangeText =
-        (onChangeText?: (value: string) => void) => (setState: Updater<TextFieldState>) => (value?: string) => {
+const handleTextInputChangeText =
+        (onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value?: string) => {
+                const nextValue = value?.trim()
                 const handleNextChangeTextEvent = () => {
-                        if (value) {
-                                onChangeText?.(value)
+                        if (nextValue) {
+                                onChangeText?.(nextValue)
                         }
                 }
 
                 setState(draft => {
                         const prevTextInputValue = draft.textInputValue
 
-                        draft.textInputValue = value ?? ''
+                        draft.textInputValue = nextValue ?? ''
 
-                        if (typeof value === 'string' && prevTextInputValue !== value) {
+                        if (typeof nextValue === 'string' && prevTextInputValue !== nextValue) {
                                 draft.nextChangeTextEvent = handleNextChangeTextEvent
                         }
                 })
         }
 
+const handleTextInputChangeTextInit = (setState: Updater<TextInputState>) => (value?: string) =>
+        setState(draft => {
+                draft.textInputValue = value
+        })
+
 const handleTouchableHeaderFocus = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
 
-export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
+export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
         (
                 {
                         content,
@@ -144,7 +149,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                         supportingTextDelayTime,
                         trailing,
                         type = 'filled',
-                        value,
+                        value: rawValue,
                         ...renderProps
                 },
                 ref
@@ -163,7 +168,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                                 textInputValue
                         },
                         setState
-                ] = useImmer<TextFieldState>({
+                ] = useImmer<TextInputState>({
                         contentSize: {} as TextInputContentSizeChangeEventData['contentSize'],
                         eventName: undefined,
                         nextChangeTextEvent: undefined,
@@ -173,9 +178,10 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                         state: 'enabled',
                         supportingText: undefined,
                         supportingTextVisible: undefined,
-                        textInputValue: ''
+                        textInputValue: undefined
                 })
 
+                const value = rawValue ?? defaultValue
                 const id = useId()
                 const textFieldRef = useRef<TextInput>(null)
                 const supportingTextTimer = useRef<NodeJS.Timeout>()
@@ -186,27 +192,27 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                         :       theme.token.scheme.onSurfaceVariant
 
                 const underlayColor = theme.token.scheme.onSurface
-                const onTextFieldContentSizeChange = (
+                const onTextInputContentSizeChange = (
                         event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
-                ) => handleTextFieldContentSizeChange(setState)(onContentSizeChange)(event)
+                ) => handleTextInputContentSizeChange(setState)(onContentSizeChange)(event)
 
-                const onTextFieldSupportingText = useMemo(
+                const onTextInputSupportingText = useMemo(
                         () =>
-                                handleTextFieldSupportingText({timer: supportingTextTimer, supportingTextDelayTime})(
+                                handleTextInputSupportingText({timer: supportingTextTimer, supportingTextDelayTime})(
                                         setState
                                 ),
                         [setState, supportingTextDelayTime]
                 )
 
-                const onTextFieldChangeText = handleTextFieldChangeText(onChangeText)(setState)
-                const onTextFieldChangeTextSource = useMemo(() => handleTextFieldChangeText()(setState), [setState])
-                const onTextFieldSupportingTextVisible =
-                        handleTextFieldSupportingTextVisible(setState)(onSupportingTextVisible)
+                const onTextInputChangeText = handleTextInputChangeText(onChangeText)(setState)
+                const onTextInputChangeTextInit = useMemo(() => handleTextInputChangeTextInit(setState), [setState])
+                const onTextInputSupportingTextVisible =
+                        handleTextInputSupportingTextVisible(setState)(onSupportingTextVisible)
 
                 const onTouchableHeaderFocus = handleTouchableHeaderFocus(textFieldRef)
                 const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
-                                handleTextFieldStateChange({
+                                handleTextInputStateChange({
                                         ...options,
                                         content,
                                         ref: textFieldRef,
@@ -228,10 +234,10 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                         labelAnimatedStyle,
                         labelTextAnimatedStyle,
                         supportingTextAnimatedStyle
-                } = useTextFieldAnimated({
+                } = useTextInputAnimated({
                         disabled,
                         error,
-                        filled: [value, defaultValue, placeholder, textInputValue, content, filled].some(Boolean),
+                        filled: [value, placeholder, textInputValue, content, filled].some(Boolean),
                         state,
                         type
                 })
@@ -239,12 +245,12 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                 useImperativeHandle(ref, () => (textFieldRef?.current ? textFieldRef?.current : {}) as TextInput, [])
 
                 useEffect(() => {
-                        onTextFieldSupportingText(supportingTextSource)
-                }, [onTextFieldSupportingText, supportingTextSource])
+                        onTextInputSupportingText(supportingTextSource)
+                }, [onTextInputSupportingText, supportingTextSource])
 
                 useEffect(() => {
-                        onTextFieldChangeTextSource(value ?? defaultValue)
-                }, [defaultValue, onTextFieldChangeTextSource, value])
+                        onTextInputChangeTextInit(rawValue ?? defaultValue)
+                }, [defaultValue, onTextInputChangeTextInit, rawValue])
 
                 useEffect(() => {
                         nextPressOutEvent?.()
@@ -277,11 +283,11 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                         labelTextAnimatedStyle,
                         leading,
                         multiline,
-                        onChangeText: onTextFieldChangeText,
-                        onContentSizeChange: onTextFieldContentSizeChange,
+                        onChangeText: onTextInputChangeText,
+                        onContentSizeChange: onTextInputContentSizeChange,
                         onHeaderFocus: onTouchableHeaderFocus,
                         onStateEvent,
-                        onSupportingTextVisible: onTextFieldSupportingTextVisible,
+                        onSupportingTextVisible: onTextInputSupportingTextVisible,
                         placeholderTextColor,
                         ref: textFieldRef,
                         supportingText,
@@ -289,7 +295,7 @@ export const TextFieldBase = forwardRef<TextInput, TextFieldBaseProps>(
                         supportingTextVisible,
                         trailing,
                         underlayColor,
-                        value: textInputValue
+                        value: textInputValue ?? value
                 })
         }
 )

@@ -1,16 +1,16 @@
 import {Meta, StoryObj} from '@storybook/react'
 import {Icon} from '../Icon'
-import {TextField} from './Text-field.component'
-import {TextFieldProps} from './Text-field.interface'
+import {TextInput} from './Text-input.component'
+import {TextInputProps} from './Text-input.interface'
 
-export const Filled: StoryObj<TextFieldProps> = {
+export const Filled: StoryObj<TextInputProps> = {
         args: {
                 labelText: 'name',
                 supportingText: 'supportingText'
         }
 }
 
-export const IconTextField: StoryObj<TextFieldProps> = {
+export const IconTextInput: StoryObj<TextInputProps> = {
         args: {
                 labelText: 'name',
                 supportingText: 'supportingText',
@@ -19,6 +19,6 @@ export const IconTextField: StoryObj<TextFieldProps> = {
 }
 
 export default {
-        title: 'components/TextField',
-        component: TextField
-} as Meta<typeof TextField>
+        title: 'components/TextInput',
+        component: TextInput
+} as Meta<typeof TextInput>

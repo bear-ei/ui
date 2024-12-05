@@ -2,7 +2,7 @@ import {Meta} from '@storybook/react'
 import {IsDefined, IsNotEmpty, IsNumberString} from 'class-validator'
 import {StyleProp, View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
-import {TextField} from '../Text-field'
+import {TextInput} from '../Text-input'
 import {FormItemControlProps, FormItemProps} from './Form-item'
 import {Form} from './Form.component'
 
@@ -30,7 +30,7 @@ export const FormA = () => {
                 onValuesChange,
                 value
         }: FormItemControlProps) => (
-                <TextField
+                <TextInput
                         error={!!errorMessage}
                         key={id}
                         labelText={labelText}

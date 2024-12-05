@@ -1,9 +1,9 @@
 import {MutableRefObject, RefAttributes, RefObject} from 'react'
 import {
         PressableProps,
+        TextInputProps as RNTextInputProps,
         TextInput,
         TextInputContentSizeChangeEventData,
-        TextInputProps,
         TextStyle,
         ViewStyle
 } from 'react-native'
@@ -11,14 +11,14 @@ import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimat
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {EventName, ShapeProps, State, TypographyProps} from '../Common'
 
-export type TextFieldType = 'filled' | 'outlined'
-export interface InputProps extends TextInputProps, RefAttributes<TextInput> {
+export type TextInputType = 'filled' | 'outlined'
+export interface InputProps extends RNTextInputProps, RefAttributes<TextInput> {
         enableFocusRing?: boolean
 }
 
-export interface TextFieldProps
+export interface TextInputProps
         extends Partial<
-                TextInputProps & PressableProps & RefAttributes<TextInput> & Pick<ShapeProps, 'shape'> & OnStateEvent
+                RNTextInputProps & PressableProps & RefAttributes<TextInput> & Pick<ShapeProps, 'shape'> & OnStateEvent
         > {
         content?: React.ReactNode
         disabled?: boolean
@@ -31,10 +31,10 @@ export interface TextFieldProps
         supportingText?: string
         supportingTextDelayTime?: number
         trailing?: JSX.Element
-        type?: TextFieldType
+        type?: TextInputType
 }
 
-export interface RenderTextFieldProps extends TextFieldProps {
+export interface RenderTextInputProps extends TextInputProps {
         activeIndicatorAnimatedStyle: AnimatedStyle<ViewStyle>
         contentSize?: Partial<TextInputContentSizeChangeEventData['contentSize']>
         eventName?: EventName
@@ -50,11 +50,11 @@ export interface RenderTextFieldProps extends TextFieldProps {
         underlayColor: string
 }
 
-export interface TextFieldBaseProps extends TextFieldProps {
-        render: (props: RenderTextFieldProps) => JSX.Element
+export interface TextInputBaseProps extends TextInputProps {
+        render: (props: RenderTextInputProps) => JSX.Element
 }
 
-export interface TextFieldState {
+export interface TextInputState {
         contentSize: TextInputContentSizeChangeEventData['contentSize']
         eventName?: EventName
         nextChangeTextEvent?: () => void
@@ -67,26 +67,26 @@ export interface TextFieldState {
         textInputValue?: string
 }
 
-export interface HandleTextFieldStateEventChangeOptions
+export interface HandleTextInputStateEventChangeOptions
         extends OnStateEventChangeOptions,
-                Pick<TextFieldProps, 'content'> {
+                Pick<TextInputProps, 'content'> {
         ref?: RefObject<TextInput>
 }
 
-export interface UseTextFieldAnimatedOptions extends Pick<RenderTextFieldProps, 'type' | 'error' | 'disabled'> {
+export interface UseTextInputAnimatedOptions extends Pick<RenderTextInputProps, 'type' | 'error' | 'disabled'> {
         filled: boolean
         state: State
 }
 
-export interface HandleTextFieldEnabledSharedOptions extends Pick<UseTextFieldAnimatedOptions, 'error'> {
+export interface HandleTextInputEnabledSharedOptions extends Pick<UseTextInputAnimatedOptions, 'error'> {
         filledToValue: number
 }
 
-export interface HandleTextFieldSupportingTextOptions extends Pick<TextFieldProps, 'supportingTextDelayTime'> {
+export interface HandleTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelayTime'> {
         timer: MutableRefObject<NodeJS.Timeout | undefined>
 }
 
-export interface HandleTextFieldEnabledSharedValue {
+export interface HandleTextInputEnabledSharedValue {
         activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
         colorSharedValue: SharedValue<AnimatableValue>
         inputColorSharedValue: SharedValue<AnimatableValue>
@@ -94,7 +94,7 @@ export interface HandleTextFieldEnabledSharedValue {
         supportingTextSharedValue: SharedValue<AnimatableValue>
 }
 
-export interface HandleTextFieldDisabledSharedValue {
+export interface HandleTextInputDisabledSharedValue {
         activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
         colorSharedValue: SharedValue<AnimatableValue>
         headerInnerBackgroundColorSharedValue: SharedValue<AnimatableValue>
@@ -102,35 +102,35 @@ export interface HandleTextFieldDisabledSharedValue {
         supportingTextSharedValue: SharedValue<AnimatableValue>
 }
 
-export interface HandleTextFieldErrorSharedValue {
+export interface HandleTextInputErrorSharedValue {
         activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
         colorSharedValue: SharedValue<AnimatableValue>
         inputColorSharedValue: SharedValue<AnimatableValue>
         supportingTextSharedValue: SharedValue<AnimatableValue>
 }
 
-export interface HandleTextFieldFocusedSharedValue {
+export interface HandleTextInputFocusedSharedValue {
         activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
         colorSharedValue: SharedValue<AnimatableValue>
         labelTextSharedValue: SharedValue<AnimatableValue>
 }
 
-export type TextFieldStateAnimated = Partial<Record<State, () => void>>
-export type HandleTextFieldNonerrorAnimatedOptions = Pick<UseTextFieldAnimatedOptions, 'disabled' | 'error'>
-export type TextFieldHeaderProps = Pick<RenderTextFieldProps, 'type'> & {
+export type TextInputStateAnimated = Partial<Record<State, () => void>>
+export type HandleTextInputNonerrorAnimatedOptions = Pick<UseTextInputAnimatedOptions, 'disabled' | 'error'>
+export type TextInputHeaderProps = Pick<RenderTextInputProps, 'type'> & {
         leadingShow: boolean
         trailingShow: boolean
 }
 
-export interface TextFieldControlProps {
+export interface TextInputControlProps {
         multiline?: boolean
         height?: number
 }
 
-export interface TextFieldLabelProps extends TypographyProps {
+export interface TextInputLabelProps extends TypographyProps {
         leadingShow: boolean
 }
 
-export interface TextFieldMainProps {
+export interface TextInputMainProps {
         contentShow?: boolean
 }

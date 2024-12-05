@@ -1,10 +1,10 @@
 import {FC, forwardRef} from 'react'
-import {TextInput} from 'react-native'
+import {TextInput as RNTextInput} from 'react-native'
 import {Menu} from '../Menu'
-import {TextField} from '../Text-field'
-import {TextFieldPickerBase} from './Text-field-picker-base.component'
-import {RenderTextFieldPickerProps, TextFieldPickerProps} from './Text-field-picker.interface'
-import {Container} from './Text-field-picker.styles'
+import {TextInput} from '../Text-input'
+import {TextInputPickerBase} from './Text-input-picker-base.component'
+import {RenderTextInputPickerProps, TextInputPickerProps} from './Text-input-picker.interface'
+import {Container} from './Text-input-picker.styles'
 
 const render = ({
         activeKey,
@@ -21,7 +21,7 @@ const render = ({
         onStateEvent,
         testID,
         ...textFieldProps
-}: RenderTextFieldPickerProps) => (
+}: RenderTextInputPickerProps) => (
         <Container testID={testID ?? `textFieldPicker--${id}`}>
                 <Menu
                         activeKey={activeKey}
@@ -34,7 +34,7 @@ const render = ({
                         onVisible={onMenuVisible}
                         triggerEvent='focus'
                 >
-                        <TextField
+                        <TextInput
                                 {...onStateEvent}
                                 {...textFieldProps}
                                 content={contentElements}
@@ -44,12 +44,12 @@ const render = ({
         </Container>
 )
 
-const ForwardRefTextFieldPicker = forwardRef<TextInput, TextFieldPickerProps>((props, ref) => (
-        <TextFieldPickerBase
+const ForwardRefTextInputPicker = forwardRef<RNTextInput, TextInputPickerProps>((props, ref) => (
+        <TextInputPickerBase
                 {...props}
                 ref={ref}
                 render={render}
         />
 ))
 
-export const TextFieldPicker: FC<TextFieldPickerProps> = ForwardRefTextFieldPicker
+export const TextInputPicker: FC<TextInputPickerProps> = ForwardRefTextInputPicker
