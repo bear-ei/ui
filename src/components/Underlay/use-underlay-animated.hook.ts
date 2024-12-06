@@ -93,7 +93,7 @@ export const useUnderlayAnimated = ({
                                 handleUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(
                                         hoverLayerSharedValue
                                 )
-                        )(150),
+                        )(50),
                 [animatedTiming, activeValue, hoverLayerSharedValue]
         )
 

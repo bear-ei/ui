@@ -3,7 +3,7 @@ import {View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 
 export interface Item {
-        extraData?: string[]
+        extraData?: unknown[]
 }
 
 export interface RenderVirtualListItemInfo<T> {
@@ -13,9 +13,9 @@ export interface RenderVirtualListItemInfo<T> {
 
 export interface VirtualListItemProps<T = Record<string, unknown>> extends ViewProps, RefAttributes<View> {
         extraData?: unknown[]
+        gap?: number
         index?: number
         item?: T & Item
-        gap?: number
         itemSize?: number
         loading?: boolean
         onLoadEnd?: (value?: string) => void

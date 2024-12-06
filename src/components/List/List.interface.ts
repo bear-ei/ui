@@ -10,6 +10,7 @@ export interface ListData
         extends Pick<
                 ListItemProps,
                 | 'contentStyle'
+                | 'extraData'
                 | 'headline'
                 | 'leading'
                 | 'supporting'
@@ -18,11 +19,6 @@ export interface ListData
                 | 'trailingProps'
         > {
         indexKey: string
-
-        /**
-         * Used to control whether or not the item is updated in the virtual list.
-         */
-        extraData?: string[]
 }
 
 export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
@@ -104,6 +100,7 @@ export type HandleRenderItemOptions = Pick<
         | 'divider'
         | 'enableUnderlay'
         | 'enableUnderlayActive'
+        | 'extraData'
         | 'focusedIndex'
         | 'onActive'
         | 'onActiveAfterAffordance'

@@ -32,7 +32,7 @@ export interface ListItemProps
         divider?: boolean
         enableUnderlay?: boolean
         enableUnderlayActive?: boolean
-        extraData?: string[]
+        extraData?: unknown[]
         focusedIndex?: number
         gap?: number
         headline?: React.ReactNode

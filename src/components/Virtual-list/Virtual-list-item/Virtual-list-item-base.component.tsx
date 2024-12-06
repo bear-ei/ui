@@ -57,8 +57,8 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                         !item ?
                                 <></>
                         :       renderItem?.({
-                                        item: {...item, onVisible: onVirtualListItemVisible, onLoadEnd},
-                                        index
+                                        index,
+                                        item: {...item, onVisible: onVirtualListItemVisible, onLoadEnd}
                                 })
 
                 return render({
