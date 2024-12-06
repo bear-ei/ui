@@ -126,6 +126,12 @@ const handleTextInputChangeTextInit = (setState: Updater<TextInputState>) => (va
                 draft.textInputValue = value
         })
 
+const handleTextInputEditableChange = (ref: React.RefObject<TextInput>) => (value?: boolean) => {
+        if (value) {
+                ref?.current?.blur()
+        }
+}
+
 const handleTouchableHeaderFocus = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
 
 export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
@@ -204,6 +210,11 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         [setState, supportingTextDelayTime]
                 )
 
+                const onTextInputEditableChange = useMemo(
+                        () => handleTextInputEditableChange(textInputRef),
+                        [textInputRef]
+                )
+
                 const onTextInputChangeText = handleTextInputChangeText(onChangeText)(setState)
                 const onTextInputChangeTextInit = useMemo(() => handleTextInputChangeTextInit(setState), [setState])
                 const onTextInputSupportingTextVisible =
@@ -243,6 +254,10 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 })
 
                 useImperativeHandle(ref, () => (textInputRef?.current ? textInputRef?.current : {}) as TextInput, [])
+
+                useEffect(() => {
+                        onTextInputEditableChange(editable)
+                }, [editable, onTextInputEditableChange])
 
                 useEffect(() => {
                         onTextInputSupportingText(supportingTextSource)

@@ -105,7 +105,10 @@ const handleActiveListAfterAffordance =
                                 }
 
                                 draft.afterAffordanceActiveKey = value
-                                draft.listActiveKey = value
+
+                                if (value) {
+                                        draft.listActiveKey = value
+                                }
 
                                 if (prevListActiveKey !== draft.listActiveKey) {
                                         draft.nextAfterAffordanceActiveEvent = handleNextAfterAffordanceActiveEvent

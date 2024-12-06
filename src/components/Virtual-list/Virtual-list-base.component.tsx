@@ -210,6 +210,7 @@ export const VirtualListBaseInner = <T,>(
                 data,
                 extraData,
                 focusedIndex,
+                gap = 0,
                 itemSize = 0,
                 loading,
                 loadingComponent,
@@ -218,7 +219,6 @@ export const VirtualListBaseInner = <T,>(
                 onScroll,
                 render,
                 renderItem,
-                gap = 0,
                 ...renderProps
         }: VirtualListBaseProps<T>,
         ref: ForwardedRef<Animated.ScrollView>
@@ -238,7 +238,7 @@ export const VirtualListBaseInner = <T,>(
                 visibleRangeData: undefined
         })
 
-        const contentSize = virtualListData ? virtualListData.length * itemSize : 0
+        const contentSize = virtualListData ? virtualListData.length * (itemSize + gap) - gap : 0
         const id = useId()
         const scrollViewRef = useRef<Animated.ScrollView>(null)
         const onVirtualListVisibleRange = useMemo(
@@ -324,6 +324,7 @@ export const VirtualListBaseInner = <T,>(
                 emptyList,
                 id,
                 itemElements,
+                itemSize,
                 loading,
                 loadingComponent,
                 onStateEvent,

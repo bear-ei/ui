@@ -13,21 +13,19 @@ const render = ({
         testID,
         visible,
         ...containerProps
-}: RenderVirtualListItemProps) => {
-        return (
-                <AnimatedContainer
-                        {...containerProps}
-                        height={itemSize}
-                        onUnmount={onUnmount}
-                        style={[containerAnimatedStyle]}
-                        testID={testID ?? `virtualListItem--${id}`}
-                        unmount={true}
-                        visible={visible}
-                >
-                        {itemElement}
-                </AnimatedContainer>
-        )
-}
+}: RenderVirtualListItemProps) => (
+        <AnimatedContainer
+                {...containerProps}
+                height={itemSize}
+                onUnmount={onUnmount}
+                style={[containerAnimatedStyle]}
+                testID={testID ?? `virtualListItem--${id}`}
+                unmount={true}
+                visible={visible}
+        >
+                {itemElement}
+        </AnimatedContainer>
+)
 
 const ForwardRefVirtualListItem = forwardRef<View, VirtualListItemProps>((props, ref) => (
         <VirtualListItemBase

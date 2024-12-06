@@ -7,7 +7,7 @@ import {Container, Content, EmptyContent, LoadingContent, Supporting} from './Vi
 
 const render = <T,>({
         contentContainerStyle,
-        contentSize,
+        contentSize = 0,
         emptyComponent,
         emptyList,
         id,

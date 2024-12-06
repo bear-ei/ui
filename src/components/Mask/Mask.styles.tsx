@@ -28,4 +28,5 @@ export const Container = styled(LayoutAnimated)<MaskContainerProps>`
 
 export const Content = styled.Pressable`
         flex: 1;
+        outline-style: none;
 `

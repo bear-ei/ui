@@ -37,6 +37,6 @@ export const MaskBase: FC<MaskBaseProps> = ({render, ref, ...renderProps}) => {
                 ...renderProps,
                 id,
                 onStateEvent,
-                ref
+                ref: maskRef
         })
 }
