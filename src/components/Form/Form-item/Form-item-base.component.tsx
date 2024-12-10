@@ -83,7 +83,8 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
                 const errors = getFieldsError(name)
                 const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
                 const onComponentUpdate = useMemo(() => handleComponentUpdate(setState), [setState])
-                const storeValue = getFieldsValue(name) ?? getInitialValues(name)
+                const storeValue = getFieldsValue(name)
+                const value = storeValue ?? (status === 'idle' ? getInitialValues(name) : storeValue)
                 const onValuesChange = handleFormItemValueChange({setFieldsValue, storeValue})(name)
                 const onFormItemInit = useMemo(
                         () => handleFormItemInit({rule, signInFields, onComponentUpdate, validatorOptions})(setState),
@@ -97,7 +98,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
                         onBlur: onControlBlur,
                         onLoadEnd,
                         onValuesChange,
-                        value: storeValue
+                        value
                 })
 
                 useEffect(() => {
