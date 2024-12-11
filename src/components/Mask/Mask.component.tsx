@@ -12,6 +12,7 @@ const render = ({id, ref, onStateEvent, testID, ...containerProps}: RenderMaskPr
         >
                 <Content
                         {...onStateEvent}
+                        enableFocusRing={false}
                         ref={ref}
                         testID={`mask_content--${id}`}
                 />

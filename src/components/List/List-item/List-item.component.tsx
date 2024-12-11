@@ -114,7 +114,6 @@ const render = ({
                                                         testID={`listItem__main--${id}`}
                                                         trailingShow={trailingShow}
                                                         type={type}
-                                                        {...(type === 'navigation' && {shape})}
                                                 >
                                                         {leadingElement && (
                                                                 <Leading
@@ -141,11 +140,7 @@ const render = ({
                                                                                 <AnimatedHeadlineText
                                                                                         ellipsizeMode='tail'
                                                                                         numberOfLines={1}
-                                                                                        size={
-                                                                                                type === 'navigation' ?
-                                                                                                        'medium'
-                                                                                                :       'large'
-                                                                                        }
+                                                                                        size='large'
                                                                                         style={[
                                                                                                 headlineTextAnimatedStyle
                                                                                         ]}

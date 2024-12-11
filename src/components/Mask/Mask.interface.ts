@@ -21,3 +21,7 @@ export type MaskContainerProps = Pick<MaskProps, 'backgroundColor' | 'visible'>
 export interface HandleMaskStateChangeOptions extends OnStateEventChangeOptions {
         maskRef: RefObject<View>
 }
+
+export type MaskContentProps = {
+        enableFocusRing: boolean
+}

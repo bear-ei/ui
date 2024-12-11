@@ -5,7 +5,7 @@ import {RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtu
 import {ListItemProps} from './List-item'
 
 export type VirtualListComponent<T> = typeof VirtualList<T>
-export type ListType = 'standard' | 'menu' | 'navigation'
+export type ListType = 'standard' | 'menu'
 export interface ListData
         extends Pick<
                 ListItemProps,
@@ -124,4 +124,3 @@ export interface ListBaseProps extends ListProps {
 }
 
 export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
-export type ListContainerProps = Pick<ListProps, 'type' | 'gap'>

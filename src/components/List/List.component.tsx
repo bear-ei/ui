@@ -15,7 +15,6 @@ const render = ({
         loading,
         style,
         testID,
-        type,
         ...virtualListProps
 }: RenderListProps) => (
         <Container
@@ -23,7 +22,6 @@ const render = ({
                 accessibilityRole='list'
                 style={[style]}
                 testID={testID ?? `list--${id}`}
-                type={type}
         >
                 <VirtualList
                         {...virtualListProps}

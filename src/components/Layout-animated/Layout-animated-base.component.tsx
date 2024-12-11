@@ -96,6 +96,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 {
                         animatedType = 'fade',
                         defaultVisible,
+                        disabledAnimated = false,
                         entry,
                         exit,
                         hidden = true,
@@ -154,6 +155,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
                 const {fadeAnimatedStyle, collapseAnimatedStyle} = useLayoutAnimated({
                         animatedType,
+                        disabledAnimated,
                         entry,
                         exit,
                         onAnimatedFinished: onLayoutAnimatedFinished,

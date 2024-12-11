@@ -158,7 +158,6 @@ const handleListItemSize =
         (type = 'standard' as ListType) => {
                 const itemSize = {
                         menu: theme.adaptSize(theme.token.spacing.extraSmall * 12),
-                        navigation: theme.adaptSize(theme.token.spacing.extraSmall * 9),
                         standard: theme.adaptSize(theme.token.spacing.extraSmall * 14)
                 }
 
@@ -314,8 +313,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         loading,
                         loadingComponent,
                         ref: listRef as RenderListProps['ref'],
-                        renderItem: renderListItem,
-                        type
+                        renderItem: renderListItem
                 })
         }
 )
