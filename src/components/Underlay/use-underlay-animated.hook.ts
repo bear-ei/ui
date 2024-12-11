@@ -1,4 +1,5 @@
 import {useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
@@ -103,11 +104,11 @@ export const useUnderlayAnimated = ({
         )
 
         useEffect(() => {
-                onUnderlayHoveredAnimatedTiming(eventName)
+                InteractionManager.runAfterInteractions(() => onUnderlayHoveredAnimatedTiming(eventName))
         }, [eventName, onUnderlayHoveredAnimatedTiming])
 
         useEffect(() => {
-                onUnderlayActiveAnimatedTiming(active)
+                InteractionManager.runAfterInteractions(() => onUnderlayActiveAnimatedTiming(active))
         }, [active, onUnderlayActiveAnimatedTiming])
 
         return {hoverLayerAnimatedStyle, activeLayerAnimatedStyle}

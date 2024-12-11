@@ -1,10 +1,11 @@
 import {useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {AnimatableValue, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
 import {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
-const handleVirtualListItemAnimated =
+const handleVirtualListItemAnimatedTiming =
         (animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<AnimatableValue>) => (value: number) =>
                 animatedTiming({duration: 'short2'})(topSharedValue)(value)
 
@@ -16,14 +17,14 @@ export const useVirtualListItemAnimated = ({top = 0}: UseVirtualListItemAnimated
                 top: topSharedValue.value
         }))
 
-        const onVirtualListItemAnimated = useMemo(
-                () => handleVirtualListItemAnimated(animatedTiming)(topSharedValue),
+        const onVirtualListItemAnimatedTiming = useMemo(
+                () => handleVirtualListItemAnimatedTiming(animatedTiming)(topSharedValue),
                 [animatedTiming, topSharedValue]
         )
 
         useEffect(() => {
-                onVirtualListItemAnimated(top)
-        }, [onVirtualListItemAnimated, top])
+                InteractionManager.runAfterInteractions(() => onVirtualListItemAnimatedTiming(top))
+        }, [onVirtualListItemAnimatedTiming, top])
 
         return {containerAnimatedStyle}
 }

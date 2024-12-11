@@ -1,4 +1,5 @@
 import {useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {AnimatableValue, SharedValue, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
@@ -72,7 +73,7 @@ export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptio
         )
 
         useEffect(() => {
-                onFABAnimatedTiming(disabled)
+                InteractionManager.runAfterInteractions(() => onFABAnimatedTiming(disabled))
         }, [disabled, onFABAnimatedTiming])
 
         return {contentUnderlayAnimatedStyle, labelTextAnimatedStyle}

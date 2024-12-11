@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {
         AnimatableValue,
         SharedValue,
@@ -16,7 +17,11 @@ import {
         UseChipAnimatedOptions
 } from './Chip.interface'
 
-const handleChipBorderAnimated = ({animatedTiming, borderInputRange, disabled}: HandleChipAnimatedTimingOptions) => {
+const handleChipBorderAnimatedTiming = ({
+        animatedTiming,
+        borderInputRange,
+        disabled
+}: HandleChipAnimatedTimingOptions) => {
         const value = disabled ? 0 : borderInputRange[borderInputRange.length - 2]
 
         return (borderSharedValue: SharedValue<AnimatableValue>) => (active?: boolean) => {
@@ -50,14 +55,14 @@ const handleChipAnimatedTiming = ({
                         colorSharedValue,
                         filterIconContainerWidthSharedValue
                 }: HandleChipAnimatedTimingSharedValue) => {
-                        const borderAnimated = handleChipBorderAnimated({
+                        const borderAnimatedTiming = handleChipBorderAnimatedTiming({
                                 animatedTiming,
                                 borderInputRange,
                                 disabled
                         })(borderSharedValue)
 
                         if (typeof active === 'boolean') {
-                                borderAnimated(active)
+                                borderAnimatedTiming(active)
 
                                 if (type === 'filter') {
                                         handleChipFilterIcon(animatedTiming)(filterIconContainerWidthSharedValue)(
@@ -69,7 +74,7 @@ const handleChipAnimatedTiming = ({
                         animatedTiming()(colorSharedValue)(toValue)
 
                         if (typeof elevated === 'boolean') {
-                                borderAnimated(elevated)
+                                borderAnimatedTiming(elevated)
                         }
                 }
 }
@@ -249,7 +254,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
         )
 
         useEffect(() => {
-                onChipAnimatedTiming()
+                InteractionManager.runAfterInteractions(() => onChipAnimatedTiming())
         }, [onChipAnimatedTiming])
 
         return {

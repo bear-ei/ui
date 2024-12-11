@@ -1,4 +1,5 @@
 import {useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {AnimatableValue, SharedValue, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
@@ -9,7 +10,7 @@ import {
         UseButtonAnimatedOptions
 } from './Button.interface'
 
-const handleButtonOutlinedAnimated = ({
+const handleButtonOutlinedAnimatedTiming = ({
         animatedTiming,
         borderColorInputRange,
         disabled
@@ -35,7 +36,7 @@ const handleButtonAnimatedTiming = ({
         return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
                 (eventName?: EventName) => {
                         if (type === 'outlined') {
-                                handleButtonOutlinedAnimated({animatedTiming, borderColorInputRange, disabled})(
+                                handleButtonOutlinedAnimatedTiming({animatedTiming, borderColorInputRange, disabled})(
                                         borderSharedValue
                                 )(eventName)
 
@@ -183,7 +184,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         )
 
         useEffect(() => {
-                onButtonAnimatedTiming(eventName)
+                InteractionManager.runAfterInteractions(() => onButtonAnimatedTiming(eventName))
         }, [eventName, onButtonAnimatedTiming])
 
         return {contentUnderlayAnimatedStyle, labelTextAnimatedStyle}

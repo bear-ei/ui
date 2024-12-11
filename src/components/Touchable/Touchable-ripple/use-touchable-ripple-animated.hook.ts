@@ -1,4 +1,5 @@
 import {useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
@@ -64,7 +65,7 @@ export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: 
         )
 
         useEffect(() => {
-                onTouchableRippleAnimatedTiming(index)
+                InteractionManager.runAfterInteractions(() => onTouchableRippleAnimatedTiming(index))
         }, [onTouchableRippleAnimatedTiming, index])
 
         return {containerAnimatedStyle}

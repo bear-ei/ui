@@ -1,10 +1,11 @@
 import {useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
 import {UseCheckboxAnimatedOptions} from './Checkbox.interface'
 
-const handleCheckboxIconAnimated =
+const handleCheckboxIconAnimatedTiming =
         (animatedTiming: AnimatedTiming) =>
         (iconScaleSharedValue: SharedValue<AnimatableValue>) =>
         (value?: boolean) => {
@@ -25,14 +26,14 @@ export const useCheckboxAnimated = ({active}: UseCheckboxAnimatedOptions) => {
                 transform: [{scale: interpolate(iconScaleSharedValue.value, [0, 1], [0, 1])}]
         }))
 
-        const onCheckboxIconAnimated = useMemo(
-                () => handleCheckboxIconAnimated(animatedTiming)(iconScaleSharedValue),
+        const onCheckboxIconAnimatedTiming = useMemo(
+                () => handleCheckboxIconAnimatedTiming(animatedTiming)(iconScaleSharedValue),
                 [animatedTiming, iconScaleSharedValue]
         )
 
         useEffect(() => {
-                onCheckboxIconAnimated(active)
-        }, [active, onCheckboxIconAnimated])
+                InteractionManager.runAfterInteractions(() => onCheckboxIconAnimatedTiming(active))
+        }, [active, onCheckboxIconAnimatedTiming])
 
         return {iconAnimatedStyle}
 }

@@ -1,4 +1,5 @@
 import {useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {
         AnimatableValue,
         SharedValue,
@@ -11,7 +12,7 @@ import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
 import {HandleListItemAfterAffordanceVisibleAnimatedOptions, UseListItemAnimatedOptions} from './List-item.interface'
 
-const handleListItemAfterAffordanceVisibleAnimated =
+const handleListItemAfterAffordanceVisibleAnimatedTiming =
         ({
                 animatedTiming,
                 onListItemAfterAffordanceVisibleFinished
@@ -28,7 +29,7 @@ const handleListItemAfterAffordanceVisibleAnimated =
                         easing: value ? 'standardDecelerate' : 'standardAccelerate'
                 })(contentLeftSharedValue)(value ? 1 : 0)
 
-const handleListItemActiveAnimated =
+const handleListItemActiveAnimatedTiming =
         (animatedTiming: AnimatedTiming) =>
         (headlineTextSharedValue: SharedValue<AnimatableValue>) =>
         (value?: boolean) =>
@@ -60,25 +61,27 @@ export const useListItemAnimated = ({
 
         const onListItemAfterAffordanceVisibleAnimated = useMemo(
                 () =>
-                        handleListItemAfterAffordanceVisibleAnimated({
+                        handleListItemAfterAffordanceVisibleAnimatedTiming({
                                 animatedTiming,
                                 onListItemAfterAffordanceVisibleFinished
                         })(contentLeftSharedValue),
                 [animatedTiming, contentLeftSharedValue, onListItemAfterAffordanceVisibleFinished]
         )
 
-        const onListItemActiveAnimated = useMemo(
-                () => handleListItemActiveAnimated(animatedTiming)(headlineTextSharedValue),
+        const onListItemActiveAnimatedTiming = useMemo(
+                () => handleListItemActiveAnimatedTiming(animatedTiming)(headlineTextSharedValue),
                 [animatedTiming, headlineTextSharedValue]
         )
 
         useEffect(() => {
-                onListItemAfterAffordanceVisibleAnimated(afterAffordanceVisible)
+                InteractionManager.runAfterInteractions(() =>
+                        onListItemAfterAffordanceVisibleAnimated(afterAffordanceVisible)
+                )
         }, [afterAffordanceVisible, onListItemAfterAffordanceVisibleAnimated])
 
         useEffect(() => {
-                onListItemActiveAnimated(active)
-        }, [active, onListItemActiveAnimated])
+                InteractionManager.runAfterInteractions(() => onListItemActiveAnimatedTiming(active))
+        }, [active, onListItemActiveAnimatedTiming])
 
         return {contentAnimatedStyle, headlineTextAnimatedStyle}
 }

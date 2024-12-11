@@ -1,4 +1,5 @@
 import {useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
@@ -84,7 +85,7 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
         )
 
         useEffect(() => {
-                onIconButtonAnimatedTiming(disabled)
+                InteractionManager.runAfterInteractions(() => onIconButtonAnimatedTiming(disabled))
         }, [disabled, onIconButtonAnimatedTiming, type])
 
         return {contentUnderlayAnimatedStyle}

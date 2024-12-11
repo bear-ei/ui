@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
@@ -9,7 +10,7 @@ import {
         HandleTextInputEnabledSharedValue,
         HandleTextInputErrorSharedValue,
         HandleTextInputFocusedSharedValue,
-        HandleTextInputNonerrorAnimatedOptions,
+        HandleTextInputNonerrorAnimatedTimingOptions,
         TextInputStateAnimated,
         UseTextInputAnimatedOptions
 } from './Text-input.interface'
@@ -84,10 +85,10 @@ const handleTextInputFocused =
                 animatedTiming()(labelTextSharedValue)(0)
         }
 
-const handleTextInputStateAnimated = (stateAnimated: TextInputStateAnimated) => (state: State) =>
+const handleTextInputStateAnimatedTiming = (stateAnimated: TextInputStateAnimated) => (state: State) =>
         stateAnimated[state]?.()
 
-const handleTextInputNonerrorAnimated = ({error, disabled}: HandleTextInputNonerrorAnimatedOptions) => {
+const handleTextInputNonerrorAnimatedTiming = ({error, disabled}: HandleTextInputNonerrorAnimatedTimingOptions) => {
         const nonerror = typeof error !== 'boolean' && disabled
 
         return (stateAnimated: TextInputStateAnimated) => (state: State) => {
@@ -97,7 +98,7 @@ const handleTextInputNonerrorAnimated = ({error, disabled}: HandleTextInputNoner
         }
 }
 
-const handleTextInputDisabledAnimated =
+const handleTextInputDisabledAnimatedTiming =
         (stateAnimated: TextInputStateAnimated) => (state: State) => (disabled?: boolean) => {
                 if (typeof disabled === 'boolean') {
                         stateAnimated[disabled ? 'disabled' : state]?.()
@@ -324,28 +325,32 @@ export const useTextInputAnimated = ({
                 ]
         )
 
-        const onTextInputStateAnimated = useMemo(() => handleTextInputStateAnimated(stateAnimated), [stateAnimated])
-        const onTextInputNonerrorAnimated = useMemo(
-                () => handleTextInputNonerrorAnimated({disabled, error})(stateAnimated),
+        const onTextInputStateAnimatedTiming = useMemo(
+                () => handleTextInputStateAnimatedTiming(stateAnimated),
+                [stateAnimated]
+        )
+
+        const onTextInputNonerrorAnimatedTiming = useMemo(
+                () => handleTextInputNonerrorAnimatedTiming({disabled, error})(stateAnimated),
                 [disabled, error, stateAnimated]
         )
 
-        const onTextInputDisabledAnimated = useMemo(
-                () => handleTextInputDisabledAnimated(stateAnimated)(state),
+        const onTextInputDisabledAnimatedTiming = useMemo(
+                () => handleTextInputDisabledAnimatedTiming(stateAnimated)(state),
                 [state, stateAnimated]
         )
 
         useEffect(() => {
-                onTextInputStateAnimated(state)
-        }, [onTextInputStateAnimated, state])
+                InteractionManager.runAfterInteractions(() => onTextInputStateAnimatedTiming(state))
+        }, [onTextInputStateAnimatedTiming, state])
 
         useEffect(() => {
-                onTextInputNonerrorAnimated(state)
-        }, [onTextInputNonerrorAnimated, state])
+                InteractionManager.runAfterInteractions(() => onTextInputNonerrorAnimatedTiming(state))
+        }, [onTextInputNonerrorAnimatedTiming, state])
 
         useEffect(() => {
-                onTextInputDisabledAnimated(disabled)
-        }, [disabled, onTextInputDisabledAnimated])
+                InteractionManager.runAfterInteractions(() => onTextInputDisabledAnimatedTiming(disabled))
+        }, [disabled, onTextInputDisabledAnimatedTiming])
 
         return {
                 activeIndicatorAnimatedStyle,

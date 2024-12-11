@@ -1,4 +1,5 @@
 import {useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
@@ -32,7 +33,7 @@ export const useIconAnimated = ({eventName}: UseIconAnimatedOptions) => {
         )
 
         useEffect(() => {
-                onIconAnimatedTiming(eventName)
+                InteractionManager.runAfterInteractions(() => onIconAnimatedTiming(eventName))
         }, [eventName, onIconAnimatedTiming])
 
         return {containerAnimatedStyle}

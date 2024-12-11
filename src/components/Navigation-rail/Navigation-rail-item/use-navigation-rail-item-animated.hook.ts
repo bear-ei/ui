@@ -1,4 +1,5 @@
 import {useEffect, useMemo} from 'react'
+import {InteractionManager} from 'react-native'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
@@ -61,7 +62,7 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
         )
 
         useEffect(() => {
-                onNavigationRailItemAnimatedTiming(active)
+                InteractionManager.runAfterInteractions(() => onNavigationRailItemAnimatedTiming(active))
         }, [active, onNavigationRailItemAnimatedTiming])
 
         return {labelAnimatedStyle, labelTextAnimatedStyle}
