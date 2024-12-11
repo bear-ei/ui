@@ -1,6 +1,6 @@
 {
         "name": "@bearei/material",
-        "version": "0.0.74",
+        "version": "0.0.75",
         "main": "./dist/index.umd.cjs",
         "module": "./dist/index.js",
         "react-native": "./src/index.ts",
@@ -36,6 +36,7 @@
                 "class-validator": "^0.14.1",
                 "immer": "^10.1.1",
                 "mitt": "^3.0.1",
+                "nanoid": "^5.0.9",
                 "styled-components": "^6.1.13",
                 "use-immer": "^0.10.0"
         },

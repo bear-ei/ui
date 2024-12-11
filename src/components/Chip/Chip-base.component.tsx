@@ -1,9 +1,9 @@
-import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {EventName, State} from '../Common'
+import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {Icon, IconProps} from '../Icon'
 import {IconButton} from '../Icon-button'
@@ -48,25 +48,15 @@ const handleChipElevation =
         }
 
 const handleChipStateChange =
-        ({eventName, touchableRef}: HandleChipStateChangeOptions) =>
+        ({eventName}: HandleChipStateChangeOptions) =>
         (setState: Updater<ChipState>) =>
         (_event: StateEvent) => {
-                const nextEvent = {
-                        pressIn: () => touchableRef?.current?.focus()
-                } as Record<EventName, () => void>
-
                 if (eventName === 'layout') {
                         return
                 }
 
                 setState(draft => {
-                        const prevEventName = draft.eventName
-
                         draft.eventName = eventName
-
-                        if (prevEventName !== eventName && eventName === 'pressIn') {
-                                draft.nextPressInEvent = nextEvent[eventName]
-                        }
                 })
         }
 
@@ -154,10 +144,9 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 },
                 ref
         ) => {
-                const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<ChipState>({
+                const [{elevation, eventName, status}, setState] = useImmer<ChipState>({
                         elevation: undefined,
                         eventName: undefined,
-                        nextPressInEvent: undefined,
                         status: 'idle'
                 })
 
@@ -186,11 +175,10 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 )
 
                 const onChipInit = useMemo(() => handleChipInit(setState)(disabled), [disabled, setState])
-                const touchableRef = useRef<View>(null)
                 const underlayColor = theme.token.scheme.onSurfaceVariant
                 const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleChipStateChange({...options, state, touchableRef})(setState)(event),
+                                handleChipStateChange({...options, state})(setState)(event),
                         [setState]
                 )
 
@@ -203,8 +191,6 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 const {contentUnderlayAnimatedStyle, filterIconContainerAnimatedStyle, labelTextAnimatedStyle} =
                         useChipAnimated({active, disabled, elevated, type, chipStyle})
 
-                useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
-
                 useEffect(() => {
                         onChipElevation(elevated ? 'enabled' : 'disabled')
                 }, [elevated, onChipElevation])
@@ -216,10 +202,6 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 useEffect(() => {
                         onChipDisabled(disabled)
                 }, [disabled, onChipDisabled])
-
-                useEffect(() => {
-                        nextPressInEvent?.()
-                }, [nextPressInEvent])
 
                 if (status === 'idle') {
                         return <></>
@@ -240,7 +222,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         labelTextAnimatedStyle,
                         leadingIcon: leadingIconElement,
                         onStateEvent,
-                        ref: touchableRef,
+                        ref,
                         trailing: trailingElement,
                         type,
                         underlayColor

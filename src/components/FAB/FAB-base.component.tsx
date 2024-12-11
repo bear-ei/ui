@@ -1,10 +1,10 @@
 import {WritableDraft} from 'immer'
-import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {EventName, State} from '../Common'
+import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
 import {FABBaseProps, FABState, FABType, HandleFABStateChangeOptions, RenderFABIconOptions} from './FAB.interface'
@@ -31,13 +31,9 @@ const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boole
 }
 
 const handleFABStateChange =
-        ({eventName, elevated, state, touchableRef}: HandleFABStateChangeOptions) =>
+        ({eventName, elevated, state}: HandleFABStateChangeOptions) =>
         (setState: Updater<FABState>) =>
         (_event: StateEvent) => {
-                const nextEvent = {
-                        pressIn: () => touchableRef?.current?.focus()
-                } as Record<EventName, () => void>
-
                 if (eventName === 'layout') {
                         return
                 }
@@ -51,10 +47,6 @@ const handleFABStateChange =
 
                         if (prevEventName !== eventName) {
                                 handleFABElevation(draft)(elevated)(state)
-                        }
-
-                        if (prevEventName !== eventName && eventName === 'pressIn') {
-                                draft.nextPressInEvent = nextEvent[eventName]
                         }
                 })
         }
@@ -125,14 +117,12 @@ const renderFABIcon =
 
 export const FABBase = forwardRef<View, FABBaseProps>(
         ({disabled, elevated = true, icon, render, size = 'medium', type = 'primary', ...renderProps}, ref) => {
-                const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<FABState>({
+                const [{elevation, eventName, status}, setState] = useImmer<FABState>({
                         elevation: undefined,
                         eventName: undefined,
-                        nextPressInEvent: undefined,
                         status: 'idle'
                 })
 
-                const touchableRef = useRef<View>(null)
                 const id = useId()
                 const theme = useTheme()
                 const underlayColor = handleFABUnderlayColor(theme)(type)
@@ -144,8 +134,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                                 handleFABStateChange({
                                         ...options,
                                         state,
-                                        elevated,
-                                        touchableRef
+                                        elevated
                                 })(setState)(event),
                         [elevated, setState]
                 )
@@ -158,8 +147,6 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 
                 const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled, type})
 
-                useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
-
                 useEffect(() => {
                         onFABDisabled(disabled)
                 }, [disabled, onFABDisabled])
@@ -167,10 +154,6 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 useEffect(() => {
                         onFABInit(elevated)
                 }, [elevated, onFABInit])
-
-                useEffect(() => {
-                        nextPressInEvent?.()
-                }, [nextPressInEvent])
 
                 if (status === 'idle') {
                         return <></>
@@ -185,7 +168,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                         id,
                         labelTextAnimatedStyle,
                         onStateEvent,
-                        ref: touchableRef,
+                        ref,
                         size,
                         type,
                         underlayColor

@@ -1,11 +1,12 @@
-import {forwardRef, useCallback, useId, useMemo} from 'react'
+import {nanoid} from 'nanoid'
+import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, NativeTouchEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {generateRandomNumberString} from '../../utils'
 import {EventName, State} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
+        HandleTouchablePressInOptions,
         HandleTouchableStateChangeOptions,
         RenderTouchableRipplesOptions,
         TouchableBaseProps,
@@ -26,26 +27,32 @@ const handleAddTouchableRipple =
         (setState: Updater<TouchableState>) =>
         (touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>) =>
                 setState(draft => {
-                        draft.rippleSequence[`${Date.now()}${generateRandomNumberString(4)}`] = {touchableLocation}
+                        draft.rippleSequence[nanoid()] = {touchableLocation}
                 })
 
 const handleTouchablePressIn =
-        (setState: Updater<TouchableState>) => (enableTouchableRipple?: boolean) => (event: GestureResponderEvent) => {
+        ({setState, ref}: HandleTouchablePressInOptions) =>
+        (enableTouchableRipple?: boolean) =>
+        (event: GestureResponderEvent) => {
                 const {locationX, locationY} = event.nativeEvent
 
                 if (enableTouchableRipple) {
                         handleAddTouchableRipple(setState)({locationX, locationY})
                 }
+
+                ref?.current?.focus()
         }
 
 const handleTouchableStateChange =
-        ({eventName, enableTouchableRipple}: HandleTouchableStateChangeOptions) =>
+        ({eventName, enableTouchableRipple, ref}: HandleTouchableStateChangeOptions) =>
         (setState: Updater<TouchableState>) =>
         (event: StateEvent) => {
                 const nextEvent = {
                         layout: () => handleTouchableContentLayout(setState)(event as LayoutChangeEvent),
                         pressIn: () =>
-                                handleTouchablePressIn(setState)(enableTouchableRipple)(event as GestureResponderEvent)
+                                handleTouchablePressIn({setState, ref})(enableTouchableRipple)(
+                                        event as GestureResponderEvent
+                                )
                 } as Record<EventName, () => void>
 
                 if (eventName) {
@@ -88,11 +95,17 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                         rippleSequence: {} as TouchableRippleSequence
                 })
 
+                const touchableRef = useRef<View>(null)
                 const id = useId()
                 const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
                 const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleTouchableStateChange({...options, state, enableTouchableRipple})(setState)(event),
+                                handleTouchableStateChange({
+                                        ...options,
+                                        enableTouchableRipple,
+                                        ref: touchableRef,
+                                        state
+                                })(setState)(event),
                         [enableTouchableRipple, setState]
                 )
 
@@ -109,6 +122,8 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                         underlayColor
                 })(rippleSequence)
 
-                return render({...renderProps, id, onStateEvent, ref, rippleElements})
+                useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
+
+                return render({...renderProps, id, onStateEvent, ref: touchableRef, rippleElements})
         }
 )

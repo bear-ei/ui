@@ -1,10 +1,10 @@
 import {WritableDraft} from 'immer'
-import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {EventName, State} from '../Common'
+import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
 import {
@@ -44,13 +44,9 @@ const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: But
 }
 
 const handleButtonStateChange =
-        ({eventName, type, state, touchableRef}: HandleButtonStateChangeOptions) =>
+        ({eventName, type, state}: HandleButtonStateChangeOptions) =>
         (setState: Updater<ButtonState>) =>
         (_event: StateEvent) => {
-                const nextEvent = {
-                        pressIn: () => touchableRef?.current?.focus()
-                } as Record<EventName, () => void>
-
                 if (eventName === 'layout') {
                         return
                 }
@@ -62,10 +58,6 @@ const handleButtonStateChange =
 
                         if (prevEventName !== eventName) {
                                 handleButtonElevation(draft)(type)(state)
-                        }
-
-                        if (prevEventName !== eventName && eventName === 'pressIn') {
-                                draft.nextPressInEvent = nextEvent[eventName]
                         }
                 })
         }
@@ -140,14 +132,12 @@ const handleButtonUnderlayColor = (theme: DefaultTheme) => {
 
 export const ButtonBase = forwardRef<View, ButtonBaseProps>(
         ({disabled, icon, labelText = 'Label', render, type = 'filled', error, ...renderProps}, ref) => {
-                const [{elevation, eventName, status, nextPressInEvent}, setState] = useImmer<ButtonState>({
+                const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({
                         elevation: undefined,
                         eventName: undefined,
-                        nextPressInEvent: undefined,
                         status: 'idle'
                 })
 
-                const touchableRef = useRef<View>(null)
                 const theme = useTheme()
                 const iconButtonElement = renderButtonIcon({eventName, type, disabled})(theme)(icon)
                 const id = useId()
@@ -156,7 +146,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
                 const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleButtonStateChange({...options, state, touchableRef, type})(setState)(event),
+                                handleButtonStateChange({...options, state, type})(setState)(event),
                         [setState, type]
                 )
 
@@ -168,8 +158,6 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         error
                 })
 
-                useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
-
                 useEffect(() => {
                         onButtonInit(type)
                 }, [onButtonInit, type])
@@ -177,10 +165,6 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 useEffect(() => {
                         onButtonDisabled(disabled)
                 }, [disabled, onButtonDisabled])
-
-                useEffect(() => {
-                        nextPressInEvent?.()
-                }, [nextPressInEvent])
 
                 if (status === 'idle') {
                         return <></>
@@ -197,7 +181,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         labelText,
                         labelTextAnimatedStyle,
                         onStateEvent,
-                        ref: touchableRef,
+                        ref,
                         type,
                         underlayColor
                 })

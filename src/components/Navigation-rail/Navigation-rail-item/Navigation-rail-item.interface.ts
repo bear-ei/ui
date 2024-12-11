@@ -34,10 +34,14 @@ export interface NavigationRailItemBaseProps extends NavigationRailItemProps {
 export interface NavigationRailItemState {
         eventName?: EventName
         nextPressOutEvent?: () => void
+        nextPressInEvent?: () => void
 }
 
-export type HandleNavigationRailItemStateEventChangeOptions = OnStateEventChangeOptions &
-        Pick<NavigationRailItemProps, 'itemKey' | 'onActive'>
+export interface HandleNavigationRailItemStateEventChangeOptions
+        extends OnStateEventChangeOptions,
+                Pick<NavigationRailItemProps, 'itemKey' | 'onActive'> {
+        touchableRef: React.RefObject<View>
+}
 
 export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigationRailItemProps, 'active' | 'type'> {
         defaultActive?: boolean
