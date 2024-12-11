@@ -123,7 +123,7 @@ const handleListItemStateChange =
                         if (trailingTrigger && state) {
                                 const visible =
                                         trailingTrigger === 'hovered' ?
-                                                ['hovered', 'longPressIn', 'pressIn'].includes(state)
+                                                ['hovered', 'longPressIn', 'pressIn', 'focused'].includes(state)
                                         :       trailingTrigger === state
 
                                 draft.trailingVisible = visible

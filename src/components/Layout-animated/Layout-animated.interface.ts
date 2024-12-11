@@ -9,7 +9,6 @@ export type LayoutAnimatedType = 'fade' | 'collapse'
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
         animatedType?: LayoutAnimatedType
         defaultVisible?: boolean
-        disabledAnimated?: boolean
         duration?: Duration
         easing?: Easing
         entry?: AnimatedTimingOptions
@@ -51,7 +50,7 @@ export type HandleLayoutAnimatedStateChangeOptions = OnStateEventChangeOptions &
 export interface UseLayoutAnimatedOptions
         extends Pick<
                 LayoutAnimatedProps,
-                'visible' | 'unmount' | 'entry' | 'exit' | 'opacity' | 'animatedType' | 'width' | 'disabledAnimated'
+                'visible' | 'unmount' | 'entry' | 'exit' | 'opacity' | 'animatedType' | 'width'
         > {
         onAnimatedFinished: (value?: boolean) => void
 }

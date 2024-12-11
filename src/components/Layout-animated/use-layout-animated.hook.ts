@@ -29,7 +29,6 @@ const handleLayoutAnimatedTiming =
 
 export const useLayoutAnimated = ({
         animatedType = 'fade',
-
         entry,
         exit,
         onAnimatedFinished,
