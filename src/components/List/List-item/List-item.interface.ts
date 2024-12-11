@@ -117,7 +117,7 @@ export interface UseListItemAnimatedOptions {
         onListItemAfterAffordanceVisibleFinished?: (value?: boolean) => false | void
 }
 
-export interface HandleListItemAfterAffordanceVisibleAnimatedOptions
+export interface HandleListItemAfterAffordanceVisibleAnimatedTimingOptions
         extends Pick<UseListItemAnimatedOptions, 'onListItemAfterAffordanceVisibleFinished'> {
         animatedTiming: AnimatedTiming
 }

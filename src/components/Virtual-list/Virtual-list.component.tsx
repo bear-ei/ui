@@ -62,7 +62,7 @@ const render = <T,>({
                         <LoadingContent
                                 lazy={true}
                                 testID={`virtualList__content--${id}`}
-                                visible={loading && !!loadingComponent}
+                                visible={loading && !!loadingComponent && status === 'succeeded'}
                         >
                                 {loadingComponent}
                         </LoadingContent>

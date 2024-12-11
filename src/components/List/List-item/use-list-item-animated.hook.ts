@@ -10,13 +10,16 @@ import {
 } from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
-import {HandleListItemAfterAffordanceVisibleAnimatedOptions, UseListItemAnimatedOptions} from './List-item.interface'
+import {
+        HandleListItemAfterAffordanceVisibleAnimatedTimingOptions,
+        UseListItemAnimatedOptions
+} from './List-item.interface'
 
 const handleListItemAfterAffordanceVisibleAnimatedTiming =
         ({
                 animatedTiming,
                 onListItemAfterAffordanceVisibleFinished
-        }: HandleListItemAfterAffordanceVisibleAnimatedOptions) =>
+        }: HandleListItemAfterAffordanceVisibleAnimatedTimingOptions) =>
         (contentLeftSharedValue: SharedValue<AnimatableValue>) =>
         (value?: boolean) =>
                 animatedTiming({
@@ -59,7 +62,7 @@ export const useListItemAnimated = ({
                 color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRange)
         }))
 
-        const onListItemAfterAffordanceVisibleAnimated = useMemo(
+        const onListItemAfterAffordanceVisibleAnimatedTiming = useMemo(
                 () =>
                         handleListItemAfterAffordanceVisibleAnimatedTiming({
                                 animatedTiming,
@@ -75,9 +78,9 @@ export const useListItemAnimated = ({
 
         useEffect(() => {
                 InteractionManager.runAfterInteractions(() =>
-                        onListItemAfterAffordanceVisibleAnimated(afterAffordanceVisible)
+                        onListItemAfterAffordanceVisibleAnimatedTiming(afterAffordanceVisible)
                 )
-        }, [afterAffordanceVisible, onListItemAfterAffordanceVisibleAnimated])
+        }, [afterAffordanceVisible, onListItemAfterAffordanceVisibleAnimatedTiming])
 
         useEffect(() => {
                 InteractionManager.runAfterInteractions(() => onListItemActiveAnimatedTiming(active))
