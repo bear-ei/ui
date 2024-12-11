@@ -2,7 +2,12 @@ import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {SheetType} from '../Side-sheet.interface'
-import {SheetContainerProps, SheetHeaderProps, SheetViewContentProps} from './Side-sheet-content.interface'
+import {
+        SheetContainerProps,
+        SheetFooterProps,
+        SheetHeaderProps,
+        SheetViewContentProps
+} from './Side-sheet-content.interface'
 
 export const Container = styled.View<SheetContainerProps>`
         align-self: stretch;
@@ -135,7 +140,7 @@ export const FooterContainer = styled.View`
         overflow: hidden;
 `
 
-export const Footer = styled.View`
+export const Footer = styled.View<SheetFooterProps>`
         align-self: stretch;
         display: flex;
         flex-direction: row;
@@ -146,4 +151,20 @@ export const Footer = styled.View`
                         ${theme.adaptSize(theme.token.spacing.large)}px
                         ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px;
         `}
+
+        ${({theme, type = 'standard'}) => {
+                const footerType = {
+                        standard: css`
+                                background-color: ${theme.token.scheme.surface};
+                        `,
+                        modal: css`
+                                background-color: ${theme.token.scheme.surfaceContainerLow};
+                        `,
+                        standardContainer: css`
+                                background-color: ${theme.token.scheme.surfaceContainerLow};
+                        `
+                } as Record<SheetType, RuleSet<object> | undefined>
+
+                return footerType[type]
+        }}
 `

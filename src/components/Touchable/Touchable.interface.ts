@@ -55,7 +55,7 @@ export interface HandleTouchableStateChangeOptions
         ref: React.RefObject<View>
 }
 
-export type TouchableContentProps = Pick<RenderTouchableProps, 'hotZone'>
+export type TouchableContentProps = Pick<RenderTouchableProps, 'hotZone' | 'enableFocusRing'>
 export interface TouchableMainProps {
         alignSelf?: ViewStyle['alignSelf']
 }

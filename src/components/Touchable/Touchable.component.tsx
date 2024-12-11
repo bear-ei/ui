@@ -23,6 +23,7 @@ const render = ({
                         <TouchableContent
                                 {...contentProps}
                                 {...onPressableEvent}
+                                enableFocusRing={false}
                                 testID={`touchable__content--${id}`}
                         >
                                 <Main

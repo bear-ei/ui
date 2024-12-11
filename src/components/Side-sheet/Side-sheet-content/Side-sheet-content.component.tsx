@@ -98,7 +98,10 @@ const render = ({
                                         testID={`sideSideSheetContent__footerContainer--${id}`}
                                 >
                                         <Divider size='large' />
-                                        <Footer testID={`sideSideSheetContent__footer--${id}`}>
+                                        <Footer
+                                                testID={`sideSideSheetContent__footer--${id}`}
+                                                type={type}
+                                        >
                                                 <PrimaryButton testID={`sideSideSheetContent__primaryButton--${id}`}>
                                                         {primaryButton ?? (
                                                                 <Button

@@ -56,3 +56,4 @@ export type RenderSideSheetContentTrailingOptions = Pick<SideSheetContentProps, 
 export type SheetContainerProps = Pick<RenderSideSheetContentProps, 'sheetPosition' | 'type'>
 export type SheetHeaderProps = {leadingShow?: boolean; trailingShow?: boolean}
 export type SheetViewContentProps = Pick<RenderSideSheetContentProps, 'type'>
+export type SheetFooterProps = Pick<RenderSideSheetContentProps, 'type'>
