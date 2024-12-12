@@ -1,25 +1,25 @@
-import {forwardRef, useCallback, useId} from 'react'
+import {forwardRef, useCallback, useId, useMemo} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {HandleProgressStateChangeOptions, ProgressBaseProps, ProgressState} from './Progress.interface'
 
-const handleProgressLayout = (setState: Updater<ProgressState>) => (event: LayoutChangeEvent) => {
-        const nativeEventLayout = event.nativeEvent.layout
+const handleProgressLayoutChanged = (setState: Updater<ProgressState>) => (layout: LayoutRectangle) => {
+        const {width, height} = layout
 
         setState(draft => {
-                draft.layout.width = nativeEventLayout.width
-                draft.layout.height = nativeEventLayout.height
+                draft.layout.height = height
+                draft.layout.width = width
         })
 }
 
 const handleTouchableStateChange =
-        ({eventName}: HandleProgressStateChangeOptions) =>
-        (setState: Updater<ProgressState>) =>
+        ({eventName, onLayoutChanged}: HandleProgressStateChangeOptions) =>
         (event: StateEvent) => {
                 const nextEvent = {
-                        layout: () => handleProgressLayout(setState)(event as LayoutChangeEvent)
+                        layout: () => onLayoutChanged((event as LayoutChangeEvent).nativeEvent.layout)
                 } as Record<EventName, () => void>
 
                 if (eventName) {
@@ -34,10 +34,19 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(
                 })
 
                 const id = useId()
+                const onTouchableLayoutChanged = useMemo(
+                        () => debounce(handleProgressLayoutChanged(setState))(150),
+                        [setState]
+                )
+
                 const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleTouchableStateChange({...options, state})(setState)(event),
-                        [setState]
+                                handleTouchableStateChange({
+                                        ...options,
+                                        state,
+                                        onLayoutChanged: onTouchableLayoutChanged
+                                })(event),
+                        [onTouchableLayoutChanged]
                 )
 
                 const onStateEvent = useOnStateEvent({

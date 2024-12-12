@@ -27,7 +27,10 @@ export interface ProgressState {
         layout: LayoutRectangle
 }
 
-export type HandleProgressStateChangeOptions = OnStateEventChangeOptions
+export interface HandleProgressStateChangeOptions extends OnStateEventChangeOptions {
+        onLayoutChanged: (layout: LayoutRectangle) => void
+}
+
 export type ProgressContainerProps = {
         progress?: boolean
 }

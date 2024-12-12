@@ -18,11 +18,11 @@ import {
 import {useTooltipSupportingAnimated} from './use-tooltip-supporting-animated.hook'
 
 const handleTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>) => (event: LayoutChangeEvent) => {
-        const nativeEventLayout = event.nativeEvent.layout
+        const {height, width} = event.nativeEvent.layout
 
         setState(draft => {
-                draft.layout.height = nativeEventLayout.height
-                draft.layout.width = nativeEventLayout.width
+                draft.layout.height = height
+                draft.layout.width = width
         })
 }
 

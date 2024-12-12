@@ -3,6 +3,7 @@ import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} fr
 import {GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, NativeTouchEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
@@ -14,12 +15,12 @@ import {
         TouchableState
 } from './Touchable.interface'
 
-const handleTouchableContentLayout = (setState: Updater<TouchableState>) => (event: LayoutChangeEvent) => {
-        const nativeEventLayout = event.nativeEvent.layout
+const handleTouchableContentLayoutChanged = (setState: Updater<TouchableState>) => (layout: LayoutRectangle) => {
+        const {width, height} = layout
 
         setState(draft => {
-                draft.contentLayout.width = nativeEventLayout.width
-                draft.contentLayout.height = nativeEventLayout.height
+                draft.contentLayout.height = height
+                draft.contentLayout.width = width
         })
 }
 
@@ -44,11 +45,11 @@ const handleTouchablePressIn =
         }
 
 const handleTouchableStateChange =
-        ({eventName, enableTouchableRipple, ref}: HandleTouchableStateChangeOptions) =>
+        ({eventName, enableTouchableRipple, ref, onLayoutChanged}: HandleTouchableStateChangeOptions) =>
         (setState: Updater<TouchableState>) =>
         (event: StateEvent) => {
                 const nextEvent = {
-                        layout: () => handleTouchableContentLayout(setState)(event as LayoutChangeEvent),
+                        layout: () => onLayoutChanged((event as LayoutChangeEvent).nativeEvent.layout),
                         pressIn: () =>
                                 handleTouchablePressIn({setState, ref})(enableTouchableRipple)(
                                         event as GestureResponderEvent
@@ -97,16 +98,22 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 
                 const touchableRef = useRef<View>(null)
                 const id = useId()
+                const onTouchableLayoutChanged = useMemo(
+                        () => debounce(handleTouchableContentLayoutChanged(setState))(150),
+                        [setState]
+                )
+
                 const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
                 const onStateEventChange = useCallback(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleTouchableStateChange({
                                         ...options,
                                         enableTouchableRipple,
+                                        onLayoutChanged: onTouchableLayoutChanged,
                                         ref: touchableRef,
                                         state
                                 })(setState)(event),
-                        [enableTouchableRipple, setState]
+                        [enableTouchableRipple, onTouchableLayoutChanged, setState]
                 )
 
                 const onStateEvent = useOnStateEvent({

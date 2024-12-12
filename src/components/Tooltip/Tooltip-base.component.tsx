@@ -20,19 +20,20 @@ const handleTooltipVisible =
                 }
         }
 
-const handleTooltipLayout = (setState: Updater<TooltipState>) => (event: LayoutChangeEvent) => {
-        const nativeEventLayout = event.nativeEvent.layout
+const handleTooltipLayoutChanged = (setState: Updater<TooltipState>) => (layout: LayoutRectangle) => {
+        const {width, height} = layout
 
         setState(draft => {
-                draft.layout.height = nativeEventLayout.height
-                draft.layout.width = nativeEventLayout.width
+                draft.layout.height = height
+                draft.layout.width = width
         })
 }
 
 const handleTooltipStateChange = ({
         eventName,
         onTooltipVisible,
-        triggerEvent = 'hover'
+        triggerEvent = 'hover',
+        onLayoutChanged
 }: HandleTooltipStateEventChangeOptions) => {
         const trigger = {
                 focus: ['focus', 'blur'],
@@ -40,9 +41,9 @@ const handleTooltipStateChange = ({
                 press: ['pressIn']
         }
 
-        return (setState: Updater<TooltipState>) => (event: StateEvent) => {
+        return (event: StateEvent) => {
                 if (eventName === 'layout') {
-                        handleTooltipLayout(setState)(event as LayoutChangeEvent)
+                        onLayoutChanged((event as LayoutChangeEvent).nativeEvent.layout)
                 }
 
                 const triggerEventNames = trigger[triggerEvent]
@@ -100,6 +101,11 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 
                 const containerRef = useRef<View>(null)
                 const id = useId()
+                const onTooltipLayoutChanged = useMemo(
+                        () => debounce(handleTooltipLayoutChanged(setState))(150),
+                        [setState]
+                )
+
                 const onTooltipVisible = useMemo(
                         () => debounce(handleTooltipVisible(setState)(onVisible))(250),
                         [onVisible, setState]
@@ -109,19 +115,15 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleTooltipStateChange({
                                         ...options,
+                                        onLayoutChanged: onTooltipLayoutChanged,
                                         onTooltipVisible,
                                         state,
                                         triggerEvent
-                                })(setState)(event),
-                        [onTooltipVisible, setState, triggerEvent]
+                                })(event),
+                        [onTooltipLayoutChanged, onTooltipVisible, triggerEvent]
                 )
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        disabled,
-                        onStateEventChange
-                })
-
+                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
                 const onTooltipSupportingEmit = useCallback(
                         () =>
                                 handleTooltipSupportingEmit(id)({

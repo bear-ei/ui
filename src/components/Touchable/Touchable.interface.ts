@@ -53,6 +53,7 @@ export interface HandleTouchableStateChangeOptions
                 OnStateEventChangeOptions,
                 Pick<TouchableProps, 'enableTouchableRipple'> {
         ref: React.RefObject<View>
+        onLayoutChanged: (layout: LayoutRectangle) => void
 }
 
 export type TouchableContentProps = Pick<RenderTouchableProps, 'hotZone' | 'enableFocusRing'>

@@ -45,4 +45,5 @@ export interface HandleTooltipStateEventChangeOptions
         extends OnStateEventChangeOptions,
                 Pick<TooltipProps, 'triggerEvent'> {
         onTooltipVisible: (value?: boolean) => void
+        onLayoutChanged: (layout: LayoutRectangle) => void
 }
