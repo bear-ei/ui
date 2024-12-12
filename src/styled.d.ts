@@ -1,4 +1,4 @@
-import {Token, WindowSize} from '@bearei/material-token'
+import {Token} from '@bearei/material-token'
 import {ColorSchemeName} from 'react-native'
 import 'styled-components/native'
 
@@ -9,6 +9,6 @@ declare module 'styled-components/native' {
                 colorScheme: ColorSchemeName
                 OS: 'ios' | 'android' | 'windows' | 'macos' | 'web'
                 token: Token
-                windowSize: WindowSize
+                // windowSize: WindowSize
         }
 }
