@@ -10,7 +10,6 @@ import {Container, Content, ContentUnderlay, IconContainer, LabelText, Main} fro
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
-
 const render = ({
         accessibilityLabel,
         contentUnderlayAnimatedStyle,

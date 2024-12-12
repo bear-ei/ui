@@ -23,6 +23,7 @@ const render = <T,>({
         const {onLayout} = onStateEvent
         const defaultContentContainerStyle = {
                 flex: 1,
+                height: contentSize,
                 minHeight: contentSize
         } as StyleProp<ViewStyle>
 

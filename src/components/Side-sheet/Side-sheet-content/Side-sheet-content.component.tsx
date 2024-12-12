@@ -93,6 +93,7 @@ const render = ({
                                 </Header>
 
                                 <Main testID={`sideSideSheetContent__main--${id}`}>{content}</Main>
+
                                 <AnimatedFooterContainer
                                         style={[footerAnimatedStyle]}
                                         testID={`sideSideSheetContent__footerContainer--${id}`}

@@ -3,6 +3,7 @@ import {Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 
 export const Container = styled.View`
+        align-self: stretch;
         flex: 1;
 `
 
@@ -16,8 +17,8 @@ export const Content = styled(LayoutAnimated)`
         ${({visible}) =>
                 visible &&
                 css`
-                        flex: 1;
                         align-self: stretch;
+                        flex: 1;
                 `}
 `
 
@@ -29,10 +30,10 @@ export const EmptyContent = styled(LayoutAnimated)`
         position: absolute;
 
         ${({theme}) => css`
-                left: ${theme.adaptSize(theme.token.spacing.none)}px;
-                top: ${theme.adaptSize(theme.token.spacing.none)}px;
-                right: ${theme.adaptSize(theme.token.spacing.none)}px;
                 bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+                left: ${theme.adaptSize(theme.token.spacing.none)}px;
+                right: ${theme.adaptSize(theme.token.spacing.none)}px;
+                top: ${theme.adaptSize(theme.token.spacing.none)}px;
         `}
 `
 

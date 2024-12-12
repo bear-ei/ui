@@ -1,6 +1,7 @@
 import styled, {css} from 'styled-components/native'
+import {Shape} from '../Common'
 
-export const Container = styled.View`
+export const Container = styled(Shape)`
         align-self: stretch;
         display: flex;
         flex-direction: row;
