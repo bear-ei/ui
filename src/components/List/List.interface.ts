@@ -68,7 +68,7 @@ export interface ListProps
          * Whether to enable auto-associative selection in radio mode. If the deleted item is an active item of the
          * current year, the list will automatically look for neighboring items with the active option.
          */
-        autoActive?: boolean
+        relatedActive?: boolean
 }
 
 export interface RenderListProps extends ListProps {
@@ -118,7 +118,7 @@ export type HandleRenderItemOptions = Pick<
         | 'type'
 >
 
-export type HandleListCloseOptions = Pick<ListProps, 'onClose' | 'autoActive' | 'data' | 'selectType' | 'onActive'>
+export type HandleListCloseOptions = Pick<ListProps, 'onClose' | 'relatedActive' | 'data' | 'selectType' | 'onActive'>
 export interface ListBaseProps extends ListProps {
         render: (props: RenderListProps) => JSX.Element
 }

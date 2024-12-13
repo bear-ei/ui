@@ -36,7 +36,7 @@ export interface VirtualListItemBaseProps<T = Record<string, unknown>> extends V
 }
 
 export interface VirtualListItemState {
-        virtualListItemVisible?: boolean
+        visible?: boolean
 }
 
 export type RenderVirtualListItemOptions<T> = Pick<

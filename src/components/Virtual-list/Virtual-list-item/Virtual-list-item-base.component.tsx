@@ -20,7 +20,7 @@ export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps)
 
 export const handleVirtualListItemVisible = (setState: Updater<VirtualListItemState>) =>
         setState(draft => {
-                draft.virtualListItemVisible = false
+                draft.visible = false
         })
 
 export const handleVirtualListUnmount = (onUnmount?: (value?: string) => void) => (value?: string) => onUnmount?.(value)
@@ -40,10 +40,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                 },
                 ref
         ) => {
-                const [{virtualListItemVisible}, setState] = useImmer<VirtualListItemState>({
-                        virtualListItemVisible: true
-                })
-
+                const [{visible}, setState] = useImmer<VirtualListItemState>({visible: true})
                 const id = useId()
                 const onVirtualListItemVisible = () => handleVirtualListItemVisible(setState)
                 const onVirtualListUnmount = () =>
@@ -69,7 +66,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                         itemSize,
                         onUnmount: onVirtualListUnmount,
                         ref,
-                        visible: virtualListItemVisible
+                        visible
                 })
         }
 )

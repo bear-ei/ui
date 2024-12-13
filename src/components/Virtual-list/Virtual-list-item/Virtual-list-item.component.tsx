@@ -16,6 +16,7 @@ const render = ({
 }: RenderVirtualListItemProps) => (
         <AnimatedContainer
                 {...containerProps}
+                exit={{duration: 'short2', easing: 'emphasizedAccelerate'}}
                 height={itemSize}
                 onUnmount={onUnmount}
                 style={[containerAnimatedStyle]}

@@ -1,5 +1,12 @@
 import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {GestureResponderEvent, PanResponder, PanResponderGestureState, View, ViewProps} from 'react-native'
+import {
+        GestureResponderEvent,
+        InteractionManager,
+        PanResponder,
+        PanResponderGestureState,
+        View,
+        ViewProps
+} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
@@ -205,8 +212,9 @@ const handleListItemClose =
                         return
                 }
 
-                onClose?.(itemKey)
                 onVisible?.()
+
+                InteractionManager.runAfterInteractions(() => onClose?.(itemKey))
         }
 
 const handleListItemPanResponderRelease =
