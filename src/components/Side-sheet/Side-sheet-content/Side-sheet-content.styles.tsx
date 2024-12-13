@@ -41,7 +41,6 @@ export const Content = styled(Shape)<SheetViewContentProps>`
         flex-direction: column;
 
         ${({theme}) => css`
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 160)}px;
                 width: ${theme.adaptSize(theme.token.spacing.extraSmall * 80)}px;
         `}
 
