@@ -73,13 +73,11 @@ const handleListActive =
                                         handleListSelect(draft)(deselect)(value)
                                 :       handleListMultiselect(draft)(value ?? [])
 
-                        if (!onActive && draft.status === 'idle') {
-                                draft.status = 'succeeded'
-                        }
-
                         if (callbackValue && !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(callbackValue?.toString())) {
                                 if (selectType === 'select') {
                                         draft.nextActiveEvent = handleNextActiveEvent({onActive})(callbackValue)
+
+                                        return
                                 }
 
                                 if (selectType === 'multiselect') {
@@ -118,7 +116,7 @@ const handleActiveListAfterAffordance =
         }
 
 const handleListClose =
-        ({selectType, onClose, relatedActive, data = [], onActive}: HandleListCloseOptions) =>
+        ({selectType, onClose, relatedActive, onActive}: HandleListCloseOptions) =>
         (setState: Updater<ListState>) =>
         (value?: string) => {
                 const findDataIndex = (datum: ListData) => datum.indexKey === value
@@ -126,6 +124,7 @@ const handleListClose =
 
                 setState(draft => {
                         if (selectType === 'select' && relatedActive) {
+                                const data = (draft.listData ?? []) as ListData[]
                                 const datumIndex = data.findIndex(findDataIndex)
                                 const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
 
@@ -136,6 +135,12 @@ const handleListClose =
                         draft.nextCloseEvent = handleNextCloseEvent
                 })
         }
+
+const handleListData = (setState: Updater<ListState>) => (data?: ListData[]) =>
+        setState(draft => {
+                draft.listData = data as WritableDraft<ListData>[]
+                draft.status = 'succeeded'
+        })
 
 const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
         <ListItem
@@ -173,7 +178,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordance,
                         afterAffordancePrimaryButtonProps,
                         afterAffordanceSecondaryButtonProps,
-                        relatedActive = false,
                         beforeAffordance,
                         closeTrailing,
                         data,
@@ -194,6 +198,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         onClose,
                         onConfirm,
                         onItemStateEvent,
+                        relatedActive = false,
                         render,
                         renderItem,
                         selectType,
@@ -212,6 +217,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                                 afterAffordanceActiveKey,
                                 listActiveKey,
                                 listActiveKeys,
+                                listData,
                                 nextActiveEvent,
                                 nextAfterAffordanceActiveEvent,
                                 nextCloseEvent,
@@ -222,6 +228,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceActiveKey: undefined,
                         listActiveKey: undefined,
                         listActiveKeys: undefined,
+                        listData: undefined,
                         nextActiveEvent: undefined,
                         nextAfterAffordanceActiveEvent: undefined,
                         nextCloseEvent: undefined,
@@ -230,6 +237,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 
                 const id = useId()
                 const listRef = useRef<VirtualListComponent<ListData>>(null)
+                const onListData = useMemo(() => handleListData(setState), [setState])
                 const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, selectType})(setState)
                 const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
                 const onListActiveSource = useMemo(
@@ -237,14 +245,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         [setState, selectType]
                 )
 
-                const onListClose = handleListClose({onClose, relatedActive, data, selectType, onActive})(setState)
+                const onListClose = handleListClose({onClose, relatedActive, selectType, onActive})(setState)
                 const theme = useTheme()
-                const idle =
-                        [
-                                typeof defaultActiveKey === 'string' && !listActiveKey,
-                                typeof defaultActiveKeys === 'object' && !listActiveKeys
-                        ].some(Boolean) && status === 'idle'
-
                 const renderListItem = handleRenderListItem({
                         ...onItemStateEvent,
                         activeKey: listActiveKey,
@@ -297,7 +299,11 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         nextCloseEvent?.()
                 }, [nextCloseEvent])
 
-                if (idle) {
+                useEffect(() => {
+                        onListData(data)
+                }, [data, onListData])
+
+                if (status === 'idle') {
                         return <></>
                 }
 
@@ -306,7 +312,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         activeKey: listActiveKey,
                         activeKeys: listActiveKeys,
                         afterAffordanceActiveKey,
-                        data,
+                        data: listData,
                         disabled,
                         focusedIndex,
                         id,

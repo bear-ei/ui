@@ -120,7 +120,7 @@ const handleVirtualListItemUnmount =
                 })
         }
 
-const handleVirtualListDataInit = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
+const handleVirtualListData = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
         setState(draft => {
                 draft.virtualListData = data
                 draft.status = 'loading'
@@ -253,7 +253,7 @@ export const VirtualListBaseInner = <T,>(
         const onVirtualListMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) =>
                 handleVirtualListMomentumScrollEnd(onMomentumScrollEnd)(event)
 
-        const onVirtualListDataInit = useMemo(() => handleVirtualListDataInit(setState), [setState])
+        const onVirtualListData = useMemo(() => handleVirtualListData(setState), [setState])
         const onVirtualListLoadEnd = handleVirtualListLoadEnd(setState)(onLoadEnd)
         const onVirtualListFocusedIndexScroll = useMemo(
                 () => handleVirtualListFocusedIndexScroll(scrollViewRef)(itemSize),
@@ -299,8 +299,8 @@ export const VirtualListBaseInner = <T,>(
         )
 
         useEffect(() => {
-                onVirtualListDataInit(data)
-        }, [data, onVirtualListDataInit])
+                onVirtualListData(data)
+        }, [data, onVirtualListData])
 
         useEffect(() => {
                 onVirtualListVisibleRange(virtualListData)

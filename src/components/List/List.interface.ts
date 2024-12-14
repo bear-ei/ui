@@ -79,6 +79,7 @@ export interface ListState {
         afterAffordanceActiveKey?: string
         listActiveKey?: string
         listActiveKeys?: string[]
+        listData?: ListData[]
         nextActiveEvent?: () => void
         nextAfterAffordanceActiveEvent?: () => void
         nextCloseEvent?: () => void
@@ -118,7 +119,7 @@ export type HandleRenderItemOptions = Pick<
         | 'type'
 >
 
-export type HandleListCloseOptions = Pick<ListProps, 'onClose' | 'relatedActive' | 'data' | 'selectType' | 'onActive'>
+export type HandleListCloseOptions = Pick<ListProps, 'onClose' | 'relatedActive' | 'selectType' | 'onActive'>
 export interface ListBaseProps extends ListProps {
         render: (props: RenderListProps) => JSX.Element
 }
