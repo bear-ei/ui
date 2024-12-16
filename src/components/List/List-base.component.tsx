@@ -136,8 +136,14 @@ const handleListClose =
                 })
         }
 
-const handleListData = (setState: Updater<ListState>) => (data?: ListData[]) =>
+const handleListData = (setState: Updater<ListState>) => (loading?: boolean) => (data?: ListData[]) =>
         setState(draft => {
+                if (loading) {
+                        draft.status = 'loading'
+
+                        return
+                }
+
                 draft.listData = data as WritableDraft<ListData>[]
                 draft.status = 'succeeded'
         })
@@ -237,7 +243,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 
                 const id = useId()
                 const listRef = useRef<VirtualListComponent<ListData>>(null)
-                const onListData = useMemo(() => handleListData(setState), [setState])
+                const onListData = useMemo(() => handleListData(setState)(loading), [loading, setState])
                 const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, selectType})(setState)
                 const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
                 const onListActiveSource = useMemo(
@@ -303,7 +309,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         onListData(data)
                 }, [data, onListData])
 
-                if (status !== 'succeeded') {
+                if (status === 'idle') {
                         return <></>
                 }
 

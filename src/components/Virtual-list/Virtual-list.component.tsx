@@ -45,7 +45,6 @@ const render = <T,>({
                         </Animated.ScrollView>
 
                         <EmptyContent
-                                disabledAnimated={true}
                                 lazy={true}
                                 testID={`virtualList__emptyComponent--${id}`}
                                 visible={!loading && emptyList && status === 'succeeded'}
@@ -62,7 +61,6 @@ const render = <T,>({
                         </EmptyContent>
 
                         <LoadingContent
-                                disabledAnimated={true}
                                 lazy={true}
                                 testID={`virtualList__content--${id}`}
                                 visible={loading && !!loadingComponent && status === 'succeeded'}

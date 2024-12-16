@@ -13,5 +13,6 @@ export const Container = styled(Shape)<LayoutAnimatedContentProps>`
                                 height: ${theme.token.spacing.none}px;
                                 min-height: ${theme.token.spacing.none}px;
                                 overflow: hidden;
+                                z-index: -1024;
                         `)}
 `
