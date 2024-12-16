@@ -11,7 +11,7 @@ const handleVirtualListItemAnimatedTiming =
 
 export const useVirtualListItemAnimated = ({top = 0}: UseVirtualListItemAnimatedOptions) => {
         const theme = useTheme()
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const topSharedValue = useSharedValue(top)
         const containerAnimatedStyle = useAnimatedStyle(() => ({
                 top: topSharedValue.value

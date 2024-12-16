@@ -83,7 +83,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
         const theme = useTheme()
         const {palette, scheme} = theme.token
         const {convertHexToRGBA} = palette
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const animatedValue = disabled ? 0 : 1
         const borderSharedValue = useSharedValue(elevated || active ? 2 : animatedValue)
         const colorSharedValue = useSharedValue(active ? 2 : animatedValue)

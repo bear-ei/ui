@@ -140,7 +140,7 @@ export const useTextInputAnimated = ({
                 disabled ? disabledAnimatedValue : defaultAnimatedValue.supportingTextSharedValueValue
         )
 
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(0.12)
         const disabledColor = convertHexToRGBA(scheme.onSurface)(0.38)
         const filledToValue = filled ? 0 : 1

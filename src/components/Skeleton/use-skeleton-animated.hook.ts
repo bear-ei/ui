@@ -26,7 +26,7 @@ const handleSkeletonAnimatedTiming =
 export const useSkeletonAnimated = ({enableAnimated, skeletonVisible}: UseSkeletonAnimatedOptions) => {
         const opacitySharedValue = useSharedValue(0)
         const theme = useTheme()
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const containerAnimatedStyle = useAnimatedStyle(() => ({
                 opacity: interpolate(opacitySharedValue.value, [0, 1, 2], [0.24, 1, 0.24])
         }))

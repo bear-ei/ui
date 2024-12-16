@@ -59,6 +59,11 @@ export interface HandleAnimatedTimingOptions extends Omit<AnimatedTimingOptions,
         token: Token
 }
 
+export interface UseAnimatedTimingOptions {
+        disabledAnimated?: boolean
+        token: Token
+}
+
 export type AnimatedTiming = (
         options?: AnimatedTimingOptions
 ) => (sharedValue: SharedValue<AnimatableValue>) => (toValue: number) => void

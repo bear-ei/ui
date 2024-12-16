@@ -28,6 +28,7 @@ const handleLayoutAnimatedTiming =
         }
 
 export const useLayoutAnimated = ({
+        disabledAnimated,
         animatedType = 'fade',
         entry,
         exit,
@@ -39,7 +40,7 @@ export const useLayoutAnimated = ({
         const opacitySharedValue = useSharedValue(visible ? 1 : 0)
         const widthSharedValue = useSharedValue(visible ? 1 : 0)
         const theme = useTheme()
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token, disabledAnimated})
         const fadeAnimatedStyle = useAnimatedStyle(() => ({
                 opacity: interpolate(opacitySharedValue.value, [0, 1], [0, opacity])
         }))

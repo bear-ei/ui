@@ -13,7 +13,7 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
         const shadowSharedValue = useSharedValue(level)
         const theme = useTheme()
         const {elevation} = theme.token
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const shadowOpacityOutputRange = [
                 elevation.level0.shadowOpacity,
                 elevation.level1.shadowOpacity,

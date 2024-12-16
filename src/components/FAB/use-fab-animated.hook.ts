@@ -14,7 +14,7 @@ export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptio
         const theme = useTheme()
         const {palette, scheme} = theme.token
         const {convertHexToRGBA} = palette
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(0.12)
         const disabledColor = convertHexToRGBA(scheme.onSurface)(0.38)
         const backgroundColorType = {

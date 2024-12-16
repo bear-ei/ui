@@ -19,7 +19,7 @@ export const useNavigationDrawerItemAnimated = ({active}: UseNavigationDrawerIte
         const theme = useTheme()
         const {palette, scheme} = theme.token
         const {convertHexToRGBA} = palette
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const labelTextColorSharedValue = useSharedValue(labelValue)
         const labelTextColorOutputRange = [
                 convertHexToRGBA(scheme.onSurfaceVariant)(1),

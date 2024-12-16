@@ -48,7 +48,7 @@ export const useTooltipSupportingAnimated = ({
         const heightSharedValue = useSharedValue(visible ? 1 : 0)
         const opacitySharedValue = useSharedValue(visible ? 1 : 0)
         const theme = useTheme()
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const contentAnimatedStyle = useAnimatedStyle(() => ({
                 opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1]),
 

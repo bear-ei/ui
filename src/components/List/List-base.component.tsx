@@ -303,7 +303,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         onListData(data)
                 }, [data, onListData])
 
-                if (status === 'idle') {
+                if (status !== 'succeeded') {
                         return <></>
                 }
 

@@ -18,7 +18,7 @@ const handleIconAnimatedTiming =
 export const useIconAnimated = ({eventName}: UseIconAnimatedOptions) => {
         const scaleSharedValue = useSharedValue(1)
         const theme = useTheme()
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const containerAnimatedStyle = useAnimatedStyle(() => ({
                 transform: [
                         {

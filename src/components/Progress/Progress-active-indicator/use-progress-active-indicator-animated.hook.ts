@@ -28,7 +28,7 @@ export const useProgressActiveIndicatorAnimated = ({
 }: UseProgressActiveIndicatorAnimatedOptions) => {
         const widthSharedValue = useSharedValue(defaultValue)
         const theme = useTheme()
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const outputRange = Array.from(handleOutputRange(containerLayout.width)(increment))
         const inputRange = outputRange.map((_value, index) => index)
         const containerAnimatedStyle = useAnimatedStyle(() => ({

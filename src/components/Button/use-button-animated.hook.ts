@@ -53,7 +53,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         const theme = useTheme()
         const {palette, scheme, spacing} = theme.token
         const {convertHexToRGBA} = palette
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const animatedValue = disabled ? 0 : 1
         const borderSharedValue = useSharedValue(animatedValue)
         const colorSharedValue = useSharedValue(animatedValue)

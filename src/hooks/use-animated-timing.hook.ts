@@ -1,4 +1,3 @@
-import {Token} from '@bearei/material-token'
 import {useCallback} from 'react'
 import {
         AnimatableValue,
@@ -9,7 +8,7 @@ import {
         withRepeat,
         withTiming
 } from 'react-native-reanimated'
-import {AnimatedTimingOptions, HandleAnimatedTimingOptions} from './hooks.interface'
+import {AnimatedTimingOptions, HandleAnimatedTimingOptions, UseAnimatedTimingOptions} from './hooks.interface'
 
 const handleAnimatedTiming = ({
         duration = 'medium1',
@@ -41,16 +40,19 @@ const handleAnimatedTiming = ({
         }
 }
 
-export const useAnimatedTiming = (token: Token) => {
+export const useAnimatedTiming = ({token, disabledAnimated = false}: UseAnimatedTimingOptions) => {
         const animatedTiming = useCallback(
                 ({callback, ...options} = {} as AnimatedTimingOptions) =>
                         (sharedValue: SharedValue<AnimatableValue>) =>
                         (toValue: number) => {
                                 if (sharedValue.value !== toValue) {
-                                        sharedValue.value = handleAnimatedTiming({...options, token})(callback)(toValue)
+                                        sharedValue.value =
+                                                disabledAnimated ? toValue : (
+                                                        handleAnimatedTiming({...options, token})(callback)(toValue)
+                                                )
                                 }
                         },
-                [token]
+                [disabledAnimated, token]
         )
 
         return animatedTiming

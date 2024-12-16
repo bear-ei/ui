@@ -32,7 +32,7 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
         const theme = useTheme()
         const {palette, scheme} = theme.token
         const {convertHexToRGBA} = palette
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(0.12)
         const backgroundColorType = {
                 filled: {

@@ -21,7 +21,7 @@ const handleCheckboxIconAnimatedTiming =
 export const useCheckboxAnimated = ({active}: UseCheckboxAnimatedOptions) => {
         const iconScaleSharedValue = useSharedValue(active ? 1 : 0)
         const theme = useTheme()
-        const animatedTiming = useAnimatedTiming(theme.token)
+        const animatedTiming = useAnimatedTiming({token: theme.token})
         const iconAnimatedStyle = useAnimatedStyle(() => ({
                 transform: [{scale: interpolate(iconScaleSharedValue.value, [0, 1], [0, 1])}]
         }))
