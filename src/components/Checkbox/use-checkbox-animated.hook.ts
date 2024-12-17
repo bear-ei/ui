@@ -1,5 +1,4 @@
 import {useEffect, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
@@ -32,7 +31,7 @@ export const useCheckboxAnimated = ({active}: UseCheckboxAnimatedOptions) => {
         )
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onCheckboxIconAnimatedTiming(active))
+                onCheckboxIconAnimatedTiming(active)
         }, [active, onCheckboxIconAnimatedTiming])
 
         return {iconAnimatedStyle}

@@ -1,5 +1,4 @@
 import {useEffect, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
@@ -78,7 +77,7 @@ export const useTooltipSupportingAnimated = ({
         )
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onTooltipSupportingAnimatedTiming(visible))
+                onTooltipSupportingAnimatedTiming(visible)
         }, [onTooltipSupportingAnimatedTiming, visible])
 
         return {contentAnimatedStyle}

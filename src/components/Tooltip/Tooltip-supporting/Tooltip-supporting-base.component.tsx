@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -178,20 +178,11 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                         [containerLayout.width, layout.width, type]
                 )
 
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleTooltipSupportingStateChange({
-                                        ...options,
-                                        state,
-                                        onVisible
-                                })(setState)(event),
-                        [onVisible, setState]
-                )
+                                handleTooltipSupportingStateChange({...options, state, onVisible})(setState)(event)
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        onStateEventChange
-                })
+                const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 
                 useImperativeHandle(ref, () => (containerRef?.current ? containerRef?.current : {}) as View, [])
 
@@ -202,10 +193,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                 }, [onTooltipSupportingContainerLayout, visible, rawContainerLayout?.height])
 
                 useEffect(() => {
-                        onTooltipSupportingPositionInvert({
-                                height: windowHeight,
-                                width: windowWidth
-                        })
+                        onTooltipSupportingPositionInvert({height: windowHeight, width: windowWidth})
                 }, [onTooltipSupportingPositionInvert, windowHeight, windowWidth])
 
                 if (status === 'idle') {

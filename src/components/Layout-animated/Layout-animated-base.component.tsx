@@ -1,4 +1,4 @@
-import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
@@ -146,11 +146,9 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [lazy, setState, unmount]
                 )
 
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleLayoutAnimatedStateChange({...options, state, visible})(setState)(event),
-                        [setState, visible]
-                )
+                                handleLayoutAnimatedStateChange({...options, state, visible})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
                 const {fadeAnimatedStyle, collapseAnimatedStyle} = useLayoutAnimated({

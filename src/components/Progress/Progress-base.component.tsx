@@ -1,4 +1,4 @@
-import {forwardRef, useCallback, useId, useMemo} from 'react'
+import {forwardRef, useId, useMemo} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -39,29 +39,16 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(
                         [setState]
                 )
 
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleTouchableStateChange({
                                         ...options,
                                         state,
                                         onLayoutChanged: onTouchableLayoutChanged
-                                })(event),
-                        [onTouchableLayoutChanged]
-                )
+                                })(event)
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        onStateEventChange
-                })
+                const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 
-                return render({
-                        ...renderProps,
-                        animated,
-                        id,
-                        layout,
-                        onStateEvent,
-                        ref,
-                        type
-                })
+                return render({...renderProps, animated, id, layout, onStateEvent, ref, type})
         }
 )

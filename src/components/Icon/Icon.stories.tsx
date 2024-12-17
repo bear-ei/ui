@@ -20,7 +20,7 @@ export const Label: StoryObj<IconProps> = {
         args: {
                 iconStyle: 'rounded',
                 type: 'outlined',
-                name: 'label'
+                name: 'arrowBack'
         }
 }
 

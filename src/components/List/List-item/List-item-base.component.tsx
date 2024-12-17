@@ -1,12 +1,5 @@
-import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {
-        GestureResponderEvent,
-        InteractionManager,
-        PanResponder,
-        PanResponderGestureState,
-        View,
-        ViewProps
-} from 'react-native'
+import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {GestureResponderEvent, PanResponder, PanResponderGestureState, View, ViewProps} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
@@ -213,8 +206,7 @@ const handleListItemClose =
                 }
 
                 onVisible?.()
-
-                InteractionManager.runAfterInteractions(() => onClose?.(itemKey))
+                onClose?.(itemKey)
         }
 
 const handleListItemPanResponderRelease =
@@ -388,7 +380,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         [setState]
                 )
 
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleListItemStateChange({
                                         ...options,
@@ -400,9 +392,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                                         state,
                                         trailingTrigger,
                                         type
-                                })(setState)(event),
-                        [itemIndex, itemKey, onActive, onLoadEnd, selectType, setState, trailingTrigger, type]
-                )
+                                })(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

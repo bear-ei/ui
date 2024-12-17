@@ -1,5 +1,4 @@
 import {useEffect, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {
         AnimatableValue,
         SharedValue,
@@ -37,7 +36,7 @@ export const useSkeletonAnimated = ({enableAnimated, skeletonVisible}: UseSkelet
         )
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onSkeletonAnimatedTiming(skeletonVisible))
+                onSkeletonAnimatedTiming(skeletonVisible)
         }, [skeletonVisible, onSkeletonAnimatedTiming])
 
         return {containerAnimatedStyle}

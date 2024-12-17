@@ -1,5 +1,4 @@
 import {useEffect, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
@@ -34,7 +33,7 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
         )
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onListAfterAffordanceAnimatedTiming(doubleConfirmed))
+                onListAfterAffordanceAnimatedTiming(doubleConfirmed)
         }, [doubleConfirmed, onListAfterAffordanceAnimatedTiming])
 
         return {dangerAnimatedStyle}

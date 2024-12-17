@@ -1,5 +1,5 @@
 import {nanoid} from 'nanoid'
-import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, NativeTouchEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -104,7 +104,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                 )
 
                 const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleTouchableStateChange({
                                         ...options,
@@ -112,9 +112,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                                         onLayoutChanged: onTouchableLayoutChanged,
                                         ref: touchableRef,
                                         state
-                                })(setState)(event),
-                        [enableTouchableRipple, onTouchableLayoutChanged, setState]
-                )
+                                })(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

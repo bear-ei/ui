@@ -111,7 +111,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                         [onVisible, setState]
                 )
 
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleTooltipStateChange({
                                         ...options,
@@ -119,9 +119,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                                         onTooltipVisible,
                                         state,
                                         triggerEvent
-                                })(event),
-                        [onTooltipLayoutChanged, onTooltipVisible, triggerEvent]
-                )
+                                })(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
                 const onTooltipSupportingEmit = useCallback(

@@ -1,5 +1,4 @@
 import {useEffect, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {
         AnimatableValue,
         SharedValue,
@@ -79,13 +78,11 @@ export const useSideSheetContentAnimated = ({
         )
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onSideSheetContentVisibleAnimatedTiming(visible))
+                onSideSheetContentVisibleAnimatedTiming(visible)
         }, [onSideSheetContentVisibleAnimatedTiming, visible])
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() =>
-                        onSideSheetContentFooterVisibleAnimatedTiming(footerVisible)
-                )
+                onSideSheetContentFooterVisibleAnimatedTiming(footerVisible)
         }, [footerVisible, onSideSheetContentFooterVisibleAnimatedTiming])
 
         return {containerAnimatedStyle, footerAnimatedStyle}

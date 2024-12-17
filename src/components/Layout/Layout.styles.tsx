@@ -8,6 +8,6 @@ export const Container = styled(Shape)`
         flex: 1;
 
         ${({theme}) => css`
-                background-color: ${theme.token.scheme.surface};
+                background-color: ${theme.token.scheme.surfaceContainer};
         `}
 `

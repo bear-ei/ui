@@ -1,4 +1,4 @@
-import {cloneElement, forwardRef, useCallback, useEffect, useId} from 'react'
+import {cloneElement, forwardRef, useEffect, useId} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -76,13 +76,11 @@ export const NavigationDrawerItemBase = forwardRef<View, NavigationDrawerItemBas
                 const activeColor = theme.token.scheme.secondaryContainer
                 const underlayColor = theme.token.scheme.onSurface
                 const active = activeKey === itemKey
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleNavigationDrawerItemStateChange({...options, itemKey, onActive, state})(setState)(
                                         event
-                                ),
-                        [itemKey, onActive, setState]
-                )
+                                )
 
                 const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
                 const {labelTextAnimatedStyle} = useNavigationDrawerItemAnimated({active})

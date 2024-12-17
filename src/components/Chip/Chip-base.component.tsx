@@ -1,4 +1,4 @@
-import {cloneElement, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -176,11 +176,9 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
 
                 const onChipInit = useMemo(() => handleChipInit(setState)(disabled), [disabled, setState])
                 const underlayColor = theme.token.scheme.onSurfaceVariant
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleChipStateChange({...options, state})(setState)(event),
-                        [setState]
-                )
+                                handleChipStateChange({...options, state})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

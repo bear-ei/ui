@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {cloneElement, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -129,22 +129,11 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
                 const onFABInit = useMemo(() => handleFABInit(setState)(disabled), [disabled, setState])
                 const fabIconElement = renderFABIcon({eventName, type, disabled, size})(theme)(icon)
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleFABStateChange({
-                                        ...options,
-                                        state,
-                                        elevated
-                                })(setState)(event),
-                        [elevated, setState]
-                )
+                                handleFABStateChange({...options, state, elevated})(setState)(event)
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        disabled,
-                        onStateEventChange
-                })
-
+                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
                 const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled, type})
 
                 useEffect(() => {

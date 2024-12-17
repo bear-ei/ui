@@ -1,5 +1,4 @@
 import {useCallback, useEffect, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
@@ -341,15 +340,15 @@ export const useTextInputAnimated = ({
         )
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onTextInputStateAnimatedTiming(state))
+                onTextInputStateAnimatedTiming(state)
         }, [onTextInputStateAnimatedTiming, state])
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onTextInputNonerrorAnimatedTiming(state))
+                onTextInputNonerrorAnimatedTiming(state)
         }, [onTextInputNonerrorAnimatedTiming, state])
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onTextInputDisabledAnimatedTiming(disabled))
+                onTextInputDisabledAnimatedTiming(disabled)
         }, [disabled, onTextInputDisabledAnimatedTiming])
 
         return {

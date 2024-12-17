@@ -7,7 +7,7 @@ export const Container = styled(LayoutAnimated)<LayoutPaneContainerProps & Layou
         overflow: hidden;
 
         ${({theme}) => css`
-                background-color: ${theme.token.scheme.surfaceContainerLow};
+                background-color: ${theme.token.scheme.surface};
         `}
 
         ${({width, flex = 1}) =>

@@ -1,4 +1,4 @@
-import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -99,11 +99,9 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
                 })(theme)(icon)
 
                 const onIconButtonDisabled = useMemo(() => handleIconButtonDisabled(setState), [setState])
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleIconButtonStateChange({...options, state, touchableRef})(setState)(event),
-                        [setState]
-                )
+                                handleIconButtonStateChange({...options, state, touchableRef})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

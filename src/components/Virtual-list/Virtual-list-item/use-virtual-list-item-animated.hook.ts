@@ -1,5 +1,4 @@
 import {useEffect, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {AnimatableValue, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
@@ -23,7 +22,7 @@ export const useVirtualListItemAnimated = ({top = 0}: UseVirtualListItemAnimated
         )
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onVirtualListItemAnimatedTiming(top))
+                onVirtualListItemAnimatedTiming(top)
         }, [onVirtualListItemAnimatedTiming, top])
 
         return {containerAnimatedStyle}

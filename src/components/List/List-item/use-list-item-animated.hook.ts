@@ -1,5 +1,4 @@
 import {useEffect, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {
         AnimatableValue,
         SharedValue,
@@ -77,13 +76,11 @@ export const useListItemAnimated = ({
         )
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() =>
-                        onListItemAfterAffordanceVisibleAnimatedTiming(afterAffordanceVisible)
-                )
+                onListItemAfterAffordanceVisibleAnimatedTiming(afterAffordanceVisible)
         }, [afterAffordanceVisible, onListItemAfterAffordanceVisibleAnimatedTiming])
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onListItemActiveAnimatedTiming(active))
+                onListItemActiveAnimatedTiming(active)
         }, [active, onListItemActiveAnimatedTiming])
 
         return {contentAnimatedStyle, headlineTextAnimatedStyle}

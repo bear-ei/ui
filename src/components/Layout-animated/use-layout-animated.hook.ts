@@ -1,5 +1,4 @@
 import {useEffect, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {AnimatableValue, interpolate, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
@@ -70,7 +69,7 @@ export const useLayoutAnimated = ({
         )
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onLayoutAnimatedTiming(visible))
+                onLayoutAnimatedTiming(visible)
         }, [visible, onLayoutAnimatedTiming])
 
         return {fadeAnimatedStyle, collapseAnimatedStyle}

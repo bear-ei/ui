@@ -4,6 +4,7 @@
                 "emitDecoratorMetadata": true,
                 "experimentalDecorators": true,
                 "forceConsistentCasingInFileNames": true,
+                "jsx": "react-jsx",
                 "strict": true,
                 "strictPropertyInitialization": false
         },

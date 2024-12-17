@@ -111,7 +111,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
                 trailingShow &&
                 ['menu'].includes(type) &&
                 css`
-                        padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
+                        padding-right: ${theme.adaptSize(theme.token.spacing.none)}px;
                 `}
 `
 

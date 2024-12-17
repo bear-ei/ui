@@ -1,4 +1,4 @@
-import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -113,7 +113,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
                         [indeterminate, setState]
                 )
 
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleCheckboxStateChange({
                                         ...options,
@@ -121,9 +121,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
                                         indeterminate,
                                         state,
                                         onActive
-                                })(setState)(event),
-                        [checkboxActive, indeterminate, onActive, setState]
-                )
+                                })(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

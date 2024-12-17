@@ -1,4 +1,4 @@
-import {FC, useCallback, useId, useImperativeHandle, useRef} from 'react'
+import {FC, useId, useImperativeHandle, useRef} from 'react'
 import {View} from 'react-native'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {EventName, State} from '../Common'
@@ -23,11 +23,8 @@ const handleMaskStateChange = ({eventName, maskRef}: HandleMaskStateChangeOption
 export const MaskBase: FC<MaskBaseProps> = ({render, ref, ...renderProps}) => {
         const id = useId()
         const maskRef = useRef<View>(null)
-        const onStateEventChange = useCallback(
-                (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                        handleMaskStateChange({...options, state, maskRef})(event),
-                []
-        )
+        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                handleMaskStateChange({...options, state, maskRef})(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 

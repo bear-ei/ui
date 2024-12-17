@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {ForwardedRef, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, Platform} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
@@ -271,11 +271,8 @@ export const VirtualListBaseInner = <T,>(
                 [itemSize, setState]
         )
 
-        const onStateEventChange = useCallback(
-                (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                        handleVirtualListStateChange({...options, state})(onVirtualListLayoutChanged)(event),
-                [onVirtualListLayoutChanged]
-        )
+        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                handleVirtualListStateChange({...options, state})(onVirtualListLayoutChanged)(event)
 
         const onStateEvent = useOnStateEvent({
                 ...renderProps,

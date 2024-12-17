@@ -1,22 +1,12 @@
-import {forwardRef, useCallback, useId, useMemo} from 'react'
+import {forwardRef, useId, useMemo} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
-import {HandleUnderlayStateChangeOptions, UnderlayBaseProps, UnderlayProps, UnderlayState} from './Underlay.interface'
+import {HandleUnderlayStateChangeOptions, UnderlayBaseProps, UnderlayState} from './Underlay.interface'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
-
-export const handleUnderlayPropsEqual = (prevProps: UnderlayProps) => {
-        const {eventName: prevEventName, active: prevActive} = prevProps
-
-        return (nextProps: UnderlayProps) => {
-                const {eventName: nextEventName, active: nextActive} = nextProps
-
-                return ![prevEventName !== nextEventName, prevActive !== nextActive].some(Boolean)
-        }
-}
 
 const handleUnderlayContentLayoutChanged = (setState: Updater<UnderlayState>) => (layout: LayoutRectangle) => {
         const {width, height} = layout
@@ -70,15 +60,13 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
                         opacities
                 })
 
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleUnderlayStateChange({
                                         ...options,
                                         onLayoutChanged: onUnderlayContentLayoutChanged,
                                         state
-                                })(event),
-                        [onUnderlayContentLayoutChanged]
-                )
+                                })(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 

@@ -1,4 +1,4 @@
-import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef} from 'react'
+import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useRef} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -86,7 +86,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                 const activeColor = theme.token.scheme.secondaryContainer
                 const underlayColor = theme.token.scheme.onSurface
                 const active = activeKey === itemKey
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleNavigationRailItemStateChange({
                                         ...options,
@@ -94,9 +94,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                                         onActive,
                                         state,
                                         touchableRef
-                                })(setState)(event),
-                        [itemKey, onActive, setState]
-                )
+                                })(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

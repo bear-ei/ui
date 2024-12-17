@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {cloneElement, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
@@ -144,11 +144,9 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
                 const onButtonInit = useMemo(() => handleButtonInit(setState)(disabled), [disabled, setState])
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
-                const onStateEventChange = useCallback(
+                const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleButtonStateChange({...options, state, type})(setState)(event),
-                        [setState, type]
-                )
+                                handleButtonStateChange({...options, state, type})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
                 const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({

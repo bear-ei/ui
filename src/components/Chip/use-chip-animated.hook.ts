@@ -1,5 +1,4 @@
 import {useCallback, useEffect, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {
         AnimatableValue,
         SharedValue,
@@ -254,7 +253,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
         )
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onChipAnimatedTiming())
+                onChipAnimatedTiming()
         }, [onChipAnimatedTiming])
 
         return {
