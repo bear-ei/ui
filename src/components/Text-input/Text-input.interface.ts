@@ -1,4 +1,4 @@
-import {MutableRefObject, RefAttributes, RefObject} from 'react'
+import {RefAttributes, RefObject} from 'react'
 import {
         PressableProps,
         TextInputProps as RNTextInputProps,
@@ -83,7 +83,7 @@ export interface HandleTextInputEnabledSharedOptions extends Pick<UseTextInputAn
 }
 
 export interface HandleTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelayTime'> {
-        timer: MutableRefObject<NodeJS.Timeout | undefined>
+        onSupportingTextClose: () => void
 }
 
 export interface HandleTextInputEnabledSharedValue {

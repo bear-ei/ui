@@ -2,10 +2,10 @@ import {useCallback} from 'react'
 import {
         AnimatableValue,
         AnimationCallback,
-        Easing,
-        SharedValue,
         cancelAnimation,
+        Easing,
         runOnJS,
+        SharedValue,
         withRepeat,
         withTiming
 } from 'react-native-reanimated'

@@ -3,6 +3,7 @@ import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} fr
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {
         HandleTextInputStateEventChangeOptions,
@@ -57,27 +58,25 @@ const handleTextInputContentSizeChange =
                 })
         }
 
+const handleSupportingTextClose = (setState: Updater<TextInputState>) => () =>
+        setState(draft => {
+                draft.supportingTextVisible = false
+        })
+
 const handleTextInputSupportingText =
-        ({timer, supportingTextDelayTime}: HandleTextInputSupportingTextOptions) =>
-        (setState: Updater<TextInputState>) => {
-                const handleSupportingTextVisible = () =>
-                        setState(draft => {
-                                draft.supportingTextVisible = false
-                        })
-
-                return (value?: string) => {
-                        clearTimeout(timer.current)
-                        setState(draft => {
-                                if (value) {
-                                        draft.supportingText = value
-                                }
-
-                                draft.supportingTextVisible = !!value
-                        })
-
-                        if (supportingTextDelayTime && value) {
-                                timer.current = setTimeout(handleSupportingTextVisible, supportingTextDelayTime)
+        ({onSupportingTextClose, supportingTextDelayTime}: HandleTextInputSupportingTextOptions) =>
+        (setState: Updater<TextInputState>) =>
+        (value?: string) => {
+                setState(draft => {
+                        if (value) {
+                                draft.supportingText = value
                         }
+
+                        draft.supportingTextVisible = !!value
+                })
+
+                if (supportingTextDelayTime && value) {
+                        onSupportingTextClose()
                 }
         }
 
@@ -152,7 +151,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         placeholder,
                         render,
                         supportingText: supportingTextSource,
-                        supportingTextDelayTime,
+                        supportingTextDelayTime = 150,
                         trailing,
                         type = 'filled',
                         value: rawValue,
@@ -190,7 +189,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 const value = rawValue ?? defaultValue
                 const id = useId()
                 const textInputRef = useRef<TextInput>(null)
-                const supportingTextTimer = useRef<NodeJS.Timeout>()
                 const theme = useTheme()
                 const placeholderTextColor =
                         state === 'disabled' ?
@@ -202,12 +200,14 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
                 ) => handleTextInputContentSizeChange(setState)(onContentSizeChange)(event)
 
-                const onTextInputSupportingText = useMemo(
-                        () =>
-                                handleTextInputSupportingText({timer: supportingTextTimer, supportingTextDelayTime})(
-                                        setState
-                                ),
+                const onSupportingTextClose = useMemo(
+                        () => debounce(handleSupportingTextClose(setState))(supportingTextDelayTime),
                         [setState, supportingTextDelayTime]
+                )
+
+                const onTextInputSupportingText = useMemo(
+                        () => handleTextInputSupportingText({supportingTextDelayTime, onSupportingTextClose})(setState),
+                        [onSupportingTextClose, setState, supportingTextDelayTime]
                 )
 
                 const onTextInputEditableChange = useMemo(
