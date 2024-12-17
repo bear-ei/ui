@@ -48,6 +48,7 @@ export const useWindowDimensions = ({changeEventThrottle = 50}: UseWindowDimensi
 
         useEffect(() => {
                 const initialWindow = Dimensions.get('window')
+
                 handleWindowScaledSize(setState)({window: initialWindow})
         }, [setState])
 
