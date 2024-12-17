@@ -101,11 +101,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 
                 const containerRef = useRef<View>(null)
                 const id = useId()
-                const onTooltipLayoutChanged = useMemo(
-                        () => debounce(handleTooltipLayoutChanged(setState))(150),
-                        [setState]
-                )
-
+                const onTooltipLayoutChanged = handleTooltipLayoutChanged(setState)
                 const onTooltipVisible = useMemo(
                         () => debounce(handleTooltipVisible(setState)(onVisible))(250),
                         [onVisible, setState]

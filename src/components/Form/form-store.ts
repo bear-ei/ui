@@ -143,7 +143,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
         }
 
         const setFieldsValidate =
-                ({delay = 350, ...validatorOptions}: FormValidatorOptions = {}) =>
+                ({delay = 300, ...validatorOptions}: FormValidatorOptions = {}) =>
                 (validateRule: FormValidateRule<T>) => {
                         const entities = getFieldsEntities()
                         const ruleKeys = Object.keys(validateRule) as (keyof T)[]
@@ -237,7 +237,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 
         const signInFields = (rawEntity: FormFieldsEntity<T>) => {
                 const {name, validatorOptions, rule} = rawEntity
-                const {delay = 350, ...restValidatorOptions} = validatorOptions ?? {}
+                const {delay = 300, ...restValidatorOptions} = validatorOptions ?? {}
 
                 if (!name) {
                         return

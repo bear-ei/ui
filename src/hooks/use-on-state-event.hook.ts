@@ -31,55 +31,42 @@ const handlePressInEvent =
         ({onStateEvent}: HandleStateEventOptions) =>
         (onPressIn?: (event: GestureResponderEvent) => void) =>
         (event: GestureResponderEvent) =>
-                onStateEvent({
-                        callback: () => onPressIn?.(event),
-                        eventName: 'pressIn'
-                })('pressIn')(event)
+                onStateEvent({callback: () => onPressIn?.(event), eventName: 'pressIn'})('pressIn')(event)
 
 const handlePressEvent =
         ({onStateEvent, mobileDevice}: HandleStateEventOptions) =>
         (onPress?: (event: GestureResponderEvent) => void) =>
         (event: GestureResponderEvent) =>
-                onStateEvent({
-                        callback: () => onPress?.(event),
-                        eventName: 'press'
-                })(mobileDevice ? 'enabled' : 'hovered')(event)
+                onStateEvent({callback: () => onPress?.(event), eventName: 'press'})(
+                        mobileDevice ? 'enabled' : 'hovered'
+                )(event)
 
 const handleLongPressEvent =
         ({onStateEvent}: HandleStateEventOptions) =>
         (onLongPress?: (event: GestureResponderEvent) => void) =>
         (event: GestureResponderEvent) =>
-                onStateEvent({
-                        callback: () => onLongPress?.(event),
-                        eventName: 'longPress'
-                })('longPressIn')(event)
+                onStateEvent({callback: () => onLongPress?.(event), eventName: 'longPress'})('longPressIn')(event)
 
 const handlePressOutEvent =
         ({onStateEvent, mobileDevice}: HandleStateEventOptions) =>
         (onPressOut?: (event: GestureResponderEvent) => void) =>
         (event: GestureResponderEvent) =>
-                onStateEvent({
-                        callback: () => onPressOut?.(event),
-                        eventName: 'pressOut'
-                })(mobileDevice ? 'enabled' : 'hovered')(event)
+                onStateEvent({callback: () => onPressOut?.(event), eventName: 'pressOut'})(
+                        mobileDevice ? 'enabled' : 'hovered'
+                )(event)
 
 const handleHoverIntEvent =
         ({onStateEvent}: HandleStateEventOptions) =>
         (onHoverIn?: (event: MouseEvent) => void) =>
-        (event: MouseEvent) =>
-                onStateEvent({
-                        callback: () => onHoverIn?.(event),
-                        eventName: 'hoverIn'
-                })('hovered')(event)
+        (event: MouseEvent) => {
+                onStateEvent({callback: () => onHoverIn?.(event), eventName: 'hoverIn'})('hovered')(event)
+        }
 
 const handleHoverOutEvent =
         ({onStateEvent}: HandleStateEventOptions) =>
         (onHoverOut?: (event: MouseEvent) => void) =>
         (event: MouseEvent) =>
-                onStateEvent({
-                        callback: () => onHoverOut?.(event),
-                        eventName: 'hoverOut'
-                })('enabled')(event)
+                onStateEvent({callback: () => onHoverOut?.(event), eventName: 'hoverOut'})('enabled')(event)
 
 const handleFocusEvent =
         ({onStateEvent}: HandleStateEventOptions) =>

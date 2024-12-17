@@ -3,7 +3,6 @@ import {View, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {debounce} from '../../utils'
 import {State} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
@@ -135,7 +134,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
                 const id = useId()
                 const visible = visibleSource ?? defaultVisible
-                const onLayoutVisible = useMemo(() => debounce(handleLayoutVisible(setState))(50), [setState])
+                const onLayoutVisible = handleLayoutVisible(setState)
                 const onLayoutAnimatedFinished = useMemo(
                         () => handleLayoutAnimatedFinished({onUnmount, unmount, onVisible})(setState),
                         [onUnmount, onVisible, setState, unmount]

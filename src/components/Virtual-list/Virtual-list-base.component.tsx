@@ -4,7 +4,6 @@ import {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEv
 import Animated from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
-import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {RenderVirtualListItemInfo, RenderVirtualListItemOptions, VirtualListItem} from './Virtual-list-item'
 import {
@@ -266,20 +265,11 @@ export const VirtualListBaseInner = <T,>(
         })
 
         const onVirtualListItemUnmount = handleVirtualListItemUnmount(itemSize)(setState)
-        const onVirtualListLayoutChanged = useMemo(
-                () => debounce(handleVirtualListLayoutChanged(itemSize)(setState))(150),
-                [itemSize, setState]
-        )
-
+        const onVirtualListLayoutChanged = handleVirtualListLayoutChanged(itemSize)(setState)
         const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                 handleVirtualListStateChange({...options, state})(onVirtualListLayoutChanged)(event)
 
-        const onStateEvent = useOnStateEvent({
-                ...renderProps,
-                disabled: false,
-                onStateEventChange
-        })
-
+        const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
         const itemElements = renderVirtualListItem({
                 extraData,
                 gap,

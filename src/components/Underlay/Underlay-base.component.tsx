@@ -1,9 +1,8 @@
-import {forwardRef, useId, useMemo} from 'react'
+import {forwardRef, useId} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {HandleUnderlayStateChangeOptions, UnderlayBaseProps, UnderlayState} from './Underlay.interface'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
@@ -46,11 +45,7 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
                 const [{layout}, setState] = useImmer<UnderlayState>({layout: {} as LayoutRectangle})
                 const id = useId()
                 const active = activeSource ?? defaultActive
-                const onUnderlayContentLayoutChanged = useMemo(
-                        () => debounce(handleUnderlayContentLayoutChanged(setState))(150),
-                        [setState]
-                )
-
+                const onUnderlayContentLayoutChanged = handleUnderlayContentLayoutChanged(setState)
                 const {hoverLayerAnimatedStyle, activeLayerAnimatedStyle} = useUnderlayAnimated({
                         active,
                         activeAnimatedType,

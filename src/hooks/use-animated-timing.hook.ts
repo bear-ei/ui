@@ -4,6 +4,7 @@ import {
         AnimationCallback,
         Easing,
         SharedValue,
+        cancelAnimation,
         runOnJS,
         withRepeat,
         withTiming
@@ -46,6 +47,8 @@ export const useAnimatedTiming = ({token, disabledAnimated = false}: UseAnimated
                         (sharedValue: SharedValue<AnimatableValue>) =>
                         (toValue: number) => {
                                 if (sharedValue.value !== toValue) {
+                                        cancelAnimation(sharedValue)
+
                                         if (disabledAnimated) {
                                                 sharedValue.value = toValue
                                                 callback?.(true)

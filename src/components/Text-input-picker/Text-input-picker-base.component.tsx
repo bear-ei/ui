@@ -222,6 +222,9 @@ export const TextInputPickerBase = forwardRef<TextInput, TextInputPickerBaseProp
                         onStateEventChange
                 })
 
+                /**
+                 * TODO:
+                 */
                 const onTextInputPickerChangeText = useMemo(
                         () => debounce(handleTextInputPickerChangeText(setState)(rawData))(250),
                         [rawData, setState]

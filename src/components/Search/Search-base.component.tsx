@@ -4,7 +4,7 @@ import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {debounce, textSearch} from '../../utils'
+import {textSearch} from '../../utils'
 import {EventName, State} from '../Common'
 import {ListData} from '../List'
 import {SearchListProps} from './Search-list'
@@ -142,7 +142,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 const placeholderTextColor = theme.token.scheme.onSurfaceVariant
                 const underlayColor = theme.token.scheme.onSurface
                 const {data} = listProps
-                const onSearchListVisible = useMemo(() => debounce(handleSearchListVisible(setState))(150), [setState])
+                const onSearchListVisible = handleSearchListVisible(setState)
                 const onSearchChangeText = handleSearchChangeText({data, onChangeText})(setState)
                 const onSearchChangeTextSource = useMemo(() => handleSearchChangeText()(setState), [setState])
                 const onSearchContainerLayout = useMemo(
