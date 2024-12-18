@@ -134,7 +134,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
                 const id = useId()
                 const visible = visibleSource ?? defaultVisible
-                const onLayoutVisible = handleLayoutVisible(setState)
+                const onLayoutVisible = useMemo(() => handleLayoutVisible(setState), [setState])
                 const onLayoutAnimatedFinished = useMemo(
                         () => handleLayoutAnimatedFinished({onUnmount, unmount, onVisible})(setState),
                         [onUnmount, onVisible, setState, unmount]

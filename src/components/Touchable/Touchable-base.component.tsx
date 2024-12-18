@@ -3,6 +3,7 @@ import {forwardRef, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, NativeTouchEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
@@ -97,7 +98,11 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 
                 const touchableRef = useRef<View>(null)
                 const id = useId()
-                const onTouchableLayoutChanged = handleTouchableContentLayoutChanged(setState)
+                const onTouchableLayoutChanged = useMemo(
+                        () => debounce(handleTouchableContentLayoutChanged(setState))(50),
+                        [setState]
+                )
+
                 const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>

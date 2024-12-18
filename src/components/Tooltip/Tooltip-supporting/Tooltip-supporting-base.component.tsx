@@ -141,9 +141,9 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                 const [{containerLayout, layout, status, closed, invert}, setState] = useImmer<TooltipSupportingState>({
                         closed: undefined,
                         containerLayout: {} as TooltipSupportingState['containerLayout'],
+                        invert: undefined,
                         layout: {} as LayoutRectangle,
-                        status: 'idle',
-                        invert: undefined
+                        status: 'idle'
                 })
 
                 const {width: windowWidth, height: windowHeight} = useWindowDimensions()
