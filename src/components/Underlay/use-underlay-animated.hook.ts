@@ -1,5 +1,12 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {
+        AnimatableValue,
+        SharedValue,
+        cancelAnimation,
+        interpolate,
+        useAnimatedStyle,
+        useSharedValue
+} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {EventName} from '../Common'
@@ -25,9 +32,12 @@ const handleUnderlayHoveredAnimatedTiming = ({
                 pressOut: 1
         } as Record<EventName, number>
 
+        const eventKeys = Object.keys(event)
+
         return (hoverLayerSharedValue: SharedValue<AnimatableValue>) => (eventName?: EventName) => {
-                if (eventName) {
-                        animatedTiming()(hoverLayerSharedValue)(event[eventName] ?? 0)
+                if (eventName && eventKeys.includes(eventName)) {
+                        cancelAnimation(hoverLayerSharedValue)
+                        animatedTiming()(hoverLayerSharedValue)(event[eventName])
                 }
         }
 }

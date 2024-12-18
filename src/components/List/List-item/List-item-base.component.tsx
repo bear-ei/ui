@@ -192,10 +192,13 @@ const handleListItemConfirm =
  * When using the component Text-field-picker, you only need to change the focus style. Do not get the real focus.
  * Otherwise the Text-field-picker will lose focus.
  */
-const handleListItemFocus = (setState: Updater<ListItemState>) => (itemIndex?: number) => (focusedIndex?: number) =>
-        setState(draft => {
-                draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
-        })
+const handleListItemFocus = (setState: Updater<ListItemState>) => (itemIndex?: number) => (focusedIndex?: number) => {
+        if (typeof focusedIndex === 'number') {
+                setState(draft => {
+                        draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
+                })
+        }
+}
 
 const handleListItemClose =
         ({onClose, onVisible}: HandleListItemCloseOptions) =>

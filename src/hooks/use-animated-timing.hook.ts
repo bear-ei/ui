@@ -2,7 +2,6 @@ import {useCallback} from 'react'
 import {
         AnimatableValue,
         AnimationCallback,
-        cancelAnimation,
         Easing,
         runOnJS,
         SharedValue,
@@ -47,8 +46,6 @@ export const useAnimatedTiming = ({token, disabledAnimated = false}: UseAnimated
                         (sharedValue: SharedValue<AnimatableValue>) =>
                         (toValue: number) => {
                                 if (sharedValue.value !== toValue) {
-                                        cancelAnimation(sharedValue)
-
                                         if (disabledAnimated) {
                                                 sharedValue.value = toValue
                                                 callback?.(true)
