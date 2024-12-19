@@ -39,6 +39,7 @@ export const Container = styled.View<SheetContainerProps>`
 export const Content = styled(Shape)<SheetViewContentProps>`
         display: flex;
         flex-direction: column;
+        position: relative;
 
         ${({theme}) => css`
                 width: ${theme.adaptSize(theme.token.spacing.extraSmall * 80)}px;
@@ -138,11 +139,16 @@ export const SecondaryButton = styled.View`
 `
 
 export const FooterContainer = styled.View`
-        overflow: hidden;
+        position: absolute;
+
+        ${({theme}) => css`
+                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+                left: ${theme.adaptSize(theme.token.spacing.none)}px;
+                right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        `}
 `
 
 export const Footer = styled.View<SheetFooterProps>`
-        align-self: stretch;
         display: flex;
         flex-direction: row;
 
