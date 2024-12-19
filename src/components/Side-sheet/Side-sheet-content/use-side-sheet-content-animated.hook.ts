@@ -62,14 +62,10 @@ export const useSideSheetContentAnimated = ({
                 )
         }))
 
-        const footerTranslateYOutputRange = [theme.adaptSize(spacing.extraSmall * 20), theme.adaptSize(spacing.none)]
+        const footerTranslateYOutputRange = [-theme.adaptSize(spacing.extraSmall * 20), theme.adaptSize(spacing.none)]
         const footerAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(footerSharedValue.value, [0, 1], [0, 1]),
-                transform: [
-                        {
-                                translateY: interpolate(footerSharedValue.value, [0, 1], footerTranslateYOutputRange)
-                        }
-                ]
+                bottom: interpolate(footerSharedValue.value, [0, 1], footerTranslateYOutputRange),
+                opacity: interpolate(footerSharedValue.value, [0, 1], [0, 1])
         }))
 
         const onSideSheetContentVisibleAnimatedTiming = useMemo(
