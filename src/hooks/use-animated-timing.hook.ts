@@ -1,13 +1,5 @@
 import {useCallback} from 'react'
-import {
-        AnimatableValue,
-        AnimationCallback,
-        Easing,
-        runOnJS,
-        SharedValue,
-        withRepeat,
-        withTiming
-} from 'react-native-reanimated'
+import {AnimationCallback, Easing, runOnJS, SharedValue, withRepeat, withTiming} from 'react-native-reanimated'
 import {AnimatedTimingOptions, HandleAnimatedTimingOptions, UseAnimatedTimingOptions} from './hooks.interface'
 
 const handleAnimatedTiming = ({
@@ -43,7 +35,7 @@ const handleAnimatedTiming = ({
 export const useAnimatedTiming = ({token, disabledAnimated = false}: UseAnimatedTimingOptions) => {
         const animatedTiming = useCallback(
                 ({callback, ...options} = {} as AnimatedTimingOptions) =>
-                        (sharedValue: SharedValue<AnimatableValue>) =>
+                        (sharedValue: SharedValue<number>) =>
                         (toValue: number) => {
                                 if (sharedValue.value !== toValue) {
                                         if (disabledAnimated) {

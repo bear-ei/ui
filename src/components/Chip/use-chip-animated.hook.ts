@@ -1,12 +1,5 @@
 import {useCallback, useEffect, useMemo} from 'react'
-import {
-        AnimatableValue,
-        SharedValue,
-        interpolate,
-        interpolateColor,
-        useAnimatedStyle,
-        useSharedValue
-} from 'react-native-reanimated'
+import {SharedValue, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
 import {
@@ -23,7 +16,7 @@ const handleChipBorderAnimatedTiming = ({
 }: HandleChipAnimatedTimingOptions) => {
         const value = disabled ? 0 : borderInputRange[borderInputRange.length - 2]
 
-        return (borderSharedValue: SharedValue<AnimatableValue>) => (active?: boolean) => {
+        return (borderSharedValue: SharedValue<number>) => (active?: boolean) => {
                 const toValue = active && !disabled ? 2 : value
 
                 return animatedTiming()(borderSharedValue)(toValue)
@@ -32,7 +25,7 @@ const handleChipBorderAnimatedTiming = ({
 
 const handleChipFilterIcon =
         (animatedTiming: AnimatedTiming) =>
-        (filterIconContainerWidthSharedValue: SharedValue<AnimatableValue>) =>
+        (filterIconContainerWidthSharedValue: SharedValue<number>) =>
         (active?: boolean) => {
                 const toValue = active ? 1 : 0
 

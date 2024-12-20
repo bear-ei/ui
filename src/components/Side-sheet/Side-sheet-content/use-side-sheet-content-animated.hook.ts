@@ -1,19 +1,12 @@
 import {useEffect, useMemo} from 'react'
-import {
-        AnimatableValue,
-        SharedValue,
-        interpolate,
-        interpolateColor,
-        useAnimatedStyle,
-        useSharedValue
-} from 'react-native-reanimated'
+import {SharedValue, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
 import {UseSideSheetContentAnimatedOptions} from './Side-sheet-content.interface'
 
 const handleSideSheetContentVisibleAnimatedTiming =
         (animatedTiming: AnimatedTiming) =>
-        (backgroundColorSharedValue: SharedValue<AnimatableValue>) =>
+        (backgroundColorSharedValue: SharedValue<number>) =>
         (visible?: boolean) => {
                 if (typeof visible !== 'boolean') {
                         return
@@ -25,9 +18,7 @@ const handleSideSheetContentVisibleAnimatedTiming =
         }
 
 const handleSideSheetContentFooterVisibleAnimatedTiming =
-        (animatedTiming: AnimatedTiming) =>
-        (footerSharedValue: SharedValue<AnimatableValue>) =>
-        (footerVisible?: boolean) => {
+        (animatedTiming: AnimatedTiming) => (footerSharedValue: SharedValue<number>) => (footerVisible?: boolean) => {
                 if (typeof footerVisible === 'boolean') {
                         animatedTiming({
                                 duration: footerVisible ? 'medium3' : 'short3',

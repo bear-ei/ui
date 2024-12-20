@@ -4,7 +4,16 @@ import {ProgressProps} from './Progress.interface'
 
 export const LinearDeterminate: StoryObj<ProgressProps> = {
         args: {
-                increment: 10
+                increment: 1,
+                value: 0
+        }
+}
+
+export const CircularDeterminate: StoryObj<ProgressProps> = {
+        args: {
+                increment: 1,
+                type: 'circular',
+                value: 0
         }
 }
 

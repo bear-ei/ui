@@ -1,12 +1,12 @@
 import {forwardRef, useId} from 'react'
 import {View} from 'react-native'
-import {ProgressActiveIndicatorBaseProps} from './Progress-active-indicator.interface'
-import {useProgressActiveIndicatorAnimated} from './use-progress-active-indicator-animated.hook'
+import {ProgressActiveIndicatorLinearBaseProps} from './Progress-active-indicator-linear.interface'
+import {useProgressActiveIndicatorLinearAnimated} from './use-progress-active-indicator-linear-animated.hook'
 
-export const ProgressActiveIndicatorBase = forwardRef<View, ProgressActiveIndicatorBaseProps>(
+export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActiveIndicatorLinearBaseProps>(
         ({containerLayout, defaultValue, increment, render, value, ...renderProps}, ref) => {
                 const id = useId()
-                const {containerAnimatedStyle} = useProgressActiveIndicatorAnimated({
+                const {containerAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({
                         containerLayout,
                         defaultValue,
                         increment,

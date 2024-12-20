@@ -1,12 +1,12 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
 import {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
 
 const handleListAfterAffordanceAnimatedTiming =
         (animatedTiming: AnimatedTiming) =>
-        (translateXSharedValue: SharedValue<AnimatableValue>) =>
+        (translateXSharedValue: SharedValue<number>) =>
         (doubleConfirmed?: boolean) => {
                 if (typeof doubleConfirmed === 'boolean') {
                         animatedTiming()(translateXSharedValue)(doubleConfirmed ? 1 : 0)

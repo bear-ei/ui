@@ -1,5 +1,5 @@
 import {TextStyle, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, EventName, ShapeType} from '../Common'
 import {ElevationLevel} from '../Elevation'
@@ -53,9 +53,9 @@ export interface HandleChipAnimatedTimingOptions extends Omit<UseChipAnimatedOpt
 }
 
 export interface HandleChipAnimatedTimingSharedValue {
-        borderSharedValue: SharedValue<AnimatableValue>
-        colorSharedValue: SharedValue<AnimatableValue>
-        filterIconContainerWidthSharedValue: SharedValue<AnimatableValue>
+        borderSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
+        filterIconContainerWidthSharedValue: SharedValue<number>
 }
 
 export type ChipContainerProps = Pick<RenderChipProps, 'type'>

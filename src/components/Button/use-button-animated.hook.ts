@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {SharedValue, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {EventName} from '../Common'
@@ -16,7 +16,7 @@ const handleButtonOutlinedAnimatedTiming = ({
 }: HandleButtonAnimatedTimingOptions) => {
         const value = disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
 
-        return (borderSharedValue: SharedValue<AnimatableValue>) => (eventName?: EventName) => {
+        return (borderSharedValue: SharedValue<number>) => (eventName?: EventName) => {
                 const responseEvent = eventName === 'focus'
                 const toValue = responseEvent ? borderColorInputRange[2] : value
 

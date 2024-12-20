@@ -126,6 +126,8 @@ import PlayCircleFill from '@material-symbols/svg-400/outlined/play_circle-fill.
 import PlayCircle from '@material-symbols/svg-400/outlined/play_circle.svg'
 import PottedPlantFill from '@material-symbols/svg-400/outlined/potted_plant-fill.svg'
 import PottedPlant from '@material-symbols/svg-400/outlined/potted_plant.svg'
+import ProgressActivityFill from '@material-symbols/svg-400/outlined/progress_activity-fill.svg'
+import ProgressActivity from '@material-symbols/svg-400/outlined/progress_activity.svg'
 import PublicFill from '@material-symbols/svg-400/outlined/public-fill.svg'
 import Public from '@material-symbols/svg-400/outlined/public.svg'
 import RadioButtonCheckedFill from '@material-symbols/svg-400/outlined/radio_button_checked-fill.svg'
@@ -245,6 +247,7 @@ export const outlined = {
                 pill: PillFill,
                 playCircle: PlayCircleFill,
                 pottedPlant: PottedPlantFill,
+                progressActivity: ProgressActivityFill,
                 public: PublicFill,
                 radioButtonChecked: RadioButtonCheckedFill,
                 radioButtonUnchecked: RadioButtonUncheckedFill,
@@ -337,6 +340,7 @@ export const outlined = {
                 pill: Pill,
                 playCircle: PlayCircle,
                 pottedPlant: PottedPlant,
+                progressActivity: ProgressActivity,
                 public: Public,
                 radioButtonChecked: RadioButtonChecked,
                 radioButtonUnchecked: RadioButtonUnchecked,

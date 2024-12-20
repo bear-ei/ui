@@ -1,13 +1,11 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
 import {UseCheckboxAnimatedOptions} from './Checkbox.interface'
 
 const handleCheckboxIconAnimatedTiming =
-        (animatedTiming: AnimatedTiming) =>
-        (iconScaleSharedValue: SharedValue<AnimatableValue>) =>
-        (value?: boolean) => {
+        (animatedTiming: AnimatedTiming) => (iconScaleSharedValue: SharedValue<number>) => (value?: boolean) => {
                 const toValue = value ? 1 : 0
 
                 if (typeof value === 'boolean') {

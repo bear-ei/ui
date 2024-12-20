@@ -1,13 +1,11 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, interpolateColor, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolateColor, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
 import {UseNavigationDrawerItemAnimatedOptions} from './Navigation-drawer-item.interface'
 
 const handleNavigationDrawerItemAnimatedTiming =
-        (animatedTiming: AnimatedTiming) =>
-        (labelTextColorSharedValue: SharedValue<AnimatableValue>) =>
-        (value?: boolean) => {
+        (animatedTiming: AnimatedTiming) => (labelTextColorSharedValue: SharedValue<number>) => (value?: boolean) => {
                 const toValue = value ? 1 : 0
 
                 animatedTiming()(labelTextColorSharedValue)(toValue)

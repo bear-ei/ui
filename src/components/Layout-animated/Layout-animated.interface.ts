@@ -1,7 +1,7 @@
 import {Duration, Easing} from '@bearei/material-token'
 import {RefAttributes} from 'react'
 import {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
@@ -66,6 +66,6 @@ export type LayoutAnimatedContainerProps = Pick<RenderLayoutAnimatedProps, 'visi
 export type LayoutAnimatedContentProps = LayoutAnimatedContainerProps
 
 export interface HandleLayoutAnimatedTimingSharedValue {
-        opacitySharedValue: SharedValue<AnimatableValue>
-        widthSharedValue: SharedValue<AnimatableValue>
+        opacitySharedValue: SharedValue<number>
+        widthSharedValue: SharedValue<number>
 }

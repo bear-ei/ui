@@ -7,7 +7,7 @@ import {
         TextStyle,
         ViewStyle
 } from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {EventName, ShapeProps, State, TypographyProps} from '../Common'
 
@@ -87,32 +87,32 @@ export interface HandleTextInputSupportingTextOptions extends Pick<TextInputProp
 }
 
 export interface HandleTextInputEnabledSharedValue {
-        activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
-        colorSharedValue: SharedValue<AnimatableValue>
-        inputColorSharedValue: SharedValue<AnimatableValue>
-        labelTextSharedValue: SharedValue<AnimatableValue>
-        supportingTextSharedValue: SharedValue<AnimatableValue>
+        activeIndicatorScaleYSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
+        inputColorSharedValue: SharedValue<number>
+        labelTextSharedValue: SharedValue<number>
+        supportingTextSharedValue: SharedValue<number>
 }
 
 export interface HandleTextInputDisabledSharedValue {
-        activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
-        colorSharedValue: SharedValue<AnimatableValue>
-        headerInnerBackgroundColorSharedValue: SharedValue<AnimatableValue>
-        inputColorSharedValue: SharedValue<AnimatableValue>
-        supportingTextSharedValue: SharedValue<AnimatableValue>
+        activeIndicatorScaleYSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
+        headerInnerBackgroundColorSharedValue: SharedValue<number>
+        inputColorSharedValue: SharedValue<number>
+        supportingTextSharedValue: SharedValue<number>
 }
 
 export interface HandleTextInputErrorSharedValue {
-        activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
-        colorSharedValue: SharedValue<AnimatableValue>
-        inputColorSharedValue: SharedValue<AnimatableValue>
-        supportingTextSharedValue: SharedValue<AnimatableValue>
+        activeIndicatorScaleYSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
+        inputColorSharedValue: SharedValue<number>
+        supportingTextSharedValue: SharedValue<number>
 }
 
 export interface HandleTextInputFocusedSharedValue {
-        activeIndicatorScaleYSharedValue: SharedValue<AnimatableValue>
-        colorSharedValue: SharedValue<AnimatableValue>
-        labelTextSharedValue: SharedValue<AnimatableValue>
+        activeIndicatorScaleYSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
+        labelTextSharedValue: SharedValue<number>
 }
 
 export type TextInputStateAnimated = Partial<Record<State, () => void>>

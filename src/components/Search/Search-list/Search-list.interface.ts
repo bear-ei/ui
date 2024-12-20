@@ -1,5 +1,5 @@
 import {LayoutRectangle, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming} from '../../../hooks'
 import {ListProps} from '../../List'
 
@@ -19,7 +19,7 @@ export interface SearchListBaseProps extends SearchListProps {
 export type HandleSearchListEmitOptions = Pick<RenderSearchListProps, 'visible' | 'id'>
 export type UseSearchListAnimatedOptions = Pick<RenderSearchListProps, 'visible' | 'containerLayout'>
 export interface HandleSearchListAnimatedTimingOptions extends Omit<UseSearchListAnimatedOptions, 'containerLayout'> {
-        heightSharedValue: SharedValue<AnimatableValue>
+        heightSharedValue: SharedValue<number>
         animatedTiming: AnimatedTiming
 }
 

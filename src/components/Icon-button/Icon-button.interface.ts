@@ -1,6 +1,6 @@
 import {RefObject} from 'react'
 import {View, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {EventName} from '../Common'
 import {TouchableProps} from '../Touchable'
@@ -47,8 +47,8 @@ export interface HandleIconButtonAnimatedTimingOptions extends Pick<UseIconButto
 }
 
 export interface HandleIconButtonAnimatedTimingSharedValue {
-        borderSharedValue: SharedValue<AnimatableValue>
-        colorSharedValue: SharedValue<AnimatableValue>
+        borderSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
 }
 
 export type IconButtonContentProps = Pick<IconButtonProps, 'width' | 'height'>

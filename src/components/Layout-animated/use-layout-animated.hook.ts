@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, interpolate, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {
@@ -16,7 +16,7 @@ const handleLayoutAnimatedTiming =
                 const animated = {
                         collapse: widthSharedValue,
                         fade: opacitySharedValue
-                } as Record<LayoutAnimatedType, SharedValue<AnimatableValue>>
+                } as Record<LayoutAnimatedType, SharedValue<number>>
 
                 if (typeof visible === 'boolean') {
                         animatedTiming({

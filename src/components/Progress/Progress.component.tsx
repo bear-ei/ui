@@ -1,6 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {ProgressActiveIndicator} from './Progress-active-indicator'
+import {ProgressActiveIndicatorLinear} from './Progress-active-indicator-linear'
 import {ProgressBase} from './Progress-base.component'
 import {ProgressProps, RenderProgressProps} from './Progress.interface'
 import {Container, Stop, Track} from './Progress.styles'
@@ -16,37 +16,43 @@ const render = ({
         type,
         value,
         ...containerProps
-}: RenderProgressProps) => (
-        <Container
-                {...containerProps}
-                {...onStateEvent}
-                pointerEvents='none'
-                progress={!!(value && value > 0)}
-                shape='small'
-                testID={testID ?? `progress--${id}`}
-        >
-                {typeof layout.width === 'number' && layout.width !== 0 && (
-                        <ProgressActiveIndicator
-                                containerLayout={layout}
-                                defaultValue={defaultValue}
-                                increment={increment}
-                                value={value}
-                        />
-                )}
+}: RenderProgressProps) => {
+        const shape = type === 'linear' ? 'small' : 'full'
 
-                <Track
-                        testID={`progress__track--${id}`}
-                        shape='small'
-                />
+        return (
+                <Container
+                        {...containerProps}
+                        {...onStateEvent}
+                        pointerEvents='none'
+                        progressing={!!(value && value > 0)}
+                        shape={shape}
+                        testID={testID ?? `progress--${id}`}
+                        type={type}
+                >
+                        {typeof layout.width === 'number' && layout.width !== 0 && (
+                                <ProgressActiveIndicatorLinear
+                                        containerLayout={layout}
+                                        defaultValue={defaultValue}
+                                        increment={increment}
+                                        value={value}
+                                />
+                        )}
 
-                {type === 'linear' && animated === 'determinate' && (
-                        <Stop
-                                shape='full'
-                                testID={`progress__stop--${id}`}
+                        <Track
+                                shape={shape}
+                                testID={`progress__track--${id}`}
+                                type={type}
                         />
-                )}
-        </Container>
-)
+
+                        {type === 'linear' && animated === 'determinate' && (
+                                <Stop
+                                        shape='full'
+                                        testID={`progress__stop--${id}`}
+                                />
+                        )}
+                </Container>
+        )
+}
 
 const ForwardRefProgress = forwardRef<View, ProgressProps>((props, ref) => (
         <ProgressBase

@@ -1,11 +1,11 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
 import {UseElevationAnimatedOptions} from './Elevation.interface'
 
 const handleElevationAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (shadowSharedValue: SharedValue<AnimatableValue>) => (level: number) =>
+        (animatedTiming: AnimatedTiming) => (shadowSharedValue: SharedValue<number>) => (level: number) =>
                 animatedTiming()(shadowSharedValue)(level)
 
 export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) => {

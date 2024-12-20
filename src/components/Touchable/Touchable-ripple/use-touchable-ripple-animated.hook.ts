@@ -10,7 +10,8 @@ import {
 
 const handleTouchableRippleAnimatedTiming = ({
         animatedTiming,
-        onAnimatedFinished
+        onAnimatedFinished,
+        containerLayout
 }: HandleTouchableRippleAnimatedTimingOptions) => {
         const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => {
                 if (finished) {
@@ -19,12 +20,12 @@ const handleTouchableRippleAnimatedTiming = ({
         }
 
         const createTouchableRippleAnimatedTiming =
-                ({scaleSharedValue, opacitySharedValue}: HandleTouchableRippleAnimatedTimingSharedValue) =>
+                ({opacitySharedValue, scaleSharedValue}: HandleTouchableRippleAnimatedTimingSharedValue) =>
                 (toValue: number) =>
                 (callback?: () => void) =>
                         animatedTiming({
                                 callback: handleAnimatedTimingCallback(callback),
-                                duration: 'short3',
+                                duration: Math.max(300, (containerLayout?.width ?? 300) / 2),
                                 easing: 'emphasizedAccelerate'
                         })(toValue === 1 ? scaleSharedValue : opacitySharedValue)(toValue)
 
@@ -37,7 +38,12 @@ const handleTouchableRippleAnimatedTiming = ({
         }
 }
 
-export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: UseTouchableRippleAnimatedOptions) => {
+export const useTouchableRippleAnimated = ({
+        containerLayout,
+        index,
+        onAnimatedFinished,
+        radius
+}: UseTouchableRippleAnimatedOptions) => {
         const opacitySharedValue = useSharedValue(1)
         const scaleSharedValue = useSharedValue(0)
         const theme = useTheme()
@@ -55,12 +61,13 @@ export const useTouchableRippleAnimated = ({radius, index, onAnimatedFinished}: 
                 () =>
                         handleTouchableRippleAnimatedTiming({
                                 animatedTiming,
+                                containerLayout,
                                 onAnimatedFinished
                         })({
                                 scaleSharedValue,
                                 opacitySharedValue
                         }),
-                [animatedTiming, onAnimatedFinished, opacitySharedValue, scaleSharedValue]
+                [animatedTiming, containerLayout, onAnimatedFinished, opacitySharedValue, scaleSharedValue]
         )
 
         useEffect(() => {

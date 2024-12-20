@@ -126,6 +126,8 @@ import PlayCircleFill from '@material-symbols/svg-400/sharp/play_circle-fill.svg
 import PlayCircle from '@material-symbols/svg-400/sharp/play_circle.svg'
 import PottedPlantFill from '@material-symbols/svg-400/sharp/potted_plant-fill.svg'
 import PottedPlant from '@material-symbols/svg-400/sharp/potted_plant.svg'
+import ProgressActivityFill from '@material-symbols/svg-400/sharp/progress_activity-fill.svg'
+import ProgressActivity from '@material-symbols/svg-400/sharp/progress_activity.svg'
 import PublicFill from '@material-symbols/svg-400/sharp/public-fill.svg'
 import Public from '@material-symbols/svg-400/sharp/public.svg'
 import RadioButtonCheckedFill from '@material-symbols/svg-400/sharp/radio_button_checked-fill.svg'
@@ -245,6 +247,7 @@ export const sharp = {
                 pill: PillFill,
                 playCircle: PlayCircleFill,
                 pottedPlant: PottedPlantFill,
+                progressActivity: ProgressActivityFill,
                 public: PublicFill,
                 radioButtonChecked: RadioButtonCheckedFill,
                 radioButtonUnchecked: RadioButtonUncheckedFill,
@@ -272,7 +275,7 @@ export const sharp = {
                 window: WindowFill,
                 work: WorkFill
         },
-        outlined: {
+        sharp: {
                 add: Add,
                 addHome: AddHome,
                 alarmOn: AlarmOn,
@@ -337,6 +340,7 @@ export const sharp = {
                 pill: Pill,
                 playCircle: PlayCircle,
                 pottedPlant: PottedPlant,
+                progressActivity: ProgressActivity,
                 public: Public,
                 radioButtonChecked: RadioButtonChecked,
                 radioButtonUnchecked: RadioButtonUnchecked,

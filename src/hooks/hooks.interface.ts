@@ -9,7 +9,7 @@ import {
         ScrollViewProps,
         TargetedEvent
 } from 'react-native'
-import {AnimatableValue, AnimationCallback, SharedValue, WithTimingConfig} from 'react-native-reanimated'
+import {AnimationCallback, SharedValue, WithTimingConfig} from 'react-native-reanimated'
 import {EventName, State} from '../components'
 
 export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
@@ -66,7 +66,7 @@ export interface UseAnimatedTimingOptions {
 
 export type AnimatedTiming = (
         options?: AnimatedTimingOptions
-) => (sharedValue: SharedValue<AnimatableValue>) => (toValue: number) => void
+) => (sharedValue: SharedValue<number>) => (toValue: number) => void
 
 export interface UseWindowDimensionsOptions {
         changeEventThrottle?: number

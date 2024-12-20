@@ -1,11 +1,11 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
 import {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
 const handleVirtualListItemAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<AnimatableValue>) => (value: number) =>
+        (animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<number>) => (value: number) =>
                 animatedTiming({duration: 'short2'})(topSharedValue)(value)
 
 export const useVirtualListItemAnimated = ({top = 0}: UseVirtualListItemAnimatedOptions) => {

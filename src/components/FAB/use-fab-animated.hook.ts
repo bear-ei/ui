@@ -1,11 +1,11 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {SharedValue, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
 import {UseFABAnimatedOptions} from './FAB.interface'
 
 const handleFABAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<AnimatableValue>) => (disabled?: boolean) =>
+        (animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<number>) => (disabled?: boolean) =>
                 animatedTiming()(colorSharedValue)(disabled ? 0 : 1)
 
 export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptions) => {

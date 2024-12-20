@@ -1,19 +1,12 @@
 import {useEffect, useMemo} from 'react'
-import {
-        AnimatableValue,
-        SharedValue,
-        cancelAnimation,
-        interpolate,
-        useAnimatedStyle,
-        useSharedValue
-} from 'react-native-reanimated'
+import {SharedValue, cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {HandleSkeletonAnimatedTimingOptions, UseSkeletonAnimatedOptions} from './Skeleton.interface'
 
 const handleSkeletonAnimatedTiming =
         ({animatedTiming, enableAnimated}: HandleSkeletonAnimatedTimingOptions) =>
-        (opacitySharedValue: SharedValue<AnimatableValue>) =>
+        (opacitySharedValue: SharedValue<number>) =>
         (skeletonVisible?: boolean) => {
                 if (enableAnimated && skeletonVisible) {
                         animatedTiming({repeat: 0, duration: 2500})(opacitySharedValue)(2)

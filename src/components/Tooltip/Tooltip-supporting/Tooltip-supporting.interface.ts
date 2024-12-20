@@ -1,6 +1,6 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
@@ -64,9 +64,9 @@ export interface HandleTooltipSupportingAnimatedTimingOptions extends UseTooltip
 }
 
 export interface HandleTooltipSupportingAnimatedTimingSharedValue {
-        transformSharedValue: SharedValue<AnimatableValue>
-        heightSharedValue: SharedValue<AnimatableValue>
-        opacitySharedValue: SharedValue<AnimatableValue>
+        transformSharedValue: SharedValue<number>
+        heightSharedValue: SharedValue<number>
+        opacitySharedValue: SharedValue<number>
 }
 
 export interface HandleTooltipSupportingInvertOptions {

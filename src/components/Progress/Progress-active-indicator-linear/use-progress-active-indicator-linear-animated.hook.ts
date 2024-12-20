@@ -1,13 +1,13 @@
 import {useEffect, useMemo} from 'react'
-import {AnimatableValue, SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
-import {UseProgressActiveIndicatorAnimatedOptions} from './Progress-active-indicator.interface'
+import {UseProgressActiveIndicatorLinearAnimatedOptions} from './Progress-active-indicator-linear.interface'
 
-const handleProgressActiveIndicatorAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (widthSharedValue: SharedValue<AnimatableValue>) => (value?: number) => {
+const handleProgressActiveIndicatorLinearAnimatedTiming =
+        (animatedTiming: AnimatedTiming) => (widthSharedValue: SharedValue<number>) => (value?: number) => {
                 if (typeof value === 'number') {
-                        animatedTiming()(widthSharedValue)(Math.floor(value * 100))
+                        animatedTiming()(widthSharedValue)(value)
                 }
         }
 
@@ -19,12 +19,12 @@ const handleOutputRange = (width: number) => (increment: number) => {
         )
 }
 
-export const useProgressActiveIndicatorAnimated = ({
+export const useProgressActiveIndicatorLinearAnimated = ({
         containerLayout,
         defaultValue = 0,
-        increment = 10,
+        increment = 1,
         value
-}: UseProgressActiveIndicatorAnimatedOptions) => {
+}: UseProgressActiveIndicatorLinearAnimatedOptions) => {
         const widthSharedValue = useSharedValue(defaultValue)
         const theme = useTheme()
         const animatedTiming = useAnimatedTiming({token: theme.token})
@@ -34,14 +34,14 @@ export const useProgressActiveIndicatorAnimated = ({
                 width: interpolate(widthSharedValue.value, inputRange, outputRange)
         }))
 
-        const onProgressActiveIndicatorAnimatedTiming = useMemo(
-                () => handleProgressActiveIndicatorAnimatedTiming(animatedTiming)(widthSharedValue),
+        const onProgressActiveIndicatorLinearAnimatedTiming = useMemo(
+                () => handleProgressActiveIndicatorLinearAnimatedTiming(animatedTiming)(widthSharedValue),
                 [animatedTiming, widthSharedValue]
         )
 
         useEffect(() => {
-                onProgressActiveIndicatorAnimatedTiming(value)
-        }, [onProgressActiveIndicatorAnimatedTiming, value])
+                onProgressActiveIndicatorLinearAnimatedTiming(value)
+        }, [onProgressActiveIndicatorLinearAnimatedTiming, value])
 
         return {containerAnimatedStyle}
 }

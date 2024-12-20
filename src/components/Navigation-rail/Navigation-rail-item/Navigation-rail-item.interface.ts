@@ -1,6 +1,6 @@
 import {RefAttributes} from 'react'
 import {PressableProps, TextStyle, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
 import {EventName, TypographyProps} from '../../Common'
 import {NavigationRailType} from '../Navigation-rail.interface'
@@ -52,8 +52,8 @@ export interface HandleNavigationRailItemAnimatedTimingOptions extends UseNaviga
 }
 
 export interface HandleNavigationRailItemAnimatedTimingSharedValue {
-        labelHeightSharedValue: SharedValue<AnimatableValue>
-        labelTextColorSharedValue: SharedValue<AnimatableValue>
+        labelHeightSharedValue: SharedValue<number>
+        labelTextColorSharedValue: SharedValue<number>
 }
 
 export type NavigationRailItemLabelTextProps = Pick<RenderNavigationRailItemProps, 'active'> & TypographyProps

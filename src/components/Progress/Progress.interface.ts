@@ -1,15 +1,14 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps} from 'react-native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
-import {ProgressActiveIndicatorProps} from './Progress-active-indicator'
+import {ProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear'
 
-type ProgressType = 'linear' | 'circular'
-type ProgressAnimated = 'determinate' | 'indeterminate'
-
+export type ProgressType = 'linear' | 'circular'
+export type ProgressAnimated = 'determinate' | 'indeterminate'
 export interface ProgressProps
         extends ViewProps,
                 RefAttributes<View>,
-                Pick<ProgressActiveIndicatorProps, 'increment' | 'defaultValue' | 'value'> {
+                Pick<ProgressActiveIndicatorLinearProps, 'increment' | 'defaultValue' | 'value'> {
         animated?: ProgressAnimated
         type?: ProgressType
 }
@@ -31,6 +30,8 @@ export interface HandleProgressStateChangeOptions extends OnStateEventChangeOpti
         onLayoutChanged: (layout: LayoutRectangle) => void
 }
 
-export type ProgressContainerProps = {
-        progress?: boolean
+export interface ProgressContainerProps extends Pick<ProgressProps, 'type'> {
+        progressing?: boolean
 }
+
+export type ProgressTrackProps = Pick<ProgressProps, 'type'>

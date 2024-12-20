@@ -1,5 +1,5 @@
 import {TextStyle, ViewStyle} from 'react-native'
-import {AnimatableValue, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, EventName} from '../Common'
 import {ElevationLevel} from '../Elevation'
@@ -41,8 +41,8 @@ export interface HandleButtonAnimatedTimingOptions extends Omit<UseButtonAnimate
 }
 
 export interface HandleButtonAnimatedTimingSharedValue {
-        borderSharedValue: SharedValue<AnimatableValue>
-        colorSharedValue: SharedValue<AnimatableValue>
+        borderSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
 }
 
 export type ButtonContainerProps = Pick<RenderButtonProps, 'type'>

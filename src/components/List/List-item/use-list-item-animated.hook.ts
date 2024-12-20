@@ -1,12 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {
-        AnimatableValue,
-        SharedValue,
-        interpolate,
-        interpolateColor,
-        useAnimatedStyle,
-        useSharedValue
-} from 'react-native-reanimated'
+import {SharedValue, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
 import {
@@ -19,7 +12,7 @@ const handleListItemAfterAffordanceVisibleAnimatedTiming =
                 animatedTiming,
                 onListItemAfterAffordanceVisibleFinished
         }: HandleListItemAfterAffordanceVisibleAnimatedTimingOptions) =>
-        (contentLeftSharedValue: SharedValue<AnimatableValue>) =>
+        (contentLeftSharedValue: SharedValue<number>) =>
         (value?: boolean) =>
                 animatedTiming({
                         callback: (finished?: boolean) => {
@@ -32,9 +25,7 @@ const handleListItemAfterAffordanceVisibleAnimatedTiming =
                 })(contentLeftSharedValue)(value ? 1 : 0)
 
 const handleListItemActiveAnimatedTiming =
-        (animatedTiming: AnimatedTiming) =>
-        (headlineTextSharedValue: SharedValue<AnimatableValue>) =>
-        (value?: boolean) =>
+        (animatedTiming: AnimatedTiming) => (headlineTextSharedValue: SharedValue<number>) => (value?: boolean) =>
                 animatedTiming()(headlineTextSharedValue)(value ? 1 : 0)
 
 export const useListItemAnimated = ({
