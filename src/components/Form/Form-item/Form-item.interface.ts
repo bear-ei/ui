@@ -9,7 +9,7 @@ export interface FormItemControlProps {
         errors?: ValidationError[]
         id?: string
         labelText?: string
-        onBlur: (event: NativeSyntheticEvent<TargetedEvent>) => void
+        onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
         onLoadEnd?: () => void
         onValuesChange?: (value?: unknown) => void
         value?: unknown

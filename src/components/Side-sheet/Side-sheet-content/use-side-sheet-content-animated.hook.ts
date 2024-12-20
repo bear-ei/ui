@@ -31,7 +31,7 @@ const handleSideSheetContentFooterVisibleAnimatedTiming =
                 if (typeof footerVisible === 'boolean') {
                         animatedTiming({
                                 duration: footerVisible ? 'medium3' : 'short3',
-                                easing: footerVisible ? 'standardDecelerate' : 'standardAccelerate'
+                                easing: footerVisible ? 'emphasizedDecelerate' : 'emphasizedAccelerate'
                         })(footerSharedValue)(footerVisible ? 1 : 0)
                 }
         }
@@ -64,8 +64,7 @@ export const useSideSheetContentAnimated = ({
 
         const footerTranslateYOutputRange = [-theme.adaptSize(spacing.extraSmall * 20), theme.adaptSize(spacing.none)]
         const footerAnimatedStyle = useAnimatedStyle(() => ({
-                bottom: interpolate(footerSharedValue.value, [0, 1], footerTranslateYOutputRange),
-                opacity: interpolate(footerSharedValue.value, [0, 1], [0, 1])
+                bottom: interpolate(footerSharedValue.value, [0, 1], footerTranslateYOutputRange)
         }))
 
         const onSideSheetContentVisibleAnimatedTiming = useMemo(

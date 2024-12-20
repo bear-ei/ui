@@ -39,6 +39,7 @@ export const Container = styled.View<SheetContainerProps>`
 export const Content = styled(Shape)<SheetViewContentProps>`
         display: flex;
         flex-direction: column;
+        flex: 1;
         position: relative;
 
         ${({theme}) => css`

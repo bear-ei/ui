@@ -12,6 +12,7 @@ export interface IconButtonProps extends TouchableProps {
         fill?: string
         height?: number
         icon?: JSX.Element
+        loading?: boolean
         type?: IconButtonType
         width?: number
 }
