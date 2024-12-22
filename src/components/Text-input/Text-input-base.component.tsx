@@ -192,10 +192,13 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 const theme = useTheme()
                 const placeholderTextColor =
                         state === 'disabled' ?
-                                theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(0.38)
+                                theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(
+                                        theme.token.opacity.level5
+                                )
                         :       theme.token.scheme.onSurfaceVariant
 
                 const underlayColor = theme.token.scheme.onSurface
+                const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
                 const onTextInputContentSizeChange = (
                         event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
                 ) => handleTextInputContentSizeChange(setState)(onContentSizeChange)(event)
@@ -308,6 +311,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         supportingTextVisible,
                         trailing,
                         underlayColor,
+                        underlayOpacities,
                         value: textInputValue ?? value
                 })
         }

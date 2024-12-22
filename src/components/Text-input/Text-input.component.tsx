@@ -57,6 +57,7 @@ const render = ({
         testID,
         trailing,
         underlayColor,
+        underlayOpacities,
         ...inputProps
 }: RenderTextInputProps) => {
         const shape = 'extraSmallTop'
@@ -149,7 +150,7 @@ const render = ({
 
                                                 <Underlay
                                                         eventName={eventName}
-                                                        opacities={[0, 0.08]}
+                                                        opacities={underlayOpacities}
                                                         underlayColor={underlayColor}
                                                 />
                                         </AnimatedHeader>

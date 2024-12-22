@@ -48,6 +48,7 @@ export interface RenderTextInputProps extends TextInputProps {
         supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
         supportingTextVisible?: boolean
         underlayColor: string
+        underlayOpacities: [number, number]
 }
 
 export interface TextInputBaseProps extends TextInputProps {

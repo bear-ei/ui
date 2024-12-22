@@ -10,15 +10,15 @@ const handleListAffordanceButtonAnimatedTiming =
 
 export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceButtonAnimatedOptions) => {
         const theme = useTheme()
-        const {palette, scheme} = theme.token
+        const {palette, scheme, opacity} = theme.token
         const {convertHexToRGBA} = palette
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const animatedValue = disabled ? 0 : 1
         const colorSharedValue = useSharedValue(animatedValue)
-        const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(0.12)
-        const disabledColor = convertHexToRGBA(scheme.onSurface)(0.38)
-        const backgroundColorOutputRange = [disabledBackgroundColor, convertHexToRGBA(scheme.primary)(0)]
-        const colorOutputRange = [disabledColor, convertHexToRGBA(scheme.onPrimary)(1)]
+        const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(opacity.level2)
+        const disabledColor = convertHexToRGBA(scheme.onSurface)(opacity.level5)
+        const backgroundColorOutputRange = [disabledBackgroundColor, convertHexToRGBA(scheme.primary)(opacity.level0)]
+        const colorOutputRange = [disabledColor, convertHexToRGBA(scheme.onPrimary)(opacity.level10)]
         const contentUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(colorSharedValue.value, [0, 1], backgroundColorOutputRange)
         }))

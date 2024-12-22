@@ -13,10 +13,10 @@ const handleLayoutAnimatedTiming =
         ({animatedTiming, onAnimatedFinished, entry, exit, animatedType = 'fade'}: HandleLayoutAnimatedTimingOptions) =>
         ({opacitySharedValue, widthSharedValue}: HandleLayoutAnimatedTimingSharedValue) =>
         (visible?: boolean) => {
-                const animated = {
-                        collapse: widthSharedValue,
-                        fade: opacitySharedValue
-                } as Record<LayoutAnimatedType, SharedValue<number>>
+                const animated = {collapse: widthSharedValue, fade: opacitySharedValue} as Record<
+                        LayoutAnimatedType,
+                        SharedValue<number>
+                >
 
                 if (typeof visible === 'boolean') {
                         animatedTiming({
@@ -27,21 +27,22 @@ const handleLayoutAnimatedTiming =
         }
 
 export const useLayoutAnimated = ({
-        disabledAnimated,
         animatedType = 'fade',
+        disabledAnimated,
         entry,
         exit,
         onAnimatedFinished,
-        opacity = 1,
+        opacity: rawOpacity,
         visible,
         width
 }: UseLayoutAnimatedOptions) => {
         const opacitySharedValue = useSharedValue(visible ? 1 : 0)
         const widthSharedValue = useSharedValue(visible ? 1 : 0)
         const theme = useTheme()
+        const opacity = rawOpacity ?? theme.token.opacity.level10
         const animatedTiming = useAnimatedTiming({token: theme.token, disabledAnimated})
         const fadeAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(opacitySharedValue.value, [0, 1], [0, opacity])
+                opacity: interpolate(opacitySharedValue.value, [0, 1], [theme.token.opacity.level0, opacity])
         }))
 
         const widthOutputRange = [

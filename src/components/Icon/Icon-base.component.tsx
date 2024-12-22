@@ -22,7 +22,10 @@ export const IconBase = forwardRef<View, IconBaseProps>(
                 ref
         ) => {
                 const theme = useTheme()
-                const disabledFill = theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(0.38)
+                const disabledFill = theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(
+                        theme.token.opacity.level5
+                )
+
                 const id = useId()
                 const SvgIcon = icon ?? iconStyle[style]?.[type]?.[name]
                 const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)

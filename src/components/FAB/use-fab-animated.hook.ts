@@ -11,46 +11,58 @@ const handleFABAnimatedTiming =
 export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptions) => {
         const colorSharedValue = useSharedValue(disabled ? 0 : 1)
         const theme = useTheme()
-        const {palette, scheme} = theme.token
+        const {palette, scheme, opacity} = theme.token
         const {convertHexToRGBA} = palette
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(0.12)
-        const disabledColor = convertHexToRGBA(scheme.onSurface)(0.38)
+        const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(opacity.level2)
+        const disabledColor = convertHexToRGBA(scheme.onSurface)(opacity.level5)
         const backgroundColorType = {
                 surface: {
                         inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.surfaceContainerHigh)(1)]
+                        outputRange: [
+                                disabledBackgroundColor,
+                                convertHexToRGBA(scheme.surfaceContainerHigh)(opacity.level10)
+                        ]
                 },
                 primary: {
                         inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.primaryContainer)(1)]
+                        outputRange: [
+                                disabledBackgroundColor,
+                                convertHexToRGBA(scheme.primaryContainer)(opacity.level10)
+                        ]
                 },
                 secondary: {
                         inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.secondaryContainer)(1)]
+                        outputRange: [
+                                disabledBackgroundColor,
+                                convertHexToRGBA(scheme.secondaryContainer)(opacity.level10)
+                        ]
                 },
                 tertiary: {
                         inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.tertiaryContainer)(1)]
+                        outputRange: [
+                                disabledBackgroundColor,
+                                convertHexToRGBA(scheme.tertiaryContainer)(opacity.level10)
+                        ]
                 }
         }
 
         const colorType = {
                 surface: {
                         inputRange: [0, 1],
-                        outputRange: [disabledColor, convertHexToRGBA(scheme.primary)(1)]
+                        outputRange: [disabledColor, convertHexToRGBA(scheme.primary)(opacity.level10)]
                 },
                 primary: {
                         inputRange: [0, 1],
-                        outputRange: [disabledColor, convertHexToRGBA(scheme.onPrimaryContainer)(1)]
+                        outputRange: [disabledColor, convertHexToRGBA(scheme.onPrimaryContainer)(opacity.level10)]
                 },
                 secondary: {
                         inputRange: [0, 1],
-                        outputRange: [disabledColor, convertHexToRGBA(scheme.onSecondaryContainer)(1)]
+                        outputRange: [disabledColor, convertHexToRGBA(scheme.onSecondaryContainer)(opacity.level10)]
                 },
                 tertiary: {
                         inputRange: [0, 1],
-                        outputRange: [disabledColor, convertHexToRGBA(scheme.onTertiaryContainer)(1)]
+                        outputRange: [disabledColor, convertHexToRGBA(scheme.onTertiaryContainer)(opacity.level10)]
                 }
         }
 

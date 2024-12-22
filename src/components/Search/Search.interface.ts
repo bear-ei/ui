@@ -26,6 +26,7 @@ export interface RenderSearchProps extends SearchProps {
         listVisible?: boolean
         onStateEvent: OnStateEvent
         underlayColor: string
+        underlayOpacities: [number, number]
 }
 
 export interface SearchBaseProps extends SearchProps {

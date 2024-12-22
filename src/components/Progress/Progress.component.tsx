@@ -23,6 +23,7 @@ const render = ({
                 <Container
                         {...containerProps}
                         {...onStateEvent}
+                        accessibilityRole='progressbar'
                         pointerEvents='none'
                         progressing={!!(value && value > 0)}
                         shape={shape}

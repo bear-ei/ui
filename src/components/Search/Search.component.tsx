@@ -23,6 +23,7 @@ const render = ({
         testID,
         trailing,
         underlayColor,
+        underlayOpacities,
         value,
         ...textInputProps
 }: RenderSearchProps) => {
@@ -80,7 +81,7 @@ const render = ({
                                         {trailing && <Trailing testID={`search__trailing--${id}`}>{trailing}</Trailing>}
                                         <Underlay
                                                 eventName={eventName}
-                                                opacities={[0, 0.08]}
+                                                opacities={underlayOpacities}
                                                 shape={listVisible ? 'extraLargeTop' : shape}
                                                 underlayColor={underlayColor}
                                         />

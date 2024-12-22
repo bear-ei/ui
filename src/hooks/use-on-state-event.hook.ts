@@ -58,9 +58,8 @@ const handlePressOutEvent =
 const handleHoverIntEvent =
         ({onStateEvent}: HandleStateEventOptions) =>
         (onHoverIn?: (event: MouseEvent) => void) =>
-        (event: MouseEvent) => {
+        (event: MouseEvent) =>
                 onStateEvent({callback: () => onHoverIn?.(event), eventName: 'hoverIn'})('hovered')(event)
-        }
 
 const handleHoverOutEvent =
         ({onStateEvent}: HandleStateEventOptions) =>

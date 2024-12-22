@@ -15,5 +15,5 @@ The Bearei material library is a library of React Native components based on the
 ```typescript
 import {Button} from '@bearei/material'
 
-const Component = () => <Button labelText='save' />
+const Component = () => <Button labelText='Confirm' />
 ```

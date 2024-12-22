@@ -25,7 +25,11 @@ export const useLoadingAnimated = () => {
         }))
 
         const rippleAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(rippleSharedValue.value, [0, 1, 2], [0.8, 0.4, 0]),
+                opacity: interpolate(
+                        rippleSharedValue.value,
+                        [0, 1, 2],
+                        [theme.token.opacity.level9, theme.token.opacity.level5, theme.token.opacity.level0]
+                ),
                 transform: [{scale: interpolate(rippleSharedValue.value, [0, 1, 2], [0.8, 1.2, 1.6])}]
         }))
 

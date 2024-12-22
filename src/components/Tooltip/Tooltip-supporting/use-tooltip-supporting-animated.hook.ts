@@ -49,7 +49,11 @@ export const useTooltipSupportingAnimated = ({
         const theme = useTheme()
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const contentAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1]),
+                opacity: interpolate(
+                        opacitySharedValue.value,
+                        [0, 1],
+                        [theme.token.opacity.level0, theme.token.opacity.level10]
+                ),
 
                 ...(type === 'menu' ?
                         {height: interpolate(heightSharedValue.value, [0, 1], [0, height])}

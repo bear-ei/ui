@@ -28,7 +28,7 @@ const handleNavigationRailItemAnimatedTiming =
 export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailItemAnimatedOptions) => {
         const labelValue = active ? 1 : 0
         const theme = useTheme()
-        const {palette, scheme, typography, spacing} = theme.token
+        const {palette, scheme, typography, spacing, opacity} = theme.token
         const {convertHexToRGBA} = palette
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const labelHeightSharedValue = useSharedValue(labelValue)
@@ -43,8 +43,8 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
         }))
 
         const labelTextColorOutputRange = [
-                convertHexToRGBA(scheme.onSurfaceVariant)(1),
-                convertHexToRGBA(scheme.onSurface)(1)
+                convertHexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
+                convertHexToRGBA(scheme.onSurface)(opacity.level10)
         ]
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({

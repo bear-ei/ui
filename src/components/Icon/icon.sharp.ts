@@ -275,7 +275,7 @@ export const sharp = {
                 window: WindowFill,
                 work: WorkFill
         },
-        sharp: {
+        outlined: {
                 add: Add,
                 addHome: AddHome,
                 alarmOn: AlarmOn,

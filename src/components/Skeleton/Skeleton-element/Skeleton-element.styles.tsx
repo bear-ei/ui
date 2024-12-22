@@ -7,7 +7,7 @@ export const Container = styled(Shape)<SkeletonElementContainerProps>`
 
         ${({theme, showChildren}) => css`
                 background-color: ${theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(
-                        showChildren ? 0 : 0.12
+                        showChildren ? theme.token.opacity.level0 : theme.token.opacity.level2
                 )};
 
                 gap: ${theme.adaptSize(theme.token.spacing.small)}px;

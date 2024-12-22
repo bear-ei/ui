@@ -41,7 +41,7 @@ export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
 
         return (
                 <Container
-                        testID={`bearei__element--${id}`}
+                        testID={`bearei__material--${id}`}
                         story={story}
                 >
                         {desktop ?

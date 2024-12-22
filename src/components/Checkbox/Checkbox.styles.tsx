@@ -54,9 +54,9 @@ export const IconContainer = styled.View<CheckboxIconContainerProps>`
                 z-index: ${zIndex};
         `}
 
-    ${({visible}) =>
+    ${({visible, theme}) =>
                 !visible &&
                 css`
-                        opacity: 0;
+                        opacity: ${theme.token.opacity.level0};
                 `}
 `

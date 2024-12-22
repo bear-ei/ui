@@ -15,7 +15,9 @@ export const Container = styled(LayoutAnimated)<MaskContainerProps>`
         ${({visible, theme, backgroundColor}) =>
                 visible &&
                 css`
-                        background-color: ${backgroundColor ?? theme.token.scheme.surface};
+                        background-color: ${backgroundColor ??
+                        theme.token.palette.convertHexToRGBA(theme.token.scheme.scrim)(theme.token.opacity.level4)};
+
                         bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
                         height: auto;
                         left: ${theme.adaptSize(theme.token.spacing.none)}px;

@@ -20,6 +20,7 @@ const render = ({
 }: RenderLoadingProps) => (
         <AnimatedContainer
                 {...containerProps}
+                accessibilityRole='progressbar'
                 height={height}
                 pointerEvents='none'
                 shape='full'

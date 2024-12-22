@@ -56,10 +56,10 @@ export const Icon = styled.View<NavigationDrawerItemIconProps>`
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
         `}
 
-        ${({visible}) =>
+        ${({visible, theme}) =>
                 !visible &&
                 css`
-                        opacity: 0;
+                        opacity: ${theme.adaptSize(theme.token.opacity.level0)};
                 `}
 `
 

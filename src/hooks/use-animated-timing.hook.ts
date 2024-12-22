@@ -9,7 +9,7 @@ const handleAnimatedTiming = ({
         token,
         ...config
 }: HandleAnimatedTimingOptions) => {
-        const {bezier, duration: transitionDuration} = token.handleTransition(easing)(duration)
+        const {bezier, duration: transitionDuration} = token.animated(easing)(duration)
 
         return (callback?: AnimationCallback) => (toValue: number) => {
                 const animation = withTiming(

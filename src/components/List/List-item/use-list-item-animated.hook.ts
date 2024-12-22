@@ -34,7 +34,7 @@ export const useListItemAnimated = ({
         onListItemAfterAffordanceVisibleFinished
 }: UseListItemAnimatedOptions) => {
         const theme = useTheme()
-        const {spacing, palette, scheme} = theme.token
+        const {spacing, palette, scheme, opacity} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const contentLeftSharedValue = useSharedValue(0)
         const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
@@ -44,8 +44,8 @@ export const useListItemAnimated = ({
         }))
 
         const headlineTextColorOutputRange = [
-                palette.convertHexToRGBA(scheme.onSurface)(1),
-                palette.convertHexToRGBA(scheme.onSecondaryContainer)(1)
+                palette.convertHexToRGBA(scheme.onSurface)(opacity.level10),
+                palette.convertHexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
         ]
 
         const headlineTextAnimatedStyle = useAnimatedStyle(() => ({

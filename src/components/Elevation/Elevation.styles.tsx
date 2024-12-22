@@ -37,7 +37,7 @@ export const Shadow = styled(Shape)<ElevationShadowProps>`
                                 ${theme.adaptSize(theme.token.elevation[levelString].shadowOffset.height)}px;
 
                         shadow-radius: ${theme.adaptSize(theme.token.elevation[levelString].shadowRadius)}px;
-                        shadow-opacity: 1;
+                        shadow-opacity: ${theme.token.opacity.level10};
                 `
         }};
 `

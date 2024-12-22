@@ -9,6 +9,5 @@ declare module 'styled-components/native' {
                 colorScheme: ColorSchemeName
                 OS: 'ios' | 'android' | 'windows' | 'macos' | 'web'
                 token: Token
-                // windowSize: WindowSize
         }
 }

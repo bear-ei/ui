@@ -34,15 +34,17 @@ export const useSideSheetContentAnimated = ({
 }: UseSideSheetContentAnimatedOptions) => {
         const animatedValue = visible ? 1 : 0
         const theme = useTheme()
-        const {palette, scheme, spacing} = theme.token
+        const {palette, scheme, spacing, opacity} = theme.token
         const {convertHexToRGBA} = palette
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const backgroundColorSharedValue = useSharedValue(animatedValue)
         const footerSharedValue = useSharedValue(footerVisible ? 1 : 0)
         const standard = ['standard', 'standardContainer'].includes(type)
         const containerBackgroundColorOutputRange = [
-                convertHexToRGBA(scheme.scrim)(0),
-                standard ? convertHexToRGBA(scheme.scrim)(0) : convertHexToRGBA(scheme.scrim)(0.32)
+                convertHexToRGBA(scheme.scrim)(opacity.level0),
+                standard ?
+                        convertHexToRGBA(scheme.scrim)(opacity.level0)
+                :       convertHexToRGBA(scheme.scrim)(opacity.level4)
         ]
 
         const containerAnimatedStyle = useAnimatedStyle(() => ({

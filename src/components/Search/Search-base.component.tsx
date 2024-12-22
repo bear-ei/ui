@@ -104,7 +104,7 @@ const handleSearchContainerLayout =
  * TODO:
  * - [macOS] Add support for trailingEvent
  *
- * Later handleing may deal with the trailingEvent to move into the event
+ * Later handling may deal with the trailingEvent to move into the event
  * penetration problem. Currently there is no trailingButton application
  * scenario, so we don't deal with it for now.
  */
@@ -137,11 +137,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 
                 const containerRef = useRef<View>(null)
                 const id = useId()
+                const {data} = listProps
                 const inputRef = useRef<TextInput>(null)
                 const theme = useTheme()
                 const placeholderTextColor = theme.token.scheme.onSurfaceVariant
                 const underlayColor = theme.token.scheme.onSurface
-                const {data} = listProps
+                const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
                 const onSearchListVisible = handleSearchListVisible(setState)
                 const onSearchChangeText = handleSearchChangeText({data, onChangeText})(setState)
                 const onSearchChangeTextSource = useMemo(() => handleSearchChangeText()(setState), [setState])
@@ -198,6 +199,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         placeholderTextColor,
                         ref: inputRef,
                         underlayColor,
+                        underlayOpacities,
                         value: searchValue
                 })
         }

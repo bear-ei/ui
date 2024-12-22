@@ -49,7 +49,11 @@ export const useTouchableRippleAnimated = ({
         const theme = useTheme()
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const containerAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(opacitySharedValue.value, [0, 1], [0, 1]),
+                opacity: interpolate(
+                        opacitySharedValue.value,
+                        [0, 1],
+                        [theme.token.opacity.level0, theme.token.opacity.level10]
+                ),
                 transform: [
                         {translateX: -radius},
                         {translateY: -radius},

@@ -6,7 +6,7 @@
         "react-native": "./src/index.ts",
         "types": "./dist/index.d.ts",
         "author": "bearei <bear_ei@outlook.com>",
-        "description": "Bearei material",
+        "description": "Material Design for React Native (macOS)",
         "readmeFilename": "README.md",
         "license": "UNLICENSED",
         "exports": {
@@ -31,7 +31,7 @@
                 "!**/*.stories.*"
         ],
         "dependencies": {
-                "@bearei/material-token": "^0.0.13",
+                "@bearei/material-token": "^0.0.16",
                 "@material-symbols/svg-400": "^0.27.1",
                 "class-validator": "^0.14.1",
                 "immer": "^10.1.1",

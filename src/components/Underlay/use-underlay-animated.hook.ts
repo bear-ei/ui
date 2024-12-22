@@ -51,15 +51,20 @@ export const useUnderlayAnimated = ({
         activeAnimatedType = 'scale',
         activeScale,
         eventName,
-        opacities = [0, 0.08, 0.12],
-        layout
+        layout,
+        opacities: rawOpacities
 }: UseUnderlayAnimatedOptions) => {
+        const theme = useTheme()
+        const opacities =
+                rawOpacities?.length ? rawOpacities : (
+                        [theme.token.opacity.level0, theme.token.opacity.level1, theme.token.opacity.level2]
+                )
+
         const {x: scaleX = 1, y: scaleY = 1} = activeScale ?? {}
         const defaultScaleValue = active ? 1 : 0
         const activeValue = useMemo(() => (opacities.length === 3 ? opacities.length - 1 : 0), [opacities.length])
         const hoverLayerSharedValue = useSharedValue(0)
         const activeLayerSharedValue = useSharedValue(typeof active === 'boolean' ? defaultScaleValue : 0)
-        const theme = useTheme()
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const opacityInputRange = opacities.map((_value, index) => index)
         const hoverLayerAnimatedStyle = useAnimatedStyle(() => ({
@@ -86,7 +91,11 @@ export const useUnderlayAnimated = ({
                                 }
                         ]
                 }),
-                opacity: interpolate(activeLayerSharedValue.value, [0, 1], [0, 1])
+                opacity: interpolate(
+                        activeLayerSharedValue.value,
+                        [0, 1],
+                        [theme.token.opacity.level0, theme.token.opacity.level10]
+                )
         }))
 
         const onUnderlayHoveredAnimatedTiming = useMemo(
