@@ -7,11 +7,11 @@ import {useLoadingAnimated} from './use-loading-animated.hook'
 export const LoadingBase = forwardRef<View, LoadingBaseProps>(({render, ...renderProps}, ref) => {
         const id = useId()
         const theme = useTheme()
-        const {containerAnimatedStyle, rippleAnimatedStyle} = useLoadingAnimated()
+        const {contentAnimatedStyle, rippleAnimatedStyle} = useLoadingAnimated()
 
         return render({
                 ...renderProps,
-                containerAnimatedStyle,
+                contentAnimatedStyle,
                 id,
                 ref,
                 rippleAnimatedStyle,

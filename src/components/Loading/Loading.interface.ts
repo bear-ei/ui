@@ -11,7 +11,7 @@ export interface LoadingProps extends ViewProps, RefAttributes<View>, ShapeProps
 }
 
 export interface RenderLoadingProps extends LoadingProps {
-        containerAnimatedStyle: AnimatedStyle<ViewStyle>
+        contentAnimatedStyle: AnimatedStyle<ViewStyle>
         rippleAnimatedStyle: AnimatedStyle<ViewStyle>
         theme: DefaultTheme
 }
@@ -21,7 +21,7 @@ export interface LoadingBaseProps extends LoadingProps {
 }
 
 export interface HandleLoadingAnimatedTimingOptions {
-        containerSharedValue: SharedValue<number>
+        contentSharedValue: SharedValue<number>
         rippleSharedValue: SharedValue<number>
 }
 

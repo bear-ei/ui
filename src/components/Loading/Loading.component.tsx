@@ -6,10 +6,10 @@ import {LoadingBase} from './Loading-base.component'
 import {LoadingProps, RenderLoadingProps} from './Loading.interface'
 import {Container, Content, Main, Ripple} from './Loading.styles'
 
-const AnimatedContainer = Animated.createAnimatedComponent(Container)
+const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedRipple = Animated.createAnimatedComponent(Ripple)
 const render = ({
-        containerAnimatedStyle,
+        contentAnimatedStyle,
         content,
         height,
         id,
@@ -19,17 +19,19 @@ const render = ({
         width,
         ...containerProps
 }: RenderLoadingProps) => (
-        <AnimatedContainer
+        <Container
                 {...containerProps}
                 accessibilityRole='progressbar'
                 height={height}
                 pointerEvents='none'
-                shape='full'
-                style={[containerAnimatedStyle]}
                 testID={testID ?? `loading--${id}`}
                 width={width}
         >
-                <Content testID={`loading__content--${id}`}>
+                <AnimatedContent
+                        shape='full'
+                        style={[contentAnimatedStyle]}
+                        testID={`loading__content--${id}`}
+                >
                         <Icon
                                 fill={theme.token.scheme.primary}
                                 height={height}
@@ -38,16 +40,16 @@ const render = ({
                                 type='outlined'
                                 width={width}
                         />
+                </AnimatedContent>
 
-                        <Main testID={`loading__contentMain--${id}`}>{content}</Main>
-                </Content>
+                <Main testID={`loading__contentMain--${id}`}>{content}</Main>
 
                 <AnimatedRipple
                         shape='full'
                         style={[rippleAnimatedStyle]}
                         testID={`loading__ripple--${id}`}
                 />
-        </AnimatedContainer>
+        </Container>
 )
 
 const ForwardRefLoading = forwardRef<View, LoadingProps>((props, ref) => (

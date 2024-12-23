@@ -6,19 +6,19 @@ import {HandleLoadingAnimatedTimingOptions} from './Loading.interface'
 
 const handleLoadingAnimatedTiming =
         (animatedTiming: AnimatedTiming) =>
-        ({containerSharedValue, rippleSharedValue}: HandleLoadingAnimatedTimingOptions) =>
+        ({contentSharedValue, rippleSharedValue}: HandleLoadingAnimatedTimingOptions) =>
         (value: number) => {
-                animatedTiming({repeat: -1, duration: 1500})(containerSharedValue)(value)
+                animatedTiming({repeat: -1, duration: 1500})(contentSharedValue)(value)
                 animatedTiming({repeat: -1, duration: 1500})(rippleSharedValue)(value)
         }
 
 export const useLoadingAnimated = () => {
         const theme = useTheme()
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const containerSharedValue = useSharedValue(0)
+        const contentSharedValue = useSharedValue(0)
         const rippleSharedValue = useSharedValue(0)
-        const containerAnimatedStyle = useAnimatedStyle(() => ({
-                transform: [{rotate: `${interpolate(containerSharedValue.value, [0, 1, 2], [0, 180, 360])}deg`}]
+        const contentAnimatedStyle = useAnimatedStyle(() => ({
+                transform: [{rotate: `${interpolate(contentSharedValue.value, [0, 1, 2], [0, 180, 360])}deg`}]
         }))
 
         const rippleAnimatedStyle = useAnimatedStyle(() => ({
@@ -27,17 +27,17 @@ export const useLoadingAnimated = () => {
                         [0, 1, 2],
                         [theme.token.opacity.level9, theme.token.opacity.level5, theme.token.opacity.level0]
                 ),
-                transform: [{scale: interpolate(rippleSharedValue.value, [0, 1, 2], [0.8, 1.2, 1.6])}]
+                transform: [{scale: interpolate(rippleSharedValue.value, [0, 1, 2], [0.8, 1, 1.2])}]
         }))
 
         const onLoadingAnimatedTiming = useMemo(
-                () => handleLoadingAnimatedTiming(animatedTiming)({containerSharedValue, rippleSharedValue}),
-                [animatedTiming, containerSharedValue, rippleSharedValue]
+                () => handleLoadingAnimatedTiming(animatedTiming)({contentSharedValue, rippleSharedValue}),
+                [animatedTiming, contentSharedValue, rippleSharedValue]
         )
 
         useEffect(() => {
                 onLoadingAnimatedTiming(2)
         }, [onLoadingAnimatedTiming])
 
-        return {containerAnimatedStyle, rippleAnimatedStyle}
+        return {contentAnimatedStyle, rippleAnimatedStyle}
 }
