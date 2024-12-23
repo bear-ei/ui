@@ -3,7 +3,7 @@ import {IconButton} from './Icon-button.component'
 import {IconButtonProps} from './Icon-button.interface'
 
 export const Filled: StoryObj<IconButtonProps> = {
-        args: {}
+        args: {loading: true}
 }
 
 export const Outlined: StoryObj<IconButtonProps> = {
@@ -14,7 +14,8 @@ export const Outlined: StoryObj<IconButtonProps> = {
 
 export const Standard: StoryObj<IconButtonProps> = {
         args: {
-                type: 'standard'
+                type: 'standard',
+                loading: true
         }
 }
 

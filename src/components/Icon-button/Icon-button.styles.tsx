@@ -1,15 +1,31 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
+import {LayoutAnimated} from '../Layout-animated'
 import {IconButtonContentProps} from './Icon-button.interface'
 
 export const Container = styled.View`
         cursor: pointer;
+        position: relative;
 
         ${({theme}) => css`
                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+        `}
+`
+
+export const ContentItem = styled(LayoutAnimated)`
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        position: absolute;
+
+        ${({theme}) => css`
+                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+                left: ${theme.adaptSize(theme.token.spacing.none)}px;
+                right: ${theme.adaptSize(theme.token.spacing.none)}px;
+                top: ${theme.adaptSize(theme.token.spacing.none)}px;
         `}
 `
 

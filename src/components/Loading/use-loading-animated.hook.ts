@@ -18,10 +18,7 @@ export const useLoadingAnimated = () => {
         const containerSharedValue = useSharedValue(0)
         const rippleSharedValue = useSharedValue(0)
         const containerAnimatedStyle = useAnimatedStyle(() => ({
-                transform: [
-                        {rotate: `${interpolate(containerSharedValue.value, [0, 1, 2], [0, 180, 360])}deg`},
-                        {scale: interpolate(containerSharedValue.value, [0, 1, 2], [1, 0.9, 1])}
-                ]
+                transform: [{rotate: `${interpolate(containerSharedValue.value, [0, 1, 2], [0, 180, 360])}deg`}]
         }))
 
         const rippleAnimatedStyle = useAnimatedStyle(() => ({

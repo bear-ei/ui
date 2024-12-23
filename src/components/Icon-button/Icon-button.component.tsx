@@ -1,11 +1,12 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {Loading} from '../Loading'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {IconButtonBase} from './Icon-button-base.component'
 import {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
-import {Container, Content, ContentUnderlay, Main} from './Icon-button.styles'
+import {Container, Content, ContentItem, ContentUnderlay, Main} from './Icon-button.styles'
 
 const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
 const render = ({
@@ -18,9 +19,11 @@ const render = ({
         height,
         icon,
         id,
+        loading,
         onStateEvent,
         ref,
         testID,
+        theme,
         type,
         underlayColor,
         width,
@@ -37,39 +40,59 @@ const render = ({
         )
 
         return (
-                <Container testID={testID ?? `iconButton--${id}`}>
-                        <Touchable
-                                {...onStateEvent}
-                                backgroundUnderlay={backgroundUnderlayElement}
-                                disabled={disabled}
-                                enableFocusRing={false}
-                                enableTouchableRipple={type !== 'active'}
-                                mainAlignSelf='center'
-                                ref={ref}
-                                shape={shape}
-                                underlayColor={underlayColor}
+                <Container
+                        pointerEvents={loading ? 'none' : 'auto'}
+                        testID={testID ?? `iconButton--${id}`}
+                >
+                        <ContentItem
+                                lazy={true}
+                                testID={`iconButton__contentItem--${id}`}
+                                visible={loading}
                         >
-                                <Content
-                                        {...contentProps}
-                                        accessibilityRole='button'
-                                        height={height}
-                                        pointerEvents='none'
+                                <Loading
+                                        content={icon}
+                                        height={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
+                                        width={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
+                                />
+                        </ContentItem>
+
+                        <ContentItem
+                                testID={`iconButton__contentItem--${id}`}
+                                visible={!loading}
+                        >
+                                <Touchable
+                                        {...onStateEvent}
+                                        backgroundUnderlay={backgroundUnderlayElement}
+                                        disabled={disabled}
+                                        enableFocusRing={false}
+                                        enableTouchableRipple={type !== 'active'}
+                                        mainAlignSelf='center'
+                                        ref={ref}
                                         shape={shape}
-                                        testID={`iconButton__content--${id}`}
-                                        width={width}
+                                        underlayColor={underlayColor}
                                 >
-                                        <Main testID={`iconButton__main--${id}`}>{icon}</Main>
-                                        <Underlay
-                                                active={active}
-                                                activeAnimatedType='scale'
-                                                activeColor={activeColor}
-                                                defaultActive={defaultActive}
-                                                eventName={eventName}
-                                                shape='full'
-                                                underlayColor={underlayColor}
-                                        />
-                                </Content>
-                        </Touchable>
+                                        <Content
+                                                {...contentProps}
+                                                accessibilityRole='button'
+                                                height={height}
+                                                pointerEvents='none'
+                                                shape={shape}
+                                                testID={`iconButton__content--${id}`}
+                                                width={width}
+                                        >
+                                                <Main testID={`iconButton__main--${id}`}>{icon}</Main>
+                                                <Underlay
+                                                        active={active}
+                                                        activeAnimatedType='scale'
+                                                        activeColor={activeColor}
+                                                        defaultActive={defaultActive}
+                                                        eventName={eventName}
+                                                        shape='full'
+                                                        underlayColor={underlayColor}
+                                                />
+                                        </Content>
+                                </Touchable>
+                        </ContentItem>
                 </Container>
         )
 }

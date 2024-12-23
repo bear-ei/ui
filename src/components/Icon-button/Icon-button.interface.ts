@@ -1,6 +1,7 @@
 import {RefObject} from 'react'
 import {View, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {EventName} from '../Common'
 import {TouchableProps} from '../Touchable'
@@ -22,6 +23,7 @@ export interface RenderIconButtonProps extends IconButtonProps {
         contentUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
         onStateEvent: OnStateEvent
+        theme: DefaultTheme
 }
 
 export interface IconButtonBaseProps extends IconButtonProps {
@@ -33,7 +35,8 @@ export interface IconButtonState {
         nextPressInEvent?: () => void
 }
 
-export interface RenderIconButtonIconOptions extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill'> {
+export interface RenderIconButtonIconOptions
+        extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading'> {
         eventName?: EventName
 }
 

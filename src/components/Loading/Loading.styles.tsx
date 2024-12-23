@@ -17,7 +17,27 @@ export const Container = styled(Shape)<LoadingContainerProps>`
 `
 
 export const Content = styled.View`
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
         z-index: 4;
+`
+
+export const Main = styled.View`
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: absolute;
+
+        ${({theme}) => css`
+                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+                left: ${theme.adaptSize(theme.token.spacing.none)}px;
+                right: ${theme.adaptSize(theme.token.spacing.none)}px;
+                top: ${theme.adaptSize(theme.token.spacing.none)}px;
+        `}
 `
 
 export const Ripple = styled(Shape)`

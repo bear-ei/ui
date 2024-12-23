@@ -5,6 +5,7 @@ import {DefaultTheme} from 'styled-components/native'
 import {ShapeProps} from '../Common'
 
 export interface LoadingProps extends ViewProps, RefAttributes<View>, ShapeProps {
+        content?: JSX.Element
         height?: number
         width?: number
 }

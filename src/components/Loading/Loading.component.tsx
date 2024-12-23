@@ -4,12 +4,13 @@ import Animated from 'react-native-reanimated'
 import {Icon} from '../Icon'
 import {LoadingBase} from './Loading-base.component'
 import {LoadingProps, RenderLoadingProps} from './Loading.interface'
-import {Container, Content, Ripple} from './Loading.styles'
+import {Container, Content, Main, Ripple} from './Loading.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const AnimatedRipple = Animated.createAnimatedComponent(Ripple)
 const render = ({
         containerAnimatedStyle,
+        content,
         height,
         id,
         rippleAnimatedStyle,
@@ -28,20 +29,23 @@ const render = ({
                 testID={testID ?? `loading--${id}`}
                 width={width}
         >
-                <Content>
+                <Content testID={`loading__content--${id}`}>
                         <Icon
                                 fill={theme.token.scheme.primary}
                                 height={height}
                                 iconStyle='rounded'
                                 name='progressActivity'
-                                type='filled'
+                                type='outlined'
                                 width={width}
                         />
+
+                        <Main testID={`loading__contentMain--${id}`}>{content}</Main>
                 </Content>
 
                 <AnimatedRipple
                         shape='full'
                         style={[rippleAnimatedStyle]}
+                        testID={`loading__ripple--${id}`}
                 />
         </AnimatedContainer>
 )
