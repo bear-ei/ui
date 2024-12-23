@@ -91,11 +91,8 @@ const render = ({
                                                 trailingShow={!!trailing}
                                         >
                                                 {leading && (
-                                                        <Leading
-                                                                testID={`textfield__leading--${id}`}
-                                                                pointerEvents='box-only'
-                                                        >
-                                                                {leading}
+                                                        <Leading testID={`textfield__leading--${id}`}>
+                                                                {cloneElement(leading, {disabledFocus: true})}
                                                         </Leading>
                                                 )}
 
@@ -128,10 +125,7 @@ const render = ({
                                                 </Main>
 
                                                 {trailing && (
-                                                        <Trailing
-                                                                testID={`textfield__trailing--${id}`}
-                                                                pointerEvents='box-only'
-                                                        >
+                                                        <Trailing testID={`textfield__trailing--${id}`}>
                                                                 {cloneElement(trailing, {disabledFocus: true})}
                                                         </Trailing>
                                                 )}

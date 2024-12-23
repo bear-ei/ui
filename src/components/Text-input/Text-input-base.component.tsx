@@ -151,7 +151,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         placeholder,
                         render,
                         supportingText: supportingTextSource,
-                        supportingTextDelayTime = 150,
+                        supportingTextDelayTime,
                         trailing,
                         type = 'filled',
                         value: rawValue,
@@ -204,7 +204,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 ) => handleTextInputContentSizeChange(setState)(onContentSizeChange)(event)
 
                 const onSupportingTextClose = useMemo(
-                        () => debounce(handleSupportingTextClose(setState))(supportingTextDelayTime),
+                        () => debounce(handleSupportingTextClose(setState))(supportingTextDelayTime ?? 0),
                         [setState, supportingTextDelayTime]
                 )
 
