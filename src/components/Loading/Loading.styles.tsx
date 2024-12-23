@@ -11,8 +11,8 @@ export const Container = styled(Shape)<LoadingContainerProps>`
 
         ${({theme, width, height}) => css`
                 background-color: ${theme.token.scheme.secondaryContainer};
-                height: ${width}px;
-                width: ${height}px;
+                height: ${height ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                width: ${width ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `}
 `
 
