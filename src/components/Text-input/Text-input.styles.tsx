@@ -5,7 +5,8 @@ import {
         TextInputControlProps,
         TextInputHeaderProps,
         TextInputLabelProps,
-        TextInputMainProps
+        TextInputMainProps,
+        TextInputTouchableHeaderProps
 } from './Text-input.interface'
 
 export const Container = styled.View``
@@ -18,7 +19,7 @@ export const Content = styled.View`
         `}
 `
 
-export const TouchableHeader = styled.Pressable`
+export const TouchableHeader = styled.Pressable<TextInputTouchableHeaderProps>`
         cursor: text;
         outline-style: none;
 `

@@ -1,4 +1,4 @@
-import {FC, forwardRef} from 'react'
+import {cloneElement, FC, forwardRef} from 'react'
 import {TextInput as RNTextInput} from 'react-native'
 import Animated, {AnimatedProps} from 'react-native-reanimated'
 import {FastOmit} from 'styled-components'
@@ -79,6 +79,7 @@ const render = ({
                                                 accessibilityLabel: labelText,
                                                 accessibilityRole: 'keyboardkey'
                                         })}
+                                        enableFocusRing={false}
                                         onFocus={onHeaderFocus}
                                         testID={`textfield__touchableHeader--${id}`}
                                 >
@@ -90,10 +91,14 @@ const render = ({
                                                 trailingShow={!!trailing}
                                         >
                                                 {leading && (
-                                                        <Leading testID={`textfield__leading--${id}`}>
+                                                        <Leading
+                                                                testID={`textfield__leading--${id}`}
+                                                                pointerEvents='box-only'
+                                                        >
                                                                 {leading}
                                                         </Leading>
                                                 )}
+
                                                 <Main
                                                         contentShow={!!content}
                                                         testID={`textfield__main--${id}`}
@@ -123,8 +128,11 @@ const render = ({
                                                 </Main>
 
                                                 {trailing && (
-                                                        <Trailing testID={`textfield__trailing--${id}`}>
-                                                                {trailing}
+                                                        <Trailing
+                                                                testID={`textfield__trailing--${id}`}
+                                                                pointerEvents='box-only'
+                                                        >
+                                                                {cloneElement(trailing, {disabledFocus: true})}
                                                         </Trailing>
                                                 )}
 

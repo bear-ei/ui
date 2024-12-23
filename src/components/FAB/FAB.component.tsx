@@ -56,7 +56,6 @@ const render = ({
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
                                 elevationUnderlay={elevationUnderlayElement}
-                                enableFocusRing={false}
                                 ref={ref}
                                 shape={shape}
                                 underlayColor={underlayColor}

@@ -74,7 +74,6 @@ const render = ({
                                 backgroundUnderlay={backgroundUnderlayElement}
                                 disabled={loading || disabled}
                                 elevationUnderlay={elevationUnderlayElement}
-                                enableFocusRing={false}
                                 ref={ref}
                                 shape={shape}
                                 underlayColor={underlayColor}

@@ -135,3 +135,7 @@ export interface TextInputLabelProps extends TypographyProps {
 export interface TextInputMainProps {
         contentShow?: boolean
 }
+
+export interface TextInputTouchableHeaderProps {
+        enableFocusRing?: boolean
+}

@@ -32,7 +32,7 @@ const handleAddTouchableRipple =
                 })
 
 const handleTouchablePressIn =
-        ({setState, ref}: HandleTouchablePressInOptions) =>
+        ({setState, ref, disabledFocus}: HandleTouchablePressInOptions) =>
         (enableTouchableRipple?: boolean) =>
         (event: GestureResponderEvent) => {
                 const {locationX, locationY} = event.nativeEvent
@@ -41,17 +41,19 @@ const handleTouchablePressIn =
                         handleAddTouchableRipple(setState)({locationX, locationY})
                 }
 
-                ref?.current?.focus()
+                if (!disabledFocus) {
+                        ref?.current?.focus()
+                }
         }
 
 const handleTouchableStateChange =
-        ({eventName, enableTouchableRipple, ref, onLayoutChanged}: HandleTouchableStateChangeOptions) =>
+        ({eventName, enableTouchableRipple, ref, onLayoutChanged, disabledFocus}: HandleTouchableStateChangeOptions) =>
         (setState: Updater<TouchableState>) =>
         (event: StateEvent) => {
                 const nextEvent = {
                         layout: () => onLayoutChanged((event as LayoutChangeEvent).nativeEvent.layout),
                         pressIn: () =>
-                                handleTouchablePressIn({setState, ref})(enableTouchableRipple)(
+                                handleTouchablePressIn({setState, ref, disabledFocus})(enableTouchableRipple)(
                                         event as GestureResponderEvent
                                 )
                 } as Record<EventName, () => void>
@@ -90,7 +92,18 @@ const renderTouchableRipples =
                 :       undefined
 
 export const TouchableBase = forwardRef<View, TouchableBaseProps>(
-        ({centered, disabled, render, underlayColor, enableTouchableRipple = true, ...renderProps}, ref) => {
+        (
+                {
+                        centered,
+                        disabled,
+                        disabledFocus,
+                        enableTouchableRipple = true,
+                        render,
+                        underlayColor,
+                        ...renderProps
+                },
+                ref
+        ) => {
                 const [{rippleSequence, contentLayout}, setState] = useImmer<TouchableState>({
                         contentLayout: {} as LayoutRectangle,
                         rippleSequence: {} as TouchableRippleSequence
@@ -108,6 +121,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleTouchableStateChange({
                                         ...options,
+                                        disabledFocus,
                                         enableTouchableRipple,
                                         onLayoutChanged: onTouchableLayoutChanged,
                                         ref: touchableRef,

@@ -15,6 +15,7 @@ const render = ({
         contentUnderlayAnimatedStyle,
         defaultActive,
         disabled,
+        disabledFocus,
         eventName,
         height,
         icon,
@@ -64,7 +65,7 @@ const render = ({
                                         {...onStateEvent}
                                         backgroundUnderlay={backgroundUnderlayElement}
                                         disabled={disabled}
-                                        enableFocusRing={false}
+                                        disabledFocus={disabledFocus}
                                         enableTouchableRipple={type !== 'active'}
                                         mainAlignSelf='center'
                                         ref={ref}

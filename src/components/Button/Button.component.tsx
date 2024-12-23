@@ -62,7 +62,6 @@ const render = ({
                                 backgroundUnderlay={backgroundUnderlayElement}
                                 disabled={loading || disabled}
                                 elevationUnderlay={elevationUnderlayElement}
-                                enableFocusRing={false}
                                 hotZone={type !== 'link'}
                                 ref={ref}
                                 shape={shape}
