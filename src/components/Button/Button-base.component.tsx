@@ -183,6 +183,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         id,
                         labelText,
                         labelTextAnimatedStyle,
+                        loading,
                         onStateEvent,
                         ref,
                         type,

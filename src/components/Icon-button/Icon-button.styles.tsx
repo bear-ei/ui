@@ -1,9 +1,9 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
-import {IconButtonContentProps} from './Icon-button.interface'
+import {IconButtonContainerProps, IconButtonContentProps} from './Icon-button.interface'
 
-export const Container = styled.View`
+export const Container = styled.View<IconButtonContainerProps>`
         cursor: pointer;
         position: relative;
 
@@ -13,6 +13,12 @@ export const Container = styled.View`
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `}
+
+        ${({disabled}) =>
+                disabled &&
+                css`
+                        cursor: not-allowed;
+                `}
 `
 
 export const ContentItem = styled(LayoutAnimated)`

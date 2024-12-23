@@ -42,7 +42,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
                 return render({
                         ...renderProps,
                         containerAnimatedStyle,
-                        fill: iconFill,
                         id,
                         ref,
                         svgIconElement

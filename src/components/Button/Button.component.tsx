@@ -54,6 +54,7 @@ const render = ({
 
         return (
                 <Container
+                        disabled={disabled}
                         testID={testID ?? `button--${id}`}
                         type={type}
                 >

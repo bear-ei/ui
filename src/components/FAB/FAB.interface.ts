@@ -12,6 +12,7 @@ export interface FABProps extends TouchableProps {
         extendedFAB?: boolean
         icon?: JSX.Element
         labelText?: string
+        loading?: boolean
         size?: Size
         type?: FABType
 }
@@ -34,7 +35,7 @@ export interface FABState {
         status: ComponentStatus
 }
 
-export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
+export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB' | 'disabled'>
 export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type HandleFABStateChangeOptions = OnStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>

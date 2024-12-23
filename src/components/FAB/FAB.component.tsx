@@ -13,6 +13,7 @@ const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay
 const render = ({
         accessibilityLabel,
         contentUnderlayAnimatedStyle,
+        disabled,
         elevation,
         eventName,
         extendedFAB,
@@ -20,6 +21,7 @@ const render = ({
         id,
         labelText,
         labelTextAnimatedStyle,
+        loading,
         onStateEvent,
         ref,
         size,
@@ -48,6 +50,7 @@ const render = ({
 
         return (
                 <Container
+                        disabled={disabled}
                         extendedFAB={extendedFAB}
                         size={size}
                         testID={testID ?? `fab--${id}`}
@@ -55,6 +58,7 @@ const render = ({
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
+                                disabled={loading || disabled}
                                 elevationUnderlay={elevationUnderlayElement}
                                 ref={ref}
                                 shape={shape}

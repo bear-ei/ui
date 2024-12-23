@@ -45,7 +45,7 @@ export interface HandleButtonAnimatedTimingSharedValue {
         colorSharedValue: SharedValue<number>
 }
 
-export type ButtonContainerProps = Pick<RenderButtonProps, 'type'>
+export type ButtonContainerProps = Pick<RenderButtonProps, 'type' | 'disabled'>
 export type ButtonContentProps = Pick<RenderButtonProps, 'type'>
 export interface ButtonMainProps extends Pick<RenderButtonProps, 'type'> {
         iconShow: boolean

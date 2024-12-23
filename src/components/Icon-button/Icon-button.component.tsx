@@ -42,6 +42,7 @@ const render = ({
 
         return (
                 <Container
+                        disabled={disabled}
                         pointerEvents={loading ? 'none' : 'auto'}
                         testID={testID ?? `iconButton--${id}`}
                 >
@@ -64,7 +65,7 @@ const render = ({
                                 <Touchable
                                         {...onStateEvent}
                                         backgroundUnderlay={backgroundUnderlayElement}
-                                        disabled={disabled}
+                                        disabled={loading || disabled}
                                         disabledFocus={disabledFocus}
                                         enableTouchableRipple={type !== 'active'}
                                         mainAlignSelf='center'

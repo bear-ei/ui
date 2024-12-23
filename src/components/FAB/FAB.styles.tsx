@@ -34,9 +34,17 @@ export const Container = styled.View<FABContainerProps>`
                         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                 `}
 
-    ${({theme}) => css`
+        ${({theme}) => css`
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `}
+
+
+
+        ${({disabled}) =>
+                disabled &&
+                css`
+                        cursor: not-allowed;
+                `}
 `
 
 export const Content = styled(Shape)<FABContentProps>`

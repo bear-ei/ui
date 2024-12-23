@@ -116,7 +116,10 @@ const renderFABIcon =
         }
 
 export const FABBase = forwardRef<View, FABBaseProps>(
-        ({disabled, elevated = true, icon, render, size = 'medium', type = 'primary', ...renderProps}, ref) => {
+        (
+                {disabled, loading, elevated = true, icon, render, size = 'medium', type = 'primary', ...renderProps},
+                ref
+        ) => {
                 const [{elevation, eventName, status}, setState] = useImmer<FABState>({
                         elevation: undefined,
                         eventName: undefined,
@@ -133,7 +136,12 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleFABStateChange({...options, state, elevated})(setState)(event)
 
-                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
+                const onStateEvent = useOnStateEvent({
+                        ...renderProps,
+                        disabled: loading || disabled,
+                        onStateEventChange
+                })
+
                 const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled, type})
 
                 useEffect(() => {
@@ -156,6 +164,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                         icon: fabIconElement,
                         id,
                         labelTextAnimatedStyle,
+                        loading,
                         onStateEvent,
                         ref,
                         size,
