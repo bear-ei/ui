@@ -2,28 +2,26 @@ import {token as materialToken} from '@bearei/material-token'
 import {FC, useId} from 'react'
 import {Platform, useColorScheme} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
-import {useWindowDimensions} from '../../hooks'
+import {useWindowSize} from '../../hooks'
 import {adaptWindow} from '../../utils'
 import {ModalProvider} from '../Modal-provider.context'
 import {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'
 
-const DesktopThemeProvider: FC<ThemeProps> = ({children, token: themeToken}) => {
-        const {adaptFontSize, adaptSize} = adaptWindow()()(true)
-        const colorScheme = useColorScheme()
-        const token = themeToken ?? materialToken()({scheme: colorScheme ?? 'light', contrast: 'standard'})('frostyIce')
+const Content: FC<ThemeProps> = ({designOptions, children, token: themeToken}) => {
+        const {windowSize, width, height} = useWindowSize()
+        const design = {
+                compact: {designWidth: 375, designHeight: 812, designDensity: 3},
+                expanded: {designWidth: 375, designHeight: 812, designDensity: 3},
+                extraLarge: {designWidth: 1920, designHeight: 1080, designDensity: 1},
+                large: {designWidth: 1920, designHeight: 1080, designDensity: 1},
+                medium: {designWidth: 375, designHeight: 812, designDensity: 3}
+        }
 
-        return (
-                <StyledComponentThemeProvider theme={{adaptFontSize, adaptSize, colorScheme, OS: Platform.OS, token}}>
-                        {children}
-                        <ModalProvider />
-                </StyledComponentThemeProvider>
-        )
-}
+        const {adaptFontSize, adaptSize} = adaptWindow({screenWidth: width, screenHeight: height})(
+                designOptions ?? design[windowSize]
+        )()
 
-const MobileThemeProvider: FC<ThemeProps> = ({designOptions = {}, children, token: themeToken}) => {
-        const {width, height} = useWindowDimensions()
-        const {adaptFontSize, adaptSize} = adaptWindow({screenWidth: width, screenHeight: height})(designOptions)(false)
         const colorScheme = useColorScheme()
         const token = themeToken ?? materialToken()({scheme: colorScheme ?? 'light', contrast: 'standard'})('frostyIce')
 
@@ -37,16 +35,13 @@ const MobileThemeProvider: FC<ThemeProps> = ({designOptions = {}, children, toke
 
 export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
         const id = useId()
-        const desktop = ['web', 'windows', 'macos'].includes(Platform.OS)
 
         return (
                 <Container
                         testID={`bearei__material--${id}`}
                         story={story}
                 >
-                        {desktop ?
-                                <DesktopThemeProvider {...props} />
-                        :       <MobileThemeProvider {...props} />}
+                        <Content {...props} />
                 </Container>
         )
 }

@@ -106,13 +106,6 @@ export const Main = styled(Shape)<ListItemMainProps>`
                                 theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
                         )}px;
                 `}
-                
-        ${({theme, trailingShow, type = 'standard'}) =>
-                trailingShow &&
-                ['menu'].includes(type) &&
-                css`
-                        padding-right: ${theme.adaptSize(theme.token.spacing.none)}px;
-                `}
 `
 
 export const Leading = styled.View<ListItemLeadingProps>`
@@ -195,6 +188,15 @@ export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
                 css`
                         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                         justify-content: flex-start;
+                `}
+
+        ${({theme, trailingShow, type = 'standard'}) =>
+                trailingShow &&
+                ['menu'].includes(type) &&
+                css`
+                        margin-right: ${-theme.adaptSize(
+                                theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+                        )}px;
                 `}
 `
 

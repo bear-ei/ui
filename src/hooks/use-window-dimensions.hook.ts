@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {Dimensions, ScaledSize} from 'react-native'
+import {Dimensions, Platform, ScaledSize} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {debounce} from '../utils'
 import {UseWindowDimensionsOptions} from './hooks.interface'
@@ -47,7 +47,9 @@ export const useWindowDimensions = ({changeEventThrottle = 50}: UseWindowDimensi
         }, [onWindowScaledSize])
 
         useEffect(() => {
-                const initialWindow = Dimensions.get('window')
+                const initialWindow = Dimensions.get(
+                        ['macos', 'windows', 'web'].includes(Platform.OS) ? 'screen' : 'window'
+                )
 
                 handleWindowScaledSize(setState)({window: initialWindow})
         }, [setState])

@@ -135,7 +135,6 @@ export interface ListItemMainProps
         extends Pick<RenderListItemProps, 'supportingTextNumberOfLines'>,
                 ListItemContainerProps {
         supportingTextShow?: boolean
-        trailingShow?: boolean
 }
 
 export type ListItemContentProps = ListItemContainerProps
@@ -145,4 +144,6 @@ export interface ListItemMainInnerProps extends Pick<ListItemMainProps, 'support
 }
 
 export type ListItemLeadingProps = Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'type'>
-export type ListItemTrailingProps = ListItemLeadingProps
+export interface ListItemTrailingProps extends ListItemLeadingProps {
+        trailingShow?: boolean
+}

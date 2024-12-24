@@ -19,10 +19,7 @@ const handleNavigationRailItemAnimatedTiming =
                 const toValue = value ? 1 : 0
 
                 animatedTiming()(labelTextColorSharedValue)(toValue)
-                animatedTiming({
-                        duration: value ? 'medium0' : 'short3',
-                        easing: value ? 'standardDecelerate' : 'standardAccelerate'
-                })(labelHeightSharedValue)(toValue)
+                animatedTiming()(labelHeightSharedValue)(toValue)
         }
 
 export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailItemAnimatedOptions) => {

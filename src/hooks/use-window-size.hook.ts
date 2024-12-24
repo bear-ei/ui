@@ -1,8 +1,8 @@
 import {WindowSize} from '@bearei/material-token'
 import {useWindowDimensions} from './use-window-dimensions.hook'
 
-export const useWindowSize = (): WindowSize => {
-        const {width} = useWindowDimensions({changeEventThrottle: 150})
+export const useWindowSize = () => {
+        const {width, ...scaledSize} = useWindowDimensions({changeEventThrottle: 150})
 
         let windowSize!: WindowSize
 
@@ -19,10 +19,13 @@ export const useWindowSize = (): WindowSize => {
                 case width >= 1200 && width < 1600:
                         windowSize = 'large'
                         break
+                case width >= 1600:
+                        windowSize = 'extraLarge'
+                        break
 
                 default:
                         windowSize = 'medium'
         }
 
-        return windowSize
+        return {windowSize, width, ...scaledSize}
 }

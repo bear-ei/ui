@@ -112,7 +112,6 @@ const render = ({
                                                         supportingTextNumberOfLines={supportingTextNumberOfLines}
                                                         supportingTextShow={supportingTextShow}
                                                         testID={`listItem__main--${id}`}
-                                                        trailingShow={trailingShow}
                                                         type={type}
                                                 >
                                                         {leadingElement && (
@@ -174,9 +173,10 @@ const render = ({
                                                                                 supportingTextNumberOfLines
                                                                         }
                                                                         testID={`listItem__trailing--${id}`}
+                                                                        trailingShow={trailingShow}
+                                                                        type={type}
                                                                         unmount={true}
                                                                         visible={trailingVisible}
-                                                                        type={type}
                                                                 >
                                                                         {trailingElement}
                                                                 </Trailing>

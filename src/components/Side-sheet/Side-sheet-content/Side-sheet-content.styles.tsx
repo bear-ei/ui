@@ -29,11 +29,19 @@ export const Container = styled.View<SheetContainerProps>`
                 return type === 'modal' && contentPosition[sheetPosition]
         }}
 
-        ${({type = 'standard', theme}) =>
-                type !== 'modal' &&
-                css`
-                        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 80)}px;
-                `}
+        ${({theme, type = 'standard'}) => {
+                const contentType = {
+                        standard: css`
+                                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
+                        `,
+                        modal: css``,
+                        standardContainer: css`
+                                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
+                        `
+                } as Record<SheetType, RuleSet<object> | undefined>
+
+                return contentType[type]
+        }}
 `
 
 export const Content = styled(Shape)<SheetViewContentProps>`
@@ -42,20 +50,19 @@ export const Content = styled(Shape)<SheetViewContentProps>`
         flex: 1;
         position: relative;
 
-        ${({theme}) => css`
-                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 80)}px;
-        `}
-
         ${({theme, type = 'standard'}) => {
                 const contentType = {
                         standard: css`
                                 background-color: ${theme.token.scheme.surface};
+                                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
                         `,
                         modal: css`
                                 background-color: ${theme.token.scheme.surfaceContainerLow};
+                                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 80)}px;
                         `,
                         standardContainer: css`
                                 background-color: ${theme.token.scheme.surfaceContainerLow};
+                                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
                         `
                 } as Record<SheetType, RuleSet<object> | undefined>
 
