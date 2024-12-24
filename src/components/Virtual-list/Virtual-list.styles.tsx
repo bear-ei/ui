@@ -5,6 +5,10 @@ import {LayoutAnimated} from '../Layout-animated'
 export const Container = styled.View`
         align-self: stretch;
         flex: 1;
+
+        ${({theme}) => css`
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 40)}px;
+        `}
 `
 
 export const Content = styled(LayoutAnimated)`

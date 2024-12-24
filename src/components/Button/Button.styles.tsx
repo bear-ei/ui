@@ -27,13 +27,6 @@ export const Container = styled.View<ButtonContainerProps>`
 
                 return containerType[type]
         }}
-
-
-        ${({disabled}) =>
-                disabled &&
-                css`
-                        cursor: not-allowed;
-                `}
 `
 
 export const Content = styled(Shape)<ButtonContentProps>`

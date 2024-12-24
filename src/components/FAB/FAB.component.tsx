@@ -50,7 +50,6 @@ const render = ({
 
         return (
                 <Container
-                        disabled={disabled}
                         extendedFAB={extendedFAB}
                         size={size}
                         testID={testID ?? `fab--${id}`}

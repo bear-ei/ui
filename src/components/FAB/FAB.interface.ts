@@ -35,7 +35,7 @@ export interface FABState {
         status: ComponentStatus
 }
 
-export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB' | 'disabled'>
+export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type HandleFABStateChangeOptions = OnStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>

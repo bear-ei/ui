@@ -24,7 +24,8 @@ const render = <T,>({
         const defaultContentContainerStyle = {
                 flex: 1,
                 height: contentSize,
-                minHeight: contentSize
+                minHeight: contentSize,
+                position: 'relative'
         } as StyleProp<ViewStyle>
 
         return (
@@ -42,31 +43,31 @@ const render = <T,>({
                                 >
                                         {itemElements}
                                 </Content>
+
+                                <EmptyContent
+                                        lazy={true}
+                                        testID={`virtualList__emptyComponent--${id}`}
+                                        visible={!loading && emptyList && status === 'succeeded'}
+                                >
+                                        {emptyComponent ?? (
+                                                <Supporting
+                                                        size='medium'
+                                                        testID={`virtualList__supportingText--${id}`}
+                                                        type='body'
+                                                >
+                                                        No data
+                                                </Supporting>
+                                        )}
+                                </EmptyContent>
+
+                                <LoadingContent
+                                        lazy={true}
+                                        testID={`virtualList__content--${id}`}
+                                        visible={loading && !!loadingComponent && status === 'succeeded'}
+                                >
+                                        {loadingComponent}
+                                </LoadingContent>
                         </Animated.ScrollView>
-
-                        <EmptyContent
-                                lazy={true}
-                                testID={`virtualList__emptyComponent--${id}`}
-                                visible={!loading && emptyList && status === 'succeeded'}
-                        >
-                                {emptyComponent ?? (
-                                        <Supporting
-                                                size='medium'
-                                                testID={`virtualList__supportingText--${id}`}
-                                                type='body'
-                                        >
-                                                No data
-                                        </Supporting>
-                                )}
-                        </EmptyContent>
-
-                        <LoadingContent
-                                lazy={true}
-                                testID={`virtualList__content--${id}`}
-                                visible={loading && !!loadingComponent && status === 'succeeded'}
-                        >
-                                {loadingComponent}
-                        </LoadingContent>
                 </Container>
         )
 }

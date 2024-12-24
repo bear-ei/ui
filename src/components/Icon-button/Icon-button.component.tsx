@@ -42,7 +42,6 @@ const render = ({
 
         return (
                 <Container
-                        disabled={disabled}
                         pointerEvents={loading ? 'none' : 'auto'}
                         testID={testID ?? `iconButton--${id}`}
                 >
