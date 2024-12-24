@@ -1,7 +1,7 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {ProgressContainerProps, ProgressTrackProps, ProgressType} from './Progress.interface'
+import {ProgressContainerProps, ProgressType} from './Progress.interface'
 
 export const Container = styled(Shape)<ProgressContainerProps>`
         align-items: center;
@@ -12,15 +12,15 @@ export const Container = styled(Shape)<ProgressContainerProps>`
         overflow: hidden;
         position: relative;
 
-        ${({theme, type = 'linear'}) => {
+        ${({theme, type = 'linear', height, width}) => {
                 const containerType = {
                         linear: css`
                                 height: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                         `,
                         circular: css`
-                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                                height: ${height ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                                width: ${width ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                         `
                 } as Record<ProgressType, RuleSet<object> | undefined>
 
@@ -35,25 +35,14 @@ export const Container = styled(Shape)<ProgressContainerProps>`
                 `};
 `
 
-export const Track = styled(Shape)<ProgressTrackProps>`
+export const Track = styled(Shape)`
         align-self: stretch;
 
-        ${({theme, type = 'linear'}) => {
-                const containerType = {
-                        linear: css`
-                                background-color: ${theme.token.scheme.primaryContainer};
-                                flex: 1;
-                                height: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                        `,
-                        circular: css`
-                                flex: 1;
-                                border-color: ${theme.token.scheme.primaryContainer};
-                                border-width: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                        `
-                } as Record<ProgressType, RuleSet<object> | undefined>
-
-                return containerType[type]
-        }}
+        ${({theme}) => css`
+                background-color: ${theme.token.scheme.primaryContainer};
+                flex: 1;
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+        `}
 `
 
 export const Stop = styled(Shape)`

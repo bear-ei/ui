@@ -10,7 +10,10 @@ export interface ProgressProps
                 RefAttributes<View>,
                 Pick<ProgressActiveIndicatorLinearProps, 'increment' | 'defaultValue' | 'value'> {
         animated?: ProgressAnimated
+        content?: JSX.Element
+        height?: number
         type?: ProgressType
+        width?: number
 }
 
 export interface RenderProgressProps extends ProgressProps {
@@ -30,8 +33,6 @@ export interface HandleProgressStateChangeOptions extends OnStateEventChangeOpti
         onLayoutChanged: (layout: LayoutRectangle) => void
 }
 
-export interface ProgressContainerProps extends Pick<ProgressProps, 'type'> {
+export interface ProgressContainerProps extends Pick<ProgressProps, 'type' | 'width' | 'height'> {
         progressing?: boolean
 }
-
-export type ProgressTrackProps = Pick<ProgressProps, 'type'>

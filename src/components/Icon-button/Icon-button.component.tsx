@@ -1,7 +1,8 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Loading} from '../Loading'
+
+import {Progress} from '../Progress'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {IconButtonBase} from './Icon-button-base.component'
@@ -50,9 +51,10 @@ const render = ({
                                 testID={`iconButton__contentItem--${id}`}
                                 visible={loading}
                         >
-                                <Loading
+                                <Progress
                                         content={icon}
                                         height={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
+                                        type='circular'
                                         width={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
                                 />
                         </ContentItem>

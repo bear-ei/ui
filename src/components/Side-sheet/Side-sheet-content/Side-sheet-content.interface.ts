@@ -18,6 +18,7 @@ export interface SideSheetContentProps extends ViewProps, RefAttributes<View>, P
         onCancel?: () => void
         onClose?: () => void
         onConfirm?: () => void
+
         onVisible?: (value?: boolean) => void
         primaryButton?: JSX.Element
         primaryButtonProps?: ButtonProps

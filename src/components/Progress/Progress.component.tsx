@@ -1,5 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
+import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circular'
 import {ProgressActiveIndicatorLinear} from './Progress-active-indicator-linear'
 import {ProgressBase} from './Progress-base.component'
 import {ProgressProps, RenderProgressProps} from './Progress.interface'
@@ -7,7 +8,9 @@ import {Container, Stop, Track} from './Progress.styles'
 
 const render = ({
         animated,
+        content,
         defaultValue,
+        height,
         id,
         increment,
         layout,
@@ -15,6 +18,7 @@ const render = ({
         testID,
         type,
         value,
+        width,
         ...containerProps
 }: RenderProgressProps) => {
         const shape = type === 'linear' ? 'small' : 'full'
@@ -30,7 +34,15 @@ const render = ({
                         testID={testID ?? `progress--${id}`}
                         type={type}
                 >
-                        {typeof layout.width === 'number' && layout.width !== 0 && (
+                        {type === 'circular' && (
+                                <ProgressActiveIndicatorCircular
+                                        content={content}
+                                        height={height}
+                                        width={width}
+                                />
+                        )}
+
+                        {type === 'linear' && typeof layout.width === 'number' && layout.width !== 0 && (
                                 <ProgressActiveIndicatorLinear
                                         containerLayout={layout}
                                         defaultValue={defaultValue}
@@ -39,11 +51,12 @@ const render = ({
                                 />
                         )}
 
-                        <Track
-                                shape={shape}
-                                testID={`progress__track--${id}`}
-                                type={type}
-                        />
+                        {type === 'linear' && (
+                                <Track
+                                        shape={shape}
+                                        testID={`progress__track--${id}`}
+                                />
+                        )}
 
                         {type === 'linear' && animated === 'determinate' && (
                                 <Stop
