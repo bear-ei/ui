@@ -15,9 +15,10 @@ export interface SideSheetBaseProps extends SideSheetProps {
 
 export interface SideSheetState {
         nextBackEvent?: () => void
+        nextCancelEvent?: () => void
         nextCloseEvent?: () => void
         sideSheetVisible?: boolean
 }
 
-export type HandleSideSheetEmitOptions = Pick<SideSheetBaseProps, 'visible' | 'id' | 'type'>
 export type HandleSideSheetBackOptions = Pick<SideSheetBaseProps, 'type' | 'disabledClose' | 'onBack'>
+export type HandleSideSheetEmitOptions = Pick<SideSheetBaseProps, 'visible' | 'id' | 'type'>

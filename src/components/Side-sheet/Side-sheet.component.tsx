@@ -9,8 +9,8 @@ const render = ({id, visible, type = 'standard', testID, ...sheetProps}: RenderS
         const sheetContentElement = typeof visible === 'boolean' && (
                 <SideSheetContent
                         {...sheetProps}
-                        visible={visible}
                         type={type}
+                        visible={visible}
                 />
         )
 

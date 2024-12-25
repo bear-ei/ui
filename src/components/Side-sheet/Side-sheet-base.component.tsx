@@ -11,12 +11,11 @@ import {
         SideSheetState
 } from './Side-sheet.interface'
 
-const handleSideSheetClose = (setState: Updater<SideSheetState>) => (onClose?: () => void) => {
+const handleSideSheetClose = (setState: Updater<SideSheetState>) => (onClose?: () => void) =>
         setState(draft => {
-                draft.sideSheetVisible = false
                 draft.nextCloseEvent = onClose
+                draft.sideSheetVisible = false
         })
-}
 
 const handleSideSheetBack =
         ({type, disabledClose, onBack}: HandleSideSheetBackOptions) =>
@@ -76,11 +75,13 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                 },
                 ref
         ) => {
-                const [{sideSheetVisible, nextCloseEvent, nextBackEvent}, setState] = useImmer<SideSheetState>({
-                        nextBackEvent: undefined,
-                        nextCloseEvent: undefined,
-                        sideSheetVisible: undefined
-                })
+                const [{sideSheetVisible, nextCloseEvent, nextBackEvent, nextCancelEvent}, setState] =
+                        useImmer<SideSheetState>({
+                                nextBackEvent: undefined,
+                                nextCancelEvent: undefined,
+                                nextCloseEvent: undefined,
+                                sideSheetVisible: undefined
+                        })
 
                 const id = useId()
                 const onSideSheetBack = useCallback(
@@ -140,6 +141,10 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                 useEffect(() => {
                         nextBackEvent?.()
                 }, [nextBackEvent])
+
+                useEffect(() => {
+                        nextCancelEvent?.()
+                }, [nextCancelEvent])
 
                 return ['standard', 'standardContainer'].includes(type) ? render(renderSheetProps) : <></>
         }
