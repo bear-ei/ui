@@ -11,6 +11,11 @@ export interface RenderVirtualListItemInfo<T> {
         item: T & Item
 }
 
+export interface VirtualListItemUnmountOptions {
+        onItemVisible?: () => void
+        value?: string
+}
+
 export interface VirtualListItemProps<T = Record<string, unknown>> extends ViewProps, RefAttributes<View> {
         extraData?: unknown[]
         gap?: number
@@ -19,15 +24,17 @@ export interface VirtualListItemProps<T = Record<string, unknown>> extends ViewP
         itemSize?: number
         loading?: boolean
         onLoadEnd?: (value?: string) => void
-        onUnmount?: (value?: string) => void
+        onUnmount?: (options: VirtualListItemUnmountOptions) => void
         renderItem?: (options: RenderVirtualListItemInfo<T>) => JSX.Element
         startIndex?: number
         visible?: boolean
 }
 
-export interface RenderVirtualListItemProps<T = Record<string, unknown>> extends VirtualListItemProps<T> {
+export interface RenderVirtualListItemProps<T = Record<string, unknown>>
+        extends Omit<VirtualListItemProps<T>, 'onUnmount'> {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
         itemElement?: JSX.Element
+        onUnmount?: () => void
         unmount?: boolean
 }
 
@@ -36,6 +43,7 @@ export interface VirtualListItemBaseProps<T = Record<string, unknown>> extends V
 }
 
 export interface VirtualListItemState {
+        nextVisibleEvent?: () => void
         visible?: boolean
 }
 

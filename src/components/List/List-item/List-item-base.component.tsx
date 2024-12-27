@@ -208,8 +208,11 @@ const handleListItemClose =
                         return
                 }
 
-                onVisible?.()
-                onClose?.(itemKey)
+                onVisible?.(visible => {
+                        if (!visible) {
+                                onClose?.(itemKey)
+                        }
+                })
         }
 
 const handleListItemPanResponderRelease =

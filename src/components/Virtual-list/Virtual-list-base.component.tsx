@@ -1,6 +1,13 @@
 import {WritableDraft} from 'immer'
 import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, Platform} from 'react-native'
+import {
+        InteractionManager,
+        LayoutChangeEvent,
+        LayoutRectangle,
+        NativeScrollEvent,
+        NativeSyntheticEvent,
+        Platform
+} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
@@ -8,6 +15,7 @@ import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {RenderVirtualListItemInfo, RenderVirtualListItemOptions, VirtualListItem} from './Virtual-list-item'
 import {
+        HandleVirtualListItemUnmountOptions,
         HandleVirtualListScrollOptions,
         VirtualListBaseProps,
         VirtualListData,
@@ -106,7 +114,7 @@ const handleVisibleRangeDataFilter =
 const handleVirtualListItemUnmount =
         (itemSize = 0) =>
         (setState: Updater<VirtualListState>) =>
-        (value?: string) => {
+        ({value, onItemVisible}: HandleVirtualListItemUnmountOptions) => {
                 if (!value) {
                         return
                 }
@@ -117,6 +125,8 @@ const handleVirtualListItemUnmount =
                         draft.virtualListData = nextVirtualListData
 
                         handleVirtualListVisibleRange(itemSize)(draft)()
+
+                        draft.nextItemVisibleEvent = onItemVisible
                 })
         }
 
@@ -225,12 +235,22 @@ export const VirtualListBaseInner = <T,>(
         ref: ForwardedRef<Animated.ScrollView>
 ) => {
         const [
-                {emptyList, nextLoadEndEvent, nextScrollEvent, startIndex, status, virtualListData, visibleRangeData},
+                {
+                        emptyList,
+                        nextItemVisibleEvent,
+                        nextLoadEndEvent,
+                        nextScrollEvent,
+                        startIndex,
+                        status,
+                        virtualListData,
+                        visibleRangeData
+                },
                 setState
         ] = useImmer<VirtualListState>({
                 emptyList: undefined,
                 endIndex: undefined,
                 layout: {} as LayoutRectangle,
+                nextItemVisibleEvent: undefined,
                 nextLoadEndEvent: undefined,
                 nextScrollEvent: undefined,
                 startIndex: undefined,
@@ -309,6 +329,12 @@ export const VirtualListBaseInner = <T,>(
         useEffect(() => {
                 nextLoadEndEvent?.()
         }, [nextLoadEndEvent])
+
+        useEffect(() => {
+                InteractionManager.runAfterInteractions(() => {
+                        nextItemVisibleEvent?.()
+                })
+        }, [nextItemVisibleEvent])
 
         if (status === 'idle') {
                 return <></>

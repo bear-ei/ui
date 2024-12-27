@@ -3,7 +3,7 @@ import {LayoutRectangle, ScrollViewProps} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {OnStateEvent} from '../../hooks'
 import {ComponentStatus} from '../Common'
-import {VirtualListItemProps} from './Virtual-list-item/Virtual-list-item.interface'
+import {VirtualListItemProps, VirtualListItemUnmountOptions} from './Virtual-list-item/Virtual-list-item.interface'
 
 export type VirtualListData<T = Record<string, unknown>> = T & {
         indexKey?: string
@@ -36,6 +36,7 @@ export interface VirtualListState {
         emptyList?: boolean
         endIndex?: number
         layout: LayoutRectangle
+        nextItemVisibleEvent?: () => void
         nextLoadEndEvent?: () => void
         nextScrollEvent?: () => void
         scrollOffset?: number
@@ -50,3 +51,5 @@ export interface HandleVirtualListLayoutChangedOptions {
         layout: LayoutRectangle
         onVirtualListVisibleRange?: (value?: number) => void
 }
+
+export type HandleVirtualListItemUnmountOptions = VirtualListItemUnmountOptions

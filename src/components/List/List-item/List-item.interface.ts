@@ -45,7 +45,7 @@ export interface ListItemProps
         onActives?: (value?: string[]) => void
         onClose?: (value?: string) => void
         onLoadEnd?: (value?: string) => void
-        onVisible?: (value?: string) => void
+        onVisible?: (onItemVisible?: (value?: boolean) => void) => void
         selectType?: SelectType
         shape?: ShapeType
         skeletonElement?: JSX.Element
