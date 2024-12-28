@@ -3,7 +3,7 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent, useWindowDimensions} from '../../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useOnStateEvent, useWindowDimensions} from '../../../hooks'
 import {State} from '../../Common'
 import {
         HandleTooltipSupportingContainerLayoutOptions,
@@ -26,7 +26,7 @@ const handleTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>
         })
 }
 
-const handleTooltipSupportingStateChange =
+const handleTooltipSupportingStateChanged =
         ({eventName, onVisible}: HandleTooltipSupportingStateEventChangeOptions) =>
         (setState: Updater<TooltipSupportingState>) =>
         (event: StateEvent) => {
@@ -124,6 +124,9 @@ const handleTooltipSupportingPosition = (supportingPosition?: SupportingPosition
         return invert ? invertPosition : supportingPosition
 }
 
+/**
+ * TODO: ADD Layout delay
+ */
 export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps>(
         (
                 {
@@ -179,8 +182,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleTooltipSupportingStateChange({...options, state, onVisible})(setState)(event)
+                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                                handleTooltipSupportingStateChanged({...options, state, onVisible})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 

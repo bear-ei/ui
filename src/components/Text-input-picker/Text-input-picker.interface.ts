@@ -2,7 +2,7 @@ import React from 'react'
 import {GestureResponderEvent, NativeSyntheticEvent, TargetedEvent} from 'react-native'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
-import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
 import {ComponentStatus, EventName} from '../Common'
 import {ListData} from '../List'
 import {MenuProps} from '../Menu'
@@ -58,7 +58,7 @@ export type HandleTextInputPickerInitOptions = Pick<
         'data' | 'activeKey' | 'activeKeys' | 'defaultActiveKey' | 'defaultActiveKeys'
 >
 
-export type HandleTextInputPickerStateChangeOptions = OnStateEventChangeOptions
+export type HandleTextInputPickerStateChangedOptions = OnStateEventChangedOptions
 export interface HandleTextInputPickerMenuVisibleOptions extends Pick<TextInputPickerProps, 'data'> {
         setState: Updater<TextInputPickerState>
 }

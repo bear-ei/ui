@@ -1,36 +1,40 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
-import {HandleSkeletonStateChangeOptions, SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
+import {HandleSkeletonStateChangedOptions, SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
 const handleSkeletonVisible = (setState: Updater<SkeletonState>) => (duration?: number) => {
         if (typeof duration === 'number' && duration >= 0) {
+                const handleNextSkeletonVisibleEvent = debounce(() =>
+                        setState(nextDraft => {
+                                nextDraft.skeletonVisible = false
+                        })
+                )(duration)
+
                 setState(draft => {
+                        draft.nextSkeletonVisibleEvent = handleNextSkeletonVisibleEvent
                         draft.skeletonVisible = true
-                        draft.nextSkeletonVisibleEvent = debounce(() =>
-                                setState(nextDraft => {
-                                        nextDraft.skeletonVisible = false
-                                })
-                        )(duration)
                 })
 
                 return
         }
 
-        setState(draft => {
-                draft.skeletonVisible = true
-        })
+        if (typeof duration === 'number' && duration < 0) {
+                setState(draft => {
+                        draft.skeletonVisible = true
+                })
+        }
 }
 
 const handleSkeletonDurationChange = (setState: Updater<SkeletonState>) => (duration?: number) =>
         handleSkeletonVisible(setState)(duration)
 
-const handleSkeletonStateChange =
-        ({eventName, duration}: HandleSkeletonStateChangeOptions) =>
+const handleSkeletonStateChanged =
+        ({eventName, duration}: HandleSkeletonStateChangedOptions) =>
         (setState: Updater<SkeletonState>) => {
                 const nextEvent = {
                         layout: () => handleSkeletonVisible(setState)(duration)
@@ -47,19 +51,19 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
         ({render, enableAnimated = true, duration, ...renderProps}, ref) => {
                 const id = useId()
                 const [{skeletonVisible, nextSkeletonVisibleEvent}, setState] = useImmer<SkeletonState>({
-                        skeletonVisible: true,
-                        nextSkeletonVisibleEvent: undefined
+                        nextSkeletonVisibleEvent: undefined,
+                        skeletonVisible: true
                 })
 
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleSkeletonStateChange({...options, state, duration})(setState)(event)
+                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                                handleSkeletonStateChanged({...options, state, duration})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
                 const onSkeletonDurationChange = useMemo(() => handleSkeletonDurationChange(setState), [setState])
                 const {containerAnimatedStyle} = useSkeletonAnimated({
                         enableAnimated,
-                        skeletonVisible: typeof duration === 'number' ? skeletonVisible : false
+                        skeletonVisible: typeof duration === 'number' && duration ? skeletonVisible : false
                 })
 
                 useEffect(() => {

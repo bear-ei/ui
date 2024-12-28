@@ -2,7 +2,7 @@ import {forwardRef, useId} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../../hooks'
 import {State} from '../../Common'
 import {
         HandleListAffordanceButtonStateEventChangeOptions,
@@ -11,7 +11,7 @@ import {
 } from './List-affordance-button.interface'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
-const handleListAffordanceButtonStateChange =
+const handleListAffordanceButtonStateChanged =
         ({eventName}: HandleListAffordanceButtonStateEventChangeOptions) =>
         (setState: Updater<ListAffordanceButtonState>) =>
         (_event: StateEvent) => {
@@ -34,8 +34,8 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
                 const theme = useTheme()
                 const underlayColor = theme.token.scheme.onPrimary
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleListAffordanceButtonStateChange({...options, state})(setState)(event)
+                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                                handleListAffordanceButtonStateChanged({...options, state})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})
                 const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({

@@ -3,20 +3,20 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {textSearch} from '../../utils'
 import {EventName, State} from '../Common'
 import {ListData} from '../List'
 import {SearchListProps} from './Search-list'
 import {
         HandleSearchChangeTextOptions,
-        HandleSearchStateChangeOptions,
+        HandleSearchStateChangedOptions,
         SearchBaseProps,
         SearchState
 } from './Search.interface'
 
-const handleSearchStateChange =
-        ({eventName, ref, state}: HandleSearchStateChangeOptions) =>
+const handleSearchStateChanged =
+        ({eventName, ref, state}: HandleSearchStateChangedOptions) =>
         (setState: Updater<SearchState>) =>
         (_event: StateEvent) => {
                 const handleTextInputFocus = () => ref?.current?.focus()
@@ -152,8 +152,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleSearchStateChange({...options, ref: inputRef, state})(setState)(event)
+                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                                handleSearchStateChanged({...options, ref: inputRef, state})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

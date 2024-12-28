@@ -3,11 +3,11 @@ import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
-import {FABBaseProps, FABState, FABType, HandleFABStateChangeOptions, RenderFABIconOptions} from './FAB.interface'
+import {FABBaseProps, FABState, FABType, HandleFABStateChangedOptions, RenderFABIconOptions} from './FAB.interface'
 import {useFABAnimated} from './use-fab-animated.hook'
 
 const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boolean) => (state?: State) => {
@@ -30,8 +30,8 @@ const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boole
         }
 }
 
-const handleFABStateChange =
-        ({eventName, elevated, state}: HandleFABStateChangeOptions) =>
+const handleFABStateChanged =
+        ({eventName, elevated, state}: HandleFABStateChangedOptions) =>
         (setState: Updater<FABState>) =>
         (_event: StateEvent) => {
                 if (eventName === 'layout') {
@@ -133,8 +133,8 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 const onFABInit = useMemo(() => handleFABInit(setState)(disabled), [disabled, setState])
                 const fabIconElement = renderFABIcon({eventName, type, disabled, size})(theme)(icon)
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleFABStateChange({...options, state, elevated})(setState)(event)
+                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                                handleFABStateChanged({...options, state, elevated})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

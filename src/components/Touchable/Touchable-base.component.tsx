@@ -2,13 +2,13 @@ import {nanoid} from 'nanoid'
 import {forwardRef, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, NativeTouchEvent, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
         HandleTouchablePressInOptions,
-        HandleTouchableStateChangeOptions,
+        HandleTouchableStateChangedOptions,
         RenderTouchableRipplesOptions,
         TouchableBaseProps,
         TouchableRippleSequence,
@@ -46,8 +46,8 @@ const handleTouchablePressIn =
                 }
         }
 
-const handleTouchableStateChange =
-        ({eventName, enableTouchableRipple, ref, onLayoutChanged, disabledFocus}: HandleTouchableStateChangeOptions) =>
+const handleTouchableStateChanged =
+        ({eventName, enableTouchableRipple, ref, onLayoutChanged, disabledFocus}: HandleTouchableStateChangedOptions) =>
         (setState: Updater<TouchableState>) =>
         (event: StateEvent) => {
                 const nextEvent = {
@@ -118,8 +118,8 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 
                 const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleTouchableStateChange({
+                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                                handleTouchableStateChanged({
                                         ...options,
                                         disabledFocus,
                                         enableTouchableRipple,

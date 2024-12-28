@@ -3,7 +3,7 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {NativeSyntheticEvent, TextInput, TextInputKeyPressEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce, textSearch} from '../../utils'
 import {Chip} from '../Chip'
 import {State} from '../Common'
@@ -11,7 +11,7 @@ import {ListData} from '../List'
 import {
         HandleTextInputPickerInitOptions,
         HandleTextInputPickerMenuVisibleOptions,
-        HandleTextInputPickerStateChangeOptions,
+        HandleTextInputPickerStateChangedOptions,
         RenderTextInputPickerContentOptions,
         TextInputPickerBaseProps,
         TextInputPickerState
@@ -33,7 +33,7 @@ const handleTextInputPickerInit =
                 })
         }
 
-const handleTextInputPickerStateChange = ({eventName}: HandleTextInputPickerStateChangeOptions) => {
+const handleTextInputPickerStateChanged = ({eventName}: HandleTextInputPickerStateChangedOptions) => {
         return (setState: Updater<TextInputPickerState>) => (_event: StateEvent) => {
                 if (eventName === 'layout') {
                         return
@@ -205,8 +205,8 @@ export const TextInputPickerBase = forwardRef<TextInput, TextInputPickerBaseProp
                 const onTextInputPickerInit = useMemo(() => handleTextInputPickerInit(setState), [setState])
                 const theme = useTheme()
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleTextInputPickerStateChange({...options, state})(setState)(event)
+                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                                handleTextInputPickerStateChanged({...options, state})(setState)(event)
 
                 const contentElements = renderTextInputPickerContent({
                         activeKeys,

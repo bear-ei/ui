@@ -23,7 +23,7 @@ export interface FormItemProps
         renderControl?: (props: FormItemControlProps) => JSX.Element
         rule?: ValidationRule
         skeletonElement?: JSX.Element
-        skeletonMinDuration?: number
+        skeletonDuration?: number
         validatorOptions?: FormValidatorOptions
 }
 

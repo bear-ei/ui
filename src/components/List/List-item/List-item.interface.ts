@@ -1,7 +1,7 @@
 import {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
+import {AnimatedTiming, OnStateEvent, OnStateEventChangedOptions} from '../../../hooks'
 import {EventName, ShapeType, State} from '../../Common'
 import {IconButtonProps} from '../../Icon-button'
 import {TouchableProps} from '../../Touchable'
@@ -32,7 +32,7 @@ export interface ListItemProps
         divider?: boolean
         enableUnderlay?: boolean
         enableUnderlayActive?: boolean
-        extraData?: unknown[]
+        extraData?: string[]
         focusedIndex?: number
         gap?: number
         headline?: React.ReactNode
@@ -45,11 +45,11 @@ export interface ListItemProps
         onActives?: (value?: string[]) => void
         onClose?: (value?: string) => void
         onLoadEnd?: (value?: string) => void
-        onVisible?: (onItemVisible?: (value?: boolean) => void) => void
+        onVisible?: (onVirtualListItemVisible?: (value?: boolean) => void) => void
         selectType?: SelectType
         shape?: ShapeType
         skeletonElement?: JSX.Element
-        skeletonMinDuration?: number
+        skeletonDuration?: number
         supporting?: string | JSX.Element
         supportingTextNumberOfLines?: number
         trailing?: JSX.Element
@@ -89,7 +89,7 @@ export interface ListItemState {
         trailingVisible?: boolean
 }
 
-export type HandleListItemStateEventChangeOptions = OnStateEventChangeOptions &
+export type HandleListItemStateEventChangeOptions = OnStateEventChangedOptions &
         Pick<
                 RenderListItemProps,
                 'itemKey' | 'onActive' | 'selectType' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex' | 'type'

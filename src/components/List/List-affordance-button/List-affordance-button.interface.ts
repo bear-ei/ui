@@ -1,6 +1,6 @@
 import {TextStyle, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
-import {OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
+import {OnStateEvent, OnStateEventChangedOptions} from '../../../hooks'
 import {EventName} from '../../Common'
 import {TouchableProps} from '../../Touchable'
 
@@ -27,5 +27,5 @@ export interface ListAffordanceButtonState {
 }
 
 export type UseListAffordanceButtonAnimatedOptions = Pick<RenderListAffordanceButtonProps, 'disabled'>
-export type HandleListAffordanceButtonStateEventChangeOptions = OnStateEventChangeOptions
+export type HandleListAffordanceButtonStateEventChangeOptions = OnStateEventChangedOptions
 export type ListAffordanceButtonContainerProps = Pick<RenderListAffordanceButtonProps, 'disabled'>

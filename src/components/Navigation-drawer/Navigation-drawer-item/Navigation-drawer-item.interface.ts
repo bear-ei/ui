@@ -1,7 +1,7 @@
 import {RefAttributes} from 'react'
 import {PressableProps, TextStyle, View, ViewProps} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
-import {OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
+import {OnStateEvent, OnStateEventChangedOptions} from '../../../hooks'
 import {EventName, TypographyProps} from '../../Common'
 
 export interface NavigationDrawerItemProps
@@ -34,7 +34,7 @@ export interface NavigationDrawerItemState {
         nextPressOutEvent?: () => void
 }
 
-export type HandleNavigationDrawerItemStateEventChangeOptions = OnStateEventChangeOptions &
+export type HandleNavigationDrawerItemStateEventChangeOptions = OnStateEventChangedOptions &
         Pick<NavigationDrawerItemProps, 'itemKey' | 'onActive'>
 
 export interface UseNavigationDrawerItemAnimatedOptions extends Pick<RenderNavigationDrawerItemProps, 'active'> {

@@ -10,7 +10,7 @@ import {State} from '../components/Common'
 import {
         HandleStateEventChangeOptions,
         HandleStateEventOptions,
-        OnStateEventChangeOptions,
+        OnStateEventChangedOptions,
         StateEvent,
         UseHandleStateEventOptions
 } from './hooks.interface'
@@ -99,7 +99,7 @@ export const useOnStateEvent = ({
         onStateEventChange
 }: UseHandleStateEventOptions) => {
         const mobileDevice = ['ios', 'android'].includes(Platform.OS)
-        const onStateEvent = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+        const onStateEvent = (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
                 handleStateEventChange({...options, disabled, onStateEventChange})(disabled ? 'disabled' : state)(event)
 
         const handleBlur = handleBlurEvent({onStateEvent})(onBlur)

@@ -51,8 +51,8 @@ const render = ({
         ref,
         selectType,
         shape,
+        skeletonDuration,
         skeletonElement,
-        skeletonMinDuration,
         supporting,
         supportingTextNumberOfLines,
         testID,
@@ -84,8 +84,8 @@ const render = ({
                 >
                         <Skeleton
                                 containerLayout='horizontal'
-                                content={skeletonElement}
-                                duration={skeletonMinDuration}
+                                content={skeletonDuration ? skeletonElement : undefined}
+                                duration={skeletonDuration}
                         >
                                 {beforeAffordance && (
                                         <BeforeAffordanceContainer

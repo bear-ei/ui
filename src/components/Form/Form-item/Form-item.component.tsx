@@ -5,21 +5,14 @@ import {FormItemBase} from './Form-item-base.component'
 import {FormItemProps, RenderFormItemProps} from './Form-item.interface'
 import {Container} from './Form-item.styles'
 
-const render = ({
-        control,
-        id,
-        skeletonElement,
-        skeletonMinDuration,
-        testID,
-        ...containerProps
-}: RenderFormItemProps) => (
+const render = ({control, id, skeletonElement, skeletonDuration, testID, ...containerProps}: RenderFormItemProps) => (
         <Container
                 {...containerProps}
                 testID={testID ?? `formItem--${id}`}
         >
                 <Skeleton
                         content={skeletonElement}
-                        duration={skeletonMinDuration}
+                        duration={skeletonDuration}
                 >
                         {control}
                 </Skeleton>

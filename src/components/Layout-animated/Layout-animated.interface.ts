@@ -1,8 +1,8 @@
 import {Duration, Easing} from '@bearei/material-token'
 import {RefAttributes} from 'react'
-import {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
+import {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
 export type LayoutAnimatedType = 'fade' | 'collapse'
@@ -27,12 +27,14 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
         animatedStyle: AnimatedStyle<ViewStyle>
+        layout?: LayoutRectangle
         onStateEvent: OnStateEvent
         status?: ComponentStatus
         visible?: boolean
 }
 
 export interface LayoutAnimatedState {
+        layout: LayoutRectangle
         layoutVisible?: boolean
         layoutWasVisible?: boolean
         nextStatusEvent?: () => void
@@ -47,7 +49,10 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 }
 
 export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount' | 'onVisible'>
-export type HandleLayoutAnimatedStateChangeOptions = OnStateEventChangeOptions & Pick<LayoutAnimatedProps, 'visible'>
+export interface HandleLayoutAnimatedStateChangedOptions extends OnStateEventChangedOptions {
+        onLayoutChanged: (layout: LayoutRectangle) => void
+}
+
 export interface UseLayoutAnimatedOptions
         extends Pick<
                 LayoutAnimatedProps,
@@ -62,8 +67,10 @@ export interface HandleLayoutAnimatedTimingOptions
         animatedTiming: AnimatedTiming
 }
 
-export type LayoutAnimatedContainerProps = Pick<RenderLayoutAnimatedProps, 'visible' | 'hidden'>
-export type LayoutAnimatedContentProps = LayoutAnimatedContainerProps
+export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible' | 'hidden'>
+export interface LayoutAnimatedContentInnerProps extends Pick<RenderLayoutAnimatedProps, 'visible'> {
+        containerHeight?: number
+}
 
 export interface HandleLayoutAnimatedTimingSharedValue {
         opacitySharedValue: SharedValue<number>

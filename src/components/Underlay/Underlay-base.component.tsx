@@ -2,10 +2,10 @@ import {forwardRef, useId, useMemo} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
-import {HandleUnderlayStateChangeOptions, UnderlayBaseProps, UnderlayState} from './Underlay.interface'
+import {HandleUnderlayStateChangedOptions, UnderlayBaseProps, UnderlayState} from './Underlay.interface'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
 
 const handleUnderlayContentLayoutChanged = (setState: Updater<UnderlayState>) => (layout: LayoutRectangle) => {
@@ -17,8 +17,8 @@ const handleUnderlayContentLayoutChanged = (setState: Updater<UnderlayState>) =>
         })
 }
 
-const handleUnderlayStateChange =
-        ({eventName, onLayoutChanged}: HandleUnderlayStateChangeOptions) =>
+const handleUnderlayStateChanged =
+        ({eventName, onLayoutChanged}: HandleUnderlayStateChangedOptions) =>
         (event: StateEvent) => {
                 const nextEvent = {
                         layout: () => onLayoutChanged((event as LayoutChangeEvent).nativeEvent.layout)
@@ -32,7 +32,7 @@ const handleUnderlayStateChange =
 export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
         (
                 {
-                        active: activeSource,
+                        active: rawActive,
                         activeAnimatedType,
                         activeScale,
                         defaultActive,
@@ -45,7 +45,7 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
         ) => {
                 const [{layout}, setState] = useImmer<UnderlayState>({layout: {} as LayoutRectangle})
                 const id = useId()
-                const active = activeSource ?? defaultActive
+                const active = rawActive ?? defaultActive
                 const onUnderlayContentLayoutChanged = useMemo(
                         () => debounce(handleUnderlayContentLayoutChanged(setState))(50),
                         [setState]
@@ -61,8 +61,8 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
                 })
 
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleUnderlayStateChange({
+                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                                handleUnderlayStateChanged({
                                         ...options,
                                         onLayoutChanged: onUnderlayContentLayoutChanged,
                                         state

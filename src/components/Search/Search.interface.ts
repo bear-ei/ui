@@ -1,6 +1,6 @@
 import {RefAttributes, RefObject} from 'react'
 import {LayoutRectangle, PressableProps, TextInput, TextInputProps, View} from 'react-native'
-import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
 import {EventName, Size, State} from '../Common'
 import {ListData, ListProps} from '../List'
 import {SearchListProps} from './Search-list'
@@ -45,7 +45,7 @@ export interface SearchState {
 }
 
 export type HandleSearchChangeTextOptions = Pick<RenderSearchProps, 'onChangeText'> & Pick<SearchListProps, 'data'>
-export interface HandleSearchStateChangeOptions extends OnStateEventChangeOptions {
+export interface HandleSearchStateChangedOptions extends OnStateEventChangedOptions {
         ref?: RefObject<TextInput>
 }
 

@@ -64,7 +64,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
                         render,
                         renderControl,
                         rule,
-                        skeletonMinDuration,
+                        skeletonDuration,
                         validatorOptions,
                         ...renderProps
                 },
@@ -115,7 +115,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
                         ...renderProps,
                         control: controlElement,
                         id,
-                        skeletonMinDuration,
+                        skeletonDuration,
                         ref
                 })
         }

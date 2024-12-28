@@ -1,7 +1,7 @@
 import {ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {AnimatedTiming, OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
 import {EventName} from '../Common'
 import {TouchableProps} from '../Touchable'
 
@@ -39,7 +39,7 @@ export interface RenderIconButtonIconOptions
         eventName?: EventName
 }
 
-export type HandleIconButtonStateChangeOptions = OnStateEventChangeOptions
+export type HandleIconButtonStateChangedOptions = OnStateEventChangedOptions
 export type UseIconButtonAnimatedOptions = Pick<RenderIconButtonProps, 'disabled' | 'type'>
 export interface HandleIconButtonAnimatedTimingOptions extends Pick<UseIconButtonAnimatedOptions, 'type'> {
         animatedTiming: AnimatedTiming

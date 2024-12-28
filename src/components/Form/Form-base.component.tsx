@@ -59,7 +59,7 @@ const FormBaseInner = <T,>(
                 onValuesChange,
                 render,
                 skeletonElement,
-                skeletonMinDuration,
+                skeletonDuration,
                 validatorOptions,
                 ...renderProps
         }: FormBaseProps<T>,
@@ -78,7 +78,7 @@ const FormBaseInner = <T,>(
         const formItemElements = renderFormItem({
                 onLoadEnd,
                 skeletonElement,
-                skeletonMinDuration,
+                skeletonDuration,
                 validatorOptions
         })(status)(items)
 

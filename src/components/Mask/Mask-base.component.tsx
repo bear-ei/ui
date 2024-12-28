@@ -1,10 +1,10 @@
 import {FC, useId, useImperativeHandle, useRef} from 'react'
 import {View} from 'react-native'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {EventName, State} from '../Common'
-import {HandleMaskStateChangeOptions, MaskBaseProps} from './Mask.interface'
+import {HandleMaskStateChangedOptions, MaskBaseProps} from './Mask.interface'
 
-const handleMaskStateChange = ({eventName, maskRef}: HandleMaskStateChangeOptions) => {
+const handleMaskStateChanged = ({eventName, maskRef}: HandleMaskStateChangedOptions) => {
         const nextEvent = {
                 pressIn: () => maskRef?.current?.focus()
         } as Record<EventName, () => void>
@@ -23,8 +23,8 @@ const handleMaskStateChange = ({eventName, maskRef}: HandleMaskStateChangeOption
 export const MaskBase: FC<MaskBaseProps> = ({render, ref, ...renderProps}) => {
         const id = useId()
         const maskRef = useRef<View>(null)
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleMaskStateChange({...options, state, maskRef})(event)
+        const onStateEventChange = (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                handleMaskStateChanged({...options, state, maskRef})(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 

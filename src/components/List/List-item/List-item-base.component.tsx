@@ -2,7 +2,7 @@ import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo
 import {GestureResponderEvent, PanResponder, PanResponderGestureState, View, ViewProps} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../../hooks'
 import {EventName, State} from '../../Common'
 import {Icon} from '../../Icon'
 import {IconButton, IconButtonType} from '../../Icon-button'
@@ -31,7 +31,7 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
                 focusedIndex: prevFocusedIndex,
                 itemIndex: prevItemIndex,
                 itemKey: prevItemKey,
-                skeletonMinDuration: prevSkeletonMinDuration
+                skeletonDuration: prevSkeletonMinDuration
         } = prevProps
 
         return (nextProps: ListItemProps) => {
@@ -44,7 +44,7 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
                         focusedIndex: nextFocusedIndex,
                         itemIndex: nextItemIndex,
                         itemKey: nextItemKey,
-                        skeletonMinDuration: nextSkeletonMinDuration
+                        skeletonDuration: nextSkeletonMinDuration
                 } = nextProps
 
                 const activeKeyChange =
@@ -85,7 +85,7 @@ const handleListItemPressOut =
         }
 
 const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
-const handleListItemStateChange =
+const handleListItemStateChanged =
         ({
                 eventName,
                 itemKey,
@@ -387,8 +387,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleListItemStateChange({
+                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                                handleListItemStateChanged({
                                         ...options,
                                         itemIndex,
                                         itemKey,

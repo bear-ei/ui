@@ -73,7 +73,7 @@ export interface FormStore<T = Record<string, unknown>> {
 export interface FormProps<T = Record<string, unknown>>
         extends ViewProps,
                 FormCallbacks<T>,
-                Pick<FormItemProps, 'skeletonElement' | 'skeletonMinDuration' | 'validatorOptions' | 'onLoadEnd'>,
+                Pick<FormItemProps, 'skeletonElement' | 'skeletonDuration' | 'validatorOptions' | 'onLoadEnd'>,
                 RefAttributes<View> {
         form?: FormStore<T>
         formLayout?: 'horizontal' | 'vertical'
@@ -94,10 +94,7 @@ export interface FormState {
 }
 
 export type HandleFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
-export type RenderFormItemOptions = Pick<
-        FormItemProps,
-        'skeletonElement' | 'skeletonMinDuration' | 'validatorOptions'
-> &
+export type RenderFormItemOptions = Pick<FormItemProps, 'skeletonElement' | 'skeletonDuration' | 'validatorOptions'> &
         Pick<FormProps, 'onLoadEnd'>
 
 export interface HandleFormValidateOptions {

@@ -3,13 +3,15 @@ import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {LayoutAnimatedBase} from './Layout-animated-base.component'
 import {LayoutAnimatedProps, RenderLayoutAnimatedProps} from './Layout-animated.interface'
-import {Container} from './Layout-animated.styles'
+import {Children, Container, Content, ContentInner} from './Layout-animated.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
         animatedStyle,
         children,
+        hidden,
         id,
+        layout,
         onStateEvent,
         style,
         testID,
@@ -21,9 +23,20 @@ const render = ({
                 {...onStateEvent}
                 style={[style, animatedStyle]}
                 testID={testID ?? `layoutAnimated--${id}`}
-                visible={visible}
         >
-                {children}
+                <Content
+                        hidden={hidden}
+                        testID={`layoutAnimated__content--${id}`}
+                        visible={visible}
+                >
+                        <ContentInner
+                                containerHeight={layout?.height}
+                                testID={`layoutAnimated__content--${id}`}
+                                visible={visible}
+                        >
+                                <Children testID={`layoutAnimated__children--${id}`}>{children}</Children>
+                        </ContentInner>
+                </Content>
         </AnimatedContainer>
 )
 

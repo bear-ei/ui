@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangedOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {RenderVirtualListItemInfo, RenderVirtualListItemOptions, VirtualListItem} from './Virtual-list-item'
@@ -66,8 +66,8 @@ const handleVirtualListLayoutChanged =
                 })
         }
 
-const handleVirtualListStateChange =
-        ({eventName}: OnStateEventChangeOptions) =>
+const handleVirtualListStateChanged =
+        ({eventName}: OnStateEventChangedOptions) =>
         (onVirtualListLayoutChanged: (layout: LayoutRectangle) => void) =>
         (event: StateEvent) => {
                 const nextEvent = {
@@ -223,8 +223,6 @@ export const VirtualListBaseInner = <T,>(
                 focusedIndex,
                 gap = 0,
                 itemSize = 0,
-                loading,
-                loadingComponent,
                 onLoadEnd,
                 onMomentumScrollEnd,
                 onScroll,
@@ -291,8 +289,8 @@ export const VirtualListBaseInner = <T,>(
                 [itemSize, setState]
         )
 
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleVirtualListStateChange({...options, state})(onVirtualListLayoutChanged)(event)
+        const onStateEventChange = (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
+                handleVirtualListStateChanged({...options, state})(onVirtualListLayoutChanged)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
         const itemElements = renderVirtualListItem({
@@ -348,8 +346,6 @@ export const VirtualListBaseInner = <T,>(
                 id,
                 itemElements,
                 itemSize,
-                loading,
-                loadingComponent,
                 onStateEvent,
                 ref: scrollViewRef,
                 status

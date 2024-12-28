@@ -26,12 +26,12 @@ const render = ({
                 <VirtualList
                         {...virtualListProps}
                         extraData={[
-                                activeKey,
-                                activeKeys?.join(),
-                                afterAffordanceActiveKey,
-                                disabled,
-                                focusedIndex,
-                                loading,
+                                `${activeKey}`,
+                                `${activeKeys?.join()} `,
+                                `${afterAffordanceActiveKey}`,
+                                `${disabled}`,
+                                `${focusedIndex}`,
+                                `${loading}`,
                                 ...extraData
                         ]}
                         focusedIndex={focusedIndex}

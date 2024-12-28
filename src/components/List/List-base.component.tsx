@@ -209,8 +209,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         renderItem,
                         selectType,
                         shape,
+                        skeletonDuration = 0,
                         skeletonElement,
-                        skeletonMinDuration = 300,
                         supportingTextNumberOfLines,
                         trailingTrigger,
                         type,
@@ -277,7 +277,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         selectType,
                         shape,
                         skeletonElement,
-                        skeletonMinDuration: loading && !loadingComponent ? -1 : skeletonMinDuration,
+                        skeletonDuration: loading && !loadingComponent ? -1 : skeletonDuration,
                         supportingTextNumberOfLines,
                         trailingTrigger,
                         type
