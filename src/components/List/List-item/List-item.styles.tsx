@@ -181,6 +181,7 @@ export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
         ${({theme}) => css`
                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 justify-content: center;
+                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `};
 
         ${({supportingTextNumberOfLines = 0, theme}) =>

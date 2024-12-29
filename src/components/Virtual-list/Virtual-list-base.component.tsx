@@ -41,7 +41,6 @@ const handleVirtualListVisibleRange =
 
                 draft.endIndex = endIndex
                 draft.scrollOffset = nextScrollOffset
-                draft.startIndex = startIndex
 
                 const nextVisibleRangeData = (draft.virtualListData ?? []).slice(startIndex, endIndex)
 
@@ -191,7 +190,6 @@ const handleVirtualListFocusedIndexScroll =
 
 const renderVirtualListItem =
         <T,>({renderItem, onLoadEnd, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>
-        (startIndex = 0) =>
         (data?: VirtualListData[]) => {
                 if (data?.length === 0) {
                         onLoadEnd?.()
@@ -211,7 +209,6 @@ const renderVirtualListItem =
                                                 options: RenderVirtualListItemInfo<Record<string, unknown>>
                                         ) => JSX.Element
                                 }
-                                startIndex={startIndex}
                         />
                 ))
         }
@@ -238,7 +235,6 @@ export const VirtualListBaseInner = <T,>(
                         nextItemVisibleEvent,
                         nextLoadEndEvent,
                         nextScrollEvent,
-                        startIndex,
                         status,
                         virtualListData,
                         visibleRangeData
@@ -251,7 +247,6 @@ export const VirtualListBaseInner = <T,>(
                 nextItemVisibleEvent: undefined,
                 nextLoadEndEvent: undefined,
                 nextScrollEvent: undefined,
-                startIndex: undefined,
                 status: 'idle',
                 virtualListData: undefined,
                 visibleRangeData: undefined
@@ -295,12 +290,11 @@ export const VirtualListBaseInner = <T,>(
         const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
         const itemElements = renderVirtualListItem({
                 extraData,
-                gap,
                 itemSize,
                 onLoadEnd: onVirtualListLoadEnd,
                 onUnmount: onVirtualListItemUnmount,
                 renderItem
-        })(startIndex)(visibleRangeData)
+        })(visibleRangeData)
 
         useImperativeHandle(
                 ref,

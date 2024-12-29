@@ -2,27 +2,17 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {
-        HandleLayoutAnimatedTimingOptions,
-        HandleLayoutAnimatedTimingSharedValue,
-        LayoutAnimatedType,
-        UseLayoutAnimatedOptions
-} from './Layout-animated.interface'
+import {HandleLayoutAnimatedTimingOptions, UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
 const handleLayoutAnimatedTiming =
-        ({animatedTiming, onAnimatedFinished, entry, exit, animatedType = 'fade'}: HandleLayoutAnimatedTimingOptions) =>
-        ({opacitySharedValue, widthSharedValue}: HandleLayoutAnimatedTimingSharedValue) =>
+        ({animatedTiming, onAnimatedFinished, entry, exit}: HandleLayoutAnimatedTimingOptions) =>
+        (containerSharedValue: SharedValue<number>) =>
         (visible?: boolean) => {
-                const animated = {collapse: widthSharedValue, fade: opacitySharedValue} as Record<
-                        LayoutAnimatedType,
-                        SharedValue<number>
-                >
-
                 if (typeof visible === 'boolean') {
                         animatedTiming({
                                 ...(visible ? entry : exit),
                                 callback: (finished?: boolean) => finished && onAnimatedFinished?.(visible)
-                        })(animated[animatedType])(visible ? 1 : 0)
+                        })(containerSharedValue)(visible ? 1 : 0)
                 }
         }
 
@@ -31,18 +21,19 @@ export const useLayoutAnimated = ({
         disabledAnimated,
         entry,
         exit,
+        height,
         onAnimatedFinished,
         opacity: rawOpacity,
         visible,
         width
 }: UseLayoutAnimatedOptions) => {
-        const opacitySharedValue = useSharedValue(visible ? 1 : 0)
-        const widthSharedValue = useSharedValue(visible ? 1 : 0)
+        const containerSharedValue = useSharedValue(visible ? 1 : 0)
+
         const theme = useTheme()
         const opacity = rawOpacity ?? theme.token.opacity.level10
         const animatedTiming = useAnimatedTiming({token: theme.token, disabledAnimated})
         const fadeAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(opacitySharedValue.value, [0, 1], [theme.token.opacity.level0, opacity])
+                opacity: interpolate(containerSharedValue.value, [0, 1], [theme.token.opacity.level0, opacity])
         }))
 
         const widthOutputRange = [
@@ -50,28 +41,41 @@ export const useLayoutAnimated = ({
                 width ?? theme.adaptSize(theme.token.spacing.none)
         ]
 
-        const collapseAnimatedStyle = useAnimatedStyle(() => ({
-                width: interpolate(widthSharedValue.value, [0, 1], widthOutputRange)
+        const collapseXAnimatedStyle = useAnimatedStyle(() => ({
+                width: interpolate(containerSharedValue.value, [0, 1], widthOutputRange)
+        }))
+
+        const heightOutputRange = [
+                theme.adaptSize(theme.token.spacing.none),
+                height ?? theme.adaptSize(theme.token.spacing.none)
+        ]
+
+        const collapseYAnimatedStyle = useAnimatedStyle(() => ({
+                height: interpolate(containerSharedValue.value, [0, 1], heightOutputRange)
         }))
 
         const onLayoutAnimatedTiming = useMemo(
                 () =>
                         handleLayoutAnimatedTiming({
                                 animatedTiming,
-                                animatedType,
                                 entry,
                                 exit,
                                 onAnimatedFinished
-                        })({
-                                opacitySharedValue,
-                                widthSharedValue
-                        }),
-                [animatedTiming, animatedType, entry, exit, onAnimatedFinished, opacitySharedValue, widthSharedValue]
+                        })(containerSharedValue),
+                [animatedTiming, containerSharedValue, entry, exit, onAnimatedFinished]
         )
+
+        const containerAnimated = {
+                collapseX: collapseXAnimatedStyle,
+                collapseY: collapseYAnimatedStyle,
+                fade: fadeAnimatedStyle
+        }
 
         useEffect(() => {
                 onLayoutAnimatedTiming(visible)
         }, [visible, onLayoutAnimatedTiming])
 
-        return {fadeAnimatedStyle, collapseAnimatedStyle}
+        return {
+                containerAnimatedStyle: containerAnimated[animatedType]
+        }
 }

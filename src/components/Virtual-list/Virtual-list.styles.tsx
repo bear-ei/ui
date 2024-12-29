@@ -16,7 +16,6 @@ export const Content = styled(LayoutAnimated)`
         display: flex;
         flex-direction: column;
         justify-content: center;
-        position: relative;
 
         ${({visible}) =>
                 visible &&

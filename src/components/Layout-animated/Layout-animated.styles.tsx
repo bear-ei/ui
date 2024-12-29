@@ -1,25 +1,40 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {LayoutAnimatedContentInnerProps, LayoutAnimatedContentProps} from './Layout-animated.interface'
+import {
+        LayoutAnimatedContainerOptions,
+        LayoutAnimatedContentInnerProps,
+        LayoutAnimatedContentProps
+} from './Layout-animated.interface'
 
-export const Container = styled(Shape)`
+export const Container = styled(Shape)<LayoutAnimatedContainerOptions>`
         display: flex;
         flex-direction: column;
+        overflow: hidden;
+
+        ${({width, height}) => css`
+                height: ${height ? `${height}px` : 'auto'};
+                width: ${width ? `${width}px` : 'auto'};
+        `}
 `
 
 export const Content = styled.View<LayoutAnimatedContentProps>`
-        ${({theme, visible, hidden}) =>
-                hidden &&
-                !visible &&
-                css`
-                        height: ${theme.token.spacing.none}px;
-                        min-height: ${theme.token.spacing.none}px;
-                        overflow: hidden;
-                        z-index: -1024;
-                `}
+        align-self: stretch;
+
+        ${({theme, visible}) =>
+                visible ?
+                        css`
+                                flex: 1;
+                        `
+                :       css`
+                                height: ${theme.token.spacing.none}px;
+                                min-height: ${theme.token.spacing.none}px;
+                                overflow: hidden;
+                                z-index: -1024;
+                        `}
 `
 
 export const ContentInner = styled.View<LayoutAnimatedContentInnerProps>`
+        align-self: stretch;
         display: flex;
         flex-direction: column;
         flex: 1;

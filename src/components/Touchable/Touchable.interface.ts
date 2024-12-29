@@ -1,5 +1,5 @@
 import {RefAttributes} from 'react'
-import {LayoutRectangle, PressableProps, View, ViewProps, ViewStyle} from 'react-native'
+import {LayoutRectangle, NativeTouchEvent, PressableProps, View, ViewProps, ViewStyle} from 'react-native'
 import {Updater} from 'use-immer'
 import {OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
 import {ShapeProps} from '../Common'
@@ -41,7 +41,7 @@ export interface TouchableBaseProps extends TouchableProps {
         render: (props: RenderTouchableProps) => JSX.Element
 }
 
-export type TouchableRipple = Pick<TouchableRippleProps, 'touchableLocation'>
+export type TouchableRipple = TouchableRippleProps['touchableLocation']
 export type TouchableRippleSequence = Record<string, TouchableRipple>
 export interface TouchableState {
         contentLayout: LayoutRectangle
@@ -54,7 +54,6 @@ export interface HandleTouchableStateChangedOptions
                 OnStateEventChangedOptions,
                 Pick<TouchableProps, 'enableTouchableRipple' | 'disabledFocus'> {
         ref: React.RefObject<View>
-        onLayoutChanged: (layout: LayoutRectangle) => void
 }
 
 export type TouchableContentProps = Pick<RenderTouchableProps, 'hotZone' | 'enableFocusRing'>
@@ -65,4 +64,8 @@ export interface TouchableMainProps {
 export interface HandleTouchablePressInOptions
         extends Pick<HandleTouchableStateChangedOptions, 'ref' | 'disabledFocus'> {
         setState: Updater<TouchableState>
+}
+
+export interface HandleAddTouchableRippleOptions extends Pick<TouchableState, 'contentLayout'> {
+        touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>
 }

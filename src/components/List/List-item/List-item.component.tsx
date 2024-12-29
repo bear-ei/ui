@@ -1,6 +1,7 @@
 import {FC, forwardRef, isValidElement, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {ShapeType} from '../../Common'
 import {Divider} from '../../Divider'
 import {Skeleton} from '../../Skeleton'
 import {Touchable} from '../../Touchable'
@@ -69,8 +70,9 @@ const render = ({
                 ['select', 'multiselect'].includes(selectType) &&
                 enableUnderlayActive && {
                         active,
-                        activeAnimatedType: 'fade' as ActiveAnimatedType,
-                        activeColor
+                        activeAnimatedType: 'scaleX' as ActiveAnimatedType,
+                        activeColor,
+                        activeShape: 'full' as ShapeType
                 }
 
         return (
@@ -185,7 +187,6 @@ const render = ({
                                                         {enableUnderlay && (
                                                                 <Underlay
                                                                         {...underlayProps}
-                                                                        activeAnimatedType='scaleX'
                                                                         eventName={eventName}
                                                                         underlayColor={underlayColor}
                                                                 />

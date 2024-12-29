@@ -10,8 +10,7 @@ import {
 
 const handleTouchableRippleAnimatedTiming = ({
         animatedTiming,
-        onAnimatedFinished,
-        containerLayout
+        onAnimatedFinished
 }: HandleTouchableRippleAnimatedTimingOptions) => {
         const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => {
                 if (finished) {
@@ -23,11 +22,9 @@ const handleTouchableRippleAnimatedTiming = ({
                 ({opacitySharedValue, scaleSharedValue}: HandleTouchableRippleAnimatedTimingSharedValue) =>
                 (toValue: number) =>
                 (callback?: () => void) =>
-                        animatedTiming({
-                                callback: handleAnimatedTimingCallback(callback),
-                                duration: Math.max(300, (containerLayout?.width ?? 300) / 2),
-                                easing: 'emphasizedAccelerate'
-                        })(toValue === 1 ? scaleSharedValue : opacitySharedValue)(toValue)
+                        animatedTiming({callback: handleAnimatedTimingCallback(callback)})(
+                                toValue === 1 ? scaleSharedValue : opacitySharedValue
+                        )(toValue)
 
         return (sharedValue: HandleTouchableRippleAnimatedTimingSharedValue) => (index: string) => {
                 const entryAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(1)
@@ -38,12 +35,7 @@ const handleTouchableRippleAnimatedTiming = ({
         }
 }
 
-export const useTouchableRippleAnimated = ({
-        containerLayout,
-        index,
-        onAnimatedFinished,
-        radius
-}: UseTouchableRippleAnimatedOptions) => {
+export const useTouchableRippleAnimated = ({index, onAnimatedFinished, radius}: UseTouchableRippleAnimatedOptions) => {
         const opacitySharedValue = useSharedValue(1)
         const scaleSharedValue = useSharedValue(0)
         const theme = useTheme()
@@ -63,15 +55,11 @@ export const useTouchableRippleAnimated = ({
 
         const onTouchableRippleAnimatedTiming = useMemo(
                 () =>
-                        handleTouchableRippleAnimatedTiming({
-                                animatedTiming,
-                                containerLayout,
-                                onAnimatedFinished
-                        })({
+                        handleTouchableRippleAnimatedTiming({animatedTiming, onAnimatedFinished})({
                                 scaleSharedValue,
                                 opacitySharedValue
                         }),
-                [animatedTiming, containerLayout, onAnimatedFinished, opacitySharedValue, scaleSharedValue]
+                [animatedTiming, onAnimatedFinished, opacitySharedValue, scaleSharedValue]
         )
 
         useEffect(() => {

@@ -5,7 +5,6 @@ import {RenderVirtualListItemProps, VirtualListItemProps} from './Virtual-list-i
 import {AnimatedContainer} from './Virtual-list-item.styles'
 
 const render = ({
-        containerAnimatedStyle,
         id,
         itemElement,
         itemSize,
@@ -16,10 +15,9 @@ const render = ({
 }: RenderVirtualListItemProps) => (
         <AnimatedContainer
                 {...containerProps}
-                exit={{duration: 'short2'}}
+                animatedType='collapseY'
                 height={itemSize}
                 onUnmount={onUnmount}
-                style={[containerAnimatedStyle]}
                 testID={testID ?? `virtualListItem--${id}`}
                 unmount={true}
                 visible={visible}

@@ -1,14 +1,14 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
+import {AnimatedTiming, OnStateEventChangedOptions} from '../../hooks'
 import {EventName, ShapeProps, ShapeType} from '../Common'
 
-export type ActiveAnimatedType = 'fade' | 'scale' | 'scaleX' | 'scaleY'
+export type ActiveAnimatedType = 'fade' | 'scaleX' | 'scaleY'
 export interface UnderlayProps extends Pick<ShapeProps, 'shape'>, ViewProps, RefAttributes<View> {
         active?: boolean
         defaultActive?: boolean
-        activeAnimatedType?: 'fade' | 'scale' | 'scaleX' | 'scaleY'
+        activeAnimatedType?: 'fade' | 'scaleX' | 'scaleY'
         activeColor?: string
 
         /**
@@ -26,7 +26,6 @@ export interface UnderlayProps extends Pick<ShapeProps, 'shape'>, ViewProps, Ref
 export interface RenderUnderlayProps extends UnderlayProps {
         activeLayerAnimatedStyle: AnimatedStyle<ViewStyle>
         hoverLayerAnimatedStyle: AnimatedStyle<ViewStyle>
-        onStateEvent: OnStateEvent
 }
 
 export interface UnderlayBaseProps extends UnderlayProps {
@@ -37,11 +36,10 @@ export interface UnderlayState {
         layout: LayoutRectangle
 }
 
-export interface UseUnderlayAnimatedOptions
-        extends Pick<RenderUnderlayProps, 'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'> {
-        layoutWidth?: number
-        layout: LayoutRectangle
-}
+export type UseUnderlayAnimatedOptions = Pick<
+        RenderUnderlayProps,
+        'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'
+>
 
 export interface HandleUnderlayStateChangedOptions extends OnStateEventChangedOptions {
         onLayoutChanged: (layout: LayoutRectangle) => void
@@ -49,10 +47,6 @@ export interface HandleUnderlayStateChangedOptions extends OnStateEventChangedOp
 
 export interface HandleUnderlayHoveredAnimatedTimingOptions {
         activeValue: number
-        animatedTiming: AnimatedTiming
-}
-
-export interface HandleUnderlayActiveAnimatedTimingOptions extends Pick<UseUnderlayAnimatedOptions, 'layout'> {
         animatedTiming: AnimatedTiming
 }
 

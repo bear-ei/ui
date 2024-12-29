@@ -1,7 +1,6 @@
 import {forwardRef, useId} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
 import {
         VirtualListItemBaseProps,
         VirtualListItemProps,
@@ -42,21 +41,7 @@ export const handleVirtualListUnmount =
                 })
 
 export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
-        (
-                {
-                        gap = 0,
-                        index = 0,
-                        item,
-                        itemSize = 0,
-                        onLoadEnd,
-                        onUnmount,
-                        render,
-                        renderItem,
-                        startIndex = 0,
-                        ...renderProps
-                },
-                ref
-        ) => {
+        ({index = 0, item, itemSize = 0, onLoadEnd, onUnmount, render, renderItem, ...renderProps}, ref) => {
                 const [{visible}, setState] = useImmer<VirtualListItemState>({
                         nextVisibleEvent: undefined,
                         visible: true
@@ -69,10 +54,6 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                 const onVirtualListUnmount = () =>
                         handleVirtualListUnmount(onUnmount)(setState)(item?.indexKey as string | undefined)
 
-                const {containerAnimatedStyle} = useVirtualListItemAnimated({
-                        top: (startIndex + index) * (itemSize + gap)
-                })
-
                 const itemElement =
                         !item ?
                                 <></>
@@ -83,7 +64,6 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 
                 return render({
                         ...renderProps,
-                        containerAnimatedStyle,
                         id,
                         itemElement,
                         itemSize,

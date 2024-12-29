@@ -1,12 +1,12 @@
 import {nanoid} from 'nanoid'
 import {forwardRef, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, NativeTouchEvent, View} from 'react-native'
+import {GestureResponderEvent, LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
+        HandleAddTouchableRippleOptions,
         HandleTouchablePressInOptions,
         HandleTouchableStateChangedOptions,
         RenderTouchableRipplesOptions,
@@ -15,21 +15,17 @@ import {
         TouchableState
 } from './Touchable.interface'
 
-const handleTouchableContentLayoutChanged = (setState: Updater<TouchableState>) => (layout: LayoutRectangle) => {
-        const {width, height} = layout
-
-        setState(draft => {
-                draft.contentLayout.height = height
-                draft.contentLayout.width = width
-        })
-}
-
 const handleAddTouchableRipple =
         (setState: Updater<TouchableState>) =>
-        (touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>) =>
+        ({touchableLocation, contentLayout}: HandleAddTouchableRippleOptions) => {
+                const {width, height} = contentLayout
+
                 setState(draft => {
-                        draft.rippleSequence[nanoid()] = {touchableLocation}
+                        draft.contentLayout.height = height
+                        draft.contentLayout.width = width
+                        draft.rippleSequence[nanoid()] = touchableLocation
                 })
+        }
 
 const handleTouchablePressIn =
         ({setState, ref, disabledFocus}: HandleTouchablePressInOptions) =>
@@ -37,21 +33,25 @@ const handleTouchablePressIn =
         (event: GestureResponderEvent) => {
                 const {locationX, locationY} = event.nativeEvent
 
-                if (enableTouchableRipple) {
-                        handleAddTouchableRipple(setState)({locationX, locationY})
-                }
-
                 if (!disabledFocus) {
                         ref?.current?.focus()
+                }
+
+                if (enableTouchableRipple) {
+                        ref?.current?.measure((x, y, width, height) =>
+                                handleAddTouchableRipple(setState)({
+                                        contentLayout: {width, height, x, y},
+                                        touchableLocation: {locationX, locationY}
+                                })
+                        )
                 }
         }
 
 const handleTouchableStateChanged =
-        ({eventName, enableTouchableRipple, ref, onLayoutChanged, disabledFocus}: HandleTouchableStateChangedOptions) =>
+        ({eventName, enableTouchableRipple, ref, disabledFocus}: HandleTouchableStateChangedOptions) =>
         (setState: Updater<TouchableState>) =>
         (event: StateEvent) => {
                 const nextEvent = {
-                        layout: () => onLayoutChanged((event as LayoutChangeEvent).nativeEvent.layout),
                         pressIn: () =>
                                 handleTouchablePressIn({setState, ref, disabledFocus})(enableTouchableRipple)(
                                         event as GestureResponderEvent
@@ -73,23 +73,21 @@ const handleTouchableAnimatedFinished = (setState: Updater<TouchableState>) => (
 const renderTouchableRipples =
         ({centered, containerLayout, ...props}: RenderTouchableRipplesOptions) =>
         (rippleSequence: TouchableRippleSequence) =>
-                containerLayout?.width ?
-                        Object.entries(rippleSequence).map(([index, {touchableLocation}]) => {
-                                const centeredTouchableRipple =
-                                        typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
+                Object.entries(rippleSequence).map(([index, touchableLocation]) => {
+                        const centeredTouchableRipple =
+                                typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
 
-                                return (
-                                        <TouchableRipple
-                                                {...props}
-                                                centered={centeredTouchableRipple}
-                                                containerLayout={containerLayout}
-                                                index={index}
-                                                key={index}
-                                                touchableLocation={touchableLocation}
-                                        />
-                                )
-                        })
-                :       undefined
+                        return (
+                                <TouchableRipple
+                                        {...props}
+                                        centered={centeredTouchableRipple}
+                                        containerLayout={containerLayout}
+                                        index={index}
+                                        key={index}
+                                        touchableLocation={touchableLocation}
+                                />
+                        )
+                })
 
 export const TouchableBase = forwardRef<View, TouchableBaseProps>(
         (
@@ -111,11 +109,6 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 
                 const touchableRef = useRef<View>(null)
                 const id = useId()
-                const onTouchableLayoutChanged = useMemo(
-                        () => debounce(handleTouchableContentLayoutChanged(setState))(50),
-                        [setState]
-                )
-
                 const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
                 const onStateEventChange =
                         (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
@@ -123,17 +116,11 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                                         ...options,
                                         disabledFocus,
                                         enableTouchableRipple,
-                                        onLayoutChanged: onTouchableLayoutChanged,
                                         ref: touchableRef,
                                         state
                                 })(setState)(event)
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        disabled,
-                        onStateEventChange
-                })
-
+                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
                 const rippleElements = renderTouchableRipples({
                         centered,
                         containerLayout: contentLayout,

@@ -24,8 +24,7 @@ export interface TouchableRippleBaseProps extends TouchableRippleProps {
         render: (props: RenderTouchableRippleProps) => JSX.Element
 }
 
-export interface UseTouchableRippleAnimatedOptions
-        extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished' | 'containerLayout'> {
+export interface UseTouchableRippleAnimatedOptions extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {
         index: string
         radius: number
 }

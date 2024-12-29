@@ -7,12 +7,10 @@ import {Children, Container, Content, ContentInner} from './Layout-animated.styl
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
-        animatedStyle,
         children,
-        hidden,
+        containerAnimatedStyle,
         id,
         layout,
-        onStateEvent,
         style,
         testID,
         visible,
@@ -20,18 +18,16 @@ const render = ({
 }: RenderLayoutAnimatedProps) => (
         <AnimatedContainer
                 {...containerProps}
-                {...onStateEvent}
-                style={[style, animatedStyle]}
+                style={[style, containerAnimatedStyle]}
                 testID={testID ?? `layoutAnimated--${id}`}
         >
                 <Content
-                        hidden={hidden}
                         testID={`layoutAnimated__content--${id}`}
                         visible={visible}
                 >
                         <ContentInner
                                 containerHeight={layout?.height}
-                                testID={`layoutAnimated__content--${id}`}
+                                testID={`layoutAnimated__contentInner--${id}`}
                                 visible={visible}
                         >
                                 <Children testID={`layoutAnimated__children--${id}`}>{children}</Children>

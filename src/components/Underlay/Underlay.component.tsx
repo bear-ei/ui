@@ -15,7 +15,6 @@ const render = ({
         height,
         hoverLayerAnimatedStyle,
         id,
-        onStateEvent,
         shape,
         style,
         testID,
@@ -25,7 +24,6 @@ const render = ({
 }: RenderUnderlayProps) => (
         <Container
                 {...containerProps}
-                {...onStateEvent}
                 height={height}
                 pointerEvents='none'
                 shape={shape}

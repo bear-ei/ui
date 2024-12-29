@@ -1,6 +1,5 @@
 import {RefAttributes} from 'react'
-import {View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatedStyle} from 'react-native-reanimated'
+import {View, ViewProps} from 'react-native'
 
 export interface Item {
         extraData?: string[]
@@ -32,7 +31,6 @@ export interface VirtualListItemProps<T = Record<string, unknown>> extends ViewP
 
 export interface RenderVirtualListItemProps<T = Record<string, unknown>>
         extends Omit<VirtualListItemProps<T>, 'onUnmount'> {
-        containerAnimatedStyle: AnimatedStyle<ViewStyle>
         itemElement?: JSX.Element
         onUnmount?: () => void
         unmount?: boolean
