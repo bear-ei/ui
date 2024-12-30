@@ -1,5 +1,5 @@
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
+import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {emitter} from '../../contexts'
 import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -14,26 +14,16 @@ const handleTooltipVisible =
 
                 if (typeof value === 'boolean') {
                         setState(draft => {
-                                draft.tooltipVisible = value
                                 draft.nextActiveEvent = handleNextActiveEvent
+                                draft.tooltipVisible = value
                         })
                 }
         }
 
-const handleTooltipLayoutChanged = (setState: Updater<TooltipState>) => (layout: LayoutRectangle) => {
-        const {width, height} = layout
-
-        setState(draft => {
-                draft.layout.height = height
-                draft.layout.width = width
-        })
-}
-
 const handleTooltipStateChanged = ({
         eventName,
         onTooltipVisible,
-        triggerEvent = 'hover',
-        onLayoutChanged
+        triggerEvent = 'hover'
 }: HandleTooltipStateEventChangeOptions) => {
         const trigger = {
                 focus: ['focus', 'blur'],
@@ -41,9 +31,9 @@ const handleTooltipStateChanged = ({
                 press: ['pressIn']
         }
 
-        return (event: StateEvent) => {
+        return (_event: StateEvent) => {
                 if (eventName === 'layout') {
-                        onLayoutChanged((event as LayoutChangeEvent).nativeEvent.layout)
+                        return
                 }
 
                 const triggerEventNames = trigger[triggerEvent]
@@ -74,9 +64,6 @@ const handleTooltipSupportingUnmount = (id: string) => {
         })
 }
 
-/**
- * TODO: Optimize layout acquisition
- */
 export const TooltipBase = forwardRef<View, TooltipBaseProps>(
         (
                 {
@@ -96,19 +83,13 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                 },
                 ref
         ) => {
-                const [{tooltipVisible, nextActiveEvent, layout}, setState] = useImmer<TooltipState>({
-                        layout: {} as LayoutRectangle,
+                const [{tooltipVisible, nextActiveEvent}, setState] = useImmer<TooltipState>({
                         nextActiveEvent: undefined,
                         tooltipVisible: undefined
                 })
 
                 const containerRef = useRef<View>(null)
                 const id = useId()
-                const onTooltipLayoutChanged = useMemo(
-                        () => debounce(handleTooltipLayoutChanged(setState))(50),
-                        [setState]
-                )
-
                 const onTooltipVisible = useMemo(
                         () => debounce(handleTooltipVisible(setState)(onVisible))(250),
                         [onVisible, setState]
@@ -118,7 +99,6 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                         (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
                                 handleTooltipStateChanged({
                                         ...options,
-                                        onLayoutChanged: onTooltipLayoutChanged,
                                         onTooltipVisible,
                                         state,
                                         triggerEvent
@@ -129,7 +109,6 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                         () =>
                                 handleTooltipSupportingEmit(id)({
                                         containerCurrent: containerRef.current,
-                                        containerLayout: layout,
                                         elevation,
                                         onVisible: onTooltipVisible,
                                         shape,
@@ -142,7 +121,6 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                         [
                                 elevation,
                                 id,
-                                layout,
                                 onTooltipVisible,
                                 shape,
                                 supporting,

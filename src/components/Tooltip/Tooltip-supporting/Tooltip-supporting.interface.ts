@@ -11,7 +11,6 @@ import {TooltipType} from '../Tooltip.interface'
 export type SupportingPosition = 'horizontalStart' | 'horizontalEnd' | 'verticalStart' | 'verticalEnd'
 export interface TooltipSupportingProps extends ViewProps, RefAttributes<View> {
         containerCurrent: View | null
-        containerLayout: LayoutRectangle
         elevation?: ElevationLevel
         onVisible?: (value?: boolean) => void
         shape?: ShapeType

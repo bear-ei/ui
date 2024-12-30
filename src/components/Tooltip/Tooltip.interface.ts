@@ -1,5 +1,5 @@
 import {RefAttributes} from 'react'
-import {LayoutRectangle, View, ViewProps} from 'react-native'
+import {View, ViewProps} from 'react-native'
 import {OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
 import {TriggerEvent} from '../Common'
 import {TooltipSupportingProps} from './Tooltip-supporting'
@@ -36,7 +36,6 @@ export interface TooltipBaseProps extends TooltipProps {
 }
 
 export interface TooltipState {
-        layout: LayoutRectangle
         nextActiveEvent?: () => void
         tooltipVisible?: boolean
 }
@@ -45,5 +44,4 @@ export interface HandleTooltipStateEventChangeOptions
         extends OnStateEventChangedOptions,
                 Pick<TooltipProps, 'triggerEvent'> {
         onTooltipVisible: (value?: boolean) => void
-        onLayoutChanged: (layout: LayoutRectangle) => void
 }

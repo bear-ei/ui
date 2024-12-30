@@ -131,7 +131,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
         (
                 {
                         containerCurrent,
-                        containerLayout: rawContainerLayout,
+
                         onVisible,
                         render,
                         supportingPosition,
@@ -190,10 +190,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                 useImperativeHandle(ref, () => (containerRef?.current ? containerRef?.current : {}) as View, [])
 
                 useEffect(() => {
-                        if (rawContainerLayout?.height) {
-                                onTooltipSupportingContainerLayout(visible)
-                        }
-                }, [onTooltipSupportingContainerLayout, visible, rawContainerLayout?.height])
+                        onTooltipSupportingContainerLayout(visible)
+                }, [onTooltipSupportingContainerLayout, visible])
 
                 useEffect(() => {
                         onTooltipSupportingPositionInvert({height: windowHeight, width: windowWidth})

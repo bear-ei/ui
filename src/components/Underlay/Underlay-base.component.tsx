@@ -3,9 +3,6 @@ import {View} from 'react-native'
 import {UnderlayBaseProps} from './Underlay.interface'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
 
-/**
- * TODO:
- */
 export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
         (
                 {

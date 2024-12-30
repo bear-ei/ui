@@ -16,19 +16,16 @@ const render = ({
         testID,
         ...contentProps
 }: RenderTouchableProps) => {
-        const {onLayout, ...onPressableEvent} = onStateEvent
-
         return (
                 <Container testID={testID ?? `touchable--${id}`}>
                         <TouchableContent
                                 {...contentProps}
-                                {...onPressableEvent}
+                                {...onStateEvent}
                                 enableFocusRing={false}
                                 testID={`touchable__content--${id}`}
                         >
                                 <Main
                                         alignSelf={mainAlignSelf}
-                                        onLayout={onLayout}
                                         shape={shape}
                                         testID={`touchable__main--${id}`}
                                 >

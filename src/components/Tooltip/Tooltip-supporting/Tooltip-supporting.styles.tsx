@@ -60,28 +60,15 @@ export const Container = styled.View<TooltipSupportingContentProps>`
                                 `
                         },
                         menu: {
-                                verticalStart: css`
-                                        /* left: ${containerPageX + containerWidth}px;
-                    top: ${containerPageY - height - theme.adaptSize(theme.token.spacing.extraSmall)}px; */
-                                `,
+                                verticalStart: css``,
                                 verticalEnd: css`
                                         left: ${containerPageX}px;
                                         top: ${containerPageY +
                                         containerHeight +
                                         theme.adaptSize(theme.token.spacing.extraSmall)}px;
                                 `,
-                                horizontalStart: css`
-                                        /* left: ${containerPageX -
-                                        width -
-                                        theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                    top: ${containerPageY + containerHeight}px; */
-                                `,
-                                horizontalEnd: css`
-                                        /* left: ${containerPageX +
-                                        containerWidth +
-                                        theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                    top: ${containerPageY + containerHeight}px; */
-                                `
+                                horizontalStart: css``,
+                                horizontalEnd: css``
                         }
                 } as Record<TooltipType, Record<SupportingPosition, RuleSet<object> | undefined>>
 

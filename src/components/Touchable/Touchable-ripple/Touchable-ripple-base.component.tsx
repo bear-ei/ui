@@ -38,11 +38,7 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
                 const offsetY = Math.abs(centerY - locationY)
                 const radius = Math.sqrt(Math.pow(centerX + offsetX, 2) + Math.pow(centerY + offsetY, 2))
                 const diameter = radius * 2
-                const {containerAnimatedStyle} = useTouchableRippleAnimated({
-                        index,
-                        onAnimatedFinished,
-                        radius
-                })
+                const {containerAnimatedStyle} = useTouchableRippleAnimated({index, onAnimatedFinished, radius})
 
                 return render({
                         ...renderProps,
