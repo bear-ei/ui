@@ -4,11 +4,11 @@ import {AnimatedStyle} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEventChangedOptions} from '../../hooks'
 import {EventName, ShapeProps, ShapeType} from '../Common'
 
-export type ActiveAnimatedType = 'fade' | 'scaleX' | 'scaleY'
+export type ActiveAnimatedType = 'fade' | 'scaleX' | 'scaleY' | 'scale'
 export interface UnderlayProps extends Pick<ShapeProps, 'shape'>, ViewProps, RefAttributes<View> {
         active?: boolean
         defaultActive?: boolean
-        activeAnimatedType?: 'fade' | 'scaleX' | 'scaleY'
+        activeAnimatedType?: ActiveAnimatedType
         activeColor?: string
 
         /**

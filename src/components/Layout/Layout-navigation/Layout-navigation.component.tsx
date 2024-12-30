@@ -5,7 +5,7 @@ import {LayoutNavigationProps, RenderLayoutNavigationProps} from './Layout-navig
 import {Container} from './Layout-navigation.styles'
 
 const render = ({
-        animatedType = 'collapse',
+        animatedType = 'collapseX',
         children,
         id,
         testID,

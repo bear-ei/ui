@@ -4,7 +4,14 @@ import {LayoutPaneBase} from './Layout-pane-base.component'
 import {LayoutPaneProps, RenderLayoutPaneProps} from './Layout-pane.interface'
 import {Container} from './Layout-pane.styles'
 
-const render = ({id, children, animatedType = 'collapse', width, testID, ...containerProps}: RenderLayoutPaneProps) => (
+const render = ({
+        animatedType = 'collapseX',
+        children,
+        id,
+        testID,
+        width,
+        ...containerProps
+}: RenderLayoutPaneProps) => (
         <Container
                 {...containerProps}
                 animatedType={animatedType}

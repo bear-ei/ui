@@ -89,6 +89,10 @@ export const useUnderlayAnimated = ({
         }))
 
         const activeLayerAnimated = {
+                scale: {
+                        ...activeLayerScaleXAnimatedStyle,
+                        ...activeLayerScaleYAnimatedStyle
+                },
                 scaleX: activeLayerScaleXAnimatedStyle,
                 scaleY: activeLayerScaleYAnimatedStyle,
                 fade: activeLayerFadeAnimatedStyle
