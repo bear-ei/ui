@@ -2,7 +2,7 @@ import {cloneElement, forwardRef, useEffect, useId} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
 import {EventName, State} from '../../Common'
 import {Icon, IconProps} from '../../Icon'
 import {
@@ -25,7 +25,7 @@ export const handleNavigationDrawerItemPropsEqual =
         }
 
 const handleNavigationDrawerItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
-const handleNavigationDrawerItemStateChanged =
+const handleNavigationDrawerItemStateChange =
         ({itemKey, eventName, onActive}: HandleNavigationDrawerItemStateEventChangeOptions) =>
         (setState: Updater<NavigationDrawerItemState>) =>
         (_event: StateEvent) => {
@@ -77,10 +77,10 @@ export const NavigationDrawerItemBase = forwardRef<View, NavigationDrawerItemBas
                 const underlayColor = theme.token.scheme.onSurface
                 const active = activeKey === itemKey
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleNavigationDrawerItemStateChanged({...options, itemKey, onActive, state})(
-                                        setState
-                                )(event)
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleNavigationDrawerItemStateChange({...options, itemKey, onActive, state})(setState)(
+                                        event
+                                )
 
                 const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
                 const {labelTextAnimatedStyle} = useNavigationDrawerItemAnimated({active})

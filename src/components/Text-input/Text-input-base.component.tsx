@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {
@@ -13,7 +13,7 @@ import {
 } from './Text-input.interface'
 import {useTextInputAnimated} from './use-text-input-animated.hook'
 
-const handleTextInputStateChanged =
+const handleTextInputStateChange =
         ({content, eventName, ref, state}: HandleTextInputStateEventChangeOptions) =>
         (setState: Updater<TextInputState>) =>
         (_event: StateEvent) => {
@@ -225,8 +225,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 
                 const onTouchableHeaderFocus = handleTouchableHeaderFocus(textInputRef)
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (changedState: State) => (event: StateEvent) =>
-                                handleTextInputStateChanged({
+                        (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
+                                handleTextInputStateChange({
                                         ...options,
                                         content,
                                         ref: textInputRef,

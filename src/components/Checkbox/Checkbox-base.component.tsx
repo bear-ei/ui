@@ -2,13 +2,13 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {EventName, State} from '../Common'
 import {
         CheckboxBaseProps,
         CheckboxState,
         HandleCheckboxActiveOptions,
-        HandleCheckboxStateChangedOptions
+        HandleCheckboxStateChangeOptions
 } from './Checkbox.interface'
 import {useCheckboxAnimated} from './use-checkbox-animated.hook'
 
@@ -30,8 +30,8 @@ const handleCheckboxActive =
                 }
         }
 
-const handleCheckboxStateChanged =
-        ({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangedOptions) =>
+const handleCheckboxStateChange =
+        ({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
         (setState: Updater<CheckboxState>) =>
         (_event: StateEvent) => {
                 const nextEvent = {
@@ -114,8 +114,8 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleCheckboxStateChanged({
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleCheckboxStateChange({
                                         ...options,
                                         active: checkboxActive,
                                         indeterminate,

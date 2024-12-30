@@ -3,20 +3,20 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {textSearch} from '../../utils'
 import {EventName, State} from '../Common'
 import {ListData} from '../List'
 import {SearchListProps} from './Search-list'
 import {
         HandleSearchChangeTextOptions,
-        HandleSearchStateChangedOptions,
+        HandleSearchStateChangeOptions,
         SearchBaseProps,
         SearchState
 } from './Search.interface'
 
-const handleSearchStateChanged =
-        ({eventName, ref, state}: HandleSearchStateChangedOptions) =>
+const handleSearchStateChange =
+        ({eventName, ref, state}: HandleSearchStateChangeOptions) =>
         (setState: Updater<SearchState>) =>
         (_event: StateEvent) => {
                 const handleTextInputFocus = () => ref?.current?.focus()
@@ -84,12 +84,32 @@ const handleSearchListVisible = (setState: Updater<SearchState>) => (value?: boo
 const handleSearchLayout = (setState: Updater<SearchState>) => (containerCurrent?: View | null) =>
         containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
                 setState(draft => {
-                        draft.layout.height = height
-                        draft.layout.pageX = pageX
-                        draft.layout.pageY = pageY
-                        draft.layout.width = width
-                        draft.layout.x = x
-                        draft.layout.y = y
+                        const {
+                                width: prevWidth,
+                                height: prevHeight,
+                                pageX: prevPageX,
+                                pageY: prevPageY,
+                                x: prevX,
+                                y: prevY
+                        } = draft.layout
+
+                        const update = [
+                                prevHeight !== height,
+                                prevPageX !== pageX,
+                                prevPageY !== pageY,
+                                prevWidth !== width,
+                                prevX !== x,
+                                prevY !== y
+                        ].some(Boolean)
+
+                        if (update) {
+                                draft.layout.height = height
+                                draft.layout.pageX = pageX
+                                draft.layout.pageY = pageY
+                                draft.layout.width = width
+                                draft.layout.x = x
+                                draft.layout.y = y
+                        }
                 })
         )
 
@@ -152,8 +172,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleSearchStateChanged({...options, ref: inputRef, state})(setState)(event)
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleSearchStateChange({...options, ref: inputRef, state})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

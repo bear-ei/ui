@@ -2,7 +2,7 @@ import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useRef}
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
 import {EventName, State} from '../../Common'
 import {Icon, IconProps} from '../../Icon'
 import {
@@ -26,7 +26,7 @@ export const handleNavigationRailItemPropsEqual =
 
 const handleNavigationRailItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
 
-const handleNavigationRailItemStateChanged =
+const handleNavigationRailItemStateChange =
         ({eventName, itemKey, onActive, touchableRef}: HandleNavigationRailItemStateEventChangeOptions) =>
         (setState: Updater<NavigationRailItemState>) =>
         (_event: StateEvent) => {
@@ -87,8 +87,8 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                 const underlayColor = theme.token.scheme.onSurface
                 const active = activeKey === itemKey
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleNavigationRailItemStateChanged({
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleNavigationRailItemStateChange({
                                         ...options,
                                         itemKey,
                                         onActive,

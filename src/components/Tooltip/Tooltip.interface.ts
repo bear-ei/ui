@@ -1,6 +1,6 @@
 import {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
-import {OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
+import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {TriggerEvent} from '../Common'
 import {TooltipSupportingProps} from './Tooltip-supporting'
 
@@ -41,7 +41,7 @@ export interface TooltipState {
 }
 
 export interface HandleTooltipStateEventChangeOptions
-        extends OnStateEventChangedOptions,
+        extends OnStateEventChangeOptions,
                 Pick<TooltipProps, 'triggerEvent'> {
         onTooltipVisible: (value?: boolean) => void
 }

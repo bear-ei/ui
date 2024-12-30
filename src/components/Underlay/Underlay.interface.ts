@@ -1,7 +1,7 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
-import {AnimatedTiming, OnStateEventChangedOptions} from '../../hooks'
+import {AnimatedTiming, OnStateEventChangeOptions} from '../../hooks'
 import {EventName, ShapeProps, ShapeType} from '../Common'
 
 export type ActiveAnimatedType = 'fade' | 'scaleX' | 'scaleY' | 'scale'
@@ -41,8 +41,8 @@ export type UseUnderlayAnimatedOptions = Pick<
         'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'
 >
 
-export interface HandleUnderlayStateChangedOptions extends OnStateEventChangedOptions {
-        onLayoutChanged: (layout: LayoutRectangle) => void
+export interface HandleUnderlayStateChangeOptions extends OnStateEventChangeOptions {
+        onLayoutChange: (layout: LayoutRectangle) => void
 }
 
 export interface HandleUnderlayHoveredAnimatedTimingOptions {

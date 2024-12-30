@@ -2,11 +2,11 @@ import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {State} from '../Common'
 import {Icon, IconProps} from '../Icon'
 import {
-        HandleIconButtonStateChangedOptions,
+        HandleIconButtonStateChangeOptions,
         IconButtonBaseProps,
         IconButtonState,
         IconButtonType,
@@ -14,8 +14,8 @@ import {
 } from './Icon-button.interface'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
-const handleIconButtonStateChanged =
-        ({eventName}: HandleIconButtonStateChangedOptions) =>
+const handleIconButtonStateChange =
+        ({eventName}: HandleIconButtonStateChangeOptions) =>
         (setState: Updater<IconButtonState>) =>
         (_event: StateEvent) => {
                 if (eventName === 'layout') {
@@ -86,8 +86,8 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
                 const underlayColor = handleIconButtonUnderlayColor(theme)(type)
                 const onIconButtonDisabled = useMemo(() => handleIconButtonDisabled(setState), [setState])
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleIconButtonStateChanged({...options, state})(setState)(event)
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleIconButtonStateChange({...options, state})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

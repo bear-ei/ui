@@ -2,7 +2,7 @@ import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {Icon, IconProps} from '../Icon'
@@ -11,7 +11,7 @@ import {
         ChipBaseProps,
         ChipState,
         HandleChipElevationOptions,
-        HandleChipStateChangedOptions,
+        HandleChipStateChangeOptions,
         RenderChipIconOptions
 } from './Chip.interface'
 import {useChipAnimated} from './use-chip-animated.hook'
@@ -47,8 +47,8 @@ const handleChipElevation =
                 }
         }
 
-const handleChipStateChanged =
-        ({eventName}: HandleChipStateChangedOptions) =>
+const handleChipStateChange =
+        ({eventName}: HandleChipStateChangeOptions) =>
         (setState: Updater<ChipState>) =>
         (_event: StateEvent) => {
                 if (eventName === 'layout') {
@@ -177,8 +177,8 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 const onChipInit = useMemo(() => handleChipInit(setState)(disabled), [disabled, setState])
                 const underlayColor = theme.token.scheme.onSurfaceVariant
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleChipStateChanged({...options, state})(setState)(event)
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleChipStateChange({...options, state})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

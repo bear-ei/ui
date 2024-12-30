@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {RenderVirtualListItemInfo, RenderVirtualListItemOptions, VirtualListItem} from './Virtual-list-item'
@@ -49,28 +49,32 @@ const handleVirtualListVisibleRange =
                 draft.status = 'succeeded'
         }
 
-const handleVirtualListLayoutChanged =
+const handleVirtualListLayoutChange =
         (itemSize = 0) =>
         (setState: Updater<VirtualListState>) =>
-        (layout: LayoutRectangle) => {
+        ({width, height}: LayoutRectangle) => {
                 setState(draft => {
                         if (['web', 'macos', 'windows'].includes(Platform.OS) && draft.layout.height) {
                                 return
                         }
 
-                        draft.layout.height = layout.height
-                        draft.layout.width = layout.width
+                        const {width: prevWidth, height: prevHeight} = draft.layout
+
+                        if (prevWidth !== width || prevHeight !== height) {
+                                draft.layout.height = height
+                                draft.layout.width = width
+                        }
 
                         handleVirtualListVisibleRange(itemSize)(draft)()
                 })
         }
 
-const handleVirtualListStateChanged =
-        ({eventName}: OnStateEventChangedOptions) =>
-        (onVirtualListLayoutChanged: (layout: LayoutRectangle) => void) =>
+const handleVirtualListStateChange =
+        ({eventName}: OnStateEventChangeOptions) =>
+        (onVirtualListLayoutChange: (layout: LayoutRectangle) => void) =>
         (event: StateEvent) => {
                 const nextEvent = {
-                        layout: () => onVirtualListLayoutChanged((event as LayoutChangeEvent).nativeEvent.layout)
+                        layout: () => onVirtualListLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
                 } as Record<EventName, () => void>
 
                 if (eventName) {
@@ -268,13 +272,13 @@ export const VirtualListBaseInner = <T,>(
         })
 
         const onVirtualListItemUnmount = handleVirtualListItemUnmount(itemSize)(setState)
-        const onVirtualListLayoutChanged = useMemo(
-                () => debounce(handleVirtualListLayoutChanged(itemSize)(setState))(50),
+        const onVirtualListLayoutChange = useMemo(
+                () => debounce(handleVirtualListLayoutChange(itemSize)(setState))(50),
                 [itemSize, setState]
         )
 
-        const onStateEventChange = (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                handleVirtualListStateChanged({...options, state})(onVirtualListLayoutChanged)(event)
+        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                handleVirtualListStateChange({...options, state})(onVirtualListLayoutChange)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
         const itemElements = renderVirtualListItem({

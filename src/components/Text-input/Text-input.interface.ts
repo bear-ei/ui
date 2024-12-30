@@ -8,7 +8,7 @@ import {
         ViewStyle
 } from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
+import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {EventName, ShapeProps, State, TypographyProps} from '../Common'
 
 export type TextInputType = 'filled' | 'outlined'
@@ -69,7 +69,7 @@ export interface TextInputState {
 }
 
 export interface HandleTextInputStateEventChangeOptions
-        extends OnStateEventChangedOptions,
+        extends OnStateEventChangeOptions,
                 Pick<TextInputProps, 'content'> {
         ref?: RefObject<TextInput>
 }

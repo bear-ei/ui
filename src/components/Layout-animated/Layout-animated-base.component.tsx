@@ -2,30 +2,30 @@ import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {EventName, State} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
         HandleLayoutAnimatedInitOptions,
-        HandleLayoutAnimatedLayoutVisibleDraftChangedOptions,
-        HandleLayoutAnimatedStateChangedOptions,
+        HandleLayoutAnimatedLayoutVisibleDraftChangeOptions,
+        HandleLayoutAnimatedStateChangeOptions,
         LayoutAnimatedBaseProps,
         LayoutAnimatedState
 } from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
-const handleLayoutAnimatedLayoutChanged = (setState: Updater<LayoutAnimatedState>) => () =>
+const handleLayoutAnimatedLayoutChange = (setState: Updater<LayoutAnimatedState>) => () =>
         setState(draft => {
                 if (draft.status !== 'succeeded') {
                         draft.status = 'succeeded'
                 }
         })
 
-const handleLayoutAnimatedStateChanged =
-        ({eventName, onLayoutChanged}: HandleLayoutAnimatedStateChangedOptions) =>
+const handleLayoutAnimatedStateChange =
+        ({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
         (_event: StateEvent) => {
                 const nextEvent = {
-                        layout: () => onLayoutChanged()
+                        layout: () => onLayoutChange()
                 } as Record<EventName, () => void>
 
                 if (eventName) {
@@ -34,8 +34,8 @@ const handleLayoutAnimatedStateChanged =
         }
 
 const handleLayoutAnimatedLayoutVisible = (setState: Updater<LayoutAnimatedState>) => {
-        const handleDraftChanged =
-                ({value, width, height}: HandleLayoutAnimatedLayoutVisibleDraftChangedOptions) =>
+        const handleDraftChange =
+                ({value, width, height}: HandleLayoutAnimatedLayoutVisibleDraftChangeOptions) =>
                 (draft: WritableDraft<LayoutAnimatedState>) => {
                         if (!value) {
                                 draft.layoutVisible = value
@@ -49,8 +49,13 @@ const handleLayoutAnimatedLayoutVisible = (setState: Updater<LayoutAnimatedState
                                 return
                         }
 
-                        draft.layout.height = height
-                        draft.layout.width = width
+                        const {width: prevWidth, height: prevHeight} = draft.layout
+
+                        if (prevWidth !== width || prevHeight !== height) {
+                                draft.layout.height = height
+                                draft.layout.width = width
+                        }
+
                         draft.layoutVisible = value
                         draft.layoutWasVisible = value
 
@@ -61,7 +66,7 @@ const handleLayoutAnimatedLayoutVisible = (setState: Updater<LayoutAnimatedState
 
         return (ref: React.RefObject<View>) => (value?: boolean) =>
                 ref.current?.measure((_x, _y, width, height) => {
-                        setState(handleDraftChanged({value, width, height}))
+                        setState(handleDraftChange({value, width, height}))
                 })
 }
 
@@ -169,13 +174,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [lazy, setState, unmount]
                 )
 
-                const onLayoutAnimatedLayoutChanged = handleLayoutAnimatedLayoutChanged(setState)
+                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleLayoutAnimatedStateChanged({
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleLayoutAnimatedStateChange({
                                         ...options,
                                         state,
-                                        onLayoutChanged: onLayoutAnimatedLayoutChanged
+                                        onLayoutChange: onLayoutAnimatedLayoutChange
                                 })(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})

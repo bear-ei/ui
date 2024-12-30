@@ -3,7 +3,7 @@ import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangedOptions} from '../../../hooks'
+import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
 import {ComponentStatus, ShapeType} from '../../Common'
 import {ElevationLevel} from '../../Elevation'
 import {TooltipType} from '../Tooltip.interface'
@@ -45,7 +45,7 @@ export interface TooltipSupportingState {
         visible?: boolean
 }
 
-export type HandleTooltipSupportingStateEventChangeOptions = OnStateEventChangedOptions &
+export type HandleTooltipSupportingStateEventChangeOptions = OnStateEventChangeOptions &
         Pick<TooltipSupportingProps, 'onVisible'>
 
 export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'visible' | 'type'> {

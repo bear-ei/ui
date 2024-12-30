@@ -1,25 +1,29 @@
 import {forwardRef, useId, useMemo} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
-import {HandleProgressStateChangedOptions, ProgressBaseProps, ProgressState} from './Progress.interface'
+import {HandleProgressStateChangeOptions, ProgressBaseProps, ProgressState} from './Progress.interface'
 
-const handleProgressLayoutChanged = (setState: Updater<ProgressState>) => (layout: LayoutRectangle) => {
+const handleProgressLayoutChange = (setState: Updater<ProgressState>) => (layout: LayoutRectangle) => {
         const {width, height} = layout
 
         setState(draft => {
-                draft.layout.height = height
-                draft.layout.width = width
+                const {width: prevWidth, height: prevHeight} = draft.layout
+
+                if (prevWidth !== width || prevHeight !== height) {
+                        draft.layout.height = height
+                        draft.layout.width = width
+                }
         })
 }
 
-const handleTouchableStateChanged =
-        ({eventName, onLayoutChanged}: HandleProgressStateChangedOptions) =>
+const handleTouchableStateChange =
+        ({eventName, onLayoutChange}: HandleProgressStateChangeOptions) =>
         (event: StateEvent) => {
                 const nextEvent = {
-                        layout: () => onLayoutChanged((event as LayoutChangeEvent).nativeEvent.layout)
+                        layout: () => onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
                 } as Record<EventName, () => void>
 
                 if (eventName) {
@@ -31,17 +35,17 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(
         ({render, type = 'linear', animated = 'determinate', ...renderProps}, ref) => {
                 const [{layout}, setState] = useImmer<ProgressState>({layout: {} as LayoutRectangle})
                 const id = useId()
-                const onProgressLayoutChanged = useMemo(
-                        () => debounce(handleProgressLayoutChanged(setState))(50),
+                const onProgressLayoutChange = useMemo(
+                        () => debounce(handleProgressLayoutChange(setState))(50),
                         [setState]
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleTouchableStateChanged({
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleTouchableStateChange({
                                         ...options,
                                         state,
-                                        onLayoutChanged: onProgressLayoutChanged
+                                        onLayoutChange: onProgressLayoutChange
                                 })(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})

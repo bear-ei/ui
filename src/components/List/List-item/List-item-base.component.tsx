@@ -2,7 +2,7 @@ import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo
 import {GestureResponderEvent, PanResponder, PanResponderGestureState, View, ViewProps} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
 import {EventName, State} from '../../Common'
 import {Icon} from '../../Icon'
 import {IconButton, IconButtonType} from '../../Icon-button'
@@ -85,7 +85,7 @@ const handleListItemPressOut =
         }
 
 const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
-const handleListItemStateChanged =
+const handleListItemStateChange =
         ({
                 eventName,
                 itemKey,
@@ -392,8 +392,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleListItemStateChanged({
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleListItemStateChange({
                                         ...options,
                                         itemIndex,
                                         itemKey,

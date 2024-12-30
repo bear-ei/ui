@@ -2,7 +2,7 @@ import {Duration, Easing} from '@bearei/material-token'
 import {RefAttributes} from 'react'
 import {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
+import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
 export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY'
@@ -49,8 +49,8 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 }
 
 export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount' | 'onVisible'>
-export interface HandleLayoutAnimatedStateChangedOptions extends OnStateEventChangedOptions {
-        onLayoutChanged: () => void
+export interface HandleLayoutAnimatedStateChangeOptions extends OnStateEventChangeOptions {
+        onLayoutChange: () => void
 }
 
 export interface UseLayoutAnimatedOptions
@@ -86,7 +86,7 @@ export interface HandleLayoutAnimatedTimingSharedValue {
         fadeSharedValue: SharedValue<number>
 }
 
-export interface HandleLayoutAnimatedLayoutVisibleDraftChangedOptions {
+export interface HandleLayoutAnimatedLayoutVisibleDraftChangeOptions {
         height: number
         value?: boolean
         width: number

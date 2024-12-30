@@ -1,7 +1,7 @@
 import {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangedOptions} from '../../../hooks'
+import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
 import {ComponentStatus, EventName, ShapeType, State} from '../../Common'
 import {IconButtonProps} from '../../Icon-button'
 import {TouchableProps} from '../../Touchable'
@@ -91,7 +91,7 @@ export interface ListItemState {
 }
 
 export interface HandleListItemStateEventChangeOptions
-        extends OnStateEventChangedOptions,
+        extends OnStateEventChangeOptions,
                 Pick<
                         RenderListItemProps,
                         'itemKey' | 'onActive' | 'selectType' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex' | 'type'

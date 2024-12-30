@@ -27,7 +27,7 @@ export type OnStateEvent = {
 
 export interface UseHandleStateEventOptions extends Partial<PressableProps & OnStateEvent> {
         disabled?: boolean
-        onStateEventChange?: (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) => void
+        onStateEventChange?: (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 
 export interface HandleStateEventChangeOptions
@@ -37,9 +37,9 @@ export interface HandleStateEventChangeOptions
         state?: State
 }
 
-export type OnStateEventChangedOptions = HandleStateEventChangeOptions
+export type OnStateEventChangeOptions = HandleStateEventChangeOptions
 export interface HandleStateEventOptions {
-        onStateEvent: (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) => void
+        onStateEvent: (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
         mobileDevice?: boolean
 }
 

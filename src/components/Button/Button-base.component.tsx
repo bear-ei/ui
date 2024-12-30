@@ -3,7 +3,7 @@ import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {DefaultTheme, useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
@@ -11,7 +11,7 @@ import {
         ButtonBaseProps,
         ButtonState,
         ButtonType,
-        HandleButtonStateChangedOptions,
+        HandleButtonStateChangeOptions,
         RenderButtonIconOptions
 } from './Button.interface'
 import {useButtonAnimated} from './use-button-animated.hook'
@@ -43,8 +43,8 @@ const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: But
         }
 }
 
-const handleButtonStateChanged =
-        ({eventName, type, state}: HandleButtonStateChangedOptions) =>
+const handleButtonStateChange =
+        ({eventName, type, state}: HandleButtonStateChangeOptions) =>
         (setState: Updater<ButtonState>) =>
         (_event: StateEvent) => {
                 if (eventName === 'layout') {
@@ -145,8 +145,8 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 const onButtonInit = useMemo(() => handleButtonInit(setState)(disabled), [disabled, setState])
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleButtonStateChanged({...options, state, type})(setState)(event)
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleButtonStateChange({...options, state, type})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({
                         ...renderProps,

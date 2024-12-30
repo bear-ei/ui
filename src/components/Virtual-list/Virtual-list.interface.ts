@@ -45,7 +45,7 @@ export interface VirtualListState {
 }
 
 export type HandleVirtualListScrollOptions = Pick<RenderVirtualListProps, 'onScroll' | 'itemSize'>
-export interface HandleVirtualListLayoutChangedOptions {
+export interface HandleVirtualListLayoutChangeOptions {
         layout: LayoutRectangle
         onVirtualListVisibleRange?: (value?: number) => void
 }

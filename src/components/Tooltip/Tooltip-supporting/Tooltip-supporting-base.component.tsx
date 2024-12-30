@@ -3,7 +3,7 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Updater, useImmer} from 'use-immer'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent, useWindowDimensions} from '../../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent, useWindowDimensions} from '../../../hooks'
 import {State} from '../../Common'
 import {
         HandleTooltipSupportingContainerLayoutOptions,
@@ -21,12 +21,16 @@ const handleTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>
         const {height, width} = event.nativeEvent.layout
 
         setState(draft => {
-                draft.layout.height = height
-                draft.layout.width = width
+                const {width: prevWidth, height: prevHeight} = draft.layout
+
+                if (prevWidth !== width || prevHeight !== height) {
+                        draft.layout.height = height
+                        draft.layout.width = width
+                }
         })
 }
 
-const handleTooltipSupportingStateChanged =
+const handleTooltipSupportingStateChange =
         ({eventName, onVisible}: HandleTooltipSupportingStateEventChangeOptions) =>
         (setState: Updater<TooltipSupportingState>) =>
         (event: StateEvent) => {
@@ -182,8 +186,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleTooltipSupportingStateChanged({...options, state, onVisible})(setState)(event)
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleTooltipSupportingStateChange({...options, state, onVisible})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 

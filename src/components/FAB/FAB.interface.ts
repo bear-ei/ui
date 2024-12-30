@@ -1,6 +1,6 @@
 import {TextStyle, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
-import {OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
+import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, EventName, Size} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {TouchableProps} from '../Touchable'
@@ -38,6 +38,6 @@ export interface FABState {
 export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
-export type HandleFABStateChangedOptions = OnStateEventChangedOptions & Pick<RenderFABProps, 'elevated'>
+export type HandleFABStateChangeOptions = OnStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
 export type RenderFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'eventName'>
 export type UseFABAnimatedOptions = Pick<RenderFABProps, 'disabled' | 'type'>

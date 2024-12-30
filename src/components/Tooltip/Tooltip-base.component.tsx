@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo,
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {emitter} from '../../contexts'
-import {OnStateEventChangedOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
 import {State} from '../Common'
 import {TooltipSupportingProps} from './Tooltip-supporting'
@@ -20,7 +20,7 @@ const handleTooltipVisible =
                 }
         }
 
-const handleTooltipStateChanged = ({
+const handleTooltipStateChange = ({
         eventName,
         onTooltipVisible,
         triggerEvent = 'hover'
@@ -96,8 +96,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangedOptions) => (state: State) => (event: StateEvent) =>
-                                handleTooltipStateChanged({
+                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleTooltipStateChange({
                                         ...options,
                                         onTooltipVisible,
                                         state,

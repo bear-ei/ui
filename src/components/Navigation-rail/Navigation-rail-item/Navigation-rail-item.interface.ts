@@ -1,7 +1,7 @@
 import {RefAttributes} from 'react'
 import {PressableProps, TextStyle, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangedOptions} from '../../../hooks'
+import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
 import {EventName, TypographyProps} from '../../Common'
 import {NavigationRailType} from '../Navigation-rail.interface'
 
@@ -38,7 +38,7 @@ export interface NavigationRailItemState {
 }
 
 export interface HandleNavigationRailItemStateEventChangeOptions
-        extends OnStateEventChangedOptions,
+        extends OnStateEventChangeOptions,
                 Pick<NavigationRailItemProps, 'itemKey' | 'onActive'> {
         touchableRef: React.RefObject<View>
 }

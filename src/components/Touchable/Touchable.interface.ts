@@ -1,7 +1,7 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, NativeTouchEvent, PressableProps, View, ViewProps, ViewStyle} from 'react-native'
 import {Updater} from 'use-immer'
-import {OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
+import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ShapeProps} from '../Common'
 import {TouchableRippleProps} from './Touchable-ripple'
 
@@ -49,9 +49,9 @@ export interface TouchableState {
 }
 
 export type RenderTouchableRipplesOptions = Omit<TouchableRippleProps, 'index'>
-export interface HandleTouchableStateChangedOptions
+export interface HandleTouchableStateChangeOptions
         extends Pick<TouchableRippleProps, 'touchableLocation'>,
-                OnStateEventChangedOptions,
+                OnStateEventChangeOptions,
                 Pick<TouchableProps, 'enableTouchableRipple' | 'disabledFocus'> {
         ref: React.RefObject<View>
 }
@@ -62,7 +62,7 @@ export interface TouchableMainProps {
 }
 
 export interface HandleTouchablePressInOptions
-        extends Pick<HandleTouchableStateChangedOptions, 'ref' | 'disabledFocus'> {
+        extends Pick<HandleTouchableStateChangeOptions, 'ref' | 'disabledFocus'> {
         setState: Updater<TouchableState>
 }
 
