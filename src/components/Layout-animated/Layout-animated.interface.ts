@@ -2,7 +2,7 @@ import {Duration, Easing} from '@bearei/material-token'
 import {RefAttributes} from 'react'
 import {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {AnimatedTiming, AnimatedTimingOptions, OnStateEventChangedOptions} from '../../hooks'
+import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangedOptions} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
 export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY'
@@ -28,6 +28,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
         layout?: LayoutRectangle
+        onStateEvent: OnStateEvent
         status?: ComponentStatus
         visible?: boolean
 }
@@ -49,7 +50,7 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 
 export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount' | 'onVisible'>
 export interface HandleLayoutAnimatedStateChangedOptions extends OnStateEventChangedOptions {
-        onLayoutChanged: (layout: LayoutRectangle) => void
+        onLayoutChanged: () => void
 }
 
 export interface UseLayoutAnimatedOptions
@@ -66,6 +67,7 @@ export interface UseLayoutAnimatedOptions
                 | 'width'
         > {
         onAnimatedFinished: (value?: boolean) => void
+        status: ComponentStatus
 }
 
 export type HandleLayoutAnimatedInitOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>

@@ -74,6 +74,9 @@ const handleTooltipSupportingUnmount = (id: string) => {
         })
 }
 
+/**
+ * TODO: Optimize layout acquisition
+ */
 export const TooltipBase = forwardRef<View, TooltipBaseProps>(
         (
                 {

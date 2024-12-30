@@ -13,7 +13,6 @@ const render = ({
         containerAnimatedStyle,
         content,
         id,
-        onStateEvent,
         skeletonVisible,
         style,
         testID,
@@ -23,7 +22,6 @@ const render = ({
                 {content && skeletonVisible ?
                         <AnimatedContainer
                                 {...containerProps}
-                                {...onStateEvent}
                                 style={[style, containerAnimatedStyle]}
                                 testID={testID ?? `skeleton--${id}`}
                         >

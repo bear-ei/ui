@@ -19,9 +19,7 @@ const handleListItemAfterAffordanceVisibleAnimatedTiming =
                                 if (finished) {
                                         onListItemAfterAffordanceVisibleFinished?.(value)
                                 }
-                        },
-                        duration: value ? 'medium0' : 'short3',
-                        easing: value ? 'standardDecelerate' : 'standardAccelerate'
+                        }
                 })(contentLeftSharedValue)(value ? 1 : 0)
 
 const handleListItemActiveAnimatedTiming =

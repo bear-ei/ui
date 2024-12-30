@@ -81,7 +81,7 @@ const handleSearchListVisible = (setState: Updater<SearchState>) => (value?: boo
         }
 }
 
-const setSearchLayout = (setState: Updater<SearchState>) => (containerCurrent?: View | null) =>
+const handleSearchLayout = (setState: Updater<SearchState>) => (containerCurrent?: View | null) =>
         containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
                 setState(draft => {
                         draft.layout.height = height
@@ -96,7 +96,7 @@ const setSearchLayout = (setState: Updater<SearchState>) => (containerCurrent?: 
 const handleSearchContainerLayout =
         (setState: Updater<SearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) => {
                 if (listVisible) {
-                        setSearchLayout(setState)(containerCurrent)
+                        handleSearchLayout(setState)(containerCurrent)
                 }
         }
 

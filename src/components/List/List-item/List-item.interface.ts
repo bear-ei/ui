@@ -2,7 +2,7 @@ import {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-nativ
 import {AnimatedStyle} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangedOptions} from '../../../hooks'
-import {EventName, ShapeType, State} from '../../Common'
+import {ComponentStatus, EventName, ShapeType, State} from '../../Common'
 import {IconButtonProps} from '../../Icon-button'
 import {TouchableProps} from '../../Touchable'
 import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from '../List-after-affordance'
@@ -86,14 +86,16 @@ export interface ListItemState {
         nextFocusEvent?: () => void
         nextLayoutEvent?: () => void
         nextPressOutEvent?: () => void
+        status: ComponentStatus
         trailingVisible?: boolean
 }
 
-export type HandleListItemStateEventChangeOptions = OnStateEventChangedOptions &
-        Pick<
-                RenderListItemProps,
-                'itemKey' | 'onActive' | 'selectType' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex' | 'type'
-        >
+export interface HandleListItemStateEventChangeOptions
+        extends OnStateEventChangedOptions,
+                Pick<
+                        RenderListItemProps,
+                        'itemKey' | 'onActive' | 'selectType' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex' | 'type'
+                > {}
 
 export type HandleListItemTrailingEventOptions = {callback?: () => void}
 export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {

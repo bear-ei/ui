@@ -142,8 +142,6 @@ const findVisibleRangeDataIndex =
 
 const handleVirtualListLoadEnd =
         (setState: Updater<VirtualListState>) => (onLoadEnd?: (value?: string) => void) => (value?: string) => {
-                const handleLoadEnd = () => onLoadEnd?.(value)
-
                 if (value) {
                         setState(draft => {
                                 const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(
@@ -155,7 +153,7 @@ const handleVirtualListLoadEnd =
                                         visibleRangeDataIndex !== -1
 
                                 if (loadEnd) {
-                                        draft.nextLoadEndEvent = handleLoadEnd
+                                        onLoadEnd?.(value)
                                 }
                         })
 
@@ -230,22 +228,13 @@ export const VirtualListBaseInner = <T,>(
         ref: ForwardedRef<Animated.ScrollView>
 ) => {
         const [
-                {
-                        emptyList,
-                        nextItemVisibleEvent,
-                        nextLoadEndEvent,
-                        nextScrollEvent,
-                        status,
-                        virtualListData,
-                        visibleRangeData
-                },
+                {emptyList, nextItemVisibleEvent, nextScrollEvent, status, virtualListData, visibleRangeData},
                 setState
         ] = useImmer<VirtualListState>({
                 emptyList: undefined,
                 endIndex: undefined,
                 layout: {} as LayoutRectangle,
                 nextItemVisibleEvent: undefined,
-                nextLoadEndEvent: undefined,
                 nextScrollEvent: undefined,
                 status: 'idle',
                 virtualListData: undefined,
@@ -317,10 +306,6 @@ export const VirtualListBaseInner = <T,>(
         useEffect(() => {
                 nextScrollEvent?.()
         }, [nextScrollEvent])
-
-        useEffect(() => {
-                nextLoadEndEvent?.()
-        }, [nextLoadEndEvent])
 
         useEffect(() => {
                 InteractionManager.runAfterInteractions(() => {

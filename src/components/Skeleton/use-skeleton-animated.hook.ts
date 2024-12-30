@@ -9,7 +9,7 @@ const handleSkeletonAnimatedTiming =
         (opacitySharedValue: SharedValue<number>) =>
         (skeletonVisible?: boolean) => {
                 if (enableAnimated && skeletonVisible) {
-                        animatedTiming({repeat: 0, duration: 2500})(opacitySharedValue)(2)
+                        animatedTiming({repeat: 0, duration: 'extraLong3'})(opacitySharedValue)(2)
                 } else {
                         cancelAnimation(opacitySharedValue)
                 }

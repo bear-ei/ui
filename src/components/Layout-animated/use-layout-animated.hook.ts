@@ -24,11 +24,11 @@ export const useLayoutAnimated = ({
         height,
         onAnimatedFinished,
         opacity: rawOpacity,
+        status,
         visible,
         width
 }: UseLayoutAnimatedOptions) => {
         const containerSharedValue = useSharedValue(visible ? 1 : 0)
-
         const theme = useTheme()
         const opacity = rawOpacity ?? theme.token.opacity.level10
         const animatedTiming = useAnimatedTiming({token: theme.token, disabledAnimated})
@@ -72,8 +72,10 @@ export const useLayoutAnimated = ({
         }
 
         useEffect(() => {
-                onLayoutAnimatedTiming(visible)
-        }, [visible, onLayoutAnimatedTiming])
+                if (status === 'succeeded') {
+                        onLayoutAnimatedTiming(visible)
+                }
+        }, [visible, onLayoutAnimatedTiming, status])
 
         return {
                 containerAnimatedStyle: containerAnimated[animatedType]

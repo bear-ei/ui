@@ -104,6 +104,10 @@ const handleListItemStateChanged =
                 } as Record<EventName, () => void>
 
                 setState(draft => {
+                        if (eventName === 'layout' && draft.status !== 'idle') {
+                                return
+                        }
+
                         const prevEventName = draft.eventName
 
                         if (eventName === 'blur' && prevEventName === 'focus') {
@@ -133,6 +137,7 @@ const handleListItemStateChanged =
                                 switch (eventName) {
                                         case 'layout':
                                                 draft.nextLayoutEvent = nextEvent[eventName]
+                                                draft.status = 'succeeded'
                                                 break
 
                                         case 'pressOut':
@@ -337,6 +342,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         nextFocusEvent: undefined,
                         nextLayoutEvent: undefined,
                         nextPressOutEvent: undefined,
+                        status: 'idle',
                         trailingVisible: undefined
                 })
 
