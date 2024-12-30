@@ -109,44 +109,43 @@ const handleListItemStateChanged =
                         }
 
                         const prevEventName = draft.eventName
+                        const menuFocus =
+                                eventName === 'blur' &&
+                                prevEventName === 'focus' &&
+                                type === 'menu' &&
+                                ['hoverIn', 'hoverOut'].includes(eventName)
 
-                        if (eventName === 'blur' && prevEventName === 'focus') {
-                                if (type === 'menu' && ['hoverIn', 'hoverOut'].includes(eventName)) {
-                                        return
-                                }
+                        if (menuFocus) {
+                                return
                         }
 
                         if (eventName) {
                                 draft.eventName = eventName
-                        }
-
-                        if (state) {
                                 draft.listItemState = state
                         }
 
-                        if (trailingTrigger && state) {
+                        if (trailingTrigger) {
                                 const visible =
                                         trailingTrigger === 'hovered' ?
+                                                state &&
                                                 ['hovered', 'longPressIn', 'pressIn', 'focused'].includes(state)
                                         :       trailingTrigger === state
 
                                 draft.trailingVisible = visible
                         }
 
-                        if (prevEventName !== eventName) {
-                                switch (eventName) {
-                                        case 'layout':
-                                                draft.nextLayoutEvent = nextEvent[eventName]
-                                                draft.status = 'succeeded'
-                                                break
+                        switch (eventName) {
+                                case 'layout':
+                                        draft.nextLayoutEvent = nextEvent[eventName]
+                                        draft.status = 'succeeded'
+                                        break
 
-                                        case 'pressOut':
-                                                draft.nextPressOutEvent = nextEvent[eventName]
-                                                break
+                                case 'pressOut':
+                                        draft.nextPressOutEvent = nextEvent[eventName]
+                                        break
 
-                                        default:
-                                                break
-                                }
+                                default:
+                                        break
                         }
                 })
         }
