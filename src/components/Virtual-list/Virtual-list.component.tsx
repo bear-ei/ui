@@ -16,8 +16,8 @@ const render = <T,>({
         loadingComponent,
         onStateEvent,
         scrollEventThrottle = 50,
-        status,
         testID,
+        status,
         ...containerProps
 }: RenderVirtualListProps<T>) => {
         const {onLayout} = onStateEvent
@@ -63,7 +63,7 @@ const render = <T,>({
                                 <LoadingContent
                                         lazy={true}
                                         testID={`virtualList__content--${id}`}
-                                        visible={loading && !!loadingComponent && status === 'succeeded'}
+                                        visible={loading && !!loadingComponent}
                                 >
                                         {loadingComponent}
                                 </LoadingContent>

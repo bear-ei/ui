@@ -11,10 +11,11 @@ export const Container = styled(Shape)<LayoutAnimatedContainerOptions>`
         flex-direction: column;
         overflow: hidden;
 
-        ${({width, height}) => css`
-                height: ${height ? `${height}px` : 'auto'};
-                width: ${width ? `${width}px` : 'auto'};
-        `}
+        ${({visible}) =>
+                !visible &&
+                css`
+                        z-index: -1024;
+                `}
 `
 
 export const Content = styled.View<LayoutAnimatedContentProps>`
@@ -29,7 +30,6 @@ export const Content = styled.View<LayoutAnimatedContentProps>`
                                 height: ${theme.token.spacing.none}px;
                                 min-height: ${theme.token.spacing.none}px;
                                 overflow: hidden;
-                                z-index: -1024;
                         `}
 `
 

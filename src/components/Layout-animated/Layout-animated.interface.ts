@@ -70,7 +70,7 @@ export interface UseLayoutAnimatedOptions
         status: ComponentStatus
 }
 
-export type HandleLayoutAnimatedInitOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>
+export type HandleLayoutAnimatedStatusOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>
 export interface HandleLayoutAnimatedTimingOptions
         extends Pick<UseLayoutAnimatedOptions, 'onAnimatedFinished' | 'entry' | 'exit'> {
         animatedTiming: AnimatedTiming
@@ -92,4 +92,4 @@ export interface HandleLayoutAnimatedLayoutVisibleDraftChangeOptions {
         width: number
 }
 
-export type LayoutAnimatedContainerOptions = Pick<LayoutAnimatedProps, 'width' | 'height'>
+export type LayoutAnimatedContainerOptions = Pick<LayoutAnimatedProps, 'width' | 'height' | 'visible'>

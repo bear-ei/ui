@@ -3,12 +3,13 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
-        HandleLayoutAnimatedInitOptions,
         HandleLayoutAnimatedLayoutVisibleDraftChangeOptions,
         HandleLayoutAnimatedStateChangeOptions,
+        HandleLayoutAnimatedStatusOptions,
         LayoutAnimatedBaseProps,
         LayoutAnimatedState
 } from './Layout-animated.interface'
@@ -43,12 +44,6 @@ const handleLayoutAnimatedLayoutVisible = (setState: Updater<LayoutAnimatedState
                                 return
                         }
 
-                        if (draft.unmountLayout) {
-                                draft.unmountLayout = false
-
-                                return
-                        }
-
                         const {width: prevWidth, height: prevHeight} = draft.layout
 
                         if (prevWidth !== width || prevHeight !== height) {
@@ -58,10 +53,6 @@ const handleLayoutAnimatedLayoutVisible = (setState: Updater<LayoutAnimatedState
 
                         draft.layoutVisible = value
                         draft.layoutWasVisible = value
-
-                        if (draft.status === 'idle') {
-                                draft.status = 'loading'
-                        }
                 }
 
         return (ref: React.RefObject<View>) => (value?: boolean) =>
@@ -87,6 +78,7 @@ const handleLayoutAnimatedFinished =
 
                         if (unmount) {
                                 draft.nextUnmountEvent = onUnmount
+                                draft.status = 'idle'
                                 draft.unmountLayout = true
 
                                 return
@@ -96,20 +88,20 @@ const handleLayoutAnimatedFinished =
                 })
         }
 
-const handleLayoutAnimatedInit =
-        ({unmount, lazy}: HandleLayoutAnimatedInitOptions) =>
+const handleLayoutAnimatedStatus =
+        ({unmount, lazy}: HandleLayoutAnimatedStatusOptions) =>
         (setState: Updater<LayoutAnimatedState>) =>
         (value?: boolean) =>
                 setState(draft => {
-                        if (draft.status !== 'idle') {
+                        if (draft.status === 'succeeded') {
                                 return
                         }
 
-                        if (unmount && !value) {
-                                draft.unmountLayout = true
+                        if (unmount) {
+                                draft.unmountLayout = !value
                         }
 
-                        draft.status = lazy ? 'idle' : 'loading'
+                        draft.status = lazy && !value ? 'idle' : 'loading'
                 })
 
 export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
@@ -148,7 +140,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 ] = useImmer<LayoutAnimatedState>({
                         layout: {} as LayoutRectangle,
                         layoutVisible: undefined,
-                        layoutWasVisible: undefined,
+                        layoutWasVisible: true,
                         nextStatusEvent: undefined,
                         nextUnmountEvent: undefined,
                         nextVisibleEvent: undefined,
@@ -160,7 +152,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 const id = useId()
                 const visible = rawVisible ?? defaultVisible
                 const onLayoutAnimatedLayoutVisible = useMemo(
-                        () => handleLayoutAnimatedLayoutVisible(setState),
+                        () => debounce(handleLayoutAnimatedLayoutVisible(setState)(layoutAnimatedRef))(50),
                         [setState]
                 )
 
@@ -169,8 +161,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [onUnmount, onVisible, setState, unmount]
                 )
 
-                const onLayoutAnimatedInit = useMemo(
-                        () => handleLayoutAnimatedInit({unmount, lazy})(setState),
+                const onLayoutAnimatedStatus = useMemo(
+                        () => handleLayoutAnimatedStatus({unmount, lazy})(setState),
                         [lazy, setState, unmount]
                 )
 
@@ -204,12 +196,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 )
 
                 useEffect(() => {
-                        onLayoutAnimatedInit(visible)
-                }, [onLayoutAnimatedInit, visible])
+                        onLayoutAnimatedStatus(visible)
+                }, [onLayoutAnimatedStatus, visible])
 
                 useEffect(() => {
-                        if (status !== 'idle') {
-                                onLayoutAnimatedLayoutVisible(layoutAnimatedRef)(visible)
+                        if (status === 'succeeded') {
+                                onLayoutAnimatedLayoutVisible(visible)
                         }
                 }, [onLayoutAnimatedLayoutVisible, status, visible])
 
