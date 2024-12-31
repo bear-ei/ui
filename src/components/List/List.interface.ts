@@ -21,6 +21,11 @@ export interface ListData
         indexKey: string
 }
 
+export interface OnCloseOptions {
+        activeKey?: string
+        indexKey?: string
+}
+
 export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
 export interface ListProps
         extends Partial<
@@ -46,7 +51,6 @@ export interface ListProps
                                 | 'onActive'
                                 | 'onActiveAfterAffordance'
                                 | 'onCancel'
-                                | 'onClose'
                                 | 'onConfirm'
                                 | 'selectType'
                                 | 'shape'
@@ -63,6 +67,7 @@ export interface ListProps
         defaultActiveKeys?: string[]
         deselect?: boolean
         onActives?: (values?: string[]) => void
+        onClose?: (options: OnCloseOptions) => void
         onItemStateEvent?: OnStateEvent
 
         /**
@@ -108,7 +113,6 @@ export type HandleRenderItemOptions = Pick<
         | 'onActive'
         | 'onActiveAfterAffordance'
         | 'onCancel'
-        | 'onClose'
         | 'onConfirm'
         | 'renderItem'
         | 'selectType'
@@ -119,9 +123,10 @@ export type HandleRenderItemOptions = Pick<
         | 'trailing'
         | 'trailingTriggerEvenName'
         | 'type'
->
+> &
+        Pick<ListItemProps, 'onClose'>
 
-export type HandleListCloseOptions = Pick<ListProps, 'onClose' | 'relatedActive' | 'selectType' | 'onActive'>
+export type HandleListCloseOptions = Pick<ListProps, 'onClose' | 'relatedActive' | 'selectType'>
 export interface ListBaseProps extends ListProps {
         render: (props: RenderListProps) => JSX.Element
 }

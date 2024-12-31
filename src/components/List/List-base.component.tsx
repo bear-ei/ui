@@ -12,6 +12,7 @@ import {
         ListData,
         ListState,
         ListType,
+        OnCloseOptions,
         RenderListItemOptions,
         RenderListProps,
         VirtualListComponent
@@ -115,12 +116,11 @@ const handleActiveListAfterAffordance =
                 }
         }
 
-const handleListClose =
-        ({selectType, onClose, relatedActive, onActive}: HandleListCloseOptions) =>
-        (setState: Updater<ListState>) =>
-        (value?: string) => {
+const handleListClose = ({selectType, onClose, relatedActive}: HandleListCloseOptions) => {
+        const handleNextCloseEvent = (options: OnCloseOptions) => () => onClose?.(options)
+
+        return (setState: Updater<ListState>) => (value?: string) => {
                 const findDataIndex = (datum: ListData) => datum.indexKey === value
-                const handleNextCloseEvent = () => onClose?.(value)
 
                 setState(draft => {
                         if (selectType === 'select' && relatedActive) {
@@ -129,12 +129,15 @@ const handleListClose =
                                 const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
 
                                 draft.listActiveKey = nextActiveKey
-                                draft.nextActiveEvent = handleNextActiveEvent({onActive})(nextActiveKey)
+                                draft.nextCloseEvent = handleNextCloseEvent({indexKey: value, activeKey: nextActiveKey})
+
+                                return
                         }
 
-                        draft.nextCloseEvent = handleNextCloseEvent
+                        draft.nextCloseEvent = handleNextCloseEvent({indexKey: value})
                 })
         }
+}
 
 const handleListData = (setState: Updater<ListState>) => (loading?: boolean) => (data?: ListData[]) =>
         setState(draft => {
@@ -253,7 +256,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         [setState, selectType]
                 )
 
-                const onListClose = handleListClose({onClose, relatedActive, selectType, onActive})(setState)
+                const onListClose = handleListClose({onClose, relatedActive, selectType})(setState)
                 const renderListItem = handleRenderListItem({
                         ...onItemStateEvent,
                         activeKey: listActiveKey,

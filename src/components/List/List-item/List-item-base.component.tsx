@@ -360,10 +360,18 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 })
 
                 const touchableRef = useRef<View>(null)
-                const active = selectType === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)
+                const active = useMemo(
+                        () => (selectType === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)),
+                        [activeKey, activeKeys, itemKey, selectType]
+                )
+
                 const theme = useTheme()
                 const activeColor = theme.token.scheme.secondaryContainer
-                const afterAffordanceVisible = afterAffordanceActiveKey === itemKey
+                const afterAffordanceVisible = useMemo(
+                        () => afterAffordanceActiveKey === itemKey,
+                        [afterAffordanceActiveKey, itemKey]
+                )
+
                 const id = useId()
                 const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
                 const onListItemPanResponderRelease = handleListItemPanResponderRelease({
