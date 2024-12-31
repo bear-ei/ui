@@ -4,7 +4,6 @@ import {MaskContainerProps, MaskContentProps} from './Mask.interface'
 
 export const Container = styled(LayoutAnimated)<MaskContainerProps>`
         cursor: default;
-        flex: none;
         position: absolute;
 
         ${({theme, backgroundColor}) => css`

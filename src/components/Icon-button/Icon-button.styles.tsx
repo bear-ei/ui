@@ -18,7 +18,6 @@ export const Container = styled.View`
 export const ContentItem = styled(LayoutAnimated)`
         align-items: center;
         display: flex;
-        flex: none;
         justify-content: center;
         position: absolute;
 

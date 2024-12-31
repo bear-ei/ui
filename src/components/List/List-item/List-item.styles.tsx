@@ -177,7 +177,6 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
         display: flex;
         flex-direction: column;
-        flex: none;
 
         ${({theme}) => css`
                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;

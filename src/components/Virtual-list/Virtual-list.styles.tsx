@@ -22,7 +22,6 @@ export const EmptyContent = styled(LayoutAnimated)`
         align-items: center;
         display: flex;
         flex-direction: column;
-        flex: none;
         justify-content: center;
         position: absolute;
 

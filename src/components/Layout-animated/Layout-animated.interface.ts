@@ -1,6 +1,6 @@
 import {Duration, Easing} from '@bearei/material-token'
 import {RefAttributes} from 'react'
-import {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
+import {LayoutChangeEvent, LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
@@ -15,6 +15,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         entry?: AnimatedTimingOptions
         exit?: AnimatedTimingOptions
         height?: number
+        hidden?: boolean
         lazy?: boolean
         onUnmount?: () => void
         onVisible?: (value?: boolean) => void
@@ -27,7 +28,6 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
-        layout?: LayoutRectangle
         onStateEvent: OnStateEvent
         status?: ComponentStatus
         visible?: boolean
@@ -50,7 +50,7 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 
 export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount' | 'onVisible'>
 export interface HandleLayoutAnimatedStateChangeOptions extends OnStateEventChangeOptions {
-        onLayoutChange: () => void
+        onLayoutChange: (event: LayoutChangeEvent) => void
 }
 
 export interface UseLayoutAnimatedOptions
@@ -77,8 +77,9 @@ export interface HandleLayoutAnimatedTimingOptions
 }
 
 export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>
-export interface LayoutAnimatedContentInnerProps extends Pick<RenderLayoutAnimatedProps, 'visible'> {
-        containerHeight?: number
+export interface LayoutAnimatedContentInnerProps {
+        height?: number
+        width?: number
 }
 
 export interface HandleLayoutAnimatedTimingSharedValue {
@@ -92,4 +93,4 @@ export interface HandleLayoutAnimatedLayoutVisibleDraftChangeOptions {
         width: number
 }
 
-export type LayoutAnimatedContainerOptions = Pick<LayoutAnimatedProps, 'width' | 'height' | 'visible'>
+export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible' | 'hidden'>

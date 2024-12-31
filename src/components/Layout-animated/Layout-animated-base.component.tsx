@@ -1,6 +1,6 @@
 import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {LayoutRectangle, View} from 'react-native'
+import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
@@ -15,18 +15,23 @@ import {
 } from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
-const handleLayoutAnimatedLayoutChange = (setState: Updater<LayoutAnimatedState>) => () =>
+const handleLayoutAnimatedLayoutChange = (setState: Updater<LayoutAnimatedState>) => (event: LayoutChangeEvent) => {
+        const {height, width} = event.nativeEvent.layout
+
         setState(draft => {
                 if (draft.status !== 'succeeded') {
+                        draft.layout.height = height
+                        draft.layout.width = width
                         draft.status = 'succeeded'
                 }
         })
+}
 
 const handleLayoutAnimatedStateChange =
         ({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
-        (_event: StateEvent) => {
+        (event: StateEvent) => {
                 const nextEvent = {
-                        layout: () => onLayoutChange()
+                        layout: () => onLayoutChange(event as LayoutChangeEvent)
                 } as Record<EventName, () => void>
 
                 if (eventName) {
@@ -56,9 +61,7 @@ const handleLayoutAnimatedLayoutVisible = (setState: Updater<LayoutAnimatedState
                 }
 
         return (ref: React.RefObject<View>) => (value?: boolean) =>
-                ref.current?.measure((_x, _y, width, height) => {
-                        setState(handleDraftChange({value, width, height}))
-                })
+                ref.current?.measure((_x, _y, width, height) => setState(handleDraftChange({value, width, height})))
 }
 
 const handleLayoutAnimatedFinished =
@@ -112,7 +115,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         disabledAnimated,
                         entry,
                         exit,
-                        height,
+                        height: rawHeight,
                         lazy = false,
                         onUnmount,
                         onVisible,
@@ -120,7 +123,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         render,
                         unmount,
                         visible: rawVisible,
-                        width,
+                        width: rawWidth,
                         ...renderProps
                 },
                 ref
@@ -148,9 +151,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         unmountLayout: undefined
                 })
 
-                const layoutAnimatedRef = useRef<View>(null)
+                const height = rawHeight ?? layout.height
+                const width = rawWidth ?? layout.width
                 const id = useId()
-                const visible = rawVisible ?? defaultVisible
+                const layoutAnimatedRef = useRef<View>(null)
+                const visible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
                 const onLayoutAnimatedLayoutVisible = useMemo(
                         () => debounce(handleLayoutAnimatedLayoutVisible(setState)(layoutAnimatedRef))(50),
                         [setState]
@@ -176,17 +181,18 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                 })(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
+                const animatedVisible = useMemo(() => layoutVisible ?? visible, [layoutVisible, visible])
                 const {containerAnimatedStyle} = useLayoutAnimated({
                         animatedType,
                         disabledAnimated,
                         entry,
                         exit,
-                        height: height ?? layout.height,
+                        height,
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         opacity,
                         status,
-                        visible: layoutVisible ?? visible,
-                        width: width ?? layout.width
+                        visible: animatedVisible,
+                        width
                 })
 
                 useImperativeHandle(
@@ -228,7 +234,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         containerAnimatedStyle,
                                         height,
                                         id,
-                                        layout,
                                         onStateEvent,
                                         ref: layoutAnimatedRef,
                                         status,
