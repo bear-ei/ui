@@ -304,6 +304,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 {
                         activeKey,
                         activeKeys,
+                        activeTriggerEvenName,
                         afterAffordance,
                         afterAffordanceActiveKey,
                         beforeAffordance,
@@ -330,7 +331,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         trailingProps,
                         trailingTriggerEvenName,
                         type = 'standard',
-                        activeTriggerEvenName,
                         ...renderProps
                 },
                 ref

@@ -6,6 +6,7 @@ import {ComponentStatus, EventName, ShapeType, State} from '../../Common'
 import {IconButtonProps} from '../../Icon-button'
 import {TouchableProps} from '../../Touchable'
 import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from '../List-after-affordance'
+
 import {ListType} from '../List.interface'
 
 export type SelectType = 'select' | 'multiselect'
@@ -49,14 +50,13 @@ export interface ListItemProps
         onVisible?: (onVirtualListItemVisible?: (value?: boolean) => void) => void
         selectType?: SelectType
         shape?: ShapeType
-        skeletonElement?: JSX.Element
         skeletonDuration?: number
+        skeletonElement?: JSX.Element
         supporting?: string | JSX.Element
         supportingTextNumberOfLines?: number
         trailing?: JSX.Element
         trailingProps?: IconButtonProps
         trailingTriggerEvenName?: EventName
-
         type?: ListType
 }
 

@@ -51,8 +51,8 @@ export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
 
         return (
                 <Container
-                        testID={`bearei__material--${id}`}
                         story={story}
+                        testID={`bearei__material--${id}`}
                 >
                         {['macos', 'windows', 'web'].includes(Platform.OS) ?
                                 <DesktopDevice {...props} />
