@@ -9,12 +9,12 @@ const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
         children,
         containerAnimatedStyle,
+        hidden = true,
         id,
         onStateEvent,
         style,
         testID,
         visible,
-        hidden = true,
         ...containerProps
 }: RenderLayoutAnimatedProps) => (
         <AnimatedContainer

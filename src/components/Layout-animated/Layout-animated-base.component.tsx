@@ -8,24 +8,32 @@ import {EventName, State} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
         HandleLayoutAnimatedLayoutVisibleDraftChangeOptions,
+        HandleLayoutAnimatedLayoutVisibleOptions,
         HandleLayoutAnimatedStateChangeOptions,
         HandleLayoutAnimatedStatusOptions,
         LayoutAnimatedBaseProps,
-        LayoutAnimatedState
+        LayoutAnimatedState,
+        LayoutAnimatedType
 } from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
-const handleLayoutAnimatedLayoutChange = (setState: Updater<LayoutAnimatedState>) => (event: LayoutChangeEvent) => {
-        const {height, width} = event.nativeEvent.layout
+const handleLayoutAnimatedLayoutChange =
+        (setState: Updater<LayoutAnimatedState>) =>
+        (animatedType: LayoutAnimatedType) =>
+        (event: LayoutChangeEvent) => {
+                const {height, width} = event.nativeEvent.layout
 
-        setState(draft => {
-                if (draft.status !== 'succeeded') {
-                        draft.layout.height = height
-                        draft.layout.width = width
-                        draft.status = 'succeeded'
-                }
-        })
-}
+                setState(draft => {
+                        if (draft.status !== 'succeeded') {
+                                if (animatedType.startsWith('collapse')) {
+                                        draft.layout.height = height
+                                        draft.layout.width = width
+                                }
+
+                                draft.status = 'succeeded'
+                        }
+                })
+        }
 
 const handleLayoutAnimatedStateChange =
         ({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
@@ -39,7 +47,7 @@ const handleLayoutAnimatedStateChange =
                 }
         }
 
-const handleLayoutAnimatedLayoutVisible = (setState: Updater<LayoutAnimatedState>) => {
+const handleLayoutAnimatedLayoutVisible = ({setState, animatedType}: HandleLayoutAnimatedLayoutVisibleOptions) => {
         const handleDraftChange =
                 ({value, width, height}: HandleLayoutAnimatedLayoutVisibleDraftChangeOptions) =>
                 (draft: WritableDraft<LayoutAnimatedState>) => {
@@ -49,11 +57,13 @@ const handleLayoutAnimatedLayoutVisible = (setState: Updater<LayoutAnimatedState
                                 return
                         }
 
-                        const {width: prevWidth, height: prevHeight} = draft.layout
+                        if (animatedType?.startsWith('collapse')) {
+                                const {width: prevWidth, height: prevHeight} = draft.layout
 
-                        if (prevWidth !== width || prevHeight !== height) {
-                                draft.layout.height = height
-                                draft.layout.width = width
+                                if (prevWidth !== width || prevHeight !== height) {
+                                        draft.layout.height = height
+                                        draft.layout.width = width
+                                }
                         }
 
                         draft.layoutVisible = value
@@ -157,8 +167,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 const layoutAnimatedRef = useRef<View>(null)
                 const visible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
                 const onLayoutAnimatedLayoutVisible = useMemo(
-                        () => debounce(handleLayoutAnimatedLayoutVisible(setState)(layoutAnimatedRef))(50),
-                        [setState]
+                        () =>
+                                debounce(
+                                        handleLayoutAnimatedLayoutVisible({setState, animatedType})(layoutAnimatedRef)
+                                )(50),
+                        [animatedType, setState]
                 )
 
                 const onLayoutAnimatedFinished = useMemo(
@@ -171,7 +184,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [lazy, setState, unmount]
                 )
 
-                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)
+                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)(animatedType)
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleLayoutAnimatedStateChange({

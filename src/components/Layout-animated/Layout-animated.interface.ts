@@ -2,6 +2,7 @@ import {Duration, Easing} from '@bearei/material-token'
 import {RefAttributes} from 'react'
 import {LayoutChangeEvent, LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {Updater} from 'use-immer'
 import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
@@ -91,6 +92,10 @@ export interface HandleLayoutAnimatedLayoutVisibleDraftChangeOptions {
         height: number
         value?: boolean
         width: number
+}
+
+export interface HandleLayoutAnimatedLayoutVisibleOptions extends Pick<LayoutAnimatedProps, 'animatedType'> {
+        setState: Updater<LayoutAnimatedState>
 }
 
 export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible' | 'hidden'>
