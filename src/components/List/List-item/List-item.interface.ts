@@ -15,6 +15,7 @@ export interface ListItemProps
         > {
         activeKey?: string
         activeKeys?: string[]
+        activeTriggerEvenName?: EventName
         afterAffordance?: JSX.Element | boolean
         afterAffordanceActiveKey?: string
         afterAffordancePrimaryButtonProps?: ListAfterAffordanceProps['primaryButtonProps']
@@ -54,7 +55,8 @@ export interface ListItemProps
         supportingTextNumberOfLines?: number
         trailing?: JSX.Element
         trailingProps?: IconButtonProps
-        trailingTrigger?: State
+        trailingTriggerEvenName?: EventName
+
         type?: ListType
 }
 
@@ -85,6 +87,7 @@ export interface ListItemState {
         listItemState?: State
         nextFocusEvent?: () => void
         nextLayoutEvent?: () => void
+        nextPressInEvent?: () => void
         nextPressOutEvent?: () => void
         status: ComponentStatus
         trailingVisible?: boolean
@@ -94,7 +97,14 @@ export interface HandleListItemStateEventChangeOptions
         extends OnStateEventChangeOptions,
                 Pick<
                         RenderListItemProps,
-                        'itemKey' | 'onActive' | 'selectType' | 'onLoadEnd' | 'trailingTrigger' | 'itemIndex' | 'type'
+                        | 'activeTriggerEvenName'
+                        | 'itemIndex'
+                        | 'itemKey'
+                        | 'onActive'
+                        | 'onLoadEnd'
+                        | 'selectType'
+                        | 'trailingTriggerEvenName'
+                        | 'type'
                 > {}
 
 export type HandleListItemTrailingEventOptions = {callback?: () => void}

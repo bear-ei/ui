@@ -181,6 +181,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 {
                         activeKey,
                         activeKeys,
+                        activeTriggerEvenName = 'pressOut',
                         afterAffordance,
                         afterAffordancePrimaryButtonProps,
                         afterAffordanceSecondaryButtonProps,
@@ -212,7 +213,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         skeletonDuration = 0,
                         skeletonElement,
                         supportingTextNumberOfLines,
-                        trailingTrigger,
+                        trailingTriggerEvenName,
                         type,
                         ...renderProps
                 },
@@ -243,6 +244,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 
                 const id = useId()
                 const listRef = useRef<VirtualListComponent<ListData>>(null)
+                const theme = useTheme()
                 const onListData = useMemo(() => handleListData(setState)(loading), [loading, setState])
                 const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, selectType})(setState)
                 const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
@@ -252,11 +254,11 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 )
 
                 const onListClose = handleListClose({onClose, relatedActive, selectType, onActive})(setState)
-                const theme = useTheme()
                 const renderListItem = handleRenderListItem({
                         ...onItemStateEvent,
                         activeKey: listActiveKey,
                         activeKeys: listActiveKeys,
+                        activeTriggerEvenName,
                         afterAffordance,
                         afterAffordanceActiveKey,
                         afterAffordancePrimaryButtonProps,
@@ -276,10 +278,10 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         renderItem,
                         selectType,
                         shape,
-                        skeletonElement,
                         skeletonDuration: loading && !loadingComponent ? -1 : skeletonDuration,
+                        skeletonElement,
                         supportingTextNumberOfLines,
-                        trailingTrigger,
+                        trailingTriggerEvenName,
                         type
                 })
 

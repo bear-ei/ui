@@ -88,7 +88,6 @@ export const Select = () => {
                         <List
                                 activeKey={activeKey}
                                 afterAffordance={true}
-                                autoActive={true}
                                 data={data}
                                 itemSize={56}
                                 onActive={onActiveKey}
@@ -174,7 +173,6 @@ export const Navigation = () => {
                                 itemSize={48}
                                 onActives={onActiveKeys}
                                 selectType='select'
-                                type='navigation'
                         />
                 </View>
         )

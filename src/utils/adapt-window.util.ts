@@ -1,4 +1,4 @@
-import {PixelRatio, Platform} from 'react-native'
+import {PixelRatio} from 'react-native'
 import {AdaptDesignOptions, AdaptWindowOptions} from './utils.interface'
 
 export const adaptWindow =
@@ -9,9 +9,7 @@ export const adaptWindow =
                 const widthScale = screenWidth / (designWidth / designDensity)
                 const scale = Math.min(widthScale, heightScale)
 
-                return () => {
-                        const desktop = ['macos', 'windows', 'web'].includes(Platform.OS)
-
+                return (desktop?: boolean) => {
                         if (desktop) {
                                 return {
                                         adaptFontSize: (size: number) => size,

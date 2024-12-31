@@ -58,7 +58,7 @@ const render = ({
         supportingTextNumberOfLines,
         testID,
         trailingElement,
-        trailingTrigger,
+        trailingTriggerEvenName,
         trailingVisible,
         type,
         underlayColor,
@@ -170,7 +170,7 @@ const render = ({
 
                                                         {trailingElement && (
                                                                 <Trailing
-                                                                        defaultVisible={!trailingTrigger}
+                                                                        defaultVisible={!trailingTriggerEvenName}
                                                                         supportingTextNumberOfLines={
                                                                                 supportingTextNumberOfLines
                                                                         }

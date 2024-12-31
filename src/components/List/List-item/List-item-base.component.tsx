@@ -77,30 +77,31 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
         }
 }
 
-const handleListItemPressOut =
-        (selectType?: SelectType) => (onActive?: (value?: string) => void) => (value: string) => {
-                if (selectType) {
-                        onActive?.(value)
-                }
+const handleListItemActive = (selectType?: SelectType) => (onActive?: (value?: string) => void) => (value: string) => {
+        if (selectType) {
+                onActive?.(value)
         }
+}
 
 const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
 const handleListItemStateChange =
         ({
+                activeTriggerEvenName,
                 eventName,
                 itemKey,
                 onActive,
                 onLoadEnd,
                 selectType,
                 state,
-                trailingTrigger,
+                trailingTriggerEvenName,
                 type
         }: HandleListItemStateEventChangeOptions) =>
         (setState: Updater<ListItemState>) =>
         (_event: StateEvent) => {
                 const nextEvent = {
                         layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
-                        pressOut: () => handleListItemPressOut(selectType)(onActive)(itemKey)
+                        pressIn: () => handleListItemActive(selectType)(onActive)(itemKey),
+                        pressOut: () => handleListItemActive(selectType)(onActive)(itemKey)
                 } as Record<EventName, () => void>
 
                 setState(draft => {
@@ -124,12 +125,12 @@ const handleListItemStateChange =
                                 draft.listItemState = state
                         }
 
-                        if (trailingTrigger) {
+                        if (trailingTriggerEvenName) {
                                 const visible =
-                                        trailingTrigger === 'hovered' ?
+                                        trailingTriggerEvenName === 'hoverIn' ?
                                                 state &&
                                                 ['hovered', 'longPressIn', 'pressIn', 'focused'].includes(state)
-                                        :       trailingTrigger === state
+                                        :       trailingTriggerEvenName === state
 
                                 draft.trailingVisible = visible
                         }
@@ -140,8 +141,18 @@ const handleListItemStateChange =
                                         draft.status = 'succeeded'
                                         break
 
+                                case 'pressIn':
+                                        if (activeTriggerEvenName === 'pressIn') {
+                                                draft.nextPressInEvent = nextEvent[eventName]
+                                        }
+
+                                        break
+
                                 case 'pressOut':
-                                        draft.nextPressOutEvent = nextEvent[eventName]
+                                        if (activeTriggerEvenName === 'pressOut') {
+                                                draft.nextPressOutEvent = nextEvent[eventName]
+                                        }
+
                                         break
 
                                 default:
@@ -317,8 +328,9 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         supporting,
                         trailing,
                         trailingProps,
-                        trailingTrigger,
+                        trailingTriggerEvenName,
                         type = 'standard',
+                        activeTriggerEvenName,
                         ...renderProps
                 },
                 ref
@@ -330,6 +342,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                                 listItemState,
                                 nextFocusEvent,
                                 nextLayoutEvent,
+                                nextPressInEvent,
                                 nextPressOutEvent,
                                 trailingVisible
                         },
@@ -340,6 +353,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         listItemState: undefined,
                         nextFocusEvent: undefined,
                         nextLayoutEvent: undefined,
+                        nextPressInEvent: undefined,
                         nextPressOutEvent: undefined,
                         status: 'idle',
                         trailingVisible: undefined
@@ -370,12 +384,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
                 const onListItemFocus = useMemo(() => handleListItemFocus(setState)(itemIndex), [itemIndex, setState])
                 const onListItemConfirm = ({itemKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
-                        handleListItemConfirm({
-                                options,
-                                onActiveAfterAffordance,
-                                onListItemClose,
-                                onConfirm
-                        })(value)
+                        handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
 
                 const onListItemClose = handleListItemClose({onClose, onVisible})(itemKey)
                 const onListItemTrailingPressOut = () =>
@@ -395,22 +404,18 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleListItemStateChange({
                                         ...options,
+                                        activeTriggerEvenName,
                                         itemIndex,
                                         itemKey,
                                         onActive,
                                         onLoadEnd,
                                         selectType,
                                         state,
-                                        trailingTrigger,
+                                        trailingTriggerEvenName,
                                         type
                                 })(setState)(event)
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        onStateEventChange,
-                        disabled
-                })
-
+                const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})
                 const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
                         active,
                         afterAffordanceVisible,
@@ -441,16 +446,20 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 }, [close, onListItemClose])
 
                 useEffect(() => {
-                        nextPressOutEvent?.()
-                }, [nextPressOutEvent])
-
-                useEffect(() => {
                         nextLayoutEvent?.()
                 }, [nextLayoutEvent])
 
                 useEffect(() => {
                         nextFocusEvent?.()
                 }, [nextFocusEvent])
+
+                useEffect(() => {
+                        nextPressInEvent?.()
+                }, [nextPressInEvent])
+
+                useEffect(() => {
+                        nextPressOutEvent?.()
+                }, [nextPressOutEvent])
 
                 return render({
                         ...renderProps,
@@ -477,7 +486,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         state: listItemState,
                         supporting,
                         trailingElement,
-                        trailingTrigger,
+                        trailingTriggerEvenName,
                         trailingVisible,
                         type,
                         underlayColor

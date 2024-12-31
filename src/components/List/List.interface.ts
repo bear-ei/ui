@@ -30,6 +30,7 @@ export interface ListProps
                                 ListItemProps,
                                 | 'activeKey'
                                 | 'activeKeys'
+                                | 'activeTriggerEvenName'
                                 | 'afterAffordance'
                                 | 'afterAffordanceActiveKey'
                                 | 'afterAffordancePrimaryButtonProps'
@@ -49,11 +50,11 @@ export interface ListProps
                                 | 'onConfirm'
                                 | 'selectType'
                                 | 'shape'
-                                | 'skeletonElement'
                                 | 'skeletonDuration'
+                                | 'skeletonElement'
                                 | 'supportingTextNumberOfLines'
                                 | 'trailing'
-                                | 'trailingTrigger'
+                                | 'trailingTriggerEvenName'
                                 | 'type'
                         >
         > {
@@ -90,6 +91,7 @@ export type HandleRenderItemOptions = Pick<
         RenderListProps,
         | 'activeKey'
         | 'activeKeys'
+        | 'activeTriggerEvenName'
         | 'afterAffordance'
         | 'afterAffordanceActiveKey'
         | 'afterAffordancePrimaryButtonProps'
@@ -111,11 +113,11 @@ export type HandleRenderItemOptions = Pick<
         | 'renderItem'
         | 'selectType'
         | 'shape'
-        | 'skeletonElement'
         | 'skeletonDuration'
+        | 'skeletonElement'
         | 'supportingTextNumberOfLines'
         | 'trailing'
-        | 'trailingTrigger'
+        | 'trailingTriggerEvenName'
         | 'type'
 >
 
