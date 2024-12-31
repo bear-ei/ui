@@ -7,12 +7,16 @@ import {
 } from './Layout-animated.interface'
 
 export const Container = styled(Shape)<LayoutAnimatedContainerOptions>`
+        align-self: stretch;
         display: flex;
         flex-direction: column;
+        flex: 1;
         overflow: hidden;
 
         ${({width, height}) => css`
                 height: ${height ? `${height}px` : 'auto'};
+                max-height: ${height ? `${height}px` : 'auto'};
+                max-width: ${width ? `${width}px` : 'auto'};
                 width: ${width ? `${width}px` : 'auto'};
         `}
 

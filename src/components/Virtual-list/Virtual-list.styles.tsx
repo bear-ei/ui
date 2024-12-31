@@ -16,19 +16,13 @@ export const Content = styled(LayoutAnimated)`
         display: flex;
         flex-direction: column;
         justify-content: center;
-
-        ${({visible}) =>
-                visible &&
-                css`
-                        align-self: stretch;
-                        flex: 1;
-                `}
 `
 
 export const EmptyContent = styled(LayoutAnimated)`
         align-items: center;
         display: flex;
         flex-direction: column;
+        flex: auto;
         justify-content: center;
         position: absolute;
 

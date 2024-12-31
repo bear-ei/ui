@@ -135,6 +135,7 @@ export const IconContainer = styled.View`
 `
 
 export const ActiveIndicator = styled(LayoutAnimated)`
+        flex: auto;
         position: absolute;
         z-index: 8;
 

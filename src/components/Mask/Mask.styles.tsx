@@ -4,6 +4,7 @@ import {MaskContainerProps, MaskContentProps} from './Mask.interface'
 
 export const Container = styled(LayoutAnimated)<MaskContainerProps>`
         cursor: default;
+        flex: auto;
         position: absolute;
 
         ${({theme, backgroundColor}) => css`
@@ -12,11 +13,9 @@ export const Container = styled(LayoutAnimated)<MaskContainerProps>`
                 )};
 
                 bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-                height: auto;
                 left: ${theme.adaptSize(theme.token.spacing.none)}px;
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
-                width: auto;
                 z-index: 4096;
         `};
 
