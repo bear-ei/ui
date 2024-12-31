@@ -161,7 +161,7 @@ export const Input = styled.TextInput`
 `
 
 export const Supporting = styled(LayoutAnimated)`
-        flex: auto;
+        flex: none;
 
         ${({theme}) => css`
                 height: ${theme.adaptSize(theme.token.spacing.medium)}px;

@@ -4,7 +4,7 @@ import {LayoutPaneContainerProps} from './Layout-pane.interface'
 
 export const Container = styled(LayoutAnimated)<LayoutPaneContainerProps & LayoutAnimatedProps>`
         align-self: stretch;
-        flex: auto;
+        flex: none;
         overflow: hidden;
 
         ${({theme}) => css`

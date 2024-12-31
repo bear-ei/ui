@@ -22,7 +22,7 @@ export const EmptyContent = styled(LayoutAnimated)`
         align-items: center;
         display: flex;
         flex-direction: column;
-        flex: auto;
+        flex: none;
         justify-content: center;
         position: absolute;
 

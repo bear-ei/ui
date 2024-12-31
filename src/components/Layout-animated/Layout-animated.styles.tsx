@@ -37,7 +37,7 @@ export const Content = styled.View<LayoutAnimatedContentProps>`
                         `
                 :       css`
                                 height: ${theme.token.spacing.none}px;
-                                min-height: ${theme.token.spacing.none}px;
+                                max-height: ${theme.token.spacing.none}px;
                                 overflow: hidden;
                         `}
 `
