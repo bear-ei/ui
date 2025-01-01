@@ -94,7 +94,7 @@ export interface FormState {
 }
 
 export type HandleFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
-export type RenderFormItemOptions = Pick<FormItemProps, 'skeletonElement' | 'skeletonDuration' | 'validatorOptions'> &
+export type HandleFormItemOptions = Pick<FormItemProps, 'skeletonElement' | 'skeletonDuration' | 'validatorOptions'> &
         Pick<FormProps, 'onLoadEnd'>
 
 export interface HandleFormValidateOptions {

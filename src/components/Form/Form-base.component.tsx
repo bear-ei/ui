@@ -1,52 +1,9 @@
 import {ForwardedRef, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
-import {Updater, useImmer} from 'use-immer'
-import {ComponentStatus} from '../Common'
-import {FormItem, FormItemProps} from './Form-item'
-import {
-        FormBaseProps,
-        FormCallbacks,
-        FormState,
-        HandleFormCallbacksOptions,
-        RenderFormItemOptions
-} from './Form.interface'
+import {useImmer} from 'use-immer'
+import {handleFormCallbacks, handleFormInit, handleFormItem} from './Form-handle'
+import {FormBaseProps, FormState} from './Form.interface'
 import {useForm} from './use-form.hook'
-
-const handleFormInit =
-        <T,>(setState: Updater<FormState>) =>
-        (setInitialValues: (initialized?: boolean) => (value?: T) => void) =>
-        (value?: T) =>
-                setState(draft => {
-                        if (draft.status !== 'idle') {
-                                return
-                        }
-
-                        if (value) {
-                                setInitialValues()(value)
-                        }
-
-                        draft.status = 'succeeded'
-                })
-
-const handleFormCallbacks =
-        <T,>({onFinish, onFinishFailed, onValuesChange}: HandleFormCallbacksOptions<T>) =>
-        (setCallbacks: (callback: FormCallbacks<T>) => void) =>
-                setCallbacks({onFinish, onFinishFailed, onValuesChange})
-
-const renderFormItem =
-        ({onLoadEnd, ...options}: RenderFormItemOptions) =>
-        (status: ComponentStatus) =>
-        (items?: FormItemProps[]) =>
-                status === 'succeeded' ?
-                        items?.map((item, index) => (
-                                <FormItem
-                                        {...item}
-                                        {...options}
-                                        {...(index === items.length - 1 && {onLoadEnd})}
-                                        key={item.name ?? index}
-                                />
-                        ))
-                :       <></>
 
 const FormBaseInner = <T,>(
         {
@@ -75,12 +32,9 @@ const FormBaseInner = <T,>(
                 [onFinish, onFinishFailed, onValuesChange, setCallbacks]
         )
 
-        const formItemElements = renderFormItem({
-                onLoadEnd,
-                skeletonElement,
-                skeletonDuration,
-                validatorOptions
-        })(status)(items)
+        const formItemElements = handleFormItem({onLoadEnd, skeletonElement, skeletonDuration, validatorOptions})(
+                status
+        )(items)
 
         useEffect(() => {
                 onFormCallbacks()
