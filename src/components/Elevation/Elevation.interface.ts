@@ -10,7 +10,7 @@ export interface ElevationProps extends ViewProps, RefAttributes<View>, Pick<Sha
 }
 
 export interface RenderElevationProps extends Omit<ElevationProps, 'renderStyle'> {
-        shadowAnimatedStyle: AnimatedStyle<ViewStyle>
+        shadowAnimatedStyle?: AnimatedStyle<ViewStyle>
 }
 
 export interface ElevationBaseProps extends ElevationProps {

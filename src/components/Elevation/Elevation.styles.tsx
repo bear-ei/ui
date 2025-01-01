@@ -1,4 +1,3 @@
-import {Elevation} from '@bearei/material-token'
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
 import {ElevationShadowProps} from './Elevation.interface'
@@ -23,18 +22,7 @@ export const Shadow = styled(Shape)<ElevationShadowProps>`
         align-self: stretch;
         flex: 1;
 
-        ${({theme, level = 0}) => {
-                const levelString: keyof Elevation = level === 0 ? `level${1}` : `level${level}`
-
-                return css`
-                        background-color: ${theme.token.scheme.surfaceContainerLow};
-                        elevation: ${theme.token.elevation[levelString].elevation};
-                        shadow-color: ${theme.token.elevation.shadowColor};
-                        shadow-offset: ${theme.adaptSize(theme.token.elevation[levelString].shadowOffset.width)}px
-                                ${theme.adaptSize(theme.token.elevation[levelString].shadowOffset.height)}px;
-
-                        shadow-radius: ${theme.adaptSize(theme.token.elevation[levelString].shadowRadius)}px;
-                        shadow-opacity: ${theme.token.opacity.level10};
-                `
-        }};
+        ${({theme}) => css`
+                background-color: ${theme.token.scheme.surfaceContainerLow};
+        `};
 `

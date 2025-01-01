@@ -21,7 +21,6 @@ const render = ({
         id,
         labelText,
         labelTextAnimatedStyle,
-        loading,
         onStateEvent,
         ref,
         size,
@@ -45,6 +44,7 @@ const render = ({
                 <Elevation
                         level={elevation}
                         shape={shape}
+                        testID={`fab__elevation--${id}`}
                 />
         )
 
@@ -57,10 +57,11 @@ const render = ({
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
-                                disabled={loading || disabled}
+                                disabled={disabled}
                                 elevationUnderlay={elevationUnderlayElement}
                                 ref={ref}
                                 shape={shape}
+                                testID={`fab__touchable--${id}`}
                                 underlayColor={underlayColor}
                         >
                                 <Content
@@ -84,6 +85,7 @@ const render = ({
                                                                 {icon}
                                                         </IconContainer>
                                                 )}
+
                                                 {extendedFAB && labelText && (
                                                         <AnimatedLabelText
                                                                 size='large'
@@ -99,6 +101,7 @@ const render = ({
                                         <Underlay
                                                 eventName={eventName}
                                                 shape={shape}
+                                                testID={`fab__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>
