@@ -16,6 +16,19 @@ import {
         HandleButtonStateChangeOptions
 } from './Button.interface'
 
+export const handleButtonInit = (setState: Updater<ButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
+        setState(draft => {
+                if (draft.status !== 'idle') {
+                        return
+                }
+
+                if (type === 'elevated' && !disabled) {
+                        draft.elevation = 1
+                }
+
+                draft.status = 'succeeded'
+        })
+
 export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
         const elevationType = type && ['elevated', 'filled', 'tonal'].includes(type)
 
@@ -61,19 +74,6 @@ export const handleButtonStateChange =
                         }
                 })
         }
-
-export const handleButtonInit = (setState: Updater<ButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
-        setState(draft => {
-                if (draft.status !== 'idle') {
-                        return
-                }
-
-                if (type === 'elevated' && !disabled) {
-                        draft.elevation = 1
-                }
-
-                draft.status = 'succeeded'
-        })
 
 export const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: ButtonType) => (disabled?: boolean) =>
         typeof disabled === 'boolean' &&

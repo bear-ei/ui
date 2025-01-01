@@ -1,4 +1,4 @@
-import {StyleProp, ViewStyle} from 'react-native'
+import {ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
@@ -19,7 +19,6 @@ export interface CheckboxProps extends TouchableProps {
 export interface RenderCheckboxProps extends CheckboxProps {
         eventName?: EventName
         iconAnimatedStyle: AnimatedStyle<ViewStyle>
-        iconSvgStyle: StyleProp<ViewStyle>
         onStateEvent: OnStateEvent
         theme: DefaultTheme
 }
@@ -29,10 +28,9 @@ export interface CheckboxBaseProps extends CheckboxProps {
 }
 
 export interface CheckboxState {
-        checkboxActive?: boolean
+        active?: boolean
         eventName?: EventName
         nextActiveEvent?: () => void
-        nextPressOutEvent?: () => void
         status: ComponentStatus
         type?: CheckboxType
 }

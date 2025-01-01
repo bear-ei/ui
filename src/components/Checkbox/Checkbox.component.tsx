@@ -14,13 +14,11 @@ const render = ({
         error,
         eventName,
         iconAnimatedStyle,
-        iconSvgStyle,
         id,
         onStateEvent,
         testID,
         theme,
         type,
-        underlayColor,
         ...contentProps
 }: RenderCheckboxProps) => {
         const activeFill = error ? theme.token.scheme.error : theme.token.scheme.primary
@@ -31,6 +29,15 @@ const render = ({
         const iconStyle = {
                 width: iconSize,
                 height: iconSize
+        }
+
+        const checkUnderlayColor =
+                type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
+
+        const underlayColor = error ? theme.token.scheme.error : checkUnderlayColor
+        const iconSvgStyle = {
+                minWidth: theme.adaptSize(theme.token.spacing.large),
+                minHeight: theme.adaptSize(theme.token.spacing.large)
         }
 
         return (
