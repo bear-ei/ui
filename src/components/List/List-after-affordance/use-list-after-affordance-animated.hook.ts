@@ -1,28 +1,28 @@
 import {useEffect, useMemo} from 'react'
-import {SharedValue, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
+import {useAnimatedTiming} from '../../../hooks'
+import {handleListAfterAffordanceAnimatedTiming} from './List-after-affordance-handle'
 import {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
-
-const handleListAfterAffordanceAnimatedTiming =
-        (animatedTiming: AnimatedTiming) =>
-        (translateXSharedValue: SharedValue<number>) =>
-        (doubleConfirmed?: boolean) => {
-                if (typeof doubleConfirmed === 'boolean') {
-                        animatedTiming()(translateXSharedValue)(doubleConfirmed ? 1 : 0)
-                }
-        }
 
 export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAffordanceAnimatedOptions) => {
         const translateXSharedValue = useSharedValue(0)
         const theme = useTheme()
         const {spacing} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const translateXOutputRange = [theme.adaptSize(spacing.none), -(theme.adaptSize(spacing.extraSmall * 28) / 2)]
+        const dangerTranslateXOutputRange = [
+                theme.adaptSize(spacing.none),
+                -(theme.adaptSize(spacing.extraSmall * 28) / 2)
+        ]
+
         const dangerAnimatedStyle = useAnimatedStyle(() => ({
                 transform: [
                         {
-                                translateX: interpolate(translateXSharedValue.value, [0, 1], translateXOutputRange)
+                                translateX: interpolate(
+                                        translateXSharedValue.value,
+                                        [0, 1],
+                                        dangerTranslateXOutputRange
+                                )
                         }
                 ]
         }))

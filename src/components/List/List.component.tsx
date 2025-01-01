@@ -8,7 +8,6 @@ const render = ({
         activeKey,
         activeKeys,
         afterAffordanceActiveKey,
-        disabled,
         extraData = [],
         focusedIndex,
         id,
@@ -29,7 +28,6 @@ const render = ({
                                 `${activeKey}`,
                                 `${activeKeys?.join()} `,
                                 `${afterAffordanceActiveKey}`,
-                                `${disabled}`,
                                 `${focusedIndex}`,
                                 `${loading}`,
                                 ...extraData

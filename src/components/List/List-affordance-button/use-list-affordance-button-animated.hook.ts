@@ -1,12 +1,9 @@
 import {useEffect, useMemo} from 'react'
-import {SharedValue, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
+import {useAnimatedTiming} from '../../../hooks'
 import {UseListAffordanceButtonAnimatedOptions} from './List-affordance-button.interface'
-
-const handleListAffordanceButtonAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<number>) => (disabled?: boolean) =>
-                animatedTiming()(colorSharedValue)(disabled ? 0 : 1)
+import {handleListAffordanceButtonAnimatedTiming} from './List-affordance-handle'
 
 export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceButtonAnimatedOptions) => {
         const theme = useTheme()

@@ -2,28 +2,46 @@ import {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-nativ
 import {AnimatedStyle} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
-import {ComponentStatus, EventName, ShapeType, State} from '../../Common'
+import {ComponentStatus, EventName, State} from '../../Common'
 import {IconButtonProps} from '../../Icon-button'
 import {TouchableProps} from '../../Touchable'
-import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from '../List-after-affordance'
-
-import {ListType} from '../List.interface'
+import {ListAffordanceButtonProps} from '../List-affordance-button'
+import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
+import {ListProps} from '../List.interface'
 
 export type SelectType = 'select' | 'multiselect'
 export interface ListItemProps
-        extends Partial<
-                TouchableProps & Omit<ListAfterAffordanceProps, 'PrimaryButtonProps' | 'SecondaryButtonProps'>
-        > {
-        activeKey?: string
-        activeKeys?: string[]
-        activeTriggerEvenName?: EventName
-        afterAffordance?: JSX.Element | boolean
-        afterAffordanceActiveKey?: string
-        afterAffordancePrimaryButtonProps?: ListAfterAffordanceProps['primaryButtonProps']
-        afterAffordanceSecondaryButtonProps?: ListAfterAffordanceProps['secondaryButtonProps']
-        beforeAffordance?: JSX.Element | boolean
+        extends Partial<TouchableProps>,
+                Pick<
+                        ListProps,
+                        | 'activeKey'
+                        | 'activeKeys'
+                        | 'activeTriggerEvenName'
+                        | 'afterAffordance'
+                        | 'afterAffordanceActiveKey'
+                        | 'afterAffordancePrimaryButtonProps'
+                        | 'afterAffordanceSecondaryButtonProps'
+                        | 'beforeAffordance'
+                        | 'closeTrailing'
+                        | 'divider'
+                        | 'enableUnderlay'
+                        | 'enableUnderlayActive'
+                        | 'focusedIndex'
+                        | 'gap'
+                        | 'onActive'
+                        | 'onActiveAfterAffordance'
+                        | 'onCancel'
+                        | 'onConfirm'
+                        | 'selectType'
+                        | 'shape'
+                        | 'skeletonDuration'
+                        | 'skeletonElement'
+                        | 'supportingTextNumberOfLines'
+                        | 'trailing'
+                        | 'trailingTriggerEvenName'
+                        | 'type'
+                > {
         close?: boolean
-        closeTrailing?: boolean
 
         /**
          * Enabling ripples while using style to specify the background color can cause the ripple to be obscured, as the
@@ -31,38 +49,24 @@ export interface ListItemProps
          * color when ripples are enabled.
          */
         contentStyle?: StyleProp<ViewStyle>
-        divider?: boolean
-        enableUnderlay?: boolean
-        enableUnderlayActive?: boolean
         extraData?: string[]
-        focusedIndex?: number
-        gap?: number
         headline?: React.ReactNode
         itemIndex?: number
         itemKey: string
         itemLayout?: {width?: number; height?: number}
         leading?: JSX.Element
-        onActive?: (value?: string) => void
-        onActiveAfterAffordance?: (value?: string) => void
         onActives?: (value?: string[]) => void
         onClose?: (value?: string) => void
         onLoadEnd?: (value?: string) => void
         onVisible?: (onVirtualListItemVisible?: (value?: boolean) => void) => void
-        selectType?: SelectType
-        shape?: ShapeType
-        skeletonDuration?: number
-        skeletonElement?: JSX.Element
+        primaryButtonProps?: ListAffordanceButtonProps
+        secondaryButtonProps?: ListAffordanceButtonProps
         supporting?: string | JSX.Element
-        supportingTextNumberOfLines?: number
-        trailing?: JSX.Element
         trailingProps?: IconButtonProps
-        trailingTriggerEvenName?: EventName
-        type?: ListType
 }
 
 export interface RenderListItemProps extends ListItemProps {
         active?: boolean
-        activeColor: string
         afterAffordanceVisible?: boolean
         contentAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
@@ -72,9 +76,9 @@ export interface RenderListItemProps extends ListItemProps {
         panResponder?: PanResponderInstance
         skeletonVisible?: boolean
         state?: State
+        theme: DefaultTheme
         trailingElement?: JSX.Element
         trailingVisible?: boolean
-        underlayColor: string
 }
 
 export interface ListItemBaseProps extends ListItemProps {
@@ -85,7 +89,6 @@ export interface ListItemState {
         afterAffordanceClosed?: boolean
         eventName?: EventName
         listItemState?: State
-        nextFocusEvent?: () => void
         nextLayoutEvent?: () => void
         nextPressInEvent?: () => void
         nextPressOutEvent?: () => void
@@ -114,10 +117,10 @@ export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 
         onListItemClose: (value?: boolean) => void
 }
 
-export interface RenderListItemTrailingOptions
+export interface HandleListItemTrailingOptions
         extends Pick<
                 RenderListItemProps,
-                'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps'
+                'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps' | 'id'
         > {
         onStateEvent: Partial<OnStateEvent>
         theme: DefaultTheme

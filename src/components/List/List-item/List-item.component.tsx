@@ -7,7 +7,8 @@ import {Skeleton} from '../../Skeleton'
 import {Touchable} from '../../Touchable'
 import {ActiveAnimatedType, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance/List-after-affordance.component'
-import {handleListItemPropsEqual, ListItemBase} from './List-item-base.component'
+import {ListItemBase} from './List-item-base.component'
+import {handleListItemPropsEqual} from './List-item-handle'
 import {ListItemProps, RenderListItemProps} from './List-item.interface'
 import {
         AfterAffordanceContainer,
@@ -27,7 +28,6 @@ const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 const render = ({
         active,
-        activeColor,
         afterAffordance,
         afterAffordancePrimaryButtonProps,
         afterAffordanceSecondaryButtonProps,
@@ -61,9 +61,11 @@ const render = ({
         trailingTriggerEvenName,
         trailingVisible,
         type,
-        underlayColor,
+        theme,
         ...mainProps
 }: RenderListItemProps) => {
+        const activeColor = theme.token.scheme.secondaryContainer
+        const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
         const supportingTextShow = !!supporting
         const trailingShow = !!trailingElement
         const underlayProps = selectType &&
@@ -78,8 +80,6 @@ const render = ({
         return (
                 <Container
                         {...panResponder?.panHandlers}
-                        accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
-                        accessibilityRole='list'
                         shape={shape}
                         testID={testID ?? `listItem--${id}`}
                         type={type}
@@ -88,6 +88,7 @@ const render = ({
                                 containerLayout='horizontal'
                                 content={skeletonDuration ? skeletonElement : undefined}
                                 duration={skeletonDuration}
+                                testID={`listItem__skeleton--${id}`}
                         >
                                 {beforeAffordance && (
                                         <BeforeAffordanceContainer
@@ -98,6 +99,8 @@ const render = ({
                                 )}
 
                                 <AnimatedContent
+                                        accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
+                                        accessibilityRole='list'
                                         style={[contentStyle, contentAnimatedStyle]}
                                         testID={`listItem_content--${id}`}
                                         type={type}
@@ -107,6 +110,7 @@ const render = ({
                                                 disabled={disabled}
                                                 enableTouchableRipple={!enableUnderlayActive ? enableUnderlay : false}
                                                 ref={ref}
+                                                testID={`listItem__touchable--${id}`}
                                                 underlayColor={underlayColor}
                                         >
                                                 <Main
@@ -188,6 +192,7 @@ const render = ({
                                                                 <Underlay
                                                                         {...underlayProps}
                                                                         eventName={eventName}
+                                                                        testID={`listItem__underlay--${id}`}
                                                                         underlayColor={underlayColor}
                                                                 />
                                                         )}
@@ -206,6 +211,7 @@ const render = ({
                                                                 secondaryButtonProps={
                                                                         afterAffordanceSecondaryButtonProps
                                                                 }
+                                                                testID={`listItem__listAfterAffordance--${id}`}
                                                                 visible={afterAffordanceVisible}
                                                         />
                                                 :       afterAffordance}
@@ -213,10 +219,11 @@ const render = ({
                                 )}
 
                                 {divider && (
-                                        <DividerContainer testID={`listItem__divider--${id}`}>
+                                        <DividerContainer testID={`listItem__dividerContainer--${id}`}>
                                                 <Divider
                                                         layout='horizontal'
                                                         size='large'
+                                                        testID={`listItem__divider--${id}`}
                                                 />
                                         </DividerContainer>
                                 )}

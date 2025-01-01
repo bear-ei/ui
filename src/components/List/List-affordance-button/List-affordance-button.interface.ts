@@ -1,5 +1,6 @@
 import {TextStyle, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
+import {DefaultTheme} from 'styled-components'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
 import {EventName} from '../../Common'
 import {TouchableProps} from '../../Touchable'
@@ -9,6 +10,7 @@ export interface ListAffordanceButtonProps extends TouchableProps {
         labelText?: string
         loading?: boolean
         underlayColor?: string
+        visible?: boolean
 }
 
 export interface RenderListAffordanceButtonProps extends ListAffordanceButtonProps {
@@ -16,6 +18,7 @@ export interface RenderListAffordanceButtonProps extends ListAffordanceButtonPro
         eventName?: EventName
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         onStateEvent: OnStateEvent
+        theme: DefaultTheme
 }
 
 export interface ListAffordanceButtonBaseProps extends ListAffordanceButtonProps {
@@ -27,5 +30,7 @@ export interface ListAffordanceButtonState {
 }
 
 export type UseListAffordanceButtonAnimatedOptions = Pick<RenderListAffordanceButtonProps, 'disabled'>
-export type HandleListAffordanceButtonStateEventChangeOptions = OnStateEventChangeOptions
+export type HandleListAffordanceButtonStateEventChangeOptions = OnStateEventChangeOptions &
+        Pick<RenderListAffordanceButtonProps, 'visible'>
+
 export type ListAffordanceButtonContainerProps = Pick<RenderListAffordanceButtonProps, 'disabled'>

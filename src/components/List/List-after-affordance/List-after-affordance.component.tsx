@@ -18,10 +18,12 @@ const render = ({
         primaryButtonProps,
         secondaryButtonProps,
         testID,
+        visible,
         ...containerProps
 }: RenderListAfterAffordanceProps) => (
         <Container
                 {...containerProps}
+                pointerEvents={visible ? 'auto' : 'none'}
                 testID={testID ?? `listAfterAffordance--${id}`}
         >
                 <ListAffordanceButton
@@ -29,12 +31,16 @@ const render = ({
                                 icon: (
                                         <Icon
                                                 fill={fill}
+                                                iconStyle='sharp'
                                                 name='check'
+                                                testID={`listAfterAffordance__icon--${id}`}
+                                                type='outlined'
                                         />
                                 )
                         })}
                         {...{labelText: 'Confirm', ...primaryButtonProps}}
                         onPressOut={onConfirm}
+                        visible={visible}
                 />
 
                 <ListAffordanceButton
@@ -42,16 +48,19 @@ const render = ({
                                 icon: (
                                         <Icon
                                                 fill={fill}
+                                                iconStyle='sharp'
                                                 name='close'
+                                                testID={`listAfterAffordance__icon--${id}`}
+                                                type='outlined'
                                         />
                                 )
                         })}
                         {...{labelText: 'Cancel', ...secondaryButtonProps}}
                         onPressOut={onCancel}
+                        visible={visible}
                 />
 
                 <AnimatedDanger
-                        disabled={secondaryButtonProps?.loading || secondaryButtonProps?.disabled}
                         pointerEvents='none'
                         style={[dangerAnimatedStyle]}
                         testID={`listAfterAffordance__danger--${id}`}

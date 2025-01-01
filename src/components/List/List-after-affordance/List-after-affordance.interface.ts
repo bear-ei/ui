@@ -1,19 +1,20 @@
 import {RefAttributes} from 'react'
 import {GestureResponderEvent, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
-import {ListAffordanceButtonProps} from '../List-affordance-button'
+import {ListItemProps} from '../List-item'
 
 export interface ListAfterAffordancePressOutOptions {
         doubleConfirmed?: boolean
         itemKey?: string
 }
 
-export interface ListAfterAffordanceProps extends ViewProps, RefAttributes<View> {
-        itemKey: string
-        onCancel?: (options: ListAfterAffordancePressOutOptions) => void
-        onConfirm?: (options: ListAfterAffordancePressOutOptions) => void
-        primaryButtonProps?: ListAffordanceButtonProps
-        secondaryButtonProps?: ListAffordanceButtonProps
+export interface ListAfterAffordanceProps
+        extends ViewProps,
+                RefAttributes<View>,
+                Pick<
+                        ListItemProps,
+                        'itemKey' | 'primaryButtonProps' | 'secondaryButtonProps' | 'onCancel' | 'onConfirm'
+                > {
         visible?: boolean
 }
 

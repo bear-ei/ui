@@ -1,8 +1,9 @@
 import {RefAttributes} from 'react'
 import {OnStateEvent} from '../../hooks'
-import {ComponentStatus} from '../Common'
+import {ComponentStatus, EventName, ShapeType} from '../Common'
 import {RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
-import {ListItemProps} from './List-item'
+import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from './List-after-affordance'
+import {ListItemProps, SelectType} from './List-item'
 
 export type VirtualListComponent<T> = typeof VirtualList<T>
 export type ListType = 'standard' | 'menu'
@@ -21,54 +22,46 @@ export interface ListData
         indexKey: string
 }
 
-export interface OnCloseOptions {
+export interface OnListCloseOptions {
         activeKey?: string
         indexKey?: string
 }
 
-export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
-export interface ListProps
-        extends Partial<
-                VirtualListProps<ListData> &
-                        RefAttributes<VirtualListComponent<ListData>> &
-                        Pick<
-                                ListItemProps,
-                                | 'activeKey'
-                                | 'activeKeys'
-                                | 'activeTriggerEvenName'
-                                | 'afterAffordance'
-                                | 'afterAffordanceActiveKey'
-                                | 'afterAffordancePrimaryButtonProps'
-                                | 'afterAffordanceSecondaryButtonProps'
-                                | 'beforeAffordance'
-                                | 'closeTrailing'
-                                | 'disabled'
-                                | 'divider'
-                                | 'enableUnderlay'
-                                | 'enableUnderlayActive'
-                                | 'focusedIndex'
-                                | 'gap'
-                                | 'onActive'
-                                | 'onActiveAfterAffordance'
-                                | 'onCancel'
-                                | 'onConfirm'
-                                | 'selectType'
-                                | 'shape'
-                                | 'skeletonDuration'
-                                | 'skeletonElement'
-                                | 'supportingTextNumberOfLines'
-                                | 'trailing'
-                                | 'trailingTriggerEvenName'
-                                | 'type'
-                        >
-        > {
+export type HandleListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
+export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>> {
+        activeKey?: string
+        activeKeys?: string[]
+        activeTriggerEvenName?: EventName
+        afterAffordance?: JSX.Element | boolean
+        afterAffordanceActiveKey?: string
+        afterAffordancePrimaryButtonProps?: ListAfterAffordanceProps['primaryButtonProps']
+        afterAffordanceSecondaryButtonProps?: ListAfterAffordanceProps['secondaryButtonProps']
+        beforeAffordance?: JSX.Element | boolean
+        closeTrailing?: boolean
         data?: ListData[]
         defaultActiveKey?: string
         defaultActiveKeys?: string[]
         deselect?: boolean
+        divider?: boolean
+        enableUnderlay?: boolean
+        enableUnderlayActive?: boolean
+        focusedIndex?: number
+        gap?: number
+        onActive?: (value?: string) => void
+        onActiveAfterAffordance?: (value?: string) => void
         onActives?: (values?: string[]) => void
-        onClose?: (options: OnCloseOptions) => void
+        onCancel?: (options: ListAfterAffordancePressOutOptions) => void
+        onClose?: (options: OnListCloseOptions) => void
+        onConfirm?: (options: ListAfterAffordancePressOutOptions) => void
         onItemStateEvent?: OnStateEvent
+        selectType?: SelectType
+        shape?: ShapeType
+        skeletonDuration?: number
+        skeletonElement?: JSX.Element
+        supportingTextNumberOfLines?: number
+        trailing?: JSX.Element
+        trailingTriggerEvenName?: EventName
+        type?: ListType
 
         /**
          * Whether to enable auto-associative selection in radio mode. If the deleted item is an active item of the
@@ -82,9 +75,9 @@ export interface RenderListProps extends ListProps {
 }
 
 export interface ListState {
+        activeKey?: string
+        activeKeys?: string[]
         afterAffordanceActiveKey?: string
-        listActiveKey?: string
-        listActiveKeys?: string[]
         listData?: ListData[]
         nextActiveEvent?: () => void
         nextAfterAffordanceActiveEvent?: () => void
@@ -104,7 +97,6 @@ export type HandleRenderItemOptions = Pick<
         | 'beforeAffordance'
         | 'closeTrailing'
         | 'defaultActiveKey'
-        | 'disabled'
         | 'divider'
         | 'enableUnderlay'
         | 'enableUnderlayActive'

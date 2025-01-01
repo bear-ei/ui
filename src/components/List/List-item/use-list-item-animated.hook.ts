@@ -1,30 +1,12 @@
 import {useEffect, useMemo} from 'react'
-import {SharedValue, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
+import {useAnimatedTiming} from '../../../hooks'
 import {
-        HandleListItemAfterAffordanceVisibleAnimatedTimingOptions,
-        UseListItemAnimatedOptions
-} from './List-item.interface'
-
-const handleListItemAfterAffordanceVisibleAnimatedTiming =
-        ({
-                animatedTiming,
-                onListItemAfterAffordanceVisibleFinished
-        }: HandleListItemAfterAffordanceVisibleAnimatedTimingOptions) =>
-        (contentLeftSharedValue: SharedValue<number>) =>
-        (value?: boolean) =>
-                animatedTiming({
-                        callback: (finished?: boolean) => {
-                                if (finished) {
-                                        onListItemAfterAffordanceVisibleFinished?.(value)
-                                }
-                        }
-                })(contentLeftSharedValue)(value ? 1 : 0)
-
-const handleListItemActiveAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (headlineTextSharedValue: SharedValue<number>) => (value?: boolean) =>
-                animatedTiming()(headlineTextSharedValue)(value ? 1 : 0)
+        handleListItemActiveAnimatedTiming,
+        handleListItemAfterAffordanceVisibleAnimatedTiming
+} from './List-item-handle'
+import {UseListItemAnimatedOptions} from './List-item.interface'
 
 export const useListItemAnimated = ({
         active,

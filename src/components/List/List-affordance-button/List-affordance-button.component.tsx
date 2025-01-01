@@ -19,8 +19,9 @@ const render = ({
         labelTextAnimatedStyle,
         onStateEvent,
         testID,
-        underlayColor
+        theme
 }: RenderListAffordanceButtonProps) => {
+        const underlayColor = theme.token.scheme.onPrimary
         const backgroundUnderlayElement = (
                 <AnimatedContentUnderlay
                         pointerEvents='none'
@@ -30,12 +31,7 @@ const render = ({
         )
 
         return (
-                <Container
-                        accessibilityLabel={labelText}
-                        accessibilityRole='button'
-                        disabled={disabled}
-                        testID={testID ?? `listAffordanceButton--${id}`}
-                >
+                <Container testID={testID ?? `listAffordanceButton--${id}`}>
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
@@ -45,6 +41,8 @@ const render = ({
                                 <Content
                                         testID={`listAffordanceButton__content--${id}`}
                                         pointerEvents='none'
+                                        accessibilityLabel={labelText}
+                                        accessibilityRole='button'
                                 >
                                         {icon ?? (
                                                 <AnimatedLabelText
@@ -62,6 +60,7 @@ const render = ({
                                         <Underlay
                                                 eventName={eventName}
                                                 underlayColor={underlayColor}
+                                                testID={`listAffordanceButton__underlay--${id}`}
                                         />
                                 </Content>
                         </Touchable>

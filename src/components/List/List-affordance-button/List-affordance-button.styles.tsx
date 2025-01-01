@@ -9,12 +9,6 @@ export const Container = styled.View<ListAffordanceButtonContainerProps>`
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
         `}
-
-        ${({theme, disabled}) =>
-                disabled &&
-                css`
-                        background-color: ${theme.token.scheme.surfaceContainerLow};
-                `}
 `
 
 export const Content = styled.View`

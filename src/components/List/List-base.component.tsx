@@ -1,189 +1,22 @@
-import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {DefaultTheme, useTheme} from 'styled-components/native'
-import {Updater, useImmer} from 'use-immer'
-import {RenderVirtualListItemInfo} from '../Virtual-list'
-import {ListItem} from './List-item'
+import {InteractionManager} from 'react-native'
+import {useTheme} from 'styled-components/native'
+import {useImmer} from 'use-immer'
 import {
-        HandleListActiveOptions,
-        HandleListCloseOptions,
-        HandleRenderItemOptions,
-        ListBaseProps,
-        ListData,
-        ListState,
-        ListType,
-        OnCloseOptions,
-        RenderListItemOptions,
-        RenderListProps,
-        VirtualListComponent
-} from './List.interface'
-
-const handlePrevListActiveKeysFilter = (value: string) => (key: string) => key !== value
-const handleListSelect = (draft: WritableDraft<ListState>) => (deselect?: boolean) => (value?: string | string[]) => {
-        if (Array.isArray(value)) {
-                return
-        }
-
-        const prevListActiveKey = draft.listActiveKey
-
-        draft.listActiveKey = value === prevListActiveKey && deselect ? undefined : value
-
-        if (draft.afterAffordanceActiveKey !== value) {
-                draft.afterAffordanceActiveKey = undefined
-        }
-
-        return prevListActiveKey !== value ? draft.listActiveKey : 'NOT_ACTIVE'
-}
-
-const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: string | string[]) => {
-        const prevListActiveKeys = draft.listActiveKeys
-        const nextListActiveKeys = Array.isArray(value) ? value : [...(prevListActiveKeys ?? []), value]
-
-        if (typeof value === 'string') {
-                draft.listActiveKeys =
-                        prevListActiveKeys?.includes(value) ?
-                                prevListActiveKeys?.filter(handlePrevListActiveKeysFilter(value))
-                        :       nextListActiveKeys
-        }
-
-        if (Array.isArray(value)) {
-                draft.listActiveKeys = nextListActiveKeys
-        }
-
-        return prevListActiveKeys?.join() !== nextListActiveKeys?.join() ? draft.listActiveKeys : 'NOT_ACTIVES'
-}
-
-const handleNextActiveEvent =
-        ({onActive, onActives}: HandleListActiveOptions) =>
-        (value: string | string[] | undefined) =>
-        () => {
-                if (typeof value === 'string') {
-                        onActive?.(value)
-                } else {
-                        onActives?.(value)
-                }
-        }
-
-const handleListActive =
-        ({onActive, selectType, onActives, deselect}: HandleListActiveOptions = {}) =>
-        (setState: Updater<ListState>) =>
-        (value?: string | string[]) =>
-                setState(draft => {
-                        const callbackValue =
-                                selectType === 'select' ?
-                                        handleListSelect(draft)(deselect)(value)
-                                :       handleListMultiselect(draft)(value ?? [])
-
-                        if (callbackValue && !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(callbackValue?.toString())) {
-                                if (selectType === 'select') {
-                                        draft.nextActiveEvent = handleNextActiveEvent({onActive})(callbackValue)
-
-                                        return
-                                }
-
-                                if (selectType === 'multiselect') {
-                                        draft.nextActiveEvent = handleNextActiveEvent({onActives})(callbackValue)
-                                }
-                        }
-                })
-
-const handleActiveListAfterAffordance =
-        ({onActive, selectType}: HandleListActiveOptions) =>
-        (setState: Updater<ListState>) =>
-        (value?: string) => {
-                const handleNextAfterAffordanceActiveEvent = () => onActive?.(value)
-
-                if (selectType !== 'multiselect') {
-                        setState(draft => {
-                                const prevListActiveKey = draft.listActiveKey
-
-                                if (draft.afterAffordanceActiveKey === value) {
-                                        draft.afterAffordanceActiveKey = undefined
-
-                                        return
-                                }
-
-                                draft.afterAffordanceActiveKey = value
-
-                                if (value) {
-                                        draft.listActiveKey = value
-                                }
-
-                                if (prevListActiveKey !== draft.listActiveKey) {
-                                        draft.nextAfterAffordanceActiveEvent = handleNextAfterAffordanceActiveEvent
-                                }
-                        })
-                }
-        }
-
-const handleListClose = ({selectType, onClose, relatedActive}: HandleListCloseOptions) => {
-        const handleNextCloseEvent = (options: OnCloseOptions) => () => onClose?.(options)
-
-        return (setState: Updater<ListState>) => (value?: string) => {
-                const findDataIndex = (datum: ListData) => datum.indexKey === value
-
-                setState(draft => {
-                        if (selectType === 'select' && relatedActive) {
-                                const data = (draft.listData ?? []) as ListData[]
-                                const datumIndex = data.findIndex(findDataIndex)
-                                const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
-
-                                draft.listActiveKey = nextActiveKey
-                                draft.nextCloseEvent = handleNextCloseEvent({indexKey: value, activeKey: nextActiveKey})
-
-                                return
-                        }
-
-                        draft.nextCloseEvent = handleNextCloseEvent({indexKey: value})
-                })
-        }
-}
-
-const handleListData = (setState: Updater<ListState>) => (loading?: boolean) => (data?: ListData[]) =>
-        setState(draft => {
-                if (loading) {
-                        draft.status = 'loading'
-
-                        return
-                }
-
-                draft.listData = data as WritableDraft<ListData>[]
-                draft.status = 'succeeded'
-        })
-
-const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
-        <ListItem
-                {...(typeof item?.supportingTextNumberOfLines !== 'number' && {
-                        supportingTextNumberOfLines
-                })}
-                {...item}
-                {...props}
-                itemIndex={index}
-                itemKey={item?.indexKey ?? index.toString()}
-        />
-)
-
-const handleRenderListItem =
-        ({renderItem, ...options}: HandleRenderItemOptions) =>
-        (props: RenderVirtualListItemInfo<ListData>) =>
-                renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})
-
-const handleListItemSize =
-        (theme: DefaultTheme) =>
-        (type = 'standard' as ListType) => {
-                const itemSize = {
-                        menu: theme.adaptSize(theme.token.spacing.extraSmall * 12),
-                        standard: theme.adaptSize(theme.token.spacing.extraSmall * 14)
-                }
-
-                return itemSize[type]
-        }
+        handleActiveListAfterAffordance,
+        handleListActive,
+        handleListClose,
+        handleListData,
+        handleListItemSize,
+        handleRenderListItem
+} from './List-handle'
+import {ListBaseProps, ListData, ListState, RenderListProps, VirtualListComponent} from './List.interface'
 
 export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps>(
         (
                 {
-                        activeKey,
-                        activeKeys,
+                        activeKey: rawActiveKey,
+                        activeKeys: rawActiveKeys,
                         activeTriggerEvenName = 'pressOut',
                         afterAffordance,
                         afterAffordancePrimaryButtonProps,
@@ -194,7 +27,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         defaultActiveKey,
                         defaultActiveKeys,
                         deselect,
-                        disabled,
                         divider,
                         enableUnderlay,
                         enableUnderlayActive,
@@ -225,8 +57,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 const [
                         {
                                 afterAffordanceActiveKey,
-                                listActiveKey,
-                                listActiveKeys,
+                                activeKey,
+                                activeKeys,
                                 listData,
                                 nextActiveEvent,
                                 nextAfterAffordanceActiveEvent,
@@ -234,16 +66,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                                 status
                         },
                         setState
-                ] = useImmer<ListState>({
-                        afterAffordanceActiveKey: undefined,
-                        listActiveKey: undefined,
-                        listActiveKeys: undefined,
-                        listData: undefined,
-                        nextActiveEvent: undefined,
-                        nextAfterAffordanceActiveEvent: undefined,
-                        nextCloseEvent: undefined,
-                        status: 'idle'
-                })
+                ] = useImmer<ListState>({status: 'idle'})
 
                 const id = useId()
                 const listRef = useRef<VirtualListComponent<ListData>>(null)
@@ -251,16 +74,12 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 const onListData = useMemo(() => handleListData(setState)(loading), [loading, setState])
                 const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, selectType})(setState)
                 const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
-                const onListActiveSource = useMemo(
-                        () => handleListActive({selectType})(setState),
-                        [setState, selectType]
-                )
-
+                const onListRawActive = useMemo(() => handleListActive({selectType})(setState), [setState, selectType])
                 const onListClose = handleListClose({onClose, relatedActive, selectType})(setState)
                 const renderListItem = handleRenderListItem({
                         ...onItemStateEvent,
-                        activeKey: listActiveKey,
-                        activeKeys: listActiveKeys,
+                        activeKey: activeKey,
+                        activeKeys: activeKeys,
                         activeTriggerEvenName,
                         afterAffordance,
                         afterAffordanceActiveKey,
@@ -268,7 +87,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceSecondaryButtonProps,
                         beforeAffordance,
                         closeTrailing,
-                        disabled,
                         divider,
                         enableUnderlay,
                         enableUnderlayActive,
@@ -295,24 +113,24 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 )
 
                 useEffect(() => {
-                        onListActiveSource(activeKey ?? defaultActiveKey ?? activeKeys ?? defaultActiveKeys)
-                }, [activeKey, activeKeys, defaultActiveKey, defaultActiveKeys, onListActiveSource])
+                        onListData(data)
+                }, [data, onListData])
 
                 useEffect(() => {
-                        nextActiveEvent?.()
+                        onListRawActive(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
+                }, [rawActiveKey, rawActiveKeys, defaultActiveKey, defaultActiveKeys, onListRawActive])
+
+                useEffect(() => {
+                        InteractionManager.runAfterInteractions(() => nextActiveEvent?.())
                 }, [nextActiveEvent])
 
                 useEffect(() => {
-                        nextAfterAffordanceActiveEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextAfterAffordanceActiveEvent?.())
                 }, [nextAfterAffordanceActiveEvent])
 
                 useEffect(() => {
-                        nextCloseEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextCloseEvent?.())
                 }, [nextCloseEvent])
-
-                useEffect(() => {
-                        onListData(data)
-                }, [data, onListData])
 
                 if (status === 'idle') {
                         return <></>
@@ -320,11 +138,10 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 
                 return render({
                         ...renderProps,
-                        activeKey: listActiveKey,
-                        activeKeys: listActiveKeys,
+                        activeKey: activeKey,
+                        activeKeys: activeKeys,
                         afterAffordanceActiveKey,
                         data: listData,
-                        disabled,
                         focusedIndex,
                         id,
                         itemSize: itemSize ?? handleListItemSize(theme)(type),
