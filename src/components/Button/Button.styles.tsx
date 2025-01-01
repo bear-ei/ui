@@ -114,6 +114,7 @@ export const Main = styled.View<ButtonMainProps>`
                                 padding-left: ${theme.adaptSize(
                                         theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
                                 )}px;
+
                                 padding-right: ${theme.adaptSize(theme.token.spacing.medium)}px;
                         `
                 :       css`

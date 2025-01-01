@@ -1,52 +1,9 @@
 import {useEffect, useMemo} from 'react'
-import {SharedValue, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {EventName} from '../Common'
-import {
-        HandleButtonAnimatedTimingOptions,
-        HandleButtonAnimatedTimingSharedValue,
-        UseButtonAnimatedOptions
-} from './Button.interface'
-
-const handleButtonOutlinedAnimatedTiming = ({
-        animatedTiming,
-        borderColorInputRange,
-        disabled
-}: HandleButtonAnimatedTimingOptions) => {
-        const value = disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
-
-        return (borderSharedValue: SharedValue<number>) => (eventName?: EventName) => {
-                const responseEvent = eventName === 'focus'
-                const toValue = responseEvent ? borderColorInputRange[2] : value
-
-                return animatedTiming()(borderSharedValue)(toValue)
-        }
-}
-
-const handleButtonAnimatedTiming = ({
-        animatedTiming,
-        borderColorInputRange,
-        disabled,
-        type
-}: HandleButtonAnimatedTimingOptions) => {
-        const toValue = disabled ? 0 : 1
-
-        return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
-                (eventName?: EventName) => {
-                        if (type === 'outlined') {
-                                handleButtonOutlinedAnimatedTiming({animatedTiming, borderColorInputRange, disabled})(
-                                        borderSharedValue
-                                )(eventName)
-
-                                animatedTiming()(colorSharedValue)(toValue)
-
-                                return
-                        }
-
-                        animatedTiming()(colorSharedValue)(toValue)
-                }
-}
+import {handleButtonAnimatedTiming} from './Button-handle'
+import {UseButtonAnimatedOptions} from './Button.interface'
 
 export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}: UseButtonAnimatedOptions) => {
         const theme = useTheme()
@@ -199,12 +156,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
 
         const onButtonAnimatedTiming = useMemo(
                 () =>
-                        handleButtonAnimatedTiming({
-                                animatedTiming,
-                                borderColorInputRange,
-                                type,
-                                disabled
-                        })({
+                        handleButtonAnimatedTiming({animatedTiming, borderColorInputRange, type, disabled})({
                                 borderSharedValue,
                                 colorSharedValue
                         }),

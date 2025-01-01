@@ -27,6 +27,11 @@ const render = ({
         underlayColor,
         ...contentProps
 }: RenderButtonProps) => {
+        const activeIndicatorVisible =
+                type === 'link' &&
+                eventName &&
+                ['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
+
         const link = type === 'link'
         const loadingEventName = link ? 'none' : 'longPress'
         const shape = link ? 'extraSmall' : 'full'
@@ -46,11 +51,6 @@ const render = ({
                                 shape={shape}
                         />
                 :       <></>
-
-        const activeIndicatorVisible =
-                type === 'link' &&
-                eventName &&
-                ['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
 
         return (
                 <Container

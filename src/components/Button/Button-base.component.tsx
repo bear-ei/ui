@@ -16,12 +16,7 @@ import {useButtonAnimated} from './use-button-animated.hook'
 
 export const ButtonBase = forwardRef<View, ButtonBaseProps>(
         ({disabled, error, icon, labelText = 'Label', loading, render, type = 'filled', ...renderProps}, ref) => {
-                const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({
-                        elevation: undefined,
-                        eventName: undefined,
-                        status: 'idle'
-                })
-
+                const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: 'idle'})
                 const theme = useTheme()
                 const iconButtonElement = handleButtonIcon({eventName, type, disabled})(theme)(icon)
                 const id = useId()
@@ -32,12 +27,8 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleButtonStateChange({...options, state, type})(setState)(event)
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        disabled: loading || disabled,
-                        onStateEventChange
-                })
-
+                const disabledEvent = loading || disabled
+                const onStateEvent = useOnStateEvent({...renderProps, disabled: disabledEvent, onStateEventChange})
                 const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
                         disabled,
                         eventName,

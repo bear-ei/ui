@@ -1,12 +1,20 @@
 import {WritableDraft} from 'immer'
 import {cloneElement} from 'react'
+import {SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
 import {StateEvent} from '../../hooks'
-import {State} from '../Common'
+import {EventName, State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
-import {ButtonState, ButtonType, HandleButtonIconOptions, HandleButtonStateChangeOptions} from './Button.interface'
+import {
+        ButtonState,
+        ButtonType,
+        HandleButtonAnimatedTimingOptions,
+        HandleButtonAnimatedTimingSharedValue,
+        HandleButtonIconOptions,
+        HandleButtonStateChangeOptions
+} from './Button.interface'
 
 export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
         const elevationType = type && ['elevated', 'filled', 'tonal'].includes(type)
@@ -67,19 +75,17 @@ export const handleButtonInit = (setState: Updater<ButtonState>) => (disabled?: 
                 draft.status = 'succeeded'
         })
 
-export const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: ButtonType) => (disabled?: boolean) => {
-        if (typeof disabled === 'boolean') {
-                setState(draft => {
-                        if (disabled) {
-                                draft.eventName = 'none'
-                        }
+export const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: ButtonType) => (disabled?: boolean) =>
+        typeof disabled === 'boolean' &&
+        setState(draft => {
+                if (disabled) {
+                        draft.eventName = 'none'
+                }
 
-                        if (type === 'elevated') {
-                                draft.elevation = disabled ? 0 : 1
-                        }
-                })
-        }
-}
+                if (type === 'elevated') {
+                        draft.elevation = disabled ? 0 : 1
+                }
+        })
 
 export const handleButtonUnderlayColor = (theme: DefaultTheme) => {
         const underlay = {
@@ -121,3 +127,42 @@ export const handleButtonIcon =
                         })
                 }
         }
+
+export const handleButtonOutlinedAnimatedTiming = ({
+        animatedTiming,
+        borderColorInputRange,
+        disabled
+}: HandleButtonAnimatedTimingOptions) => {
+        const value = disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
+
+        return (borderSharedValue: SharedValue<number>) => (eventName?: EventName) => {
+                const responseEvent = eventName === 'focus'
+                const toValue = responseEvent ? borderColorInputRange[2] : value
+
+                return animatedTiming()(borderSharedValue)(toValue)
+        }
+}
+
+export const handleButtonAnimatedTiming = ({
+        animatedTiming,
+        borderColorInputRange,
+        disabled,
+        type
+}: HandleButtonAnimatedTimingOptions) => {
+        const toValue = disabled ? 0 : 1
+
+        return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
+                (eventName?: EventName) => {
+                        if (type === 'outlined') {
+                                handleButtonOutlinedAnimatedTiming({animatedTiming, borderColorInputRange, disabled})(
+                                        borderSharedValue
+                                )(eventName)
+
+                                animatedTiming()(colorSharedValue)(toValue)
+
+                                return
+                        }
+
+                        animatedTiming()(colorSharedValue)(toValue)
+                }
+}
