@@ -1,20 +1,9 @@
 import {useEffect, useMemo} from 'react'
-import {interpolate, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {HandleLayoutAnimatedTimingOptions, UseLayoutAnimatedOptions} from './Layout-animated.interface'
-
-const handleLayoutAnimatedTiming =
-        ({animatedTiming, onAnimatedFinished, entry, exit}: HandleLayoutAnimatedTimingOptions) =>
-        (containerSharedValue: SharedValue<number>) =>
-        (visible?: boolean) => {
-                if (typeof visible === 'boolean') {
-                        animatedTiming({
-                                ...(visible ? entry : exit),
-                                callback: (finished?: boolean) => finished && onAnimatedFinished?.(visible)
-                        })(containerSharedValue)(visible ? 1 : 0)
-                }
-        }
+import {handleLayoutAnimatedTiming} from './Layout-animated-handle'
+import {UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
 export const useLayoutAnimated = ({
         animatedType = 'fade',

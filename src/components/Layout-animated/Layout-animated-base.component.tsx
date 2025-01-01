@@ -1,121 +1,18 @@
-import {WritableDraft} from 'immer'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
-import {Updater, useImmer} from 'use-immer'
+import {LayoutRectangle, View} from 'react-native'
+import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
-import {EventName, State} from '../Common'
+import {State} from '../Common'
 import {
-        HandleLayoutAnimatedFinishedOptions,
-        HandleLayoutAnimatedLayoutVisibleDraftChangeOptions,
-        HandleLayoutAnimatedLayoutVisibleOptions,
-        HandleLayoutAnimatedStateChangeOptions,
-        HandleLayoutAnimatedStatusOptions,
-        LayoutAnimatedBaseProps,
-        LayoutAnimatedState,
-        LayoutAnimatedType
-} from './Layout-animated.interface'
+        handleLayoutAnimatedFinished,
+        handleLayoutAnimatedLayoutChange,
+        handleLayoutAnimatedLayoutVisible,
+        handleLayoutAnimatedStateChange,
+        handleLayoutAnimatedStatus
+} from './Layout-animated-handle'
+import {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
-
-const handleLayoutAnimatedLayoutChange =
-        (setState: Updater<LayoutAnimatedState>) =>
-        (animatedType: LayoutAnimatedType) =>
-        (event: LayoutChangeEvent) => {
-                const {height, width} = event.nativeEvent.layout
-
-                setState(draft => {
-                        if (draft.status !== 'succeeded') {
-                                if (animatedType.startsWith('collapse')) {
-                                        draft.layout.height = height
-                                        draft.layout.width = width
-                                }
-
-                                draft.status = 'succeeded'
-                        }
-                })
-        }
-
-const handleLayoutAnimatedStateChange =
-        ({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
-        (event: StateEvent) => {
-                const nextEvent = {
-                        layout: () => onLayoutChange(event as LayoutChangeEvent)
-                } as Record<EventName, () => void>
-
-                if (eventName) {
-                        nextEvent[eventName]?.()
-                }
-        }
-
-const handleLayoutAnimatedLayoutVisible = ({setState, animatedType}: HandleLayoutAnimatedLayoutVisibleOptions) => {
-        const handleDraftChange =
-                ({value, width, height}: HandleLayoutAnimatedLayoutVisibleDraftChangeOptions) =>
-                (draft: WritableDraft<LayoutAnimatedState>) => {
-                        if (!value) {
-                                draft.layoutVisible = value
-
-                                return
-                        }
-
-                        if (animatedType?.startsWith('collapse')) {
-                                const {width: prevWidth, height: prevHeight} = draft.layout
-
-                                if (prevWidth !== width || prevHeight !== height) {
-                                        draft.layout.height = height
-                                        draft.layout.width = width
-                                }
-                        }
-
-                        draft.layoutVisible = value
-                        draft.layoutWasVisible = value
-                }
-
-        return (ref: React.RefObject<View>) => (value?: boolean) =>
-                ref.current?.measure((_x, _y, width, height) => setState(handleDraftChange({value, width, height})))
-}
-
-const handleLayoutAnimatedFinished =
-        ({onUnmount, unmount, onVisible}: HandleLayoutAnimatedFinishedOptions) =>
-        (setState: Updater<LayoutAnimatedState>) =>
-        (value?: boolean) => {
-                const handleNextVisibleEvent = () => onVisible?.(value)
-
-                setState(draft => {
-                        if (value) {
-                                draft.nextVisibleEvent = handleNextVisibleEvent
-
-                                return
-                        }
-
-                        draft.layoutWasVisible = value
-
-                        if (unmount) {
-                                draft.nextUnmountEvent = onUnmount
-                                draft.status = 'idle'
-                                draft.unmountLayout = true
-
-                                return
-                        }
-
-                        draft.nextVisibleEvent = handleNextVisibleEvent
-                })
-        }
-
-const handleLayoutAnimatedStatus =
-        ({unmount, lazy}: HandleLayoutAnimatedStatusOptions) =>
-        (setState: Updater<LayoutAnimatedState>) =>
-        (value?: boolean) =>
-                setState(draft => {
-                        if (draft.status === 'succeeded') {
-                                return
-                        }
-
-                        if (unmount) {
-                                draft.unmountLayout = !value
-                        }
-
-                        draft.status = lazy && !value ? 'idle' : 'loading'
-                })
 
 export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
         (
@@ -152,13 +49,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         setState
                 ] = useImmer<LayoutAnimatedState>({
                         layout: {} as LayoutRectangle,
-                        layoutVisible: undefined,
                         layoutWasVisible: true,
-                        nextStatusEvent: undefined,
-                        nextUnmountEvent: undefined,
-                        nextVisibleEvent: undefined,
-                        status: 'idle',
-                        unmountLayout: undefined
+                        status: 'idle'
                 })
 
                 const height = rawHeight ?? layout.height
@@ -229,12 +121,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 }, [nextUnmountEvent])
 
                 useEffect(() => {
-                        nextVisibleEvent?.()
-                }, [nextVisibleEvent])
-
-                useEffect(() => {
                         nextStatusEvent?.()
                 }, [nextStatusEvent])
+
+                useEffect(() => {
+                        nextVisibleEvent?.()
+                }, [nextVisibleEvent])
 
                 if (status === 'idle') {
                         return <></>

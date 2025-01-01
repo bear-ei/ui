@@ -7,10 +7,5 @@ export const LayoutNavigationBase = forwardRef<View, LayoutNavigationBaseProps>(
         const id = useId()
         const theme = useTheme()
 
-        return render({
-                ...renderProps,
-                id,
-                ref,
-                theme
-        })
+        return render({...renderProps, id, ref, theme})
 })

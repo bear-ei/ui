@@ -15,10 +15,10 @@ const render = ({
 }: RenderLayoutNavigationProps) => (
         <Container
                 {...containerProps}
-                entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
-                exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
                 animatedType={animatedType}
                 defaultVisible={true}
+                entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
+                exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
                 testID={testID ?? `layoutNavigation--${id}`}
                 width={width ?? theme.adaptSize(theme.token.spacing.extraSmall * 20)}
         >

@@ -5,9 +5,5 @@ import {LayoutPaneBaseProps} from './Layout-pane.interface'
 export const LayoutPaneBase = forwardRef<View, LayoutPaneBaseProps>(({render, ...renderProps}, ref) => {
         const id = useId()
 
-        return render({
-                ...renderProps,
-                id,
-                ref
-        })
+        return render({...renderProps, id, ref})
 })
