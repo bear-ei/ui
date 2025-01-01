@@ -10,17 +10,14 @@ export const Container = styled.View<FABContainerProps>`
                 const contentSize = {
                         small: css`
                                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                         `,
                         medium: css`
                                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                         `,
                         large: css`
                                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 24)}px;
-
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24)}px;
                         `
                 }

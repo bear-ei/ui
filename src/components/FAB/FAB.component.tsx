@@ -59,6 +59,7 @@ const render = ({
                                 backgroundUnderlay={backgroundUnderlayElement}
                                 disabled={disabled}
                                 elevationUnderlay={elevationUnderlayElement}
+                                mainAlignSelf={size === 'small' ? 'center' : 'stretch'}
                                 ref={ref}
                                 shape={shape}
                                 testID={`fab__touchable--${id}`}

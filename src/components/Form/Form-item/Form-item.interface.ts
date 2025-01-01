@@ -2,7 +2,7 @@ import {ValidationError, ValidatorOptions} from 'class-validator'
 import {RefAttributes} from 'react'
 import {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native'
 import {ComponentStatus} from '../../Common'
-import {FormStore, FormValidatorOptions, ValidationRule} from '../Form.interface'
+import {FormProps, FormStore, FormValidatorOptions, ValidationRule} from '../Form.interface'
 
 export interface FormItemControlProps {
         errorMessage?: string
@@ -16,15 +16,12 @@ export interface FormItemControlProps {
 }
 
 export interface FormItemProps
-        extends Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>> {
+        extends Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>>,
+                Pick<FormProps, 'skeletonElement' | 'skeletonDuration' | 'validatorOptions' | 'onLoadEnd'> {
         initialValues?: Record<string, unknown>
         name?: string
-        onLoadEnd?: () => void
         renderControl?: (props: FormItemControlProps) => JSX.Element
         rule?: ValidationRule
-        skeletonElement?: JSX.Element
-        skeletonDuration?: number
-        validatorOptions?: FormValidatorOptions
 }
 
 export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {
