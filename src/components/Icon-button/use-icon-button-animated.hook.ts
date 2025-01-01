@@ -2,27 +2,8 @@ import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {
-        HandleIconButtonAnimatedTimingOptions,
-        HandleIconButtonAnimatedTimingSharedValue,
-        UseIconButtonAnimatedOptions
-} from './Icon-button.interface'
-
-const handleIconButtonAnimatedTiming =
-        ({animatedTiming, type}: HandleIconButtonAnimatedTimingOptions) =>
-        ({borderSharedValue, colorSharedValue}: HandleIconButtonAnimatedTimingSharedValue) =>
-        (disabled?: boolean) => {
-                const toValue = disabled ? 0 : 1
-
-                if (type === 'outlined') {
-                        animatedTiming()(borderSharedValue)(toValue)
-                        animatedTiming()(colorSharedValue)(toValue)
-
-                        return
-                }
-
-                animatedTiming()(colorSharedValue)(toValue)
-        }
+import {handleIconButtonAnimatedTiming} from './Icon-button-handle'
+import {UseIconButtonAnimatedOptions} from './Icon-button.interface'
 
 export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButtonAnimatedOptions) => {
         const animatedValue = disabled ? 0 : 1

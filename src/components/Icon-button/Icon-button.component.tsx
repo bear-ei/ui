@@ -12,11 +12,9 @@ import {Container, Content, ContentItem, ContentUnderlay, Main} from './Icon-but
 const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
 const render = ({
         active,
-        activeColor,
         contentUnderlayAnimatedStyle,
         defaultActive,
         disabled,
-        disabledFocus,
         eventName,
         height,
         icon,
@@ -32,12 +30,13 @@ const render = ({
         ...contentProps
 }: RenderIconButtonProps) => {
         const shape = 'full'
+        const activeColor = theme.token.scheme.secondaryContainer
         const backgroundUnderlayElement = (
                 <AnimatedContentUnderlay
                         pointerEvents='none'
                         shape={shape}
                         style={[contentUnderlayAnimatedStyle]}
-                        testID={`button__contentUnderlay--${id}`}
+                        testID={`iconButton__contentUnderlay--${id}`}
                 />
         )
 
@@ -54,6 +53,7 @@ const render = ({
                                 <Progress
                                         content={icon}
                                         height={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
+                                        testID={`iconButton__progress--${id}`}
                                         type='circular'
                                         width={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
                                 />
@@ -66,8 +66,7 @@ const render = ({
                                 <Touchable
                                         {...onStateEvent}
                                         backgroundUnderlay={backgroundUnderlayElement}
-                                        disabled={loading || disabled}
-                                        disabledFocus={disabledFocus}
+                                        disabled={disabled}
                                         enableTouchableRipple={type !== 'active'}
                                         mainAlignSelf='center'
                                         ref={ref}
@@ -91,6 +90,7 @@ const render = ({
                                                         defaultActive={defaultActive}
                                                         eventName={eventName}
                                                         shape='full'
+                                                        testID={`iconButton__underlay--${id}`}
                                                         underlayColor={underlayColor}
                                                 />
                                         </Content>

@@ -18,7 +18,6 @@ export interface IconButtonProps extends TouchableProps {
 }
 
 export interface RenderIconButtonProps extends IconButtonProps {
-        activeColor?: string
         contentUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
         onStateEvent: OnStateEvent
@@ -31,11 +30,10 @@ export interface IconButtonBaseProps extends IconButtonProps {
 
 export interface IconButtonState {
         eventName?: EventName
-        nextPressInEvent?: () => void
 }
 
-export interface RenderIconButtonIconOptions
-        extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading'> {
+export interface HandleButtonIconOptions
+        extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading' | 'id'> {
         eventName?: EventName
 }
 
