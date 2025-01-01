@@ -41,19 +41,18 @@ const render = ({
         }
 
         return (
-                <Container
-                        accessibilityRole='checkbox'
-                        testID={testID ?? `checkbox--${id}`}
-                >
+                <Container testID={testID ?? `checkbox--${id}`}>
                         <Touchable
                                 {...onStateEvent}
                                 disabled={disabled}
                                 mainAlignSelf='center'
                                 shape={shape}
+                                testID={`checkbox__touchable--${id}`}
                                 underlayColor={underlayColor}
                         >
                                 <Content
                                         {...contentProps}
+                                        accessibilityRole='checkbox'
                                         pointerEvents='none'
                                         shape={shape}
                                         testID={`checkbox__content--${id}`}
@@ -90,6 +89,7 @@ const render = ({
                                                                 iconStyle='rounded'
                                                                 name='indeterminateCheckBox'
                                                                 svgStyle={iconSvgStyle}
+                                                                testID={`checkbox__iconIndeterminate--${id}`}
                                                                 type='filled'
                                                         />
                                                 </AnimatedIconContainer>
@@ -107,6 +107,7 @@ const render = ({
                                                                 iconStyle='rounded'
                                                                 name='checkBox'
                                                                 svgStyle={iconSvgStyle}
+                                                                testID={`checkbox__iconSelected--${id}`}
                                                                 type='filled'
                                                         />
                                                 </AnimatedIconContainer>
@@ -115,6 +116,7 @@ const render = ({
                                         <Underlay
                                                 eventName={eventName}
                                                 shape={shape}
+                                                testID={`checkbox__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>

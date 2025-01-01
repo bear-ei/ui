@@ -18,8 +18,8 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
         ({disabled, error, icon, labelText = 'Label', loading, render, type = 'filled', ...renderProps}, ref) => {
                 const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: 'idle'})
                 const theme = useTheme()
-                const iconButtonElement = handleButtonIcon({eventName, type, disabled})(theme)(icon)
                 const id = useId()
+                const iconButtonElement = handleButtonIcon({eventName, type, disabled, id})(theme)(icon)
                 const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
                 const onButtonInit = useMemo(() => handleButtonInit(setState)(disabled), [disabled, setState])
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
@@ -51,7 +51,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 return render({
                         ...renderProps,
                         contentUnderlayAnimatedStyle,
-                        disabled,
+                        disabled: disabledEvent,
                         elevation,
                         eventName,
                         icon: iconButtonElement,

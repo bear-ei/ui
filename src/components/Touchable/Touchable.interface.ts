@@ -18,7 +18,6 @@ export interface TouchableProps
         backgroundUnderlay?: JSX.Element
         children?: JSX.Element
         disabled?: boolean
-        disabledFocus?: boolean
         elevationUnderlay?: JSX.Element
         /**
          * enableFocusRing is used to disable the focus style in macOS,
@@ -52,7 +51,7 @@ export type RenderTouchableRipplesOptions = Omit<TouchableRippleProps, 'index'>
 export interface HandleTouchableStateChangeOptions
         extends Pick<TouchableRippleProps, 'touchableLocation'>,
                 OnStateEventChangeOptions,
-                Pick<TouchableProps, 'enableTouchableRipple' | 'disabledFocus'> {
+                Pick<TouchableProps, 'enableTouchableRipple'> {
         ref: React.RefObject<View>
 }
 
@@ -61,8 +60,7 @@ export interface TouchableMainProps {
         alignSelf?: ViewStyle['alignSelf']
 }
 
-export interface HandleTouchablePressInOptions
-        extends Pick<HandleTouchableStateChangeOptions, 'ref' | 'disabledFocus'> {
+export interface HandleTouchablePressInOptions extends Pick<HandleTouchableStateChangeOptions, 'ref'> {
         setState: Updater<TouchableState>
 }
 

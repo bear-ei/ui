@@ -49,6 +49,7 @@ const render = ({
                         <Elevation
                                 level={elevation}
                                 shape={shape}
+                                testID={`button__elevation--${id}`}
                         />
                 :       <></>
 
@@ -60,11 +61,12 @@ const render = ({
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
-                                disabled={loading || disabled}
+                                disabled={disabled}
                                 elevationUnderlay={elevationUnderlayElement}
                                 hotZone={type !== 'link'}
                                 ref={ref}
                                 shape={shape}
+                                testID={`button__touchable--${id}`}
                                 underlayColor={underlayColor}
                         >
                                 <Content
@@ -109,6 +111,7 @@ const render = ({
                                         <Underlay
                                                 eventName={loading ? loadingEventName : eventName}
                                                 shape={shape}
+                                                testID={`button__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>

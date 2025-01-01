@@ -1,130 +1,20 @@
-import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
-import {DefaultTheme, useTheme} from 'styled-components/native'
-import {Updater, useImmer} from 'use-immer'
+import {useTheme} from 'styled-components/native'
+import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {State} from '../Common'
-import {ElevationLevel} from '../Elevation'
-import {Icon, IconProps} from '../Icon'
-import {IconButton} from '../Icon-button'
+import {Icon} from '../Icon'
 import {
-        ChipBaseProps,
-        ChipState,
-        HandleChipElevationOptions,
-        HandleChipStateChangeOptions,
-        RenderChipIconOptions
-} from './Chip.interface'
+        handleChipCloseButton,
+        handleChipDisabled,
+        handleChipElevation,
+        handleChipIcon,
+        handleChipInit,
+        handleChipStateChange
+} from './Chip-handle'
+import {ChipBaseProps, ChipState} from './Chip.interface'
 import {useChipAnimated} from './use-chip-animated.hook'
-
-const handleChipElevation =
-        ({type, elevated, disabled}: HandleChipElevationOptions) =>
-        (setState: Updater<ChipState>) =>
-        (state = 'enabled' as State) => {
-                const elevationType = type && ['assist', 'filter', 'suggestion', 'inputFilled'].includes(type)
-
-                if (!elevationType) {
-                        return
-                }
-
-                const level = {
-                        disabled: 0,
-                        enabled: 0,
-                        error: 0,
-                        focused: 0,
-                        hovered: 1,
-                        longPressIn: 0,
-                        pressIn: 0
-                }
-                const correctionCoefficient = elevated ? 1 : 0
-
-                if (state) {
-                        setState(draft => {
-                                draft.elevation = (
-                                        state === 'disabled' || disabled ?
-                                                level[state]
-                                        :       level[state] + correctionCoefficient) as ElevationLevel
-                        })
-                }
-        }
-
-const handleChipStateChange =
-        ({eventName}: HandleChipStateChangeOptions) =>
-        (setState: Updater<ChipState>) =>
-        (_event: StateEvent) => {
-                if (eventName === 'layout') {
-                        return
-                }
-
-                setState(draft => {
-                        draft.eventName = eventName
-                })
-        }
-
-const handleChipInit = (setState: Updater<ChipState>) => (disabled?: boolean) => (elevated?: boolean) =>
-        setState(draft => {
-                if (draft.status !== 'idle') {
-                        return
-                }
-
-                if (elevated && !disabled) {
-                        draft.elevation = 1
-                }
-
-                draft.status = 'succeeded'
-        })
-
-const handleChipDisabled = (setState: Updater<ChipState>) => (disabled?: boolean) => {
-        if (typeof disabled === 'boolean' && disabled) {
-                setState(draft => {
-                        draft.eventName = 'none'
-                })
-        }
-}
-
-const renderChipIcon =
-        ({disabled, eventName}: RenderChipIconOptions) =>
-        (theme: DefaultTheme) =>
-        (icon?: JSX.Element) => {
-                if (!icon) {
-                        return icon
-                }
-
-                const iconSize = theme.adaptSize(theme.token.spacing.medium)
-
-                return cloneElement<IconProps>(icon, {
-                        disabled,
-                        eventName,
-                        fill: theme.token.scheme.primary,
-                        height: iconSize,
-                        width: iconSize
-                })
-        }
-
-const renderChipCloseButton =
-        ({disabled, onClose}: RenderChipIconOptions) =>
-        (theme: DefaultTheme) => {
-                const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
-                const iconButtonSize = theme.adaptSize(theme.token.spacing.large)
-
-                return (
-                        <IconButton
-                                disabled={disabled}
-                                height={iconButtonSize}
-                                onPressOut={onClose}
-                                type='standard'
-                                width={iconButtonSize}
-                                icon={
-                                        <Icon
-                                                height={iconSize}
-                                                iconStyle='rounded'
-                                                name='close'
-                                                type='outlined'
-                                                width={iconSize}
-                                        />
-                                }
-                        />
-                )
-        }
 
 export const ChipBase = forwardRef<View, ChipBaseProps>(
         (
@@ -136,6 +26,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         elevated,
                         labelText = 'Label',
                         leadingIcon,
+                        loading,
                         onClose,
                         render,
                         trailingIcon,
@@ -144,20 +35,15 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 },
                 ref
         ) => {
-                const [{elevation, eventName, status}, setState] = useImmer<ChipState>({
-                        elevation: undefined,
-                        eventName: undefined,
-                        status: 'idle'
-                })
-
+                const [{elevation, eventName, status}, setState] = useImmer<ChipState>({status: 'idle'})
                 const theme = useTheme()
-                const activeColor = theme.token.scheme.secondaryContainer
                 const id = useId()
-                const leadingIconElement = renderChipIcon({eventName, disabled})(theme)(
+                const leadingIconElement = handleChipIcon({eventName, disabled})(theme)(
                         type === 'filter' ?
                                 <Icon
                                         iconStyle='rounded'
                                         name='check'
+                                        testID={`chip__filterIcon--${id}`}
                                         type='outlined'
                                 />
                         :       leadingIcon
@@ -165,8 +51,8 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
 
                 const trailingElement =
                         close ?
-                                renderChipCloseButton({disabled, onClose})(theme)
-                        :       renderChipIcon({eventName, disabled})(theme)(trailingIcon)
+                                handleChipCloseButton({disabled, onClose, id})(theme)
+                        :       handleChipIcon({eventName, disabled, id})(theme)(trailingIcon)
 
                 const onChipDisabled = useMemo(() => handleChipDisabled(setState), [setState])
                 const onChipElevation = useMemo(
@@ -175,17 +61,12 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 )
 
                 const onChipInit = useMemo(() => handleChipInit(setState)(disabled), [disabled, setState])
-                const underlayColor = theme.token.scheme.onSurfaceVariant
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleChipStateChange({...options, state})(setState)(event)
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        disabled,
-                        onStateEventChange
-                })
-
+                const disabledEvent = loading || disabled
+                const onStateEvent = useOnStateEvent({...renderProps, disabled: disabledEvent, onStateEventChange})
                 const {contentUnderlayAnimatedStyle, filterIconContainerAnimatedStyle, labelTextAnimatedStyle} =
                         useChipAnimated({active, disabled, elevated, type, chipStyle})
 
@@ -208,10 +89,9 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 return render({
                         ...renderProps,
                         active,
-                        activeColor,
                         close,
                         contentUnderlayAnimatedStyle,
-                        disabled,
+                        disabled: disabledEvent,
                         elevation,
                         eventName,
                         filterIconContainerAnimatedStyle,
@@ -221,9 +101,9 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         leadingIcon: leadingIconElement,
                         onStateEvent,
                         ref,
+                        theme,
                         trailing: trailingElement,
-                        type,
-                        underlayColor
+                        type
                 })
         }
 )

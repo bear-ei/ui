@@ -101,7 +101,7 @@ export const handleButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const handleButtonIcon =
-        ({disabled, eventName, type = 'filled'}: HandleButtonIconOptions) =>
+        ({disabled, eventName, type = 'filled', id}: HandleButtonIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
                         elevated: theme.token.scheme.primary,
@@ -123,6 +123,7 @@ export const handleButtonIcon =
                                 eventName,
                                 fill: fillType[type],
                                 height: size,
+                                testID: `button__icon--${id}`,
                                 width: size
                         })
                 }

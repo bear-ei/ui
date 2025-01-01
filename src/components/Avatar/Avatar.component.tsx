@@ -16,13 +16,13 @@ const render = ({
 }: RenderAvatarProps) => (
         <Container
                 {...containerProps}
-                accessibilityRole='image'
-                pointerEvents='none'
                 shape={shape}
                 testID={testID ?? `avatar--${id}`}
         >
                 <Content
+                        accessibilityRole='image'
                         backgroundColor={backgroundColor}
+                        pointerEvents='none'
                         testID={`avatar__content--${id}`}
                 >
                         {source || defaultSource ?

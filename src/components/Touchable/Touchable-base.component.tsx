@@ -28,14 +28,10 @@ const handleAddTouchableRipple =
         }
 
 const handleTouchablePressIn =
-        ({setState, ref, disabledFocus}: HandleTouchablePressInOptions) =>
+        ({setState, ref}: HandleTouchablePressInOptions) =>
         (enableTouchableRipple?: boolean) =>
         (event: GestureResponderEvent) => {
                 const {locationX, locationY} = event.nativeEvent
-
-                if (!disabledFocus) {
-                        ref?.current?.focus()
-                }
 
                 if (enableTouchableRipple) {
                         ref?.current?.measure((x, y, width, height) =>
@@ -48,12 +44,12 @@ const handleTouchablePressIn =
         }
 
 const handleTouchableStateChange =
-        ({eventName, enableTouchableRipple, ref, disabledFocus}: HandleTouchableStateChangeOptions) =>
+        ({eventName, enableTouchableRipple, ref}: HandleTouchableStateChangeOptions) =>
         (setState: Updater<TouchableState>) =>
         (event: StateEvent) => {
                 const nextEvent = {
                         pressIn: () =>
-                                handleTouchablePressIn({setState, ref, disabledFocus})(enableTouchableRipple)(
+                                handleTouchablePressIn({setState, ref})(enableTouchableRipple)(
                                         event as GestureResponderEvent
                                 )
                 } as Record<EventName, () => void>
@@ -94,7 +90,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                 {
                         centered,
                         disabled,
-                        disabledFocus,
+
                         enableTouchableRipple = true,
                         render,
                         underlayColor,
@@ -114,7 +110,6 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleTouchableStateChange({
                                         ...options,
-                                        disabledFocus,
                                         enableTouchableRipple,
                                         ref: touchableRef,
                                         state

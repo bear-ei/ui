@@ -23,7 +23,6 @@ const AnimatedIconContainer = Animated.createAnimatedComponent(IconContainer)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
         active,
-        activeColor,
         avatar,
         close,
         contentUnderlayAnimatedStyle,
@@ -35,15 +34,16 @@ const render = ({
         labelText,
         labelTextAnimatedStyle,
         leadingIcon,
-        loading,
         onStateEvent,
         ref,
         testID,
+        theme,
         trailing,
         type = 'assist',
-        underlayColor,
         ...contentProps
 }: RenderChipProps) => {
+        const activeColor = theme.token.scheme.secondaryContainer
+        const underlayColor = theme.token.scheme.onSurfaceVariant
         const inputFilledShape = 'extraSmall'
         const commonShape = avatar ? 'full' : 'small'
         const shape = type === 'inputFilled' ? inputFilledShape : commonShape
@@ -61,6 +61,7 @@ const render = ({
                         <Elevation
                                 level={elevation}
                                 shape={shape}
+                                testID={`chip__elevation--${id}`}
                         />
                 :       undefined
 
@@ -72,16 +73,18 @@ const render = ({
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
-                                disabled={loading || disabled}
+                                disabled={disabled}
                                 elevationUnderlay={elevationUnderlayElement}
                                 ref={ref}
                                 shape={shape}
+                                testID={`chip__touchable--${id}`}
                                 underlayColor={underlayColor}
                         >
                                 <Content
                                         {...contentProps}
                                         accessibilityLabel={labelText}
                                         accessibilityRole='button'
+                                        pointerEvents='none'
                                         shape={shape}
                                         testID={`chip__content--${id}`}
                                         type={type}
@@ -144,6 +147,7 @@ const render = ({
                                                 activeColor={activeColor}
                                                 eventName={eventName}
                                                 shape={shape}
+                                                testID={`chip__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>

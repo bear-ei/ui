@@ -1,75 +1,9 @@
 import {useCallback, useEffect, useMemo} from 'react'
-import {SharedValue, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
-import {
-        ChipType,
-        HandleChipAnimatedTimingOptions,
-        HandleChipAnimatedTimingSharedValue,
-        UseChipAnimatedOptions
-} from './Chip.interface'
-
-const handleChipBorderAnimatedTiming = ({
-        animatedTiming,
-        borderInputRange,
-        disabled
-}: HandleChipAnimatedTimingOptions) => {
-        const value = disabled ? 0 : borderInputRange[borderInputRange.length - 2]
-
-        return (borderSharedValue: SharedValue<number>) => (active?: boolean) => {
-                const toValue = active && !disabled ? 2 : value
-
-                return animatedTiming()(borderSharedValue)(toValue)
-        }
-}
-
-const handleChipFilterIcon =
-        (animatedTiming: AnimatedTiming) =>
-        (filterIconContainerWidthSharedValue: SharedValue<number>) =>
-        (active?: boolean) => {
-                const toValue = active ? 1 : 0
-
-                animatedTiming()(filterIconContainerWidthSharedValue)(toValue)
-        }
-
-const handleChipAnimatedTiming = ({
-        active,
-        animatedTiming,
-        borderInputRange,
-        disabled,
-        elevated
-}: HandleChipAnimatedTimingOptions) => {
-        const toValue = disabled ? 0 : 1
-
-        return (type: ChipType) =>
-                ({
-                        borderSharedValue,
-                        colorSharedValue,
-                        filterIconContainerWidthSharedValue
-                }: HandleChipAnimatedTimingSharedValue) => {
-                        const borderAnimatedTiming = handleChipBorderAnimatedTiming({
-                                animatedTiming,
-                                borderInputRange,
-                                disabled
-                        })(borderSharedValue)
-
-                        if (typeof active === 'boolean') {
-                                borderAnimatedTiming(active)
-
-                                if (type === 'filter') {
-                                        handleChipFilterIcon(animatedTiming)(filterIconContainerWidthSharedValue)(
-                                                active
-                                        )
-                                }
-                        }
-
-                        animatedTiming()(colorSharedValue)(toValue)
-
-                        if (typeof elevated === 'boolean') {
-                                borderAnimatedTiming(elevated)
-                        }
-                }
-}
+import {useAnimatedTiming} from '../../hooks'
+import {handleChipAnimatedTiming} from './Chip-handle'
+import {UseChipAnimatedOptions} from './Chip.interface'
 
 export const useChipAnimated = ({disabled, type = 'assist', active, elevated, chipStyle}: UseChipAnimatedOptions) => {
         const theme = useTheme()
