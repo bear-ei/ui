@@ -15,7 +15,6 @@ import {debounce} from '../../utils'
 import {EventName, State} from '../Common'
 import {RenderVirtualListItemInfo, RenderVirtualListItemOptions, VirtualListItem} from './Virtual-list-item'
 import {
-        HandleVirtualListItemUnmountOptions,
         HandleVirtualListScrollOptions,
         VirtualListBaseProps,
         VirtualListData,
@@ -117,7 +116,7 @@ const handleVisibleRangeDataFilter =
 const handleVirtualListItemUnmount =
         (itemSize = 0) =>
         (setState: Updater<VirtualListState>) =>
-        ({value, onItemVisible}: HandleVirtualListItemUnmountOptions) => {
+        (value?: string) => {
                 if (!value) {
                         return
                 }
@@ -128,8 +127,6 @@ const handleVirtualListItemUnmount =
                         draft.virtualListData = nextVirtualListData
 
                         handleVirtualListVisibleRange(itemSize)(draft)()
-
-                        draft.nextItemVisibleEvent = onItemVisible
                 })
         }
 

@@ -1,12 +1,7 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef, useEffect, useId} from 'react'
 import {View} from 'react-native'
 import {Updater, useImmer} from 'use-immer'
-import {
-        VirtualListItemBaseProps,
-        VirtualListItemProps,
-        VirtualListItemState,
-        VirtualListItemUnmountOptions
-} from './Virtual-list-item.interface'
+import {VirtualListItemBaseProps, VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
 
 export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps) => {
         const {extraData: prevExtraData, index: prevIndex, item: prevItem} = prevProps
@@ -32,17 +27,17 @@ export const handleVirtualListItemVisible =
                 })
         }
 
-export const handleVirtualListUnmount =
-        (onUnmount?: (options: VirtualListItemUnmountOptions) => void) =>
-        (setState: Updater<VirtualListItemState>) =>
-        (value?: string) =>
-                setState(draft => {
-                        onUnmount?.({value, onItemVisible: draft.nextVisibleEvent})
-                })
+// export const handleVirtualListUnmount =
+//         (onUnmount?: (options: VirtualListItemUnmountOptions) => void) =>
+//         (setState: Updater<VirtualListItemState>) =>
+//         (value?: string) =>
+//                 setState(draft => {
+//                         onUnmount?.({value, onItemVisible: draft.nextVisibleEvent})
+//                 })
 
 export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
         ({index = 0, item, itemSize = 0, onLoadEnd, onUnmount, render, renderItem, ...renderProps}, ref) => {
-                const [{visible}, setState] = useImmer<VirtualListItemState>({
+                const [{visible, nextVisibleEvent}, setState] = useImmer<VirtualListItemState>({
                         nextVisibleEvent: undefined,
                         visible: true
                 })
@@ -51,23 +46,24 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                 const onVirtualListItemVisible = (onVisible?: (value?: boolean) => void) =>
                         handleVirtualListItemVisible(setState)(onVisible)
 
-                const onVirtualListUnmount = () =>
-                        handleVirtualListUnmount(onUnmount)(setState)(item?.indexKey as string | undefined)
+                // const onVirtualListUnmount = () =>
+                //         handleVirtualListUnmount(onUnmount)(setState)(item?.indexKey as string | undefined)
 
                 const itemElement =
                         !item ?
                                 <></>
-                        :       renderItem?.({
-                                        index,
-                                        item: {...item, onVisible: onVirtualListItemVisible, onLoadEnd}
-                                })
+                        :       renderItem?.({index, item: {...item, onVisible: onVirtualListItemVisible, onLoadEnd}})
+
+                useEffect(() => {
+                        nextVisibleEvent?.()
+                }, [nextVisibleEvent])
 
                 return render({
                         ...renderProps,
                         id,
                         itemElement,
                         itemSize,
-                        onUnmount: onVirtualListUnmount,
+                        onUnmount: () => onUnmount?.(item?.indexKey as string | undefined),
                         ref,
                         visible
                 })
