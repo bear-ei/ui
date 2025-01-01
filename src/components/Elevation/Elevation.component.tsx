@@ -5,6 +5,9 @@ import {ElevationBase} from './Elevation-base.component'
 import {ElevationProps, RenderElevationProps} from './Elevation.interface'
 import {Container, Shadow} from './Elevation.styles'
 
+/**
+ * TODO: Refactoring shadow animations and adding platform differences
+ */
 const AnimatedShadow = Animated.createAnimatedComponent(Shadow)
 const render = ({id, level, shadowAnimatedStyle, shape, testID, ...containerProps}: RenderElevationProps) => (
         <Container

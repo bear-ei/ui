@@ -6,13 +6,6 @@ export const DividerBase = forwardRef<View, DividerBaseProps>(
         ({layout, render, size, subheader, ...renderProps}, ref) => {
                 const id = useId()
 
-                return render({
-                        ...renderProps,
-                        id,
-                        layout,
-                        ref,
-                        size: subheader && layout === 'horizontal' ? 'small' : size,
-                        subheader
-                })
+                return render({...renderProps, id, layout, ref, size, subheader})
         }
 )

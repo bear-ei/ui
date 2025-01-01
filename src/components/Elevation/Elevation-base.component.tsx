@@ -1,4 +1,4 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {ElevationBaseProps} from './Elevation.interface'
 import {useElevationAnimated} from './use-elevation-animated.hook'
@@ -6,10 +6,8 @@ import {useElevationAnimated} from './use-elevation-animated.hook'
 export const ElevationBase = forwardRef<View, ElevationBaseProps>(
         ({defaultLevel, level, render, ...renderProps}, ref) => {
                 const id = useId()
-                const elevationLevel = level ?? defaultLevel
-                const {shadowAnimatedStyle} = useElevationAnimated({
-                        level: elevationLevel
-                })
+                const elevationLevel = useMemo(() => level ?? defaultLevel, [defaultLevel, level])
+                const {shadowAnimatedStyle} = useElevationAnimated({level: elevationLevel})
 
                 return render({
                         ...renderProps,

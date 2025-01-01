@@ -19,9 +19,6 @@ export const Container = styled.View`
         `};
 `
 
-/**
- * TODO: Refactoring shadow animations and adding platform differences
- */
 export const Shadow = styled(Shape)<ElevationShadowProps>`
         align-self: stretch;
         flex: 1;

@@ -84,7 +84,6 @@ const render = ({
                                         {...contentProps}
                                         accessibilityLabel={labelText}
                                         accessibilityRole='button'
-                                        pointerEvents='none'
                                         shape={shape}
                                         testID={`chip__content--${id}`}
                                         type={type}
