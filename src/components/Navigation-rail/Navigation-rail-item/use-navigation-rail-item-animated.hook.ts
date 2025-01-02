@@ -2,25 +2,8 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {
-        HandleNavigationRailItemAnimatedTimingOptions,
-        HandleNavigationRailItemAnimatedTimingSharedValue,
-        UseNavigationRailItemAnimatedOptions
-} from './Navigation-rail-item.interface'
-
-const handleNavigationRailItemAnimatedTiming =
-        ({animatedTiming, type}: HandleNavigationRailItemAnimatedTimingOptions) =>
-        ({labelHeightSharedValue, labelTextColorSharedValue}: HandleNavigationRailItemAnimatedTimingSharedValue) =>
-        (value?: boolean) => {
-                if (!(type === 'segment' && typeof value === 'boolean')) {
-                        return
-                }
-
-                const toValue = value ? 1 : 0
-
-                animatedTiming()(labelTextColorSharedValue)(toValue)
-                animatedTiming()(labelHeightSharedValue)(toValue)
-        }
+import {handleNavigationRailItemAnimatedTiming} from './Navigation-rail-item-handle'
+import {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.interface'
 
 export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailItemAnimatedOptions) => {
         const labelValue = active ? 1 : 0

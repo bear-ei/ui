@@ -1,5 +1,6 @@
 import {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
+import {ComponentStatus} from '../Common'
 import {NavigationRailItemProps} from './Navigation-rail-item'
 
 export type NavigationRailType = 'segment' | 'block'
@@ -31,8 +32,9 @@ export interface NavigationRailBaseProps extends NavigationRailProps {
 }
 
 export interface NavigationRailState {
-        navigationRailActiveKey?: string
+        activeKey?: string
         nextActiveEvent?: () => void
+        status: ComponentStatus
 }
 
 export type HandleNavigationRailActiveOptions = Pick<RenderNavigationRailProps, 'onActive' | 'activeKey'>

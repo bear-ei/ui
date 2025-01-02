@@ -32,7 +32,7 @@ export interface IconButtonState {
         eventName?: EventName
 }
 
-export interface HandleButtonIconOptions
+export interface HandleIconButtonIconOptions
         extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading' | 'id'> {
         eventName?: EventName
 }

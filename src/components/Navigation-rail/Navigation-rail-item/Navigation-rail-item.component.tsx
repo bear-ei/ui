@@ -2,7 +2,8 @@ import {FC, forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Underlay} from '../../Underlay'
-import {NavigationRailItemBase, handleNavigationRailItemPropsEqual} from './Navigation-rail-item-base.component'
+import {NavigationRailItemBase} from './Navigation-rail-item-base.component'
+import {handleNavigationRailItemPropsEqual} from './Navigation-rail-item-handle'
 import {NavigationRailItemProps, RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
 import {Container, Header, Icon, IconContainer, Label, LabelText, TouchableContent} from './Navigation-rail-item.styles'
 
@@ -10,7 +11,7 @@ const AnimatedLabel = Animated.createAnimatedComponent(Label)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
         active,
-        activeColor,
+
         activeIconElement,
         eventName,
         iconElement,
@@ -21,71 +22,77 @@ const render = ({
         onStateEvent,
         testID,
         type,
-        underlayColor,
+        theme,
         ...containerProps
-}: RenderNavigationRailItemProps) => (
-        <Container
-                {...containerProps}
-                accessibilityLabel={labelText}
-                accessibilityRole='tab'
-                testID={testID ?? `navigationRailItem--${id}`}
-        >
-                <TouchableContent
-                        {...onStateEvent}
-                        testID={`navigationRailItem__content--${id}`}
+}: RenderNavigationRailItemProps) => {
+        const activeColor = theme.token.scheme.secondaryContainer
+        const underlayColor = theme.token.scheme.onSurface
+
+        return (
+                <Container
+                        {...containerProps}
+                        accessibilityLabel={labelText}
+                        accessibilityRole='tab'
+                        testID={testID ?? `navigationRailItem--${id}`}
                 >
-                        <Header
-                                testID={`navigationRailItem__header--${id}`}
-                                type={type}
+                        <TouchableContent
+                                {...onStateEvent}
+                                testID={`navigationRailItem__content--${id}`}
                         >
-                                <IconContainer testID={`navigationRailItem__iconContainer--${id}`}>
-                                        <Icon
-                                                testID={`navigationRailItem__icon--${id}`}
-                                                visible={!active}
-                                        >
-                                                {iconElement}
-                                        </Icon>
-
-                                        <Icon
-                                                testID={`navigationRailItem__icon--${id}`}
-                                                visible={active}
-                                        >
-                                                {activeIconElement}
-                                        </Icon>
-                                </IconContainer>
-
-                                <Underlay
-                                        active={active}
-                                        activeAnimatedType={type === 'block' ? 'scale' : 'scaleX'}
-                                        activeColor={activeColor}
-                                        activeShape='full'
-                                        eventName={eventName}
-                                        shape={type === 'block' ? 'full' : 'large'}
-                                        underlayColor={underlayColor}
-                                />
-                        </Header>
-
-                        {type === 'segment' && (
-                                <AnimatedLabel
-                                        style={[labelAnimatedStyle]}
-                                        testID={`navigationRailItem__label--${id}`}
+                                <Header
+                                        testID={`navigationRailItem__header--${id}`}
+                                        type={type}
                                 >
-                                        <AnimatedLabelText
+                                        <IconContainer testID={`navigationRailItem__iconContainer--${id}`}>
+                                                <Icon
+                                                        testID={`navigationRailItem__icon--${id}`}
+                                                        visible={!active}
+                                                >
+                                                        {iconElement}
+                                                </Icon>
+
+                                                <Icon
+                                                        testID={`navigationRailItem__icon--${id}`}
+                                                        visible={active}
+                                                >
+                                                        {activeIconElement}
+                                                </Icon>
+                                        </IconContainer>
+
+                                        <Underlay
                                                 active={active}
-                                                ellipsizeMode='tail'
-                                                numberOfLines={1}
-                                                size='medium'
-                                                style={[labelTextAnimatedStyle]}
-                                                testID={`navigationRailItem__labelText--${id}`}
-                                                type='label'
+                                                activeAnimatedType={type === 'block' ? 'scale' : 'scaleX'}
+                                                activeColor={activeColor}
+                                                activeShape='full'
+                                                eventName={eventName}
+                                                shape={type === 'block' ? 'full' : 'large'}
+                                                testID={`navigationRailItem__underlay--${id}`}
+                                                underlayColor={underlayColor}
+                                        />
+                                </Header>
+
+                                {type === 'segment' && (
+                                        <AnimatedLabel
+                                                style={[labelAnimatedStyle]}
+                                                testID={`navigationRailItem__label--${id}`}
                                         >
-                                                {labelText}
-                                        </AnimatedLabelText>
-                                </AnimatedLabel>
-                        )}
-                </TouchableContent>
-        </Container>
-)
+                                                <AnimatedLabelText
+                                                        active={active}
+                                                        ellipsizeMode='tail'
+                                                        numberOfLines={1}
+                                                        size='medium'
+                                                        style={[labelTextAnimatedStyle]}
+                                                        testID={`navigationRailItem__labelText--${id}`}
+                                                        type='label'
+                                                >
+                                                        {labelText}
+                                                </AnimatedLabelText>
+                                        </AnimatedLabel>
+                                )}
+                        </TouchableContent>
+                </Container>
+        )
+}
 
 const ForwardRefNavigationRailItem = forwardRef<View, NavigationRailItemProps>((props, ref) => (
         <NavigationRailItemBase

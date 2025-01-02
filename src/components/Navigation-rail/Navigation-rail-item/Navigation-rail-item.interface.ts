@@ -1,6 +1,7 @@
 import {RefAttributes} from 'react'
 import {PressableProps, TextStyle, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
 import {EventName, TypographyProps} from '../../Common'
 import {NavigationRailType} from '../Navigation-rail.interface'
@@ -17,14 +18,13 @@ export interface NavigationRailItemProps
 
 export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'itemKey'> {
         active?: boolean
-        activeColor: string
         activeIconElement: JSX.Element
         eventName?: EventName
         iconElement: JSX.Element
         labelAnimatedStyle: AnimatedStyle<ViewStyle>
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         onStateEvent: OnStateEvent
-        underlayColor: string
+        theme: DefaultTheme
 }
 
 export interface NavigationRailItemBaseProps extends NavigationRailItemProps {
@@ -39,9 +39,7 @@ export interface NavigationRailItemState {
 
 export interface HandleNavigationRailItemStateEventChangeOptions
         extends OnStateEventChangeOptions,
-                Pick<NavigationRailItemProps, 'itemKey' | 'onActive'> {
-        touchableRef: React.RefObject<View>
-}
+                Pick<NavigationRailItemProps, 'itemKey' | 'onActive'> {}
 
 export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigationRailItemProps, 'active' | 'type'> {
         defaultActive?: boolean

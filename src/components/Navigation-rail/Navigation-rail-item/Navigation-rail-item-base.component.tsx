@@ -1,112 +1,37 @@
-import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useRef} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
-import {Updater, useImmer} from 'use-immer'
+import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
-import {EventName, State} from '../../Common'
-import {Icon, IconProps} from '../../Icon'
+import {State} from '../../Common'
+import {Icon} from '../../Icon'
 import {
-        HandleNavigationRailItemStateEventChangeOptions,
-        NavigationRailItemBaseProps,
-        NavigationRailItemProps,
-        NavigationRailItemState
-} from './Navigation-rail-item.interface'
+        handleNavigationRailItemActiveIcon,
+        handleNavigationRailItemIcon,
+        handleNavigationRailItemStateChange
+} from './Navigation-rail-item-handle'
+import {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
-
-export const handleNavigationRailItemPropsEqual =
-        (prevProps: NavigationRailItemProps) => (nextProps: NavigationRailItemProps) => {
-                const {activeKey: prevActiveKey, itemKey: prevItemKey} = prevProps
-                const {activeKey: nextActiveKey, itemKey: nextItemKey} = nextProps
-                const activeChange =
-                        prevActiveKey !== nextActiveKey &&
-                        (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
-
-                return ![activeChange].some(Boolean)
-        }
-
-const handleNavigationRailItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
-
-const handleNavigationRailItemStateChange =
-        ({eventName, itemKey, onActive, touchableRef}: HandleNavigationRailItemStateEventChangeOptions) =>
-        (setState: Updater<NavigationRailItemState>) =>
-        (_event: StateEvent) => {
-                const nextEvent = {
-                        pressIn: () => touchableRef?.current?.focus(),
-                        pressOut: () => handleNavigationRailItemPressOut(onActive)(itemKey)
-                } as Record<EventName, () => void>
-
-                if (eventName === 'layout') {
-                        return
-                }
-
-                setState(draft => {
-                        const prevEventName = draft.eventName
-
-                        if (eventName) {
-                                draft.eventName = eventName
-                        }
-
-                        if (prevEventName !== eventName && eventName === 'pressOut') {
-                                draft.nextPressOutEvent = nextEvent[eventName]
-                        }
-
-                        if (eventName === 'pressIn') {
-                                nextEvent[eventName]?.()
-                        }
-                })
-        }
-
-const renderNavigationRailItemIcon = (icon: JSX.Element) => (eventName?: EventName) =>
-        cloneElement<IconProps>(icon, {
-                eventName,
-                iconStyle: 'rounded',
-                type: 'outlined'
-        })
-
-const renderNavigationRailItemActiveIcon = (icon: JSX.Element) => (eventName?: EventName) =>
-        cloneElement<IconProps>(icon, {
-                eventName,
-                iconStyle: 'rounded',
-                type: 'filled'
-        })
 
 export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBaseProps>(
         (
                 {activeKey, icon = <Icon name='circle' />, itemKey, onActive, render, type = 'segment', ...renderProps},
                 ref
         ) => {
-                const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({
-                        eventName: undefined,
-                        nextPressOutEvent: undefined
-                })
-
-                const touchableRef = useRef<View>(null)
+                const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({})
                 const id = useId()
                 const theme = useTheme()
-                const activeColor = theme.token.scheme.secondaryContainer
-                const underlayColor = theme.token.scheme.onSurface
-                const active = activeKey === itemKey
+                const active = useMemo(() => activeKey === itemKey, [activeKey, itemKey])
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleNavigationRailItemStateChange({
-                                        ...options,
-                                        itemKey,
-                                        onActive,
-                                        state,
-                                        touchableRef
-                                })(setState)(event)
+                                handleNavigationRailItemStateChange({...options, itemKey, onActive, state})(setState)(
+                                        event
+                                )
 
-                const onStateEvent = useOnStateEvent({
-                        ...renderProps,
-                        disabled: false,
-                        onStateEventChange
-                })
-
+                const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
                 const {labelAnimatedStyle, labelTextAnimatedStyle} = useNavigationRailItemAnimated({active, type})
-                const activeIconElement = renderNavigationRailItemActiveIcon(icon)(eventName)
-                const iconElement = renderNavigationRailItemIcon(icon)(eventName)
-
-                useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
+                const activeIconElement = handleNavigationRailItemActiveIcon(icon)(eventName)
+                const iconElement = handleNavigationRailItemIcon(icon)(eventName)
 
                 useEffect(() => {
                         nextPressOutEvent?.()
@@ -115,7 +40,6 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                 return render({
                         ...renderProps,
                         active,
-                        activeColor,
                         activeIconElement,
                         eventName,
                         iconElement,
@@ -124,8 +48,8 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                         labelTextAnimatedStyle,
                         onStateEvent,
                         ref,
-                        type,
-                        underlayColor
+                        theme,
+                        type
                 })
         }
 )

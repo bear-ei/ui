@@ -1,53 +1,13 @@
-import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
-import {Updater, useImmer} from 'use-immer'
-import {FABProps} from '../FAB'
-import {
-        HandleNavigationRailActiveOptions,
-        NavigationRailBaseProps,
-        NavigationRailData,
-        NavigationRailState,
-        RenderNavigationRailItemOptions
-} from '././Navigation-rail.interface'
-import {NavigationRailItem} from './Navigation-rail-item'
-
-const handleNavigationRailActive =
-        ({onActive}: HandleNavigationRailActiveOptions = {}) =>
-        (setState: Updater<NavigationRailState>) =>
-        (value?: string) => {
-                const handleNextActiveEvent = () => onActive?.(value)
-
-                if (value) {
-                        setState(draft => {
-                                const prevNavigationRailActiveKey = draft.navigationRailActiveKey
-
-                                draft.navigationRailActiveKey = value
-
-                                if (prevNavigationRailActiveKey !== draft.navigationRailActiveKey) {
-                                        draft.nextActiveEvent = handleNextActiveEvent
-                                }
-                        })
-                }
-        }
-
-const renderNavigationRailItems =
-        (renderNavigationRailItemOptions: RenderNavigationRailItemOptions) => (data?: NavigationRailData[]) =>
-                data?.map(({indexKey, ...props}, index) => (
-                        <NavigationRailItem
-                                {...props}
-                                {...renderNavigationRailItemOptions}
-                                itemKey={indexKey ?? index.toString()}
-                                key={indexKey}
-                        />
-                ))
-
-const renderNavigationRailFAB = (fab?: JSX.Element) =>
-        fab ? cloneElement<FABProps>(fab, {elevated: false, size: 'medium'}) : undefined
+import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {InteractionManager, View} from 'react-native'
+import {useImmer} from 'use-immer'
+import {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
+import {handleNavigationRailActive, handleNavigationRailFAB, handleNavigationRailItems} from './Navigation-rail-handle'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
         (
                 {
-                        activeKey,
+                        activeKey: rawActiveKey,
                         data,
                         defaultActiveKey,
                         destinationPosition = 'top',
@@ -59,35 +19,27 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                 },
                 ref
         ) => {
-                const [{navigationRailActiveKey, nextActiveEvent}, setState] = useImmer<NavigationRailState>({
-                        navigationRailActiveKey: undefined,
-                        nextActiveEvent: undefined
-                })
-
+                const [{activeKey, nextActiveEvent, status}, setState] = useImmer<NavigationRailState>({status: 'idle'})
                 const id = useId()
-                const onNavigationRailActive = handleNavigationRailActive({
-                        onActive,
-                        activeKey: navigationRailActiveKey
-                })(setState)
-
-                const onNavigationRailActiveSource = useMemo(() => handleNavigationRailActive()(setState), [setState])
-                const navigationRailItemElements = renderNavigationRailItems({
-                        activeKey: navigationRailActiveKey,
+                const onNavigationRailActive = handleNavigationRailActive({onActive, activeKey})(setState)
+                const onNavigationRailRawActive = useMemo(() => handleNavigationRailActive()(setState), [setState])
+                const navigationRailItemElements = handleNavigationRailItems({
+                        activeKey,
                         onActive: onNavigationRailActive,
                         type
                 })(data)
 
-                const fabElement = renderNavigationRailFAB(fab)
+                const fabElement = handleNavigationRailFAB(fab)
 
                 useEffect(() => {
-                        onNavigationRailActiveSource(activeKey ?? defaultActiveKey)
-                }, [activeKey, defaultActiveKey, onNavigationRailActiveSource])
+                        onNavigationRailRawActive(rawActiveKey ?? defaultActiveKey)
+                }, [rawActiveKey, defaultActiveKey, onNavigationRailRawActive])
 
                 useEffect(() => {
-                        nextActiveEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextActiveEvent?.())
                 }, [nextActiveEvent])
 
-                if (typeof defaultActiveKey === 'string' && !navigationRailActiveKey) {
+                if (status === 'idle') {
                         return <></>
                 }
 

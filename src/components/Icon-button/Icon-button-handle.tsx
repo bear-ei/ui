@@ -4,9 +4,9 @@ import {Updater} from 'use-immer'
 import {StateEvent} from '../../hooks'
 import {Icon, IconProps} from '../Icon'
 import {
-        HandleButtonIconOptions,
         HandleIconButtonAnimatedTimingOptions,
         HandleIconButtonAnimatedTimingSharedValue,
+        HandleIconButtonIconOptions,
         HandleIconButtonStateChangeOptions,
         IconButtonState,
         IconButtonType
@@ -44,7 +44,7 @@ export const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const handleIconButtonIcon =
-        ({disabled, type, fill, eventName, loading, id}: HandleButtonIconOptions) =>
+        ({disabled, type, fill, eventName, loading, id}: HandleIconButtonIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
                         active: theme.token.scheme.onSurfaceVariant,
