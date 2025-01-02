@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {LayoutAnimated} from '../Layout-animated'
-import {MaskContainerProps, MaskContentProps} from './Mask.interface'
+import {MaskContainerProps} from './Mask.interface'
 
 export const Container = styled(LayoutAnimated)<MaskContainerProps>`
         cursor: default;
@@ -27,7 +27,7 @@ export const Container = styled(LayoutAnimated)<MaskContainerProps>`
                 `};
 `
 
-export const Content = styled.Pressable<MaskContentProps>`
+export const Content = styled.Pressable`
         flex: 1;
         outline-style: none;
 `

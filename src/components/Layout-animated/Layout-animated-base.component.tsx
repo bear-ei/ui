@@ -40,7 +40,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                 layout,
                                 layoutVisible,
                                 layoutWasVisible,
-                                nextStatusEvent,
                                 nextUnmountEvent,
                                 nextVisibleEvent,
                                 status,
@@ -107,22 +106,18 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 )
 
                 useEffect(() => {
-                        onLayoutAnimatedStatus(visible)
-                }, [onLayoutAnimatedStatus, visible])
-
-                useEffect(() => {
                         if (status === 'succeeded') {
                                 onLayoutAnimatedLayoutVisible(visible)
                         }
                 }, [onLayoutAnimatedLayoutVisible, status, visible])
 
                 useEffect(() => {
-                        nextUnmountEvent?.()
-                }, [nextUnmountEvent])
+                        onLayoutAnimatedStatus(visible)
+                }, [onLayoutAnimatedStatus, visible])
 
                 useEffect(() => {
-                        nextStatusEvent?.()
-                }, [nextStatusEvent])
+                        nextUnmountEvent?.()
+                }, [nextUnmountEvent])
 
                 useEffect(() => {
                         nextVisibleEvent?.()

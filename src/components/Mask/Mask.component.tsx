@@ -4,15 +4,13 @@ import {MaskBase} from './Mask-base.component'
 import {MaskProps, RenderMaskProps} from './Mask.interface'
 import {Container, Content} from './Mask.styles'
 
-const render = ({id, ref, onStateEvent, testID, ...containerProps}: RenderMaskProps) => (
+const render = ({id, ref, testID, ...containerProps}: RenderMaskProps) => (
         <Container
                 {...containerProps}
                 accessibilityRole='alert'
                 testID={testID ?? `mask--${id}`}
         >
                 <Content
-                        {...onStateEvent}
-                        enableFocusRing={false}
                         ref={ref}
                         testID={`mask_content--${id}`}
                 />

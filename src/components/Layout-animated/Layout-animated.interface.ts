@@ -38,7 +38,6 @@ export interface LayoutAnimatedState {
         layout: LayoutRectangle
         layoutVisible?: boolean
         layoutWasVisible?: boolean
-        nextStatusEvent?: () => void
         nextUnmountEvent?: () => void
         nextVisibleEvent?: () => void
         status: ComponentStatus

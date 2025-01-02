@@ -78,8 +78,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 const onListClose = handleListClose({onClose, relatedActive, selectType})(setState)
                 const renderListItem = handleRenderListItem({
                         ...onItemStateEvent,
-                        activeKey: activeKey,
-                        activeKeys: activeKeys,
+                        activeKey,
+                        activeKeys,
                         activeTriggerEvenName,
                         afterAffordance,
                         afterAffordanceActiveKey,
@@ -138,8 +138,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 
                 return render({
                         ...renderProps,
-                        activeKey: activeKey,
-                        activeKeys: activeKeys,
+                        activeKey,
+                        activeKeys,
                         afterAffordanceActiveKey,
                         data: listData,
                         focusedIndex,
