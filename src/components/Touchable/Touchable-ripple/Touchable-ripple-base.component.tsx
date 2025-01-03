@@ -1,17 +1,7 @@
 import {forwardRef, useId} from 'react'
 import {NativeTouchEvent, View} from 'react-native'
-import {TouchableRippleBaseProps, TouchableRippleProps} from './Touchable-ripple.interface'
+import {TouchableRippleBaseProps} from './Touchable-ripple.interface'
 import {useTouchableRippleAnimated} from './use-touchable-ripple-animated.hook'
-
-export const handleTouchableRipplePropsEqual = (prevProps: TouchableRippleProps) => {
-        const {index: prevIndex} = prevProps
-
-        return (nextProps: TouchableRippleProps) => {
-                const {index: nextIndex} = nextProps
-
-                return ![prevIndex !== nextIndex].some(Boolean)
-        }
-}
 
 export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
         (

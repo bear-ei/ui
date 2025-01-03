@@ -15,35 +15,33 @@ const render = ({
         shape,
         testID,
         ...contentProps
-}: RenderTouchableProps) => {
-        return (
-                <Container testID={testID ?? `touchable--${id}`}>
-                        <TouchableContent
-                                {...contentProps}
-                                {...onStateEvent}
-                                enableFocusRing={false}
-                                testID={`touchable__content--${id}`}
+}: RenderTouchableProps) => (
+        <Container testID={testID ?? `touchable--${id}`}>
+                <TouchableContent
+                        {...contentProps}
+                        {...onStateEvent}
+                        enableFocusRing={false}
+                        testID={`touchable__content--${id}`}
+                >
+                        <Main
+                                alignSelf={mainAlignSelf}
+                                shape={shape}
+                                testID={`touchable__main--${id}`}
                         >
-                                <Main
-                                        alignSelf={mainAlignSelf}
+                                {children}
+                                <RippleContainer
                                         shape={shape}
                                         testID={`touchable__main--${id}`}
                                 >
-                                        {children}
-                                        <RippleContainer
-                                                shape={shape}
-                                                testID={`touchable__main--${id}`}
-                                        >
-                                                {rippleElements}
-                                        </RippleContainer>
+                                        {rippleElements}
+                                </RippleContainer>
 
-                                        {backgroundUnderlay}
-                                        {elevationUnderlay}
-                                </Main>
-                        </TouchableContent>
-                </Container>
-        )
-}
+                                {backgroundUnderlay}
+                                {elevationUnderlay}
+                        </Main>
+                </TouchableContent>
+        </Container>
+)
 
 const ForwardRefTouchable = forwardRef<View, TouchableProps>((props, ref) => (
         <TouchableBase

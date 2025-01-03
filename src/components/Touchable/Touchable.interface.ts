@@ -7,15 +7,11 @@ import {TouchableRippleProps} from './Touchable-ripple'
 
 export interface TouchableProps
         extends Omit<
-                PressableProps &
-                        Pick<TouchableRippleProps, 'underlayColor' | 'centered'> &
-                        Pick<ShapeProps, 'shape'> &
-                        RefAttributes<View> &
-                        ViewProps &
-                        OnStateEvent,
+                PressableProps & Pick<ShapeProps, 'shape'> & RefAttributes<View> & ViewProps & OnStateEvent,
                 'children' | 'disabled' | 'hitSlop'
         > {
         backgroundUnderlay?: JSX.Element
+        centered?: boolean
         children?: JSX.Element
         disabled?: boolean
         elevationUnderlay?: JSX.Element
@@ -29,6 +25,7 @@ export interface TouchableProps
         enableTouchableRipple?: boolean
         hotZone?: boolean
         mainAlignSelf?: ViewStyle['alignSelf']
+        underlayColor?: string
 }
 
 export interface RenderTouchableProps extends TouchableProps {
@@ -47,7 +44,7 @@ export interface TouchableState {
         rippleSequence: TouchableRippleSequence
 }
 
-export type RenderTouchableRipplesOptions = Omit<TouchableRippleProps, 'index'>
+export type HandleTouchableRipplesOptions = Omit<TouchableRippleProps, 'index'>
 export interface HandleTouchableStateChangeOptions
         extends Pick<TouchableRippleProps, 'touchableLocation'>,
                 OnStateEventChangeOptions,

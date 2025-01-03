@@ -2,38 +2,8 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {
-        HandleTouchableRippleAnimatedTimingOptions,
-        HandleTouchableRippleAnimatedTimingSharedValue,
-        UseTouchableRippleAnimatedOptions
-} from './Touchable-ripple.interface'
-
-const handleTouchableRippleAnimatedTiming = ({
-        animatedTiming,
-        onAnimatedFinished
-}: HandleTouchableRippleAnimatedTimingOptions) => {
-        const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => {
-                if (finished) {
-                        callback?.()
-                }
-        }
-
-        const createTouchableRippleAnimatedTiming =
-                ({opacitySharedValue, scaleSharedValue}: HandleTouchableRippleAnimatedTimingSharedValue) =>
-                (toValue: number) =>
-                (callback?: () => void) =>
-                        animatedTiming({callback: handleAnimatedTimingCallback(callback)})(
-                                toValue === 1 ? scaleSharedValue : opacitySharedValue
-                        )(toValue)
-
-        return (sharedValue: HandleTouchableRippleAnimatedTimingSharedValue) => (index: string) => {
-                const entryAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(1)
-                const exitAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(0)
-                const exitAnimatedFinished = () => onAnimatedFinished?.(index)
-
-                entryAnimatedTiming(() => exitAnimatedTiming(exitAnimatedFinished))
-        }
-}
+import {handleTouchableRippleAnimatedTiming} from './Touchable-ripple-handle'
+import {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
 
 export const useTouchableRippleAnimated = ({index, onAnimatedFinished, radius}: UseTouchableRippleAnimatedOptions) => {
         const opacitySharedValue = useSharedValue(1)

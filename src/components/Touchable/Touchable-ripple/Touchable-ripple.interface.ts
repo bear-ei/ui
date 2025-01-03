@@ -2,14 +2,16 @@ import {RefAttributes} from 'react'
 import {LayoutRectangle, NativeTouchEvent, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming} from '../../../hooks'
+import {TouchableProps} from '../Touchable.interface'
 
-export interface TouchableRippleProps extends ViewProps, RefAttributes<View> {
-        centered?: boolean
+export interface TouchableRippleProps
+        extends ViewProps,
+                RefAttributes<View>,
+                Pick<TouchableProps, 'centered' | 'underlayColor'> {
         containerLayout?: LayoutRectangle
         index: string
         onAnimatedFinished?: (value: string) => void
         touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>
-        underlayColor?: string
 }
 
 export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, 'index'> {

@@ -1,7 +1,7 @@
-import {FC, forwardRef, memo} from 'react'
+import {forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {TouchableRippleBase, handleTouchableRipplePropsEqual} from './Touchable-ripple-base.component'
+import {TouchableRippleBase} from './Touchable-ripple-base.component'
 import {RenderTouchableRippleProps, TouchableRippleProps} from './Touchable-ripple.interface'
 import {Container} from './Touchable-ripple.styles'
 
@@ -38,6 +38,4 @@ const ForwardRefTouchableRipple = forwardRef<View, TouchableRippleProps>((props,
         />
 ))
 
-export const TouchableRipple = memo(ForwardRefTouchableRipple, (prevProps, nextProps) =>
-        handleTouchableRipplePropsEqual(prevProps)(nextProps)
-) as FC<TouchableRippleProps>
+export const TouchableRipple = ForwardRefTouchableRipple
