@@ -5,16 +5,27 @@ import {ProgressActiveIndicatorCircularBaseProps} from './Progress-active-indica
 import {useProgressActiveIndicatorCircularAnimated} from './use-progress-active-indicator-circular-animated.hook'
 
 export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActiveIndicatorCircularBaseProps>(
-        ({render, ...renderProps}, ref) => {
+        ({size: rawSize, render, strokeWidth: rawStrokeWidth, ...renderProps}, ref) => {
                 const id = useId()
                 const theme = useTheme()
-                const {iconAnimatedStyle} = useProgressActiveIndicatorCircularAnimated()
+                const strokeWidth = rawStrokeWidth ?? theme.adaptSize(theme.token.spacing.extraSmall)
+                const size = rawSize ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)
+                const radius = (size - strokeWidth) / 2
+                const circumference = 2 * Math.PI * radius
+                const {containerAnimatedStyle, circleAnimatedProps} = useProgressActiveIndicatorCircularAnimated({
+                        circumference
+                })
 
                 return render({
                         ...renderProps,
-                        iconAnimatedStyle,
+                        circleAnimatedProps,
+                        circumference,
+                        containerAnimatedStyle,
                         id,
+                        radius,
                         ref,
+                        size,
+                        strokeWidth,
                         theme
                 })
         }

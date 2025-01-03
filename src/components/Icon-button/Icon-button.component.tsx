@@ -51,6 +51,7 @@ const render = ({
                                 visible={loading}
                         >
                                 <Progress
+                                        animatedType='indeterminate'
                                         content={icon}
                                         height={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
                                         testID={`iconButton__progress--${id}`}

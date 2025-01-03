@@ -1,18 +1,18 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps} from 'react-native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
-import {ProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear'
 
 export type ProgressType = 'linear' | 'circular'
 export type ProgressAnimated = 'determinate' | 'indeterminate'
-export interface ProgressProps
-        extends ViewProps,
-                RefAttributes<View>,
-                Pick<ProgressActiveIndicatorLinearProps, 'increment' | 'defaultValue' | 'value'> {
-        animated?: ProgressAnimated
+export interface ProgressProps extends ViewProps, RefAttributes<View> {
+        animatedType?: ProgressAnimated
         content?: JSX.Element
+        defaultValue?: number
         height?: number
+        increment?: number
+        strokeWidth?: number
         type?: ProgressType
+        value?: number
         width?: number
 }
 

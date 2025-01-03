@@ -4,16 +4,14 @@ import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../../hooks'
 import {EventName, TypographyProps} from '../../Common'
-import {NavigationRailType} from '../Navigation-rail.interface'
+import {NavigationRailProps} from '../Navigation-rail.interface'
 
 export interface NavigationRailItemProps
-        extends Partial<ViewProps & RefAttributes<View> & PressableProps & OnStateEvent> {
-        activeKey?: string
+        extends Partial<ViewProps & RefAttributes<View> & PressableProps & OnStateEvent>,
+                Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type'> {
         icon?: JSX.Element
         itemKey: string
         labelText?: string
-        onActive?: (value?: string) => void
-        type?: NavigationRailType
 }
 
 export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'itemKey'> {
@@ -34,7 +32,6 @@ export interface NavigationRailItemBaseProps extends NavigationRailItemProps {
 export interface NavigationRailItemState {
         eventName?: EventName
         nextPressOutEvent?: () => void
-        nextPressInEvent?: () => void
 }
 
 export interface HandleNavigationRailItemStateEventChangeOptions

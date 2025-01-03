@@ -27,7 +27,7 @@ const reactNativeWeb = (options: {babelPlugins: PluginItem[]}): Plugin => {
                                         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || env.mode)
                                 },
                                 optimizeDeps: {
-                                        include: ['react-native-reanimated'],
+                                        include: ['react-native-reanimated', 'react-native-web'],
                                         esbuildOptions: {
                                                 jsx: 'transform',
                                                 resolveExtensions: [
@@ -42,7 +42,9 @@ const reactNativeWeb = (options: {babelPlugins: PluginItem[]}): Plugin => {
                                                         '.mjs'
                                                 ],
                                                 loader: {
-                                                        '.js': 'jsx'
+                                                        '.js': 'jsx',
+                                                        '.ts': 'ts',
+                                                        '.tsx': 'tsx'
                                                 }
                                         }
                                 },
@@ -58,7 +60,9 @@ const reactNativeWeb = (options: {babelPlugins: PluginItem[]}): Plugin => {
                                                 '.tsx',
                                                 '.mjs'
                                         ],
-                                        alias: {'react-native': 'react-native-web'}
+                                        alias: {
+                                                'react-native': 'react-native-web'
+                                        }
                                 }
                         }
                 }

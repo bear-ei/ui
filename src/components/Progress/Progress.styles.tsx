@@ -1,16 +1,11 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
-import {Shape} from '../Common'
 import {ProgressContainerProps, ProgressType} from './Progress.interface'
 
-export const Container = styled(Shape)<ProgressContainerProps>`
-        align-items: center;
+export const Container = styled.View<ProgressContainerProps>`
         align-self: stretch;
         display: flex;
-        flex-direction: row;
-        justify-content: center;
-        overflow: hidden;
-        position: relative;
+        flex-direction: column;
 
         ${({theme, type = 'linear', height, width}) => {
                 const containerType = {
@@ -33,27 +28,4 @@ export const Container = styled(Shape)<ProgressContainerProps>`
                 css`
                         gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
                 `};
-`
-
-export const Track = styled(Shape)`
-        align-self: stretch;
-
-        ${({theme}) => css`
-                background-color: ${theme.token.scheme.primaryContainer};
-                flex: 1;
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-        `}
-`
-
-export const Stop = styled(Shape)`
-        position: absolute;
-        z-index: 4;
-
-        ${({theme}) => css`
-                background-color: ${theme.token.scheme.primary};
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                right: ${theme.adaptSize(theme.token.spacing.none)}px;
-                top: ${theme.adaptSize(theme.token.spacing.none)}px;
-                width: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-        `};
 `

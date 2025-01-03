@@ -10,15 +10,15 @@ export interface NavigationRailData extends Pick<NavigationRailItemProps, 'icon'
 }
 
 export type RenderNavigationRailItemOptions = Omit<NavigationRailItemProps, 'itemKey'>
-export interface NavigationRailProps
-        extends Pick<NavigationRailItemProps, 'activeKey' | 'onActive' | 'type'>,
-                ViewProps,
-                RefAttributes<View> {
+export interface NavigationRailProps extends ViewProps, RefAttributes<View> {
         data?: NavigationRailData[]
         defaultActiveKey?: string
         destinationPosition?: DestinationPosition
         fab?: JSX.Element
         menu?: JSX.Element
+        activeKey?: string
+        onActive?: (value?: string) => void
+        type?: NavigationRailType
 }
 
 export interface RenderNavigationRailProps extends NavigationRailProps {

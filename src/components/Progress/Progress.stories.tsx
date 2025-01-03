@@ -5,7 +5,8 @@ import {ProgressProps} from './Progress.interface'
 export const LinearDeterminate: StoryObj<ProgressProps> = {
         args: {
                 increment: 1,
-                value: 0
+                value: 0,
+                animatedType: 'determinate'
         }
 }
 

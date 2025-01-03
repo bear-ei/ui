@@ -6,18 +6,45 @@ import {
         ProgressActiveIndicatorLinearProps,
         RenderProgressActiveIndicatorLinearProps
 } from './Progress-active-indicator-linear.interface'
-import {Container} from './Progress-active-indicator-linear.styles'
+import {Container, Content, Stop, Track} from './Progress-active-indicator-linear.styles'
 
-const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const render = ({id, containerAnimatedStyle, testID, ...containerProps}: RenderProgressActiveIndicatorLinearProps) => (
-        <AnimatedContainer
-                {...containerProps}
-                pointerEvents='none'
-                shape='small'
-                style={[containerAnimatedStyle]}
-                testID={testID ?? `progressActiveIndicatorLinear--${id}`}
-        />
-)
+const AnimatedContent = Animated.createAnimatedComponent(Content)
+const render = ({
+        animatedType,
+        contentAnimatedStyle,
+        id,
+        testID,
+        ...containerProps
+}: RenderProgressActiveIndicatorLinearProps) => {
+        const shape = 'small'
+
+        return (
+                <Container
+                        testID={testID ?? `progressActiveIndicatorLinear--${id}`}
+                        shape={shape}
+                >
+                        <AnimatedContent
+                                {...containerProps}
+                                pointerEvents='none'
+                                shape={shape}
+                                style={[contentAnimatedStyle]}
+                                testID={`progressActiveIndicatorLinear__content--${id}`}
+                        />
+
+                        <Track
+                                shape={shape}
+                                testID={`progressActiveIndicatorLinear__track--${id}`}
+                        />
+
+                        {animatedType === 'determinate' && (
+                                <Stop
+                                        shape='full'
+                                        testID={`progressActiveIndicatorLinear__stop--${id}`}
+                                />
+                        )}
+                </Container>
+        )
+}
 
 const ForwardRefProgressActiveIndicatorLinear = forwardRef<View, ProgressActiveIndicatorLinearProps>((props, ref) => (
         <ProgressActiveIndicatorLinearBase

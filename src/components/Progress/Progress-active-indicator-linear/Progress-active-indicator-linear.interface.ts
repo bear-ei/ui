@@ -1,17 +1,18 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
+import {ProgressProps} from '../Progress.interface'
 
-export interface ProgressActiveIndicatorLinearProps extends ViewProps, RefAttributes<View> {
+export interface ProgressActiveIndicatorLinearProps
+        extends ViewProps,
+                RefAttributes<View>,
+                Pick<ProgressProps, 'animatedType' | 'value' | 'increment' | 'defaultValue'> {
         containerLayout: LayoutRectangle
-        increment?: number
-        defaultValue?: number
-        value?: number
 }
 
 export interface RenderProgressActiveIndicatorLinearProps
         extends Omit<ProgressActiveIndicatorLinearProps, 'containerLayout'> {
-        containerAnimatedStyle: AnimatedStyle<ViewStyle>
+        contentAnimatedStyle: AnimatedStyle<ViewStyle>
 }
 
 export interface ProgressActiveIndicatorLinearBaseProps extends ProgressActiveIndicatorLinearProps {

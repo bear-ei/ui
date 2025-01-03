@@ -1,28 +1,43 @@
 import {useEffect, useMemo} from 'react'
-import {interpolate, SharedValue, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
+import {useAnimatedTiming} from '../../../hooks'
+import {handleProgressActiveIndicatorCircularAnimatedTiming} from './Progress-active-indicator-circular-handle'
+import {UseProgressActiveIndicatorCircularAnimatedOptions} from './Progress-active-indicator-circular.interface'
 
-const handleProgressActiveIndicatorCircularAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (contentSharedValue: SharedValue<number>) => (value: number) =>
-                animatedTiming({repeat: -1, duration: 1500})(contentSharedValue)(value)
-
-export const useProgressActiveIndicatorCircularAnimated = () => {
+export const useProgressActiveIndicatorCircularAnimated = ({
+        circumference
+}: UseProgressActiveIndicatorCircularAnimatedOptions) => {
         const theme = useTheme()
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const iconSharedValue = useSharedValue(0)
-        const iconAnimatedStyle = useAnimatedStyle(() => ({
-                transform: [{rotate: `${interpolate(iconSharedValue.value, [0, 1, 2], [0, 180, 360])}deg`}]
+        const circleSharedValue = useSharedValue(0)
+        const containerSharedValue = useSharedValue(0)
+        const containerAnimatedStyle = useAnimatedStyle(() => ({
+                transform: [{rotate: `${interpolate(containerSharedValue.value, [0, 1, 2], [0, 360, 720])}deg`}]
+        }))
+
+        const circleStrokeDashoffsetOutputRange = [
+                circumference * (1 - 0.1),
+                circumference * (1 - 0.8),
+                circumference * (1 - 0.1)
+        ]
+
+        const circleAnimatedProps = useAnimatedProps(() => ({
+                strokeDashoffset: interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRange)
         }))
 
         const onProgressActiveIndicatorCircularAnimatedTiming = useMemo(
-                () => handleProgressActiveIndicatorCircularAnimatedTiming(animatedTiming)(iconSharedValue),
-                [animatedTiming, iconSharedValue]
+                () =>
+                        handleProgressActiveIndicatorCircularAnimatedTiming(animatedTiming)({
+                                circleSharedValue,
+                                containerSharedValue
+                        }),
+                [animatedTiming, circleSharedValue, containerSharedValue]
         )
 
         useEffect(() => {
                 onProgressActiveIndicatorCircularAnimatedTiming(2)
         }, [onProgressActiveIndicatorCircularAnimatedTiming])
 
-        return {iconAnimatedStyle}
+        return {containerAnimatedStyle, circleAnimatedProps}
 }

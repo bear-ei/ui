@@ -4,10 +4,10 @@ import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circu
 import {ProgressActiveIndicatorLinear} from './Progress-active-indicator-linear'
 import {ProgressBase} from './Progress-base.component'
 import {ProgressProps, RenderProgressProps} from './Progress.interface'
-import {Container, Stop, Track} from './Progress.styles'
+import {Container} from './Progress.styles'
 
 const render = ({
-        animated,
+        animatedType = 'indeterminate',
         content,
         defaultValue,
         height,
@@ -16,13 +16,12 @@ const render = ({
         layout,
         onStateEvent,
         testID,
-        type,
+        type = 'linear',
         value,
         width,
+        strokeWidth,
         ...containerProps
 }: RenderProgressProps) => {
-        const shape = type === 'linear' ? 'small' : 'full'
-
         return (
                 <Container
                         {...containerProps}
@@ -30,38 +29,25 @@ const render = ({
                         accessibilityRole='progressbar'
                         pointerEvents='none'
                         progressing={!!(value && value > 0)}
-                        shape={shape}
                         testID={testID ?? `progress--${id}`}
                         type={type}
                 >
                         {type === 'circular' && (
                                 <ProgressActiveIndicatorCircular
+                                        animatedType={animatedType}
                                         content={content}
-                                        height={height}
-                                        width={width}
+                                        size={width ?? height}
+                                        strokeWidth={strokeWidth}
                                 />
                         )}
 
                         {type === 'linear' && typeof layout.width === 'number' && layout.width !== 0 && (
                                 <ProgressActiveIndicatorLinear
+                                        animatedType={animatedType}
                                         containerLayout={layout}
                                         defaultValue={defaultValue}
                                         increment={increment}
                                         value={value}
-                                />
-                        )}
-
-                        {type === 'linear' && (
-                                <Track
-                                        shape={shape}
-                                        testID={`progress__track--${id}`}
-                                />
-                        )}
-
-                        {type === 'linear' && animated === 'determinate' && (
-                                <Stop
-                                        shape='full'
-                                        testID={`progress__stop--${id}`}
                                 />
                         )}
                 </Container>
