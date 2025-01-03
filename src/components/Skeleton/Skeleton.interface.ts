@@ -14,7 +14,7 @@ export interface SkeletonProps extends ViewProps, RefAttributes<View>, Pick<Skel
 
 export interface RenderSkeletonProps extends SkeletonProps {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
-        skeletonVisible?: boolean
+        visible?: boolean
 }
 
 export interface SkeletonBaseProps extends SkeletonProps {
@@ -22,14 +22,12 @@ export interface SkeletonBaseProps extends SkeletonProps {
 }
 
 export interface SkeletonState {
-        skeletonVisible: boolean
+        visible: boolean
         nextSkeletonVisibleEvent?: () => void
 }
 
 export type HandleSkeletonStateChangeOptions = OnStateEventChangeOptions & Pick<SkeletonProps, 'duration'>
-export type UseSkeletonAnimatedOptions = Pick<RenderSkeletonProps, 'enableAnimated'> &
-        Pick<SkeletonState, 'skeletonVisible'>
-
+export type UseSkeletonAnimatedOptions = Pick<RenderSkeletonProps, 'enableAnimated'> & Pick<SkeletonState, 'visible'>
 export interface HandleSkeletonAnimatedTimingOptions extends Pick<UseSkeletonAnimatedOptions, 'enableAnimated'> {
         animatedTiming: AnimatedTiming
 }

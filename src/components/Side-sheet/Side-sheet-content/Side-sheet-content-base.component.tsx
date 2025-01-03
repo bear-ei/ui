@@ -1,53 +1,8 @@
 import {forwardRef, useId} from 'react'
 import {View} from 'react-native'
-import {Icon} from '../../Icon'
-import {IconButton} from '../../Icon-button'
-import {
-        RenderSideSheetContentLeadingOptions,
-        RenderSideSheetContentTrailingOptions,
-        SideSheetContentBaseProps
-} from './Side-sheet-content.interface'
+import {handleSideSheetContentLeading, handleSideSheetContentTrailing} from './Side-sheet-content-handle'
+import {SideSheetContentBaseProps} from './Side-sheet-content.interface'
 import {useSideSheetContentAnimated} from './use-side-sheet-content-animated.hook'
-
-const renderSideSheetContentLeading =
-        ({headlineLeading, back, sheetPosition}: RenderSideSheetContentLeadingOptions) =>
-        (onBack?: () => void) =>
-                headlineLeading ??
-                (back ?
-                        <IconButton
-                                icon={
-                                        <Icon
-                                                iconStyle='rounded'
-                                                name={
-                                                        sheetPosition === 'horizontalStart' ? 'arrowForward' : (
-                                                                'arrowBack'
-                                                        )
-                                                }
-                                                type='filled'
-                                        />
-                                }
-                                onPressOut={onBack}
-                                type='standard'
-                        />
-                :       undefined)
-
-const renderSideSheetContentTrailing =
-        ({headlineTrailing, close}: RenderSideSheetContentTrailingOptions) =>
-        (onClose?: () => void) =>
-                headlineTrailing ??
-                (close ?
-                        <IconButton
-                                icon={
-                                        <Icon
-                                                iconStyle='rounded'
-                                                name='close'
-                                                type='filled'
-                                        />
-                                }
-                                onPressOut={onClose}
-                                type='standard'
-                        />
-                :       undefined)
 
 export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
         (
@@ -75,8 +30,8 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
                         visible
                 })
 
-                const leading = renderSideSheetContentLeading({headlineLeading, back, sheetPosition})(onBack)
-                const trailing = renderSideSheetContentTrailing({headlineTrailing, close})(onClose)
+                const leading = handleSideSheetContentLeading({headlineLeading, back, sheetPosition})(onBack)
+                const trailing = handleSideSheetContentTrailing({headlineTrailing, close})(onClose)
 
                 return render({
                         ...renderProps,

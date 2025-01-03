@@ -1,64 +1,14 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
-import {Updater, useImmer} from 'use-immer'
-import {emitter} from '../../contexts'
+import {useImmer} from 'use-immer'
 import {
-        HandleSideSheetBackOptions,
-        HandleSideSheetEmitOptions,
-        SheetType,
-        SideSheetBaseProps,
-        SideSheetProps,
-        SideSheetState
-} from './Side-sheet.interface'
-
-const handleSideSheetClose = (setState: Updater<SideSheetState>) => (onClose?: () => void) =>
-        setState(draft => {
-                draft.nextCloseEvent = onClose
-                draft.sideSheetVisible = false
-        })
-
-const handleSideSheetBack =
-        ({type, disabledClose, onBack}: HandleSideSheetBackOptions) =>
-        (setState: Updater<SideSheetState>) => {
-                setState(draft => {
-                        if (type !== 'standardContainer' || !disabledClose) {
-                                draft.sideSheetVisible = false
-                        }
-
-                        draft.nextBackEvent = onBack
-                })
-        }
-
-const handleSideSheetVisible = (setState: Updater<SideSheetState>) => (visible?: boolean) => {
-        if (typeof visible === 'boolean') {
-                setState(draft => {
-                        draft.sideSheetVisible = visible
-                })
-        }
-}
-
-const handleSideSheetEmit =
-        ({id, type}: HandleSideSheetEmitOptions) =>
-        (props: SideSheetProps) =>
-        (visible?: boolean) => {
-                if (typeof visible === 'boolean' && type === 'modal') {
-                        emitter.emit('modal', {
-                                id: `sideSheet__${id}`,
-                                name: 'sideSheet',
-                                props: {...props}
-                        })
-                }
-        }
-
-const handleSideSheetUnmount = (id: string) => (type: SheetType) => {
-        if (type === 'modal') {
-                emitter.emit('modal', {
-                        id: `sideSheet__${id}`,
-                        name: 'sideSheet',
-                        unmount: true
-                })
-        }
-}
+        handleSideSheetBack,
+        handleSideSheetClose,
+        handleSideSheetEmit,
+        handleSideSheetUnmount,
+        handleSideSheetVisible
+} from './Side-sheet-handle'
+import {SideSheetBaseProps, SideSheetState} from './Side-sheet.interface'
 
 export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
         (
@@ -76,12 +26,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                 ref
         ) => {
                 const [{sideSheetVisible, nextCloseEvent, nextBackEvent, nextCancelEvent}, setState] =
-                        useImmer<SideSheetState>({
-                                nextBackEvent: undefined,
-                                nextCancelEvent: undefined,
-                                nextCloseEvent: undefined,
-                                sideSheetVisible: undefined
-                        })
+                        useImmer<SideSheetState>({})
 
                 const id = useId()
                 const onSideSheetBack = useCallback(

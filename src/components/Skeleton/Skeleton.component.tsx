@@ -13,13 +13,13 @@ const render = ({
         containerAnimatedStyle,
         content,
         id,
-        skeletonVisible,
         style,
         testID,
+        visible,
         ...containerProps
 }: RenderSkeletonProps) => (
         <>
-                {content && skeletonVisible ?
+                {content && visible ?
                         <AnimatedContainer
                                 {...containerProps}
                                 style={[style, containerAnimatedStyle]}
@@ -42,9 +42,9 @@ const ForwardRefSkeleton = forwardRef<View, SkeletonProps>((props, ref) => (
 const Circle: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
         const theme = useTheme()
         const {
-                width = theme.adaptFontSize(theme.token.spacing.extraSmall * 10),
                 height = theme.adaptFontSize(theme.token.spacing.extraSmall * 10),
                 shape = 'full',
+                width = theme.adaptFontSize(theme.token.spacing.extraSmall * 10),
                 ...skeletonElementProps
         } = props
 
@@ -61,9 +61,9 @@ const Circle: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
 const Square: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
         const theme = useTheme()
         const {
-                width = theme.adaptFontSize(theme.token.spacing.extraSmall * 10),
                 height = theme.adaptFontSize(theme.token.spacing.extraSmall * 10),
                 shape = 'small',
+                width = theme.adaptFontSize(theme.token.spacing.extraSmall * 10),
                 ...skeletonElementProps
         } = props
 
@@ -80,9 +80,9 @@ const Square: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
 const Rectangular: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
         const theme = useTheme()
         const {
-                width,
                 height = theme.adaptFontSize(theme.token.spacing.extraSmall * 12),
                 shape = 'small',
+                width,
                 ...skeletonElementProps
         } = props
 

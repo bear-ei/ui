@@ -1,31 +1,12 @@
 import {useEffect, useMemo} from 'react'
-import {SharedValue, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, useAnimatedTiming} from '../../../hooks'
+import {useAnimatedTiming} from '../../../hooks'
+import {
+        handleSideSheetContentFooterVisibleAnimatedTiming,
+        handleSideSheetContentVisibleAnimatedTiming
+} from './Side-sheet-content-handle'
 import {UseSideSheetContentAnimatedOptions} from './Side-sheet-content.interface'
-
-const handleSideSheetContentVisibleAnimatedTiming =
-        (animatedTiming: AnimatedTiming) =>
-        (backgroundColorSharedValue: SharedValue<number>) =>
-        (visible?: boolean) => {
-                if (typeof visible !== 'boolean') {
-                        return
-                }
-
-                const toValue = visible ? 1 : 0
-
-                animatedTiming()(backgroundColorSharedValue)(toValue)
-        }
-
-const handleSideSheetContentFooterVisibleAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (footerSharedValue: SharedValue<number>) => (footerVisible?: boolean) => {
-                if (typeof footerVisible === 'boolean') {
-                        animatedTiming({
-                                duration: footerVisible ? 'medium3' : 'short3',
-                                easing: footerVisible ? 'emphasizedDecelerate' : 'emphasizedAccelerate'
-                        })(footerSharedValue)(footerVisible ? 1 : 0)
-                }
-        }
 
 export const useSideSheetContentAnimated = ({
         footerVisible,
