@@ -37,11 +37,11 @@ const render = ({
                 >
                         <Touchable
                                 {...onTouchableEvent}
-                                accessibilityLabel={placeholder}
-                                accessibilityRole='keyboardkey'
                                 testID={`textfield__touchable--${id}`}
                         >
                                 <Content
+                                        accessibilityLabel={placeholder}
+                                        accessibilityRole='keyboardkey'
                                         shape={shape}
                                         testID={`search__content--${id}`}
                                         trailingShow={!!trailing}
@@ -50,8 +50,9 @@ const render = ({
                                                 {leading ?? (
                                                         <Icon
                                                                 iconStyle='rounded'
-                                                                type='filled'
                                                                 name='search'
+                                                                testID={`search__icon--${id}`}
+                                                                type='filled'
                                                         />
                                                 )}
                                         </Leading>
@@ -84,6 +85,7 @@ const render = ({
                                                 opacities={underlayOpacities}
                                                 shape={listVisible ? 'extraLargeTop' : shape}
                                                 underlayColor={underlayColor}
+                                                testID={`search__underlay--${id}`}
                                         />
                                 </Content>
                         </Touchable>

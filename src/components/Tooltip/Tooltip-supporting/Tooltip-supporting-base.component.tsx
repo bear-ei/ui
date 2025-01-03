@@ -70,11 +70,8 @@ const setTooltipSupportingLayout = (setState: Updater<TooltipSupportingState>) =
 const handleTooltipSupportingContainerLayout =
         ({setState, windowWidth}: HandleTooltipSupportingContainerLayoutOptions) =>
         (containerCurrent: View | null) =>
-        (visible?: boolean) => {
-                if (windowWidth && visible) {
-                        setTooltipSupportingLayout(setState)(containerCurrent)
-                }
-        }
+        (visible?: boolean) =>
+                windowWidth && visible && setTooltipSupportingLayout(setState)(containerCurrent)
 
 // TODO: Add more directional support.
 const handleTooltipSupportingPositionInvert =
