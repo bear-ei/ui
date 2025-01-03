@@ -153,6 +153,7 @@ const render = ({
                                                 <Underlay
                                                         eventName={eventName}
                                                         opacities={underlayOpacities}
+                                                        testID={`textfield__underlay--${id}`}
                                                         underlayColor={underlayColor}
                                                 />
                                         </AnimatedHeader>
@@ -160,11 +161,13 @@ const render = ({
 
                                 <Supporting
                                         onVisible={onSupportingTextVisible}
+                                        testID={`textfield__supporting--${id}`}
                                         visible={supportingTextVisible}
                                 >
                                         <AnimatedSupportingText
                                                 size='small'
                                                 style={[supportingTextAnimatedStyle]}
+                                                testID={`textfield__supportingText--${id}`}
                                                 type='body'
                                         >
                                                 {supportingText}

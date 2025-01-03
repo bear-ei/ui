@@ -1,137 +1,23 @@
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
-import {Updater, useImmer} from 'use-immer'
+import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
-import {EventName, State} from '../Common'
+import {State} from '../Common'
 import {
-        HandleTextInputStateEventChangeOptions,
-        HandleTextInputSupportingTextOptions,
-        TextInputBaseProps,
-        TextInputState
-} from './Text-input.interface'
+        handleSupportingTextClose,
+        handleTextInputChangeText,
+        handleTextInputChangeTextInit,
+        handleTextInputContentSizeChange,
+        handleTextInputEditableChange,
+        handleTextInputStateChange,
+        handleTextInputSupportingText,
+        handleTextInputSupportingTextVisible,
+        handleTouchableHeaderFocus
+} from './Text-input-handle'
+import {TextInputBaseProps, TextInputState} from './Text-input.interface'
 import {useTextInputAnimated} from './use-text-input-animated.hook'
-
-const handleTextInputStateChange =
-        ({content, eventName, ref, state}: HandleTextInputStateEventChangeOptions) =>
-        (setState: Updater<TextInputState>) =>
-        (_event: StateEvent) => {
-                const nextEvent = {
-                        pressOut: () => ref?.current?.focus()
-                } as Record<EventName, () => void>
-
-                if (eventName === 'layout') {
-                        return
-                }
-
-                setState(draft => {
-                        if ((draft.state === 'focused' && eventName !== 'blur') || content) {
-                                return
-                        }
-
-                        const prevEventName = draft.eventName
-
-                        draft.eventName = eventName
-
-                        if (state) {
-                                draft.state = state
-                        }
-
-                        if (prevEventName !== eventName && eventName === 'pressOut') {
-                                draft.nextPressOutEvent = nextEvent[eventName]
-                        }
-                })
-        }
-
-const handleTextInputContentSizeChange =
-        (setState: Updater<TextInputState>) =>
-        (onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
-        (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
-                const handleNextContentSizeChangeEvent = () => onContentSizeChange?.(event)
-                const contentSize = event.nativeEvent.contentSize
-
-                setState(draft => {
-                        draft.contentSize.width = contentSize.width
-                        draft.contentSize.height = contentSize.height
-                        draft.nextContentSizeChangeEvent = handleNextContentSizeChangeEvent
-                })
-        }
-
-const handleSupportingTextClose = (setState: Updater<TextInputState>) => () =>
-        setState(draft => {
-                draft.supportingTextVisible = false
-        })
-
-const handleTextInputSupportingText =
-        ({onSupportingTextClose, supportingTextDelayTime}: HandleTextInputSupportingTextOptions) =>
-        (setState: Updater<TextInputState>) =>
-        (value?: string) => {
-                setState(draft => {
-                        if (value) {
-                                draft.supportingText = value
-                        }
-
-                        draft.supportingTextVisible = !!value
-                })
-
-                if (supportingTextDelayTime && value) {
-                        onSupportingTextClose()
-                }
-        }
-
-const handleTextInputSupportingTextVisible =
-        (setState: Updater<TextInputState>) =>
-        (onSupportingTextVisible?: (value: boolean) => void) =>
-        (value?: boolean) => {
-                const handleNextSupportingTextVisibleEvent = () => {
-                        if (value) {
-                                onSupportingTextVisible?.(value)
-                        }
-                }
-
-                if (typeof value !== 'boolean') {
-                        return
-                }
-
-                setState(draft => {
-                        draft.supportingText = value ? draft.supportingText : undefined
-                        draft.nextSupportingTextVisibleEvent = handleNextSupportingTextVisibleEvent
-                })
-        }
-
-const handleTextInputChangeText =
-        (onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value?: string) => {
-                const nextValue = value?.trim()
-                const handleNextChangeTextEvent = () => {
-                        if (nextValue) {
-                                onChangeText?.(nextValue)
-                        }
-                }
-
-                setState(draft => {
-                        const prevTextInputValue = draft.textInputValue
-
-                        draft.textInputValue = nextValue ?? ''
-
-                        if (typeof nextValue === 'string' && prevTextInputValue !== nextValue) {
-                                draft.nextChangeTextEvent = handleNextChangeTextEvent
-                        }
-                })
-        }
-
-const handleTextInputChangeTextInit = (setState: Updater<TextInputState>) => (value?: string) =>
-        setState(draft => {
-                draft.textInputValue = value
-        })
-
-const handleTextInputEditableChange = (ref: React.RefObject<TextInput>) => (value?: boolean) => {
-        if (value) {
-                ref?.current?.blur()
-        }
-}
-
-const handleTouchableHeaderFocus = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
 
 export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
         (
@@ -175,15 +61,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         setState
                 ] = useImmer<TextInputState>({
                         contentSize: {} as TextInputContentSizeChangeEventData['contentSize'],
-                        eventName: undefined,
-                        nextChangeTextEvent: undefined,
-                        nextContentSizeChangeEvent: undefined,
-                        nextPressOutEvent: undefined,
-                        nextSupportingTextVisibleEvent: undefined,
-                        state: 'enabled',
-                        supportingText: undefined,
-                        supportingTextVisible: undefined,
-                        textInputValue: undefined
+                        state: 'enabled'
                 })
 
                 const value = rawValue ?? defaultValue

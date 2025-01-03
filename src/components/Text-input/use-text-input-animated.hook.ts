@@ -1,108 +1,17 @@
 import {useCallback, useEffect, useMemo} from 'react'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
-import {State} from '../Common'
+import {useAnimatedTiming} from '../../hooks'
 import {
-        HandleTextInputDisabledSharedValue,
-        HandleTextInputEnabledSharedOptions,
-        HandleTextInputEnabledSharedValue,
-        HandleTextInputErrorSharedValue,
-        HandleTextInputFocusedSharedValue,
-        HandleTextInputNonerrorAnimatedTimingOptions,
-        TextInputStateAnimated,
-        UseTextInputAnimatedOptions
-} from './Text-input.interface'
-
-const handleTextInputEnabled =
-        (animatedTiming: AnimatedTiming) =>
-        ({
-                activeIndicatorScaleYSharedValue,
-                colorSharedValue,
-                inputColorSharedValue,
-                labelTextSharedValue,
-                supportingTextSharedValue
-        }: HandleTextInputEnabledSharedValue) =>
-        ({filledToValue, error}: HandleTextInputEnabledSharedOptions) => {
-                if (error) {
-                        return animatedTiming()(labelTextSharedValue)(filledToValue)
-                }
-
-                animatedTiming()(activeIndicatorScaleYSharedValue)(0)
-                animatedTiming()(colorSharedValue)(1)
-                animatedTiming()(inputColorSharedValue)(1)
-                animatedTiming()(labelTextSharedValue)(filledToValue)
-                animatedTiming()(supportingTextSharedValue)(1)
-        }
-
-const handleTextInputDisabled =
-        (animatedTiming: AnimatedTiming) =>
-        ({
-                activeIndicatorScaleYSharedValue,
-                colorSharedValue,
-                headerInnerBackgroundColorSharedValue,
-                inputColorSharedValue,
-                supportingTextSharedValue
-        }: HandleTextInputDisabledSharedValue) => {
-                const toValue = 0
-
-                animatedTiming()(activeIndicatorScaleYSharedValue)(toValue)
-                animatedTiming()(colorSharedValue)(toValue)
-                animatedTiming()(headerInnerBackgroundColorSharedValue)(toValue)
-                animatedTiming()(inputColorSharedValue)(1)
-                animatedTiming()(supportingTextSharedValue)(1)
-        }
-
-const handleTextInputError =
-        (animatedTiming: AnimatedTiming) =>
-        ({
-                activeIndicatorScaleYSharedValue,
-                colorSharedValue,
-                inputColorSharedValue,
-                supportingTextSharedValue
-        }: HandleTextInputErrorSharedValue) => {
-                animatedTiming()(activeIndicatorScaleYSharedValue)(1)
-                animatedTiming()(colorSharedValue)(3)
-                animatedTiming()(inputColorSharedValue)(1)
-                animatedTiming()(supportingTextSharedValue)(2)
-        }
-
-const handleTextInputFocused =
-        (animatedTiming: AnimatedTiming) =>
-        ({
-                activeIndicatorScaleYSharedValue,
-                colorSharedValue,
-                labelTextSharedValue
-        }: HandleTextInputFocusedSharedValue) =>
-        (error?: boolean) => {
-                if (error) {
-                        return animatedTiming()(labelTextSharedValue)(0)
-                }
-
-                animatedTiming()(activeIndicatorScaleYSharedValue)(1)
-                animatedTiming()(colorSharedValue)(2)
-                animatedTiming()(labelTextSharedValue)(0)
-        }
-
-const handleTextInputStateAnimatedTiming = (stateAnimated: TextInputStateAnimated) => (state: State) =>
-        stateAnimated[state]?.()
-
-const handleTextInputNonerrorAnimatedTiming = ({error, disabled}: HandleTextInputNonerrorAnimatedTimingOptions) => {
-        const nonerror = typeof error !== 'boolean' && disabled
-
-        return (stateAnimated: TextInputStateAnimated) => (state: State) => {
-                if (!nonerror) {
-                        stateAnimated[error ? 'error' : state]?.()
-                }
-        }
-}
-
-const handleTextInputDisabledAnimatedTiming =
-        (stateAnimated: TextInputStateAnimated) => (state: State) => (disabled?: boolean) => {
-                if (typeof disabled === 'boolean') {
-                        stateAnimated[disabled ? 'disabled' : state]?.()
-                }
-        }
+        handleTextInputDisabled,
+        handleTextInputDisabledAnimatedTiming,
+        handleTextInputEnabled,
+        handleTextInputError,
+        handleTextInputFocused,
+        handleTextInputNonerrorAnimatedTiming,
+        handleTextInputStateAnimatedTiming
+} from './Text-input-handle'
+import {TextInputStateAnimated, UseTextInputAnimatedOptions} from './Text-input.interface'
 
 export const useTextInputAnimated = ({
         disabled,
