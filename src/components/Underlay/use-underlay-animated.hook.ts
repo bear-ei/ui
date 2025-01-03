@@ -1,42 +1,9 @@
 import {useEffect, useMemo} from 'react'
-import {SharedValue, cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {AnimatedTiming, useAnimatedTiming} from '../../hooks'
-import {EventName} from '../Common'
-import {HandleUnderlayHoveredAnimatedTimingOptions, UseUnderlayAnimatedOptions} from './Underlay.interface'
-
-const handleUnderlayHoveredAnimatedTiming = ({
-        animatedTiming,
-        activeValue
-}: HandleUnderlayHoveredAnimatedTimingOptions) => {
-        const event = {
-                blur: 0,
-                focus: activeValue,
-                hoverIn: 1,
-                hoverOut: 0,
-                longPress: activeValue,
-                none: 0,
-                press: 1,
-                pressIn: activeValue,
-                pressOut: 1
-        } as Record<EventName, number>
-
-        const eventKeys = Object.keys(event)
-
-        return (hoverLayerSharedValue: SharedValue<number>) => (eventName?: EventName) => {
-                if (eventName && eventKeys.includes(eventName)) {
-                        cancelAnimation(hoverLayerSharedValue)
-                        animatedTiming()(hoverLayerSharedValue)(event[eventName])
-                }
-        }
-}
-
-const handleUnderlayActiveAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<number>) => (value?: boolean) => {
-                if (typeof value === 'boolean') {
-                        animatedTiming()(activeLayerSharedValue)(value ? 1 : 0)
-                }
-        }
+import {useAnimatedTiming} from '../../hooks'
+import {handleUnderlayActiveAnimatedTiming, handleUnderlayHoveredAnimatedTiming} from './Underlay-handle'
+import {UseUnderlayAnimatedOptions} from './Underlay.interface'
 
 export const useUnderlayAnimated = ({
         active,
@@ -46,10 +13,13 @@ export const useUnderlayAnimated = ({
         opacities: rawOpacities
 }: UseUnderlayAnimatedOptions) => {
         const theme = useTheme()
-        const opacities =
-                rawOpacities?.length ? rawOpacities : (
-                        [theme.token.opacity.level0, theme.token.opacity.level1, theme.token.opacity.level2]
-                )
+        const opacities = useMemo(
+                () =>
+                        rawOpacities?.length ? rawOpacities : (
+                                [theme.token.opacity.level0, theme.token.opacity.level1, theme.token.opacity.level2]
+                        ),
+                [rawOpacities, theme.token.opacity.level0, theme.token.opacity.level1, theme.token.opacity.level2]
+        )
 
         const {x: scaleX = 1.2, y: scaleY = 1.2} = activeScale ?? {}
         const defaultScaleValue = active ? 1 : 0

@@ -10,11 +10,6 @@ export interface RenderVirtualListItemInfo<T> {
         item: T & Item
 }
 
-// export interface VirtualListItemUnmountOptions {
-//         onItemVisible?: () => void
-//         value?: string
-// }
-
 export interface VirtualListItemProps<T = Record<string, unknown>> extends ViewProps, RefAttributes<View> {
         extraData?: string[]
         gap?: number
@@ -45,7 +40,7 @@ export interface VirtualListItemState {
         visible?: boolean
 }
 
-export type RenderVirtualListItemOptions<T> = Pick<
+export type HandleVirtualListItemOptions<T> = Pick<
         VirtualListItemProps<T>,
         'itemSize' | 'renderItem' | 'extraData' | 'onUnmount' | 'onLoadEnd' | 'gap'
 >

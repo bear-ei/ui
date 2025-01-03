@@ -1,4 +1,4 @@
-import {cancelAnimation, SharedValue} from 'react-native-reanimated'
+import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
 import {debounce} from '../../utils'
 import {HandleSkeletonAnimatedTimingOptions, SkeletonState} from './Skeleton.interface'
@@ -35,7 +35,5 @@ export const handleSkeletonAnimatedTiming =
         (visible?: boolean) => {
                 if (enableAnimated && visible) {
                         animatedTiming({repeat: 0, duration: 1500, easing: 'linear'})(opacitySharedValue)(2)
-                } else {
-                        cancelAnimation(opacitySharedValue)
                 }
         }
