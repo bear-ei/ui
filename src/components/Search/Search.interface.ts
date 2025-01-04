@@ -1,5 +1,6 @@
 import {RefAttributes, RefObject} from 'react'
 import {LayoutRectangle, PressableProps, TextInput, TextInputProps, View} from 'react-native'
+import {DefaultTheme} from 'styled-components/native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {EventName, Size, State} from '../Common'
 import {ListData, ListProps} from '../List'
@@ -25,8 +26,7 @@ export interface RenderSearchProps extends SearchProps {
         layout: LayoutRectangle & {pageX?: number; pageY?: number}
         listVisible?: boolean
         onStateEvent: OnStateEvent
-        underlayColor: string
-        underlayOpacities: [number, number]
+        theme: DefaultTheme
 }
 
 export interface SearchBaseProps extends SearchProps {

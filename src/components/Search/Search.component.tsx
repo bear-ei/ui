@@ -19,16 +19,17 @@ const render = ({
         onChangeText,
         onStateEvent,
         placeholder,
-        placeholderTextColor,
         testID,
+        theme,
         trailing,
-        underlayColor,
-        underlayOpacities,
         value,
         ...textInputProps
 }: RenderSearchProps) => {
         const {onBlur, onFocus, ...onTouchableEvent} = onStateEvent
+        const placeholderTextColor = theme.token.scheme.onSurfaceVariant
         const shape = 'extraLarge'
+        const underlayColor = theme.token.scheme.onSurface
+        const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
 
         return (
                 <Container

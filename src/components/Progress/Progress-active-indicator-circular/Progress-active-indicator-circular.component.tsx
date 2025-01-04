@@ -16,13 +16,13 @@ const render = ({
         circleAnimatedProps,
         circumference,
         containerAnimatedStyle,
+        content,
         id,
         radius,
         size = 48,
         strokeWidth,
         testID,
         theme,
-        content,
         ...containerProps
 }: RenderProgressActiveIndicatorCircularProps) => {
         const activeIndicatorColor = theme.token.scheme.primary
@@ -36,9 +36,11 @@ const render = ({
                         pointerEvents='none'
                         testID={testID ?? `progressActiveIndicatorCircular--${id}`}
                 >
-                        <Content>{content}</Content>
-
-                        <AnimatedMain style={[containerAnimatedStyle]}>
+                        <Content testID={`progressActiveIndicatorCircular__content--${id}`}>{content}</Content>
+                        <AnimatedMain
+                                style={[containerAnimatedStyle]}
+                                testID={`progressActiveIndicatorCircular__main--${id}`}
+                        >
                                 <Svg
                                         fill='none'
                                         testID={`progressActiveIndicatorCircular__svg--${id}`}

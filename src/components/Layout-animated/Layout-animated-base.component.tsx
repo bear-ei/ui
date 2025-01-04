@@ -2,6 +2,7 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {InteractionManager, LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {debounce} from '../../utils'
 import {State} from '../Common'
 import {
         handleLayoutAnimatedFinished,
@@ -48,7 +49,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 const id = useId()
                 const layoutAnimatedRef = useRef<View>(null)
                 const onLayoutAnimatedLayoutVisible = useMemo(
-                        () => handleLayoutAnimatedLayoutVisible({setState, animatedType, onVisible})(layoutAnimatedRef),
+                        () =>
+                                debounce(
+                                        handleLayoutAnimatedLayoutVisible({setState, animatedType, onVisible})(
+                                                layoutAnimatedRef
+                                        )
+                                )(50),
                         [animatedType, onVisible, setState]
                 )
 

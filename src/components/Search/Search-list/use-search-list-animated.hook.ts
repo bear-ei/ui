@@ -16,7 +16,8 @@ export const useSearchListAnimated = ({visible, containerLayout}: UseSearchListA
         ]
 
         const containerAnimatedStyle = useAnimatedStyle(() => ({
-                height: interpolate(heightSharedValue.value, [0, 1], heightOutputRange)
+                height: interpolate(heightSharedValue.value, [0, 1], heightOutputRange),
+                transform: [{scaleY: interpolate(heightSharedValue.value, [0, 1], [0, 1])}]
         }))
 
         const onSearchListAnimatedTiming = useMemo(

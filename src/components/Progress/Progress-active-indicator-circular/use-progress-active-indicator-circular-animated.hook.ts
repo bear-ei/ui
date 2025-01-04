@@ -2,7 +2,10 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {handleProgressActiveIndicatorCircularAnimatedTiming} from './Progress-active-indicator-circular-handle'
+import {
+        handleProgressActiveIndicatorCircularAnimatedTiming,
+        handleProgressActiveIndicatorCircularStrokeDashoffset
+} from './Progress-active-indicator-circular-handle'
 import {UseProgressActiveIndicatorCircularAnimatedOptions} from './Progress-active-indicator-circular.interface'
 
 export const useProgressActiveIndicatorCircularAnimated = ({
@@ -17,9 +20,9 @@ export const useProgressActiveIndicatorCircularAnimated = ({
         }))
 
         const circleStrokeDashoffsetOutputRange = [
-                circumference * (1 - 0.1),
-                circumference * (1 - 0.8),
-                circumference * (1 - 0.1)
+                handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.1),
+                handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.8),
+                handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.1)
         ]
 
         const circleAnimatedProps = useAnimatedProps(() => ({

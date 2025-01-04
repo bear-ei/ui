@@ -8,3 +8,6 @@ export const handleProgressActiveIndicatorCircularAnimatedTiming =
                 animatedTiming({repeat: 0, duration: 2000, easing: 'linear'})(circleSharedValue)(value)
                 animatedTiming({repeat: 0, duration: 2000, easing: 'linear'})(containerSharedValue)(value)
         }
+
+export const handleProgressActiveIndicatorCircularStrokeDashoffset = (circumference: number) => (value: number) =>
+        circumference * (1 - value)

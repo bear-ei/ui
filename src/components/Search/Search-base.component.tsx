@@ -38,24 +38,13 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 const [
                         {searchValue, eventName, layout, listVisible, nextPressOutEvent, nextChangeTextEvent},
                         setState
-                ] = useImmer<SearchState>({
-                        eventName: undefined,
-                        layout: {} as SearchState['layout'],
-                        listVisible: undefined,
-                        nextChangeTextEvent: undefined,
-                        nextPressOutEvent: undefined,
-                        searchValue: undefined,
-                        state: 'enabled'
-                })
+                ] = useImmer<SearchState>({layout: {} as SearchState['layout'], state: 'enabled'})
 
                 const containerRef = useRef<View>(null)
                 const id = useId()
                 const {data} = listProps
                 const inputRef = useRef<TextInput>(null)
                 const theme = useTheme()
-                const placeholderTextColor = theme.token.scheme.onSurfaceVariant
-                const underlayColor = theme.token.scheme.onSurface
-                const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
                 const onSearchListVisible = handleSearchListVisible(setState)
                 const onSearchChangeText = handleSearchChangeText({data, onChangeText})(setState)
                 const onSearchChangeTextSource = useMemo(() => handleSearchChangeText()(setState), [setState])
@@ -106,10 +95,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         onChangeText: onSearchChangeText,
                         onStateEvent,
                         placeholder,
-                        placeholderTextColor,
                         ref: inputRef,
-                        underlayColor,
-                        underlayOpacities,
+                        theme,
                         value: searchValue
                 })
         }

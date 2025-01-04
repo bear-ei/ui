@@ -6,6 +6,7 @@ export const Container = styled(Shape)<SearchListContainerProps>`
         overflow: hidden;
         position: absolute;
         z-index: 4096;
+        transform-origin: top;
 
         ${({theme}) => css`
                 background-color: ${theme.token.scheme.surfaceContainerHigh};
