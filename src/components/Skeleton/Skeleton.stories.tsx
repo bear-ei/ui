@@ -7,7 +7,7 @@ const {Square, Rectangular, Circle} = Skeleton
 const SkeletonComponent = (props: SkeletonProps) => {
         const rectangularStyle = {flex: 1} as StyleProp<ViewStyle>
         const skeletonStyle = {gap: 16}
-        const content = (
+        const skeleton = (
                 <>
                         <Square />
                         <Rectangular
@@ -24,7 +24,7 @@ const SkeletonComponent = (props: SkeletonProps) => {
         return (
                 <Skeleton
                         {...props}
-                        content={content}
+                        skeleton={skeleton}
                         duration={-1}
                         style={skeletonStyle}
                 />

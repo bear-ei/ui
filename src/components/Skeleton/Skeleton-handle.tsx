@@ -32,8 +32,7 @@ export const handleSkeletonDurationChange = (setState: Updater<SkeletonState>) =
 export const handleSkeletonAnimatedTiming =
         ({animatedTiming, enableAnimated}: HandleSkeletonAnimatedTimingOptions) =>
         (opacitySharedValue: SharedValue<number>) =>
-        (visible?: boolean) => {
-                if (enableAnimated && visible) {
-                        animatedTiming({repeat: 0, duration: 1500, easing: 'linear'})(opacitySharedValue)(2)
-                }
-        }
+        (visible?: boolean) =>
+                enableAnimated &&
+                visible &&
+                animatedTiming({repeat: 0, duration: 2000, easing: 'linear'})(opacitySharedValue)(2)

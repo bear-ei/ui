@@ -5,31 +5,46 @@ import {useTheme} from 'styled-components/native'
 import {SkeletonBase} from './Skeleton-base.component'
 import {SkeletonElement, SkeletonElementProps} from './Skeleton-element'
 import {RenderSkeletonProps, SkeletonComponent, SkeletonProps} from './Skeleton.interface'
-import {Container} from './Skeleton.styles'
+import {ContentItem, SkeletonContainer} from './Skeleton.styles'
 
-const AnimatedContainer = Animated.createAnimatedComponent(Container)
+const AnimatedSkeletonContainer = Animated.createAnimatedComponent(SkeletonContainer)
 const render = ({
         children,
         containerAnimatedStyle,
-        content,
         id,
+        skeleton,
         style,
         testID,
         visible,
         ...containerProps
-}: RenderSkeletonProps) => (
-        <>
-                {content && visible ?
-                        <AnimatedContainer
-                                {...containerProps}
-                                style={[style, containerAnimatedStyle]}
-                                testID={testID ?? `skeleton--${id}`}
+}: RenderSkeletonProps) => {
+        const skeletonVisible = !!(skeleton && visible)
+
+        return (
+                <>
+                        <ContentItem
+                                unmount={true}
+                                visible={skeletonVisible}
+                                testID={`skeleton__contentItem--${id}`}
                         >
-                                {content}
-                        </AnimatedContainer>
-                :       children}
-        </>
-)
+                                <AnimatedSkeletonContainer
+                                        {...containerProps}
+                                        style={[style, containerAnimatedStyle]}
+                                        testID={testID ?? `skeleton__skeletonContainer--${id}`}
+                                >
+                                        {skeleton}
+                                </AnimatedSkeletonContainer>
+                        </ContentItem>
+
+                        <ContentItem
+                                visible={!skeletonVisible}
+                                testID={`skeleton__contentItem--${id}`}
+                        >
+                                {children}
+                        </ContentItem>
+                </>
+        )
+}
 
 const ForwardRefSkeleton = forwardRef<View, SkeletonProps>((props, ref) => (
         <SkeletonBase

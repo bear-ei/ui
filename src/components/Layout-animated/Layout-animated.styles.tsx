@@ -5,7 +5,6 @@ import {LayoutAnimatedContainerProps} from './Layout-animated.interface'
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
         display: flex;
         flex-direction: column;
-        height: auto;
         overflow: hidden;
 
         ${({visible, theme, hidden}) =>

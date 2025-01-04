@@ -5,6 +5,10 @@ import {useAnimatedTiming} from '../../../hooks'
 import {handleSearchListAnimatedTiming} from './Search-list-handle'
 import {UseSearchListAnimatedOptions} from './Search-list.interface'
 
+/**
+ * TODO: Use Layout-animated
+ */
+
 export const useSearchListAnimated = ({visible, containerLayout}: UseSearchListAnimatedOptions) => {
         const heightSharedValue = useSharedValue(visible ? 1 : 0)
         const theme = useTheme()

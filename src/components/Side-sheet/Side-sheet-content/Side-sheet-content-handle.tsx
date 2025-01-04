@@ -61,13 +61,3 @@ export const handleSideSheetContentVisibleAnimatedTiming =
 
                 animatedTiming()(backgroundColorSharedValue)(toValue)
         }
-
-export const handleSideSheetContentFooterVisibleAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (footerSharedValue: SharedValue<number>) => (footerVisible?: boolean) => {
-                if (typeof footerVisible === 'boolean') {
-                        animatedTiming({
-                                duration: footerVisible ? 'medium3' : 'short3',
-                                easing: footerVisible ? 'emphasizedDecelerate' : 'emphasizedAccelerate'
-                        })(footerSharedValue)(footerVisible ? 1 : 0)
-                }
-        }

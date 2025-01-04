@@ -5,10 +5,10 @@ import {AnimatedTiming, OnStateEventChangeOptions} from '../../hooks'
 import {SkeletonElementProps} from './Skeleton-element'
 
 export interface SkeletonProps extends ViewProps, RefAttributes<View>, Pick<SkeletonElementProps, 'containerLayout'> {
-        content?: ReactNode
         duration?: number
         enableAnimated?: boolean
         height?: number
+        skeleton?: ReactNode
         width?: number
 }
 
@@ -22,8 +22,8 @@ export interface SkeletonBaseProps extends SkeletonProps {
 }
 
 export interface SkeletonState {
-        visible: boolean
         nextSkeletonVisibleEvent?: () => void
+        visible: boolean
 }
 
 export type HandleSkeletonStateChangeOptions = OnStateEventChangeOptions & Pick<SkeletonProps, 'duration'>

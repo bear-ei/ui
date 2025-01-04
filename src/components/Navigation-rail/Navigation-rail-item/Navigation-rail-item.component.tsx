@@ -7,7 +7,6 @@ import {handleNavigationRailItemPropsEqual} from './Navigation-rail-item-handle'
 import {NavigationRailItemProps, RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
 import {Container, Header, Icon, IconContainer, Label, LabelText, TouchableContent} from './Navigation-rail-item.styles'
 
-const AnimatedLabel = Animated.createAnimatedComponent(Label)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
         active,
@@ -15,7 +14,7 @@ const render = ({
         eventName,
         iconElement,
         id,
-        labelAnimatedStyle,
+
         labelText,
         labelTextAnimatedStyle,
         onStateEvent,
@@ -74,10 +73,11 @@ const render = ({
                                 </Header>
 
                                 {type === 'segment' && (
-                                        <AnimatedLabel
+                                        <Label
+                                                animatedType='collapseY'
                                                 pointerEvents='none'
-                                                style={[labelAnimatedStyle]}
                                                 testID={`navigationRailItem__label--${id}`}
+                                                visible={active}
                                         >
                                                 <AnimatedLabelText
                                                         active={active}
@@ -90,7 +90,7 @@ const render = ({
                                                 >
                                                         {labelText}
                                                 </AnimatedLabelText>
-                                        </AnimatedLabel>
+                                        </Label>
                                 )}
                         </TouchableContent>
                 </Container>

@@ -10,6 +10,7 @@ import {
         Content,
         Footer,
         FooterContainer,
+        FooterContent,
         Header,
         HeaderText,
         HeadlineContainer,
@@ -20,15 +21,15 @@ import {
         Trailing
 } from './Side-sheet-content.styles'
 
+const AnimatedContainer = Animated.createAnimatedComponent(Container)
+
 /**
  * TODO: Add visible animation for modal layer types.
  */
-const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const AnimatedFooterContainer = Animated.createAnimatedComponent(FooterContainer)
 const render = ({
         containerAnimatedStyle,
         content,
-        footerAnimatedStyle,
+        footerVisible,
         headlineText,
         id,
         leading,
@@ -76,10 +77,10 @@ const render = ({
 
                                         <HeadlineContainer testID={`sideSideSheetContent__headlineContainer--${id}`}>
                                                 <HeaderText
+                                                        numberOfLines={1}
                                                         size='large'
                                                         testID={`sideSideSheetContent__headerText--${id}`}
                                                         type='title'
-                                                        numberOfLines={1}
                                                 >
                                                         {headlineText}
                                                 </HeaderText>
@@ -93,45 +94,57 @@ const render = ({
                                 </Header>
 
                                 <Main testID={`sideSideSheetContent__main--${id}`}>{content}</Main>
-
-                                <AnimatedFooterContainer
-                                        style={[footerAnimatedStyle]}
+                                <FooterContainer
+                                        animatedType='collapseY'
+                                        entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
+                                        exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
                                         testID={`sideSideSheetContent__footerContainer--${id}`}
+                                        visible={footerVisible}
                                 >
-                                        <Divider size='large' />
-                                        <Footer
-                                                testID={`sideSideSheetContent__footer--${id}`}
-                                                type={type}
-                                        >
-                                                <PrimaryButton testID={`sideSideSheetContent__primaryButton--${id}`}>
-                                                        {primaryButton ?? (
-                                                                <Button
-                                                                        {...{
-                                                                                labelText: 'Confirm',
-                                                                                ...primaryButtonProps
-                                                                        }}
-                                                                        onPressOut={onConfirm}
-                                                                        type='filled'
-                                                                />
-                                                        )}
-                                                </PrimaryButton>
+                                        <FooterContent testID={`sideSideSheetContent__content--${id}`}>
+                                                <Divider
+                                                        size='large'
+                                                        testID={`sideSideSheetContent__divider--${id}`}
+                                                />
 
-                                                <SecondaryButton
-                                                        testID={`sideSideSheetContent__secondaryButton--${id}`}
+                                                <Footer
+                                                        testID={`sideSideSheetContent__footer--${id}`}
+                                                        type={type}
                                                 >
-                                                        {secondaryButton ?? (
-                                                                <Button
-                                                                        {...{
-                                                                                labelText: 'Cancel',
-                                                                                ...secondaryButtonProps
-                                                                        }}
-                                                                        onPressOut={onCancel}
-                                                                        type='outlined'
-                                                                />
-                                                        )}
-                                                </SecondaryButton>
-                                        </Footer>
-                                </AnimatedFooterContainer>
+                                                        <PrimaryButton
+                                                                testID={`sideSideSheetContent__primaryButton--${id}`}
+                                                        >
+                                                                {primaryButton ?? (
+                                                                        <Button
+                                                                                {...{
+                                                                                        labelText: 'Confirm',
+                                                                                        ...primaryButtonProps
+                                                                                }}
+                                                                                onPressOut={onConfirm}
+                                                                                testID={`sideSideSheetContent__confirmButton--${id}`}
+                                                                                type='filled'
+                                                                        />
+                                                                )}
+                                                        </PrimaryButton>
+
+                                                        <SecondaryButton
+                                                                testID={`sideSideSheetContent__secondaryButton--${id}`}
+                                                        >
+                                                                {secondaryButton ?? (
+                                                                        <Button
+                                                                                {...{
+                                                                                        labelText: 'Cancel',
+                                                                                        ...secondaryButtonProps
+                                                                                }}
+                                                                                onPressOut={onCancel}
+                                                                                type='outlined'
+                                                                                testID={`sideSideSheetContent__cancelButton--${id}`}
+                                                                        />
+                                                                )}
+                                                        </SecondaryButton>
+                                                </Footer>
+                                        </FooterContent>
+                                </FooterContainer>
                         </Content>
                 </AnimatedContainer>
         )

@@ -1,6 +1,7 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
+import {LayoutAnimated} from '../../Layout-animated'
 import {SheetType} from '../Side-sheet.interface'
 import {
         SheetContainerProps,
@@ -146,13 +147,20 @@ export const SecondaryButton = styled.View`
         `}
 `
 
-export const FooterContainer = styled.View`
+export const FooterContainer = styled(LayoutAnimated)`
         position: absolute;
+        transform-origin: bottom;
 
         ${({theme}) => css`
                 bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
                 left: ${theme.adaptSize(theme.token.spacing.none)}px;
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        `}
+`
+export const FooterContent = styled.View`
+        ${({theme}) => css`
+                max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
         `}
 `
 

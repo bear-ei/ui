@@ -29,7 +29,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                                 )
 
                 const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
-                const {labelAnimatedStyle, labelTextAnimatedStyle} = useNavigationRailItemAnimated({active, type})
+                const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active, type})
                 const activeIconElement = handleNavigationRailItemActiveIcon(id)(icon)(eventName)
                 const iconElement = handleNavigationRailItemIcon(id)(icon)(eventName)
 
@@ -44,7 +44,6 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                         eventName,
                         iconElement,
                         id,
-                        labelAnimatedStyle,
                         labelTextAnimatedStyle,
                         onStateEvent,
                         ref,

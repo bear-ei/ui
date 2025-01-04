@@ -39,7 +39,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         {layout, visible, invisible, nextUnmountEvent, nextVisibleEvent, status, unmountLayout},
                         setState
                 ] = useImmer<LayoutAnimatedState>({
-                        invisible: true,
+                        invisible: false,
                         layout: {} as LayoutRectangle,
                         status: 'idle'
                 })
@@ -78,6 +78,9 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                 })(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
+
+                console.info(layout)
+
                 const {containerAnimatedStyle} = useLayoutAnimated({
                         animatedType,
                         disabledAnimated,
@@ -87,7 +90,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         opacity,
                         status,
-                        visible: visible ?? rawVisible ?? defaultVisible,
+                        visible: visible ?? rawVisible ?? defaultVisible ?? !invisible,
                         width
                 })
 
@@ -129,7 +132,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         onStateEvent,
                                         ref: layoutAnimatedRef,
                                         status,
-                                        visible: invisible,
+                                        visible: !invisible,
                                         width
                                 })
         }

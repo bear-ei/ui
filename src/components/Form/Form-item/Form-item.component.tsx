@@ -11,8 +11,8 @@ const render = ({control, id, skeletonElement, skeletonDuration, testID, ...cont
                 testID={testID ?? `formItem--${id}`}
         >
                 <Skeleton
-                        content={skeletonElement}
                         duration={skeletonDuration}
+                        skeleton={skeletonElement}
                         testID={`formItem__skeleton--${id}`}
                 >
                         {control}

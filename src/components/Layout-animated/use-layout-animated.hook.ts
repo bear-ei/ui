@@ -65,8 +65,8 @@ export const useLayoutAnimated = ({
         )
 
         const containerAnimated = {
-                collapseX: collapseXAnimatedStyle,
-                collapseY: collapseYAnimatedStyle,
+                collapseX: typeof width === 'number' ? collapseXAnimatedStyle : undefined,
+                collapseY: typeof height === 'number' ? collapseYAnimatedStyle : undefined,
                 fade: fadeAnimatedStyle,
                 scale: scaleAnimatedStyle
         }

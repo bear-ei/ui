@@ -24,19 +24,14 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
                 ref
         ) => {
                 const id = useId()
-                const {containerAnimatedStyle, footerAnimatedStyle} = useSideSheetContentAnimated({
-                        footerVisible,
-                        type,
-                        visible
-                })
-
+                const {containerAnimatedStyle} = useSideSheetContentAnimated({type, visible})
                 const leading = handleSideSheetContentLeading({headlineLeading, back, sheetPosition})(onBack)
                 const trailing = handleSideSheetContentTrailing({headlineTrailing, close})(onClose)
 
                 return render({
                         ...renderProps,
                         containerAnimatedStyle,
-                        footerAnimatedStyle,
+                        footerVisible,
                         headlineText,
                         id,
                         leading,

@@ -24,6 +24,7 @@ export const handleLayoutAnimatedLayoutChange =
                 setState(draft => {
                         if (draft.status !== 'succeeded') {
                                 if (animatedType.startsWith('collapse')) {
+                                        console.info(animatedType.startsWith('collapse'), height)
                                         draft.layout.height = height
                                         draft.layout.width = width
                                 }
@@ -64,12 +65,12 @@ export const handleLayoutAnimatedLayoutVisible = ({
                                 const {width: prevWidth, height: prevHeight} = draft.layout
 
                                 if (prevWidth !== width || prevHeight !== height) {
-                                        draft.layout.height = height
-                                        draft.layout.width = width
+                                        draft.layout.height = height || draft.layout.height
+                                        draft.layout.width = width || draft.layout.width
                                 }
                         }
 
-                        draft.invisible = value
+                        draft.invisible = !value
                         draft.nextVisibleEvent = handleNextVisibleEvent(value)
                         draft.visible = value
                 }
@@ -83,7 +84,7 @@ export const handleLayoutAnimatedFinished =
         (setState: Updater<LayoutAnimatedState>) =>
         (value?: boolean) => {
                 setState(draft => {
-                        draft.invisible = value
+                        draft.invisible = !value
 
                         if (unmount && !value) {
                                 draft.nextUnmountEvent = onUnmount

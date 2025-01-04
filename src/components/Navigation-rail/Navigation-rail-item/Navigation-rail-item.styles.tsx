@@ -62,7 +62,7 @@ export const Icon = styled(LayoutAnimated)<NavigationRailItemIconProps>`
         `}
 `
 
-export const Label = styled.View`
+export const Label = styled(LayoutAnimated)`
         overflow: hidden;
         position: relative;
         transform-origin: top;

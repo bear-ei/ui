@@ -1,11 +1,11 @@
 import {cloneElement} from 'react'
+import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
 import {StateEvent} from '../../../hooks'
 import {EventName} from '../../Common'
 import {IconProps} from '../../Icon'
 import {
         HandleNavigationRailItemAnimatedTimingOptions,
-        HandleNavigationRailItemAnimatedTimingSharedValue,
         HandleNavigationRailItemStateEventChangeOptions,
         NavigationRailItemProps,
         NavigationRailItemState
@@ -67,7 +67,7 @@ export const handleNavigationRailItemActiveIcon = (id: string) => (icon: JSX.Ele
 
 export const handleNavigationRailItemAnimatedTiming =
         ({animatedTiming, type}: HandleNavigationRailItemAnimatedTimingOptions) =>
-        ({labelHeightSharedValue, labelTextColorSharedValue}: HandleNavigationRailItemAnimatedTimingSharedValue) =>
+        (labelTextColorSharedValue: SharedValue<number>) =>
         (value?: boolean) => {
                 if (!(type === 'segment' && typeof value === 'boolean')) {
                         return
@@ -76,5 +76,4 @@ export const handleNavigationRailItemAnimatedTiming =
                 const toValue = value ? 1 : 0
 
                 animatedTiming()(labelTextColorSharedValue)(toValue)
-                animatedTiming()(labelHeightSharedValue)(toValue)
         }

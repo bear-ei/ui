@@ -8,10 +8,7 @@ import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
         ({render, enableAnimated = true, duration, ...renderProps}, ref) => {
                 const id = useId()
-                const [{visible, nextSkeletonVisibleEvent}, setState] = useImmer<SkeletonState>({
-                        visible: true
-                })
-
+                const [{visible, nextSkeletonVisibleEvent}, setState] = useImmer<SkeletonState>({visible: true})
                 const onSkeletonDurationChange = useMemo(() => handleSkeletonDurationChange(setState), [setState])
                 const {containerAnimatedStyle} = useSkeletonAnimated({
                         enableAnimated,
@@ -26,12 +23,6 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
                         nextSkeletonVisibleEvent?.()
                 }, [nextSkeletonVisibleEvent])
 
-                return render({
-                        ...renderProps,
-                        containerAnimatedStyle,
-                        id,
-                        ref,
-                        visible
-                })
+                return render({...renderProps, containerAnimatedStyle, id, ref, visible})
         }
 )

@@ -28,7 +28,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 }
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
-        containerAnimatedStyle: AnimatedStyle<ViewStyle>
+        containerAnimatedStyle?: AnimatedStyle<ViewStyle>
         onStateEvent: OnStateEvent
         status?: ComponentStatus
         visible?: boolean

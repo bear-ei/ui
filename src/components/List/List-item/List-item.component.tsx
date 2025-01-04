@@ -86,8 +86,8 @@ const render = ({
                 >
                         <Skeleton
                                 containerLayout='horizontal'
-                                content={skeletonDuration ? skeletonElement : undefined}
                                 duration={skeletonDuration}
+                                skeleton={skeletonDuration ? skeletonElement : undefined}
                                 testID={`listItem__skeleton--${id}`}
                         >
                                 {beforeAffordance && (
