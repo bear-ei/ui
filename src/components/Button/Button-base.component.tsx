@@ -7,8 +7,8 @@ import {State} from '../Common'
 import {
         handleButtonDisabled,
         handleButtonIcon,
-        handleButtonInit,
         handleButtonStateChange,
+        handleButtonStatus,
         handleButtonUnderlayColor
 } from './Button-handle'
 import {ButtonBaseProps, ButtonState} from './Button.interface'
@@ -21,7 +21,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 const id = useId()
                 const iconButtonElement = handleButtonIcon({eventName, type, disabled, id})(theme)(icon)
                 const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
-                const onButtonInit = useMemo(() => handleButtonInit(setState)(disabled), [disabled, setState])
+                const onButtonStatus = useMemo(() => handleButtonStatus(setState)(disabled), [disabled, setState])
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -37,8 +37,8 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 })
 
                 useEffect(() => {
-                        onButtonInit(type)
-                }, [onButtonInit, type])
+                        onButtonStatus(type)
+                }, [onButtonStatus, type])
 
                 useEffect(() => {
                         onButtonDisabled(disabled)

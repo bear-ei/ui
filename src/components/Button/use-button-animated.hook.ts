@@ -10,7 +10,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         const {palette, scheme, spacing, opacity} = theme.token
         const {convertHexToRGBA} = palette
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const animatedValue = disabled ? 0 : 1
+        const animatedValue = useMemo(() => (disabled ? 0 : 1), [disabled])
         const borderSharedValue = useSharedValue(animatedValue)
         const colorSharedValue = useSharedValue(animatedValue)
         const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(opacity.level2)

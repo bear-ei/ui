@@ -6,7 +6,7 @@ import {Updater} from 'use-immer'
 import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
-export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY'
+export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY' | 'scale'
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
         animatedType?: LayoutAnimatedType
         defaultVisible?: boolean

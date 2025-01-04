@@ -45,6 +45,10 @@ export const useLayoutAnimated = ({
                 transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
         }))
 
+        const scaleAnimatedStyle = useAnimatedStyle(() => ({
+                transform: [{scale: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
+        }))
+
         const onLayoutAnimatedTiming = useMemo(
                 () =>
                         handleLayoutAnimatedTiming({
@@ -59,7 +63,8 @@ export const useLayoutAnimated = ({
         const containerAnimated = {
                 collapseX: collapseXAnimatedStyle,
                 collapseY: collapseYAnimatedStyle,
-                fade: fadeAnimatedStyle
+                fade: fadeAnimatedStyle,
+                scale: scaleAnimatedStyle
         }
 
         useEffect(() => {

@@ -1,39 +1,13 @@
-import {WritableDraft} from 'immer'
 import mitt from 'mitt'
 import {FC, useEffect, useId} from 'react'
-import {Updater, useImmer} from 'use-immer'
-import {SideSheet, TooltipSupporting} from '../components'
-import {EmitterEvent, Modal, ModalItemProps, ModalProps, ModalState} from './contexts.interface'
-
-const handleModal = (setState: Updater<ModalState>) => (modal: Modal) => {
-        const {id, unmount, props} = modal
-
-        setState(draft => {
-                if (unmount) {
-                        draft.modals = draft.modals.filter(item => item.id !== id)
-
-                        return
-                }
-
-                if (draft.modals.length) {
-                        draft.modals = draft.modals.reduce((accumulator, item) => {
-                                if (item.id === id) {
-                                        return [...accumulator, {...item, props}]
-                                }
-
-                                return accumulator
-                        }, [] as WritableDraft<Modal>[])
-
-                        return
-                }
-
-                draft.modals = [modal]
-        })
-}
+import {useImmer} from 'use-immer'
+import {SideSheet} from '../components'
+import {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './contexts.interface'
+import {handleModal} from './Modal-provider.-handle'
 
 const ModalItem: FC<ModalItemProps> = ({name, props}) => {
         const component = {
-                tooltip: TooltipSupporting,
+                tooltip: <></>,
                 sideSheet: SideSheet
         }
 

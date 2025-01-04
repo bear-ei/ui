@@ -1,10 +1,9 @@
 import {WritableDraft} from 'immer'
-import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
-import {AnimatedTiming, StateEvent} from '../../hooks'
+import {StateEvent} from '../../hooks'
 import {CheckboxState, HandleCheckboxActiveOptions, HandleCheckboxStateChangeOptions} from './Checkbox.interface'
 
-export const handleCheckboxInit = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
+export const handleCheckboxStatus = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
         setState(draft => {
                 if (draft.status !== 'idle') {
                         return
@@ -74,14 +73,3 @@ export const handleCheckboxIndeterminate = (setState: Updater<CheckboxState>) =>
 
                 draft.type = draft.active ? 'unselected' : 'selected'
         })
-
-export const handleCheckboxIconAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (iconScaleSharedValue: SharedValue<number>) => (value?: boolean) => {
-                const toValue = value ? 1 : 0
-
-                if (typeof value === 'boolean') {
-                        animatedTiming({
-                                duration: toValue === 1 ? 'short2' : 'short1'
-                        })(iconScaleSharedValue)(toValue)
-                }
-        }

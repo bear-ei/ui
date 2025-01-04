@@ -3,21 +3,23 @@ import {LayoutRectangle, ScrollViewProps} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {OnStateEvent} from '../../hooks'
 import {ComponentStatus} from '../Common'
-import {VirtualListItemProps, VirtualListItemUnmountOptions} from './Virtual-list-item/Virtual-list-item.interface'
+import {RenderVirtualListItemInfo} from './Virtual-list-item/Virtual-list-item.interface'
 
 export type VirtualListData<T = Record<string, unknown>> = T & {
         indexKey?: string
 }
 
-export interface VirtualListProps<T>
-        extends ScrollViewProps,
-                RefAttributes<Animated.ScrollView>,
-                Pick<VirtualListItemProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap'> {
+export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Animated.ScrollView> {
         data?: VirtualListData<T>[]
         emptyComponent?: JSX.Element
         focusedIndex?: number
+        gap?: number
+        itemSize?: number
         loading?: boolean
         loadingComponent?: JSX.Element
+        onLoadEnd?: (value?: string) => void
+        renderItem?: (options: RenderVirtualListItemInfo<T>) => JSX.Element
+        extraData?: string[]
 }
 
 export interface RenderVirtualListProps<T = Record<string, unknown>> extends VirtualListProps<T> {
@@ -49,5 +51,3 @@ export interface HandleVirtualListLayoutChangeOptions {
         layout: LayoutRectangle
         onVirtualListVisibleRange?: (value?: number) => void
 }
-
-export type HandleVirtualListItemUnmountOptions = VirtualListItemUnmountOptions

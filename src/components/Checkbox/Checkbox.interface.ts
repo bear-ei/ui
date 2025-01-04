@@ -1,8 +1,7 @@
-import {ViewStyle} from 'react-native'
-import {AnimatedStyle} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, EventName} from '../Common'
+import {LayoutAnimatedType} from '../Layout-animated'
 import {TouchableProps} from '../Touchable'
 
 export type CheckboxType = 'selected' | 'indeterminate' | 'unselected'
@@ -18,7 +17,6 @@ export interface CheckboxProps extends TouchableProps {
 
 export interface RenderCheckboxProps extends CheckboxProps {
         eventName?: EventName
-        iconAnimatedStyle: AnimatedStyle<ViewStyle>
         onStateEvent: OnStateEvent
         theme: DefaultTheme
 }
@@ -43,6 +41,12 @@ export type HandleCheckboxStateChangeOptions = OnStateEventChangeOptions &
 export type UseCheckboxAnimatedOptions = Pick<RenderCheckboxProps, 'active'>
 export interface HandleCheckboxIconAnimatedOptions {
         animatedTiming: AnimatedTiming
+}
+
+export type CheckboxIconAnimatedOptions = {
+        animatedType: LayoutAnimatedType
+        entry: AnimatedTimingOptions
+        exit: AnimatedTimingOptions
 }
 
 export interface CheckboxIconContainerProps {

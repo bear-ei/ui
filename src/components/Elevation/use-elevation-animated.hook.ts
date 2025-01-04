@@ -8,7 +8,7 @@ import {handleElevationAnimatedTiming} from './Elevation-handle'
 import {UseElevationAnimatedOptions} from './Elevation.interface'
 
 export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) => {
-        const shadowSharedValue = useSharedValue(level)
+        const shadowSharedValue = useSharedValue<number>(level)
         const theme = useTheme()
         const {elevation, palette} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})

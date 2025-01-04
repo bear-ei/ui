@@ -16,7 +16,7 @@ import {
         HandleButtonStateChangeOptions
 } from './Button.interface'
 
-export const handleButtonInit = (setState: Updater<ButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
+export const handleButtonStatus = (setState: Updater<ButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
         setState(draft => {
                 if (draft.status !== 'idle') {
                         return

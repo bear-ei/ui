@@ -1,5 +1,6 @@
 import {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
+import {VirtualListProps} from '../Virtual-list.interface'
 
 export interface Item {
         extraData?: string[]
@@ -10,16 +11,14 @@ export interface RenderVirtualListItemInfo<T> {
         item: T & Item
 }
 
-export interface VirtualListItemProps<T = Record<string, unknown>> extends ViewProps, RefAttributes<View> {
-        extraData?: string[]
-        gap?: number
+export interface VirtualListItemProps<T = Record<string, unknown>>
+        extends ViewProps,
+                RefAttributes<View>,
+                Pick<VirtualListProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap'> {
         index?: number
         item?: T & Item
-        itemSize?: number
         loading?: boolean
-        onLoadEnd?: (value?: string) => void
         onUnmount?: (value?: string) => void
-        renderItem?: (options: RenderVirtualListItemInfo<T>) => JSX.Element
         startIndex?: number
         visible?: boolean
 }

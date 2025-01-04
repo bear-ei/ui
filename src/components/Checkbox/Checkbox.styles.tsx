@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
+import {LayoutAnimated} from '../Layout-animated'
 import {CheckboxIconContainerProps} from './Checkbox.interface'
 
 export const Container = styled.View`
@@ -39,8 +40,7 @@ export const Main = styled(Shape)`
         `}
 `
 
-export const IconContainer = styled.View<CheckboxIconContainerProps>`
-        overflow: hidden;
+export const IconContainer = styled(LayoutAnimated)<CheckboxIconContainerProps>`
         position: absolute;
 
         ${({theme}) => css`
@@ -49,14 +49,4 @@ export const IconContainer = styled.View<CheckboxIconContainerProps>`
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
         `}
-
-        ${({zIndex = 0}) => css`
-                z-index: ${zIndex};
-        `}
-
-    ${({visible, theme}) =>
-                !visible &&
-                css`
-                        opacity: ${theme.token.opacity.level0};
-                `}
 `

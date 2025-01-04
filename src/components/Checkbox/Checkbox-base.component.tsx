@@ -7,11 +7,10 @@ import {State} from '../Common'
 import {
         handleCheckboxActive,
         handleCheckboxIndeterminate,
-        handleCheckboxInit,
-        handleCheckboxStateChange
+        handleCheckboxStateChange,
+        handleCheckboxStatus
 } from './Checkbox-handle'
 import {CheckboxBaseProps, CheckboxState} from './Checkbox.interface'
-import {useCheckboxAnimated} from './use-checkbox-animated.hook'
 
 export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
         ({active: rawActive, defaultActive, disabled, error, indeterminate, render, onActive, ...renderProps}, ref) => {
@@ -22,7 +21,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 
                 const id = useId()
                 const theme = useTheme()
-                const onCheckboxInit = useMemo(() => handleCheckboxInit(setState), [setState])
+                const onCheckboxStatus = useMemo(() => handleCheckboxStatus(setState), [setState])
                 const onCheckboxIndeterminate = useMemo(() => handleCheckboxIndeterminate(setState), [setState])
                 const onCheckboxRawActive = useMemo(
                         () => handleCheckboxActive({indeterminate})(setState),
@@ -36,12 +35,11 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
                                 )(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
-                const {iconAnimatedStyle} = useCheckboxAnimated({active})
 
                 useEffect(() => {
-                        onCheckboxInit(indeterminate)
+                        onCheckboxStatus(indeterminate)
                         onCheckboxIndeterminate(indeterminate)
-                }, [indeterminate, onCheckboxIndeterminate, onCheckboxInit])
+                }, [indeterminate, onCheckboxIndeterminate, onCheckboxStatus])
 
                 useEffect(() => {
                         onCheckboxRawActive(rawActive ?? defaultActive)
@@ -60,7 +58,6 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
                         disabled,
                         error,
                         eventName,
-                        iconAnimatedStyle,
                         id,
                         onStateEvent,
                         ref,

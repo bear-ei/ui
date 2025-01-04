@@ -1,19 +1,16 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {Icon} from '../Icon'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CheckboxBase} from './Checkbox-base.component'
-import {CheckboxProps, RenderCheckboxProps} from './Checkbox.interface'
+import {CheckboxIconAnimatedOptions, CheckboxProps, RenderCheckboxProps} from './Checkbox.interface'
 import {Container, Content, IconContainer, Main} from './Checkbox.styles'
 
-const AnimatedIconContainer = Animated.createAnimatedComponent(IconContainer)
 const render = ({
         disabled,
         error,
         eventName,
-        iconAnimatedStyle,
         id,
         onStateEvent,
         testID,
@@ -39,6 +36,12 @@ const render = ({
                 minWidth: theme.adaptSize(theme.token.spacing.large),
                 minHeight: theme.adaptSize(theme.token.spacing.large)
         }
+
+        const animatedOptions = {
+                animatedType: 'scale',
+                entry: {duration: 'short2'},
+                exit: {duration: 'short1'}
+        } as CheckboxIconAnimatedOptions
 
         return (
                 <Container testID={testID ?? `checkbox--${id}`}>
@@ -76,29 +79,10 @@ const render = ({
                                                         />
                                                 </IconContainer>
 
-                                                <AnimatedIconContainer
-                                                        style={[iconAnimatedStyle]}
-                                                        testID={`checkbox__iconContainer--${id}`}
-                                                        visible={type === 'indeterminate'}
-                                                        zIndex={4}
-                                                >
-                                                        <Icon
-                                                                {...iconStyle}
-                                                                disabled={disabled}
-                                                                fill={activeFill}
-                                                                iconStyle='rounded'
-                                                                name='indeterminateCheckBox'
-                                                                svgStyle={iconSvgStyle}
-                                                                testID={`checkbox__iconIndeterminate--${id}`}
-                                                                type='filled'
-                                                        />
-                                                </AnimatedIconContainer>
-
-                                                <AnimatedIconContainer
-                                                        style={[iconAnimatedStyle]}
+                                                <IconContainer
+                                                        {...animatedOptions}
                                                         testID={`checkbox__iconContainer--${id}`}
                                                         visible={type === 'selected'}
-                                                        zIndex={4}
                                                 >
                                                         <Icon
                                                                 {...iconStyle}
@@ -110,7 +94,24 @@ const render = ({
                                                                 testID={`checkbox__iconSelected--${id}`}
                                                                 type='filled'
                                                         />
-                                                </AnimatedIconContainer>
+                                                </IconContainer>
+
+                                                <IconContainer
+                                                        {...animatedOptions}
+                                                        testID={`checkbox__iconContainer--${id}`}
+                                                        visible={type === 'indeterminate'}
+                                                >
+                                                        <Icon
+                                                                {...iconStyle}
+                                                                disabled={disabled}
+                                                                fill={activeFill}
+                                                                iconStyle='rounded'
+                                                                name='indeterminateCheckBox'
+                                                                svgStyle={iconSvgStyle}
+                                                                testID={`checkbox__iconIndeterminate--${id}`}
+                                                                type='filled'
+                                                        />
+                                                </IconContainer>
                                         </Main>
 
                                         <Underlay
