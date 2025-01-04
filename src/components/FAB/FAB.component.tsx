@@ -6,13 +6,13 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {FABBase} from './FAB-base.component'
 import {FABProps, RenderFABProps} from './FAB.interface'
-import {Container, Content, ContentUnderlay, IconContainer, LabelText, Main} from './FAB.styles'
+import {BackgroundUnderlay, Container, Content, IconContainer, LabelText, Main} from './FAB.styles'
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
-const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
+const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const render = ({
         accessibilityLabel,
-        contentUnderlayAnimatedStyle,
+        backgroundUnderlayAnimatedStyle,
         disabled,
         elevation,
         eventName,
@@ -32,11 +32,11 @@ const render = ({
         const sizeShape = size === 'medium' ? 'large' : 'medium'
         const shape = size === 'large' ? 'extraLarge' : sizeShape
         const backgroundUnderlayElement = (
-                <AnimatedContentUnderlay
+                <AnimatedBackgroundUnderlay
                         pointerEvents='none'
                         shape={shape}
-                        style={[contentUnderlayAnimatedStyle]}
-                        testID={`fab__contentUnderlay--${id}`}
+                        style={[backgroundUnderlayAnimatedStyle]}
+                        testID={`fab__backgroundUnderlay--${id}`}
                 />
         )
 

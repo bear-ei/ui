@@ -44,7 +44,7 @@ export const Content = styled(Shape)<IconButtonContentProps>`
         `}
 `
 
-export const ContentUnderlay = styled(Shape)`
+export const BackgroundUnderlay = styled(Shape)`
         position: absolute;
         z-index: -4;
 

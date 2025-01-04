@@ -10,8 +10,8 @@ import {
         handleChipDisabled,
         handleChipElevation,
         handleChipIcon,
-        handleChipInit,
-        handleChipStateChange
+        handleChipStateChange,
+        handleChipStatus
 } from './Chip-handle'
 import {ChipBaseProps, ChipState} from './Chip.interface'
 import {useChipAnimated} from './use-chip-animated.hook'
@@ -60,14 +60,14 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         [disabled, setState, type]
                 )
 
-                const onChipInit = useMemo(() => handleChipInit(setState)(disabled), [disabled, setState])
+                const onChipStatus = useMemo(() => handleChipStatus(setState)(disabled), [disabled, setState])
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleChipStateChange({...options, state})(setState)(event)
 
                 const disabledEvent = loading || disabled
                 const onStateEvent = useOnStateEvent({...renderProps, disabled: disabledEvent, onStateEventChange})
-                const {contentUnderlayAnimatedStyle, filterIconContainerAnimatedStyle, labelTextAnimatedStyle} =
+                const {backgroundUnderlayAnimatedStyle, filterIconContainerAnimatedStyle, labelTextAnimatedStyle} =
                         useChipAnimated({active, disabled, elevated, type, chipStyle})
 
                 useEffect(() => {
@@ -75,8 +75,8 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 }, [elevated, onChipElevation])
 
                 useEffect(() => {
-                        onChipInit(elevated)
-                }, [onChipInit, elevated])
+                        onChipStatus(elevated)
+                }, [onChipStatus, elevated])
 
                 useEffect(() => {
                         onChipDisabled(disabled)
@@ -90,7 +90,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         ...renderProps,
                         active,
                         close,
-                        contentUnderlayAnimatedStyle,
+                        backgroundUnderlayAnimatedStyle,
                         disabled: disabledEvent,
                         elevation,
                         eventName,

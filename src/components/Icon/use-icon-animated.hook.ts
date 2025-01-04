@@ -10,7 +10,7 @@ export const useIconAnimated = ({eventName}: UseIconAnimatedOptions) => {
         const theme = useTheme()
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const containerAnimatedStyle = useAnimatedStyle(() => ({
-                transform: [{scale: interpolate(scaleSharedValue.value, [0, 1, 2], [0.97, 1, 1.03])}]
+                transform: [{scale: interpolate(scaleSharedValue.value, [0, 1, 2], [0.96, 1, 1.04])}]
         }))
 
         const onIconAnimatedTiming = useMemo(

@@ -63,7 +63,7 @@ export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptio
                 }
         }
 
-        const contentUnderlayAnimatedStyle = useAnimatedStyle(() => ({
+        const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(
                         colorSharedValue.value,
                         backgroundColorType[type].inputRange,
@@ -84,5 +84,5 @@ export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptio
                 onFABAnimatedTiming(disabled)
         }, [disabled, onFABAnimatedTiming])
 
-        return {contentUnderlayAnimatedStyle, labelTextAnimatedStyle}
+        return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

@@ -14,7 +14,7 @@ export const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
                 draft.shouldUpdate = {}
         })
 
-export const handleFormItemInit =
+export const handleFormItemStatus =
         ({rule, signInFields, onComponentUpdate, validatorOptions}: HandleFormItemInitOptions) =>
         (setState: Updater<FormItemState>) =>
         (name?: string) =>
@@ -39,8 +39,5 @@ export const handleFormItemInit =
 export const handleFormItemBlur =
         (validateFields: (name?: string) => Promise<FormError<unknown>>) =>
         (name?: string) =>
-        (_event: NativeSyntheticEvent<TargetedEvent>) => {
-                if (name) {
-                        validateFields(name)
-                }
-        }
+        (_event: NativeSyntheticEvent<TargetedEvent>) =>
+                name && validateFields(name)

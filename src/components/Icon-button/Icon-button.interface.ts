@@ -18,7 +18,7 @@ export interface IconButtonProps extends TouchableProps {
 }
 
 export interface RenderIconButtonProps extends IconButtonProps {
-        contentUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
+        backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
         onStateEvent: OnStateEvent
         theme: DefaultTheme

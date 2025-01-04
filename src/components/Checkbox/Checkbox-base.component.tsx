@@ -53,16 +53,6 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
                         return <></>
                 }
 
-                return render({
-                        ...renderProps,
-                        disabled,
-                        error,
-                        eventName,
-                        id,
-                        onStateEvent,
-                        ref,
-                        theme,
-                        type
-                })
+                return render({...renderProps, disabled, error, eventName, id, onStateEvent, ref, theme, type})
         }
 )

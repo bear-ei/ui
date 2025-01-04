@@ -18,13 +18,13 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
                                 handleListAffordanceButtonStateChange({...options, state, visible})(setState)(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})
-                const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({
+                const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({
                         disabled
                 })
 
                 return render({
                         ...renderProps,
-                        contentUnderlayAnimatedStyle,
+                        backgroundUnderlayAnimatedStyle,
                         disabled,
                         eventName,
                         id,

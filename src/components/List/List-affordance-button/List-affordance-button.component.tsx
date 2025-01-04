@@ -5,12 +5,12 @@ import {Touchable} from '../../Touchable'
 import {Underlay} from '../../Underlay'
 import {ListAffordanceButtonBase} from './List-affordance-button-base.component'
 import {ListAffordanceButtonProps, RenderListAffordanceButtonProps} from './List-affordance-button.interface'
-import {Container, Content, ContentUnderlay, LabelText} from './List-affordance-button.styles'
+import {BackgroundUnderlay, Container, Content, LabelText} from './List-affordance-button.styles'
 
-const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
+const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
-        contentUnderlayAnimatedStyle,
+        backgroundUnderlayAnimatedStyle,
         disabled,
         eventName,
         icon,
@@ -23,10 +23,10 @@ const render = ({
 }: RenderListAffordanceButtonProps) => {
         const underlayColor = theme.token.scheme.onPrimary
         const backgroundUnderlayElement = (
-                <AnimatedContentUnderlay
+                <AnimatedBackgroundUnderlay
                         pointerEvents='none'
-                        style={[contentUnderlayAnimatedStyle]}
-                        testID={`listAffordanceButton__contentUnderlay--${id}`}
+                        style={[backgroundUnderlayAnimatedStyle]}
+                        testID={`listAffordanceButton__backgroundUnderlay--${id}`}
                 />
         )
 

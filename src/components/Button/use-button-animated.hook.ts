@@ -10,7 +10,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         const {palette, scheme, spacing, opacity} = theme.token
         const {convertHexToRGBA} = palette
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const animatedValue = useMemo(() => (disabled ? 0 : 1), [disabled])
+        const animatedValue = disabled ? 0 : 1
         const borderSharedValue = useSharedValue(animatedValue)
         const colorSharedValue = useSharedValue(animatedValue)
         const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(opacity.level2)
@@ -131,7 +131,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         const notBackgroundColor = ['text', 'link'].includes(type)
         const notBorderColor = type !== 'outlined'
         const borderWidth = theme.adaptSize(spacing.extraSmall / 4)
-        const contentUnderlayAnimatedStyle = useAnimatedStyle(() => ({
+        const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 ...(!notBackgroundColor && {
                         backgroundColor: interpolateColor(
                                 colorSharedValue.value,
@@ -167,5 +167,5 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                 onButtonAnimatedTiming(eventName)
         }, [eventName, onButtonAnimatedTiming])
 
-        return {contentUnderlayAnimatedStyle, labelTextAnimatedStyle}
+        return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

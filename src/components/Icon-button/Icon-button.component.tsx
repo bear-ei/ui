@@ -7,12 +7,12 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {IconButtonBase} from './Icon-button-base.component'
 import {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
-import {Container, Content, ContentItem, ContentUnderlay, Main} from './Icon-button.styles'
+import {BackgroundUnderlay, Container, Content, ContentItem, Main} from './Icon-button.styles'
 
-const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
+const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const render = ({
         active,
-        contentUnderlayAnimatedStyle,
+        backgroundUnderlayAnimatedStyle,
         defaultActive,
         disabled,
         eventName,
@@ -32,11 +32,11 @@ const render = ({
         const shape = 'full'
         const activeColor = theme.token.scheme.secondaryContainer
         const backgroundUnderlayElement = (
-                <AnimatedContentUnderlay
+                <AnimatedBackgroundUnderlay
                         pointerEvents='none'
                         shape={shape}
-                        style={[contentUnderlayAnimatedStyle]}
-                        testID={`iconButton__contentUnderlay--${id}`}
+                        style={[backgroundUnderlayAnimatedStyle]}
+                        testID={`iconButton__backgroundUnderlay--${id}`}
                 />
         )
 
@@ -72,6 +72,7 @@ const render = ({
                                         mainAlignSelf='center'
                                         ref={ref}
                                         shape={shape}
+                                        testID={`iconButton__touchable--${id}`}
                                         underlayColor={underlayColor}
                                 >
                                         <Content

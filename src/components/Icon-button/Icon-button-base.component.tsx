@@ -15,7 +15,7 @@ import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
 export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
         ({disabled = false, fill, icon, render, type = 'filled', loading, ...renderProps}, ref) => {
-                const [{eventName}, setState] = useImmer<IconButtonState>({eventName: undefined})
+                const [{eventName}, setState] = useImmer<IconButtonState>({})
                 const id = useId()
                 const theme = useTheme()
                 const underlayColor = handleIconButtonUnderlayColor(theme)(type)
@@ -26,7 +26,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 
                 const disabledEvent = loading || disabled
                 const onStateEvent = useOnStateEvent({...renderProps, disabled: disabledEvent, onStateEventChange})
-                const {contentUnderlayAnimatedStyle} = useIconButtonAnimated({disabled, type})
+                const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled, type})
                 const iconElement = handleIconButtonIcon({disabled, eventName, fill, loading, type, id})(theme)(icon)
 
                 useEffect(() => {
@@ -35,7 +35,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 
                 return render({
                         ...renderProps,
-                        contentUnderlayAnimatedStyle,
+                        backgroundUnderlayAnimatedStyle,
                         disabled: disabledEvent,
                         eventName,
                         icon: iconElement,

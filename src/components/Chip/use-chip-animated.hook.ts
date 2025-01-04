@@ -129,7 +129,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
                 theme.adaptSize(theme.token.spacing.none)
         ]
 
-        const contentUnderlayAnimatedStyle = useAnimatedStyle(() => ({
+        const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(
                         colorSharedValue.value,
                         backgroundColorType[type].inputRange,
@@ -190,7 +190,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
         }, [onChipAnimatedTiming])
 
         return {
-                contentUnderlayAnimatedStyle,
+                backgroundUnderlayAnimatedStyle,
                 filterIconContainerAnimatedStyle,
                 labelTextAnimatedStyle
         }

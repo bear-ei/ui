@@ -24,7 +24,7 @@ export const Content = styled.View`
         `}
 `
 
-export const ContentUnderlay = styled(Shape)`
+export const BackgroundUnderlay = styled(Shape)`
         position: absolute;
         z-index: -4;
 

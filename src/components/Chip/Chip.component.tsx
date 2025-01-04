@@ -8,9 +8,9 @@ import {ChipBase} from './Chip-base.component'
 import {ChipProps, RenderChipProps} from './Chip.interface'
 import {
         AvatarContainer,
+        BackgroundUnderlay,
         Container,
         Content,
-        ContentUnderlay,
         FilterIcon,
         IconContainer,
         LabelText,
@@ -18,14 +18,14 @@ import {
         Trailing
 } from './Chip.styles'
 
-const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
+const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const AnimatedIconContainer = Animated.createAnimatedComponent(IconContainer)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
         active,
         avatar,
         close,
-        contentUnderlayAnimatedStyle,
+        backgroundUnderlayAnimatedStyle,
         disabled,
         elevation,
         eventName,
@@ -48,11 +48,11 @@ const render = ({
         const commonShape = avatar ? 'full' : 'small'
         const shape = type === 'inputFilled' ? inputFilledShape : commonShape
         const backgroundUnderlayElement = (
-                <AnimatedContentUnderlay
+                <AnimatedBackgroundUnderlay
                         pointerEvents='none'
                         shape={shape}
-                        style={[contentUnderlayAnimatedStyle]}
-                        testID={`chip__contentUnderlay--${id}`}
+                        style={[backgroundUnderlayAnimatedStyle]}
+                        testID={`chip__backgroundUnderlay--${id}`}
                 />
         )
 

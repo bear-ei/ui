@@ -25,7 +25,7 @@ export interface ChipProps extends TouchableProps {
 
 export interface RenderChipProps extends ChipProps {
         activeColor?: string
-        contentUnderlayAnimatedStyle?: AnimatedStyle<ViewStyle>
+        backgroundUnderlayAnimatedStyle?: AnimatedStyle<ViewStyle>
         elevation: ElevationLevel
         eventName?: EventName
         filterIconContainerAnimatedStyle: AnimatedStyle<TextStyle>

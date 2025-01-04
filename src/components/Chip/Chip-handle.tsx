@@ -17,7 +17,7 @@ import {
         HandleChipStateChangeOptions
 } from './Chip.interface'
 
-export const handleChipInit = (setState: Updater<ChipState>) => (disabled?: boolean) => (elevated?: boolean) =>
+export const handleChipStatus = (setState: Updater<ChipState>) => (disabled?: boolean) => (elevated?: boolean) =>
         setState(draft => {
                 if (draft.status !== 'idle') {
                         return

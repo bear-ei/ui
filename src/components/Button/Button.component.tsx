@@ -6,12 +6,12 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {ButtonBase} from './Button-base.component'
 import {ButtonProps, RenderButtonProps} from './Button.interface'
-import {ActiveIndicator, Container, Content, ContentUnderlay, IconContainer, LabelText, Main} from './Button.styles'
+import {ActiveIndicator, BackgroundUnderlay, Container, Content, IconContainer, LabelText, Main} from './Button.styles'
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
-const AnimatedContentUnderlay = Animated.createAnimatedComponent(ContentUnderlay)
+const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const render = ({
-        contentUnderlayAnimatedStyle,
+        backgroundUnderlayAnimatedStyle,
         disabled,
         elevation,
         eventName,
@@ -36,11 +36,11 @@ const render = ({
         const loadingEventName = link ? 'none' : 'longPress'
         const shape = link ? 'extraSmall' : 'full'
         const backgroundUnderlayElement = (
-                <AnimatedContentUnderlay
+                <AnimatedBackgroundUnderlay
                         pointerEvents='none'
                         shape={shape}
-                        style={[contentUnderlayAnimatedStyle]}
-                        testID={`button__contentUnderlay--${id}`}
+                        style={[backgroundUnderlayAnimatedStyle]}
+                        testID={`button__backgroundUnderlay--${id}`}
                 />
         )
 

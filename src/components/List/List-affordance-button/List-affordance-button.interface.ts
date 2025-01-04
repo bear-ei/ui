@@ -14,7 +14,7 @@ export interface ListAffordanceButtonProps extends TouchableProps {
 }
 
 export interface RenderListAffordanceButtonProps extends ListAffordanceButtonProps {
-        contentUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
+        backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         onStateEvent: OnStateEvent

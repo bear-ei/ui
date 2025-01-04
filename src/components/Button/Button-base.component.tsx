@@ -29,7 +29,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 
                 const disabledEvent = loading || disabled
                 const onStateEvent = useOnStateEvent({...renderProps, disabled: disabledEvent, onStateEventChange})
-                const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
+                const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
                         disabled,
                         eventName,
                         type,
@@ -50,7 +50,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 
                 return render({
                         ...renderProps,
-                        contentUnderlayAnimatedStyle,
+                        backgroundUnderlayAnimatedStyle,
                         disabled: disabledEvent,
                         elevation,
                         eventName,

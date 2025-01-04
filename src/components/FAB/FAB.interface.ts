@@ -18,7 +18,7 @@ export interface FABProps extends TouchableProps {
 }
 
 export interface RenderFABProps extends FABProps {
-        contentUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
+        backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
         elevation?: ElevationLevel
         eventName?: EventName
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>

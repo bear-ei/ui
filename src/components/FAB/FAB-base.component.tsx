@@ -7,8 +7,8 @@ import {State} from '../Common'
 import {
         handleFABDisabled,
         handleFABIcon,
-        handleFABInit,
         handleFABStateChange,
+        handleFABStatus,
         handleFABUnderlayColor
 } from './FAB-handle'
 import {FABBaseProps, FABState} from './FAB.interface'
@@ -24,23 +24,23 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 const theme = useTheme()
                 const underlayColor = handleFABUnderlayColor(theme)(type)
                 const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
-                const onFABInit = useMemo(() => handleFABInit(setState)(disabled), [disabled, setState])
-                const fabIconElement = handleFABIcon({eventName, type, disabled, size})(theme)(icon)
+                const onFABStatus = useMemo(() => handleFABStatus(setState)(disabled), [disabled, setState])
+                const fabIconElement = handleFABIcon({eventName, type, disabled, size, id})(theme)(icon)
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleFABStateChange({...options, state, elevated})(setState)(event)
 
                 const disabledEvent = loading || disabled
                 const onStateEvent = useOnStateEvent({...renderProps, disabled: disabledEvent, onStateEventChange})
-                const {contentUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled, type})
+                const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled, type})
 
                 useEffect(() => {
                         onFABDisabled(disabled)
                 }, [disabled, onFABDisabled])
 
                 useEffect(() => {
-                        onFABInit(elevated)
-                }, [elevated, onFABInit])
+                        onFABStatus(elevated)
+                }, [elevated, onFABStatus])
 
                 if (status === 'idle') {
                         return <></>
@@ -48,7 +48,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 
                 return render({
                         ...renderProps,
-                        contentUnderlayAnimatedStyle,
+                        backgroundUnderlayAnimatedStyle,
                         disabled: disabledEvent,
                         elevation,
                         eventName,

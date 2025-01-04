@@ -9,7 +9,7 @@ import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
 import {FABState, FABType, HandleFABIconOptions, HandleFABStateChangeOptions} from './FAB.interface'
 
-export const handleFABInit = (setState: Updater<FABState>) => (disabled?: boolean) => (elevated?: boolean) =>
+export const handleFABStatus = (setState: Updater<FABState>) => (disabled?: boolean) => (elevated?: boolean) =>
         setState(draft => {
                 if (draft.status !== 'idle') {
                         return

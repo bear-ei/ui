@@ -1,7 +1,7 @@
 import {ForwardedRef, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {handleFormCallbacks, handleFormInit, handleFormItem} from './Form-handle'
+import {handleFormCallbacks, handleFormItem, handleFormStatus} from './Form-handle'
 import {FormBaseProps, FormState} from './Form.interface'
 import {useForm} from './use-form.hook'
 
@@ -26,7 +26,10 @@ const FormBaseInner = <T,>(
         const formStore = useForm(form)
         const {setCallbacks, setInitialValues} = formStore
         const id = useId()
-        const onFormInit = useMemo(() => handleFormInit<T>(setState)(setInitialValues), [setInitialValues, setState])
+        const onFormStatus = useMemo(
+                () => handleFormStatus<T>(setState)(setInitialValues),
+                [setInitialValues, setState]
+        )
         const onFormCallbacks = useCallback(
                 () => handleFormCallbacks<T>({onFinish, onFinishFailed, onValuesChange})(setCallbacks),
                 [onFinish, onFinishFailed, onValuesChange, setCallbacks]
@@ -41,8 +44,8 @@ const FormBaseInner = <T,>(
         }, [onFormCallbacks])
 
         useEffect(() => {
-                onFormInit(initialValues)
-        }, [initialValues, onFormInit])
+                onFormStatus(initialValues)
+        }, [initialValues, onFormStatus])
 
         if (status === 'idle') {
                 return <></>

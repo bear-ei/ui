@@ -5,7 +5,7 @@ import {useFormContext} from '../use-form-context.hook'
 import {
         handleComponentUpdate,
         handleFormItemBlur,
-        handleFormItemInit,
+        handleFormItemStatus,
         handleFormItemValueChange
 } from './Form-item-handle'
 import {FormItemBaseProps, FormItemState} from './Form-item.interface'
@@ -36,9 +36,9 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
                 const storeValue = getFieldsValue(name)
                 const value = storeValue ?? (status === 'idle' ? getInitialValues(name) : storeValue)
                 const onValuesChange = handleFormItemValueChange({setFieldsValue, storeValue})(name)
-                const onFormItemInit = useMemo(
+                const onFormItemStatus = useMemo(
                         () =>
-                                handleFormItemInit({
+                                handleFormItemStatus({
                                         onComponentUpdate: onFormItemComponentUpdate,
                                         rule,
                                         signInFields,
@@ -58,8 +58,8 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
                 })
 
                 useEffect(() => {
-                        onFormItemInit(name)
-                }, [name, onFormItemInit])
+                        onFormItemStatus(name)
+                }, [name, onFormItemStatus])
 
                 useEffect(() => () => signOut?.(), [signOut])
 

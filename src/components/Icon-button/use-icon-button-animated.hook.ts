@@ -50,7 +50,7 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
         }
 
         const borderWidth = theme.adaptSize(theme.token.spacing.extraSmall / 4)
-        const contentUnderlayAnimatedStyle = useAnimatedStyle(() => ({
+        const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(
                         colorSharedValue.value,
                         backgroundColorType[type].inputRange,
@@ -80,5 +80,5 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
                 onIconButtonAnimatedTiming(disabled)
         }, [disabled, onIconButtonAnimatedTiming, type])
 
-        return {contentUnderlayAnimatedStyle}
+        return {backgroundUnderlayAnimatedStyle}
 }
