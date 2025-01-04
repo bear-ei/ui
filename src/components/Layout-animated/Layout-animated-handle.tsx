@@ -46,14 +46,16 @@ export const handleLayoutAnimatedStateChange =
         }
 
 export const handleLayoutAnimatedLayoutVisible = ({
-        setState,
-        animatedType
+        animatedType,
+        onVisible,
+        setState
 }: HandleLayoutAnimatedLayoutVisibleOptions) => {
+        const handleNextVisibleEvent = (value?: boolean) => () => onVisible?.(value)
         const handleDraftChange =
                 ({value, width, height}: HandleLayoutAnimatedLayoutVisibleDraftChangeOptions) =>
                 (draft: WritableDraft<LayoutAnimatedState>) => {
                         if (!value) {
-                                draft.layoutVisible = value
+                                draft.visible = value
 
                                 return
                         }
@@ -67,8 +69,9 @@ export const handleLayoutAnimatedLayoutVisible = ({
                                 }
                         }
 
-                        draft.layoutVisible = value
-                        draft.layoutWasVisible = value
+                        draft.visible = value
+                        draft.invisible = value
+                        draft.nextVisibleEvent = handleNextVisibleEvent(value)
                 }
 
         return (ref: React.RefObject<View>) => (value?: boolean) =>
@@ -76,29 +79,21 @@ export const handleLayoutAnimatedLayoutVisible = ({
 }
 
 export const handleLayoutAnimatedFinished =
-        ({onUnmount, unmount, onVisible}: HandleLayoutAnimatedFinishedOptions) =>
+        ({onUnmount, unmount}: HandleLayoutAnimatedFinishedOptions) =>
         (setState: Updater<LayoutAnimatedState>) =>
         (value?: boolean) => {
-                const handleNextVisibleEvent = () => onVisible?.(value)
-
                 setState(draft => {
                         if (value) {
-                                draft.nextVisibleEvent = handleNextVisibleEvent
-
                                 return
                         }
 
-                        draft.layoutWasVisible = value
+                        draft.invisible = value
 
                         if (unmount) {
                                 draft.nextUnmountEvent = onUnmount
                                 draft.status = 'idle'
                                 draft.unmountLayout = true
-
-                                return
                         }
-
-                        draft.nextVisibleEvent = handleNextVisibleEvent
                 })
         }
 
@@ -121,11 +116,9 @@ export const handleLayoutAnimatedStatus =
 export const handleLayoutAnimatedTiming =
         ({animatedTiming, onAnimatedFinished, entry, exit}: HandleLayoutAnimatedTimingOptions) =>
         (containerSharedValue: SharedValue<number>) =>
-        (visible?: boolean) => {
-                if (typeof visible === 'boolean') {
-                        animatedTiming({
-                                ...(visible ? entry : exit),
-                                callback: (finished?: boolean) => finished && onAnimatedFinished?.(visible)
-                        })(containerSharedValue)(visible ? 1 : 0)
-                }
-        }
+        (visible?: boolean) =>
+                typeof visible === 'boolean' &&
+                animatedTiming({
+                        ...(visible ? entry : exit),
+                        callback: (finished?: boolean) => finished && onAnimatedFinished?.(visible)
+                })(containerSharedValue)(visible ? 1 : 0)

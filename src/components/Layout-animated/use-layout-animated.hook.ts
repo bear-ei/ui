@@ -19,7 +19,11 @@ export const useLayoutAnimated = ({
 }: UseLayoutAnimatedOptions) => {
         const containerSharedValue = useSharedValue(visible ? 1 : 0)
         const theme = useTheme()
-        const opacity = rawOpacity ?? theme.token.opacity.level10
+        const opacity = useMemo(
+                () => rawOpacity ?? theme.token.opacity.level10,
+                [rawOpacity, theme.token.opacity.level10]
+        )
+
         const animatedTiming = useAnimatedTiming({token: theme.token, disabledAnimated})
         const fadeAnimatedStyle = useAnimatedStyle(() => ({
                 opacity: interpolate(containerSharedValue.value, [0, 1], [theme.token.opacity.level0, opacity])

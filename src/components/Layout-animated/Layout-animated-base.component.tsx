@@ -1,5 +1,5 @@
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {LayoutRectangle, View} from 'react-native'
+import {InteractionManager, LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
@@ -36,19 +36,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 ref
         ) => {
                 const [
-                        {
-                                layout,
-                                layoutVisible,
-                                layoutWasVisible,
-                                nextUnmountEvent,
-                                nextVisibleEvent,
-                                status,
-                                unmountLayout
-                        },
+                        {layout, visible, invisible, nextUnmountEvent, nextVisibleEvent, status, unmountLayout},
                         setState
                 ] = useImmer<LayoutAnimatedState>({
+                        invisible: true,
                         layout: {} as LayoutRectangle,
-                        layoutWasVisible: true,
                         status: 'idle'
                 })
 
@@ -56,18 +48,19 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 const width = rawWidth ?? layout.width
                 const id = useId()
                 const layoutAnimatedRef = useRef<View>(null)
-                const visible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
                 const onLayoutAnimatedLayoutVisible = useMemo(
                         () =>
                                 debounce(
-                                        handleLayoutAnimatedLayoutVisible({setState, animatedType})(layoutAnimatedRef)
+                                        handleLayoutAnimatedLayoutVisible({setState, animatedType, onVisible})(
+                                                layoutAnimatedRef
+                                        )
                                 )(50),
-                        [animatedType, setState]
+                        [animatedType, onVisible, setState]
                 )
 
                 const onLayoutAnimatedFinished = useMemo(
-                        () => handleLayoutAnimatedFinished({onUnmount, unmount, onVisible})(setState),
-                        [onUnmount, onVisible, setState, unmount]
+                        () => handleLayoutAnimatedFinished({onUnmount, unmount})(setState),
+                        [onUnmount, setState, unmount]
                 )
 
                 const onLayoutAnimatedStatus = useMemo(
@@ -85,7 +78,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                 })(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
-                const animatedVisible = useMemo(() => layoutVisible ?? visible, [layoutVisible, visible])
                 const {containerAnimatedStyle} = useLayoutAnimated({
                         animatedType,
                         disabledAnimated,
@@ -95,7 +87,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         opacity,
                         status,
-                        visible: animatedVisible,
+                        visible: visible ?? rawVisible ?? defaultVisible,
                         width
                 })
 
@@ -120,7 +112,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 }, [nextUnmountEvent])
 
                 useEffect(() => {
-                        nextVisibleEvent?.()
+                        InteractionManager.runAfterInteractions(() => nextVisibleEvent?.())
                 }, [nextVisibleEvent])
 
                 if (status === 'idle') {
@@ -137,7 +129,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         onStateEvent,
                                         ref: layoutAnimatedRef,
                                         status,
-                                        visible: layoutWasVisible,
+                                        visible: invisible,
                                         width
                                 })
         }

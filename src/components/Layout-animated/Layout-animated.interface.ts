@@ -35,20 +35,20 @@ export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
 }
 
 export interface LayoutAnimatedState {
+        invisible?: boolean
         layout: LayoutRectangle
-        layoutVisible?: boolean
-        layoutWasVisible?: boolean
         nextUnmountEvent?: () => void
         nextVisibleEvent?: () => void
         status: ComponentStatus
         unmountLayout?: boolean
+        visible?: boolean
 }
 
 export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
         render: (props: RenderLayoutAnimatedProps) => JSX.Element
 }
 
-export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount' | 'onVisible'>
+export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
 export interface HandleLayoutAnimatedStateChangeOptions extends OnStateEventChangeOptions {
         onLayoutChange: (event: LayoutChangeEvent) => void
 }
@@ -93,7 +93,8 @@ export interface HandleLayoutAnimatedLayoutVisibleDraftChangeOptions {
         width: number
 }
 
-export interface HandleLayoutAnimatedLayoutVisibleOptions extends Pick<LayoutAnimatedProps, 'animatedType'> {
+export interface HandleLayoutAnimatedLayoutVisibleOptions
+        extends Pick<LayoutAnimatedProps, 'animatedType' | 'onVisible'> {
         setState: Updater<LayoutAnimatedState>
 }
 
