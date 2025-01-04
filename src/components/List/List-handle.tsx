@@ -20,33 +20,33 @@ const handleListSelect = (draft: WritableDraft<ListState>) => (deselect?: boolea
                 return
         }
 
-        const prevListActiveKey = draft.activeKey
+        const prevActiveKey = draft.activeKey
 
-        draft.activeKey = value === prevListActiveKey && deselect ? undefined : value
+        draft.activeKey = value === prevActiveKey && deselect ? undefined : value
 
         if (draft.afterAffordanceActiveKey !== value) {
                 draft.afterAffordanceActiveKey = undefined
         }
 
-        return prevListActiveKey !== value ? draft.activeKey : 'NOT_ACTIVE'
+        return prevActiveKey !== value ? draft.activeKey : 'NOT_ACTIVE'
 }
 
 const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: string | string[]) => {
-        const prevListActiveKeys = draft.activeKeys
-        const nextListActiveKeys = Array.isArray(value) ? value : [...(prevListActiveKeys ?? []), value]
+        const prevActiveKeys = draft.activeKeys
+        const nextActiveKeys = Array.isArray(value) ? value : [...(prevActiveKeys ?? []), value]
 
         if (typeof value === 'string') {
                 draft.activeKeys =
-                        prevListActiveKeys?.includes(value) ?
-                                prevListActiveKeys?.filter(handlePrevListActiveKeysFilter(value))
-                        :       nextListActiveKeys
+                        prevActiveKeys?.includes(value) ?
+                                prevActiveKeys?.filter(handlePrevListActiveKeysFilter(value))
+                        :       nextActiveKeys
         }
 
         if (Array.isArray(value)) {
-                draft.activeKeys = nextListActiveKeys
+                draft.activeKeys = nextActiveKeys
         }
 
-        return prevListActiveKeys?.join() !== nextListActiveKeys?.join() ? draft.activeKeys : 'NOT_ACTIVES'
+        return prevActiveKeys?.join() !== nextActiveKeys?.join() ? draft.activeKeys : 'NOT_ACTIVES'
 }
 
 const handleNextActiveEvent =
@@ -59,52 +59,54 @@ export const handleListActive =
         ({onActive, selectType, onActives, deselect}: HandleListActiveOptions = {}) =>
         (setState: Updater<ListState>) =>
         (value?: string | string[]) =>
+                selectType &&
                 setState(draft => {
                         const callbackValue =
                                 selectType === 'select' ?
                                         handleListSelect(draft)(deselect)(value)
                                 :       handleListMultiselect(draft)(value ?? [])
 
-                        if (callbackValue && !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(callbackValue?.toString())) {
-                                if (selectType === 'select') {
-                                        draft.nextActiveEvent = handleNextActiveEvent({onActive})(callbackValue)
+                        const callback =
+                                callbackValue && !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(callbackValue?.toString())
 
-                                        return
-                                }
-
-                                if (selectType === 'multiselect') {
-                                        draft.nextActiveEvent = handleNextActiveEvent({onActives})(callbackValue)
-                                }
+                        if (!callback) {
+                                return
                         }
+
+                        draft.nextActiveEvent = handleNextActiveEvent(
+                                selectType === 'multiselect' ? {onActives} : {onActive}
+                        )(callbackValue)
                 })
 
-export const handleActiveListAfterAffordance =
+export const handleListActiveAfterAffordance =
         ({onActive, selectType}: HandleListActiveOptions) =>
         (setState: Updater<ListState>) =>
         (value?: string) => {
                 const handleNextAfterAffordanceActiveEvent = () => onActive?.(value)
 
-                if (selectType !== 'multiselect') {
-                        setState(draft => {
-                                const prevListActiveKey = draft.activeKey
-
-                                if (draft.afterAffordanceActiveKey === value) {
-                                        draft.afterAffordanceActiveKey = undefined
-
-                                        return
-                                }
-
-                                draft.afterAffordanceActiveKey = value
-
-                                if (value) {
-                                        draft.activeKey = value
-                                }
-
-                                if (prevListActiveKey !== draft.activeKey) {
-                                        draft.nextAfterAffordanceActiveEvent = handleNextAfterAffordanceActiveEvent
-                                }
-                        })
+                if (selectType === 'multiselect') {
+                        return
                 }
+
+                setState(draft => {
+                        const prevActiveKey = draft.activeKey
+
+                        if (draft.afterAffordanceActiveKey === value) {
+                                draft.afterAffordanceActiveKey = undefined
+
+                                return
+                        }
+
+                        draft.afterAffordanceActiveKey = value
+
+                        if (value) {
+                                draft.activeKey = value
+                        }
+
+                        if (prevActiveKey !== draft.activeKey) {
+                                draft.nextAfterAffordanceActiveEvent = handleNextAfterAffordanceActiveEvent
+                        }
+                })
         }
 
 export const handleListClose = ({selectType, onClose, relatedActive}: HandleListCloseOptions) => {

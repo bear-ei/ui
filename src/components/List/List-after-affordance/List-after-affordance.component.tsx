@@ -11,62 +11,68 @@ const AnimatedDanger = Animated.createAnimatedComponent(Danger)
 const render = ({
         dangerAnimatedStyle,
         doubleConfirmed,
-        fill,
         id,
         onCancel,
         onConfirm,
         primaryButtonProps,
         secondaryButtonProps,
         testID,
+        theme,
         visible,
         ...containerProps
-}: RenderListAfterAffordanceProps) => (
-        <Container
-                {...containerProps}
-                pointerEvents={visible ? 'auto' : 'none'}
-                testID={testID ?? `listAfterAffordance--${id}`}
-        >
-                <ListAffordanceButton
-                        {...(doubleConfirmed && {
-                                icon: (
-                                        <Icon
-                                                fill={fill}
-                                                iconStyle='sharp'
-                                                name='check'
-                                                testID={`listAfterAffordance__icon--${id}`}
-                                                type='outlined'
-                                        />
-                                )
-                        })}
-                        {...{labelText: 'Confirm', ...primaryButtonProps}}
-                        onPressOut={onConfirm}
-                        visible={visible}
-                />
+}: RenderListAfterAffordanceProps) => {
+        const fill = theme.token.scheme.onPrimary
 
-                <ListAffordanceButton
-                        {...(doubleConfirmed && {
-                                icon: (
-                                        <Icon
-                                                fill={fill}
-                                                iconStyle='sharp'
-                                                name='close'
-                                                testID={`listAfterAffordance__icon--${id}`}
-                                                type='outlined'
-                                        />
-                                )
-                        })}
-                        {...{labelText: 'Cancel', ...secondaryButtonProps}}
-                        onPressOut={onCancel}
-                        visible={visible}
-                />
+        return (
+                <Container
+                        {...containerProps}
+                        pointerEvents={visible ? 'auto' : 'none'}
+                        testID={testID ?? `listAfterAffordance--${id}`}
+                >
+                        <ListAffordanceButton
+                                {...(doubleConfirmed && {
+                                        icon: (
+                                                <Icon
+                                                        fill={fill}
+                                                        iconStyle='sharp'
+                                                        name='check'
+                                                        testID={`listAfterAffordance__icon--${id}`}
+                                                        type='outlined'
+                                                />
+                                        )
+                                })}
+                                {...{labelText: 'Confirm', ...primaryButtonProps}}
+                                onPressOut={onConfirm}
+                                testID={`listAfterAffordance__confirmButton--${id}`}
+                                visible={visible}
+                        />
 
-                <AnimatedDanger
-                        pointerEvents='none'
-                        style={[dangerAnimatedStyle]}
-                        testID={`listAfterAffordance__danger--${id}`}
-                />
-        </Container>
-)
+                        <ListAffordanceButton
+                                {...(doubleConfirmed && {
+                                        icon: (
+                                                <Icon
+                                                        fill={fill}
+                                                        iconStyle='sharp'
+                                                        name='close'
+                                                        testID={`listAfterAffordance__icon--${id}`}
+                                                        type='outlined'
+                                                />
+                                        )
+                                })}
+                                {...{labelText: 'Cancel', ...secondaryButtonProps}}
+                                onPressOut={onCancel}
+                                testID={`listAfterAffordance__cancelButton--${id}`}
+                                visible={visible}
+                        />
+
+                        <AnimatedDanger
+                                pointerEvents='none'
+                                style={[dangerAnimatedStyle]}
+                                testID={`listAfterAffordance__danger--${id}`}
+                        />
+                </Container>
+        )
+}
 
 export const ForwardRefListAfterAffordance = forwardRef<View, ListAfterAffordanceProps>((props, ref) => (
         <ListAfterAffordanceBase

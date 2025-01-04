@@ -3,8 +3,8 @@ import {InteractionManager} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {
-        handleActiveListAfterAffordance,
         handleListActive,
+        handleListActiveAfterAffordance,
         handleListClose,
         handleListData,
         handleListItemSize,
@@ -72,7 +72,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 const listRef = useRef<VirtualListComponent<ListData>>(null)
                 const theme = useTheme()
                 const onListData = useMemo(() => handleListData(setState)(loading), [loading, setState])
-                const onActiveAfterAffordance = handleActiveListAfterAffordance({onActive, selectType})(setState)
+                const onListActiveAfterAffordance = handleListActiveAfterAffordance({onActive, selectType})(setState)
                 const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
                 const onListRawActive = useMemo(() => handleListActive({selectType})(setState), [setState, selectType])
                 const onListClose = handleListClose({onClose, relatedActive, selectType})(setState)
@@ -92,7 +92,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         enableUnderlayActive,
                         focusedIndex,
                         onActive: onListActive,
-                        onActiveAfterAffordance,
+                        onActiveAfterAffordance: onListActiveAfterAffordance,
                         onCancel,
                         onClose: onListClose,
                         onConfirm,

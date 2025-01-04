@@ -5,7 +5,6 @@ import {LayoutAnimated} from '../../Layout-animated'
 import {ListType} from '../List.interface'
 import {
         ListItemContainerProps,
-        ListItemContentProps,
         ListItemLeadingProps,
         ListItemMainInnerProps,
         ListItemMainProps,
@@ -33,7 +32,7 @@ export const Container = styled(Shape)<ListItemContainerProps>`
         }}
 `
 
-export const Content = styled.View<ListItemContentProps>`
+export const Content = styled.View<ListItemContainerProps>`
         position: absolute;
         width: 100%;
         z-index: 4;

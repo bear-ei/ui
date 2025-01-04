@@ -77,7 +77,5 @@ export const useLayoutAnimated = ({
                 }
         }, [visible, onLayoutAnimatedTiming, status])
 
-        return {
-                containerAnimatedStyle: containerAnimated[animatedType]
-        }
+        return {containerAnimatedStyle: containerAnimated[animatedType]}
 }

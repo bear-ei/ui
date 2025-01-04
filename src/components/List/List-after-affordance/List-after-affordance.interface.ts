@@ -1,6 +1,7 @@
 import {RefAttributes} from 'react'
 import {GestureResponderEvent, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
+import {DefaultTheme} from 'styled-components/native'
 import {ListItemProps} from '../List-item'
 
 export interface ListAfterAffordancePressOutOptions {
@@ -22,9 +23,9 @@ export interface RenderListAfterAffordanceProps
         extends Omit<ListAfterAffordanceProps, 'itemKey' | 'onCancel' | 'onConfirm'> {
         dangerAnimatedStyle: AnimatedStyle<ViewStyle>
         doubleConfirmed?: boolean
-        fill: string
         onCancel: (event: GestureResponderEvent) => void
         onConfirm: (event: GestureResponderEvent) => void
+        theme: DefaultTheme
 }
 
 export interface ListAfterAffordanceBaseProps extends ListAfterAffordanceProps {

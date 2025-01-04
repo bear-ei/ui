@@ -140,6 +140,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         afterAffordance,
                         closeTrailing,
                         disabled,
+                        id,
                         onStateEvent: {onPressOut: onListItemTrailingPressOut},
                         theme,
                         trailing,
@@ -147,7 +148,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 })
 
                 const leadingElement =
-                        leading && selectType ? cloneElement(leading, {type: active ? 'filled' : 'outlined'}) : leading
+                        leading && selectType ?
+                                cloneElement(leading, {
+                                        testID: `listItem__leading--${id}`,
+                                        type: active ? 'filled' : 'outlined'
+                                })
+                        :       leading
 
                 useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
 

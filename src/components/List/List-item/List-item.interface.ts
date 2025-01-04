@@ -152,7 +152,6 @@ export interface ListItemMainProps
         supportingTextShow?: boolean
 }
 
-export type ListItemContentProps = ListItemContainerProps
 export interface ListItemMainInnerProps extends Pick<ListItemMainProps, 'supportingTextShow' | 'type'> {
         leadingShow?: boolean
         trailingShow?: boolean
