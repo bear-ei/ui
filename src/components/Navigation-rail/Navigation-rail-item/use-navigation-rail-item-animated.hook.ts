@@ -19,7 +19,8 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
         ]
 
         const labelAnimatedStyle = useAnimatedStyle(() => ({
-                height: interpolate(labelHeightSharedValue.value, [0, 1], labelHeightOutputRange)
+                height: interpolate(labelHeightSharedValue.value, [0, 1], labelHeightOutputRange),
+                transform: [{scaleY: interpolate(labelHeightSharedValue.value, [0, 1], [0, 1])}]
         }))
 
         const labelTextColorOutputRange = [
@@ -33,10 +34,10 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
 
         const onNavigationRailItemAnimatedTiming = useMemo(
                 () =>
-                        handleNavigationRailItemAnimatedTiming({
-                                animatedTiming,
-                                type
-                        })({labelHeightSharedValue, labelTextColorSharedValue}),
+                        handleNavigationRailItemAnimatedTiming({animatedTiming, type})({
+                                labelHeightSharedValue,
+                                labelTextColorSharedValue
+                        }),
                 [animatedTiming, labelHeightSharedValue, labelTextColorSharedValue, type]
         )
 

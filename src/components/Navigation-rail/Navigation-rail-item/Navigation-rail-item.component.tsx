@@ -11,7 +11,6 @@ const AnimatedLabel = Animated.createAnimatedComponent(Label)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
         active,
-
         activeIconElement,
         eventName,
         iconElement,
@@ -40,11 +39,13 @@ const render = ({
                                 testID={`navigationRailItem__content--${id}`}
                         >
                                 <Header
+                                        pointerEvents='none'
                                         testID={`navigationRailItem__header--${id}`}
                                         type={type}
                                 >
                                         <IconContainer testID={`navigationRailItem__iconContainer--${id}`}>
                                                 <Icon
+                                                        hidden={false}
                                                         testID={`navigationRailItem__icon--${id}`}
                                                         visible={!active}
                                                 >
@@ -52,6 +53,7 @@ const render = ({
                                                 </Icon>
 
                                                 <Icon
+                                                        hidden={false}
                                                         testID={`navigationRailItem__icon--${id}`}
                                                         visible={active}
                                                 >
@@ -73,6 +75,7 @@ const render = ({
 
                                 {type === 'segment' && (
                                         <AnimatedLabel
+                                                pointerEvents='none'
                                                 style={[labelAnimatedStyle]}
                                                 testID={`navigationRailItem__label--${id}`}
                                         >

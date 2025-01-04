@@ -30,8 +30,8 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 
                 const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
                 const {labelAnimatedStyle, labelTextAnimatedStyle} = useNavigationRailItemAnimated({active, type})
-                const activeIconElement = handleNavigationRailItemActiveIcon(icon)(eventName)
-                const iconElement = handleNavigationRailItemIcon(icon)(eventName)
+                const activeIconElement = handleNavigationRailItemActiveIcon(id)(icon)(eventName)
+                const iconElement = handleNavigationRailItemIcon(id)(icon)(eventName)
 
                 useEffect(() => {
                         nextPressOutEvent?.()

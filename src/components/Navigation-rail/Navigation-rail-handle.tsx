@@ -17,11 +17,11 @@ export const handleNavigationRailActive =
 
                 if (value) {
                         setState(draft => {
-                                const prevNavigationRailActiveKey = draft.activeKey
+                                const prevActiveKey = draft.activeKey
 
                                 draft.activeKey = value
 
-                                if (prevNavigationRailActiveKey !== draft.activeKey) {
+                                if (prevActiveKey !== draft.activeKey) {
                                         draft.nextActiveEvent = handleNextActiveEvent
                                 }
 
@@ -43,5 +43,11 @@ export const handleNavigationRailItems =
                         />
                 ))
 
-export const handleNavigationRailFAB = (fab?: JSX.Element) =>
-        fab ? cloneElement<FABProps>(fab, {elevated: false, size: 'medium'}) : undefined
+export const handleNavigationRailFAB = (id: string) => (fab?: JSX.Element) =>
+        fab ?
+                cloneElement<FABProps>(fab, {
+                        elevated: false,
+                        size: 'medium',
+                        testID: `navigationRail__fab--${id}`
+                })
+        :       undefined

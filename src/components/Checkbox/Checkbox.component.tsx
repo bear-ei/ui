@@ -81,6 +81,7 @@ const render = ({
 
                                                 <IconContainer
                                                         {...animatedOptions}
+                                                        hidden={false}
                                                         testID={`checkbox__iconContainer--${id}`}
                                                         visible={type === 'selected'}
                                                 >
@@ -98,6 +99,7 @@ const render = ({
 
                                                 <IconContainer
                                                         {...animatedOptions}
+                                                        hidden={false}
                                                         testID={`checkbox__iconContainer--${id}`}
                                                         visible={type === 'indeterminate'}
                                                 >

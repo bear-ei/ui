@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Typography} from '../../Common'
+import {LayoutAnimated} from '../../Layout-animated'
 import {
         NavigationRailItemHeaderProps,
         NavigationRailItemIconProps,
@@ -50,7 +51,7 @@ export const IconContainer = styled.View`
         `}
 `
 
-export const Icon = styled.View<NavigationRailItemIconProps>`
+export const Icon = styled(LayoutAnimated)<NavigationRailItemIconProps>`
         position: absolute;
 
         ${({theme}) => css`
@@ -59,17 +60,12 @@ export const Icon = styled.View<NavigationRailItemIconProps>`
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
         `}
-
-        ${({visible, theme}) =>
-                !visible &&
-                css`
-                        opacity: ${theme.adaptSize(theme.token.opacity.level0)};
-                `}
 `
 
 export const Label = styled.View`
-        position: relative;
         overflow: hidden;
+        position: relative;
+        transform-origin: top;
 `
 
 export const LabelText = styled(Typography)<NavigationRailItemLabelTextProps>`

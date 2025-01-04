@@ -29,7 +29,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                         type
                 })(data)
 
-                const fabElement = handleNavigationRailFAB(fab)
+                const fabElement = handleNavigationRailFAB(id)(fab)
 
                 useEffect(() => {
                         onNavigationRailRawActive(rawActiveKey ?? defaultActiveKey)

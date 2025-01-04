@@ -2,7 +2,6 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {InteractionManager, LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {debounce} from '../../utils'
 import {State} from '../Common'
 import {
         handleLayoutAnimatedFinished,
@@ -49,12 +48,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 const id = useId()
                 const layoutAnimatedRef = useRef<View>(null)
                 const onLayoutAnimatedLayoutVisible = useMemo(
-                        () =>
-                                debounce(
-                                        handleLayoutAnimatedLayoutVisible({setState, animatedType, onVisible})(
-                                                layoutAnimatedRef
-                                        )
-                                )(50),
+                        () => handleLayoutAnimatedLayoutVisible({setState, animatedType, onVisible})(layoutAnimatedRef),
                         [animatedType, onVisible, setState]
                 )
 
@@ -99,13 +93,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
                 useEffect(() => {
                         if (status === 'succeeded') {
-                                onLayoutAnimatedLayoutVisible(visible)
+                                onLayoutAnimatedLayoutVisible(rawVisible)
                         }
-                }, [onLayoutAnimatedLayoutVisible, status, visible])
+                }, [onLayoutAnimatedLayoutVisible, status, rawVisible])
 
                 useEffect(() => {
-                        onLayoutAnimatedStatus(visible)
-                }, [onLayoutAnimatedStatus, visible])
+                        onLayoutAnimatedStatus(rawVisible)
+                }, [onLayoutAnimatedStatus, rawVisible])
 
                 useEffect(() => {
                         nextUnmountEvent?.()

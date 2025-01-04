@@ -69,9 +69,9 @@ export const handleLayoutAnimatedLayoutVisible = ({
                                 }
                         }
 
-                        draft.visible = value
                         draft.invisible = value
                         draft.nextVisibleEvent = handleNextVisibleEvent(value)
+                        draft.visible = value
                 }
 
         return (ref: React.RefObject<View>) => (value?: boolean) =>
@@ -83,13 +83,9 @@ export const handleLayoutAnimatedFinished =
         (setState: Updater<LayoutAnimatedState>) =>
         (value?: boolean) => {
                 setState(draft => {
-                        if (value) {
-                                return
-                        }
-
                         draft.invisible = value
 
-                        if (unmount) {
+                        if (unmount && !value) {
                                 draft.nextUnmountEvent = onUnmount
                                 draft.status = 'idle'
                                 draft.unmountLayout = true
