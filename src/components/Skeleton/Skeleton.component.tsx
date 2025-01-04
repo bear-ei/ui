@@ -23,9 +23,9 @@ const render = ({
         return (
                 <>
                         <ContentItem
+                                testID={`skeleton__contentItem--${id}`}
                                 unmount={true}
                                 visible={skeletonVisible}
-                                testID={`skeleton__contentItem--${id}`}
                         >
                                 <AnimatedSkeletonContainer
                                         {...containerProps}
@@ -37,8 +37,8 @@ const render = ({
                         </ContentItem>
 
                         <ContentItem
-                                visible={!skeletonVisible}
                                 testID={`skeleton__contentItem--${id}`}
+                                visible={!skeletonVisible}
                         >
                                 {children}
                         </ContentItem>

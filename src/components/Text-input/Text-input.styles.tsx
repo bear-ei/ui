@@ -72,7 +72,10 @@ export const Label = styled.View<TextInputLabelProps>`
                 `}
 `
 
-export const LabelText = styled(Typography)``
+export const LabelText = styled(Typography)`
+        min-height: auto;
+`
+
 export const Leading = styled.View`
         align-items: center;
         display: flex;

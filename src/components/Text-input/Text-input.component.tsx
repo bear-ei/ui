@@ -55,13 +55,14 @@ const render = ({
         supportingTextAnimatedStyle,
         supportingTextVisible,
         testID,
+        theme,
         trailing,
-        underlayColor,
-        underlayOpacities,
         ...inputProps
 }: RenderTextInputProps) => {
         const shape = 'extraSmallTop'
         const leadingShow = !!leading
+        const underlayColor = theme.token.scheme.onSurface
+        const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
         const {onFocus, onBlur, ...onTouchableHeaderEvent} = onStateEvent
 
         return (

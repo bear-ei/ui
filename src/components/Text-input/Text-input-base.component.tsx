@@ -8,7 +8,7 @@ import {State} from '../Common'
 import {
         handleSupportingTextClose,
         handleTextInputChangeText,
-        handleTextInputChangeTextInit,
+        handleTextInputChangeTextStatus,
         handleTextInputContentSizeChange,
         handleTextInputEditableChange,
         handleTextInputStateChange,
@@ -36,7 +36,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         onSupportingTextVisible,
                         placeholder,
                         render,
-                        supportingText: supportingTextSource,
+                        supportingText: rawSupportingText,
                         supportingTextDelayTime,
                         trailing,
                         type = 'filled',
@@ -54,17 +54,18 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                                 nextPressOutEvent,
                                 nextSupportingTextVisibleEvent,
                                 state,
+                                status,
                                 supportingText,
                                 supportingTextVisible,
-                                textInputValue
+                                value
                         },
                         setState
                 ] = useImmer<TextInputState>({
                         contentSize: {} as TextInputContentSizeChangeEventData['contentSize'],
-                        state: 'enabled'
+                        state: 'enabled',
+                        status: 'idle'
                 })
 
-                const value = rawValue ?? defaultValue
                 const id = useId()
                 const textInputRef = useRef<TextInput>(null)
                 const theme = useTheme()
@@ -75,8 +76,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                                 )
                         :       theme.token.scheme.onSurfaceVariant
 
-                const underlayColor = theme.token.scheme.onSurface
-                const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
                 const onTextInputContentSizeChange = (
                         event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
                 ) => handleTextInputContentSizeChange(setState)(onContentSizeChange)(event)
@@ -97,7 +96,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 )
 
                 const onTextInputChangeText = handleTextInputChangeText(onChangeText)(setState)
-                const onTextInputChangeTextInit = useMemo(() => handleTextInputChangeTextInit(setState), [setState])
+                const onTextInputChangeTextStatus = useMemo(() => handleTextInputChangeTextStatus(setState), [setState])
                 const onTextInputSupportingTextVisible =
                         handleTextInputSupportingTextVisible(setState)(onSupportingTextVisible)
 
@@ -127,7 +126,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 } = useTextInputAnimated({
                         disabled,
                         error,
-                        filled: [value, placeholder, textInputValue, content, filled].some(Boolean),
+                        filled: [rawValue, defaultValue, placeholder, value, content, filled].some(Boolean),
                         state,
                         type
                 })
@@ -139,12 +138,12 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 }, [editable, onTextInputEditableChange])
 
                 useEffect(() => {
-                        onTextInputSupportingText(supportingTextSource)
-                }, [onTextInputSupportingText, supportingTextSource])
+                        onTextInputSupportingText(rawSupportingText)
+                }, [onTextInputSupportingText, rawSupportingText])
 
                 useEffect(() => {
-                        onTextInputChangeTextInit(rawValue ?? defaultValue)
-                }, [defaultValue, onTextInputChangeTextInit, rawValue])
+                        onTextInputChangeTextStatus(rawValue ?? defaultValue)
+                }, [defaultValue, onTextInputChangeTextStatus, rawValue])
 
                 useEffect(() => {
                         nextPressOutEvent?.()
@@ -161,6 +160,10 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 useEffect(() => {
                         nextSupportingTextVisibleEvent?.()
                 }, [nextSupportingTextVisibleEvent])
+
+                if (status === 'idle') {
+                        return <></>
+                }
 
                 return render({
                         ...renderProps,
@@ -187,10 +190,9 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         supportingText,
                         supportingTextAnimatedStyle,
                         supportingTextVisible,
+                        theme,
                         trailing,
-                        underlayColor,
-                        underlayOpacities,
-                        value: textInputValue ?? value
+                        value
                 })
         }
 )

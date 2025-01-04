@@ -8,7 +8,8 @@ import {
         handleSearchChangeText,
         handleSearchContainerLayout,
         handleSearchListVisible,
-        handleSearchStateChange
+        handleSearchStateChange,
+        handleTextInputChangeTextStatus
 } from './Search-handle'
 import {SearchListProps} from './Search-list'
 import {SearchBaseProps, SearchState} from './Search.interface'
@@ -30,15 +31,15 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         onChangeText,
                         placeholder,
                         render,
-                        value,
+                        value: rawValue,
                         ...renderProps
                 },
                 ref
         ) => {
                 const [
-                        {searchValue, eventName, layout, listVisible, nextPressOutEvent, nextChangeTextEvent},
+                        {status, value, eventName, layout, listVisible, nextPressOutEvent, nextChangeTextEvent},
                         setState
-                ] = useImmer<SearchState>({layout: {} as SearchState['layout'], state: 'enabled'})
+                ] = useImmer<SearchState>({layout: {} as SearchState['layout'], state: 'enabled', status: 'idle'})
 
                 const containerRef = useRef<View>(null)
                 const id = useId()
@@ -47,7 +48,11 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 const theme = useTheme()
                 const onSearchListVisible = handleSearchListVisible(setState)
                 const onSearchChangeText = handleSearchChangeText({data, onChangeText})(setState)
-                const onSearchChangeTextSource = useMemo(() => handleSearchChangeText()(setState), [setState])
+                const onSearchChangeTextStatus = useMemo(
+                        () => handleTextInputChangeTextStatus(data)(setState),
+                        [data, setState]
+                )
+
                 const onSearchContainerLayout = useMemo(
                         () => handleSearchContainerLayout(setState)(containerRef.current),
                         [setState]
@@ -62,8 +67,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 useImperativeHandle(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [])
 
                 useEffect(() => {
-                        onSearchChangeTextSource(value ?? defaultValue)
-                }, [defaultValue, onSearchChangeTextSource, value])
+                        onSearchChangeTextStatus(rawValue ?? defaultValue)
+                }, [defaultValue, onSearchChangeTextStatus, rawValue])
 
                 useEffect(() => {
                         if (data) {
@@ -83,6 +88,10 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         nextChangeTextEvent?.()
                 }, [nextChangeTextEvent])
 
+                if (status === 'idle') {
+                        return
+                }
+
                 return render({
                         ...renderProps,
                         containerRef,
@@ -97,7 +106,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         placeholder,
                         ref: inputRef,
                         theme,
-                        value: searchValue
+                        value
                 })
         }
 )

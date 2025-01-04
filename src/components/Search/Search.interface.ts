@@ -2,7 +2,7 @@ import {RefAttributes, RefObject} from 'react'
 import {LayoutRectangle, PressableProps, TextInput, TextInputProps, View} from 'react-native'
 import {DefaultTheme} from 'styled-components/native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
-import {EventName, Size, State} from '../Common'
+import {ComponentStatus, EventName, Size, State} from '../Common'
 import {ListData, ListProps} from '../List'
 import {SearchListProps} from './Search-list'
 
@@ -40,8 +40,9 @@ export interface SearchState {
         listVisible?: boolean
         nextChangeTextEvent?: () => void
         nextPressOutEvent?: () => void
-        searchValue?: string
+        value?: string
         state: State
+        status: ComponentStatus
 }
 
 export type HandleSearchChangeTextOptions = Pick<RenderSearchProps, 'onChangeText'> & Pick<SearchListProps, 'data'>

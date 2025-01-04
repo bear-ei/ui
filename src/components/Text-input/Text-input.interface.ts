@@ -8,8 +8,9 @@ import {
         ViewStyle
 } from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import {DefaultTheme} from 'styled-components/native'
 import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
-import {EventName, ShapeProps, State, TypographyProps} from '../Common'
+import {ComponentStatus, EventName, ShapeProps, State, TypographyProps} from '../Common'
 
 export type TextInputType = 'filled' | 'outlined'
 export interface InputProps extends RNTextInputProps, RefAttributes<TextInput> {
@@ -47,8 +48,7 @@ export interface RenderTextInputProps extends TextInputProps {
         onSupportingTextVisible?: (value?: boolean) => void
         supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
         supportingTextVisible?: boolean
-        underlayColor: string
-        underlayOpacities: [number, number]
+        theme: DefaultTheme
 }
 
 export interface TextInputBaseProps extends TextInputProps {
@@ -63,9 +63,10 @@ export interface TextInputState {
         nextPressOutEvent?: () => void
         nextSupportingTextVisibleEvent?: () => void
         state: State
+        status: ComponentStatus
         supportingText?: string
         supportingTextVisible?: boolean
-        textInputValue?: string
+        value?: string
 }
 
 export interface HandleTextInputStateEventChangeOptions

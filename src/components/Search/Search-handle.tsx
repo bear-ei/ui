@@ -54,13 +54,29 @@ export const handleSearchChangeText =
                 const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
 
                 setState(draft => {
-                        const prevSearchValue = draft.searchValue
+                        const prevValue = draft.value
 
                         draft.data = (matchedData.length ? matchedData : undefined) as WritableDraft<ListData>[]
-                        draft.searchValue = value
+                        draft.value = value
 
-                        if (typeof value === 'string' && value !== prevSearchValue) {
+                        if (typeof value === 'string' && value !== prevValue) {
                                 draft.nextChangeTextEvent = handleNextChangeTextEvent
+                        }
+                })
+        }
+
+export const handleTextInputChangeTextStatus =
+        (data: ListData[] = []) =>
+        (setState: Updater<SearchState>) =>
+        (value?: string) => {
+                const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
+
+                setState(draft => {
+                        draft.data = (matchedData.length ? matchedData : undefined) as WritableDraft<ListData>[]
+                        draft.value = value
+
+                        if (draft.status === 'idle') {
+                                draft.status = 'succeeded'
                         }
                 })
         }

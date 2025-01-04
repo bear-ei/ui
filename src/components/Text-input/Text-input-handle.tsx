@@ -112,19 +112,23 @@ export const handleTextInputChangeText =
                 }
 
                 setState(draft => {
-                        const prevTextInputValue = draft.textInputValue
+                        const prevValue = draft.value
 
-                        draft.textInputValue = nextValue ?? ''
+                        draft.value = nextValue ?? ''
 
-                        if (typeof nextValue === 'string' && prevTextInputValue !== nextValue) {
+                        if (typeof nextValue === 'string' && prevValue !== nextValue) {
                                 draft.nextChangeTextEvent = handleNextChangeTextEvent
                         }
                 })
         }
 
-export const handleTextInputChangeTextInit = (setState: Updater<TextInputState>) => (value?: string) =>
+export const handleTextInputChangeTextStatus = (setState: Updater<TextInputState>) => (value?: string) =>
         setState(draft => {
-                draft.textInputValue = value
+                draft.value = value
+
+                if (draft.status === 'idle') {
+                        draft.status = 'succeeded'
+                }
         })
 
 export const handleTextInputEditableChange = (ref: React.RefObject<TextInput>) => (value?: boolean) =>
