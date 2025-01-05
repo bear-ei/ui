@@ -1,6 +1,6 @@
 # Bearei material
 
-The Bearei material library is a library of React Native components based on the Material Design guidelines.
+The Bearei material library is a library of React Native for macOS components based on the Material Design guidelines.
 
 # Related Links:
 
