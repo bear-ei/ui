@@ -51,3 +51,5 @@ export interface HandleVirtualListLayoutChangeOptions {
         layout: LayoutRectangle
         onVirtualListVisibleRange?: (value?: number) => void
 }
+
+export type UseVirtualListScrollAnimatedOptions = Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize'>

@@ -1,4 +1,4 @@
-import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo} from 'react'
 import {InteractionManager, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
@@ -8,7 +8,6 @@ import {State} from '../Common'
 import {
         handleVirtualListData,
         handleVirtualListDataChange,
-        handleVirtualListFocusedIndexScroll,
         handleVirtualListItem,
         handleVirtualListItemUnmount,
         handleVirtualListLayoutChange,
@@ -18,6 +17,7 @@ import {
         handleVirtualListStateChange
 } from './Virtual-list-handle'
 import {VirtualListBaseProps, VirtualListState} from './Virtual-list.interface'
+import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 
 export const VirtualListBaseInner = <T,>(
         {
@@ -42,7 +42,7 @@ export const VirtualListBaseInner = <T,>(
 
         const contentSize = virtualListData ? virtualListData.length * (itemSize + gap) - gap : 0
         const id = useId()
-        const scrollViewRef = useRef<Animated.ScrollView>(null)
+        // const scrollViewRef = useRef<Animated.ScrollView>(null)
         const onVirtualListVisibleRange = useMemo(
                 () => handleVirtualListDataChange(itemSize)(setState),
                 [itemSize, setState]
@@ -56,10 +56,10 @@ export const VirtualListBaseInner = <T,>(
 
         const onVirtualListData = useMemo(() => handleVirtualListData(setState), [setState])
         const onVirtualListLoadEnd = handleVirtualListLoadEnd(setState)(onLoadEnd)
-        const onVirtualListFocusedIndexScroll = useMemo(
-                () => handleVirtualListFocusedIndexScroll(scrollViewRef)(itemSize),
-                [itemSize]
-        )
+        // const onVirtualListFocusedIndexScroll = useMemo(
+        //         () => handleVirtualListFocusedIndexScroll(scrollViewRef)(itemSize),
+        //         [itemSize]
+        // )
 
         const scrollEvent = useDesktopScrollEvent({
                 onMomentumScrollEnd: onVirtualListMomentumScrollEnd,
@@ -84,11 +84,11 @@ export const VirtualListBaseInner = <T,>(
                 renderItem
         })(visibleRangeData)
 
-        useImperativeHandle(
-                ref,
-                () => (scrollViewRef?.current ? scrollViewRef?.current : {}) as Animated.ScrollView,
-                []
-        )
+        const {animatedRef} = useVirtualListAnimated({focusedIndex, itemSize})
+
+        useImperativeHandle(ref, () => (animatedRef?.current ? animatedRef?.current : {}) as Animated.ScrollView, [
+                animatedRef
+        ])
 
         useEffect(() => {
                 onVirtualListData(data)
@@ -99,17 +99,11 @@ export const VirtualListBaseInner = <T,>(
         }, [onVirtualListVisibleRange, virtualListData])
 
         useEffect(() => {
-                onVirtualListFocusedIndexScroll(focusedIndex)
-        }, [focusedIndex, onVirtualListFocusedIndexScroll])
-
-        useEffect(() => {
                 nextScrollEvent?.()
         }, [nextScrollEvent])
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => {
-                        nextItemVisibleEvent?.()
-                })
+                InteractionManager.runAfterInteractions(() => nextItemVisibleEvent?.())
         }, [nextItemVisibleEvent])
 
         if (status === 'idle') {
@@ -125,7 +119,7 @@ export const VirtualListBaseInner = <T,>(
                 itemElements,
                 itemSize,
                 onStateEvent,
-                ref: scrollViewRef,
+                ref: animatedRef,
                 status
         })
 }

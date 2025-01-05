@@ -1,6 +1,5 @@
 import {WritableDraft} from 'immer'
 import {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, Platform} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {Updater} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent} from '../../hooks'
 import {EventName} from '../Common'
@@ -155,13 +154,6 @@ export const handleVirtualListDataChange =
                                 handleVirtualListVisibleRange(itemSize)(draft)()
                         }
                 })
-
-/**
- * TODO: Refactoring to use the react-native-reanimated API
- */
-export const handleVirtualListFocusedIndexScroll =
-        (ref: React.RefObject<Animated.ScrollView>) => (itemSize: number) => (focusedIndex?: number) =>
-                typeof focusedIndex === 'number' && ref.current?.scrollTo({y: focusedIndex * itemSize, animated: true})
 
 export const handleVirtualListItem =
         <T,>({renderItem, onLoadEnd, ...virtualListItemProps}: HandleVirtualListItemOptions<T>) =>
