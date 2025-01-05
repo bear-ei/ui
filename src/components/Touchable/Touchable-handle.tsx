@@ -67,7 +67,7 @@ export const handleTouchableAnimatedFinished = (setState: Updater<TouchableState
 export const handleTouchableRipples =
         ({centered, containerLayout, ...props}: HandleTouchableRipplesOptions) =>
         (rippleSequence: TouchableRippleSequence) =>
-                Object.entries(rippleSequence).map(([index, touchableLocation]) => {
+                Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
                         const centeredTouchableRipple =
                                 typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
 
@@ -76,8 +76,8 @@ export const handleTouchableRipples =
                                         {...props}
                                         centered={centeredTouchableRipple}
                                         containerLayout={containerLayout}
-                                        index={index}
-                                        key={index}
+                                        indexKey={indexKey}
+                                        key={indexKey}
                                         touchableLocation={touchableLocation}
                                 />
                         )

@@ -1,7 +1,18 @@
 import {
         HandleTouchableRippleAnimatedTimingOptions,
-        HandleTouchableRippleAnimatedTimingSharedValue
+        HandleTouchableRippleAnimatedTimingSharedValue,
+        TouchableRippleProps
 } from './Touchable-ripple.interface'
+
+export const handleTouchableRipplePropsEqual = (prevProps: TouchableRippleProps) => {
+        const {indexKey: prevIndexKey} = prevProps
+
+        return (nextProps: TouchableRippleProps) => {
+                const {indexKey: nextIndexKey} = nextProps
+
+                return ![prevIndexKey !== nextIndexKey].some(Boolean)
+        }
+}
 
 export const handleTouchableRippleAnimatedTiming = ({
         animatedTiming,

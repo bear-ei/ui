@@ -67,42 +67,35 @@ export const handleVirtualListStateChange =
                 }
         }
 
-const handleNextScrollEvent =
-        (onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void) =>
-        (event: NativeSyntheticEvent<NativeScrollEvent>) =>
-        () =>
-                onScroll?.(event)
+export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListScrollOptions) => {
+        const handleNextScrollEvent = (event: NativeSyntheticEvent<NativeScrollEvent>) => () => onScroll?.(event)
 
-export const handleVirtualListScroll =
-        ({onScroll, itemSize}: HandleVirtualListScrollOptions) =>
-        (setState: Updater<VirtualListState>) =>
-        (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        return (setState: Updater<VirtualListState>) => (event: NativeSyntheticEvent<NativeScrollEvent>) => {
                 const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
                 const hitBottom = contentSize.height - layoutMeasurement.height - contentOffset.y < 1
                 const scrollOffset = event.nativeEvent.contentOffset.y
 
                 if (!hitBottom && contentOffset.y > 0) {
                         setState(draft => {
+                                draft.nextScrollEvent = handleNextScrollEvent(event)
                                 handleVirtualListVisibleRange(itemSize)(draft)(scrollOffset)
-                                draft.nextScrollEvent = handleNextScrollEvent(onScroll)(event)
                         })
                 }
         }
+}
 
 export const handleVirtualListMomentumScrollEnd =
         (onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void) =>
         (event: NativeSyntheticEvent<NativeScrollEvent>) =>
                 onMomentumScrollEnd?.(event)
 
-const handleVisibleRangeDataFilter =
-        (value: string) =>
-        ({indexKey}: VirtualListData) =>
-                indexKey !== value
+export const handleVirtualListItemUnmount = (itemSize = 0) => {
+        const handleVisibleRangeDataFilter =
+                (value: string) =>
+                ({indexKey}: VirtualListData) =>
+                        indexKey !== value
 
-export const handleVirtualListItemUnmount =
-        (itemSize = 0) =>
-        (setState: Updater<VirtualListState>) =>
-        (value?: string) => {
+        return (setState: Updater<VirtualListState>) => (value?: string) => {
                 if (!value) {
                         return
                 }
@@ -115,6 +108,7 @@ export const handleVirtualListItemUnmount =
                         handleVirtualListVisibleRange(itemSize)(draft)()
                 })
         }
+}
 
 export const handleVirtualListData = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
         setState(draft => {
@@ -122,13 +116,13 @@ export const handleVirtualListData = (setState: Updater<VirtualListState>) => (d
                 draft.status = 'loading'
         })
 
-const findVisibleRangeDataIndex =
-        (value: string) =>
-        ({indexKey}: VirtualListData) =>
-                indexKey === value
+export const handleVirtualListLoadEnd = (setState: Updater<VirtualListState>) => {
+        const findVisibleRangeDataIndex =
+                (value: string) =>
+                ({indexKey}: VirtualListData) =>
+                        indexKey === value
 
-export const handleVirtualListLoadEnd =
-        (setState: Updater<VirtualListState>) => (onLoadEnd?: (value?: string) => void) => (value?: string) => {
+        return (onLoadEnd?: (value?: string) => void) => (value?: string) => {
                 if (value) {
                         setState(draft => {
                                 const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(
@@ -149,6 +143,7 @@ export const handleVirtualListLoadEnd =
 
                 onLoadEnd?.(value)
         }
+}
 
 export const handleVirtualListDataChange =
         (itemSize = 0) =>

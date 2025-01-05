@@ -5,7 +5,11 @@ import {useAnimatedTiming} from '../../../hooks'
 import {handleTouchableRippleAnimatedTiming} from './Touchable-ripple-handle'
 import {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
 
-export const useTouchableRippleAnimated = ({index, onAnimatedFinished, radius}: UseTouchableRippleAnimatedOptions) => {
+export const useTouchableRippleAnimated = ({
+        indexKey,
+        onAnimatedFinished,
+        radius
+}: UseTouchableRippleAnimatedOptions) => {
         const opacitySharedValue = useSharedValue(1)
         const scaleSharedValue = useSharedValue(0)
         const theme = useTheme()
@@ -33,8 +37,8 @@ export const useTouchableRippleAnimated = ({index, onAnimatedFinished, radius}: 
         )
 
         useEffect(() => {
-                onTouchableRippleAnimatedTiming(index)
-        }, [onTouchableRippleAnimatedTiming, index])
+                onTouchableRippleAnimatedTiming(indexKey)
+        }, [onTouchableRippleAnimatedTiming, indexKey])
 
         return {containerAnimatedStyle}
 }

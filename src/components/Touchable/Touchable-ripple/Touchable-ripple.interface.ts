@@ -9,12 +9,12 @@ export interface TouchableRippleProps
                 RefAttributes<View>,
                 Pick<TouchableProps, 'centered' | 'underlayColor'> {
         containerLayout?: LayoutRectangle
-        index: string
+        indexKey: string
         onAnimatedFinished?: (value: string) => void
         touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>
 }
 
-export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, 'index'> {
+export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, 'indexKey'> {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
         height: number
         locationX: number
@@ -26,8 +26,9 @@ export interface TouchableRippleBaseProps extends TouchableRippleProps {
         render: (props: RenderTouchableRippleProps) => JSX.Element
 }
 
-export interface UseTouchableRippleAnimatedOptions extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'> {
-        index: string
+export interface UseTouchableRippleAnimatedOptions
+        extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'>,
+                Pick<TouchableRippleProps, 'indexKey'> {
         radius: number
 }
 
