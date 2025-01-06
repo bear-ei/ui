@@ -65,15 +65,17 @@ export const handleSearchChangeText =
                 })
         }
 
-export const handleTextInputChangeTextStatus =
+export const handleSearchTextInputRawChangeText =
         (data: ListData[] = []) =>
         (setState: Updater<SearchState>) =>
         (value?: string) => {
                 const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
 
                 setState(draft => {
-                        draft.data = (matchedData.length ? matchedData : undefined) as WritableDraft<ListData>[]
-                        draft.value = value
+                        if (value !== draft.value) {
+                                draft.data = (matchedData.length ? matchedData : undefined) as WritableDraft<ListData>[]
+                                draft.value = value ?? ''
+                        }
 
                         if (draft.status === 'idle') {
                                 draft.status = 'succeeded'

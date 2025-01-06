@@ -1,10 +1,11 @@
 import {token as materialToken} from '@bearei/material-token'
-import {FC, useId} from 'react'
-import {Platform, useColorScheme} from 'react-native'
+import {FC, useId, useRef} from 'react'
+import {Platform, useColorScheme, View} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
 import {useWindowSize} from '../../hooks'
 import {adaptWindow} from '../../utils'
 import {ModalProvider} from '../Modal-provider.context'
+import {handleThemeProviderFocus} from './Theme-provider-handle'
 import {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'
 
@@ -48,9 +49,13 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken}) => {
 
 export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
         const id = useId()
+        const ref = useRef<View>(null)
+        const onThemeProviderFocus = handleThemeProviderFocus(ref)
 
         return (
                 <Container
+                        onPressIn={onThemeProviderFocus}
+                        ref={ref}
                         story={story}
                         testID={`bearei__material--${id}`}
                 >

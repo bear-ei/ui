@@ -70,10 +70,11 @@ export const handleTextInputSupportingText =
         (setState: Updater<TextInputState>) =>
         (value?: string) => {
                 setState(draft => {
-                        if (value) {
-                                draft.supportingText = value
+                        if (value === draft.supportingText) {
+                                return
                         }
 
+                        draft.supportingText = value
                         draft.supportingTextVisible = !!value
                 })
 
@@ -84,13 +85,9 @@ export const handleTextInputSupportingText =
 
 export const handleTextInputSupportingTextVisible =
         (setState: Updater<TextInputState>) =>
-        (onSupportingTextVisible?: (value: boolean) => void) =>
+        (onSupportingTextVisible?: (value?: boolean) => void) =>
         (value?: boolean) => {
-                const handleNextSupportingTextVisibleEvent = () => {
-                        if (value) {
-                                onSupportingTextVisible?.(value)
-                        }
-                }
+                const handleNextSupportingTextVisibleEvent = () => onSupportingTextVisible?.(value)
 
                 if (typeof value !== 'boolean') {
                         return
@@ -105,26 +102,23 @@ export const handleTextInputSupportingTextVisible =
 export const handleTextInputChangeText =
         (onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value?: string) => {
                 const nextValue = value?.trim()
-                const handleNextChangeTextEvent = () => {
-                        if (nextValue) {
-                                onChangeText?.(nextValue)
-                        }
-                }
+                const handleNextChangeTextEvent = () => typeof nextValue === 'string' && onChangeText?.(nextValue)
 
                 setState(draft => {
-                        const prevValue = draft.value
-
-                        draft.value = nextValue ?? ''
-
-                        if (typeof nextValue === 'string' && prevValue !== nextValue) {
-                                draft.nextChangeTextEvent = handleNextChangeTextEvent
+                        if (nextValue === draft.value) {
+                                return
                         }
+
+                        draft.nextChangeTextEvent = handleNextChangeTextEvent
+                        draft.value = nextValue ?? ''
                 })
         }
 
-export const handleTextInputChangeTextStatus = (setState: Updater<TextInputState>) => (value?: string) =>
+export const handleTextInputRawChangeText = (setState: Updater<TextInputState>) => (value?: string) =>
         setState(draft => {
-                draft.value = value
+                if (value !== draft.value) {
+                        draft.value = value ?? ''
+                }
 
                 if (draft.status === 'idle') {
                         draft.status = 'succeeded'

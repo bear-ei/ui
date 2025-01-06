@@ -24,7 +24,6 @@ export const handleLayoutAnimatedLayoutChange =
                 setState(draft => {
                         if (draft.status !== 'succeeded') {
                                 if (animatedType.startsWith('collapse')) {
-                                        console.info(animatedType.startsWith('collapse'), height)
                                         draft.layout.height = height
                                         draft.layout.width = width
                                 }
@@ -55,6 +54,10 @@ export const handleLayoutAnimatedLayoutVisible = ({
         const handleDraftChange =
                 ({value, width, height}: HandleLayoutAnimatedLayoutVisibleDraftChangeOptions) =>
                 (draft: WritableDraft<LayoutAnimatedState>) => {
+                        if (value === draft.visible) {
+                                return
+                        }
+
                         if (!value) {
                                 draft.visible = value
 

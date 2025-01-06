@@ -9,7 +9,7 @@ import {
         handleSearchContainerLayout,
         handleSearchListVisible,
         handleSearchStateChange,
-        handleTextInputChangeTextStatus
+        handleSearchTextInputRawChangeText
 } from './Search-handle'
 import {SearchListProps} from './Search-list'
 import {SearchBaseProps, SearchState} from './Search.interface'
@@ -48,8 +48,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 const theme = useTheme()
                 const onSearchListVisible = handleSearchListVisible(setState)
                 const onSearchChangeText = handleSearchChangeText({data, onChangeText})(setState)
-                const onSearchChangeTextStatus = useMemo(
-                        () => handleTextInputChangeTextStatus(data)(setState),
+                const onSearchTextInputRawChangeText = useMemo(
+                        () => handleSearchTextInputRawChangeText(data)(setState),
                         [data, setState]
                 )
 
@@ -67,8 +67,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 useImperativeHandle(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [])
 
                 useEffect(() => {
-                        onSearchChangeTextStatus(rawValue ?? defaultValue)
-                }, [defaultValue, onSearchChangeTextStatus, rawValue])
+                        onSearchTextInputRawChangeText(rawValue ?? defaultValue)
+                }, [defaultValue, onSearchTextInputRawChangeText, rawValue])
 
                 useEffect(() => {
                         if (data) {

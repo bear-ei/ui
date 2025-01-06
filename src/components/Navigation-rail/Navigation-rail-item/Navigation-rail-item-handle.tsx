@@ -25,10 +25,11 @@ export const handleNavigationRailItemPropsEqual =
 const handleNavigationRailItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
 
 export const handleNavigationRailItemStateChange =
-        ({eventName, itemKey, onActive}: HandleNavigationRailItemStateEventChangeOptions) =>
+        ({eventName, itemKey, onActive, ref}: HandleNavigationRailItemStateEventChangeOptions) =>
         (setState: Updater<NavigationRailItemState>) =>
         (_event: StateEvent) => {
                 const nextEvent = {
+                        pressIn: () => ref.current?.focus(),
                         pressOut: () => handleNavigationRailItemPressOut(onActive)(itemKey)
                 } as Record<EventName, () => void>
 
@@ -41,6 +42,10 @@ export const handleNavigationRailItemStateChange =
 
                         if (eventName) {
                                 draft.eventName = eventName
+                        }
+
+                        if (eventName === 'pressIn') {
+                                nextEvent[eventName]()
                         }
 
                         if (prevEventName !== eventName && eventName === 'pressOut') {

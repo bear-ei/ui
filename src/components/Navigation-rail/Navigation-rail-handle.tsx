@@ -15,21 +15,20 @@ export const handleNavigationRailActive =
         (value?: string) => {
                 const handleNextActiveEvent = () => onActive?.(value)
 
-                if (value) {
-                        setState(draft => {
-                                const prevActiveKey = draft.activeKey
-
-                                draft.activeKey = value
-
-                                if (prevActiveKey !== draft.activeKey) {
-                                        draft.nextActiveEvent = handleNextActiveEvent
-                                }
-
-                                if (draft.status === 'idle') {
-                                        draft.status = 'succeeded'
-                                }
-                        })
+                if (!value) {
+                        return
                 }
+
+                setState(draft => {
+                        if (value !== draft.activeKey) {
+                                draft.activeKey = value
+                                draft.nextActiveEvent = handleNextActiveEvent
+                        }
+
+                        if (draft.status === 'idle') {
+                                draft.status = 'succeeded'
+                        }
+                })
         }
 
 export const handleNavigationRailItems =

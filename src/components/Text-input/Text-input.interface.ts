@@ -28,7 +28,7 @@ export interface TextInputProps
         filled?: boolean
         labelText?: string
         leading?: JSX.Element
-        onSupportingTextVisible?: (value: boolean) => void
+        onSupportingTextVisible?: (value?: boolean) => void
         supportingText?: string
         supportingTextDelayTime?: number
         trailing?: JSX.Element

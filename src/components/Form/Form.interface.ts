@@ -76,8 +76,6 @@ export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormC
         initialValues?: T
         items?: FormItemProps[]
         onLoadEnd?: () => void
-        skeletonDuration?: number
-        skeletonElement?: JSX.Element
         validatorOptions?: FormValidatorOptions
 }
 
@@ -94,11 +92,7 @@ export interface FormState {
 }
 
 export type HandleFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
-export type HandleFormItemOptions = Pick<
-        FormProps,
-        'skeletonElement' | 'skeletonDuration' | 'validatorOptions' | 'onLoadEnd'
->
-
+export type HandleFormItemOptions = Pick<FormProps, 'validatorOptions' | 'onLoadEnd'>
 export interface HandleFormValidateOptions {
         rule?: ValidationRule
         validatorOptions?: ValidatorOptions

@@ -35,7 +35,9 @@ export interface NavigationRailItemState {
 
 export interface HandleNavigationRailItemStateEventChangeOptions
         extends OnStateEventChangeOptions,
-                Pick<NavigationRailItemProps, 'itemKey' | 'onActive'> {}
+                Pick<NavigationRailItemProps, 'itemKey' | 'onActive'> {
+        ref: React.RefObject<View>
+}
 
 export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigationRailItemProps, 'active' | 'type'> {
         defaultActive?: boolean

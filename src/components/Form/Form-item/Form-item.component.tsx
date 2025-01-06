@@ -1,22 +1,15 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {Skeleton} from '../../Skeleton'
 import {FormItemBase} from './Form-item-base.component'
 import {FormItemProps, RenderFormItemProps} from './Form-item.interface'
 import {Container} from './Form-item.styles'
 
-const render = ({control, id, skeletonElement, skeletonDuration, testID, ...containerProps}: RenderFormItemProps) => (
+const render = ({control, id, testID, ...containerProps}: RenderFormItemProps) => (
         <Container
                 {...containerProps}
                 testID={testID ?? `formItem--${id}`}
         >
-                <Skeleton
-                        duration={skeletonDuration}
-                        skeleton={skeletonElement}
-                        testID={`formItem__skeleton--${id}`}
-                >
-                        {control}
-                </Skeleton>
+                {control}
         </Container>
 )
 

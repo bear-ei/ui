@@ -17,7 +17,7 @@ export interface FormItemControlProps {
 
 export interface FormItemProps
         extends Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>>,
-                Pick<FormProps, 'skeletonElement' | 'skeletonDuration' | 'validatorOptions' | 'onLoadEnd'> {
+                Pick<FormProps, 'validatorOptions' | 'onLoadEnd'> {
         initialValues?: Record<string, unknown>
         name?: string
         renderControl?: (props: FormItemControlProps) => JSX.Element

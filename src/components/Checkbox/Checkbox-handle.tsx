@@ -24,19 +24,25 @@ const handleCheckboxActiveDraftChange =
         (value?: boolean) => {
                 const handleNextActiveEvent = () => onActive?.(value)
 
-                if (typeof value === 'boolean') {
-                        const activeType = indeterminate ? 'indeterminate' : 'selected'
-                        const nextType = value ? activeType : 'unselected'
-
-                        draft.active = value
-                        draft.nextActiveEvent = handleNextActiveEvent
-                        draft.type = nextType
+                if (typeof value !== 'boolean') {
+                        return
                 }
+
+                const activeType = indeterminate ? 'indeterminate' : 'selected'
+                const nextType = value ? activeType : 'unselected'
+
+                draft.active = value
+                draft.nextActiveEvent = handleNextActiveEvent
+                draft.type = nextType
         }
 
 export const handleCheckboxActive =
         (options: HandleCheckboxActiveOptions) => (setState: Updater<CheckboxState>) => (value?: boolean) =>
                 setState(draft => {
+                        if (value === draft.active) {
+                                return
+                        }
+
                         handleCheckboxActiveDraftChange(draft)(options)(value)
                 })
 

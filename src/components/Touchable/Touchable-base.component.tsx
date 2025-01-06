@@ -13,7 +13,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                         rippleSequence: {} as TouchableRippleSequence
                 })
 
-                const touchableRef = useRef<View>(null)
+                const pressableRef = useRef<View>(null)
                 const id = useId()
                 const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
                 const onStateEventChange =
@@ -21,7 +21,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                                 handleTouchableStateChange({
                                         ...options,
                                         enableTouchableRipple,
-                                        ref: touchableRef,
+                                        ref: pressableRef,
                                         state
                                 })(setState)(event)
 
@@ -33,8 +33,8 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                         underlayColor
                 })(rippleSequence)
 
-                useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
+                useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
 
-                return render({...renderProps, id, onStateEvent, ref: touchableRef, rippleElements})
+                return render({...renderProps, id, onStateEvent, ref: pressableRef, rippleElements})
         }
 )

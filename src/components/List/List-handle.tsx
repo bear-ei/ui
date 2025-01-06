@@ -16,11 +16,11 @@ import {
 
 const handlePrevListActiveKeysFilter = (value: string) => (key: string) => key !== value
 const handleListSelect = (draft: WritableDraft<ListState>) => (deselect?: boolean) => (value?: string | string[]) => {
-        if (Array.isArray(value)) {
+        const prevActiveKey = draft.activeKey
+
+        if (Array.isArray(value) || value === prevActiveKey) {
                 return
         }
-
-        const prevActiveKey = draft.activeKey
 
         draft.activeKey = value === prevActiveKey && deselect ? undefined : value
 
@@ -28,12 +28,16 @@ const handleListSelect = (draft: WritableDraft<ListState>) => (deselect?: boolea
                 draft.afterAffordanceActiveKey = undefined
         }
 
-        return prevActiveKey !== value ? draft.activeKey : 'NOT_ACTIVE'
+        return draft.activeKey
 }
 
 const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: string | string[]) => {
         const prevActiveKeys = draft.activeKeys
         const nextActiveKeys = Array.isArray(value) ? value : [...(prevActiveKeys ?? []), value]
+
+        if (prevActiveKeys?.join() === nextActiveKeys?.join()) {
+                return
+        }
 
         if (typeof value === 'string') {
                 draft.activeKeys =
@@ -46,7 +50,7 @@ const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: strin
                 draft.activeKeys = nextActiveKeys
         }
 
-        return prevActiveKeys?.join() !== nextActiveKeys?.join() ? draft.activeKeys : 'NOT_ACTIVES'
+        return draft.activeKeys
 }
 
 const handleNextActiveEvent =
@@ -66,10 +70,7 @@ export const handleListActive =
                                         handleListSelect(draft)(deselect)(value)
                                 :       handleListMultiselect(draft)(value ?? [])
 
-                        const callback =
-                                callbackValue && !['NOT_ACTIVE', 'NOT_ACTIVES'].includes(callbackValue?.toString())
-
-                        if (!callback) {
+                        if (!callbackValue) {
                                 return
                         }
 

@@ -1,4 +1,5 @@
 import {View} from 'react-native'
+import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {LayoutAnimatedProps} from '../Layout-animated'
 import {TouchableProps} from '../Touchable'
 
@@ -7,9 +8,16 @@ export interface MaskProps extends Omit<LayoutAnimatedProps & TouchableProps, 'r
         ref?: React.ForwardedRef<View>
 }
 
-export type RenderMaskProps = MaskProps
+export interface RenderMaskProps extends MaskProps {
+        onStateEvent: OnStateEvent
+}
+
 export interface MaskBaseProps extends MaskProps {
         render: (props: RenderMaskProps) => React.JSX.Element
 }
 
 export type MaskContainerProps = Pick<MaskProps, 'backgroundColor' | 'visible'>
+
+export interface HandleMaskStateChangeOptions extends OnStateEventChangeOptions {
+        ref: React.RefObject<View>
+}

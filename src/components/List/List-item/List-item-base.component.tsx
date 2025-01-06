@@ -67,7 +67,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         setState
                 ] = useImmer<ListItemState>({status: 'idle'})
 
-                const touchableRef = useRef<View>(null)
+                const pressableRef = useRef<View>(null)
                 const active = useMemo(
                         () => (selectType === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)),
                         [activeKey, activeKeys, itemKey, selectType]
@@ -155,7 +155,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                                 })
                         :       leading
 
-                useImperativeHandle(ref, () => (touchableRef?.current ? touchableRef?.current : {}) as View, [])
+                useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
 
                 useEffect(() => {
                         onListItemFocus(focusedIndex)
@@ -195,7 +195,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         onConfirm: onListItemConfirm,
                         onStateEvent,
                         panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,
-                        ref: touchableRef,
+                        ref: pressableRef,
                         selectType,
                         shape,
                         state: listItemState,

@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -21,17 +21,24 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                 const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({})
                 const id = useId()
                 const theme = useTheme()
+                const pressableRef = useRef<View>(null)
                 const active = useMemo(() => activeKey === itemKey, [activeKey, itemKey])
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleNavigationRailItemStateChange({...options, itemKey, onActive, state})(setState)(
-                                        event
-                                )
+                                handleNavigationRailItemStateChange({
+                                        ...options,
+                                        itemKey,
+                                        onActive,
+                                        ref: pressableRef,
+                                        state
+                                })(setState)(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
                 const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active, type})
                 const activeIconElement = handleNavigationRailItemActiveIcon(id)(icon)(eventName)
                 const iconElement = handleNavigationRailItemIcon(id)(icon)(eventName)
+
+                useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
 
                 useEffect(() => {
                         nextPressOutEvent?.()
@@ -46,7 +53,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                         id,
                         labelTextAnimatedStyle,
                         onStateEvent,
-                        ref,
+                        ref: pressableRef,
                         theme,
                         type
                 })

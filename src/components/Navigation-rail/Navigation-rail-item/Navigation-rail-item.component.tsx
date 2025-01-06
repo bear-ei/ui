@@ -14,13 +14,13 @@ const render = ({
         eventName,
         iconElement,
         id,
-
         labelText,
         labelTextAnimatedStyle,
         onStateEvent,
+        ref,
         testID,
-        type,
         theme,
+        type,
         ...containerProps
 }: RenderNavigationRailItemProps) => {
         const activeColor = theme.token.scheme.secondaryContainer
@@ -35,6 +35,7 @@ const render = ({
                 >
                         <TouchableContent
                                 {...onStateEvent}
+                                ref={ref}
                                 testID={`navigationRailItem__content--${id}`}
                         >
                                 <Header

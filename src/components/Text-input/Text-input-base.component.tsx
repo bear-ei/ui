@@ -8,9 +8,9 @@ import {State} from '../Common'
 import {
         handleSupportingTextClose,
         handleTextInputChangeText,
-        handleTextInputChangeTextStatus,
         handleTextInputContentSizeChange,
         handleTextInputEditableChange,
+        handleTextInputRawChangeText,
         handleTextInputStateChange,
         handleTextInputSupportingText,
         handleTextInputSupportingTextVisible,
@@ -96,7 +96,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 )
 
                 const onTextInputChangeText = handleTextInputChangeText(onChangeText)(setState)
-                const onTextInputChangeTextStatus = useMemo(() => handleTextInputChangeTextStatus(setState), [setState])
+                const onTextInputChangeTextStatus = useMemo(() => handleTextInputRawChangeText(setState), [setState])
                 const onTextInputSupportingTextVisible =
                         handleTextInputSupportingTextVisible(setState)(onSupportingTextVisible)
 

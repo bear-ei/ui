@@ -29,6 +29,8 @@ const handleTouchablePressIn =
         ({setState, ref}: HandleTouchablePressInOptions) =>
         (enableTouchableRipple?: boolean) =>
         (event: GestureResponderEvent) => {
+                ref.current?.focus()
+
                 const {locationX, locationY} = event.nativeEvent
 
                 if (enableTouchableRipple) {
