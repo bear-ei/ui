@@ -28,6 +28,8 @@ export const handleLayoutAnimatedLayoutChange =
                                         draft.layout.width = width
                                 }
 
+                                draft.invisible = !draft.visible
+
                                 draft.status = 'succeeded'
                         }
                 })

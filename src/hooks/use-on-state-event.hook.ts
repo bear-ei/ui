@@ -24,7 +24,9 @@ const handleStateEventChange =
         ({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
         (state: State) =>
         (event: StateEvent) => {
-                event.persist()
+                if (Platform.OS !== 'web') {
+                        event.persist()
+                }
 
                 InteractionManager.runAfterInteractions(() => {
                         if (disabled && eventName !== 'layout') {

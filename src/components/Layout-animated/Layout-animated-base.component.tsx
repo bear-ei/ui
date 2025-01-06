@@ -38,12 +38,9 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 const [
                         {layout, visible, invisible, nextUnmountEvent, nextVisibleEvent, status, unmountLayout},
                         setState
-                ] = useImmer<LayoutAnimatedState>({
-                        invisible: false,
-                        layout: {} as LayoutRectangle,
-                        status: 'idle'
-                })
+                ] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: 'idle'})
 
+                const layoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
                 const height = rawHeight ?? layout.height
                 const width = rawWidth ?? layout.width
                 const id = useId()
@@ -87,7 +84,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         opacity,
                         status,
-                        visible: visible ?? rawVisible ?? defaultVisible ?? !invisible,
+                        visible: visible ?? layoutVisible ?? !invisible,
                         width
                 })
 
@@ -99,13 +96,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
                 useEffect(() => {
                         if (status === 'succeeded') {
-                                onLayoutAnimatedLayoutVisible(rawVisible)
+                                onLayoutAnimatedLayoutVisible(layoutVisible)
                         }
-                }, [onLayoutAnimatedLayoutVisible, status, rawVisible])
+                }, [layoutVisible, onLayoutAnimatedLayoutVisible, status])
 
                 useEffect(() => {
-                        onLayoutAnimatedStatus(rawVisible)
-                }, [onLayoutAnimatedStatus, rawVisible])
+                        onLayoutAnimatedStatus(layoutVisible)
+                }, [layoutVisible, onLayoutAnimatedStatus])
 
                 useEffect(() => {
                         nextUnmountEvent?.()
