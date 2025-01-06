@@ -24,13 +24,7 @@ export const handleFormItemStatus =
                         }
 
                         const {signOut} =
-                                signInFields({
-                                        name,
-                                        onComponentUpdate,
-                                        rule,
-                                        touched: false,
-                                        validatorOptions
-                                }) ?? {}
+                                signInFields({name, onComponentUpdate, rule, touched: false, validatorOptions}) ?? {}
 
                         draft.signOut = signOut
                         draft.status = 'succeeded'
@@ -39,5 +33,8 @@ export const handleFormItemStatus =
 export const handleFormItemBlur =
         (validateFields: (name?: string) => Promise<FormError<unknown>>) =>
         (name?: string) =>
-        (_event: NativeSyntheticEvent<TargetedEvent>) =>
-                name && validateFields(name)
+        (_event: NativeSyntheticEvent<TargetedEvent>) => {
+                if (name) {
+                        validateFields(name)
+                }
+        }

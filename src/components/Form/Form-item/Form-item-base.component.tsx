@@ -11,20 +11,7 @@ import {
 import {FormItemBaseProps, FormItemState} from './Form-item.interface'
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-        (
-                {
-                        labelText,
-                        name,
-                        onLoadEnd,
-                        render,
-                        renderControl,
-                        rule,
-                        skeletonDuration,
-                        validatorOptions,
-                        ...renderProps
-                },
-                ref
-        ) => {
+        ({labelText, name, onLoadEnd, render, renderControl, rule, validatorOptions, ...renderProps}, ref) => {
                 const [{signOut, status}, setState] = useImmer<FormItemState>({shouldUpdate: {}, status: 'idle'})
                 const id = useId()
                 const {getFieldsError, getFieldsValue, getInitialValues, setFieldsValue, signInFields, validateFields} =
@@ -67,12 +54,6 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
                         return <></>
                 }
 
-                return render({
-                        ...renderProps,
-                        control: controlElement,
-                        id,
-                        ref,
-                        skeletonDuration
-                })
+                return render({...renderProps, control: controlElement, id, ref})
         }
 )
