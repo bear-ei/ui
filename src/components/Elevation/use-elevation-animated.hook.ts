@@ -63,17 +63,26 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
                 const shadowOffsetY = interpolate(shadowSharedValue.value, inputRange, shadowOffsetYOutputRange)
                 const shadowOpacity = interpolate(shadowSharedValue.value, inputRange, shadowOpacityOutputRange)
                 const shadowRadius = interpolate(shadowSharedValue.value, inputRange, shadowRadiusOutputRange)
-                const shadowColor = palette.convertHexToRGBA(elevation.shadowColor)(shadowOpacity)
-                const webStyle = {boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowRadius}px ${shadowColor}`}
-                const nativeStyle = {
-                        elevation: interpolate(shadowSharedValue.value, inputRange, elevationOutputRange),
-                        shadowColor: elevation.shadowColor,
-                        shadowOffset: {height: shadowOffsetY, width: shadowOffsetX},
-                        shadowOpacity: shadowOpacity,
-                        shadowRadius: shadowRadius
-                }
+                const shadowColor =
+                        Platform.OS === 'web' ?
+                                /** Running in JS thread.*/
+                                palette.convertHexToRGBA(elevation.shadowColor)(shadowOpacity)
+                        :       elevation.shadowColor
 
-                return (Platform.OS === 'web' ? webStyle : nativeStyle) as DefaultStyle
+                return (
+                        Platform.OS === 'web' ?
+                                {boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowRadius}px ${shadowColor}`}
+                        :       {
+                                        elevation: interpolate(
+                                                shadowSharedValue.value,
+                                                inputRange,
+                                                elevationOutputRange
+                                        ),
+                                        shadowColor: shadowColor,
+                                        shadowOffset: {height: shadowOffsetY, width: shadowOffsetX},
+                                        shadowOpacity: shadowOpacity,
+                                        shadowRadius: shadowRadius
+                                }) as DefaultStyle
         })
 
         const onElevationAnimatedTiming = useMemo(

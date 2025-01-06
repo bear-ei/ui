@@ -8,7 +8,7 @@ import {
         FormValidateRule,
         FormValidatorOptions,
         HandleFormValidateOptions,
-        onValueChangeOptions
+        OnValueChangeOptions
 } from './Form.interface'
 
 const createFormContext = <T>() => ({
@@ -179,7 +179,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 }
 
         const handleStoreUpdate =
-                (onStorageChange?: (options: onValueChangeOptions<T>) => void) =>
+                (onStorageChange?: (options: OnValueChangeOptions<T>) => void) =>
                 (value = {} as T) => {
                         store = {...store, ...value}
                         onStorageChange?.({changedValue: value, value: store})

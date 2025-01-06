@@ -23,7 +23,9 @@ import {
 const handleStateEventChange =
         ({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
         (state: State) =>
-        (event: StateEvent) =>
+        (event: StateEvent) => {
+                event.persist()
+
                 InteractionManager.runAfterInteractions(() => {
                         if (disabled && eventName !== 'layout') {
                                 return
@@ -32,6 +34,7 @@ const handleStateEventChange =
                         onStateEventChange?.({eventName})(state)(event)
                         callback?.()
                 })
+        }
 
 const handlePressInEvent =
         ({onStateEvent}: HandleStateEventOptions) =>
