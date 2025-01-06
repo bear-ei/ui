@@ -54,6 +54,7 @@ export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
 
         return (
                 <Container
+                        enableFocusRing={false}
                         onPressIn={onThemeProviderFocus}
                         ref={ref}
                         story={story}

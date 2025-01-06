@@ -10,5 +10,6 @@ export interface ThemeProps {
 }
 
 export interface ThemeContainerProps {
+        enableFocusRing?: boolean
         story?: boolean
 }
