@@ -11,7 +11,7 @@ export type FormError<T> = Partial<Record<keyof T, ValidationError[] | undefined
 export type FormValidateRule<T> = Partial<Record<keyof T, ValidationRule | undefined>>
 export type FormValidatorOptions = ValidatorOptions & {delay?: number}
 export type ValidationRule = new (...args: any[]) => object
-export interface OnValuesChangeOptions<T> {
+export interface onValueChangeOptions<T> {
         changedValue: T
         value: T
 }
@@ -19,10 +19,10 @@ export interface OnValuesChangeOptions<T> {
 export interface FormCallbacks<T = Record<string, unknown>> {
         onFinish?: (value: T) => void
         onFinishFailed?: (error: FormError<T>) => void
-        onValuesChange?: (options: OnValuesChangeOptions<T>) => void
+        onValueChange?: (options: onValueChangeOptions<T>) => void
 }
 
-export interface FormFieldsEntity<T = Record<string, unknown>> {
+export interface FormFieldEntity<T = Record<string, unknown>> {
         name?: keyof T
         onComponentUpdate: () => void
         rule?: ValidationRule
@@ -32,38 +32,38 @@ export interface FormFieldsEntity<T = Record<string, unknown>> {
 }
 
 export interface FormStore<T = Record<string, unknown>> {
-        getFieldsEntities: (signOut?: boolean) => FormFieldsEntity<T>[]
-        getFieldsEntitiesName: (signOut?: boolean) => (names?: (keyof T)[]) => (keyof T | undefined)[]
-        getFieldsError: {
+        getFieldEntities: (signOut?: boolean) => FormFieldEntity<T>[]
+        getFieldEntitiesName: (signOut?: boolean) => (names?: (keyof T)[]) => (keyof T | undefined)[]
+        getFieldError: {
                 (): FormError<T>
                 (name?: (keyof T)[]): FormError<T>
                 (name?: keyof T): FormError<T>[keyof T]
         }
 
-        getFieldsValue: {
+        getFieldValue: {
                 (): T
                 (name?: (keyof T)[]): T
                 (name?: keyof T): T[keyof T]
         }
 
-        getInitialValues: {
+        getInitialValue: {
                 (): T
                 (name?: (keyof T)[]): T
                 (name?: keyof T): T[keyof T]
         }
 
-        isFieldsTouched: (name?: NamePath) => boolean
-        resetFields: (name?: NamePath) => void
-        setCallbacks: (formCallbacks: FormCallbacks<T>) => void
-        setFieldsError: (componentUpdate?: boolean) => (error: FormError<T>) => void
-        setFieldsTouched: (touched?: boolean) => (name?: keyof T) => void
-        setFieldsValidate: (options?: FormValidatorOptions) => (rule: FormValidateRule<T>) => void
-        setFieldsValue: (componentUpdate?: boolean) => (value?: T) => void
-        setInitialValues: (initialized?: boolean) => (value?: T) => void
-        signInFields: (entity: FormFieldsEntity<T>) => {signOut: () => void} | undefined
-        signOutFields: (name?: NamePath) => void
+        isFieldTouched: (name?: NamePath) => boolean
+        resetField: (name?: NamePath) => void
+        setCallback: (formCallbacks: FormCallbacks<T>) => void
+        setFieldError: (componentUpdate?: boolean) => (error: FormError<T>) => void
+        setFieldTouched: (touched?: boolean) => (name?: keyof T) => void
+        setFieldValidate: (options?: FormValidatorOptions) => (rule: FormValidateRule<T>) => void
+        setFieldValue: (componentUpdate?: boolean) => (value?: T) => void
+        setInitialValue: (initialized?: boolean) => (value?: T) => void
+        signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
+        signOutField: (name?: NamePath) => void
         submit: (skipValidate?: boolean) => void
-        validateFields: {
+        validateField: {
                 (): Promise<FormError<T>>
                 (name?: (keyof T)[]): Promise<FormError<T>>
                 (name?: keyof T): Promise<FormError<T>[keyof T]>
@@ -91,7 +91,7 @@ export interface FormState {
         status: ComponentStatus
 }
 
-export type HandleFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
+export type handleFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
 export type HandleFormItemOptions = Pick<FormProps, 'validatorOptions' | 'onLoadEnd'>
 export interface HandleFormValidateOptions {
         rule?: ValidationRule

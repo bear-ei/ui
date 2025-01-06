@@ -1,11 +1,11 @@
 import {Updater} from 'use-immer'
 import {ComponentStatus} from '../Common'
 import {FormItem, FormItemProps} from './Form-item'
-import {FormCallbacks, FormState, HandleFormCallbacksOptions, HandleFormItemOptions} from './Form.interface'
+import {FormCallbacks, FormState, handleFormCallbackOptions, HandleFormItemOptions} from './Form.interface'
 
 export const handleFormStatus =
         <T,>(setState: Updater<FormState>) =>
-        (setInitialValues: (initialized?: boolean) => (value?: T) => void) =>
+        (setInitialValue: (initialized?: boolean) => (value?: T) => void) =>
         (value?: T) =>
                 setState(draft => {
                         if (draft.status !== 'idle') {
@@ -13,16 +13,16 @@ export const handleFormStatus =
                         }
 
                         if (value) {
-                                setInitialValues()(value)
+                                setInitialValue()(value)
                         }
 
                         draft.status = 'succeeded'
                 })
 
-export const handleFormCallbacks =
-        <T,>({onFinish, onFinishFailed, onValuesChange}: HandleFormCallbacksOptions<T>) =>
-        (setCallbacks: (callback: FormCallbacks<T>) => void) =>
-                setCallbacks({onFinish, onFinishFailed, onValuesChange})
+export const handleFormCallback =
+        <T,>({onFinish, onFinishFailed, onValueChange}: handleFormCallbackOptions<T>) =>
+        (setCallback: (callback: FormCallbacks<T>) => void) =>
+                setCallback({onFinish, onFinishFailed, onValueChange})
 
 export const handleFormItem =
         ({onLoadEnd, ...options}: HandleFormItemOptions) =>

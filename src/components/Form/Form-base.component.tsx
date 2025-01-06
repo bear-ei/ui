@@ -1,7 +1,7 @@
 import {ForwardedRef, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {handleFormCallbacks, handleFormItem, handleFormStatus} from './Form-handle'
+import {handleFormCallback, handleFormItem, handleFormStatus} from './Form-handle'
 import {FormBaseProps, FormState} from './Form.interface'
 import {useForm} from './use-form.hook'
 
@@ -13,9 +13,8 @@ const FormBaseInner = <T,>(
                 onFinish,
                 onFinishFailed,
                 onLoadEnd,
-                onValuesChange,
+                onValueChange,
                 render,
-
                 validatorOptions,
                 ...renderProps
         }: FormBaseProps<T>,
@@ -23,22 +22,19 @@ const FormBaseInner = <T,>(
 ) => {
         const [{status}, setState] = useImmer<FormState>({status: 'idle'})
         const formStore = useForm(form)
-        const {setCallbacks, setInitialValues} = formStore
+        const {setCallback, setInitialValue} = formStore
         const id = useId()
-        const onFormStatus = useMemo(
-                () => handleFormStatus<T>(setState)(setInitialValues),
-                [setInitialValues, setState]
-        )
-        const onFormCallbacks = useCallback(
-                () => handleFormCallbacks<T>({onFinish, onFinishFailed, onValuesChange})(setCallbacks),
-                [onFinish, onFinishFailed, onValuesChange, setCallbacks]
+        const onFormStatus = useMemo(() => handleFormStatus<T>(setState)(setInitialValue), [setInitialValue, setState])
+        const onFormCallback = useCallback(
+                () => handleFormCallback<T>({onFinish, onFinishFailed, onValueChange})(setCallback),
+                [onFinish, onFinishFailed, onValueChange, setCallback]
         )
 
         const formItemElements = handleFormItem({onLoadEnd, validatorOptions})(status)(items)
 
         useEffect(() => {
-                onFormCallbacks()
-        }, [onFormCallbacks])
+                onFormCallback()
+        }, [onFormCallback])
 
         useEffect(() => {
                 onFormStatus(initialValues)

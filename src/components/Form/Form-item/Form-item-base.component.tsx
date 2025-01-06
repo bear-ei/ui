@@ -14,33 +14,33 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         ({labelText, name, onLoadEnd, render, renderControl, rule, validatorOptions, ...renderProps}, ref) => {
                 const [{signOut, status}, setState] = useImmer<FormItemState>({shouldUpdate: {}, status: 'idle'})
                 const id = useId()
-                const {getFieldsError, getFieldsValue, getInitialValues, setFieldsValue, signInFields, validateFields} =
+                const {getFieldError, getFieldValue, getInitialValue, setFieldValue, signInField, validateField} =
                         useFormContext()
 
-                const errors = getFieldsError(name)
+                const errors = getFieldError(name)
                 const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
                 const onFormItemComponentUpdate = useMemo(() => handleComponentUpdate(setState), [setState])
-                const storeValue = getFieldsValue(name)
-                const value = storeValue ?? (status === 'idle' ? getInitialValues(name) : storeValue)
-                const onValuesChange = handleFormItemValueChange({setFieldsValue, storeValue})(name)
+                const storeValue = getFieldValue(name)
+                const value = storeValue ?? (status === 'idle' ? getInitialValue(name) : storeValue)
+                const onValueChange = handleFormItemValueChange({setFieldValue, storeValue})(name)
                 const onFormItemStatus = useMemo(
                         () =>
                                 handleFormItemStatus({
                                         onComponentUpdate: onFormItemComponentUpdate,
                                         rule,
-                                        signInFields,
+                                        signInField,
                                         validatorOptions
                                 })(setState),
-                        [onFormItemComponentUpdate, rule, setState, signInFields, validatorOptions]
+                        [onFormItemComponentUpdate, rule, setState, signInField, validatorOptions]
                 )
 
-                const onFormItemControlBlur = handleFormItemBlur(validateFields)(name)
+                const onFormItemControlBlur = handleFormItemBlur(validateField)(name)
                 const controlElement = renderControl?.({
                         errorMessage,
                         labelText,
                         onBlur: onFormItemControlBlur,
                         onLoadEnd,
-                        onValuesChange,
+                        onValueChange,
                         value
                 })
 

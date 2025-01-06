@@ -27,7 +27,7 @@ export const FormA = () => {
                 labelText,
                 onBlur,
                 onLoadEnd,
-                onValuesChange,
+                onValueChange,
                 value
         }: FormItemControlProps) => (
                 <TextInput
@@ -35,7 +35,7 @@ export const FormA = () => {
                         key={id}
                         labelText={labelText}
                         onBlur={onBlur}
-                        onChangeText={onValuesChange}
+                        onChangeText={onValueChange}
                         supportingText={errorMessage}
                         value={value as string}
                         onLayout={() => onLoadEnd?.()}
@@ -66,7 +66,7 @@ export const FormA = () => {
         }
 
         const handleReset = () => {
-                form.resetFields()
+                form.resetField()
         }
 
         const style = {
