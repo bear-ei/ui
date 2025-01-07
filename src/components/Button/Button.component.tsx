@@ -23,6 +23,7 @@ const render = ({
         onStateEvent,
         ref,
         testID,
+        theme,
         type = 'filled',
         underlayColor,
         ...contentProps
@@ -103,6 +104,7 @@ const render = ({
 
                                         {type === 'link' && (
                                                 <ActiveIndicator
+                                                        height={theme.adaptSize(theme.token.spacing.extraSmall / 4)}
                                                         testID={`button__activeIndicator--${id}`}
                                                         visible={activeIndicatorVisible}
                                                 />

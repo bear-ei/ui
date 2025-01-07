@@ -5,11 +5,11 @@ import {
         NavigationRailItemHeaderProps,
         NavigationRailItemIconProps,
         NavigationRailItemLabelTextProps,
-        TouchableContentProps
+        NavigationTouchableContentProps
 } from './Navigation-rail-item.interface'
 
 export const Container = styled.View``
-export const TouchableContent = styled.Pressable<TouchableContentProps>`
+export const TouchableContent = styled.Pressable<NavigationTouchableContentProps>`
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -66,10 +66,6 @@ export const Icon = styled(LayoutAnimated)<NavigationRailItemIconProps>`
 export const Label = styled(LayoutAnimated)`
         align-self: stretch;
         position: relative;
-
-        ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.spacing.large)}px;
-        `}
 `
 
 export const LabelText = styled(Typography)<NavigationRailItemLabelTextProps>`

@@ -163,12 +163,7 @@ export const Input = styled.TextInput`
                 `};
 `
 
-export const Supporting = styled(LayoutAnimated)`
-        ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.spacing.medium)}px;
-        `}
-`
-
+export const Supporting = styled(LayoutAnimated)``
 export const SupportingText = styled(Typography)`
         ${({theme}) => css`
                 padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;

@@ -61,6 +61,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         loading,
                         onStateEvent,
                         ref,
+                        theme,
                         type,
                         underlayColor
                 })

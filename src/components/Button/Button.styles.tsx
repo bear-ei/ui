@@ -142,7 +142,6 @@ export const ActiveIndicator = styled(LayoutAnimated)`
         ${({theme}) => css`
                 background-color: ${theme.token.scheme.primary};
                 bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                 left: ${theme.adaptSize(theme.token.spacing.none)}px;
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
         `};

@@ -161,6 +161,7 @@ const render = ({
                                 </TouchableHeader>
 
                                 <Supporting
+                                        height={theme.adaptSize(theme.token.spacing.medium)}
                                         onVisible={onSupportingTextVisible}
                                         testID={`textfield__supporting--${id}`}
                                         visible={supportingTextVisible}

@@ -58,14 +58,20 @@ export const useUnderlayAnimated = ({
                 )
         }))
 
+        const activeLayerScaleAnimatedStyle = useAnimatedStyle(() => ({
+                transform: [{scale: interpolate(activeLayerSharedValue.value, [0.3, 1], [0, scaleY])}],
+                opacity: interpolate(
+                        activeLayerSharedValue.value,
+                        [0, 1],
+                        [theme.token.opacity.level0, theme.token.opacity.level10]
+                )
+        }))
+
         const activeLayerAnimated = {
-                scale: {
-                        ...activeLayerScaleXAnimatedStyle,
-                        ...activeLayerScaleYAnimatedStyle
-                },
+                fade: activeLayerFadeAnimatedStyle,
+                scale: activeLayerScaleAnimatedStyle,
                 scaleX: activeLayerScaleXAnimatedStyle,
-                scaleY: activeLayerScaleYAnimatedStyle,
-                fade: activeLayerFadeAnimatedStyle
+                scaleY: activeLayerScaleYAnimatedStyle
         }
 
         const onUnderlayHoveredAnimatedTiming = useMemo(

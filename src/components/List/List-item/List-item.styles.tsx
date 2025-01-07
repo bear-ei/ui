@@ -177,16 +177,9 @@ export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
         display: flex;
         flex-direction: column;
 
-        ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                justify-content: center;
-                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        `};
-
-        ${({supportingTextNumberOfLines = 0, theme}) =>
+        ${({supportingTextNumberOfLines = 0}) =>
                 supportingTextNumberOfLines > 1 &&
                 css`
-                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                         justify-content: flex-start;
                 `}
 

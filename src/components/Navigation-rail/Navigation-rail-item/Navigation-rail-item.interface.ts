@@ -53,6 +53,6 @@ export interface NavigationRailItemIconProps {
         visible?: boolean
 }
 
-export interface TouchableContentProps {
+export interface NavigationTouchableContentProps {
         enableFocusRing?: boolean
 }
