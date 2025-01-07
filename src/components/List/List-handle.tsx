@@ -118,7 +118,7 @@ export const handleListClose = ({selectType, onClose, relatedActive}: HandleList
 
                 setState(draft => {
                         if (selectType === 'select' && relatedActive) {
-                                const data = (draft.listData ?? []) as ListData[]
+                                const data = (draft.data ?? []) as ListData[]
                                 const datumIndex = data.findIndex(findDataIndex)
                                 const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
 
@@ -141,7 +141,7 @@ export const handleListData = (setState: Updater<ListState>) => (loading?: boole
                         return
                 }
 
-                draft.listData = data as WritableDraft<ListData>[]
+                draft.data = data as WritableDraft<ListData>[]
                 draft.status = 'succeeded'
         })
 

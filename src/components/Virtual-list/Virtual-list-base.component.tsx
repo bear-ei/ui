@@ -42,7 +42,6 @@ export const VirtualListBaseInner = <T,>(
 
         const contentSize = virtualListData ? virtualListData.length * (itemSize + gap) - gap : 0
         const id = useId()
-        // const scrollViewRef = useRef<Animated.ScrollView>(null)
         const onVirtualListVisibleRange = useMemo(
                 () => handleVirtualListDataChange(itemSize)(setState),
                 [itemSize, setState]
@@ -56,11 +55,6 @@ export const VirtualListBaseInner = <T,>(
 
         const onVirtualListData = useMemo(() => handleVirtualListData(setState), [setState])
         const onVirtualListLoadEnd = handleVirtualListLoadEnd(setState)(onLoadEnd)
-        // const onVirtualListFocusedIndexScroll = useMemo(
-        //         () => handleVirtualListFocusedIndexScroll(scrollViewRef)(itemSize),
-        //         [itemSize]
-        // )
-
         const scrollEvent = useDesktopScrollEvent({
                 onMomentumScrollEnd: onVirtualListMomentumScrollEnd,
                 onScroll: onVirtualListScroll

@@ -78,7 +78,7 @@ export interface ListState {
         activeKey?: string
         activeKeys?: string[]
         afterAffordanceActiveKey?: string
-        listData?: ListData[]
+        data?: ListData[]
         nextActiveEvent?: () => void
         nextAfterAffordanceActiveEvent?: () => void
         nextCloseEvent?: () => void

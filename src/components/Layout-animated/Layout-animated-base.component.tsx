@@ -32,7 +32,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         unmount,
                         visible: rawVisible,
                         width: rawWidth,
-                        testID,
                         ...renderProps
                 },
                 ref
@@ -118,8 +117,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 if (status === 'idle') {
                         return <></>
                 }
-
-                console.info(testID, visible)
 
                 return unmountLayout ?
                                 <></>

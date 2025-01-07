@@ -33,6 +33,7 @@ export interface NavigationRailBaseProps extends NavigationRailProps {
 
 export interface NavigationRailState {
         activeKey?: string
+        data?: NavigationRailData[]
         nextActiveEvent?: () => void
         status: ComponentStatus
 }

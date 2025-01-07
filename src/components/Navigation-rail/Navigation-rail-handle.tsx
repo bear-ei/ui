@@ -24,12 +24,15 @@ export const handleNavigationRailActive =
                                 draft.activeKey = value
                                 draft.nextActiveEvent = handleNextActiveEvent
                         }
-
-                        if (draft.status === 'idle') {
-                                draft.status = 'succeeded'
-                        }
                 })
         }
+
+export const handleNavigationRailData = (setState: Updater<NavigationRailState>) => (data?: NavigationRailData[]) => {
+        setState(draft => {
+                draft.data = data
+                draft.status = 'succeeded'
+        })
+}
 
 export const handleNavigationRailItems =
         (renderNavigationRailItemOptions: RenderNavigationRailItemOptions) => (data?: NavigationRailData[]) =>

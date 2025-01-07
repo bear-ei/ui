@@ -23,7 +23,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceSecondaryButtonProps,
                         beforeAffordance,
                         closeTrailing,
-                        data,
+                        data: rawData,
                         defaultActiveKey,
                         defaultActiveKeys,
                         deselect,
@@ -56,10 +56,10 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
         ) => {
                 const [
                         {
-                                afterAffordanceActiveKey,
                                 activeKey,
                                 activeKeys,
-                                listData,
+                                afterAffordanceActiveKey,
+                                data,
                                 nextActiveEvent,
                                 nextAfterAffordanceActiveEvent,
                                 nextCloseEvent,
@@ -113,8 +113,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 )
 
                 useEffect(() => {
-                        onListData(data)
-                }, [data, onListData])
+                        onListData(rawData)
+                }, [rawData, onListData])
 
                 useEffect(() => {
                         onListRawActive(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
@@ -141,7 +141,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         activeKey,
                         activeKeys,
                         afterAffordanceActiveKey,
-                        data: listData,
+                        data,
                         focusedIndex,
                         id,
                         itemSize: itemSize ?? handleListItemSize(theme)(type),
