@@ -41,11 +41,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         setState
                 ] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: 'idle'})
 
-                const layoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
                 const height = rawHeight ?? layout.height
                 const width = rawWidth ?? layout.width
                 const id = useId()
                 const layoutAnimatedRef = useRef<View>(null)
+                const layoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
                 const onLayoutAnimatedLayoutVisible = useMemo(
                         () =>
                                 debounce(
@@ -85,7 +85,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         opacity,
                         scale,
-                        status,
                         visible: visible ?? layoutVisible,
                         width
                 })
@@ -97,18 +96,18 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 )
 
                 useEffect(() => {
-                        if (status === 'succeeded') {
-                                onLayoutAnimatedLayoutVisible(layoutVisible)
-                        }
-                }, [layoutVisible, onLayoutAnimatedLayoutVisible, status])
-
-                useEffect(() => {
                         onLayoutAnimatedStatus(layoutVisible)
                 }, [layoutVisible, onLayoutAnimatedStatus])
 
                 useEffect(() => {
                         nextUnmountEvent?.()
                 }, [nextUnmountEvent])
+
+                useEffect(() => {
+                        if (status === 'succeeded') {
+                                onLayoutAnimatedLayoutVisible(layoutVisible)
+                        }
+                }, [layoutVisible, onLayoutAnimatedLayoutVisible, status])
 
                 useEffect(() => {
                         InteractionManager.runAfterInteractions(() => nextVisibleEvent?.())
@@ -122,6 +121,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                 <></>
                         :       render({
                                         ...renderProps,
+                                        animatedType,
                                         containerAnimatedStyle,
                                         height,
                                         id,

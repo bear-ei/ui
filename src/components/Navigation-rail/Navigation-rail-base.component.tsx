@@ -29,7 +29,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                 })
 
                 const id = useId()
-                const onNavigationRailActive = handleNavigationRailActive({onActive, activeKey})(setState)
+                const onNavigationRailActive = handleNavigationRailActive(onActive)(setState)
                 const onNavigationRailData = useMemo(() => handleNavigationRailData(setState), [setState])
                 const onNavigationRailRawActive = useMemo(() => handleNavigationRailActive()(setState), [setState])
                 const navigationRailItemElements = handleNavigationRailItems({
@@ -42,7 +42,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 
                 useEffect(() => {
                         onNavigationRailRawActive(rawActiveKey ?? defaultActiveKey)
-                }, [rawActiveKey, defaultActiveKey, onNavigationRailRawActive, status])
+                }, [rawActiveKey, defaultActiveKey, onNavigationRailRawActive])
 
                 useEffect(() => {
                         onNavigationRailData(rawData)

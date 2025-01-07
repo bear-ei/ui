@@ -38,5 +38,4 @@ export interface NavigationRailState {
         status: ComponentStatus
 }
 
-export type HandleNavigationRailActiveOptions = Pick<RenderNavigationRailProps, 'onActive' | 'activeKey'>
 export type DestinationProps = Pick<RenderNavigationRailProps, 'destinationPosition'>

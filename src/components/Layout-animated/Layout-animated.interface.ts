@@ -18,16 +18,16 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         height?: number
 
         /**
-         * Whether or not to enable scale effects in collapse type animations.
+         * Whether or not to enable scale effects in collapse type animations
          */
         scale?: boolean
 
         /**
-         * [macOS compatible]
+         * [macOS compatible, Only fade type animations]
          *
          * Used in non-collapse animations to control whether or not elements are hidden on the layout after being
          * invisible.  On macOS, if you don't hide an element, there may be unexpected mouseover removal and mouse style
-         * anomalies.
+         * anomalies
          */
         hidden?: boolean
         lazy?: boolean
@@ -81,7 +81,6 @@ export interface UseLayoutAnimatedOptions
                 | 'width'
         > {
         onAnimatedFinished: (value?: boolean) => void
-        status: ComponentStatus
 }
 
 export type HandleLayoutAnimatedStatusOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>

@@ -2,17 +2,10 @@ import {cloneElement} from 'react'
 import {Updater} from 'use-immer'
 import {FABProps} from '../FAB'
 import {NavigationRailItem} from './Navigation-rail-item'
-import {
-        HandleNavigationRailActiveOptions,
-        NavigationRailData,
-        NavigationRailState,
-        RenderNavigationRailItemOptions
-} from './Navigation-rail.interface'
+import {NavigationRailData, NavigationRailState, RenderNavigationRailItemOptions} from './Navigation-rail.interface'
 
 export const handleNavigationRailActive =
-        ({onActive}: HandleNavigationRailActiveOptions = {}) =>
-        (setState: Updater<NavigationRailState>) =>
-        (value?: string) => {
+        (onActive?: (value?: string) => void) => (setState: Updater<NavigationRailState>) => (value?: string) => {
                 const handleNextActiveEvent = () => onActive?.(value)
 
                 if (!value) {

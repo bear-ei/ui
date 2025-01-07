@@ -14,7 +14,6 @@ export const useLayoutAnimated = ({
         onAnimatedFinished,
         opacity: rawOpacity,
         scale,
-        status,
         visible,
         width
 }: UseLayoutAnimatedOptions) => {
@@ -37,9 +36,7 @@ export const useLayoutAnimated = ({
 
         const collapseXAnimatedStyle = useAnimatedStyle(() => ({
                 width: interpolate(containerSharedValue.value, [0, 1], widthOutputRange),
-                ...(scale && {
-                        transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
-                })
+                ...(scale && {transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]})
         }))
 
         const heightOutputRange = [
@@ -49,9 +46,7 @@ export const useLayoutAnimated = ({
 
         const collapseYAnimatedStyle = useAnimatedStyle(() => ({
                 height: interpolate(containerSharedValue.value, [0, 1], heightOutputRange),
-                ...(scale && {
-                        transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
-                })
+                ...(scale && {transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]})
         }))
 
         const scaleAnimatedStyle = useAnimatedStyle(() => ({
@@ -60,27 +55,22 @@ export const useLayoutAnimated = ({
 
         const onLayoutAnimatedTiming = useMemo(
                 () =>
-                        handleLayoutAnimatedTiming({
-                                animatedTiming,
-                                entry,
-                                exit,
-                                onAnimatedFinished
-                        })(containerSharedValue),
+                        handleLayoutAnimatedTiming({animatedTiming, entry, exit, onAnimatedFinished})(
+                                containerSharedValue
+                        ),
                 [animatedTiming, containerSharedValue, entry, exit, onAnimatedFinished]
         )
 
         const containerAnimated = {
-                collapseX: typeof width === 'number' ? collapseXAnimatedStyle : undefined,
-                collapseY: typeof height === 'number' ? collapseYAnimatedStyle : undefined,
+                collapseX: collapseXAnimatedStyle,
+                collapseY: collapseYAnimatedStyle,
                 fade: fadeAnimatedStyle,
                 scale: scaleAnimatedStyle
         }
 
         useEffect(() => {
-                if (status === 'succeeded') {
-                        onLayoutAnimatedTiming(visible)
-                }
-        }, [visible, onLayoutAnimatedTiming, status])
+                onLayoutAnimatedTiming(visible)
+        }, [visible, onLayoutAnimatedTiming])
 
         return {containerAnimatedStyle: containerAnimated[animatedType]}
 }
