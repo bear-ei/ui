@@ -23,7 +23,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         entry,
                         exit,
                         height: rawHeight,
-                        hidden,
                         lazy = false,
                         onUnmount,
                         onVisible,
@@ -87,7 +86,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         opacity,
                         scale,
                         status,
-                        visible: visible ?? layoutVisible ?? !invisible,
+                        visible: visible ?? layoutVisible,
                         width
                 })
 
@@ -125,7 +124,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         ...renderProps,
                                         containerAnimatedStyle,
                                         height,
-                                        hidden: animatedType.startsWith('collapse') ? false : hidden,
                                         id,
                                         onStateEvent,
                                         ref: layoutAnimatedRef,

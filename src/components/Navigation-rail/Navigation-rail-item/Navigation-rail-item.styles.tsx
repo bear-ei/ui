@@ -64,20 +64,26 @@ export const Icon = styled(LayoutAnimated)<NavigationRailItemIconProps>`
 `
 
 export const Label = styled(LayoutAnimated)`
-        overflow: hidden;
+        align-self: stretch;
         position: relative;
-        transform-origin: top;
+
+        ${({theme}) => css`
+                height: ${theme.adaptSize(theme.token.spacing.large)}px;
+        `}
 `
 
 export const LabelText = styled(Typography)<NavigationRailItemLabelTextProps>`
+        position: absolute;
         user-select: none;
 
         ${({theme, active}) => css`
+                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
                 font-weight: ${active ? theme.token.font.weight.bold : theme.token.font.weight.medium};
-                height: ${theme.adaptSize(theme.token.spacing.large)}px;
                 left: ${theme.adaptSize(theme.token.spacing.none)}px;
-                line-height: ${theme.adaptSize(theme.token.spacing.large)}px;
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
+                text-align: center;
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
+                margin: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
+                        ${theme.adaptSize(theme.token.spacing.none)}px;
         `}
 `

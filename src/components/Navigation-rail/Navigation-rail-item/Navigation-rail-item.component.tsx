@@ -77,7 +77,6 @@ const render = ({
                                 {type === 'segment' && (
                                         <Label
                                                 animatedType='collapseY'
-                                                hidden={false}
                                                 pointerEvents='none'
                                                 scale={false}
                                                 testID={`navigationRailItem__label--${id}`}
