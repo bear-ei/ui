@@ -16,6 +16,15 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         entry?: AnimatedTimingOptions
         exit?: AnimatedTimingOptions
         height?: number
+        scale?: boolean
+
+        /**
+         * [macOS compatible]
+         *
+         * Used in non-collapse animations to control whether or not elements are hidden on the layout after being
+         * invisible.  On macOS, if you don't hide an element, there may be unexpected mouseover removal and mouse style
+         * anomalies.
+         */
         hidden?: boolean
         lazy?: boolean
         onUnmount?: () => void
@@ -62,6 +71,7 @@ export interface UseLayoutAnimatedOptions
                 | 'exit'
                 | 'height'
                 | 'opacity'
+                | 'scale'
                 | 'unmount'
                 | 'visible'
                 | 'width'

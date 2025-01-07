@@ -13,6 +13,7 @@ export const useLayoutAnimated = ({
         height,
         onAnimatedFinished,
         opacity: rawOpacity,
+        scale,
         status,
         visible,
         width
@@ -35,8 +36,10 @@ export const useLayoutAnimated = ({
         ]
 
         const collapseXAnimatedStyle = useAnimatedStyle(() => ({
-                transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}],
-                width: interpolate(containerSharedValue.value, [0, 1], widthOutputRange)
+                width: interpolate(containerSharedValue.value, [0, 1], widthOutputRange),
+                ...(scale && {
+                        transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
+                })
         }))
 
         const heightOutputRange = [
@@ -46,7 +49,9 @@ export const useLayoutAnimated = ({
 
         const collapseYAnimatedStyle = useAnimatedStyle(() => ({
                 height: interpolate(containerSharedValue.value, [0, 1], heightOutputRange),
-                transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
+                ...(scale && {
+                        transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
+                })
         }))
 
         const scaleAnimatedStyle = useAnimatedStyle(() => ({

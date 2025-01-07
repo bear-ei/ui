@@ -35,6 +35,7 @@ const render = ({
                 >
                         <TouchableContent
                                 {...onStateEvent}
+                                enableFocusRing={false}
                                 ref={ref}
                                 testID={`navigationRailItem__content--${id}`}
                         >
@@ -76,7 +77,9 @@ const render = ({
                                 {type === 'segment' && (
                                         <Label
                                                 animatedType='collapseY'
+                                                hidden={false}
                                                 pointerEvents='none'
+                                                scale={false}
                                                 testID={`navigationRailItem__label--${id}`}
                                                 visible={active}
                                         >

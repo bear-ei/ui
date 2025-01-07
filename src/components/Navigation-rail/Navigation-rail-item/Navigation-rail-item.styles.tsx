@@ -4,11 +4,12 @@ import {LayoutAnimated} from '../../Layout-animated'
 import {
         NavigationRailItemHeaderProps,
         NavigationRailItemIconProps,
-        NavigationRailItemLabelTextProps
+        NavigationRailItemLabelTextProps,
+        TouchableContentProps
 } from './Navigation-rail-item.interface'
 
 export const Container = styled.View``
-export const TouchableContent = styled.Pressable`
+export const TouchableContent = styled.Pressable<TouchableContentProps>`
         align-items: center;
         display: flex;
         flex-direction: column;

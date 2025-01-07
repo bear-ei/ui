@@ -52,3 +52,7 @@ export type NavigationRailItemHeaderProps = Pick<RenderNavigationRailItemProps, 
 export interface NavigationRailItemIconProps {
         visible?: boolean
 }
+
+export interface TouchableContentProps {
+        enableFocusRing?: boolean
+}
