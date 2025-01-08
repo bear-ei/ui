@@ -15,7 +15,16 @@ import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated
 
 export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBaseProps>(
         (
-                {activeKey, icon = <Icon name='circle' />, itemKey, onActive, render, type = 'segment', ...renderProps},
+                {
+                        activeKey,
+                        animatedType = 'standard',
+                        icon = <Icon name='circle' />,
+                        itemKey,
+                        onActive,
+                        render,
+                        type = 'segment',
+                        ...renderProps
+                },
                 ref
         ) => {
                 const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({})
@@ -48,6 +57,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                         ...renderProps,
                         active,
                         activeIconElement,
+                        animatedType,
                         eventName,
                         iconElement,
                         id,

@@ -11,6 +11,7 @@ const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
         active,
         activeIconElement,
+        animatedType,
         eventName,
         iconElement,
         id,
@@ -81,7 +82,7 @@ const render = ({
                                                 pointerEvents='none'
                                                 scale={false}
                                                 testID={`navigationRailItem__label--${id}`}
-                                                visible={active}
+                                                visible={animatedType === 'collapse' ? active : true}
                                         >
                                                 <AnimatedLabelText
                                                         active={active}

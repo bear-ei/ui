@@ -13,6 +13,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
         (
                 {
                         activeKey: rawActiveKey,
+                        animatedType,
                         data: rawData,
                         defaultActiveKey,
                         destinationPosition = 'top',
@@ -34,6 +35,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                 const onNavigationRailRawActive = useMemo(() => handleNavigationRailActive()(setState), [setState])
                 const navigationRailItemElements = handleNavigationRailItems({
                         activeKey,
+                        animatedType,
                         onActive: onNavigationRailActive,
                         type
                 })(data)

@@ -8,7 +8,7 @@ import {NavigationRailProps} from '../Navigation-rail.interface'
 
 export interface NavigationRailItemProps
         extends Partial<ViewProps & RefAttributes<View> & PressableProps & OnStateEvent>,
-                Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type'> {
+                Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {
         icon?: JSX.Element
         itemKey: string
         labelText?: string

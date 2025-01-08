@@ -3,6 +3,7 @@ import {View, ViewProps} from 'react-native'
 import {ComponentStatus} from '../Common'
 import {NavigationRailItemProps} from './Navigation-rail-item'
 
+export type NavigationRailAnimatedType = 'standard' | 'collapse'
 export type NavigationRailType = 'segment' | 'block'
 export type DestinationPosition = 'top' | 'center' | 'bottom'
 export interface NavigationRailData extends Pick<NavigationRailItemProps, 'icon' | 'labelText'> {
@@ -11,12 +12,13 @@ export interface NavigationRailData extends Pick<NavigationRailItemProps, 'icon'
 
 export type RenderNavigationRailItemOptions = Omit<NavigationRailItemProps, 'itemKey'>
 export interface NavigationRailProps extends ViewProps, RefAttributes<View> {
+        activeKey?: string
+        animatedType?: NavigationRailAnimatedType
         data?: NavigationRailData[]
         defaultActiveKey?: string
         destinationPosition?: DestinationPosition
         fab?: JSX.Element
         menu?: JSX.Element
-        activeKey?: string
         onActive?: (value?: string) => void
         type?: NavigationRailType
 }
