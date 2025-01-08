@@ -7,6 +7,7 @@ import {Container} from './Layout-pane.styles'
 const render = ({
         animatedType = 'collapseX',
         children,
+        defaultVisible = true,
         id,
         testID,
         width,
@@ -15,7 +16,7 @@ const render = ({
         <Container
                 {...containerProps}
                 animatedType={animatedType}
-                defaultVisible={true}
+                defaultVisible={defaultVisible}
                 entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                 exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
                 testID={testID ?? `layoutPane--${id}`}

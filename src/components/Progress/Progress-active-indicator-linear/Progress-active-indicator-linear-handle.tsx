@@ -3,7 +3,7 @@ import {AnimatedTiming} from '../../../hooks'
 
 export const handleProgressActiveIndicatorLinearAnimatedTiming =
         (animatedTiming: AnimatedTiming) => (widthSharedValue: SharedValue<number>) => (value?: number) =>
-                typeof value === 'number' && animatedTiming()(widthSharedValue)(value)
+                typeof value === 'number' && animatedTiming()(widthSharedValue)(Math.ceil(value))
 
 export const handleOutputRange = (width: number) => (increment: number) => {
         const actualIncrement = width * (increment / 100)

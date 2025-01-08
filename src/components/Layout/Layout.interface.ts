@@ -1,10 +1,9 @@
-import {FC, RefAttributes} from 'react'
-import {View, ViewProps} from 'react-native'
-import {ShapeProps} from '../Common'
+import {FC} from 'react'
+import {LayoutAnimatedProps} from '../Layout-animated'
 import {LayoutNavigationProps} from './Layout-navigation'
 import {LayoutPaneProps} from './Layout-pane'
 
-export interface LayoutProps extends ViewProps, RefAttributes<View>, ShapeProps {}
+export type LayoutProps = LayoutAnimatedProps
 export type RenderLayoutProps = LayoutProps
 export interface LayoutBaseProps extends LayoutProps {
         render: (props: RenderLayoutProps) => JSX.Element

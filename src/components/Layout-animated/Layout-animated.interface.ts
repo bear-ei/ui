@@ -111,4 +111,4 @@ export interface HandleLayoutAnimatedLayoutVisibleOptions
         setState: Updater<LayoutAnimatedState>
 }
 
-export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible' | 'hidden'>
+export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible' | 'hidden' | 'width' | 'height'>

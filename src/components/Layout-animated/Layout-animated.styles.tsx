@@ -7,6 +7,11 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
         flex-direction: column;
         overflow: hidden;
 
+        ${({width, height}) => css`
+                height: ${height ? `${height}px` : 'auto'};
+                width: ${width ? `${width}px` : 'auto'};
+        `}
+
         ${({visible, theme, hidden}) =>
                 !visible &&
                 hidden &&

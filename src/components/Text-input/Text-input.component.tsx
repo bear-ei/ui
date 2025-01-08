@@ -162,6 +162,7 @@ const render = ({
 
                                 <Supporting
                                         height={theme.adaptSize(theme.token.spacing.medium)}
+                                        hidden={false}
                                         onVisible={onSupportingTextVisible}
                                         testID={`textfield__supporting--${id}`}
                                         visible={supportingTextVisible}
