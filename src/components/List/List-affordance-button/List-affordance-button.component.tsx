@@ -14,11 +14,9 @@ const render = ({
         disabled,
         eventName,
         icon,
-        id,
         labelText,
         labelTextAnimatedStyle,
         onStateEvent,
-        testID,
         theme
 }: RenderListAffordanceButtonProps) => {
         const underlayColor = theme.token.scheme.onPrimary
@@ -26,12 +24,11 @@ const render = ({
                 <AnimatedBackgroundUnderlay
                         pointerEvents='none'
                         style={[backgroundUnderlayAnimatedStyle]}
-                        testID={`listAffordanceButton__backgroundUnderlay--${id}`}
                 />
         )
 
         return (
-                <Container testID={testID ?? `listAffordanceButton--${id}`}>
+                <Container>
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
@@ -39,7 +36,6 @@ const render = ({
                                 underlayColor={underlayColor}
                         >
                                 <Content
-                                        testID={`listAffordanceButton__content--${id}`}
                                         pointerEvents='none'
                                         accessibilityLabel={labelText}
                                         accessibilityRole='button'
@@ -50,7 +46,6 @@ const render = ({
                                                         numberOfLines={1}
                                                         size='large'
                                                         style={[labelTextAnimatedStyle]}
-                                                        testID={`listAffordanceButton__labelText--${id}`}
                                                         type='label'
                                                 >
                                                         {labelText}
@@ -60,7 +55,6 @@ const render = ({
                                         <Underlay
                                                 eventName={eventName}
                                                 underlayColor={underlayColor}
-                                                testID={`listAffordanceButton__underlay--${id}`}
                                         />
                                 </Content>
                         </Touchable>

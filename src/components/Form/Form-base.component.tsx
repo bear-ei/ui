@@ -1,4 +1,4 @@
-import {ForwardedRef, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {ForwardedRef, forwardRef, useCallback, useEffect, useMemo} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {handleFormCallback, handleFormItem, handleFormStatus} from './Form-handle'
@@ -23,7 +23,6 @@ const FormBaseInner = <T,>(
         const [{status}, setState] = useImmer<FormState>({status: 'idle'})
         const formStore = useForm(form)
         const {setCallback, setInitialValue} = formStore
-        const id = useId()
         const onFormStatus = useMemo(() => handleFormStatus<T>(setState)(setInitialValue), [setInitialValue, setState])
         const onFormCallback = useCallback(
                 () => handleFormCallback<T>({onFinish, onFinishFailed, onValueChange})(setCallback),
@@ -44,13 +43,7 @@ const FormBaseInner = <T,>(
                 return <></>
         }
 
-        return render({
-                ...renderProps,
-                form: formStore,
-                id,
-                ref,
-                itemElements: formItemElements
-        })
+        return render({...renderProps, form: formStore, ref, itemElements: formItemElements})
 }
 
 export const FormBase = forwardRef(FormBaseInner) as typeof FormBaseInner

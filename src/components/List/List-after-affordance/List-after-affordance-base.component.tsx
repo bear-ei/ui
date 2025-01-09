@@ -1,4 +1,4 @@
-import {FC, useEffect, useId, useMemo} from 'react'
+import {FC, useEffect, useMemo} from 'react'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {
@@ -19,7 +19,6 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
 }) => {
         const [{doubleConfirmed, nextCancelEvent}, setState] = useImmer<ListAfterAffordanceState>({})
         const theme = useTheme()
-        const id = useId()
         const onListAfterAffordanceConfirm = handleListAfterAffordanceConfirm({doubleConfirmed, onConfirm, itemKey})
         const onListAfterAffordanceCancel = handleListAfterAffordanceCancel({doubleConfirmed, onCancel, itemKey})(
                 setState
@@ -40,7 +39,6 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
                 ...renderProps,
                 dangerAnimatedStyle,
                 doubleConfirmed,
-                id,
                 onCancel: onListAfterAffordanceCancel,
                 onConfirm: onListAfterAffordanceConfirm,
                 theme,

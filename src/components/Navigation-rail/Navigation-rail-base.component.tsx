@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useEffect, useMemo} from 'react'
 import {InteractionManager, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
@@ -29,7 +29,6 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                         status: 'idle'
                 })
 
-                const id = useId()
                 const onNavigationRailActive = handleNavigationRailActive(onActive)(setState)
                 const onNavigationRailData = useMemo(() => handleNavigationRailData(setState), [setState])
                 const onNavigationRailRawActive = useMemo(() => handleNavigationRailActive()(setState), [setState])
@@ -40,7 +39,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                         type
                 })(data)
 
-                const fabElement = handleNavigationRailFAB(id)(fab)
+                const fabElement = handleNavigationRailFAB(fab)
 
                 useEffect(() => {
                         onNavigationRailRawActive(rawActiveKey ?? defaultActiveKey)
@@ -62,7 +61,6 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                         ...renderProps,
                         destinationPosition,
                         fabElement,
-                        id,
                         navigationRailItemElements,
                         ref
                 })

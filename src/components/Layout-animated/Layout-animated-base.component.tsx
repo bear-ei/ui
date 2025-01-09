@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
 import {InteractionManager, LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -22,7 +22,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         disabledAnimated,
                         entry,
                         exit,
-                        height: rawHeight,
+                        height,
                         lazy = false,
                         onUnmount,
                         onVisible,
@@ -31,7 +31,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         scale = true,
                         unmount,
                         visible: rawVisible,
-                        width: rawWidth,
+                        width,
                         ...renderProps
                 },
                 ref
@@ -41,9 +41,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         setState
                 ] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: 'idle'})
 
-                const height = rawHeight ?? layout.height
-                const width = rawWidth ?? layout.width
-                const id = useId()
                 const layoutAnimatedRef = useRef<View>(null)
                 const layoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
                 const onLayoutAnimatedLayoutVisible = useMemo(
@@ -81,12 +78,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         disabledAnimated,
                         entry,
                         exit,
-                        height,
+                        height: layout.height ?? height,
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         opacity,
                         scale,
                         visible: visible ?? layoutVisible,
-                        width
+                        width: layout.width ?? width
                 })
 
                 useImperativeHandle(
@@ -124,7 +121,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         animatedType,
                                         containerAnimatedStyle,
                                         height,
-                                        id,
                                         onStateEvent,
                                         ref: layoutAnimatedRef,
                                         status,

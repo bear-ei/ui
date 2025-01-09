@@ -1,4 +1,5 @@
-import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {nanoid} from 'nanoid'
+import {forwardRef, useCallback, useEffect, useMemo} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {
@@ -28,7 +29,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                 const [{sideSheetVisible, nextCloseEvent, nextBackEvent, nextCancelEvent}, setState] =
                         useImmer<SideSheetState>({})
 
-                const id = useId()
+                const id = useMemo(() => nanoid(), [])
                 const onSideSheetBack = useCallback(
                         () => handleSideSheetBack({onBack, disabledClose, type})(setState),
                         [disabledClose, onBack, setState, type]

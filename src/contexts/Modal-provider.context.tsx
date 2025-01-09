@@ -1,5 +1,5 @@
 import mitt from 'mitt'
-import {FC, useEffect, useId} from 'react'
+import {FC, useEffect} from 'react'
 import {useImmer} from 'use-immer'
 import {SideSheet} from '../components'
 import {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './contexts.interface'
@@ -23,7 +23,6 @@ const ModalItem: FC<ModalItemProps> = ({name, props}) => {
 export const emitter = mitt<EmitterEvent>()
 export const ModalProvider: FC<ModalProps> = () => {
         const [{modals}, setState] = useImmer<ModalState>({modals: []})
-        const modalId = useId()
 
         useEffect(() => {
                 emitter.on('modal', modal => handleModal(setState)(modal))
@@ -40,7 +39,6 @@ export const ModalProvider: FC<ModalProps> = () => {
                                         key={id}
                                         name={name}
                                         props={props}
-                                        testID={`modalItem--${modalId}`}
                                 />
                         ))}
                 </>

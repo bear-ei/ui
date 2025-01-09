@@ -31,7 +31,6 @@ const render = ({
         content,
         footerVisible,
         headlineText,
-        id,
         leading,
         onCancel,
         onConfirm,
@@ -42,7 +41,6 @@ const render = ({
         shape,
         sheetPosition,
         style,
-        testID,
         trailing,
         type,
         ...innerProps
@@ -53,7 +51,6 @@ const render = ({
                 <AnimatedContainer
                         sheetPosition={sheetPosition}
                         style={[containerAnimatedStyle]}
-                        testID={testID ?? `sideSideSheetContent--${id}`}
                         type={type}
                 >
                         <Content
@@ -61,59 +58,38 @@ const render = ({
                                 accessibilityRole='alert'
                                 shape={sheetShape}
                                 style={[style]}
-                                testID={`sideSideSheetContent__content--${id}`}
                                 type={type}
                         >
                                 <Header
                                         leadingShow={!!leading}
-                                        testID={`sideSideSheetContent__header--${id}`}
                                         trailingShow={!!trailing}
                                 >
-                                        {leading && (
-                                                <Leading testID={`sideSideSheetContent__leading--${id}`}>
-                                                        {leading}
-                                                </Leading>
-                                        )}
-
-                                        <HeadlineContainer testID={`sideSideSheetContent__headlineContainer--${id}`}>
+                                        {leading && <Leading>{leading}</Leading>}
+                                        <HeadlineContainer>
                                                 <HeaderText
                                                         numberOfLines={1}
                                                         size='large'
-                                                        testID={`sideSideSheetContent__headerText--${id}`}
                                                         type='title'
                                                 >
                                                         {headlineText}
                                                 </HeaderText>
                                         </HeadlineContainer>
 
-                                        {trailing && (
-                                                <Trailing testID={`sideSideSheetContent__trailing--${id}`}>
-                                                        {trailing}
-                                                </Trailing>
-                                        )}
+                                        {trailing && <Trailing>{trailing}</Trailing>}
                                 </Header>
 
-                                <Main testID={`sideSideSheetContent__main--${id}`}>{content}</Main>
+                                <Main>{content}</Main>
                                 <FooterContainer
                                         animatedType='collapseY'
                                         entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                                         exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
-                                        testID={`sideSideSheetContent__footerContainer--${id}`}
                                         visible={footerVisible}
                                 >
-                                        <FooterContent testID={`sideSideSheetContent__content--${id}`}>
-                                                <Divider
-                                                        size='large'
-                                                        testID={`sideSideSheetContent__divider--${id}`}
-                                                />
+                                        <FooterContent>
+                                                <Divider size='large' />
 
-                                                <Footer
-                                                        testID={`sideSideSheetContent__footer--${id}`}
-                                                        type={type}
-                                                >
-                                                        <PrimaryButton
-                                                                testID={`sideSideSheetContent__primaryButton--${id}`}
-                                                        >
+                                                <Footer type={type}>
+                                                        <PrimaryButton>
                                                                 {primaryButton ?? (
                                                                         <Button
                                                                                 {...{
@@ -121,15 +97,12 @@ const render = ({
                                                                                         ...primaryButtonProps
                                                                                 }}
                                                                                 onPressOut={onConfirm}
-                                                                                testID={`sideSideSheetContent__confirmButton--${id}`}
                                                                                 type='filled'
                                                                         />
                                                                 )}
                                                         </PrimaryButton>
 
-                                                        <SecondaryButton
-                                                                testID={`sideSideSheetContent__secondaryButton--${id}`}
-                                                        >
+                                                        <SecondaryButton>
                                                                 {secondaryButton ?? (
                                                                         <Button
                                                                                 {...{
@@ -138,7 +111,6 @@ const render = ({
                                                                                 }}
                                                                                 onPressOut={onCancel}
                                                                                 type='outlined'
-                                                                                testID={`sideSideSheetContent__cancelButton--${id}`}
                                                                         />
                                                                 )}
                                                         </SecondaryButton>

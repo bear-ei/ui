@@ -10,11 +10,9 @@ const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
         containerAnimatedStyle,
         height,
-        id,
         locationX,
         locationY,
         style,
-        testID,
         width,
         ...containerProps
 }: RenderTouchableRippleProps) => (
@@ -26,7 +24,6 @@ const render = ({
                 pointerEvents='none'
                 shape='full'
                 style={[style, containerAnimatedStyle]}
-                testID={testID ?? `ripple--${id}`}
                 width={width}
         />
 )

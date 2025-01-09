@@ -14,12 +14,10 @@ const render = ({
         animatedType,
         eventName,
         iconElement,
-        id,
         labelText,
         labelTextAnimatedStyle,
         onStateEvent,
         ref,
-        testID,
         theme,
         type,
         ...containerProps
@@ -32,23 +30,19 @@ const render = ({
                         {...containerProps}
                         accessibilityLabel={labelText}
                         accessibilityRole='tab'
-                        testID={testID ?? `navigationRailItem--${id}`}
                 >
                         <TouchableContent
                                 {...onStateEvent}
                                 enableFocusRing={false}
                                 ref={ref}
-                                testID={`navigationRailItem__content--${id}`}
                         >
                                 <Header
                                         pointerEvents='none'
-                                        testID={`navigationRailItem__header--${id}`}
                                         type={type}
                                 >
-                                        <IconContainer testID={`navigationRailItem__iconContainer--${id}`}>
+                                        <IconContainer>
                                                 <Icon
                                                         hidden={false}
-                                                        testID={`navigationRailItem__icon--${id}`}
                                                         visible={!active}
                                                 >
                                                         {iconElement}
@@ -56,7 +50,6 @@ const render = ({
 
                                                 <Icon
                                                         hidden={false}
-                                                        testID={`navigationRailItem__icon--${id}`}
                                                         visible={active}
                                                 >
                                                         {activeIconElement}
@@ -70,7 +63,6 @@ const render = ({
                                                 activeShape='full'
                                                 eventName={eventName}
                                                 shape={type === 'block' ? 'full' : 'large'}
-                                                testID={`navigationRailItem__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Header>
@@ -81,7 +73,6 @@ const render = ({
                                                 height={theme.adaptSize(theme.token.spacing.large)}
                                                 pointerEvents='none'
                                                 scale={false}
-                                                testID={`navigationRailItem__label--${id}`}
                                                 visible={animatedType === 'collapse' ? active : true}
                                         >
                                                 <AnimatedLabelText
@@ -90,7 +81,6 @@ const render = ({
                                                         numberOfLines={1}
                                                         size='medium'
                                                         style={[labelTextAnimatedStyle]}
-                                                        testID={`navigationRailItem__labelText--${id}`}
                                                         type='label'
                                                 >
                                                         {labelText}

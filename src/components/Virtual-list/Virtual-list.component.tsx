@@ -10,13 +10,11 @@ const render = <T,>({
         contentSize = 0,
         emptyComponent,
         emptyList,
-        id,
         itemElements,
         loading,
         loadingComponent,
         onStateEvent,
         scrollEventThrottle = 50,
-        testID,
         status,
         ...containerProps
 }: RenderVirtualListProps<T>) => {
@@ -29,30 +27,24 @@ const render = <T,>({
         } as StyleProp<ViewStyle>
 
         return (
-                <Container testID={`virtualList--${id}`}>
+                <Container>
                         <Animated.ScrollView
                                 {...containerProps}
                                 contentContainerStyle={[contentContainerStyle, defaultContentContainerStyle]}
                                 onLayout={onLayout}
                                 scrollEventThrottle={scrollEventThrottle}
-                                testID={testID ?? `virtualList__scrollView--${id}`}
                         >
-                                <Content
-                                        testID={`virtualList__content--${id}`}
-                                        visible={!loading && !emptyList && typeof emptyList === 'boolean'}
-                                >
+                                <Content visible={!loading && !emptyList && typeof emptyList === 'boolean'}>
                                         {itemElements}
                                 </Content>
 
                                 <EmptyContent
                                         lazy={true}
-                                        testID={`virtualList__emptyComponent--${id}`}
                                         visible={!loading && emptyList && status === 'succeeded'}
                                 >
                                         {emptyComponent ?? (
                                                 <Supporting
                                                         size='medium'
-                                                        testID={`virtualList__supportingText--${id}`}
                                                         type='body'
                                                 >
                                                         No data
@@ -62,7 +54,6 @@ const render = <T,>({
 
                                 <LoadingContent
                                         lazy={true}
-                                        testID={`virtualList__content--${id}`}
                                         visible={loading && !!loadingComponent}
                                 >
                                         {loadingComponent}

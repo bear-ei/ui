@@ -11,12 +11,10 @@ const AnimatedDanger = Animated.createAnimatedComponent(Danger)
 const render = ({
         dangerAnimatedStyle,
         doubleConfirmed,
-        id,
         onCancel,
         onConfirm,
         primaryButtonProps,
         secondaryButtonProps,
-        testID,
         theme,
         visible,
         ...containerProps
@@ -27,7 +25,6 @@ const render = ({
                 <Container
                         {...containerProps}
                         pointerEvents={visible ? 'auto' : 'none'}
-                        testID={testID ?? `listAfterAffordance--${id}`}
                 >
                         <ListAffordanceButton
                                 {...(doubleConfirmed && {
@@ -36,14 +33,12 @@ const render = ({
                                                         fill={fill}
                                                         iconStyle='sharp'
                                                         name='check'
-                                                        testID={`listAfterAffordance__icon--${id}`}
                                                         type='outlined'
                                                 />
                                         )
                                 })}
                                 {...{labelText: 'Confirm', ...primaryButtonProps}}
                                 onPressOut={onConfirm}
-                                testID={`listAfterAffordance__confirmButton--${id}`}
                                 visible={visible}
                         />
 
@@ -54,21 +49,18 @@ const render = ({
                                                         fill={fill}
                                                         iconStyle='sharp'
                                                         name='close'
-                                                        testID={`listAfterAffordance__icon--${id}`}
                                                         type='outlined'
                                                 />
                                         )
                                 })}
                                 {...{labelText: 'Cancel', ...secondaryButtonProps}}
                                 onPressOut={onCancel}
-                                testID={`listAfterAffordance__cancelButton--${id}`}
                                 visible={visible}
                         />
 
                         <AnimatedDanger
                                 pointerEvents='none'
                                 style={[dangerAnimatedStyle]}
-                                testID={`listAfterAffordance__danger--${id}`}
                         />
                 </Container>
         )

@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useEffect, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -37,13 +37,11 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
         ) => {
                 const [{elevation, eventName, status}, setState] = useImmer<ChipState>({status: 'idle'})
                 const theme = useTheme()
-                const id = useId()
                 const leadingIconElement = handleChipIcon({eventName, disabled})(theme)(
                         type === 'filter' ?
                                 <Icon
                                         iconStyle='rounded'
                                         name='check'
-                                        testID={`chip__filterIcon--${id}`}
                                         type='outlined'
                                 />
                         :       leadingIcon
@@ -51,8 +49,8 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
 
                 const trailingElement =
                         close ?
-                                handleChipCloseButton({disabled, onClose, id})(theme)
-                        :       handleChipIcon({eventName, disabled, id})(theme)(trailingIcon)
+                                handleChipCloseButton({disabled, onClose})(theme)
+                        :       handleChipIcon({eventName, disabled})(theme)(trailingIcon)
 
                 const onChipDisabled = useMemo(() => handleChipDisabled(setState), [setState])
                 const onChipElevation = useMemo(
@@ -95,7 +93,6 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         elevation,
                         eventName,
                         filterIconContainerAnimatedStyle,
-                        id,
                         labelText,
                         labelTextAnimatedStyle,
                         leadingIcon: leadingIconElement,

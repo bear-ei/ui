@@ -1,4 +1,4 @@
-import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo} from 'react'
+import {ForwardedRef, forwardRef, useEffect, useImperativeHandle, useMemo} from 'react'
 import {InteractionManager, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
@@ -41,7 +41,6 @@ export const VirtualListBaseInner = <T,>(
         ] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: 'idle'})
 
         const contentSize = virtualListData ? virtualListData.length * (itemSize + gap) - gap : 0
-        const id = useId()
         const onVirtualListVisibleRange = useMemo(
                 () => handleVirtualListDataChange(itemSize)(setState),
                 [itemSize, setState]
@@ -109,7 +108,6 @@ export const VirtualListBaseInner = <T,>(
                 ...scrollEvent,
                 contentSize,
                 emptyList,
-                id,
                 itemElements,
                 itemSize,
                 onStateEvent,

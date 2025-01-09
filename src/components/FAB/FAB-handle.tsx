@@ -87,7 +87,7 @@ export const handleFABUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const handleFABIcon =
-        ({disabled, eventName, size, type = 'primary', id}: HandleFABIconOptions) =>
+        ({disabled, eventName, size, type = 'primary'}: HandleFABIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
                         primary: theme.token.scheme.onPrimaryContainer,
@@ -107,8 +107,7 @@ export const handleFABIcon =
                                 ...(size === 'large' && {width: iconSize, height: iconSize}),
                                 disabled,
                                 eventName,
-                                fill: fillType[type],
-                                testID: `fab__icon--${id}`
+                                fill: fillType[type]
                         })
                 }
         }

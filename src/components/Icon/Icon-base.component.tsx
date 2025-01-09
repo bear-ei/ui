@@ -1,4 +1,4 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {IconBaseProps} from './Icon.interface'
@@ -26,7 +26,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
                         theme.token.opacity.level5
                 )
 
-                const id = useId()
                 const SvgIcon = icon ?? iconStyle[style]?.[type]?.[name]
                 const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
                 const {containerAnimatedStyle} = useIconAnimated({eventName})
@@ -39,12 +38,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
                         />
                 )
 
-                return render({
-                        ...renderProps,
-                        containerAnimatedStyle,
-                        id,
-                        ref,
-                        svgIconElement
-                })
+                return render({...renderProps, containerAnimatedStyle, ref, svgIconElement})
         }
 )

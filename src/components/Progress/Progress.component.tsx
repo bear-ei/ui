@@ -11,11 +11,9 @@ const render = ({
         content,
         defaultValue,
         height,
-        id,
         increment,
         layout,
         onStateEvent,
-        testID,
         type = 'linear',
         value,
         width,
@@ -29,7 +27,6 @@ const render = ({
                         accessibilityRole='progressbar'
                         pointerEvents='none'
                         progressing={!!(value && value > 0)}
-                        testID={testID ?? `progress--${id}`}
                         type={type}
                 >
                         {type === 'circular' && (

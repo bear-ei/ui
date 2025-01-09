@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
 import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -42,7 +42,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 ] = useImmer<SearchState>({layout: {} as SearchState['layout'], state: 'enabled', status: 'idle'})
 
                 const containerRef = useRef<View>(null)
-                const id = useId()
                 const {data} = listProps
                 const inputRef = useRef<TextInput>(null)
                 const theme = useTheme()
@@ -96,7 +95,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         ...renderProps,
                         containerRef,
                         eventName,
-                        id,
                         layout,
                         leading,
                         listProps,

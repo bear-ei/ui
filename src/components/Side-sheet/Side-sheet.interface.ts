@@ -1,5 +1,6 @@
 import {RefAttributes} from 'react'
-import {ButtonProps, ModalProps, View, ViewProps} from 'react-native'
+import {ModalProps, View, ViewProps} from 'react-native'
+import {ButtonProps} from '../Button'
 import {ShapeProps} from '../Common'
 
 export type SheetType = 'standard' | 'modal' | 'standardContainer'

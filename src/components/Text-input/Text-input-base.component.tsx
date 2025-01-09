@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
 import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -66,7 +66,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         status: 'idle'
                 })
 
-                const id = useId()
                 const textInputRef = useRef<TextInput>(null)
                 const theme = useTheme()
                 const placeholderTextColor =
@@ -173,7 +172,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         editable,
                         eventName,
                         headerAnimatedStyle,
-                        id,
                         inputAnimatedStyle,
                         labelAnimatedStyle,
                         labelText,

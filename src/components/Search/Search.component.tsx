@@ -11,7 +11,6 @@ const SearchTextInput: FC<SearchTextInputProps> = TextInput
 const render = ({
         containerRef,
         eventName,
-        id,
         layout,
         leading,
         listProps,
@@ -19,7 +18,6 @@ const render = ({
         onChangeText,
         onStateEvent,
         placeholder,
-        testID,
         theme,
         trailing,
         value,
@@ -32,34 +30,26 @@ const render = ({
         const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
 
         return (
-                <Container
-                        {...(containerRef && {ref: containerRef})}
-                        testID={testID ?? `search__container--${id}`}
-                >
-                        <Touchable
-                                {...onTouchableEvent}
-                                testID={`textfield__touchable--${id}`}
-                        >
+                <Container {...(containerRef && {ref: containerRef})}>
+                        <Touchable {...onTouchableEvent}>
                                 <Content
                                         accessibilityLabel={placeholder}
                                         accessibilityRole='keyboardkey'
                                         shape={shape}
-                                        testID={`search__content--${id}`}
                                         trailingShow={!!trailing}
                                 >
-                                        <Leading testID={`search__leading--${id}`}>
+                                        <Leading>
                                                 {leading ?? (
                                                         <Icon
                                                                 iconStyle='rounded'
                                                                 name='search'
-                                                                testID={`search__icon--${id}`}
                                                                 type='filled'
                                                         />
                                                 )}
                                         </Leading>
 
-                                        <Main testID={`search__main--${id}`}>
-                                                <TextInputContainer testID={`search__textInput--${id}`}>
+                                        <Main>
+                                                <TextInputContainer>
                                                         <SearchTextInput
                                                                 {...textInputProps}
                                                                 /**
@@ -74,19 +64,17 @@ const render = ({
                                                                 onFocus={onFocus}
                                                                 placeholder={placeholder}
                                                                 placeholderTextColor={placeholderTextColor}
-                                                                testID={`search__input--${id}`}
                                                                 value={value}
                                                         />
                                                 </TextInputContainer>
                                         </Main>
 
-                                        {trailing && <Trailing testID={`search__trailing--${id}`}>{trailing}</Trailing>}
+                                        {trailing && <Trailing>{trailing}</Trailing>}
                                         <Underlay
                                                 eventName={eventName}
                                                 opacities={underlayOpacities}
                                                 shape={listVisible ? 'extraLargeTop' : shape}
                                                 underlayColor={underlayColor}
-                                                testID={`search__underlay--${id}`}
                                         />
                                 </Content>
                         </Touchable>

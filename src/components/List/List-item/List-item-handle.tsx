@@ -241,7 +241,6 @@ export const handleListItemTrailing = ({
         afterAffordance,
         closeTrailing,
         disabled,
-        id,
         onStateEvent,
         trailing,
         trailingProps
@@ -263,13 +262,11 @@ export const handleListItemTrailing = ({
                                 cloneElement(trailing, props)
                         :       <IconButton
                                         {...props}
-                                        testID={`listItem__afterAffordanceButton--${id}`}
                                         icon={
                                                 <Icon
                                                         iconStyle='rounded'
                                                         name='moreHoriz'
                                                         type='outlined'
-                                                        testID={`listItem__afterAffordanceButtonIcon--${id}`}
                                                 />
                                         }
                                 />,
@@ -278,12 +275,10 @@ export const handleListItemTrailing = ({
                                 cloneElement(trailing, props)
                         :       <IconButton
                                         {...props}
-                                        testID={`listItem__closeTrailingButton--${id}`}
                                         icon={
                                                 <Icon
                                                         iconStyle='rounded'
                                                         name='close'
-                                                        testID={`listItem__closeTrailingButtonIcon--${id}`}
                                                         type='outlined'
                                                 />
                                         }

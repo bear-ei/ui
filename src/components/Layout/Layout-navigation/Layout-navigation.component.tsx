@@ -8,8 +8,6 @@ const render = ({
         animatedType = 'collapseX',
         children,
         defaultVisible = true,
-        id,
-        testID,
         theme,
         width,
         ...containerProps
@@ -20,7 +18,6 @@ const render = ({
                 defaultVisible={defaultVisible}
                 entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                 exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
-                testID={testID ?? `layoutNavigation--${id}`}
                 width={width ?? theme.adaptSize(theme.token.spacing.extraSmall * 20)}
         >
                 {children}

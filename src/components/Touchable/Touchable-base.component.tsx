@@ -1,4 +1,4 @@
-import {forwardRef, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useImperativeHandle, useMemo, useRef} from 'react'
 import {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -14,7 +14,6 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                 })
 
                 const pressableRef = useRef<View>(null)
-                const id = useId()
                 const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -35,6 +34,6 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 
                 useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
 
-                return render({...renderProps, id, onStateEvent, ref: pressableRef, rippleElements})
+                return render({...renderProps, onStateEvent, ref: pressableRef, rippleElements})
         }
 )

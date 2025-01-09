@@ -44,7 +44,7 @@ export const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const handleIconButtonIcon =
-        ({disabled, type, fill, eventName, loading, id}: HandleIconButtonIconOptions) =>
+        ({disabled, type, fill, eventName, loading}: HandleIconButtonIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
                         active: theme.token.scheme.onSurfaceVariant,
@@ -65,7 +65,6 @@ export const handleIconButtonIcon =
                                 {
                                         disabled,
                                         eventName,
-                                        testID: `iconButton__icon--${id}`,
                                         fill:
                                                 fill ??
                                                 (!loading ?

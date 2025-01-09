@@ -1,4 +1,4 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {ProgressActiveIndicatorCircularBaseProps} from './Progress-active-indicator-circular.interface'
@@ -6,7 +6,6 @@ import {useProgressActiveIndicatorCircularAnimated} from './use-progress-active-
 
 export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActiveIndicatorCircularBaseProps>(
         ({size: rawSize, render, strokeWidth: rawStrokeWidth, ...renderProps}, ref) => {
-                const id = useId()
                 const theme = useTheme()
                 const strokeWidth = rawStrokeWidth ?? theme.adaptSize(theme.token.spacing.extraSmall)
                 const size = rawSize ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)
@@ -21,7 +20,6 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
                         circleAnimatedProps,
                         circumference,
                         containerAnimatedStyle,
-                        id,
                         radius,
                         ref,
                         size,

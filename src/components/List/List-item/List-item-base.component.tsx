@@ -1,4 +1,4 @@
-import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
 import {PanResponder, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -79,7 +79,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         [afterAffordanceActiveKey, itemKey]
                 )
 
-                const id = useId()
                 const onListItemPanResponderRelease = handleListItemPanResponderRelease({
                         onActiveAfterAffordance,
                         disabled
@@ -140,7 +139,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         afterAffordance,
                         closeTrailing,
                         disabled,
-                        id,
                         onStateEvent: {onPressOut: onListItemTrailingPressOut},
                         theme,
                         trailing,
@@ -148,12 +146,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 })
 
                 const leadingElement =
-                        leading && selectType ?
-                                cloneElement(leading, {
-                                        testID: `listItem__leading--${id}`,
-                                        type: active ? 'filled' : 'outlined'
-                                })
-                        :       leading
+                        leading && selectType ? cloneElement(leading, {type: active ? 'filled' : 'outlined'}) : leading
 
                 useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
 
@@ -189,7 +182,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         enableUnderlayActive,
                         eventName,
                         headlineTextAnimatedStyle,
-                        id,
                         itemKey,
                         leadingElement,
                         onConfirm: onListItemConfirm,

@@ -10,17 +10,14 @@ const render = ({
         afterAffordanceActiveKey,
         extraData = [],
         focusedIndex,
-        id,
         loading,
         style,
-        testID,
         ...virtualListProps
 }: RenderListProps) => (
         <Container
                 accessibilityLabel='list'
                 accessibilityRole='list'
                 style={[style]}
-                testID={testID ?? `list--${id}`}
         >
                 <VirtualList
                         {...virtualListProps}

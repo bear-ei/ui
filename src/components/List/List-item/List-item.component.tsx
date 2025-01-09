@@ -42,7 +42,6 @@ const render = ({
         eventName,
         headline,
         headlineTextAnimatedStyle,
-        id,
         itemKey,
         leadingElement,
         onCancel,
@@ -56,7 +55,6 @@ const render = ({
         skeletonElement,
         supporting,
         supportingTextNumberOfLines,
-        testID,
         trailingElement,
         trailingTriggerEvenName,
         trailingVisible,
@@ -81,28 +79,21 @@ const render = ({
                 <Container
                         {...panResponder?.panHandlers}
                         shape={shape}
-                        testID={testID ?? `listItem--${id}`}
                         type={type}
                 >
                         <Skeleton
                                 containerLayout='horizontal'
                                 duration={skeletonDuration}
                                 skeleton={skeletonDuration ? skeletonElement : undefined}
-                                testID={`listItem__skeleton--${id}`}
                         >
                                 {beforeAffordance && (
-                                        <BeforeAffordanceContainer
-                                                testID={`listItem__beforeAffordanceContainer--${id}`}
-                                        >
-                                                {beforeAffordance}
-                                        </BeforeAffordanceContainer>
+                                        <BeforeAffordanceContainer>{beforeAffordance}</BeforeAffordanceContainer>
                                 )}
 
                                 <AnimatedContent
                                         accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
                                         accessibilityRole='list'
                                         style={[contentStyle, contentAnimatedStyle]}
-                                        testID={`listItem_content--${id}`}
                                         type={type}
                                 >
                                         <Touchable
@@ -110,14 +101,12 @@ const render = ({
                                                 disabled={disabled}
                                                 enableTouchableRipple={!enableUnderlayActive ? enableUnderlay : false}
                                                 ref={ref}
-                                                testID={`listItem__touchable--${id}`}
                                                 underlayColor={underlayColor}
                                         >
                                                 <Main
                                                         {...mainProps}
                                                         supportingTextNumberOfLines={supportingTextNumberOfLines}
                                                         supportingTextShow={supportingTextShow}
-                                                        testID={`listItem__main--${id}`}
                                                         type={type}
                                                 >
                                                         {leadingElement && (
@@ -125,7 +114,6 @@ const render = ({
                                                                         supportingTextNumberOfLines={
                                                                                 supportingTextNumberOfLines
                                                                         }
-                                                                        testID={`listItem__leading--${id}`}
                                                                         type={type}
                                                                 >
                                                                         {leadingElement}
@@ -136,7 +124,6 @@ const render = ({
                                                                 leadingShow={!!leadingElement}
                                                                 pointerEvents='none'
                                                                 supportingTextShow={supportingTextShow}
-                                                                testID={`listItem__mainInner--${id}`}
                                                                 trailingShow={trailingShow}
                                                                 type={type}
                                                         >
@@ -149,7 +136,6 @@ const render = ({
                                                                                         style={[
                                                                                                 headlineTextAnimatedStyle
                                                                                         ]}
-                                                                                        testID={`listItem__headline--${id}`}
                                                                                         type='body'
                                                                                 >
                                                                                         {headline}
@@ -164,7 +150,6 @@ const render = ({
                                                                                                 supportingTextNumberOfLines
                                                                                         }
                                                                                         size='medium'
-                                                                                        testID={`listItem__supportingText--${id}`}
                                                                                         type='body'
                                                                                 >
                                                                                         {supporting}
@@ -178,7 +163,6 @@ const render = ({
                                                                         supportingTextNumberOfLines={
                                                                                 supportingTextNumberOfLines
                                                                         }
-                                                                        testID={`listItem__trailing--${id}`}
                                                                         trailingShow={trailingShow}
                                                                         type={type}
                                                                         unmount={true}
@@ -198,7 +182,6 @@ const render = ({
                                                                 <Underlay
                                                                         {...underlayProps}
                                                                         eventName={eventName}
-                                                                        testID={`listItem__underlay--${id}`}
                                                                         underlayColor={underlayColor}
                                                                 />
                                                         )}
@@ -207,7 +190,7 @@ const render = ({
                                 </AnimatedContent>
 
                                 {afterAffordance && (
-                                        <AfterAffordanceContainer testID={`listItem__afterAffordanceContainer--${id}`}>
+                                        <AfterAffordanceContainer>
                                                 {typeof afterAffordance === 'boolean' ?
                                                         <ListAfterAffordance
                                                                 itemKey={itemKey}
@@ -217,7 +200,6 @@ const render = ({
                                                                 secondaryButtonProps={
                                                                         afterAffordanceSecondaryButtonProps
                                                                 }
-                                                                testID={`listItem__listAfterAffordance--${id}`}
                                                                 visible={afterAffordanceVisible}
                                                         />
                                                 :       afterAffordance}
@@ -225,11 +207,10 @@ const render = ({
                                 )}
 
                                 {divider && (
-                                        <DividerContainer testID={`listItem__dividerContainer--${id}`}>
+                                        <DividerContainer>
                                                 <Divider
                                                         layout='horizontal'
                                                         size='large'
-                                                        testID={`listItem__divider--${id}`}
                                                 />
                                         </DividerContainer>
                                 )}

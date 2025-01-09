@@ -38,11 +38,5 @@ export const handleNavigationRailItems =
                         />
                 ))
 
-export const handleNavigationRailFAB = (id: string) => (fab?: JSX.Element) =>
-        fab ?
-                cloneElement<FABProps>(fab, {
-                        elevated: false,
-                        size: 'medium',
-                        testID: `navigationRail__fab--${id}`
-                })
-        :       undefined
+export const handleNavigationRailFAB = (fab?: JSX.Element) =>
+        fab ? cloneElement<FABProps>(fab, {elevated: false, size: 'medium'}) : undefined

@@ -16,13 +16,11 @@ const render = ({
         elevation,
         eventName,
         icon,
-        id,
         labelText,
         labelTextAnimatedStyle,
         loading,
         onStateEvent,
         ref,
-        testID,
         theme,
         type = 'filled',
         underlayColor,
@@ -41,7 +39,6 @@ const render = ({
                         pointerEvents='none'
                         shape={shape}
                         style={[backgroundUnderlayAnimatedStyle]}
-                        testID={`button__backgroundUnderlay--${id}`}
                 />
         )
 
@@ -50,15 +47,11 @@ const render = ({
                         <Elevation
                                 level={elevation}
                                 shape={shape}
-                                testID={`button__elevation--${id}`}
                         />
                 :       <></>
 
         return (
-                <Container
-                        testID={testID ?? `button--${id}`}
-                        type={type}
-                >
+                <Container type={type}>
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
@@ -67,7 +60,6 @@ const render = ({
                                 hotZone={type !== 'link'}
                                 ref={ref}
                                 shape={shape}
-                                testID={`button__touchable--${id}`}
                                 underlayColor={underlayColor}
                         >
                                 <Content
@@ -76,26 +68,19 @@ const render = ({
                                         accessibilityRole='button'
                                         pointerEvents='none'
                                         shape={shape}
-                                        testID={`button__content--${id}`}
                                         type={type}
                                 >
                                         <Main
                                                 iconShow={!!icon}
-                                                testID={`button__main--${id}`}
                                                 type={type}
                                         >
-                                                {icon && !link && (
-                                                        <IconContainer testID={`button__iconContainer--${id}`}>
-                                                                {icon}
-                                                        </IconContainer>
-                                                )}
+                                                {icon && !link && <IconContainer>{icon}</IconContainer>}
 
                                                 <AnimatedLabelText
                                                         ellipsizeMode='tail'
                                                         numberOfLines={1}
                                                         size={link ? 'small' : 'large'}
                                                         style={[labelTextAnimatedStyle]}
-                                                        testID={`button__labelText--${id}`}
                                                         type={link ? 'body' : 'label'}
                                                 >
                                                         {labelText}
@@ -105,7 +90,6 @@ const render = ({
                                         {type === 'link' && (
                                                 <ActiveIndicator
                                                         height={theme.adaptSize(theme.token.spacing.extraSmall / 4)}
-                                                        testID={`button__activeIndicator--${id}`}
                                                         visible={activeIndicatorVisible}
                                                 />
                                         )}
@@ -113,7 +97,6 @@ const render = ({
                                         <Underlay
                                                 eventName={loading ? loadingEventName : eventName}
                                                 shape={shape}
-                                                testID={`button__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>

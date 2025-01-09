@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
 import {InteractionManager} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -68,7 +68,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         setState
                 ] = useImmer<ListState>({status: 'idle'})
 
-                const id = useId()
                 const listRef = useRef<VirtualListComponent<ListData>>(null)
                 const theme = useTheme()
                 const onListData = useMemo(() => handleListData(setState)(loading), [loading, setState])
@@ -143,7 +142,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceActiveKey,
                         data,
                         focusedIndex,
-                        id,
                         itemSize: itemSize ?? handleListItemSize(theme)(type),
                         loading,
                         loadingComponent,

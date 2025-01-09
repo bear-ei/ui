@@ -8,12 +8,11 @@ import {
 } from './Side-sheet-content.interface'
 
 export const handleSideSheetContentLeading =
-        ({headlineLeading, back, sheetPosition, id}: HandleSideSheetContentLeadingOptions) =>
+        ({headlineLeading, back, sheetPosition}: HandleSideSheetContentLeadingOptions) =>
         (onBack?: () => void) =>
                 headlineLeading ??
                 (back ?
                         <IconButton
-                                testID={`sideSheetContent__iconButton--${id}`}
                                 icon={
                                         <Icon
                                                 iconStyle='rounded'
@@ -31,12 +30,11 @@ export const handleSideSheetContentLeading =
                 :       undefined)
 
 export const handleSideSheetContentTrailing =
-        ({headlineTrailing, close, id}: HandleSideSheetContentTrailingOptions) =>
+        ({headlineTrailing, close}: HandleSideSheetContentTrailingOptions) =>
         (onClose?: () => void) =>
                 headlineTrailing ??
                 (close ?
                         <IconButton
-                                testID={`sideSheetContent__iconButton--${id}`}
                                 icon={
                                         <Icon
                                                 iconStyle='rounded'

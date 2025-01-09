@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId} from 'react'
+import {forwardRef, useEffect} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {handleVirtualListItemVisible} from './Virtual-list-item-handle'
@@ -7,7 +7,6 @@ import {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-ite
 export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
         ({index = 0, item, itemSize = 0, onLoadEnd, onUnmount, render, renderItem, ...renderProps}, ref) => {
                 const [{visible, nextVisibleEvent}, setState] = useImmer<VirtualListItemState>({visible: true})
-                const id = useId()
                 const onVirtualListItemVisible = (onVisible?: (value?: boolean) => void) =>
                         handleVirtualListItemVisible(setState)(onVisible)
 
@@ -22,7 +21,6 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 
                 return render({
                         ...renderProps,
-                        id,
                         itemElement,
                         itemSize,
                         onUnmount: () => onUnmount?.(item?.indexKey as string | undefined),

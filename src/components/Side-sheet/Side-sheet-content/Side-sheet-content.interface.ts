@@ -17,10 +17,10 @@ export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisibl
 export type UseSideSheetContentAnimatedOptions = Pick<RenderSideSheetContentProps, 'visible' | 'type'>
 export type HandleSideSheetContentLeadingOptions = Pick<
         SideSheetContentProps,
-        'headlineLeading' | 'back' | 'sheetPosition' | 'id'
+        'headlineLeading' | 'back' | 'sheetPosition'
 >
 
-export type HandleSideSheetContentTrailingOptions = Pick<SideSheetContentProps, 'headlineTrailing' | 'close' | 'id'>
+export type HandleSideSheetContentTrailingOptions = Pick<SideSheetContentProps, 'headlineTrailing' | 'close'>
 export type SheetContainerProps = Pick<RenderSideSheetContentProps, 'sheetPosition' | 'type'>
 export type SheetHeaderProps = {leadingShow?: boolean; trailingShow?: boolean}
 export type SheetViewContentProps = Pick<RenderSideSheetContentProps, 'type'>

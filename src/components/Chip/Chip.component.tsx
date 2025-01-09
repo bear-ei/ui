@@ -30,13 +30,11 @@ const render = ({
         elevation,
         eventName,
         filterIconContainerAnimatedStyle,
-        id,
         labelText,
         labelTextAnimatedStyle,
         leadingIcon,
         onStateEvent,
         ref,
-        testID,
         theme,
         trailing,
         type = 'assist',
@@ -52,7 +50,6 @@ const render = ({
                         pointerEvents='none'
                         shape={shape}
                         style={[backgroundUnderlayAnimatedStyle]}
-                        testID={`chip__backgroundUnderlay--${id}`}
                 />
         )
 
@@ -61,15 +58,11 @@ const render = ({
                         <Elevation
                                 level={elevation}
                                 shape={shape}
-                                testID={`chip__elevation--${id}`}
                         />
                 :       undefined
 
         return (
-                <Container
-                        testID={testID ?? `chip--${id}`}
-                        type={type}
-                >
+                <Container type={type}>
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
@@ -77,7 +70,6 @@ const render = ({
                                 elevationUnderlay={elevationUnderlayElement}
                                 ref={ref}
                                 shape={shape}
-                                testID={`chip__touchable--${id}`}
                                 underlayColor={underlayColor}
                         >
                                 <Content
@@ -85,13 +77,11 @@ const render = ({
                                         accessibilityLabel={labelText}
                                         accessibilityRole='button'
                                         shape={shape}
-                                        testID={`chip__content--${id}`}
                                         type={type}
                                 >
                                         <Main
                                                 avatarShow={!!avatar}
                                                 leadingIconShow={!!leadingIcon}
-                                                testID={`chip__main--${id}`}
                                                 trailingIconShow={!!trailing}
                                                 type={type}
                                         >
@@ -99,29 +89,19 @@ const render = ({
                                                         !avatar &&
                                                         (type === 'filter' ?
                                                                 <AnimatedIconContainer
-                                                                        testID={`chip__iconContainer--${id}`}
                                                                         style={[filterIconContainerAnimatedStyle]}
                                                                 >
-                                                                        <FilterIcon testID={`chip__filterIcon--${id}`}>
-                                                                                {leadingIcon}
-                                                                        </FilterIcon>
+                                                                        <FilterIcon>{leadingIcon}</FilterIcon>
                                                                 </AnimatedIconContainer>
-                                                        :       <IconContainer testID={`chip__iconContainer--${id}`}>
-                                                                        {leadingIcon}
-                                                                </IconContainer>)}
+                                                        :       <IconContainer>{leadingIcon}</IconContainer>)}
 
-                                                {avatar && (
-                                                        <AvatarContainer testID={`chip__avatarContainer--${id}`}>
-                                                                {avatar}
-                                                        </AvatarContainer>
-                                                )}
+                                                {avatar && <AvatarContainer>{avatar}</AvatarContainer>}
 
                                                 <AnimatedLabelText
                                                         ellipsizeMode='tail'
                                                         numberOfLines={1}
                                                         size={type === 'inputFilled' ? 'small' : 'large'}
                                                         style={[labelTextAnimatedStyle]}
-                                                        testID={`chip__labelText--${id}`}
                                                         type='label'
                                                 >
                                                         {labelText}
@@ -129,15 +109,8 @@ const render = ({
 
                                                 {trailing &&
                                                         (close ?
-                                                                <Trailing
-                                                                        testID={`chip__trailing--${id}`}
-                                                                        type={type}
-                                                                >
-                                                                        {trailing}
-                                                                </Trailing>
-                                                        :       <IconContainer testID={`chip__iconContainer--${id}`}>
-                                                                        {trailing}
-                                                                </IconContainer>)}
+                                                                <Trailing type={type}>{trailing}</Trailing>
+                                                        :       <IconContainer>{trailing}</IconContainer>)}
                                         </Main>
 
                                         <Underlay
@@ -146,7 +119,6 @@ const render = ({
                                                 activeColor={activeColor}
                                                 eventName={eventName}
                                                 shape={shape}
-                                                testID={`chip__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>

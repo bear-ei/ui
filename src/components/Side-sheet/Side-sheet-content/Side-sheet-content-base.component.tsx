@@ -1,4 +1,4 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {handleSideSheetContentLeading, handleSideSheetContentTrailing} from './Side-sheet-content-handle'
 import {SideSheetContentBaseProps} from './Side-sheet-content.interface'
@@ -23,7 +23,6 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
                 },
                 ref
         ) => {
-                const id = useId()
                 const {containerAnimatedStyle} = useSideSheetContentAnimated({type, visible})
                 const leading = handleSideSheetContentLeading({headlineLeading, back, sheetPosition})(onBack)
                 const trailing = handleSideSheetContentTrailing({headlineTrailing, close})(onClose)
@@ -33,7 +32,6 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
                         containerAnimatedStyle,
                         footerVisible,
                         headlineText,
-                        id,
                         leading,
                         ref,
                         sheetPosition,

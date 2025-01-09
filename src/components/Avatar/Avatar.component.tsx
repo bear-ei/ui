@@ -7,36 +7,30 @@ import {Container, Content, Image, LabelText} from './Avatar.styles'
 const render = ({
         backgroundColor,
         defaultSource,
-        id,
         labelText,
         shape = 'full',
         source,
-        testID,
         ...containerProps
 }: RenderAvatarProps) => (
         <Container
                 {...containerProps}
                 shape={shape}
-                testID={testID ?? `avatar--${id}`}
         >
                 <Content
                         accessibilityRole='image'
                         backgroundColor={backgroundColor}
                         pointerEvents='none'
-                        testID={`avatar__content--${id}`}
                 >
                         {source || defaultSource ?
                                 <Image
                                         defaultSource={defaultSource ?? {}}
                                         resizeMode='cover'
                                         source={source ?? {}}
-                                        testID={`avatar__image--${id}`}
                                 />
                         :       <LabelText
                                         ellipsizeMode='tail'
                                         numberOfLines={1}
                                         size='medium'
-                                        testID={`avatar__labelText--${id}`}
                                         type='title'
                                 >
                                         {labelText}

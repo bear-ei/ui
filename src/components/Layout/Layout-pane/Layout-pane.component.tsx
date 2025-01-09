@@ -8,8 +8,6 @@ const render = ({
         animatedType = 'collapseX',
         children,
         defaultVisible = true,
-        id,
-        testID,
         width,
         ...containerProps
 }: RenderLayoutPaneProps) => (
@@ -19,7 +17,6 @@ const render = ({
                 defaultVisible={defaultVisible}
                 entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                 exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
-                testID={testID ?? `layoutPane--${id}`}
                 width={width}
         >
                 {children}
