@@ -89,14 +89,13 @@ export const handleChipIcon =
                         return icon
                 }
 
-                const iconSize = theme.adaptSize(theme.token.spacing.medium)
+                const size = theme.adaptSize(theme.token.spacing.medium)
 
                 return cloneElement<IconProps>(icon, {
                         disabled,
                         eventName,
                         fill: theme.token.scheme.primary,
-                        height: iconSize,
-                        width: iconSize
+                        size
                 })
         }
 
@@ -109,17 +108,15 @@ export const handleChipCloseButton =
                 return (
                         <IconButton
                                 disabled={disabled}
-                                height={iconButtonSize}
                                 onPressOut={onClose}
+                                size={iconButtonSize}
                                 type='standard'
-                                width={iconButtonSize}
                                 icon={
                                         <Icon
-                                                height={iconSize}
                                                 iconStyle='rounded'
                                                 name='close'
+                                                size={iconSize}
                                                 type='outlined'
-                                                width={iconSize}
                                         />
                                 }
                         />

@@ -8,12 +8,11 @@ export interface ProgressProps extends ViewProps, RefAttributes<View> {
         animatedType?: ProgressAnimated
         content?: JSX.Element
         defaultValue?: number
-        height?: number
         increment?: number
+        size?: number
         strokeWidth?: number
         type?: ProgressType
         value?: number
-        width?: number
 }
 
 export interface RenderProgressProps extends ProgressProps {
@@ -33,6 +32,6 @@ export interface HandleProgressStateChangeOptions extends OnStateEventChangeOpti
         onLayoutChange: (layout: LayoutRectangle) => void
 }
 
-export interface ProgressContainerProps extends Pick<ProgressProps, 'type' | 'width' | 'height'> {
+export interface ProgressContainerProps extends Pick<ProgressProps, 'type' | 'size'> {
         progressing?: boolean
 }

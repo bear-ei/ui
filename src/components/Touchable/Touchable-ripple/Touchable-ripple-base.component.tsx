@@ -32,12 +32,11 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
                 return render({
                         ...renderProps,
                         containerAnimatedStyle,
-                        height: diameter,
                         locationX,
                         locationY,
                         ref,
-                        underlayColor,
-                        width: diameter
+                        size: diameter,
+                        underlayColor
                 })
         }
 )

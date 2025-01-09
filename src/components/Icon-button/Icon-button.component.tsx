@@ -16,15 +16,14 @@ const render = ({
         defaultActive,
         disabled,
         eventName,
-        height,
         icon,
         loading,
         onStateEvent,
         ref,
+        size,
         theme,
         type,
         underlayColor,
-        width,
         ...contentProps
 }: RenderIconButtonProps) => {
         const shape = 'full'
@@ -46,9 +45,8 @@ const render = ({
                                 <Progress
                                         animatedType='indeterminate'
                                         content={icon}
-                                        height={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
+                                        size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
                                         type='circular'
-                                        width={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
                                 />
                         </ContentItem>
 
@@ -66,10 +64,9 @@ const render = ({
                                         <Content
                                                 {...contentProps}
                                                 accessibilityRole='button'
-                                                height={height}
                                                 pointerEvents='none'
                                                 shape={shape}
-                                                width={width}
+                                                size={size}
                                         >
                                                 <Main>{icon}</Main>
                                                 <Underlay

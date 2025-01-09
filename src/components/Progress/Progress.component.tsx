@@ -10,13 +10,12 @@ const render = ({
         animatedType = 'indeterminate',
         content,
         defaultValue,
-        height,
+        size,
         increment,
         layout,
         onStateEvent,
         type = 'linear',
         value,
-        width,
         strokeWidth,
         ...containerProps
 }: RenderProgressProps) => {
@@ -33,7 +32,7 @@ const render = ({
                                 <ProgressActiveIndicatorCircular
                                         animatedType={animatedType}
                                         content={content}
-                                        size={width ?? height}
+                                        size={size}
                                         strokeWidth={strokeWidth}
                                 />
                         )}

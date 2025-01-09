@@ -120,12 +120,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         ...renderProps,
                                         animatedType,
                                         containerAnimatedStyle,
-                                        height,
                                         onStateEvent,
                                         ref: layoutAnimatedRef,
                                         status,
-                                        visible: !invisible,
-                                        width
+                                        visible: !invisible
                                 })
         }
 )

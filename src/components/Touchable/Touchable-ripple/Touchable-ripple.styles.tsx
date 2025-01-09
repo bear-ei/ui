@@ -5,11 +5,11 @@ import {TouchableRippleContainerProps} from './Touchable-ripple.interface'
 export const Container = styled(Shape)<TouchableRippleContainerProps>`
         position: absolute;
 
-        ${({height = 0, locationX = 0, locationY = 0, width = 0}) => css`
-                height: ${height}px;
+        ${({size = 0, locationX = 0, locationY = 0}) => css`
+                height: ${size}px;
                 left: ${locationX}px;
                 top: ${locationY}px;
-                width: ${width}px;
+                width: ${size}px;
         `}
 
         ${({underlayColor, theme}) => css`

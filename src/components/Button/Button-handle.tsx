@@ -122,8 +122,7 @@ export const handleButtonIcon =
                                 disabled,
                                 eventName,
                                 fill: fillType[type],
-                                height: size,
-                                width: size
+                                size
                         })
                 }
         }

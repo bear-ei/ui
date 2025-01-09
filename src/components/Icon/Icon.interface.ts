@@ -8,11 +8,12 @@ import {outlined} from './icon.outlined'
 export type IconName = keyof (typeof outlined)['outlined']
 export type IconStyle = 'outlined' | 'rounded' | 'sharp'
 export type IconType = 'filled' | 'outlined'
-export interface IconProps extends Omit<SvgProps, 'hitSlop'>, RefAttributes<View>, ViewProps {
+export interface IconProps extends Omit<SvgProps, 'hitSlop' | 'width' | 'height'>, RefAttributes<View>, ViewProps {
         eventName?: EventName
         icon?: FC<SvgProps>
         iconStyle?: IconStyle
         name?: IconName
+        size?: number
         svgStyle?: StyleProp<ViewStyle>
         type?: IconType
 }
@@ -27,4 +28,4 @@ export interface IconBaseProps extends IconProps {
 }
 
 export type UseIconAnimatedOptions = Pick<RenderIconProps, 'eventName'>
-export type IconContainerProps = Pick<IconProps, 'width' | 'height'>
+export type IconContainerProps = Pick<IconProps, 'size'>

@@ -143,15 +143,13 @@ export const Navigation = () => {
                                 leading: <Icon />,
                                 trailing: (
                                         <IconButton
-                                                width={24}
-                                                height={24}
+                                                size={24}
                                                 icon={
                                                         <Icon
                                                                 iconStyle='rounded'
                                                                 name='close'
                                                                 type='filled'
-                                                                width={18}
-                                                                height={18}
+                                                                size={18}
                                                         />
                                                 }
                                                 pointerEvents='box-only'

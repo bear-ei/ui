@@ -7,6 +7,9 @@ import {SkeletonElementProps} from './Skeleton-element'
 export interface SkeletonProps extends ViewProps, RefAttributes<View>, Pick<SkeletonElementProps, 'containerLayout'> {
         duration?: number
         enableAnimated?: boolean
+        /**
+         * FIX:
+         */
         height?: number
         skeleton?: ReactNode
         width?: number

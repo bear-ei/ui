@@ -16,10 +16,9 @@ export interface TouchableRippleProps
 
 export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, 'indexKey'> {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
-        height: number
         locationX: number
         locationY: number
-        width: number
+        size?: number
 }
 
 export interface TouchableRippleBaseProps extends TouchableRippleProps {
@@ -43,8 +42,7 @@ export interface HandleTouchableRippleAnimatedTimingOptions
 }
 
 export interface TouchableRippleContainerProps extends Pick<RenderTouchableRippleProps, 'underlayColor'> {
-        height?: number
+        size?: number
         locationX?: number
         locationY?: number
-        width?: number
 }
