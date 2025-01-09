@@ -191,6 +191,11 @@ export const Trailing = styled(LayoutAnimated)<ListItemTrailingProps>`
                                 theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
                         )}px;
                 `}
+                
+        ${({theme}) => css`
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+        `}
 `
 
 export const HeadlineText = styled(Typography)``

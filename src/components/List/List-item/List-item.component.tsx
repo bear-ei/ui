@@ -167,12 +167,6 @@ const render = ({
                                                                         type={type}
                                                                         unmount={true}
                                                                         visible={trailingVisible}
-                                                                        width={theme.adaptSize(
-                                                                                theme.token.spacing.extraSmall * 12
-                                                                        )}
-                                                                        height={theme.adaptSize(
-                                                                                theme.token.spacing.extraSmall * 12
-                                                                        )}
                                                                 >
                                                                         {trailingElement}
                                                                 </Trailing>

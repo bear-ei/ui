@@ -20,22 +20,6 @@ export const SkeletonContainer = styled.View<SkeletonContainerProps>`
                                 flex-direction: column;
                                 justify-content: center;
                         `}
-
-
-    ${({width}) =>
-                typeof width === 'number' &&
-                css`
-                        min-width: ${width}px;
-                        width: ${width}px;
-                `}
-
-
-    ${({height}) =>
-                typeof height === 'number' &&
-                css`
-                        height: ${height}px;
-                        min-height: ${height}px;
-                `}
 `
 
 export const ContentItem = styled(LayoutAnimated)`

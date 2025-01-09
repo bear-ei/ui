@@ -15,7 +15,6 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         easing?: Easing
         entry?: AnimatedTimingOptions
         exit?: AnimatedTimingOptions
-        height?: number
 
         /**
          * Whether or not to enable scale effects in collapse type animations
@@ -37,7 +36,6 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> & StyleProp<ViewStyle>
         unmount?: boolean
         visible?: boolean
-        width?: number
 }
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
@@ -69,18 +67,11 @@ export interface HandleLayoutAnimatedStateChangeOptions extends OnStateEventChan
 export interface UseLayoutAnimatedOptions
         extends Pick<
                 LayoutAnimatedProps,
-                | 'animatedType'
-                | 'disabledAnimated'
-                | 'entry'
-                | 'exit'
-                | 'height'
-                | 'opacity'
-                | 'scale'
-                | 'unmount'
-                | 'visible'
-                | 'width'
+                'animatedType' | 'disabledAnimated' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible'
         > {
         onAnimatedFinished: (value?: boolean) => void
+        height?: number
+        width?: number
 }
 
 export type HandleLayoutAnimatedStatusOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>
@@ -90,11 +81,6 @@ export interface HandleLayoutAnimatedTimingOptions
 }
 
 export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>
-export interface LayoutAnimatedContentInnerProps {
-        height?: number
-        width?: number
-}
-
 export interface HandleLayoutAnimatedTimingSharedValue {
         collapseSharedValue: SharedValue<number>
         fadeSharedValue: SharedValue<number>
@@ -111,4 +97,4 @@ export interface HandleLayoutAnimatedLayoutVisibleOptions
         setState: Updater<LayoutAnimatedState>
 }
 
-export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible' | 'hidden' | 'width' | 'height'>
+export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible' | 'hidden'>

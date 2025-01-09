@@ -12,6 +12,7 @@ const render = ({
         containerAnimatedStyle,
         hidden = true,
         onStateEvent,
+        status,
         style,
         visible,
         ...containerProps
@@ -20,7 +21,7 @@ const render = ({
                 {...containerProps}
                 {...onStateEvent}
                 hidden={animatedType?.startsWith('collapse') ? false : hidden}
-                style={[style, containerAnimatedStyle]}
+                style={[style, status === 'succeeded' ? containerAnimatedStyle : undefined]}
                 visible={visible}
         >
                 {children}

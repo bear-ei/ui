@@ -70,7 +70,6 @@ const render = ({
                                 {type === 'segment' && (
                                         <Label
                                                 animatedType='collapseY'
-                                                height={theme.adaptSize(theme.token.spacing.large)}
                                                 pointerEvents='none'
                                                 scale={false}
                                                 visible={animatedType === 'collapse' ? active : true}

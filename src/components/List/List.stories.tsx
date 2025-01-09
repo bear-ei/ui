@@ -20,23 +20,17 @@ const renderListSkeleton = () => {
 
         return (
                 <Rectangular
-                        height={56}
+                        size={56}
                         style={[containerStyle]}
                 >
-                        <Square
-                                width={24}
-                                height={24}
-                        />
+                        <Square size={24} />
 
                         <Rectangular
-                                height={48}
+                                size={48}
                                 style={[rectangularStyle]}
                         />
 
-                        <Circle
-                                width={40}
-                                height={40}
-                        />
+                        <Circle size={40} />
                 </Rectangular>
         )
 }

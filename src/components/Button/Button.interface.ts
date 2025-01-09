@@ -1,6 +1,5 @@
 import {TextStyle, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, EventName} from '../Common'
 import {ElevationLevel} from '../Elevation'
@@ -21,7 +20,6 @@ export interface RenderButtonProps extends ButtonProps {
         eventName?: EventName
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         onStateEvent: OnStateEvent
-        theme: DefaultTheme
 }
 
 export interface ButtonBaseProps extends ButtonProps {

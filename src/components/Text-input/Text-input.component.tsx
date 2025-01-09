@@ -145,7 +145,6 @@ const render = ({
                                 </TouchableHeader>
 
                                 <Supporting
-                                        height={theme.adaptSize(theme.token.spacing.medium)}
                                         hidden={false}
                                         onVisible={onSupportingTextVisible}
                                         visible={supportingTextVisible}

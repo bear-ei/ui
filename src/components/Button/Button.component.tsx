@@ -21,7 +21,6 @@ const render = ({
         loading,
         onStateEvent,
         ref,
-        theme,
         type = 'filled',
         underlayColor,
         ...contentProps
@@ -87,13 +86,7 @@ const render = ({
                                                 </AnimatedLabelText>
                                         </Main>
 
-                                        {type === 'link' && (
-                                                <ActiveIndicator
-                                                        height={theme.adaptSize(theme.token.spacing.extraSmall / 4)}
-                                                        visible={activeIndicatorVisible}
-                                                />
-                                        )}
-
+                                        {type === 'link' && <ActiveIndicator visible={activeIndicatorVisible} />}
                                         <Underlay
                                                 eventName={loading ? loadingEventName : eventName}
                                                 shape={shape}

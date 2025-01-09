@@ -4,15 +4,11 @@ import {AnimatedStyle} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEventChangeOptions} from '../../hooks'
 import {SkeletonElementProps} from './Skeleton-element'
 
-export interface SkeletonProps extends ViewProps, RefAttributes<View>, Pick<SkeletonElementProps, 'containerLayout'> {
+export interface SkeletonProps extends ViewProps, RefAttributes<View> {
+        containerLayout?: 'horizontal' | 'vertical'
         duration?: number
         enableAnimated?: boolean
-        /**
-         * FIX:
-         */
-        height?: number
         skeleton?: ReactNode
-        width?: number
 }
 
 export interface RenderSkeletonProps extends SkeletonProps {
@@ -41,6 +37,6 @@ export interface SkeletonComponent extends FC<SkeletonProps> {
         Square: FC<SkeletonElementProps>
 }
 
-export type SkeletonContainerProps = Pick<RenderSkeletonProps, 'width' | 'height' | 'containerLayout'> & {
+export type SkeletonContainerProps = Pick<RenderSkeletonProps, 'containerLayout'> & {
         showChildren?: boolean
 }

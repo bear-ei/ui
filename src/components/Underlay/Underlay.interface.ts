@@ -17,10 +17,8 @@ export interface UnderlayProps extends Pick<ShapeProps, 'shape'>, ViewProps, Ref
         activeScale?: {x?: number; y?: number}
         activeShape?: ShapeType
         eventName?: EventName
-        height?: number
         opacities?: [number, number, number] | [number, number]
         underlayColor?: string
-        width?: number
 }
 
 export interface RenderUnderlayProps extends UnderlayProps {
@@ -50,6 +48,5 @@ export interface HandleUnderlayHoveredAnimatedTimingOptions {
         animatedTiming: AnimatedTiming
 }
 
-export type UnderlayContainerProps = Pick<RenderUnderlayProps, 'height' | 'width'>
 export type HoverLayerProps = Pick<RenderUnderlayProps, 'underlayColor'>
 export type ActiveLayerProps = Pick<RenderUnderlayProps, 'activeColor'>

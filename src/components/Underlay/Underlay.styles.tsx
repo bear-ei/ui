@@ -1,8 +1,8 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {ActiveLayerProps, HoverLayerProps, UnderlayContainerProps} from './Underlay.interface'
+import {ActiveLayerProps, HoverLayerProps} from './Underlay.interface'
 
-export const Container = styled(Shape)<UnderlayContainerProps>`
+export const Container = styled(Shape)`
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -17,11 +17,6 @@ export const Container = styled(Shape)<UnderlayContainerProps>`
                 left: ${theme.adaptSize(theme.token.spacing.none)}px;
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
-        `}
-
-        ${({height, width}) => css`
-                height: ${height ? `${height}px` : 'auto'};
-                width: ${width ? `${width}px` : 'auto'};
         `}
 `
 

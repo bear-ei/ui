@@ -66,6 +66,10 @@ export const Icon = styled(LayoutAnimated)<NavigationRailItemIconProps>`
 export const Label = styled(LayoutAnimated)`
         align-self: stretch;
         position: relative;
+
+        ${({theme}) => css`
+                height: ${theme.adaptSize(theme.token.spacing.large)}px;
+        `}
 `
 
 export const LabelText = styled(Typography)<NavigationRailItemLabelTextProps>`

@@ -22,7 +22,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         disabledAnimated,
                         entry,
                         exit,
-                        height,
                         lazy = false,
                         onUnmount,
                         onVisible,
@@ -31,7 +30,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         scale = true,
                         unmount,
                         visible: rawVisible,
-                        width,
+
                         ...renderProps
                 },
                 ref
@@ -78,12 +77,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         disabledAnimated,
                         entry,
                         exit,
-                        height: layout.height ?? height,
+                        height: layout.height,
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         opacity,
                         scale,
                         visible: visible ?? layoutVisible,
-                        width: layout.width ?? width
+                        width: layout.width
                 })
 
                 useImperativeHandle(
