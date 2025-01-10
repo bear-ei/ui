@@ -3,7 +3,7 @@ import {StyleProp, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {VirtualListBase} from './Virtual-list-base.component'
 import {RenderVirtualListProps, VirtualListProps} from './Virtual-list.interface'
-import {Container, Content, ContentLayout, EmptyContent, LoadingContent, Supporting} from './Virtual-list.styles'
+import {Container, Content, EmptyContent, LoadingContent, Supporting} from './Virtual-list.styles'
 
 const render = <T,>({
         contentContainerStyle,
@@ -34,9 +34,9 @@ const render = <T,>({
                                 onLayout={onLayout}
                                 scrollEventThrottle={scrollEventThrottle}
                         >
-                                <ContentLayout visible={!loading && !emptyList && typeof emptyList === 'boolean'}>
-                                        <Content>{itemElements}</Content>
-                                </ContentLayout>
+                                <Content visible={!loading && !emptyList && typeof emptyList === 'boolean'}>
+                                        {itemElements}
+                                </Content>
 
                                 <EmptyContent
                                         lazy={true}

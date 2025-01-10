@@ -7,12 +7,8 @@ import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeO
 import {ComponentStatus, ShapeProps} from '../Common'
 
 export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY' | 'scale'
-export interface LayoutAnimatedProps
-        extends Omit<RefAttributes<View>, 'children'>,
-                Omit<ViewProps, 'style'>,
-                ShapeProps {
+export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
         animatedType?: LayoutAnimatedType
-        children?: JSX.Element
         defaultVisible?: boolean
         disabledAnimated?: boolean
         duration?: Duration

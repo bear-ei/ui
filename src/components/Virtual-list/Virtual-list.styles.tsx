@@ -11,8 +11,7 @@ export const Container = styled.View`
         `}
 `
 
-export const ContentLayout = styled(LayoutAnimated)``
-export const Content = styled.View`
+export const Content = styled(LayoutAnimated)`
         align-items: center;
         display: flex;
         flex-direction: column;

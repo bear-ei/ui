@@ -2,6 +2,7 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
+import {debounce} from '../../utils'
 import {handleUnderlayActiveAnimatedTiming, handleUnderlayHoveredAnimatedTiming} from './Underlay-handle'
 import {UseUnderlayAnimatedOptions} from './Underlay.interface'
 
@@ -75,7 +76,12 @@ export const useUnderlayAnimated = ({
         }
 
         const onUnderlayHoveredAnimatedTiming = useMemo(
-                () => handleUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(hoverLayerSharedValue),
+                () =>
+                        debounce(
+                                handleUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(
+                                        hoverLayerSharedValue
+                                )
+                        )(50),
                 [animatedTiming, activeValue, hoverLayerSharedValue]
         )
 

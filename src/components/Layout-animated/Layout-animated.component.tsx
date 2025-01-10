@@ -17,15 +17,17 @@ const render = ({
         ...containerProps
 }: RenderLayoutAnimatedProps) => {
         const {onLayout} = onStateEvent
+        const collapse = animatedType?.startsWith('collapse')
 
         return (
                 <AnimatedContainer
                         {...containerProps}
-                        hidden={animatedType?.startsWith('collapse') ? false : hidden}
+                        {...(!collapse && {onLayout})}
+                        hidden={collapse ? false : hidden}
                         style={[style, containerAnimatedStyle]}
                         visible={visible}
                 >
-                        {cloneElement(children ?? <></>, {onLayout})}
+                        {collapse ? cloneElement((children as JSX.Element) ?? <></>, {onLayout}) : children}
                 </AnimatedContainer>
         )
 }

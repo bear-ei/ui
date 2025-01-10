@@ -8,6 +8,9 @@ export const Container = styled(LayoutAnimated)<LayoutAnimatedProps>`
 `
 
 export const Content = styled.View<LayoutAnimatedProps>`
+        flex: 1;
+        align-self: stretch;
+
         ${({theme}) => css`
                 max-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 100)}px;
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
