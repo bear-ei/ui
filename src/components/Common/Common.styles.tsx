@@ -5,8 +5,10 @@ export const Shape = styled.View<ShapeProps>`
         ${({shape = 'none', theme}) => css`
                 border-bottom-left-radius: ${theme.adaptSize(theme.token.shape[shape].bottomLeft)}px;
                 border-bottom-right-radius: ${theme.adaptSize(theme.token.shape[shape].bottomRight)}px;
+                border-color: transparent;
                 border-top-left-radius: ${theme.adaptSize(theme.token.shape[shape].topLeft)}px;
                 border-top-right-radius: ${theme.adaptSize(theme.token.shape[shape].topRight)}px;
+                border-width: ${theme.adaptSize(theme.token.spacing.none)}px;
         `}
 `
 

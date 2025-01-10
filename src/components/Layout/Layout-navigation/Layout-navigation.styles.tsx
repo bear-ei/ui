@@ -7,7 +7,7 @@ export const Container = styled(LayoutAnimated)<LayoutAnimatedProps>`
         `}
 `
 
-export const Content = styled.View<LayoutAnimatedProps>`
+export const Content = styled.View`
         flex: 1;
         align-self: stretch;
 
