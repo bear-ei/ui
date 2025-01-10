@@ -14,8 +14,8 @@ const SkeletonComponent = (props: SkeletonProps) => {
                                 containerLayout='vertical'
                                 style={[rectangularStyle]}
                         >
-                                <Rectangular height={16} />
-                                <Rectangular height={16} />
+                                <Rectangular />
+                                <Rectangular />
                         </Rectangular>
                         <Circle />
                 </>

@@ -12,21 +12,19 @@ const render = ({
         activeColor,
         activeLayerAnimatedStyle,
         activeShape,
-        height,
+
         hoverLayerAnimatedStyle,
         shape,
         style,
         underlayColor,
-        width,
+
         ...containerProps
 }: RenderUnderlayProps) => (
         <Container
                 {...containerProps}
-                height={height}
                 pointerEvents='none'
                 shape={shape}
                 style={[style]}
-                width={width}
         >
                 <AnimatedHoverLayer
                         shape={shape}
