@@ -7,8 +7,12 @@ import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeO
 import {ComponentStatus, ShapeProps} from '../Common'
 
 export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY' | 'scale'
-export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
+export interface LayoutAnimatedProps
+        extends Omit<RefAttributes<View>, 'children'>,
+                Omit<ViewProps, 'style'>,
+                ShapeProps {
         animatedType?: LayoutAnimatedType
+        children?: JSX.Element
         defaultVisible?: boolean
         disabledAnimated?: boolean
         duration?: Duration
@@ -41,7 +45,6 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
         containerAnimatedStyle?: AnimatedStyle<ViewStyle>
         onStateEvent: OnStateEvent
-        status?: ComponentStatus
         visible?: boolean
 }
 
@@ -71,6 +74,7 @@ export interface UseLayoutAnimatedOptions
         > {
         onAnimatedFinished: (value?: boolean) => void
         height?: number
+        status: ComponentStatus
         width?: number
 }
 
@@ -86,14 +90,7 @@ export interface HandleLayoutAnimatedTimingSharedValue {
         fadeSharedValue: SharedValue<number>
 }
 
-export interface HandleLayoutAnimatedLayoutVisibleDraftChangeOptions {
-        height: number
-        value?: boolean
-        width: number
-}
-
-export interface HandleLayoutAnimatedLayoutVisibleOptions
-        extends Pick<LayoutAnimatedProps, 'animatedType' | 'onVisible'> {
+export interface HandleLayoutAnimatedLayoutVisibleOptions extends Pick<LayoutAnimatedProps, 'onVisible'> {
         setState: Updater<LayoutAnimatedState>
 }
 

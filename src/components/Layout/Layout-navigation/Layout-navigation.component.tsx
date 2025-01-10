@@ -2,14 +2,12 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {LayoutNavigationBase} from './Layout-navigation-base.component'
 import {LayoutNavigationProps, RenderLayoutNavigationProps} from './Layout-navigation.interface'
-import {Container} from './Layout-navigation.styles'
+import {Container, Content} from './Layout-navigation.styles'
 
 const render = ({
         animatedType = 'collapseX',
         children,
         defaultVisible = true,
-        theme,
-        width,
         ...containerProps
 }: RenderLayoutNavigationProps) => (
         <Container
@@ -18,9 +16,8 @@ const render = ({
                 defaultVisible={defaultVisible}
                 entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                 exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
-                width={width ?? theme.adaptSize(theme.token.spacing.extraSmall * 20)}
         >
-                {children}
+                <Content>{children}</Content>
         </Container>
 )
 

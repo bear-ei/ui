@@ -1,12 +1,11 @@
 import {WritableDraft} from 'immer'
-import {LayoutChangeEvent, View} from 'react-native'
+import {LayoutChangeEvent} from 'react-native'
 import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
 import {StateEvent} from '../../hooks'
 import {EventName} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
-        HandleLayoutAnimatedLayoutVisibleDraftChangeOptions,
         HandleLayoutAnimatedLayoutVisibleOptions,
         HandleLayoutAnimatedStateChangeOptions,
         HandleLayoutAnimatedStatusOptions,
@@ -47,41 +46,19 @@ export const handleLayoutAnimatedStateChange =
                 }
         }
 
-export const handleLayoutAnimatedLayoutVisible = ({
-        animatedType,
-        onVisible,
-        setState
-}: HandleLayoutAnimatedLayoutVisibleOptions) => {
+export const handleLayoutAnimatedLayoutVisible = ({onVisible, setState}: HandleLayoutAnimatedLayoutVisibleOptions) => {
         const handleNextVisibleEvent = (value?: boolean) => () => onVisible?.(value)
-        const handleDraftChange =
-                ({value, width, height}: HandleLayoutAnimatedLayoutVisibleDraftChangeOptions) =>
-                (draft: WritableDraft<LayoutAnimatedState>) => {
-                        if (value === draft.visible) {
-                                return
-                        }
-
-                        if (!value) {
-                                draft.visible = value
-
-                                return
-                        }
-
-                        if (animatedType?.startsWith('collapse')) {
-                                const {width: prevWidth, height: prevHeight} = draft.layout
-
-                                if (prevWidth !== width || prevHeight !== height) {
-                                        draft.layout.height = height || draft.layout.height
-                                        draft.layout.width = width || draft.layout.width
-                                }
-                        }
-
-                        draft.invisible = !value
-                        draft.nextVisibleEvent = handleNextVisibleEvent(value)
-                        draft.visible = value
+        const handleDraftChange = (value?: boolean) => (draft: WritableDraft<LayoutAnimatedState>) => {
+                if (value === draft.visible) {
+                        return
                 }
 
-        return (ref: React.RefObject<View>) => (value?: boolean) =>
-                ref.current?.measure((_x, _y, width, height) => setState(handleDraftChange({value, width, height})))
+                draft.invisible = !value
+                draft.nextVisibleEvent = handleNextVisibleEvent(value)
+                draft.visible = value
+        }
+
+        return (value?: boolean) => setState(handleDraftChange(value))
 }
 
 export const handleLayoutAnimatedFinished =

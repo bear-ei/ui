@@ -18,37 +18,35 @@ const render = ({
         value,
         strokeWidth,
         ...containerProps
-}: RenderProgressProps) => {
-        return (
-                <Container
-                        {...containerProps}
-                        {...onStateEvent}
-                        accessibilityRole='progressbar'
-                        pointerEvents='none'
-                        progressing={!!(value && value > 0)}
-                        type={type}
-                >
-                        {type === 'circular' && (
-                                <ProgressActiveIndicatorCircular
-                                        animatedType={animatedType}
-                                        content={content}
-                                        size={size}
-                                        strokeWidth={strokeWidth}
-                                />
-                        )}
+}: RenderProgressProps) => (
+        <Container
+                {...containerProps}
+                {...onStateEvent}
+                accessibilityRole='progressbar'
+                pointerEvents='none'
+                progressing={!!(value && value > 0)}
+                type={type}
+        >
+                {type === 'circular' && (
+                        <ProgressActiveIndicatorCircular
+                                animatedType={animatedType}
+                                content={content}
+                                size={size}
+                                strokeWidth={strokeWidth}
+                        />
+                )}
 
-                        {type === 'linear' && typeof layout.width === 'number' && layout.width !== 0 && (
-                                <ProgressActiveIndicatorLinear
-                                        animatedType={animatedType}
-                                        containerLayout={layout}
-                                        defaultValue={defaultValue}
-                                        increment={increment}
-                                        value={value}
-                                />
-                        )}
-                </Container>
-        )
-}
+                {type === 'linear' && typeof layout.width === 'number' && layout.width !== 0 && (
+                        <ProgressActiveIndicatorLinear
+                                animatedType={animatedType}
+                                containerLayout={layout}
+                                defaultValue={defaultValue}
+                                increment={increment}
+                                value={value}
+                        />
+                )}
+        </Container>
+)
 
 const ForwardRefProgress = forwardRef<View, ProgressProps>((props, ref) => (
         <ProgressBase

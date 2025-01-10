@@ -5,7 +5,16 @@ import {Underlay} from '../../Underlay'
 import {NavigationRailItemBase} from './Navigation-rail-item-base.component'
 import {handleNavigationRailItemPropsEqual} from './Navigation-rail-item-handle'
 import {NavigationRailItemProps, RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
-import {Container, Header, Icon, IconContainer, Label, LabelText, TouchableContent} from './Navigation-rail-item.styles'
+import {
+        Container,
+        Header,
+        Icon,
+        IconContainer,
+        Label,
+        LabelText,
+        LabelTextContainer,
+        TouchableContent
+} from './Navigation-rail-item.styles'
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
@@ -74,16 +83,18 @@ const render = ({
                                                 scale={false}
                                                 visible={animatedType === 'collapse' ? active : true}
                                         >
-                                                <AnimatedLabelText
-                                                        active={active}
-                                                        ellipsizeMode='tail'
-                                                        numberOfLines={1}
-                                                        size='medium'
-                                                        style={[labelTextAnimatedStyle]}
-                                                        type='label'
-                                                >
-                                                        {labelText}
-                                                </AnimatedLabelText>
+                                                <LabelTextContainer>
+                                                        <AnimatedLabelText
+                                                                active={active}
+                                                                ellipsizeMode='tail'
+                                                                numberOfLines={1}
+                                                                size='medium'
+                                                                style={[labelTextAnimatedStyle]}
+                                                                type='label'
+                                                        >
+                                                                {labelText}
+                                                        </AnimatedLabelText>
+                                                </LabelTextContainer>
                                         </Label>
                                 )}
                         </TouchableContent>

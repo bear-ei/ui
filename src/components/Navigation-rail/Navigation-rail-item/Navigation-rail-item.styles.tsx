@@ -65,10 +65,14 @@ export const Icon = styled(LayoutAnimated)<NavigationRailItemIconProps>`
 
 export const Label = styled(LayoutAnimated)`
         align-self: stretch;
+`
+
+export const LabelTextContainer = styled.View`
+        align-self: stretch;
         position: relative;
 
         ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.spacing.large)}px;
+                min-height: ${theme.adaptSize(theme.token.spacing.large)}px;
         `}
 `
 

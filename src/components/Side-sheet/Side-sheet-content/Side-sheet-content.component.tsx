@@ -10,7 +10,7 @@ import {
         Content,
         Footer,
         FooterContainer,
-        FooterContent,
+        FooterLayout,
         Header,
         HeaderText,
         HeadlineContainer,
@@ -79,13 +79,13 @@ const render = ({
                                 </Header>
 
                                 <Main>{content}</Main>
-                                <FooterContainer
+                                <FooterLayout
                                         animatedType='collapseY'
                                         entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                                         exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
                                         visible={footerVisible}
                                 >
-                                        <FooterContent>
+                                        <FooterContainer>
                                                 <Divider size='large' />
 
                                                 <Footer type={type}>
@@ -115,8 +115,8 @@ const render = ({
                                                                 )}
                                                         </SecondaryButton>
                                                 </Footer>
-                                        </FooterContent>
-                                </FooterContainer>
+                                        </FooterContainer>
+                                </FooterLayout>
                         </Content>
                 </AnimatedContainer>
         )

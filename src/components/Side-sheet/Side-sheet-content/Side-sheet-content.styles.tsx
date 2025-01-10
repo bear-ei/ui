@@ -147,7 +147,7 @@ export const SecondaryButton = styled.View`
         `}
 `
 
-export const FooterContainer = styled(LayoutAnimated)`
+export const FooterLayout = styled(LayoutAnimated)`
         position: absolute;
         transform-origin: bottom;
 
@@ -157,7 +157,7 @@ export const FooterContainer = styled(LayoutAnimated)`
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
         `}
 `
-export const FooterContent = styled.View`
+export const FooterContainer = styled.View`
         ${({theme}) => css`
                 max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
