@@ -4,15 +4,9 @@ import {LayoutPaneBase} from './Layout-pane-base.component'
 import {LayoutPaneProps, RenderLayoutPaneProps} from './Layout-pane.interface'
 import {Container} from './Layout-pane.styles'
 
-const render = ({
-        animatedType = 'collapseX',
-        children,
-        defaultVisible = true,
-        ...containerProps
-}: RenderLayoutPaneProps) => (
+const render = ({children, defaultVisible = true, ...containerProps}: RenderLayoutPaneProps) => (
         <Container
                 {...containerProps}
-                animatedType={animatedType}
                 defaultVisible={defaultVisible}
                 entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                 exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}

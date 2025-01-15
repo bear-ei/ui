@@ -5,7 +5,7 @@ import {useTheme} from 'styled-components/native'
 import {SkeletonBase} from './Skeleton-base.component'
 import {SkeletonElement, SkeletonElementProps} from './Skeleton-element'
 import {RenderSkeletonProps, SkeletonComponent, SkeletonProps} from './Skeleton.interface'
-import {ContentItem, ContentItemLayout, SkeletonContainer} from './Skeleton.styles'
+import {ContentItemLayout, SkeletonContainer} from './Skeleton.styles'
 
 const AnimatedSkeletonContainer = Animated.createAnimatedComponent(SkeletonContainer)
 const render = ({
@@ -32,9 +32,7 @@ const render = ({
                                 </AnimatedSkeletonContainer>
                         </ContentItemLayout>
 
-                        <ContentItemLayout visible={!skeletonVisible}>
-                                <ContentItem>{children}</ContentItem>
-                        </ContentItemLayout>
+                        <ContentItemLayout visible={!skeletonVisible}>{children}</ContentItemLayout>
                 </>
         )
 }

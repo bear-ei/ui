@@ -4,8 +4,13 @@ import {Shape} from '../Common'
 import {SearchContentProps} from './Search.interface'
 
 export const Container = styled.View`
+        align-self: stretch;
         position: relative;
         z-index: 4096;
+
+        ${({theme}) => css`
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+        `};
 `
 
 export const Touchable = styled.Pressable`

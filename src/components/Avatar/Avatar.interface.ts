@@ -6,6 +6,7 @@ export interface AvatarProps extends ViewProps, RefAttributes<View>, ShapeProps 
         backgroundColor?: string
         defaultSource?: ImageURISource | number
         labelText?: string
+        size?: number
         source?: ImageSourcePropType
 }
 
@@ -14,4 +15,4 @@ export interface AvatarBaseProps extends AvatarProps {
         render: (props: RenderAvatarProps) => JSX.Element
 }
 
-export type AvatarContentProps = Pick<RenderAvatarProps, 'backgroundColor'>
+export type AvatarContainerProps = Pick<RenderAvatarProps, 'backgroundColor' | 'size'>

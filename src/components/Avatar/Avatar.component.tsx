@@ -2,41 +2,40 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {AvatarBase} from './Avatar-base.component'
 import {AvatarProps, RenderAvatarProps} from './Avatar.interface'
-import {Container, Content, Image, LabelText} from './Avatar.styles'
+import {Container, Image, LabelText} from './Avatar.styles'
 
 const render = ({
         backgroundColor,
         defaultSource,
         labelText,
         shape = 'full',
+        size,
         source,
         ...containerProps
 }: RenderAvatarProps) => (
         <Container
                 {...containerProps}
+                accessibilityRole='image'
+                backgroundColor={backgroundColor}
+                pointerEvents='none'
                 shape={shape}
+                size={size}
         >
-                <Content
-                        accessibilityRole='image'
-                        backgroundColor={backgroundColor}
-                        pointerEvents='none'
-                >
-                        {source || defaultSource ?
-                                <Image
-                                        defaultSource={defaultSource ?? {}}
-                                        resizeMode='cover'
-                                        source={source ?? {}}
-                                />
-                        :       <LabelText
-                                        ellipsizeMode='tail'
-                                        numberOfLines={1}
-                                        size='medium'
-                                        type='title'
-                                >
-                                        {labelText}
-                                </LabelText>
-                        }
-                </Content>
+                {source || defaultSource ?
+                        <Image
+                                defaultSource={defaultSource ?? {}}
+                                resizeMode='cover'
+                                source={source ?? {}}
+                        />
+                :       <LabelText
+                                ellipsizeMode='tail'
+                                numberOfLines={1}
+                                size='medium'
+                                type='title'
+                        >
+                                {labelText}
+                        </LabelText>
+                }
         </Container>
 )
 

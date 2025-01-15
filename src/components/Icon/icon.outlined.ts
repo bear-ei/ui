@@ -82,6 +82,10 @@ import KidStarFill from '@material-symbols/svg-400/outlined/kid_star-fill.svg'
 import KidStar from '@material-symbols/svg-400/outlined/kid_star.svg'
 import LabelFill from '@material-symbols/svg-400/outlined/label-fill.svg'
 import Label from '@material-symbols/svg-400/outlined/label.svg'
+import LeftPanelCloseFill from '@material-symbols/svg-400/outlined/left_panel_close-fill.svg'
+import LeftPanelClose from '@material-symbols/svg-400/outlined/left_panel_close.svg'
+import LeftPanelOpenFill from '@material-symbols/svg-400/outlined/left_panel_open-fill.svg'
+import LeftPanelOpen from '@material-symbols/svg-400/outlined/left_panel_open.svg'
 import LinkFill from '@material-symbols/svg-400/outlined/link-fill.svg'
 import Link from '@material-symbols/svg-400/outlined/link.svg'
 import LogoutFill from '@material-symbols/svg-400/outlined/logout-fill.svg'
@@ -225,6 +229,8 @@ export const outlined = {
                 info: InfoFill,
                 kidStar: KidStarFill,
                 label: LabelFill,
+                leftPanelClose: LeftPanelCloseFill,
+                leftPanelOpen: LeftPanelOpenFill,
                 link: LinkFill,
                 logout: LogoutFill,
                 mail: MailFill,
@@ -318,6 +324,8 @@ export const outlined = {
                 info: Info,
                 kidStar: KidStar,
                 label: Label,
+                leftPanelClose: LeftPanelClose,
+                leftPanelOpen: LeftPanelOpen,
                 link: Link,
                 logout: Logout,
                 mail: Mail,
