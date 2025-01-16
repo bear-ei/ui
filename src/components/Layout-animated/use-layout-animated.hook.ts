@@ -35,7 +35,7 @@ export const useLayoutAnimated = ({
         ]
 
         const collapseXAnimatedStyle = useAnimatedStyle(() => ({
-                maxWidth: interpolate(containerSharedValue.value, [0, 1], widthOutputRange),
+                width: interpolate(containerSharedValue.value, [0, 1], widthOutputRange),
                 ...(scale && {transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]})
         }))
 
@@ -45,7 +45,7 @@ export const useLayoutAnimated = ({
         ]
 
         const collapseYAnimatedStyle = useAnimatedStyle(() => ({
-                maxHeight: interpolate(containerSharedValue.value, [0, 1], heightOutputRange),
+                height: interpolate(containerSharedValue.value, [0, 1], heightOutputRange),
                 ...(scale && {transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]})
         }))
 

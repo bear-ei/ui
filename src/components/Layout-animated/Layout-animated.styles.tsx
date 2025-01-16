@@ -3,14 +3,21 @@ import {Shape} from '../Common'
 import {LayoutAnimatedContainerProps, LayoutAnimatedContentLayoutProps} from './Layout-animated.interface'
 
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
-        overflow: hidden;
+        position: relative;
 
         ${({visible, theme, hidden}) =>
                 !visible &&
                 hidden &&
                 css`
-                        max-height: ${theme.token.spacing.none}px;
+                        /* height: ${theme.token.spacing.none}px; */
                 `}
+
+        ${({collapse}) =>
+                collapse &&
+                css`
+                        overflow: hidden;
+                `}
+
 
         ${({visible}) =>
                 !visible &&
@@ -20,17 +27,6 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 `
 
 export const ContentLayout = styled.View<LayoutAnimatedContentLayoutProps>`
-        flex: 1;
-        position: relative;
-
-        ${({layout}) =>
-                layout?.height &&
-                css`
-                        min-height: ${layout.height}px;
-                `}
-`
-
-export const Content = styled.View`
         position: absolute;
 
         ${({theme}) => css`
@@ -39,4 +35,21 @@ export const Content = styled.View`
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
         `};
+
+        ${({layout}) =>
+                layout?.height &&
+                css`
+                        min-height: ${layout?.height}px;
+                `}
+
+        ${({layout}) =>
+                layout?.width &&
+                css`
+                        min-width: ${layout?.width}px;
+                `}
+`
+
+export const Content = styled.View`
+        align-self: stretch;
+        flex: 1;
 `

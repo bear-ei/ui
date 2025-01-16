@@ -2,7 +2,7 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {LayoutNavigationBase} from './Layout-navigation-base.component'
 import {LayoutNavigationProps, RenderLayoutNavigationProps} from './Layout-navigation.interface'
-import {ContainerLayoutAnimated, Content} from './Layout-navigation.styles'
+import {ContainerLayoutAnimated} from './Layout-navigation.styles'
 
 const render = ({
         animatedType = 'collapseX',
@@ -17,7 +17,7 @@ const render = ({
                 entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                 exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
         >
-                <Content>{children}</Content>
+                {children}
         </ContainerLayoutAnimated>
 )
 

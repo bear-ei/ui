@@ -9,7 +9,6 @@ import {ComponentStatus, ShapeProps} from '../Common'
 export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY' | 'scale'
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
         animatedType?: LayoutAnimatedType
-        children?: JSX.Element
         defaultVisible?: boolean
         disabledAnimated?: boolean
         duration?: Duration
@@ -92,5 +91,8 @@ export interface HandleLayoutAnimatedLayoutVisibleOptions extends Pick<LayoutAni
         setState: Updater<LayoutAnimatedState>
 }
 
-export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible' | 'hidden'>
+export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 'visible' | 'hidden'> {
+        collapse?: boolean
+}
+
 export type LayoutAnimatedContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'layout'>

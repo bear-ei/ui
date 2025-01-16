@@ -4,14 +4,14 @@ import {LayoutBase} from './Layout-base.component'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
 import {LayoutComponent, LayoutProps, RenderLayoutProps} from './Layout.interface'
-import {ContainerLayoutAnimated, Content} from './Layout.styles'
+import {ContainerLayoutAnimated} from './Layout.styles'
 
 const render = ({children, defaultVisible = true, ...containerProps}: RenderLayoutProps) => (
         <ContainerLayoutAnimated
                 {...containerProps}
                 defaultVisible={defaultVisible}
         >
-                <Content>{children}</Content>
+                {children}
         </ContainerLayoutAnimated>
 )
 

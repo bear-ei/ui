@@ -55,7 +55,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [lazy, setState, unmount]
                 )
 
-                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)(animatedType)
+                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleLayoutAnimatedStateChange({
@@ -110,7 +110,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         layout,
                                         onStateEvent,
                                         ref,
-                                        visible: !invisible
+                                        visible: typeof invisible === 'boolean' ? !invisible : layoutVisible
                                 })
         }
 )

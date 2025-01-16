@@ -1,4 +1,4 @@
-import {cloneElement, FC, forwardRef} from 'react'
+import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {LayoutAnimatedBase} from './Layout-animated-base.component'
@@ -18,22 +18,19 @@ const render = ({
         ...containerProps
 }: RenderLayoutAnimatedProps) => {
         const {onLayout} = onStateEvent
-        const childrenElement = cloneElement(children ?? <></>, {onLayout})
         const collapse = animatedType?.startsWith('collapse')
 
         return (
                 <AnimatedContainer
                         {...containerProps}
+                        collapse={collapse}
                         hidden={collapse ? false : hidden}
                         style={[style, containerAnimatedStyle]}
                         visible={visible}
                 >
-                        {collapse ?
-                                childrenElement
-                        :       <ContentLayout layout={layout}>
-                                        <Content>{childrenElement}</Content>
-                                </ContentLayout>
-                        }
+                        <ContentLayout layout={layout}>
+                                <Content onLayout={onLayout}>{children}</Content>
+                        </ContentLayout>
                 </AnimatedContainer>
         )
 }

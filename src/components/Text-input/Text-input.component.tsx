@@ -145,6 +145,7 @@ const render = ({
                                 </TouchableHeader>
 
                                 <SupportingLayoutAnimated
+                                        hidden={false}
                                         onVisible={onSupportingTextVisible}
                                         visible={supportingTextVisible}
                                 >

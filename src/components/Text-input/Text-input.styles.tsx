@@ -165,7 +165,7 @@ export const Input = styled.TextInput`
 
 export const SupportingLayoutAnimated = styled(LayoutAnimated)`
         ${({theme}) => css`
-                min-height: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                height: ${theme.adaptSize(theme.token.spacing.medium)}px;
         `}
 `
 
