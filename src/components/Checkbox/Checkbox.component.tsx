@@ -13,10 +13,6 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
         const checkBoxOutlineFill = error ? theme.token.scheme.error : unselectedFill
         const shape = 'full'
         const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
-        const iconStyle = {
-                width: iconSize,
-                height: iconSize
-        }
 
         const checkUnderlayColor =
                 type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
@@ -51,11 +47,11 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
                                         <Main shape='tinySmall'>
                                                 <IconContainer visible={true}>
                                                         <Icon
-                                                                {...iconStyle}
                                                                 disabled={disabled}
                                                                 fill={checkBoxOutlineFill}
                                                                 iconStyle='rounded'
                                                                 name='checkBoxOutlineBlank'
+                                                                size={iconSize}
                                                                 svgStyle={iconSvgStyle}
                                                                 type='filled'
                                                         />
@@ -63,15 +59,14 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
 
                                                 <IconContainer
                                                         {...animatedOptions}
-                                                        hidden={false}
                                                         visible={type === 'selected'}
                                                 >
                                                         <Icon
-                                                                {...iconStyle}
                                                                 disabled={disabled}
                                                                 fill={activeFill}
                                                                 iconStyle='rounded'
                                                                 name='checkBox'
+                                                                size={iconSize}
                                                                 svgStyle={iconSvgStyle}
                                                                 type='filled'
                                                         />
@@ -79,15 +74,14 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
 
                                                 <IconContainer
                                                         {...animatedOptions}
-                                                        hidden={false}
                                                         visible={type === 'indeterminate'}
                                                 >
                                                         <Icon
-                                                                {...iconStyle}
                                                                 disabled={disabled}
                                                                 fill={activeFill}
                                                                 iconStyle='rounded'
                                                                 name='indeterminateCheckBox'
+                                                                size={iconSize}
                                                                 svgStyle={iconSvgStyle}
                                                                 type='filled'
                                                         />

@@ -135,15 +135,21 @@ export const IconContainer = styled.View`
         overflow: hidden;
 `
 
-export const ActiveIndicator = styled(LayoutAnimated)`
+export const ActiveIndicatorLayoutAnimated = styled(LayoutAnimated)`
         position: absolute;
         z-index: 8;
 
         ${({theme}) => css`
-                background-color: ${theme.token.scheme.primary};
                 bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
                 height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                 left: ${theme.adaptSize(theme.token.spacing.none)}px;
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
+        `};
+`
+
+export const ActiveIndicator = styled.View`
+        ${({theme}) => css`
+                background-color: ${theme.token.scheme.primary};
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
         `};
 `

@@ -6,7 +6,16 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {ButtonBase} from './Button-base.component'
 import {ButtonProps, RenderButtonProps} from './Button.interface'
-import {ActiveIndicator, BackgroundUnderlay, Container, Content, IconContainer, LabelText, Main} from './Button.styles'
+import {
+        ActiveIndicator,
+        ActiveIndicatorLayoutAnimated,
+        BackgroundUnderlay,
+        Container,
+        Content,
+        IconContainer,
+        LabelText,
+        Main
+} from './Button.styles'
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
@@ -86,7 +95,11 @@ const render = ({
                                                 </AnimatedLabelText>
                                         </Main>
 
-                                        {type === 'link' && <ActiveIndicator visible={activeIndicatorVisible} />}
+                                        {type === 'link' && (
+                                                <ActiveIndicatorLayoutAnimated visible={activeIndicatorVisible}>
+                                                        <ActiveIndicator />
+                                                </ActiveIndicatorLayoutAnimated>
+                                        )}
                                         <Underlay
                                                 eventName={loading ? loadingEventName : eventName}
                                                 shape={shape}

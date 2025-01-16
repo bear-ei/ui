@@ -40,6 +40,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
         containerAnimatedStyle?: AnimatedStyle<ViewStyle>
+        layout: LayoutRectangle
         onStateEvent: OnStateEvent
         visible?: boolean
 }
@@ -91,3 +92,4 @@ export interface HandleLayoutAnimatedLayoutVisibleOptions extends Pick<LayoutAni
 }
 
 export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible' | 'hidden'>
+export type LayoutAnimatedContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'layout'>

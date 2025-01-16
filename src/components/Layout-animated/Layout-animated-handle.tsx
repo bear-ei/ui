@@ -21,16 +21,14 @@ export const handleLayoutAnimatedLayoutChange =
                 const {height, width} = event.nativeEvent.layout
 
                 setState(draft => {
-                        if (draft.status !== 'succeeded') {
-                                if (animatedType.startsWith('collapse')) {
-                                        draft.layout.height = height
-                                        draft.layout.width = width
-                                }
-
-                                draft.invisible = !draft.visible
-
-                                draft.status = 'succeeded'
+                        if (animatedType.startsWith('collapse')) {
+                                draft.layout.height = height
+                                draft.layout.width = width
                         }
+
+                        draft.invisible = !draft.visible
+
+                        draft.status = 'succeeded'
                 })
         }
 
