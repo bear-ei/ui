@@ -20,12 +20,11 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 `
 
 export const ContentLayout = styled.View<LayoutAnimatedContentLayoutProps>`
-        align-self: stretch;
         flex: 1;
         position: relative;
 
         ${({layout}) =>
-                layout &&
+                layout?.height &&
                 css`
                         min-height: ${layout.height}px;
                 `}

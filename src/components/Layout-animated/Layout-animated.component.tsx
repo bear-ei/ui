@@ -18,8 +18,8 @@ const render = ({
         ...containerProps
 }: RenderLayoutAnimatedProps) => {
         const {onLayout} = onStateEvent
-        const collapse = animatedType?.startsWith('collapse')
         const childrenElement = cloneElement(children ?? <></>, {onLayout})
+        const collapse = animatedType?.startsWith('collapse')
 
         return (
                 <AnimatedContainer

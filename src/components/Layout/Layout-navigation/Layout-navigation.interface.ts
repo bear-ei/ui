@@ -1,7 +1,10 @@
 import {DefaultTheme} from 'styled-components'
 import {LayoutAnimatedProps} from '../../Layout-animated'
 
-export type LayoutNavigationProps = LayoutAnimatedProps
+export interface LayoutNavigationProps extends Omit<LayoutAnimatedProps, 'children'> {
+        children?: React.ReactNode
+}
+
 export interface RenderLayoutNavigationProps extends LayoutNavigationProps {
         theme: DefaultTheme
 }

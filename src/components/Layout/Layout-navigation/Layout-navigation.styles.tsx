@@ -13,3 +13,7 @@ export const ContainerLayoutAnimated = styled(LayoutAnimated)<LayoutAnimatedProp
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
         `}
 `
+
+export const Content = styled.View`
+        flex: 1;
+`
