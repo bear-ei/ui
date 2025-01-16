@@ -4,15 +4,15 @@ import {LayoutBase} from './Layout-base.component'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
 import {LayoutComponent, LayoutProps, RenderLayoutProps} from './Layout.interface'
-import {Container} from './Layout.styles'
+import {ContainerLayoutAnimated} from './Layout.styles'
 
 const render = ({children, defaultVisible = true, ...containerProps}: RenderLayoutProps) => (
-        <Container
+        <ContainerLayoutAnimated
                 {...containerProps}
                 defaultVisible={defaultVisible}
         >
                 {children}
-        </Container>
+        </ContainerLayoutAnimated>
 )
 
 const ForwardRefLayout = forwardRef<View, LayoutProps>((props, ref) => (

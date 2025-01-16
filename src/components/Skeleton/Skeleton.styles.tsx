@@ -22,7 +22,7 @@ export const SkeletonContainer = styled.View<SkeletonContainerProps>`
                         `}
 `
 
-export const ContentItemLayout = styled(LayoutAnimated)`
+export const ContentItemLayoutLayoutAnimated = styled(LayoutAnimated)`
         position: absolute;
 
         ${({theme}) => css`
@@ -32,3 +32,5 @@ export const ContentItemLayout = styled(LayoutAnimated)`
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
         `}
 `
+
+export const Content = styled.View``

@@ -8,11 +8,11 @@ import {NavigationRailItemProps, RenderNavigationRailItemProps} from './Navigati
 import {
         Container,
         Header,
-        Icon,
         IconContainer,
+        IconLayoutAnimated,
         Label,
+        LabelLayoutAnimated,
         LabelText,
-        LabelTextContainer,
         TouchableContent
 } from './Navigation-rail-item.styles'
 
@@ -50,19 +50,10 @@ const render = ({
                                         type={type}
                                 >
                                         <IconContainer>
-                                                <Icon
-                                                        hidden={false}
-                                                        visible={!active}
-                                                >
-                                                        {iconElement}
-                                                </Icon>
-
-                                                <Icon
-                                                        hidden={false}
-                                                        visible={active}
-                                                >
+                                                <IconLayoutAnimated visible={!active}>{iconElement}</IconLayoutAnimated>
+                                                <IconLayoutAnimated visible={active}>
                                                         {activeIconElement}
-                                                </Icon>
+                                                </IconLayoutAnimated>
                                         </IconContainer>
 
                                         <Underlay
@@ -77,13 +68,13 @@ const render = ({
                                 </Header>
 
                                 {type === 'segment' && (
-                                        <Label
+                                        <LabelLayoutAnimated
                                                 animatedType='collapseY'
                                                 pointerEvents='none'
                                                 scale={false}
                                                 visible={animatedType === 'collapse' ? active : true}
                                         >
-                                                <LabelTextContainer>
+                                                <Label>
                                                         <AnimatedLabelText
                                                                 active={active}
                                                                 ellipsizeMode='tail'
@@ -94,8 +85,8 @@ const render = ({
                                                         >
                                                                 {labelText}
                                                         </AnimatedLabelText>
-                                                </LabelTextContainer>
-                                        </Label>
+                                                </Label>
+                                        </LabelLayoutAnimated>
                                 )}
                         </TouchableContent>
                 </Container>

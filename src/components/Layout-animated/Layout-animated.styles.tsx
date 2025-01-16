@@ -3,17 +3,13 @@ import {Shape} from '../Common'
 import {LayoutAnimatedContainerProps, LayoutAnimatedContentLayoutProps} from './Layout-animated.interface'
 
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
-        align-self: stretch;
-        display: flex;
-        flex-direction: column;
-        flex: 1;
         overflow: hidden;
 
         ${({visible, theme, hidden}) =>
                 !visible &&
                 hidden &&
                 css`
-                        height: ${theme.token.spacing.none}px;
+                        max-height: ${theme.token.spacing.none}px;
                 `}
 
         ${({visible}) =>

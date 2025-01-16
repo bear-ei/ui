@@ -16,7 +16,7 @@ import {
         LabelText,
         Leading,
         Main,
-        Supporting,
+        SupportingLayoutAnimated,
         SupportingText,
         TouchableHeader,
         Trailing
@@ -144,8 +144,7 @@ const render = ({
                                         </AnimatedHeader>
                                 </TouchableHeader>
 
-                                <Supporting
-                                        hidden={false}
+                                <SupportingLayoutAnimated
                                         onVisible={onSupportingTextVisible}
                                         visible={supportingTextVisible}
                                 >
@@ -156,7 +155,7 @@ const render = ({
                                         >
                                                 {supportingText}
                                         </AnimatedSupportingText>
-                                </Supporting>
+                                </SupportingLayoutAnimated>
                         </Content>
                 </Container>
         )

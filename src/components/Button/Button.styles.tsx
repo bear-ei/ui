@@ -140,16 +140,10 @@ export const ActiveIndicatorLayoutAnimated = styled(LayoutAnimated)`
         z-index: 8;
 
         ${({theme}) => css`
-                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
-                left: ${theme.adaptSize(theme.token.spacing.none)}px;
-                right: ${theme.adaptSize(theme.token.spacing.none)}px;
-        `};
-`
-
-export const ActiveIndicator = styled.View`
-        ${({theme}) => css`
                 background-color: ${theme.token.scheme.primary};
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
+                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+                left: ${theme.adaptSize(theme.token.spacing.none)}px;
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
+                right: ${theme.adaptSize(theme.token.spacing.none)}px;
         `};
 `

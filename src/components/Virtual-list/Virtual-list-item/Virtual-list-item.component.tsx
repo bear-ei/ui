@@ -3,20 +3,20 @@ import {View} from 'react-native'
 import {VirtualListItemBase} from './Virtual-list-item-base.component'
 import {handleVirtualListItemPropsEqual} from './Virtual-list-item-handle'
 import {RenderVirtualListItemProps, VirtualListItemProps} from './Virtual-list-item.interface'
-import {AnimatedContainer} from './Virtual-list-item.styles'
+import {ContainerLayoutAnimated} from './Virtual-list-item.styles'
 
 const render = ({itemElement, itemSize, onUnmount, visible, ...containerProps}: RenderVirtualListItemProps) => (
-        <AnimatedContainer
+        <ContainerLayoutAnimated
                 {...containerProps}
                 animatedType='collapseY'
                 exit={{duration: 'short0'}}
-                height={itemSize}
+                itemSize={itemSize}
                 onUnmount={onUnmount}
                 unmount={true}
                 visible={visible}
         >
                 {itemElement}
-        </AnimatedContainer>
+        </ContainerLayoutAnimated>
 )
 
 const ForwardRefVirtualListItem = forwardRef<View, VirtualListItemProps>((props, ref) => (

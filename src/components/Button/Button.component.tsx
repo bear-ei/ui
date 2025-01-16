@@ -7,7 +7,6 @@ import {Underlay} from '../Underlay'
 import {ButtonBase} from './Button-base.component'
 import {ButtonProps, RenderButtonProps} from './Button.interface'
 import {
-        ActiveIndicator,
         ActiveIndicatorLayoutAnimated,
         BackgroundUnderlay,
         Container,
@@ -96,10 +95,9 @@ const render = ({
                                         </Main>
 
                                         {type === 'link' && (
-                                                <ActiveIndicatorLayoutAnimated visible={activeIndicatorVisible}>
-                                                        <ActiveIndicator />
-                                                </ActiveIndicatorLayoutAnimated>
+                                                <ActiveIndicatorLayoutAnimated visible={activeIndicatorVisible} />
                                         )}
+
                                         <Underlay
                                                 eventName={loading ? loadingEventName : eventName}
                                                 shape={shape}

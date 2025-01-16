@@ -48,6 +48,4 @@ export interface UseVirtualListItemAnimatedOptions {
         top?: number
 }
 
-export interface VirtualListItemContainerOptions {
-        height?: number
-}
+export type VirtualListItemContainerProps = Pick<RenderVirtualListItemProps, 'itemSize'>

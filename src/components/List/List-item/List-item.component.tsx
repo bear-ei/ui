@@ -21,7 +21,7 @@ import {
         Main,
         MainInner,
         SupportingText,
-        Trailing
+        TrailingLayoutAnimated
 } from './List-item.styles'
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
@@ -158,7 +158,7 @@ const render = ({
                                                         </MainInner>
 
                                                         {trailingElement && (
-                                                                <Trailing
+                                                                <TrailingLayoutAnimated
                                                                         defaultVisible={!trailingTriggerEvenName}
                                                                         supportingTextNumberOfLines={
                                                                                 supportingTextNumberOfLines
@@ -169,7 +169,7 @@ const render = ({
                                                                         visible={trailingVisible}
                                                                 >
                                                                         {trailingElement}
-                                                                </Trailing>
+                                                                </TrailingLayoutAnimated>
                                                         )}
 
                                                         {enableUnderlay && (

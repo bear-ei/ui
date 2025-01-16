@@ -1,7 +1,7 @@
 import styled, {css} from 'styled-components/native'
 import {LayoutAnimated, LayoutAnimatedProps} from '../Layout-animated'
 
-export const Container = styled(LayoutAnimated)<LayoutAnimatedProps>`
+export const ContainerLayoutAnimated = styled(LayoutAnimated)<LayoutAnimatedProps>`
         align-self: stretch;
         display: flex;
         flex-direction: row;

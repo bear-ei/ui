@@ -147,7 +147,7 @@ export const SecondaryButton = styled.View`
         `}
 `
 
-export const FooterLayout = styled(LayoutAnimated)`
+export const FooterLayoutAnimated = styled(LayoutAnimated)`
         position: absolute;
         transform-origin: bottom;
 

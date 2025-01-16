@@ -2,17 +2,17 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {LayoutPaneBase} from './Layout-pane-base.component'
 import {LayoutPaneProps, RenderLayoutPaneProps} from './Layout-pane.interface'
-import {Container} from './Layout-pane.styles'
+import {ContainerLayoutAnimated} from './Layout-pane.styles'
 
 const render = ({children, defaultVisible = true, ...containerProps}: RenderLayoutPaneProps) => (
-        <Container
+        <ContainerLayoutAnimated
                 {...containerProps}
                 defaultVisible={defaultVisible}
                 entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                 exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
         >
                 {children}
-        </Container>
+        </ContainerLayoutAnimated>
 )
 
 const ForwardRefLayoutPane = forwardRef<View, LayoutPaneProps>((props, ref) => (

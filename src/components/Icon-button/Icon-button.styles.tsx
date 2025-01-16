@@ -15,7 +15,7 @@ export const Container = styled.View`
         `}
 `
 
-export const ContentItem = styled(LayoutAnimated)`
+export const ContentItemLayoutAnimated = styled(LayoutAnimated)`
         align-items: center;
         display: flex;
         justify-content: center;

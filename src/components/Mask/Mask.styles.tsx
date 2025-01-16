@@ -2,7 +2,7 @@ import styled, {css} from 'styled-components/native'
 import {LayoutAnimated} from '../Layout-animated'
 import {MaskContainerProps} from './Mask.interface'
 
-export const Container = styled(LayoutAnimated)<MaskContainerProps>`
+export const ContainerLayoutAnimated = styled(LayoutAnimated)<MaskContainerProps>`
         cursor: default;
         position: absolute;
 
@@ -17,14 +17,6 @@ export const Container = styled(LayoutAnimated)<MaskContainerProps>`
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
                 z-index: 4096;
         `};
-
-        ${({visible, theme}) =>
-                !visible &&
-                css`
-                        z-index: -4096;
-                        height: ${theme.adaptSize(theme.token.spacing.none)}px;
-                        width: ${theme.adaptSize(theme.token.spacing.none)}px;
-                `};
 `
 
 export const Content = styled.Pressable`

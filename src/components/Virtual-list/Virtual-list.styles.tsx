@@ -11,14 +11,15 @@ export const Container = styled.View`
         `}
 `
 
-export const Content = styled(LayoutAnimated)`
+export const ContentLayoutAnimated = styled(LayoutAnimated)``
+export const Content = styled.View`
         align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
 `
 
-export const EmptyContent = styled(LayoutAnimated)`
+export const EmptyContentLayoutAnimated = styled(LayoutAnimated)`
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -33,5 +34,5 @@ export const EmptyContent = styled(LayoutAnimated)`
         `}
 `
 
-export const LoadingContent = styled(EmptyContent)``
+export const LoadingContentLayoutAnimated = styled(EmptyContentLayoutAnimated)``
 export const Supporting = styled(Typography)``

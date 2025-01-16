@@ -52,7 +52,7 @@ export const IconContainer = styled.View`
         `}
 `
 
-export const Icon = styled(LayoutAnimated)<NavigationRailItemIconProps>`
+export const IconLayoutAnimated = styled(LayoutAnimated)<NavigationRailItemIconProps>`
         position: absolute;
 
         ${({theme}) => css`
@@ -63,11 +63,12 @@ export const Icon = styled(LayoutAnimated)<NavigationRailItemIconProps>`
         `}
 `
 
-export const Label = styled(LayoutAnimated)`
+export const LabelLayoutAnimated = styled(LayoutAnimated)`
         align-self: stretch;
+        transform-origin: bottom;
 `
 
-export const LabelTextContainer = styled.View`
+export const Label = styled.View`
         align-self: stretch;
         position: relative;
 

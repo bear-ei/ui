@@ -5,7 +5,7 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CheckboxBase} from './Checkbox-base.component'
 import {CheckboxIconAnimatedOptions, CheckboxProps, RenderCheckboxProps} from './Checkbox.interface'
-import {Container, Content, IconContainer, Main} from './Checkbox.styles'
+import {Container, Content, IconContainerLayoutAnimated, Main} from './Checkbox.styles'
 
 const render = ({disabled, error, eventName, onStateEvent, theme, type, ...contentProps}: RenderCheckboxProps) => {
         const activeFill = error ? theme.token.scheme.error : theme.token.scheme.primary
@@ -45,7 +45,7 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
                                         shape={shape}
                                 >
                                         <Main shape='tinySmall'>
-                                                <IconContainer visible={true}>
+                                                <IconContainerLayoutAnimated visible={true}>
                                                         <Icon
                                                                 disabled={disabled}
                                                                 fill={checkBoxOutlineFill}
@@ -55,9 +55,9 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
                                                                 svgStyle={iconSvgStyle}
                                                                 type='filled'
                                                         />
-                                                </IconContainer>
+                                                </IconContainerLayoutAnimated>
 
-                                                <IconContainer
+                                                <IconContainerLayoutAnimated
                                                         {...animatedOptions}
                                                         visible={type === 'selected'}
                                                 >
@@ -70,9 +70,9 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
                                                                 svgStyle={iconSvgStyle}
                                                                 type='filled'
                                                         />
-                                                </IconContainer>
+                                                </IconContainerLayoutAnimated>
 
-                                                <IconContainer
+                                                <IconContainerLayoutAnimated
                                                         {...animatedOptions}
                                                         visible={type === 'indeterminate'}
                                                 >
@@ -85,7 +85,7 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
                                                                 svgStyle={iconSvgStyle}
                                                                 type='filled'
                                                         />
-                                                </IconContainer>
+                                                </IconContainerLayoutAnimated>
                                         </Main>
 
                                         <Underlay

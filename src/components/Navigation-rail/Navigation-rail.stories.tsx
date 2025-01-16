@@ -15,6 +15,8 @@ export const Rail: StoryObj<NavigationRailProps> = {
                         />
                 ),
                 fab: <FAB icon={<Icon />} />,
+                animatedType: 'collapse',
+
                 data: [
                         {
                                 labelText: 'Label1',

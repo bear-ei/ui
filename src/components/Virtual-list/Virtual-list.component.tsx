@@ -1,10 +1,18 @@
 import {ForwardedRef, forwardRef} from 'react'
-import {StyleProp, ViewStyle} from 'react-native'
+import {ScrollView, StyleProp, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {VirtualListBase} from './Virtual-list-base.component'
 import {RenderVirtualListProps, VirtualListProps} from './Virtual-list.interface'
-import {Container, Content, EmptyContent, LoadingContent, Supporting} from './Virtual-list.styles'
+import {
+        Container,
+        Content,
+        ContentLayoutAnimated,
+        EmptyContentLayoutAnimated,
+        LoadingContentLayoutAnimated,
+        Supporting
+} from './Virtual-list.styles'
 
+const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 const render = <T,>({
         contentContainerStyle,
         contentSize = 0,
@@ -28,17 +36,19 @@ const render = <T,>({
 
         return (
                 <Container>
-                        <Animated.ScrollView
+                        <AnimatedScrollView
                                 {...containerProps}
                                 contentContainerStyle={[contentContainerStyle, defaultContentContainerStyle]}
                                 onLayout={onLayout}
                                 scrollEventThrottle={scrollEventThrottle}
                         >
-                                <Content visible={!loading && !emptyList && typeof emptyList === 'boolean'}>
-                                        {itemElements}
-                                </Content>
+                                <ContentLayoutAnimated
+                                        visible={!loading && !emptyList && typeof emptyList === 'boolean'}
+                                >
+                                        <Content>{itemElements}</Content>
+                                </ContentLayoutAnimated>
 
-                                <EmptyContent
+                                <EmptyContentLayoutAnimated
                                         lazy={true}
                                         visible={!loading && emptyList && status === 'succeeded'}
                                 >
@@ -50,15 +60,15 @@ const render = <T,>({
                                                         No data
                                                 </Supporting>
                                         )}
-                                </EmptyContent>
+                                </EmptyContentLayoutAnimated>
 
-                                <LoadingContent
+                                <LoadingContentLayoutAnimated
                                         lazy={true}
                                         visible={loading && !!loadingComponent}
                                 >
                                         {loadingComponent}
-                                </LoadingContent>
-                        </Animated.ScrollView>
+                                </LoadingContentLayoutAnimated>
+                        </AnimatedScrollView>
                 </Container>
         )
 }

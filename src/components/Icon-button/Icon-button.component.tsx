@@ -7,7 +7,7 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {IconButtonBase} from './Icon-button-base.component'
 import {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
-import {BackgroundUnderlay, Container, Content, ContentItem, Main} from './Icon-button.styles'
+import {BackgroundUnderlay, Container, Content, ContentItemLayoutAnimated, Main} from './Icon-button.styles'
 
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const render = ({
@@ -38,7 +38,7 @@ const render = ({
 
         return (
                 <Container pointerEvents={loading ? 'none' : 'auto'}>
-                        <ContentItem
+                        <ContentItemLayoutAnimated
                                 lazy={true}
                                 visible={loading}
                         >
@@ -48,9 +48,9 @@ const render = ({
                                         size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
                                         type='circular'
                                 />
-                        </ContentItem>
+                        </ContentItemLayoutAnimated>
 
-                        <ContentItem visible={!loading}>
+                        <ContentItemLayoutAnimated visible={!loading}>
                                 <Touchable
                                         {...onStateEvent}
                                         backgroundUnderlay={backgroundUnderlayElement}
@@ -80,7 +80,7 @@ const render = ({
                                                 />
                                         </Content>
                                 </Touchable>
-                        </ContentItem>
+                        </ContentItemLayoutAnimated>
                 </Container>
         )
 }
