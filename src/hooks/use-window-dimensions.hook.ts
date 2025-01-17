@@ -24,13 +24,7 @@ const handleEventListener = (onWindowScaledSize: ({window}: {window: ScaledSize}
 }
 
 export const useWindowDimensions = ({changeEventThrottle = 50}: UseWindowDimensionsOptions = {}) => {
-        const [scaledSize, setState] = useImmer<ScaledSize>({
-                width: 0,
-                height: 0,
-                scale: 0,
-                fontScale: 0
-        })
-
+        const [scaledSize, setState] = useImmer<ScaledSize>({fontScale: 0, height: 0, scale: 0, width: 0})
         const onWindowScaledSize = useMemo(
                 () => debounce(handleWindowScaledSize(setState))(changeEventThrottle),
                 [changeEventThrottle, setState]

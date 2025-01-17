@@ -1,6 +1,5 @@
 import {
         GestureResponderEvent,
-        InteractionManager,
         LayoutChangeEvent,
         MouseEvent,
         NativeSyntheticEvent,
@@ -16,26 +15,16 @@ import {
         UseHandleStateEventOptions
 } from './hooks.interface'
 
-/**
- * The ripple animation is usually triggered by PressIn before responding to a Interactive event. To avoid noticeable
- * animation lag.  It is necessary to respond to the Interactive event after the PressIn ripple has ended.
- */
 const handleStateEventChange =
         ({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
         (state: State) =>
         (event: StateEvent) => {
-                if (Platform.OS !== 'web') {
-                        event.persist()
+                if (disabled && eventName !== 'layout') {
+                        return
                 }
 
-                InteractionManager.runAfterInteractions(() => {
-                        if (disabled && eventName !== 'layout') {
-                                return
-                        }
-
-                        onStateEventChange?.({eventName})(state)(event)
-                        callback?.()
-                })
+                onStateEventChange?.({eventName})(state)(event)
+                callback?.()
         }
 
 const handlePressInEvent =

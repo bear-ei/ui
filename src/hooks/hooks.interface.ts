@@ -39,8 +39,8 @@ export interface HandleStateEventChangeOptions
 
 export type OnStateEventChangeOptions = HandleStateEventChangeOptions
 export interface HandleStateEventOptions {
-        onStateEvent: (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
         mobileDevice?: boolean
+        onStateEvent: (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 
 export type UseDesktopScrollEventOptions = Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'>
@@ -49,10 +49,10 @@ export interface HandleScrollOptions extends Pick<ScrollViewProps, 'onScroll' | 
 }
 
 export interface AnimatedTimingOptions extends Omit<WithTimingConfig, 'duration' | 'easing'> {
+        callback?: AnimationCallback
         duration?: Duration
         easing?: Easing
         repeat?: number
-        callback?: AnimationCallback
 }
 
 export interface HandleAnimatedTimingOptions extends Omit<AnimatedTimingOptions, 'sharedValue' | 'callback'> {

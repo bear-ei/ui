@@ -15,7 +15,7 @@ export const debounce =
         }
 
 export const asyncDebounce = <T extends (...args: any[]) => Promise<unknown>>(func?: T) => {
-        const timeoutFunc =
+        const timeoutFunction =
                 (...args: Parameters<T>) =>
                 (resolve: (value: unknown) => void, reject: (reason?: unknown) => void) =>
                 () =>
@@ -31,7 +31,7 @@ export const asyncDebounce = <T extends (...args: any[]) => Promise<unknown>>(fu
 
                         return new Promise(
                                 (resolve, reject) =>
-                                        (timeoutId = setTimeout(timeoutFunc(...args)(resolve, reject), delay))
+                                        (timeoutId = setTimeout(timeoutFunction(...args)(resolve, reject), delay))
                         )
                 }
         }
