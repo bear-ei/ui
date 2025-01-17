@@ -1,4 +1,4 @@
-import {forwardRef} from 'react'
+import {forwardRef, useId} from 'react'
 import {NativeTouchEvent, View} from 'react-native'
 import {TouchableRippleBaseProps} from './Touchable-ripple.interface'
 import {useTouchableRippleAnimated} from './use-touchable-ripple-animated.hook'
@@ -17,6 +17,7 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
                 },
                 ref
         ) => {
+                const id = useId()
                 const {width = 0, height = 0} = containerLayout ?? {}
                 const centerX = width / 2
                 const centerY = height / 2
@@ -32,6 +33,7 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
                 return render({
                         ...renderProps,
                         containerAnimatedStyle,
+                        id,
                         locationX,
                         locationY,
                         ref,

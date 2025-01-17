@@ -9,10 +9,12 @@ import {Container} from './Touchable-ripple.styles'
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
         containerAnimatedStyle,
+        id,
         locationX,
         locationY,
         size,
         style,
+        testID,
         ...containerProps
 }: RenderTouchableRippleProps) => (
         <AnimatedContainer
@@ -23,6 +25,7 @@ const render = ({
                 shape='full'
                 size={size}
                 style={[style, containerAnimatedStyle]}
+                testID={testID ?? `touchableRipple--${id}`}
         />
 )
 

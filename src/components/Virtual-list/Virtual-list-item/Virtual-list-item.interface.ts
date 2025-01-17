@@ -41,7 +41,7 @@ export interface VirtualListItemState {
 
 export type HandleVirtualListItemOptions<T> = Pick<
         VirtualListItemProps<T>,
-        'itemSize' | 'renderItem' | 'extraData' | 'onUnmount' | 'onLoadEnd' | 'gap'
+        'itemSize' | 'renderItem' | 'extraData' | 'onUnmount' | 'onLoadEnd' | 'gap' | 'id'
 >
 
 export interface UseVirtualListItemAnimatedOptions {

@@ -1,9 +1,9 @@
-import {ForwardedRef, forwardRef, useEffect, useImperativeHandle, useMemo} from 'react'
-import {InteractionManager, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
+import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo} from 'react'
+import {LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
-import {debounce} from '../../utils'
+import {debounce, runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
         handleVirtualListData,
@@ -40,6 +40,7 @@ export const VirtualListBaseInner = <T,>(
                 setState
         ] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: 'idle'})
 
+        const id = useId()
         const contentSize = virtualListData ? virtualListData.length * (itemSize + gap) - gap : 0
         const onVirtualListVisibleRange = useMemo(
                 () => handleVirtualListDataChange(itemSize)(setState),
@@ -71,6 +72,7 @@ export const VirtualListBaseInner = <T,>(
         const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
         const itemElements = handleVirtualListItem({
                 extraData,
+                id,
                 itemSize,
                 onLoadEnd: onVirtualListLoadEnd,
                 onUnmount: onVirtualListItemUnmount,
@@ -92,11 +94,11 @@ export const VirtualListBaseInner = <T,>(
         }, [onVirtualListVisibleRange, virtualListData])
 
         useEffect(() => {
-                nextScrollEvent?.()
+                runAfterInteractions(nextScrollEvent)()
         }, [nextScrollEvent])
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => nextItemVisibleEvent?.())
+                runAfterInteractions(nextItemVisibleEvent)()
         }, [nextItemVisibleEvent])
 
         if (status === 'idle') {
@@ -108,6 +110,7 @@ export const VirtualListBaseInner = <T,>(
                 ...scrollEvent,
                 contentSize,
                 emptyList,
+                id,
                 itemElements,
                 itemSize,
                 onStateEvent,

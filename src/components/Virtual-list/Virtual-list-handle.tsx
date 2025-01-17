@@ -156,7 +156,7 @@ export const handleVirtualListDataChange =
                 })
 
 export const handleVirtualListItem =
-        <T,>({renderItem, onLoadEnd, ...virtualListItemProps}: HandleVirtualListItemOptions<T>) =>
+        <T,>({renderItem, onLoadEnd, id, ...virtualListItemProps}: HandleVirtualListItemOptions<T>) =>
         (data?: VirtualListData[]) => {
                 if (data?.length === 0) {
                         onLoadEnd?.()
@@ -171,6 +171,7 @@ export const handleVirtualListItem =
                                 item={item as Record<string, unknown>}
                                 key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
                                 onLoadEnd={onLoadEnd}
+                                testID={`virtualList__virtualListItem--${id}`}
                                 renderItem={
                                         renderItem as (
                                                 options: RenderVirtualListItemInfo<Record<string, unknown>>

@@ -5,13 +5,22 @@ import {handleVirtualListItemPropsEqual} from './Virtual-list-item-handle'
 import {RenderVirtualListItemProps, VirtualListItemProps} from './Virtual-list-item.interface'
 import {ContainerLayoutAnimated} from './Virtual-list-item.styles'
 
-const render = ({itemElement, itemSize, onUnmount, visible, ...containerProps}: RenderVirtualListItemProps) => (
+const render = ({
+        itemElement,
+        itemSize,
+        onUnmount,
+        visible,
+        id,
+        testID,
+        ...containerProps
+}: RenderVirtualListItemProps) => (
         <ContainerLayoutAnimated
                 {...containerProps}
                 animatedType='collapseY'
                 exit={{duration: 'short0'}}
                 itemSize={itemSize}
                 onUnmount={onUnmount}
+                testID={testID ?? `virtualListItem--${id}`}
                 unmount={true}
                 visible={visible}
         >

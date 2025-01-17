@@ -12,12 +12,12 @@ const render = ({
         activeColor,
         activeLayerAnimatedStyle,
         activeShape,
-
         hoverLayerAnimatedStyle,
+        id,
         shape,
         style,
+        testID,
         underlayColor,
-
         ...containerProps
 }: RenderUnderlayProps) => (
         <Container
@@ -25,10 +25,12 @@ const render = ({
                 pointerEvents='none'
                 shape={shape}
                 style={[style]}
+                testID={testID ?? `underlay--${id}`}
         >
                 <AnimatedHoverLayer
                         shape={shape}
                         style={[hoverLayerAnimatedStyle]}
+                        testID={`underlay__animatedHoverLayer--${id}`}
                         underlayColor={underlayColor}
                 />
 
@@ -37,6 +39,7 @@ const render = ({
                                 activeColor={activeColor}
                                 shape={activeShape ?? shape}
                                 style={[activeLayerAnimatedStyle]}
+                                testID={`underlay__animatedActiveLayer--${id}`}
                         />
                 )}
         </Container>

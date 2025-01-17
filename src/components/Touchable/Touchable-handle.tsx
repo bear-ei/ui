@@ -2,6 +2,7 @@ import {nanoid} from 'nanoid'
 import {GestureResponderEvent} from 'react-native'
 import {Updater} from 'use-immer'
 import {StateEvent} from '../../hooks'
+import {runAfterInteractions} from '../../utils'
 import {EventName} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
@@ -35,7 +36,7 @@ const handleTouchablePressIn =
 
                 if (enableTouchableRipple) {
                         ref?.current?.measure((x, y, width, height) =>
-                                handleAddTouchableRipple(setState)({
+                                runAfterInteractions(handleAddTouchableRipple(setState))({
                                         contentLayout: {width, height, x, y},
                                         touchableLocation: {locationX, locationY}
                                 })
@@ -67,7 +68,7 @@ export const handleTouchableAnimatedFinished = (setState: Updater<TouchableState
         })
 
 export const handleTouchableRipples =
-        ({centered, containerLayout, ...props}: HandleTouchableRipplesOptions) =>
+        ({centered, containerLayout, id, ...props}: HandleTouchableRipplesOptions) =>
         (rippleSequence: TouchableRippleSequence) =>
                 Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
                         const centeredTouchableRipple =
@@ -80,6 +81,7 @@ export const handleTouchableRipples =
                                         containerLayout={containerLayout}
                                         indexKey={indexKey}
                                         key={indexKey}
+                                        testID={`touchable__touchableRipple--${id}`}
                                         touchableLocation={touchableLocation}
                                 />
                         )

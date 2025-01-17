@@ -8,24 +8,34 @@ const render = ({
         backgroundUnderlay,
         children,
         elevationUnderlay,
+        id,
         mainAlignSelf,
         onStateEvent,
         rippleElements,
         shape,
+        testID,
         ...contentProps
 }: RenderTouchableProps) => (
-        <Container>
+        <Container testID={testID ?? `touchable--${id}`}>
                 <TouchableContent
                         {...contentProps}
                         {...onStateEvent}
                         enableFocusRing={false}
+                        testID={`touchable__touchableContent--${id}`}
                 >
                         <Main
                                 alignSelf={mainAlignSelf}
                                 shape={shape}
+                                testID={`touchable__main--${id}`}
                         >
                                 {children}
-                                <RippleContainer shape={shape}>{rippleElements}</RippleContainer>
+                                <RippleContainer
+                                        shape={shape}
+                                        testID={`touchable__rippleContainer--${id}`}
+                                >
+                                        {rippleElements}
+                                </RippleContainer>
+
                                 {backgroundUnderlay}
                                 {elevationUnderlay}
                         </Main>
