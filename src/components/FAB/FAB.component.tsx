@@ -18,11 +18,13 @@ const render = ({
         eventName,
         extendedFAB,
         icon,
+        id,
         labelText,
         labelTextAnimatedStyle,
         onStateEvent,
         ref,
         size,
+        testID,
         type,
         underlayColor,
         ...contentProps
@@ -34,6 +36,7 @@ const render = ({
                         pointerEvents='none'
                         shape={shape}
                         style={[backgroundUnderlayAnimatedStyle]}
+                        testID={`fab__animatedBackgroundUnderlay--${id}`}
                 />
         )
 
@@ -41,6 +44,7 @@ const render = ({
                 <Elevation
                         level={elevation}
                         shape={shape}
+                        testID={`fab__elevation--${id}`}
                 />
         )
 
@@ -48,6 +52,7 @@ const render = ({
                 <Container
                         extendedFAB={extendedFAB}
                         size={size}
+                        testID={testID ?? `fab--${id}`}
                 >
                         <Touchable
                                 {...onStateEvent}
@@ -57,6 +62,7 @@ const render = ({
                                 mainAlignSelf={size === 'small' ? 'center' : 'stretch'}
                                 ref={ref}
                                 shape={shape}
+                                testID={`fab__touchable--${id}`}
                                 underlayColor={underlayColor}
                         >
                                 <Content
@@ -66,19 +72,26 @@ const render = ({
                                         extendedFAB={extendedFAB}
                                         pointerEvents='none'
                                         size={size}
+                                        testID={`fab__content--${id}`}
                                         type={type}
                                 >
                                         <Main
                                                 extendedFAB={extendedFAB}
                                                 size={size}
+                                                testID={`fab__main--${id}`}
                                                 type={type}
                                         >
-                                                {icon && <IconContainer>{icon}</IconContainer>}
+                                                {icon && (
+                                                        <IconContainer testID={`fab__iconContainer--${id}`}>
+                                                                {icon}
+                                                        </IconContainer>
+                                                )}
 
                                                 {extendedFAB && labelText && (
                                                         <AnimatedLabelText
                                                                 size='large'
                                                                 style={[labelTextAnimatedStyle]}
+                                                                testID={`fab__animatedLabelText--${id}`}
                                                                 type='label'
                                                         >
                                                                 {labelText}
@@ -89,6 +102,7 @@ const render = ({
                                         <Underlay
                                                 eventName={eventName}
                                                 shape={shape}
+                                                testID={`fab__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>
