@@ -107,7 +107,7 @@ export const VirtualListBaseInner = <T,>(
         }, [onVirtualListVisibleRange, virtualListData])
 
         useEffect(() => {
-                // runAfterInteractions(nextScrollEvent)()
+                runAfterInteractions(nextScrollEvent)()
         }, [nextScrollEvent])
 
         useEffect(() => {

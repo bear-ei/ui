@@ -1,5 +1,4 @@
 import {FC, useEffect, useId, useMemo} from 'react'
-import {InteractionManager} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../../utils'
@@ -31,7 +30,7 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
         const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed})
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => onListAfterAffordanceVisible(visible))
+                onListAfterAffordanceVisible(visible)
         }, [onListAfterAffordanceVisible, visible])
 
         useEffect(() => {

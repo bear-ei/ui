@@ -156,12 +156,16 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
 
                 useEffect(() => {
-                        runAfterInteractions(onListItemFocus)(focusedIndex)
+                        onListItemFocus(focusedIndex)
                 }, [focusedIndex, onListItemFocus])
 
                 useEffect(() => {
-                        runAfterInteractions(onListItemClose)(close)
+                        onListItemClose(close)
                 }, [close, onListItemClose])
+
+                useEffect(() => {
+                        nextLayoutEvent?.()
+                }, [nextLayoutEvent])
 
                 useEffect(() => {
                         runAfterInteractions(nextPressInEvent)()
@@ -170,10 +174,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 useEffect(() => {
                         runAfterInteractions(nextPressOutEvent)()
                 }, [nextPressOutEvent])
-
-                useEffect(() => {
-                        nextLayoutEvent?.()
-                }, [nextLayoutEvent])
 
                 return render({
                         ...renderProps,

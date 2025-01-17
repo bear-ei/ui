@@ -1,4 +1,7 @@
+import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
+import {AnimatedTiming} from '../../../hooks'
+import {runAfterInteractions} from '../../../utils'
 import {VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
 
 export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps) => {
@@ -24,3 +27,11 @@ export const handleVirtualListItemVisible =
                         draft.visible = false
                 })
         }
+
+export const handleVirtualListItemUnmount = (onUnmount?: (value?: string) => void) => (indexKey?: string) => () => {
+        runAfterInteractions(onUnmount)(indexKey)
+}
+
+export const handleVirtualListItemAnimated =
+        (animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<number>) => (value: number) =>
+                animatedTiming({duration: 'short2'})(topSharedValue)(value)

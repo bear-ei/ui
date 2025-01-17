@@ -1,5 +1,6 @@
 import {RefAttributes} from 'react'
-import {View, ViewProps} from 'react-native'
+import {View, ViewProps, ViewStyle} from 'react-native'
+import {AnimatedStyle} from 'react-native-reanimated'
 import {VirtualListProps} from '../Virtual-list.interface'
 
 export interface Item {
@@ -24,6 +25,7 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
 
 export interface RenderVirtualListItemProps<T = Record<string, unknown>>
         extends Omit<VirtualListItemProps<T>, 'onUnmount'> {
+        containerAnimatedStyle?: AnimatedStyle<ViewStyle>
         itemElement?: JSX.Element
         onUnmount?: () => void
         unmount?: boolean
@@ -48,7 +50,7 @@ export interface HandleVirtualListItemOptions<T>
 }
 
 export interface UseVirtualListItemAnimatedOptions {
-        top?: number
+        offsetY?: number
 }
 
 export type VirtualListItemContainerProps = Pick<RenderVirtualListItemProps, 'itemSize'>

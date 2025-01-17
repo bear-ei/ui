@@ -85,6 +85,7 @@ export const Select = () => {
                                 data={data}
                                 itemSize={56}
                                 onActive={onActiveKey}
+                                relatedActive={true}
                                 selectType='select'
                                 shape='extraSmall'
                                 skeletonElement={skeleton}
