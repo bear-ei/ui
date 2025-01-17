@@ -7,10 +7,12 @@ import {Container, Image, LabelText} from './Avatar.styles'
 const render = ({
         backgroundColor,
         defaultSource,
+        id,
         labelText,
         shape = 'full',
         size,
         source,
+        testID,
         ...containerProps
 }: RenderAvatarProps) => (
         <Container
@@ -20,17 +22,20 @@ const render = ({
                 pointerEvents='none'
                 shape={shape}
                 size={size}
+                testID={testID ?? `avatar--${id}`}
         >
                 {source || defaultSource ?
                         <Image
                                 defaultSource={defaultSource ?? {}}
                                 resizeMode='cover'
                                 source={source ?? {}}
+                                testID={`avatar__image--${id}`}
                         />
                 :       <LabelText
                                 ellipsizeMode='tail'
                                 numberOfLines={1}
                                 size='medium'
+                                testID={`avatar__labelText--${id}`}
                                 type='title'
                         >
                                 {labelText}
