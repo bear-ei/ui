@@ -11,6 +11,7 @@ const SearchTextInput: FC<SearchTextInputProps> = TextInput
 const render = ({
         containerRef,
         eventName,
+        id,
         layout,
         leading,
         listProps,
@@ -18,6 +19,7 @@ const render = ({
         onChangeText,
         onStateEvent,
         placeholder,
+        testID,
         theme,
         trailing,
         value,
@@ -30,26 +32,34 @@ const render = ({
         const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
 
         return (
-                <Container {...(containerRef && {ref: containerRef})}>
-                        <Touchable {...onTouchableEvent}>
+                <Container
+                        {...(containerRef && {ref: containerRef})}
+                        testID={testID ?? `search--${id}`}
+                >
+                        <Touchable
+                                {...onTouchableEvent}
+                                testID={`search__touchable--${id}`}
+                        >
                                 <Content
                                         accessibilityLabel={placeholder}
                                         accessibilityRole='keyboardkey'
                                         shape={shape}
+                                        testID={`search__content--${id}`}
                                         trailingShow={!!trailing}
                                 >
-                                        <Leading>
+                                        <Leading testID={`search__leading--${id}`}>
                                                 {leading ?? (
                                                         <Icon
                                                                 iconStyle='rounded'
                                                                 name='search'
+                                                                testID={`search__iconSearch--${id}`}
                                                                 type='filled'
                                                         />
                                                 )}
                                         </Leading>
 
-                                        <Main>
-                                                <TextInputContainer>
+                                        <Main testID={`search__main--${id}`}>
+                                                <TextInputContainer testID={`search__textInputContainer--${id}`}>
                                                         <SearchTextInput
                                                                 {...textInputProps}
                                                                 /**
@@ -64,16 +74,18 @@ const render = ({
                                                                 onFocus={onFocus}
                                                                 placeholder={placeholder}
                                                                 placeholderTextColor={placeholderTextColor}
+                                                                testID={`search__searchTextInput--${id}`}
                                                                 value={value}
                                                         />
                                                 </TextInputContainer>
                                         </Main>
 
-                                        {trailing && <Trailing>{trailing}</Trailing>}
+                                        {trailing && <Trailing testID={`search__trailing--${id}`}>{trailing}</Trailing>}
                                         <Underlay
                                                 eventName={eventName}
                                                 opacities={underlayOpacities}
                                                 shape={listVisible ? 'extraLargeTop' : shape}
+                                                testID={`search__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>
@@ -82,6 +94,7 @@ const render = ({
                         <SearchList
                                 {...listProps}
                                 containerLayout={layout}
+                                testID={`search__searchList--${id}`}
                         />
                 </Container>
         )

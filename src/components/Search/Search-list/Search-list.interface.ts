@@ -27,8 +27,5 @@ export type SearchListContainerProps = {
         containerHeight?: number
         containerPageX?: number
         containerPageY?: number
-        /**
-         * TODO:
-         */
-        width?: number
+        size?: number
 }

@@ -1,5 +1,5 @@
 import {nanoid} from 'nanoid'
-import {forwardRef, useCallback, useEffect, useMemo} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {ListData, RenderListProps, VirtualListComponent} from '../../List'
 import {handleSearchListEmit, handleSearchListUnmount} from './Search-list-handle'
 import {SearchListBaseProps} from './Search-list.interface'
@@ -11,28 +11,30 @@ import {useSearchListAnimated} from './use-search-list-animated.hook'
 export const SearchListBase = forwardRef<VirtualListComponent<ListData>, SearchListBaseProps>(
         ({containerLayout, render, visible, ...renderProps}, ref) => {
                 const {containerAnimatedStyle} = useSearchListAnimated({visible, containerLayout})
-                const id = useMemo(() => nanoid(), [])
+                const emitId = useMemo(() => nanoid(), [])
+                const id = useId()
                 const renderSearchListRender = useCallback(
                         () =>
                                 render({
                                         ...renderProps,
                                         containerAnimatedStyle,
-                                        ref: ref as RenderListProps['ref'],
-                                        containerLayout
+                                        containerLayout,
+                                        id,
+                                        ref: ref as RenderListProps['ref']
                                 }),
-                        [containerAnimatedStyle, containerLayout, ref, render, renderProps]
+                        [containerAnimatedStyle, containerLayout, id, ref, render, renderProps]
                 )
 
                 const onSearchListEmit = useMemo(
-                        () => handleSearchListEmit(id)(renderSearchListRender),
-                        [id, renderSearchListRender]
+                        () => handleSearchListEmit(emitId)(renderSearchListRender),
+                        [emitId, renderSearchListRender]
                 )
 
                 useEffect(() => {
                         onSearchListEmit(visible)
                 }, [onSearchListEmit, visible])
 
-                useEffect(() => () => handleSearchListUnmount(id), [id])
+                useEffect(() => () => handleSearchListUnmount(emitId), [emitId])
 
                 return <></>
         }

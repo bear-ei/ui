@@ -7,17 +7,25 @@ import {RenderSearchListProps, SearchListProps} from './Search-list.interface'
 import {Container} from './Search-list.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const render = ({containerAnimatedStyle, containerLayout, ...listProps}: RenderSearchListProps) => (
+const render = ({containerAnimatedStyle, containerLayout, id, testID, ...listProps}: RenderSearchListProps) => (
         <AnimatedContainer
                 containerHeight={containerLayout.height}
                 containerPageX={containerLayout.pageX}
                 containerPageY={containerLayout.pageY}
                 shape='extraLarge'
+                size={containerLayout.width}
                 style={[containerAnimatedStyle]}
-                width={containerLayout.width}
+                testID={testID ?? `searchList--${id}`}
         >
-                <Divider size='large' />
-                <List {...listProps} />
+                <Divider
+                        size='large'
+                        testID={testID ?? `searchList__divider--${id}`}
+                />
+
+                <List
+                        {...listProps}
+                        testID={testID ?? `searchList__list--${id}`}
+                />
         </AnimatedContainer>
 )
 

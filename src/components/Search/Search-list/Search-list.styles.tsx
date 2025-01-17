@@ -12,10 +12,10 @@ export const Container = styled(Shape)<SearchListContainerProps>`
                 background-color: ${theme.token.scheme.surfaceContainerHigh};
         `};
 
-        ${({containerHeight = 0, containerPageX = 0, containerPageY = 0, width = 0}) => css`
+        ${({containerHeight = 0, containerPageX = 0, containerPageY = 0, size = 0}) => css`
                 left: ${containerPageY}px;
                 padding-top: ${containerHeight};
                 top: ${containerPageX}px;
-                width: ${width}px;
+                width: ${size}px;
         `};
 `

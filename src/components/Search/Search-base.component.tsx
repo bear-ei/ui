@@ -1,8 +1,9 @@
-import {forwardRef, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
         handleSearchChangeText,
@@ -40,7 +41,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         {status, value, eventName, layout, listVisible, nextPressOutEvent, nextChangeTextEvent},
                         setState
                 ] = useImmer<SearchState>({layout: {} as SearchState['layout'], state: 'enabled', status: 'idle'})
-
+                const id = useId()
                 const containerRef = useRef<View>(null)
                 const {data} = listProps
                 const inputRef = useRef<TextInput>(null)
@@ -80,12 +81,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 }, [listVisible, onSearchContainerLayout])
 
                 useEffect(() => {
-                        nextPressOutEvent?.()
-                }, [nextPressOutEvent])
-
-                useEffect(() => {
                         nextChangeTextEvent?.()
                 }, [nextChangeTextEvent])
+
+                useEffect(() => {
+                        runAfterInteractions(nextPressOutEvent)()
+                }, [nextPressOutEvent])
 
                 if (status === 'idle') {
                         return
@@ -95,6 +96,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         ...renderProps,
                         containerRef,
                         eventName,
+                        id,
                         layout,
                         leading,
                         listProps,
