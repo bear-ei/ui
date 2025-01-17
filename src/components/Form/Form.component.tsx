@@ -6,9 +6,14 @@ import {Container} from './Form.styles'
 import {FormContext} from './use-form-context.hook'
 import {useForm} from './use-form.hook'
 
-const render = <T,>({form, itemElements, ...containerProps}: RenderFormProps<T>) => (
+const render = <T,>({form, itemElements, id, testID, ...containerProps}: RenderFormProps<T>) => (
         <FormContext.Provider value={form as FormStore<Record<string, unknown>>}>
-                <Container {...containerProps}>{itemElements}</Container>
+                <Container
+                        {...containerProps}
+                        testID={testID ?? `form--${id}`}
+                >
+                        {itemElements}
+                </Container>
         </FormContext.Provider>
 )
 

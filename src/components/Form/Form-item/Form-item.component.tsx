@@ -4,8 +4,13 @@ import {FormItemBase} from './Form-item-base.component'
 import {FormItemProps, RenderFormItemProps} from './Form-item.interface'
 import {Container} from './Form-item.styles'
 
-const render = ({control, ...containerProps}: RenderFormItemProps) => (
-        <Container {...containerProps}>{control}</Container>
+const render = ({control, id, testID, ...containerProps}: RenderFormItemProps) => (
+        <Container
+                {...containerProps}
+                testID={testID ?? `formItem--${id}`}
+        >
+                {control}
+        </Container>
 )
 
 const ForwardRefFormItem = forwardRef<View, FormItemProps>((props, ref) => (

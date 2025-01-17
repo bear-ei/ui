@@ -25,7 +25,7 @@ export const handleFormCallback =
                 setCallback({onFinish, onFinishFailed, onValueChange})
 
 export const handleFormItem =
-        ({onLoadEnd, ...options}: HandleFormItemOptions) =>
+        ({onLoadEnd, id, ...options}: HandleFormItemOptions) =>
         (status: ComponentStatus) =>
         (items?: FormItemProps[]) =>
                 status === 'succeeded' ?
@@ -35,6 +35,7 @@ export const handleFormItem =
                                         {...options}
                                         {...(index === items.length - 1 && {onLoadEnd})}
                                         key={item.name ?? index}
+                                        testID={`form__formItem--${id}`}
                                 />
                         ))
                 :       <></>
