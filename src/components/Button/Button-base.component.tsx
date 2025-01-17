@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -17,8 +17,9 @@ import {useButtonAnimated} from './use-button-animated.hook'
 export const ButtonBase = forwardRef<View, ButtonBaseProps>(
         ({disabled, error, icon, labelText = 'Label', loading, render, type = 'filled', ...renderProps}, ref) => {
                 const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: 'idle'})
+                const id = useId()
                 const theme = useTheme()
-                const iconButtonElement = handleButtonIcon({eventName, type, disabled})(theme)(icon)
+                const iconButtonElement = handleButtonIcon({eventName, type, disabled, id})(theme)(icon)
                 const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
                 const onButtonStatus = useMemo(() => handleButtonStatus(setState)(disabled), [disabled, setState])
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
@@ -54,6 +55,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         elevation,
                         eventName,
                         icon: iconButtonElement,
+                        id,
                         labelText,
                         labelTextAnimatedStyle,
                         loading,
