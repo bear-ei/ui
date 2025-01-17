@@ -1,4 +1,4 @@
-import {forwardRef} from 'react'
+import {forwardRef, useId} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {IconBaseProps} from './Icon.interface'
@@ -21,6 +21,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
                 },
                 ref
         ) => {
+                const id = useId()
                 const theme = useTheme()
                 const disabledFill = theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(
                         theme.token.opacity.level5
@@ -34,10 +35,11 @@ export const IconBase = forwardRef<View, IconBaseProps>(
                                 fill={iconFill}
                                 height='100%'
                                 style={svgStyle}
+                                testID={`icon__svgIcon--${id}`}
                                 width='100%'
                         />
                 )
 
-                return render({...renderProps, containerAnimatedStyle, ref, svgIconElement})
+                return render({...renderProps, containerAnimatedStyle, ref, svgIconElement, id})
         }
 )
