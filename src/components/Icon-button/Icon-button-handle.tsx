@@ -44,7 +44,7 @@ export const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const handleIconButtonIcon =
-        ({disabled, type, fill, eventName, loading}: HandleIconButtonIconOptions) =>
+        ({disabled, type, fill: rawFill, eventName, loading, id}: HandleIconButtonIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
                         active: theme.token.scheme.onSurfaceVariant,
@@ -53,6 +53,10 @@ export const handleIconButtonIcon =
                         standard: theme.token.scheme.onSurfaceVariant,
                         tonal: theme.token.scheme.onSecondaryContainer
                 }
+
+                const fill =
+                        rawFill ??
+                        (!loading ? fillType[type as keyof typeof fillType] : theme.token.scheme.onSurfaceVariant)
 
                 return (icon?: JSX.Element) =>
                         cloneElement<IconProps>(
@@ -65,11 +69,8 @@ export const handleIconButtonIcon =
                                 {
                                         disabled,
                                         eventName,
-                                        fill:
-                                                fill ??
-                                                (!loading ?
-                                                        fillType[type as keyof typeof fillType]
-                                                :       theme.token.scheme.onSurfaceVariant)
+                                        fill,
+                                        testID: `iconButton__icon--${id}`
                                 }
                         )
         }

@@ -22,7 +22,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         active,
                         chipStyle = 'outlined',
                         close,
-                        disabled,
+                        disabled: rawDisabled,
                         elevated,
                         labelText = 'Label',
                         leadingIcon,
@@ -38,7 +38,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 const [{elevation, eventName, status}, setState] = useImmer<ChipState>({status: 'idle'})
                 const theme = useTheme()
                 const id = useId()
-                const leadingIconElement = handleChipIcon({eventName, disabled, id})(theme)(
+                const leadingIconElement = handleChipIcon({eventName, disabled: rawDisabled, id})(theme)(
                         type === 'filter' ?
                                 <Icon
                                         iconStyle='rounded'
@@ -50,24 +50,24 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
 
                 const trailingElement =
                         close ?
-                                handleChipCloseButton({disabled, onClose, id})(theme)
-                        :       handleChipIcon({eventName, disabled, id})(theme)(trailingIcon)
+                                handleChipCloseButton({disabled: rawDisabled, onClose, id})(theme)
+                        :       handleChipIcon({eventName, disabled: rawDisabled, id})(theme)(trailingIcon)
 
                 const onChipDisabled = useMemo(() => handleChipDisabled(setState), [setState])
                 const onChipElevation = useMemo(
-                        () => handleChipElevation({type, disabled})(setState),
-                        [disabled, setState, type]
+                        () => handleChipElevation({type, disabled: rawDisabled})(setState),
+                        [rawDisabled, setState, type]
                 )
 
-                const onChipStatus = useMemo(() => handleChipStatus(setState)(disabled), [disabled, setState])
+                const onChipStatus = useMemo(() => handleChipStatus(setState)(rawDisabled), [rawDisabled, setState])
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleChipStateChange({...options, state})(setState)(event)
 
-                const disabledEvent = loading || disabled
-                const onStateEvent = useOnStateEvent({...renderProps, disabled: disabledEvent, onStateEventChange})
+                const disabled = loading || rawDisabled
+                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
                 const {backgroundUnderlayAnimatedStyle, filterIconContainerAnimatedStyle, labelTextAnimatedStyle} =
-                        useChipAnimated({active, disabled, elevated, type, chipStyle})
+                        useChipAnimated({active, disabled: rawDisabled, elevated, type, chipStyle})
 
                 useEffect(() => {
                         onChipElevation(elevated ? 'enabled' : 'disabled')
@@ -78,8 +78,8 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 }, [onChipStatus, elevated])
 
                 useEffect(() => {
-                        onChipDisabled(disabled)
-                }, [disabled, onChipDisabled])
+                        onChipDisabled(rawDisabled)
+                }, [rawDisabled, onChipDisabled])
 
                 if (status === 'idle') {
                         return <></>
@@ -90,7 +90,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         active,
                         backgroundUnderlayAnimatedStyle,
                         close,
-                        disabled: disabledEvent,
+                        disabled,
                         elevation,
                         eventName,
                         filterIconContainerAnimatedStyle,

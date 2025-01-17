@@ -1,7 +1,6 @@
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-
 import {Progress} from '../Progress'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
@@ -17,10 +16,12 @@ const render = ({
         disabled,
         eventName,
         icon,
+        id,
         loading,
         onStateEvent,
         ref,
         size,
+        testID,
         theme,
         type,
         underlayColor,
@@ -33,24 +34,33 @@ const render = ({
                         pointerEvents='none'
                         shape={shape}
                         style={[backgroundUnderlayAnimatedStyle]}
+                        testID={`iconButton__animatedBackgroundUnderlay--${id}`}
                 />
         )
 
         return (
-                <Container pointerEvents={loading ? 'none' : 'auto'}>
+                <Container
+                        pointerEvents={loading ? 'none' : 'auto'}
+                        testID={testID ?? `iconButton--${id}`}
+                >
                         <ContentItemLayoutAnimated
                                 lazy={true}
+                                testID={`iconButton__contentItemLayoutAnimated--${id}`}
                                 visible={loading}
                         >
                                 <Progress
                                         animatedType='indeterminate'
                                         content={icon}
                                         size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
+                                        testID={`iconButton__progress--${id}`}
                                         type='circular'
                                 />
                         </ContentItemLayoutAnimated>
 
-                        <ContentItemLayoutAnimated visible={!loading}>
+                        <ContentItemLayoutAnimated
+                                testID={`iconButton__contentItemLayoutAnimated--${id}`}
+                                visible={!loading}
+                        >
                                 <Touchable
                                         {...onStateEvent}
                                         backgroundUnderlay={backgroundUnderlayElement}
@@ -59,6 +69,7 @@ const render = ({
                                         mainAlignSelf='center'
                                         ref={ref}
                                         shape={shape}
+                                        testID={`iconButton__touchable--${id}`}
                                         underlayColor={underlayColor}
                                 >
                                         <Content
@@ -67,8 +78,9 @@ const render = ({
                                                 pointerEvents='none'
                                                 shape={shape}
                                                 size={size}
+                                                testID={`iconButton__content--${id}`}
                                         >
-                                                <Main>{icon}</Main>
+                                                <Main testID={`iconButton__main--${id}`}>{icon}</Main>
                                                 <Underlay
                                                         active={active}
                                                         activeAnimatedType='scale'
@@ -76,6 +88,7 @@ const render = ({
                                                         defaultActive={defaultActive}
                                                         eventName={eventName}
                                                         shape='full'
+                                                        testID={`iconButton__underlay--${id}`}
                                                         underlayColor={underlayColor}
                                                 />
                                         </Content>

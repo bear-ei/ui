@@ -16,7 +16,16 @@ import {useFABAnimated} from './use-fab-animated.hook'
 
 export const FABBase = forwardRef<View, FABBaseProps>(
         (
-                {disabled, loading, elevated = true, icon, render, size = 'medium', type = 'primary', ...renderProps},
+                {
+                        disabled: rawDisabled,
+                        loading,
+                        elevated = true,
+                        icon,
+                        render,
+                        size = 'medium',
+                        type = 'primary',
+                        ...renderProps
+                },
                 ref
         ) => {
                 const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: 'idle'})
@@ -24,19 +33,22 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 const theme = useTheme()
                 const underlayColor = handleFABUnderlayColor(theme)(type)
                 const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
-                const onFABStatus = useMemo(() => handleFABStatus(setState)(disabled), [disabled, setState])
-                const fabIconElement = handleFABIcon({eventName, type, disabled, size, id})(theme)(icon)
+                const onFABStatus = useMemo(() => handleFABStatus(setState)(rawDisabled), [rawDisabled, setState])
+                const fabIconElement = handleFABIcon({eventName, type, disabled: rawDisabled, size, id})(theme)(icon)
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleFABStateChange({...options, state, elevated})(setState)(event)
 
-                const disabledEvent = loading || disabled
-                const onStateEvent = useOnStateEvent({...renderProps, disabled: disabledEvent, onStateEventChange})
-                const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled, type})
+                const disabled = loading || rawDisabled
+                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
+                const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
+                        disabled: rawDisabled,
+                        type
+                })
 
                 useEffect(() => {
-                        onFABDisabled(disabled)
-                }, [disabled, onFABDisabled])
+                        onFABDisabled(rawDisabled)
+                }, [rawDisabled, onFABDisabled])
 
                 useEffect(() => {
                         onFABStatus(elevated)
@@ -49,7 +61,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 return render({
                         ...renderProps,
                         backgroundUnderlayAnimatedStyle,
-                        disabled: disabledEvent,
+                        disabled,
                         elevation,
                         eventName,
                         icon: fabIconElement,

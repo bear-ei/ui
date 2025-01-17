@@ -15,22 +15,34 @@ import {ButtonBaseProps, ButtonState} from './Button.interface'
 import {useButtonAnimated} from './use-button-animated.hook'
 
 export const ButtonBase = forwardRef<View, ButtonBaseProps>(
-        ({disabled, error, icon, labelText = 'Label', loading, render, type = 'filled', ...renderProps}, ref) => {
+        (
+                {
+                        disabled: rawDisabled,
+                        error,
+                        icon,
+                        labelText = 'Label',
+                        loading,
+                        render,
+                        type = 'filled',
+                        ...renderProps
+                },
+                ref
+        ) => {
                 const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: 'idle'})
                 const id = useId()
                 const theme = useTheme()
-                const iconButtonElement = handleButtonIcon({eventName, type, disabled, id})(theme)(icon)
+                const iconButtonElement = handleButtonIcon({eventName, type, disabled: rawDisabled, id})(theme)(icon)
                 const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
-                const onButtonStatus = useMemo(() => handleButtonStatus(setState)(disabled), [disabled, setState])
+                const onButtonStatus = useMemo(() => handleButtonStatus(setState)(rawDisabled), [rawDisabled, setState])
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleButtonStateChange({...options, state, type})(setState)(event)
 
-                const disabledEvent = loading || disabled
-                const onStateEvent = useOnStateEvent({...renderProps, disabled: disabledEvent, onStateEventChange})
+                const disabled = loading || rawDisabled
+                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
                 const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
-                        disabled,
+                        disabled: rawDisabled,
                         eventName,
                         type,
                         error
@@ -51,7 +63,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 return render({
                         ...renderProps,
                         backgroundUnderlayAnimatedStyle,
-                        disabled: disabledEvent,
+                        disabled,
                         elevation,
                         eventName,
                         icon: iconButtonElement,
