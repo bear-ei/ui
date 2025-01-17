@@ -1,15 +1,12 @@
 import mitt from 'mitt'
-import {FC, useEffect} from 'react'
+import {FC, useEffect, useId} from 'react'
 import {useImmer} from 'use-immer'
 import {SideSheet} from '../components'
 import {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './contexts.interface'
 import {handleModal} from './Modal-provider.-handle'
 
 const ModalItem: FC<ModalItemProps> = ({name, props}) => {
-        const component = {
-                tooltip: <></>,
-                sideSheet: SideSheet
-        }
+        const component = {tooltip: <></>, sideSheet: SideSheet}
 
         if (!name) {
                 return <></>
@@ -23,6 +20,7 @@ const ModalItem: FC<ModalItemProps> = ({name, props}) => {
 export const emitter = mitt<EmitterEvent>()
 export const ModalProvider: FC<ModalProps> = () => {
         const [{modals}, setState] = useImmer<ModalState>({modals: []})
+        const id = useId()
 
         useEffect(() => {
                 emitter.on('modal', modal => handleModal(setState)(modal))
@@ -34,11 +32,12 @@ export const ModalProvider: FC<ModalProps> = () => {
 
         return (
                 <>
-                        {modals.map(({name, props, id}) => (
+                        {modals.map(({name, props, id: modalId}) => (
                                 <ModalItem
-                                        key={id}
+                                        key={modalId}
                                         name={name}
                                         props={props}
+                                        testID={id}
                                 />
                         ))}
                 </>

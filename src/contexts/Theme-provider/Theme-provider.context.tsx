@@ -1,5 +1,5 @@
 import {token as materialToken} from '@bearei/material-token'
-import {FC, useRef} from 'react'
+import {FC, useId, useRef} from 'react'
 import {Platform, useColorScheme, View} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
 import {useWindowSize} from '../../hooks'
@@ -50,6 +50,7 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken}) => {
 export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
         const ref = useRef<View>(null)
         const onThemeProviderFocus = handleThemeProviderFocus(ref)
+        const id = useId()
 
         return (
                 <Container
@@ -57,6 +58,7 @@ export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
                         onPressIn={onThemeProviderFocus}
                         ref={ref}
                         story={story}
+                        testID={`bearei__material--${id}`}
                 >
                         {['macos', 'windows', 'web'].includes(Platform.OS) ?
                                 <DesktopDevice {...props} />
