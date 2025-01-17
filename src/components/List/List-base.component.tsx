@@ -1,7 +1,7 @@
-import {forwardRef, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
-import {InteractionManager} from 'react-native'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
+import {runAfterInteractions} from '../../utils'
 import {
         handleListActive,
         handleListActiveAfterAffordance,
@@ -69,6 +69,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 ] = useImmer<ListState>({status: 'idle'})
 
                 const listRef = useRef<VirtualListComponent<ListData>>(null)
+                const id = useId()
                 const theme = useTheme()
                 const onListData = useMemo(() => handleListData(setState)(loading), [loading, setState])
                 const onListActiveAfterAffordance = handleListActiveAfterAffordance({onActive, selectType})(setState)
@@ -120,15 +121,15 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 }, [rawActiveKey, rawActiveKeys, defaultActiveKey, defaultActiveKeys, onListRawActive])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextActiveEvent?.())
+                        runAfterInteractions(nextActiveEvent)()
                 }, [nextActiveEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextAfterAffordanceActiveEvent?.())
+                        runAfterInteractions(nextAfterAffordanceActiveEvent)()
                 }, [nextAfterAffordanceActiveEvent])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextCloseEvent?.())
+                        runAfterInteractions(nextCloseEvent)()
                 }, [nextCloseEvent])
 
                 if (status === 'idle') {
@@ -142,6 +143,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceActiveKey,
                         data,
                         focusedIndex,
+                        id,
                         itemSize: itemSize ?? handleListItemSize(theme)(type),
                         loading,
                         loadingComponent,

@@ -2,7 +2,7 @@ import {cloneElement} from 'react'
 import {Updater} from 'use-immer'
 import {FABProps} from '../FAB'
 import {NavigationRailItem} from './Navigation-rail-item'
-import {NavigationRailData, NavigationRailState, RenderNavigationRailItemOptions} from './Navigation-rail.interface'
+import {HandleNavigationRailItemOptions, NavigationRailData, NavigationRailState} from './Navigation-rail.interface'
 
 export const handleNavigationRailActive =
         (onActive?: (value?: string) => void) => (setState: Updater<NavigationRailState>) => (value?: string) => {
@@ -28,15 +28,23 @@ export const handleNavigationRailData = (setState: Updater<NavigationRailState>)
 }
 
 export const handleNavigationRailItems =
-        (renderNavigationRailItemOptions: RenderNavigationRailItemOptions) => (data?: NavigationRailData[]) =>
+        ({id, ...renderNavigationRailItemOptions}: HandleNavigationRailItemOptions) =>
+        (data?: NavigationRailData[]) =>
                 data?.map(({indexKey, ...props}, index) => (
                         <NavigationRailItem
                                 {...props}
                                 {...renderNavigationRailItemOptions}
                                 itemKey={indexKey ?? index.toString()}
                                 key={indexKey}
+                                testID={`navigationRail__navigationRailItem--${id}`}
                         />
                 ))
 
-export const handleNavigationRailFAB = (fab?: JSX.Element) =>
-        fab ? cloneElement<FABProps>(fab, {elevated: false, size: 'medium'}) : undefined
+export const handleNavigationRailFAB = (id: string) => (fab?: JSX.Element) =>
+        fab ?
+                cloneElement<FABProps>(fab, {
+                        elevated: false,
+                        size: 'medium',
+                        testID: `navigationRail__fab--${id}`
+                })
+        :       undefined

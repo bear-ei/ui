@@ -1,6 +1,7 @@
-import {forwardRef, useEffect, useMemo} from 'react'
-import {InteractionManager, View} from 'react-native'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {View} from 'react-native'
 import {useImmer} from 'use-immer'
+import {runAfterInteractions} from '../../utils'
 import {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
 import {
         handleNavigationRailActive,
@@ -29,17 +30,19 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                         status: 'idle'
                 })
 
+                const id = useId()
                 const onNavigationRailActive = handleNavigationRailActive(onActive)(setState)
                 const onNavigationRailData = useMemo(() => handleNavigationRailData(setState), [setState])
                 const onNavigationRailRawActive = useMemo(() => handleNavigationRailActive()(setState), [setState])
                 const navigationRailItemElements = handleNavigationRailItems({
                         activeKey,
                         animatedType,
+                        id,
                         onActive: onNavigationRailActive,
                         type
                 })(data)
 
-                const fabElement = handleNavigationRailFAB(fab)
+                const fabElement = handleNavigationRailFAB(id)(fab)
 
                 useEffect(() => {
                         onNavigationRailRawActive(rawActiveKey ?? defaultActiveKey)
@@ -50,7 +53,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                 }, [onNavigationRailData, rawData])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextActiveEvent?.())
+                        runAfterInteractions(nextActiveEvent)()
                 }, [nextActiveEvent])
 
                 if (status === 'idle') {
@@ -61,6 +64,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                         ...renderProps,
                         destinationPosition,
                         fabElement,
+                        id,
                         navigationRailItemElements,
                         ref
                 })

@@ -243,7 +243,8 @@ export const handleListItemTrailing = ({
         disabled,
         onStateEvent,
         trailing,
-        trailingProps
+        trailingProps,
+        id
 }: HandleListItemTrailingOptions) => {
         const {onHoverIn, onHoverOut} = onStateEvent
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
@@ -252,6 +253,7 @@ export const handleListItemTrailing = ({
                 disabled,
                 pointerEvents: 'box-only' as ViewProps['pointerEvents'],
                 type: 'standard' as IconButtonType,
+                testID: `listItem__trailing--${id}`,
                 ...onStateEvent,
                 ...trailingProps
         }
@@ -262,10 +264,12 @@ export const handleListItemTrailing = ({
                                 cloneElement(trailing, props)
                         :       <IconButton
                                         {...props}
+                                        testID={`listItem__trailingIconButton--${id}`}
                                         icon={
                                                 <Icon
                                                         iconStyle='rounded'
                                                         name='moreHoriz'
+                                                        testID={`listItem__trailingIconMoreHoriz--${id}`}
                                                         type='outlined'
                                                 />
                                         }
@@ -275,10 +279,12 @@ export const handleListItemTrailing = ({
                                 cloneElement(trailing, props)
                         :       <IconButton
                                         {...props}
+                                        testID={`listItem__trailingIconButton--${id}`}
                                         icon={
                                                 <Icon
                                                         iconStyle='rounded'
                                                         name='close'
+                                                        testID={`listItem__trailingIconClose--${id}`}
                                                         type='outlined'
                                                 />
                                         }

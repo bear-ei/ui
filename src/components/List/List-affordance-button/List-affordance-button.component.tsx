@@ -14,9 +14,11 @@ const render = ({
         disabled,
         eventName,
         icon,
+        id,
         labelText,
         labelTextAnimatedStyle,
         onStateEvent,
+        testID,
         theme
 }: RenderListAffordanceButtonProps) => {
         const underlayColor = theme.token.scheme.onPrimary
@@ -24,21 +26,24 @@ const render = ({
                 <AnimatedBackgroundUnderlay
                         pointerEvents='none'
                         style={[backgroundUnderlayAnimatedStyle]}
+                        testID={`listAffordanceButton__animatedBackgroundUnderlay--${id}`}
                 />
         )
 
         return (
-                <Container>
+                <Container testID={testID ?? `listAffordanceButton--${id}`}>
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
                                 disabled={disabled}
+                                testID={`listAffordanceButton__touchable--${id}`}
                                 underlayColor={underlayColor}
                         >
                                 <Content
-                                        pointerEvents='none'
                                         accessibilityLabel={labelText}
                                         accessibilityRole='button'
+                                        pointerEvents='none'
+                                        testID={`listAffordanceButton__content--${id}`}
                                 >
                                         {icon ?? (
                                                 <AnimatedLabelText
@@ -46,6 +51,7 @@ const render = ({
                                                         numberOfLines={1}
                                                         size='large'
                                                         style={[labelTextAnimatedStyle]}
+                                                        testID={`listAffordanceButton__animatedLabelText--${id}`}
                                                         type='label'
                                                 >
                                                         {labelText}
@@ -54,6 +60,7 @@ const render = ({
 
                                         <Underlay
                                                 eventName={eventName}
+                                                testID={`listAffordanceButton__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>

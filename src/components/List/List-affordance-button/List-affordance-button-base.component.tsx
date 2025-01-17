@@ -1,4 +1,4 @@
-import {forwardRef} from 'react'
+import {forwardRef, useId} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -12,6 +12,7 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
         ({labelText = 'Label', render, disabled, visible, ...renderProps}, ref) => {
                 const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({})
                 const theme = useTheme()
+                const id = useId()
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleListAffordanceButtonStateChange({...options, state, visible})(setState)(event)
@@ -26,6 +27,7 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
                         backgroundUnderlayAnimatedStyle,
                         disabled,
                         eventName,
+                        id,
                         labelText,
                         labelTextAnimatedStyle,
                         onStateEvent,

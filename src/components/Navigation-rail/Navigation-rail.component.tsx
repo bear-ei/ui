@@ -7,15 +7,25 @@ import {Container, Destination, Fab, Menu} from './Navigation-rail.styles'
 const render = ({
         destinationPosition,
         fabElement,
+        id,
         menu,
         navigationRailItemElements,
+        testID,
         ...containerProps
 }: RenderNavigationRailProps) => (
-        <Container {...containerProps}>
-                {menu && <Menu>{menu}</Menu>}
-                {fabElement && <Fab>{fabElement}</Fab>}
+        <Container
+                {...containerProps}
+                testID={testID ?? `navigationRail--${id}}`}
+        >
+                {menu && <Menu testID={`navigationRail__menu--${id}}`}>{menu}</Menu>}
+                {fabElement && <Fab testID={`navigationRail__fab--${id}}`}>{fabElement}</Fab>}
 
-                <Destination destinationPosition={destinationPosition}>{navigationRailItemElements}</Destination>
+                <Destination
+                        destinationPosition={destinationPosition}
+                        testID={`navigationRail__destination--${id}}`}
+                >
+                        {navigationRailItemElements}
+                </Destination>
         </Container>
 )
 

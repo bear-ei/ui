@@ -1,8 +1,9 @@
-import {cloneElement, forwardRef, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {PanResponder, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
+import {runAfterInteractions} from '../../../utils'
 import {State} from '../../Common'
 import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {
@@ -67,6 +68,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         setState
                 ] = useImmer<ListItemState>({status: 'idle'})
 
+                const id = useId()
                 const pressableRef = useRef<View>(null)
                 const active = useMemo(
                         () => (selectType === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)),
@@ -139,36 +141,39 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         afterAffordance,
                         closeTrailing,
                         disabled,
+                        id,
                         onStateEvent: {onPressOut: onListItemTrailingPressOut},
                         theme,
                         trailing,
                         trailingProps
                 })
 
-                const leadingElement =
-                        leading && selectType ? cloneElement(leading, {type: active ? 'filled' : 'outlined'}) : leading
+                const leadingElement = cloneElement(leading ?? <></>, {
+                        ...(selectType && {type: active ? 'filled' : 'outlined'}),
+                        testID: `listItem__leading--${id}`
+                })
 
                 useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
 
                 useEffect(() => {
-                        onListItemFocus(focusedIndex)
+                        runAfterInteractions(onListItemFocus)(focusedIndex)
                 }, [focusedIndex, onListItemFocus])
 
                 useEffect(() => {
-                        onListItemClose(close)
+                        runAfterInteractions(onListItemClose)(close)
                 }, [close, onListItemClose])
+
+                useEffect(() => {
+                        runAfterInteractions(nextPressInEvent)()
+                }, [nextPressInEvent])
+
+                useEffect(() => {
+                        runAfterInteractions(nextPressOutEvent)()
+                }, [nextPressOutEvent])
 
                 useEffect(() => {
                         nextLayoutEvent?.()
                 }, [nextLayoutEvent])
-
-                useEffect(() => {
-                        nextPressInEvent?.()
-                }, [nextPressInEvent])
-
-                useEffect(() => {
-                        nextPressOutEvent?.()
-                }, [nextPressOutEvent])
 
                 return render({
                         ...renderProps,
@@ -182,6 +187,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         enableUnderlayActive,
                         eventName,
                         headlineTextAnimatedStyle,
+                        id,
                         itemKey,
                         leadingElement,
                         onConfirm: onListItemConfirm,

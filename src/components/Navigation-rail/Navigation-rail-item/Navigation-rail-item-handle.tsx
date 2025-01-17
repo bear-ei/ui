@@ -54,17 +54,19 @@ export const handleNavigationRailItemStateChange =
                 })
         }
 
-export const handleNavigationRailItemIcon = (icon: JSX.Element) => (eventName?: EventName) =>
+export const handleNavigationRailItemIcon = (id: string) => (icon: JSX.Element) => (eventName?: EventName) =>
         cloneElement<IconProps>(icon, {
                 eventName,
                 iconStyle: 'rounded',
+                testID: `navigationRailItem__icon--${id}`,
                 type: 'outlined'
         })
 
-export const handleNavigationRailItemActiveIcon = (icon: JSX.Element) => (eventName?: EventName) =>
+export const handleNavigationRailItemActiveIcon = (id: string) => (icon: JSX.Element) => (eventName?: EventName) =>
         cloneElement<IconProps>(icon, {
                 eventName,
                 iconStyle: 'rounded',
+                testID: `navigationRailItem__activeIcon--${id}`,
                 type: 'filled'
         })
 

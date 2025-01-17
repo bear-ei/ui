@@ -120,7 +120,7 @@ export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 
 export interface HandleListItemTrailingOptions
         extends Pick<
                 RenderListItemProps,
-                'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps'
+                'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps' | 'id'
         > {
         onStateEvent: Partial<OnStateEvent>
         theme: DefaultTheme

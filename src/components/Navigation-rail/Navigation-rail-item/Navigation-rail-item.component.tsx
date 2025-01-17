@@ -23,10 +23,12 @@ const render = ({
         animatedType,
         eventName,
         iconElement,
+        id,
         labelText,
         labelTextAnimatedStyle,
         onStateEvent,
         ref,
+        testID,
         theme,
         type,
         ...containerProps
@@ -39,19 +41,31 @@ const render = ({
                         {...containerProps}
                         accessibilityLabel={labelText}
                         accessibilityRole='tab'
+                        testID={testID ?? `navigationRailItem--${id}`}
                 >
                         <TouchableContent
                                 {...onStateEvent}
                                 enableFocusRing={false}
                                 ref={ref}
+                                testID={`navigationRailItem__touchableContent--${id}`}
                         >
                                 <Header
                                         pointerEvents='none'
+                                        testID={`navigationRailItem__header--${id}`}
                                         type={type}
                                 >
-                                        <IconContainer>
-                                                <IconLayoutAnimated visible={!active}>{iconElement}</IconLayoutAnimated>
-                                                <IconLayoutAnimated visible={active}>
+                                        <IconContainer testID={`navigationRailItem__iconContainer--${id}`}>
+                                                <IconLayoutAnimated
+                                                        testID={`navigationRailItem__iconLayoutAnimated--${id}`}
+                                                        visible={!active}
+                                                >
+                                                        {iconElement}
+                                                </IconLayoutAnimated>
+
+                                                <IconLayoutAnimated
+                                                        testID={`navigationRailItem__iconLayoutAnimated--${id}`}
+                                                        visible={active}
+                                                >
                                                         {activeIconElement}
                                                 </IconLayoutAnimated>
                                         </IconContainer>
@@ -63,6 +77,7 @@ const render = ({
                                                 activeShape='full'
                                                 eventName={eventName}
                                                 shape={type === 'block' ? 'full' : 'large'}
+                                                testID={`navigationRailItem__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Header>
@@ -72,15 +87,17 @@ const render = ({
                                                 animatedType='collapseY'
                                                 pointerEvents='none'
                                                 scale={false}
+                                                testID={`navigationRailItem__labelLayoutAnimated--${id}`}
                                                 visible={animatedType === 'collapse' ? active : true}
                                         >
-                                                <Label>
+                                                <Label testID={`navigationRailItem__label--${id}`}>
                                                         <AnimatedLabelText
                                                                 active={active}
                                                                 ellipsizeMode='tail'
                                                                 numberOfLines={1}
                                                                 size='medium'
                                                                 style={[labelTextAnimatedStyle]}
+                                                                testID={`navigationRailItem__animatedLabelText--${id}`}
                                                                 type='label'
                                                         >
                                                                 {labelText}
