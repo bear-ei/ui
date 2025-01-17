@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {InteractionManager, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -19,6 +19,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
                         type: 'unselected'
                 })
 
+                const id = useId()
                 const theme = useTheme()
                 const onCheckboxStatus = useMemo(() => handleCheckboxStatus(setState), [setState])
                 const onCheckboxIndeterminate = useMemo(() => handleCheckboxIndeterminate(setState), [setState])
@@ -52,6 +53,6 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
                         return <></>
                 }
 
-                return render({...renderProps, disabled, error, eventName, onStateEvent, ref, theme, type})
+                return render({...renderProps, disabled, error, eventName, onStateEvent, ref, theme, type, id})
         }
 )

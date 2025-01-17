@@ -5,15 +5,24 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CheckboxBase} from './Checkbox-base.component'
 import {CheckboxIconAnimatedOptions, CheckboxProps, RenderCheckboxProps} from './Checkbox.interface'
-import {Container, Content, IconContainerLayoutAnimated, Main} from './Checkbox.styles'
+import {Container, Content, IconLayoutAnimated, Main} from './Checkbox.styles'
 
-const render = ({disabled, error, eventName, onStateEvent, theme, type, ...contentProps}: RenderCheckboxProps) => {
+const render = ({
+        disabled,
+        error,
+        eventName,
+        id,
+        onStateEvent,
+        testID,
+        theme,
+        type,
+        ...contentProps
+}: RenderCheckboxProps) => {
         const activeFill = error ? theme.token.scheme.error : theme.token.scheme.primary
         const unselectedFill = type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
         const checkBoxOutlineFill = error ? theme.token.scheme.error : unselectedFill
         const shape = 'full'
         const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
-
         const checkUnderlayColor =
                 type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
 
@@ -30,12 +39,13 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
         } as CheckboxIconAnimatedOptions
 
         return (
-                <Container>
+                <Container testID={testID ?? `checkbox--${id}`}>
                         <Touchable
                                 {...onStateEvent}
                                 disabled={disabled}
                                 mainAlignSelf='center'
                                 shape={shape}
+                                testID={`checkbox__touchable--${id}`}
                                 underlayColor={underlayColor}
                         >
                                 <Content
@@ -43,9 +53,16 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
                                         accessibilityRole='checkbox'
                                         pointerEvents='none'
                                         shape={shape}
+                                        testID={`checkbox__content--${id}`}
                                 >
-                                        <Main shape='tinySmall'>
-                                                <IconContainerLayoutAnimated visible={true}>
+                                        <Main
+                                                shape='tinySmall'
+                                                testID={`checkbox__main--${id}`}
+                                        >
+                                                <IconLayoutAnimated
+                                                        testID={`checkbox__iconLayoutAnimated--${id}`}
+                                                        visible={true}
+                                                >
                                                         <Icon
                                                                 disabled={disabled}
                                                                 fill={checkBoxOutlineFill}
@@ -53,13 +70,15 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
                                                                 name='checkBoxOutlineBlank'
                                                                 size={iconSize}
                                                                 svgStyle={iconSvgStyle}
+                                                                testID={`checkbox__iconCheckBoxOutlineBlank--${id}`}
                                                                 type='filled'
                                                         />
-                                                </IconContainerLayoutAnimated>
+                                                </IconLayoutAnimated>
 
-                                                <IconContainerLayoutAnimated
+                                                <IconLayoutAnimated
                                                         {...animatedOptions}
                                                         visible={type === 'selected'}
+                                                        testID={`checkbox__iconLayoutAnimated--${id}`}
                                                 >
                                                         <Icon
                                                                 disabled={disabled}
@@ -68,13 +87,15 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
                                                                 name='checkBox'
                                                                 size={iconSize}
                                                                 svgStyle={iconSvgStyle}
+                                                                testID={`checkbox__iconCheckBox--${id}`}
                                                                 type='filled'
                                                         />
-                                                </IconContainerLayoutAnimated>
+                                                </IconLayoutAnimated>
 
-                                                <IconContainerLayoutAnimated
+                                                <IconLayoutAnimated
                                                         {...animatedOptions}
                                                         visible={type === 'indeterminate'}
+                                                        testID={`checkbox__iconLayoutAnimated--${id}`}
                                                 >
                                                         <Icon
                                                                 disabled={disabled}
@@ -83,14 +104,16 @@ const render = ({disabled, error, eventName, onStateEvent, theme, type, ...conte
                                                                 name='indeterminateCheckBox'
                                                                 size={iconSize}
                                                                 svgStyle={iconSvgStyle}
+                                                                testID={`checkbox__iconIndeterminateCheckBox--${id}`}
                                                                 type='filled'
                                                         />
-                                                </IconContainerLayoutAnimated>
+                                                </IconLayoutAnimated>
                                         </Main>
 
                                         <Underlay
                                                 eventName={eventName}
                                                 shape={shape}
+                                                testID={`checkbox__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>
