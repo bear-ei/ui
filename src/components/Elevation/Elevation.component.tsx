@@ -6,12 +6,16 @@ import {ElevationProps, RenderElevationProps} from './Elevation.interface'
 import {Container, Shadow} from './Elevation.styles'
 
 const AnimatedShadow = Animated.createAnimatedComponent(Shadow)
-const render = ({level, shadowAnimatedStyle, shape, ...containerProps}: RenderElevationProps) => (
-        <Container {...containerProps}>
+const render = ({level, shadowAnimatedStyle, shape, id, testID, ...containerProps}: RenderElevationProps) => (
+        <Container
+                {...containerProps}
+                testID={testID ?? `elevation--${id}`}
+        >
                 <AnimatedShadow
                         level={level}
                         shape={shape}
                         style={[shadowAnimatedStyle]}
+                        testID={testID ?? `elevation__animatedShadow--${id}`}
                 />
         </Container>
 )
