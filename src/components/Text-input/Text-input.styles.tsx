@@ -132,10 +132,10 @@ export const Control = styled.View<TextInputControlProps>`
                 padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `};
 
-        ${({multiline, height = 0}) =>
+        ${({multiline, size = 0}) =>
                 multiline &&
                 css`
-                        min-height: ${height}px;
+                        min-height: ${size}px;
                 `};
 `
 

@@ -11,6 +11,7 @@ const AnimatedSkeletonContainer = Animated.createAnimatedComponent(SkeletonConta
 const render = ({
         children,
         containerAnimatedStyle,
+        id,
         skeleton,
         style,
         visible,
@@ -23,16 +24,21 @@ const render = ({
                         <ContentItemLayoutLayoutAnimated
                                 unmount={true}
                                 visible={skeletonVisible}
+                                testID={`skeleton__contentItemLayoutLayoutAnimated--${id}`}
                         >
                                 <AnimatedSkeletonContainer
                                         {...containerProps}
                                         style={[style, containerAnimatedStyle]}
+                                        testID={`skeleton__animatedSkeletonContainer--${id}`}
                                 >
                                         {skeleton}
                                 </AnimatedSkeletonContainer>
                         </ContentItemLayoutLayoutAnimated>
 
-                        <ContentItemLayoutLayoutAnimated visible={!skeletonVisible}>
+                        <ContentItemLayoutLayoutAnimated
+                                visible={!skeletonVisible}
+                                testID={`skeleton__contentItemLayoutLayoutAnimated--${id}`}
+                        >
                                 {children}
                         </ContentItemLayoutLayoutAnimated>
                 </>

@@ -1,9 +1,9 @@
-import {forwardRef, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {debounce} from '../../utils'
+import {debounce, runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
         handleSupportingTextClose,
@@ -66,6 +66,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         status: 'idle'
                 })
 
+                const id = useId()
                 const textInputRef = useRef<TextInput>(null)
                 const theme = useTheme()
                 const placeholderTextColor =
@@ -145,10 +146,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 }, [defaultValue, onTextInputChangeTextStatus, rawValue])
 
                 useEffect(() => {
-                        nextPressOutEvent?.()
-                }, [nextPressOutEvent])
-
-                useEffect(() => {
                         nextChangeTextEvent?.()
                 }, [nextChangeTextEvent])
 
@@ -159,6 +156,10 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 useEffect(() => {
                         nextSupportingTextVisibleEvent?.()
                 }, [nextSupportingTextVisibleEvent])
+
+                useEffect(() => {
+                        runAfterInteractions(nextPressOutEvent)()
+                }, [nextPressOutEvent])
 
                 if (status === 'idle') {
                         return <></>
@@ -172,6 +173,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         editable,
                         eventName,
                         headerAnimatedStyle,
+                        id,
                         inputAnimatedStyle,
                         labelAnimatedStyle,
                         labelText,

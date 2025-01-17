@@ -126,7 +126,7 @@ export type TextInputHeaderProps = Pick<RenderTextInputProps, 'type'> & {
 
 export interface TextInputControlProps {
         multiline?: boolean
-        height?: number
+        size?: number
 }
 
 export interface TextInputLabelProps extends TypographyProps {

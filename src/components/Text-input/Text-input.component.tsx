@@ -41,6 +41,7 @@ const render = ({
         error,
         eventName,
         headerAnimatedStyle,
+        id,
         inputAnimatedStyle,
         labelAnimatedStyle,
         labelText,
@@ -53,6 +54,7 @@ const render = ({
         supportingText,
         supportingTextAnimatedStyle,
         supportingTextVisible,
+        testID,
         theme,
         trailing,
         ...inputProps
@@ -69,8 +71,9 @@ const render = ({
                                 accessibilityLabel: supportingText,
                                 accessibilityRole: 'alert'
                         })}
+                        testID={testID ?? `textInput--${id}`}
                 >
-                        <Content>
+                        <Content testID={`textInput__content--${id}`}>
                                 <TouchableHeader
                                         {...onTouchableHeaderEvent}
                                         {...(!error && {
@@ -79,24 +82,30 @@ const render = ({
                                         })}
                                         enableFocusRing={false}
                                         onFocus={onHeaderFocus}
+                                        testID={`textInput__touchableHeader--${id}`}
                                 >
                                         <AnimatedHeader
                                                 leadingShow={leadingShow}
                                                 shape={shape}
                                                 style={[headerAnimatedStyle]}
+                                                testID={`textInput__animatedHeader--${id}`}
                                                 trailingShow={!!trailing}
                                         >
                                                 {leading && (
-                                                        <Leading>
+                                                        <Leading testID={`textInput__leading--${id}`}>
                                                                 {cloneElement(leading, {disabledFocus: true})}
                                                         </Leading>
                                                 )}
 
-                                                <Main contentShow={!!content}>
+                                                <Main
+                                                        contentShow={!!content}
+                                                        testID={`textInput__main--${id}`}
+                                                >
                                                         {content}
                                                         <Control
                                                                 multiline={multiline}
-                                                                height={contentSize?.height}
+                                                                size={contentSize?.height}
+                                                                testID={`textInput__control--${id}`}
                                                         >
                                                                 <AnimatedTextInput
                                                                         {...inputProps}
@@ -111,34 +120,44 @@ const render = ({
                                                                         onBlur={onBlur}
                                                                         onFocus={onFocus}
                                                                         style={[inputAnimatedStyle]}
+                                                                        testID={`textInput__animatedTextInput--${id}`}
                                                                 />
                                                         </Control>
                                                 </Main>
 
                                                 {trailing && (
-                                                        <Trailing>
-                                                                {cloneElement(trailing, {disabledFocus: true})}
+                                                        <Trailing testID={`textInput__trailing--${id}`}>
+                                                                {cloneElement(trailing, {
+                                                                        disabledFocus: true,
+                                                                        testID: `textInput__trailing--${id}`
+                                                                })}
                                                         </Trailing>
                                                 )}
 
                                                 <AnimatedLabel
                                                         leadingShow={leadingShow}
                                                         style={[labelAnimatedStyle]}
+                                                        testID={`textInput__animatedLabel--${id}`}
                                                 >
                                                         <AnimatedLabelText
                                                                 size='large'
                                                                 style={[labelTextAnimatedStyle]}
+                                                                testID={`textInput__animatedLabelText--${id}`}
                                                                 type='body'
                                                         >
                                                                 {labelText}
                                                         </AnimatedLabelText>
                                                 </AnimatedLabel>
 
-                                                <AnimatedActiveIndicator style={[activeIndicatorAnimatedStyle]} />
+                                                <AnimatedActiveIndicator
+                                                        style={[activeIndicatorAnimatedStyle]}
+                                                        testID={`textInput__animatedActiveIndicator--${id}`}
+                                                />
 
                                                 <Underlay
                                                         eventName={eventName}
                                                         opacities={underlayOpacities}
+                                                        testID={`textInput__underlay--${id}`}
                                                         underlayColor={underlayColor}
                                                 />
                                         </AnimatedHeader>
@@ -147,11 +166,13 @@ const render = ({
                                 <SupportingLayoutAnimated
                                         hidden={false}
                                         onVisible={onSupportingTextVisible}
+                                        testID={`textInput__supportingLayoutAnimated--${id}`}
                                         visible={supportingTextVisible}
                                 >
                                         <AnimatedSupportingText
                                                 size='small'
                                                 style={[supportingTextAnimatedStyle]}
+                                                testID={`textInput__animatedSupportingText--${id}`}
                                                 type='body'
                                         >
                                                 {supportingText}

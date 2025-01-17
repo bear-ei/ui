@@ -4,10 +4,11 @@ import {SkeletonElementBase} from './Skeleton-element-base.component'
 import {RenderSkeletonElementProps, SkeletonElementProps} from './Skeleton-element.interface'
 import {Container} from './Skeleton-element.styles'
 
-const render = ({children, ...props}: RenderSkeletonElementProps) => (
+const render = ({children, id, testID, ...props}: RenderSkeletonElementProps) => (
         <Container
                 {...props}
                 showChildren={!!children}
+                testID={testID ?? `skeletonElement--${id}`}
         >
                 {children}
         </Container>
