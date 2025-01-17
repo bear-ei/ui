@@ -10,13 +10,15 @@ const render = ({
         animatedType = 'indeterminate',
         content,
         defaultValue,
-        size,
+        id,
         increment,
         layout,
         onStateEvent,
+        size,
+        strokeWidth,
+        testID,
         type = 'linear',
         value,
-        strokeWidth,
         ...containerProps
 }: RenderProgressProps) => (
         <Container
@@ -25,6 +27,7 @@ const render = ({
                 accessibilityRole='progressbar'
                 pointerEvents='none'
                 progressing={!!(value && value > 0)}
+                testID={testID ?? `progress--${id}`}
                 type={type}
         >
                 {type === 'circular' && (
@@ -33,6 +36,7 @@ const render = ({
                                 content={content}
                                 size={size}
                                 strokeWidth={strokeWidth}
+                                testID={`progress__progressActiveIndicatorCircular--${id}`}
                         />
                 )}
 
@@ -42,6 +46,7 @@ const render = ({
                                 containerLayout={layout}
                                 defaultValue={defaultValue}
                                 increment={increment}
+                                testID={`progress__progressActiveIndicatorLinear--${id}`}
                                 value={value}
                         />
                 )}

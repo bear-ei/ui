@@ -9,21 +9,39 @@ import {
 import {Container, Content, Stop, Track} from './Progress-active-indicator-linear.styles'
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
-const render = ({animatedType, contentAnimatedStyle, ...containerProps}: RenderProgressActiveIndicatorLinearProps) => {
+const render = ({
+        animatedType,
+        contentAnimatedStyle,
+        id,
+        testID,
+        ...containerProps
+}: RenderProgressActiveIndicatorLinearProps) => {
         const shape = 'small'
 
         return (
-                <Container shape={shape}>
+                <Container
+                        shape={shape}
+                        testID={testID ?? `progressActiveIndicatorLinear--${id}`}
+                >
                         <AnimatedContent
                                 {...containerProps}
                                 pointerEvents='none'
                                 shape={shape}
                                 style={[contentAnimatedStyle]}
+                                testID={`progressActiveIndicatorLinear__animatedContent--${id}`}
                         />
 
-                        <Track shape={shape} />
+                        <Track
+                                shape={shape}
+                                testID={`progressActiveIndicatorLinear__track--${id}`}
+                        />
 
-                        {animatedType === 'determinate' && <Stop shape='full' />}
+                        {animatedType === 'determinate' && (
+                                <Stop
+                                        shape='full'
+                                        testID={`progressActiveIndicatorLinear__stop--${id}`}
+                                />
+                        )}
                 </Container>
         )
 }

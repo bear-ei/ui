@@ -17,9 +17,11 @@ const render = ({
         circumference,
         containerAnimatedStyle,
         content,
+        id,
         radius,
         size = 48,
         strokeWidth,
+        testID,
         theme,
         ...containerProps
 }: RenderProgressActiveIndicatorCircularProps) => {
@@ -32,11 +34,16 @@ const render = ({
                 <Container
                         {...containerProps}
                         pointerEvents='none'
+                        testID={testID ?? `progressActiveIndicatorCircular--${id}`}
                 >
-                        <Content>{content}</Content>
-                        <AnimatedMain style={[containerAnimatedStyle]}>
+                        <Content testID={`progressActiveIndicatorCircular__content--${id}`}>{content}</Content>
+                        <AnimatedMain
+                                style={[containerAnimatedStyle]}
+                                testID={`progressActiveIndicatorCircular__animatedMain--${id}`}
+                        >
                                 <Svg
                                         fill='none'
+                                        testID={`progressActiveIndicatorCircular__svg--${id}`}
                                         viewBox={`0 0 ${size} ${size}`}
                                 >
                                         {animatedType === 'determinate' && (
@@ -49,6 +56,7 @@ const render = ({
                                                         strokeDashoffset={0}
                                                         strokeLinecap='round'
                                                         strokeWidth={strokeWidth}
+                                                        testID={`progressActiveIndicatorCircular__circle--${id}`}
                                                 />
                                         )}
 
@@ -62,6 +70,7 @@ const render = ({
                                                 strokeDasharray={circumference}
                                                 strokeLinecap='round'
                                                 strokeWidth={strokeWidth}
+                                                testID={`progressActiveIndicatorCircular__circle--${id}`}
                                         />
                                 </Svg>
                         </AnimatedMain>
