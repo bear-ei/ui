@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -37,7 +37,8 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
         ) => {
                 const [{elevation, eventName, status}, setState] = useImmer<ChipState>({status: 'idle'})
                 const theme = useTheme()
-                const leadingIconElement = handleChipIcon({eventName, disabled})(theme)(
+                const id = useId()
+                const leadingIconElement = handleChipIcon({eventName, disabled, id})(theme)(
                         type === 'filter' ?
                                 <Icon
                                         iconStyle='rounded'
@@ -49,8 +50,8 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
 
                 const trailingElement =
                         close ?
-                                handleChipCloseButton({disabled, onClose})(theme)
-                        :       handleChipIcon({eventName, disabled})(theme)(trailingIcon)
+                                handleChipCloseButton({disabled, onClose, id})(theme)
+                        :       handleChipIcon({eventName, disabled, id})(theme)(trailingIcon)
 
                 const onChipDisabled = useMemo(() => handleChipDisabled(setState), [setState])
                 const onChipElevation = useMemo(
@@ -87,8 +88,8 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                 return render({
                         ...renderProps,
                         active,
-                        close,
                         backgroundUnderlayAnimatedStyle,
+                        close,
                         disabled: disabledEvent,
                         elevation,
                         eventName,

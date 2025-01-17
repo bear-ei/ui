@@ -82,7 +82,7 @@ export const handleChipDisabled = (setState: Updater<ChipState>) => (disabled?: 
         })
 
 export const handleChipIcon =
-        ({disabled, eventName}: HandleChipIconOptions) =>
+        ({disabled, eventName, id}: HandleChipIconOptions) =>
         (theme: DefaultTheme) =>
         (icon?: JSX.Element) => {
                 if (!icon) {
@@ -95,12 +95,13 @@ export const handleChipIcon =
                         disabled,
                         eventName,
                         fill: theme.token.scheme.primary,
-                        size
+                        size,
+                        testID: `chip__leadingIcon--${id}`
                 })
         }
 
 export const handleChipCloseButton =
-        ({disabled, onClose}: HandleChipIconOptions) =>
+        ({disabled, onClose, id}: HandleChipIconOptions) =>
         (theme: DefaultTheme) => {
                 const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
                 const iconButtonSize = theme.adaptSize(theme.token.spacing.large)
@@ -110,6 +111,7 @@ export const handleChipCloseButton =
                                 disabled={disabled}
                                 onPressOut={onClose}
                                 size={iconButtonSize}
+                                testID={`chip__closeIconButton--${id}`}
                                 type='standard'
                                 icon={
                                         <Icon

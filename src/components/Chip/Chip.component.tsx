@@ -24,17 +24,19 @@ const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
         active,
         avatar,
-        close,
         backgroundUnderlayAnimatedStyle,
+        close,
         disabled,
         elevation,
         eventName,
         filterIconContainerAnimatedStyle,
+        id,
         labelText,
         labelTextAnimatedStyle,
         leadingIcon,
         onStateEvent,
         ref,
+        testID,
         theme,
         trailing,
         type = 'assist',
@@ -50,6 +52,7 @@ const render = ({
                         pointerEvents='none'
                         shape={shape}
                         style={[backgroundUnderlayAnimatedStyle]}
+                        testID={`chip__animatedBackgroundUnderlay--${id}`}
                 />
         )
 
@@ -58,11 +61,15 @@ const render = ({
                         <Elevation
                                 level={elevation}
                                 shape={shape}
+                                testID={`chip__elevation--${id}`}
                         />
                 :       undefined
 
         return (
-                <Container type={type}>
+                <Container
+                        testID={testID ?? `chip--${id}`}
+                        type={type}
+                >
                         <Touchable
                                 {...onStateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
@@ -70,6 +77,7 @@ const render = ({
                                 elevationUnderlay={elevationUnderlayElement}
                                 ref={ref}
                                 shape={shape}
+                                testID={`chip__touchable--${id}`}
                                 underlayColor={underlayColor}
                         >
                                 <Content
@@ -77,11 +85,13 @@ const render = ({
                                         accessibilityLabel={labelText}
                                         accessibilityRole='button'
                                         shape={shape}
+                                        testID={`chip__content--${id}`}
                                         type={type}
                                 >
                                         <Main
                                                 avatarShow={!!avatar}
                                                 leadingIconShow={!!leadingIcon}
+                                                testID={`chip__main--${id}`}
                                                 trailingIconShow={!!trailing}
                                                 type={type}
                                         >
@@ -90,10 +100,15 @@ const render = ({
                                                         (type === 'filter' ?
                                                                 <AnimatedIconContainer
                                                                         style={[filterIconContainerAnimatedStyle]}
+                                                                        testID={`chip__animatedIconContainer--${id}`}
                                                                 >
-                                                                        <FilterIcon>{leadingIcon}</FilterIcon>
+                                                                        <FilterIcon testID={`chip__filterIcon--${id}`}>
+                                                                                {leadingIcon}
+                                                                        </FilterIcon>
                                                                 </AnimatedIconContainer>
-                                                        :       <IconContainer>{leadingIcon}</IconContainer>)}
+                                                        :       <IconContainer testID={`chip__iconContainer--${id}`}>
+                                                                        {leadingIcon}
+                                                                </IconContainer>)}
 
                                                 {avatar && <AvatarContainer>{avatar}</AvatarContainer>}
 
@@ -102,6 +117,7 @@ const render = ({
                                                         numberOfLines={1}
                                                         size={type === 'inputFilled' ? 'small' : 'large'}
                                                         style={[labelTextAnimatedStyle]}
+                                                        testID={`chip__animatedLabelText--${id}`}
                                                         type='label'
                                                 >
                                                         {labelText}
@@ -109,8 +125,15 @@ const render = ({
 
                                                 {trailing &&
                                                         (close ?
-                                                                <Trailing type={type}>{trailing}</Trailing>
-                                                        :       <IconContainer>{trailing}</IconContainer>)}
+                                                                <Trailing
+                                                                        testID={`chip__trailing--${id}`}
+                                                                        type={type}
+                                                                >
+                                                                        {trailing}
+                                                                </Trailing>
+                                                        :       <IconContainer testID={`chip__iconContainer--${id}`}>
+                                                                        {trailing}
+                                                                </IconContainer>)}
                                         </Main>
 
                                         <Underlay
@@ -119,6 +142,7 @@ const render = ({
                                                 activeColor={activeColor}
                                                 eventName={eventName}
                                                 shape={shape}
+                                                testID={`chip__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Content>

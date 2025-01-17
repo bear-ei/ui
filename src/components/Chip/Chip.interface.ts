@@ -47,7 +47,7 @@ export interface ChipState {
 
 export type HandleChipStateChangeOptions = OnStateEventChangeOptions
 export type HandleChipElevationOptions = Pick<ChipProps, 'disabled' | 'type' | 'elevated'>
-export type HandleChipIconOptions = Pick<RenderChipProps, 'disabled' | 'eventName' | 'onClose'>
+export type HandleChipIconOptions = Pick<RenderChipProps, 'disabled' | 'eventName' | 'onClose' | 'id'>
 export type UseChipAnimatedOptions = Pick<RenderChipProps, 'disabled' | 'type' | 'active' | 'elevated' | 'chipStyle'>
 export interface HandleChipAnimatedTimingOptions extends Omit<UseChipAnimatedOptions, 'eventName'> {
         animatedTiming: AnimatedTiming
