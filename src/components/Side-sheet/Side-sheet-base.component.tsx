@@ -1,7 +1,8 @@
 import {nanoid} from 'nanoid'
-import {forwardRef, useCallback, useEffect, useMemo} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
+import {runAfterInteractions} from '../../utils'
 import {
         handleSideSheetBack,
         handleSideSheetClose,
@@ -29,7 +30,8 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                 const [{sideSheetVisible, nextCloseEvent, nextBackEvent, nextCancelEvent}, setState] =
                         useImmer<SideSheetState>({})
 
-                const id = useMemo(() => nanoid(), [])
+                const emitId = useMemo(() => nanoid(), [])
+                const id = useId()
                 const onSideSheetBack = useCallback(
                         () => handleSideSheetBack({onBack, disabledClose, type})(setState),
                         [disabledClose, onBack, setState, type]
@@ -41,6 +43,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                         () => ({
                                 ...renderProps,
                                 disabledClose,
+                                id,
                                 onBack: onSideSheetBack,
                                 onClose: onSideSheetClose,
                                 onVisible,
@@ -50,6 +53,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                         }),
                         [
                                 disabledClose,
+                                id,
                                 onSideSheetBack,
                                 onSideSheetClose,
                                 onVisible,
@@ -61,8 +65,8 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                 )
 
                 const onSideSheetEmit = useMemo(
-                        () => handleSideSheetEmit({id, type})(renderSheetProps),
-                        [id, renderSheetProps, type]
+                        () => handleSideSheetEmit({id: emitId, type})(renderSheetProps),
+                        [emitId, renderSheetProps, type]
                 )
 
                 useEffect(() => {
@@ -75,21 +79,21 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 
                 useEffect(
                         () => () => {
-                                handleSideSheetUnmount(id)(type)
+                                handleSideSheetUnmount(emitId)(type)
                         },
-                        [id, type]
+                        [emitId, type]
                 )
 
                 useEffect(() => {
-                        nextCloseEvent?.()
+                        runAfterInteractions(nextCloseEvent)()
                 }, [nextCloseEvent])
 
                 useEffect(() => {
-                        nextBackEvent?.()
+                        runAfterInteractions(nextBackEvent)()
                 }, [nextBackEvent])
 
                 useEffect(() => {
-                        nextCancelEvent?.()
+                        runAfterInteractions(nextCancelEvent)()
                 }, [nextCancelEvent])
 
                 return ['standard', 'standardContainer'].includes(type) ? render(renderSheetProps) : <></>

@@ -8,7 +8,7 @@ import {
 } from './Side-sheet-content.interface'
 
 export const handleSideSheetContentLeading =
-        ({headlineLeading, back, sheetPosition}: HandleSideSheetContentLeadingOptions) =>
+        ({headlineLeading, back, sheetPosition, id}: HandleSideSheetContentLeadingOptions) =>
         (onBack?: () => void) =>
                 headlineLeading ??
                 (back ?
@@ -21,16 +21,18 @@ export const handleSideSheetContentLeading =
                                                                 'arrowBack'
                                                         )
                                                 }
+                                                testID={`sideSheet__iconForward--${id}`}
                                                 type='filled'
                                         />
                                 }
                                 onPressOut={onBack}
+                                testID={`sideSheet__iconButton--${id}`}
                                 type='standard'
                         />
                 :       undefined)
 
 export const handleSideSheetContentTrailing =
-        ({headlineTrailing, close}: HandleSideSheetContentTrailingOptions) =>
+        ({headlineTrailing, close, id}: HandleSideSheetContentTrailingOptions) =>
         (onClose?: () => void) =>
                 headlineTrailing ??
                 (close ?
@@ -39,10 +41,12 @@ export const handleSideSheetContentTrailing =
                                         <Icon
                                                 iconStyle='rounded'
                                                 name='close'
+                                                testID={`sideSheet__iconClose--${id}`}
                                                 type='filled'
                                         />
                                 }
                                 onPressOut={onClose}
+                                testID={`sideSheet__iconButton--${id}`}
                                 type='standard'
                         />
                 :       undefined)
