@@ -9,7 +9,7 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
                 !visible &&
                 hidden &&
                 css`
-                        /* height: ${theme.token.spacing.none}px; */
+                        height: ${theme.token.spacing.none}px;
                 `}
 
         ${({collapse}) =>
@@ -37,13 +37,13 @@ export const ContentLayout = styled.View<LayoutAnimatedContentLayoutProps>`
         `};
 
         ${({layout}) =>
-                layout?.height &&
+                typeof layout?.height === 'number' &&
                 css`
                         min-height: ${layout?.height}px;
                 `}
 
         ${({layout}) =>
-                layout?.width &&
+                typeof layout?.width === 'number' &&
                 css`
                         min-width: ${layout?.width}px;
                 `}

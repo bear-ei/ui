@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {InteractionManager, LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
@@ -39,6 +39,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         setState
                 ] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: 'idle'})
 
+                const id = useId()
                 const layoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
                 const onLayoutAnimatedLayoutVisible = useMemo(
                         () => debounce(handleLayoutAnimatedLayoutVisible({setState, onVisible}))(50),
@@ -107,6 +108,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         ...renderProps,
                                         animatedType,
                                         containerAnimatedStyle,
+                                        id,
                                         layout,
                                         onStateEvent,
                                         ref,
