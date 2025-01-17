@@ -41,6 +41,7 @@ export interface VirtualListState {
         nextItemVisibleEvent?: () => void
         nextScrollEvent?: () => void
         scrollOffset?: number
+        startIndex?: number
         status: ComponentStatus
         virtualListData?: VirtualListData[]
         visibleRangeData?: VirtualListData[]

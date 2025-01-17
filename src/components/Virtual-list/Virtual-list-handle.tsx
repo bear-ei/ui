@@ -22,15 +22,14 @@ const handleVirtualListVisibleRange =
                 const extraItem = 32
                 const endIndex = Math.min(dataSize, baseStartIndex + visibleItemCount + extraItem)
                 const startIndex = Math.max(0, baseStartIndex - extraItem)
-
-                draft.endIndex = endIndex
-                draft.scrollOffset = nextScrollOffset
-
                 const nextVisibleRangeData = (draft.virtualListData ?? []).slice(startIndex, endIndex)
 
                 draft.emptyList = !draft.virtualListData?.length
-                draft.visibleRangeData = nextVisibleRangeData
+                draft.endIndex = endIndex
+                draft.scrollOffset = nextScrollOffset
+                draft.startIndex = startIndex
                 draft.status = 'succeeded'
+                draft.visibleRangeData = nextVisibleRangeData
         }
 
 export const handleVirtualListLayoutChange =
@@ -156,7 +155,7 @@ export const handleVirtualListDataChange =
                 })
 
 export const handleVirtualListItem =
-        <T,>({renderItem, onLoadEnd, id, ...virtualListItemProps}: HandleVirtualListItemOptions<T>) =>
+        <T,>({renderItem, onLoadEnd, id, startIndex = 0, ...virtualListItemProps}: HandleVirtualListItemOptions<T>) =>
         (data?: VirtualListData[]) => {
                 if (data?.length === 0) {
                         onLoadEnd?.()
@@ -167,7 +166,7 @@ export const handleVirtualListItem =
                 return data?.map((item, index) => (
                         <VirtualListItem
                                 {...virtualListItemProps}
-                                index={index}
+                                index={index + startIndex}
                                 item={item as Record<string, unknown>}
                                 key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
                                 onLoadEnd={onLoadEnd}

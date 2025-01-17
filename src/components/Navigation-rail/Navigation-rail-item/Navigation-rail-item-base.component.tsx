@@ -3,6 +3,7 @@ import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
+import {runAfterInteractions} from '../../../utils'
 import {State} from '../../Common'
 import {Icon} from '../../Icon'
 import {
@@ -50,7 +51,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                 useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
 
                 useEffect(() => {
-                        nextPressOutEvent?.()
+                        runAfterInteractions(nextPressOutEvent)()
                 }, [nextPressOutEvent])
 
                 return render({

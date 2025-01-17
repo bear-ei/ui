@@ -1,11 +1,10 @@
 import {ForwardedRef, forwardRef} from 'react'
-import {ScrollView, StyleProp, ViewStyle} from 'react-native'
+import {ScrollView, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {VirtualListBase} from './Virtual-list-base.component'
 import {RenderVirtualListProps, VirtualListProps} from './Virtual-list.interface'
 import {
         Container,
-        Content,
         ContentLayoutAnimated,
         EmptyContentLayoutAnimated,
         LoadingContentLayoutAnimated,
@@ -26,6 +25,7 @@ const render = <T,>({
         scrollEventThrottle = 50,
         status,
         testID,
+
         ...containerProps
 }: RenderVirtualListProps<T>) => {
         const {onLayout} = onStateEvent
@@ -34,22 +34,31 @@ const render = <T,>({
                 height: contentSize,
                 minHeight: contentSize,
                 position: 'relative'
-        } as StyleProp<ViewStyle>
+        } as ViewStyle
+
+        const contentStyle = {
+                height: contentSize,
+                minHeight: contentSize,
+                position: 'relative'
+        } as ViewStyle
 
         return (
-                <Container testID={testID ?? `virtualList--${id}`}>
+                <Container
+                        testID={testID ?? `virtualList--${id}`}
+                        onLayout={onLayout}
+                >
                         <AnimatedScrollView
                                 {...containerProps}
                                 contentContainerStyle={[contentContainerStyle, defaultContentContainerStyle]}
-                                onLayout={onLayout}
                                 scrollEventThrottle={scrollEventThrottle}
                                 testID={`virtualList__animatedScrollView--${id}`}
                         >
                                 <ContentLayoutAnimated
+                                        contentStyle={contentStyle}
                                         testID={`virtualList__contentLayoutAnimated--${id}`}
                                         visible={!loading && !emptyList && typeof emptyList === 'boolean'}
                                 >
-                                        <Content>{itemElements}</Content>
+                                        {itemElements}
                                 </ContentLayoutAnimated>
 
                                 <EmptyContentLayoutAnimated

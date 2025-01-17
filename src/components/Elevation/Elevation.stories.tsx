@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {StyleProp, View, ViewStyle} from 'react-native'
+import {View, ViewStyle} from 'react-native'
 import {Elevation} from './Elevation.component'
 import {ElevationProps} from './Elevation.interface'
 
@@ -8,7 +8,7 @@ const ElevationComponent = (props: ElevationProps) => {
                 height: 80,
                 width: 200,
                 backgroundColor: '#ececf0'
-        } as StyleProp<ViewStyle>
+        } as ViewStyle
 
         return (
                 <View style={[style]}>

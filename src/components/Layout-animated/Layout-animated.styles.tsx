@@ -4,6 +4,7 @@ import {LayoutAnimatedContainerProps, LayoutAnimatedContentLayoutProps} from './
 
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
         position: relative;
+        min-height: 56px;
 
         ${({visible, theme, hidden}) =>
                 !visible &&
@@ -41,15 +42,6 @@ export const ContentLayout = styled.View<LayoutAnimatedContentLayoutProps>`
                 css`
                         min-height: ${layout?.height}px;
                 `}
-
-        ${({layout}) =>
-                typeof layout?.width === 'number' &&
-                css`
-                        min-width: ${layout?.width}px;
-                `}
 `
 
-export const Content = styled.View`
-        align-self: stretch;
-        flex: 1;
-`
+export const Content = styled.View``

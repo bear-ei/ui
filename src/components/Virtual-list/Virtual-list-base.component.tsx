@@ -1,5 +1,5 @@
 import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo} from 'react'
-import {LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
+import {LayoutRectangle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
@@ -36,23 +36,35 @@ export const VirtualListBaseInner = <T,>(
         ref: ForwardedRef<Animated.ScrollView>
 ) => {
         const [
-                {emptyList, nextItemVisibleEvent, nextScrollEvent, status, virtualListData, visibleRangeData},
+                {
+                        emptyList,
+                        nextItemVisibleEvent,
+                        nextScrollEvent,
+                        startIndex,
+                        status,
+                        virtualListData,
+                        visibleRangeData
+                },
                 setState
-        ] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: 'idle'})
+        ] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: 'idle', startIndex: 0})
 
         const id = useId()
-        const contentSize = virtualListData ? virtualListData.length * (itemSize + gap) - gap : 0
+        const contentSize = useMemo(
+                () => (virtualListData ? virtualListData.length * (itemSize + gap) - gap : 0),
+                [gap, itemSize, virtualListData]
+        )
+
         const onVirtualListVisibleRange = useMemo(
                 () => handleVirtualListDataChange(itemSize)(setState),
                 [itemSize, setState]
         )
 
-        const onVirtualListScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) =>
-                handleVirtualListScroll({onScroll, itemSize})(setState)(event)
+        const onVirtualListScroll = useMemo(
+                () => debounce(handleVirtualListScroll({onScroll, itemSize})(setState))(50),
+                [itemSize, onScroll, setState]
+        )
 
-        const onVirtualListMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) =>
-                handleVirtualListMomentumScrollEnd(onMomentumScrollEnd)(event)
-
+        const onVirtualListMomentumScrollEnd = handleVirtualListMomentumScrollEnd(onMomentumScrollEnd)
         const onVirtualListData = useMemo(() => handleVirtualListData(setState), [setState])
         const onVirtualListLoadEnd = handleVirtualListLoadEnd(setState)(onLoadEnd)
         const scrollEvent = useDesktopScrollEvent({
@@ -76,7 +88,8 @@ export const VirtualListBaseInner = <T,>(
                 itemSize,
                 onLoadEnd: onVirtualListLoadEnd,
                 onUnmount: onVirtualListItemUnmount,
-                renderItem
+                renderItem,
+                startIndex
         })(visibleRangeData)
 
         const {animatedRef} = useVirtualListAnimated({focusedIndex, itemSize})
@@ -94,7 +107,7 @@ export const VirtualListBaseInner = <T,>(
         }, [onVirtualListVisibleRange, virtualListData])
 
         useEffect(() => {
-                runAfterInteractions(nextScrollEvent)()
+                // runAfterInteractions(nextScrollEvent)()
         }, [nextScrollEvent])
 
         useEffect(() => {

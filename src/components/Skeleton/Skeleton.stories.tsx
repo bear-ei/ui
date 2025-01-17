@@ -1,11 +1,11 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {StyleProp, ViewStyle} from 'react-native'
+import {ViewStyle} from 'react-native'
 import {Skeleton} from './Skeleton.component'
 import {SkeletonProps} from './Skeleton.interface'
 
 const {Square, Rectangular, Circle} = Skeleton
 const SkeletonComponent = (props: SkeletonProps) => {
-        const rectangularStyle = {flex: 1} as StyleProp<ViewStyle>
+        const rectangularStyle = {flex: 1} as ViewStyle
         const skeletonStyle = {gap: 16}
         const skeleton = (
                 <>

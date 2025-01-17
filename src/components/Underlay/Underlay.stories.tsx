@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react'
 import {useState} from 'react'
-import {Pressable, StyleProp, ViewStyle} from 'react-native'
+import {Pressable, ViewStyle} from 'react-native'
 import {EventName} from '../Common'
 import {Underlay} from './Underlay.component'
 import {UnderlayProps} from './Underlay.interface'
@@ -11,7 +11,7 @@ const UnderlayComponent = (props: UnderlayProps) => {
                 height: 80,
                 width: 200,
                 backgroundColor: '#ececf0'
-        } as StyleProp<ViewStyle>
+        } as ViewStyle
 
         return (
                 <Pressable

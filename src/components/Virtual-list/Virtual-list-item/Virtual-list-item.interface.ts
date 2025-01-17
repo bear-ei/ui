@@ -20,7 +20,6 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
         loading?: boolean
         onUnmount?: (value?: string) => void
         startIndex?: number
-        visible?: boolean
 }
 
 export interface RenderVirtualListItemProps<T = Record<string, unknown>>
@@ -28,6 +27,7 @@ export interface RenderVirtualListItemProps<T = Record<string, unknown>>
         itemElement?: JSX.Element
         onUnmount?: () => void
         unmount?: boolean
+        visible?: boolean
 }
 
 export interface VirtualListItemBaseProps<T = Record<string, unknown>> extends VirtualListItemProps<T> {
@@ -39,10 +39,13 @@ export interface VirtualListItemState {
         visible?: boolean
 }
 
-export type HandleVirtualListItemOptions<T> = Pick<
-        VirtualListItemProps<T>,
-        'itemSize' | 'renderItem' | 'extraData' | 'onUnmount' | 'onLoadEnd' | 'gap' | 'id'
->
+export interface HandleVirtualListItemOptions<T>
+        extends Pick<
+                VirtualListItemProps<T>,
+                'itemSize' | 'renderItem' | 'extraData' | 'onUnmount' | 'onLoadEnd' | 'gap' | 'id'
+        > {
+        startIndex?: number
+}
 
 export interface UseVirtualListItemAnimatedOptions {
         top?: number

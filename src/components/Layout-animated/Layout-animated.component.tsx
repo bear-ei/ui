@@ -10,6 +10,7 @@ const render = ({
         animatedType,
         children,
         containerAnimatedStyle,
+        contentStyle,
         hidden = true,
         id,
         layout,
@@ -37,6 +38,7 @@ const render = ({
                         >
                                 <Content
                                         onLayout={onLayout}
+                                        style={[contentStyle]}
                                         testID={`layoutAnimated__content--${id}`}
                                 >
                                         {children}

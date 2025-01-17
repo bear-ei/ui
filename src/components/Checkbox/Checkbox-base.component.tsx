@@ -1,8 +1,9 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {InteractionManager, View} from 'react-native'
+import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
         handleCheckboxActive,
@@ -46,7 +47,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
                 }, [rawActive, defaultActive, onCheckboxRawActive])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextActiveEvent?.())
+                        runAfterInteractions(nextActiveEvent)()
                 }, [nextActiveEvent])
 
                 if (status === 'idle') {

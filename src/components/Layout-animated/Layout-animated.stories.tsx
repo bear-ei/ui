@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react'
 import {useState} from 'react'
-import {StyleProp, View, ViewStyle} from 'react-native'
+import {View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {LayoutAnimated} from './Layout-animated.component'
 import {LayoutAnimatedProps} from './Layout-animated.interface'
@@ -10,7 +10,7 @@ const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
         const style = {
                 display: 'flex',
                 flexDirection: 'column'
-        } as StyleProp<ViewStyle>
+        } as ViewStyle
 
         const contentStyle = {width: 200, height: 200}
         const innerStyle = {width: 200, height: 200, backgroundColor: 'red'}

@@ -1,6 +1,6 @@
 import {Meta} from '@storybook/react'
 import {IsDefined, IsNotEmpty, IsNumberString} from 'class-validator'
-import {StyleProp, View, ViewStyle} from 'react-native'
+import {View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {TextInput} from '../Text-input'
 import {FormItemControlProps, FormItemProps} from './Form-item'
@@ -72,7 +72,7 @@ export const FormA = () => {
         const style = {
                 display: 'flex',
                 flexDirection: 'column'
-        } as StyleProp<ViewStyle>
+        } as ViewStyle
 
         return (
                 <View style={[style]}>

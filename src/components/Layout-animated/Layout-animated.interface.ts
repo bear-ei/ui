@@ -36,6 +36,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> & StyleProp<ViewStyle>
         unmount?: boolean
         visible?: boolean
+        contentStyle?: ViewStyle
 }
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
@@ -71,7 +72,6 @@ export interface UseLayoutAnimatedOptions
         > {
         onAnimatedFinished: (value?: boolean) => void
         height?: number
-        status: ComponentStatus
         width?: number
 }
 
@@ -96,3 +96,5 @@ export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 
 }
 
 export type LayoutAnimatedContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'layout'>
+
+export type HandleLayoutAnimatedLayoutChangeOptions = Pick<LayoutAnimatedProps, 'hidden' | 'animatedType'>

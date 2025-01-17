@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react'
 import {useMemo, useState} from 'react'
-import {StyleProp, View, ViewStyle} from 'react-native'
+import {View, ViewStyle} from 'react-native'
 import {Icon} from '../Icon'
 import {IconButton} from '../Icon-button'
 import {Skeleton} from '../Skeleton'
@@ -14,9 +14,9 @@ const renderListSkeleton = () => {
                 flex: 1,
                 gap: 16,
                 paddingRight: 28
-        } as StyleProp<ViewStyle>
+        } as ViewStyle
 
-        const rectangularStyle = {flex: 1} as StyleProp<ViewStyle>
+        const rectangularStyle = {flex: 1} as ViewStyle
 
         return (
                 <Rectangular
@@ -62,7 +62,7 @@ export const Headline: StoryObj<ListProps> = {
 
 export const Select = () => {
         const [activeKey, setActiveKey] = useState<string | undefined>(undefined)
-        const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>
+        const style = {height: 800, width: '100%'} as ViewStyle
         const data = useMemo(
                 () =>
                         Array.from({length: 1255}, (_, index) => ({
@@ -95,7 +95,7 @@ export const Select = () => {
 
 export const Multiselect = () => {
         const [activeKeys, setActiveKeys] = useState<string[] | undefined>(undefined)
-        const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>
+        const style = {height: 800, width: '100%'} as ViewStyle
         const data = useMemo(
                 () =>
                         Array.from({length: 1255}, (_, index) => ({
@@ -128,7 +128,7 @@ export const Multiselect = () => {
 
 export const Navigation = () => {
         const [activeKeys, setActiveKeys] = useState<string[] | undefined>(undefined)
-        const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>
+        const style = {height: 800, width: '100%'} as ViewStyle
         const data = useMemo(
                 () =>
                         Array.from({length: 1255}, (_, index) => ({

@@ -6,6 +6,7 @@ import {StateEvent} from '../../hooks'
 import {EventName} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
+        HandleLayoutAnimatedLayoutChangeOptions,
         HandleLayoutAnimatedLayoutVisibleOptions,
         HandleLayoutAnimatedStateChangeOptions,
         HandleLayoutAnimatedStatusOptions,
@@ -14,19 +15,29 @@ import {
 } from './Layout-animated.interface'
 
 export const handleLayoutAnimatedLayoutChange =
-        (setState: Updater<LayoutAnimatedState>) => (event: LayoutChangeEvent) => {
+        (setState: Updater<LayoutAnimatedState>) =>
+        ({hidden, animatedType}: HandleLayoutAnimatedLayoutChangeOptions) =>
+        (event: LayoutChangeEvent) => {
                 const {height, width} = event.nativeEvent.layout
 
                 setState(draft => {
                         const {width: prevWidth, height: prevHeight} = draft.layout
 
-                        if (prevWidth !== width || prevHeight !== height) {
-                                draft.layout.height = height
-                                draft.layout.width = width
+                        if (draft.status !== 'succeeded') {
+                                draft.status = 'succeeded'
                         }
 
-                        if (draft.status !== 'idle') {
-                                draft.status = 'succeeded'
+                        if (animatedType?.startsWith('collapse')) {
+                                if (prevHeight !== height || prevWidth !== width) {
+                                        draft.layout.height = height
+                                        draft.layout.width = width
+                                }
+
+                                return
+                        }
+
+                        if (prevHeight !== height && hidden) {
+                                draft.layout.height = height
                         }
                 })
         }

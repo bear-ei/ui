@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {StyleProp, View, ViewStyle} from 'react-native'
+import {View, ViewStyle} from 'react-native'
 import {Touchable} from './Touchable.component'
 import {TouchableProps} from './Touchable.interface'
 
@@ -9,7 +9,7 @@ const TouchableComponent = (props: TouchableProps) => {
                 height: 300,
                 width: 300,
                 flexDirection: 'row'
-        } as StyleProp<ViewStyle>
+        } as ViewStyle
 
         return (
                 <View style={style}>
@@ -22,7 +22,7 @@ const childrenStyle = {
         height: 300,
         width: 300,
         backgroundColor: '#0e0000'
-} as StyleProp<ViewStyle>
+} as ViewStyle
 
 export const Ripple: StoryObj<TouchableProps> = {
         args: {

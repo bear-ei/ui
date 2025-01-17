@@ -23,6 +23,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                 return render({
                         ...renderProps,
                         id,
+                        index,
                         itemElement,
                         itemSize,
                         onUnmount: () => onUnmount?.(item?.indexKey as string | undefined),

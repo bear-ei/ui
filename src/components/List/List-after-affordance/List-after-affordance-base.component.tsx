@@ -2,6 +2,7 @@ import {FC, useEffect, useId, useMemo} from 'react'
 import {InteractionManager} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
+import {runAfterInteractions} from '../../../utils'
 import {
         handleListAfterAffordanceCancel,
         handleListAfterAffordanceConfirm,
@@ -34,7 +35,7 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
         }, [onListAfterAffordanceVisible, visible])
 
         useEffect(() => {
-                InteractionManager.runAfterInteractions(() => nextCancelEvent?.())
+                runAfterInteractions(nextCancelEvent)()
         }, [nextCancelEvent])
 
         return render({

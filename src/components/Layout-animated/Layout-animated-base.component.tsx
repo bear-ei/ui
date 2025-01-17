@@ -1,8 +1,8 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {InteractionManager, LayoutRectangle, View} from 'react-native'
+import {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
-import {debounce} from '../../utils'
+import {debounce, runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
         handleLayoutAnimatedFinished,
@@ -18,6 +18,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
         (
                 {
                         animatedType = 'fade',
+                        contentStyle = {},
                         defaultVisible,
                         disabledAnimated,
                         entry,
@@ -30,6 +31,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         scale = true,
                         unmount,
                         visible: rawVisible,
+                        hidden,
                         ...renderProps
                 },
                 ref
@@ -56,7 +58,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [lazy, setState, unmount]
                 )
 
-                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)
+                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)({hidden, animatedType})
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleLayoutAnimatedStateChange({
@@ -71,13 +73,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         disabledAnimated,
                         entry,
                         exit,
-                        height: layout.height,
+                        height: layout.height ?? contentStyle?.height,
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         opacity,
                         scale,
-                        status,
                         visible: visible ?? layoutVisible,
-                        width: layout.width
+                        width: layout.width ?? contentStyle?.width
                 })
 
                 useEffect(() => {
@@ -95,7 +96,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 }, [layoutVisible, onLayoutAnimatedLayoutVisible, status])
 
                 useEffect(() => {
-                        InteractionManager.runAfterInteractions(() => nextVisibleEvent?.())
+                        runAfterInteractions(nextVisibleEvent)()
                 }, [nextVisibleEvent])
 
                 if (status === 'idle') {
@@ -108,6 +109,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         ...renderProps,
                                         animatedType,
                                         containerAnimatedStyle,
+                                        contentStyle,
+                                        hidden,
                                         id,
                                         layout,
                                         onStateEvent,
