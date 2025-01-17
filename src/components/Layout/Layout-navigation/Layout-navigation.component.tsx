@@ -8,6 +8,8 @@ const render = ({
         animatedType = 'collapseX',
         children,
         defaultVisible = true,
+        id,
+        testID,
         ...containerProps
 }: RenderLayoutNavigationProps) => (
         <ContainerLayoutAnimated
@@ -16,6 +18,7 @@ const render = ({
                 defaultVisible={defaultVisible}
                 entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                 exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
+                testID={testID ?? `layoutNavigation--${id}`}
         >
                 {children}
         </ContainerLayoutAnimated>

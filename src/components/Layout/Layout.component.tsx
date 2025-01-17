@@ -6,10 +6,11 @@ import {LayoutPane} from './Layout-pane'
 import {LayoutComponent, LayoutProps, RenderLayoutProps} from './Layout.interface'
 import {ContainerLayoutAnimated, Content} from './Layout.styles'
 
-const render = ({children, defaultVisible = true, ...containerProps}: RenderLayoutProps) => (
+const render = ({children, defaultVisible = true, id, testID, ...containerProps}: RenderLayoutProps) => (
         <ContainerLayoutAnimated
                 {...containerProps}
                 defaultVisible={defaultVisible}
+                testID={testID ?? `layout--${id}`}
         >
                 <Content>{children}</Content>
         </ContainerLayoutAnimated>
