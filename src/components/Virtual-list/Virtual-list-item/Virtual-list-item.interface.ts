@@ -19,6 +19,7 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
         index?: number
         item?: T & Item
         loading?: boolean
+        onClose?: (value?: string) => void
         onUnmount?: (value?: string) => void
         startIndex?: number
 }
@@ -37,17 +38,14 @@ export interface VirtualListItemBaseProps<T = Record<string, unknown>> extends V
 }
 
 export interface VirtualListItemState {
-        nextVisibleEvent?: () => void
+        nextCloseEvent?: () => void
         visible?: boolean
 }
 
-export interface HandleVirtualListItemOptions<T>
-        extends Pick<
-                VirtualListItemProps<T>,
-                'itemSize' | 'renderItem' | 'extraData' | 'onUnmount' | 'onLoadEnd' | 'gap' | 'id'
-        > {
-        startIndex?: number
-}
+export type HandleVirtualListItemOptions<T> = Pick<
+        VirtualListItemProps<T>,
+        'itemSize' | 'renderItem' | 'extraData' | 'onUnmount' | 'onLoadEnd' | 'gap' | 'id' | 'startIndex' | 'onClose'
+>
 
 export interface UseVirtualListItemAnimatedOptions {
         offsetY?: number

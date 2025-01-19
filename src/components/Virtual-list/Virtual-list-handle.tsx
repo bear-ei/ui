@@ -1,10 +1,17 @@
 import {WritableDraft} from 'immer'
 import {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, Platform} from 'react-native'
+import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent} from '../../hooks'
+import {AnimatedTiming, OnStateEventChangeOptions, StateEvent} from '../../hooks'
 import {EventName} from '../Common'
+import {ListData} from '../List'
 import {HandleVirtualListItemOptions, RenderVirtualListItemInfo, VirtualListItem} from './Virtual-list-item'
-import {HandleVirtualListScrollOptions, VirtualListData, VirtualListState} from './Virtual-list.interface'
+import {
+        HandleVirtualListCloseOptions,
+        HandleVirtualListScrollOptions,
+        VirtualListData,
+        VirtualListState
+} from './Virtual-list.interface'
 
 const handleVirtualListVisibleRange =
         (itemSize = 0) =>
@@ -87,7 +94,7 @@ export const handleVirtualListMomentumScrollEnd =
         (event: NativeSyntheticEvent<NativeScrollEvent>) =>
                 onMomentumScrollEnd?.(event)
 
-export const handleVirtualListItemUnmount = (itemSize = 0) => {
+export const handleVirtualListUnmount = (itemSize = 0) => {
         const handleVisibleRangeDataFilter =
                 (value: string) =>
                 ({indexKey}: VirtualListData) =>
@@ -113,6 +120,27 @@ export const handleVirtualListData = (setState: Updater<VirtualListState>) => (d
                 draft.virtualListData = data
                 draft.status = 'loading'
         })
+
+export const handleVirtualListClose =
+        ({enableAutoSelect, onClose}: HandleVirtualListCloseOptions) =>
+        (setState: Updater<VirtualListState>) =>
+        (value?: string) => {
+                const findDataIndex = (datum: ListData) => datum.indexKey === value
+
+                setState(draft => {
+                        if (enableAutoSelect) {
+                                const data = (draft.virtualListData ?? []) as ListData[]
+                                const datumIndex = data.findIndex(findDataIndex)
+                                const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
+
+                                onClose?.({activeKey: nextActiveKey, indexKey: value})
+
+                                return
+                        }
+
+                        onClose?.({indexKey: value})
+                })
+        }
 
 export const handleVirtualListLoadEnd = (setState: Updater<VirtualListState>) => {
         const findVisibleRangeDataIndex =
@@ -179,3 +207,7 @@ export const handleVirtualListItem =
                         />
                 ))
         }
+
+export const handleVirtualListAnimated =
+        (animatedTiming: AnimatedTiming) => (contentHeightSharedValue: SharedValue<number>) => (value: number) =>
+                animatedTiming({duration: 'short2'})(contentHeightSharedValue)(value)

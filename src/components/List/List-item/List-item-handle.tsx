@@ -8,7 +8,6 @@ import {Icon} from '../../Icon'
 import {IconButton, IconButtonType} from '../../Icon-button'
 import {
         HandleListItemAfterAffordanceVisibleAnimatedTimingOptions,
-        HandleListItemCloseOptions,
         HandleListItemConfirmOptions,
         HandleListItemPanResponderReleaseOptions,
         HandleListItemStateEventChangeOptions,
@@ -183,6 +182,11 @@ export const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<L
                 draft.afterAffordanceClosed = !value
         })
 
+export const handleItemListAfterAffordanceShow = (setState: Updater<ListItemState>) => () =>
+        setState(draft => {
+                draft.afterAffordanceShow = true
+        })
+
 export const handleListItemConfirm =
         ({options, onConfirm, onActiveAfterAffordance, onListItemClose}: HandleListItemConfirmOptions) =>
         (value?: string) => {
@@ -209,16 +213,13 @@ export const handleListItemFocus =
                         draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
                 })
 
-export const handleListItemClose =
-        ({onClose, onVisible}: HandleListItemCloseOptions) =>
-        (itemKey: string) =>
-        (value?: boolean) => {
-                if (!value) {
-                        return
-                }
-
-                onVisible?.(visible => !visible && onClose?.(itemKey))
+export const handleListItemClose = (onClose?: (value?: string) => void) => (itemKey: string) => (value?: boolean) => {
+        if (!value) {
+                return
         }
+
+        onClose?.(itemKey)
+}
 
 export const handleListItemPanResponderRelease =
         ({onActiveAfterAffordance, disabled}: HandleListItemPanResponderReleaseOptions) =>

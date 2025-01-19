@@ -6,7 +6,6 @@ import {
         handleListActive,
         handleListActiveAfterAffordance,
         handleListClose,
-        handleListData,
         handleListItemSize,
         handleRenderListItem
 } from './List-handle'
@@ -23,11 +22,11 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceSecondaryButtonProps,
                         beforeAffordance,
                         closeTrailing,
-                        data: rawData,
                         defaultActiveKey,
                         defaultActiveKeys,
                         deselect,
                         divider,
+                        enableAutoSelect = false,
                         enableUnderlay,
                         enableUnderlayActive,
                         focusedIndex,
@@ -40,7 +39,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         onClose,
                         onConfirm,
                         onItemStateEvent,
-                        relatedActive = false,
                         render,
                         renderItem,
                         selectType,
@@ -59,23 +57,20 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                                 activeKey,
                                 activeKeys,
                                 afterAffordanceActiveKey,
-                                data,
                                 nextActiveEvent,
                                 nextAfterAffordanceActiveEvent,
-                                nextCloseEvent,
-                                status
+                                nextCloseEvent
                         },
                         setState
-                ] = useImmer<ListState>({status: 'idle'})
+                ] = useImmer<ListState>({})
 
                 const listRef = useRef<VirtualListComponent<ListData>>(null)
                 const id = useId()
                 const theme = useTheme()
-                const onListData = useMemo(() => handleListData(setState)(loading), [loading, setState])
-                const onListActiveAfterAffordance = handleListActiveAfterAffordance({onActive, selectType})(setState)
                 const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
+                const onListActiveAfterAffordance = handleListActiveAfterAffordance({onActive, selectType})(setState)
+                const onListClose = handleListClose(onClose)(setState)
                 const onListRawActive = useMemo(() => handleListActive({selectType})(setState), [setState, selectType])
-                const onListClose = handleListClose({onClose, relatedActive, selectType})(setState)
                 const renderListItem = handleRenderListItem({
                         ...onItemStateEvent,
                         activeKey,
@@ -94,7 +89,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         onActive: onListActive,
                         onActiveAfterAffordance: onListActiveAfterAffordance,
                         onCancel,
-                        onClose: onListClose,
                         onConfirm,
                         renderItem,
                         selectType,
@@ -113,10 +107,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 )
 
                 useEffect(() => {
-                        onListData(rawData)
-                }, [rawData, onListData])
-
-                useEffect(() => {
                         onListRawActive(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
                 }, [rawActiveKey, rawActiveKeys, defaultActiveKey, defaultActiveKeys, onListRawActive])
 
@@ -132,21 +122,18 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         runAfterInteractions(nextCloseEvent)()
                 }, [nextCloseEvent])
 
-                if (status === 'idle') {
-                        return <></>
-                }
-
                 return render({
                         ...renderProps,
                         activeKey,
                         activeKeys,
                         afterAffordanceActiveKey,
-                        data,
+                        enableAutoSelect,
                         focusedIndex,
                         id,
                         itemSize: itemSize ?? handleListItemSize(theme)(type),
                         loading,
                         loadingComponent,
+                        onClose: onListClose,
                         ref: listRef as RenderListProps['ref'],
                         renderItem: renderListItem
                 })

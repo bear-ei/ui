@@ -1,17 +1,15 @@
 import {WritableDraft} from 'immer'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
-import {RenderVirtualListItemInfo} from '../Virtual-list'
+import {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
 import {
         HandleListActiveOptions,
-        HandleListCloseOptions,
         HandleListItemOptions,
         HandleRenderItemOptions,
         ListData,
         ListState,
-        ListType,
-        OnListCloseOptions
+        ListType
 } from './List.interface'
 
 const handlePrevListActiveKeysFilter = (value: string) => (key: string) => key !== value
@@ -110,40 +108,17 @@ export const handleListActiveAfterAffordance =
                 })
         }
 
-export const handleListClose = ({selectType, onClose, relatedActive}: HandleListCloseOptions) => {
-        const handleNextCloseEvent = (options: OnListCloseOptions) => () => onClose?.(options)
+export const handleListClose = (onClose?: (options: OnVirtualListCloseOptions) => void) => {
+        const handleNextCloseEvent = (options: OnVirtualListCloseOptions) => () => onClose?.(options)
 
-        return (setState: Updater<ListState>) => (value?: string) => {
-                const findDataIndex = (datum: ListData) => datum.indexKey === value
-
-                setState(draft => {
-                        if (selectType === 'select' && relatedActive) {
-                                const data = (draft.data ?? []) as ListData[]
-                                const datumIndex = data.findIndex(findDataIndex)
-                                const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
-
-                                draft.activeKey = nextActiveKey
-                                draft.nextCloseEvent = handleNextCloseEvent({indexKey: value, activeKey: nextActiveKey})
-
-                                return
-                        }
-
-                        draft.nextCloseEvent = handleNextCloseEvent({indexKey: value})
-                })
-        }
-}
-
-export const handleListData = (setState: Updater<ListState>) => (loading?: boolean) => (data?: ListData[]) =>
-        setState(draft => {
-                if (loading) {
-                        draft.status = 'loading'
-
-                        return
+        return (setState: Updater<ListState>) =>
+                ({activeKey, indexKey}: OnVirtualListCloseOptions) => {
+                        setState(draft => {
+                                draft.activeKey = activeKey
+                                draft.nextCloseEvent = handleNextCloseEvent({indexKey, activeKey})
+                        })
                 }
-
-                draft.data = data as WritableDraft<ListData>[]
-                draft.status = 'succeeded'
-        })
+}
 
 const handleDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: HandleListItemOptions) => (
         <ListItem

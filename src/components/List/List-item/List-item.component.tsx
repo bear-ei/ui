@@ -27,6 +27,7 @@ const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 const render = ({
         active,
+        afterAffordanceShow,
         afterAffordance,
         afterAffordancePrimaryButtonProps,
         afterAffordanceSecondaryButtonProps,
@@ -73,7 +74,6 @@ const render = ({
                         active,
                         activeAnimatedType: 'fade' as ActiveAnimatedType,
                         activeColor
-                        // activeShape: 'full' as ShapeType
                 }
 
         return (
@@ -186,20 +186,20 @@ const render = ({
                                                                         {trailingElement}
                                                                 </TrailingLayoutAnimated>
                                                         )}
-
-                                                        {enableUnderlay && (
-                                                                <Underlay
-                                                                        {...underlayProps}
-                                                                        eventName={eventName}
-                                                                        testID={`listItem__underlay--${id}`}
-                                                                        underlayColor={underlayColor}
-                                                                />
-                                                        )}
                                                 </Main>
                                         </Touchable>
+
+                                        {enableUnderlay && (
+                                                <Underlay
+                                                        {...underlayProps}
+                                                        eventName={eventName}
+                                                        testID={`listItem__underlay--${id}`}
+                                                        underlayColor={underlayColor}
+                                                />
+                                        )}
                                 </AnimatedContent>
 
-                                {afterAffordance && (
+                                {afterAffordance && afterAffordanceShow && (
                                         <AfterAffordanceContainer testID={`listItem__afterAffordanceContainer--${id}`}>
                                                 {typeof afterAffordance === 'boolean' ?
                                                         <ListAfterAffordance

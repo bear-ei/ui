@@ -8,8 +8,8 @@ export const ContainerLayoutAnimated = styled(LayoutAnimated)<VirtualListItemCon
         position: absolute;
 
         ${({theme, itemSize}) => css`
+                height: ${itemSize}px;
                 left: ${theme.adaptSize(theme.token.spacing.none)}px;
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
-                top: ${itemSize}px;
         `}
 `

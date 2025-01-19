@@ -8,7 +8,6 @@ import {ContainerLayoutAnimated} from './Virtual-list-item.styles'
 const render = ({
         containerAnimatedStyle,
         id,
-        index = 0,
         itemElement,
         itemSize = 0,
         onUnmount,
@@ -19,7 +18,7 @@ const render = ({
         <ContainerLayoutAnimated
                 {...containerProps}
                 exit={{duration: 'short2'}}
-                itemSize={itemSize * index}
+                itemSize={itemSize}
                 onUnmount={onUnmount}
                 style={[containerAnimatedStyle]}
                 testID={testID ?? `virtualListItem--${id}`}

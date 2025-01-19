@@ -1,7 +1,7 @@
 import {RefAttributes} from 'react'
 import {OnStateEvent} from '../../hooks'
-import {ComponentStatus, EventName, ShapeType} from '../Common'
-import {RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
+import {EventName, ShapeType} from '../Common'
+import {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
 import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from './List-after-affordance'
 import {ListItemProps, SelectType} from './List-item'
 
@@ -20,11 +20,6 @@ export interface ListData
                 | 'trailingProps'
         > {
         indexKey: string
-}
-
-export interface OnListCloseOptions {
-        activeKey?: string
-        indexKey?: string
 }
 
 export type HandleListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
@@ -51,7 +46,7 @@ export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttri
         onActiveAfterAffordance?: (value?: string) => void
         onActives?: (values?: string[]) => void
         onCancel?: (options: ListAfterAffordancePressOutOptions) => void
-        onClose?: (options: OnListCloseOptions) => void
+        onClose?: (options: OnVirtualListCloseOptions) => void
         onConfirm?: (options: ListAfterAffordancePressOutOptions) => void
         onItemStateEvent?: OnStateEvent
         selectType?: SelectType
@@ -67,7 +62,7 @@ export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttri
          * Whether to enable auto-associative selection in radio mode. If the deleted item is an active item of the
          * current year, the list will automatically look for neighboring items with the active option.
          */
-        relatedActive?: boolean
+        enableAutoSelect?: boolean
 }
 
 export interface RenderListProps extends ListProps {
@@ -82,7 +77,6 @@ export interface ListState {
         nextActiveEvent?: () => void
         nextAfterAffordanceActiveEvent?: () => void
         nextCloseEvent?: () => void
-        status: ComponentStatus
 }
 
 export type HandleRenderItemOptions = Pick<
@@ -115,10 +109,8 @@ export type HandleRenderItemOptions = Pick<
         | 'trailing'
         | 'trailingTriggerEvenName'
         | 'type'
-> &
-        Pick<ListItemProps, 'onClose'>
+>
 
-export type HandleListCloseOptions = Pick<ListProps, 'onClose' | 'relatedActive' | 'selectType'>
 export interface ListBaseProps extends ListProps {
         render: (props: RenderListProps) => JSX.Element
 }

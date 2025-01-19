@@ -4,7 +4,6 @@ import {LayoutAnimatedContainerProps, LayoutAnimatedContentLayoutProps} from './
 
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
         position: relative;
-        min-height: 56px;
 
         ${({visible, theme, hidden}) =>
                 !visible &&

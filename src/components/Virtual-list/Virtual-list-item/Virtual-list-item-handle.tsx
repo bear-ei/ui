@@ -18,12 +18,12 @@ export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps)
         }
 }
 
-export const handleVirtualListItemVisible =
-        (setState: Updater<VirtualListItemState>) => (onVisible?: (value?: boolean) => void) => {
-                const handleNextVisibleEvent = () => onVisible?.(false)
+export const handleVirtualListItemClose =
+        (setState: Updater<VirtualListItemState>) => (onClose?: (value?: string) => void) => (value?: string) => {
+                const handleNextCloseEvent = () => onClose?.(value)
 
                 setState(draft => {
-                        draft.nextVisibleEvent = handleNextVisibleEvent
+                        draft.nextCloseEvent = handleNextCloseEvent
                         draft.visible = false
                 })
         }

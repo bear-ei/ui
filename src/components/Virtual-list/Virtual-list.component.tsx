@@ -5,6 +5,7 @@ import {VirtualListBase} from './Virtual-list-base.component'
 import {RenderVirtualListProps, VirtualListProps} from './Virtual-list.interface'
 import {
         Container,
+        Content,
         ContentLayoutAnimated,
         EmptyContentLayoutAnimated,
         LoadingContentLayoutAnimated,
@@ -12,9 +13,9 @@ import {
 } from './Virtual-list.styles'
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
+const AnimatedContent = Animated.createAnimatedComponent(Content)
 const render = <T,>({
-        contentContainerStyle,
-        contentSize = 0,
+        contentAnimatedStyle,
         emptyComponent,
         emptyList,
         id,
@@ -25,22 +26,10 @@ const render = <T,>({
         scrollEventThrottle = 50,
         status,
         testID,
-
         ...containerProps
 }: RenderVirtualListProps<T>) => {
         const {onLayout} = onStateEvent
-        const defaultContentContainerStyle = {
-                flex: 1,
-                height: contentSize,
-                minHeight: contentSize,
-                position: 'relative'
-        } as ViewStyle
-
-        const contentStyle = {
-                height: contentSize,
-                minHeight: contentSize,
-                position: 'relative'
-        } as ViewStyle
+        const contentLayoutAnimatedStyle = {flex: 1, position: 'relative', alignSelf: 'stretch'} as ViewStyle
 
         return (
                 <Container
@@ -49,41 +38,45 @@ const render = <T,>({
                 >
                         <AnimatedScrollView
                                 {...containerProps}
-                                contentContainerStyle={[contentContainerStyle, defaultContentContainerStyle]}
                                 scrollEventThrottle={scrollEventThrottle}
                                 testID={`virtualList__animatedScrollView--${id}`}
                         >
-                                <ContentLayoutAnimated
-                                        contentStyle={contentStyle}
-                                        testID={`virtualList__contentLayoutAnimated--${id}`}
-                                        visible={!loading && !emptyList && typeof emptyList === 'boolean'}
+                                <AnimatedContent
+                                        style={contentAnimatedStyle}
+                                        testID={`virtualList__animatedContent--${id}`}
                                 >
-                                        {itemElements}
-                                </ContentLayoutAnimated>
+                                        <ContentLayoutAnimated
+                                                contentStyle={contentLayoutAnimatedStyle}
+                                                testID={`virtualList__contentLayoutAnimated--${id}`}
+                                                visible={!loading && !emptyList && typeof emptyList === 'boolean'}
+                                        >
+                                                {itemElements}
+                                        </ContentLayoutAnimated>
 
-                                <EmptyContentLayoutAnimated
-                                        lazy={true}
-                                        testID={`virtualList__emptyContentLayoutAnimated--${id}`}
-                                        visible={!loading && emptyList && status === 'succeeded'}
-                                >
-                                        {emptyComponent ?? (
-                                                <Supporting
-                                                        size='medium'
-                                                        testID={`virtualList__supporting--${id}`}
-                                                        type='body'
-                                                >
-                                                        No data
-                                                </Supporting>
-                                        )}
-                                </EmptyContentLayoutAnimated>
+                                        <EmptyContentLayoutAnimated
+                                                lazy={true}
+                                                testID={`virtualList__emptyContentLayoutAnimated--${id}`}
+                                                visible={!loading && emptyList && status === 'succeeded'}
+                                        >
+                                                {emptyComponent ?? (
+                                                        <Supporting
+                                                                size='medium'
+                                                                testID={`virtualList__supporting--${id}`}
+                                                                type='body'
+                                                        >
+                                                                No data
+                                                        </Supporting>
+                                                )}
+                                        </EmptyContentLayoutAnimated>
 
-                                <LoadingContentLayoutAnimated
-                                        lazy={true}
-                                        testID={`virtualList__loadingContentLayoutAnimated--${id}`}
-                                        visible={loading && !!loadingComponent}
-                                >
-                                        {loadingComponent}
-                                </LoadingContentLayoutAnimated>
+                                        <LoadingContentLayoutAnimated
+                                                lazy={true}
+                                                testID={`virtualList__loadingContentLayoutAnimated--${id}`}
+                                                visible={loading && !!loadingComponent}
+                                        >
+                                                {loadingComponent}
+                                        </LoadingContentLayoutAnimated>
+                                </AnimatedContent>
                         </AnimatedScrollView>
                 </Container>
         )

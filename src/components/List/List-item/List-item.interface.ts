@@ -58,7 +58,6 @@ export interface ListItemProps
         onActives?: (value?: string[]) => void
         onClose?: (value?: string) => void
         onLoadEnd?: (value?: string) => void
-        onVisible?: (onVirtualListItemVisible?: (value?: boolean) => void) => void
         primaryButtonProps?: ListAffordanceButtonProps
         secondaryButtonProps?: ListAffordanceButtonProps
         supporting?: string | JSX.Element
@@ -67,6 +66,7 @@ export interface ListItemProps
 
 export interface RenderListItemProps extends ListItemProps {
         active?: boolean
+        afterAffordanceShow?: boolean
         afterAffordanceVisible?: boolean
         contentAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
@@ -87,6 +87,7 @@ export interface ListItemBaseProps extends ListItemProps {
 
 export interface ListItemState {
         afterAffordanceClosed?: boolean
+        afterAffordanceShow?: boolean
         eventName?: EventName
         listItemState?: State
         nextLayoutEvent?: () => void
@@ -144,7 +145,6 @@ export interface HandleListItemTrailingPressOutOptions
 }
 
 export type HandleListItemPanResponderReleaseOptions = Pick<ListItemProps, 'onActiveAfterAffordance' | 'disabled'>
-export type HandleListItemCloseOptions = Pick<ListItemProps, 'onClose' | 'onVisible'>
 export type ListItemContainerProps = Pick<RenderListItemProps, 'type'>
 export interface ListItemMainProps
         extends Pick<RenderListItemProps, 'supportingTextNumberOfLines'>,

@@ -1,6 +1,6 @@
 import {RefAttributes} from 'react'
-import {LayoutRectangle, ScrollViewProps} from 'react-native'
-import Animated from 'react-native-reanimated'
+import {LayoutRectangle, ScrollViewProps, ViewStyle} from 'react-native'
+import Animated, {AnimatedStyle} from 'react-native-reanimated'
 import {OnStateEvent} from '../../hooks'
 import {ComponentStatus} from '../Common'
 import {RenderVirtualListItemInfo} from './Virtual-list-item/Virtual-list-item.interface'
@@ -9,21 +9,28 @@ export type VirtualListData<T = Record<string, unknown>> = T & {
         indexKey?: string
 }
 
+export interface OnVirtualListCloseOptions {
+        activeKey?: string
+        indexKey?: string
+}
+
 export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Animated.ScrollView> {
         data?: VirtualListData<T>[]
         emptyComponent?: JSX.Element
+        enableAutoSelect?: boolean
+        extraData?: string[]
         focusedIndex?: number
         gap?: number
         itemSize?: number
         loading?: boolean
         loadingComponent?: JSX.Element
+        onClose?: (options: OnVirtualListCloseOptions) => void
         onLoadEnd?: (value?: string) => void
         renderItem?: (options: RenderVirtualListItemInfo<T>) => JSX.Element
-        extraData?: string[]
 }
 
 export interface RenderVirtualListProps<T = Record<string, unknown>> extends VirtualListProps<T> {
-        contentSize?: number
+        contentAnimatedStyle?: AnimatedStyle<ViewStyle>
         emptyList?: boolean
         itemElements?: JSX.Element[]
         onStateEvent: OnStateEvent
@@ -38,7 +45,6 @@ export interface VirtualListState {
         emptyList?: boolean
         endIndex?: number
         layout: LayoutRectangle
-        nextItemVisibleEvent?: () => void
         nextScrollEvent?: () => void
         scrollOffset?: number
         startIndex?: number
@@ -53,4 +59,7 @@ export interface HandleVirtualListLayoutChangeOptions {
         onVirtualListVisibleRange?: (value?: number) => void
 }
 
-export type UseVirtualListScrollAnimatedOptions = Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize'>
+export type HandleVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose'>
+export interface UseVirtualListScrollAnimatedOptions extends Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize'> {
+        contentSize?: number
+}

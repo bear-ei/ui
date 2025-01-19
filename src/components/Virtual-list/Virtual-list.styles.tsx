@@ -16,10 +16,8 @@ export const ContentLayoutAnimated = styled(LayoutAnimated)`
 `
 
 export const Content = styled.View`
-        align-items: center;
         display: flex;
         flex-direction: column;
-        justify-content: center;
 `
 
 export const EmptyContentLayoutAnimated = styled(LayoutAnimated)`

@@ -3,10 +3,11 @@ import {PanResponder, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
-import {runAfterInteractions} from '../../../utils'
+import {debounce, runAfterInteractions} from '../../../utils'
 import {State} from '../../Common'
 import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {
+        handleItemListAfterAffordanceShow,
         handleItemListAfterAffordanceVisibleFinished,
         handleListItemClose,
         handleListItemConfirm,
@@ -39,10 +40,9 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         leading,
                         onActive,
                         onActiveAfterAffordance,
-                        onClose,
                         onConfirm,
                         onLoadEnd,
-                        onVisible,
+                        onClose,
                         render,
                         selectType,
                         shape,
@@ -58,6 +58,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 const [
                         {
                                 afterAffordanceClosed,
+                                afterAffordanceShow,
                                 eventName,
                                 listItemState,
                                 nextLayoutEvent,
@@ -86,6 +87,11 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         disabled
                 })(itemKey)
 
+                const onItemListAfterAffordanceShow = useMemo(
+                        () => debounce(handleItemListAfterAffordanceShow(setState))(300),
+                        [setState]
+                )
+
                 const panResponder = useRef(
                         PanResponder.create({
                                 onMoveShouldSetPanResponder: (_event, gestureState) =>
@@ -101,7 +107,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 const onListItemConfirm = ({itemKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
                         handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
 
-                const onListItemClose = handleListItemClose({onClose, onVisible})(itemKey)
+                const onListItemClose = handleListItemClose(onClose)(itemKey)
                 const onListItemTrailingPressOut = () =>
                         handleListItemTrailingPressOut({
                                 afterAffordance,
@@ -175,6 +181,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         runAfterInteractions(nextPressOutEvent)()
                 }, [nextPressOutEvent])
 
+                useEffect(() => {
+                        if (afterAffordance) {
+                                runAfterInteractions(onItemListAfterAffordanceShow)()
+                        }
+                }, [afterAffordance, onItemListAfterAffordanceShow])
+
                 return render({
                         ...renderProps,
                         active,
@@ -202,7 +214,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         trailingElement,
                         trailingTriggerEvenName,
                         trailingVisible,
-                        type
+                        type,
+                        afterAffordanceShow
                 })
         }
 )
