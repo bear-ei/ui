@@ -36,7 +36,7 @@ const render = ({
                                 testID={`layoutAnimated__contentLayout--${id}`}
                         >
                                 <Content
-                                        {...(!collapse && contentSize && {onLayout})}
+                                        {...(!contentSize && {onLayout})}
                                         style={[contentStyle]}
                                         testID={`layoutAnimated__content--${id}`}
                                 >

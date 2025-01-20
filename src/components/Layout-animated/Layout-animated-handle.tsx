@@ -10,28 +10,23 @@ import {
         HandleLayoutAnimatedStateChangeOptions,
         HandleLayoutAnimatedStatusOptions,
         HandleLayoutAnimatedTimingOptions,
-        LayoutAnimatedState,
-        LayoutAnimatedType
+        LayoutAnimatedState
 } from './Layout-animated.interface'
 
 export const handleLayoutAnimatedLayoutChange =
-        (setState: Updater<LayoutAnimatedState>) =>
-        (animatedType?: LayoutAnimatedType) =>
-        (event: LayoutChangeEvent) => {
+        (setState: Updater<LayoutAnimatedState>) => (event: LayoutChangeEvent) => {
                 const {height, width} = event.nativeEvent.layout
 
                 setState(draft => {
                         const {width: prevWidth, height: prevHeight} = draft.layout
 
-                        if (draft.status !== 'succeeded') {
-                                draft.status = 'succeeded'
+                        if (prevHeight !== height || prevWidth !== width) {
+                                draft.layout.height = height
+                                draft.layout.width = width
                         }
 
-                        if (animatedType?.startsWith('collapse')) {
-                                if (prevHeight !== height || prevWidth !== width) {
-                                        draft.layout.height = height
-                                        draft.layout.width = width
-                                }
+                        if (draft.status !== 'succeeded') {
+                                draft.status = 'succeeded'
                         }
                 })
         }

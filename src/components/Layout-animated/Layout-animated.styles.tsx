@@ -31,13 +31,13 @@ export const ContentLayout = styled.View<ContentLayoutProps>`
         `};
 
         ${({contentSize}) =>
-                contentSize?.width &&
+                typeof contentSize?.width === 'number' &&
                 css`
                         min-width: ${contentSize.width}px;
                 `}
 
         ${({contentSize}) =>
-                contentSize?.height &&
+                typeof contentSize?.height === 'number' &&
                 css`
                         min-height: ${contentSize.height}px;
                 `}

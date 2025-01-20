@@ -18,7 +18,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
         (
                 {
                         animatedType = 'fade',
-                        contentSize = {},
+                        contentSize,
                         defaultVisible,
                         disabledAnimated,
                         entry,
@@ -57,7 +57,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [lazy, setState, unmount]
                 )
 
-                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)(animatedType)
+                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleLayoutAnimatedStateChange({
