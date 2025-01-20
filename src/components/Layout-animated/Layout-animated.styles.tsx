@@ -43,4 +43,7 @@ export const ContentLayout = styled.View<ContentLayoutProps>`
                 `}
 `
 
-export const Content = styled.View``
+export const Content = styled.View`
+        align-self: stretch;
+        flex: 1;
+`

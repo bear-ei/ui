@@ -164,7 +164,6 @@ const render = ({
                                 </TouchableHeader>
 
                                 <SupportingLayoutAnimated
-                                        hidden={false}
                                         onVisible={onSupportingTextVisible}
                                         testID={`textInput__supportingLayoutAnimated--${id}`}
                                         visible={supportingTextVisible}
