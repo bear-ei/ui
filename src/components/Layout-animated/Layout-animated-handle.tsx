@@ -6,17 +6,17 @@ import {StateEvent} from '../../hooks'
 import {EventName} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
-        HandleLayoutAnimatedLayoutChangeOptions,
         HandleLayoutAnimatedLayoutVisibleOptions,
         HandleLayoutAnimatedStateChangeOptions,
         HandleLayoutAnimatedStatusOptions,
         HandleLayoutAnimatedTimingOptions,
-        LayoutAnimatedState
+        LayoutAnimatedState,
+        LayoutAnimatedType
 } from './Layout-animated.interface'
 
 export const handleLayoutAnimatedLayoutChange =
         (setState: Updater<LayoutAnimatedState>) =>
-        ({hidden, animatedType}: HandleLayoutAnimatedLayoutChangeOptions) =>
+        (animatedType?: LayoutAnimatedType) =>
         (event: LayoutChangeEvent) => {
                 const {height, width} = event.nativeEvent.layout
 
@@ -32,12 +32,6 @@ export const handleLayoutAnimatedLayoutChange =
                                         draft.layout.height = height
                                         draft.layout.width = width
                                 }
-
-                                return
-                        }
-
-                        if (prevHeight !== height && hidden) {
-                                draft.layout.height = height
                         }
                 })
         }

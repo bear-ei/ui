@@ -35,7 +35,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
                                 fill={iconFill}
                                 height='100%'
                                 style={svgStyle}
-                                testID={`icon__svgIcon--${id}`}
                                 width='100%'
                         />
                 )

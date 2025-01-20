@@ -5,12 +5,14 @@ import {useTheme} from 'styled-components/native'
 import {SkeletonBase} from './Skeleton-base.component'
 import {SkeletonElement, SkeletonElementProps} from './Skeleton-element'
 import {RenderSkeletonProps, SkeletonComponent, SkeletonProps} from './Skeleton.interface'
-import {ContentItemLayoutLayoutAnimated, SkeletonContainer} from './Skeleton.styles'
+import {ContentItemLayoutAnimated, SkeletonContainer} from './Skeleton.styles'
 
 const AnimatedSkeletonContainer = Animated.createAnimatedComponent(SkeletonContainer)
 const render = ({
         children,
         containerAnimatedStyle,
+        contentSize,
+        contentStyle,
         id,
         skeleton,
         style,
@@ -21,10 +23,12 @@ const render = ({
 
         return (
                 <>
-                        <ContentItemLayoutLayoutAnimated
+                        <ContentItemLayoutAnimated
+                                contentSize={contentSize}
+                                contentStyle={contentStyle}
+                                testID={`skeleton__contentItemLayoutAnimated--${id}`}
                                 unmount={true}
                                 visible={skeletonVisible}
-                                testID={`skeleton__contentItemLayoutLayoutAnimated--${id}`}
                         >
                                 <AnimatedSkeletonContainer
                                         {...containerProps}
@@ -33,14 +37,16 @@ const render = ({
                                 >
                                         {skeleton}
                                 </AnimatedSkeletonContainer>
-                        </ContentItemLayoutLayoutAnimated>
+                        </ContentItemLayoutAnimated>
 
-                        <ContentItemLayoutLayoutAnimated
+                        <ContentItemLayoutAnimated
+                                contentSize={contentSize}
+                                contentStyle={contentStyle}
+                                testID={`skeleton__contentItemLayoutAnimated--${id}`}
                                 visible={!skeletonVisible}
-                                testID={`skeleton__contentItemLayoutLayoutAnimated--${id}`}
                         >
                                 {children}
-                        </ContentItemLayoutLayoutAnimated>
+                        </ContentItemLayoutAnimated>
                 </>
         )
 }

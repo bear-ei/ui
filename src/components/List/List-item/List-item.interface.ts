@@ -66,7 +66,7 @@ export interface ListItemProps
 
 export interface RenderListItemProps extends ListItemProps {
         active?: boolean
-        afterAffordanceShow?: boolean
+        affordanceShow?: boolean
         afterAffordanceVisible?: boolean
         contentAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
@@ -87,7 +87,7 @@ export interface ListItemBaseProps extends ListItemProps {
 
 export interface ListItemState {
         afterAffordanceClosed?: boolean
-        afterAffordanceShow?: boolean
+        affordanceShow?: boolean
         eventName?: EventName
         listItemState?: State
         nextLayoutEvent?: () => void

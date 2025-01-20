@@ -1,10 +1,11 @@
-import {FC, ReactNode, RefAttributes} from 'react'
-import {View, ViewProps, ViewStyle} from 'react-native'
+import {FC, ReactNode} from 'react'
+import {ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {AnimatedTiming, OnStateEventChangeOptions} from '../../hooks'
+import {LayoutAnimatedProps} from '../Layout-animated'
 import {SkeletonElementProps} from './Skeleton-element'
 
-export interface SkeletonProps extends ViewProps, RefAttributes<View> {
+export interface SkeletonProps extends LayoutAnimatedProps {
         containerLayout?: 'horizontal' | 'vertical'
         duration?: number
         enableAnimated?: boolean

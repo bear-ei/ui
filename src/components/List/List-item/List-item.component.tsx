@@ -5,7 +5,7 @@ import {Divider} from '../../Divider'
 import {Skeleton} from '../../Skeleton'
 import {Touchable} from '../../Touchable'
 import {ActiveAnimatedType, Underlay} from '../../Underlay'
-import {ListAfterAffordance} from '../List-after-affordance/List-after-affordance.component'
+import {ListAfterAffordance} from '../List-after-affordance'
 import {ListItemBase} from './List-item-base.component'
 import {handleListItemPropsEqual} from './List-item-handle'
 import {ListItemProps, RenderListItemProps} from './List-item.interface'
@@ -27,7 +27,7 @@ const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 const render = ({
         active,
-        afterAffordanceShow,
+        affordanceShow,
         afterAffordance,
         afterAffordancePrimaryButtonProps,
         afterAffordanceSecondaryButtonProps,
@@ -52,7 +52,7 @@ const render = ({
         ref,
         selectType,
         shape,
-        skeletonDuration,
+        skeletonDuration = 150,
         skeletonElement,
         supporting,
         supportingTextNumberOfLines,
@@ -61,7 +61,7 @@ const render = ({
         trailingElement,
         trailingTriggerEvenName,
         trailingVisible,
-        type,
+        type = 'standard',
         ...mainProps
 }: RenderListItemProps) => {
         const activeColor = theme.token.scheme.secondaryContainer
@@ -76,6 +76,11 @@ const render = ({
                         activeColor
                 }
 
+        const contentSize = {
+                menu: {height: theme.adaptSize(theme.token.spacing.extraSmall * 12)},
+                standard: {height: theme.adaptSize(theme.token.spacing.extraSmall * 14)}
+        }
+
         return (
                 <Container
                         {...panResponder?.panHandlers}
@@ -85,6 +90,7 @@ const render = ({
                 >
                         <Skeleton
                                 containerLayout='horizontal'
+                                contentSize={contentSize[type]}
                                 duration={skeletonDuration}
                                 skeleton={skeletonDuration ? skeletonElement : undefined}
                                 testID={`listItem__skeleton--${id}`}
@@ -199,7 +205,7 @@ const render = ({
                                         )}
                                 </AnimatedContent>
 
-                                {afterAffordance && afterAffordanceShow && (
+                                {afterAffordance && affordanceShow && (
                                         <AfterAffordanceContainer testID={`listItem__afterAffordanceContainer--${id}`}>
                                                 {typeof afterAffordance === 'boolean' ?
                                                         <ListAfterAffordance

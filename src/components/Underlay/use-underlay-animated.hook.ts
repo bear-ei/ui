@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {debounce} from '../../utils'
@@ -91,8 +91,9 @@ export const useUnderlayAnimated = ({
         )
 
         useEffect(() => {
+                cancelAnimation(hoverLayerSharedValue)
                 onUnderlayHoveredAnimatedTiming(eventName)
-        }, [eventName, onUnderlayHoveredAnimatedTiming])
+        }, [eventName, hoverLayerSharedValue, onUnderlayHoveredAnimatedTiming])
 
         useEffect(() => {
                 onUnderlayActiveAnimatedTiming(active)

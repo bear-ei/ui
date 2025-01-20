@@ -32,6 +32,12 @@ export const handleVirtualListItemUnmount = (onUnmount?: (value?: string) => voi
         runAfterInteractions(onUnmount)(indexKey)
 }
 
+export const handleVirtualListItemStatus = (setState: Updater<VirtualListItemState>) => () => {
+        setState(draft => {
+                draft.status = 'succeeded'
+        })
+}
+
 export const handleVirtualListItemAnimated =
         (animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<number>) => (value: number) =>
                 animatedTiming({duration: 'short2'})(topSharedValue)(value)

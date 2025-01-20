@@ -75,7 +75,7 @@ export const Select = () => {
         )
 
         const onActiveKey = (key?: string) => setActiveKey(key)
-        const skeleton = useMemo(() => renderListSkeleton(), [])
+        // const skeleton = useMemo(() => renderListSkeleton(), [])
 
         return (
                 <View style={[style]}>
@@ -88,7 +88,6 @@ export const Select = () => {
                                 enableAutoSelect={true}
                                 selectType='select'
                                 shape='extraSmall'
-                                skeletonElement={skeleton}
                         />
                 </View>
         )

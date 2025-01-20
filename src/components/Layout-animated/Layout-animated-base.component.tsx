@@ -18,7 +18,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
         (
                 {
                         animatedType = 'fade',
-                        contentStyle = {},
+                        contentSize = {},
                         defaultVisible,
                         disabledAnimated,
                         entry,
@@ -31,7 +31,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         scale = true,
                         unmount,
                         visible: rawVisible,
-                        hidden,
                         ...renderProps
                 },
                 ref
@@ -58,7 +57,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [lazy, setState, unmount]
                 )
 
-                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)({hidden, animatedType})
+                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)(animatedType)
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleLayoutAnimatedStateChange({
@@ -73,12 +72,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         disabledAnimated,
                         entry,
                         exit,
-                        height: layout.height ?? contentStyle?.height,
+                        height: layout.height ?? contentSize?.height,
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         opacity,
                         scale,
                         visible: visible ?? layoutVisible,
-                        width: layout.width ?? contentStyle?.width
+                        width: layout.width ?? contentSize?.width
                 })
 
                 useEffect(() => {
@@ -109,8 +108,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         ...renderProps,
                                         animatedType,
                                         containerAnimatedStyle,
-                                        contentStyle,
-                                        hidden,
                                         id,
                                         layout,
                                         onStateEvent,

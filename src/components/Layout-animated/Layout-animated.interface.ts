@@ -20,15 +20,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
          * Whether or not to enable scale effects in collapse type animations
          */
         scale?: boolean
-
-        /**
-         * [macOS compatible, Only fade type animations]
-         *
-         * Used in non-collapse animations to control whether or not elements are hidden on the layout after being
-         * invisible.  On macOS, if you don't hide an element, there may be unexpected mouseover removal and mouse style
-         * anomalies
-         */
-        hidden?: boolean
+        contentStyle?: ViewStyle
         lazy?: boolean
         onUnmount?: () => void
         onVisible?: (value?: boolean) => void
@@ -36,7 +28,10 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> & StyleProp<ViewStyle>
         unmount?: boolean
         visible?: boolean
-        contentStyle?: ViewStyle
+        contentSize?: {
+                width?: number
+                height?: number
+        }
 }
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
@@ -91,10 +86,8 @@ export interface HandleLayoutAnimatedLayoutVisibleOptions extends Pick<LayoutAni
         setState: Updater<LayoutAnimatedState>
 }
 
-export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 'visible' | 'hidden'> {
+export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 'visible'> {
         collapse?: boolean
 }
 
-export type LayoutAnimatedContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'layout'>
-
-export type HandleLayoutAnimatedLayoutChangeOptions = Pick<LayoutAnimatedProps, 'hidden' | 'animatedType'>
+export type ContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'contentSize'>

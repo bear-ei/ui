@@ -11,13 +11,13 @@ const render = ({
         children,
         containerAnimatedStyle,
         contentStyle,
-        hidden = true,
         id,
-        layout,
         onStateEvent,
         style,
         testID,
         visible,
+        contentSize,
+        layout,
         ...containerProps
 }: RenderLayoutAnimatedProps) => {
         const {onLayout} = onStateEvent
@@ -27,17 +27,16 @@ const render = ({
                 <AnimatedContainer
                         {...containerProps}
                         collapse={collapse}
-                        hidden={collapse ? false : hidden}
                         style={[style, containerAnimatedStyle]}
                         testID={testID ?? `layoutAnimated--${id}`}
                         visible={visible}
                 >
                         <ContentLayout
-                                layout={layout}
+                                contentSize={contentSize ?? layout}
                                 testID={`layoutAnimated__contentLayout--${id}`}
                         >
                                 <Content
-                                        onLayout={onLayout}
+                                        {...(!collapse && contentSize && {onLayout})}
                                         style={[contentStyle]}
                                         testID={`layoutAnimated__content--${id}`}
                                 >

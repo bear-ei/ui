@@ -114,7 +114,7 @@ export const handleListItemStateChange =
                                 return
                         }
 
-                        if (eventName) {
+                        if (eventName && draft.status === 'succeeded') {
                                 draft.eventName = eventName
                                 draft.listItemState = state
                         }
@@ -162,7 +162,8 @@ export const handleListItemTrailingPressOut =
                 onActiveAfterAffordance,
                 onListItemClose
         }: HandleListItemTrailingPressOutOptions) =>
-        (value: string) => {
+        (value: string) =>
+        () => {
                 const nextEvent = {
                         afterAffordance: () => onActiveAfterAffordance?.(value),
                         closeTrailing: () => onListItemClose(true)
@@ -177,14 +178,20 @@ export const handleListItemTrailingPressOut =
                 }
         }
 
+export const handleListItemTrailingPressIn = (setState: Updater<ListItemState>) => () => {
+        setState(draft => {
+                draft.affordanceShow = true
+        })
+}
+
 export const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<ListItemState>) => (value?: boolean) =>
         setState(draft => {
                 draft.afterAffordanceClosed = !value
         })
 
-export const handleItemListAfterAffordanceShow = (setState: Updater<ListItemState>) => () =>
+export const handleItemListAffordanceShow = (setState: Updater<ListItemState>) => () =>
         setState(draft => {
-                draft.afterAffordanceShow = true
+                draft.affordanceShow = true
         })
 
 export const handleListItemConfirm =

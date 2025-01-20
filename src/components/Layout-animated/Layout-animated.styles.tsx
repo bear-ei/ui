@@ -1,16 +1,9 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {LayoutAnimatedContainerProps, LayoutAnimatedContentLayoutProps} from './Layout-animated.interface'
+import {ContentLayoutProps, LayoutAnimatedContainerProps} from './Layout-animated.interface'
 
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
         position: relative;
-
-        ${({visible, theme, hidden}) =>
-                !visible &&
-                hidden &&
-                css`
-                        height: ${theme.token.spacing.none}px;
-                `}
 
         ${({collapse}) =>
                 collapse &&
@@ -18,15 +11,16 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
                         overflow: hidden;
                 `}
 
-
-        ${({visible}) =>
+        ${({visible, theme, collapse}) =>
                 !visible &&
+                !collapse &&
                 css`
+                        height: ${theme.adaptSize(theme.token.spacing.none)}px;
                         z-index: -1024;
                 `}
 `
 
-export const ContentLayout = styled.View<LayoutAnimatedContentLayoutProps>`
+export const ContentLayout = styled.View<ContentLayoutProps>`
         position: absolute;
 
         ${({theme}) => css`
@@ -36,10 +30,16 @@ export const ContentLayout = styled.View<LayoutAnimatedContentLayoutProps>`
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
         `};
 
-        ${({layout}) =>
-                typeof layout?.height === 'number' &&
+        ${({contentSize}) =>
+                contentSize?.width &&
                 css`
-                        min-height: ${layout?.height}px;
+                        min-width: ${contentSize.width}px;
+                `}
+
+        ${({contentSize}) =>
+                contentSize?.height &&
+                css`
+                        min-height: ${contentSize.height}px;
                 `}
 `
 
