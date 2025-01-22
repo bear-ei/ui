@@ -1,7 +1,7 @@
 import styled, {css} from 'styled-components/native'
-import {IconContainerProps} from './Icon.interface'
+import {IconLayoutProps} from './Icon.interface'
 
-export const Container = styled.View<IconContainerProps>`
+export const Container = styled.View<IconLayoutProps>`
         align-items: center;
         display: flex;
         flex-direction: column;

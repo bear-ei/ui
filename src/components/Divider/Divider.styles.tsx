@@ -1,9 +1,9 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {LayoutType, Size, Typography} from '../Common'
-import {DividerContainerProps} from './Divider.interface'
+import {DividerLayoutProps} from './Divider.interface'
 
-export const Container = styled.View<DividerContainerProps>`
+export const Container = styled.View<DividerLayoutProps>`
         display: flex;
         flex-direction: column;
 

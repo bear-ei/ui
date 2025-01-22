@@ -97,7 +97,7 @@ export const Header = styled.View<SheetHeaderProps>`
                 `}
 `
 
-export const HeadlineContainer = styled.View`
+export const HeadlineLayout = styled.View`
         display: flex;
         flex-direction: row;
         flex: 1;
@@ -157,7 +157,7 @@ export const FooterLayoutAnimated = styled(LayoutAnimated)`
                 right: ${theme.adaptSize(theme.token.spacing.none)}px;
         `}
 `
-export const FooterContainer = styled.View`
+export const FooterLayout = styled.View`
         ${({theme}) => css`
                 max-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;

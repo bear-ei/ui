@@ -14,4 +14,4 @@ export interface DividerBaseProps extends DividerProps {
         render: (props: RenderDividerProps) => JSX.Element
 }
 
-export type DividerContainerProps = Pick<RenderDividerProps, 'layout' | 'size'>
+export type DividerLayoutProps = Pick<RenderDividerProps, 'layout' | 'size'>

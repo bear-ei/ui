@@ -114,7 +114,7 @@ export const LabelText = styled(Typography)`
         user-select: none;
 `
 
-export const IconContainer = styled.View`
+export const IconLayout = styled.View`
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -152,7 +152,7 @@ export const Trailing = styled.View<ChipTrailingProps>`
                 `}
 `
 
-export const AvatarContainer = styled.View`
+export const AvatarLayout = styled.View`
         align-items: center;
         display: flex;
         flex-direction: column;

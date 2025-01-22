@@ -1,8 +1,8 @@
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
-import {AvatarContainerProps} from './Avatar.interface'
+import {AvatarLayoutProps} from './Avatar.interface'
 
-export const Container = styled(Shape)<AvatarContainerProps>`
+export const Container = styled(Shape)<AvatarLayoutProps>`
         align-items: center;
         display: flex;
         flex-direction: column;

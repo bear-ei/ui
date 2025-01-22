@@ -138,9 +138,9 @@ export const handleChipBorderAnimatedTiming = ({
 
 const handleChipFilterIconAnimatedTiming =
         (animatedTiming: AnimatedTiming) =>
-        (filterIconContainerWidthSharedValue: SharedValue<number>) =>
+        (filterIconLayoutWidthSharedValue: SharedValue<number>) =>
         (active?: boolean) =>
-                animatedTiming()(filterIconContainerWidthSharedValue)(active ? 1 : 0)
+                animatedTiming()(filterIconLayoutWidthSharedValue)(active ? 1 : 0)
 
 export const handleChipAnimatedTiming = ({
         active,
@@ -155,7 +155,7 @@ export const handleChipAnimatedTiming = ({
                 ({
                         borderSharedValue,
                         colorSharedValue,
-                        filterIconContainerWidthSharedValue
+                        filterIconLayoutWidthSharedValue
                 }: HandleChipAnimatedTimingSharedValue) => {
                         const borderAnimatedTiming = handleChipBorderAnimatedTiming({
                                 animatedTiming,
@@ -168,7 +168,7 @@ export const handleChipAnimatedTiming = ({
 
                                 if (type === 'filter') {
                                         handleChipFilterIconAnimatedTiming(animatedTiming)(
-                                                filterIconContainerWidthSharedValue
+                                                filterIconLayoutWidthSharedValue
                                         )(active)
                                 }
                         }

@@ -11,7 +11,7 @@ import {
         BackgroundUnderlay,
         Container,
         Content,
-        IconContainer,
+        IconLayout,
         LabelText,
         Main
 } from './Button.styles'
@@ -92,9 +92,9 @@ const render = ({
                                                 type={type}
                                         >
                                                 {icon && !link && (
-                                                        <IconContainer testID={`button__iconContainer--${id}`}>
+                                                        <IconLayout testID={`button__iconLayout--${id}`}>
                                                                 {icon}
-                                                        </IconContainer>
+                                                        </IconLayout>
                                                 )}
 
                                                 <AnimatedLabelText

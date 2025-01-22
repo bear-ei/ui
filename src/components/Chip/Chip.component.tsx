@@ -7,19 +7,19 @@ import {Underlay} from '../Underlay'
 import {ChipBase} from './Chip-base.component'
 import {ChipProps, RenderChipProps} from './Chip.interface'
 import {
-        AvatarContainer,
+        AvatarLayout,
         BackgroundUnderlay,
         Container,
         Content,
         FilterIcon,
-        IconContainer,
+        IconLayout,
         LabelText,
         Main,
         Trailing
 } from './Chip.styles'
 
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
-const AnimatedIconContainer = Animated.createAnimatedComponent(IconContainer)
+const AnimatedIconLayout = Animated.createAnimatedComponent(IconLayout)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const render = ({
         active,
@@ -29,7 +29,7 @@ const render = ({
         disabled,
         elevation,
         eventName,
-        filterIconContainerAnimatedStyle,
+        filterIconLayoutAnimatedStyle,
         id,
         labelText,
         labelTextAnimatedStyle,
@@ -98,19 +98,23 @@ const render = ({
                                                 {leadingIcon &&
                                                         !avatar &&
                                                         (type === 'filter' ?
-                                                                <AnimatedIconContainer
-                                                                        style={[filterIconContainerAnimatedStyle]}
-                                                                        testID={`chip__animatedIconContainer--${id}`}
+                                                                <AnimatedIconLayout
+                                                                        style={[filterIconLayoutAnimatedStyle]}
+                                                                        testID={`chip__animatedIconLayout--${id}`}
                                                                 >
                                                                         <FilterIcon testID={`chip__filterIcon--${id}`}>
                                                                                 {leadingIcon}
                                                                         </FilterIcon>
-                                                                </AnimatedIconContainer>
-                                                        :       <IconContainer testID={`chip__iconContainer--${id}`}>
+                                                                </AnimatedIconLayout>
+                                                        :       <IconLayout testID={`chip__iconLayout--${id}`}>
                                                                         {leadingIcon}
-                                                                </IconContainer>)}
+                                                                </IconLayout>)}
 
-                                                {avatar && <AvatarContainer>{avatar}</AvatarContainer>}
+                                                {avatar && (
+                                                        <AvatarLayout testID={`chip__avatarLayout--${id}`}>
+                                                                {avatar}
+                                                        </AvatarLayout>
+                                                )}
 
                                                 <AnimatedLabelText
                                                         ellipsizeMode='tail'
@@ -131,9 +135,9 @@ const render = ({
                                                                 >
                                                                         {trailing}
                                                                 </Trailing>
-                                                        :       <IconContainer testID={`chip__iconContainer--${id}`}>
+                                                        :       <IconLayout testID={`chip__iconLayout--${id}`}>
                                                                         {trailing}
-                                                                </IconContainer>)}
+                                                                </IconLayout>)}
                                         </Main>
 
                                         <Underlay

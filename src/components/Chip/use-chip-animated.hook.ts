@@ -13,7 +13,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
         const animatedValue = disabled ? 0 : 1
         const borderSharedValue = useSharedValue(elevated || active ? 2 : animatedValue)
         const colorSharedValue = useSharedValue(active ? 2 : animatedValue)
-        const filterIconContainerWidthSharedValue = useSharedValue(active ? 1 : 0)
+        const filterIconLayoutWidthSharedValue = useSharedValue(active ? 1 : 0)
         const disabledBackgroundColor =
                 elevated ?
                         convertHexToRGBA(scheme.onSurface)(opacity.level2)
@@ -144,19 +144,15 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
                 color: interpolateColor(colorSharedValue.value, colorType[type].inputRange, colorType[type].outputRange)
         }))
 
-        const filterIconContainerWidthOutputRange = [
+        const filterIconLayoutWidthOutputRange = [
                 theme.adaptSize(theme.token.spacing.none),
                 theme.adaptSize(
                         theme.token.spacing.extraSmall * 6 + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
                 )
         ]
 
-        const filterIconContainerAnimatedStyle = useAnimatedStyle(() => ({
-                width: interpolate(
-                        filterIconContainerWidthSharedValue.value,
-                        [0, 1],
-                        filterIconContainerWidthOutputRange
-                )
+        const filterIconLayoutAnimatedStyle = useAnimatedStyle(() => ({
+                width: interpolate(filterIconLayoutWidthSharedValue.value, [0, 1], filterIconLayoutWidthOutputRange)
         }))
 
         const onChipAnimatedTiming = useCallback(
@@ -170,7 +166,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
                         })(type)({
                                 borderSharedValue,
                                 colorSharedValue,
-                                filterIconContainerWidthSharedValue
+                                filterIconLayoutWidthSharedValue
                         }),
                 [
                         active,
@@ -180,7 +176,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
                         colorSharedValue,
                         disabled,
                         elevated,
-                        filterIconContainerWidthSharedValue,
+                        filterIconLayoutWidthSharedValue,
                         type
                 ]
         )
@@ -191,7 +187,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
 
         return {
                 backgroundUnderlayAnimatedStyle,
-                filterIconContainerAnimatedStyle,
+                filterIconLayoutAnimatedStyle,
                 labelTextAnimatedStyle
         }
 }

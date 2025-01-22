@@ -2,7 +2,7 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {TouchableBase} from './Touchable-base.component'
 import {RenderTouchableProps, TouchableProps} from './Touchable.interface'
-import {Container, Main, RippleContainer, TouchableContent} from './Touchable.styles'
+import {Container, Main, RippleLayout, TouchableContent} from './Touchable.styles'
 
 const render = ({
         backgroundUnderlay,
@@ -29,12 +29,12 @@ const render = ({
                                 testID={`touchable__main--${id}`}
                         >
                                 {children}
-                                <RippleContainer
+                                <RippleLayout
                                         shape={shape}
-                                        testID={`touchable__rippleContainer--${id}`}
+                                        testID={`touchable__rippleLayout--${id}`}
                                 >
                                         {rippleElements}
-                                </RippleContainer>
+                                </RippleLayout>
 
                                 {backgroundUnderlay}
                                 {elevationUnderlay}

@@ -207,18 +207,18 @@ export const SupportingText = styled(Typography)`
         `}
 `
 
-export const BeforeAffordanceContainer = styled.View`
+export const BeforeAffordanceLayout = styled.View`
         align-items: center;
         display: flex;
         flex-direction: row;
         justify-content: center;
 `
 
-export const AfterAffordanceContainer = styled(BeforeAffordanceContainer)`
+export const AfterAffordanceLayout = styled(BeforeAffordanceLayout)`
         align-self: flex-end;
 `
 
-export const DividerContainer = styled.View`
+export const DividerLayout = styled.View`
         position: absolute;
 
         ${({theme}) => css`

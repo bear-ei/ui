@@ -42,7 +42,7 @@ export const Header = styled.View<NavigationRailItemHeaderProps>`
                 `};
 `
 
-export const IconContainer = styled.View`
+export const IconLayout = styled.View`
         overflow: hidden;
         position: relative;
 

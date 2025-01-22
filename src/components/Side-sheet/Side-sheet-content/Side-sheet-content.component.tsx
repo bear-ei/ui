@@ -9,11 +9,11 @@ import {
         Container,
         Content,
         Footer,
-        FooterContainer,
+        FooterLayout,
         FooterLayoutAnimated,
         Header,
         HeaderText,
-        HeadlineContainer,
+        HeadlineLayout,
         Leading,
         Main,
         PrimaryButton,
@@ -75,7 +75,7 @@ const render = ({
                                                 </Leading>
                                         )}
 
-                                        <HeadlineContainer testID={`sideSheetContent__headlineContainer--${id}}`}>
+                                        <HeadlineLayout testID={`sideSheetContent__headlineLayout--${id}}`}>
                                                 <HeaderText
                                                         numberOfLines={1}
                                                         size='large'
@@ -84,7 +84,7 @@ const render = ({
                                                 >
                                                         {headlineText}
                                                 </HeaderText>
-                                        </HeadlineContainer>
+                                        </HeadlineLayout>
 
                                         {trailing && (
                                                 <Trailing testID={`sideSheetContent__trailing--${id}}`}>
@@ -101,7 +101,7 @@ const render = ({
                                         testID={`sideSheetContent__footerLayoutAnimated--${id}}`}
                                         visible={footerVisible}
                                 >
-                                        <FooterContainer testID={`sideSheetContent__footerContainer--${id}}`}>
+                                        <FooterLayout testID={`sideSheetContent__footerLayout--${id}}`}>
                                                 <Divider
                                                         size='large'
                                                         testID={`sideSheetContent__divider--${id}}`}
@@ -143,7 +143,7 @@ const render = ({
                                                                 )}
                                                         </SecondaryButton>
                                                 </Footer>
-                                        </FooterContainer>
+                                        </FooterLayout>
                                 </FooterLayoutAnimated>
                         </Content>
                 </AnimatedContainer>

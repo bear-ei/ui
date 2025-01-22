@@ -66,7 +66,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
 
                 const disabled = loading || rawDisabled
                 const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
-                const {backgroundUnderlayAnimatedStyle, filterIconContainerAnimatedStyle, labelTextAnimatedStyle} =
+                const {backgroundUnderlayAnimatedStyle, filterIconLayoutAnimatedStyle, labelTextAnimatedStyle} =
                         useChipAnimated({active, disabled: rawDisabled, elevated, type, chipStyle})
 
                 useEffect(() => {
@@ -93,7 +93,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         disabled,
                         elevation,
                         eventName,
-                        filterIconContainerAnimatedStyle,
+                        filterIconLayoutAnimatedStyle,
                         labelText,
                         labelTextAnimatedStyle,
                         leadingIcon: leadingIconElement,

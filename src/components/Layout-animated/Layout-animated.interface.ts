@@ -90,4 +90,4 @@ export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 
         collapse?: boolean
 }
 
-export type ContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'contentSize'>
+export type ContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'contentSize' | 'visible'>

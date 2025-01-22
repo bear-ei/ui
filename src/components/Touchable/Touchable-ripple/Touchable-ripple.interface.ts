@@ -41,7 +41,7 @@ export interface HandleTouchableRippleAnimatedTimingOptions
         animatedTiming: AnimatedTiming
 }
 
-export interface TouchableRippleContainerProps extends Pick<RenderTouchableRippleProps, 'underlayColor'> {
+export interface TouchableRippleLayoutProps extends Pick<RenderTouchableRippleProps, 'underlayColor'> {
         size?: number
         locationX?: number
         locationY?: number

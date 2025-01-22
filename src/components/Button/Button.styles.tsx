@@ -127,7 +127,7 @@ export const LabelText = styled(Typography)`
         user-select: none;
 `
 
-export const IconContainer = styled.View`
+export const IconLayout = styled.View`
         align-items: center;
         display: flex;
         flex-direction: column;

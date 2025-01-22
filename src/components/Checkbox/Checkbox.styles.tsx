@@ -1,7 +1,7 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
-import {CheckboxIconContainerProps} from './Checkbox.interface'
+import {CheckboxIconLayoutProps} from './Checkbox.interface'
 
 export const Container = styled.View`
         cursor: pointer;
@@ -40,7 +40,7 @@ export const Main = styled(Shape)`
         `}
 `
 
-export const IconLayoutAnimated = styled(LayoutAnimated)<CheckboxIconContainerProps>`
+export const IconLayoutAnimated = styled(LayoutAnimated)<CheckboxIconLayoutProps>`
         position: absolute;
 
         ${({theme}) => css`

@@ -8,7 +8,7 @@ import {NavigationRailItemProps, RenderNavigationRailItemProps} from './Navigati
 import {
         Container,
         Header,
-        IconContainer,
+        IconLayout,
         IconLayoutAnimated,
         Label,
         LabelLayoutAnimated,
@@ -54,7 +54,7 @@ const render = ({
                                         testID={`navigationRailItem__header--${id}`}
                                         type={type}
                                 >
-                                        <IconContainer testID={`navigationRailItem__iconContainer--${id}`}>
+                                        <IconLayout testID={`navigationRailItem__iconLayout--${id}`}>
                                                 <IconLayoutAnimated
                                                         testID={`navigationRailItem__iconLayoutAnimated--${id}`}
                                                         visible={!active}
@@ -68,7 +68,7 @@ const render = ({
                                                 >
                                                         {activeIconElement}
                                                 </IconLayoutAnimated>
-                                        </IconContainer>
+                                        </IconLayout>
 
                                         <Underlay
                                                 active={active}

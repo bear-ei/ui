@@ -28,4 +28,4 @@ export interface IconBaseProps extends IconProps {
 }
 
 export type UseIconAnimatedOptions = Pick<RenderIconProps, 'eventName'>
-export type IconContainerProps = Pick<IconProps, 'size'>
+export type IconLayoutProps = Pick<IconProps, 'size'>

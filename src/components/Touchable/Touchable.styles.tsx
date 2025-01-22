@@ -33,7 +33,7 @@ export const Main = styled(Shape)<TouchableMainProps>`
         `}
 `
 
-export const RippleContainer = styled(Shape)`
+export const RippleLayout = styled(Shape)`
         overflow: hidden;
         position: absolute;
 

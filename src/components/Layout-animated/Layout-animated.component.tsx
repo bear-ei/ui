@@ -34,6 +34,7 @@ const render = ({
                         <ContentLayout
                                 contentSize={contentSize ?? layout}
                                 testID={`layoutAnimated__contentLayout--${id}`}
+                                visible={visible}
                         >
                                 <Content
                                         {...(!contentSize && {onLayout})}

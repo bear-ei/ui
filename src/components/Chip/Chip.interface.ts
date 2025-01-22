@@ -28,7 +28,7 @@ export interface RenderChipProps extends ChipProps {
         backgroundUnderlayAnimatedStyle?: AnimatedStyle<ViewStyle>
         elevation: ElevationLevel
         eventName?: EventName
-        filterIconContainerAnimatedStyle: AnimatedStyle<TextStyle>
+        filterIconLayoutAnimatedStyle: AnimatedStyle<TextStyle>
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         onStateEvent: OnStateEvent
         theme: DefaultTheme
@@ -57,7 +57,7 @@ export interface HandleChipAnimatedTimingOptions extends Omit<UseChipAnimatedOpt
 export interface HandleChipAnimatedTimingSharedValue {
         borderSharedValue: SharedValue<number>
         colorSharedValue: SharedValue<number>
-        filterIconContainerWidthSharedValue: SharedValue<number>
+        filterIconLayoutWidthSharedValue: SharedValue<number>
 }
 
 export type ChipContainerProps = Pick<RenderChipProps, 'type'>

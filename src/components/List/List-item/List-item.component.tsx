@@ -10,11 +10,11 @@ import {ListItemBase} from './List-item-base.component'
 import {handleListItemPropsEqual} from './List-item-handle'
 import {ListItemProps, RenderListItemProps} from './List-item.interface'
 import {
-        AfterAffordanceContainer,
-        BeforeAffordanceContainer,
+        AfterAffordanceLayout,
+        BeforeAffordanceLayout,
         Container,
         Content,
-        DividerContainer,
+        DividerLayout,
         HeadlineText,
         Leading,
         Main,
@@ -96,11 +96,9 @@ const render = ({
                                 testID={`listItem__skeleton--${id}`}
                         >
                                 {beforeAffordance && (
-                                        <BeforeAffordanceContainer
-                                                testID={`listItem__beforeAffordanceContainer--${id}`}
-                                        >
+                                        <BeforeAffordanceLayout testID={`listItem__beforeAffordanceContainer--${id}`}>
                                                 {beforeAffordance}
-                                        </BeforeAffordanceContainer>
+                                        </BeforeAffordanceLayout>
                                 )}
 
                                 <AnimatedContent
@@ -206,7 +204,7 @@ const render = ({
                                 </AnimatedContent>
 
                                 {afterAffordance && affordanceShow && (
-                                        <AfterAffordanceContainer testID={`listItem__afterAffordanceContainer--${id}`}>
+                                        <AfterAffordanceLayout testID={`listItem__afterAffordanceLayout--${id}`}>
                                                 {typeof afterAffordance === 'boolean' ?
                                                         <ListAfterAffordance
                                                                 itemKey={itemKey}
@@ -220,17 +218,17 @@ const render = ({
                                                                 testID={`listItem__listAfterAffordance--${id}`}
                                                         />
                                                 :       afterAffordance}
-                                        </AfterAffordanceContainer>
+                                        </AfterAffordanceLayout>
                                 )}
 
                                 {divider && (
-                                        <DividerContainer testID={`listItem__dividerContainer--${id}`}>
+                                        <DividerLayout testID={`listItem__dividerLayout--${id}`}>
                                                 <Divider
                                                         layout='horizontal'
                                                         size='large'
                                                         testID={`listItem__divider--${id}`}
                                                 />
-                                        </DividerContainer>
+                                        </DividerLayout>
                                 )}
                         </Skeleton>
                 </Container>

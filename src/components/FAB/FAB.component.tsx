@@ -6,7 +6,7 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {FABBase} from './FAB-base.component'
 import {FABProps, RenderFABProps} from './FAB.interface'
-import {BackgroundUnderlay, Container, Content, IconContainer, LabelText, Main} from './FAB.styles'
+import {BackgroundUnderlay, Container, Content, IconLayout, LabelText, Main} from './FAB.styles'
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
@@ -82,9 +82,9 @@ const render = ({
                                                 type={type}
                                         >
                                                 {icon && (
-                                                        <IconContainer testID={`fab__iconContainer--${id}`}>
+                                                        <IconLayout testID={`fab__iconLayout--${id}`}>
                                                                 {icon}
-                                                        </IconContainer>
+                                                        </IconLayout>
                                                 )}
 
                                                 {extendedFAB && labelText && (

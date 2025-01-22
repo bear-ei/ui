@@ -49,7 +49,7 @@ export type CheckboxIconAnimatedOptions = {
         exit: AnimatedTimingOptions
 }
 
-export interface CheckboxIconContainerProps {
+export interface CheckboxIconLayoutProps {
         visible?: boolean
         zIndex?: number
 }

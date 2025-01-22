@@ -5,7 +5,6 @@ export const ContainerLayoutAnimated = styled(LayoutAnimated)<LayoutAnimatedProp
         align-self: stretch;
         display: flex;
         flex-direction: column;
-        flex: 1;
 
         ${({theme}) => css`
                 background-color: ${theme.token.scheme.surfaceContainer};
