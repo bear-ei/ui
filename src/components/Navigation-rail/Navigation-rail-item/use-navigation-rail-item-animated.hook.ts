@@ -6,10 +6,10 @@ import {handleNavigationRailItemAnimatedTiming} from './Navigation-rail-item-han
 import {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.interface'
 
 export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailItemAnimatedOptions) => {
-        const labelValue = active ? 1 : 0
         const theme = useTheme()
         const {palette, scheme, opacity} = theme.token
         const {convertHexToRGBA} = palette
+        const labelValue = active ? 1 : 0
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const labelTextColorSharedValue = useSharedValue(labelValue)
         const labelTextColorOutputRange = [

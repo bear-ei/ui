@@ -65,9 +65,9 @@ const render = ({
         ...mainProps
 }: RenderListItemProps) => {
         const activeColor = theme.token.scheme.secondaryContainer
-        const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
         const supportingTextShow = !!supporting
         const trailingShow = !!trailingElement
+        const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
         const underlayProps = selectType &&
                 ['select', 'multiselect'].includes(selectType) &&
                 enableUnderlayActive && {

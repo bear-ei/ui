@@ -131,7 +131,9 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         type
                 })
 
-                useImperativeHandle(ref, () => (textInputRef?.current ? textInputRef?.current : {}) as TextInput, [])
+                useImperativeHandle(ref, () => (textInputRef?.current ? textInputRef?.current : {}) as TextInput, [
+                        textInputRef
+                ])
 
                 useEffect(() => {
                         onTextInputEditableChange(editable)

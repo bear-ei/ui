@@ -153,7 +153,9 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         testID: `listItem__leading--${id}`
                 })
 
-                useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
+                useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [
+                        pressableRef
+                ])
 
                 useEffect(() => {
                         onListItemFocus(focusedIndex)

@@ -85,7 +85,7 @@ const render = ({
                                 {type === 'segment' && (
                                         <LabelLayoutAnimated
                                                 animatedType='collapseY'
-                                                contentStyle={{height: theme.adaptSize(theme.token.spacing.large)}}
+                                                contentStyle={{minHeight: theme.adaptSize(theme.token.spacing.large)}}
                                                 pointerEvents='none'
                                                 scale={false}
                                                 testID={`navigationRailItem__labelLayoutAnimated--${id}`}

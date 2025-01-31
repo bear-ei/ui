@@ -64,7 +64,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 
                 const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 
-                useImperativeHandle(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [])
+                useImperativeHandle(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [inputRef])
 
                 useEffect(() => {
                         onSearchTextInputRawChangeText(rawValue ?? defaultValue)

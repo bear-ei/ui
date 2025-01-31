@@ -102,7 +102,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 useImperativeHandle(
                         ref,
                         () => (listRef?.current ? listRef?.current : {}) as VirtualListComponent<ListData>,
-                        []
+                        [listRef]
                 )
 
                 useEffect(() => {

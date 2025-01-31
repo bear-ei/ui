@@ -13,7 +13,7 @@ export const MaskBase: FC<MaskBaseProps> = ({render, ref, ...renderProps}) => {
 
         const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
 
-        useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
+        useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [pressableRef])
 
         return render({...renderProps, onStateEvent, ref: pressableRef, id})
 }

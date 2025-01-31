@@ -34,7 +34,9 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                         underlayColor
                 })(rippleSequence)
 
-                useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [])
+                useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [
+                        pressableRef
+                ])
 
                 return render({...renderProps, onStateEvent, ref: pressableRef, rippleElements, id})
         }
