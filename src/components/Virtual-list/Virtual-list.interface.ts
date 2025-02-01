@@ -63,3 +63,7 @@ export type HandleVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enable
 export interface UseVirtualListScrollAnimatedOptions extends Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize'> {
         contentSize?: number
 }
+
+export interface VirtualListContentProps {
+        contentVisible?: boolean
+}

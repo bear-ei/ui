@@ -18,9 +18,9 @@ export const FABBase = forwardRef<View, FABBaseProps>(
         (
                 {
                         disabled: rawDisabled,
-                        loading,
                         elevated = true,
                         icon,
+                        loading,
                         render,
                         size = 'medium',
                         type = 'primary',
@@ -31,15 +31,15 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: 'idle'})
                 const id = useId()
                 const theme = useTheme()
-                const underlayColor = handleFABUnderlayColor(theme)(type)
+                const fabIconElement = handleFABIcon({eventName, type, disabled: rawDisabled, size, id})(theme)(icon)
                 const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
                 const onFABStatus = useMemo(() => handleFABStatus(setState)(rawDisabled), [rawDisabled, setState])
-                const fabIconElement = handleFABIcon({eventName, type, disabled: rawDisabled, size, id})(theme)(icon)
+                const underlayColor = handleFABUnderlayColor(theme)(type)
+                const disabled = loading || rawDisabled
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleFABStateChange({...options, state, elevated})(setState)(event)
 
-                const disabled = loading || rawDisabled
                 const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
                 const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
                         disabled: rawDisabled,

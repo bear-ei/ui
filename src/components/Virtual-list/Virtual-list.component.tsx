@@ -29,7 +29,16 @@ const render = <T,>({
         ...containerProps
 }: RenderVirtualListProps<T>) => {
         const {onLayout} = onStateEvent
-        const contentLayoutAnimatedStyle = {flex: 1, position: 'relative', alignSelf: 'stretch'} as ViewStyle
+        const contentLayoutAnimatedStyle = {position: 'relative'} as ViewStyle
+        const contentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
+        const emptyContentLayoutAnimatedStyle = {
+                alignItems: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center'
+        } as ViewStyle
+
+        const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch'} as ViewStyle
 
         return (
                 <Container
@@ -38,22 +47,25 @@ const render = <T,>({
                 >
                         <AnimatedScrollView
                                 {...containerProps}
+                                {...(!contentVisible && {contentContainerStyle: scrollViewContentStyle})}
                                 scrollEventThrottle={scrollEventThrottle}
                                 testID={`virtualList__animatedScrollView--${id}`}
                         >
                                 <AnimatedContent
+                                        contentVisible={contentVisible}
                                         style={contentAnimatedStyle}
                                         testID={`virtualList__animatedContent--${id}`}
                                 >
                                         <ContentLayoutAnimated
                                                 contentStyle={contentLayoutAnimatedStyle}
                                                 testID={`virtualList__contentLayoutAnimated--${id}`}
-                                                visible={!loading && !emptyList && typeof emptyList === 'boolean'}
+                                                visible={contentVisible}
                                         >
                                                 {itemElements}
                                         </ContentLayoutAnimated>
 
                                         <EmptyContentLayoutAnimated
+                                                contentStyle={emptyContentLayoutAnimatedStyle}
                                                 lazy={true}
                                                 testID={`virtualList__emptyContentLayoutAnimated--${id}`}
                                                 visible={!loading && emptyList && status === 'succeeded'}
@@ -70,6 +82,7 @@ const render = <T,>({
                                         </EmptyContentLayoutAnimated>
 
                                         <LoadingContentLayoutAnimated
+                                                contentStyle={emptyContentLayoutAnimatedStyle}
                                                 lazy={true}
                                                 testID={`virtualList__loadingContentLayoutAnimated--${id}`}
                                                 visible={loading && !!loadingComponent}
