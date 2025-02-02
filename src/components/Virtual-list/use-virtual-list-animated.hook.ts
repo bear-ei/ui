@@ -24,7 +24,7 @@ export const useVirtualListAnimated = ({
 
         useDerivedValue(() => scrollTo(animatedRef, focusedIndex * itemSize, scrollY.value, true))
 
-        const contentAnimatedStyle = useAnimatedStyle(() => ({height: contentHeightSharedValue.value}))
+        const contentAnimatedStyle = useAnimatedStyle(() => ({minHeight: contentHeightSharedValue.value}))
         const onVirtualListItemAnimated = useMemo(
                 () => handleVirtualListAnimated(animatedTiming)(contentHeightSharedValue),
                 [animatedTiming, contentHeightSharedValue]

@@ -112,6 +112,7 @@ export const VirtualListBaseInner = <T,>(
                 ...renderProps,
                 ...scrollEvent,
                 contentAnimatedStyle,
+                contentSize,
                 emptyList,
                 id,
                 itemElements,

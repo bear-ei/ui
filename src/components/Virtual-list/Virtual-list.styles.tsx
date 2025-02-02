@@ -1,7 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
-import {VirtualListContentProps} from './Virtual-list.interface'
 
 export const Container = styled.View`
         align-self: stretch;
@@ -12,14 +11,9 @@ export const Container = styled.View`
         `}
 `
 
-export const Content = styled.View<VirtualListContentProps>`
+export const Content = styled.View`
         position: relative;
-
-        ${({contentVisible}) =>
-                !contentVisible &&
-                css`
-                        flex: 1;
-                `}
+        flex: 1;
 `
 
 export const ContentLayoutAnimated = styled(LayoutAnimated)`

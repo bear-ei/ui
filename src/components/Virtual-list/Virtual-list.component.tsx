@@ -26,6 +26,7 @@ const render = <T,>({
         scrollEventThrottle = 50,
         status,
         testID,
+        contentSize,
         ...containerProps
 }: RenderVirtualListProps<T>) => {
         const {onLayout} = onStateEvent
@@ -38,7 +39,7 @@ const render = <T,>({
                 justifyContent: 'center'
         } as ViewStyle
 
-        const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch'} as ViewStyle
+        const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch', minHeight: contentSize} as ViewStyle
 
         return (
                 <Container
@@ -47,12 +48,11 @@ const render = <T,>({
                 >
                         <AnimatedScrollView
                                 {...containerProps}
-                                {...(!contentVisible && {contentContainerStyle: scrollViewContentStyle})}
+                                contentContainerStyle={scrollViewContentStyle}
                                 scrollEventThrottle={scrollEventThrottle}
                                 testID={`virtualList__animatedScrollView--${id}`}
                         >
                                 <AnimatedContent
-                                        contentVisible={contentVisible}
                                         style={contentAnimatedStyle}
                                         testID={`virtualList__animatedContent--${id}`}
                                 >
