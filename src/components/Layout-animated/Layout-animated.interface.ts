@@ -1,6 +1,6 @@
 import {Duration, Easing} from '@bearei/material-token'
 import {RefAttributes} from 'react'
-import {LayoutChangeEvent, LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
+import {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
 import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
@@ -57,7 +57,7 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 
 export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
 export interface HandleLayoutAnimatedStateChangeOptions extends OnStateEventChangeOptions {
-        onLayoutChange: (event: LayoutChangeEvent) => void
+        onLayoutChange: (layout: LayoutRectangle) => void
 }
 
 export interface UseLayoutAnimatedOptions

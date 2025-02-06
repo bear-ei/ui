@@ -1,5 +1,5 @@
 import {WritableDraft} from 'immer'
-import {LayoutChangeEvent} from 'react-native'
+import {LayoutChangeEvent, LayoutRectangle} from 'react-native'
 import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
 import {StateEvent} from '../../hooks'
@@ -14,8 +14,8 @@ import {
 } from './Layout-animated.interface'
 
 export const handleLayoutAnimatedLayoutChange =
-        (setState: Updater<LayoutAnimatedState>) => (event: LayoutChangeEvent) => {
-                const {height, width} = event.nativeEvent.layout
+        (setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
+                const {height, width} = layout
 
                 setState(draft => {
                         const {width: prevWidth, height: prevHeight} = draft.layout
@@ -25,7 +25,7 @@ export const handleLayoutAnimatedLayoutChange =
                                 draft.layout.width = width
                         }
 
-                        if (draft.status !== 'succeeded') {
+                        if (draft.status === 'idle') {
                                 draft.status = 'succeeded'
                         }
                 })
@@ -35,7 +35,7 @@ export const handleLayoutAnimatedStateChange =
         ({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
         (event: StateEvent) => {
                 const nextEvent = {
-                        layout: () => onLayoutChange(event as LayoutChangeEvent)
+                        layout: () => onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
                 } as Record<EventName, () => void>
 
                 if (eventName) {

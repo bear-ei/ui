@@ -9,3 +9,9 @@ export interface AdaptDesignOptions {
         designHeight?: number
         designWidth?: number
 }
+
+export interface RunAfterInteractionsResult {
+        then: (onfulfilled?: () => unknown, onrejected?: () => unknown) => Promise<unknown>
+        done: (...args: any[]) => unknown
+        cancel: () => void
+}

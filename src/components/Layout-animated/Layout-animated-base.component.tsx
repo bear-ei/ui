@@ -57,7 +57,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         [lazy, setState, unmount]
                 )
 
-                const onLayoutAnimatedLayoutChange = handleLayoutAnimatedLayoutChange(setState)
+                const onLayoutAnimatedLayoutChange = useMemo(
+                        () => debounce(handleLayoutAnimatedLayoutChange(setState))(50),
+                        [setState]
+                )
+
                 const onStateEventChange =
                         (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleLayoutAnimatedStateChange({
