@@ -25,7 +25,7 @@ export const handleLayoutAnimatedLayoutChange =
                                 draft.layout.width = width
                         }
 
-                        if (draft.status === 'idle') {
+                        if (draft.status !== 'succeeded') {
                                 draft.status = 'succeeded'
                         }
                 })
