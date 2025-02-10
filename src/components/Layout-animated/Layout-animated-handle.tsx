@@ -38,9 +38,11 @@ export const handleLayoutAnimatedStateChange =
                         layout: () => onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
                 } as Record<EventName, () => void>
 
-                if (eventName) {
-                        nextEvent[eventName]?.()
+                if (!eventName) {
+                        return
                 }
+
+                nextEvent[eventName]?.()
         }
 
 export const handleLayoutAnimatedLayoutVisible = ({onVisible, setState}: HandleLayoutAnimatedLayoutVisibleOptions) => {

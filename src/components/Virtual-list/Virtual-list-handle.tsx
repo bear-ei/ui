@@ -5,10 +5,12 @@ import {Updater} from 'use-immer'
 import {AnimatedTiming, OnStateEventChangeOptions, StateEvent} from '../../hooks'
 import {EventName} from '../Common'
 import {ListData} from '../List'
-import {HandleVirtualListItemOptions, RenderVirtualListItemInfo, VirtualListItem} from './Virtual-list-item'
+import {RenderVirtualListItemInfo, VirtualListItem} from './Virtual-list-item'
 import {
         HandleVirtualListCloseOptions,
+        HandleVirtualListItemOptions,
         HandleVirtualListScrollOptions,
+        HandleVirtualListUnmountOptions,
         VirtualListData,
         VirtualListState
 } from './Virtual-list.interface'
@@ -67,9 +69,11 @@ export const handleVirtualListStateChange =
                         layout: () => onVirtualListLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
                 } as Record<EventName, () => void>
 
-                if (eventName) {
-                        nextEvent[eventName]?.()
+                if (!eventName) {
+                        return
                 }
+
+                nextEvent[eventName]?.()
         }
 
 export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListScrollOptions) => {
@@ -80,12 +84,14 @@ export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListS
                 const hitBottom = contentSize.height - layoutMeasurement.height - contentOffset.y < 1
                 const scrollOffset = event.nativeEvent.contentOffset.y
 
-                if (!hitBottom && contentOffset.y > 0) {
-                        setState(draft => {
-                                draft.nextScrollEvent = handleNextScrollEvent(event)
-                                handleVirtualListVisibleRange(itemSize)(draft)(scrollOffset)
-                        })
+                if (hitBottom || contentOffset.y <= 0) {
+                        return
                 }
+
+                setState(draft => {
+                        draft.nextScrollEvent = handleNextScrollEvent(event)
+                        handleVirtualListVisibleRange(itemSize)(draft)(scrollOffset)
+                })
         }
 }
 
@@ -94,7 +100,33 @@ export const handleVirtualListMomentumScrollEnd =
         (event: NativeSyntheticEvent<NativeScrollEvent>) =>
                 onMomentumScrollEnd?.(event)
 
-export const handleVirtualListUnmount = (itemSize = 0) => {
+export const handleVirtualListClose =
+        ({enableAutoSelect, onClose}: HandleVirtualListCloseOptions) =>
+        (draft: WritableDraft<VirtualListState>) =>
+        (value?: string) => {
+                const findDataIndex = (datum: ListData) => datum.indexKey === value
+
+                if (!enableAutoSelect) {
+                        const handleNextCloseEvent = () => onClose?.({indexKey: value})
+                        draft.nextCloseEvent = handleNextCloseEvent
+
+                        return
+                }
+
+                const data = (draft.virtualListData ?? []) as ListData[]
+                const datumIndex = data.findIndex(findDataIndex)
+                const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
+                const handleNextEnableAutoSelectCloseEvent = () =>
+                        onClose?.({activeKey: nextActiveKey, indexKey: value})
+
+                draft.nextCloseEvent = handleNextEnableAutoSelectCloseEvent
+        }
+
+export const handleVirtualListUnmount = ({
+        enableAutoSelect,
+        itemSize = 0,
+        onClose
+}: HandleVirtualListUnmountOptions) => {
         const handleVisibleRangeDataFilter =
                 (value: string) =>
                 ({indexKey}: VirtualListData) =>
@@ -106,6 +138,8 @@ export const handleVirtualListUnmount = (itemSize = 0) => {
                 }
 
                 setState(draft => {
+                        handleVirtualListClose({enableAutoSelect, onClose})(draft)(value)
+
                         const nextVirtualListData = draft.virtualListData?.filter(handleVisibleRangeDataFilter(value))
 
                         draft.virtualListData = nextVirtualListData
@@ -120,27 +154,6 @@ export const handleVirtualListData = (setState: Updater<VirtualListState>) => (d
                 draft.virtualListData = data
                 draft.status = 'loading'
         })
-
-export const handleVirtualListClose =
-        ({enableAutoSelect, onClose}: HandleVirtualListCloseOptions) =>
-        (setState: Updater<VirtualListState>) =>
-        (value?: string) => {
-                const findDataIndex = (datum: ListData) => datum.indexKey === value
-
-                setState(draft => {
-                        if (enableAutoSelect) {
-                                const data = (draft.virtualListData ?? []) as ListData[]
-                                const datumIndex = data.findIndex(findDataIndex)
-                                const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
-
-                                onClose?.({activeKey: nextActiveKey, indexKey: value})
-
-                                return
-                        }
-
-                        onClose?.({indexKey: value})
-                })
-        }
 
 export const handleVirtualListLoadEnd = (setState: Updater<VirtualListState>) => {
         const findVisibleRangeDataIndex =

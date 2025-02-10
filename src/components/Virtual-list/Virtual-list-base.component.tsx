@@ -6,7 +6,6 @@ import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnState
 import {debounce, runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
-        handleVirtualListClose,
         handleVirtualListData,
         handleVirtualListDataChange,
         handleVirtualListItem,
@@ -38,8 +37,10 @@ export const VirtualListBaseInner = <T,>(
         }: VirtualListBaseProps<T>,
         ref: ForwardedRef<Animated.ScrollView>
 ) => {
-        const [{emptyList, nextScrollEvent, startIndex, status, virtualListData, visibleRangeData}, setState] =
-                useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: 'idle', startIndex: 0})
+        const [
+                {emptyList, nextScrollEvent, startIndex, status, virtualListData, visibleRangeData, nextCloseEvent},
+                setState
+        ] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: 'idle', startIndex: 0})
 
         const id = useId()
         const contentSize = useMemo(
@@ -58,7 +59,6 @@ export const VirtualListBaseInner = <T,>(
                 [itemSize, onScroll, setState]
         )
 
-        const onVirtualListClose = handleVirtualListClose({enableAutoSelect, onClose})(setState)
         const onVirtualListMomentumScrollEnd = handleVirtualListMomentumScrollEnd(onMomentumScrollEnd)
         const onVirtualListData = useMemo(() => handleVirtualListData(setState), [setState])
         const onVirtualListLoadEnd = handleVirtualListLoadEnd(setState)(onLoadEnd)
@@ -67,7 +67,7 @@ export const VirtualListBaseInner = <T,>(
                 onScroll: onVirtualListScroll
         })
 
-        const onVirtualListUnmount = handleVirtualListUnmount(itemSize)(setState)
+        const onVirtualListUnmount = handleVirtualListUnmount({itemSize, enableAutoSelect, onClose})(setState)
         const onVirtualListLayoutChange = useMemo(
                 () => debounce(handleVirtualListLayoutChange(itemSize)(setState))(50),
                 [itemSize, setState]
@@ -81,7 +81,6 @@ export const VirtualListBaseInner = <T,>(
                 extraData,
                 id,
                 itemSize,
-                onClose: onVirtualListClose,
                 onLoadEnd: onVirtualListLoadEnd,
                 onUnmount: onVirtualListUnmount,
                 renderItem,
@@ -103,6 +102,10 @@ export const VirtualListBaseInner = <T,>(
         useEffect(() => {
                 runAfterInteractions(nextScrollEvent)()
         }, [nextScrollEvent])
+
+        useEffect(() => {
+                runAfterInteractions(nextCloseEvent)()
+        }, [nextCloseEvent])
 
         if (status === 'idle') {
                 return <></>

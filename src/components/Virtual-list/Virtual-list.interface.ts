@@ -46,6 +46,7 @@ export interface VirtualListState {
         emptyList?: boolean
         endIndex?: number
         layout: LayoutRectangle
+        nextCloseEvent?: () => void
         nextScrollEvent?: () => void
         scrollOffset?: number
         startIndex?: number
@@ -61,6 +62,17 @@ export interface HandleVirtualListLayoutChangeOptions {
 }
 
 export type HandleVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose'>
+
+export interface HandleVirtualListUnmountOptions
+        extends HandleVirtualListCloseOptions,
+                Pick<RenderVirtualListProps, 'itemSize'> {}
+
 export interface UseVirtualListScrollAnimatedOptions extends Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize'> {
         contentSize?: number
+}
+
+export interface HandleVirtualListItemOptions<T>
+        extends Pick<RenderVirtualListProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'id'> {
+        onUnmount?: (value?: string) => void
+        startIndex?: number
 }
