@@ -1,11 +1,13 @@
 import {ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
+import {DefaultTheme} from 'styled-components/native'
 import {SideSheetProps} from '../Side-sheet.interface'
 
 export type SideSheetContentProps = SideSheetProps
 export interface RenderSideSheetContentProps extends SideSheetContentProps {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
         leading?: JSX.Element
+        theme: DefaultTheme
         trailing?: JSX.Element
 }
 

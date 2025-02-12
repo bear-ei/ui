@@ -43,10 +43,12 @@ const render = ({
         sheetPosition,
         style,
         testID,
+        theme,
         trailing,
         type,
         ...innerProps
 }: RenderSideSheetContentProps) => {
+        const footerLayoutAnimatedContentStyle = {minHeight: theme.adaptFontSize(theme.token.spacing.extraSmall * 20)}
         const sheetShape = shape ?? (sheetPosition === 'horizontalStart' ? 'largeEnd' : 'largeStart')
 
         return (
@@ -96,6 +98,7 @@ const render = ({
                                 <Main testID={`sideSheetContent__main--${id}}`}>{content}</Main>
                                 <FooterLayoutAnimated
                                         animatedType='collapseY'
+                                        contentStyle={footerLayoutAnimatedContentStyle}
                                         entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                                         exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
                                         testID={`sideSheetContent__footerLayoutAnimated--${id}}`}

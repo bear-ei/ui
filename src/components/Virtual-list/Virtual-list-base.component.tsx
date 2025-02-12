@@ -80,7 +80,7 @@ export const VirtualListBaseInner = <T,>(
         const itemElements = handleVirtualListItem({
                 extraData,
                 id,
-                itemSize,
+                itemSize: itemSize + gap,
                 onLoadEnd: onVirtualListLoadEnd,
                 onUnmount: onVirtualListUnmount,
                 renderItem,
