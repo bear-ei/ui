@@ -23,21 +23,23 @@ const render = ({
 
         return (
                 <>
-                        <ContentItemLayoutAnimated
-                                contentSize={contentSize}
-                                contentStyle={contentStyle}
-                                testID={`skeleton__contentItemLayoutAnimated--${id}`}
-                                unmount={true}
-                                visible={skeletonVisible}
-                        >
-                                <AnimatedSkeletonLayout
-                                        {...containerProps}
-                                        style={[style, containerAnimatedStyle]}
-                                        testID={`skeleton__animatedSkeletonLayout--${id}`}
+                        {skeleton && (
+                                <ContentItemLayoutAnimated
+                                        contentSize={contentSize}
+                                        contentStyle={contentStyle}
+                                        testID={`skeleton__contentItemLayoutAnimated--${id}`}
+                                        unmount={true}
+                                        visible={skeletonVisible}
                                 >
-                                        {skeleton}
-                                </AnimatedSkeletonLayout>
-                        </ContentItemLayoutAnimated>
+                                        <AnimatedSkeletonLayout
+                                                {...containerProps}
+                                                style={[style, containerAnimatedStyle]}
+                                                testID={`skeleton__animatedSkeletonLayout--${id}`}
+                                        >
+                                                {skeleton}
+                                        </AnimatedSkeletonLayout>
+                                </ContentItemLayoutAnimated>
+                        )}
 
                         <ContentItemLayoutAnimated
                                 contentSize={contentSize}

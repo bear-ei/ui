@@ -207,10 +207,11 @@ export const handleVirtualListItem =
                 return data?.map((item, index) => (
                         <VirtualListItem
                                 {...virtualListItemProps}
-                                index={index + startIndex}
+                                index={index}
                                 item={item as Record<string, unknown>}
                                 key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
                                 onLoadEnd={onLoadEnd}
+                                startIndex={startIndex}
                                 testID={`virtualList__virtualListItem--${id}`}
                                 renderItem={
                                         renderItem as (
