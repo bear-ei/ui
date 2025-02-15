@@ -40,7 +40,10 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                 const itemElement =
                         !item ?
                                 <></>
-                        :       renderItem?.({index, item: {...item, onClose: onVirtualListItemClose, onLoadEnd}})
+                        :       renderItem?.({
+                                        index: renderIndex,
+                                        item: {...item, onClose: onVirtualListItemClose, onLoadEnd}
+                                })
 
                 useEffect(() => {
                         onVirtualListItemInit()

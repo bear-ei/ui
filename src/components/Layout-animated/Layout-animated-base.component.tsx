@@ -28,7 +28,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         onVisible,
                         opacity,
                         render,
-                        scale = true,
+                        scale = false,
                         unmount,
                         visible: rawVisible,
                         ...renderProps
@@ -94,7 +94,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
                 useEffect(() => {
                         if (status === 'succeeded') {
-                                onLayoutAnimatedLayoutVisible(layoutVisible)
+                                runAfterInteractions(onLayoutAnimatedLayoutVisible)(layoutVisible)
                         }
                 }, [layoutVisible, onLayoutAnimatedLayoutVisible, status])
 
