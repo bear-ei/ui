@@ -11,10 +11,10 @@ import {
         HandleListItemConfirmOptions,
         HandleListItemPanResponderReleaseOptions,
         HandleListItemStateEventChangeOptions,
-        HandleListItemTrailingOptions,
         HandleListItemTrailingPressOutOptions,
         ListItemProps,
         ListItemState,
+        RenderListItemTrailingOptions,
         SelectType
 } from './List-item.interface'
 
@@ -245,7 +245,7 @@ export const handleListItemPanResponderRelease =
                 }
         }
 
-export const handleListItemTrailing = ({
+export const renderListItemTrailing = ({
         afterAffordance,
         closeTrailing,
         disabled,
@@ -253,7 +253,7 @@ export const handleListItemTrailing = ({
         trailing,
         trailingProps,
         id
-}: HandleListItemTrailingOptions) => {
+}: RenderListItemTrailingOptions) => {
         const {onHoverIn, onHoverOut} = onStateEvent
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing

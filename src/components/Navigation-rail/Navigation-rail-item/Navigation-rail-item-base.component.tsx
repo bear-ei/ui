@@ -7,9 +7,9 @@ import {runAfterInteractions} from '../../../utils'
 import {State} from '../../Common'
 import {Icon} from '../../Icon'
 import {
-        handleNavigationRailItemActiveIcon,
-        handleNavigationRailItemIcon,
-        handleNavigationRailItemStateChange
+        handleNavigationRailItemStateChange,
+        renderNavigationRailItemActiveIcon,
+        renderNavigationRailItemIcon
 } from './Navigation-rail-item-handle'
 import {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
@@ -32,8 +32,6 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                 const active = useMemo(() => activeKey === itemKey, [activeKey, itemKey])
                 const id = useId()
                 const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active, type})
-                const activeIconElement = handleNavigationRailItemActiveIcon(id)(icon)(eventName)
-                const iconElement = handleNavigationRailItemIcon(id)(icon)(eventName)
                 const pressableRef = useRef<View>(null)
                 const theme = useTheme()
                 const onStateEventChange =
@@ -47,6 +45,8 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                                 })(setState)(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
+                const activeIconElement = renderNavigationRailItemActiveIcon(id)(icon)(eventName)
+                const iconElement = renderNavigationRailItemIcon(id)(icon)(eventName)
 
                 useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [
                         pressableRef

@@ -28,10 +28,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> & StyleProp<ViewStyle>
         unmount?: boolean
         visible?: boolean
-        contentSize?: {
-                width?: number
-                height?: number
-        }
+        contentSize?: {width?: number; height?: number}
 }
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {

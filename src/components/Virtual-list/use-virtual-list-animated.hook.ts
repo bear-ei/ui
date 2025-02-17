@@ -21,14 +21,13 @@ export const useVirtualListAnimated = ({
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const contentHeightSharedValue = useSharedValue(contentSize)
         const scrollY = useSharedValue(0)
-
-        useDerivedValue(() => scrollTo(animatedRef, focusedIndex * itemSize, scrollY.value, true))
-
         const contentAnimatedStyle = useAnimatedStyle(() => ({minHeight: contentHeightSharedValue.value}))
         const onVirtualListItemAnimated = useMemo(
                 () => handleVirtualListAnimated(animatedTiming)(contentHeightSharedValue),
                 [animatedTiming, contentHeightSharedValue]
         )
+
+        useDerivedValue(() => scrollTo(animatedRef, focusedIndex * itemSize, scrollY.value, true))
 
         useEffect(() => {
                 onVirtualListItemAnimated(contentSize)

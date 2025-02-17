@@ -6,10 +6,10 @@ import {Icon, IconProps} from '../Icon'
 import {
         HandleIconButtonAnimatedTimingOptions,
         HandleIconButtonAnimatedTimingSharedValue,
-        HandleIconButtonIconOptions,
         HandleIconButtonStateChangeOptions,
         IconButtonState,
-        IconButtonType
+        IconButtonType,
+        RenderIconButtonIconOptions
 } from './Icon-button.interface'
 
 export const handleIconButtonStateChange =
@@ -43,8 +43,8 @@ export const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
         return (type: IconButtonType = 'filled') => underlay[type]
 }
 
-export const handleIconButtonIcon =
-        ({disabled, type, fill: rawFill, eventName, loading, id}: HandleIconButtonIconOptions) =>
+export const renderIconButtonIcon =
+        ({disabled, type, fill: rawFill, eventName, loading, id}: RenderIconButtonIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
                         active: theme.token.scheme.onSurfaceVariant,

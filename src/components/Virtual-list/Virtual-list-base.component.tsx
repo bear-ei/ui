@@ -8,13 +8,13 @@ import {State} from '../Common'
 import {
         handleVirtualListData,
         handleVirtualListDataChange,
-        handleVirtualListItem,
         handleVirtualListLayoutChange,
         handleVirtualListLoadEnd,
         handleVirtualListMomentumScrollEnd,
         handleVirtualListScroll,
         handleVirtualListStateChange,
-        handleVirtualListUnmount
+        handleVirtualListUnmount,
+        renderVirtualListItem
 } from './Virtual-list-handle'
 import {VirtualListBaseProps, VirtualListState} from './Virtual-list.interface'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
@@ -77,7 +77,7 @@ export const VirtualListBaseInner = <T,>(
                 handleVirtualListStateChange({...options, state})(onVirtualListLayoutChange)(event)
 
         const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
-        const itemElements = handleVirtualListItem({
+        const itemElements = renderVirtualListItem({
                 extraData,
                 id,
                 itemSize: itemSize + gap,

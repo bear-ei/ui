@@ -13,7 +13,7 @@ export const SearchListBase = forwardRef<VirtualListComponent<ListData>, SearchL
                 const {containerAnimatedStyle} = useSearchListAnimated({visible, containerLayout})
                 const emitId = useMemo(() => nanoid(), [])
                 const id = useId()
-                const renderSearchListRender = useCallback(
+                const renderSearchList = useCallback(
                         () =>
                                 render({
                                         ...renderProps,
@@ -26,8 +26,8 @@ export const SearchListBase = forwardRef<VirtualListComponent<ListData>, SearchL
                 )
 
                 const onSearchListEmit = useMemo(
-                        () => handleSearchListEmit(emitId)(renderSearchListRender),
-                        [emitId, renderSearchListRender]
+                        () => handleSearchListEmit(emitId)(renderSearchList),
+                        [emitId, renderSearchList]
                 )
 
                 useEffect(() => {

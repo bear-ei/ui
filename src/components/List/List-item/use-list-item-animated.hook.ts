@@ -24,8 +24,8 @@ export const useListItemAnimated = ({
         }))
 
         const headlineTextColorOutputRange = [
-                palette.convertHexToRGBA(scheme.onSurface)(opacity.level10),
-                palette.convertHexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
+                palette.hexToRGBA(scheme.onSurface)(opacity.level10),
+                palette.hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
         ]
 
         const headlineTextAnimatedStyle = useAnimatedStyle(() => ({

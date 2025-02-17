@@ -13,8 +13,8 @@ import {
         HandleChipAnimatedTimingOptions,
         HandleChipAnimatedTimingSharedValue,
         HandleChipElevationOptions,
-        HandleChipIconOptions,
-        HandleChipStateChangeOptions
+        HandleChipStateChangeOptions,
+        RenderChipIconOptions
 } from './Chip.interface'
 
 export const handleChipStatus = (setState: Updater<ChipState>) => (disabled?: boolean) => (elevated?: boolean) =>
@@ -81,8 +81,8 @@ export const handleChipDisabled = (setState: Updater<ChipState>) => (disabled?: 
                 draft.eventName = 'none'
         })
 
-export const handleChipIcon =
-        ({disabled, eventName, id}: HandleChipIconOptions) =>
+export const renderChipIcon =
+        ({disabled, eventName, id}: RenderChipIconOptions) =>
         (theme: DefaultTheme) =>
         (icon?: JSX.Element) => {
                 if (!icon) {
@@ -100,8 +100,8 @@ export const handleChipIcon =
                 })
         }
 
-export const handleChipCloseButton =
-        ({disabled, onClose, id}: HandleChipIconOptions) =>
+export const renderChipCloseButton =
+        ({disabled, onClose, id}: RenderChipIconOptions) =>
         (theme: DefaultTheme) => {
                 const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
                 const iconButtonSize = theme.adaptSize(theme.token.spacing.large)

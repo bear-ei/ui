@@ -39,5 +39,5 @@ export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extended
 export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type HandleFABStateChangeOptions = OnStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
-export type HandleFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'eventName' | 'id'>
+export type RenderFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'eventName' | 'id'>
 export type UseFABAnimatedOptions = Pick<RenderFABProps, 'disabled' | 'type'>

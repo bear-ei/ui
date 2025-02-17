@@ -12,9 +12,9 @@ import {
         handleListItemConfirm,
         handleListItemFocus,
         handleListItemStateChange,
-        handleListItemTrailing,
         handleListItemTrailingPressIn,
-        handleListItemTrailingPressOut
+        handleListItemTrailingPressOut,
+        renderListItemTrailing
 } from './List-item-handle'
 import {ListItemBaseProps, ListItemState} from './List-item.interface'
 import {useListItemAnimated} from './use-list-item-animated.hook'
@@ -137,7 +137,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         onListItemAfterAffordanceVisibleFinished
                 })
 
-                const trailingElement = handleListItemTrailing({
+                const trailingElement = renderListItemTrailing({
                         afterAffordance,
                         closeTrailing,
                         disabled,

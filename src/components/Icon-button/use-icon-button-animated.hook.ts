@@ -11,40 +11,37 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
         const colorSharedValue = useSharedValue(animatedValue)
         const theme = useTheme()
         const {palette, scheme, opacity} = theme.token
-        const {convertHexToRGBA} = palette
+        const {hexToRGBA} = palette
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(opacity.level2)
+        const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
         const backgroundColorType = {
                 filled: {
                         inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, convertHexToRGBA(scheme.primary)(opacity.level10)]
+                        outputRange: [disabledBackgroundColor, hexToRGBA(scheme.primary)(opacity.level10)]
                 },
                 outlined: {
                         inputRange: [0, 1],
                         outputRange: [
-                                convertHexToRGBA(scheme.primary)(opacity.level0),
-                                convertHexToRGBA(scheme.primary)(opacity.level0)
+                                hexToRGBA(scheme.primary)(opacity.level0),
+                                hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 standard: {
                         inputRange: [0, 1],
                         outputRange: [
-                                convertHexToRGBA(scheme.primary)(opacity.level0),
-                                convertHexToRGBA(scheme.primary)(opacity.level0)
+                                hexToRGBA(scheme.primary)(opacity.level0),
+                                hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 tonal: {
                         inputRange: [0, 1],
-                        outputRange: [
-                                disabledBackgroundColor,
-                                convertHexToRGBA(scheme.secondaryContainer)(opacity.level10)
-                        ]
+                        outputRange: [disabledBackgroundColor, hexToRGBA(scheme.secondaryContainer)(opacity.level10)]
                 },
                 active: {
                         inputRange: [0, 1],
                         outputRange: [
-                                convertHexToRGBA(scheme.primary)(opacity.level0),
-                                convertHexToRGBA(scheme.primary)(opacity.level0)
+                                hexToRGBA(scheme.primary)(opacity.level0),
+                                hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 }
         }

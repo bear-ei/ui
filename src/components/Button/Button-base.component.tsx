@@ -6,10 +6,10 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {State} from '../Common'
 import {
         handleButtonDisabled,
-        handleButtonIcon,
         handleButtonStateChange,
         handleButtonStatus,
-        handleButtonUnderlayColor
+        handleButtonUnderlayColor,
+        renderButtonIcon
 } from './Button-handle'
 import {ButtonBaseProps, ButtonState} from './Button.interface'
 import {useButtonAnimated} from './use-button-animated.hook'
@@ -31,7 +31,6 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: 'idle'})
                 const id = useId()
                 const theme = useTheme()
-                const iconButtonElement = handleButtonIcon({eventName, type, disabled: rawDisabled, id})(theme)(icon)
                 const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
                 const onButtonStatus = useMemo(() => handleButtonStatus(setState)(rawDisabled), [rawDisabled, setState])
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
@@ -47,6 +46,8 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         type,
                         error
                 })
+
+                const iconButtonElement = renderButtonIcon({eventName, type, disabled: rawDisabled, id})(theme)(icon)
 
                 useEffect(() => {
                         onButtonStatus(type)

@@ -91,8 +91,8 @@ export interface FormState {
         status: ComponentStatus
 }
 
-export type handleFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
-export type HandleFormItemOptions = Pick<FormProps, 'validatorOptions' | 'onLoadEnd' | 'id'>
+export type HandleFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
+export type RenderFormItemsOptions = Pick<FormProps, 'validatorOptions' | 'onLoadEnd' | 'id'>
 export interface HandleFormValidateOptions {
         rule?: ValidationRule
         validatorOptions?: ValidatorOptions

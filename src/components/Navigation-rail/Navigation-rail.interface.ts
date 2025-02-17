@@ -10,7 +10,7 @@ export interface NavigationRailData extends Pick<NavigationRailItemProps, 'icon'
         indexKey: string
 }
 
-export type HandleNavigationRailItemOptions = Omit<NavigationRailItemProps, 'itemKey'>
+export type RenderNavigationRailItemOptions = Omit<NavigationRailItemProps, 'itemKey'>
 export interface NavigationRailProps extends ViewProps, RefAttributes<View> {
         activeKey?: string
         animatedType?: NavigationRailAnimatedType

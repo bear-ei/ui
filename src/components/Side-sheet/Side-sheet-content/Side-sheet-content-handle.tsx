@@ -3,12 +3,12 @@ import {AnimatedTiming} from '../../../hooks'
 import {Icon} from '../../Icon'
 import {IconButton} from '../../Icon-button'
 import {
-        HandleSideSheetContentLeadingOptions,
-        HandleSideSheetContentTrailingOptions
+        RenderSideSheetContentLeadingOptions,
+        RenderSideSheetContentTrailingOptions
 } from './Side-sheet-content.interface'
 
-export const handleSideSheetContentLeading =
-        ({headlineLeading, back, sheetPosition, id}: HandleSideSheetContentLeadingOptions) =>
+export const renderSideSheetContentLeading =
+        ({headlineLeading, back, sheetPosition, id}: RenderSideSheetContentLeadingOptions) =>
         (onBack?: () => void) =>
                 headlineLeading ??
                 (back ?
@@ -31,8 +31,8 @@ export const handleSideSheetContentLeading =
                         />
                 :       undefined)
 
-export const handleSideSheetContentTrailing =
-        ({headlineTrailing, close, id}: HandleSideSheetContentTrailingOptions) =>
+export const renderSideSheetContentTrailing =
+        ({headlineTrailing, close, id}: RenderSideSheetContentTrailingOptions) =>
         (onClose?: () => void) =>
                 headlineTrailing ??
                 (close ?

@@ -8,49 +8,46 @@ import {UseButtonAnimatedOptions} from './Button.interface'
 export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}: UseButtonAnimatedOptions) => {
         const theme = useTheme()
         const {palette, scheme, spacing, opacity} = theme.token
-        const {convertHexToRGBA} = palette
+        const {hexToRGBA} = palette
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const animatedValue = disabled ? 0 : 1
         const borderSharedValue = useSharedValue(animatedValue)
         const colorSharedValue = useSharedValue(animatedValue)
-        const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(opacity.level2)
-        const disabledColor = convertHexToRGBA(scheme.onSurface)(opacity.level5)
+        const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
+        const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
         const backgroundColorType = {
                 elevated: {
                         inputRange: [0, 1],
-                        outputRange: [
-                                disabledBackgroundColor,
-                                convertHexToRGBA(scheme.surfaceContainerLow)(opacity.level10)
-                        ]
+                        outputRange: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerLow)(opacity.level10)]
                 },
                 filled: {
                         inputRange: [0, 1],
                         outputRange: [
                                 disabledBackgroundColor,
                                 error ?
-                                        convertHexToRGBA(scheme.error)(opacity.level10)
-                                :       convertHexToRGBA(scheme.primary)(opacity.level10)
+                                        hexToRGBA(scheme.error)(opacity.level10)
+                                :       hexToRGBA(scheme.primary)(opacity.level10)
                         ]
                 },
                 outlined: {
                         inputRange: [0, 1],
                         outputRange: [
-                                convertHexToRGBA(scheme.primary)(opacity.level0),
-                                convertHexToRGBA(scheme.primary)(opacity.level0)
+                                hexToRGBA(scheme.primary)(opacity.level0),
+                                hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 text: {
                         inputRange: [0, 1],
                         outputRange: [
-                                convertHexToRGBA(scheme.primary)(opacity.level0),
-                                convertHexToRGBA(scheme.primary)(opacity.level0)
+                                hexToRGBA(scheme.primary)(opacity.level0),
+                                hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 link: {
                         inputRange: [0, 1],
                         outputRange: [
-                                convertHexToRGBA(scheme.primary)(opacity.level0),
-                                convertHexToRGBA(scheme.primary)(opacity.level0)
+                                hexToRGBA(scheme.primary)(opacity.level0),
+                                hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 tonal: {
@@ -58,8 +55,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         outputRange: [
                                 disabledBackgroundColor,
                                 error ?
-                                        convertHexToRGBA(scheme.errorContainer)(opacity.level10)
-                                :       convertHexToRGBA(scheme.secondaryContainer)(opacity.level10)
+                                        hexToRGBA(scheme.errorContainer)(opacity.level10)
+                                :       hexToRGBA(scheme.secondaryContainer)(opacity.level10)
                         ]
                 }
         }
@@ -70,8 +67,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         outputRange: [
                                 disabledColor,
                                 error ?
-                                        convertHexToRGBA(scheme.error)(opacity.level10)
-                                :       convertHexToRGBA(scheme.primary)(opacity.level10)
+                                        hexToRGBA(scheme.error)(opacity.level10)
+                                :       hexToRGBA(scheme.primary)(opacity.level10)
                         ]
                 },
                 filled: {
@@ -79,8 +76,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         outputRange: [
                                 disabledColor,
                                 error ?
-                                        convertHexToRGBA(scheme.onError)(opacity.level10)
-                                :       convertHexToRGBA(scheme.onPrimary)(opacity.level10)
+                                        hexToRGBA(scheme.onError)(opacity.level10)
+                                :       hexToRGBA(scheme.onPrimary)(opacity.level10)
                         ]
                 },
                 outlined: {
@@ -88,8 +85,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         outputRange: [
                                 disabledColor,
                                 error ?
-                                        convertHexToRGBA(scheme.error)(opacity.level10)
-                                :       convertHexToRGBA(scheme.primary)(opacity.level10)
+                                        hexToRGBA(scheme.error)(opacity.level10)
+                                :       hexToRGBA(scheme.primary)(opacity.level10)
                         ]
                 },
                 text: {
@@ -97,8 +94,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         outputRange: [
                                 disabledColor,
                                 error ?
-                                        convertHexToRGBA(scheme.error)(opacity.level10)
-                                :       convertHexToRGBA(scheme.primary)(opacity.level10)
+                                        hexToRGBA(scheme.error)(opacity.level10)
+                                :       hexToRGBA(scheme.primary)(opacity.level10)
                         ]
                 },
                 link: {
@@ -106,8 +103,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         outputRange: [
                                 disabledColor,
                                 error ?
-                                        convertHexToRGBA(scheme.error)(opacity.level10)
-                                :       convertHexToRGBA(scheme.primary)(opacity.level10)
+                                        hexToRGBA(scheme.error)(opacity.level10)
+                                :       hexToRGBA(scheme.primary)(opacity.level10)
                         ]
                 },
                 tonal: {
@@ -115,8 +112,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         outputRange: [
                                 disabledColor,
                                 error ?
-                                        convertHexToRGBA(scheme.onErrorContainer)(opacity.level10)
-                                :       convertHexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
+                                        hexToRGBA(scheme.onErrorContainer)(opacity.level10)
+                                :       hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
                         ]
                 }
         }
@@ -124,8 +121,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         const borderColorInputRange = useMemo(() => [0, 1, 2], [])
         const borderColorOutputRange = [
                 disabledBackgroundColor,
-                convertHexToRGBA(scheme.outline)(opacity.level10),
-                convertHexToRGBA(scheme.primary)(opacity.level10)
+                hexToRGBA(scheme.outline)(opacity.level10),
+                hexToRGBA(scheme.primary)(opacity.level10)
         ]
 
         const notBackgroundColor = ['text', 'link'].includes(type)

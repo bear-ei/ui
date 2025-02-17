@@ -6,7 +6,7 @@ export const Container = styled(Shape)<SkeletonElementContainerProps>`
         display: flex;
 
         ${({theme, showChildren}) => css`
-                background-color: ${theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(
+                background-color: ${theme.token.palette.hexToRGBA(theme.token.scheme.onSurface)(
                         showChildren ? theme.token.opacity.level0 : theme.token.opacity.level2
                 )};
 

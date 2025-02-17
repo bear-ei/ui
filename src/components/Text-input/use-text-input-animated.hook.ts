@@ -22,7 +22,7 @@ export const useTextInputAnimated = ({
 }: UseTextInputAnimatedOptions) => {
         const theme = useTheme()
         const {palette, scheme, spacing, typography, opacity} = theme.token
-        const {convertHexToRGBA} = palette
+        const {hexToRGBA} = palette
         const disabledAnimatedValue = disabled ? 0 : 1
         const defaultAnimatedValue = {
                 activeIndicatorScaleYSharedValue: error ? 1 : 0,
@@ -49,8 +49,8 @@ export const useTextInputAnimated = ({
         )
 
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const disabledBackgroundColor = convertHexToRGBA(scheme.onSurface)(opacity.level2)
-        const disabledColor = convertHexToRGBA(scheme.onSurface)(opacity.level5)
+        const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
+        const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
         const filledToValue = filled ? 0 : 1
         const labelTextSharedValue = useSharedValue(filledToValue)
         const backgroundColorType = {
@@ -58,14 +58,14 @@ export const useTextInputAnimated = ({
                         inputRange: [0, 1],
                         outputRange: [
                                 disabledBackgroundColor,
-                                convertHexToRGBA(scheme.surfaceContainerHighest)(opacity.level10)
+                                hexToRGBA(scheme.surfaceContainerHighest)(opacity.level10)
                         ]
                 },
                 outlined: {
                         inputRange: [0, 1],
                         outputRange: [
-                                convertHexToRGBA(scheme.surface)(opacity.level0),
-                                convertHexToRGBA(scheme.surface)(opacity.level0)
+                                hexToRGBA(scheme.surface)(opacity.level0),
+                                hexToRGBA(scheme.surface)(opacity.level0)
                         ]
                 }
         }
@@ -78,7 +78,7 @@ export const useTextInputAnimated = ({
                 )
         }))
 
-        const inputColorSharedValueOutputRange = [disabledColor, convertHexToRGBA(scheme.onSurface)(opacity.level10)]
+        const inputColorSharedValueOutputRange = [disabledColor, hexToRGBA(scheme.onSurface)(opacity.level10)]
         const inputAnimatedStyle = useAnimatedStyle(() => ({
                 color: interpolateColor(colorSharedValue.value, [0, 1], inputColorSharedValueOutputRange)
         }))
@@ -109,9 +109,9 @@ export const useTextInputAnimated = ({
 
         const labelTextColorOutputRange = [
                 disabledColor,
-                convertHexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-                convertHexToRGBA(scheme.primary)(opacity.level10),
-                convertHexToRGBA(scheme.error)(opacity.level10)
+                hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
+                hexToRGBA(scheme.primary)(opacity.level10),
+                hexToRGBA(scheme.error)(opacity.level10)
         ]
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
@@ -124,9 +124,9 @@ export const useTextInputAnimated = ({
 
         const activeIndicatorBackgroundColorOutputRange = [
                 disabledColor,
-                convertHexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-                convertHexToRGBA(scheme.primary)(opacity.level10),
-                convertHexToRGBA(scheme.error)(opacity.level10)
+                hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
+                hexToRGBA(scheme.primary)(opacity.level10),
+                hexToRGBA(scheme.error)(opacity.level10)
         ]
 
         const activeIndicatorAnimatedStyle = useAnimatedStyle(() => ({
@@ -145,8 +145,8 @@ export const useTextInputAnimated = ({
 
         const supportingTextSharedValueValueColorOutputRange = [
                 disabledColor,
-                convertHexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-                convertHexToRGBA(scheme.error)(opacity.level10)
+                hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
+                hexToRGBA(scheme.error)(opacity.level10)
         ]
 
         const supportingTextAnimatedStyle = useAnimatedStyle(() => ({

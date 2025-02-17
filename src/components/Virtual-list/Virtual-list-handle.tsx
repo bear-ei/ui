@@ -8,9 +8,9 @@ import {ListData} from '../List'
 import {RenderVirtualListItemInfo, VirtualListItem} from './Virtual-list-item'
 import {
         HandleVirtualListCloseOptions,
-        HandleVirtualListItemOptions,
         HandleVirtualListScrollOptions,
         HandleVirtualListUnmountOptions,
+        RenderVirtualListItemOptions,
         VirtualListData,
         VirtualListState
 } from './Virtual-list.interface'
@@ -195,8 +195,8 @@ export const handleVirtualListDataChange =
                         }
                 })
 
-export const handleVirtualListItem =
-        <T,>({renderItem, onLoadEnd, id, startIndex = 0, ...virtualListItemProps}: HandleVirtualListItemOptions<T>) =>
+export const renderVirtualListItem =
+        <T,>({renderItem, onLoadEnd, id, startIndex = 0, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>
         (data?: VirtualListData[]) => {
                 if (data?.length === 0) {
                         onLoadEnd?.()

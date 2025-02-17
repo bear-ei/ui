@@ -6,10 +6,10 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {State} from '../Common'
 import {
         handleFABDisabled,
-        handleFABIcon,
         handleFABStateChange,
         handleFABStatus,
-        handleFABUnderlayColor
+        handleFABUnderlayColor,
+        renderFABIcon
 } from './FAB-handle'
 import {FABBaseProps, FABState} from './FAB.interface'
 import {useFABAnimated} from './use-fab-animated.hook'
@@ -31,7 +31,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: 'idle'})
                 const id = useId()
                 const theme = useTheme()
-                const fabIconElement = handleFABIcon({eventName, type, disabled: rawDisabled, size, id})(theme)(icon)
+                const fabIconElement = renderFABIcon({eventName, type, disabled: rawDisabled, size, id})(theme)(icon)
                 const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
                 const onFABStatus = useMemo(() => handleFABStatus(setState)(rawDisabled), [rawDisabled, setState])
                 const underlayColor = handleFABUnderlayColor(theme)(type)

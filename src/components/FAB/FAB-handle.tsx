@@ -7,7 +7,7 @@ import {AnimatedTiming, StateEvent} from '../../hooks'
 import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
-import {FABState, FABType, HandleFABIconOptions, HandleFABStateChangeOptions} from './FAB.interface'
+import {FABState, FABType, HandleFABStateChangeOptions, RenderFABIconOptions} from './FAB.interface'
 
 export const handleFABStatus = (setState: Updater<FABState>) => (disabled?: boolean) => (elevated?: boolean) =>
         setState(draft => {
@@ -86,8 +86,8 @@ export const handleFABUnderlayColor = (theme: DefaultTheme) => {
         return (type: FABType) => underlay[type]
 }
 
-export const handleFABIcon =
-        ({disabled, eventName, size, type = 'primary', id}: HandleFABIconOptions) =>
+export const renderFABIcon =
+        ({disabled, eventName, size, type = 'primary', id}: RenderFABIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
                         primary: theme.token.scheme.onPrimaryContainer,

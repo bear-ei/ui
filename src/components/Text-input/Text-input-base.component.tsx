@@ -71,9 +71,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 const theme = useTheme()
                 const placeholderTextColor =
                         state === 'disabled' ?
-                                theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(
-                                        theme.token.opacity.level5
-                                )
+                                theme.token.palette.hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
                         :       theme.token.scheme.onSurfaceVariant
 
                 const onTextInputContentSizeChange = (

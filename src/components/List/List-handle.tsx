@@ -5,11 +5,11 @@ import {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-l
 import {ListItem} from './List-item'
 import {
         HandleListActiveOptions,
-        HandleListItemOptions,
         HandleRenderItemOptions,
         ListData,
         ListState,
-        ListType
+        ListType,
+        RenderListItemOptions
 } from './List.interface'
 
 const handlePrevListActiveKeysFilter = (value: string) => (key: string) => key !== value
@@ -120,7 +120,7 @@ export const handleListClose = (onClose?: (options: OnVirtualListCloseOptions) =
                 }
 }
 
-const handleDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: HandleListItemOptions) => (
+const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
         <ListItem
                 {...(typeof item?.supportingTextNumberOfLines !== 'number' && {
                         supportingTextNumberOfLines
@@ -128,14 +128,14 @@ const handleDefaultListItem = ({index, item, supportingTextNumberOfLines, ...pro
                 {...item}
                 {...props}
                 itemIndex={index}
-                itemKey={item?.indexKey ?? index.toString()}
+                itemKey={item?.indexKey ?? `${index}`}
         />
 )
 
 export const handleRenderListItem =
         ({renderItem, ...options}: HandleRenderItemOptions) =>
         (props: RenderVirtualListItemInfo<ListData>) =>
-                renderItem ? renderItem({...options, ...props}) : handleDefaultListItem({...options, ...props})
+                renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})
 
 export const handleListItemSize =
         (theme: DefaultTheme) =>

@@ -22,7 +22,7 @@ export interface ListData
         indexKey: string
 }
 
-export type HandleListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
+export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
 export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>> {
         activeKey?: string
         activeKeys?: string[]

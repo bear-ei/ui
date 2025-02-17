@@ -65,8 +65,8 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
                 const shadowRadius = interpolate(shadowSharedValue.value, inputRange, shadowRadiusOutputRange)
                 const shadowColor =
                         Platform.OS === 'web' ?
-                                /** Running in JS thread.*/
-                                palette.convertHexToRGBA(elevation.shadowColor)(shadowOpacity)
+                                /** Running in JS thread*/
+                                palette.hexToRGBA(elevation.shadowColor)(shadowOpacity)
                         :       elevation.shadowColor
 
                 return (

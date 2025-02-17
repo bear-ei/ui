@@ -12,8 +12,8 @@ import {
         ButtonType,
         HandleButtonAnimatedTimingOptions,
         HandleButtonAnimatedTimingSharedValue,
-        HandleButtonIconOptions,
-        HandleButtonStateChangeOptions
+        HandleButtonStateChangeOptions,
+        RenderButtonIconOptions
 } from './Button.interface'
 
 export const handleButtonStatus = (setState: Updater<ButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
@@ -48,12 +48,11 @@ export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
 
         const correctionCoefficient = type === 'elevated' ? 1 : 0
 
-        if (state) {
-                draft.elevation = (
-                        state === 'disabled' ?
-                                level[state]
-                        :       level[state] + correctionCoefficient) as ElevationLevel
+        if (!state) {
+                return
         }
+
+        draft.elevation = (state === 'disabled' ? level[state] : level[state] + correctionCoefficient) as ElevationLevel
 }
 
 export const handleButtonStateChange =
@@ -100,8 +99,8 @@ export const handleButtonUnderlayColor = (theme: DefaultTheme) => {
         return (type: ButtonType) => underlay[type]
 }
 
-export const handleButtonIcon =
-        ({disabled, eventName, type = 'filled', id}: HandleButtonIconOptions) =>
+export const renderButtonIcon =
+        ({disabled, eventName, type = 'filled', id}: RenderButtonIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
                         elevated: theme.token.scheme.primary,

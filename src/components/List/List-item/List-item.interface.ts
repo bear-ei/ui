@@ -118,7 +118,7 @@ export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 
         onListItemClose: (value?: boolean) => void
 }
 
-export interface HandleListItemTrailingOptions
+export interface RenderListItemTrailingOptions
         extends Pick<
                 RenderListItemProps,
                 'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps' | 'id'

@@ -6,9 +6,9 @@ import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hook
 import {State} from '../Common'
 import {
         handleIconButtonDisabled,
-        handleIconButtonIcon,
         handleIconButtonStateChange,
-        handleIconButtonUnderlayColor
+        handleIconButtonUnderlayColor,
+        renderIconButtonIcon
 } from './Icon-button-handle'
 import {IconButtonBaseProps, IconButtonState} from './Icon-button.interface'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
@@ -27,7 +27,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
                 const disabled = loading || rawDisabled
                 const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
                 const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})
-                const iconElement = handleIconButtonIcon({disabled, eventName, fill, loading, type, id})(theme)(icon)
+                const iconElement = renderIconButtonIcon({disabled, eventName, fill, loading, type, id})(theme)(icon)
 
                 useEffect(() => {
                         onIconButtonDisabled(disabled)

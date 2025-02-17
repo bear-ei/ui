@@ -1,7 +1,7 @@
 import {Updater} from 'use-immer'
 import {ComponentStatus} from '../Common'
 import {FormItem, FormItemProps} from './Form-item'
-import {FormCallbacks, FormState, handleFormCallbackOptions, HandleFormItemOptions} from './Form.interface'
+import {FormCallbacks, FormState, HandleFormCallbackOptions, RenderFormItemsOptions} from './Form.interface'
 
 export const handleFormStatus =
         <T,>(setState: Updater<FormState>) =>
@@ -20,12 +20,12 @@ export const handleFormStatus =
                 })
 
 export const handleFormCallback =
-        <T,>({onFinish, onFinishFailed, onValueChange}: handleFormCallbackOptions<T>) =>
+        <T,>({onFinish, onFinishFailed, onValueChange}: HandleFormCallbackOptions<T>) =>
         (setCallback: (callback: FormCallbacks<T>) => void) =>
                 setCallback({onFinish, onFinishFailed, onValueChange})
 
-export const handleFormItem =
-        ({onLoadEnd, id, ...options}: HandleFormItemOptions) =>
+export const renderFormItems =
+        ({onLoadEnd, id, ...options}: RenderFormItemsOptions) =>
         (status: ComponentStatus) =>
         (items?: FormItemProps[]) =>
                 status === 'succeeded' ?

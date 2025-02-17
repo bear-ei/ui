@@ -23,7 +23,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
         ) => {
                 const id = useId()
                 const theme = useTheme()
-                const disabledFill = theme.token.palette.convertHexToRGBA(theme.token.scheme.onSurface)(
+                const disabledFill = theme.token.palette.hexToRGBA(theme.token.scheme.onSurface)(
                         theme.token.opacity.level5
                 )
 

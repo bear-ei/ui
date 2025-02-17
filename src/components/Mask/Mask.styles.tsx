@@ -7,7 +7,7 @@ export const ContainerLayoutAnimated = styled(LayoutAnimated)<MaskContainerProps
         position: absolute;
 
         ${({theme, backgroundColor}) => css`
-                background-color: ${theme.token.palette.convertHexToRGBA(backgroundColor ?? theme.token.scheme.scrim)(
+                background-color: ${theme.token.palette.hexToRGBA(backgroundColor ?? theme.token.scheme.scrim)(
                         theme.token.opacity.level4
                 )};
 

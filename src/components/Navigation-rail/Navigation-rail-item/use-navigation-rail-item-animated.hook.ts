@@ -8,13 +8,13 @@ import {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.inter
 export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailItemAnimatedOptions) => {
         const theme = useTheme()
         const {palette, scheme, opacity} = theme.token
-        const {convertHexToRGBA} = palette
+        const {hexToRGBA} = palette
         const labelValue = active ? 1 : 0
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const labelTextColorSharedValue = useSharedValue(labelValue)
         const labelTextColorOutputRange = [
-                convertHexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-                convertHexToRGBA(scheme.onSurface)(opacity.level10)
+                hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
+                hexToRGBA(scheme.onSurface)(opacity.level10)
         ]
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({

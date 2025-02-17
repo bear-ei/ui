@@ -1,7 +1,7 @@
 import {ForwardedRef, forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {handleFormCallback, handleFormItem, handleFormStatus} from './Form-handle'
+import {handleFormCallback, handleFormStatus, renderFormItems} from './Form-handle'
 import {FormBaseProps, FormState} from './Form.interface'
 import {useForm} from './use-form.hook'
 
@@ -30,7 +30,7 @@ const FormBaseInner = <T,>(
                 [onFinish, onFinishFailed, onValueChange, setCallback]
         )
 
-        const formItemElements = handleFormItem({onLoadEnd, validatorOptions})(status)(items)
+        const formItemElements = renderFormItems({onLoadEnd, validatorOptions})(status)(items)
 
         useEffect(() => {
                 onFormCallback()

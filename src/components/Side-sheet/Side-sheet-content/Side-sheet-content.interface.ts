@@ -17,12 +17,12 @@ export interface SideSheetContentBaseProps extends SideSheetContentProps {
 
 export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisible'>
 export type UseSideSheetContentAnimatedOptions = Pick<RenderSideSheetContentProps, 'visible' | 'type'>
-export type HandleSideSheetContentLeadingOptions = Pick<
+export type RenderSideSheetContentLeadingOptions = Pick<
         SideSheetContentProps,
         'headlineLeading' | 'back' | 'sheetPosition' | 'id'
 >
 
-export type HandleSideSheetContentTrailingOptions = Pick<SideSheetContentProps, 'headlineTrailing' | 'close' | 'id'>
+export type RenderSideSheetContentTrailingOptions = Pick<SideSheetContentProps, 'headlineTrailing' | 'close' | 'id'>
 export type SheetContainerProps = Pick<RenderSideSheetContentProps, 'sheetPosition' | 'type'>
 export type SheetHeaderProps = {leadingShow?: boolean; trailingShow?: boolean}
 export type SheetViewContentProps = Pick<RenderSideSheetContentProps, 'type'>
