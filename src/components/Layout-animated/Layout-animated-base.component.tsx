@@ -94,7 +94,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
                 useEffect(() => {
                         if (status === 'succeeded') {
-                                runAfterInteractions(onLayoutAnimatedLayoutVisible)(layoutVisible)
+                                onLayoutAnimatedLayoutVisible(layoutVisible)
                         }
                 }, [layoutVisible, onLayoutAnimatedLayoutVisible, status])
 
