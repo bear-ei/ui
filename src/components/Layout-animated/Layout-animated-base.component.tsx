@@ -43,7 +43,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 const id = useId()
                 const layoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
                 const onLayoutAnimatedLayoutVisible = useMemo(
-                        () => debounce(handleLayoutAnimatedLayoutVisible({setState, onVisible}))(50),
+                        () =>
+                                debounce(
+                                        runAfterInteractions(handleLayoutAnimatedLayoutVisible({setState, onVisible}))
+                                )(50),
                         [onVisible, setState]
                 )
 
