@@ -32,8 +32,10 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Anim
 export interface RenderVirtualListProps<T = Record<string, unknown>> extends VirtualListProps<T> {
         contentAnimatedStyle?: AnimatedStyle<ViewStyle>
         contentSize?: number
-        emptyList?: boolean
+        contentVisible?: boolean
+        emptyContentVisible?: boolean
         itemElements?: JSX.Element[]
+        loadingVisible?: boolean
         onStateEvent: OnStateEvent
         status: ComponentStatus
 }
@@ -43,9 +45,12 @@ export interface VirtualListBaseProps<T> extends VirtualListProps<T> {
 }
 
 export interface VirtualListState {
+        contentVisible?: boolean
+        emptyContentVisible?: boolean
         emptyList?: boolean
         endIndex?: number
         layout: LayoutRectangle
+        loadingVisible?: boolean
         nextCloseEvent?: () => void
         nextScrollEvent?: () => void
         scrollOffset?: number
@@ -62,10 +67,14 @@ export interface HandleVirtualListLayoutChangeOptions {
 }
 
 export type HandleVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose'>
-
 export interface HandleVirtualListUnmountOptions
         extends HandleVirtualListCloseOptions,
                 Pick<RenderVirtualListProps, 'itemSize'> {}
+
+export interface HandleVirtualListContentVisibleOptions {
+        loading?: boolean
+        emptyList?: boolean
+}
 
 export interface UseVirtualListScrollAnimatedOptions extends Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize'> {
         contentSize?: number

@@ -9,29 +9,28 @@ import {
         ContentLayoutAnimated,
         EmptyContentLayoutAnimated,
         LoadingContentLayoutAnimated,
-        Supporting
+        SupportingText
 } from './Virtual-list.styles'
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 const render = <T,>({
         contentAnimatedStyle,
+        contentSize,
+        contentVisible,
         emptyComponent,
-        emptyList,
+        emptyContentVisible,
         id,
         itemElements,
-        loading,
         loadingComponent,
+        loadingVisible,
         onStateEvent,
         scrollEventThrottle = 50,
-        status,
         testID,
-        contentSize,
         ...containerProps
 }: RenderVirtualListProps<T>) => {
         const {onLayout} = onStateEvent
         const contentLayoutAnimatedStyle = {position: 'relative'} as ViewStyle
-        const contentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
         const emptyContentLayoutAnimatedStyle = {
                 alignItems: 'center',
                 display: 'flex',
@@ -69,16 +68,16 @@ const render = <T,>({
                                                 lazy={true}
                                                 testID={`virtualList__emptyContentLayoutAnimated--${id}`}
                                                 unmount={true}
-                                                visible={!loading && emptyList && status === 'succeeded'}
+                                                visible={emptyContentVisible}
                                         >
                                                 {emptyComponent ?? (
-                                                        <Supporting
+                                                        <SupportingText
                                                                 size='medium'
-                                                                testID={`virtualList__supporting--${id}`}
+                                                                testID={`virtualList__supportingText--${id}`}
                                                                 type='body'
                                                         >
                                                                 No data
-                                                        </Supporting>
+                                                        </SupportingText>
                                                 )}
                                         </EmptyContentLayoutAnimated>
 
@@ -87,9 +86,17 @@ const render = <T,>({
                                                 lazy={true}
                                                 testID={`virtualList__loadingContentLayoutAnimated--${id}`}
                                                 unmount={true}
-                                                visible={loading && !!loadingComponent}
+                                                visible={loadingVisible}
                                         >
-                                                {loadingComponent}
+                                                {loadingComponent ?? (
+                                                        <SupportingText
+                                                                size='medium'
+                                                                testID={`virtualList__supportingText--${id}`}
+                                                                type='body'
+                                                        >
+                                                                Loading
+                                                        </SupportingText>
+                                                )}
                                         </LoadingContentLayoutAnimated>
                                 </AnimatedContent>
                         </AnimatedScrollView>

@@ -36,4 +36,4 @@ export const EmptyContentLayoutAnimated = styled(LayoutAnimated)`
 `
 
 export const LoadingContentLayoutAnimated = styled(EmptyContentLayoutAnimated)``
-export const Supporting = styled(Typography)``
+export const SupportingText = styled(Typography)``
