@@ -7,12 +7,14 @@ import {ContainerLayoutAnimated, Content} from './Mask.styles'
 const render = ({ref, onStateEvent, id, testID, ...containerProps}: RenderMaskProps) => (
         <ContainerLayoutAnimated
                 {...containerProps}
-                {...onStateEvent}
                 accessibilityRole='alert'
-                ref={ref}
                 testID={testID ?? `mask--${id}`}
         >
-                <Content testID={`mask__content--${id}`} />
+                <Content
+                        {...onStateEvent}
+                        ref={ref}
+                        testID={`mask__content--${id}`}
+                />
         </ContainerLayoutAnimated>
 )
 

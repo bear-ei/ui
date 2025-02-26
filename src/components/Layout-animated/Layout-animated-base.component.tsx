@@ -110,6 +110,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                 <></>
                         :       render({
                                         ...renderProps,
+                                        contentSize,
                                         animatedType,
                                         containerAnimatedStyle,
                                         id,

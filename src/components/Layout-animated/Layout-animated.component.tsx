@@ -7,7 +7,6 @@ import {Container, Content, ContentLayout} from './Layout-animated.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
-        animatedType,
         children,
         containerAnimatedStyle,
         contentStyle,
@@ -21,12 +20,10 @@ const render = ({
         ...containerProps
 }: RenderLayoutAnimatedProps) => {
         const {onLayout} = onStateEvent
-        const collapse = animatedType?.startsWith('collapse')
 
         return (
                 <AnimatedContainer
                         {...containerProps}
-                        collapse={collapse}
                         style={[style, containerAnimatedStyle]}
                         testID={testID ?? `layoutAnimated--${id}`}
                         visible={visible}

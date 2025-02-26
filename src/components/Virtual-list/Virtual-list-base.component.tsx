@@ -21,7 +21,7 @@ import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 
 export const VirtualListBaseInner = <T,>(
         {
-                data = [],
+                data,
                 enableAutoSelect,
                 extraData,
                 focusedIndex,
@@ -44,7 +44,7 @@ export const VirtualListBaseInner = <T,>(
 
         const id = useId()
         const contentSize = useMemo(
-                () => (virtualListData ?? data).length * (itemSize + gap) - gap,
+                () => (virtualListData ?? data ?? []).length * (itemSize + gap) - gap,
                 [virtualListData, data, itemSize, gap]
         )
 

@@ -6,7 +6,7 @@ import {Updater} from 'use-immer'
 import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
-export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY' | 'scale'
+export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY' | 'scale' | 'standard'
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
         animatedType?: LayoutAnimatedType
         defaultVisible?: boolean
@@ -83,8 +83,5 @@ export interface HandleLayoutAnimatedLayoutVisibleOptions extends Pick<LayoutAni
         setState: Updater<LayoutAnimatedState>
 }
 
-export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 'visible'> {
-        collapse?: boolean
-}
-
+export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible'>
 export type ContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'contentSize' | 'visible'>

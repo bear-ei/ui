@@ -25,8 +25,13 @@ export const useLayoutAnimated = ({
         )
 
         const animatedTiming = useAnimatedTiming({token: theme.token, disabledAnimated})
+        const opacityOutputRange = [
+                animatedType === 'standard' ? 1 : theme.adaptSize(theme.token.spacing.none),
+                opacity
+        ]
+
         const fadeAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(containerSharedValue.value, [0, 1], [theme.token.opacity.level0, opacity])
+                opacity: interpolate(containerSharedValue.value, [0, 1], opacityOutputRange)
         }))
 
         const widthOutputRange = [
@@ -65,12 +70,13 @@ export const useLayoutAnimated = ({
                 collapseX: collapseXAnimatedStyle,
                 collapseY: collapseYAnimatedStyle,
                 fade: fadeAnimatedStyle,
-                scale: scaleAnimatedStyle
+                scale: scaleAnimatedStyle,
+                standard: fadeAnimatedStyle
         }
 
         useEffect(() => {
                 onLayoutAnimatedTiming(visible)
-        }, [visible, onLayoutAnimatedTiming])
+        }, [disabledAnimated, visible, onLayoutAnimatedTiming])
 
         return {containerAnimatedStyle: containerAnimated[animatedType]}
 }

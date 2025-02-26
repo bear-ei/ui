@@ -68,6 +68,7 @@ const render = <T,>({
                                                 contentStyle={emptyContentLayoutAnimatedStyle}
                                                 lazy={true}
                                                 testID={`virtualList__emptyContentLayoutAnimated--${id}`}
+                                                unmount={true}
                                                 visible={!loading && emptyList && status === 'succeeded'}
                                         >
                                                 {emptyComponent ?? (
@@ -85,6 +86,7 @@ const render = <T,>({
                                                 contentStyle={emptyContentLayoutAnimatedStyle}
                                                 lazy={true}
                                                 testID={`virtualList__loadingContentLayoutAnimated--${id}`}
+                                                unmount={true}
                                                 visible={loading && !!loadingComponent}
                                         >
                                                 {loadingComponent}

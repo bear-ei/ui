@@ -12,7 +12,6 @@ import {
         handleSearchStateChange,
         handleSearchTextInputRawChangeText
 } from './Search-handle'
-import {SearchListProps} from './Search-list'
 import {SearchBaseProps, SearchState} from './Search.interface'
 
 /**
@@ -25,16 +24,7 @@ import {SearchBaseProps, SearchState} from './Search.interface'
  */
 export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         (
-                {
-                        defaultValue,
-                        leading,
-                        listProps = {} as SearchListProps,
-                        onChangeText,
-                        placeholder,
-                        render,
-                        value: rawValue,
-                        ...renderProps
-                },
+                {defaultValue, leading, listProps, onChangeText, placeholder, render, value: rawValue, ...renderProps},
                 ref
         ) => {
                 const [
@@ -43,7 +33,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 ] = useImmer<SearchState>({layout: {} as SearchState['layout'], state: 'enabled', status: 'idle'})
                 const id = useId()
                 const containerRef = useRef<View>(null)
-                const {data} = listProps
+                const {data} = listProps ?? {}
                 const inputRef = useRef<TextInput>(null)
                 const theme = useTheme()
                 const onSearchListVisible = handleSearchListVisible(setState)
@@ -71,9 +61,11 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 }, [defaultValue, onSearchTextInputRawChangeText, rawValue])
 
                 useEffect(() => {
-                        if (data) {
-                                onSearchListVisible(!data?.length)
+                        if (!data) {
+                                return
                         }
+
+                        onSearchListVisible(!data?.length)
                 }, [data, onSearchListVisible])
 
                 useEffect(() => {
