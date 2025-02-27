@@ -12,25 +12,30 @@ import {
         SupportingText
 } from './Virtual-list.styles'
 
-const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 const AnimatedContent = Animated.createAnimatedComponent(Content)
+const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 const render = <T,>({
         contentAnimatedStyle,
         contentSize,
-        contentVisible,
         emptyComponent,
-        emptyContentVisible,
+        emptyList,
         id,
         itemElements,
+        layout,
+        loading,
         loadingComponent,
-        loadingVisible,
         onStateEvent,
         scrollEventThrottle = 50,
+        status,
         testID,
         ...containerProps
 }: RenderVirtualListProps<T>) => {
         const {onLayout} = onStateEvent
         const contentLayoutAnimatedStyle = {position: 'relative'} as ViewStyle
+        const contentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
+        const emptyContentVisible = !loading && emptyList && status === 'succeeded'
+        const loadingVisible = loading
+        const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch', minHeight: contentSize} as ViewStyle
         const emptyContentLayoutAnimatedStyle = {
                 alignItems: 'center',
                 display: 'flex',
@@ -38,68 +43,68 @@ const render = <T,>({
                 justifyContent: 'center'
         } as ViewStyle
 
-        const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch', minHeight: contentSize} as ViewStyle
-
         return (
                 <Container
                         testID={testID ?? `virtualList--${id}`}
                         onLayout={onLayout}
                 >
-                        <AnimatedScrollView
-                                {...containerProps}
-                                contentContainerStyle={scrollViewContentStyle}
-                                scrollEventThrottle={scrollEventThrottle}
-                                testID={`virtualList__animatedScrollView--${id}`}
-                        >
-                                <AnimatedContent
-                                        style={contentAnimatedStyle}
-                                        testID={`virtualList__animatedContent--${id}`}
+                        {typeof layout?.height === 'number' && layout.height > 0 && (
+                                <AnimatedScrollView
+                                        {...containerProps}
+                                        contentContainerStyle={scrollViewContentStyle}
+                                        scrollEventThrottle={scrollEventThrottle}
+                                        testID={`virtualList__animatedScrollView--${id}`}
                                 >
-                                        <ContentLayoutAnimated
-                                                contentStyle={contentLayoutAnimatedStyle}
-                                                testID={`virtualList__contentLayoutAnimated--${id}`}
-                                                visible={contentVisible}
+                                        <AnimatedContent
+                                                style={contentAnimatedStyle}
+                                                testID={`virtualList__animatedContent--${id}`}
                                         >
-                                                {itemElements}
-                                        </ContentLayoutAnimated>
+                                                <ContentLayoutAnimated
+                                                        contentStyle={contentLayoutAnimatedStyle}
+                                                        testID={`virtualList__contentLayoutAnimated--${id}`}
+                                                        visible={contentVisible}
+                                                >
+                                                        {itemElements}
+                                                </ContentLayoutAnimated>
 
-                                        <EmptyContentLayoutAnimated
-                                                contentStyle={emptyContentLayoutAnimatedStyle}
-                                                lazy={true}
-                                                testID={`virtualList__emptyContentLayoutAnimated--${id}`}
-                                                unmount={true}
-                                                visible={emptyContentVisible}
-                                        >
-                                                {emptyComponent ?? (
-                                                        <SupportingText
-                                                                size='medium'
-                                                                testID={`virtualList__supportingText--${id}`}
-                                                                type='body'
-                                                        >
-                                                                No data
-                                                        </SupportingText>
-                                                )}
-                                        </EmptyContentLayoutAnimated>
+                                                <EmptyContentLayoutAnimated
+                                                        contentStyle={emptyContentLayoutAnimatedStyle}
+                                                        lazy={true}
+                                                        testID={`virtualList__emptyContentLayoutAnimated--${id}`}
+                                                        unmount={true}
+                                                        visible={emptyContentVisible}
+                                                >
+                                                        {emptyComponent ?? (
+                                                                <SupportingText
+                                                                        size='medium'
+                                                                        testID={`virtualList__supportingText--${id}`}
+                                                                        type='body'
+                                                                >
+                                                                        No data
+                                                                </SupportingText>
+                                                        )}
+                                                </EmptyContentLayoutAnimated>
 
-                                        <LoadingContentLayoutAnimated
-                                                contentStyle={emptyContentLayoutAnimatedStyle}
-                                                lazy={true}
-                                                testID={`virtualList__loadingContentLayoutAnimated--${id}`}
-                                                unmount={true}
-                                                visible={loadingVisible}
-                                        >
-                                                {loadingComponent ?? (
-                                                        <SupportingText
-                                                                size='medium'
-                                                                testID={`virtualList__supportingText--${id}`}
-                                                                type='body'
-                                                        >
-                                                                Loading
-                                                        </SupportingText>
-                                                )}
-                                        </LoadingContentLayoutAnimated>
-                                </AnimatedContent>
-                        </AnimatedScrollView>
+                                                <LoadingContentLayoutAnimated
+                                                        contentStyle={emptyContentLayoutAnimatedStyle}
+                                                        lazy={true}
+                                                        testID={`virtualList__loadingContentLayoutAnimated--${id}`}
+                                                        unmount={true}
+                                                        visible={loadingVisible}
+                                                >
+                                                        {loadingComponent ?? (
+                                                                <SupportingText
+                                                                        size='medium'
+                                                                        testID={`virtualList__supportingText--${id}`}
+                                                                        type='body'
+                                                                >
+                                                                        Loading
+                                                                </SupportingText>
+                                                        )}
+                                                </LoadingContentLayoutAnimated>
+                                        </AnimatedContent>
+                                </AnimatedScrollView>
+                        )}
                 </Container>
         )
 }

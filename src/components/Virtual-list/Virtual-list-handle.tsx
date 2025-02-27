@@ -8,7 +8,6 @@ import {ListData} from '../List'
 import {RenderVirtualListItemInfo, VirtualListItem} from './Virtual-list-item'
 import {
         HandleVirtualListCloseOptions,
-        HandleVirtualListContentVisibleOptions,
         HandleVirtualListScrollOptions,
         HandleVirtualListUnmountOptions,
         RenderVirtualListItemOptions,
@@ -184,15 +183,6 @@ export const handleVirtualListLoadEnd = (setState: Updater<VirtualListState>) =>
                 onLoadEnd?.(value)
         }
 }
-
-export const handleVirtualListContentVisible =
-        (setState: Updater<VirtualListState>) =>
-        ({loading, emptyList}: HandleVirtualListContentVisibleOptions) =>
-                setState(draft => {
-                        draft.contentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
-                        draft.emptyContentVisible = !loading && emptyList && draft.status === 'succeeded'
-                        draft.loadingVisible = loading
-                })
 
 export const handleVirtualListDataChange =
         (itemSize = 0) =>

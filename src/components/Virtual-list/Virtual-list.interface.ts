@@ -32,10 +32,9 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Anim
 export interface RenderVirtualListProps<T = Record<string, unknown>> extends VirtualListProps<T> {
         contentAnimatedStyle?: AnimatedStyle<ViewStyle>
         contentSize?: number
-        contentVisible?: boolean
-        emptyContentVisible?: boolean
+        emptyList?: boolean
         itemElements?: JSX.Element[]
-        loadingVisible?: boolean
+        layout: LayoutRectangle
         onStateEvent: OnStateEvent
         status: ComponentStatus
 }
@@ -45,12 +44,9 @@ export interface VirtualListBaseProps<T> extends VirtualListProps<T> {
 }
 
 export interface VirtualListState {
-        contentVisible?: boolean
-        emptyContentVisible?: boolean
         emptyList?: boolean
         endIndex?: number
         layout: LayoutRectangle
-        loadingVisible?: boolean
         nextCloseEvent?: () => void
         nextScrollEvent?: () => void
         scrollOffset?: number

@@ -6,7 +6,6 @@ import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnState
 import {debounce, runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
-        handleVirtualListContentVisible,
         handleVirtualListData,
         handleVirtualListDataChange,
         handleVirtualListLayoutChange,
@@ -28,7 +27,6 @@ export const VirtualListBaseInner = <T,>(
                 focusedIndex,
                 gap = 0,
                 itemSize = 0,
-                loading,
                 onClose,
                 onLoadEnd,
                 onMomentumScrollEnd,
@@ -41,14 +39,14 @@ export const VirtualListBaseInner = <T,>(
 ) => {
         const [
                 {
-                        contentVisible,
                         emptyList,
                         nextCloseEvent,
                         nextScrollEvent,
                         startIndex,
                         status,
                         virtualListData,
-                        visibleRangeData
+                        visibleRangeData,
+                        layout
                 },
                 setState
         ] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: 'idle', startIndex: 0})
@@ -78,11 +76,6 @@ export const VirtualListBaseInner = <T,>(
                 onScroll: onVirtualListScroll
         })
 
-        const onVirtualListContentVisible = useMemo(
-                () => debounce(handleVirtualListContentVisible(setState))(50),
-                [setState]
-        )
-
         const onVirtualListUnmount = handleVirtualListUnmount({itemSize, enableAutoSelect, onClose})(setState)
         const onVirtualListLayoutChange = useMemo(
                 () => debounce(handleVirtualListLayoutChange(itemSize)(setState))(50),
@@ -108,15 +101,11 @@ export const VirtualListBaseInner = <T,>(
         ])
 
         useEffect(() => {
-                onVirtualListData(data)
+                runAfterInteractions(onVirtualListData)(data)
         }, [data, onVirtualListData])
 
         useEffect(() => {
-                onVirtualListContentVisible({loading, emptyList})
-        }, [emptyList, loading, onVirtualListContentVisible])
-
-        useEffect(() => {
-                onVirtualListVisibleRange(virtualListData)
+                runAfterInteractions(onVirtualListVisibleRange)(virtualListData)
         }, [onVirtualListVisibleRange, virtualListData])
 
         useEffect(() => {
@@ -136,10 +125,11 @@ export const VirtualListBaseInner = <T,>(
                 ...scrollEvent,
                 contentAnimatedStyle,
                 contentSize,
-                contentVisible,
+                emptyList,
                 id,
                 itemElements,
                 itemSize,
+                layout,
                 onStateEvent,
                 ref: animatedRef,
                 status
