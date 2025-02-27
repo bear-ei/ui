@@ -15,6 +15,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         easing?: Easing
         entry?: AnimatedTimingOptions
         exit?: AnimatedTimingOptions
+        delay?: number
 
         /**
          * Whether or not to enable scale effects in collapse type animations

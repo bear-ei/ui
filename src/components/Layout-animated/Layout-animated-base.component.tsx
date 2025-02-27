@@ -31,6 +31,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         scale = false,
                         unmount,
                         visible: rawVisible,
+                        delay: rawDelay = 0,
                         ...renderProps
                 },
                 ref
@@ -42,9 +43,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
                 const id = useId()
                 const layoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
+                const delay = useMemo(() => rawDelay + 50, [rawDelay])
                 const onLayoutAnimatedLayoutVisible = useMemo(
-                        () => debounce(handleLayoutAnimatedLayoutVisible({setState, onVisible}))(50),
-                        [onVisible, setState]
+                        () => debounce(handleLayoutAnimatedLayoutVisible({setState, onVisible}))(delay),
+                        [delay, onVisible, setState]
                 )
 
                 const onLayoutAnimatedFinished = useMemo(
