@@ -9,7 +9,7 @@ import {
         HandleAddTouchableRippleOptions,
         HandleTouchablePressInOptions,
         HandleTouchableStateChangeOptions,
-        RenderTouchableRipplesOptions,
+        RenderTouchableRippleOptions,
         TouchableRippleSequence,
         TouchableState
 } from './Touchable.interface'
@@ -67,8 +67,8 @@ export const handleTouchableAnimatedFinished = (setState: Updater<TouchableState
                 }
         })
 
-export const renderTouchableRipples =
-        ({centered, containerLayout, id, ...props}: RenderTouchableRipplesOptions) =>
+export const renderTouchableRipple =
+        ({centered, containerLayout, id, ...props}: RenderTouchableRippleOptions) =>
         (rippleSequence: TouchableRippleSequence) =>
                 Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
                         const centeredTouchableRipple =

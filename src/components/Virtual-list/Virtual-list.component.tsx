@@ -34,6 +34,7 @@ const render = <T,>({
         const contentLayoutAnimatedStyle = {position: 'relative'} as ViewStyle
         const contentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
         const emptyContentVisible = !loading && emptyList && status === 'succeeded'
+        const layoutCompleted = typeof layout?.height === 'number' && layout.height > 0
         const loadingVisible = loading
         const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch', minHeight: contentSize} as ViewStyle
         const emptyContentLayoutAnimatedStyle = {
@@ -48,7 +49,7 @@ const render = <T,>({
                         testID={testID ?? `virtualList--${id}`}
                         onLayout={onLayout}
                 >
-                        {typeof layout?.height === 'number' && layout.height > 0 && (
+                        {layoutCompleted && (
                                 <AnimatedScrollView
                                         {...containerProps}
                                         contentContainerStyle={scrollViewContentStyle}

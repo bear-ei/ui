@@ -3,7 +3,7 @@ import {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {State} from '../Common'
-import {handleTouchableAnimatedFinished, handleTouchableStateChange, renderTouchableRipples} from './Touchable-handle'
+import {handleTouchableAnimatedFinished, handleTouchableStateChange, renderTouchableRipple} from './Touchable-handle'
 import {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
 
 export const TouchableBase = forwardRef<View, TouchableBaseProps>(
@@ -26,7 +26,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                                 })(setState)(event)
 
                 const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
-                const rippleElements = renderTouchableRipples({
+                const rippleElements = renderTouchableRipple({
                         centered,
                         containerLayout: contentLayout,
                         id,

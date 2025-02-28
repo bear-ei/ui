@@ -44,7 +44,7 @@ export interface TouchableState {
         rippleSequence: TouchableRippleSequence
 }
 
-export type RenderTouchableRipplesOptions = Omit<TouchableRippleProps, 'indexKey'>
+export type RenderTouchableRippleOptions = Omit<TouchableRippleProps, 'indexKey'>
 export interface HandleTouchableStateChangeOptions
         extends Pick<TouchableRippleProps, 'touchableLocation'>,
                 OnStateEventChangeOptions,

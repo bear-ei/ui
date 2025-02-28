@@ -27,13 +27,6 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
                         opacities
                 })
 
-                return render({
-                        ...renderProps,
-                        active,
-                        activeLayerAnimatedStyle,
-                        hoverLayerAnimatedStyle,
-                        id,
-                        ref
-                })
+                return render({...renderProps, active, activeLayerAnimatedStyle, hoverLayerAnimatedStyle, id, ref})
         }
 )

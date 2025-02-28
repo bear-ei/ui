@@ -19,7 +19,7 @@ export const handleTouchableRippleAnimatedTiming = ({
         onAnimatedFinished
 }: HandleTouchableRippleAnimatedTimingOptions) => {
         const handleAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
-        const createTouchableRippleAnimatedTiming =
+        const handleRippleAnimatedTiming =
                 ({opacitySharedValue, scaleSharedValue}: HandleTouchableRippleAnimatedTimingSharedValue) =>
                 (toValue: number) =>
                 (callback?: () => void) =>
@@ -28,8 +28,8 @@ export const handleTouchableRippleAnimatedTiming = ({
                         )(toValue)
 
         return (sharedValue: HandleTouchableRippleAnimatedTimingSharedValue) => (index: string) => {
-                const entryAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(1)
-                const exitAnimatedTiming = createTouchableRippleAnimatedTiming(sharedValue)(0)
+                const entryAnimatedTiming = handleRippleAnimatedTiming(sharedValue)(1)
+                const exitAnimatedTiming = handleRippleAnimatedTiming(sharedValue)(0)
                 const exitAnimatedFinished = () => onAnimatedFinished?.(index)
 
                 entryAnimatedTiming(() => exitAnimatedTiming(exitAnimatedFinished))
