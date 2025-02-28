@@ -4,17 +4,29 @@ import {LayoutBase} from './Layout-base.component'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
 import {LayoutComponent, LayoutProps, RenderLayoutProps} from './Layout.interface'
-import {ContainerLayoutAnimated, Content} from './Layout.styles'
+import {ContainerLayoutAnimated} from './Layout.styles'
 
-const render = ({children, defaultVisible = true, id, testID, ...containerProps}: RenderLayoutProps) => (
-        <ContainerLayoutAnimated
-                {...containerProps}
-                defaultVisible={defaultVisible}
-                testID={testID ?? `layout--${id}`}
-        >
-                <Content>{children}</Content>
-        </ContainerLayoutAnimated>
-)
+const render = ({
+        children,
+        defaultVisible = true,
+        id,
+        layout = 'row',
+        testID,
+        ...containerProps
+}: RenderLayoutProps) => {
+        const contentStyle = {flexDirection: layout}
+
+        return (
+                <ContainerLayoutAnimated
+                        {...containerProps}
+                        contentStyle={contentStyle}
+                        defaultVisible={defaultVisible}
+                        testID={testID ?? `layout--${id}`}
+                >
+                        {children}
+                </ContainerLayoutAnimated>
+        )
+}
 
 const ForwardRefLayout = forwardRef<View, LayoutProps>((props, ref) => (
         <LayoutBase

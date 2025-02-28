@@ -3,7 +3,10 @@ import {LayoutAnimatedProps} from '../Layout-animated'
 import {LayoutNavigationProps} from './Layout-navigation'
 import {LayoutPaneProps} from './Layout-pane'
 
-export type LayoutProps = LayoutAnimatedProps
+export interface LayoutProps extends LayoutAnimatedProps {
+        layout?: 'row' | 'column'
+}
+
 export type RenderLayoutProps = LayoutProps
 export interface LayoutBaseProps extends LayoutProps {
         render: (props: RenderLayoutProps) => JSX.Element

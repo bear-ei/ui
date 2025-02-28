@@ -5,13 +5,13 @@ import {ContentLayoutProps, LayoutAnimatedContainerProps} from './Layout-animate
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
         position: relative;
 
-        /* ${({visible, theme, collapse}) =>
+        ${({visible, theme, collapse}) =>
                 !visible &&
                 !collapse &&
                 css`
                         height: ${theme.adaptSize(theme.token.spacing.none)}px;
                         z-index: -1024;
-                `} */
+                `}
 
         ${({visible}) =>
                 !visible &&
@@ -39,6 +39,7 @@ export const ContentLayout = styled.View<ContentLayoutProps>`
 `
 
 export const Content = styled.View`
+        display: flex;
         align-self: stretch;
         flex: 1;
 `

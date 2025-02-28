@@ -12,7 +12,7 @@ export const ContainerLayoutAnimated = styled(LayoutAnimated)<LayoutAnimatedProp
 
 export const Content = styled.View`
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-self: stretch;
         flex: 1;
 `
