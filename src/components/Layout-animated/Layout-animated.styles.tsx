@@ -5,11 +5,17 @@ import {ContentLayoutProps, LayoutAnimatedContainerProps} from './Layout-animate
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
         position: relative;
 
-        ${({visible, theme}) =>
+        /* ${({visible, theme, collapse}) =>
                 !visible &&
+                !collapse &&
                 css`
                         height: ${theme.adaptSize(theme.token.spacing.none)}px;
                         z-index: -1024;
+                `} */
+
+        ${({visible}) =>
+                !visible &&
+                css`
                         overflow: hidden;
                 `}
 `

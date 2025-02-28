@@ -84,5 +84,8 @@ export interface HandleLayoutAnimatedLayoutVisibleOptions extends Pick<LayoutAni
         setState: Updater<LayoutAnimatedState>
 }
 
-export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible'>
+export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 'visible'> {
+        collapse?: boolean
+}
+
 export type ContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'contentSize' | 'visible'>
