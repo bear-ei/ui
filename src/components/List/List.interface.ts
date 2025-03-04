@@ -23,6 +23,11 @@ export interface ListData
 }
 
 export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
+export interface OnActiveAfterAffordanceOptions {
+        callback?: () => void
+        value?: string
+}
+
 export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>> {
         activeKey?: string
         activeKeys?: string[]
@@ -43,7 +48,7 @@ export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttri
         focusedIndex?: number
         gap?: number
         onActive?: (value?: string) => void
-        onActiveAfterAffordance?: (value?: string) => void
+        onActiveAfterAffordance?: (options?: OnActiveAfterAffordanceOptions) => void
         onActives?: (values?: string[]) => void
         onCancel?: (options: ListAfterAffordancePressOutOptions) => void
         onClose?: (options: OnVirtualListCloseOptions) => void
@@ -76,6 +81,7 @@ export interface ListState {
         data?: ListData[]
         nextActiveEvent?: () => void
         nextAfterAffordanceActiveEvent?: () => void
+        nextAfterAffordanceCallbackEvent?: () => void
         nextCloseEvent?: () => void
 }
 

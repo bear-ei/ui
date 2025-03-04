@@ -9,6 +9,7 @@ import {
         ListData,
         ListState,
         ListType,
+        OnActiveAfterAffordanceOptions,
         RenderListItemOptions
 } from './List.interface'
 
@@ -80,7 +81,7 @@ export const handleListActive =
 export const handleListActiveAfterAffordance =
         ({onActive, selectType}: HandleListActiveOptions) =>
         (setState: Updater<ListState>) =>
-        (value?: string) => {
+        ({value, callback} = {} as OnActiveAfterAffordanceOptions) => {
                 const handleNextAfterAffordanceActiveEvent = () => onActive?.(value)
 
                 if (selectType === 'multiselect') {
@@ -104,6 +105,10 @@ export const handleListActiveAfterAffordance =
 
                         if (prevActiveKey !== draft.activeKey) {
                                 draft.nextAfterAffordanceActiveEvent = handleNextAfterAffordanceActiveEvent
+                        }
+
+                        if (callback) {
+                                draft.nextAfterAffordanceCallbackEvent = callback
                         }
                 })
         }

@@ -139,8 +139,7 @@ export interface HandleListItemAfterAffordanceVisibleAnimatedTimingOptions
 }
 
 export interface HandleListItemTrailingPressOutOptions
-        extends Pick<ListItemProps, 'closeTrailing' | 'afterAffordance'> {
-        onActiveAfterAffordance?: (value?: string) => void
+        extends Pick<ListItemProps, 'closeTrailing' | 'afterAffordance' | 'onActiveAfterAffordance'> {
         onListItemClose: (value?: boolean) => void
 }
 

@@ -58,6 +58,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                                 afterAffordanceActiveKey,
                                 nextActiveEvent,
                                 nextAfterAffordanceActiveEvent,
+                                nextAfterAffordanceCallbackEvent,
                                 nextCloseEvent
                         },
                         setState
@@ -120,6 +121,10 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 useEffect(() => {
                         runAfterInteractions(nextCloseEvent)()
                 }, [nextCloseEvent])
+
+                useEffect(() => {
+                        runAfterInteractions(nextAfterAffordanceCallbackEvent)()
+                }, [nextAfterAffordanceCallbackEvent])
 
                 return render({
                         ...renderProps,

@@ -165,7 +165,7 @@ export const handleListItemTrailingPressOut =
         (value: string) =>
         () => {
                 const nextEvent = {
-                        afterAffordance: () => onActiveAfterAffordance?.(value),
+                        afterAffordance: () => onActiveAfterAffordance?.({value}),
                         closeTrailing: () => onListItemClose(true)
                 }
 
@@ -205,8 +205,7 @@ export const handleListItemConfirm =
                         return
                 }
 
-                onActiveAfterAffordance?.()
-                onConfirm?.({...options, itemKey: value})
+                onActiveAfterAffordance?.({callback: () => onConfirm?.({...options, itemKey: value})})
         }
 
 /**
@@ -237,7 +236,7 @@ export const handleListItemPanResponderRelease =
                 }
 
                 if (gestureState.dx < -50) {
-                        onActiveAfterAffordance?.(itemKey)
+                        onActiveAfterAffordance?.({value: itemKey})
                 }
 
                 if (gestureState.dx > 50) {
