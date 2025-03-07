@@ -1,48 +1,29 @@
-import {validate, ValidationError} from 'class-validator'
-import {asyncDebounce, NamePath, namePath} from '../../utils'
+import {NamePath, namePath} from '../../utils'
+import {handleFormValidate} from './Form-handle'
 import {
-        FormCallbacks,
+        FormCallback,
         FormError,
         FormFieldEntity,
         FormStore,
         FormValidateRule,
         FormValidatorOptions,
-        HandleFormValidateOptions,
         OnValueChangeOptions
 } from './Form.interface'
 
 const createFormContext = <T>() => ({
-        callback: {} as FormCallbacks<T>,
+        callback: {} as FormCallback<T>,
         error: {} as FormError<T>,
-        fieldsEntities: [] as FormFieldEntity<T>[],
-        initialValues: {} as T,
+        fieldEntities: [] as FormFieldEntity<T>[],
+        initialValue: {} as T,
+        keys: [] as (keyof T)[],
+        signInFieldCompleted: false,
         store: {} as T
 })
 
-const handleFormValidate = <T>({rule, validatorOptions}: HandleFormValidateOptions) => {
-        const {
-                forbidNonWhitelisted = true,
-                skipMissingProperties = true,
-                whitelist = true,
-                ...otherValidatorOptions
-        } = validatorOptions ?? {}
+export const formStore = <T extends Record<string, unknown> = Record<string, unknown>>() => {
+        let {callback, error, fieldEntities, initialValue, store, signInFieldCompleted, keys} = createFormContext<T>()
 
-        return (name?: keyof T) => async (value?: unknown) =>
-                name && rule ?
-                        validate(Object.assign(new rule(), {[name]: value}), {
-                                forbidNonWhitelisted,
-                                skipMissingProperties,
-                                whitelist,
-                                ...otherValidatorOptions
-                        }).then(errors => (errors.length ? errors : undefined))
-                :       ([] as ValidationError[])
-}
-
-export const formStore = <T extends Record<string, unknown> = Record<string, unknown>>(): FormStore<T> => {
-        let {callback, error, fieldsEntities, initialValues, store} = createFormContext<T>()
-
-        const getFieldEntities = (signOut = false) =>
-                signOut ? fieldsEntities : fieldsEntities.filter(({name}) => name)
+        const getFieldEntities = (signOut = false) => (signOut ? fieldEntities : fieldEntities.filter(({name}) => name))
 
         const getFieldEntitiesName =
                 (signOut = false) =>
@@ -93,7 +74,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                                                 entityName ?
                                                         {
                                                                 ...accumulator,
-                                                                [entityName]: initialValues[entityName]
+                                                                [entityName]: initialValue[entityName]
                                                         }
                                                 :       accumulator,
                                         {} as T
@@ -126,7 +107,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 getFieldEntitiesName()(names).forEach(handleReset)
         }
 
-        const setCallback = (callbackValue: FormCallbacks<T>) => (callback = {...callback, ...callbackValue})
+        const setCallback = (callbackValue: FormCallback<T>) => (callback = {...callback, ...callbackValue})
         const setFieldError = (componentUpdate?: boolean) => (err: FormError<T>) => {
                 error = {...error, ...err}
 
@@ -142,22 +123,30 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 }
         }
 
+        const setFieldKeys = (values?: (keyof T)[]) => {
+                if (values) {
+                        keys = values
+                }
+        }
+
         const setFieldValidate =
-                ({delay = 300, ...validatorOptions}: FormValidatorOptions = {}) =>
+                (validatorOptions: FormValidatorOptions = {}) =>
                 (validateRule: FormValidateRule<T>) => {
+                        if (!signInFieldCompleted) {
+                                return
+                        }
+
                         const entities = getFieldEntities()
                         const ruleKeys = Object.keys(validateRule) as (keyof T)[]
 
-                        fieldsEntities = entities.reduce((accumulator, entity) => {
+                        fieldEntities = entities.reduce((accumulator, entity) => {
                                 if (entity.name && ruleKeys.includes(entity.name)) {
-                                        const asyncDebouncedValidate = asyncDebounce(
-                                                handleFormValidate<T>({
-                                                        rule: validateRule[entity.name],
-                                                        validatorOptions
-                                                })(entity.name)
-                                        )(delay) as (value?: unknown) => Promise<ValidationError[] | undefined>
+                                        const validate = handleFormValidate<T>({
+                                                rule: validateRule[entity.name],
+                                                validatorOptions
+                                        })(entity.name)
 
-                                        return [...accumulator, {...entity, validate: asyncDebouncedValidate}]
+                                        return [...accumulator, {...entity, validate}]
                                 }
 
                                 return accumulator
@@ -167,11 +156,11 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
         const setFieldTouched =
                 (touched = false) =>
                 (name?: keyof T) => {
-                        if (!name) {
+                        if (!name || !signInFieldCompleted) {
                                 return
                         }
 
-                        fieldsEntities = [
+                        fieldEntities = [
                                 ...getFieldEntities().map(entity =>
                                         entity.name === name ? {...entity, touched} : entity
                                 )
@@ -232,12 +221,11 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                                 return
                         }
 
-                        initialValues = {...initialValues, ...value}
+                        initialValue = {...initialValue, ...value}
                 }
 
         const signInField = (rawEntity: FormFieldEntity<T>) => {
                 const {name, validatorOptions, rule} = rawEntity
-                const {delay = 300, ...restValidatorOptions} = validatorOptions ?? {}
 
                 if (!name) {
                         return
@@ -250,17 +238,23 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                         return
                 }
 
-                const asyncDebouncedValidate = asyncDebounce(
-                        handleFormValidate<T>({
-                                rule: rule,
-                                validatorOptions: restValidatorOptions
-                        })(rawEntity.name)
-                )(delay) as (value?: unknown) => Promise<ValidationError[] | undefined>
+                const validate = handleFormValidate<T>({rule: rule, validatorOptions: validatorOptions ?? {}})(
+                        rawEntity.name
+                )
 
-                fieldsEntities = [...entities, {...rawEntity, validate: asyncDebouncedValidate}]
+                fieldEntities = [...entities, {...rawEntity, validate}]
 
                 setFieldError()({[name]: undefined} as FormError<T>)
-                setFieldValue(false)({[name]: initialValues[name]} as T)
+                setFieldValue(false)({[name]: initialValue[name]} as T)
+
+                const keySting = keys?.toSorted((a, b) => (a as string).localeCompare(b as string)).join(',')
+                const fieldEntitySting = Object.keys(fieldEntities)
+                        .toSorted((a, b) => a.localeCompare(b))
+                        .join(',')
+
+                if (keySting === fieldEntitySting) {
+                        signInFieldCompleted = true
+                }
 
                 return {
                         signOut: () => signOutField(name)
@@ -271,7 +265,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 const entities = getFieldEntities(true)
                 const names = namePath(name)
                 const handleSignOut = (signOutName?: keyof T) => {
-                        if (!signOutName) {
+                        if (!signOutName || !signInFieldCompleted) {
                                 return
                         }
 
@@ -287,7 +281,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                         setFieldError()(nextError as FormError<T>)
                         setFieldValue(false)(nextFormStore as T)
 
-                        fieldsEntities = entities.filter(entity => entity.name !== signOutName)
+                        fieldEntities = entities.filter(entity => entity.name !== signOutName)
                 }
 
                 getFieldEntitiesName()(names).forEach(handleSignOut)
@@ -346,6 +340,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 resetField,
                 setCallback,
                 setFieldError,
+                setFieldKeys,
                 setFieldTouched,
                 setFieldValidate,
                 setFieldValue,

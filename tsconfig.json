@@ -6,7 +6,8 @@
                 "forceConsistentCasingInFileNames": true,
                 "jsx": "react-jsx",
                 "strict": true,
-                "strictPropertyInitialization": false
+                "strictPropertyInitialization": false,
+                "lib": ["ES2023"]
         },
 
         "include": ["src", ".storybook/*.tsx", ".ondevice/*.tsx"]

@@ -1,18 +1,18 @@
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
+import {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
 import {debounce, runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
-        handleSupportingTextClose,
         handleTextInputChangeText,
         handleTextInputContentSizeChange,
         handleTextInputEditableChange,
         handleTextInputRawChangeText,
         handleTextInputStateChange,
         handleTextInputSupportingText,
+        handleTextInputSupportingTextClose,
         handleTextInputSupportingTextVisible,
         handleTouchableHeaderFocus
 } from './Text-input-handle'
@@ -37,7 +37,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         placeholder,
                         render,
                         supportingText: rawSupportingText,
-                        supportingTextDelayTime,
+                        supportingTextDelay,
                         trailing,
                         type = 'filled',
                         value: rawValue,
@@ -63,7 +63,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 ] = useImmer<TextInputState>({
                         contentSize: {} as TextInputContentSizeChangeEventData['contentSize'],
                         state: 'enabled',
-                        status: 'idle'
+                        status: 'idle',
+                        value: ''
                 })
 
                 const id = useId()
@@ -74,18 +75,18 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                                 theme.token.palette.hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
                         :       theme.token.scheme.onSurfaceVariant
 
-                const onTextInputContentSizeChange = (
-                        event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
-                ) => handleTextInputContentSizeChange(setState)(onContentSizeChange)(event)
-
-                const onSupportingTextClose = useMemo(
-                        () => debounce(handleSupportingTextClose(setState))(supportingTextDelayTime ?? 0),
-                        [setState, supportingTextDelayTime]
+                const onTextInputContentSizeChange = handleTextInputContentSizeChange(setState)(onContentSizeChange)
+                const onTextInputSupportingTextClose = useMemo(
+                        () => debounce(handleTextInputSupportingTextClose(setState))(supportingTextDelay ?? 0),
+                        [setState, supportingTextDelay]
                 )
 
                 const onTextInputSupportingText = useMemo(
-                        () => handleTextInputSupportingText({supportingTextDelayTime, onSupportingTextClose})(setState),
-                        [onSupportingTextClose, setState, supportingTextDelayTime]
+                        () =>
+                                handleTextInputSupportingText({supportingTextDelay, onTextInputSupportingTextClose})(
+                                        setState
+                                ),
+                        [onTextInputSupportingTextClose, setState, supportingTextDelay]
                 )
 
                 const onTextInputEditableChange = useMemo(

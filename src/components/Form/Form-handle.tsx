@@ -1,7 +1,14 @@
+import {validate, ValidationError} from 'class-validator'
 import {Updater} from 'use-immer'
 import {ComponentStatus} from '../Common'
 import {FormItem, FormItemProps} from './Form-item'
-import {FormCallbacks, FormState, HandleFormCallbackOptions, RenderFormItemsOptions} from './Form.interface'
+import {
+        FormCallback,
+        FormState,
+        HandleFormCallbackOptions,
+        HandleFormValidateOptions,
+        RenderFormItemsOptions
+} from './Form.interface'
 
 export const handleFormStatus =
         <T,>(setState: Updater<FormState>) =>
@@ -20,9 +27,33 @@ export const handleFormStatus =
                 })
 
 export const handleFormCallback =
-        <T,>({onFinish, onFinishFailed, onValueChange}: HandleFormCallbackOptions<T>) =>
-        (setCallback: (callback: FormCallbacks<T>) => void) =>
+        <T,>(setCallback: (callback: FormCallback<T>) => void) =>
+        ({onFinish, onFinishFailed, onValueChange}: HandleFormCallbackOptions<T>) =>
                 setCallback({onFinish, onFinishFailed, onValueChange})
+
+export const handleFormFieldKeys =
+        <T,>(setFieldKeys: (values?: (keyof T)[]) => void) =>
+        (items?: FormItemProps[]) =>
+                items && setFieldKeys(items.map(({name}) => name).filter(item => item) as (keyof T)[])
+
+export const handleFormValidate = <T,>({rule, validatorOptions}: HandleFormValidateOptions) => {
+        const {
+                forbidNonWhitelisted = true,
+                skipMissingProperties = true,
+                whitelist = true,
+                ...otherValidatorOptions
+        } = validatorOptions ?? {}
+
+        return (name?: keyof T) => async (value?: unknown) =>
+                name && rule ?
+                        validate(Object.assign(new rule(), {[name]: value}), {
+                                forbidNonWhitelisted,
+                                skipMissingProperties,
+                                whitelist,
+                                ...otherValidatorOptions
+                        }).then(errors => (errors.length ? errors : undefined))
+                :       ([] as ValidationError[])
+}
 
 export const renderFormItems =
         ({onLoadEnd, id, ...options}: RenderFormItemsOptions) =>

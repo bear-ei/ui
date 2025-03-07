@@ -30,7 +30,7 @@ export interface TextInputProps
         leading?: JSX.Element
         onSupportingTextVisible?: (value?: boolean) => void
         supportingText?: string
-        supportingTextDelayTime?: number
+        supportingTextDelay?: number
         trailing?: JSX.Element
         type?: TextInputType
 }
@@ -84,8 +84,8 @@ export interface HandleTextInputEnabledSharedOptions extends Pick<UseTextInputAn
         filledToValue: number
 }
 
-export interface HandleTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelayTime'> {
-        onSupportingTextClose: () => void
+export interface HandleTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelay'> {
+        onTextInputSupportingTextClose: () => void
 }
 
 export interface HandleTextInputEnabledSharedValue {

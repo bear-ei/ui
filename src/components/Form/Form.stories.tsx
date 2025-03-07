@@ -7,9 +7,9 @@ import {FormItemControlProps, FormItemProps} from './Form-item'
 import {Form} from './Form.component'
 
 class NameRule {
-        @IsDefined()
-        @IsNotEmpty()
         @IsNumberString()
+        @IsNotEmpty()
+        @IsDefined()
         name: string
 }
 
@@ -20,7 +20,6 @@ class AgeRule {
 }
 
 export const FormA = () => {
-        const form = Form.useForm<{name: string; age: number}>()
         const renderControl = ({
                 errorMessage,
                 id,
@@ -56,6 +55,8 @@ export const FormA = () => {
                         rule: AgeRule
                 }
         ]
+
+        const form = Form.useForm<{name: string; age: number}>()
 
         const handleFinish = (value: unknown) => {
                 console.info(value)

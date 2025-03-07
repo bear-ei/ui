@@ -16,7 +16,7 @@ export interface OnValueChangeOptions<T> {
         value: T
 }
 
-export interface FormCallbacks<T = Record<string, unknown>> {
+export interface FormCallback<T = Record<string, unknown>> {
         onFinish?: (value: T) => void
         onFinishFailed?: (error: FormError<T>) => void
         onValueChange?: (options: OnValueChangeOptions<T>) => void
@@ -54,8 +54,9 @@ export interface FormStore<T = Record<string, unknown>> {
 
         isFieldTouched: (name?: NamePath) => boolean
         resetField: (name?: NamePath) => void
-        setCallback: (formCallbacks: FormCallbacks<T>) => void
+        setCallback: (formCallback: FormCallback<T>) => void
         setFieldError: (componentUpdate?: boolean) => (error: FormError<T>) => void
+        setFieldKeys: (values?: (keyof T)[]) => void
         setFieldTouched: (touched?: boolean) => (name?: keyof T) => void
         setFieldValidate: (options?: FormValidatorOptions) => (rule: FormValidateRule<T>) => void
         setFieldValue: (componentUpdate?: boolean) => (value?: T) => void
@@ -70,10 +71,10 @@ export interface FormStore<T = Record<string, unknown>> {
         }
 }
 
-export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormCallbacks<T>, RefAttributes<View> {
+export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormCallback<T>, RefAttributes<View> {
         form?: FormStore<T>
         formLayout?: 'horizontal' | 'vertical'
-        initialValues?: T
+        initialValue?: T
         items?: FormItemProps[]
         onLoadEnd?: () => void
         validatorOptions?: FormValidatorOptions
@@ -100,4 +101,8 @@ export interface HandleFormValidateOptions {
 
 export type FormComponent = typeof ForwardRefForm & {
         useForm: typeof useForm
+}
+
+export interface UseFormOptions<T> {
+        form?: FormStore<T>
 }

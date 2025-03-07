@@ -12,9 +12,10 @@ const render = ({
         id,
         layout = 'row',
         testID,
+        contentStyle: rawContentStyle,
         ...containerProps
 }: RenderLayoutProps) => {
-        const contentStyle = {flexDirection: layout}
+        const contentStyle = {...rawContentStyle, flexDirection: layout}
 
         return (
                 <ContainerLayoutAnimated

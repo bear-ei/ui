@@ -60,13 +60,13 @@ export const handleTextInputContentSizeChange =
                 })
         }
 
-export const handleSupportingTextClose = (setState: Updater<TextInputState>) => () =>
+export const handleTextInputSupportingTextClose = (setState: Updater<TextInputState>) => () =>
         setState(draft => {
                 draft.supportingTextVisible = false
         })
 
 export const handleTextInputSupportingText =
-        ({onSupportingTextClose, supportingTextDelayTime}: HandleTextInputSupportingTextOptions) =>
+        ({onTextInputSupportingTextClose, supportingTextDelay}: HandleTextInputSupportingTextOptions) =>
         (setState: Updater<TextInputState>) =>
         (value?: string) => {
                 setState(draft => {
@@ -78,8 +78,8 @@ export const handleTextInputSupportingText =
                         draft.supportingTextVisible = !!value
                 })
 
-                if (supportingTextDelayTime && value) {
-                        onSupportingTextClose()
+                if (supportingTextDelay && value) {
+                        onTextInputSupportingTextClose()
                 }
         }
 
