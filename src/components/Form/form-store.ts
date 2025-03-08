@@ -186,33 +186,34 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                         onStorageChange?.({changedValue: value, value: store})
                 }
 
-        const handleComponentUpdate =
-                (skipValidate = false) =>
-                (value = {} as T) =>
-                async (name: keyof T) => {
-                        const entities = getFieldEntities()
-                        const entity = entities.find(entityItem => name === entityItem.name)
+        const handleComponentUpdate = (skipValidate = false) => {
+                const findEntity = (name: keyof T) => getFieldEntities().find(entityItem => name === entityItem.name)
 
-                        if (!entity?.name) {
-                                return
+                return (value = {} as T) =>
+                        async (name: keyof T) => {
+                                const entity = findEntity(name)
+
+                                if (!entity?.name) {
+                                        return
+                                }
+
+                                handleStoreUpdate()(value)
+
+                                if (error[name]) {
+                                        setFieldError()({[name]: undefined} as FormError<T>)
+                                }
+
+                                setFieldTouched(true)(name)
+
+                                if (!skipValidate) {
+                                        validateField(name)
+
+                                        return
+                                }
+
+                                entity.onComponentUpdate()
                         }
-
-                        handleStoreUpdate()(value)
-
-                        if (error[name]) {
-                                setFieldError()({[name]: undefined} as FormError<T>)
-                        }
-
-                        setFieldTouched(true)(name)
-
-                        if (!skipValidate) {
-                                validateField(name)
-
-                                return
-                        }
-
-                        entity.onComponentUpdate()
-                }
+        }
 
         const handleValueChange =
                 (value = {} as T) =>
@@ -244,8 +245,8 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 }
 
         const signInField = (rawEntity: FormFieldEntity<T>) => {
-                const {name, validatorOptions, rule} = rawEntity
-                const {delay = 300, ...restValidatorOptions} = validatorOptions ?? {}
+                const {name, validatorOptions: rawValidatorOptions, rule} = rawEntity
+                const {delay = 300, ...restValidatorOptions} = rawValidatorOptions ?? {}
 
                 if (!name) {
                         return
