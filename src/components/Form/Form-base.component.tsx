@@ -12,7 +12,6 @@ const FormBaseInner = <T,>(
                 items,
                 onFinish,
                 onFinishFailed,
-                onLoadEnd,
                 onValueChange,
                 render,
                 validatorOptions,
@@ -27,7 +26,7 @@ const FormBaseInner = <T,>(
         const onFormCallback = useMemo(() => handleFormCallback<T>(setCallback), [setCallback])
         const onFormFieldKeys = useMemo(() => handleFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
         const onFormStatus = useMemo(() => handleFormStatus<T>(setState)(setInitialValue), [setInitialValue, setState])
-        const formItemElements = renderFormItems({onLoadEnd, validatorOptions})(status)(items)
+        const formItemElements = renderFormItems({validatorOptions})(status)(items)
 
         useEffect(() => {
                 onFormCallback({onFinish, onFinishFailed, onValueChange})

@@ -31,6 +31,11 @@ export interface FormFieldEntity<T = Record<string, unknown>> {
         validatorOptions?: FormValidatorOptions
 }
 
+export interface SetFieldValueOptions {
+        componentUpdate?: boolean
+        skipValidate?: boolean
+}
+
 export interface FormStore<T = Record<string, unknown>> {
         getFieldEntities: (signOut?: boolean) => FormFieldEntity<T>[]
         getFieldEntitiesName: (signOut?: boolean) => (names?: (keyof T)[]) => (keyof T | undefined)[]
@@ -58,8 +63,8 @@ export interface FormStore<T = Record<string, unknown>> {
         setFieldError: (componentUpdate?: boolean) => (error: FormError<T>) => void
         setFieldKeys: (values?: (keyof T)[]) => void
         setFieldTouched: (touched?: boolean) => (name?: keyof T) => void
-        setFieldValidate: (options?: FormValidatorOptions) => (rule: FormValidateRule<T>) => void
-        setFieldValue: (componentUpdate?: boolean) => (value?: T) => void
+        setFieldValidate: (rule: FormValidateRule<T>) => void
+        setFieldValue: (options?: SetFieldValueOptions) => (value?: T) => void
         setInitialValue: (initialized?: boolean) => (value?: T) => void
         signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
         signOutField: (name?: NamePath) => void
@@ -76,7 +81,6 @@ export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormC
         formLayout?: 'horizontal' | 'vertical'
         initialValue?: T
         items?: FormItemProps[]
-        onLoadEnd?: () => void
         validatorOptions?: FormValidatorOptions
 }
 
@@ -93,7 +97,7 @@ export interface FormState {
 }
 
 export type HandleFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
-export type RenderFormItemsOptions = Pick<FormProps, 'validatorOptions' | 'onLoadEnd' | 'id'>
+export type RenderFormItemsOptions = Pick<FormProps, 'validatorOptions' | 'id'>
 export interface HandleFormValidateOptions {
         rule?: ValidationRule
         validatorOptions?: ValidatorOptions

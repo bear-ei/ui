@@ -10,14 +10,13 @@ export interface FormItemControlProps {
         id?: string
         labelText?: string
         onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
-        onLoadEnd?: () => void
         onValueChange?: (value?: unknown) => void
         value?: unknown
 }
 
 export interface FormItemProps
         extends Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>>,
-                Pick<FormProps, 'validatorOptions' | 'onLoadEnd'> {
+                Pick<FormProps, 'validatorOptions'> {
         initialValue?: Record<string, unknown>
         name?: string
         renderControl?: (props: FormItemControlProps) => JSX.Element

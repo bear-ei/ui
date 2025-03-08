@@ -73,8 +73,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                 const onListRawActive = useMemo(() => handleListActive({selectType})(setState), [setState, selectType])
                 const renderListItem = handleRenderListItem({
                         ...onItemStateEvent,
-                        activeKey,
-                        activeKeys,
+                        activeKey: activeKey ?? defaultActiveKey,
+                        activeKeys: activeKeys ?? defaultActiveKeys,
                         activeTriggerEvenName,
                         afterAffordance,
                         afterAffordanceActiveKey,

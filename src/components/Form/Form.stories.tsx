@@ -1,5 +1,6 @@
 import {Meta} from '@storybook/react'
 import {IsDefined, IsNotEmpty, IsNumberString} from 'class-validator'
+import {useEffect} from 'react'
 import {View, ViewStyle} from 'react-native'
 import {Button} from '../Button'
 import {TextInput} from '../Text-input'
@@ -14,21 +15,13 @@ class NameRule {
 }
 
 class AgeRule {
-        @IsDefined()
         @IsNumberString()
+        @IsDefined()
         age: string
 }
 
 export const FormA = () => {
-        const renderControl = ({
-                errorMessage,
-                id,
-                labelText,
-                onBlur,
-                onLoadEnd,
-                onValueChange,
-                value
-        }: FormItemControlProps) => (
+        const renderControl = ({errorMessage, id, labelText, onBlur, onValueChange, value}: FormItemControlProps) => (
                 <TextInput
                         error={!!errorMessage}
                         key={id}
@@ -37,7 +30,6 @@ export const FormA = () => {
                         onChangeText={onValueChange}
                         supportingText={errorMessage}
                         value={value as string}
-                        onLayout={() => onLoadEnd?.()}
                 />
         )
 
@@ -56,8 +48,7 @@ export const FormA = () => {
                 }
         ]
 
-        const form = Form.useForm<{name: string; age: number}>()
-
+        const form = Form.useForm<{name: string; age: string}>()
         const handleFinish = (value: unknown) => {
                 console.info(value)
         }
@@ -75,15 +66,18 @@ export const FormA = () => {
                 flexDirection: 'column'
         } as ViewStyle
 
+        useEffect(() => {
+                setTimeout(() => {
+                        form.setFieldValue()({name: '333', age: '999'})
+                }, 1000)
+        }, [form])
+
         return (
                 <View style={[style]}>
                         <Form
                                 form={form}
                                 items={items}
                                 onFinish={handleFinish}
-                                onLoadEnd={() => {
-                                        console.info('onLoadEnd')
-                                }}
                         />
 
                         <Button

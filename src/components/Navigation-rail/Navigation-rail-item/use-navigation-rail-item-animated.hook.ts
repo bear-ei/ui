@@ -9,9 +9,8 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
         const theme = useTheme()
         const {palette, scheme, opacity} = theme.token
         const {hexToRGBA} = palette
-        const labelValue = active ? 1 : 0
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const labelTextColorSharedValue = useSharedValue(labelValue)
+        const labelTextColorSharedValue = useSharedValue(active ? 1 : 0)
         const labelTextColorOutputRange = [
                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                 hexToRGBA(scheme.onSurface)(opacity.level10)
