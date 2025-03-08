@@ -21,7 +21,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
          * Whether or not to enable scale effects in collapse type animations
          */
         scale?: boolean
-        contentStyle?: ViewStyle
+        contentStyle?: StyleProp<ViewStyle>
         lazy?: boolean
         onUnmount?: () => void
         onVisible?: (value?: boolean) => void
