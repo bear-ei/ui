@@ -84,7 +84,7 @@ export const handleChipDisabled = (setState: Updater<ChipState>) => (disabled?: 
 export const renderChipIcon =
         ({disabled, eventName, id}: RenderChipIconOptions) =>
         (theme: DefaultTheme) =>
-        (icon?: JSX.Element) => {
+        (icon?: React.JSX.Element) => {
                 if (!icon) {
                         return icon
                 }

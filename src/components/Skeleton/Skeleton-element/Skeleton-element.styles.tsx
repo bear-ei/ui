@@ -11,8 +11,8 @@ export const Container = styled(Shape)<SkeletonElementContainerProps>`
                 )};
 
                 gap: ${theme.adaptSize(theme.token.spacing.small)}px;
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+                min-height: ${theme.adaptSize(theme.token.spacing.large)}px;
+                min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
         `}
 
         ${({containerLayout = 'horizontal'}) =>

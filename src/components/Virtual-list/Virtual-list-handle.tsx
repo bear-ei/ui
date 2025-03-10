@@ -216,7 +216,7 @@ export const renderVirtualListItem =
                                 renderItem={
                                         renderItem as (
                                                 options: RenderVirtualListItemInfo<Record<string, unknown>>
-                                        ) => JSX.Element
+                                        ) => React.JSX.Element
                                 }
                         />
                 ))

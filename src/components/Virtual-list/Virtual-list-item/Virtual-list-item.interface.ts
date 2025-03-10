@@ -27,14 +27,14 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
 export interface RenderVirtualListItemProps<T = Record<string, unknown>>
         extends Omit<VirtualListItemProps<T>, 'onUnmount'> {
         containerAnimatedStyle?: AnimatedStyle<ViewStyle>
-        itemElement?: JSX.Element
+        itemElement?: React.JSX.Element
         onUnmount?: () => void
         unmount?: boolean
         visible?: boolean
 }
 
 export interface VirtualListItemBaseProps<T = Record<string, unknown>> extends VirtualListItemProps<T> {
-        render: (props: RenderVirtualListItemProps<T>) => JSX.Element
+        render: (props: RenderVirtualListItemProps<T>) => React.JSX.Element
 }
 
 export interface VirtualListItemState {

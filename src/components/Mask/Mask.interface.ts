@@ -13,7 +13,7 @@ export interface RenderMaskProps extends MaskProps {
 }
 
 export interface MaskBaseProps extends MaskProps {
-        render: (props: RenderMaskProps) => React.JSX.Element
+        render: (props: RenderMaskProps) => React.React.JSX.Element
 }
 
 export type MaskContainerProps = Pick<MaskProps, 'backgroundColor' | 'visible'>

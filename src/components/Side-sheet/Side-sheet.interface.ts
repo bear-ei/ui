@@ -7,21 +7,21 @@ export type SheetType = 'standard' | 'modal' | 'standardContainer'
 export interface SideSheetProps extends ViewProps, RefAttributes<View>, Pick<ShapeProps, 'shape'>, ModalProps {
         back?: boolean
         close?: boolean
-        content?: JSX.Element
+        content?: React.JSX.Element
         defaultVisible?: boolean
         disabledClose?: boolean
         footerVisible?: boolean
-        headlineLeading?: JSX.Element
+        headlineLeading?: React.JSX.Element
         headlineText?: string
-        headlineTrailing?: JSX.Element
+        headlineTrailing?: React.JSX.Element
         onBack?: () => void
         onCancel?: () => void
         onClose?: () => void
         onConfirm?: () => void
         onVisible?: (value?: boolean) => void
-        primaryButton?: JSX.Element
+        primaryButton?: React.JSX.Element
         primaryButtonProps?: ButtonProps
-        secondaryButton?: JSX.Element
+        secondaryButton?: React.JSX.Element
         secondaryButtonProps?: ButtonProps
         sheetPosition?: 'horizontalStart' | 'horizontalEnd'
         visible?: boolean
@@ -39,7 +39,7 @@ export interface RenderSideSheetProps extends SideSheetProps {
 }
 
 export interface SideSheetBaseProps extends SideSheetProps {
-        render: (props: RenderSideSheetProps) => JSX.Element
+        render: (props: RenderSideSheetProps) => React.JSX.Element
 }
 
 export interface SideSheetState {

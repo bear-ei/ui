@@ -10,16 +10,16 @@ export type ChipStyle = 'filled' | 'outlined'
 export type ChipType = 'input' | 'assist' | 'filter' | 'suggestion' | 'inputFilled'
 export interface ChipProps extends TouchableProps {
         active?: boolean
-        avatar?: JSX.Element
+        avatar?: React.JSX.Element
         chipStyle?: ChipStyle
         close?: boolean
         elevated?: boolean
         labelText?: string
-        leadingIcon?: JSX.Element
+        leadingIcon?: React.JSX.Element
         loading?: boolean
         onClose?: () => void
         shape?: ShapeType
-        trailingIcon?: JSX.Element
+        trailingIcon?: React.JSX.Element
         type?: ChipType
 }
 
@@ -32,11 +32,11 @@ export interface RenderChipProps extends ChipProps {
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         onStateEvent: OnStateEvent
         theme: DefaultTheme
-        trailing?: JSX.Element
+        trailing?: React.JSX.Element
 }
 
 export interface ChipBaseProps extends ChipProps {
-        render: (props: RenderChipProps) => JSX.Element
+        render: (props: RenderChipProps) => React.JSX.Element
 }
 
 export interface ChipState {

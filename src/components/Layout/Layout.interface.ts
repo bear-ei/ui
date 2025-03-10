@@ -9,7 +9,7 @@ export interface LayoutProps extends LayoutAnimatedProps {
 
 export type RenderLayoutProps = LayoutProps
 export interface LayoutBaseProps extends LayoutProps {
-        render: (props: RenderLayoutProps) => JSX.Element
+        render: (props: RenderLayoutProps) => React.JSX.Element
 }
 
 export interface LayoutComponent extends FC<LayoutProps> {

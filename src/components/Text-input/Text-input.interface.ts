@@ -27,11 +27,11 @@ export interface TextInputProps
         error?: boolean
         filled?: boolean
         labelText?: string
-        leading?: JSX.Element
+        leading?: React.JSX.Element
         onSupportingTextVisible?: (value?: boolean) => void
         supportingText?: string
         supportingTextDelay?: number
-        trailing?: JSX.Element
+        trailing?: React.JSX.Element
         type?: TextInputType
 }
 
@@ -52,7 +52,7 @@ export interface RenderTextInputProps extends TextInputProps {
 }
 
 export interface TextInputBaseProps extends TextInputProps {
-        render: (props: RenderTextInputProps) => JSX.Element
+        render: (props: RenderTextInputProps) => React.JSX.Element
 }
 
 export interface TextInputState {

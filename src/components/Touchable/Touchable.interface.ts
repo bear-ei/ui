@@ -10,11 +10,11 @@ export interface TouchableProps
                 PressableProps & Pick<ShapeProps, 'shape'> & RefAttributes<View> & ViewProps & OnStateEvent,
                 'children' | 'disabled' | 'hitSlop'
         > {
-        backgroundUnderlay?: JSX.Element
+        backgroundUnderlay?: React.JSX.Element
         centered?: boolean
-        children?: JSX.Element
+        children?: React.JSX.Element
         disabled?: boolean
-        elevationUnderlay?: JSX.Element
+        elevationUnderlay?: React.JSX.Element
         /**
          * enableFocusRing is used to disable the focus style in macOS,
          * this parameter has been implemented and is available.
@@ -30,11 +30,11 @@ export interface TouchableProps
 
 export interface RenderTouchableProps extends TouchableProps {
         onStateEvent: OnStateEvent
-        rippleElements?: JSX.Element[]
+        rippleElements?: React.JSX.Element[]
 }
 
 export interface TouchableBaseProps extends TouchableProps {
-        render: (props: RenderTouchableProps) => JSX.Element
+        render: (props: RenderTouchableProps) => React.JSX.Element
 }
 
 export type TouchableRipple = TouchableRippleProps['touchableLocation']

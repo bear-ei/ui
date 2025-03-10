@@ -8,7 +8,7 @@ import {TouchableProps} from '../Touchable'
 export type ButtonType = 'elevated' | 'filled' | 'link' | 'outlined' | 'text' | 'tonal'
 export interface ButtonProps extends TouchableProps {
         error?: boolean
-        icon?: JSX.Element
+        icon?: React.JSX.Element
         labelText?: string
         loading?: boolean
         type?: ButtonType
@@ -23,7 +23,7 @@ export interface RenderButtonProps extends ButtonProps {
 }
 
 export interface ButtonBaseProps extends ButtonProps {
-        render: (props: RenderButtonProps) => JSX.Element
+        render: (props: RenderButtonProps) => React.JSX.Element
 }
 
 export interface ButtonState {

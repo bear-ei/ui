@@ -40,7 +40,7 @@ export const renderNavigationRailItems =
                         />
                 ))
 
-export const renderNavigationRailFAB = (id: string) => (fab?: JSX.Element) =>
+export const renderNavigationRailFAB = (id: string) => (fab?: React.JSX.Element) =>
         fab ?
                 cloneElement<FABProps>(fab, {
                         elevated: false,

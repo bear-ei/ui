@@ -58,7 +58,7 @@ export const renderIconButtonIcon =
                         rawFill ??
                         (!loading ? fillType[type as keyof typeof fillType] : theme.token.scheme.onSurfaceVariant)
 
-                return (icon?: JSX.Element) =>
+                return (icon?: React.JSX.Element) =>
                         cloneElement<IconProps>(
                                 icon ?? (
                                         <Icon

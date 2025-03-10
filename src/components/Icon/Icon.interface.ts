@@ -20,11 +20,11 @@ export interface IconProps extends Omit<SvgProps, 'hitSlop' | 'width' | 'height'
 
 export interface RenderIconProps extends IconProps {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
-        svgIconElement: JSX.Element
+        svgIconElement: React.JSX.Element
 }
 
 export interface IconBaseProps extends IconProps {
-        render: (props: RenderIconProps) => JSX.Element
+        render: (props: RenderIconProps) => React.JSX.Element
 }
 
 export type UseIconAnimatedOptions = Pick<RenderIconProps, 'eventName'>

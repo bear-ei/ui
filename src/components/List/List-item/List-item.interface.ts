@@ -54,13 +54,13 @@ export interface ListItemProps
         itemIndex?: number
         itemKey: string
         itemLayout?: {width?: number; height?: number}
-        leading?: JSX.Element
+        leading?: React.JSX.Element
         onActives?: (value?: string[]) => void
         onClose?: (value?: string) => void
         onLoadEnd?: (value?: string) => void
         primaryButtonProps?: ListAffordanceButtonProps
         secondaryButtonProps?: ListAffordanceButtonProps
-        supporting?: string | JSX.Element
+        supporting?: string | React.JSX.Element
         trailingProps?: IconButtonProps
 }
 
@@ -71,18 +71,18 @@ export interface RenderListItemProps extends ListItemProps {
         contentAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
         headlineTextAnimatedStyle: AnimatedStyle<TextStyle>
-        leadingElement?: JSX.Element
+        leadingElement?: React.JSX.Element
         onStateEvent: OnStateEvent
         panResponder?: PanResponderInstance
         skeletonVisible?: boolean
         state?: State
         theme: DefaultTheme
-        trailingElement?: JSX.Element
+        trailingElement?: React.JSX.Element
         trailingVisible?: boolean
 }
 
 export interface ListItemBaseProps extends ListItemProps {
-        render: (props: RenderListItemProps) => JSX.Element
+        render: (props: RenderListItemProps) => React.JSX.Element
 }
 
 export interface ListItemState {

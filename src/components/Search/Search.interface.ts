@@ -13,10 +13,10 @@ export interface SearchTextInputProps extends TextInputProps, RefAttributes<Text
 export interface SearchProps
         extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & OnStateEvent> {
         disabled?: boolean
-        leading?: JSX.Element
+        leading?: React.JSX.Element
         listProps?: ListProps
         size?: Size
-        trailing?: JSX.Element
+        trailing?: React.JSX.Element
         type?: 'modal'
 }
 
@@ -30,7 +30,7 @@ export interface RenderSearchProps extends SearchProps {
 }
 
 export interface SearchBaseProps extends SearchProps {
-        render: (props: RenderSearchProps) => JSX.Element
+        render: (props: RenderSearchProps) => React.JSX.Element
 }
 
 export interface SearchState {

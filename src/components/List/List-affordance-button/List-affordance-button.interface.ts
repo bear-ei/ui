@@ -6,7 +6,7 @@ import {EventName} from '../../Common'
 import {TouchableProps} from '../../Touchable'
 
 export interface ListAffordanceButtonProps extends TouchableProps {
-        icon?: JSX.Element
+        icon?: React.JSX.Element
         labelText?: string
         loading?: boolean
         underlayColor?: string
@@ -22,7 +22,7 @@ export interface RenderListAffordanceButtonProps extends ListAffordanceButtonPro
 }
 
 export interface ListAffordanceButtonBaseProps extends ListAffordanceButtonProps {
-        render: (props: RenderListAffordanceButtonProps) => JSX.Element
+        render: (props: RenderListAffordanceButtonProps) => React.JSX.Element
 }
 
 export interface ListAffordanceButtonState {

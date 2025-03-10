@@ -6,13 +6,13 @@ import {SideSheetProps} from '../Side-sheet.interface'
 export type SideSheetContentProps = SideSheetProps
 export interface RenderSideSheetContentProps extends SideSheetContentProps {
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
-        leading?: JSX.Element
+        leading?: React.JSX.Element
         theme: DefaultTheme
-        trailing?: JSX.Element
+        trailing?: React.JSX.Element
 }
 
 export interface SideSheetContentBaseProps extends SideSheetContentProps {
-        render: (props: RenderSideSheetContentProps) => JSX.Element
+        render: (props: RenderSideSheetContentProps) => React.JSX.Element
 }
 
 export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisible'>

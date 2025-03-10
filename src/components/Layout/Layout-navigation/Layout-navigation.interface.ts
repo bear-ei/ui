@@ -7,5 +7,5 @@ export interface RenderLayoutNavigationProps extends LayoutNavigationProps {
 }
 
 export interface LayoutNavigationBaseProps extends LayoutNavigationProps {
-        render: (props: RenderLayoutNavigationProps) => JSX.Element
+        render: (props: RenderLayoutNavigationProps) => React.JSX.Element
 }

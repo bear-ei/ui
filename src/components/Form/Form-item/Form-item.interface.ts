@@ -19,16 +19,16 @@ export interface FormItemProps
                 Pick<FormProps, 'validatorOptions'> {
         initialValue?: Record<string, unknown>
         name?: string
-        renderControl?: (props: FormItemControlProps) => JSX.Element
+        renderControl?: (props: FormItemControlProps) => React.JSX.Element
         rule?: ValidationRule
 }
 
 export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {
-        control?: JSX.Element
+        control?: React.JSX.Element
 }
 
 export interface FormItemBaseProps extends FormItemProps {
-        render: (props: RenderFormItemProps) => JSX.Element
+        render: (props: RenderFormItemProps) => React.JSX.Element
 }
 
 export interface FormItemState {

@@ -18,7 +18,7 @@ export interface RenderSkeletonProps extends SkeletonProps {
 }
 
 export interface SkeletonBaseProps extends SkeletonProps {
-        render: (props: RenderSkeletonProps) => JSX.Element
+        render: (props: RenderSkeletonProps) => React.JSX.Element
 }
 
 export interface SkeletonState {

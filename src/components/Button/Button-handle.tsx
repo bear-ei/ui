@@ -110,7 +110,7 @@ export const renderButtonIcon =
                         tonal: theme.token.scheme.onSecondaryContainer
                 } as Record<ButtonType, string>
 
-                return (icon?: JSX.Element) => {
+                return (icon?: React.JSX.Element) => {
                         if (!icon) {
                                 return icon
                         }

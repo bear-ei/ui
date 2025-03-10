@@ -2,7 +2,7 @@ import {SharedValue} from 'react-native-reanimated'
 import {emitter} from '../../../contexts'
 import {AnimatedTiming} from '../../../hooks'
 
-export const handleSearchListEmit = (id: string) => (_render: () => JSX.Element) => (visible?: boolean) =>
+export const handleSearchListEmit = (id: string) => (_render: () => React.JSX.Element) => (visible?: boolean) =>
         typeof visible === 'boolean' && emitter.emit('modal', {id: `search__list--${id}`, name: 'tooltip'})
 
 export const handleSearchListUnmount = (id: string) =>

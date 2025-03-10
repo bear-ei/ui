@@ -96,7 +96,7 @@ export const renderFABIcon =
                         tertiary: theme.token.scheme.onTertiaryContainer
                 } as Record<FABType, string>
 
-                return (icon?: JSX.Element) => {
+                return (icon?: React.JSX.Element) => {
                         if (!icon) {
                                 return icon
                         }

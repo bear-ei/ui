@@ -32,11 +32,11 @@ export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttri
         activeKey?: string
         activeKeys?: string[]
         activeTriggerEvenName?: EventName
-        afterAffordance?: JSX.Element | boolean
+        afterAffordance?: React.JSX.Element | boolean
         afterAffordanceActiveKey?: string
         afterAffordancePrimaryButtonProps?: ListAfterAffordanceProps['primaryButtonProps']
         afterAffordanceSecondaryButtonProps?: ListAfterAffordanceProps['secondaryButtonProps']
-        beforeAffordance?: JSX.Element | boolean
+        beforeAffordance?: React.JSX.Element | boolean
         closeTrailing?: boolean
         data?: ListData[]
         defaultActiveKey?: string
@@ -57,9 +57,9 @@ export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttri
         selectType?: SelectType
         shape?: ShapeType
         skeletonDuration?: number
-        skeletonElement?: JSX.Element
+        skeletonElement?: React.JSX.Element
         supportingTextNumberOfLines?: number
-        trailing?: JSX.Element
+        trailing?: React.JSX.Element
         trailingTriggerEvenName?: EventName
         type?: ListType
 
@@ -118,7 +118,7 @@ export type HandleRenderItemOptions = Pick<
 >
 
 export interface ListBaseProps extends ListProps {
-        render: (props: RenderListProps) => JSX.Element
+        render: (props: RenderListProps) => React.JSX.Element
 }
 
 export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>

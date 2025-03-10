@@ -11,7 +11,7 @@ export interface ProgressActiveIndicatorCircularProps
                 RefAttributes<View>,
                 ShapeProps,
                 Pick<ProgressProps, 'animatedType' | 'value' | 'increment' | 'defaultValue' | 'strokeWidth' | 'size'> {
-        content?: JSX.Element
+        content?: React.JSX.Element
 }
 
 export interface RenderProgressActiveIndicatorCircularProps extends ProgressActiveIndicatorCircularProps {
@@ -24,7 +24,7 @@ export interface RenderProgressActiveIndicatorCircularProps extends ProgressActi
 }
 
 export interface ProgressActiveIndicatorCircularBaseProps extends ProgressActiveIndicatorCircularProps {
-        render: (props: RenderProgressActiveIndicatorCircularProps) => JSX.Element
+        render: (props: RenderProgressActiveIndicatorCircularProps) => React.JSX.Element
 }
 
 export type UseProgressActiveIndicatorCircularAnimatedOptions = Pick<

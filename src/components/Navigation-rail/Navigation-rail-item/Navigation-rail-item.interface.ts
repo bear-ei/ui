@@ -9,23 +9,23 @@ import {NavigationRailProps} from '../Navigation-rail.interface'
 export interface NavigationRailItemProps
         extends Partial<ViewProps & RefAttributes<View> & PressableProps & OnStateEvent>,
                 Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {
-        icon?: JSX.Element
+        icon?: React.JSX.Element
         itemKey: string
         labelText?: string
 }
 
 export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'itemKey'> {
         active?: boolean
-        activeIconElement: JSX.Element
+        activeIconElement: React.JSX.Element
         eventName?: EventName
-        iconElement: JSX.Element
+        iconElement: React.JSX.Element
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         onStateEvent: OnStateEvent
         theme: DefaultTheme
 }
 
 export interface NavigationRailItemBaseProps extends NavigationRailItemProps {
-        render: (props: RenderNavigationRailItemProps) => JSX.Element
+        render: (props: RenderNavigationRailItemProps) => React.JSX.Element
 }
 
 export interface NavigationRailItemState {

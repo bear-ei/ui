@@ -10,7 +10,7 @@ export interface IconButtonProps extends TouchableProps {
         active?: boolean
         defaultActive?: boolean
         fill?: string
-        icon?: JSX.Element
+        icon?: React.JSX.Element
         loading?: boolean
         size?: number
         type?: IconButtonType
@@ -24,7 +24,7 @@ export interface RenderIconButtonProps extends IconButtonProps {
 }
 
 export interface IconButtonBaseProps extends IconButtonProps {
-        render: (props: RenderIconButtonProps) => JSX.Element
+        render: (props: RenderIconButtonProps) => React.JSX.Element
 }
 
 export interface IconButtonState {

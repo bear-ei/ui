@@ -85,11 +85,11 @@ export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormC
 }
 
 export interface RenderFormProps<T> extends FormProps<T> {
-        itemElements?: JSX.Element[] | JSX.Element
+        itemElements?: React.JSX.Element[] | React.JSX.Element
 }
 
 export interface FormBaseProps<T = Record<string, unknown>> extends FormProps<T> {
-        render: (props: RenderFormProps<T>) => JSX.Element
+        render: (props: RenderFormProps<T>) => React.JSX.Element
 }
 
 export interface FormState {
