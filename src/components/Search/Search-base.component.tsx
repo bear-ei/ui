@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../hooks'
 import {runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
@@ -49,10 +49,10 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
                                 handleSearchStateChange({...options, ref: inputRef, state})(setState)(event)
 
-                const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange})
+                const stateEvent = useStateEvent({...renderProps, onStateEventChange})
 
                 useImperativeHandle(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [inputRef])
 
@@ -94,7 +94,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         listProps,
                         listVisible,
                         onChangeText: onSearchChangeText,
-                        onStateEvent,
+                        stateEvent,
                         placeholder,
                         ref: inputRef,
                         theme,

@@ -1,6 +1,6 @@
 import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
-import {AnimatedTiming, StateEvent} from '../../../hooks'
+import {AnimatedTiming, StateEventType} from '../../../hooks'
 import {
         HandleListAffordanceButtonStateEventChangeOptions,
         ListAffordanceButtonState
@@ -9,7 +9,7 @@ import {
 export const handleListAffordanceButtonStateChange =
         ({eventName, visible}: HandleListAffordanceButtonStateEventChangeOptions) =>
         (setState: Updater<ListAffordanceButtonState>) =>
-        (_event: StateEvent) => {
+        (_event: StateEventType) => {
                 if (eventName === 'layout' || !visible) {
                         return
                 }

@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../hooks'
 import {State} from '../Common'
 import {
         handleIconButtonDisabled,
@@ -21,11 +21,11 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
                 const underlayColor = handleIconButtonUnderlayColor(theme)(type)
                 const onIconButtonDisabled = useMemo(() => handleIconButtonDisabled(setState), [setState])
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
                                 handleIconButtonStateChange({...options, state})(setState)(event)
 
                 const disabled = loading || rawDisabled
-                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
+                const stateEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
                 const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})
                 const iconElement = renderIconButtonIcon({disabled, eventName, fill, loading, type, id})(theme)(icon)
 
@@ -40,7 +40,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
                         eventName,
                         icon: iconElement,
                         loading,
-                        onStateEvent,
+                        stateEvent,
                         ref,
                         theme,
                         type,

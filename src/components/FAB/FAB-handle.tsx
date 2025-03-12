@@ -3,7 +3,7 @@ import {cloneElement} from 'react'
 import {SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
-import {AnimatedTiming, StateEvent} from '../../hooks'
+import {AnimatedTiming, StateEventType} from '../../hooks'
 import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
@@ -45,7 +45,7 @@ const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boole
 export const handleFABStateChange =
         ({eventName, elevated, state}: HandleFABStateChangeOptions) =>
         (setState: Updater<FABState>) =>
-        (_event: StateEvent) => {
+        (_event: StateEventType) => {
                 if (eventName === 'layout') {
                         return
                 }

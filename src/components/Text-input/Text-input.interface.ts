@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
-import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {ComponentStatus, EventName, ShapeProps, State, TypographyProps} from '../Common'
 
 export type TextInputType = 'filled' | 'outlined'
@@ -19,7 +19,7 @@ export interface InputProps extends RNTextInputProps, RefAttributes<TextInput> {
 
 export interface TextInputProps
         extends Partial<
-                RNTextInputProps & PressableProps & RefAttributes<TextInput> & Pick<ShapeProps, 'shape'> & OnStateEvent
+                RNTextInputProps & PressableProps & RefAttributes<TextInput> & Pick<ShapeProps, 'shape'> & StateEvent
         > {
         content?: React.ReactNode
         disabled?: boolean
@@ -44,7 +44,7 @@ export interface RenderTextInputProps extends TextInputProps {
         labelAnimatedStyle: AnimatedStyle<ViewStyle>
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         onHeaderFocus?: () => void
-        onStateEvent: OnStateEvent
+        stateEvent: StateEvent
         onSupportingTextVisible?: (value?: boolean) => void
         supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
         supportingTextVisible?: boolean
@@ -70,7 +70,7 @@ export interface TextInputState {
 }
 
 export interface HandleTextInputStateEventChangeOptions
-        extends OnStateEventChangeOptions,
+        extends HandleStateEventChangeOptions,
                 Pick<TextInputProps, 'content'> {
         ref?: RefObject<TextInput>
 }

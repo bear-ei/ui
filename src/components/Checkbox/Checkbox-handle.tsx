@@ -1,6 +1,6 @@
 import {WritableDraft} from 'immer'
 import {Updater} from 'use-immer'
-import {StateEvent} from '../../hooks'
+import {StateEventType} from '../../hooks'
 import {CheckboxState, HandleCheckboxActiveOptions, HandleCheckboxStateChangeOptions} from './Checkbox.interface'
 
 export const handleCheckboxStatus = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
@@ -49,7 +49,7 @@ export const handleCheckboxActive =
 export const handleCheckboxStateChange =
         ({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
         (setState: Updater<CheckboxState>) =>
-        (_event: StateEvent) => {
+        (_event: StateEventType) => {
                 if (eventName === 'layout') {
                         return
                 }

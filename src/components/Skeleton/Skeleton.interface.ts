@@ -1,7 +1,7 @@
 import {FC, ReactNode} from 'react'
 import {ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
-import {AnimatedTiming, OnStateEventChangeOptions} from '../../hooks'
+import {AnimatedTiming, HandleStateEventChangeOptions} from '../../hooks'
 import {LayoutAnimatedProps} from '../Layout-animated'
 import {SkeletonElementProps} from './Skeleton-element'
 
@@ -26,7 +26,7 @@ export interface SkeletonState {
         visible: boolean
 }
 
-export type HandleSkeletonStateChangeOptions = OnStateEventChangeOptions & Pick<SkeletonProps, 'duration'>
+export type HandleSkeletonStateChangeOptions = HandleStateEventChangeOptions & Pick<SkeletonProps, 'duration'>
 export type UseSkeletonAnimatedOptions = Pick<RenderSkeletonProps, 'enableAnimated'> & Pick<SkeletonState, 'visible'>
 export interface HandleSkeletonAnimatedTimingOptions extends Pick<UseSkeletonAnimatedOptions, 'enableAnimated'> {
         animatedTiming: AnimatedTiming

@@ -3,7 +3,7 @@ import {RefAttributes} from 'react'
 import {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
-import {AnimatedTiming, AnimatedTimingOptions, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
 export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY' | 'scale' | 'standard'
@@ -35,7 +35,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
         containerAnimatedStyle?: AnimatedStyle<ViewStyle>
         layout: LayoutRectangle
-        onStateEvent: OnStateEvent
+        stateEvent: StateEvent
         visible?: boolean
 }
 
@@ -54,7 +54,7 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 }
 
 export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
-export interface HandleLayoutAnimatedStateChangeOptions extends OnStateEventChangeOptions {
+export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEventChangeOptions {
         onLayoutChange: (layout: LayoutRectangle) => void
 }
 

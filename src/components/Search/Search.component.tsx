@@ -17,7 +17,7 @@ const render = ({
         listProps,
         listVisible,
         onChangeText,
-        onStateEvent,
+        stateEvent,
         placeholder,
         testID,
         theme,
@@ -25,7 +25,7 @@ const render = ({
         value,
         ...textInputProps
 }: RenderSearchProps) => {
-        const {onBlur, onFocus, ...onTouchableEvent} = onStateEvent
+        const {onBlur, onFocus, ...onTouchableEvent} = stateEvent
         const placeholderTextColor = theme.token.scheme.onSurfaceVariant
         const shape = 'extraLarge'
         const underlayColor = theme.token.scheme.onSurface

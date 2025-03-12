@@ -21,7 +21,7 @@ const render = ({
         id,
         labelText,
         labelTextAnimatedStyle,
-        onStateEvent,
+        stateEvent,
         ref,
         size,
         testID,
@@ -55,7 +55,7 @@ const render = ({
                         testID={testID ?? `fab--${id}`}
                 >
                         <Touchable
-                                {...onStateEvent}
+                                {...stateEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
                                 disabled={disabled}
                                 elevationUnderlay={elevationUnderlayElement}

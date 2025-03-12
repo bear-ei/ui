@@ -10,15 +10,14 @@ import {State} from '../components/Common'
 import {
         HandleStateEventChangeOptions,
         HandleStateEventOptions,
-        OnStateEventChangeOptions,
-        StateEvent,
+        StateEventType,
         UseHandleStateEventOptions
 } from './hooks.interface'
 
 const handleStateEventChange =
         ({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
         (state: State) =>
-        (event: StateEvent) => {
+        (event: StateEventType) => {
                 if (disabled && eventName !== 'layout') {
                         return
                 }
@@ -28,64 +27,64 @@ const handleStateEventChange =
         }
 
 const handlePressInEvent =
-        ({onStateEvent}: HandleStateEventOptions) =>
+        ({stateEvent}: HandleStateEventOptions) =>
         (onPressIn?: (event: GestureResponderEvent) => void) =>
         (event: GestureResponderEvent) =>
-                onStateEvent({callback: () => onPressIn?.(event), eventName: 'pressIn'})('pressIn')(event)
+                stateEvent({callback: () => onPressIn?.(event), eventName: 'pressIn'})('pressIn')(event)
 
 const handlePressEvent =
-        ({onStateEvent, mobileDevice}: HandleStateEventOptions) =>
+        ({stateEvent, mobileDevice}: HandleStateEventOptions) =>
         (onPress?: (event: GestureResponderEvent) => void) =>
         (event: GestureResponderEvent) =>
-                onStateEvent({callback: () => onPress?.(event), eventName: 'press'})(
+                stateEvent({callback: () => onPress?.(event), eventName: 'press'})(
                         mobileDevice ? 'enabled' : 'hovered'
                 )(event)
 
 const handleLongPressEvent =
-        ({onStateEvent}: HandleStateEventOptions) =>
+        ({stateEvent}: HandleStateEventOptions) =>
         (onLongPress?: (event: GestureResponderEvent) => void) =>
         (event: GestureResponderEvent) =>
-                onStateEvent({callback: () => onLongPress?.(event), eventName: 'longPress'})('longPressIn')(event)
+                stateEvent({callback: () => onLongPress?.(event), eventName: 'longPress'})('longPressIn')(event)
 
 const handlePressOutEvent =
-        ({onStateEvent, mobileDevice}: HandleStateEventOptions) =>
+        ({stateEvent, mobileDevice}: HandleStateEventOptions) =>
         (onPressOut?: (event: GestureResponderEvent) => void) =>
         (event: GestureResponderEvent) =>
-                onStateEvent({callback: () => onPressOut?.(event), eventName: 'pressOut'})(
+                stateEvent({callback: () => onPressOut?.(event), eventName: 'pressOut'})(
                         mobileDevice ? 'enabled' : 'hovered'
                 )(event)
 
 const handleHoverIntEvent =
-        ({onStateEvent}: HandleStateEventOptions) =>
+        ({stateEvent}: HandleStateEventOptions) =>
         (onHoverIn?: (event: MouseEvent) => void) =>
         (event: MouseEvent) =>
-                onStateEvent({callback: () => onHoverIn?.(event), eventName: 'hoverIn'})('hovered')(event)
+                stateEvent({callback: () => onHoverIn?.(event), eventName: 'hoverIn'})('hovered')(event)
 
 const handleHoverOutEvent =
-        ({onStateEvent}: HandleStateEventOptions) =>
+        ({stateEvent}: HandleStateEventOptions) =>
         (onHoverOut?: (event: MouseEvent) => void) =>
         (event: MouseEvent) =>
-                onStateEvent({callback: () => onHoverOut?.(event), eventName: 'hoverOut'})('enabled')(event)
+                stateEvent({callback: () => onHoverOut?.(event), eventName: 'hoverOut'})('enabled')(event)
 
 const handleFocusEvent =
-        ({onStateEvent}: HandleStateEventOptions) =>
+        ({stateEvent}: HandleStateEventOptions) =>
         (onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void) =>
         (event: NativeSyntheticEvent<TargetedEvent>) =>
-                onStateEvent({callback: () => onFocus?.(event), eventName: 'focus'})('focused')(event)
+                stateEvent({callback: () => onFocus?.(event), eventName: 'focus'})('focused')(event)
 
 const handleBlurEvent =
-        ({onStateEvent}: HandleStateEventOptions) =>
+        ({stateEvent}: HandleStateEventOptions) =>
         (onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void) =>
         (event: NativeSyntheticEvent<TargetedEvent>) =>
-                onStateEvent({callback: () => onBlur?.(event), eventName: 'blur'})('enabled')(event)
+                stateEvent({callback: () => onBlur?.(event), eventName: 'blur'})('enabled')(event)
 
 const handleLayoutEvent =
-        ({onStateEvent}: HandleStateEventOptions) =>
+        ({stateEvent}: HandleStateEventOptions) =>
         (onLayout?: (event: LayoutChangeEvent) => void) =>
         (event: LayoutChangeEvent) =>
-                onStateEvent({callback: () => onLayout?.(event), eventName: 'layout'})('enabled')(event)
+                stateEvent({callback: () => onLayout?.(event), eventName: 'layout'})('enabled')(event)
 
-export const useOnStateEvent = ({
+export const useStateEvent = ({
         disabled,
         onBlur,
         onFocus,
@@ -99,18 +98,18 @@ export const useOnStateEvent = ({
         onStateEventChange
 }: UseHandleStateEventOptions) => {
         const mobileDevice = ['ios', 'android'].includes(Platform.OS)
-        const onStateEvent = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+        const stateEvent = (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
                 handleStateEventChange({...options, disabled, onStateEventChange})(disabled ? 'disabled' : state)(event)
 
-        const handleBlur = handleBlurEvent({onStateEvent})(onBlur)
-        const handleFocus = handleFocusEvent({onStateEvent})(onFocus)
-        const handleHoverIn = handleHoverIntEvent({onStateEvent})(onHoverIn)
-        const handleHoverOut = handleHoverOutEvent({onStateEvent})(onHoverOut)
-        const handleLayout = handleLayoutEvent({onStateEvent})(onLayout)
-        const handleLongPress = handleLongPressEvent({onStateEvent})(onLongPress)
-        const handlePress = handlePressEvent({onStateEvent, mobileDevice})(onPress)
-        const handlePressIn = handlePressInEvent({onStateEvent})(onPressIn)
-        const handlePressOut = handlePressOutEvent({onStateEvent, mobileDevice})(onPressOut)
+        const handleBlur = handleBlurEvent({stateEvent})(onBlur)
+        const handleFocus = handleFocusEvent({stateEvent})(onFocus)
+        const handleHoverIn = handleHoverIntEvent({stateEvent})(onHoverIn)
+        const handleHoverOut = handleHoverOutEvent({stateEvent})(onHoverOut)
+        const handleLayout = handleLayoutEvent({stateEvent})(onLayout)
+        const handleLongPress = handleLongPressEvent({stateEvent})(onLongPress)
+        const handlePress = handlePressEvent({stateEvent, mobileDevice})(onPress)
+        const handlePressIn = handlePressInEvent({stateEvent})(onPressIn)
+        const handlePressOut = handlePressOutEvent({stateEvent, mobileDevice})(onPressOut)
 
         return {
                 mobileDevice,

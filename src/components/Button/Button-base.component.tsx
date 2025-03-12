@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../hooks'
 import {State} from '../Common'
 import {
         handleButtonDisabled,
@@ -35,11 +35,11 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                 const onButtonStatus = useMemo(() => handleButtonStatus(setState)(rawDisabled), [rawDisabled, setState])
                 const underlayColor = handleButtonUnderlayColor(theme)(type)
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
                                 handleButtonStateChange({...options, state, type})(setState)(event)
 
                 const disabled = loading || rawDisabled
-                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
+                const stateEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
                 const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
                         disabled: rawDisabled,
                         eventName,
@@ -72,7 +72,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         labelText,
                         labelTextAnimatedStyle,
                         loading,
-                        onStateEvent,
+                        stateEvent,
                         ref,
                         type,
                         underlayColor

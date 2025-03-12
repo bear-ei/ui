@@ -2,7 +2,7 @@ import {WritableDraft} from 'immer'
 import {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, Platform} from 'react-native'
 import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
-import {AnimatedTiming, OnStateEventChangeOptions, StateEvent} from '../../hooks'
+import {AnimatedTiming, HandleStateEventChangeOptions, StateEventType} from '../../hooks'
 import {EventName} from '../Common'
 import {ListData} from '../List'
 import {RenderVirtualListItemInfo, VirtualListItem} from './Virtual-list-item'
@@ -62,9 +62,9 @@ export const handleVirtualListLayoutChange =
         }
 
 export const handleVirtualListStateChange =
-        ({eventName}: OnStateEventChangeOptions) =>
+        ({eventName}: HandleStateEventChangeOptions) =>
         (onVirtualListLayoutChange: (layout: LayoutRectangle) => void) =>
-        (event: StateEvent) => {
+        (event: StateEventType) => {
                 const nextEvent = {
                         layout: () => onVirtualListLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
                 } as Record<EventName, () => void>

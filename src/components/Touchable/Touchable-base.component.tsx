@@ -1,7 +1,7 @@
 import {forwardRef, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../hooks'
 import {State} from '../Common'
 import {handleTouchableAnimatedFinished, handleTouchableStateChange, renderTouchableRipple} from './Touchable-handle'
 import {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
@@ -17,7 +17,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                 const pressableRef = useRef<View>(null)
                 const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
                                 handleTouchableStateChange({
                                         ...options,
                                         enableTouchableRipple,
@@ -25,7 +25,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                                         state
                                 })(setState)(event)
 
-                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
+                const stateEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
                 const rippleElements = renderTouchableRipple({
                         centered,
                         containerLayout: contentLayout,
@@ -38,6 +38,6 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
                         pressableRef
                 ])
 
-                return render({...renderProps, onStateEvent, ref: pressableRef, rippleElements, id})
+                return render({...renderProps, stateEvent, ref: pressableRef, rippleElements, id})
         }
 )

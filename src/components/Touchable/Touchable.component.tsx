@@ -10,7 +10,7 @@ const render = ({
         elevationUnderlay,
         id,
         mainAlignSelf,
-        onStateEvent,
+        stateEvent,
         rippleElements,
         shape,
         testID,
@@ -19,7 +19,7 @@ const render = ({
         <Container testID={testID ?? `touchable--${id}`}>
                 <TouchableContent
                         {...contentProps}
-                        {...onStateEvent}
+                        {...stateEvent}
                         enableFocusRing={false}
                         testID={`touchable__touchableContent--${id}`}
                 >

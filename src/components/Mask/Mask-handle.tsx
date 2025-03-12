@@ -1,10 +1,10 @@
-import {StateEvent} from '../../hooks'
+import {StateEventType} from '../../hooks'
 import {EventName} from '../Common'
 import {HandleMaskStateChangeOptions} from './Mask.interface'
 
 export const handleMaskStateChange =
         ({eventName}: HandleMaskStateChangeOptions) =>
-        (_event: StateEvent) => {
+        (_event: StateEventType) => {
                 const nextEvent = {
                         /**
                          * TODO: The current logic is designed to solve the problem that there may be other forms that

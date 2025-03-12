@@ -18,7 +18,7 @@ const render = ({
         icon,
         id,
         loading,
-        onStateEvent,
+        stateEvent,
         ref,
         size,
         testID,
@@ -62,7 +62,7 @@ const render = ({
                                 visible={!loading}
                         >
                                 <Touchable
-                                        {...onStateEvent}
+                                        {...stateEvent}
                                         backgroundUnderlay={backgroundUnderlayElement}
                                         disabled={disabled}
                                         enableTouchableRipple={type !== 'active'}

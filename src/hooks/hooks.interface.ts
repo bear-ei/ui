@@ -12,8 +12,13 @@ import {
 import {AnimationCallback, SharedValue, WithTimingConfig} from 'react-native-reanimated'
 import {EventName, State} from '../components'
 
-export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
-export type OnStateEvent = {
+export type StateEventType =
+        | GestureResponderEvent
+        | LayoutChangeEvent
+        | MouseEvent
+        | NativeSyntheticEvent<TargetedEvent>
+
+export type StateEvent = {
         onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
         onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
         onHoverIn?: (event: MouseEvent) => void
@@ -25,9 +30,11 @@ export type OnStateEvent = {
         onPressOut?: (event: GestureResponderEvent) => void
 }
 
-export interface UseHandleStateEventOptions extends Partial<PressableProps & OnStateEvent> {
+export interface UseHandleStateEventOptions extends Partial<PressableProps & StateEvent> {
         disabled?: boolean
-        onStateEventChange?: (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
+        onStateEventChange?: (
+                options: HandleStateEventChangeOptions
+        ) => (state: State) => (event: StateEventType) => void
 }
 
 export interface HandleStateEventChangeOptions
@@ -37,10 +44,9 @@ export interface HandleStateEventChangeOptions
         state?: State
 }
 
-export type OnStateEventChangeOptions = HandleStateEventChangeOptions
 export interface HandleStateEventOptions {
         mobileDevice?: boolean
-        onStateEvent: (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
+        stateEvent: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) => void
 }
 
 export type UseDesktopScrollEventOptions = Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'>

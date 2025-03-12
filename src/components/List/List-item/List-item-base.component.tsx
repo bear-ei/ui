@@ -2,7 +2,7 @@ import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../../hooks'
+import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import {State} from '../../Common'
 import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
@@ -116,7 +116,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 )
 
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
                                 handleListItemStateChange({
                                         ...options,
                                         activeTriggerEvenName,
@@ -130,7 +130,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                                         type
                                 })(setState)(event)
 
-                const onStateEvent = useOnStateEvent({...renderProps, onStateEventChange, disabled})
+                const stateEvent = useStateEvent({...renderProps, onStateEventChange, disabled})
                 const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
                         active,
                         afterAffordanceVisible,
@@ -142,7 +142,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         closeTrailing,
                         disabled,
                         id,
-                        onStateEvent: {onPressOut: onListItemTrailingPressOut, onPressIn: onListItemTrailingPressIn},
+                        stateEvent: {onPressOut: onListItemTrailingPressOut, onPressIn: onListItemTrailingPressIn},
                         theme,
                         trailing,
                         trailingProps
@@ -194,7 +194,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         itemKey,
                         leadingElement,
                         onConfirm: onListItemConfirm,
-                        onStateEvent,
+                        stateEvent,
                         // panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,
                         ref: pressableRef,
                         selectType,

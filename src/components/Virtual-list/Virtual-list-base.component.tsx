@@ -2,7 +2,7 @@ import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo
 import {LayoutRectangle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useOnStateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEventType, useDesktopScrollEvent, useStateEvent} from '../../hooks'
 import {debounce, runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
@@ -82,10 +82,11 @@ export const VirtualListBaseInner = <T,>(
                 [itemSize, setState]
         )
 
-        const onStateEventChange = (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleVirtualListStateChange({...options, state})(onVirtualListLayoutChange)(event)
+        const onStateEventChange =
+                (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
+                        handleVirtualListStateChange({...options, state})(onVirtualListLayoutChange)(event)
 
-        const onStateEvent = useOnStateEvent({...renderProps, disabled: false, onStateEventChange})
+        const stateEvent = useStateEvent({...renderProps, disabled: false, onStateEventChange})
         const itemElements = renderVirtualListItem({
                 extraData,
                 id,
@@ -130,7 +131,7 @@ export const VirtualListBaseInner = <T,>(
                 itemElements,
                 itemSize,
                 layout,
-                onStateEvent,
+                stateEvent,
                 ref: animatedRef,
                 status
         })

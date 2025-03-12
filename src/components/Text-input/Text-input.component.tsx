@@ -49,7 +49,7 @@ const render = ({
         leading,
         multiline,
         onHeaderFocus,
-        onStateEvent,
+        stateEvent,
         onSupportingTextVisible,
         supportingText,
         supportingTextAnimatedStyle,
@@ -63,7 +63,7 @@ const render = ({
         const leadingShow = !!leading
         const underlayColor = theme.token.scheme.onSurface
         const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
-        const {onFocus, onBlur, ...onTouchableHeaderEvent} = onStateEvent
+        const {onFocus, onBlur, ...onTouchableHeaderEvent} = stateEvent
 
         return (
                 <Container

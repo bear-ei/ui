@@ -1,6 +1,6 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps} from 'react-native'
-import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 
 export type ProgressType = 'linear' | 'circular'
 export type ProgressAnimated = 'determinate' | 'indeterminate'
@@ -17,7 +17,7 @@ export interface ProgressProps extends ViewProps, RefAttributes<View> {
 
 export interface RenderProgressProps extends ProgressProps {
         layout: LayoutRectangle
-        onStateEvent: OnStateEvent
+        stateEvent: StateEvent
 }
 
 export interface ProgressBaseProps extends ProgressProps {
@@ -28,7 +28,7 @@ export interface ProgressState {
         layout: LayoutRectangle
 }
 
-export interface HandleProgressStateChangeOptions extends OnStateEventChangeOptions {
+export interface HandleProgressStateChangeOptions extends HandleStateEventChangeOptions {
         onLayoutChange: (layout: LayoutRectangle) => void
 }
 

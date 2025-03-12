@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../hooks'
 import {State} from '../Common'
 import {
         handleFABDisabled,
@@ -37,10 +37,10 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                 const underlayColor = handleFABUnderlayColor(theme)(type)
                 const disabled = loading || rawDisabled
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
                                 handleFABStateChange({...options, state, elevated})(setState)(event)
 
-                const onStateEvent = useOnStateEvent({...renderProps, disabled, onStateEventChange})
+                const stateEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
                 const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
                         disabled: rawDisabled,
                         type
@@ -68,7 +68,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                         id,
                         labelTextAnimatedStyle,
                         loading,
-                        onStateEvent,
+                        stateEvent,
                         ref,
                         size,
                         type,

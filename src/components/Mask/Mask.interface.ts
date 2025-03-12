@@ -1,5 +1,5 @@
 import {View} from 'react-native'
-import {OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {LayoutAnimatedProps} from '../Layout-animated'
 import {TouchableProps} from '../Touchable'
 
@@ -9,7 +9,7 @@ export interface MaskProps extends Omit<LayoutAnimatedProps & TouchableProps, 'r
 }
 
 export interface RenderMaskProps extends MaskProps {
-        onStateEvent: OnStateEvent
+        stateEvent: StateEvent
 }
 
 export interface MaskBaseProps extends MaskProps {
@@ -18,6 +18,6 @@ export interface MaskBaseProps extends MaskProps {
 
 export type MaskContainerProps = Pick<MaskProps, 'backgroundColor' | 'visible'>
 
-export interface HandleMaskStateChangeOptions extends OnStateEventChangeOptions {
+export interface HandleMaskStateChangeOptions extends HandleStateEventChangeOptions {
         ref: React.RefObject<View>
 }

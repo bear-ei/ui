@@ -1,7 +1,7 @@
 import {cloneElement} from 'react'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
-import {StateEvent} from '../../hooks'
+import {StateEventType} from '../../hooks'
 import {Icon, IconProps} from '../Icon'
 import {
         HandleIconButtonAnimatedTimingOptions,
@@ -15,7 +15,7 @@ import {
 export const handleIconButtonStateChange =
         ({eventName}: HandleIconButtonStateChangeOptions) =>
         (setState: Updater<IconButtonState>) =>
-        (_event: StateEvent) => {
+        (_event: StateEventType) => {
                 if (eventName === 'layout') {
                         return
                 }

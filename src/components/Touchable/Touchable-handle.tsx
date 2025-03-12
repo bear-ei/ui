@@ -1,7 +1,7 @@
 import {nanoid} from 'nanoid'
 import {GestureResponderEvent} from 'react-native'
 import {Updater} from 'use-immer'
-import {StateEvent} from '../../hooks'
+import {StateEventType} from '../../hooks'
 import {runAfterInteractions} from '../../utils'
 import {EventName} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
@@ -47,7 +47,7 @@ const handleTouchablePressIn =
 export const handleTouchableStateChange =
         ({eventName, enableTouchableRipple, ref}: HandleTouchableStateChangeOptions) =>
         (setState: Updater<TouchableState>) =>
-        (event: StateEvent) => {
+        (event: StateEventType) => {
                 const nextEvent = {
                         pressIn: () =>
                                 handleTouchablePressIn({setState, ref})(enableTouchableRipple)(

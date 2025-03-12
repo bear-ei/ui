@@ -13,7 +13,7 @@ const render = ({
         id,
         increment,
         layout,
-        onStateEvent,
+        stateEvent,
         size,
         strokeWidth,
         testID,
@@ -23,7 +23,7 @@ const render = ({
 }: RenderProgressProps) => (
         <Container
                 {...containerProps}
-                {...onStateEvent}
+                {...stateEvent}
                 accessibilityRole='progressbar'
                 pointerEvents='none'
                 progressing={!!(value && value > 0)}

@@ -2,7 +2,7 @@ import {cloneElement} from 'react'
 import {SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
-import {AnimatedTiming, StateEvent} from '../../hooks'
+import {AnimatedTiming, StateEventType} from '../../hooks'
 import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {Icon, IconProps} from '../Icon'
@@ -64,7 +64,7 @@ export const handleChipElevation =
 export const handleChipStateChange =
         ({eventName}: HandleChipStateChangeOptions) =>
         (setState: Updater<ChipState>) =>
-        (_event: StateEvent) => {
+        (_event: StateEventType) => {
                 if (eventName === 'layout') {
                         return
                 }

@@ -1,7 +1,7 @@
 import {ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {EventName} from '../Common'
 import {TouchableProps} from '../Touchable'
 
@@ -19,7 +19,7 @@ export interface IconButtonProps extends TouchableProps {
 export interface RenderIconButtonProps extends IconButtonProps {
         backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
-        onStateEvent: OnStateEvent
+        stateEvent: StateEvent
         theme: DefaultTheme
 }
 
@@ -36,7 +36,7 @@ export interface RenderIconButtonIconOptions
         eventName?: EventName
 }
 
-export type HandleIconButtonStateChangeOptions = OnStateEventChangeOptions
+export type HandleIconButtonStateChangeOptions = HandleStateEventChangeOptions
 export type UseIconButtonAnimatedOptions = Pick<RenderIconButtonProps, 'disabled' | 'type'>
 export interface HandleIconButtonAnimatedTimingOptions extends Pick<UseIconButtonAnimatedOptions, 'type'> {
         animatedTiming: AnimatedTiming

@@ -26,7 +26,7 @@ const render = ({
         id,
         labelText,
         labelTextAnimatedStyle,
-        onStateEvent,
+        stateEvent,
         ref,
         testID,
         theme,
@@ -44,7 +44,7 @@ const render = ({
                         testID={testID ?? `navigationRailItem--${id}`}
                 >
                         <TouchableContent
-                                {...onStateEvent}
+                                {...stateEvent}
                                 enableFocusRing={false}
                                 ref={ref}
                                 testID={`navigationRailItem__touchableContent--${id}`}

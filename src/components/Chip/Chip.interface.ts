@@ -1,7 +1,7 @@
 import {TextStyle, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
-import {AnimatedTiming, OnStateEvent, OnStateEventChangeOptions} from '../../hooks'
+import {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {ComponentStatus, EventName, ShapeType} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {TouchableProps} from '../Touchable'
@@ -30,7 +30,7 @@ export interface RenderChipProps extends ChipProps {
         eventName?: EventName
         filterIconLayoutAnimatedStyle: AnimatedStyle<TextStyle>
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-        onStateEvent: OnStateEvent
+        stateEvent: StateEvent
         theme: DefaultTheme
         trailing?: React.JSX.Element
 }
@@ -45,7 +45,7 @@ export interface ChipState {
         status: ComponentStatus
 }
 
-export type HandleChipStateChangeOptions = OnStateEventChangeOptions
+export type HandleChipStateChangeOptions = HandleStateEventChangeOptions
 export type HandleChipElevationOptions = Pick<ChipProps, 'disabled' | 'type' | 'elevated'>
 export type RenderChipIconOptions = Pick<RenderChipProps, 'disabled' | 'eventName' | 'onClose' | 'id'>
 export type UseChipAnimatedOptions = Pick<RenderChipProps, 'disabled' | 'type' | 'active' | 'elevated' | 'chipStyle'>

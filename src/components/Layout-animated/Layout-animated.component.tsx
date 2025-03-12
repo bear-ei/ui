@@ -11,7 +11,7 @@ const render = ({
         containerAnimatedStyle,
         contentStyle,
         id,
-        onStateEvent,
+        stateEvent,
         style,
         testID,
         visible,
@@ -20,7 +20,7 @@ const render = ({
         animatedType,
         ...containerProps
 }: RenderLayoutAnimatedProps) => {
-        const {onLayout} = onStateEvent
+        const {onLayout} = stateEvent
         const collapse = animatedType?.startsWith('collapse')
 
         return (

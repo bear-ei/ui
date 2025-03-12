@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {OnStateEventChangeOptions, StateEvent, useOnStateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../hooks'
 import {debounce, runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
@@ -101,7 +101,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 
                 const onTouchableHeaderFocus = handleTouchableHeaderFocus(textInputRef)
                 const onStateEventChange =
-                        (options: OnStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
+                        (options: HandleStateEventChangeOptions) => (changedState: State) => (event: StateEventType) =>
                                 handleTextInputStateChange({
                                         ...options,
                                         content,
@@ -109,7 +109,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                                         state: changedState
                                 })(setState)(event)
 
-                const onStateEvent = useOnStateEvent({
+                const stateEvent = useStateEvent({
                         ...renderProps,
                         disabled: disabled ?? (typeof editable === 'boolean' ? !editable : undefined),
                         onStateEventChange
@@ -184,7 +184,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         onChangeText: onTextInputChangeText,
                         onContentSizeChange: onTextInputContentSizeChange,
                         onHeaderFocus: onTouchableHeaderFocus,
-                        onStateEvent,
+                        stateEvent,
                         onSupportingTextVisible: onTextInputSupportingTextVisible,
                         placeholderTextColor,
                         ref: textInputRef,
