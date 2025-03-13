@@ -34,7 +34,7 @@ const render = ({
         labelText,
         labelTextAnimatedStyle,
         leadingIcon,
-        stateEvent,
+        stateOnEvent,
         ref,
         testID,
         theme,
@@ -71,7 +71,7 @@ const render = ({
                         type={type}
                 >
                         <Touchable
-                                {...stateEvent}
+                                {...stateOnEvent}
                                 backgroundUnderlay={backgroundUnderlayElement}
                                 disabled={disabled}
                                 elevationUnderlay={elevationUnderlayElement}

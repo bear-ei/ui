@@ -1,7 +1,7 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../hooks'
 import {debounce, runAfterInteractions} from '../../utils'
 import {State} from '../Common'
 import {
@@ -65,14 +65,14 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 )
 
                 const onStateEventChange =
-                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleLayoutAnimatedStateChange({
                                         ...options,
                                         state,
                                         onLayoutChange: onLayoutAnimatedLayoutChange
                                 })(event)
 
-                const stateEvent = useStateEvent({...renderProps, onStateEventChange})
+                const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
                 const {containerAnimatedStyle} = useLayoutAnimated({
                         animatedType,
                         disabledAnimated,
@@ -117,7 +117,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                         containerAnimatedStyle,
                                         id,
                                         layout,
-                                        stateEvent,
+                                        stateOnEvent,
                                         ref,
                                         visible: typeof invisible === 'boolean' ? !invisible : layoutVisible
                                 })

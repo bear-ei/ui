@@ -2,7 +2,7 @@ import {cloneElement} from 'react'
 import {GestureResponderEvent, PanResponderGestureState, ViewProps} from 'react-native'
 import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
-import {AnimatedTiming, StateEventType} from '../../../hooks'
+import {AnimatedTiming, StateEvent} from '../../../hooks'
 import {EventName} from '../../Common'
 import {Icon} from '../../Icon'
 import {IconButton, IconButtonType} from '../../Icon-button'
@@ -91,7 +91,7 @@ export const handleListItemStateChange =
                 type
         }: HandleListItemStateEventChangeOptions) =>
         (setState: Updater<ListItemState>) =>
-        (_event: StateEventType) => {
+        (_event: StateEvent) => {
                 const nextEvent = {
                         layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
                         pressIn: () => handleListItemActive(selectType)(onActive)(itemKey),
@@ -248,12 +248,12 @@ export const renderListItemTrailing = ({
         afterAffordance,
         closeTrailing,
         disabled,
-        stateEvent,
+        stateOnEvent,
         trailing,
         trailingProps,
         id
 }: RenderListItemTrailingOptions) => {
-        const {onHoverIn, onHoverOut} = stateEvent
+        const {onHoverIn, onHoverOut} = stateOnEvent
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
         const props = {
@@ -261,7 +261,7 @@ export const renderListItemTrailing = ({
                 pointerEvents: 'box-only' as ViewProps['pointerEvents'],
                 type: 'standard' as IconButtonType,
                 testID: `listItem__trailing--${id}`,
-                ...stateEvent,
+                ...stateOnEvent,
                 ...trailingProps
         }
 

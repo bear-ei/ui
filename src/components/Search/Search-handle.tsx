@@ -1,7 +1,7 @@
 import {WritableDraft} from 'immer'
 import {View} from 'react-native'
 import {Updater} from 'use-immer'
-import {StateEventType} from '../../hooks'
+import {StateEvent} from '../../hooks'
 import {textSearch} from '../../utils'
 import {EventName} from '../Common'
 import {ListData} from '../List'
@@ -10,7 +10,7 @@ import {HandleSearchChangeTextOptions, HandleSearchStateChangeOptions, SearchSta
 export const handleSearchStateChange =
         ({eventName, ref, state}: HandleSearchStateChangeOptions) =>
         (setState: Updater<SearchState>) =>
-        (_event: StateEventType) => {
+        (_event: StateEvent) => {
                 const handleTextInputFocus = () => ref?.current?.focus()
                 const nextEvent = {
                         pressOut: () => handleTextInputFocus()

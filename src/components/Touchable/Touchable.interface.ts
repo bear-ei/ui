@@ -1,13 +1,13 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, NativeTouchEvent, PressableProps, View, ViewProps, ViewStyle} from 'react-native'
 import {Updater} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
 import {ShapeProps} from '../Common'
 import {TouchableRippleProps} from './Touchable-ripple'
 
 export interface TouchableProps
         extends Omit<
-                PressableProps & Pick<ShapeProps, 'shape'> & RefAttributes<View> & ViewProps & StateEvent,
+                PressableProps & Pick<ShapeProps, 'shape'> & RefAttributes<View> & ViewProps & StateOnEvent,
                 'children' | 'disabled' | 'hitSlop'
         > {
         backgroundUnderlay?: React.JSX.Element
@@ -29,7 +29,7 @@ export interface TouchableProps
 }
 
 export interface RenderTouchableProps extends TouchableProps {
-        stateEvent: StateEvent
+        stateOnEvent: StateOnEvent
         rippleElements?: React.JSX.Element[]
 }
 

@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../hooks'
 import {State} from '../Common'
 import {Icon} from '../Icon'
 import {
@@ -46,11 +46,11 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
 
                 const onChipStatus = useMemo(() => handleChipStatus(setState)(rawDisabled), [rawDisabled, setState])
                 const onStateEventChange =
-                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleChipStateChange({...options, state})(setState)(event)
 
                 const disabled = loading || rawDisabled
-                const stateEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
+                const stateOnEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
                 const {backgroundUnderlayAnimatedStyle, filterIconLayoutAnimatedStyle, labelTextAnimatedStyle} =
                         useChipAnimated({active, disabled: rawDisabled, elevated, type, chipStyle})
 
@@ -97,7 +97,7 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         labelText,
                         labelTextAnimatedStyle,
                         leadingIcon: leadingIconElement,
-                        stateEvent,
+                        stateOnEvent,
                         ref,
                         theme,
                         trailing: trailingElement,

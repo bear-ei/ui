@@ -3,7 +3,7 @@ import {RefAttributes} from 'react'
 import {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
-import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
 
 export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY' | 'scale' | 'standard'
@@ -35,7 +35,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
         containerAnimatedStyle?: AnimatedStyle<ViewStyle>
         layout: LayoutRectangle
-        stateEvent: StateEvent
+        stateOnEvent: StateOnEvent
         visible?: boolean
 }
 

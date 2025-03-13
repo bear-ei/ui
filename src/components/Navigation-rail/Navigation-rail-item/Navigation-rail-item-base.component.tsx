@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../../hooks'
+import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import {State} from '../../Common'
 import {Icon} from '../../Icon'
@@ -35,7 +35,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                 const pressableRef = useRef<View>(null)
                 const theme = useTheme()
                 const onStateEventChange =
-                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleNavigationRailItemStateChange({
                                         ...options,
                                         itemKey,
@@ -44,7 +44,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                                         state
                                 })(setState)(event)
 
-                const stateEvent = useStateEvent({...renderProps, disabled: false, onStateEventChange})
+                const stateOnEvent = useStateEvent({...renderProps, disabled: false, onStateEventChange})
                 const activeIconElement = renderNavigationRailItemActiveIcon(id)(icon)(eventName)
                 const iconElement = renderNavigationRailItemIcon(id)(icon)(eventName)
 
@@ -65,7 +65,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                         iconElement,
                         id,
                         labelTextAnimatedStyle,
-                        stateEvent,
+                        stateOnEvent,
                         ref: pressableRef,
                         theme,
                         type

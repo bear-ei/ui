@@ -1,6 +1,6 @@
 import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {Updater} from 'use-immer'
-import {AnimatedTiming, StateEventType} from '../../hooks'
+import {AnimatedTiming, StateEvent} from '../../hooks'
 import {EventName, State} from '../Common'
 import {
         HandleTextInputDisabledSharedValue,
@@ -18,7 +18,7 @@ import {
 export const handleTextInputStateChange =
         ({content, eventName, ref, state}: HandleTextInputStateEventChangeOptions) =>
         (setState: Updater<TextInputState>) =>
-        (_event: StateEventType) => {
+        (_event: StateEvent) => {
                 const nextEvent = {
                         pressOut: () => ref?.current?.focus()
                 } as Record<EventName, () => void>

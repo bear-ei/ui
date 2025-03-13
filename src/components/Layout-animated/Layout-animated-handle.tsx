@@ -2,7 +2,7 @@ import {WritableDraft} from 'immer'
 import {LayoutChangeEvent, LayoutRectangle} from 'react-native'
 import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
-import {StateEventType} from '../../hooks'
+import {StateEvent} from '../../hooks'
 import {EventName} from '../Common'
 import {
         HandleLayoutAnimatedFinishedOptions,
@@ -33,7 +33,7 @@ export const handleLayoutAnimatedLayoutChange =
 
 export const handleLayoutAnimatedStateChange =
         ({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
-        (event: StateEventType) => {
+        (event: StateEvent) => {
                 const nextEvent = {
                         layout: () => onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
                 } as Record<EventName, () => void>

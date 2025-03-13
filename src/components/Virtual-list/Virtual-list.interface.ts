@@ -1,7 +1,7 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, ScrollViewProps, ViewStyle} from 'react-native'
 import Animated, {AnimatedStyle} from 'react-native-reanimated'
-import {StateEvent} from '../../hooks'
+import {StateOnEvent} from '../../hooks'
 import {ComponentStatus} from '../Common'
 import {RenderVirtualListItemInfo} from './Virtual-list-item/Virtual-list-item.interface'
 
@@ -35,7 +35,7 @@ export interface RenderVirtualListProps<T = Record<string, unknown>> extends Vir
         emptyList?: boolean
         itemElements?: React.JSX.Element[]
         layout: LayoutRectangle
-        stateEvent: StateEvent
+        stateOnEvent: StateOnEvent
         status: ComponentStatus
 }
 

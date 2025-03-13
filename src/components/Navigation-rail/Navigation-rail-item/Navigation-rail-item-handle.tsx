@@ -1,7 +1,7 @@
 import {cloneElement} from 'react'
 import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
-import {StateEventType} from '../../../hooks'
+import {StateEvent} from '../../../hooks'
 import {EventName} from '../../Common'
 import {IconProps} from '../../Icon'
 import {
@@ -27,7 +27,7 @@ const handleNavigationRailItemPressOut = (onActive?: (value: string) => void) =>
 export const handleNavigationRailItemStateChange =
         ({eventName, itemKey, onActive, ref}: HandleNavigationRailItemStateEventChangeOptions) =>
         (setState: Updater<NavigationRailItemState>) =>
-        (_event: StateEventType) => {
+        (_event: StateEvent) => {
                 const nextEvent = {
                         pressIn: () => ref.current?.focus(),
                         pressOut: () => handleNavigationRailItemPressOut(onActive)(itemKey)

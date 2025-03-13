@@ -3,7 +3,7 @@ import {cloneElement} from 'react'
 import {SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
-import {StateEventType} from '../../hooks'
+import {StateEvent} from '../../hooks'
 import {EventName, State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
@@ -58,7 +58,7 @@ export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
 export const handleButtonStateChange =
         ({eventName, type, state}: HandleButtonStateChangeOptions) =>
         (setState: Updater<ButtonState>) =>
-        (_event: StateEventType) => {
+        (_event: StateEvent) => {
                 if (eventName === 'layout') {
                         return
                 }

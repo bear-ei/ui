@@ -1,5 +1,5 @@
 import {DefaultTheme} from 'styled-components/native'
-import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
 import {ComponentStatus, EventName} from '../Common'
 import {LayoutAnimatedType} from '../Layout-animated'
 import {TouchableProps} from '../Touchable'
@@ -17,7 +17,7 @@ export interface CheckboxProps extends TouchableProps {
 
 export interface RenderCheckboxProps extends CheckboxProps {
         eventName?: EventName
-        stateEvent: StateEvent
+        stateOnEvent: StateOnEvent
         theme: DefaultTheme
 }
 

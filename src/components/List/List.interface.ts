@@ -1,5 +1,5 @@
 import {RefAttributes} from 'react'
-import {StateEvent} from '../../hooks'
+import {StateOnEvent} from '../../hooks'
 import {EventName, ShapeType} from '../Common'
 import {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
 import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from './List-after-affordance'
@@ -53,7 +53,7 @@ export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttri
         onCancel?: (options: ListAfterAffordancePressOutOptions) => void
         onClose?: (options: OnVirtualListCloseOptions) => void
         onConfirm?: (options: ListAfterAffordancePressOutOptions) => void
-        onItemStateEvent?: StateEvent
+        onItemStateEvent?: StateOnEvent
         selectType?: SelectType
         shape?: ShapeType
         skeletonDuration?: number

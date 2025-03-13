@@ -1,6 +1,6 @@
 import {TextStyle, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
-import {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
 import {ComponentStatus, EventName, Size} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {TouchableProps} from '../Touchable'
@@ -22,7 +22,7 @@ export interface RenderFABProps extends FABProps {
         elevation?: ElevationLevel
         eventName?: EventName
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-        stateEvent: StateEvent
+        stateOnEvent: StateOnEvent
 }
 
 export interface FABBaseProps extends FABProps {

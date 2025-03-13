@@ -47,7 +47,7 @@ const render = ({
         leadingElement,
         onCancel,
         onConfirm,
-        stateEvent,
+        stateOnEvent,
         panResponder,
         ref,
         selectType,
@@ -109,7 +109,7 @@ const render = ({
                                         type={type}
                                 >
                                         <Touchable
-                                                {...stateEvent}
+                                                {...stateOnEvent}
                                                 disabled={disabled}
                                                 enableTouchableRipple={true}
                                                 ref={ref}

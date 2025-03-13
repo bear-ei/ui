@@ -1,7 +1,7 @@
 import {forwardRef, useId, useMemo} from 'react'
 import {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEventType, useStateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../hooks'
 import {debounce} from '../../utils'
 import {State} from '../Common'
 import {handleProgressLayoutChange, handleTouchableStateChange} from './Progress-handle'
@@ -15,11 +15,10 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(({render, type =
                 [setState, type]
         )
 
-        const onStateEventChange =
-                (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEventType) =>
-                        handleTouchableStateChange({...options, state, onLayoutChange: onProgressLayoutChange})(event)
+        const onStateEventChange = (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                handleTouchableStateChange({...options, state, onLayoutChange: onProgressLayoutChange})(event)
 
-        const stateEvent = useStateEvent({...renderProps, onStateEventChange})
+        const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
 
-        return render({...renderProps, layout, stateEvent, ref, type, id})
+        return render({...renderProps, layout, stateOnEvent, ref, type, id})
 })

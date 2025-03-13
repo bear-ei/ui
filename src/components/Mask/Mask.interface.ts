@@ -1,5 +1,5 @@
 import {View} from 'react-native'
-import {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
 import {LayoutAnimatedProps} from '../Layout-animated'
 import {TouchableProps} from '../Touchable'
 
@@ -9,7 +9,7 @@ export interface MaskProps extends Omit<LayoutAnimatedProps & TouchableProps, 'r
 }
 
 export interface RenderMaskProps extends MaskProps {
-        stateEvent: StateEvent
+        stateOnEvent: StateOnEvent
 }
 
 export interface MaskBaseProps extends MaskProps {
