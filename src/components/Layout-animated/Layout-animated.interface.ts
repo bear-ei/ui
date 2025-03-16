@@ -9,27 +9,26 @@ import {ComponentStatus, ShapeProps} from '../Common'
 export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY' | 'scale' | 'standard'
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
         animatedType?: LayoutAnimatedType
+        contentSize?: {width?: number; height?: number}
+        contentStyle?: ViewStyle
         defaultVisible?: boolean
-        disabledAnimated?: boolean
+        delay?: number
         duration?: Duration
         easing?: Easing
         entry?: AnimatedTimingOptions
         exit?: AnimatedTimingOptions
-        delay?: number
+        lazy?: boolean
+        onUnmount?: () => void
+        onVisible?: (value?: boolean) => void
+        opacity?: number
 
         /**
          * Whether or not to enable scale effects in collapse type animations
          */
         scale?: boolean
-        contentStyle?: ViewStyle
-        lazy?: boolean
-        onUnmount?: () => void
-        onVisible?: (value?: boolean) => void
-        opacity?: number
         style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> & StyleProp<ViewStyle>
         unmount?: boolean
         visible?: boolean
-        contentSize?: {width?: number; height?: number}
 }
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
@@ -61,7 +60,7 @@ export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEvent
 export interface UseLayoutAnimatedOptions
         extends Pick<
                 LayoutAnimatedProps,
-                'animatedType' | 'disabledAnimated' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible'
+                'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible'
         > {
         onAnimatedFinished: (value?: boolean) => void
         height?: number

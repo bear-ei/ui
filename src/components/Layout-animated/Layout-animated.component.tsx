@@ -7,17 +7,17 @@ import {Container, Content, ContentLayout} from './Layout-animated.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({
+        animatedType,
         children,
         containerAnimatedStyle,
+        contentSize,
         contentStyle,
         id,
+        layout,
         stateOnEvent,
         style,
         testID,
         visible,
-        contentSize,
-        layout,
-        animatedType,
         ...containerProps
 }: RenderLayoutAnimatedProps) => {
         const {onLayout} = stateOnEvent

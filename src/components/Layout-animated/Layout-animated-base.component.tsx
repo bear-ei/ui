@@ -20,7 +20,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         animatedType = 'fade',
                         contentSize,
                         defaultVisible,
-                        disabledAnimated,
+                        delay: rawDelay = 0,
                         entry,
                         exit,
                         lazy = false,
@@ -31,7 +31,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         scale = false,
                         unmount,
                         visible: rawVisible,
-                        delay: rawDelay = 0,
                         ...renderProps
                 },
                 ref
@@ -68,14 +67,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleLayoutAnimatedStateChange({
                                         ...options,
-                                        state,
-                                        onLayoutChange: onLayoutAnimatedLayoutChange
+                                        onLayoutChange: onLayoutAnimatedLayoutChange,
+                                        state
                                 })(event)
 
                 const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
                 const {containerAnimatedStyle} = useLayoutAnimated({
                         animatedType,
-                        disabledAnimated,
                         entry,
                         exit,
                         height: layout.height ?? contentSize?.height,
@@ -112,13 +110,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                                 <></>
                         :       render({
                                         ...renderProps,
-                                        contentSize,
                                         animatedType,
                                         containerAnimatedStyle,
+                                        contentSize,
                                         id,
                                         layout,
-                                        stateOnEvent,
                                         ref,
+                                        stateOnEvent,
                                         visible: typeof invisible === 'boolean' ? !invisible : layoutVisible
                                 })
         }

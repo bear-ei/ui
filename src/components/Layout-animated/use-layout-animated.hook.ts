@@ -1,13 +1,13 @@
 import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {DefaultStyle} from 'react-native-reanimated/lib/typescript/hook/commonTypes'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {handleLayoutAnimatedTiming} from './Layout-animated-handle'
-import {UseLayoutAnimatedOptions} from './Layout-animated.interface'
+import {LayoutAnimatedType, UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
 export const useLayoutAnimated = ({
         animatedType = 'fade',
-        disabledAnimated,
         entry,
         exit,
         height,
@@ -24,12 +24,8 @@ export const useLayoutAnimated = ({
                 [rawOpacity, theme.token.opacity.level10]
         )
 
-        const animatedTiming = useAnimatedTiming({token: theme.token, disabledAnimated})
-        const opacityOutputRange = [
-                animatedType === 'standard' ? 1 : theme.adaptSize(theme.token.spacing.none),
-                opacity
-        ]
-
+        const animatedTiming = useAnimatedTiming({token: theme.token})
+        const opacityOutputRange = [theme.adaptSize(theme.token.spacing.none), opacity]
         const fadeAnimatedStyle = useAnimatedStyle(() => ({
                 opacity: interpolate(containerSharedValue.value, [0, 1], opacityOutputRange)
         }))
@@ -71,12 +67,12 @@ export const useLayoutAnimated = ({
                 collapseY: collapseYAnimatedStyle,
                 fade: fadeAnimatedStyle,
                 scale: scaleAnimatedStyle,
-                standard: fadeAnimatedStyle
-        }
+                standard: {}
+        } as Record<LayoutAnimatedType, DefaultStyle>
 
         useEffect(() => {
                 onLayoutAnimatedTiming(visible)
-        }, [disabledAnimated, visible, onLayoutAnimatedTiming])
+        }, [visible, onLayoutAnimatedTiming])
 
         return {containerAnimatedStyle: containerAnimated[animatedType]}
 }
