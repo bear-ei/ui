@@ -38,7 +38,7 @@ const render = ({
         const activeIndicatorVisible =
                 type === 'link' &&
                 eventName &&
-                ['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
+                new Set(['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut']).has(eventName)
 
         const link = type === 'link'
         const loadingEventName = link ? 'none' : 'longPress'

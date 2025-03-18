@@ -46,7 +46,7 @@ export const handleVirtualListLayoutChange =
         (setState: Updater<VirtualListState>) =>
         ({width, height}: LayoutRectangle) => {
                 setState(draft => {
-                        if (['web', 'macos', 'windows'].includes(Platform.OS) && draft.layout.height) {
+                        if (new Set(['web', 'macos', 'windows']).has(Platform.OS) && draft.layout.height) {
                                 return
                         }
 

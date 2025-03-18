@@ -32,8 +32,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 (signOut = false) =>
                 (names?: (keyof T)[]) => {
                         const entityNames = getFieldEntities(signOut).map(({name}) => name)
+                        const namesSet = new Set(names)
 
-                        return [...(names ? entityNames.filter(name => name && names.includes(name)) : entityNames)]
+                        return [...(names ? entityNames.filter(name => name && namesSet.has(name)) : entityNames)]
                 }
 
         const getFieldError = ((name?: NamePath<T>) => {
@@ -123,7 +124,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                                 entities.forEach(
                                         entity =>
                                                 entity.name &&
-                                                errKeys.includes(entity.name) &&
+                                                new Set(errKeys).has(entity.name) &&
                                                 entity.onComponentUpdate()
                                 )
                         }
@@ -143,22 +144,31 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                         }
 
                         const entities = getFieldEntities()
-                        const ruleKeys = Object.keys(validateRule) as (keyof T)[]
+                        const ruleKeysSet = new Set(Object.keys(validateRule) as (keyof T)[])
 
-                        fieldEntities = entities.reduce((accumulator, entity) => {
-                                if (entity.name && ruleKeys.includes(entity.name)) {
-                                        const asyncDebouncedValidate = asyncDebounce(
-                                                handleFormValidate<T>({
-                                                        rule: validateRule[entity.name],
-                                                        validatorOptions: {...validatorOptions, ...restValidatorOptions}
-                                                })(entity.name)
-                                        )(delay) as (value?: unknown) => Promise<ValidationError[] | undefined>
-
-                                        return [...accumulator, {...entity, validate: asyncDebouncedValidate}]
-                                }
-
-                                return accumulator
-                        }, [] as FormFieldEntity<T>[])
+                        fieldEntities = entities.reduce(
+                                (accumulator, entity) =>
+                                        entity.name && ruleKeysSet.has(entity.name) ?
+                                                [
+                                                        ...accumulator,
+                                                        {
+                                                                ...entity,
+                                                                validate: asyncDebounce(
+                                                                        handleFormValidate<T>({
+                                                                                rule: validateRule[entity.name],
+                                                                                validatorOptions: {
+                                                                                        ...validatorOptions,
+                                                                                        ...restValidatorOptions
+                                                                                }
+                                                                        })(entity.name)
+                                                                )(delay) as (
+                                                                        value?: unknown
+                                                                ) => Promise<ValidationError[] | undefined>
+                                                        }
+                                                ]
+                                        :       accumulator,
+                                [] as FormFieldEntity<T>[]
+                        )
 
                         if (!validatorOptions) {
                                 validatorOptions = restValidatorOptions
@@ -345,10 +355,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 }
 
                 const fieldErrors = await Promise.all(getFieldEntitiesName()(names).map(handleValidate))
-                const err = fieldErrors.reduce(
-                        (accumulator, currentValue) => ({...accumulator, ...currentValue}),
-                        {} as FormError<T>
-                )
+                const err = fieldErrors.reduce((accumulator, value) => ({...accumulator, ...value}), {} as FormError<T>)
 
                 return !Array.isArray(name) && name ? err[name] : err
         }) as FormStore<T>['validateField']

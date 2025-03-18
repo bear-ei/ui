@@ -33,7 +33,7 @@ export const useDesktopScrollEvent = ({onScroll, onMomentumScrollEnd}: UseDeskto
         )
 
         return {
-                onScroll: ['macos', 'web', 'windows'].includes(Platform.OS) ? onDesktopScroll : onScroll,
+                onScroll: new Set(['macos', 'web', 'windows']).has(Platform.OS) ? onDesktopScroll : onScroll,
                 onMomentumScrollEnd
         }
 }

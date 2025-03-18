@@ -13,7 +13,6 @@ import {
         RenderListItemOptions
 } from './List.interface'
 
-const handlePrevListActiveKeysFilter = (value: string) => (key: string) => key !== value
 const handleListSelect = (draft: WritableDraft<ListState>) => (deselect?: boolean) => (value?: string | string[]) => {
         const prevActiveKey = draft.activeKey
 
@@ -30,6 +29,7 @@ const handleListSelect = (draft: WritableDraft<ListState>) => (deselect?: boolea
         return draft.activeKey
 }
 
+const handlePrevListActiveKeysFilter = (value: string) => (key: string) => key !== value
 const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: string | string[]) => {
         const prevActiveKeys = draft.activeKeys
         const nextActiveKeys = Array.isArray(value) ? value : [...(prevActiveKeys ?? []), value]
@@ -40,7 +40,7 @@ const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: strin
 
         if (typeof value === 'string') {
                 draft.activeKeys =
-                        prevActiveKeys?.includes(value) ?
+                        new Set(prevActiveKeys).has(value) ?
                                 prevActiveKeys?.filter(handlePrevListActiveKeysFilter(value))
                         :       nextActiveKeys
         }

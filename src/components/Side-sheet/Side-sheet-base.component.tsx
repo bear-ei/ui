@@ -96,6 +96,6 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                         runAfterInteractions(nextCancelEvent)()
                 }, [nextCancelEvent])
 
-                return ['standard', 'standardContainer'].includes(type) ? render(renderSheetProps) : <></>
+                return new Set(['standard', 'standardContainer']).has(type) ? render(renderSheetProps) : <></>
         }
 )

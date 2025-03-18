@@ -60,7 +60,7 @@ export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
                         story={story}
                         testID={`bearei__material--${id}`}
                 >
-                        {['macos', 'windows', 'web'].includes(Platform.OS) ?
+                        {new Set(['macos', 'windows', 'web']).has(Platform.OS) ?
                                 <DesktopDevice {...props} />
                         :       <MobileDevice {...props} />}
                 </Container>

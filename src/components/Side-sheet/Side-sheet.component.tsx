@@ -17,7 +17,7 @@ const render = ({visible, type = 'standard', id, testID, ...sheetProps}: RenderS
 
         return (
                 <>
-                        {['standard', 'standardContainer'].includes(type) ?
+                        {new Set(['standard', 'standardContainer']).has(type) ?
                                 sheetContentElement
                         :       <Container testID={testID ?? `sideSheet--${id}`}>{sheetContentElement}</Container>}
                 </>

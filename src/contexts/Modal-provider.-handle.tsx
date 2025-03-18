@@ -13,9 +13,9 @@ export const handleModal = (setState: Updater<ModalState>) => (modal: Modal) => 
                 }
 
                 if (draft.modals.length) {
-                        draft.modals = draft.modals.reduce((accumulator, item) => {
-                                if (item.id === id) {
-                                        return [...accumulator, {...item, props}]
+                        draft.modals = draft.modals.reduce((accumulator, modalItem) => {
+                                if (modalItem.id === id) {
+                                        return [...accumulator, {...modalItem, props}]
                                 }
 
                                 return accumulator

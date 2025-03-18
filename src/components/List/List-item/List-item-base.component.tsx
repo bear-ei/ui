@@ -71,7 +71,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 const id = useId()
                 const pressableRef = useRef<View>(null)
                 const active = useMemo(
-                        () => (selectType === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)),
+                        () => (selectType === 'select' ? activeKey === itemKey : new Set(activeKeys).has(itemKey)),
                         [activeKey, activeKeys, itemKey, selectType]
                 )
 

@@ -48,8 +48,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
                         prevActiveKey !== nextActiveKey &&
                         (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
 
-                const nextActive = nextActiveKeys?.includes(nextItemKey)
-                const prevActive = prevActiveKeys?.includes(prevItemKey)
+                const nextActive = new Set(nextActiveKeys).has(nextItemKey)
+                const prevActive = new Set(prevActiveKeys).has(prevItemKey)
                 const activeKeysChange =
                         nextActiveKeys?.join() !== prevActiveKeys?.join() &&
                         ((nextActive && !prevActive) || (prevActive && !nextActive))
@@ -108,7 +108,7 @@ export const handleListItemStateChange =
                                 eventName === 'blur' &&
                                 prevEventName === 'focus' &&
                                 type === 'menu' &&
-                                ['hoverIn', 'hoverOut'].includes(eventName)
+                                new Set(['hoverIn', 'hoverOut']).has(eventName)
 
                         if (menuFocus) {
                                 return
@@ -123,7 +123,7 @@ export const handleListItemStateChange =
                                 const visible =
                                         trailingTriggerEvenName === 'hoverIn' ?
                                                 state &&
-                                                ['hovered', 'longPressIn', 'pressIn', 'focused'].includes(state)
+                                                new Set(['hovered', 'longPressIn', 'pressIn', 'focused']).has(state)
                                         :       trailingTriggerEvenName === state
 
                                 draft.trailingVisible = visible
