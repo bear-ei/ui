@@ -97,7 +97,7 @@ export const useStateEvent = ({
         onPressOut,
         onStateEventChange
 }: UseHandleStateEventOptions) => {
-        const mobileDevice = new Set(['ios', 'android']).has(Platform.OS)
+        const mobileDevice = ['ios', 'android'].includes(Platform.OS)
         const stateOnEvent = (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                 handleStateEventChange({...options, disabled, onStateEventChange})(disabled ? 'disabled' : state)(event)
 

@@ -34,7 +34,7 @@ export const handleChipElevation =
         ({type, elevated, disabled}: HandleChipElevationOptions) =>
         (setState: Updater<ChipState>) =>
         (state = 'enabled' as State) => {
-                const elevationType = type && new Set(['assist', 'filter', 'suggestion', 'inputFilled']).has(type)
+                const elevationType = type && ['assist', 'filter', 'suggestion', 'inputFilled'].includes(type)
 
                 if (!elevationType) {
                         return

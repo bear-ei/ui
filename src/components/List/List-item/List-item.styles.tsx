@@ -185,7 +185,7 @@ export const TrailingLayoutAnimated = styled(LayoutAnimated)<ListItemTrailingPro
 
         ${({theme, trailingShow, type = 'standard'}) =>
                 trailingShow &&
-                new Set(['menu']).has(type) &&
+                ['menu'].includes(type) &&
                 css`
                         margin-right: ${-theme.adaptSize(
                                 theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall

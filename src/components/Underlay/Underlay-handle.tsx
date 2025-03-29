@@ -22,9 +22,7 @@ export const handleUnderlayHoveredAnimatedTiming = ({
         const eventKeys = Object.keys(event)
 
         return (hoverLayerSharedValue: SharedValue<number>) => (eventName?: EventName) =>
-                eventName &&
-                new Set(eventKeys).has(eventName) &&
-                animatedTiming()(hoverLayerSharedValue)(event[eventName])
+                eventName && eventKeys.includes(eventName) && animatedTiming()(hoverLayerSharedValue)(event[eventName])
 }
 
 export const handleUnderlayActiveAnimatedTiming =

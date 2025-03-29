@@ -40,7 +40,7 @@ const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: strin
 
         if (typeof value === 'string') {
                 draft.activeKeys =
-                        new Set(prevActiveKeys).has(value) ?
+                        prevActiveKeys?.includes(value) ?
                                 prevActiveKeys?.filter(handlePrevListActiveKeysFilter(value))
                         :       nextActiveKeys
         }

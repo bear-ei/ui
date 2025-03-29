@@ -30,7 +30,7 @@ export const handleButtonStatus = (setState: Updater<ButtonState>) => (disabled?
         })
 
 export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
-        const elevationType = type && new Set(['elevated', 'filled', 'tonal']).has(type)
+        const elevationType = type && ['elevated', 'filled', 'tonal'].includes(type)
 
         if (!elevationType) {
                 return

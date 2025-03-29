@@ -69,7 +69,7 @@ const render = ({
         const trailingShow = !!trailingElement
         const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
         const underlayProps = selectType &&
-                new Set(['select', 'multiselect']).has(selectType) &&
+                ['select', 'multiselect'].includes(selectType) &&
                 enableUnderlayActive && {
                         active,
                         activeAnimatedType: 'fade' as ActiveAnimatedType,

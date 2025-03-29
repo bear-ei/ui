@@ -125,7 +125,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                 hexToRGBA(scheme.primary)(opacity.level10)
         ]
 
-        const notBackgroundColor = new Set(['text', 'link']).has(type)
+        const notBackgroundColor = ['text', 'link'].includes(type)
         const notBorderColor = type !== 'outlined'
         const borderWidth = theme.adaptSize(spacing.extraSmall / 4)
         const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({

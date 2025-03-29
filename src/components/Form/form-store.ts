@@ -124,7 +124,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                                 entities.forEach(
                                         entity =>
                                                 entity.name &&
-                                                new Set(errKeys).has(entity.name) &&
+                                                errKeys.includes(entity.name) &&
                                                 entity.onComponentUpdate()
                                 )
                         }
