@@ -58,7 +58,7 @@ export const VirtualListBaseInner = <T,>(
         )
 
         const {animatedRef, contentAnimatedStyle} = useVirtualListAnimated({focusedIndex, itemSize, contentSize})
-        const onVirtualListVisibleRange = useMemo(
+        const onVirtualListVisibleRanges = useMemo(
                 () => handleVirtualListDataChange(itemSize)(setState),
                 [itemSize, setState]
         )

@@ -12,8 +12,8 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
         const theme = useTheme()
         const {elevation, palette} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const inputRange = useMemo(() => [0, 1, 2, 3, 4, 5], [])
-        const shadowOpacityOutputRange = [
+        const inputRanges = useMemo(() => [0, 1, 2, 3, 4, 5], [])
+        const shadowOpacityOutputRanges = [
                 elevation.level0.shadowOpacity,
                 elevation.level1.shadowOpacity,
                 elevation.level2.shadowOpacity,
@@ -22,7 +22,7 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
                 elevation.level5.shadowOpacity
         ]
 
-        const elevationOutputRange = [
+        const elevationOutputRanges = [
                 elevation.level0.elevation,
                 elevation.level1.elevation,
                 elevation.level2.elevation,
@@ -31,7 +31,7 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
                 elevation.level5.elevation
         ]
 
-        const shadowRadiusOutputRange = [
+        const shadowRadiusOutputRanges = [
                 theme.adaptSize(elevation.level0.shadowRadius),
                 theme.adaptSize(elevation.level1.shadowRadius),
                 theme.adaptSize(elevation.level2.shadowRadius),
@@ -40,7 +40,7 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
                 theme.adaptSize(elevation.level5.shadowRadius)
         ]
 
-        const shadowOffsetXOutputRange = [
+        const shadowOffsetXOutputRanges = [
                 theme.adaptSize(elevation.level0.shadowOffset.width),
                 theme.adaptSize(elevation.level1.shadowOffset.width),
                 theme.adaptSize(elevation.level2.shadowOffset.width),
@@ -49,7 +49,7 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
                 theme.adaptSize(elevation.level5.shadowOffset.width)
         ]
 
-        const shadowOffsetYOutputRange = [
+        const shadowOffsetYOutputRanges = [
                 theme.adaptSize(elevation.level0.shadowOffset.height),
                 theme.adaptSize(elevation.level1.shadowOffset.height),
                 theme.adaptSize(elevation.level2.shadowOffset.height),
@@ -59,10 +59,10 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
         ]
 
         const shadowAnimatedStyle = useAnimatedStyle(() => {
-                const shadowOffsetX = interpolate(shadowSharedValue.value, inputRange, shadowOffsetXOutputRange)
-                const shadowOffsetY = interpolate(shadowSharedValue.value, inputRange, shadowOffsetYOutputRange)
-                const shadowOpacity = interpolate(shadowSharedValue.value, inputRange, shadowOpacityOutputRange)
-                const shadowRadius = interpolate(shadowSharedValue.value, inputRange, shadowRadiusOutputRange)
+                const shadowOffsetX = interpolate(shadowSharedValue.value, inputRanges, shadowOffsetXOutputRanges)
+                const shadowOffsetY = interpolate(shadowSharedValue.value, inputRanges, shadowOffsetYOutputRanges)
+                const shadowOpacity = interpolate(shadowSharedValue.value, inputRanges, shadowOpacityOutputRanges)
+                const shadowRadius = interpolate(shadowSharedValue.value, inputRanges, shadowRadiusOutputRanges)
                 const shadowColor =
                         Platform.OS === 'web' ?
                                 /** Running in JS thread*/
@@ -75,8 +75,8 @@ export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) =
                         :       {
                                         elevation: interpolate(
                                                 shadowSharedValue.value,
-                                                inputRange,
-                                                elevationOutputRange
+                                                inputRanges,
+                                                elevationOutputRanges
                                         ),
                                         shadowColor: shadowColor,
                                         shadowOffset: {height: shadowOffsetY, width: shadowOffsetX},

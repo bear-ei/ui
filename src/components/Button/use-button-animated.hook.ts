@@ -17,12 +17,12 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
         const backgroundColorType = {
                 elevated: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerLow)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerLow)(opacity.level10)]
                 },
                 filled: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 disabledBackgroundColor,
                                 error ?
                                         hexToRGBA(scheme.error)(opacity.level10)
@@ -30,29 +30,29 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         ]
                 },
                 outlined: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 text: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 link: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 tonal: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 disabledBackgroundColor,
                                 error ?
                                         hexToRGBA(scheme.errorContainer)(opacity.level10)
@@ -63,8 +63,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
 
         const colorType = {
                 elevated: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 disabledColor,
                                 error ?
                                         hexToRGBA(scheme.error)(opacity.level10)
@@ -72,8 +72,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         ]
                 },
                 filled: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 disabledColor,
                                 error ?
                                         hexToRGBA(scheme.onError)(opacity.level10)
@@ -81,8 +81,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         ]
                 },
                 outlined: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 disabledColor,
                                 error ?
                                         hexToRGBA(scheme.error)(opacity.level10)
@@ -90,8 +90,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         ]
                 },
                 text: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 disabledColor,
                                 error ?
                                         hexToRGBA(scheme.error)(opacity.level10)
@@ -99,8 +99,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         ]
                 },
                 link: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 disabledColor,
                                 error ?
                                         hexToRGBA(scheme.error)(opacity.level10)
@@ -108,8 +108,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                         ]
                 },
                 tonal: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 disabledColor,
                                 error ?
                                         hexToRGBA(scheme.onErrorContainer)(opacity.level10)
@@ -132,8 +132,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                 ...(!notBackgroundColor && {
                         backgroundColor: interpolateColor(
                                 colorSharedValue.value,
-                                backgroundColorType[type].inputRange,
-                                backgroundColorType[type].outputRange
+                                backgroundColorType[type].inputRanges,
+                                backgroundColorType[type].outputRanges
                         )
                 }),
                 ...(!notBorderColor && {
@@ -148,7 +148,11 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         }))
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(colorSharedValue.value, colorType[type].inputRange, colorType[type].outputRange)
+                color: interpolateColor(
+                        colorSharedValue.value,
+                        colorType[type].inputRanges,
+                        colorType[type].outputRanges
+                )
         }))
 
         const onButtonAnimatedTiming = useMemo(

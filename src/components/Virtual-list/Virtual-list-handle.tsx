@@ -15,7 +15,7 @@ import {
         VirtualListState
 } from './Virtual-list.interface'
 
-const handleVirtualListVisibleRange =
+const handleVirtualListVisibleRanges =
         (itemSize = 0) =>
         (draft: WritableDraft<VirtualListState>) =>
         (scrollOffset?: number) => {

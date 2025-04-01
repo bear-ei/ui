@@ -26,40 +26,40 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
         const filledBackgroundColor = hexToRGBA(scheme.surfaceContainerHigh)(opacity.level10)
         const backgroundColorType = {
                 input: {
-                        inputRange: [0, 1, 2],
-                        outputRange: [
+                        inputRanges: [0, 1, 2],
+                        outputRanges: [
                                 disabledBackgroundColor,
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 inputFilled: {
-                        inputRange: [0, 1, 2],
-                        outputRange: [
+                        inputRanges: [0, 1, 2],
+                        outputRanges: [
                                 disabledBackgroundColor,
                                 chipStyle === 'filled' ? filledBackgroundColor : elevatedBackgroundColor,
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 assist: {
-                        inputRange: [0, 1, 2],
-                        outputRange: [
+                        inputRanges: [0, 1, 2],
+                        outputRanges: [
                                 disabledBackgroundColor,
                                 chipStyle === 'filled' ? filledBackgroundColor : elevatedBackgroundColor,
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 filter: {
-                        inputRange: [0, 1, 2],
-                        outputRange: [
+                        inputRanges: [0, 1, 2],
+                        outputRanges: [
                                 disabledBackgroundColor,
                                 chipStyle === 'filled' ? filledBackgroundColor : elevatedBackgroundColor,
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 suggestion: {
-                        inputRange: [0, 1, 2],
-                        outputRange: [
+                        inputRanges: [0, 1, 2],
+                        outputRanges: [
                                 disabledBackgroundColor,
                                 chipStyle === 'filled' ? filledBackgroundColor : elevatedBackgroundColor,
                                 hexToRGBA(scheme.primary)(opacity.level0)
@@ -69,40 +69,40 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
 
         const colorType = {
                 input: {
-                        inputRange: [0, 1, 2],
-                        outputRange: [
+                        inputRanges: [0, 1, 2],
+                        outputRanges: [
                                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                                 hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
                         ]
                 },
                 inputFilled: {
-                        inputRange: [0, 1, 2],
-                        outputRange: [
+                        inputRanges: [0, 1, 2],
+                        outputRanges: [
                                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                                 hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
                         ]
                 },
                 assist: {
-                        inputRange: [0, 1, 2],
-                        outputRange: [
+                        inputRanges: [0, 1, 2],
+                        outputRanges: [
                                 disabledColor,
                                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                                 hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
                         ]
                 },
                 filter: {
-                        inputRange: [0, 1, 2],
-                        outputRange: [
+                        inputRanges: [0, 1, 2],
+                        outputRanges: [
                                 disabledColor,
                                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                                 hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
                         ]
                 },
                 suggestion: {
-                        inputRange: [0, 1, 2],
-                        outputRange: [
+                        inputRanges: [0, 1, 2],
+                        outputRanges: [
                                 disabledColor,
                                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                                 hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
@@ -119,7 +119,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
                 hexToRGBA(scheme.outline)(opacity.level0)
         ]
 
-        const borderWidthOutputRange = [
+        const borderWidthOutputRanges = [
                 theme.adaptSize(theme.token.spacing.extraSmall / 4),
                 chipStyle === 'outlined' ?
                         theme.adaptSize(theme.token.spacing.extraSmall / 4)
@@ -130,16 +130,20 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
         const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(
                         colorSharedValue.value,
-                        backgroundColorType[type].inputRange,
-                        backgroundColorType[type].outputRange
+                        backgroundColorType[type].inputRanges,
+                        backgroundColorType[type].outputRanges
                 ),
                 borderColor: interpolateColor(borderSharedValue.value, borderInputRanges, borderColorOutputRanges),
                 borderStyle: 'solid',
-                borderWidth: interpolate(borderSharedValue.value, borderInputRanges, borderWidthOutputRange)
+                borderWidth: interpolate(borderSharedValue.value, borderInputRanges, borderWidthOutputRanges)
         }))
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(colorSharedValue.value, colorType[type].inputRange, colorType[type].outputRange)
+                color: interpolateColor(
+                        colorSharedValue.value,
+                        colorType[type].inputRanges,
+                        colorType[type].outputRanges
+                )
         }))
 
         const filterIconLayoutWidthOutputRanges = [

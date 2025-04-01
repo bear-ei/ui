@@ -16,30 +16,30 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
         const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
         const backgroundColorType = {
                 filled: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, hexToRGBA(scheme.primary)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.primary)(opacity.level10)]
                 },
                 outlined: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 standard: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
                 tonal: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, hexToRGBA(scheme.secondaryContainer)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.secondaryContainer)(opacity.level10)]
                 },
                 active: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
@@ -50,8 +50,8 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
         const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(
                         colorSharedValue.value,
-                        backgroundColorType[type].inputRange,
-                        backgroundColorType[type].outputRange
+                        backgroundColorType[type].inputRanges,
+                        backgroundColorType[type].outputRanges
                 ),
                 ...(type === 'outlined' && {
                         borderColor: interpolateColor(

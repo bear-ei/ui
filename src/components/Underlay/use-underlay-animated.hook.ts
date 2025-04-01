@@ -28,7 +28,7 @@ export const useUnderlayAnimated = ({
         const hoverLayerSharedValue = useSharedValue(0)
         const activeLayerSharedValue = useSharedValue(typeof active === 'boolean' ? defaultScaleValue : 0)
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const opacityInputRange = opacities.map((_value, index) => index)
+        const opacityInputRanges = opacities.map((_value, index) => index)
         const hoverLayerAnimatedStyle = useAnimatedStyle(() => ({
                 opacity: interpolate(hoverLayerSharedValue.value, opacityInputRange, opacities)
         }))

@@ -25,12 +25,12 @@ export const useLayoutAnimated = ({
         )
 
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const opacityOutputRange = [theme.adaptSize(theme.token.spacing.none), opacity]
+        const opacityOutputRanges = [theme.adaptSize(theme.token.spacing.none), opacity]
         const fadeAnimatedStyle = useAnimatedStyle(() => ({
                 opacity: interpolate(containerSharedValue.value, [0, 1], opacityOutputRange)
         }))
 
-        const widthOutputRange = [
+        const widthOutputRanges = [
                 theme.adaptSize(theme.token.spacing.none),
                 width ?? theme.adaptSize(theme.token.spacing.none)
         ]
@@ -40,7 +40,7 @@ export const useLayoutAnimated = ({
                 ...(scale && {transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]})
         }))
 
-        const heightOutputRange = [
+        const heightOutputRanges = [
                 theme.adaptSize(theme.token.spacing.none),
                 height ?? theme.adaptSize(theme.token.spacing.none)
         ]

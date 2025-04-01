@@ -11,7 +11,7 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
         const {hexToRGBA} = palette
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const labelTextColorSharedValue = useSharedValue(active ? 1 : 0)
-        const labelTextColorOutputRange = [
+        const labelTextColorOutputRanges = [
                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                 hexToRGBA(scheme.onSurface)(opacity.level10)
         ]

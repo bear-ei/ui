@@ -13,7 +13,7 @@ export const useSideSheetContentAnimated = ({type = 'standard', visible}: UseSid
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const backgroundColorSharedValue = useSharedValue(animatedValue)
         const standard = ['standard', 'standardContainer'].includes(type)
-        const containerBackgroundColorOutputRange = [
+        const containerBackgroundColorOutputRanges = [
                 hexToRGBA(scheme.scrim)(opacity.level0),
                 standard ? hexToRGBA(scheme.scrim)(opacity.level0) : hexToRGBA(scheme.scrim)(opacity.level4)
         ]

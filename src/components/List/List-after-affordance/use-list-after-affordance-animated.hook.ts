@@ -10,7 +10,7 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
         const theme = useTheme()
         const {spacing} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const dangerTranslateXOutputRange = [
+        const dangerTranslateXOutputRanges = [
                 theme.adaptSize(spacing.none),
                 -(theme.adaptSize(spacing.extraSmall * 28) / 2)
         ]

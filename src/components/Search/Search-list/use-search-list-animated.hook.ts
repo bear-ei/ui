@@ -14,7 +14,7 @@ export const useSearchListAnimated = ({visible, containerLayout}: UseSearchListA
         const theme = useTheme()
         const {spacing} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const heightOutputRange = [
+        const heightOutputRanges = [
                 theme.adaptSize(spacing.none),
                 theme.adaptSize(spacing.extraSmall * 80 + (containerLayout.height ?? 0))
         ]

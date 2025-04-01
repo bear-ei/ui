@@ -18,12 +18,12 @@ export const useListItemAnimated = ({
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const contentLeftSharedValue = useSharedValue(0)
         const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
-        const contentLeftOutputRange = [theme.adaptSize(spacing.none), -theme.adaptSize(spacing.extraSmall * 28)]
+        const contentLeftOutputRanges = [theme.adaptSize(spacing.none), -theme.adaptSize(spacing.extraSmall * 28)]
         const contentAnimatedStyle = useAnimatedStyle(() => ({
                 left: interpolate(contentLeftSharedValue.value, [0, 1], contentLeftOutputRange)
         }))
 
-        const headlineTextColorOutputRange = [
+        const headlineTextColorOutputRanges = [
                 palette.hexToRGBA(scheme.onSurface)(opacity.level10),
                 palette.hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
         ]

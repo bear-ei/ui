@@ -15,52 +15,56 @@ export const useFABAnimated = ({disabled, type = 'primary'}: UseFABAnimatedOptio
         const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
         const backgroundColorType = {
                 surface: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerHigh)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerHigh)(opacity.level10)]
                 },
                 primary: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, hexToRGBA(scheme.primaryContainer)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.primaryContainer)(opacity.level10)]
                 },
                 secondary: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, hexToRGBA(scheme.secondaryContainer)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.secondaryContainer)(opacity.level10)]
                 },
                 tertiary: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledBackgroundColor, hexToRGBA(scheme.tertiaryContainer)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.tertiaryContainer)(opacity.level10)]
                 }
         }
 
         const colorType = {
                 surface: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledColor, hexToRGBA(scheme.primary)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledColor, hexToRGBA(scheme.primary)(opacity.level10)]
                 },
                 primary: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledColor, hexToRGBA(scheme.onPrimaryContainer)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledColor, hexToRGBA(scheme.onPrimaryContainer)(opacity.level10)]
                 },
                 secondary: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledColor, hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledColor, hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)]
                 },
                 tertiary: {
-                        inputRange: [0, 1],
-                        outputRange: [disabledColor, hexToRGBA(scheme.onTertiaryContainer)(opacity.level10)]
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledColor, hexToRGBA(scheme.onTertiaryContainer)(opacity.level10)]
                 }
         }
 
         const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(
                         colorSharedValue.value,
-                        backgroundColorType[type].inputRange,
-                        backgroundColorType[type].outputRange
+                        backgroundColorType[type].inputRanges,
+                        backgroundColorType[type].outputRanges
                 )
         }))
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(colorSharedValue.value, colorType[type].inputRange, colorType[type].outputRange)
+                color: interpolateColor(
+                        colorSharedValue.value,
+                        colorType[type].inputRanges,
+                        colorType[type].outputRanges
+                )
         }))
 
         const onFABAnimatedTiming = useMemo(

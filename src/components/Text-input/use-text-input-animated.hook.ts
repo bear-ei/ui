@@ -55,15 +55,15 @@ export const useTextInputAnimated = ({
         const labelTextSharedValue = useSharedValue(filledToValue)
         const backgroundColorType = {
                 filled: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 disabledBackgroundColor,
                                 hexToRGBA(scheme.surfaceContainerHighest)(opacity.level10)
                         ]
                 },
                 outlined: {
-                        inputRange: [0, 1],
-                        outputRange: [
+                        inputRanges: [0, 1],
+                        outputRanges: [
                                 hexToRGBA(scheme.surface)(opacity.level0),
                                 hexToRGBA(scheme.surface)(opacity.level0)
                         ]
@@ -73,17 +73,17 @@ export const useTextInputAnimated = ({
         const headerAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(
                         headerInnerBackgroundColorSharedValue.value,
-                        backgroundColorType[type].inputRange,
-                        backgroundColorType[type].outputRange
+                        backgroundColorType[type].inputRanges,
+                        backgroundColorType[type].outputRanges
                 )
         }))
 
-        const inputColorSharedValueOutputRange = [disabledColor, hexToRGBA(scheme.onSurface)(opacity.level10)]
+        const inputColorSharedValueOutputRanges = [disabledColor, hexToRGBA(scheme.onSurface)(opacity.level10)]
         const inputAnimatedStyle = useAnimatedStyle(() => ({
                 color: interpolateColor(colorSharedValue.value, [0, 1], inputColorSharedValueOutputRange)
         }))
 
-        const labelTranslateYOutputRange = [-theme.adaptSize(spacing.small), theme.adaptSize(spacing.none)]
+        const labelTranslateYOutputRanges = [-theme.adaptSize(spacing.small), theme.adaptSize(spacing.none)]
         const labelAnimatedStyle = useAnimatedStyle(() => ({
                 transform: [
                         {
@@ -92,22 +92,22 @@ export const useTextInputAnimated = ({
                 ]
         }))
 
-        const labelTextFontSizeOutputRange = [
+        const labelTextFontSizeOutputRanges = [
                 theme.adaptFontSize(typography.body.small.size),
                 theme.adaptFontSize(typography.body.large.size)
         ]
 
-        const labelTextLetterSpacingOutputRange = [
+        const labelTextLetterSpacingOutputRanges = [
                 theme.adaptSize(typography.body.small.letterSpacing),
                 theme.adaptSize(typography.body.large.letterSpacing)
         ]
 
-        const labelTextHeightOutputRange = [
+        const labelTextHeightOutputRanges = [
                 theme.adaptSize(typography.body.small.lineHeight),
                 theme.adaptSize(typography.body.large.lineHeight)
         ]
 
-        const labelTextColorOutputRange = [
+        const labelTextColorOutputRanges = [
                 disabledColor,
                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                 hexToRGBA(scheme.primary)(opacity.level10),
@@ -122,7 +122,7 @@ export const useTextInputAnimated = ({
                 lineHeight: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRange)
         }))
 
-        const activeIndicatorBackgroundColorOutputRange = [
+        const activeIndicatorBackgroundColorOutputRanges = [
                 disabledColor,
                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                 hexToRGBA(scheme.primary)(opacity.level10),
@@ -143,7 +143,7 @@ export const useTextInputAnimated = ({
                 ]
         }))
 
-        const supportingTextSharedValueValueColorOutputRange = [
+        const supportingTextSharedValueValueColorOutputRanges = [
                 disabledColor,
                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
                 hexToRGBA(scheme.error)(opacity.level10)
