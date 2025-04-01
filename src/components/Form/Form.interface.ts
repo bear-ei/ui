@@ -38,40 +38,40 @@ export interface SetFieldValueOptions {
 
 export interface FormStore<T = Record<string, unknown>> {
         getFieldEntities: (signOut?: boolean) => FormFieldEntity<T>[]
-        getFieldEntitiesName: (signOut?: boolean) => (names?: (keyof T)[]) => (keyof T | undefined)[]
-        getFieldErrors: {
+        getFieldEntitiesName: (signOut?: boolean) => (namePaths?: (keyof T)[]) => (keyof T | undefined)[]
+        getFieldsError: {
                 (): FormError<T>
-                (name?: (keyof T)[]): FormError<T>
+                (namePaths?: (keyof T)[]): FormError<T>
                 (name?: keyof T): FormError<T>[keyof T]
         }
 
         getFieldsValue: {
                 (): T
-                (name?: (keyof T)[]): T
+                (namePaths?: (keyof T)[]): T
                 (name?: keyof T): T[keyof T]
         }
 
-        getInitialValue: {
+        getInitialValues: {
                 (): T
-                (name?: (keyof T)[]): T
+                (namePaths?: (keyof T)[]): T
                 (name?: keyof T): T[keyof T]
         }
 
-        isFieldsTouched: (name?: NamePath) => boolean
-        resetFields: (name?: NamePath) => void
+        isFieldsTouched: (namePaths?: NamePath) => boolean
+        resetFields: (namePaths?: NamePath) => void
         setCallback: (formCallback: FormCallback<T>) => void
         setFieldError: (componentUpdate?: boolean) => (error: FormError<T>) => void
-        setFieldKeys: (keys?: (keyof T)[]) => void
+        setFieldKeys: (fieldKeys?: (keyof T)[]) => void
         setFieldTouched: (touched?: boolean) => (name?: keyof T) => void
         setFieldValidate: (rule: FormValidateRule<T>) => void
         setFieldValue: (options?: SetFieldValueOptions) => (value?: T) => void
         setInitialValue: (initialized?: boolean) => (value?: T) => void
         signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
-        signOutFields: (name?: NamePath) => void
+        signOutFields: (namePaths?: NamePath) => void
         submit: (skipValidate?: boolean) => void
         validateFields: {
                 (): Promise<FormError<T>>
-                (name?: (keyof T)[]): Promise<FormError<T>>
+                (namePaths?: (keyof T)[]): Promise<FormError<T>>
                 (name?: keyof T): Promise<FormError<T>[keyof T]>
         }
 }

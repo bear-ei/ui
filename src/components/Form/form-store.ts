@@ -16,15 +16,15 @@ const createFormContext = <T>() => ({
         callback: {} as FormCallback<T>,
         error: {} as FormError<T>,
         fieldEntities: [] as FormFieldEntity<T>[],
+        fieldKeys: [] as (keyof T)[],
         initialValue: {} as T,
-        keys: [] as (keyof T)[],
         signInFieldCompleted: false,
         store: {} as T,
         validatorOptions: undefined as FormValidatorOptions | undefined
 })
 
 export const formStore = <T extends Record<string, unknown> = Record<string, unknown>>() => {
-        let {callback, error, fieldEntities, initialValue, store, signInFieldCompleted, keys, validatorOptions} =
+        let {callback, error, fieldEntities, initialValue, store, signInFieldCompleted, fieldKeys, validatorOptions} =
                 createFormContext<T>()
 
         const getFieldEntities = (signOut = false) => (signOut ? fieldEntities : fieldEntities.filter(({name}) => name))
@@ -37,8 +37,8 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                         return [...(names ? entityNames.filter(name => name && namesSet.has(name)) : entityNames)]
                 }
 
-        const getFieldErrors = ((paths?: NamePath<T>) => {
-                const names = namePath(paths)
+        const getFieldsError = ((namePaths?: NamePath<T>) => {
+                const names = namePath(namePaths)
                 const err =
                         names ?
                                 getFieldEntitiesName()(names).reduce(
@@ -50,11 +50,11 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                                 )
                         :       error
 
-                return !Array.isArray(paths) && paths ? err[paths] : err
-        }) as FormStore<T>['getFieldErrors']
+                return !Array.isArray(namePaths) && namePaths ? err[namePaths] : err
+        }) as FormStore<T>['getFieldsError']
 
-        const getFieldsValue = ((paths?: NamePath<T>) => {
-                const names = namePath(paths)
+        const getFieldsValue = ((namePaths?: NamePath<T>) => {
+                const names = namePath(namePaths)
                 const value =
                         names ?
                                 getFieldEntitiesName()(names).reduce(
@@ -66,11 +66,11 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                                 )
                         :       store
 
-                return !Array.isArray(paths) && paths ? value[paths] : value
+                return !Array.isArray(namePaths) && namePaths ? value[namePaths] : value
         }) as FormStore<T>['getFieldsValue']
 
-        const getInitialValue = ((paths?: NamePath<T>) => {
-                const names = namePath(paths)
+        const getInitialValues = ((namePaths?: NamePath<T>) => {
+                const names = namePath(namePaths)
                 const value =
                         names ?
                                 getFieldEntitiesName()(names).reduce(
@@ -85,20 +85,20 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                                 )
                         :       store
 
-                return !Array.isArray(paths) && paths ? value[paths] : value
-        }) as FormStore<T>['getInitialValue']
+                return !Array.isArray(namePaths) && namePaths ? value[namePaths] : value
+        }) as FormStore<T>['getInitialValues']
 
-        const isFieldsTouched = (paths?: NamePath<T>) => {
+        const isFieldsTouched = (namePaths?: NamePath<T>) => {
                 const entities = getFieldEntities()
-                const names = namePath(paths)
+                const names = namePath(namePaths)
                 const handleFieldsTouched = (entityName?: keyof T) =>
                         entityName && entities.find(entity => entity.name === entityName)?.touched
 
                 return getFieldEntitiesName()(names).map(handleFieldsTouched).every(Boolean)
         }
 
-        const resetFields = (paths?: NamePath<T>) => {
-                const names = namePath(paths)
+        const resetFields = (namePaths?: NamePath<T>) => {
+                const names = namePath(namePaths)
                 const handleReset = (entityName?: keyof T) => {
                         if (!entityName) {
                                 return
@@ -130,7 +130,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                         }
                 }
 
-        const setFieldKeys = (values?: (keyof T)[]) => values && (keys = values)
+        const setFieldKeys = (keys?: (keyof T)[]) => keys && (fieldKeys = keys)
         const setFieldValidate =
                 ({delay = 300, ...restValidatorOptions}: FormValidatorOptions = {}) =>
                 (validateRule: FormValidateRule<T>) => {
@@ -273,12 +273,12 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 setFieldError()({[name]: undefined} as FormError<T>)
                 setFieldValue({componentUpdate: false, skipValidate: true})({[name]: initialValue[name]} as T)
 
-                const keySting = keys?.toSorted((a, b) => (a as string).localeCompare(b as string)).join(',')
+                const fieldKeySting = fieldKeys?.toSorted((a, b) => (a as string).localeCompare(b as string)).join(',')
                 const fieldEntitySting = Object.keys(fieldEntities)
                         .toSorted((a, b) => a.localeCompare(b))
                         .join(',')
 
-                if (keySting === fieldEntitySting) {
+                if (fieldKeySting === fieldEntitySting) {
                         signInFieldCompleted = true
                 }
 
@@ -287,9 +287,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 }
         }
 
-        const signOutFields = (paths?: NamePath<T>) => {
+        const signOutFields = (namePaths?: NamePath<T>) => {
                 const entities = getFieldEntities(true)
-                const names = namePath(paths)
+                const names = namePath(namePaths)
                 const handleSignOut = (signOutName?: keyof T) => {
                         if (!signOutName || !signInFieldCompleted) {
                                 return
@@ -329,9 +329,9 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 )
         }
 
-        const validateFields = (async (paths?: NamePath<T>) => {
+        const validateFields = (async (namePaths?: NamePath<T>) => {
                 const entities = getFieldEntities()
-                const names = namePath(paths)
+                const names = namePath(namePaths)
                 const handleValidate = async (entityName?: keyof T) => {
                         if (!entityName) {
                                 return
@@ -352,15 +352,15 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                 const fieldErrors = await Promise.all(getFieldEntitiesName()(names).map(handleValidate))
                 const err = fieldErrors.reduce((accumulator, value) => ({...accumulator, ...value}), {} as FormError<T>)
 
-                return !Array.isArray(paths) && paths ? err[paths] : err
+                return !Array.isArray(namePaths) && namePaths ? err[namePaths] : err
         }) as FormStore<T>['validateFields']
 
         return {
                 getFieldEntities,
                 getFieldEntitiesName,
-                getFieldErrors,
+                getFieldsError,
                 getFieldsValue,
-                getInitialValue,
+                getInitialValues,
                 isFieldsTouched,
                 resetFields,
                 setCallback,

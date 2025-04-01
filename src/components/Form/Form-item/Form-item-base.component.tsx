@@ -9,14 +9,14 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
         ({labelText, name, render, renderControl, rule, validatorOptions, ...renderProps}, ref) => {
                 const [{signOut, status}, setState] = useImmer<FormItemState>({shouldUpdate: {}, status: 'idle'})
                 const id = useId()
-                const {getFieldErrors, getFieldsValue, getInitialValue, setFieldValue, signInField} = useFormContext()
-                const errors = getFieldErrors(name)
+                const {getFieldsError, getFieldsValue, getInitialValues, setFieldValue, signInField} = useFormContext()
+                const errors = getFieldsError(name)
                 const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
                 const onFormItemComponentUpdate = useMemo(() => handleComponentUpdate(setState), [setState])
                 const storeValue = getFieldsValue(name)
                 const value = useMemo(
-                        () => storeValue ?? (status === 'idle' ? getInitialValue(name) : storeValue),
-                        [getInitialValue, name, status, storeValue]
+                        () => storeValue ?? (status === 'idle' ? getInitialValues(name) : storeValue),
+                        [getInitialValues, name, status, storeValue]
                 )
 
                 const onValueChange = handleFormItemValueChange({setFieldValue, storeValue})(name)
