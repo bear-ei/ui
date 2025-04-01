@@ -26,7 +26,7 @@ export const useProgressActiveIndicatorCircularAnimated = ({
         ]
 
         const circleAnimatedProps = useAnimatedProps(() => ({
-                strokeDashoffset: interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRange)
+                strokeDashoffset: interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRanges)
         }))
 
         const onProgressActiveIndicatorCircularAnimatedTiming = useMemo(

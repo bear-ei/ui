@@ -3,7 +3,7 @@ import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanim
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {
-        handleOutputRange,
+        handleOutputRanges,
         handleProgressActiveIndicatorLinearAnimatedTiming
 } from './Progress-active-indicator-linear-handle'
 import {UseProgressActiveIndicatorLinearAnimatedOptions} from './Progress-active-indicator-linear.interface'
@@ -17,10 +17,10 @@ export const useProgressActiveIndicatorLinearAnimated = ({
         const widthSharedValue = useSharedValue(defaultValue)
         const theme = useTheme()
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const outputRanges = handleOutputRange(containerLayout.width)(increment)
-        const inputRanges = outputRange.map((_value, index) => index)
+        const outputRanges = handleOutputRanges(containerLayout.width)(increment)
+        const inputRanges = outputRanges.map((_value, index) => index)
         const contentAnimatedStyle = useAnimatedStyle(() => ({
-                width: interpolate(widthSharedValue.value, inputRange, outputRange)
+                width: interpolate(widthSharedValue.value, inputRanges, outputRanges)
         }))
 
         const onProgressActiveIndicatorLinearAnimatedTiming = useMemo(

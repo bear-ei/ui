@@ -26,8 +26,8 @@ export const handleVirtualListItemUnmount = (onUnmount?: (value?: string) => voi
         onUnmount?.(indexKey)
 
 export const handleVirtualListItemAnimated =
-        (animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<number>) => (value: number) =>
-                animatedTiming({duration: 'short2'})(topSharedValue)(value)
+        (animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<number>) => (offsetY: number) =>
+                animatedTiming({duration: 'short2'})(topSharedValue)(offsetY)
 
 export const handleVirtualListItemInit = (setState: Updater<VirtualListItemState>) => () =>
         setState(draft => {

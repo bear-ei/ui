@@ -10,7 +10,7 @@ import {
         Content,
         Footer,
         FooterLayout,
-        FooterLayoutAnimated,
+        FooterLayoutContainer,
         Header,
         HeaderText,
         HeadlineLayout,
@@ -48,7 +48,7 @@ const render = ({
         type,
         ...innerProps
 }: RenderSideSheetContentProps) => {
-        const footerLayoutAnimatedContentStyle = {minHeight: theme.adaptFontSize(theme.token.spacing.extraSmall * 20)}
+        const footerLayoutContainerContentStyle = {minHeight: theme.adaptFontSize(theme.token.spacing.extraSmall * 20)}
         const sheetShape = shape ?? (sheetPosition === 'horizontalStart' ? 'largeEnd' : 'largeStart')
 
         return (
@@ -96,12 +96,12 @@ const render = ({
                                 </Header>
 
                                 <Main testID={`sideSheetContent__main--${id}}`}>{content}</Main>
-                                <FooterLayoutAnimated
+                                <FooterLayoutContainer
                                         animatedType='collapseY'
-                                        contentStyle={footerLayoutAnimatedContentStyle}
+                                        contentStyle={footerLayoutContainerContentStyle}
                                         entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
                                         exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
-                                        testID={`sideSheetContent__footerLayoutAnimated--${id}}`}
+                                        testID={`sideSheetContent__footerLayoutContainer--${id}}`}
                                         visible={footerVisible}
                                 >
                                         <FooterLayout testID={`sideSheetContent__footerLayout--${id}}`}>
@@ -147,7 +147,7 @@ const render = ({
                                                         </SecondaryButton>
                                                 </Footer>
                                         </FooterLayout>
-                                </FooterLayoutAnimated>
+                                </FooterLayoutContainer>
                         </Content>
                 </AnimatedContainer>
         )

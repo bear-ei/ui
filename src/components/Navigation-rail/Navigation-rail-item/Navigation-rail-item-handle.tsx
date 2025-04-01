@@ -13,8 +13,8 @@ import {
 
 export const handleNavigationRailItemPropsEqual =
         (prevProps: NavigationRailItemProps) => (nextProps: NavigationRailItemProps) => {
-                const {activeKey: prevActiveKey, itemKey: prevItemKey} = prevProps
-                const {activeKey: nextActiveKey, itemKey: nextItemKey} = nextProps
+                const {activeKey: prevActiveKey, indexKey: prevItemKey} = prevProps
+                const {activeKey: nextActiveKey, indexKey: nextItemKey} = nextProps
                 const activeChange =
                         prevActiveKey !== nextActiveKey &&
                         (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
@@ -25,12 +25,12 @@ export const handleNavigationRailItemPropsEqual =
 const handleNavigationRailItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
 
 export const handleNavigationRailItemStateChange =
-        ({eventName, itemKey, onActive, ref}: HandleNavigationRailItemStateEventChangeOptions) =>
+        ({eventName, indexKey, onActive, ref}: HandleNavigationRailItemStateEventChangeOptions) =>
         (setState: Updater<NavigationRailItemState>) =>
         (_event: StateEvent) => {
                 const nextEvent = {
                         pressIn: () => ref.current?.focus(),
-                        pressOut: () => handleNavigationRailItemPressOut(onActive)(itemKey)
+                        pressOut: () => handleNavigationRailItemPressOut(onActive)(indexKey)
                 } as Record<EventName, () => void>
 
                 if (eventName === 'layout') {

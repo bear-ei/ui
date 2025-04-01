@@ -11,7 +11,7 @@ import {ListAfterAffordanceBaseProps, ListAfterAffordanceState} from './List-aft
 import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animated.hook'
 
 export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
-        itemKey,
+        indexKey,
         onCancel,
         onConfirm,
         render,
@@ -21,8 +21,8 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
         const [{doubleConfirmed, nextCancelEvent}, setState] = useImmer<ListAfterAffordanceState>({})
         const theme = useTheme()
         const id = useId()
-        const onListAfterAffordanceConfirm = handleListAfterAffordanceConfirm({doubleConfirmed, onConfirm, itemKey})
-        const onListAfterAffordanceCancel = handleListAfterAffordanceCancel({doubleConfirmed, onCancel, itemKey})(
+        const onListAfterAffordanceConfirm = handleListAfterAffordanceConfirm({doubleConfirmed, onConfirm, indexKey})
+        const onListAfterAffordanceCancel = handleListAfterAffordanceCancel({doubleConfirmed, onCancel, indexKey})(
                 setState
         )
 

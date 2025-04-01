@@ -27,7 +27,7 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
                 extraData: prevExtraData,
                 focusedIndex: prevFocusedIndex,
                 itemIndex: prevItemIndex,
-                itemKey: prevItemKey,
+                indexKey: prevItemKey,
                 skeletonDuration: prevSkeletonMinDuration
         } = prevProps
 
@@ -40,7 +40,7 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
                         extraData: nextExtraData,
                         focusedIndex: nextFocusedIndex,
                         itemIndex: nextItemIndex,
-                        itemKey: nextItemKey,
+                        indexKey: nextItemKey,
                         skeletonDuration: nextSkeletonMinDuration
                 } = nextProps
 
@@ -75,15 +75,15 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 }
 
 const handleListItemActive =
-        (selectType?: SelectType) => (onActive?: (activeKey?: string) => void) => (itemKey: string) =>
-                selectType && onActive?.(itemKey)
+        (selectType?: SelectType) => (onActive?: (activeKey?: string) => void) => (activeKey: string) =>
+                selectType && onActive?.(activeKey)
 
-const handleListItemLoadEnd = (onLoadEnd?: (itemKey?: string) => void) => (itemKey?: string) => onLoadEnd?.(itemKey)
+const handleListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
 export const handleListItemStateChange =
         ({
                 activeTriggerEvenName,
                 eventName,
-                itemKey,
+                indexKey,
                 onActive,
                 onLoadEnd,
                 selectType,
@@ -94,9 +94,9 @@ export const handleListItemStateChange =
         (setState: Updater<ListItemState>) =>
         (_event: StateEvent) => {
                 const nextEvent = {
-                        layout: () => handleListItemLoadEnd?.(onLoadEnd)(itemKey),
-                        pressIn: () => handleListItemActive(selectType)(onActive)(itemKey),
-                        pressOut: () => handleListItemActive(selectType)(onActive)(itemKey)
+                        layout: () => handleListItemLoadEnd?.(onLoadEnd)(indexKey),
+                        pressIn: () => handleListItemActive(selectType)(onActive)(indexKey),
+                        pressOut: () => handleListItemActive(selectType)(onActive)(indexKey)
                 } as Record<EventName, () => void>
 
                 setState(draft => {
@@ -163,10 +163,10 @@ export const handleListItemTrailingPressOut =
                 onActiveAfterAffordance,
                 onListItemClose
         }: HandleListItemTrailingPressOutOptions) =>
-        (itemKey: string) =>
+        (indexKey: string) =>
         () => {
                 const nextEvent = {
-                        afterAffordance: () => onActiveAfterAffordance?.({activeKey: itemKey}),
+                        afterAffordance: () => onActiveAfterAffordance?.({activeKey: indexKey}),
                         closeTrailing: () => onListItemClose(true)
                 }
 
@@ -197,7 +197,7 @@ export const handleItemListAffordanceShow = (setState: Updater<ListItemState>) =
 
 export const handleListItemConfirm =
         ({options, onConfirm, onActiveAfterAffordance, onListItemClose}: HandleListItemConfirmOptions) =>
-        (itemKey?: string) => {
+        (indexKey?: string) => {
                 const {doubleConfirmed} = options
 
                 if (doubleConfirmed) {
@@ -206,7 +206,7 @@ export const handleListItemConfirm =
                         return
                 }
 
-                onActiveAfterAffordance?.({callback: () => onConfirm?.({...options, itemKey})})
+                onActiveAfterAffordance?.({callback: () => onConfirm?.({...options, indexKey})})
         }
 
 /**
@@ -220,24 +220,25 @@ export const handleListItemFocus =
                         draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
                 })
 
-export const handleListItemClose = (onClose?: (value?: string) => void) => (itemKey: string) => (close?: boolean) => {
-        if (!close) {
-                return
-        }
+export const handleListItemClose =
+        (onClose?: (indexKey?: string) => void) => (indexKey: string) => (close?: boolean) => {
+                if (!close) {
+                        return
+                }
 
-        onClose?.(itemKey)
-}
+                onClose?.(indexKey)
+        }
 
 export const handleListItemPanResponderRelease =
         ({onActiveAfterAffordance, disabled}: HandleListItemPanResponderReleaseOptions) =>
-        (itemKey: string) =>
+        (indexKey: string) =>
         (_event: GestureResponderEvent, gestureState: PanResponderGestureState) => {
                 if (disabled) {
                         return
                 }
 
                 if (gestureState.dx < -50) {
-                        onActiveAfterAffordance?.({activeKey: itemKey})
+                        onActiveAfterAffordance?.({activeKey: indexKey})
                 }
 
                 if (gestureState.dx > 50) {

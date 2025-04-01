@@ -30,7 +30,7 @@ export const useUnderlayAnimated = ({
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const opacityInputRanges = opacities.map((_value, index) => index)
         const hoverLayerAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(hoverLayerSharedValue.value, opacityInputRange, opacities)
+                opacity: interpolate(hoverLayerSharedValue.value, opacityInputRanges, opacities)
         }))
 
         const activeLayerFadeAnimatedStyle = useAnimatedStyle(() => ({

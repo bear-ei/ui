@@ -22,7 +22,7 @@ export const useSideSheetContentAnimated = ({type = 'standard', visible}: UseSid
                 backgroundColor: interpolateColor(
                         backgroundColorSharedValue.value,
                         [0, 1],
-                        containerBackgroundColorOutputRange
+                        containerBackgroundColorOutputRanges
                 )
         }))
 

@@ -105,8 +105,8 @@ export const VirtualListBaseInner = <T,>(
         }, [data, onVirtualListData])
 
         useEffect(() => {
-                runAfterInteractions(onVirtualListVisibleRange)(virtualListData)
-        }, [onVirtualListVisibleRange, virtualListData])
+                runAfterInteractions(onVirtualListVisibleRanges)(virtualListData)
+        }, [onVirtualListVisibleRanges, virtualListData])
 
         useEffect(() => {
                 runAfterInteractions(nextScrollEvent)()

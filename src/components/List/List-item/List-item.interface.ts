@@ -52,7 +52,7 @@ export interface ListItemProps
         extraData?: string[]
         headline?: React.ReactNode
         itemIndex?: number
-        itemKey: string
+        indexKey: string
         itemLayout?: {width?: number; height?: number}
         leading?: React.JSX.Element
         onActives?: (value?: string[]) => void
@@ -103,7 +103,7 @@ export interface HandleListItemStateEventChangeOptions
                         RenderListItemProps,
                         | 'activeTriggerEvenName'
                         | 'itemIndex'
-                        | 'itemKey'
+                        | 'indexKey'
                         | 'onActive'
                         | 'onLoadEnd'
                         | 'selectType'

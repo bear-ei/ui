@@ -57,7 +57,7 @@ export const handleVirtualListLayoutChange =
                                 draft.layout.width = width
                         }
 
-                        handleVirtualListVisibleRange(itemSize)(draft)()
+                        handleVirtualListVisibleRanges(itemSize)(draft)()
                 })
         }
 
@@ -90,7 +90,7 @@ export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListS
 
                 setState(draft => {
                         draft.nextScrollEvent = handleNextScrollEvent(event)
-                        handleVirtualListVisibleRange(itemSize)(draft)(scrollOffset)
+                        handleVirtualListVisibleRanges(itemSize)(draft)(scrollOffset)
                 })
         }
 }
@@ -103,11 +103,11 @@ export const handleVirtualListMomentumScrollEnd =
 export const handleVirtualListClose =
         ({enableAutoSelect, onClose}: HandleVirtualListCloseOptions) =>
         (draft: WritableDraft<VirtualListState>) =>
-        (value?: string) => {
-                const findDataIndex = (datum: ListData) => datum.indexKey === value
+        (indexKey?: string) => {
+                const findDataIndex = (datum: ListData) => datum.indexKey === indexKey
 
                 if (!enableAutoSelect) {
-                        const handleNextCloseEvent = () => onClose?.({indexKey: value})
+                        const handleNextCloseEvent = () => onClose?.({indexKey})
                         draft.nextCloseEvent = handleNextCloseEvent
 
                         return
@@ -116,8 +116,7 @@ export const handleVirtualListClose =
                 const data = (draft.virtualListData ?? []) as ListData[]
                 const datumIndex = data.findIndex(findDataIndex)
                 const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
-                const handleNextEnableAutoSelectCloseEvent = () =>
-                        onClose?.({activeKey: nextActiveKey, indexKey: value})
+                const handleNextEnableAutoSelectCloseEvent = () => onClose?.({activeKey: nextActiveKey, indexKey})
 
                 draft.nextCloseEvent = handleNextEnableAutoSelectCloseEvent
         }
@@ -128,23 +127,25 @@ export const handleVirtualListUnmount = ({
         onClose
 }: HandleVirtualListUnmountOptions) => {
         const handleVisibleRangeDataFilter =
-                (value: string) =>
+                (key: string) =>
                 ({indexKey}: VirtualListData) =>
-                        indexKey !== value
+                        indexKey !== key
 
-        return (setState: Updater<VirtualListState>) => (value?: string) => {
-                if (!value) {
+        return (setState: Updater<VirtualListState>) => (indexKey?: string) => {
+                if (!indexKey) {
                         return
                 }
 
                 setState(draft => {
-                        handleVirtualListClose({enableAutoSelect, onClose})(draft)(value)
+                        handleVirtualListClose({enableAutoSelect, onClose})(draft)(indexKey)
 
-                        const nextVirtualListData = draft.virtualListData?.filter(handleVisibleRangeDataFilter(value))
+                        const nextVirtualListData = draft.virtualListData?.filter(
+                                handleVisibleRangeDataFilter(indexKey)
+                        )
 
                         draft.virtualListData = nextVirtualListData
 
-                        handleVirtualListVisibleRange(itemSize)(draft)()
+                        handleVirtualListVisibleRanges(itemSize)(draft)()
                 })
         }
 }
@@ -157,15 +158,15 @@ export const handleVirtualListData = (setState: Updater<VirtualListState>) => (d
 
 export const handleVirtualListLoadEnd = (setState: Updater<VirtualListState>) => {
         const findVisibleRangeDataIndex =
-                (value: string) =>
+                (key: string) =>
                 ({indexKey}: VirtualListData) =>
-                        indexKey === value
+                        indexKey === key
 
-        return (onLoadEnd?: (value?: string) => void) => (value?: string) => {
-                if (value) {
+        return (onLoadEnd?: (value?: string) => void) => (indexKey?: string) => {
+                if (indexKey) {
                         setState(draft => {
                                 const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(
-                                        findVisibleRangeDataIndex(value)
+                                        findVisibleRangeDataIndex(indexKey)
                                 )
 
                                 const loadEnd =
@@ -173,14 +174,14 @@ export const handleVirtualListLoadEnd = (setState: Updater<VirtualListState>) =>
                                         visibleRangeDataIndex !== -1
 
                                 if (loadEnd) {
-                                        onLoadEnd?.(value)
+                                        onLoadEnd?.(indexKey)
                                 }
                         })
 
                         return
                 }
 
-                onLoadEnd?.(value)
+                onLoadEnd?.(indexKey)
         }
 }
 
@@ -191,7 +192,7 @@ export const handleVirtualListDataChange =
                 virtualListData &&
                 setState(draft => {
                         if (draft.layout.height) {
-                                handleVirtualListVisibleRange(itemSize)(draft)()
+                                handleVirtualListVisibleRanges(itemSize)(draft)()
                         }
                 })
 
@@ -223,5 +224,5 @@ export const renderVirtualListItem =
         }
 
 export const handleVirtualListAnimated =
-        (animatedTiming: AnimatedTiming) => (contentHeightSharedValue: SharedValue<number>) => (value: number) =>
-                animatedTiming({duration: 'short2'})(contentHeightSharedValue)(value)
+        (animatedTiming: AnimatedTiming) => (contentHeightSharedValue: SharedValue<number>) => (contentSize: number) =>
+                animatedTiming({duration: 'short2'})(contentHeightSharedValue)(contentSize)

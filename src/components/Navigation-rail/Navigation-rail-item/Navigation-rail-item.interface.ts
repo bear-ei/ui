@@ -10,11 +10,11 @@ export interface NavigationRailItemProps
         extends Partial<ViewProps & RefAttributes<View> & PressableProps & StateOnEvent>,
                 Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {
         icon?: React.JSX.Element
-        itemKey: string
+        indexKey: string
         labelText?: string
 }
 
-export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'itemKey'> {
+export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'indexKey'> {
         active?: boolean
         activeIconElement: React.JSX.Element
         eventName?: EventName
@@ -35,7 +35,7 @@ export interface NavigationRailItemState {
 
 export interface HandleNavigationRailItemStateEventChangeOptions
         extends HandleStateEventChangeOptions,
-                Pick<NavigationRailItemProps, 'itemKey' | 'onActive'> {
+                Pick<NavigationRailItemProps, 'indexKey' | 'onActive'> {
         ref: React.RefObject<View>
 }
 

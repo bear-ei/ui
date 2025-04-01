@@ -20,7 +20,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                         activeKey,
                         animatedType = 'standard',
                         icon = <Icon name='circle' />,
-                        itemKey,
+                        indexKey,
                         onActive,
                         render,
                         type = 'segment',
@@ -29,7 +29,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                 ref
         ) => {
                 const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({})
-                const active = useMemo(() => activeKey === itemKey, [activeKey, itemKey])
+                const active = useMemo(() => activeKey === indexKey, [activeKey, indexKey])
                 const id = useId()
                 const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active, type})
                 const pressableRef = useRef<View>(null)
@@ -38,7 +38,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleNavigationRailItemStateChange({
                                         ...options,
-                                        itemKey,
+                                        indexKey,
                                         onActive,
                                         ref: pressableRef,
                                         state

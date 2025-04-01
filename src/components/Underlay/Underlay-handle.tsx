@@ -26,5 +26,5 @@ export const handleUnderlayHoveredAnimatedTiming = ({
 }
 
 export const handleUnderlayActiveAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<number>) => (value?: boolean) =>
-                typeof value === 'boolean' && animatedTiming()(activeLayerSharedValue)(value ? 1 : 0)
+        (animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<number>) => (active?: boolean) =>
+                typeof active === 'boolean' && animatedTiming()(activeLayerSharedValue)(active ? 1 : 0)

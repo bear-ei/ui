@@ -134,7 +134,7 @@ const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...pro
                 {...item}
                 {...props}
                 itemIndex={index}
-                itemKey={item?.indexKey ?? `${index}`}
+                indexKey={item?.indexKey ?? `${index}`}
         />
 )
 

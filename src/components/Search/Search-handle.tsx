@@ -83,10 +83,10 @@ export const handleSearchTextInputRawChangeText =
                 })
         }
 
-export const handleSearchListVisible = (setState: Updater<SearchState>) => (value?: boolean) =>
-        typeof value === 'boolean' &&
+export const handleSearchListVisible = (setState: Updater<SearchState>) => (visible?: boolean) =>
+        typeof visible === 'boolean' &&
         setState(draft => {
-                draft.listVisible = value
+                draft.listVisible = visible
         })
 
 export const handleSearchLayout = (setState: Updater<SearchState>) => (containerCurrent?: View | null) =>

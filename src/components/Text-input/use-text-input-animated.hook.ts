@@ -80,14 +80,14 @@ export const useTextInputAnimated = ({
 
         const inputColorSharedValueOutputRanges = [disabledColor, hexToRGBA(scheme.onSurface)(opacity.level10)]
         const inputAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(colorSharedValue.value, [0, 1], inputColorSharedValueOutputRange)
+                color: interpolateColor(colorSharedValue.value, [0, 1], inputColorSharedValueOutputRanges)
         }))
 
         const labelTranslateYOutputRanges = [-theme.adaptSize(spacing.small), theme.adaptSize(spacing.none)]
         const labelAnimatedStyle = useAnimatedStyle(() => ({
                 transform: [
                         {
-                                translateY: interpolate(labelTextSharedValue.value, [0, 1], labelTranslateYOutputRange)
+                                translateY: interpolate(labelTextSharedValue.value, [0, 1], labelTranslateYOutputRanges)
                         }
                 ]
         }))
@@ -115,11 +115,11 @@ export const useTextInputAnimated = ({
         ]
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(colorSharedValue.value, [0, 1, 2, 3], labelTextColorOutputRange),
-                fontSize: interpolate(labelTextSharedValue.value, [0, 1], labelTextFontSizeOutputRange),
-                height: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRange),
-                letterSpacing: interpolate(labelTextSharedValue.value, [0, 1], labelTextLetterSpacingOutputRange),
-                lineHeight: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRange)
+                color: interpolateColor(colorSharedValue.value, [0, 1, 2, 3], labelTextColorOutputRanges),
+                fontSize: interpolate(labelTextSharedValue.value, [0, 1], labelTextFontSizeOutputRanges),
+                height: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRanges),
+                letterSpacing: interpolate(labelTextSharedValue.value, [0, 1], labelTextLetterSpacingOutputRanges),
+                lineHeight: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRanges)
         }))
 
         const activeIndicatorBackgroundColorOutputRanges = [
@@ -133,7 +133,7 @@ export const useTextInputAnimated = ({
                 backgroundColor: interpolateColor(
                         colorSharedValue.value,
                         [0, 1, 2, 3],
-                        activeIndicatorBackgroundColorOutputRange
+                        activeIndicatorBackgroundColorOutputRanges
                 ),
 
                 transform: [
@@ -153,7 +153,7 @@ export const useTextInputAnimated = ({
                 color: interpolateColor(
                         supportingTextSharedValue.value,
                         [0, 1, 2],
-                        supportingTextSharedValueValueColorOutputRange
+                        supportingTextSharedValueValueColorOutputRanges
                 )
         }))
 

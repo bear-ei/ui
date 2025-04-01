@@ -85,17 +85,17 @@ export const handleTextInputSupportingText =
 
 export const handleTextInputSupportingTextVisible =
         (setState: Updater<TextInputState>) =>
-        (onSupportingTextVisible?: (value?: boolean) => void) =>
-        (value?: boolean) => {
-                const handleNextSupportingTextVisibleEvent = () => onSupportingTextVisible?.(value)
+        (onSupportingTextVisible?: (visible?: boolean) => void) =>
+        (visible?: boolean) => {
+                const handleNextSupportingTextVisibleEvent = () => onSupportingTextVisible?.(visible)
 
-                if (typeof value !== 'boolean') {
+                if (typeof visible !== 'boolean') {
                         return
                 }
 
                 setState(draft => {
                         draft.nextSupportingTextVisibleEvent = handleNextSupportingTextVisibleEvent
-                        draft.supportingText = value ? draft.supportingText : undefined
+                        draft.supportingText = visible ? draft.supportingText : undefined
                 })
         }
 
@@ -125,8 +125,8 @@ export const handleTextInputRawChangeText = (setState: Updater<TextInputState>) 
                 }
         })
 
-export const handleTextInputEditableChange = (ref: React.RefObject<TextInput>) => (value?: boolean) =>
-        value && ref?.current?.blur()
+export const handleTextInputEditableChange = (ref: React.RefObject<TextInput>) => (editable?: boolean) =>
+        editable && ref?.current?.blur()
 
 export const handleTouchableHeaderFocus = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
 export const handleTextInputEnabled =

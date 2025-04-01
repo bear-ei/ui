@@ -35,7 +35,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         enableUnderlayActive = true,
                         focusedIndex,
                         itemIndex,
-                        itemKey,
+                        indexKey,
                         leading,
                         onActive,
                         onActiveAfterAffordance,
@@ -71,20 +71,20 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 const id = useId()
                 const pressableRef = useRef<View>(null)
                 const active = useMemo(
-                        () => (selectType === 'select' ? activeKey === itemKey : activeKeys?.includes(itemKey)),
-                        [activeKey, activeKeys, itemKey, selectType]
+                        () => (selectType === 'select' ? activeKey === indexKey : activeKeys?.includes(indexKey)),
+                        [activeKey, activeKeys, indexKey, selectType]
                 )
 
                 const theme = useTheme()
                 const afterAffordanceVisible = useMemo(
-                        () => afterAffordanceActiveKey === itemKey,
-                        [afterAffordanceActiveKey, itemKey]
+                        () => afterAffordanceActiveKey === indexKey,
+                        [afterAffordanceActiveKey, indexKey]
                 )
 
                 // const onListItemPanResponderRelease = handleListItemPanResponderRelease({
                 //         onActiveAfterAffordance,
                 //         disabled
-                // })(itemKey)
+                // })(indexKey)
 
                 // const panResponder = useRef(
                 //         PanResponder.create({
@@ -98,16 +98,16 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 // ).current
 
                 const onListItemFocus = useMemo(() => handleListItemFocus(setState)(itemIndex), [itemIndex, setState])
-                const onListItemConfirm = ({itemKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
+                const onListItemConfirm = ({indexKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
                         handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
 
-                const onListItemClose = handleListItemClose(onClose)(itemKey)
+                const onListItemClose = handleListItemClose(onClose)(indexKey)
                 const onListItemTrailingPressOut = handleListItemTrailingPressOut({
                         afterAffordance,
                         closeTrailing,
                         onActiveAfterAffordance,
                         onListItemClose
-                })(itemKey)
+                })(indexKey)
 
                 const onListItemTrailingPressIn = handleListItemTrailingPressIn(setState)
                 const onListItemAfterAffordanceVisibleFinished = useMemo(
@@ -121,7 +121,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                                         ...options,
                                         activeTriggerEvenName,
                                         itemIndex,
-                                        itemKey,
+                                        indexKey,
                                         onActive,
                                         onLoadEnd,
                                         selectType,
@@ -191,7 +191,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         eventName,
                         headlineTextAnimatedStyle,
                         id,
-                        itemKey,
+                        indexKey,
                         leadingElement,
                         onConfirm: onListItemConfirm,
                         stateOnEvent,

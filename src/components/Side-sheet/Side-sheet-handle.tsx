@@ -38,11 +38,7 @@ export const handleSideSheetEmit =
         (visible?: boolean) =>
                 typeof visible === 'boolean' &&
                 type === 'modal' &&
-                emitter.emit('modal', {
-                        id: `sideSheet__${id}`,
-                        name: 'sideSheet',
-                        props: {...props}
-                })
+                emitter.emit('modal', {id: `sideSheet__${id}`, name: 'sideSheet', props: {...props}})
 
 export const handleSideSheetUnmount = (id: string) => (type: SheetType) =>
         type === 'modal' &&

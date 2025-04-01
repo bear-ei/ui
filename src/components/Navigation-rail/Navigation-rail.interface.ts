@@ -10,7 +10,7 @@ export interface NavigationRailData extends Pick<NavigationRailItemProps, 'icon'
         indexKey: string
 }
 
-export type RenderNavigationRailItemOptions = Omit<NavigationRailItemProps, 'itemKey'>
+export type RenderNavigationRailItemOptions = Omit<NavigationRailItemProps, 'indexKey'>
 export interface NavigationRailProps extends ViewProps, RefAttributes<View> {
         activeKey?: string
         animatedType?: NavigationRailAnimatedType
@@ -19,14 +19,14 @@ export interface NavigationRailProps extends ViewProps, RefAttributes<View> {
         destinationPosition?: DestinationPosition
         fab?: React.JSX.Element
         menu?: React.JSX.Element
-        onActive?: (value?: string) => void
+        onActive?: (activeKey?: string) => void
         type?: NavigationRailType
 }
 
 export interface RenderNavigationRailProps extends NavigationRailProps {
         fabElement?: React.JSX.Element
         navigationRailItemElements?: React.JSX.Element[]
-        onActiveSource?: (value?: string) => void
+        onActiveSource?: (activeKey?: string) => void
 }
 
 export interface NavigationRailBaseProps extends NavigationRailProps {

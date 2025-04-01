@@ -5,16 +5,16 @@ import {NavigationRailItem} from './Navigation-rail-item'
 import {NavigationRailData, NavigationRailState, RenderNavigationRailItemOptions} from './Navigation-rail.interface'
 
 export const handleNavigationRailActive =
-        (onActive?: (value?: string) => void) => (setState: Updater<NavigationRailState>) => (value?: string) => {
-                const handleNextActiveEvent = () => onActive?.(value)
+        (onActive?: (value?: string) => void) => (setState: Updater<NavigationRailState>) => (activeKey?: string) => {
+                const handleNextActiveEvent = () => onActive?.(activeKey)
 
-                if (!value) {
+                if (!activeKey) {
                         return
                 }
 
                 setState(draft => {
-                        if (value !== draft.activeKey) {
-                                draft.activeKey = value
+                        if (activeKey !== draft.activeKey) {
+                                draft.activeKey = activeKey
                                 draft.nextActiveEvent = handleNextActiveEvent
                         }
                 })
@@ -34,7 +34,7 @@ export const renderNavigationRailItems =
                         <NavigationRailItem
                                 {...props}
                                 {...renderNavigationRailItemOptions}
-                                itemKey={indexKey ?? index.toString()}
+                                indexKey={indexKey ?? index.toString()}
                                 key={indexKey}
                                 testID={`navigationRail__navigationRailItem--${id}`}
                         />

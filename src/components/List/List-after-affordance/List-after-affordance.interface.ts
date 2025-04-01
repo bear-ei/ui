@@ -6,7 +6,7 @@ import {ListItemProps} from '../List-item'
 
 export interface ListAfterAffordancePressOutOptions {
         doubleConfirmed?: boolean
-        itemKey?: string
+        indexKey?: string
 }
 
 export interface ListAfterAffordanceProps
@@ -14,13 +14,13 @@ export interface ListAfterAffordanceProps
                 RefAttributes<View>,
                 Pick<
                         ListItemProps,
-                        'itemKey' | 'primaryButtonProps' | 'secondaryButtonProps' | 'onCancel' | 'onConfirm'
+                        'indexKey' | 'primaryButtonProps' | 'secondaryButtonProps' | 'onCancel' | 'onConfirm'
                 > {
         visible?: boolean
 }
 
 export interface RenderListAfterAffordanceProps
-        extends Omit<ListAfterAffordanceProps, 'itemKey' | 'onCancel' | 'onConfirm'> {
+        extends Omit<ListAfterAffordanceProps, 'indexKey' | 'onCancel' | 'onConfirm'> {
         dangerAnimatedStyle: AnimatedStyle<ViewStyle>
         doubleConfirmed?: boolean
         onCancel: (event: GestureResponderEvent) => void
@@ -37,10 +37,10 @@ export interface ListAfterAffordanceState {
         nextCancelEvent?: () => void
 }
 
-export type HandleListAfterAffordanceConfirmOptions = Pick<ListAfterAffordanceProps, 'onConfirm' | 'itemKey'> &
+export type HandleListAfterAffordanceConfirmOptions = Pick<ListAfterAffordanceProps, 'onConfirm' | 'indexKey'> &
         ListAfterAffordanceState
 
-export type HandleListAfterAffordanceCancelOptions = Pick<ListAfterAffordanceProps, 'onCancel' | 'itemKey'> &
+export type HandleListAfterAffordanceCancelOptions = Pick<ListAfterAffordanceProps, 'onCancel' | 'indexKey'> &
         ListAfterAffordanceState
 
 export interface UseListAfterAffordanceAnimatedOptions extends Pick<RenderListAfterAffordanceProps, 'doubleConfirmed'> {

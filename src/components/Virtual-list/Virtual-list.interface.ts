@@ -25,7 +25,7 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Anim
         loading?: boolean
         loadingComponent?: React.JSX.Element
         onClose?: (options: OnVirtualListCloseOptions) => void
-        onLoadEnd?: (value?: string) => void
+        onLoadEnd?: (indexKey?: string) => void
         renderItem?: (options: RenderVirtualListItemInfo<T>) => React.JSX.Element
 }
 

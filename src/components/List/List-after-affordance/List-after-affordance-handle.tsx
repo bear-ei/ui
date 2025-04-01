@@ -9,15 +9,15 @@ import {
 } from './List-after-affordance.interface'
 
 export const handleListAfterAffordanceConfirm =
-        ({onConfirm, doubleConfirmed, itemKey}: HandleListAfterAffordanceConfirmOptions) =>
+        ({onConfirm, doubleConfirmed, indexKey}: HandleListAfterAffordanceConfirmOptions) =>
         (_event: GestureResponderEvent) =>
-                onConfirm?.({itemKey, doubleConfirmed})
+                onConfirm?.({indexKey, doubleConfirmed})
 
 export const handleListAfterAffordanceCancel =
-        ({onCancel, doubleConfirmed, itemKey}: HandleListAfterAffordanceCancelOptions) =>
+        ({onCancel, doubleConfirmed, indexKey}: HandleListAfterAffordanceCancelOptions) =>
         (setState: Updater<ListAfterAffordanceState>) =>
         (_event: GestureResponderEvent) => {
-                const handleNextCancelEvent = () => onCancel?.({itemKey, doubleConfirmed})
+                const handleNextCancelEvent = () => onCancel?.({indexKey, doubleConfirmed})
 
                 setState(draft => {
                         draft.doubleConfirmed = !doubleConfirmed

@@ -43,7 +43,7 @@ const render = ({
         headline,
         headlineTextAnimatedStyle,
         id,
-        itemKey,
+        indexKey,
         leadingElement,
         onCancel,
         onConfirm,
@@ -207,7 +207,7 @@ const render = ({
                                         <AfterAffordanceLayout testID={`listItem__afterAffordanceLayout--${id}`}>
                                                 {typeof afterAffordance === 'boolean' ?
                                                         <ListAfterAffordance
-                                                                itemKey={itemKey}
+                                                                indexKey={indexKey}
                                                                 onCancel={onCancel}
                                                                 onConfirm={onConfirm}
                                                                 primaryButtonProps={afterAffordancePrimaryButtonProps}
