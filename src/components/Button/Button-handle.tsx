@@ -129,14 +129,14 @@ export const renderButtonIcon =
 
 export const handleButtonOutlinedAnimatedTiming = ({
         animatedTiming,
-        borderColorInputRange,
+        borderColorInputRanges,
         disabled
 }: HandleButtonAnimatedTimingOptions) => {
-        const value = disabled ? 0 : borderColorInputRange[borderColorInputRange.length - 2]
+        const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]
 
         return (borderSharedValue: SharedValue<number>) => (eventName?: EventName) => {
                 const responseEvent = eventName === 'focus'
-                const toValue = responseEvent ? borderColorInputRange[2] : value
+                const toValue = responseEvent ? borderColorInputRanges[2] : value
 
                 return animatedTiming()(borderSharedValue)(toValue)
         }
@@ -144,7 +144,7 @@ export const handleButtonOutlinedAnimatedTiming = ({
 
 export const handleButtonAnimatedTiming = ({
         animatedTiming,
-        borderColorInputRange,
+        borderColorInputRanges,
         disabled,
         type
 }: HandleButtonAnimatedTimingOptions) => {
@@ -153,7 +153,7 @@ export const handleButtonAnimatedTiming = ({
         return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
                 (eventName?: EventName) => {
                         if (type === 'outlined') {
-                                handleButtonOutlinedAnimatedTiming({animatedTiming, borderColorInputRange, disabled})(
+                                handleButtonOutlinedAnimatedTiming({animatedTiming, borderColorInputRanges, disabled})(
                                         borderSharedValue
                                 )(eventName)
 

@@ -37,7 +37,7 @@ export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type
 export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName' | 'error'>
 export interface HandleButtonAnimatedTimingOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
         animatedTiming: AnimatedTiming
-        borderColorInputRange: number[]
+        borderColorInputRanges: number[]
 }
 
 export interface HandleButtonAnimatedTimingSharedValue {

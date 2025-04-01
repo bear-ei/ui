@@ -118,8 +118,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                 }
         }
 
-        const borderColorInputRange = useMemo(() => [0, 1, 2], [])
-        const borderColorOutputRange = [
+        const borderColorInputRanges = useMemo(() => [0, 1, 2], [])
+        const borderColorOutputRanges = [
                 disabledBackgroundColor,
                 hexToRGBA(scheme.outline)(opacity.level10),
                 hexToRGBA(scheme.primary)(opacity.level10)
@@ -139,8 +139,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                 ...(!notBorderColor && {
                         borderColor: interpolateColor(
                                 borderSharedValue.value,
-                                borderColorInputRange,
-                                borderColorOutputRange
+                                borderColorInputRanges,
+                                borderColorOutputRanges
                         ),
                         borderStyle: 'solid',
                         borderWidth
@@ -153,11 +153,11 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
 
         const onButtonAnimatedTiming = useMemo(
                 () =>
-                        handleButtonAnimatedTiming({animatedTiming, borderColorInputRange, type, disabled})({
+                        handleButtonAnimatedTiming({animatedTiming, borderColorInputRanges, type, disabled})({
                                 borderSharedValue,
                                 colorSharedValue
                         }),
-                [animatedTiming, borderColorInputRange, borderSharedValue, colorSharedValue, disabled, type]
+                [animatedTiming, borderColorInputRanges, borderSharedValue, colorSharedValue, disabled, type]
         )
 
         useEffect(() => {
