@@ -25,7 +25,7 @@ export interface ListData
 export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
 export interface OnActiveAfterAffordanceOptions {
         callback?: () => void
-        value?: string
+        activeKey?: string
 }
 
 export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>> {

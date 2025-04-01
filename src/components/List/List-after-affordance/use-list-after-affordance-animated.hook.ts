@@ -21,7 +21,7 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
                                 translateX: interpolate(
                                         translateXSharedValue.value,
                                         [0, 1],
-                                        dangerTranslateXOutputRange
+                                        dangerTranslateXOutputRanges
                                 )
                         }
                 ]

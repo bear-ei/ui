@@ -17,11 +17,11 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
         const backgroundColorOutputRanges = [disabledBackgroundColor, hexToRGBA(scheme.primary)(opacity.level0)]
         const colorOutputRanges = [disabledColor, hexToRGBA(scheme.onPrimary)(opacity.level10)]
         const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
-                backgroundColor: interpolateColor(colorSharedValue.value, [0, 1], backgroundColorOutputRange)
+                backgroundColor: interpolateColor(colorSharedValue.value, [0, 1], backgroundColorOutputRanges)
         }))
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(colorSharedValue.value, [0, 1], colorOutputRange)
+                color: interpolateColor(colorSharedValue.value, [0, 1], colorOutputRanges)
         }))
 
         const onListAffordanceButtonAnimatedTiming = useMemo(

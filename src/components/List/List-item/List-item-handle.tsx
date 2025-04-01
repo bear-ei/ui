@@ -74,10 +74,11 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
         }
 }
 
-const handleListItemActive = (selectType?: SelectType) => (onActive?: (value?: string) => void) => (value: string) =>
-        selectType && onActive?.(value)
+const handleListItemActive =
+        (selectType?: SelectType) => (onActive?: (activeKey?: string) => void) => (itemKey: string) =>
+                selectType && onActive?.(itemKey)
 
-const handleListItemLoadEnd = (onLoadEnd?: (value?: string) => void) => (value?: string) => onLoadEnd?.(value)
+const handleListItemLoadEnd = (onLoadEnd?: (itemKey?: string) => void) => (itemKey?: string) => onLoadEnd?.(itemKey)
 export const handleListItemStateChange =
         ({
                 activeTriggerEvenName,
@@ -162,10 +163,10 @@ export const handleListItemTrailingPressOut =
                 onActiveAfterAffordance,
                 onListItemClose
         }: HandleListItemTrailingPressOutOptions) =>
-        (value: string) =>
+        (itemKey: string) =>
         () => {
                 const nextEvent = {
-                        afterAffordance: () => onActiveAfterAffordance?.({value}),
+                        afterAffordance: () => onActiveAfterAffordance?.({activeKey: itemKey}),
                         closeTrailing: () => onListItemClose(true)
                 }
 
@@ -184,9 +185,9 @@ export const handleListItemTrailingPressIn = (setState: Updater<ListItemState>) 
         })
 }
 
-export const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<ListItemState>) => (value?: boolean) =>
+export const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<ListItemState>) => (visible?: boolean) =>
         setState(draft => {
-                draft.afterAffordanceClosed = !value
+                draft.afterAffordanceClosed = !visible
         })
 
 export const handleItemListAffordanceShow = (setState: Updater<ListItemState>) => () =>
@@ -196,7 +197,7 @@ export const handleItemListAffordanceShow = (setState: Updater<ListItemState>) =
 
 export const handleListItemConfirm =
         ({options, onConfirm, onActiveAfterAffordance, onListItemClose}: HandleListItemConfirmOptions) =>
-        (value?: string) => {
+        (itemKey?: string) => {
                 const {doubleConfirmed} = options
 
                 if (doubleConfirmed) {
@@ -205,7 +206,7 @@ export const handleListItemConfirm =
                         return
                 }
 
-                onActiveAfterAffordance?.({callback: () => onConfirm?.({...options, itemKey: value})})
+                onActiveAfterAffordance?.({callback: () => onConfirm?.({...options, itemKey})})
         }
 
 /**
@@ -219,8 +220,8 @@ export const handleListItemFocus =
                         draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
                 })
 
-export const handleListItemClose = (onClose?: (value?: string) => void) => (itemKey: string) => (value?: boolean) => {
-        if (!value) {
+export const handleListItemClose = (onClose?: (value?: string) => void) => (itemKey: string) => (close?: boolean) => {
+        if (!close) {
                 return
         }
 
@@ -236,7 +237,7 @@ export const handleListItemPanResponderRelease =
                 }
 
                 if (gestureState.dx < -50) {
-                        onActiveAfterAffordance?.({value: itemKey})
+                        onActiveAfterAffordance?.({activeKey: itemKey})
                 }
 
                 if (gestureState.dx > 50) {
@@ -308,11 +309,12 @@ export const handleListItemAfterAffordanceVisibleAnimatedTiming =
                 onListItemAfterAffordanceVisibleFinished
         }: HandleListItemAfterAffordanceVisibleAnimatedTimingOptions) =>
         (contentLeftSharedValue: SharedValue<number>) =>
-        (value?: boolean) =>
+        (visible?: boolean) =>
                 animatedTiming({
-                        callback: (finished?: boolean) => finished && onListItemAfterAffordanceVisibleFinished?.(value)
-                })(contentLeftSharedValue)(value ? 1 : 0)
+                        callback: (finished?: boolean) =>
+                                finished && onListItemAfterAffordanceVisibleFinished?.(visible)
+                })(contentLeftSharedValue)(visible ? 1 : 0)
 
 export const handleListItemActiveAnimatedTiming =
-        (animatedTiming: AnimatedTiming) => (headlineTextSharedValue: SharedValue<number>) => (value?: boolean) =>
-                animatedTiming()(headlineTextSharedValue)(value ? 1 : 0)
+        (animatedTiming: AnimatedTiming) => (headlineTextSharedValue: SharedValue<number>) => (active?: boolean) =>
+                animatedTiming()(headlineTextSharedValue)(active ? 1 : 0)

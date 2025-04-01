@@ -25,8 +25,8 @@ export const handleListAfterAffordanceCancel =
                 })
         }
 
-export const handleListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceState>) => (value?: boolean) =>
-        !value &&
+export const handleListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceState>) => (visible?: boolean) =>
+        !visible &&
         setState(draft => {
                 draft.doubleConfirmed = false
         })

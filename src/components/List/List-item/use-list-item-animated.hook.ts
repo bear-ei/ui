@@ -20,7 +20,7 @@ export const useListItemAnimated = ({
         const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
         const contentLeftOutputRanges = [theme.adaptSize(spacing.none), -theme.adaptSize(spacing.extraSmall * 28)]
         const contentAnimatedStyle = useAnimatedStyle(() => ({
-                left: interpolate(contentLeftSharedValue.value, [0, 1], contentLeftOutputRange)
+                left: interpolate(contentLeftSharedValue.value, [0, 1], contentLeftOutputRanges)
         }))
 
         const headlineTextColorOutputRanges = [
@@ -29,7 +29,7 @@ export const useListItemAnimated = ({
         ]
 
         const headlineTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRange)
+                color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRanges)
         }))
 
         const onListItemAfterAffordanceVisibleAnimatedTiming = useMemo(

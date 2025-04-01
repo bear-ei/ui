@@ -13,39 +13,40 @@ import {
         RenderListItemOptions
 } from './List.interface'
 
-const handleListSelect = (draft: WritableDraft<ListState>) => (deselect?: boolean) => (value?: string | string[]) => {
-        const prevActiveKey = draft.activeKey
+const handleListSelect =
+        (draft: WritableDraft<ListState>) => (deselect?: boolean) => (activeKeys?: string | string[]) => {
+                const prevActiveKey = draft.activeKey
 
-        if (Array.isArray(value) || value === prevActiveKey) {
-                return
+                if (Array.isArray(activeKeys) || activeKeys === prevActiveKey) {
+                        return
+                }
+
+                draft.activeKey = activeKeys === prevActiveKey && deselect ? undefined : activeKeys
+
+                if (draft.afterAffordanceActiveKey !== activeKeys) {
+                        draft.afterAffordanceActiveKey = undefined
+                }
+
+                return draft.activeKey
         }
 
-        draft.activeKey = value === prevActiveKey && deselect ? undefined : value
-
-        if (draft.afterAffordanceActiveKey !== value) {
-                draft.afterAffordanceActiveKey = undefined
-        }
-
-        return draft.activeKey
-}
-
-const handlePrevListActiveKeysFilter = (value: string) => (key: string) => key !== value
-const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: string | string[]) => {
+const handlePrevListActiveKeysFilter = (activeKey: string) => (key: string) => key !== activeKey
+const handleListMultiselect = (draft: WritableDraft<ListState>) => (activeKeys: string | string[]) => {
         const prevActiveKeys = draft.activeKeys
-        const nextActiveKeys = Array.isArray(value) ? value : [...(prevActiveKeys ?? []), value]
+        const nextActiveKeys = Array.isArray(activeKeys) ? activeKeys : [...(prevActiveKeys ?? []), activeKeys]
 
         if (prevActiveKeys?.join() === nextActiveKeys?.join()) {
                 return
         }
 
-        if (typeof value === 'string') {
+        if (typeof activeKeys === 'string') {
                 draft.activeKeys =
-                        prevActiveKeys?.includes(value) ?
-                                prevActiveKeys?.filter(handlePrevListActiveKeysFilter(value))
+                        prevActiveKeys?.includes(activeKeys) ?
+                                prevActiveKeys?.filter(handlePrevListActiveKeysFilter(activeKeys))
                         :       nextActiveKeys
         }
 
-        if (Array.isArray(value)) {
+        if (Array.isArray(activeKeys)) {
                 draft.activeKeys = nextActiveKeys
         }
 
@@ -54,20 +55,20 @@ const handleListMultiselect = (draft: WritableDraft<ListState>) => (value: strin
 
 const handleNextActiveEvent =
         ({onActive, onActives}: HandleListActiveOptions) =>
-        (value: string | string[] | undefined) =>
+        (activeKeys?: string | string[]) =>
         () =>
-                typeof value === 'string' ? onActive?.(value) : onActives?.(value)
+                typeof activeKeys === 'string' ? onActive?.(activeKeys) : onActives?.(activeKeys)
 
 export const handleListActive =
         ({onActive, selectType, onActives, deselect}: HandleListActiveOptions = {}) =>
         (setState: Updater<ListState>) =>
-        (value?: string | string[]) =>
+        (activeKeys?: string | string[]) =>
                 selectType &&
                 setState(draft => {
                         const callbackValue =
                                 selectType === 'select' ?
-                                        handleListSelect(draft)(deselect)(value)
-                                :       handleListMultiselect(draft)(value ?? [])
+                                        handleListSelect(draft)(deselect)(activeKeys)
+                                :       handleListMultiselect(draft)(activeKeys ?? [])
 
                         if (!callbackValue) {
                                 return
@@ -81,8 +82,8 @@ export const handleListActive =
 export const handleListActiveAfterAffordance =
         ({onActive, selectType}: HandleListActiveOptions) =>
         (setState: Updater<ListState>) =>
-        ({value, callback} = {} as OnActiveAfterAffordanceOptions) => {
-                const handleNextAfterAffordanceActiveEvent = () => onActive?.(value)
+        ({activeKey, callback} = {} as OnActiveAfterAffordanceOptions) => {
+                const handleNextAfterAffordanceActiveEvent = () => onActive?.(activeKey)
 
                 if (selectType === 'multiselect') {
                         return
@@ -91,16 +92,16 @@ export const handleListActiveAfterAffordance =
                 setState(draft => {
                         const prevActiveKey = draft.activeKey
 
-                        if (draft.afterAffordanceActiveKey === value) {
+                        if (draft.afterAffordanceActiveKey === activeKey) {
                                 draft.afterAffordanceActiveKey = undefined
 
                                 return
                         }
 
-                        draft.afterAffordanceActiveKey = value
+                        draft.afterAffordanceActiveKey = activeKey
 
-                        if (value) {
-                                draft.activeKey = value
+                        if (activeKey) {
+                                draft.activeKey = activeKey
                         }
 
                         if (prevActiveKey !== draft.activeKey) {
