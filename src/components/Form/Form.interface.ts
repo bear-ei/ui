@@ -39,7 +39,7 @@ export interface SetFieldValueOptions {
 export interface FormStore<T = Record<string, unknown>> {
         getFieldEntities: (signOut?: boolean) => FormFieldEntity<T>[]
         getFieldEntitiesName: (signOut?: boolean) => (names?: (keyof T)[]) => (keyof T | undefined)[]
-        getFieldError: {
+        getFieldErrors: {
                 (): FormError<T>
                 (name?: (keyof T)[]): FormError<T>
                 (name?: keyof T): FormError<T>[keyof T]

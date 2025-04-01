@@ -37,7 +37,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                         return [...(names ? entityNames.filter(name => name && namesSet.has(name)) : entityNames)]
                 }
 
-        const getFieldError = ((name?: NamePath<T>) => {
+        const getFieldErrors = ((name?: NamePath<T>) => {
                 const names = namePath(name)
                 const err =
                         names ?
@@ -51,7 +51,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                         :       error
 
                 return !Array.isArray(name) && name ? err[name] : err
-        }) as FormStore<T>['getFieldError']
+        }) as FormStore<T>['getFieldErrors']
 
         const getFieldValue = ((name?: NamePath<T>) => {
                 const names = namePath(name)
@@ -363,7 +363,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
         return {
                 getFieldEntities,
                 getFieldEntitiesName,
-                getFieldError,
+                getFieldErrors,
                 getFieldValue,
                 getInitialValue,
                 isFieldTouched,
