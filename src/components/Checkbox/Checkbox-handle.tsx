@@ -21,29 +21,29 @@ export const handleCheckboxStatus = (setState: Updater<CheckboxState>) => (indet
 const handleCheckboxActiveDraftChange =
         (draft: WritableDraft<CheckboxState>) =>
         ({indeterminate, onActive}: HandleCheckboxActiveOptions) =>
-        (value?: boolean) => {
-                const handleNextActiveEvent = () => onActive?.(value)
+        (active?: boolean) => {
+                const handleNextActiveEvent = () => onActive?.(active)
 
-                if (typeof value !== 'boolean') {
+                if (typeof active !== 'boolean') {
                         return
                 }
 
                 const activeType = indeterminate ? 'indeterminate' : 'selected'
-                const nextType = value ? activeType : 'unselected'
+                const nextType = active ? activeType : 'unselected'
 
-                draft.active = value
+                draft.active = active
                 draft.nextActiveEvent = handleNextActiveEvent
                 draft.type = nextType
         }
 
 export const handleCheckboxActive =
-        (options: HandleCheckboxActiveOptions) => (setState: Updater<CheckboxState>) => (value?: boolean) =>
+        (options: HandleCheckboxActiveOptions) => (setState: Updater<CheckboxState>) => (active?: boolean) =>
                 setState(draft => {
-                        if (value === draft.active) {
+                        if (active === draft.active) {
                                 return
                         }
 
-                        handleCheckboxActiveDraftChange(draft)(options)(value)
+                        handleCheckboxActiveDraftChange(draft)(options)(active)
                 })
 
 export const handleCheckboxStateChange =

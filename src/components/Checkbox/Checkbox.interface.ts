@@ -11,7 +11,7 @@ export interface CheckboxProps extends TouchableProps {
         disabled?: boolean
         error?: boolean
         indeterminate?: boolean
-        onActive?: (value?: boolean) => void
+        onActive?: (active?: boolean) => void
         type?: CheckboxType
 }
 

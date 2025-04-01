@@ -5,7 +5,7 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CheckboxBase} from './Checkbox-base.component'
 import {CheckboxIconAnimatedOptions, CheckboxProps, RenderCheckboxProps} from './Checkbox.interface'
-import {Container, Content, IconLayoutAnimated, Main} from './Checkbox.styles'
+import {Container, Content, IconLayout, Main} from './Checkbox.styles'
 
 const render = ({
         disabled,
@@ -59,8 +59,8 @@ const render = ({
                                                 shape='tinySmall'
                                                 testID={`checkbox__main--${id}`}
                                         >
-                                                <IconLayoutAnimated
-                                                        testID={`checkbox__iconLayoutAnimated--${id}`}
+                                                <IconLayout
+                                                        testID={`checkbox__iconLayout--${id}`}
                                                         visible={true}
                                                 >
                                                         <Icon
@@ -73,12 +73,12 @@ const render = ({
                                                                 testID={`checkbox__iconCheckBoxOutlineBlank--${id}`}
                                                                 type='filled'
                                                         />
-                                                </IconLayoutAnimated>
+                                                </IconLayout>
 
-                                                <IconLayoutAnimated
+                                                <IconLayout
                                                         {...animatedOptions}
                                                         visible={type === 'selected'}
-                                                        testID={`checkbox__iconLayoutAnimated--${id}`}
+                                                        testID={`checkbox__iconLayout--${id}`}
                                                 >
                                                         <Icon
                                                                 disabled={disabled}
@@ -90,12 +90,12 @@ const render = ({
                                                                 testID={`checkbox__iconCheckBox--${id}`}
                                                                 type='filled'
                                                         />
-                                                </IconLayoutAnimated>
+                                                </IconLayout>
 
-                                                <IconLayoutAnimated
+                                                <IconLayout
                                                         {...animatedOptions}
                                                         visible={type === 'indeterminate'}
-                                                        testID={`checkbox__iconLayoutAnimated--${id}`}
+                                                        testID={`checkbox__iconLayout--${id}`}
                                                 >
                                                         <Icon
                                                                 disabled={disabled}
@@ -107,7 +107,7 @@ const render = ({
                                                                 testID={`checkbox__iconIndeterminateCheckBox--${id}`}
                                                                 type='filled'
                                                         />
-                                                </IconLayoutAnimated>
+                                                </IconLayout>
                                         </Main>
 
                                         <Underlay

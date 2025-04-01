@@ -40,7 +40,7 @@ export const Main = styled(Shape)`
         `}
 `
 
-export const IconLayoutAnimated = styled(LayoutAnimated)<CheckboxIconLayoutProps>`
+export const IconLayout = styled(LayoutAnimated)<CheckboxIconLayoutProps>`
         position: absolute;
 
         ${({theme}) => css`
