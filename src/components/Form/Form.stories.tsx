@@ -58,7 +58,7 @@ export const FormA = () => {
         }
 
         const handleReset = () => {
-                form.resetField()
+                form.resetFields()
         }
 
         const style = {

@@ -32,7 +32,7 @@ export const handleFormCallback =
                 setCallback({onFinish, onFinishFailed, onValueChange})
 
 export const handleFormFieldKeys =
-        <T,>(setFieldKeys: (values?: (keyof T)[]) => void) =>
+        <T,>(setFieldKeys: (keys?: (keyof T)[]) => void) =>
         (items?: FormItemProps[]) =>
                 items && setFieldKeys(items.map(({name}) => name).filter(item => item) as (keyof T)[])
 
@@ -47,10 +47,10 @@ export const handleFormValidate = <T,>({rule, validatorOptions}: HandleFormValid
         return (name?: keyof T) => async (value?: unknown) =>
                 name && rule ?
                         validate(Object.assign(new rule(), {[name]: value}), {
+                                ...otherValidatorOptions,
                                 forbidNonWhitelisted,
                                 skipMissingProperties,
-                                whitelist,
-                                ...otherValidatorOptions
+                                whitelist
                         }).then(errors => (errors.length ? errors : undefined))
                 :       ([] as ValidationError[])
 }

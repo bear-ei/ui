@@ -45,7 +45,7 @@ export interface FormStore<T = Record<string, unknown>> {
                 (name?: keyof T): FormError<T>[keyof T]
         }
 
-        getFieldValue: {
+        getFieldsValue: {
                 (): T
                 (name?: (keyof T)[]): T
                 (name?: keyof T): T[keyof T]
@@ -57,19 +57,19 @@ export interface FormStore<T = Record<string, unknown>> {
                 (name?: keyof T): T[keyof T]
         }
 
-        isFieldTouched: (name?: NamePath) => boolean
-        resetField: (name?: NamePath) => void
+        isFieldsTouched: (name?: NamePath) => boolean
+        resetFields: (name?: NamePath) => void
         setCallback: (formCallback: FormCallback<T>) => void
         setFieldError: (componentUpdate?: boolean) => (error: FormError<T>) => void
-        setFieldKeys: (values?: (keyof T)[]) => void
+        setFieldKeys: (keys?: (keyof T)[]) => void
         setFieldTouched: (touched?: boolean) => (name?: keyof T) => void
         setFieldValidate: (rule: FormValidateRule<T>) => void
         setFieldValue: (options?: SetFieldValueOptions) => (value?: T) => void
         setInitialValue: (initialized?: boolean) => (value?: T) => void
         signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
-        signOutField: (name?: NamePath) => void
+        signOutFields: (name?: NamePath) => void
         submit: (skipValidate?: boolean) => void
-        validateField: {
+        validateFields: {
                 (): Promise<FormError<T>>
                 (name?: (keyof T)[]): Promise<FormError<T>>
                 (name?: keyof T): Promise<FormError<T>[keyof T]>

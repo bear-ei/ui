@@ -30,8 +30,8 @@ export const handleFormItemStatus =
                 })
 
 export const handleFormItemValidateField =
-        (validateField: (name?: string) => Promise<FormError<unknown>>) => (name?: string) => () => {
+        (validateFields: (name?: string) => Promise<FormError<unknown>>) => (name?: string) => () => {
                 if (name) {
-                        validateField(name)
+                        validateFields(name)
                 }
         }
