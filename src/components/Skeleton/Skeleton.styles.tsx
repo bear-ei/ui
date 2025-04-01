@@ -22,7 +22,7 @@ export const SkeletonContainer = styled.View<SkeletonContainerProps>`
                         `}
 `
 
-export const ContentItemLayoutAnimated = styled(LayoutAnimated)`
+export const ContentItemLayout = styled(LayoutAnimated)`
         position: absolute;
 
         ${({theme}) => css`

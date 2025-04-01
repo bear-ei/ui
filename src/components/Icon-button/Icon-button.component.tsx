@@ -6,7 +6,7 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {IconButtonBase} from './Icon-button-base.component'
 import {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
-import {BackgroundUnderlay, Container, Content, ContentItemLayoutAnimated, Main} from './Icon-button.styles'
+import {BackgroundUnderlay, Container, Content, ContentItemLayout, Main} from './Icon-button.styles'
 
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const render = ({
@@ -18,9 +18,9 @@ const render = ({
         icon,
         id,
         loading,
-        stateOnEvent,
         ref,
         size,
+        stateOnEvent,
         testID,
         theme,
         type,
@@ -43,7 +43,7 @@ const render = ({
                         pointerEvents={loading ? 'none' : 'auto'}
                         testID={testID ?? `iconButton--${id}`}
                 >
-                        <ContentItemLayoutAnimated
+                        <ContentItemLayout
                                 lazy={true}
                                 testID={`iconButton__contentItemLayoutAnimated--${id}`}
                                 visible={loading}
@@ -55,9 +55,9 @@ const render = ({
                                         testID={`iconButton__progress--${id}`}
                                         type='circular'
                                 />
-                        </ContentItemLayoutAnimated>
+                        </ContentItemLayout>
 
-                        <ContentItemLayoutAnimated
+                        <ContentItemLayout
                                 testID={`iconButton__contentItemLayoutAnimated--${id}`}
                                 visible={!loading}
                         >
@@ -93,7 +93,7 @@ const render = ({
                                                 />
                                         </Content>
                                 </Touchable>
-                        </ContentItemLayoutAnimated>
+                        </ContentItemLayout>
                 </Container>
         )
 }
