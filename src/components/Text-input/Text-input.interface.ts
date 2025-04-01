@@ -28,7 +28,7 @@ export interface TextInputProps
         filled?: boolean
         labelText?: string
         leading?: React.JSX.Element
-        onSupportingTextVisible?: (value?: boolean) => void
+        onSupportingTextVisible?: (visible?: boolean) => void
         supportingText?: string
         supportingTextDelay?: number
         trailing?: React.JSX.Element
@@ -45,7 +45,7 @@ export interface RenderTextInputProps extends TextInputProps {
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         onHeaderFocus?: () => void
         stateOnEvent: StateOnEvent
-        onSupportingTextVisible?: (value?: boolean) => void
+        onSupportingTextVisible?: (visible?: boolean) => void
         supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
         supportingTextVisible?: boolean
         theme: DefaultTheme

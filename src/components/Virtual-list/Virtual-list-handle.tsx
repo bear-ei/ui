@@ -162,7 +162,7 @@ export const handleVirtualListLoadEnd = (setState: Updater<VirtualListState>) =>
                 ({indexKey}: VirtualListData) =>
                         indexKey === key
 
-        return (onLoadEnd?: (value?: string) => void) => (indexKey?: string) => {
+        return (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => {
                 if (indexKey) {
                         setState(draft => {
                                 const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(

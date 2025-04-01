@@ -47,9 +47,9 @@ export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttri
         enableUnderlayActive?: boolean
         focusedIndex?: number
         gap?: number
-        onActive?: (value?: string) => void
+        onActive?: (activeKey?: string) => void
         onActiveAfterAffordance?: (options?: OnActiveAfterAffordanceOptions) => void
-        onActives?: (values?: string[]) => void
+        onActives?: (activeKeys?: string[]) => void
         onCancel?: (options: ListAfterAffordancePressOutOptions) => void
         onClose?: (options: OnVirtualListCloseOptions) => void
         onConfirm?: (options: ListAfterAffordancePressOutOptions) => void
@@ -71,7 +71,7 @@ export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttri
 }
 
 export interface RenderListProps extends ListProps {
-        onUnmount?: (value?: string) => void
+        onUnmount?: (indexKey?: string) => void
 }
 
 export interface ListState {

@@ -22,7 +22,7 @@ export const handleVirtualListItemClose = (setState: Updater<VirtualListItemStat
                 draft.visible = false
         })
 
-export const handleVirtualListItemUnmount = (onUnmount?: (value?: string) => void) => (indexKey?: string) => () =>
+export const handleVirtualListItemUnmount = (onUnmount?: (indexKey?: string) => void) => (indexKey?: string) => () =>
         onUnmount?.(indexKey)
 
 export const handleVirtualListItemAnimated =

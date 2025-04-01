@@ -20,7 +20,7 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
         index?: number
         item?: T & Item
         loading?: boolean
-        onUnmount?: (value?: string) => void
+        onUnmount?: (indexKey?: string) => void
         startIndex?: number
 }
 

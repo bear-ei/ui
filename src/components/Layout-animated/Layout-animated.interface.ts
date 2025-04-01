@@ -19,7 +19,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
         exit?: AnimatedTimingOptions
         lazy?: boolean
         onUnmount?: () => void
-        onVisible?: (value?: boolean) => void
+        onVisible?: (visible?: boolean) => void
         opacity?: number
 
         /**
@@ -62,7 +62,7 @@ export interface UseLayoutAnimatedOptions
                 LayoutAnimatedProps,
                 'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible'
         > {
-        onAnimatedFinished: (value?: boolean) => void
+        onAnimatedFinished: (visible?: boolean) => void
         height?: number
         width?: number
 }

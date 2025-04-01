@@ -22,7 +22,8 @@ export const handleNavigationRailItemPropsEqual =
                 return ![activeChange].some(Boolean)
         }
 
-const handleNavigationRailItemPressOut = (onActive?: (value: string) => void) => (value: string) => onActive?.(value)
+const handleNavigationRailItemPressOut = (onActive?: (activeKey: string) => void) => (activeKey: string) =>
+        onActive?.(activeKey)
 
 export const handleNavigationRailItemStateChange =
         ({eventName, indexKey, onActive, ref}: HandleNavigationRailItemStateEventChangeOptions) =>

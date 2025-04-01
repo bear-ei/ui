@@ -34,8 +34,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         enableUnderlay = true,
                         enableUnderlayActive = true,
                         focusedIndex,
-                        itemIndex,
                         indexKey,
+                        itemIndex,
                         leading,
                         onActive,
                         onActiveAfterAffordance,
@@ -98,8 +98,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 // ).current
 
                 const onListItemFocus = useMemo(() => handleListItemFocus(setState)(itemIndex), [itemIndex, setState])
-                const onListItemConfirm = ({indexKey: value, ...options}: ListAfterAffordancePressOutOptions) =>
-                        handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(value)
+                const onListItemConfirm = ({indexKey: key, ...options}: ListAfterAffordancePressOutOptions) =>
+                        handleListItemConfirm({options, onActiveAfterAffordance, onListItemClose, onConfirm})(key)
 
                 const onListItemClose = handleListItemClose(onClose)(indexKey)
                 const onListItemTrailingPressOut = handleListItemTrailingPressOut({

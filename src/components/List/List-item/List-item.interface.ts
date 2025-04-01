@@ -55,9 +55,9 @@ export interface ListItemProps
         indexKey: string
         itemLayout?: {width?: number; height?: number}
         leading?: React.JSX.Element
-        onActives?: (value?: string[]) => void
-        onClose?: (value?: string) => void
-        onLoadEnd?: (value?: string) => void
+        onActives?: (activeKeys?: string[]) => void
+        onClose?: (indexKey?: string) => void
+        onLoadEnd?: (indexKey?: string) => void
         primaryButtonProps?: ListAffordanceButtonProps
         secondaryButtonProps?: ListAffordanceButtonProps
         supporting?: string | React.JSX.Element
@@ -115,7 +115,7 @@ export type HandleListItemTrailingEventOptions = {callback?: () => void}
 export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
         onConfirm?: ListItemProps['onConfirm']
         options: ListAfterAffordancePressOutOptions
-        onListItemClose: (value?: boolean) => void
+        onListItemClose: (indexKey?: boolean) => void
 }
 
 export interface RenderListItemTrailingOptions
@@ -130,7 +130,7 @@ export interface RenderListItemTrailingOptions
 export interface UseListItemAnimatedOptions {
         active?: boolean
         afterAffordanceVisible?: boolean
-        onListItemAfterAffordanceVisibleFinished?: (value?: boolean) => false | void
+        onListItemAfterAffordanceVisibleFinished?: (visible?: boolean) => false | void
 }
 
 export interface HandleListItemAfterAffordanceVisibleAnimatedTimingOptions
@@ -140,7 +140,7 @@ export interface HandleListItemAfterAffordanceVisibleAnimatedTimingOptions
 
 export interface HandleListItemTrailingPressOutOptions
         extends Pick<ListItemProps, 'closeTrailing' | 'afterAffordance' | 'onActiveAfterAffordance'> {
-        onListItemClose: (value?: boolean) => void
+        onListItemClose: (close?: boolean) => void
 }
 
 export type HandleListItemPanResponderReleaseOptions = Pick<ListItemProps, 'onActiveAfterAffordance' | 'disabled'>

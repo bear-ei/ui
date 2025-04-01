@@ -5,7 +5,9 @@ import {NavigationRailItem} from './Navigation-rail-item'
 import {NavigationRailData, NavigationRailState, RenderNavigationRailItemOptions} from './Navigation-rail.interface'
 
 export const handleNavigationRailActive =
-        (onActive?: (value?: string) => void) => (setState: Updater<NavigationRailState>) => (activeKey?: string) => {
+        (onActive?: (activeKey?: string) => void) =>
+        (setState: Updater<NavigationRailState>) =>
+        (activeKey?: string) => {
                 const handleNextActiveEvent = () => onActive?.(activeKey)
 
                 if (!activeKey) {

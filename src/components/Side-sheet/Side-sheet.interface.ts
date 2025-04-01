@@ -18,7 +18,7 @@ export interface SideSheetProps extends ViewProps, RefAttributes<View>, Pick<Sha
         onCancel?: () => void
         onClose?: () => void
         onConfirm?: () => void
-        onVisible?: (value?: boolean) => void
+        onVisible?: (visible?: boolean) => void
         primaryButton?: React.JSX.Element
         primaryButtonProps?: ButtonProps
         secondaryButton?: React.JSX.Element
