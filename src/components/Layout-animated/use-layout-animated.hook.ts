@@ -27,7 +27,7 @@ export const useLayoutAnimated = ({
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const opacityOutputRanges = [theme.adaptSize(theme.token.spacing.none), opacity]
         const fadeAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(containerSharedValue.value, [0, 1], opacityOutputRange)
+                opacity: interpolate(containerSharedValue.value, [0, 1], opacityOutputRanges)
         }))
 
         const widthOutputRanges = [
@@ -36,7 +36,7 @@ export const useLayoutAnimated = ({
         ]
 
         const collapseXAnimatedStyle = useAnimatedStyle(() => ({
-                width: interpolate(containerSharedValue.value, [0, 1], widthOutputRange),
+                width: interpolate(containerSharedValue.value, [0, 1], widthOutputRanges),
                 ...(scale && {transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]})
         }))
 
@@ -46,7 +46,7 @@ export const useLayoutAnimated = ({
         ]
 
         const collapseYAnimatedStyle = useAnimatedStyle(() => ({
-                height: interpolate(containerSharedValue.value, [0, 1], heightOutputRange),
+                height: interpolate(containerSharedValue.value, [0, 1], heightOutputRanges),
                 ...(scale && {transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]})
         }))
 

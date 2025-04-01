@@ -2,10 +2,10 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {MaskBase} from './Mask-base.component'
 import {MaskProps, RenderMaskProps} from './Mask.interface'
-import {ContainerLayoutAnimated, Content} from './Mask.styles'
+import {ContainerLayout, Content} from './Mask.styles'
 
 const render = ({ref, stateOnEvent, id, testID, ...containerProps}: RenderMaskProps) => (
-        <ContainerLayoutAnimated
+        <ContainerLayout
                 {...containerProps}
                 accessibilityRole='alert'
                 testID={testID ?? `mask--${id}`}
@@ -15,7 +15,7 @@ const render = ({ref, stateOnEvent, id, testID, ...containerProps}: RenderMaskPr
                         ref={ref}
                         testID={`mask__content--${id}`}
                 />
-        </ContainerLayoutAnimated>
+        </ContainerLayout>
 )
 
 const ForwardRefMask = forwardRef<View, MaskProps>((props, ref) => (

@@ -2,7 +2,7 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {LayoutNavigationBase} from './Layout-navigation-base.component'
 import {LayoutNavigationProps, RenderLayoutNavigationProps} from './Layout-navigation.interface'
-import {ContainerLayoutAnimated} from './Layout-navigation.styles'
+import {ContainerLayout} from './Layout-navigation.styles'
 
 const render = ({
         animatedType = 'collapseX',
@@ -12,7 +12,7 @@ const render = ({
         testID,
         ...containerProps
 }: RenderLayoutNavigationProps) => (
-        <ContainerLayoutAnimated
+        <ContainerLayout
                 {...containerProps}
                 animatedType={animatedType}
                 defaultVisible={defaultVisible}
@@ -21,7 +21,7 @@ const render = ({
                 testID={testID ?? `layoutNavigation--${id}`}
         >
                 {children}
-        </ContainerLayoutAnimated>
+        </ContainerLayout>
 )
 
 const ForwardRefLayoutNavigation = forwardRef<View, LayoutNavigationProps>((props, ref) => (

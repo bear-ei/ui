@@ -2,21 +2,21 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {LayoutPaneBase} from './Layout-pane-base.component'
 import {LayoutPaneProps, RenderLayoutPaneProps} from './Layout-pane.interface'
-import {ContainerLayoutAnimated} from './Layout-pane.styles'
+import {ContainerLayout} from './Layout-pane.styles'
 
 const render = ({
         children,
+        contentStyle: rawContentStyle,
         defaultVisible = true,
         id,
         layout = 'row',
         testID,
-        contentStyle: rawContentStyle,
         ...containerProps
 }: RenderLayoutPaneProps) => {
         const contentStyle = {...rawContentStyle, flexDirection: layout}
 
         return (
-                <ContainerLayoutAnimated
+                <ContainerLayout
                         {...containerProps}
                         contentStyle={contentStyle}
                         defaultVisible={defaultVisible}
@@ -25,7 +25,7 @@ const render = ({
                         testID={testID ?? `layoutPane--${id}`}
                 >
                         {children}
-                </ContainerLayoutAnimated>
+                </ContainerLayout>
         )
 }
 

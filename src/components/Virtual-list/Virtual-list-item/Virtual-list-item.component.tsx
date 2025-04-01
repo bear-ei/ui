@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import {VirtualListItemBase} from './Virtual-list-item-base.component'
 import {handleVirtualListItemPropsEqual} from './Virtual-list-item-handle'
 import {RenderVirtualListItemProps, VirtualListItemProps} from './Virtual-list-item.interface'
-import {ContainerLayoutAnimated} from './Virtual-list-item.styles'
+import {ContainerLayout} from './Virtual-list-item.styles'
 
 const render = ({
         containerAnimatedStyle,
@@ -15,7 +15,7 @@ const render = ({
         visible,
         ...containerProps
 }: RenderVirtualListItemProps) => (
-        <ContainerLayoutAnimated
+        <ContainerLayout
                 {...containerProps}
                 exit={{duration: 'short2'}}
                 itemSize={itemSize}
@@ -26,7 +26,7 @@ const render = ({
                 visible={visible}
         >
                 {itemElement}
-        </ContainerLayoutAnimated>
+        </ContainerLayout>
 )
 
 const ForwardRefVirtualListItem = forwardRef<View, VirtualListItemProps>((props, ref) => (

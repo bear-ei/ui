@@ -2,7 +2,7 @@ import styled, {css} from 'styled-components/native'
 import {LayoutAnimated} from '../Layout-animated'
 import {MaskContainerProps} from './Mask.interface'
 
-export const ContainerLayoutAnimated = styled(LayoutAnimated)<MaskContainerProps>`
+export const ContainerLayout = styled(LayoutAnimated)<MaskContainerProps>`
         cursor: default;
         position: absolute;
 

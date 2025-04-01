@@ -46,28 +46,28 @@ export const handleLayoutAnimatedStateChange =
         }
 
 export const handleLayoutAnimatedLayoutVisible = ({onVisible, setState}: HandleLayoutAnimatedLayoutVisibleOptions) => {
-        const handleNextVisibleEvent = (value?: boolean) => () => onVisible?.(value)
-        const handleDraftChange = (value?: boolean) => (draft: WritableDraft<LayoutAnimatedState>) => {
-                if (value === draft.visible) {
+        const handleNextVisibleEvent = (visible?: boolean) => () => onVisible?.(visible)
+        const handleDraftChange = (visible?: boolean) => (draft: WritableDraft<LayoutAnimatedState>) => {
+                if (visible === draft.visible) {
                         return
                 }
 
-                draft.invisible = !value
-                draft.visible = value
-                draft.nextVisibleEvent = handleNextVisibleEvent(value)
+                draft.invisible = !visible
+                draft.visible = visible
+                draft.nextVisibleEvent = handleNextVisibleEvent(visible)
         }
 
-        return (value?: boolean) => setState(handleDraftChange(value))
+        return (visible?: boolean) => setState(handleDraftChange(visible))
 }
 
 export const handleLayoutAnimatedFinished =
         ({onUnmount, unmount}: HandleLayoutAnimatedFinishedOptions) =>
         (setState: Updater<LayoutAnimatedState>) =>
-        (value?: boolean) => {
+        (visible?: boolean) => {
                 setState(draft => {
-                        draft.invisible = !value
+                        draft.invisible = !visible
 
-                        if (unmount && !value) {
+                        if (unmount && !visible) {
                                 draft.nextUnmountEvent = onUnmount
                                 draft.status = 'idle'
                                 draft.unmountLayout = true
@@ -78,17 +78,17 @@ export const handleLayoutAnimatedFinished =
 export const handleLayoutAnimatedStatus =
         ({unmount, lazy}: HandleLayoutAnimatedStatusOptions) =>
         (setState: Updater<LayoutAnimatedState>) =>
-        (value?: boolean) =>
+        (visible?: boolean) =>
                 setState(draft => {
                         if (draft.status === 'succeeded') {
                                 return
                         }
 
                         if (unmount) {
-                                draft.unmountLayout = !value
+                                draft.unmountLayout = !visible
                         }
 
-                        draft.status = lazy && !value ? 'idle' : 'loading'
+                        draft.status = lazy && !visible ? 'idle' : 'loading'
                 })
 
 export const handleLayoutAnimatedTiming =
