@@ -68,9 +68,9 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                         id,
                         labelTextAnimatedStyle,
                         loading,
-                        stateOnEvent,
                         ref,
                         size,
+                        stateOnEvent,
                         type,
                         underlayColor
                 })
