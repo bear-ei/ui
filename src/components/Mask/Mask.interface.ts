@@ -17,7 +17,6 @@ export interface MaskBaseProps extends MaskProps {
 }
 
 export type MaskContainerProps = Pick<MaskProps, 'backgroundColor' | 'visible'>
-
 export interface HandleMaskStateChangeOptions extends HandleStateEventChangeOptions {
         ref: React.RefObject<View>
 }

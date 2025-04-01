@@ -17,7 +17,7 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
         ]
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(labelTextColorSharedValue.value, [0, 1], labelTextColorOutputRange)
+                color: interpolateColor(labelTextColorSharedValue.value, [0, 1], labelTextColorOutputRanges)
         }))
 
         const onNavigationRailItemAnimatedTiming = useMemo(

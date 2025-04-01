@@ -74,12 +74,12 @@ export const renderNavigationRailItemActiveIcon =
 export const handleNavigationRailItemAnimatedTiming =
         ({animatedTiming, type}: HandleNavigationRailItemAnimatedTimingOptions) =>
         (labelTextColorSharedValue: SharedValue<number>) =>
-        (value?: boolean) => {
-                if (!(type === 'segment' && typeof value === 'boolean')) {
+        (active?: boolean) => {
+                if (!(type === 'segment' && typeof active === 'boolean')) {
                         return
                 }
 
-                const toValue = value ? 1 : 0
+                const toValue = active ? 1 : 0
 
                 animatedTiming()(labelTextColorSharedValue)(toValue)
         }
