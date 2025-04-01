@@ -51,7 +51,7 @@ export type RenderChipIconOptions = Pick<RenderChipProps, 'disabled' | 'eventNam
 export type UseChipAnimatedOptions = Pick<RenderChipProps, 'disabled' | 'type' | 'active' | 'elevated' | 'chipStyle'>
 export interface HandleChipAnimatedTimingOptions extends Omit<UseChipAnimatedOptions, 'eventName'> {
         animatedTiming: AnimatedTiming
-        borderInputRange: number[]
+        borderInputRanges: number[]
 }
 
 export interface HandleChipAnimatedTimingSharedValue {

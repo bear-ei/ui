@@ -97,8 +97,8 @@ export const ChipBase = forwardRef<View, ChipBaseProps>(
                         labelText,
                         labelTextAnimatedStyle,
                         leadingIcon: leadingIconElement,
-                        stateOnEvent,
                         ref,
+                        stateOnEvent,
                         theme,
                         trailing: trailingElement,
                         type

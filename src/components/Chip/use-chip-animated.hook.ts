@@ -110,8 +110,8 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
                 }
         }
 
-        const borderInputRange = useMemo(() => [0, 1, 2], [])
-        const borderColorOutputRange = [
+        const borderInputRanges = useMemo(() => [0, 1, 2], [])
+        const borderColorOutputRanges = [
                 disabledBackgroundColor,
                 chipStyle === 'outlined' ?
                         hexToRGBA(scheme.outline)(opacity.level10)
@@ -133,16 +133,16 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
                         backgroundColorType[type].inputRange,
                         backgroundColorType[type].outputRange
                 ),
-                borderColor: interpolateColor(borderSharedValue.value, borderInputRange, borderColorOutputRange),
+                borderColor: interpolateColor(borderSharedValue.value, borderInputRanges, borderColorOutputRanges),
                 borderStyle: 'solid',
-                borderWidth: interpolate(borderSharedValue.value, borderInputRange, borderWidthOutputRange)
+                borderWidth: interpolate(borderSharedValue.value, borderInputRanges, borderWidthOutputRange)
         }))
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
                 color: interpolateColor(colorSharedValue.value, colorType[type].inputRange, colorType[type].outputRange)
         }))
 
-        const filterIconLayoutWidthOutputRange = [
+        const filterIconLayoutWidthOutputRanges = [
                 theme.adaptSize(theme.token.spacing.none),
                 theme.adaptSize(
                         theme.token.spacing.extraSmall * 6 + -1.5 * theme.adaptSize(theme.token.spacing.extraSmall)
@@ -150,14 +150,14 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
         ]
 
         const filterIconLayoutAnimatedStyle = useAnimatedStyle(() => ({
-                width: interpolate(filterIconLayoutWidthSharedValue.value, [0, 1], filterIconLayoutWidthOutputRange)
+                width: interpolate(filterIconLayoutWidthSharedValue.value, [0, 1], filterIconLayoutWidthOutputRanges)
         }))
 
         const onChipAnimatedTiming = useCallback(
                 () =>
                         handleChipAnimatedTiming({
                                 animatedTiming,
-                                borderInputRange,
+                                borderInputRanges,
                                 disabled,
                                 active,
                                 elevated
@@ -169,7 +169,7 @@ export const useChipAnimated = ({disabled, type = 'assist', active, elevated, ch
                 [
                         active,
                         animatedTiming,
-                        borderInputRange,
+                        borderInputRanges,
                         borderSharedValue,
                         colorSharedValue,
                         disabled,

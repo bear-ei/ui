@@ -127,10 +127,10 @@ export const renderChipCloseButton =
 
 export const handleChipBorderAnimatedTiming = ({
         animatedTiming,
-        borderInputRange,
+        borderInputRanges,
         disabled
 }: HandleChipAnimatedTimingOptions) => {
-        const value = disabled ? 0 : borderInputRange[borderInputRange.length - 2]
+        const value = disabled ? 0 : borderInputRanges[borderInputRanges.length - 2]
 
         return (borderSharedValue: SharedValue<number>) => (active?: boolean) =>
                 animatedTiming()(borderSharedValue)(active && !disabled ? 2 : value)
@@ -145,7 +145,7 @@ const handleChipFilterIconAnimatedTiming =
 export const handleChipAnimatedTiming = ({
         active,
         animatedTiming,
-        borderInputRange,
+        borderInputRanges,
         disabled,
         elevated
 }: HandleChipAnimatedTimingOptions) => {
@@ -159,7 +159,7 @@ export const handleChipAnimatedTiming = ({
                 }: HandleChipAnimatedTimingSharedValue) => {
                         const borderAnimatedTiming = handleChipBorderAnimatedTiming({
                                 animatedTiming,
-                                borderInputRange,
+                                borderInputRanges,
                                 disabled
                         })(borderSharedValue)
 
