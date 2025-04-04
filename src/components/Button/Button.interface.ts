@@ -5,7 +5,15 @@ import {ComponentStatus, EventName} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {TouchableProps} from '../Touchable'
 
-export type ButtonType = 'elevated' | 'filled' | 'link' | 'outlined' | 'text' | 'tonal'
+export enum ButtonType {
+        ELEVATED = 'ELEVATED',
+        FILLED = 'FILLED',
+        LINK = 'LINK',
+        OUTLINED = 'OUTLINED',
+        TEXT = 'TEXT',
+        TONAL = 'TONAL'
+}
+
 export interface ButtonProps extends TouchableProps {
         error?: boolean
         icon?: React.JSX.Element

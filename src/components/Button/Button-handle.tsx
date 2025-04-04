@@ -81,26 +81,26 @@ export const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: 
                         draft.eventName = 'none'
                 }
 
-                if (type === 'elevated') {
+                if (type === 'ELEVATED') {
                         draft.elevation = disabled ? 0 : 1
                 }
         })
 
 export const handleButtonUnderlayColor = (theme: DefaultTheme) => {
         const underlay = {
-                elevated: theme.token.scheme.primary,
-                filled: theme.token.scheme.onPrimary,
-                link: theme.token.scheme.primary,
-                outlined: theme.token.scheme.primary,
-                text: theme.token.scheme.primary,
-                tonal: theme.token.scheme.onSecondaryContainer
+                [ButtonType.ELEVATED]: theme.token.scheme.primary,
+                [ButtonType.FILLED]: theme.token.scheme.onPrimary,
+                [ButtonType.LINK]: theme.token.scheme.primary,
+                [ButtonType.OUTLINED]: theme.token.scheme.primary,
+                [ButtonType.TEXT]: theme.token.scheme.primary,
+                [ButtonType.TONAL]: theme.token.scheme.onSecondaryContainer
         }
 
         return (type: ButtonType) => underlay[type]
 }
 
 export const renderButtonIcon =
-        ({disabled, eventName, type = 'filled', id}: RenderButtonIconOptions) =>
+        ({disabled, eventName, type = 'FILLED', id}: RenderButtonIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
                         elevated: theme.token.scheme.primary,

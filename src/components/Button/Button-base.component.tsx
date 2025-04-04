@@ -23,7 +23,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         labelText = 'Label',
                         loading,
                         render,
-                        type = 'filled',
+                        type = 'FILLED',
                         ...renderProps
                 },
                 ref
