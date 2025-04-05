@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from '@storybook/react'
 import {Icon as EIIcon} from '../Icon'
 import {Button} from './Button.component'
-import {ButtonProps} from './Button.interface'
+import {ButtonProps, ButtonType} from './Button.interface'
 
 export const Filled: StoryObj<ButtonProps> = {
         args: {
@@ -12,14 +12,14 @@ export const Filled: StoryObj<ButtonProps> = {
 export const Outlined: StoryObj<ButtonProps> = {
         args: {
                 labelText: 'Label',
-                type: 'outlined'
+                type: ButtonType.OUTLINED
         }
 }
 
 export const Text: StoryObj<ButtonProps> = {
         args: {
                 labelText: 'Label',
-                type: 'text'
+                type: ButtonType.TEXT
         }
 }
 
@@ -32,28 +32,28 @@ export const TextIcon: StoryObj<ButtonProps> = {
                         />
                 ),
                 labelText: 'Label',
-                type: 'text'
+                type: ButtonType.TEXT
         }
 }
 
 export const Tonal: StoryObj<ButtonProps> = {
         args: {
                 labelText: 'Label',
-                type: 'tonal'
+                type: ButtonType.TONAL
         }
 }
 
 export const Elevated: StoryObj<ButtonProps> = {
         args: {
                 labelText: 'Label',
-                type: 'elevated'
+                type: ButtonType.ELEVATED
         }
 }
 
 export const Link: StoryObj<ButtonProps> = {
         args: {
                 labelText: 'Label',
-                type: 'link'
+                type: ButtonType.LINK
         }
 }
 

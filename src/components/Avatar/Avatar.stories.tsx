@@ -10,6 +10,10 @@ export const ContentText: StoryObj<AvatarProps> = {
         args: {labelText: 'B'}
 }
 
+export const DensityScale: StoryObj<AvatarProps> = {
+        args: {densityScale: -2}
+}
+
 export default {
         component: Avatar,
         title: 'components/Avatar'

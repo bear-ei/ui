@@ -1,8 +1,8 @@
 import {RefAttributes} from 'react'
 import {ImageSourcePropType, ImageURISource, View, ViewProps} from 'react-native'
-import {ShapeProps} from '../Common'
+import {CommonProps, ShapeProps} from '../Common'
 
-export interface AvatarProps extends ViewProps, RefAttributes<View>, ShapeProps {
+export interface AvatarProps extends ViewProps, RefAttributes<View>, CommonProps, ShapeProps {
         backgroundColor?: string
         defaultSource?: ImageURISource | number
         labelText?: string
@@ -15,4 +15,4 @@ export interface AvatarBaseProps extends AvatarProps {
         render: (props: RenderAvatarProps) => React.JSX.Element
 }
 
-export type AvatarLayoutProps = Pick<RenderAvatarProps, 'backgroundColor' | 'size'>
+export type AvatarContentProps = Pick<RenderAvatarProps, 'backgroundColor' | 'size' | 'densityScale'>

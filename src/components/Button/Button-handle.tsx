@@ -22,7 +22,7 @@ export const handleButtonStatus = (setState: Updater<ButtonState>) => (disabled?
                         return
                 }
 
-                if (type === 'elevated' && !disabled) {
+                if (type === ButtonType.ELEVATED && !disabled) {
                         draft.elevation = 1
                 }
 
@@ -30,7 +30,7 @@ export const handleButtonStatus = (setState: Updater<ButtonState>) => (disabled?
         })
 
 export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
-        const elevationType = type && ['elevated', 'filled', 'tonal'].includes(type)
+        const elevationType = type && [ButtonType.ELEVATED, ButtonType.FILLED, ButtonType.TONAL].includes(type)
 
         if (!elevationType) {
                 return
@@ -46,7 +46,7 @@ export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
                 pressIn: 0
         }
 
-        const correctionCoefficient = type === 'elevated' ? 1 : 0
+        const correctionCoefficient = type === ButtonType.ELEVATED ? 1 : 0
 
         if (!state) {
                 return
@@ -81,7 +81,7 @@ export const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: 
                         draft.eventName = 'none'
                 }
 
-                if (type === 'ELEVATED') {
+                if (type === ButtonType.ELEVATED) {
                         draft.elevation = disabled ? 0 : 1
                 }
         })
@@ -100,14 +100,14 @@ export const handleButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const renderButtonIcon =
-        ({disabled, eventName, type = 'FILLED', id}: RenderButtonIconOptions) =>
+        ({disabled, eventName, type = ButtonType.FILLED, id}: RenderButtonIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
-                        elevated: theme.token.scheme.primary,
-                        filled: theme.token.scheme.onPrimary,
-                        outlined: theme.token.scheme.primary,
-                        text: theme.token.scheme.primary,
-                        tonal: theme.token.scheme.onSecondaryContainer
+                        [ButtonType.ELEVATED]: theme.token.scheme.primary,
+                        [ButtonType.FILLED]: theme.token.scheme.onPrimary,
+                        [ButtonType.LINK]: theme.token.scheme.primary,
+                        [ButtonType.TEXT]: theme.token.scheme.primary,
+                        [ButtonType.TONAL]: theme.token.scheme.onSecondaryContainer
                 } as Record<ButtonType, string>
 
                 return (icon?: React.JSX.Element) => {
@@ -152,7 +152,7 @@ export const handleButtonAnimatedTiming = ({
 
         return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
                 (eventName?: EventName) => {
-                        if (type === 'outlined') {
+                        if (type === ButtonType.OUTLINED) {
                                 handleButtonOutlinedAnimatedTiming({animatedTiming, borderColorInputRanges, disabled})(
                                         borderSharedValue
                                 )(eventName)

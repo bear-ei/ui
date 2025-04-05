@@ -8,23 +8,23 @@ export const useWindowSize = () => {
 
         switch (true) {
                 case width >= 0 && width < 600:
-                        windowSize = 'compact'
+                        windowSize = WindowSize.COMPACT
                         break
                 case width >= 600 && width < 840:
-                        windowSize = 'medium'
+                        windowSize = WindowSize.MEDIUM
                         break
                 case width >= 840 && width < 1200:
-                        windowSize = 'expanded'
+                        windowSize = WindowSize.EXPANDED
                         break
                 case width >= 1200 && width < 1600:
-                        windowSize = 'large'
+                        windowSize = WindowSize.LARGE
                         break
                 case width >= 1600:
-                        windowSize = 'extraLarge'
+                        windowSize = WindowSize.EXTRA_LARGE
                         break
 
                 default:
-                        windowSize = 'medium'
+                        windowSize = WindowSize.MEDIUM
         }
 
         return {windowSize, width, ...scaledSize}

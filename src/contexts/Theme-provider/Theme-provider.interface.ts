@@ -4,6 +4,7 @@ import {AdaptDesignOptions} from '../../utils'
 
 export interface ThemeProps {
         children?: ReactNode
+        densityScale?: 0 | -1 | -2 | -3
         designOptions?: AdaptDesignOptions
         story?: boolean
         token?: Token

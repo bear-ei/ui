@@ -1,19 +1,42 @@
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
-import {AvatarLayoutProps} from './Avatar.interface'
+import {AvatarContentProps} from './Avatar.interface'
 
-export const Container = styled(Shape)<AvatarLayoutProps>`
+export const Container = styled.View`
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        ${({theme}) => css`
+                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+        `};
+`
+
+export const Content = styled(Shape)<AvatarContentProps>`
         align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
         overflow: hidden;
 
-        ${({theme, backgroundColor, size}) => css`
-                background-color: ${backgroundColor ?? theme.token.scheme.primaryContainer};
-                height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-                width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-        `};
+        ${({theme, backgroundColor, size, densityScale}) => {
+                const density = densityScale ?? theme.densityScale
+
+                return css`
+                        background-color: ${backgroundColor ?? theme.token.scheme.primaryContainer};
+                        height: ${size ??
+                        theme.adaptSize(
+                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
+                        )}px;
+
+                        width: ${size ??
+                        theme.adaptSize(
+                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
+                        )}px;
+                `
+        }};
 `
 
 export const Image = styled.Image`

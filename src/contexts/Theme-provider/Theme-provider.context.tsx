@@ -1,6 +1,6 @@
-import {token as materialToken} from '@bearei/material-token'
+import {Contrast, token as materialToken, PaletteType, Platform, Scheme, WindowSize} from '@bearei/material-token'
 import {FC, useId, useRef} from 'react'
-import {Platform, useColorScheme, View} from 'react-native'
+import {Platform as RNPlatform, useColorScheme, View} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
 import {useWindowSize} from '../../hooks'
 import {adaptWindow} from '../../utils'
@@ -9,14 +9,14 @@ import {handleThemeProviderFocus} from './Theme-provider-handle'
 import {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'
 
-const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToken}) => {
+const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToken, densityScale = 0}) => {
         const {windowSize, width, height} = useWindowSize()
         const design = {
-                compact: {designWidth: 375, designHeight: 812, designDensity: 3},
-                expanded: {designWidth: 375, designHeight: 812, designDensity: 3},
-                extraLarge: {designWidth: 1920, designHeight: 1080, designDensity: 3},
-                large: {designWidth: 1920, designHeight: 1080, designDensity: 3},
-                medium: {designWidth: 375, designHeight: 812, designDensity: 3}
+                [WindowSize.COMPACT]: {designWidth: 375, designHeight: 812, designDensity: 3},
+                [WindowSize.EXPANDED]: {designWidth: 375, designHeight: 812, designDensity: 3},
+                [WindowSize.EXTRA_LARGE]: {designWidth: 1920, designHeight: 1080, designDensity: 3},
+                [WindowSize.LARGE]: {designWidth: 1920, designHeight: 1080, designDensity: 3},
+                [WindowSize.MEDIUM]: {designWidth: 375, designHeight: 812, designDensity: 3}
         }
 
         const {adaptFontSize, adaptSize} = adaptWindow({screenWidth: width, screenHeight: height})(
@@ -24,23 +24,37 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToke
         )()
 
         const colorScheme = useColorScheme()
-        const token = themeToken ?? materialToken()({scheme: colorScheme ?? 'light', contrast: 'standard'})('frostyIce')
+        const token =
+                themeToken ??
+                materialToken()({
+                        contrast: Contrast.STANDARD,
+                        scheme: (colorScheme?.toUpperCase() as Scheme) ?? Scheme.LIGHT
+                })(PaletteType.FROSTY_ICE)
 
         return (
-                <StyledComponentThemeProvider theme={{adaptFontSize, adaptSize, colorScheme, OS: Platform.OS, token}}>
+                <StyledComponentThemeProvider
+                        theme={{adaptFontSize, adaptSize, colorScheme, OS: RNPlatform.OS, token, densityScale}}
+                >
                         {children}
                         <ModalProvider />
                 </StyledComponentThemeProvider>
         )
 }
 
-const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken}) => {
+const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken, densityScale = 0}) => {
         const {adaptFontSize, adaptSize} = adaptWindow()()(true)
         const colorScheme = useColorScheme()
-        const token = themeToken ?? materialToken()({scheme: colorScheme ?? 'light', contrast: 'standard'})('frostyIce')
+        const token =
+                themeToken ??
+                materialToken({platform: RNPlatform.OS.toUpperCase() as Platform})({
+                        contrast: Contrast.STANDARD,
+                        scheme: (colorScheme?.toUpperCase() as Scheme) ?? Scheme.LIGHT
+                })(PaletteType.FROSTY_ICE)
 
         return (
-                <StyledComponentThemeProvider theme={{adaptFontSize, adaptSize, colorScheme, OS: Platform.OS, token}}>
+                <StyledComponentThemeProvider
+                        theme={{adaptFontSize, adaptSize, colorScheme, OS: RNPlatform.OS, token, densityScale}}
+                >
                         {children}
                         <ModalProvider />
                 </StyledComponentThemeProvider>
@@ -60,7 +74,7 @@ export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
                         story={story}
                         testID={`bearei__material--${id}`}
                 >
-                        {new Set(['macos', 'windows', 'web']).has(Platform.OS) ?
+                        {['macos', 'windows', 'web'].includes(RNPlatform.OS) ?
                                 <DesktopDevice {...props} />
                         :       <MobileDevice {...props} />}
                 </Container>

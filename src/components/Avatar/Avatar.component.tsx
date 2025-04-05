@@ -2,11 +2,12 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {AvatarBase} from './Avatar-base.component'
 import {AvatarProps, RenderAvatarProps} from './Avatar.interface'
-import {Container, Image, LabelText} from './Avatar.styles'
+import {Container, Content, Image, LabelText} from './Avatar.styles'
 
 const render = ({
         backgroundColor,
         defaultSource,
+        densityScale,
         id,
         labelText,
         shape = 'full',
@@ -18,29 +19,34 @@ const render = ({
         <Container
                 {...containerProps}
                 accessibilityRole='image'
-                backgroundColor={backgroundColor}
                 pointerEvents='none'
-                shape={shape}
-                size={size}
                 testID={testID ?? `avatar--${id}`}
         >
-                {source || defaultSource ?
-                        <Image
-                                defaultSource={defaultSource ?? {}}
-                                resizeMode='cover'
-                                source={source ?? {}}
-                                testID={`avatar__image--${id}`}
-                        />
-                :       <LabelText
-                                ellipsizeMode='tail'
-                                numberOfLines={1}
-                                size='medium'
-                                testID={`avatar__labelText--${id}`}
-                                type='title'
-                        >
-                                {labelText}
-                        </LabelText>
-                }
+                <Content
+                        backgroundColor={backgroundColor}
+                        densityScale={densityScale}
+                        shape={shape}
+                        size={size}
+                        testID={`avatar__content--${id}`}
+                >
+                        {source || defaultSource ?
+                                <Image
+                                        defaultSource={defaultSource ?? {}}
+                                        resizeMode='cover'
+                                        source={source ?? {}}
+                                        testID={`avatar__image--${id}`}
+                                />
+                        :       <LabelText
+                                        ellipsizeMode='tail'
+                                        numberOfLines={1}
+                                        size='medium'
+                                        testID={`avatar__labelText--${id}`}
+                                        type='title'
+                                >
+                                        {labelText}
+                                </LabelText>
+                        }
+                </Content>
         </Container>
 )
 

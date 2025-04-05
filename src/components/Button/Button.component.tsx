@@ -5,7 +5,7 @@ import {Elevation} from '../Elevation'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {ButtonBase} from './Button-base.component'
-import {ButtonProps, RenderButtonProps} from './Button.interface'
+import {ButtonProps, ButtonType, RenderButtonProps} from './Button.interface'
 import {
         ActiveIndicatorLayoutAnimated,
         BackgroundUnderlay,
@@ -31,16 +31,16 @@ const render = ({
         ref,
         stateOnEvent,
         testID,
-        type = 'filled',
+        type = ButtonType.FILLED,
         underlayColor,
         ...contentProps
 }: RenderButtonProps) => {
         const activeIndicatorVisible =
-                type === 'link' &&
+                type === ButtonType.LINK &&
                 eventName &&
                 ['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
 
-        const link = type === 'link'
+        const link = type === ButtonType.LINK
         const loadingEventName = link ? 'none' : 'longPress'
         const shape = link ? 'extraSmall' : 'full'
         const backgroundUnderlayElement = (
@@ -71,7 +71,7 @@ const render = ({
                                 backgroundUnderlay={backgroundUnderlayElement}
                                 disabled={disabled}
                                 elevationUnderlay={elevationUnderlayElement}
-                                hotZone={type !== 'link'}
+                                hotZone={type !== ButtonType.LINK}
                                 ref={ref}
                                 shape={shape}
                                 testID={`button__touchable--${id}`}
@@ -109,7 +109,7 @@ const render = ({
                                                 </AnimatedLabelText>
                                         </Main>
 
-                                        {type === 'link' && (
+                                        {type === ButtonType.LINK && (
                                                 <ActiveIndicatorLayoutAnimated
                                                         testID={`button__activeIndicatorLayoutAnimated--${id}`}
                                                         visible={activeIndicatorVisible}

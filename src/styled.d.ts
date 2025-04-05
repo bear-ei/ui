@@ -7,6 +7,7 @@ declare module 'styled-components/native' {
                 adaptFontSize: (size: number) => number
                 adaptSize: (size: number) => number
                 colorScheme: ColorSchemeName
+                densityScale: 0 | -1 | -2 | -3
                 OS: 'ios' | 'android' | 'windows' | 'macos' | 'web'
                 token: Token
         }

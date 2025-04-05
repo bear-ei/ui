@@ -35,6 +35,7 @@ export type EventName =
         | 'pressIn'
         | 'pressOut'
 
+export type TriggerEvent = 'focus' | 'hover' | 'press'
 export type ComponentStatus = 'idle' | 'loading' | 'failed' | 'succeeded'
 export interface ShapeProps {
         shape?: ShapeType
@@ -46,4 +47,6 @@ export interface TypographyProps {
         type?: TypographyType
 }
 
-export type TriggerEvent = 'focus' | 'hover' | 'press'
+export interface CommonProps {
+        densityScale?: 0 | -1 | -2 | -3
+}
