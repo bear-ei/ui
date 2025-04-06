@@ -1,6 +1,7 @@
 import {WritableDraft} from 'immer'
 import {Updater} from 'use-immer'
 import {StateEvent} from '../../hooks'
+import {CheckboxValue} from './Checkbox.enum'
 import {CheckboxState, HandleCheckboxActiveOptions, HandleCheckboxStateChangeOptions} from './Checkbox.interface'
 
 export const handleCheckboxStatus = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
@@ -10,9 +11,9 @@ export const handleCheckboxStatus = (setState: Updater<CheckboxState>) => (indet
                 }
 
                 if (typeof draft.active === 'boolean') {
-                        const defaultType = draft.active ? 'selected' : 'unselected'
+                        const defaultValue = draft.active ? CheckboxValue.SELECTED : CheckboxValue.UNSELECTED
 
-                        draft.type = indeterminate ? 'indeterminate' : defaultType
+                        draft.value = indeterminate ? CheckboxValue.INDETERMINATE : defaultValue
                 }
 
                 draft.status = 'succeeded'
@@ -28,12 +29,12 @@ const handleCheckboxActiveDraftChange =
                         return
                 }
 
-                const activeType = indeterminate ? 'indeterminate' : 'selected'
-                const nextType = active ? activeType : 'unselected'
+                const activeValue = indeterminate ? CheckboxValue.INDETERMINATE : CheckboxValue.SELECTED
+                const nextValue = active ? activeValue : CheckboxValue.UNSELECTED
 
                 draft.active = active
                 draft.nextActiveEvent = handleNextActiveEvent
-                draft.type = nextType
+                draft.value = nextValue
         }
 
 export const handleCheckboxActive =
@@ -72,10 +73,10 @@ export const handleCheckboxIndeterminate = (setState: Updater<CheckboxState>) =>
         setState(draft => {
                 if (indeterminate) {
                         draft.active = indeterminate
-                        draft.type = 'indeterminate'
+                        draft.value = CheckboxValue.INDETERMINATE
 
                         return
                 }
 
-                draft.type = draft.active ? 'unselected' : 'selected'
+                draft.value = draft.active ? CheckboxValue.UNSELECTED : CheckboxValue.SELECTED
         })

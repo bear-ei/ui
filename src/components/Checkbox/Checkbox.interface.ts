@@ -3,8 +3,8 @@ import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, St
 import {ComponentStatus, EventName} from '../Common'
 import {LayoutAnimatedType} from '../Layout-animated'
 import {TouchableProps} from '../Touchable'
+import {CheckboxValue} from './Checkbox.enum'
 
-export type CheckboxType = 'selected' | 'indeterminate' | 'unselected'
 export interface CheckboxProps extends TouchableProps {
         active?: boolean
         defaultActive?: boolean
@@ -12,7 +12,7 @@ export interface CheckboxProps extends TouchableProps {
         error?: boolean
         indeterminate?: boolean
         onActive?: (active?: boolean) => void
-        type?: CheckboxType
+        value?: CheckboxValue
 }
 
 export interface RenderCheckboxProps extends CheckboxProps {
@@ -30,7 +30,7 @@ export interface CheckboxState {
         eventName?: EventName
         nextActiveEvent?: () => void
         status: ComponentStatus
-        type?: CheckboxType
+        value?: CheckboxValue
 }
 
 export type HandleCheckboxActiveOptions = Pick<RenderCheckboxProps, 'onActive' | 'indeterminate'>

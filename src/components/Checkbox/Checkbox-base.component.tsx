@@ -11,13 +11,14 @@ import {
         handleCheckboxStateChange,
         handleCheckboxStatus
 } from './Checkbox-handle'
+import {CheckboxValue} from './Checkbox.enum'
 import {CheckboxBaseProps, CheckboxState} from './Checkbox.interface'
 
 export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
         ({active: rawActive, defaultActive, disabled, error, indeterminate, render, onActive, ...renderProps}, ref) => {
-                const [{active, eventName, status, type, nextActiveEvent}, setState] = useImmer<CheckboxState>({
+                const [{active, eventName, status, value, nextActiveEvent}, setState] = useImmer<CheckboxState>({
                         status: 'idle',
-                        type: 'unselected'
+                        value: CheckboxValue.UNSELECTED
                 })
 
                 const id = useId()
@@ -54,6 +55,6 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
                         return <></>
                 }
 
-                return render({...renderProps, disabled, error, eventName, stateOnEvent, ref, theme, type, id})
+                return render({...renderProps, disabled, error, eventName, stateOnEvent, ref, theme, value, id})
         }
 )

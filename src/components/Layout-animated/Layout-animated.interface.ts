@@ -5,8 +5,8 @@ import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
 import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
 import {ComponentStatus, ShapeProps} from '../Common'
+import {LayoutAnimatedType} from './Layout-animated.enum'
 
-export type LayoutAnimatedType = 'fade' | 'collapseX' | 'collapseY' | 'scale' | 'standard'
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
         animatedType?: LayoutAnimatedType
         contentSize?: {width?: number; height?: number}

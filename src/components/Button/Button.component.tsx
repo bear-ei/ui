@@ -42,7 +42,7 @@ const render = ({
                 ['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
 
         const link = type === ButtonType.LINK
-        const loadingEventName = link ? 'none' : 'longPress'
+        const loadingEventName = link || type === ButtonType.TEXT ? 'none' : 'longPress'
         const shape = link ? 'extraSmall' : 'full'
         const backgroundUnderlayElement = (
                 <AnimatedBackgroundUnderlay

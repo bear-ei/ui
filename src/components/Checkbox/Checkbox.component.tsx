@@ -1,9 +1,12 @@
+import {Duration} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {Icon} from '../Icon'
+import {LayoutAnimatedType} from '../Layout-animated'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CheckboxBase} from './Checkbox-base.component'
+import {CheckboxValue} from './Checkbox.enum'
 import {CheckboxIconAnimatedOptions, CheckboxProps, RenderCheckboxProps} from './Checkbox.interface'
 import {Container, Content, IconLayout, Main} from './Checkbox.styles'
 
@@ -15,16 +18,18 @@ const render = ({
         stateOnEvent,
         testID,
         theme,
-        type,
+        value,
         ...contentProps
 }: RenderCheckboxProps) => {
         const activeFill = error ? theme.token.scheme.error : theme.token.scheme.primary
-        const unselectedFill = type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
+        const unselectedFill =
+                value === CheckboxValue.UNSELECTED ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
+
         const checkBoxOutlineFill = error ? theme.token.scheme.error : unselectedFill
         const shape = 'full'
         const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
         const checkUnderlayColor =
-                type === 'unselected' ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
+                value === CheckboxValue.UNSELECTED ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
 
         const underlayColor = error ? theme.token.scheme.error : checkUnderlayColor
         const iconSvgStyle = {
@@ -33,9 +38,9 @@ const render = ({
         }
 
         const animatedOptions = {
-                animatedType: 'scale',
-                entry: {duration: 'short2'},
-                exit: {duration: 'short1'}
+                animatedType: LayoutAnimatedType.SCALE,
+                entry: {duration: Duration.SHORT_2},
+                exit: {duration: Duration.SHORT_1}
         } as CheckboxIconAnimatedOptions
 
         return (
@@ -77,7 +82,7 @@ const render = ({
 
                                                 <IconLayout
                                                         {...animatedOptions}
-                                                        visible={type === 'selected'}
+                                                        visible={value === CheckboxValue.SELECTED}
                                                         testID={`checkbox__iconLayout--${id}`}
                                                 >
                                                         <Icon
@@ -94,7 +99,7 @@ const render = ({
 
                                                 <IconLayout
                                                         {...animatedOptions}
-                                                        visible={type === 'indeterminate'}
+                                                        visible={value === CheckboxValue.INDETERMINATE}
                                                         testID={`checkbox__iconLayout--${id}`}
                                                 >
                                                         <Icon

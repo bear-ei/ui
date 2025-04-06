@@ -39,7 +39,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleButtonStateChange({...options, state, type})(setState)(event)
 
-                const disabled = loading || rawDisabled
+                const disabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
                 const stateOnEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
                 const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
                         disabled: rawDisabled,
