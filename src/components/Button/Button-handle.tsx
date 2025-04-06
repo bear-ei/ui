@@ -7,9 +7,9 @@ import {StateEvent} from '../../hooks'
 import {EventName, State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
+import {ButtonType} from './Button.enum'
 import {
         ButtonState,
-        ButtonType,
         HandleButtonAnimatedTimingOptions,
         HandleButtonAnimatedTimingSharedValue,
         HandleButtonStateChangeOptions,

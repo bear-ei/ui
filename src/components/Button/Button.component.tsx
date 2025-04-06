@@ -5,7 +5,8 @@ import {Elevation} from '../Elevation'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {ButtonBase} from './Button-base.component'
-import {ButtonProps, ButtonType, RenderButtonProps} from './Button.interface'
+import {ButtonType} from './Button.enum'
+import {ButtonProps, RenderButtonProps} from './Button.interface'
 import {
         ActiveIndicatorLayoutAnimated,
         BackgroundUnderlay,

@@ -3,9 +3,10 @@ import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-r
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {handleButtonAnimatedTiming} from './Button-handle'
+import {ButtonType} from './Button.enum'
 import {UseButtonAnimatedOptions} from './Button.interface'
 
-export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}: UseButtonAnimatedOptions) => {
+export const useButtonAnimated = ({disabled, eventName, type = ButtonType.FILLED, error}: UseButtonAnimatedOptions) => {
         const theme = useTheme()
         const {palette, scheme, spacing, opacity} = theme.token
         const {hexToRGBA} = palette
@@ -16,11 +17,11 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
         const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
         const backgroundColorType = {
-                elevated: {
+                [ButtonType.ELEVATED]: {
                         inputRanges: [0, 1],
                         outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerLow)(opacity.level10)]
                 },
-                filled: {
+                [ButtonType.FILLED]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 disabledBackgroundColor,
@@ -29,28 +30,28 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                                 :       hexToRGBA(scheme.primary)(opacity.level10)
                         ]
                 },
-                outlined: {
+                [ButtonType.OUTLINED]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
-                text: {
+                [ButtonType.TEXT]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
-                link: {
+                [ButtonType.LINK]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
-                tonal: {
+                [ButtonType.TONAL]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 disabledBackgroundColor,
@@ -62,7 +63,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
         }
 
         const colorType = {
-                elevated: {
+                [ButtonType.ELEVATED]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 disabledColor,
@@ -71,7 +72,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                                 :       hexToRGBA(scheme.primary)(opacity.level10)
                         ]
                 },
-                filled: {
+                [ButtonType.FILLED]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 disabledColor,
@@ -80,7 +81,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                                 :       hexToRGBA(scheme.onPrimary)(opacity.level10)
                         ]
                 },
-                outlined: {
+                [ButtonType.OUTLINED]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 disabledColor,
@@ -89,7 +90,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                                 :       hexToRGBA(scheme.primary)(opacity.level10)
                         ]
                 },
-                text: {
+                [ButtonType.TEXT]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 disabledColor,
@@ -98,7 +99,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                                 :       hexToRGBA(scheme.primary)(opacity.level10)
                         ]
                 },
-                link: {
+                [ButtonType.LINK]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 disabledColor,
@@ -107,7 +108,7 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                                 :       hexToRGBA(scheme.primary)(opacity.level10)
                         ]
                 },
-                tonal: {
+                [ButtonType.TONAL]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 disabledColor,
@@ -125,8 +126,8 @@ export const useButtonAnimated = ({disabled, eventName, type = 'filled', error}:
                 hexToRGBA(scheme.primary)(opacity.level10)
         ]
 
-        const notBackgroundColor = ['text', 'link'].includes(type)
-        const notBorderColor = type !== 'outlined'
+        const notBackgroundColor = [ButtonType.TEXT, ButtonType.LINK].includes(type)
+        const notBorderColor = type !== ButtonType.OUTLINED
         const borderWidth = theme.adaptSize(spacing.extraSmall / 4)
         const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 ...(!notBackgroundColor && {

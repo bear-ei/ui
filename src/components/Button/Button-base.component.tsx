@@ -11,6 +11,7 @@ import {
         handleButtonUnderlayColor,
         renderButtonIcon
 } from './Button-handle'
+import {ButtonType} from './Button.enum'
 import {ButtonBaseProps, ButtonState} from './Button.interface'
 import {useButtonAnimated} from './use-button-animated.hook'
 
@@ -23,7 +24,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
                         labelText = 'Label',
                         loading,
                         render,
-                        type = 'FILLED',
+                        type = ButtonType.FILLED,
                         ...renderProps
                 },
                 ref

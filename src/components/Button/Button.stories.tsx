@@ -1,7 +1,8 @@
 import {Meta, StoryObj} from '@storybook/react'
 import {Icon as EIIcon} from '../Icon'
 import {Button} from './Button.component'
-import {ButtonProps, ButtonType} from './Button.interface'
+import {ButtonType} from './Button.enum'
+import {ButtonProps} from './Button.interface'
 
 export const Filled: StoryObj<ButtonProps> = {
         args: {
@@ -64,11 +65,15 @@ export const Icon: StoryObj<ButtonProps> = {
         }
 }
 
-export const Error: StoryObj<ButtonProps> = {
+export const Err: StoryObj<ButtonProps> = {
         args: {
                 labelText: 'Label',
                 error: true
         }
+}
+
+export const DensityScale: StoryObj<ButtonProps> = {
+        args: {densityScale: -2}
 }
 
 export default {

@@ -1,20 +1,12 @@
 import {TextStyle, ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {AnimatedTiming, HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
-import {ComponentStatus, EventName} from '../Common'
+import {CommonProps, ComponentStatus, EventName} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {TouchableProps} from '../Touchable'
+import {ButtonType} from './Button.enum'
 
-export enum ButtonType {
-        ELEVATED = 'ELEVATED',
-        FILLED = 'FILLED',
-        LINK = 'LINK',
-        OUTLINED = 'OUTLINED',
-        TEXT = 'TEXT',
-        TONAL = 'TONAL'
-}
-
-export interface ButtonProps extends TouchableProps {
+export interface ButtonProps extends TouchableProps, CommonProps {
         error?: boolean
         icon?: React.JSX.Element
         labelText?: string
@@ -54,7 +46,7 @@ export interface HandleButtonAnimatedTimingSharedValue {
 }
 
 export type ButtonContainerProps = Pick<RenderButtonProps, 'type'>
-export type ButtonContentProps = Pick<RenderButtonProps, 'type'>
+export type ButtonContentProps = Pick<RenderButtonProps, 'type' | 'densityScale'>
 export interface ButtonMainProps extends Pick<RenderButtonProps, 'type'> {
         iconShow: boolean
 }

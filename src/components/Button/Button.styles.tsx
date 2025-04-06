@@ -2,7 +2,8 @@ import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
-import {ButtonContainerProps, ButtonContentProps, ButtonMainProps, ButtonType} from './Button.interface'
+import {ButtonType} from './Button.enum'
+import {ButtonContainerProps, ButtonContentProps, ButtonMainProps} from './Button.interface'
 
 export const Container = styled.View<ButtonContainerProps>`
         cursor: pointer;
@@ -13,12 +14,12 @@ export const Container = styled.View<ButtonContainerProps>`
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
         `}
 
-        ${({theme, type = 'filled'}) => {
+        ${({theme, type = ButtonType.FILLED}) => {
                 const containerType = {
-                        text: css`
+                        [ButtonType.TEXT]: css`
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                         `,
-                        link: css`
+                        [ButtonType.LINK]: css`
                                 height: auto;
                                 min-height: ${theme.adaptSize(theme.token.spacing.medium)}px;
                                 min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
@@ -42,16 +43,22 @@ export const Content = styled(Shape)<ButtonContentProps>`
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
         `}
 
-        ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-        `}
+        ${({theme, densityScale}) => {
+                const density = densityScale ?? theme.densityScale
 
-    ${({theme, type = 'filled'}) => {
+                return css`
+                        height: ${theme.adaptSize(
+                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
+                        )}px;
+                `
+        }}
+
+    ${({theme, type = ButtonType.FILLED}) => {
                 const contentType = {
-                        text: css`
+                        [ButtonType.TEXT]: css`
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                         `,
-                        link: css`
+                        [ButtonType.LINK]: css`
                                 height: ${theme.adaptSize(theme.token.spacing.medium)}px;
                                 min-width: ${theme.adaptSize(theme.token.spacing.medium)}px;
                         `
@@ -90,15 +97,15 @@ export const Main = styled.View<ButtonMainProps>`
                 gap: ${theme.adaptSize(theme.token.spacing.small)}px;
         `}
 
-    ${({theme, type = 'filled'}) => {
+    ${({theme, type = ButtonType.FILLED}) => {
                 const mainType = {
-                        text: css`
+                        [ButtonType.TEXT]: css`
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                         ${theme.adaptSize(
                                                 theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
                                         )}px;
                         `,
-                        link: css`
+                        [ButtonType.LINK]: css`
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                         ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
                         `
@@ -107,9 +114,9 @@ export const Main = styled.View<ButtonMainProps>`
                 return mainType[type]
         }}
 
-    ${({iconShow, theme, type = 'filled'}) =>
+    ${({iconShow, theme, type = ButtonType.FILLED}) =>
                 iconShow &&
-                (type === 'text' ?
+                (type === ButtonType.TEXT ?
                         css`
                                 padding-left: ${theme.adaptSize(
                                         theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
