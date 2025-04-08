@@ -16,7 +16,7 @@ export interface ButtonProps extends TouchableProps, CommonProps {
 
 export interface RenderButtonProps extends ButtonProps {
         backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
-        elevation: ElevationLevel
+        elevation?: ElevationLevel
         eventName?: EventName
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         stateOnEvent: StateOnEvent

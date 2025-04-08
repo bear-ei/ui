@@ -1,32 +1,34 @@
+import {Size} from '@bearei/material-token'
 import {Meta, StoryObj} from '@storybook/react'
 import {Icon} from '../Icon'
 import {FAB as Fab} from './FAB.component'
+import {FABType} from './FAB.enum'
 import {FABProps} from './FAB.interface'
 
 export const Primary: StoryObj<FABProps> = {
         args: {
-                type: 'primary',
+                type: FABType.PRIMARY,
                 icon: <Icon />
         }
 }
 
 export const Secondary: StoryObj<FABProps> = {
         args: {
-                type: 'secondary',
+                type: FABType.SECONDARY,
                 icon: <Icon />
         }
 }
 
 export const Surface: StoryObj<FABProps> = {
         args: {
-                type: 'surface',
+                type: FABType.SURFACE,
                 icon: <Icon />
         }
 }
 
 export const Tertiary: StoryObj<FABProps> = {
         args: {
-                type: 'tertiary',
+                type: FABType.TERTIARY,
                 icon: <Icon />
         }
 }
@@ -34,7 +36,7 @@ export const Tertiary: StoryObj<FABProps> = {
 export const TertiaryLabel: StoryObj<FABProps> = {
         args: {
                 labelText: 'Label',
-                type: 'tertiary',
+                type: FABType.TERTIARY,
                 icon: <Icon />
         }
 }
@@ -42,16 +44,16 @@ export const TertiaryLabel: StoryObj<FABProps> = {
 export const Large: StoryObj<FABProps> = {
         args: {
                 icon: <Icon />,
-                size: 'large',
-                type: 'primary'
+                size: Size.LARGE,
+                type: FABType.PRIMARY
         }
 }
 
 export const Small: StoryObj<FABProps> = {
         args: {
                 icon: <Icon />,
-                size: 'small',
-                type: 'primary'
+                size: Size.SMALL,
+                type: FABType.PRIMARY
         }
 }
 

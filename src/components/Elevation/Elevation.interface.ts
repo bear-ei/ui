@@ -2,8 +2,8 @@ import {RefAttributes} from 'react'
 import {View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {ShapeProps} from '../Common'
+import {ElevationLevel} from './Elevation.enum'
 
-export type ElevationLevel = 0 | 1 | 2 | 3 | 4 | 5 | undefined
 export interface ElevationProps extends ViewProps, RefAttributes<View>, Pick<ShapeProps, 'shape'> {
         defaultLevel?: ElevationLevel
         level?: ElevationLevel

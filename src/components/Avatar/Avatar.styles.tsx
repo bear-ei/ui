@@ -23,18 +23,12 @@ export const Content = styled(Shape)<AvatarContentProps>`
 
         ${({theme, backgroundColor, size, densityScale}) => {
                 const density = densityScale ?? theme.densityScale
+                const designDensity = density * theme.token.spacing.extraSmall
 
                 return css`
                         background-color: ${backgroundColor ?? theme.token.scheme.primaryContainer};
-                        height: ${size ??
-                        theme.adaptSize(
-                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
-                        )}px;
-
-                        width: ${size ??
-                        theme.adaptSize(
-                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
-                        )}px;
+                        height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
+                        width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
                 `
         }};
 `

@@ -1,12 +1,13 @@
+import {Size} from '@bearei/material-token'
 import {TextStyle, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
-import {ComponentStatus, EventName, Size} from '../Common'
+import {CommonProps, ComponentStatus, EventName} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {TouchableProps} from '../Touchable'
+import {FABType} from './FAB.enum'
 
-export type FABType = 'surface' | 'primary' | 'secondary' | 'tertiary'
-export interface FABProps extends TouchableProps {
+export interface FABProps extends TouchableProps, CommonProps {
         disabled?: boolean
         elevated?: boolean
         extendedFAB?: boolean
@@ -35,8 +36,8 @@ export interface FABState {
         status: ComponentStatus
 }
 
-export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
-export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
+export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB' | 'densityScale'>
+export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB' | 'densityScale'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type HandleFABStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
 export type RenderFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'eventName' | 'id'>

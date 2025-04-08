@@ -5,9 +5,10 @@ import {DefaultStyle} from 'react-native-reanimated/lib/typescript/hook/commonTy
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {handleElevationAnimatedTiming} from './Elevation-handle'
+import {ElevationLevel} from './Elevation.enum'
 import {UseElevationAnimatedOptions} from './Elevation.interface'
 
-export const useElevationAnimated = ({level = 0}: UseElevationAnimatedOptions) => {
+export const useElevationAnimated = ({level = ElevationLevel.LEVEL_0}: UseElevationAnimatedOptions) => {
         const shadowSharedValue = useSharedValue<number>(level)
         const theme = useTheme()
         const {elevation, palette} = theme.token

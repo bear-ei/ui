@@ -1,3 +1,4 @@
+import {Size} from '@bearei/material-token'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
@@ -11,6 +12,7 @@ import {
         handleFABUnderlayColor,
         renderFABIcon
 } from './FAB-handle'
+import {FABType} from './FAB.enum'
 import {FABBaseProps, FABState} from './FAB.interface'
 import {useFABAnimated} from './use-fab-animated.hook'
 
@@ -22,8 +24,8 @@ export const FABBase = forwardRef<View, FABBaseProps>(
                         icon,
                         loading,
                         render,
-                        size = 'medium',
-                        type = 'primary',
+                        size = Size.MEDIUM,
+                        type = FABType.PRIMARY,
                         ...renderProps
                 },
                 ref

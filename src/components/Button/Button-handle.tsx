@@ -23,7 +23,7 @@ export const handleButtonStatus = (setState: Updater<ButtonState>) => (disabled?
                 }
 
                 if (type === ButtonType.ELEVATED && !disabled) {
-                        draft.elevation = 1
+                        draft.elevation = ElevationLevel.LEVEL_1
                 }
 
                 draft.status = 'succeeded'
@@ -37,16 +37,16 @@ export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
         }
 
         const level = {
-                disabled: 0,
-                enabled: 0,
-                error: 0,
-                focused: 0,
-                hovered: 1,
-                longPressIn: 0,
-                pressIn: 0
+                disabled: ElevationLevel.LEVEL_0,
+                enabled: ElevationLevel.LEVEL_0,
+                error: ElevationLevel.LEVEL_0,
+                focused: ElevationLevel.LEVEL_0,
+                hovered: ElevationLevel.LEVEL_1,
+                longPressIn: ElevationLevel.LEVEL_0,
+                pressIn: ElevationLevel.LEVEL_0
         }
 
-        const correctionCoefficient = type === ButtonType.ELEVATED ? 1 : 0
+        const correctionCoefficient = type === ButtonType.ELEVATED ? ElevationLevel.LEVEL_1 : ElevationLevel.LEVEL_0
 
         if (!state) {
                 return
@@ -82,7 +82,7 @@ export const handleButtonDisabled = (setState: Updater<ButtonState>) => (type?: 
                 }
 
                 if (type === ButtonType.ELEVATED) {
-                        draft.elevation = disabled ? 0 : 1
+                        draft.elevation = disabled ? ElevationLevel.LEVEL_0 : ElevationLevel.LEVEL_1
                 }
         })
 

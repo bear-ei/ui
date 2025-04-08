@@ -1,3 +1,4 @@
+import {Size} from '@bearei/material-token'
 import {WritableDraft} from 'immer'
 import {cloneElement} from 'react'
 import {SharedValue} from 'react-native-reanimated'
@@ -7,7 +8,8 @@ import {AnimatedTiming, StateEvent} from '../../hooks'
 import {State} from '../Common'
 import {ElevationLevel} from '../Elevation'
 import {IconProps} from '../Icon'
-import {FABState, FABType, HandleFABStateChangeOptions, RenderFABIconOptions} from './FAB.interface'
+import {FABType} from './FAB.enum'
+import {FABState, HandleFABStateChangeOptions, RenderFABIconOptions} from './FAB.interface'
 
 export const handleFABStatus = (setState: Updater<FABState>) => (disabled?: boolean) => (elevated?: boolean) =>
         setState(draft => {
@@ -16,7 +18,7 @@ export const handleFABStatus = (setState: Updater<FABState>) => (disabled?: bool
                 }
 
                 if (elevated && !disabled) {
-                        draft.elevation = 3
+                        draft.elevation = ElevationLevel.LEVEL_3
                 }
 
                 draft.status = 'succeeded'
@@ -28,17 +30,20 @@ const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boole
         }
 
         const level = {
-                disabled: 0,
-                enabled: 0,
-                error: 0,
-                focused: 0,
-                hovered: 1,
-                longPressIn: 0,
-                pressIn: 0
+                disabled: ElevationLevel.LEVEL_0,
+                enabled: ElevationLevel.LEVEL_0,
+                error: ElevationLevel.LEVEL_0,
+                focused: ElevationLevel.LEVEL_0,
+                hovered: ElevationLevel.LEVEL_1,
+                longPressIn: ElevationLevel.LEVEL_0,
+                pressIn: ElevationLevel.LEVEL_0
         }
 
         if (state) {
-                draft.elevation = (state === 'disabled' ? level[state] : level[state] + 3) as ElevationLevel
+                draft.elevation = (
+                        state === 'disabled' ?
+                                level[state]
+                        :       level[state] + ElevationLevel.LEVEL_3) as ElevationLevel
         }
 }
 
@@ -71,29 +76,29 @@ export const handleFABDisabled = (setState: Updater<FABState>) => (elevated?: bo
                 }
 
                 if (elevated) {
-                        draft.elevation = disabled ? 0 : 1
+                        draft.elevation = disabled ? ElevationLevel.LEVEL_0 : ElevationLevel.LEVEL_1
                 }
         })
 
 export const handleFABUnderlayColor = (theme: DefaultTheme) => {
         const underlay = {
-                primary: theme.token.scheme.onPrimaryContainer,
-                secondary: theme.token.scheme.onSecondaryContainer,
-                surface: theme.token.scheme.primary,
-                tertiary: theme.token.scheme.onTertiaryContainer
+                [FABType.PRIMARY]: theme.token.scheme.onPrimaryContainer,
+                [FABType.SECONDARY]: theme.token.scheme.onSecondaryContainer,
+                [FABType.SURFACE]: theme.token.scheme.primary,
+                [FABType.TERTIARY]: theme.token.scheme.onTertiaryContainer
         }
 
         return (type: FABType) => underlay[type]
 }
 
 export const renderFABIcon =
-        ({disabled, eventName, size, type = 'primary', id}: RenderFABIconOptions) =>
+        ({disabled, eventName, size, type = FABType.PRIMARY, id}: RenderFABIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
-                        primary: theme.token.scheme.onPrimaryContainer,
-                        secondary: theme.token.scheme.onSecondaryContainer,
-                        surface: theme.token.scheme.primary,
-                        tertiary: theme.token.scheme.onTertiaryContainer
+                        [FABType.PRIMARY]: theme.token.scheme.onPrimaryContainer,
+                        [FABType.SECONDARY]: theme.token.scheme.onSecondaryContainer,
+                        [FABType.SURFACE]: theme.token.scheme.primary,
+                        [FABType.TERTIARY]: theme.token.scheme.onTertiaryContainer
                 } as Record<FABType, string>
 
                 return (icon?: React.JSX.Element) => {
@@ -104,7 +109,7 @@ export const renderFABIcon =
                         const iconSize = theme.adaptSize(theme.token.spacing.large + 3 * theme.token.spacing.extraSmall)
 
                         return cloneElement<IconProps>(icon, {
-                                ...(size === 'large' && {width: iconSize, height: iconSize}),
+                                ...(size === Size.LARGE && {width: iconSize, height: iconSize}),
                                 disabled,
                                 eventName,
                                 fill: fillType[type],
