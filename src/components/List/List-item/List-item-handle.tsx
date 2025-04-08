@@ -276,7 +276,7 @@ export const renderListItemTrailing = ({
                                         testID={`listItem__trailingIconButton--${id}`}
                                         icon={
                                                 <Icon
-                                                        iconStyle='rounded'
+                                                        iconStyle={IconStyle.ROUNDED}
                                                         name='moreHoriz'
                                                         testID={`listItem__trailingIconMoreHoriz--${id}`}
                                                         type='outlined'
@@ -291,7 +291,7 @@ export const renderListItemTrailing = ({
                                         testID={`listItem__trailingIconButton--${id}`}
                                         icon={
                                                 <Icon
-                                                        iconStyle='rounded'
+                                                        iconStyle={IconStyle.ROUNDED}
                                                         name='close'
                                                         testID={`listItem__trailingIconClose--${id}`}
                                                         type='outlined'

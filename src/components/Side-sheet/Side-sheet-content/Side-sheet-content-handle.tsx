@@ -15,7 +15,7 @@ export const renderSideSheetContentLeading =
                         <IconButton
                                 icon={
                                         <Icon
-                                                iconStyle='rounded'
+                                                iconStyle={IconStyle.ROUNDED}
                                                 name={
                                                         sheetPosition === 'horizontalStart' ? 'arrowForward' : (
                                                                 'arrowBack'
@@ -39,7 +39,7 @@ export const renderSideSheetContentTrailing =
                         <IconButton
                                 icon={
                                         <Icon
-                                                iconStyle='rounded'
+                                                iconStyle={IconStyle.ROUNDED}
                                                 name='close'
                                                 testID={`sideSheet__iconClose--${id}`}
                                                 type='filled'

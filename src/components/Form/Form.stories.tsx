@@ -2,7 +2,7 @@ import {Meta} from '@storybook/react'
 import {IsDefined, IsNotEmpty, IsNumberString} from 'class-validator'
 import {useEffect} from 'react'
 import {View, ViewStyle} from 'react-native'
-import {Button} from '../Button'
+import {Button, ButtonType} from '../Button'
 import {TextInput} from '../Text-input'
 import {FormItemControlProps, FormItemProps} from './Form-item'
 import {Form} from './Form.component'
@@ -88,7 +88,7 @@ export const FormA = () => {
                         <Button
                                 labelText='reset'
                                 onPress={handleReset}
-                                type='outlined'
+                                type={ButtonType.OUTLINED}
                         />
                 </View>
         )

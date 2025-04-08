@@ -1,7 +1,7 @@
 import {Duration, ShapeType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {Icon} from '../Icon'
+import {Icon, IconName, IconStyle, IconType} from '../Icon'
 import {LayoutAnimatedType} from '../Layout-animated'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
@@ -73,12 +73,12 @@ const render = ({
                                                         <Icon
                                                                 disabled={disabled}
                                                                 fill={checkBoxOutlineFill}
-                                                                iconStyle='rounded'
-                                                                name='checkBoxOutlineBlank'
+                                                                iconStyle={IconStyle.ROUNDED}
+                                                                name={IconName.CHECK_BOX_OUTLINE_BLANK}
                                                                 size={iconSize}
                                                                 svgStyle={iconSvgStyle}
                                                                 testID={`checkbox__iconCheckBoxOutlineBlank--${id}`}
-                                                                type='filled'
+                                                                type={IconType.FILLED}
                                                         />
                                                 </IconLayout>
 
@@ -90,12 +90,12 @@ const render = ({
                                                         <Icon
                                                                 disabled={disabled}
                                                                 fill={activeFill}
-                                                                iconStyle='rounded'
-                                                                name='checkBox'
+                                                                iconStyle={IconStyle.ROUNDED}
+                                                                name={IconName.CHECK_BOX}
                                                                 size={iconSize}
                                                                 svgStyle={iconSvgStyle}
                                                                 testID={`checkbox__iconCheckBox--${id}`}
-                                                                type='filled'
+                                                                type={IconType.FILLED}
                                                         />
                                                 </IconLayout>
 
@@ -107,12 +107,12 @@ const render = ({
                                                         <Icon
                                                                 disabled={disabled}
                                                                 fill={activeFill}
-                                                                iconStyle='rounded'
-                                                                name='indeterminateCheckBox'
+                                                                iconStyle={IconStyle.ROUNDED}
+                                                                name={IconName.INDETERMINATE_CHECK_BOX}
                                                                 size={iconSize}
                                                                 svgStyle={iconSvgStyle}
                                                                 testID={`checkbox__iconIndeterminateCheckBox--${id}`}
-                                                                type='filled'
+                                                                type={IconType.FILLED}
                                                         />
                                                 </IconLayout>
                                         </Main>

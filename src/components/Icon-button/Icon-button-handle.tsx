@@ -62,7 +62,7 @@ export const renderIconButtonIcon =
                         cloneElement<IconProps>(
                                 icon ?? (
                                         <Icon
-                                                iconStyle='rounded'
+                                                iconStyle={IconStyle.ROUNDED}
                                                 type='outlined'
                                         />
                                 ),

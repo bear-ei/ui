@@ -140,7 +140,7 @@ export const Navigation = () => {
                                                 size={24}
                                                 icon={
                                                         <Icon
-                                                                iconStyle='rounded'
+                                                                iconStyle={IconStyle.ROUNDED}
                                                                 name='close'
                                                                 type='filled'
                                                                 size={18}

@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {Icon as EIIcon} from '../Icon'
+import {Icon as EIIcon, IconStyle, IconType} from '../Icon'
 import {Button} from './Button.component'
 import {ButtonType} from './Button.enum'
 import {ButtonProps} from './Button.interface'
@@ -28,8 +28,8 @@ export const TextIcon: StoryObj<ButtonProps> = {
         args: {
                 icon: (
                         <EIIcon
-                                type='filled'
-                                iconStyle='rounded'
+                                type={IconType.FILLED}
+                                iconStyle={IconStyle.ROUNDED}
                         />
                 ),
                 labelText: 'Label',

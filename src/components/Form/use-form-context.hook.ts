@@ -6,7 +6,7 @@ export const useFormContext = () => {
         const contextValue = useContext(FormContext)
 
         if (!contextValue) {
-                throw new Error('useFormContext must be used within a FormProvider')
+                throw new Error('useFormContext must be used within a FormProvider.')
         }
 
         return contextValue

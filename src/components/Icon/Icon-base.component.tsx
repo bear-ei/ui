@@ -1,6 +1,7 @@
 import {forwardRef, useId} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
+import {IconName, IconStyle, IconType} from './Icon.enum'
 import {IconBaseProps} from './Icon.interface'
 import {iconStyle} from './icon-style'
 import {useIconAnimated} from './use-icon-animated.hook'
@@ -12,11 +13,11 @@ export const IconBase = forwardRef<View, IconBaseProps>(
                         eventName,
                         fill,
                         icon,
-                        iconStyle: style = 'rounded',
-                        name = 'circle',
+                        iconStyle: style = IconStyle.ROUNDED,
+                        name = IconName.CIRCLE,
                         render,
                         svgStyle,
-                        type = 'outlined',
+                        type = IconType.OUTLINED,
                         ...renderProps
                 },
                 ref

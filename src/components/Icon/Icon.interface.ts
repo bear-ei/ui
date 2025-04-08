@@ -3,11 +3,8 @@ import {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {SvgProps} from 'react-native-svg'
 import {EventName} from '../Common'
-import {outlined} from './icon.outlined'
+import {IconName, IconStyle, IconType} from './Icon.enum'
 
-export type IconName = keyof (typeof outlined)['outlined']
-export type IconStyle = 'outlined' | 'rounded' | 'sharp'
-export type IconType = 'filled' | 'outlined'
 export interface IconProps extends Omit<SvgProps, 'hitSlop' | 'width' | 'height'>, RefAttributes<View>, ViewProps {
         eventName?: EventName
         icon?: FC<SvgProps>

@@ -50,7 +50,7 @@ const render = ({
                                         <Leading testID={`search__leading--${id}`}>
                                                 {leading ?? (
                                                         <Icon
-                                                                iconStyle='rounded'
+                                                                iconStyle={IconStyle.ROUNDED}
                                                                 name='search'
                                                                 testID={`search__iconSearch--${id}`}
                                                                 type='filled'

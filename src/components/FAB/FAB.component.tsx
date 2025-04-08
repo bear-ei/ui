@@ -1,3 +1,4 @@
+import {ShapeType, Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -29,8 +30,8 @@ const render = ({
         underlayColor,
         ...contentProps
 }: RenderFABProps) => {
-        const sizeShape = size === 'medium' ? 'large' : 'medium'
-        const shape = size === 'large' ? 'extraLarge' : sizeShape
+        const sizeShape = size === Size.MEDIUM ? ShapeType.LARGE : ShapeType.MEDIUM
+        const shape = size === Size.LARGE ? ShapeType.EXTRA_LARGE : sizeShape
         const backgroundUnderlayElement = (
                 <AnimatedBackgroundUnderlay
                         pointerEvents='none'
@@ -59,7 +60,7 @@ const render = ({
                                 backgroundUnderlay={backgroundUnderlayElement}
                                 disabled={disabled}
                                 elevationUnderlay={elevationUnderlayElement}
-                                mainAlignSelf={size === 'small' ? 'center' : 'stretch'}
+                                mainAlignSelf={size === Size.SMALL ? 'center' : 'stretch'}
                                 ref={ref}
                                 shape={shape}
                                 testID={`fab__touchable--${id}`}
@@ -89,10 +90,10 @@ const render = ({
 
                                                 {extendedFAB && labelText && (
                                                         <AnimatedLabelText
-                                                                size='large'
+                                                                size={Size.LARGE}
                                                                 style={[labelTextAnimatedStyle]}
                                                                 testID={`fab__animatedLabelText--${id}`}
-                                                                type='label'
+                                                                type={TypographyType.LABEL}
                                                         >
                                                                 {labelText}
                                                         </AnimatedLabelText>
