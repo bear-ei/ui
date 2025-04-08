@@ -1,7 +1,7 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
-import {CheckboxIconLayoutProps} from './Checkbox.interface'
+import {CheckboxContentProps, CheckboxIconLayoutProps} from './Checkbox.interface'
 
 export const Container = styled.View`
         cursor: pointer;
@@ -14,7 +14,7 @@ export const Container = styled.View`
         `}
 `
 
-export const Content = styled(Shape)`
+export const Content = styled(Shape)<CheckboxContentProps>`
         align-items: center;
         align-self: center;
         display: flex;
@@ -23,10 +23,19 @@ export const Content = styled(Shape)`
         position: relative;
         z-index: 4;
 
-        ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-        `};
+        ${({theme, densityScale}) => {
+                const density = densityScale ?? theme.densityScale
+
+                return css`
+                        height: ${theme.adaptSize(
+                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
+                        )}px;
+
+                        width: ${theme.adaptSize(
+                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
+                        )}px;
+                `
+        }}
 `
 
 export const Main = styled(Shape)`

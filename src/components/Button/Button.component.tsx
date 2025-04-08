@@ -1,3 +1,4 @@
+import {ShapeType, Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -21,6 +22,7 @@ const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const render = ({
         backgroundUnderlayAnimatedStyle,
+        densityScale,
         disabled,
         elevation,
         eventName,
@@ -43,7 +45,7 @@ const render = ({
 
         const link = type === ButtonType.LINK
         const loadingEventName = link || type === ButtonType.TEXT ? 'none' : 'longPress'
-        const shape = link ? 'extraSmall' : 'full'
+        const shape = link ? ShapeType.EXTRA_SMALL : ShapeType.FULL
         const backgroundUnderlayElement = (
                 <AnimatedBackgroundUnderlay
                         pointerEvents='none'
@@ -82,6 +84,7 @@ const render = ({
                                         {...contentProps}
                                         accessibilityLabel={labelText}
                                         accessibilityRole='button'
+                                        densityScale={densityScale}
                                         pointerEvents='none'
                                         shape={shape}
                                         testID={`button__content--${id}`}
@@ -101,10 +104,10 @@ const render = ({
                                                 <AnimatedLabelText
                                                         ellipsizeMode='tail'
                                                         numberOfLines={1}
-                                                        size={link ? 'small' : 'large'}
+                                                        size={link ? Size.SMALL : Size.LARGE}
                                                         style={[labelTextAnimatedStyle]}
                                                         testID={`button__animatedLabelText--${id}`}
-                                                        type={link ? 'body' : 'label'}
+                                                        type={link ? TypographyType.BODY : TypographyType.LABEL}
                                                 >
                                                         {labelText}
                                                 </AnimatedLabelText>

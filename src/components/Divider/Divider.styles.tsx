@@ -1,6 +1,7 @@
+import {Layout, Size} from '@bearei/material-token'
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
-import {LayoutType, Size, Typography} from '../Common'
+import {Typography} from '../Common'
 import {DividerLayoutProps} from './Divider.interface'
 
 export const Container = styled.View<DividerLayoutProps>`
@@ -11,34 +12,34 @@ export const Container = styled.View<DividerLayoutProps>`
                 gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `}
 
-        ${({layout = 'horizontal', theme}) => {
+        ${({layout = Layout.HORIZONTAL, theme}) => {
                 const containerLayout = {
-                        horizontal: css`
+                        [Layout.HORIZONTAL]: css`
                                 height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                                 width: 100%;
                         `,
 
-                        vertical: css`
+                        [Layout.VERTICAL]: css`
                                 height: 100%;
                                 width: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                         `
-                } as Record<LayoutType, RuleSet<object> | undefined>
+                } as Record<Layout, RuleSet<object> | undefined>
 
                 return containerLayout[layout]
         }}
     
-    ${({layout = 'horizontal', size = 'medium', theme}) => {
+    ${({layout = Layout.HORIZONTAL, size = Size.MEDIUM, theme}) => {
                 const containerSize = {
-                        medium:
-                                layout === 'horizontal' ?
+                        [Size.MEDIUM]:
+                                layout === Layout.HORIZONTAL ?
                                         css`
                                                 padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
                                         `
                                 :       css`
                                                 padding-top: ${theme.adaptSize(theme.token.spacing.medium)}px;
                                         `,
-                        small:
-                                layout === 'horizontal' ?
+                        [Size.SMALL]:
+                                layout === Layout.HORIZONTAL ?
                                         css`
                                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                                         ${theme.adaptSize(theme.token.spacing.medium)}px;

@@ -6,6 +6,7 @@ import {
         Palette,
         Shadow,
         Shape,
+        Size,
         Spacing,
         Typography
 } from '@bearei/material-token'
@@ -15,11 +16,9 @@ export type BorderRadiusType = keyof BorderRadius
 export type BorderStyle = 'dotted' | 'solid' | 'dashed'
 export type ElevationType = keyof Elevation
 export type FontType = keyof Font
-export type LayoutType = 'horizontal' | 'vertical'
 export type PaletteType = keyof Palette
 export type ShadowType = keyof Shadow
 export type ShapeType = keyof Shape
-export type Size = 'large' | 'medium' | 'small'
 export type SpacingType = keyof Spacing
 export type State = 'enabled' | 'focused' | 'hovered' | 'longPressIn' | 'pressIn' | 'error' | 'disabled'
 export type TypographyType = keyof Typography

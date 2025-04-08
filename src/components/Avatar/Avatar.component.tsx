@@ -1,3 +1,4 @@
+import {ShapeType, Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {AvatarBase} from './Avatar-base.component'
@@ -10,7 +11,7 @@ const render = ({
         densityScale,
         id,
         labelText,
-        shape = 'full',
+        shape = ShapeType.FULL,
         size,
         source,
         testID,
@@ -39,9 +40,9 @@ const render = ({
                         :       <LabelText
                                         ellipsizeMode='tail'
                                         numberOfLines={1}
-                                        size='medium'
+                                        size={Size.MEDIUM}
                                         testID={`avatar__labelText--${id}`}
-                                        type='title'
+                                        type={TypographyType.TITLE}
                                 >
                                         {labelText}
                                 </LabelText>

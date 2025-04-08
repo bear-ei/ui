@@ -1,8 +1,10 @@
 import styled, {css} from 'styled-components/native'
+
+import {ShapeType, Size, TypographyType} from '@bearei/material-token'
 import {ShapeProps, TypographyProps} from './Common.interface'
 
 export const Shape = styled.View<ShapeProps>`
-        ${({shape = 'none', theme}) => css`
+        ${({shape = ShapeType.NONE, theme}) => css`
                 border-bottom-left-radius: ${theme.adaptSize(theme.token.shape[shape].bottomLeft)}px;
                 border-bottom-right-radius: ${theme.adaptSize(theme.token.shape[shape].bottomRight)}px;
                 border-color: transparent;
@@ -13,7 +15,7 @@ export const Shape = styled.View<ShapeProps>`
 `
 
 export const Typography = styled.Text<TypographyProps>`
-        ${({theme, type = 'title', size = 'medium'}) => css`
+        ${({theme, type = TypographyType.BODY, size = Size.MEDIUM}) => css`
                 color: ${theme.token.scheme.onSurfaceVariant};
                 font-family: ${theme.token.font.family};
                 font-size: ${theme.adaptFontSize(theme.token.typography[type][size].size)}px;

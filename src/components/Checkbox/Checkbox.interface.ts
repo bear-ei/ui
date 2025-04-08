@@ -1,11 +1,11 @@
 import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
-import {ComponentStatus, EventName} from '../Common'
+import {CommonProps, ComponentStatus, EventName} from '../Common'
 import {LayoutAnimatedType} from '../Layout-animated'
 import {TouchableProps} from '../Touchable'
 import {CheckboxValue} from './Checkbox.enum'
 
-export interface CheckboxProps extends TouchableProps {
+export interface CheckboxProps extends TouchableProps, CommonProps {
         active?: boolean
         defaultActive?: boolean
         disabled?: boolean
@@ -53,3 +53,5 @@ export interface CheckboxIconLayoutProps {
         visible?: boolean
         zIndex?: number
 }
+
+export type CheckboxContentProps = Pick<RenderCheckboxProps, 'densityScale'>

@@ -1,4 +1,4 @@
-import {Duration} from '@bearei/material-token'
+import {Duration, ShapeType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {Icon} from '../Icon'
@@ -11,6 +11,7 @@ import {CheckboxIconAnimatedOptions, CheckboxProps, RenderCheckboxProps} from '.
 import {Container, Content, IconLayout, Main} from './Checkbox.styles'
 
 const render = ({
+        densityScale,
         disabled,
         error,
         eventName,
@@ -26,7 +27,7 @@ const render = ({
                 value === CheckboxValue.UNSELECTED ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
 
         const checkBoxOutlineFill = error ? theme.token.scheme.error : unselectedFill
-        const shape = 'full'
+        const shape = ShapeType.FULL
         const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
         const checkUnderlayColor =
                 value === CheckboxValue.UNSELECTED ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
@@ -56,12 +57,13 @@ const render = ({
                                 <Content
                                         {...contentProps}
                                         accessibilityRole='checkbox'
+                                        densityScale={densityScale}
                                         pointerEvents='none'
                                         shape={shape}
                                         testID={`checkbox__content--${id}`}
                                 >
                                         <Main
-                                                shape='tinySmall'
+                                                shape={ShapeType.TINY_SMALL}
                                                 testID={`checkbox__main--${id}`}
                                         >
                                                 <IconLayout
@@ -82,8 +84,8 @@ const render = ({
 
                                                 <IconLayout
                                                         {...animatedOptions}
-                                                        visible={value === CheckboxValue.SELECTED}
                                                         testID={`checkbox__iconLayout--${id}`}
+                                                        visible={value === CheckboxValue.SELECTED}
                                                 >
                                                         <Icon
                                                                 disabled={disabled}
@@ -99,8 +101,8 @@ const render = ({
 
                                                 <IconLayout
                                                         {...animatedOptions}
-                                                        visible={value === CheckboxValue.INDETERMINATE}
                                                         testID={`checkbox__iconLayout--${id}`}
+                                                        visible={value === CheckboxValue.INDETERMINATE}
                                                 >
                                                         <Icon
                                                                 disabled={disabled}

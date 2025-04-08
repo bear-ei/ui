@@ -2,18 +2,22 @@ import {Meta, StoryObj} from '@storybook/react'
 import {Checkbox} from './Checkbox.component'
 import {CheckboxProps} from './Checkbox.interface'
 
-export const CheckboxSelected: StoryObj<CheckboxProps> = {
+export const Selected: StoryObj<CheckboxProps> = {
         args: {
                 active: true
         }
 }
 
-export const CheckboxIndeterminate: StoryObj<CheckboxProps> = {
+export const Indeterminate: StoryObj<CheckboxProps> = {
         args: {indeterminate: true}
 }
 
-export const CheckboxError: StoryObj<CheckboxProps> = {
+export const Err: StoryObj<CheckboxProps> = {
         args: {error: true}
+}
+
+export const DensityScale: StoryObj<CheckboxProps> = {
+        args: {densityScale: -2}
 }
 
 export default {

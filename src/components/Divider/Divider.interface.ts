@@ -1,9 +1,10 @@
+import {Size} from '@bearei/material-token'
 import {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
-import {LayoutType, Size} from '../Common'
+import {Layout} from '../Common'
 
 export interface DividerProps extends ViewProps, RefAttributes<View> {
-        layout?: LayoutType
+        layout?: Layout
         size?: Size
         subheader?: string
         verticalStretch?: boolean

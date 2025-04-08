@@ -1,17 +1,19 @@
+import {Size} from '@bearei/material-token'
 import {Meta, StoryObj} from '@storybook/react'
+import {Layout} from '../Common'
 import {Divider} from './Divider.component'
 import {DividerProps} from './Divider.interface'
 
-export const DividerHorizontal: StoryObj<DividerProps> = {
-        args: {size: 'large'}
+export const Horizontal: StoryObj<DividerProps> = {
+        args: {size: Size.LARGE}
 }
 
-export const DividerSubheader: StoryObj<DividerProps> = {
-        args: {layout: 'horizontal', subheader: 'Subheader'}
+export const Subheader: StoryObj<DividerProps> = {
+        args: {layout: Layout.HORIZONTAL, subheader: 'Subheader'}
 }
 
-export const DividerVertical: StoryObj<DividerProps> = {
-        args: {size: 'large', layout: 'vertical'}
+export const Vertical: StoryObj<DividerProps> = {
+        args: {size: Size.LARGE, layout: Layout.VERTICAL}
 }
 
 export default {

@@ -1,5 +1,5 @@
 export enum CheckboxValue {
-        SELECTED = 'SELECTED',
         INDETERMINATE = 'INDETERMINATE',
+        SELECTED = 'SELECTED',
         UNSELECTED = 'UNSELECTED'
 }
