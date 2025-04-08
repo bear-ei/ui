@@ -38,10 +38,21 @@ export const Content = styled(Shape)<IconButtonContentProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme, size}) => css`
-                height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-                width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
-        `}
+        ${({theme, size, densityScale}) => {
+                const density = densityScale ?? theme.densityScale
+
+                return css`
+                        height: ${size ??
+                        theme.adaptSize(
+                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
+                        )}px;
+
+                        width: ${size ??
+                        theme.adaptSize(
+                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
+                        )}px;
+                `
+        }}
 `
 
 export const BackgroundUnderlay = styled(Shape)`

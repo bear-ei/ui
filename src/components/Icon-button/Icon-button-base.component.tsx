@@ -10,11 +10,23 @@ import {
         handleIconButtonUnderlayColor,
         renderIconButtonIcon
 } from './Icon-button-handle'
+import {IconButtonType} from './Icon-button.enum'
 import {IconButtonBaseProps, IconButtonState} from './Icon-button.interface'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
 export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
-        ({disabled: rawDisabled = false, fill, icon, render, type = 'filled', loading, ...renderProps}, ref) => {
+        (
+                {
+                        disabled: rawDisabled = false,
+                        fill,
+                        icon,
+                        loading,
+                        render,
+                        type = IconButtonType.FILLED,
+                        ...renderProps
+                },
+                ref
+        ) => {
                 const [{eventName}, setState] = useImmer<IconButtonState>({})
                 const theme = useTheme()
                 const id = useId()

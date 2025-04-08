@@ -1,3 +1,4 @@
+import {ShapeType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -5,6 +6,7 @@ import {Progress} from '../Progress'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {IconButtonBase} from './Icon-button-base.component'
+import {IconButtonType} from './Icon-button.enum'
 import {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
 import {BackgroundUnderlay, Container, Content, ContentItemLayout, Main} from './Icon-button.styles'
 
@@ -27,7 +29,7 @@ const render = ({
         underlayColor,
         ...contentProps
 }: RenderIconButtonProps) => {
-        const shape = 'full'
+        const shape = ShapeType.FULL
         const activeColor = theme.token.scheme.secondaryContainer
         const backgroundUnderlayElement = (
                 <AnimatedBackgroundUnderlay
@@ -65,7 +67,7 @@ const render = ({
                                         {...stateOnEvent}
                                         backgroundUnderlay={backgroundUnderlayElement}
                                         disabled={disabled}
-                                        enableTouchableRipple={type !== 'active'}
+                                        enableTouchableRipple={type !== IconButtonType.ACTIVE}
                                         mainAlignSelf='center'
                                         ref={ref}
                                         shape={shape}
@@ -87,7 +89,7 @@ const render = ({
                                                         activeColor={activeColor}
                                                         defaultActive={defaultActive}
                                                         eventName={eventName}
-                                                        shape='full'
+                                                        shape={shape}
                                                         testID={`iconButton__underlay--${id}`}
                                                         underlayColor={underlayColor}
                                                 />

@@ -2,11 +2,11 @@ import {ViewStyle} from 'react-native'
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {AnimatedTiming, HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
-import {EventName} from '../Common'
+import {CommonProps, EventName} from '../Common'
 import {TouchableProps} from '../Touchable'
+import {IconButtonType} from './Icon-button.enum'
 
-export type IconButtonType = 'filled' | 'outlined' | 'standard' | 'tonal' | 'active'
-export interface IconButtonProps extends TouchableProps {
+export interface IconButtonProps extends TouchableProps, CommonProps {
         active?: boolean
         defaultActive?: boolean
         fill?: string
@@ -47,4 +47,4 @@ export interface HandleIconButtonAnimatedTimingSharedValue {
         colorSharedValue: SharedValue<number>
 }
 
-export type IconButtonContentProps = Pick<IconButtonProps, 'size'>
+export type IconButtonContentProps = Pick<IconButtonProps, 'size' | 'densityScale'>

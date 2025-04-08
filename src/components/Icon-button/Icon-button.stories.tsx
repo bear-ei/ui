@@ -1,5 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react'
 import {IconButton} from './Icon-button.component'
+import {IconButtonType} from './Icon-button.enum'
 import {IconButtonProps} from './Icon-button.interface'
 
 export const Filled: StoryObj<IconButtonProps> = {
@@ -8,26 +9,26 @@ export const Filled: StoryObj<IconButtonProps> = {
 
 export const Outlined: StoryObj<IconButtonProps> = {
         args: {
-                type: 'outlined'
+                type: IconButtonType.OUTLINED
         }
 }
 
 export const Standard: StoryObj<IconButtonProps> = {
         args: {
-                type: 'standard',
+                type: IconButtonType.STANDARD,
                 loading: true
         }
 }
 
 export const Tonal: StoryObj<IconButtonProps> = {
         args: {
-                type: 'tonal'
+                type: IconButtonType.TONAL
         }
 }
 
 export const Active: StoryObj<IconButtonProps> = {
         args: {
-                type: 'active'
+                type: IconButtonType.ACTIVE
         }
 }
 

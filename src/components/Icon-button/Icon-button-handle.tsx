@@ -2,13 +2,13 @@ import {cloneElement} from 'react'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
 import {StateEvent} from '../../hooks'
-import {Icon, IconProps} from '../Icon'
+import {Icon, IconProps, IconStyle, IconType} from '../Icon'
+import {IconButtonType} from './Icon-button.enum'
 import {
         HandleIconButtonAnimatedTimingOptions,
         HandleIconButtonAnimatedTimingSharedValue,
         HandleIconButtonStateChangeOptions,
         IconButtonState,
-        IconButtonType,
         RenderIconButtonIconOptions
 } from './Icon-button.interface'
 
@@ -33,25 +33,25 @@ export const handleIconButtonDisabled = (setState: Updater<IconButtonState>) => 
 
 export const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
         const underlay = {
-                active: theme.token.scheme.onSurfaceVariant,
-                filled: theme.token.scheme.onPrimary,
-                outlined: theme.token.scheme.onSurfaceVariant,
-                standard: theme.token.scheme.onSurfaceVariant,
-                tonal: theme.token.scheme.onSecondaryContainer
+                [IconButtonType.ACTIVE]: theme.token.scheme.onSurfaceVariant,
+                [IconButtonType.FILLED]: theme.token.scheme.onPrimary,
+                [IconButtonType.OUTLINED]: theme.token.scheme.onSurfaceVariant,
+                [IconButtonType.STANDARD]: theme.token.scheme.onSurfaceVariant,
+                [IconButtonType.TONAL]: theme.token.scheme.onSecondaryContainer
         }
 
-        return (type: IconButtonType = 'filled') => underlay[type]
+        return (type: IconButtonType = IconButtonType.FILLED) => underlay[type]
 }
 
 export const renderIconButtonIcon =
         ({disabled, type, fill: rawFill, eventName, loading, id}: RenderIconButtonIconOptions) =>
         (theme: DefaultTheme) => {
                 const fillType = {
-                        active: theme.token.scheme.onSurfaceVariant,
-                        filled: theme.token.scheme.onPrimary,
-                        outlined: theme.token.scheme.onSurfaceVariant,
-                        standard: theme.token.scheme.onSurfaceVariant,
-                        tonal: theme.token.scheme.onSecondaryContainer
+                        [IconButtonType.ACTIVE]: theme.token.scheme.onSurfaceVariant,
+                        [IconButtonType.FILLED]: theme.token.scheme.onPrimary,
+                        [IconButtonType.OUTLINED]: theme.token.scheme.onSurfaceVariant,
+                        [IconButtonType.STANDARD]: theme.token.scheme.onSurfaceVariant,
+                        [IconButtonType.TONAL]: theme.token.scheme.onSecondaryContainer
                 }
 
                 const fill =
@@ -63,7 +63,7 @@ export const renderIconButtonIcon =
                                 icon ?? (
                                         <Icon
                                                 iconStyle={IconStyle.ROUNDED}
-                                                type='outlined'
+                                                type={IconType.OUTLINED}
                                         />
                                 ),
                                 {
@@ -81,7 +81,7 @@ export const handleIconButtonAnimatedTiming =
         (disabled?: boolean) => {
                 const toValue = disabled ? 0 : 1
 
-                if (type === 'outlined') {
+                if (type === IconButtonType.OUTLINED) {
                         animatedTiming()(borderSharedValue)(toValue)
                         animatedTiming()(colorSharedValue)(toValue)
 

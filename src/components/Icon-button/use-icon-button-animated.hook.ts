@@ -3,9 +3,10 @@ import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-r
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {handleIconButtonAnimatedTiming} from './Icon-button-handle'
+import {IconButtonType} from './Icon-button.enum'
 import {UseIconButtonAnimatedOptions} from './Icon-button.interface'
 
-export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButtonAnimatedOptions) => {
+export const useIconButtonAnimated = ({disabled, type = IconButtonType.FILLED}: UseIconButtonAnimatedOptions) => {
         const animatedValue = disabled ? 0 : 1
         const borderSharedValue = useSharedValue(animatedValue)
         const colorSharedValue = useSharedValue(animatedValue)
@@ -15,29 +16,29 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
         const backgroundColorType = {
-                filled: {
+                [IconButtonType.FILLED]: {
                         inputRanges: [0, 1],
                         outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.primary)(opacity.level10)]
                 },
-                outlined: {
+                [IconButtonType.OUTLINED]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
-                standard: {
+                [IconButtonType.STANDARD]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
                                 hexToRGBA(scheme.primary)(opacity.level0)
                         ]
                 },
-                tonal: {
+                [IconButtonType.TONAL]: {
                         inputRanges: [0, 1],
                         outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.secondaryContainer)(opacity.level10)]
                 },
-                active: {
+                [IconButtonType.ACTIVE]: {
                         inputRanges: [0, 1],
                         outputRanges: [
                                 hexToRGBA(scheme.primary)(opacity.level0),
@@ -53,7 +54,7 @@ export const useIconButtonAnimated = ({disabled, type = 'filled'}: UseIconButton
                         backgroundColorType[type].inputRanges,
                         backgroundColorType[type].outputRanges
                 ),
-                ...(type === 'outlined' && {
+                ...(type === IconButtonType.OUTLINED && {
                         borderColor: interpolateColor(
                                 borderSharedValue.value,
                                 [0, 1],
