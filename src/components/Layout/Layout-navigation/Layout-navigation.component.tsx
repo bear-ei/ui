@@ -1,11 +1,13 @@
+import {Duration, Easing} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
+import {LayoutAnimatedType} from '../../Layout-animated'
 import {LayoutNavigationBase} from './Layout-navigation-base.component'
 import {LayoutNavigationProps, RenderLayoutNavigationProps} from './Layout-navigation.interface'
 import {ContainerLayout} from './Layout-navigation.styles'
 
 const render = ({
-        animatedType = 'collapseX',
+        animatedType = LayoutAnimatedType.COLLAPSE_X,
         children,
         defaultVisible = true,
         id,
@@ -16,8 +18,8 @@ const render = ({
                 {...containerProps}
                 animatedType={animatedType}
                 defaultVisible={defaultVisible}
-                entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
-                exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
+                entry={{duration: Duration.MEDIUM_3, easing: Easing.EMPHASIZED_DECELERATE}}
+                exit={{duration: Duration.SHORT_3, easing: Easing.EMPHASIZED_ACCELERATE}}
                 testID={testID ?? `layoutNavigation--${id}`}
         >
                 {children}

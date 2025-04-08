@@ -4,10 +4,11 @@ import {DefaultStyle} from 'react-native-reanimated/lib/typescript/hook/commonTy
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {handleLayoutAnimatedTiming} from './Layout-animated-handle'
-import {LayoutAnimatedType, UseLayoutAnimatedOptions} from './Layout-animated.interface'
+import {LayoutAnimatedType} from './Layout-animated.enum'
+import {UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
 export const useLayoutAnimated = ({
-        animatedType = 'fade',
+        animatedType = LayoutAnimatedType.FADE,
         entry,
         exit,
         height,
@@ -63,12 +64,12 @@ export const useLayoutAnimated = ({
         )
 
         const containerAnimated = {
-                collapseX: collapseXAnimatedStyle,
-                collapseY: collapseYAnimatedStyle,
-                fade: fadeAnimatedStyle,
-                scale: scaleAnimatedStyle,
-                standard: {}
-        } as Record<LayoutAnimatedType, DefaultStyle>
+                [LayoutAnimatedType.COLLAPSE_X]: collapseXAnimatedStyle,
+                [LayoutAnimatedType.COLLAPSE_Y]: collapseYAnimatedStyle,
+                [LayoutAnimatedType.FADE]: fadeAnimatedStyle,
+                [LayoutAnimatedType.SCALE]: scaleAnimatedStyle,
+                [LayoutAnimatedType.STANDARD]: undefined
+        } as Record<LayoutAnimatedType, DefaultStyle | undefined>
 
         useEffect(() => {
                 onLayoutAnimatedTiming(visible)

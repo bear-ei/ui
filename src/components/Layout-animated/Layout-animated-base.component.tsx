@@ -11,13 +11,14 @@ import {
         handleLayoutAnimatedStateChange,
         handleLayoutAnimatedStatus
 } from './Layout-animated-handle'
+import {LayoutAnimatedType} from './Layout-animated.enum'
 import {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
 export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
         (
                 {
-                        animatedType = 'fade',
+                        animatedType = LayoutAnimatedType.FADE,
                         contentSize,
                         defaultVisible,
                         delay: rawDelay = 0,

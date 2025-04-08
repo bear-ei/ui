@@ -1,3 +1,4 @@
+import {Duration, Easing} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {LayoutPaneBase} from './Layout-pane-base.component'
@@ -20,8 +21,8 @@ const render = ({
                         {...containerProps}
                         contentStyle={contentStyle}
                         defaultVisible={defaultVisible}
-                        entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
-                        exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
+                        entry={{duration: Duration.MEDIUM_3, easing: Easing.EMPHASIZED_DECELERATE}}
+                        exit={{duration: Duration.SHORT_3, easing: Easing.EMPHASIZED_ACCELERATE}}
                         testID={testID ?? `layoutPane--${id}`}
                 >
                         {children}
