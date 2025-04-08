@@ -1,6 +1,7 @@
 import {Duration, ShapeType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
+import {DensityScale} from '../Common'
 import {Icon, IconName, IconStyle, IconType} from '../Icon'
 import {LayoutAnimatedType} from '../Layout-animated'
 import {Touchable} from '../Touchable'
@@ -11,7 +12,7 @@ import {CheckboxIconAnimatedOptions, CheckboxProps, RenderCheckboxProps} from '.
 import {Container, Content, IconLayout, Main} from './Checkbox.styles'
 
 const render = ({
-        densityScale,
+        densityScale = DensityScale.LEVEL_0,
         disabled,
         error,
         eventName,

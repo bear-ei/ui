@@ -74,9 +74,9 @@ const render = ({
                                                 active={active}
                                                 activeAnimatedType={type === 'block' ? 'scale' : 'scaleX'}
                                                 activeColor={activeColor}
-                                                activeShape='full'
+                                                activeShape='shape={ShapeType.FULL}'
                                                 eventName={eventName}
-                                                shape={type === 'block' ? 'full' : 'large'}
+                                                shape={type === 'block' ? 'shape={ShapeType.FULL}' : 'large'}
                                                 testID={`navigationRailItem__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
@@ -99,7 +99,7 @@ const render = ({
                                                                 size='medium'
                                                                 style={[labelTextAnimatedStyle]}
                                                                 testID={`navigationRailItem__animatedLabelText--${id}`}
-                                                                type='label'
+                                                                type={TypographyType.LABEL}
                                                         >
                                                                 {labelText}
                                                         </AnimatedLabelText>

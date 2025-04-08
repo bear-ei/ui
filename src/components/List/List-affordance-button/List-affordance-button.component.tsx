@@ -1,3 +1,4 @@
+import {Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -49,10 +50,10 @@ const render = ({
                                                 <AnimatedLabelText
                                                         ellipsizeMode='tail'
                                                         numberOfLines={1}
-                                                        size='large'
+                                                        size={Size.LARGE}
                                                         style={[labelTextAnimatedStyle]}
                                                         testID={`listAffordanceButton__animatedLabelText--${id}`}
-                                                        type='label'
+                                                        type={TypographyType.LABEL}
                                                 >
                                                         {labelText}
                                                 </AnimatedLabelText>

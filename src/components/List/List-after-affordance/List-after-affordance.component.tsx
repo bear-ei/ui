@@ -1,7 +1,7 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Icon} from '../../Icon'
+import {Icon, IconName, IconStyle, IconType} from '../../Icon'
 import {ListAffordanceButton} from '../List-affordance-button'
 import {ListAfterAffordanceBase} from './List-after-affordance-base.component'
 import {ListAfterAffordanceProps, RenderListAfterAffordanceProps} from './List-after-affordance.interface'
@@ -34,10 +34,10 @@ const render = ({
                                         icon: (
                                                 <Icon
                                                         fill={fill}
-                                                        iconStyle='sharp'
-                                                        name='check'
+                                                        iconStyle={IconStyle.SHARP}
+                                                        name={IconName.CHECK}
                                                         testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`}
-                                                        type='outlined'
+                                                        type={IconType.OUTLINED}
                                                 />
                                         )
                                 })}
@@ -52,10 +52,10 @@ const render = ({
                                         icon: (
                                                 <Icon
                                                         fill={fill}
-                                                        iconStyle='sharp'
-                                                        name='close'
+                                                        iconStyle={IconStyle.SHARP}
+                                                        name={IconName.CLOSE}
                                                         testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`}
-                                                        type='outlined'
+                                                        type={IconType.OUTLINED}
                                                 />
                                         )
                                 })}

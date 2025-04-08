@@ -148,7 +148,7 @@ const render = ({
                                                                                 <AnimatedHeadlineText
                                                                                         ellipsizeMode='tail'
                                                                                         numberOfLines={1}
-                                                                                        size='large'
+                                                                                        size={Size.LARGE}
                                                                                         style={[
                                                                                                 headlineTextAnimatedStyle
                                                                                         ]}
@@ -225,7 +225,7 @@ const render = ({
                                         <DividerLayout testID={`listItem__dividerLayout--${id}`}>
                                                 <Divider
                                                         layout='horizontal'
-                                                        size='large'
+                                                        size={Size.LARGE}
                                                         testID={`listItem__divider--${id}`}
                                                 />
                                         </DividerLayout>

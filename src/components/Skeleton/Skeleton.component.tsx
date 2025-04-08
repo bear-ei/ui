@@ -63,7 +63,7 @@ const ForwardRefSkeleton = forwardRef<View, SkeletonProps>((props, ref) => (
 
 const Circle: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
         const theme = useTheme()
-        const {shape = 'full', size, style, ...skeletonElementProps} = props
+        const {shape = 'shape={ShapeType.FULL}', size, style, ...skeletonElementProps} = props
         const defaultSize = theme.adaptFontSize(theme.token.spacing.extraSmall * 10)
         const circleSize = typeof size === 'number' ? (size ?? defaultSize) : defaultSize
         const circleStyle = {width: circleSize, height: circleSize}

@@ -38,7 +38,7 @@ const render = ({
 
                         {animatedType === 'determinate' && (
                                 <Stop
-                                        shape='full'
+                                        shape='shape={ShapeType.FULL}'
                                         testID={`progressActiveIndicatorLinear__stop--${id}`}
                                 />
                         )}

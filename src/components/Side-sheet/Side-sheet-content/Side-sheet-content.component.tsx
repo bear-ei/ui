@@ -80,7 +80,7 @@ const render = ({
                                         <HeadlineLayout testID={`sideSheetContent__headlineLayout--${id}}`}>
                                                 <HeaderText
                                                         numberOfLines={1}
-                                                        size='large'
+                                                        size={Size.LARGE}
                                                         testID={`sideSheetContent__headerText--${id}}`}
                                                         type='title'
                                                 >
@@ -106,7 +106,7 @@ const render = ({
                                 >
                                         <FooterLayout testID={`sideSheetContent__footerLayout--${id}}`}>
                                                 <Divider
-                                                        size='large'
+                                                        size={Size.LARGE}
                                                         testID={`sideSheetContent__divider--${id}}`}
                                                 />
 

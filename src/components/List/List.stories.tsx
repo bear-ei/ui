@@ -1,7 +1,8 @@
+import {ShapeType} from '@bearei/material-token'
 import {Meta, StoryObj} from '@storybook/react'
 import {useMemo, useState} from 'react'
 import {View, ViewStyle} from 'react-native'
-import {Icon} from '../Icon'
+import {Icon, IconStyle} from '../Icon'
 import {IconButton} from '../Icon-button'
 import {Skeleton} from '../Skeleton'
 import {List} from './List.component'
@@ -113,7 +114,7 @@ export const Multiselect = () => {
         return (
                 <View style={[style]}>
                         <List
-                                shape='full'
+                                shape={ShapeType.FULL}
                                 activeKeys={activeKeys}
                                 afterAffordance={true}
                                 data={data}

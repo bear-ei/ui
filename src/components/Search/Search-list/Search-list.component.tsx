@@ -18,7 +18,7 @@ const render = ({containerAnimatedStyle, containerLayout, id, testID, ...listPro
                 testID={testID ?? `searchList--${id}`}
         >
                 <Divider
-                        size='large'
+                        size={Size.LARGE}
                         testID={testID ?? `searchList__divider--${id}`}
                 />
 

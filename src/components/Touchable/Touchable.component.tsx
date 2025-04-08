@@ -10,9 +10,9 @@ const render = ({
         elevationUnderlay,
         id,
         mainAlignSelf,
-        stateOnEvent,
         rippleElements,
         shape,
+        stateOnEvent,
         testID,
         ...contentProps
 }: RenderTouchableProps) => (

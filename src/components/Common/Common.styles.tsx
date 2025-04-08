@@ -4,14 +4,18 @@ import {ShapeType, Size, TypographyType} from '@bearei/material-token'
 import {ShapeProps, TypographyProps} from './Common.interface'
 
 export const Shape = styled.View<ShapeProps>`
-        ${({shape = ShapeType.NONE, theme}) => css`
-                border-bottom-left-radius: ${theme.adaptSize(theme.token.shape[shape].bottomLeft)}px;
-                border-bottom-right-radius: ${theme.adaptSize(theme.token.shape[shape].bottomRight)}px;
-                border-color: transparent;
-                border-top-left-radius: ${theme.adaptSize(theme.token.shape[shape].topLeft)}px;
-                border-top-right-radius: ${theme.adaptSize(theme.token.shape[shape].topRight)}px;
-                border-width: ${theme.adaptSize(theme.token.spacing.none)}px;
-        `}
+        ${({shape = ShapeType.NONE, theme}) => {
+                console.info(theme.token, shape)
+
+                return css`
+                        border-bottom-left-radius: ${theme.adaptSize(theme.token.shape[shape].bottomLeft)}px;
+                        border-bottom-right-radius: ${theme.adaptSize(theme.token.shape[shape].bottomRight)}px;
+                        border-color: transparent;
+                        border-top-left-radius: ${theme.adaptSize(theme.token.shape[shape].topLeft)}px;
+                        border-top-right-radius: ${theme.adaptSize(theme.token.shape[shape].topRight)}px;
+                        border-width: ${theme.adaptSize(theme.token.spacing.none)}px;
+                `
+        }}
 `
 
 export const Typography = styled.Text<TypographyProps>`

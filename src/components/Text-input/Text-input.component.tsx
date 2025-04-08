@@ -140,7 +140,7 @@ const render = ({
                                                         testID={`textInput__animatedLabel--${id}`}
                                                 >
                                                         <AnimatedLabelText
-                                                                size='large'
+                                                                size={Size.LARGE}
                                                                 style={[labelTextAnimatedStyle]}
                                                                 testID={`textInput__animatedLabelText--${id}`}
                                                                 type='body'

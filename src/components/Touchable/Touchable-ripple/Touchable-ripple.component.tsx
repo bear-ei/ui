@@ -22,7 +22,7 @@ const render = ({
                 locationX={locationX}
                 locationY={locationY}
                 pointerEvents='none'
-                shape='full'
+                shape='shape={ShapeType.FULL}'
                 size={size}
                 style={[style, containerAnimatedStyle]}
                 testID={testID ?? `touchableRipple--${id}`}
