@@ -1,4 +1,5 @@
 import styled, {css} from 'styled-components/native'
+import {DensityScale} from '../../contexts'
 import {Shape} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {IconButtonContentProps} from './Icon-button.interface'
@@ -36,13 +37,12 @@ export const Content = styled(Shape)<IconButtonContentProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme, size, densityScale}) => {
-                const density = densityScale ?? theme.densityScale
-                const designDensity = density * theme.token.spacing.extraSmall
+        ${({theme, size, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
 
                 return css`
-                        height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
-                        width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
+                        height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
+                        width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
                 `
         }}
 `

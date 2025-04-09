@@ -47,4 +47,4 @@ export interface HandleIconButtonAnimatedTimingSharedValue {
         colorSharedValue: SharedValue<number>
 }
 
-export type IconButtonContentProps = Pick<IconButtonProps, 'size' | 'densityScale'>
+export type IconButtonContentProps = Pick<IconButtonProps, 'size' | 'density'>

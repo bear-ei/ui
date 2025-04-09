@@ -124,7 +124,7 @@ export interface HandleTextInputFocusedSharedValue {
 
 export type TextInputStateAnimated = Partial<Record<State, () => void>>
 export type HandleTextInputNonerrorAnimatedTimingOptions = Pick<UseTextInputAnimatedOptions, 'disabled' | 'error'>
-export type TextInputHeaderProps = Pick<RenderTextInputProps, 'type' | 'densityScale'> & {
+export type TextInputHeaderProps = Pick<RenderTextInputProps, 'type' | 'density'> & {
         leadingShow: boolean
         trailingShow: boolean
 }

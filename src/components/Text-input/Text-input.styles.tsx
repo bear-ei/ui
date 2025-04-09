@@ -1,5 +1,6 @@
 import {Size, TypographyType} from '@bearei/material-token'
 import styled, {css} from 'styled-components/native'
+import {DensityScale} from '../../contexts'
 import {Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {
@@ -32,13 +33,12 @@ export const Header = styled(Shape)<TextInputHeaderProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme, densityScale}) => {
-                const density = densityScale ?? theme.densityScale
-                const designDensity = density * theme.token.spacing.extraSmall
+        ${({theme, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
 
                 return css`
                         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
+                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
                         padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
                                 ${theme.adaptSize(theme.token.spacing.none)}px;
 

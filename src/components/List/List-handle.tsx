@@ -1,5 +1,7 @@
 import {WritableDraft} from 'immer'
+import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
+import {Density, DensityScale} from '../../contexts'
 import {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
 import {SelectType} from './List.enum'
@@ -77,6 +79,13 @@ export const handleListActive =
                                 selectType === SelectType.MULTIPLE ? {onActives} : {onActive}
                         )(callbackValue)
                 })
+
+export const handleListItemSize = (theme: DefaultTheme) => (density?: Density) => (itemSize?: number) =>
+        itemSize ??
+        theme.adaptSize(
+                theme.token.spacing.extraSmall * 14 +
+                        DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
+        )
 
 export const handleListActiveAfterAffordance =
         ({onActive, selectType}: HandleListActiveOptions) =>

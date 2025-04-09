@@ -1,4 +1,5 @@
 import styled, {css} from 'styled-components/native'
+import {DensityScale} from '../../contexts'
 import {Shape} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {CheckboxContentProps, CheckboxIconLayoutProps} from './Checkbox.interface'
@@ -21,13 +22,12 @@ export const Content = styled(Shape)<CheckboxContentProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme, densityScale}) => {
-                const density = densityScale ?? theme.densityScale
-                const designDensity = density * theme.token.spacing.extraSmall
+        ${({theme, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
 
                 return css`
-                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
-                        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
+                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
+                        width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
                 `
         }}
 `

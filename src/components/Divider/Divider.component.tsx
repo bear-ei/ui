@@ -1,13 +1,13 @@
 import {Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
-import {Layout} from '../Common'
+import {LayoutType} from '../Common'
 import {DividerBase} from './Divider-base.component'
 import {DividerProps, RenderDividerProps} from './Divider.interface'
 import {Container, Content, Subheader} from './Divider.styles'
 
 const render = ({subheader, style, layout, size: rawSize, id, testID, ...containerProps}: RenderDividerProps) => {
-        const size = subheader && layout === Layout.HORIZONTAL ? Size.SMALL : rawSize
+        const size = subheader && layout === LayoutType.HORIZONTAL ? Size.SMALL : rawSize
 
         return (
                 <Container

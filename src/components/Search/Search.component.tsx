@@ -11,7 +11,7 @@ import {Container, Content, Leading, Main, TextInput, TextInputLayout, Touchable
 const SearchTextInput: FC<SearchTextInputProps> = TextInput
 const render = ({
         containerRef,
-        densityScale,
+        density,
         eventName,
         id,
         layout,
@@ -45,7 +45,7 @@ const render = ({
                                 <Content
                                         accessibilityLabel={placeholder}
                                         accessibilityRole='keyboardkey'
-                                        densityScale={densityScale}
+                                        density={density}
                                         shape={shape}
                                         testID={`search__content--${id}`}
                                         trailingShow={!!trailing}

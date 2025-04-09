@@ -1,8 +1,11 @@
+import {Duration, Easing, ShapeType, Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Button} from '../../Button'
+import {Button, ButtonType} from '../../Button'
 import {Divider} from '../../Divider'
+import {LayoutAnimatedType} from '../../Layout-animated'
+import {SheetPosition} from '../Side-sheet.enum'
 import {SideSheetContentBase} from './Side-sheet-content-base.component'
 import {RenderSideSheetContentProps, SideSheetContentProps} from './Side-sheet-content.interface'
 import {
@@ -49,7 +52,9 @@ const render = ({
         ...innerProps
 }: RenderSideSheetContentProps) => {
         const footerLayoutContainerContentStyle = {minHeight: theme.adaptFontSize(theme.token.spacing.extraSmall * 20)}
-        const sheetShape = shape ?? (sheetPosition === 'horizontalStart' ? 'largeEnd' : 'largeStart')
+        const sheetShape =
+                shape ??
+                (sheetPosition === SheetPosition.HORIZONTAL_START ? ShapeType.LARGE_END : ShapeType.LARGE_START)
 
         return (
                 <AnimatedContainer
@@ -82,7 +87,7 @@ const render = ({
                                                         numberOfLines={1}
                                                         size={Size.LARGE}
                                                         testID={`sideSheetContent__headerText--${id}}`}
-                                                        type='title'
+                                                        type={TypographyType.TITLE}
                                                 >
                                                         {headlineText}
                                                 </HeaderText>
@@ -97,10 +102,10 @@ const render = ({
 
                                 <Main testID={`sideSheetContent__main--${id}}`}>{content}</Main>
                                 <FooterLayoutContainer
-                                        animatedType='collapseY'
+                                        animatedType={LayoutAnimatedType.COLLAPSE_Y}
                                         contentStyle={footerLayoutContainerContentStyle}
-                                        entry={{duration: 'medium3', easing: 'emphasizedDecelerate'}}
-                                        exit={{duration: 'short3', easing: 'emphasizedAccelerate'}}
+                                        entry={{duration: Duration.MEDIUM_3, easing: Easing.EMPHASIZED_DECELERATE}}
+                                        exit={{duration: Duration.SHORT_3, easing: Easing.EMPHASIZED_ACCELERATE}}
                                         testID={`sideSheetContent__footerLayoutContainer--${id}}`}
                                         visible={footerVisible}
                                 >
@@ -125,7 +130,7 @@ const render = ({
                                                                                 }}
                                                                                 onPressOut={onConfirm}
                                                                                 testID={`sideSheetContent__confirmButton--${id}}`}
-                                                                                type='filled'
+                                                                                type={ButtonType.FILLED}
                                                                         />
                                                                 )}
                                                         </PrimaryButton>
@@ -141,7 +146,7 @@ const render = ({
                                                                                 }}
                                                                                 onPressOut={onCancel}
                                                                                 testID={`sideSheetContent__cancelButton--${id}}`}
-                                                                                type='outlined'
+                                                                                type={ButtonType.OUTLINED}
                                                                         />
                                                                 )}
                                                         </SecondaryButton>

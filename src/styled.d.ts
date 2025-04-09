@@ -1,13 +1,14 @@
 import {Token} from '@bearei/material-token'
 import {ColorSchemeName} from 'react-native'
 import 'styled-components/native'
+import {Density} from './contexts'
 
 declare module 'styled-components/native' {
         export interface DefaultTheme {
                 adaptFontSize: (size: number) => number
                 adaptSize: (size: number) => number
                 colorScheme: ColorSchemeName
-                densityScale: 0 | -1 | -2 | -3
+                density: Density
                 OS: 'ios' | 'android' | 'windows' | 'macos' | 'web'
                 token: Token
         }

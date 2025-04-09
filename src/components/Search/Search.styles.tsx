@@ -1,6 +1,7 @@
 import {Size, TypographyType} from '@bearei/material-token'
 import {css} from 'styled-components'
 import styled from 'styled-components/native'
+import {DensityScale} from '../../contexts'
 import {Shape} from '../Common'
 import {SearchContentProps} from './Search.interface'
 
@@ -28,14 +29,13 @@ export const Content = styled(Shape)<SearchContentProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme, densityScale}) => {
-                const density = densityScale ?? theme.densityScale
-                const designDensity = density * theme.token.spacing.extraSmall
+        ${({theme, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
 
                 return css`
                         background-color: ${theme.token.scheme.surfaceContainerHigh};
                         gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
+                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
                         padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                 ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
                 `

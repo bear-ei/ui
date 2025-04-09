@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components/native'
-import {Layout} from '../Common'
+import {LayoutType} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {SkeletonContainerProps} from './Skeleton.interface'
 
@@ -11,8 +11,8 @@ export const SkeletonContainer = styled.View<SkeletonContainerProps>`
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `}
 
-        ${({containerLayout = Layout.HORIZONTAL}) =>
-                containerLayout === Layout.HORIZONTAL ?
+        ${({containerLayout = LayoutType.HORIZONTAL}) =>
+                containerLayout === LayoutType.HORIZONTAL ?
                         css`
                                 flex-direction: row;
                                 align-items: center;

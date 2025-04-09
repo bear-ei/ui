@@ -22,7 +22,7 @@ export interface ListItemProps
                         | 'afterAffordanceSecondaryButtonProps'
                         | 'beforeAffordance'
                         | 'closeTrailing'
-                        | 'densityScale'
+                        | 'density'
                         | 'divider'
                         | 'enableUnderlay'
                         | 'enableUnderlayActive'
@@ -146,7 +146,7 @@ export interface HandleListItemTrailingPressOutOptions
 export type HandleListItemPanResponderReleaseOptions = Pick<ListItemProps, 'onActiveAfterAffordance' | 'disabled'>
 export type ListItemContainerProps = Pick<RenderListItemProps, 'type'>
 export interface ListItemMainProps
-        extends Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'densityScale'>,
+        extends Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'density'>,
                 ListItemContainerProps {
         supportingTextShow?: boolean
 }

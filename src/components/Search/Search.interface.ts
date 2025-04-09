@@ -55,6 +55,6 @@ export interface HandleSearchContainerLayoutOptions {
         containerCurrent?: View | null
 }
 
-export interface SearchContentProps extends Pick<SearchProps, 'densityScale'> {
+export interface SearchContentProps extends Pick<SearchProps, 'density'> {
         trailingShow: boolean
 }

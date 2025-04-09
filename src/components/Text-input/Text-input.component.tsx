@@ -39,7 +39,7 @@ const render = ({
         activeIndicatorAnimatedStyle,
         content,
         contentSize,
-        densityScale,
+        density,
         error,
         eventName,
         headerAnimatedStyle,
@@ -87,7 +87,7 @@ const render = ({
                                         testID={`textInput__touchableHeader--${id}`}
                                 >
                                         <AnimatedHeader
-                                                densityScale={densityScale}
+                                                density={density}
                                                 leadingShow={leadingShow}
                                                 shape={shape}
                                                 style={[headerAnimatedStyle]}

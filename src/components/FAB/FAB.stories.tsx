@@ -1,5 +1,6 @@
 import {Size} from '@bearei/material-token'
 import {Meta, StoryObj} from '@storybook/react'
+import {Density} from '../../contexts'
 import {Icon} from '../Icon'
 import {FAB as Fab} from './FAB.component'
 import {FABType} from './FAB.enum'
@@ -58,7 +59,7 @@ export const Small: StoryObj<FABProps> = {
 }
 
 export const DensityScale: StoryObj<FABProps> = {
-        args: {densityScale: -2}
+        args: {density: Density.STANDARD}
 }
 
 export default {

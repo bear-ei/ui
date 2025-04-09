@@ -1,4 +1,5 @@
 import styled, {css} from 'styled-components/native'
+import {DensityScale} from '../../contexts'
 import {Shape, Typography} from '../Common'
 import {AvatarContentProps} from './Avatar.interface'
 
@@ -21,14 +22,13 @@ export const Content = styled(Shape)<AvatarContentProps>`
         justify-content: center;
         overflow: hidden;
 
-        ${({theme, backgroundColor, size, densityScale}) => {
-                const density = densityScale ?? theme.densityScale
-                const designDensity = density * theme.token.spacing.extraSmall
+        ${({theme, backgroundColor, size, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
 
                 return css`
                         background-color: ${backgroundColor ?? theme.token.scheme.primaryContainer};
-                        height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
-                        width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
+                        height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
+                        width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
                 `
         }};
 `

@@ -1,5 +1,6 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
+import {DensityScale} from '../../contexts'
 import {Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {ButtonType} from './Button.enum'
@@ -42,13 +43,11 @@ export const Content = styled(Shape)<ButtonContentProps>`
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
         `}
 
-        ${({theme, densityScale}) => {
-                const density = densityScale ?? theme.densityScale
+        ${({theme, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
 
                 return css`
-                        height: ${theme.adaptSize(
-                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
-                        )}px;
+                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
                 `
         }}
 

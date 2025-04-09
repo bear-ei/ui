@@ -93,7 +93,7 @@ export type HandleRenderItemOptions = Pick<
         | 'beforeAffordance'
         | 'closeTrailing'
         | 'defaultActiveKey'
-        | 'densityScale'
+        | 'density'
         | 'divider'
         | 'enableUnderlay'
         | 'enableUnderlayActive'

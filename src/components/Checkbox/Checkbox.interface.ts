@@ -54,4 +54,4 @@ export interface CheckboxIconLayoutProps {
         zIndex?: number
 }
 
-export type CheckboxContentProps = Pick<RenderCheckboxProps, 'densityScale'>
+export type CheckboxContentProps = Pick<RenderCheckboxProps, 'density'>

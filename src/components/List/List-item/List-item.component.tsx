@@ -2,6 +2,7 @@ import {Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef, isValidElement, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {DensityScale} from '../../../contexts'
 import {LayoutType} from '../../Common'
 import {Divider} from '../../Divider'
 import {Skeleton} from '../../Skeleton'
@@ -38,7 +39,7 @@ const render = ({
         beforeAffordance,
         contentAnimatedStyle,
         contentStyle,
-        densityScale,
+        density,
         disabled,
         divider,
         enableUnderlay,
@@ -69,8 +70,7 @@ const render = ({
         ...mainProps
 }: RenderListItemProps) => {
         const activeColor = theme.token.scheme.secondaryContainer
-        const density = densityScale ?? theme.densityScale
-        const designDensity = density * theme.token.spacing.extraSmall
+        const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
         const supportingTextShow = !!supporting
         const trailingShow = !!trailingElement
         const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
@@ -83,8 +83,8 @@ const render = ({
                 }
 
         const contentSize = {
-                [ListType.MENU]: {height: theme.adaptSize(theme.token.spacing.extraSmall * 12 + designDensity)},
-                [ListType.STANDARD]: {height: theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}
+                [ListType.MENU]: {height: theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)},
+                [ListType.STANDARD]: {height: theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}
         }
 
         return (
@@ -124,7 +124,7 @@ const render = ({
                                         >
                                                 <Main
                                                         {...mainProps}
-                                                        densityScale={densityScale}
+                                                        density={density}
                                                         supportingTextNumberOfLines={supportingTextNumberOfLines}
                                                         supportingTextShow={supportingTextShow}
                                                         testID={`listItem__main--${id}`}

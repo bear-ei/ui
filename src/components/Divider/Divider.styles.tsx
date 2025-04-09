@@ -1,7 +1,7 @@
-import {Layout, Size} from '@bearei/material-token'
+import {Size} from '@bearei/material-token'
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
-import {Typography} from '../Common'
+import {LayoutType, Typography} from '../Common'
 import {DividerLayoutProps} from './Divider.interface'
 
 export const Container = styled.View<DividerLayoutProps>`
@@ -12,26 +12,26 @@ export const Container = styled.View<DividerLayoutProps>`
                 gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `}
 
-        ${({layout = Layout.HORIZONTAL, theme}) => {
+        ${({layout = LayoutType.HORIZONTAL, theme}) => {
                 const containerLayout = {
-                        [Layout.HORIZONTAL]: css`
+                        [LayoutType.HORIZONTAL]: css`
                                 height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                                 width: 100%;
                         `,
 
-                        [Layout.VERTICAL]: css`
+                        [LayoutType.VERTICAL]: css`
                                 height: 100%;
                                 width: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
                         `
-                } as Record<Layout, RuleSet<object> | undefined>
+                } as Record<LayoutType, RuleSet<object> | undefined>
 
                 return containerLayout[layout]
         }}
     
-    ${({layout = Layout.HORIZONTAL, size = Size.MEDIUM, theme}) => {
+    ${({layout = LayoutType.HORIZONTAL, size = Size.MEDIUM, theme}) => {
                 const containerSize = {
                         [Size.MEDIUM]:
-                                layout === Layout.HORIZONTAL ?
+                                layout === LayoutType.HORIZONTAL ?
                                         css`
                                                 padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
                                         `
@@ -39,7 +39,7 @@ export const Container = styled.View<DividerLayoutProps>`
                                                 padding-top: ${theme.adaptSize(theme.token.spacing.medium)}px;
                                         `,
                         [Size.SMALL]:
-                                layout === Layout.HORIZONTAL ?
+                                layout === LayoutType.HORIZONTAL ?
                                         css`
                                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                                         ${theme.adaptSize(theme.token.spacing.medium)}px;

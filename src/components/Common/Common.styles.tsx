@@ -1,6 +1,5 @@
-import styled, {css} from 'styled-components/native'
-
 import {ShapeType, Size, TypographyType} from '@bearei/material-token'
+import styled, {css} from 'styled-components/native'
 import {ShapeProps, TypographyProps} from './Common.interface'
 
 export const Shape = styled.View<ShapeProps>`

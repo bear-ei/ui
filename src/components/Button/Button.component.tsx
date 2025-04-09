@@ -22,7 +22,7 @@ const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const render = ({
         backgroundUnderlayAnimatedStyle,
-        densityScale,
+        density,
         disabled,
         elevation,
         eventName,
@@ -84,7 +84,7 @@ const render = ({
                                         {...contentProps}
                                         accessibilityLabel={labelText}
                                         accessibilityRole='button'
-                                        densityScale={densityScale}
+                                        density={density}
                                         pointerEvents='none'
                                         shape={shape}
                                         testID={`button__content--${id}`}

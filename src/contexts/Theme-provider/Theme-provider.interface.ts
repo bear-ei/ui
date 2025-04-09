@@ -1,10 +1,11 @@
 import {Token} from '@bearei/material-token'
 import {ReactNode} from 'react'
 import {AdaptDesignOptions} from '../../utils'
+import {Density} from './Theme-provider.enum'
 
 export interface ThemeProps {
         children?: ReactNode
-        densityScale?: 0 | -1 | -2 | -3
+        density?: Density
         designOptions?: AdaptDesignOptions
         story?: boolean
         token?: Token

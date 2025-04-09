@@ -6,10 +6,11 @@ import {useWindowSize} from '../../hooks'
 import {adaptWindow} from '../../utils'
 import {ModalProvider} from '../Modal-provider.context'
 import {handleThemeProviderFocus} from './Theme-provider-handle'
+import {Density} from './Theme-provider.enum'
 import {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'
 
-const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToken, densityScale = 0}) => {
+const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToken, density = Density.STANDARD}) => {
         const {windowSize, width, height} = useWindowSize()
         const design = {
                 [WindowSize.COMPACT]: {designWidth: 375, designHeight: 812, designDensity: 3},
@@ -33,7 +34,7 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToke
 
         return (
                 <StyledComponentThemeProvider
-                        theme={{adaptFontSize, adaptSize, colorScheme, OS: RNPlatform.OS, token, densityScale}}
+                        theme={{adaptFontSize, adaptSize, colorScheme, OS: RNPlatform.OS, token, density}}
                 >
                         {children}
                         <ModalProvider />
@@ -41,7 +42,7 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToke
         )
 }
 
-const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken, densityScale = 0}) => {
+const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken, density = Density.STANDARD}) => {
         const {adaptFontSize, adaptSize} = adaptWindow()()(true)
         const colorScheme = useColorScheme()
         const token =
@@ -53,7 +54,7 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken, densityScal
 
         return (
                 <StyledComponentThemeProvider
-                        theme={{adaptFontSize, adaptSize, colorScheme, OS: RNPlatform.OS, token, densityScale}}
+                        theme={{adaptFontSize, adaptSize, colorScheme, OS: RNPlatform.OS, token, density}}
                 >
                         {children}
                         <ModalProvider />

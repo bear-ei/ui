@@ -2,8 +2,13 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
-import {DensityScale} from '../Common'
-import {handleListActive, handleListActiveAfterAffordance, handleListClose, handleRenderListItem} from './List-handle'
+import {
+        handleListActive,
+        handleListActiveAfterAffordance,
+        handleListClose,
+        handleListItemSize,
+        handleRenderListItem
+} from './List-handle'
 import {ListBaseProps, ListData, ListState, RenderListProps, VirtualListComponent} from './List.interface'
 
 export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps>(
@@ -19,7 +24,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         closeTrailing,
                         defaultActiveKey,
                         defaultActiveKeys,
-                        densityScale = DensityScale.LEVEL_0,
+                        density,
                         deselect,
                         divider,
                         enableUnderlay,
@@ -78,7 +83,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceSecondaryButtonProps,
                         beforeAffordance,
                         closeTrailing,
-                        densityScale,
+                        density,
                         divider,
                         enableUnderlay,
                         enableUnderlayActive,
@@ -130,12 +135,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceActiveKey,
                         focusedIndex,
                         id,
-                        itemSize:
-                                itemSize ??
-                                theme.adaptSize(
-                                        theme.token.spacing.extraSmall * 14 +
-                                                densityScale * theme.token.spacing.extraSmall
-                                ),
+                        itemSize: handleListItemSize(theme)(density)(itemSize),
                         loading,
                         loadingComponent,
                         onClose: onListClose,
