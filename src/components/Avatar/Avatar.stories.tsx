@@ -1,4 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
+import {Density} from '../../contexts'
 import {Avatar} from './Avatar.component'
 import {AvatarProps} from './Avatar.interface'
 
@@ -7,11 +8,11 @@ export const NoneContentText: StoryObj<AvatarProps> = {
 }
 
 export const ContentText: StoryObj<AvatarProps> = {
-        args: {labelText: 'B'}
+        args: {labelText: 'Bearei'}
 }
 
 export const DensityScale: StoryObj<AvatarProps> = {
-        args: {densityScale: -2}
+        args: {density: Density.COMPACT}
 }
 
 export default {
