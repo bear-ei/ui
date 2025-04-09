@@ -1,21 +1,22 @@
 import {Meta, StoryObj} from '@storybook/react'
 import {FAB} from '../FAB'
-import {Icon} from '../Icon'
-import {IconButton} from '../Icon-button'
+import {Icon, IconName} from '../Icon'
+import {IconButton, IconButtonType} from '../Icon-button'
 import {NavigationRail} from './Navigation-rail.component'
+import {DestinationPosition, NavigationRailAnimatedType, NavigationRailType} from './Navigation-rail.enum'
 import {NavigationRailProps} from './Navigation-rail.interface'
 
-export const Rail: StoryObj<NavigationRailProps> = {
+export const Standard: StoryObj<NavigationRailProps> = {
         args: {
                 defaultActiveKey: 'A',
                 menu: (
                         <IconButton
-                                icon={<Icon name='menu' />}
-                                type='standard'
+                                icon={<Icon name={IconName.MENU} />}
+                                type={IconButtonType.STANDARD}
                         />
                 ),
-                fab: <FAB icon={<Icon />} />,
-                animatedType: 'collapse',
+                fab: <FAB icon={<Icon name={IconName.MENU} />} />,
+                animatedType: NavigationRailAnimatedType.COLLAPSE,
 
                 data: [
                         {
@@ -34,11 +35,11 @@ export const Rail: StoryObj<NavigationRailProps> = {
         }
 }
 
-export const BlockRail: StoryObj<NavigationRailProps> = {
+export const Block: StoryObj<NavigationRailProps> = {
         args: {
                 defaultActiveKey: 'name',
                 fab: <FAB icon={<Icon />} />,
-                type: 'block',
+                type: NavigationRailType.BLOCK,
                 data: [
                         {
                                 labelText: 'Label1',
@@ -56,14 +57,14 @@ export const BlockRail: StoryObj<NavigationRailProps> = {
         }
 }
 
-export const TopRail: StoryObj<NavigationRailProps> = {
+export const Top: StoryObj<NavigationRailProps> = {
         args: {
                 defaultActiveKey: 'A',
-                destinationPosition: 'top',
+                destinationPosition: DestinationPosition.TOP,
                 menu: (
                         <IconButton
-                                icon={<Icon name='menu' />}
-                                type='standard'
+                                icon={<Icon name={IconName.MENU} />}
+                                type={IconButtonType.STANDARD}
                         />
                 ),
                 fab: <FAB icon={<Icon />} />,
@@ -84,14 +85,14 @@ export const TopRail: StoryObj<NavigationRailProps> = {
         }
 }
 
-export const MiddleRail: StoryObj<NavigationRailProps> = {
+export const Center: StoryObj<NavigationRailProps> = {
         args: {
                 defaultActiveKey: 'A',
-                destinationPosition: 'center',
+                destinationPosition: DestinationPosition.CENTER,
                 menu: (
                         <IconButton
-                                icon={<Icon name='menu' />}
-                                type='standard'
+                                icon={<Icon name={IconName.MENU} />}
+                                type={IconButtonType.STANDARD}
                         />
                 ),
                 fab: <FAB icon={<Icon />} />,
@@ -112,14 +113,14 @@ export const MiddleRail: StoryObj<NavigationRailProps> = {
         }
 }
 
-export const BottomRail: StoryObj<NavigationRailProps> = {
+export const Bottom: StoryObj<NavigationRailProps> = {
         args: {
                 defaultActiveKey: 'A',
-                destinationPosition: 'bottom',
+                destinationPosition: DestinationPosition.BOTTOM,
                 menu: (
                         <IconButton
-                                icon={<Icon name='menu' />}
-                                type='standard'
+                                icon={<Icon name={IconName.MENU} />}
+                                type={IconButtonType.STANDARD}
                         />
                 ),
                 fab: <FAB icon={<Icon />} />,

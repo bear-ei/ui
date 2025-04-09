@@ -9,6 +9,7 @@ import {
         renderNavigationRailFAB,
         renderNavigationRailItems
 } from './Navigation-rail-handle'
+import {DestinationPosition} from './Navigation-rail.enum'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
         (
@@ -17,7 +18,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                         animatedType,
                         data: rawData,
                         defaultActiveKey,
-                        destinationPosition = 'top',
+                        destinationPosition = DestinationPosition.TOP,
                         fab,
                         onActive,
                         render,

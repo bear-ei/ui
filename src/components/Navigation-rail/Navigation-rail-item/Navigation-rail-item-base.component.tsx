@@ -5,7 +5,8 @@ import {useImmer} from 'use-immer'
 import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import {State} from '../../Common'
-import {Icon} from '../../Icon'
+import {Icon, IconName, IconStyle, IconType} from '../../Icon'
+import {NavigationRailAnimatedType, NavigationRailType} from '../Navigation-rail.enum'
 import {
         handleNavigationRailItemStateChange,
         renderNavigationRailItemActiveIcon,
@@ -18,12 +19,18 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
         (
                 {
                         activeKey,
-                        animatedType = 'standard',
-                        icon = <Icon name='circle' />,
+                        animatedType = NavigationRailAnimatedType.STANDARD,
+                        icon = (
+                                <Icon
+                                        iconStyle={IconStyle.ROUNDED}
+                                        name={IconName.CIRCLE}
+                                        type={IconType.OUTLINED}
+                                />
+                        ),
                         indexKey,
                         onActive,
                         render,
-                        type = 'segment',
+                        type = NavigationRailType.SEGMENT,
                         ...renderProps
                 },
                 ref
@@ -65,8 +72,8 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
                         iconElement,
                         id,
                         labelTextAnimatedStyle,
-                        stateOnEvent,
                         ref: pressableRef,
+                        stateOnEvent,
                         theme,
                         type
                 })

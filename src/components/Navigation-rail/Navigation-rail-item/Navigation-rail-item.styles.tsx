@@ -1,6 +1,7 @@
 import styled, {css} from 'styled-components/native'
 import {Typography} from '../../Common'
 import {LayoutAnimated} from '../../Layout-animated'
+import {NavigationRailType} from '../Navigation-rail.enum'
 import {
         NavigationRailItemHeaderProps,
         NavigationRailItemIconProps,
@@ -36,7 +37,7 @@ export const Header = styled.View<NavigationRailItemHeaderProps>`
         `};
 
         ${({theme, type}) =>
-                type === 'block' &&
+                type === NavigationRailType.BLOCK &&
                 css`
                         height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                 `};

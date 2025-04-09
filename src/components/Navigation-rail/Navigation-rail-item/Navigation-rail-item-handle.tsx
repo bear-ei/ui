@@ -3,7 +3,8 @@ import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
 import {StateEvent} from '../../../hooks'
 import {EventName} from '../../Common'
-import {IconProps} from '../../Icon'
+import {IconProps, IconStyle, IconType} from '../../Icon'
+import {NavigationRailType} from '../Navigation-rail.enum'
 import {
         HandleNavigationRailItemAnimatedTimingOptions,
         HandleNavigationRailItemStateEventChangeOptions,
@@ -58,25 +59,25 @@ export const handleNavigationRailItemStateChange =
 export const renderNavigationRailItemIcon = (id: string) => (icon: React.JSX.Element) => (eventName?: EventName) =>
         cloneElement<IconProps>(icon, {
                 eventName,
-                iconStyle: 'rounded',
+                iconStyle: IconStyle.ROUNDED,
                 testID: `navigationRailItem__icon--${id}`,
-                type: 'outlined'
+                type: IconType.OUTLINED
         })
 
 export const renderNavigationRailItemActiveIcon =
         (id: string) => (icon: React.JSX.Element) => (eventName?: EventName) =>
                 cloneElement<IconProps>(icon, {
                         eventName,
-                        iconStyle: 'rounded',
+                        iconStyle: IconStyle.ROUNDED,
                         testID: `navigationRailItem__activeIcon--${id}`,
-                        type: 'filled'
+                        type: IconType.FILLED
                 })
 
 export const handleNavigationRailItemAnimatedTiming =
         ({animatedTiming, type}: HandleNavigationRailItemAnimatedTimingOptions) =>
         (labelTextColorSharedValue: SharedValue<number>) =>
         (active?: boolean) => {
-                if (!(type === 'segment' && typeof active === 'boolean')) {
+                if (!(type === NavigationRailType.SEGMENT && typeof active === 'boolean')) {
                         return
                 }
 

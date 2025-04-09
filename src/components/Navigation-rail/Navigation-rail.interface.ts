@@ -2,10 +2,8 @@ import {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
 import {ComponentStatus} from '../Common'
 import {NavigationRailItemProps} from './Navigation-rail-item'
+import {DestinationPosition, NavigationRailAnimatedType, NavigationRailType} from './Navigation-rail.enum'
 
-export type NavigationRailAnimatedType = 'standard' | 'collapse'
-export type NavigationRailType = 'segment' | 'block'
-export type DestinationPosition = 'top' | 'center' | 'bottom'
 export interface NavigationRailData extends Pick<NavigationRailItemProps, 'icon' | 'labelText'> {
         indexKey: string
 }

@@ -1,3 +1,4 @@
+import {Size} from '@bearei/material-token'
 import {cloneElement} from 'react'
 import {Updater} from 'use-immer'
 import {FABProps} from '../FAB'
@@ -46,7 +47,7 @@ export const renderNavigationRailFAB = (id: string) => (fab?: React.JSX.Element)
         fab ?
                 cloneElement<FABProps>(fab, {
                         elevated: false,
-                        size: 'medium',
+                        size: Size.MEDIUM,
                         testID: `navigationRail__fab--${id}`
                 })
         :       undefined

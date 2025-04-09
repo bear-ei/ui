@@ -1,4 +1,5 @@
 import styled, {css} from 'styled-components/native'
+import {DestinationPosition} from './Navigation-rail.enum'
 import {DestinationProps} from './Navigation-rail.interface'
 
 export const Container = styled.View`
@@ -27,15 +28,15 @@ export const Destination = styled.View<DestinationProps>`
                 gap: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
         `}
 
-        ${({destinationPosition = 'top'}) => {
+        ${({destinationPosition = DestinationPosition.TOP}) => {
                 const position = {
-                        top: css`
+                        [DestinationPosition.TOP]: css`
                                 justify-content: flex-start;
                         `,
-                        center: css`
+                        [DestinationPosition.CENTER]: css`
                                 justify-content: center;
                         `,
-                        bottom: css`
+                        [DestinationPosition.BOTTOM]: css`
                                 justify-content: flex-end;
                         `
                 }

@@ -1,7 +1,10 @@
+import {ShapeType, Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Underlay} from '../../Underlay'
+import {LayoutAnimatedType} from '../../Layout-animated'
+import {ActiveAnimatedType, Underlay} from '../../Underlay'
+import {NavigationRailAnimatedType, NavigationRailType} from '../Navigation-rail.enum'
 import {NavigationRailItemBase} from './Navigation-rail-item-base.component'
 import {handleNavigationRailItemPropsEqual} from './Navigation-rail-item-handle'
 import {NavigationRailItemProps, RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
@@ -72,31 +75,43 @@ const render = ({
 
                                         <Underlay
                                                 active={active}
-                                                activeAnimatedType={type === 'block' ? 'scale' : 'scaleX'}
+                                                activeAnimatedType={
+                                                        type === NavigationRailType.BLOCK ?
+                                                                ActiveAnimatedType.SCALE
+                                                        :       ActiveAnimatedType.SCALE_X
+                                                }
                                                 activeColor={activeColor}
-                                                activeShape='shape={ShapeType.FULL}'
+                                                activeShape={ShapeType.FULL}
                                                 eventName={eventName}
-                                                shape={type === 'block' ? 'shape={ShapeType.FULL}' : 'large'}
+                                                shape={
+                                                        type === NavigationRailType.BLOCK ?
+                                                                ShapeType.FULL
+                                                        :       ShapeType.LARGE
+                                                }
                                                 testID={`navigationRailItem__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Header>
 
-                                {type === 'segment' && (
+                                {type === NavigationRailType.SEGMENT && (
                                         <LabelLayoutAnimated
-                                                animatedType='collapseY'
+                                                animatedType={LayoutAnimatedType.COLLAPSE_Y}
                                                 contentStyle={{minHeight: theme.adaptSize(theme.token.spacing.large)}}
                                                 pointerEvents='none'
                                                 scale={false}
                                                 testID={`navigationRailItem__labelLayoutAnimated--${id}`}
-                                                visible={animatedType === 'collapse' ? active : true}
+                                                visible={
+                                                        animatedType === NavigationRailAnimatedType.COLLAPSE ?
+                                                                active
+                                                        :       true
+                                                }
                                         >
                                                 <Label testID={`navigationRailItem__label--${id}`}>
                                                         <AnimatedLabelText
                                                                 active={active}
                                                                 ellipsizeMode='tail'
                                                                 numberOfLines={1}
-                                                                size='medium'
+                                                                size={Size.MEDIUM}
                                                                 style={[labelTextAnimatedStyle]}
                                                                 testID={`navigationRailItem__animatedLabelText--${id}`}
                                                                 type={TypographyType.LABEL}
