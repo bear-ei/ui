@@ -2,8 +2,8 @@ import {RefAttributes} from 'react'
 import {ModalProps, View, ViewProps} from 'react-native'
 import {ButtonProps} from '../Button'
 import {ShapeProps} from '../Common'
+import {SheetPosition, SheetType} from './Side-sheet.enum'
 
-export type SheetType = 'standard' | 'modal' | 'standardContainer'
 export interface SideSheetProps extends ViewProps, RefAttributes<View>, Pick<ShapeProps, 'shape'>, ModalProps {
         back?: boolean
         close?: boolean
@@ -23,7 +23,7 @@ export interface SideSheetProps extends ViewProps, RefAttributes<View>, Pick<Sha
         primaryButtonProps?: ButtonProps
         secondaryButton?: React.JSX.Element
         secondaryButtonProps?: ButtonProps
-        sheetPosition?: 'horizontalStart' | 'horizontalEnd'
+        sheetPosition?: SheetPosition
         visible?: boolean
 
         /**

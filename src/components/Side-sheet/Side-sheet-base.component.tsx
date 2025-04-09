@@ -10,6 +10,7 @@ import {
         handleSideSheetUnmount,
         handleSideSheetVisible
 } from './Side-sheet-handle'
+import {SheetType} from './Side-sheet.enum'
 import {SideSheetBaseProps, SideSheetState} from './Side-sheet.interface'
 
 export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
@@ -21,7 +22,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                         onClose,
                         onVisible,
                         render,
-                        type = 'modal',
+                        type = SheetType.MODAL,
                         visible,
                         ...renderProps
                 },
@@ -96,6 +97,8 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                         runAfterInteractions(nextCancelEvent)()
                 }, [nextCancelEvent])
 
-                return ['standard', 'standardContainer'].includes(type) ? render(renderSheetProps) : <></>
+                return [SheetType.STANDARD, SheetType.STANDARD_CONTAINER].includes(type) ?
+                                render(renderSheetProps)
+                        :       <></>
         }
 )

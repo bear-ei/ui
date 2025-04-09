@@ -1,5 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react'
 import {ViewStyle} from 'react-native'
+import {Layout} from '../Common'
 import {Skeleton} from './Skeleton.component'
 import {SkeletonProps} from './Skeleton.interface'
 
@@ -11,7 +12,7 @@ const SkeletonComponent = (props: SkeletonProps) => {
                 <>
                         <Square />
                         <Rectangular
-                                containerLayout='vertical'
+                                containerLayout={Layout.VERTICAL}
                                 style={[rectangularStyle]}
                         >
                                 <Rectangular />

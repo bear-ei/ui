@@ -1,7 +1,8 @@
-import {Layout, Size, TypographyType} from '@bearei/material-token'
+import {Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef, isValidElement, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {Layout} from '../../Common'
 import {Divider} from '../../Divider'
 import {Skeleton} from '../../Skeleton'
 import {Touchable} from '../../Touchable'
@@ -94,7 +95,7 @@ const render = ({
                         type={type}
                 >
                         <Skeleton
-                                containerLayout='horizontal'
+                                containerLayout={Layout.HORIZONTAL}
                                 contentSize={contentSize[type]}
                                 duration={skeletonDuration}
                                 skeleton={skeletonDuration ? skeletonElement : undefined}

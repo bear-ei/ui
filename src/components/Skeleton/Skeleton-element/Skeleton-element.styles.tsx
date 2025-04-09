@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components/native'
-import {Shape} from '../../Common'
+import {Layout, Shape} from '../../Common'
 import {SkeletonElementContainerProps} from './Skeleton-element.interface'
 
 export const Container = styled(Shape)<SkeletonElementContainerProps>`
@@ -15,8 +15,8 @@ export const Container = styled(Shape)<SkeletonElementContainerProps>`
                 min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
         `}
 
-        ${({containerLayout = 'horizontal'}) =>
-                containerLayout === 'horizontal' ?
+        ${({containerLayout = Layout.HORIZONTAL}) =>
+                containerLayout === Layout.HORIZONTAL ?
                         css`
                                 flex-direction: row;
                                 align-items: center;

@@ -2,10 +2,11 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import {SideSheetBase} from './Side-sheet-base.component'
 import {SideSheetContent} from './Side-sheet-content'
+import {SheetType} from './Side-sheet.enum'
 import {RenderSideSheetProps, SideSheetProps} from './Side-sheet.interface'
 import {Container} from './Side-sheet.styles'
 
-const render = ({visible, type = 'standard', id, testID, ...sheetProps}: RenderSideSheetProps) => {
+const render = ({visible, type = SheetType.STANDARD, id, testID, ...sheetProps}: RenderSideSheetProps) => {
         const sheetContentElement = typeof visible === 'boolean' && (
                 <SideSheetContent
                         {...sheetProps}
@@ -17,7 +18,7 @@ const render = ({visible, type = 'standard', id, testID, ...sheetProps}: RenderS
 
         return (
                 <>
-                        {new Set(['standard', 'standardContainer']).has(type) ?
+                        {[SheetType.STANDARD, SheetType.STANDARD_CONTAINER].includes(type) ?
                                 sheetContentElement
                         :       <Container testID={testID ?? `sideSheet--${id}`}>{sheetContentElement}</Container>}
                 </>

@@ -1,3 +1,4 @@
+import {Layout} from '@bearei/material-token'
 import {FC, ReactNode} from 'react'
 import {ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
@@ -5,8 +6,8 @@ import {AnimatedTiming, HandleStateEventChangeOptions} from '../../hooks'
 import {LayoutAnimatedProps} from '../Layout-animated'
 import {SkeletonElementProps} from './Skeleton-element'
 
-export interface SkeletonProps extends LayoutAnimatedProps {
-        containerLayout?: 'horizontal' | 'vertical'
+export interface SkeletonProps extends Omit<LayoutAnimatedProps, 'duration'> {
+        containerLayout?: Layout
         duration?: number
         enableAnimated?: boolean
         skeleton?: ReactNode

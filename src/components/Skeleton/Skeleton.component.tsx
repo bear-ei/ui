@@ -1,3 +1,4 @@
+import {ShapeType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -63,39 +64,39 @@ const ForwardRefSkeleton = forwardRef<View, SkeletonProps>((props, ref) => (
 
 const Circle: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
         const theme = useTheme()
-        const {shape = 'shape={ShapeType.FULL}', size, style, ...skeletonElementProps} = props
+        const {shape = ShapeType.FULL, size, style, ...skeletonElementProps} = props
         const defaultSize = theme.adaptFontSize(theme.token.spacing.extraSmall * 10)
         const circleSize = typeof size === 'number' ? (size ?? defaultSize) : defaultSize
         const circleStyle = {width: circleSize, height: circleSize}
 
         return (
                 <SkeletonElement
+                        {...skeletonElementProps}
                         shape={shape}
                         style={[circleStyle, style]}
-                        {...skeletonElementProps}
                 />
         )
 }
 
 const Square: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
         const theme = useTheme()
-        const {shape = 'small', size, style, ...skeletonElementProps} = props
+        const {shape = ShapeType.SMALL, size, style, ...skeletonElementProps} = props
         const defaultSize = theme.adaptFontSize(theme.token.spacing.extraSmall * 10)
         const squareSize = typeof size === 'number' ? (size ?? defaultSize) : defaultSize
         const squareStyle = {width: squareSize, height: squareSize}
 
         return (
                 <SkeletonElement
+                        {...skeletonElementProps}
                         shape={shape}
                         style={[squareStyle, style]}
-                        {...skeletonElementProps}
                 />
         )
 }
 
 const Rectangular: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
         const theme = useTheme()
-        const {shape = 'small', style, size, ...skeletonElementProps} = props
+        const {shape = ShapeType.SMALL, style, size, ...skeletonElementProps} = props
         const defaultSize = theme.adaptFontSize(theme.token.spacing.extraSmall * 10)
         const rectangularStyle =
                 typeof size === 'object' ?
@@ -104,9 +105,9 @@ const Rectangular: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
 
         return (
                 <SkeletonElement
+                        {...skeletonElementProps}
                         shape={shape}
                         style={[rectangularStyle, style]}
-                        {...skeletonElementProps}
                 />
         )
 }
