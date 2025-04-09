@@ -10,17 +10,22 @@ import {
 import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import {DefaultTheme} from 'styled-components/native'
 import {HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
-import {ComponentStatus, EventName, ShapeProps, State, TypographyProps} from '../Common'
+import {CommonProps, ComponentStatus, EventName, ShapeProps, State, TypographyProps} from '../Common'
+import {TextInputType} from './Text-input.enum'
 
-export type TextInputType = 'filled' | 'outlined'
 export interface InputProps extends RNTextInputProps, RefAttributes<TextInput> {
         enableFocusRing?: boolean
 }
 
 export interface TextInputProps
         extends Partial<
-                RNTextInputProps & PressableProps & RefAttributes<TextInput> & Pick<ShapeProps, 'shape'> & StateOnEvent
-        > {
+                        RNTextInputProps &
+                                PressableProps &
+                                RefAttributes<TextInput> &
+                                Pick<ShapeProps, 'shape'> &
+                                StateOnEvent
+                >,
+                CommonProps {
         content?: React.ReactNode
         disabled?: boolean
         enableFocusRing?: boolean
@@ -119,7 +124,7 @@ export interface HandleTextInputFocusedSharedValue {
 
 export type TextInputStateAnimated = Partial<Record<State, () => void>>
 export type HandleTextInputNonerrorAnimatedTimingOptions = Pick<UseTextInputAnimatedOptions, 'disabled' | 'error'>
-export type TextInputHeaderProps = Pick<RenderTextInputProps, 'type'> & {
+export type TextInputHeaderProps = Pick<RenderTextInputProps, 'type' | 'densityScale'> & {
         leadingShow: boolean
         trailingShow: boolean
 }

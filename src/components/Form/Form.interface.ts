@@ -2,7 +2,7 @@ import {ValidationError, ValidatorOptions} from 'class-validator'
 import {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
 import {NamePath} from '../../utils'
-import {ComponentStatus, Layout} from '../Common'
+import {ComponentStatus, LayoutType} from '../Common'
 import {FormItemProps} from './Form-item'
 import {ForwardRefForm} from './Form.component'
 import {useForm} from './use-form.hook'
@@ -78,7 +78,7 @@ export interface FormStore<T = Record<string, unknown>> {
 
 export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormCallback<T>, RefAttributes<View> {
         form?: FormStore<T>
-        formLayout?: Layout
+        formLayout?: LayoutType
         initialValue?: T
         items?: FormItemProps[]
         validatorOptions?: FormValidatorOptions

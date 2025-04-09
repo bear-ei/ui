@@ -1,3 +1,4 @@
+import {Size, TypographyType} from '@bearei/material-token'
 import {ForwardedRef, forwardRef} from 'react'
 import {ScrollView, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -77,9 +78,9 @@ const render = <T,>({
                                                 >
                                                         {emptyComponent ?? (
                                                                 <SupportingText
-                                                                        size='medium'
+                                                                        size={Size.MEDIUM}
                                                                         testID={`virtualList__supportingText--${id}`}
-                                                                        type='body'
+                                                                        type={TypographyType.BODY}
                                                                 >
                                                                         No data
                                                                 </SupportingText>
@@ -95,9 +96,9 @@ const render = <T,>({
                                                 >
                                                         {loadingComponent ?? (
                                                                 <SupportingText
-                                                                        size='medium'
+                                                                        size={Size.MEDIUM}
                                                                         testID={`virtualList__supportingText--${id}`}
-                                                                        type='body'
+                                                                        type={TypographyType.BODY}
                                                                 >
                                                                         Loading
                                                                 </SupportingText>

@@ -1,3 +1,4 @@
+import {ShapeType, Size, TypographyType} from '@bearei/material-token'
 import {cloneElement, FC, forwardRef} from 'react'
 import {TextInput as RNTextInput} from 'react-native'
 import Animated, {AnimatedProps} from 'react-native-reanimated'
@@ -38,6 +39,7 @@ const render = ({
         activeIndicatorAnimatedStyle,
         content,
         contentSize,
+        densityScale,
         error,
         eventName,
         headerAnimatedStyle,
@@ -59,7 +61,7 @@ const render = ({
         trailing,
         ...inputProps
 }: RenderTextInputProps) => {
-        const shape = 'extraSmallTop'
+        const shape = ShapeType.EXTRA_SMALL_TOP
         const leadingShow = !!leading
         const underlayColor = theme.token.scheme.onSurface
         const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
@@ -85,6 +87,7 @@ const render = ({
                                         testID={`textInput__touchableHeader--${id}`}
                                 >
                                         <AnimatedHeader
+                                                densityScale={densityScale}
                                                 leadingShow={leadingShow}
                                                 shape={shape}
                                                 style={[headerAnimatedStyle]}
@@ -143,7 +146,7 @@ const render = ({
                                                                 size={Size.LARGE}
                                                                 style={[labelTextAnimatedStyle]}
                                                                 testID={`textInput__animatedLabelText--${id}`}
-                                                                type='body'
+                                                                type={TypographyType.BODY}
                                                         >
                                                                 {labelText}
                                                         </AnimatedLabelText>
@@ -169,10 +172,10 @@ const render = ({
                                         visible={supportingTextVisible}
                                 >
                                         <AnimatedSupportingText
-                                                size='small'
+                                                size={Size.SMALL}
                                                 style={[supportingTextAnimatedStyle]}
                                                 testID={`textInput__animatedSupportingText--${id}`}
-                                                type='body'
+                                                type={TypographyType.BODY}
                                         >
                                                 {supportingText}
                                         </AnimatedSupportingText>

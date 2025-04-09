@@ -1,3 +1,4 @@
+import {Duration} from '@bearei/material-token'
 import {WritableDraft} from 'immer'
 import {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, Platform} from 'react-native'
 import {SharedValue} from 'react-native-reanimated'
@@ -46,7 +47,7 @@ export const handleVirtualListLayoutChange =
         (setState: Updater<VirtualListState>) =>
         ({width, height}: LayoutRectangle) => {
                 setState(draft => {
-                        if (new Set(['web', 'macos', 'windows']).has(Platform.OS) && draft.layout.height) {
+                        if (['web', 'macos', 'windows'].includes(Platform.OS) && draft.layout.height) {
                                 return
                         }
 
@@ -225,4 +226,4 @@ export const renderVirtualListItem =
 
 export const handleVirtualListAnimated =
         (animatedTiming: AnimatedTiming) => (contentHeightSharedValue: SharedValue<number>) => (contentSize: number) =>
-                animatedTiming({duration: 'short2'})(contentHeightSharedValue)(contentSize)
+                animatedTiming({duration: Duration.SHORT_2})(contentHeightSharedValue)(contentSize)

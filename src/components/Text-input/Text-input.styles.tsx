@@ -1,3 +1,4 @@
+import {Size, TypographyType} from '@bearei/material-token'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
@@ -31,13 +32,19 @@ export const Header = styled(Shape)<TextInputHeaderProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme}) => css`
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-                padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
-                        ${theme.adaptSize(theme.token.spacing.none)}px;
+        ${({theme, densityScale}) => {
+                const density = densityScale ?? theme.densityScale
+                const designDensity = density * theme.token.spacing.extraSmall
 
-                gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-        `}
+                return css`
+                        min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
+                        padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
+                                ${theme.adaptSize(theme.token.spacing.none)}px;
+
+                        gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                `
+        }}
 
         ${({theme, leadingShow}) =>
                 !leadingShow &&
@@ -127,7 +134,7 @@ export const Control = styled.View<TextInputControlProps>`
 
         ${({theme}) => css`
                 max-height: ${theme.adaptSize(theme.token.spacing.large)}px;
-                min-height: ${theme.adaptSize(theme.token.typography.body.large.lineHeight)}px;
+                min-height: ${theme.adaptSize(theme.token.typography[TypographyType.BODY][Size.LARGE].lineHeight)}px;
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
                 padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `};
@@ -154,11 +161,20 @@ export const Input = styled.TextInput`
                 css`
                         align-self: stretch;
                         flex: 1;
-                        font-size: ${theme.adaptFontSize(theme.token.typography.body.large.size)}px;
-                        font-style: ${theme.token.typography.body.large.style};
-                        font-weight: ${theme.token.typography.body.large.weight};
-                        height: ${theme.adaptFontSize(theme.token.typography.body.large.lineHeight)}px;
-                        letter-spacing: ${theme.adaptSize(theme.token.typography.body.large.letterSpacing)}px;
+                        font-size: ${theme.adaptFontSize(
+                                theme.token.typography[TypographyType.BODY][Size.LARGE].size
+                        )}px;
+
+                        font-style: ${theme.token.typography[TypographyType.BODY][Size.LARGE].style};
+                        font-weight: ${theme.token.typography[TypographyType.BODY][Size.LARGE].weight};
+                        height: ${theme.adaptFontSize(
+                                theme.token.typography[TypographyType.BODY][Size.LARGE].lineHeight
+                        )}px;
+
+                        letter-spacing: ${theme.adaptSize(
+                                theme.token.typography[TypographyType.BODY][Size.LARGE].letterSpacing
+                        )}px;
+
                         padding: ${theme.adaptSize(theme.token.spacing.none)}px;
                 `};
 `

@@ -1,3 +1,4 @@
+import {ShapeType} from '@bearei/material-token'
 import {FC, forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -22,7 +23,7 @@ const render = ({
                 locationX={locationX}
                 locationY={locationY}
                 pointerEvents='none'
-                shape='shape={ShapeType.FULL}'
+                shape={ShapeType.FULL}
                 size={size}
                 style={[style, containerAnimatedStyle]}
                 testID={testID ?? `touchableRipple--${id}`}

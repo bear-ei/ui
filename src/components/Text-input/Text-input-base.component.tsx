@@ -16,6 +16,7 @@ import {
         handleTextInputSupportingTextVisible,
         handleTouchableHeaderFocus
 } from './Text-input-handle'
+import {TextInputType} from './Text-input.enum'
 import {TextInputBaseProps, TextInputState} from './Text-input.interface'
 import {useTextInputAnimated} from './use-text-input-animated.hook'
 
@@ -39,7 +40,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         supportingText: rawSupportingText,
                         supportingTextDelay,
                         trailing,
-                        type = 'filled',
+                        type = TextInputType.FILLED,
                         value: rawValue,
                         ...renderProps
                 },

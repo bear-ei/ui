@@ -1,4 +1,4 @@
-export enum Layout {
+export enum LayoutType {
         HORIZONTAL = 'HORIZONTAL',
         VERTICAL = 'VERTICAL'
 }

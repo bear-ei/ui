@@ -2,7 +2,7 @@ import {Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef, isValidElement, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Layout} from '../../Common'
+import {LayoutType} from '../../Common'
 import {Divider} from '../../Divider'
 import {Skeleton} from '../../Skeleton'
 import {Touchable} from '../../Touchable'
@@ -95,7 +95,7 @@ const render = ({
                         type={type}
                 >
                         <Skeleton
-                                containerLayout={Layout.HORIZONTAL}
+                                containerLayout={LayoutType.HORIZONTAL}
                                 contentSize={contentSize[type]}
                                 duration={skeletonDuration}
                                 skeleton={skeletonDuration ? skeletonElement : undefined}
@@ -231,7 +231,7 @@ const render = ({
                                 {divider && (
                                         <DividerLayout testID={`listItem__dividerLayout--${id}`}>
                                                 <Divider
-                                                        layout={Layout.HORIZONTAL}
+                                                        layout={LayoutType.HORIZONTAL}
                                                         size={Size.LARGE}
                                                         testID={`listItem__divider--${id}`}
                                                 />
