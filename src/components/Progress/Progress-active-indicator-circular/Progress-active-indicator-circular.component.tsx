@@ -2,6 +2,7 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Circle, Svg} from 'react-native-svg'
+import {ProgressAnimated} from '../Progress.enum'
 import {ProgressActiveIndicatorCircularBase} from './Progress-active-indicator-circular-base.component'
 import {
         ProgressActiveIndicatorCircularProps,
@@ -12,7 +13,7 @@ import {Container, Content, Main} from './Progress-active-indicator-circular.sty
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 const AnimatedMain = Animated.createAnimatedComponent(Main)
 const render = ({
-        animatedType = 'indeterminate',
+        animatedType = ProgressAnimated.INDETERMINATE,
         circleAnimatedProps,
         circumference,
         containerAnimatedStyle,
@@ -46,7 +47,7 @@ const render = ({
                                         testID={`progressActiveIndicatorCircular__svg--${id}`}
                                         viewBox={`0 0 ${size} ${size}`}
                                 >
-                                        {animatedType === 'determinate' && (
+                                        {animatedType === ProgressAnimated.DETERMINATE && (
                                                 <Circle
                                                         cx={cx}
                                                         cy={cy}

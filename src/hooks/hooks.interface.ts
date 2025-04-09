@@ -49,7 +49,7 @@ export interface HandleScrollOptions extends Pick<ScrollViewProps, 'onScroll' | 
 
 export interface AnimatedTimingOptions extends Omit<WithTimingConfig, 'duration' | 'easing'> {
         callback?: AnimationCallback
-        duration?: Duration
+        duration?: Duration | number
         easing?: Easing
         repeat?: number
 }

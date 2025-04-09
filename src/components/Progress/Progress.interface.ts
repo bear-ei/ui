@@ -1,9 +1,8 @@
 import {RefAttributes} from 'react'
 import {LayoutRectangle, View, ViewProps} from 'react-native'
 import {HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
+import {ProgressAnimated, ProgressType} from './Progress.enum'
 
-export type ProgressType = 'linear' | 'circular'
-export type ProgressAnimated = 'determinate' | 'indeterminate'
 export interface ProgressProps extends ViewProps, RefAttributes<View> {
         animatedType?: ProgressAnimated
         content?: React.JSX.Element
