@@ -2,11 +2,12 @@ import {LayoutChangeEvent, LayoutRectangle} from 'react-native'
 import {Updater} from 'use-immer'
 import {StateEvent} from '../../hooks'
 import {EventName} from '../Common'
-import {HandleProgressStateChangeOptions, ProgressState, ProgressType} from './Progress.interface'
+import {ProgressType} from './Progress.enum'
+import {HandleProgressStateChangeOptions, ProgressState} from './Progress.interface'
 
 export const handleProgressLayoutChange =
         (setState: Updater<ProgressState>) => (type?: ProgressType) => (layout: LayoutRectangle) => {
-                if (type !== 'linear') {
+                if (type !== ProgressType.LINEAR) {
                         return
                 }
 

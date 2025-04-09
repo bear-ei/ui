@@ -1,3 +1,4 @@
+import {ShapeType, Size} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import Animated from 'react-native-reanimated'
 import {Divider} from '../../Divider'
@@ -12,7 +13,7 @@ const render = ({containerAnimatedStyle, containerLayout, id, testID, ...listPro
                 containerHeight={containerLayout.height}
                 containerPageX={containerLayout.pageX}
                 containerPageY={containerLayout.pageY}
-                shape='extraLarge'
+                shape={ShapeType.EXTRA_LARGE}
                 size={containerLayout.width}
                 style={[containerAnimatedStyle]}
                 testID={testID ?? `searchList--${id}`}

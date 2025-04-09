@@ -1,6 +1,7 @@
+import {ShapeType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {TextInput as RNTextInput} from 'react-native'
-import {Icon} from '../Icon'
+import {Icon, IconName, IconStyle, IconType} from '../Icon'
 import {Underlay} from '../Underlay'
 import {SearchBase} from './Search-base.component'
 import {SearchList} from './Search-list'
@@ -10,6 +11,7 @@ import {Container, Content, Leading, Main, TextInput, TextInputLayout, Touchable
 const SearchTextInput: FC<SearchTextInputProps> = TextInput
 const render = ({
         containerRef,
+        densityScale,
         eventName,
         id,
         layout,
@@ -17,8 +19,8 @@ const render = ({
         listProps,
         listVisible,
         onChangeText,
-        stateOnEvent,
         placeholder,
+        stateOnEvent,
         testID,
         theme,
         trailing,
@@ -27,7 +29,7 @@ const render = ({
 }: RenderSearchProps) => {
         const {onBlur, onFocus, ...onTouchableEvent} = stateOnEvent
         const placeholderTextColor = theme.token.scheme.onSurfaceVariant
-        const shape = 'extraLarge'
+        const shape = ShapeType.EXTRA_LARGE
         const underlayColor = theme.token.scheme.onSurface
         const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
 
@@ -43,6 +45,7 @@ const render = ({
                                 <Content
                                         accessibilityLabel={placeholder}
                                         accessibilityRole='keyboardkey'
+                                        densityScale={densityScale}
                                         shape={shape}
                                         testID={`search__content--${id}`}
                                         trailingShow={!!trailing}
@@ -51,9 +54,9 @@ const render = ({
                                                 {leading ?? (
                                                         <Icon
                                                                 iconStyle={IconStyle.ROUNDED}
-                                                                name='search'
+                                                                name={IconName.SEARCH}
                                                                 testID={`search__iconSearch--${id}`}
-                                                                type='filled'
+                                                                type={IconType.FILLED}
                                                         />
                                                 )}
                                         </Leading>
@@ -84,7 +87,7 @@ const render = ({
                                         <Underlay
                                                 eventName={eventName}
                                                 opacities={underlayOpacities}
-                                                shape={listVisible ? 'extraLargeTop' : shape}
+                                                shape={listVisible ? ShapeType.EXTRA_LARGE_TOP : shape}
                                                 testID={`search__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />

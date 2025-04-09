@@ -1,8 +1,9 @@
+import {Size} from '@bearei/material-token'
 import {RefAttributes, RefObject} from 'react'
 import {LayoutRectangle, PressableProps, TextInput, TextInputProps, View} from 'react-native'
 import {DefaultTheme} from 'styled-components/native'
 import {HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
-import {ComponentStatus, EventName, Size, State} from '../Common'
+import {CommonProps, ComponentStatus, EventName, State} from '../Common'
 import {ListData, ListProps} from '../List'
 import {SearchListProps} from './Search-list'
 
@@ -11,13 +12,13 @@ export interface SearchTextInputProps extends TextInputProps, RefAttributes<Text
 }
 
 export interface SearchProps
-        extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & StateOnEvent> {
+        extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & StateOnEvent>,
+                CommonProps {
         disabled?: boolean
         leading?: React.JSX.Element
         listProps?: ListProps
         size?: Size
         trailing?: React.JSX.Element
-        type?: 'modal'
 }
 
 export interface RenderSearchProps extends SearchProps {
@@ -54,6 +55,6 @@ export interface HandleSearchContainerLayoutOptions {
         containerCurrent?: View | null
 }
 
-export interface SearchContentProps {
+export interface SearchContentProps extends Pick<SearchProps, 'densityScale'> {
         trailingShow: boolean
 }

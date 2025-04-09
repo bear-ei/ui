@@ -2,7 +2,7 @@ import {ShapeType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Progress} from '../Progress'
+import {Progress, ProgressAnimated, ProgressType} from '../Progress'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {ActiveAnimatedType} from '../Underlay/Underlay.enum'
@@ -52,11 +52,11 @@ const render = ({
                                 visible={loading}
                         >
                                 <Progress
-                                        animatedType='indeterminate'
+                                        animatedType={ProgressAnimated.INDETERMINATE}
                                         content={icon}
                                         size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
                                         testID={`iconButton__progress--${id}`}
-                                        type='circular'
+                                        type={ProgressType.CIRCULAR}
                                 />
                         </ContentItemLayout>
 

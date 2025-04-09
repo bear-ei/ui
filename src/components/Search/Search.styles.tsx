@@ -1,3 +1,4 @@
+import {Size, TypographyType} from '@bearei/material-token'
 import {css} from 'styled-components'
 import styled from 'styled-components/native'
 import {Shape} from '../Common'
@@ -9,7 +10,7 @@ export const Container = styled.View`
         z-index: 4096;
 
         ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `};
 `
 
@@ -27,13 +28,18 @@ export const Content = styled(Shape)<SearchContentProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme}) => css`
-                background-color: ${theme.token.scheme.surfaceContainerHigh};
-                gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-                padding: ${theme.adaptSize(theme.token.spacing.none)}px
-                        ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-        `};
+        ${({theme, densityScale}) => {
+                const density = densityScale ?? theme.densityScale
+                const designDensity = density * theme.token.spacing.extraSmall
+
+                return css`
+                        background-color: ${theme.token.scheme.surfaceContainerHigh};
+                        gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
+                        padding: ${theme.adaptSize(theme.token.spacing.none)}px
+                                ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                `
+        }};
 
         ${({theme, trailingShow}) =>
                 !trailingShow &&
@@ -65,7 +71,7 @@ export const Leading = styled.View`
 
 export const TextInputLayout = styled.View`
         ${({theme}) => css`
-                height: ${theme.adaptSize(theme.token.typography.body.large.lineHeight)}px;
+                height: ${theme.adaptSize(theme.token.typography[TypographyType.BODY][Size.LARGE].lineHeight)}px;
                 padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `};
 `
@@ -88,10 +94,16 @@ export const TextInput = styled.TextInput`
                  */
                 !secureTextEntry &&
                 css`
-                        font-size: ${theme.adaptFontSize(theme.token.typography.body.large.size)}px;
-                        font-style: ${theme.token.typography.body.large.style};
-                        font-weight: ${theme.token.typography.body.large.weight};
-                        letter-spacing: ${theme.adaptSize(theme.token.typography.body.large.letterSpacing)}px;
+                        font-size: ${theme.adaptFontSize(
+                                theme.token.typography[TypographyType.BODY][Size.LARGE].size
+                        )}px;
+
+                        font-style: ${theme.token.typography[TypographyType.BODY][Size.LARGE].style};
+                        font-weight: ${theme.token.typography[TypographyType.BODY][Size.LARGE].weight};
+                        letter-spacing: ${theme.adaptSize(
+                                theme.token.typography[TypographyType.BODY][Size.LARGE].letterSpacing
+                        )}px;
+
                         padding: ${theme.token.spacing.none}px;
                 `}
 `

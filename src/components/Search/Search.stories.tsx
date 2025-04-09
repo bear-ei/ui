@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {IconButton} from '../Icon-button'
+import {IconButton, IconButtonType} from '../Icon-button'
 import {Search} from './Search.component'
 import {SearchProps} from './Search.interface'
 
@@ -40,7 +40,7 @@ export const SearchBar: StoryObj<SearchProps> = {
 export const SearchBarStandard: StoryObj<SearchProps> = {
         args: {
                 placeholder: 'Hinted search text',
-                trailing: <IconButton type='standard' />,
+                trailing: <IconButton type={IconButtonType.STANDARD} />,
                 listProps: {
                         data: [
                                 {

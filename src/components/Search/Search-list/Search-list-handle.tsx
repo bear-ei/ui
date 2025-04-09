@@ -1,3 +1,4 @@
+import {Duration, Easing} from '@bearei/material-token'
 import {SharedValue} from 'react-native-reanimated'
 import {emitter} from '../../../contexts'
 import {AnimatedTiming} from '../../../hooks'
@@ -11,6 +12,6 @@ export const handleSearchListUnmount = (id: string) =>
 export const handleSearchListAnimatedTiming =
         (animatedTiming: AnimatedTiming) => (heightSharedValue: SharedValue<number>) => (visible?: boolean) =>
                 animatedTiming({
-                        duration: visible ? 'medium3' : 'short3',
-                        easing: visible ? 'emphasizedDecelerate' : 'emphasizedAccelerate'
+                        duration: visible ? Duration.MEDIUM_3 : Duration.SHORT_3,
+                        easing: visible ? Easing.EMPHASIZED_DECELERATE : Easing.EMPHASIZED_ACCELERATE
                 })(heightSharedValue)(visible ? 1 : 0)

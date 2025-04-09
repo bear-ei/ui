@@ -5,20 +5,26 @@ import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../ho
 import {debounce} from '../../utils'
 import {State} from '../Common'
 import {handleProgressLayoutChange, handleTouchableStateChange} from './Progress-handle'
+import {ProgressType} from './Progress.enum'
 import {ProgressBaseProps, ProgressState} from './Progress.interface'
 
-export const ProgressBase = forwardRef<View, ProgressBaseProps>(({render, type = 'linear', ...renderProps}, ref) => {
-        const [{layout}, setState] = useImmer<ProgressState>({layout: {} as LayoutRectangle})
-        const id = useId()
-        const onProgressLayoutChange = useMemo(
-                () => debounce(handleProgressLayoutChange(setState)(type))(50),
-                [setState, type]
-        )
+export const ProgressBase = forwardRef<View, ProgressBaseProps>(
+        ({render, type = ProgressType.LINEAR, ...renderProps}, ref) => {
+                const [{layout}, setState] = useImmer<ProgressState>({layout: {} as LayoutRectangle})
+                const id = useId()
+                const onProgressLayoutChange = useMemo(
+                        () => debounce(handleProgressLayoutChange(setState)(type))(50),
+                        [setState, type]
+                )
 
-        const onStateEventChange = (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleTouchableStateChange({...options, state, onLayoutChange: onProgressLayoutChange})(event)
+                const onStateEventChange =
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleTouchableStateChange({...options, state, onLayoutChange: onProgressLayoutChange})(
+                                        event
+                                )
 
-        const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
+                const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
 
-        return render({...renderProps, layout, stateOnEvent, ref, type, id})
-})
+                return render({...renderProps, layout, stateOnEvent, ref, type, id})
+        }
+)

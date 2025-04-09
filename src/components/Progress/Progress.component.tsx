@@ -3,11 +3,12 @@ import {View} from 'react-native'
 import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circular'
 import {ProgressActiveIndicatorLinear} from './Progress-active-indicator-linear'
 import {ProgressBase} from './Progress-base.component'
+import {ProgressAnimated, ProgressType} from './Progress.enum'
 import {ProgressProps, RenderProgressProps} from './Progress.interface'
 import {Container} from './Progress.styles'
 
 const render = ({
-        animatedType = 'indeterminate',
+        animatedType = ProgressAnimated.INDETERMINATE,
         content,
         defaultValue,
         id,
@@ -17,7 +18,7 @@ const render = ({
         stateOnEvent,
         strokeWidth,
         testID,
-        type = 'linear',
+        type = ProgressType.LINEAR,
         value,
         ...containerProps
 }: RenderProgressProps) => (
@@ -30,7 +31,7 @@ const render = ({
                 testID={testID ?? `progress--${id}`}
                 type={type}
         >
-                {type === 'circular' && (
+                {type === ProgressType.CIRCULAR && (
                         <ProgressActiveIndicatorCircular
                                 animatedType={animatedType}
                                 content={content}
@@ -40,7 +41,7 @@ const render = ({
                         />
                 )}
 
-                {type === 'linear' && typeof layout.width === 'number' && layout.width !== 0 && (
+                {type === ProgressType.LINEAR && typeof layout.width === 'number' && layout.width !== 0 && (
                         <ProgressActiveIndicatorLinear
                                 animatedType={animatedType}
                                 containerLayout={layout}
