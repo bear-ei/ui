@@ -13,15 +13,15 @@ export const Container = styled.View<FABContainerProps>`
                 const contentSize = {
                         [Size.SMALL]: css`
                                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + designDensity)}px;
-                                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + designDensity)}px;
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + designDensity)}px;
                         `,
                         [Size.MEDIUM]: css`
                                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
-                                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
                         `,
                         [Size.LARGE]: css`
                                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + designDensity)}px;
-                                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + designDensity)}px;
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + designDensity)}px;
                         `
                 }
 

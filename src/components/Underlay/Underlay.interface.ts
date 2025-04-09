@@ -3,13 +3,13 @@ import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {AnimatedTiming, HandleStateEventChangeOptions} from '../../hooks'
 import {EventName, ShapeProps, ShapeType} from '../Common'
+import {ActiveAnimatedType} from './Underlay.enum'
 
-export type ActiveAnimatedType = 'fade' | 'scaleX' | 'scaleY' | 'scale'
 export interface UnderlayProps extends Pick<ShapeProps, 'shape'>, ViewProps, RefAttributes<View> {
         active?: boolean
-        defaultActive?: boolean
         activeAnimatedType?: ActiveAnimatedType
         activeColor?: string
+        defaultActive?: boolean
 
         /**
          * When the active animation type is scale, set the x,y scaling factor of scale. Default 1.

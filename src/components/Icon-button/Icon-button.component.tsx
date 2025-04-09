@@ -5,6 +5,7 @@ import Animated from 'react-native-reanimated'
 import {Progress} from '../Progress'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
+import {ActiveAnimatedType} from '../Underlay/Underlay.enum'
 import {IconButtonBase} from './Icon-button-base.component'
 import {IconButtonType} from './Icon-button.enum'
 import {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
@@ -85,7 +86,7 @@ const render = ({
                                                 <Main testID={`iconButton__main--${id}`}>{icon}</Main>
                                                 <Underlay
                                                         active={active}
-                                                        activeAnimatedType='scale'
+                                                        activeAnimatedType={ActiveAnimatedType.SCALE}
                                                         activeColor={activeColor}
                                                         defaultActive={defaultActive}
                                                         eventName={eventName}

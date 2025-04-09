@@ -6,6 +6,7 @@ import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../..
 import {runAfterInteractions} from '../../../utils'
 import {State} from '../../Common'
 import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
+import {ListType, SelectType} from '../List.enum'
 import {
         handleItemListAfterAffordanceVisibleFinished,
         handleListItemClose,
@@ -49,7 +50,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         trailing,
                         trailingProps,
                         trailingTriggerEvenName,
-                        type = 'standard',
+                        type = ListType.STANDARD,
                         ...renderProps
                 },
                 ref
@@ -71,7 +72,10 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                 const id = useId()
                 const pressableRef = useRef<View>(null)
                 const active = useMemo(
-                        () => (selectType === 'select' ? activeKey === indexKey : activeKeys?.includes(indexKey)),
+                        () =>
+                                selectType === SelectType.SINGLE ?
+                                        activeKey === indexKey
+                                :       activeKeys?.includes(indexKey),
                         [activeKey, activeKeys, indexKey, selectType]
                 )
 
@@ -81,6 +85,9 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         [afterAffordanceActiveKey, indexKey]
                 )
 
+                /**
+                 * TODO: Support mobile touch swipe.
+                 */
                 // const onListItemPanResponderRelease = handleListItemPanResponderRelease({
                 //         onActiveAfterAffordance,
                 //         disabled

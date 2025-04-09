@@ -9,7 +9,6 @@ import {ListAffordanceButtonProps} from '../List-affordance-button'
 import {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {ListProps} from '../List.interface'
 
-export type SelectType = 'select' | 'multiselect'
 export interface ListItemProps
         extends Partial<TouchableProps>,
                 Pick<
@@ -23,6 +22,7 @@ export interface ListItemProps
                         | 'afterAffordanceSecondaryButtonProps'
                         | 'beforeAffordance'
                         | 'closeTrailing'
+                        | 'densityScale'
                         | 'divider'
                         | 'enableUnderlay'
                         | 'enableUnderlayActive'
@@ -51,8 +51,8 @@ export interface ListItemProps
         contentStyle?: StyleProp<ViewStyle>
         extraData?: string[]
         headline?: React.ReactNode
-        itemIndex?: number
         indexKey: string
+        itemIndex?: number
         itemLayout?: {width?: number; height?: number}
         leading?: React.JSX.Element
         onActives?: (activeKeys?: string[]) => void
@@ -146,7 +146,7 @@ export interface HandleListItemTrailingPressOutOptions
 export type HandleListItemPanResponderReleaseOptions = Pick<ListItemProps, 'onActiveAfterAffordance' | 'disabled'>
 export type ListItemContainerProps = Pick<RenderListItemProps, 'type'>
 export interface ListItemMainProps
-        extends Pick<RenderListItemProps, 'supportingTextNumberOfLines'>,
+        extends Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'densityScale'>,
                 ListItemContainerProps {
         supportingTextShow?: boolean
 }

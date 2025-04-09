@@ -1,14 +1,13 @@
 import {WritableDraft} from 'immer'
-import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
 import {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
+import {SelectType} from './List.enum'
 import {
         HandleListActiveOptions,
         HandleRenderItemOptions,
         ListData,
         ListState,
-        ListType,
         OnActiveAfterAffordanceOptions,
         RenderListItemOptions
 } from './List.interface'
@@ -66,7 +65,7 @@ export const handleListActive =
                 selectType &&
                 setState(draft => {
                         const callbackValue =
-                                selectType === 'select' ?
+                                selectType === SelectType.SINGLE ?
                                         handleListSelect(draft)(deselect)(activeKeys)
                                 :       handleListMultiselect(draft)(activeKeys ?? [])
 
@@ -75,7 +74,7 @@ export const handleListActive =
                         }
 
                         draft.nextActiveEvent = handleNextActiveEvent(
-                                selectType === 'multiselect' ? {onActives} : {onActive}
+                                selectType === SelectType.MULTIPLE ? {onActives} : {onActive}
                         )(callbackValue)
                 })
 
@@ -85,7 +84,7 @@ export const handleListActiveAfterAffordance =
         ({activeKey, callback} = {} as OnActiveAfterAffordanceOptions) => {
                 const handleNextAfterAffordanceActiveEvent = () => onActive?.(activeKey)
 
-                if (selectType === 'multiselect') {
+                if (selectType === SelectType.MULTIPLE) {
                         return
                 }
 
@@ -142,14 +141,3 @@ export const handleRenderListItem =
         ({renderItem, ...options}: HandleRenderItemOptions) =>
         (props: RenderVirtualListItemInfo<ListData>) =>
                 renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})
-
-export const handleListItemSize =
-        (theme: DefaultTheme) =>
-        (type = 'standard' as ListType) => {
-                const itemSize = {
-                        menu: theme.adaptSize(theme.token.spacing.extraSmall * 12),
-                        standard: theme.adaptSize(theme.token.spacing.extraSmall * 14)
-                }
-
-                return itemSize[type]
-        }

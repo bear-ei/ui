@@ -1,12 +1,12 @@
 import {RefAttributes} from 'react'
 import {StateOnEvent} from '../../hooks'
-import {EventName, ShapeType} from '../Common'
+import {CommonProps, EventName, ShapeType} from '../Common'
 import {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
 import {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from './List-after-affordance'
-import {ListItemProps, SelectType} from './List-item'
+import {ListItemProps} from './List-item'
+import {ListType, SelectType} from './List.enum'
 
 export type VirtualListComponent<T> = typeof VirtualList<T>
-export type ListType = 'standard' | 'menu'
 export interface ListData
         extends Pick<
                 ListItemProps,
@@ -28,7 +28,9 @@ export interface OnActiveAfterAffordanceOptions {
         activeKey?: string
 }
 
-export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>> {
+export interface ListProps
+        extends Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>>,
+                CommonProps {
         activeKey?: string
         activeKeys?: string[]
         activeTriggerEvenName?: EventName
@@ -62,12 +64,6 @@ export interface ListProps extends Partial<VirtualListProps<ListData> & RefAttri
         trailing?: React.JSX.Element
         trailingTriggerEvenName?: EventName
         type?: ListType
-
-        /**
-         * Whether to enable auto-associative selection in radio mode. If the deleted item is an active item of the
-         * current year, the list will automatically look for neighboring items with the active option.
-         */
-        enableAutoSelect?: boolean
 }
 
 export interface RenderListProps extends ListProps {
@@ -97,6 +93,7 @@ export type HandleRenderItemOptions = Pick<
         | 'beforeAffordance'
         | 'closeTrailing'
         | 'defaultActiveKey'
+        | 'densityScale'
         | 'divider'
         | 'enableUnderlay'
         | 'enableUnderlayActive'

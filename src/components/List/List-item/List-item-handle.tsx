@@ -4,8 +4,9 @@ import {SharedValue} from 'react-native-reanimated'
 import {Updater} from 'use-immer'
 import {AnimatedTiming, StateEvent} from '../../../hooks'
 import {EventName} from '../../Common'
-import {Icon} from '../../Icon'
+import {Icon, IconName, IconStyle, IconType} from '../../Icon'
 import {IconButton, IconButtonType} from '../../Icon-button'
+import {ListType, SelectType} from '../List.enum'
 import {
         HandleListItemAfterAffordanceVisibleAnimatedTimingOptions,
         HandleListItemConfirmOptions,
@@ -14,8 +15,7 @@ import {
         HandleListItemTrailingPressOutOptions,
         ListItemProps,
         ListItemState,
-        RenderListItemTrailingOptions,
-        SelectType
+        RenderListItemTrailingOptions
 } from './List-item.interface'
 
 export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
@@ -108,7 +108,7 @@ export const handleListItemStateChange =
                         const menuFocus =
                                 eventName === 'blur' &&
                                 prevEventName === 'focus' &&
-                                type === 'menu' &&
+                                type === ListType.MENU &&
                                 ['hoverIn', 'hoverOut'].includes(eventName)
 
                         if (menuFocus) {
@@ -250,21 +250,21 @@ export const renderListItemTrailing = ({
         afterAffordance,
         closeTrailing,
         disabled,
+        id,
         stateOnEvent,
         trailing,
-        trailingProps,
-        id
+        trailingProps
 }: RenderListItemTrailingOptions) => {
         const {onHoverIn, onHoverOut} = stateOnEvent
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
         const props = {
+                ...stateOnEvent,
+                ...trailingProps,
                 disabled,
                 pointerEvents: 'box-only' as ViewProps['pointerEvents'],
-                type: 'standard' as IconButtonType,
                 testID: `listItem__trailing--${id}`,
-                ...stateOnEvent,
-                ...trailingProps
+                type: 'standard' as IconButtonType
         }
 
         const trailingElement = {
@@ -277,9 +277,9 @@ export const renderListItemTrailing = ({
                                         icon={
                                                 <Icon
                                                         iconStyle={IconStyle.ROUNDED}
-                                                        name='moreHoriz'
+                                                        name={IconName.MORE_HORIZ}
                                                         testID={`listItem__trailingIconMoreHoriz--${id}`}
-                                                        type='outlined'
+                                                        type={IconType.OUTLINED}
                                                 />
                                         }
                                 />,
@@ -292,9 +292,9 @@ export const renderListItemTrailing = ({
                                         icon={
                                                 <Icon
                                                         iconStyle={IconStyle.ROUNDED}
-                                                        name='close'
+                                                        name={IconName.CLOSE}
                                                         testID={`listItem__trailingIconClose--${id}`}
-                                                        type='outlined'
+                                                        type={IconType.OUTLINED}
                                                 />
                                         }
                                 />,

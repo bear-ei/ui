@@ -1,3 +1,4 @@
+import {Layout, Size, TypographyType} from '@bearei/material-token'
 import {FC, forwardRef, isValidElement, memo} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -6,6 +7,7 @@ import {Skeleton} from '../../Skeleton'
 import {Touchable} from '../../Touchable'
 import {ActiveAnimatedType, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance'
+import {ListType, SelectType} from '../List.enum'
 import {ListItemBase} from './List-item-base.component'
 import {handleListItemPropsEqual} from './List-item-handle'
 import {ListItemProps, RenderListItemProps} from './List-item.interface'
@@ -35,6 +37,7 @@ const render = ({
         beforeAffordance,
         contentAnimatedStyle,
         contentStyle,
+        densityScale,
         disabled,
         divider,
         enableUnderlay,
@@ -47,13 +50,13 @@ const render = ({
         leadingElement,
         onCancel,
         onConfirm,
-        stateOnEvent,
         panResponder,
         ref,
         selectType,
         shape,
         skeletonDuration = 150,
         skeletonElement,
+        stateOnEvent,
         supporting,
         supportingTextNumberOfLines,
         testID,
@@ -61,15 +64,17 @@ const render = ({
         trailingElement,
         trailingTriggerEvenName,
         trailingVisible,
-        type = 'standard',
+        type = ListType.STANDARD,
         ...mainProps
 }: RenderListItemProps) => {
         const activeColor = theme.token.scheme.secondaryContainer
+        const density = densityScale ?? theme.densityScale
+        const designDensity = density * theme.token.spacing.extraSmall
         const supportingTextShow = !!supporting
         const trailingShow = !!trailingElement
         const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
         const underlayProps = selectType &&
-                ['select', 'multiselect'].includes(selectType) &&
+                [SelectType.SINGLE, SelectType.MULTIPLE].includes(selectType) &&
                 enableUnderlayActive && {
                         active,
                         activeAnimatedType: 'fade' as ActiveAnimatedType,
@@ -77,8 +82,8 @@ const render = ({
                 }
 
         const contentSize = {
-                menu: {height: theme.adaptSize(theme.token.spacing.extraSmall * 12)},
-                standard: {height: theme.adaptSize(theme.token.spacing.extraSmall * 14)}
+                [ListType.MENU]: {height: theme.adaptSize(theme.token.spacing.extraSmall * 12 + designDensity)},
+                [ListType.STANDARD]: {height: theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}
         }
 
         return (
@@ -118,6 +123,7 @@ const render = ({
                                         >
                                                 <Main
                                                         {...mainProps}
+                                                        densityScale={densityScale}
                                                         supportingTextNumberOfLines={supportingTextNumberOfLines}
                                                         supportingTextShow={supportingTextShow}
                                                         testID={`listItem__main--${id}`}
@@ -153,7 +159,7 @@ const render = ({
                                                                                                 headlineTextAnimatedStyle
                                                                                         ]}
                                                                                         testID={`listItem__animatedHeadlineText--${id}`}
-                                                                                        type='body'
+                                                                                        type={TypographyType.BODY}
                                                                                 >
                                                                                         {headline}
                                                                                 </AnimatedHeadlineText>
@@ -166,9 +172,9 @@ const render = ({
                                                                                         numberOfLines={
                                                                                                 supportingTextNumberOfLines
                                                                                         }
-                                                                                        size='medium'
+                                                                                        size={Size.MEDIUM}
                                                                                         testID={`listItem__supportingText--${id}`}
-                                                                                        type='body'
+                                                                                        type={TypographyType.BODY}
                                                                                 >
                                                                                         {supporting}
                                                                                 </SupportingText>
@@ -224,7 +230,7 @@ const render = ({
                                 {divider && (
                                         <DividerLayout testID={`listItem__dividerLayout--${id}`}>
                                                 <Divider
-                                                        layout='horizontal'
+                                                        layout={Layout.HORIZONTAL}
                                                         size={Size.LARGE}
                                                         testID={`listItem__divider--${id}`}
                                                 />

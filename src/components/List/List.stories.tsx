@@ -2,10 +2,11 @@ import {ShapeType} from '@bearei/material-token'
 import {Meta, StoryObj} from '@storybook/react'
 import {useMemo, useState} from 'react'
 import {View, ViewStyle} from 'react-native'
-import {Icon, IconStyle} from '../Icon'
-import {IconButton} from '../Icon-button'
+import {Icon, IconName, IconStyle, IconType} from '../Icon'
+import {IconButton, IconButtonType} from '../Icon-button'
 import {Skeleton} from '../Skeleton'
 import {List} from './List.component'
+import {SelectType} from './List.enum'
 import {ListProps} from './List.interface'
 
 const renderListSkeleton = () => {
@@ -76,7 +77,6 @@ export const Select = () => {
         )
 
         const onActiveKey = (key?: string) => setActiveKey(key)
-        // const skeleton = useMemo(() => renderListSkeleton(), [])
 
         return (
                 <View style={[style]}>
@@ -84,11 +84,11 @@ export const Select = () => {
                                 activeKey={activeKey}
                                 afterAffordance={true}
                                 data={data}
+                                enableAutoSelect={true}
                                 itemSize={56}
                                 onActive={onActiveKey}
-                                enableAutoSelect={true}
-                                selectType='select'
-                                shape='extraSmall'
+                                selectType={SelectType.SINGLE}
+                                shape={ShapeType.EXTRA_SMALL}
                         />
                 </View>
         )
@@ -114,13 +114,13 @@ export const Multiselect = () => {
         return (
                 <View style={[style]}>
                         <List
-                                shape={ShapeType.FULL}
                                 activeKeys={activeKeys}
                                 afterAffordance={true}
                                 data={data}
                                 itemSize={56}
                                 onActives={onActiveKeys}
-                                selectType='select'
+                                selectType={SelectType.SINGLE}
+                                shape={ShapeType.FULL}
                                 skeletonElement={skeleton}
                         />
                 </View>
@@ -142,13 +142,13 @@ export const Navigation = () => {
                                                 icon={
                                                         <Icon
                                                                 iconStyle={IconStyle.ROUNDED}
-                                                                name='close'
-                                                                type='filled'
+                                                                name={IconName.CLOSE}
                                                                 size={18}
+                                                                type={IconType.FILLED}
                                                         />
                                                 }
                                                 pointerEvents='box-only'
-                                                type='standard'
+                                                type={IconButtonType.STANDARD}
                                         />
                                 ),
                                 extraData: []
@@ -165,7 +165,7 @@ export const Navigation = () => {
                                 data={data}
                                 itemSize={48}
                                 onActives={onActiveKeys}
-                                selectType='select'
+                                selectType={SelectType.SINGLE}
                         />
                 </View>
         )

@@ -9,8 +9,6 @@ export const Container = styled.View`
 
         ${({theme}) => css`
                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `}
 `
@@ -40,17 +38,11 @@ export const Content = styled(Shape)<IconButtonContentProps>`
 
         ${({theme, size, densityScale}) => {
                 const density = densityScale ?? theme.densityScale
+                const designDensity = density * theme.token.spacing.extraSmall
 
                 return css`
-                        height: ${size ??
-                        theme.adaptSize(
-                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
-                        )}px;
-
-                        width: ${size ??
-                        theme.adaptSize(
-                                theme.token.spacing.extraSmall * 10 + density * theme.token.spacing.extraSmall
-                        )}px;
+                        height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
+                        width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
                 `
         }}
 `

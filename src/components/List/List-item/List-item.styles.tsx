@@ -2,7 +2,7 @@ import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {LayoutAnimated} from '../../Layout-animated'
-import {ListType} from '../List.interface'
+import {ListType} from '../List.enum'
 import {
         ListItemContainerProps,
         ListItemLeadingProps,
@@ -18,18 +18,9 @@ export const Container = styled(Shape)<ListItemContainerProps>`
         overflow: hidden;
         position: relative;
 
-        ${({theme, type = 'standard'}) => {
-                const containerType = {
-                        menu: css`
-                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                        `,
-                        standard: css`
-                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-                        `
-                } as Record<ListType, RuleSet<object> | undefined>
-
-                return containerType[type]
-        }}
+        ${({theme}) => css`
+                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+        `}
 `
 
 export const Content = styled.View<ListItemContainerProps>`
@@ -43,12 +34,12 @@ export const Content = styled.View<ListItemContainerProps>`
                 top: ${theme.adaptSize(theme.token.spacing.none)}px;
         `};
 
-        ${({theme, type = 'standard'}) => {
+        ${({theme, type = ListType.STANDARD}) => {
                 const contentType = {
-                        menu: css`
+                        [ListType.MENU]: css`
                                 background-color: ${theme.token.scheme.surfaceContainer};
                         `,
-                        standard: css`
+                        [ListType.STANDARD]: css`
                                 background-color: ${theme.token.scheme.surface};
                         `
                 } as Record<ListType, RuleSet<object> | undefined>
@@ -67,17 +58,19 @@ export const Main = styled(Shape)<ListItemMainProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme, type = 'standard'}) => {
+        ${({theme, type = ListType.STANDARD, densityScale}) => {
+                const density = densityScale ?? theme.densityScale
+                const designDensity = density * theme.token.spacing.extraSmall
                 const mainType = {
-                        menu: css`
-                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+                        [ListType.MENU]: css`
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + designDensity)}px;
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                         ${theme.adaptSize(
                                                 theme.token.spacing.medium - theme.token.spacing.extraSmall
                                         )}px;
                         `,
-                        standard: css`
-                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                        [ListType.STANDARD]: css`
+                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                         ${theme.adaptSize(theme.token.spacing.medium)}px;
                         `
@@ -137,14 +130,14 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
                         min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
                 `}
 
-        ${({theme, type = 'standard', leadingShow}) => {
+        ${({theme, type = ListType.STANDARD, leadingShow}) => {
                 const mainInnerType = {
-                        menu: css`
+                        [ListType.MENU]: css`
                                 padding-left: ${theme.adaptSize(
                                         theme.token.spacing.medium - theme.token.spacing.extraSmall
                                 )}px;
                         `,
-                        standard: css`
+                        [ListType.STANDARD]: css`
                                 padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
                         `
                 } as Record<ListType, RuleSet<object> | undefined>
@@ -155,12 +148,12 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
         }}
 
 
-        ${({theme, type = 'standard', trailingShow}) => {
+        ${({theme, type = ListType.STANDARD, trailingShow}) => {
                 const mainInnerType = {
-                        menu: css`
+                        [ListType.MENU]: css`
                                 padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
                         `,
-                        standard: css`
+                        [ListType.STANDARD]: css`
                                 padding-right: ${theme.adaptSize(
                                         theme.token.spacing.medium - theme.token.spacing.extraSmall
                                 )}px;
@@ -183,9 +176,9 @@ export const TrailingLayoutAnimated = styled(LayoutAnimated)<ListItemTrailingPro
                         justify-content: flex-start;
                 `}
 
-        ${({theme, trailingShow, type = 'standard'}) =>
+        ${({theme, trailingShow, type = ListType.STANDARD}) =>
                 trailingShow &&
-                ['menu'].includes(type) &&
+                [ListType.MENU].includes(type) &&
                 css`
                         margin-right: ${-theme.adaptSize(
                                 theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall

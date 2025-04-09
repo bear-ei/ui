@@ -10,7 +10,6 @@ export const Container = styled.View<ButtonContainerProps>`
 
         ${({theme}) => css`
                 height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
         `}
 
