@@ -34,7 +34,7 @@ export const Tertiary: StoryObj<FABProps> = {
         }
 }
 
-export const TertiaryLabel: StoryObj<FABProps> = {
+export const Label: StoryObj<FABProps> = {
         args: {
                 labelText: 'Label',
                 type: FABType.TERTIARY,
@@ -59,7 +59,7 @@ export const Small: StoryObj<FABProps> = {
 }
 
 export const DensityScale: StoryObj<FABProps> = {
-        args: {density: Density.STANDARD}
+        args: {density: Density.COMPACT, icon: <Icon />, size: Size.SMALL}
 }
 
 export default {

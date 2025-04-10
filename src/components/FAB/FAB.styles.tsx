@@ -1,27 +1,26 @@
 import {Size} from '@bearei/material-token'
 import styled, {css} from 'styled-components/native'
-import {Shape, Typography} from '../Common'
+import {DensityScale, Shape, Typography} from '../Common'
 import {FABContainerProps, FABContentProps, FABMainProps} from './FAB.interface'
 
 export const Container = styled.View<FABContainerProps>`
         align-self: flex-start;
         cursor: pointer;
 
-        ${({theme, size = Size.MEDIUM, densityScale}) => {
-                const density = densityScale ?? theme.densityScale
-                const designDensity = density * theme.token.spacing.extraSmall
+        ${({theme, size = Size.MEDIUM, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
                 const contentSize = {
                         [Size.SMALL]: css`
-                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + designDensity)}px;
-                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + designDensity)}px;
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
                         `,
                         [Size.MEDIUM]: css`
-                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
-                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
                         `,
                         [Size.LARGE]: css`
-                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + designDensity)}px;
-                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + designDensity)}px;
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + densityScale)}px;
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + densityScale)}px;
                         `
                 }
 
@@ -32,6 +31,7 @@ export const Container = styled.View<FABContainerProps>`
                 extendedFAB &&
                 css`
                         min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                        width: auto;
                 `}
 
         ${({theme}) => css`
@@ -48,33 +48,37 @@ export const Content = styled(Shape)<FABContentProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme, size = Size.MEDIUM, densityScale}) => {
-                const density = densityScale ?? theme.densityScale
-                const designDensity = density * theme.token.spacing.extraSmall
+        ${({theme, size = Size.MEDIUM, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
                 const contentSize = {
                         [Size.SMALL]: css`
-                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
-                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + designDensity)}px;
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
                         `,
                         [Size.MEDIUM]: css`
-                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
-                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
                         `,
                         [Size.LARGE]: css`
-                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + designDensity)}px;
-                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + designDensity)}px;
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + densityScale)}px;
+                                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 24 + densityScale)}px;
                         `
                 }
 
                 return contentSize[size]
         }}
 
-        ${({theme, extendedFAB}) =>
-                extendedFAB &&
-                css`
-                        height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-                        width: auto;
-                `}
+        ${({theme, extendedFAB, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
+
+                return (
+                        extendedFAB &&
+                        css`
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
+                                width: auto;
+                        `
+                )
+        }}
 `
 
 export const BackgroundUnderlay = styled(Shape)`

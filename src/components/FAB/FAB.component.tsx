@@ -14,6 +14,7 @@ const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUn
 const render = ({
         accessibilityLabel,
         backgroundUnderlayAnimatedStyle,
+        density,
         disabled,
         elevation,
         eventName,
@@ -32,6 +33,7 @@ const render = ({
 }: RenderFABProps) => {
         const sizeShape = size === Size.MEDIUM ? ShapeType.LARGE : ShapeType.MEDIUM
         const shape = size === Size.LARGE ? ShapeType.EXTRA_LARGE : sizeShape
+
         const backgroundUnderlayElement = (
                 <AnimatedBackgroundUnderlay
                         pointerEvents='none'
@@ -51,6 +53,7 @@ const render = ({
 
         return (
                 <Container
+                        density={density}
                         extendedFAB={extendedFAB}
                         size={size}
                         testID={testID ?? `fab--${id}`}
@@ -70,6 +73,7 @@ const render = ({
                                         {...contentProps}
                                         accessibilityLabel={labelText ?? accessibilityLabel}
                                         accessibilityRole='button'
+                                        density={density}
                                         extendedFAB={extendedFAB}
                                         pointerEvents='none'
                                         size={size}
