@@ -78,13 +78,13 @@ export interface FormStore<T = Record<string, unknown>> {
 
 export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormCallback<T>, RefAttributes<View> {
         form?: FormStore<T>
-        formLayout?: LayoutType
+        layout?: LayoutType
         initialValue?: T
         items?: FormItemProps[]
         validatorOptions?: FormValidatorOptions
 }
 
-export interface RenderFormProps<T> extends FormProps<T> {
+export interface RenderFormProps<T = Record<string, unknown>> extends FormProps<T> {
         itemElements?: React.JSX.Element[] | React.JSX.Element
 }
 
@@ -110,3 +110,5 @@ export type FormComponent = typeof ForwardRefForm & {
 export interface UseFormOptions<T> {
         form?: FormStore<T>
 }
+
+export type FormContainerProps = Pick<RenderFormProps, 'layout'>

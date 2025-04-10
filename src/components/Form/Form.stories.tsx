@@ -3,9 +3,11 @@ import {IsDefined, IsNotEmpty, IsNumberString} from 'class-validator'
 import {useEffect} from 'react'
 import {View, ViewStyle} from 'react-native'
 import {Button, ButtonType} from '../Button'
+import {LayoutType} from '../Common'
 import {TextInput} from '../Text-input'
 import {FormItemControlProps, FormItemProps} from './Form-item'
 import {Form} from './Form.component'
+import {FormProps} from './Form.interface'
 
 class NameRule {
         @IsNumberString()
@@ -20,7 +22,7 @@ class AgeRule {
         age: string
 }
 
-export const FormA = () => {
+const RenderForm = (props: FormProps) => {
         const renderControl = ({errorMessage, id, labelText, onBlur, onValueChange, value}: FormItemControlProps) => (
                 <TextInput
                         error={!!errorMessage}
@@ -48,7 +50,7 @@ export const FormA = () => {
                 }
         ]
 
-        const form = Form.useForm<{name: string; age: string}>()
+        const form = Form.useForm<Record<string, unknown>>()
         const handleFinish = (value: unknown) => {
                 console.info(value)
         }
@@ -75,6 +77,7 @@ export const FormA = () => {
         return (
                 <View style={[style]}>
                         <Form
+                                {...props}
                                 form={form}
                                 items={items}
                                 onFinish={handleFinish}
@@ -93,6 +96,9 @@ export const FormA = () => {
                 </View>
         )
 }
+
+export const Horizontal = () => <RenderForm layout={LayoutType.HORIZONTAL} />
+export const Vertical = () => <RenderForm layout={LayoutType.VERTICAL} />
 
 export default {
         title: 'components/Form',
