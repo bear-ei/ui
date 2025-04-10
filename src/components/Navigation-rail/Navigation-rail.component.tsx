@@ -19,7 +19,6 @@ const render = ({
         >
                 {menu && <Menu testID={`navigationRail__menu--${id}}`}>{menu}</Menu>}
                 {fabElement && <Fab testID={`navigationRail__fab--${id}}`}>{fabElement}</Fab>}
-
                 <Destination
                         destinationPosition={destinationPosition}
                         testID={`navigationRail__destination--${id}}`}
