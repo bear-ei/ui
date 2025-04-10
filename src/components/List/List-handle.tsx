@@ -1,7 +1,7 @@
 import {WritableDraft} from 'immer'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
-import {Density, DensityScale} from '../../contexts'
+import {Density, DensityScale} from '../Common'
 import {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
 import {SelectType} from './List.enum'

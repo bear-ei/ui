@@ -1,7 +1,7 @@
 import {Token} from '@bearei/material-token'
 import {ReactNode} from 'react'
+import {Density} from '../../components'
 import {AdaptDesignOptions} from '../../utils'
-import {Density} from './Theme-provider.enum'
 
 export interface ThemeProps {
         children?: ReactNode

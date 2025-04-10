@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {Density} from '../../contexts'
+import {Density} from '../Common'
 import {Avatar} from './Avatar.component'
 import {AvatarProps} from './Avatar.interface'
 

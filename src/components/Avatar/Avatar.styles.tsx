@@ -1,6 +1,5 @@
 import styled, {css} from 'styled-components/native'
-import {DensityScale} from '../../contexts'
-import {Shape, Typography} from '../Common'
+import {DensityScale, Shape, Typography} from '../Common'
 import {AvatarContentProps} from './Avatar.interface'
 
 export const Container = styled.View`

@@ -1,7 +1,6 @@
 import {Size, TypographyType} from '@bearei/material-token'
 import styled, {css} from 'styled-components/native'
-import {DensityScale} from '../../contexts'
-import {Shape, Typography} from '../Common'
+import {DensityScale, Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {
         TextInputControlProps,

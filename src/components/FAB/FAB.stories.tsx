@@ -1,6 +1,6 @@
 import {Size} from '@bearei/material-token'
 import {Meta, StoryObj} from '@storybook/react'
-import {Density} from '../../contexts'
+import {Density} from '../Common'
 import {Icon} from '../Icon'
 import {FAB as Fab} from './FAB.component'
 import {FABType} from './FAB.enum'

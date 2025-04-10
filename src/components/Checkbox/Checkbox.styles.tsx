@@ -1,6 +1,5 @@
 import styled, {css} from 'styled-components/native'
-import {DensityScale} from '../../contexts'
-import {Shape} from '../Common'
+import {DensityScale, Shape} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {CheckboxContentProps, CheckboxIconLayoutProps} from './Checkbox.interface'
 

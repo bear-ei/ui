@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {Density} from '../../contexts'
+import {Density} from '../Common'
 import {Icon as EIIcon, IconStyle, IconType} from '../Icon'
 import {Button} from './Button.component'
 import {ButtonType} from './Button.enum'

@@ -1,7 +1,6 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
-import {DensityScale} from '../../contexts'
-import {Shape, Typography} from '../Common'
+import {DensityScale, Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {ButtonType} from './Button.enum'
 import {ButtonContainerProps, ButtonContentProps, ButtonMainProps} from './Button.interface'

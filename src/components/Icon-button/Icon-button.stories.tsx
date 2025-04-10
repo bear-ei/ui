@@ -1,4 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
+import {Density} from '../Common'
 import {IconButton} from './Icon-button.component'
 import {IconButtonType} from './Icon-button.enum'
 import {IconButtonProps} from './Icon-button.interface'
@@ -33,7 +34,7 @@ export const Active: StoryObj<IconButtonProps> = {
 }
 
 export const DensityScale: StoryObj<IconButtonProps> = {
-        args: {densityScale: -2}
+        args: {density: Density.COMPACT}
 }
 
 export default {

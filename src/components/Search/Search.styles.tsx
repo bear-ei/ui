@@ -1,8 +1,7 @@
 import {Size, TypographyType} from '@bearei/material-token'
 import {css} from 'styled-components'
 import styled from 'styled-components/native'
-import {DensityScale} from '../../contexts'
-import {Shape} from '../Common'
+import {DensityScale, Shape} from '../Common'
 import {SearchContentProps} from './Search.interface'
 
 export const Container = styled.View`

@@ -2,11 +2,11 @@ import {Contrast, token as materialToken, PaletteType, Platform, Scheme, WindowS
 import {FC, useId, useRef} from 'react'
 import {Platform as RNPlatform, useColorScheme, View} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
+import {Density} from '../../components'
 import {useWindowSize} from '../../hooks'
 import {adaptWindow} from '../../utils'
 import {ModalProvider} from '../Modal-provider.context'
 import {handleThemeProviderFocus} from './Theme-provider-handle'
-import {Density} from './Theme-provider.enum'
 import {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'
 

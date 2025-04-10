@@ -10,7 +10,7 @@ import {
         Spacing,
         Typography
 } from '@bearei/material-token'
-import {Density} from '../../contexts'
+import {Density} from './Common.enum'
 
 export type BezierType = keyof Bezier
 export type BorderRadiusType = keyof BorderRadius
