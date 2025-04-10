@@ -43,7 +43,7 @@ export const Header = styled.View<NavigationRailItemHeaderProps>`
                 `};
 `
 
-export const IconLayout = styled.View`
+export const IconLayoutContainer = styled.View`
         overflow: hidden;
         position: relative;
 
@@ -53,7 +53,7 @@ export const IconLayout = styled.View`
         `}
 `
 
-export const IconLayoutAnimated = styled(LayoutAnimated)<NavigationRailItemIconProps>`
+export const IconLayout = styled(LayoutAnimated)<NavigationRailItemIconProps>`
         position: absolute;
 
         ${({theme}) => css`
@@ -64,7 +64,7 @@ export const IconLayoutAnimated = styled(LayoutAnimated)<NavigationRailItemIconP
         `}
 `
 
-export const LabelLayoutAnimated = styled(LayoutAnimated)`
+export const LabelLayout = styled(LayoutAnimated)`
         align-self: stretch;
         transform-origin: bottom;
 `

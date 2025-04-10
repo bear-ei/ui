@@ -9,7 +9,7 @@ import {LayoutAnimatedType} from './Layout-animated.enum'
 
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
         animatedType?: LayoutAnimatedType
-        contentSize?: {width?: number; height?: number}
+        contentSize?: {width?: number; height?: number; minHeight?: number; minWidth?: number}
         contentStyle?: ViewStyle
         defaultVisible?: boolean
         delay?: number

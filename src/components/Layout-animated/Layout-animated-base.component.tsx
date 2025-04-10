@@ -77,12 +77,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         animatedType,
                         entry,
                         exit,
-                        height: layout.height ?? contentSize?.height,
+                        height: layout.height ?? contentSize?.height ?? contentSize?.minHeight,
                         onAnimatedFinished: onLayoutAnimatedFinished,
                         opacity,
                         scale,
                         visible: visible ?? layoutVisible,
-                        width: layout.width ?? contentSize?.width
+                        width: layout.width ?? contentSize?.width ?? contentSize?.minWidth
                 })
 
                 useEffect(() => {

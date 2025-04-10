@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
-import {FAB} from '../FAB'
+import {Fab} from '../FAB'
 import {Icon, IconName} from '../Icon'
 import {IconButton, IconButtonType} from '../Icon-button'
 import {NavigationRail} from './Navigation-rail.component'
@@ -15,9 +15,8 @@ export const Standard: StoryObj<NavigationRailProps> = {
                                 type={IconButtonType.STANDARD}
                         />
                 ),
-                fab: <FAB icon={<Icon name={IconName.MENU} />} />,
+                fab: <Fab icon={<Icon />} />,
                 animatedType: NavigationRailAnimatedType.COLLAPSE,
-
                 data: [
                         {
                                 labelText: 'Label1',
@@ -38,7 +37,7 @@ export const Standard: StoryObj<NavigationRailProps> = {
 export const Block: StoryObj<NavigationRailProps> = {
         args: {
                 defaultActiveKey: 'name',
-                fab: <FAB icon={<Icon />} />,
+                fab: <Fab icon={<Icon />} />,
                 type: NavigationRailType.BLOCK,
                 data: [
                         {
@@ -67,7 +66,7 @@ export const Top: StoryObj<NavigationRailProps> = {
                                 type={IconButtonType.STANDARD}
                         />
                 ),
-                fab: <FAB icon={<Icon />} />,
+                fab: <Fab icon={<Icon />} />,
                 data: [
                         {
                                 labelText: 'Label1',
@@ -95,7 +94,7 @@ export const Center: StoryObj<NavigationRailProps> = {
                                 type={IconButtonType.STANDARD}
                         />
                 ),
-                fab: <FAB icon={<Icon />} />,
+                fab: <Fab icon={<Icon />} />,
                 data: [
                         {
                                 labelText: 'Label1',
@@ -123,7 +122,7 @@ export const Bottom: StoryObj<NavigationRailProps> = {
                                 type={IconButtonType.STANDARD}
                         />
                 ),
-                fab: <FAB icon={<Icon />} />,
+                fab: <Fab icon={<Icon />} />,
                 data: [
                         {
                                 labelText: 'Label1',

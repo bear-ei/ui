@@ -2,7 +2,7 @@ import {Size} from '@bearei/material-token'
 import {Meta, StoryObj} from '@storybook/react'
 import {Density} from '../Common'
 import {Icon} from '../Icon'
-import {FAB as Fab} from './FAB.component'
+import {Fab} from './FAB.component'
 import {FABType} from './FAB.enum'
 import {FABProps} from './FAB.interface'
 

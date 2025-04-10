@@ -18,6 +18,12 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
                 css`
                         overflow: hidden;
                 `}
+
+        ${({collapse}) =>
+                collapse &&
+                css`
+                        overflow: hidden;
+                `}
 `
 
 export const ContentLayout = styled.View<ContentLayoutProps>`
@@ -31,10 +37,17 @@ export const ContentLayout = styled.View<ContentLayoutProps>`
         `};
 
         ${({contentSize, visible}) =>
-                typeof contentSize?.height === 'number' &&
+                typeof contentSize?.minHeight === 'number' &&
                 !visible &&
                 css`
-                        min-height: ${contentSize.height}px;
+                        min-height: ${contentSize.minHeight}px;
+                `}
+
+        ${({contentSize, visible}) =>
+                typeof contentSize?.minWidth === 'number' &&
+                !visible &&
+                css`
+                        min-width: ${contentSize.minWidth}px;
                 `}
 `
 

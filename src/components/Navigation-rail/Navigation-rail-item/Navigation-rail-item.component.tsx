@@ -12,9 +12,9 @@ import {
         Container,
         Header,
         IconLayout,
-        IconLayoutAnimated,
+        IconLayoutContainer,
         Label,
-        LabelLayoutAnimated,
+        LabelLayout,
         LabelText,
         TouchableContent
 } from './Navigation-rail-item.styles'
@@ -38,6 +38,11 @@ const render = ({
 }: RenderNavigationRailItemProps) => {
         const activeColor = theme.token.scheme.secondaryContainer
         const underlayColor = theme.token.scheme.onSurface
+        const activeAnimatedType =
+                type === NavigationRailType.BLOCK ? ActiveAnimatedType.SCALE : ActiveAnimatedType.SCALE_X
+
+        const shape = type === NavigationRailType.BLOCK ? ShapeType.FULL : ShapeType.LARGE
+        const labelVisible = animatedType === NavigationRailAnimatedType.COLLAPSE ? active : true
 
         return (
                 <Container
@@ -57,54 +62,42 @@ const render = ({
                                         testID={`navigationRailItem__header--${id}`}
                                         type={type}
                                 >
-                                        <IconLayout testID={`navigationRailItem__iconLayout--${id}`}>
-                                                <IconLayoutAnimated
+                                        <IconLayoutContainer testID={`navigationRailItem__iconLayout--${id}`}>
+                                                <IconLayout
                                                         testID={`navigationRailItem__iconLayoutAnimated--${id}`}
                                                         visible={!active}
                                                 >
                                                         {iconElement}
-                                                </IconLayoutAnimated>
+                                                </IconLayout>
 
-                                                <IconLayoutAnimated
+                                                <IconLayout
                                                         testID={`navigationRailItem__iconLayoutAnimated--${id}`}
                                                         visible={active}
                                                 >
                                                         {activeIconElement}
-                                                </IconLayoutAnimated>
-                                        </IconLayout>
+                                                </IconLayout>
+                                        </IconLayoutContainer>
 
                                         <Underlay
                                                 active={active}
-                                                activeAnimatedType={
-                                                        type === NavigationRailType.BLOCK ?
-                                                                ActiveAnimatedType.SCALE
-                                                        :       ActiveAnimatedType.SCALE_X
-                                                }
+                                                activeAnimatedType={activeAnimatedType}
                                                 activeColor={activeColor}
                                                 activeShape={ShapeType.FULL}
                                                 eventName={eventName}
-                                                shape={
-                                                        type === NavigationRailType.BLOCK ?
-                                                                ShapeType.FULL
-                                                        :       ShapeType.LARGE
-                                                }
+                                                shape={shape}
                                                 testID={`navigationRailItem__underlay--${id}`}
                                                 underlayColor={underlayColor}
                                         />
                                 </Header>
 
                                 {type === NavigationRailType.SEGMENT && (
-                                        <LabelLayoutAnimated
+                                        <LabelLayout
                                                 animatedType={LayoutAnimatedType.COLLAPSE_Y}
-                                                contentStyle={{minHeight: theme.adaptSize(theme.token.spacing.large)}}
+                                                contentSize={{height: theme.adaptSize(theme.token.spacing.large)}}
                                                 pointerEvents='none'
                                                 scale={false}
                                                 testID={`navigationRailItem__labelLayoutAnimated--${id}`}
-                                                visible={
-                                                        animatedType === NavigationRailAnimatedType.COLLAPSE ?
-                                                                active
-                                                        :       true
-                                                }
+                                                visible={labelVisible}
                                         >
                                                 <Label testID={`navigationRailItem__label--${id}`}>
                                                         <AnimatedLabelText
@@ -119,7 +112,7 @@ const render = ({
                                                                 {labelText}
                                                         </AnimatedLabelText>
                                                 </Label>
-                                        </LabelLayoutAnimated>
+                                        </LabelLayout>
                                 )}
                         </TouchableContent>
                 </Container>

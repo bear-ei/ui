@@ -33,7 +33,6 @@ const render = ({
 }: RenderFABProps) => {
         const sizeShape = size === Size.MEDIUM ? ShapeType.LARGE : ShapeType.MEDIUM
         const shape = size === Size.LARGE ? ShapeType.EXTRA_LARGE : sizeShape
-
         const backgroundUnderlayElement = (
                 <AnimatedBackgroundUnderlay
                         pointerEvents='none'
@@ -124,4 +123,6 @@ const ForwardRefFAB = forwardRef<View, FABProps>((props, ref) => (
         />
 ))
 
-export const FAB: FC<FABProps> = ForwardRefFAB
+const FAB: FC<FABProps> = ForwardRefFAB
+
+export const Fab = FAB
