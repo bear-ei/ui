@@ -5,7 +5,9 @@ import {IconButtonType} from './Icon-button.enum'
 import {IconButtonProps} from './Icon-button.interface'
 
 export const Filled: StoryObj<IconButtonProps> = {
-        args: {loading: true}
+        args: {
+                type: IconButtonType.FILLED
+        }
 }
 
 export const Outlined: StoryObj<IconButtonProps> = {
@@ -16,8 +18,7 @@ export const Outlined: StoryObj<IconButtonProps> = {
 
 export const Standard: StoryObj<IconButtonProps> = {
         args: {
-                type: IconButtonType.STANDARD,
-                loading: true
+                type: IconButtonType.STANDARD
         }
 }
 
@@ -30,6 +31,12 @@ export const Tonal: StoryObj<IconButtonProps> = {
 export const Active: StoryObj<IconButtonProps> = {
         args: {
                 type: IconButtonType.ACTIVE
+        }
+}
+
+export const Loading: StoryObj<IconButtonProps> = {
+        args: {
+                loading: true
         }
 }
 
