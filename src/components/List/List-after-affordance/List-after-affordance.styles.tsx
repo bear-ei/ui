@@ -9,7 +9,7 @@ export const Container = styled.View`
         ${({theme}) => css`
                 background-color: ${theme.token.scheme.primary};
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 28)}px;
+                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 34)}px;
         `}
 `
 

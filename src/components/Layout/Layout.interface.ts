@@ -1,10 +1,11 @@
 import {FC} from 'react'
+import {LayoutType} from '../Common'
 import {LayoutAnimatedProps} from '../Layout-animated'
 import {LayoutNavigationProps} from './Layout-navigation'
 import {LayoutPaneProps} from './Layout-pane'
 
 export interface LayoutProps extends LayoutAnimatedProps {
-        layout?: 'row' | 'column'
+        layout?: LayoutType
 }
 
 export type RenderLayoutProps = LayoutProps

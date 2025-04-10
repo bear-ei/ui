@@ -1,6 +1,7 @@
 import {Duration, Easing} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
-import {View} from 'react-native'
+import {View, ViewStyle} from 'react-native'
+import {LayoutType} from '../../Common'
 import {LayoutPaneBase} from './Layout-pane-base.component'
 import {LayoutPaneProps, RenderLayoutPaneProps} from './Layout-pane.interface'
 import {ContainerLayout} from './Layout-pane.styles'
@@ -10,11 +11,14 @@ const render = ({
         contentStyle: rawContentStyle,
         defaultVisible = true,
         id,
-        layout = 'row',
+        layout = LayoutType.HORIZONTAL,
         testID,
         ...containerProps
 }: RenderLayoutPaneProps) => {
-        const contentStyle = {...rawContentStyle, flexDirection: layout}
+        const contentStyle = {
+                ...rawContentStyle,
+                flexDirection: layout === LayoutType.HORIZONTAL ? 'row' : 'column'
+        } as ViewStyle
 
         return (
                 <ContainerLayout

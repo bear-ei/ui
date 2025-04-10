@@ -1,5 +1,6 @@
 import {FC, forwardRef} from 'react'
-import {View} from 'react-native'
+import {View, ViewStyle} from 'react-native'
+import {LayoutType} from '../Common'
 import {LayoutBase} from './Layout-base.component'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
@@ -11,11 +12,14 @@ const render = ({
         contentStyle: rawContentStyle,
         defaultVisible = true,
         id,
-        layout = 'row',
+        layout = LayoutType.HORIZONTAL,
         testID,
         ...containerProps
 }: RenderLayoutProps) => {
-        const contentStyle = {...rawContentStyle, flexDirection: layout}
+        const contentStyle = {
+                ...rawContentStyle,
+                flexDirection: layout === LayoutType.HORIZONTAL ? 'row' : 'column'
+        } as ViewStyle
 
         return (
                 <ContainerLayout

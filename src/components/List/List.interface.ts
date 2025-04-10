@@ -119,3 +119,4 @@ export interface ListBaseProps extends ListProps {
 }
 
 export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
+export type HandleListItemSizeOptions = Pick<RenderListProps, 'density' | 'type'>

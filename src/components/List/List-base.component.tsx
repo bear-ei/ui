@@ -135,7 +135,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
                         afterAffordanceActiveKey,
                         focusedIndex,
                         id,
-                        itemSize: handleListItemSize(theme)(density)(itemSize),
+                        itemSize: handleListItemSize({density, type})(theme)(itemSize),
                         loading,
                         loadingComponent,
                         onClose: onListClose,

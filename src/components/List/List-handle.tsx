@@ -1,12 +1,13 @@
 import {WritableDraft} from 'immer'
 import {DefaultTheme} from 'styled-components/native'
 import {Updater} from 'use-immer'
-import {Density, DensityScale} from '../Common'
+import {DensityScale} from '../Common'
 import {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
-import {SelectType} from './List.enum'
+import {ListType, SelectType} from './List.enum'
 import {
         HandleListActiveOptions,
+        HandleListItemSizeOptions,
         HandleRenderItemOptions,
         ListData,
         ListState,
@@ -80,12 +81,15 @@ export const handleListActive =
                         )(callbackValue)
                 })
 
-export const handleListItemSize = (theme: DefaultTheme) => (density?: Density) => (itemSize?: number) =>
-        itemSize ??
-        theme.adaptSize(
-                theme.token.spacing.extraSmall * 14 +
-                        DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
-        )
+export const handleListItemSize =
+        ({density, type}: HandleListItemSizeOptions) =>
+        (theme: DefaultTheme) =>
+        (itemSize?: number) =>
+                itemSize ??
+                theme.adaptSize(
+                        theme.token.spacing.extraSmall * (type === ListType.STANDARD ? 14 : 12) +
+                                DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
+                )
 
 export const handleListActiveAfterAffordance =
         ({onActive, selectType}: HandleListActiveOptions) =>

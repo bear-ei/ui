@@ -7,7 +7,7 @@ export const Container = styled.View<ListAffordanceButtonContainerProps>`
 
         ${({theme}) => css`
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 17)}px;
         `}
 `
 
@@ -20,7 +20,7 @@ export const Content = styled.View`
 
         ${({theme}) => css`
                 min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 17)}px;
         `}
 `
 

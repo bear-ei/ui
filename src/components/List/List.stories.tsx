@@ -2,11 +2,10 @@ import {ShapeType} from '@bearei/material-token'
 import {Meta, StoryObj} from '@storybook/react'
 import {useMemo, useState} from 'react'
 import {View, ViewStyle} from 'react-native'
-import {Icon, IconName, IconStyle, IconType} from '../Icon'
-import {IconButton, IconButtonType} from '../Icon-button'
+import {Icon} from '../Icon'
 import {Skeleton} from '../Skeleton'
 import {List} from './List.component'
-import {SelectType} from './List.enum'
+import {ListType, SelectType} from './List.enum'
 import {ListProps} from './List.interface'
 
 const renderListSkeleton = () => {
@@ -37,10 +36,36 @@ const renderListSkeleton = () => {
         )
 }
 
-export const Headline: StoryObj<ListProps> = {
+export const Standard: StoryObj<ListProps> = {
         args: {
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA'
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB'
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC'
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD'
+                        }
+                ]
+        }
+}
+
+export const Menu: StoryObj<ListProps> = {
+        args: {
+                defaultActiveKey: 'TitleB',
+                activeKey: 'TitleA',
+                type: ListType.MENU,
                 data: [
                         {
                                 indexKey: 'TitleA',
@@ -115,57 +140,12 @@ export const Multiselect = () => {
                 <View style={[style]}>
                         <List
                                 activeKeys={activeKeys}
-                                afterAffordance={true}
                                 data={data}
                                 itemSize={56}
                                 onActives={onActiveKeys}
-                                selectType={SelectType.SINGLE}
+                                selectType={SelectType.MULTIPLE}
                                 shape={ShapeType.FULL}
                                 skeletonElement={skeleton}
-                        />
-                </View>
-        )
-}
-
-export const Navigation = () => {
-        const [activeKeys, setActiveKeys] = useState<string[] | undefined>(undefined)
-        const style = {height: 800, width: '100%'} as ViewStyle
-        const data = useMemo(
-                () =>
-                        Array.from({length: 1255}, (_, index) => ({
-                                indexKey: `Title${index + 1}`,
-                                headline: `Title${index + 1}`,
-                                leading: <Icon />,
-                                trailing: (
-                                        <IconButton
-                                                size={24}
-                                                icon={
-                                                        <Icon
-                                                                iconStyle={IconStyle.ROUNDED}
-                                                                name={IconName.CLOSE}
-                                                                size={18}
-                                                                type={IconType.FILLED}
-                                                        />
-                                                }
-                                                pointerEvents='box-only'
-                                                type={IconButtonType.STANDARD}
-                                        />
-                                ),
-                                extraData: []
-                        })),
-                []
-        )
-
-        const onActiveKeys = (keys?: string[]) => setActiveKeys(keys)
-
-        return (
-                <View style={[style]}>
-                        <List
-                                activeKeys={activeKeys}
-                                data={data}
-                                itemSize={48}
-                                onActives={onActiveKeys}
-                                selectType={SelectType.SINGLE}
                         />
                 </View>
         )

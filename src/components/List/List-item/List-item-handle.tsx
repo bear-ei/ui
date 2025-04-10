@@ -264,7 +264,7 @@ export const renderListItemTrailing = ({
                 disabled,
                 pointerEvents: 'box-only' as ViewProps['pointerEvents'],
                 testID: `listItem__trailing--${id}`,
-                type: 'standard' as IconButtonType
+                type: IconButtonType.STANDARD
         }
 
         const trailingElement = {

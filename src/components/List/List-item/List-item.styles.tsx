@@ -1,6 +1,6 @@
 import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
-import {Shape, Typography} from '../../Common'
+import {DensityScale, Shape, Typography} from '../../Common'
 import {LayoutAnimated} from '../../Layout-animated'
 import {ListType} from '../List.enum'
 import {
@@ -15,6 +15,7 @@ export const Container = styled(Shape)<ListItemContainerProps>`
         align-self: stretch;
         display: flex;
         flex-direction: column;
+        flex: 1;
         overflow: hidden;
         position: relative;
 
@@ -58,19 +59,18 @@ export const Main = styled(Shape)<ListItemMainProps>`
         position: relative;
         z-index: 4;
 
-        ${({theme, type = ListType.STANDARD, densityScale}) => {
-                const density = densityScale ?? theme.densityScale
-                const designDensity = density * theme.token.spacing.extraSmall
+        ${({theme, type = ListType.STANDARD, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
                 const mainType = {
                         [ListType.MENU]: css`
-                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + designDensity)}px;
+                                height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                         ${theme.adaptSize(
                                                 theme.token.spacing.medium - theme.token.spacing.extraSmall
                                         )}px;
                         `,
                         [ListType.STANDARD]: css`
-                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + designDensity)}px;
+                                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
                                 padding: ${theme.adaptSize(theme.token.spacing.none)}px
                                         ${theme.adaptSize(theme.token.spacing.medium)}px;
                         `

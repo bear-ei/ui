@@ -18,7 +18,7 @@ export const useListItemAnimated = ({
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const contentLeftSharedValue = useSharedValue(0)
         const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
-        const contentLeftOutputRanges = [theme.adaptSize(spacing.none), -theme.adaptSize(spacing.extraSmall * 28)]
+        const contentLeftOutputRanges = [theme.adaptSize(spacing.none), -theme.adaptSize(spacing.extraSmall * 34)]
         const contentAnimatedStyle = useAnimatedStyle(() => ({
                 left: interpolate(contentLeftSharedValue.value, [0, 1], contentLeftOutputRanges)
         }))

@@ -1,4 +1,4 @@
-import {cloneElement, forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -155,10 +155,13 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         trailingProps
                 })
 
-                const leadingElement = cloneElement(leading ?? <></>, {
-                        ...(selectType && {type: active ? 'filled' : 'outlined'}),
-                        testID: `listItem__leading--${id}`
-                })
+                // const leadingElement =
+                //         leading ?
+                //                 cloneElement(leading, {
+                //                         ...(selectType && {type: active ? 'filled' : 'outlined'}),
+                //                         testID: `listItem__leading--${id}`
+                //                 })
+                //         :       undefined
 
                 useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [
                         pressableRef
@@ -199,7 +202,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
                         headlineTextAnimatedStyle,
                         id,
                         indexKey,
-                        leadingElement,
+                        leadingElement: leading,
                         onConfirm: onListItemConfirm,
                         stateOnEvent,
                         // panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,

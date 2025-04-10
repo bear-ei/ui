@@ -1,4 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
+import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
 import {Layout} from './Layout.component'
 import {LayoutProps} from './Layout.interface'
@@ -12,6 +13,12 @@ export const Pane: StoryObj<LayoutProps> = {
                                 <LayoutPane />
                         </>
                 )
+        }
+}
+
+export const Navigation: StoryObj<LayoutProps> = {
+        args: {
+                children: <LayoutNavigation />
         }
 }
 

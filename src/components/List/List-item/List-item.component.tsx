@@ -77,7 +77,7 @@ const render = ({
                 [SelectType.SINGLE, SelectType.MULTIPLE].includes(selectType) &&
                 enableUnderlayActive && {
                         active,
-                        activeAnimatedType: 'fade' as ActiveAnimatedType,
+                        activeAnimatedType: ActiveAnimatedType.FADE,
                         activeColor
                 }
 
