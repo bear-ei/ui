@@ -137,7 +137,6 @@ export const useTextInputAnimated = ({
                         [0, 1, 2, 3],
                         activeIndicatorBackgroundColorOutputRanges
                 ),
-
                 transform: [{scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.3333, 1])}]
         }))
 

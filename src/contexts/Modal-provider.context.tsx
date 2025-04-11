@@ -2,17 +2,18 @@ import mitt from 'mitt'
 import {FC, useEffect, useId} from 'react'
 import {useImmer} from 'use-immer'
 import {SideSheet} from '../components'
+import {ModalType} from './contexts.enum'
 import {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './contexts.interface'
 import {handleModal} from './Modal-provider.-handle'
 
-const ModalItem: FC<ModalItemProps> = ({name, props}) => {
-        const component = {tooltip: <></>, sideSheet: SideSheet}
+const ModalItem: FC<ModalItemProps> = ({type, props}) => {
+        const component = {[ModalType.TOOL_TIP]: <></>, [ModalType.SIDE_SHEET]: SideSheet}
 
-        if (!name) {
+        if (!type) {
                 return <></>
         }
 
-        const ModalComponent = component[name] as FC<unknown>
+        const ModalComponent = component[type] as FC<unknown>
 
         return <ModalComponent {...props} />
 }
@@ -32,10 +33,10 @@ export const ModalProvider: FC<ModalProps> = () => {
 
         return (
                 <>
-                        {modals.map(({name, props, id: modalId}) => (
+                        {modals.map(({type, props, id: modalId}) => (
                                 <ModalItem
                                         key={modalId}
-                                        name={name}
+                                        type={type}
                                         props={props}
                                         testID={id}
                                 />

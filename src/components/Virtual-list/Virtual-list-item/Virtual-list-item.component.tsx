@@ -1,3 +1,4 @@
+import {Duration} from '@bearei/material-token'
 import {forwardRef, memo} from 'react'
 import {View} from 'react-native'
 import {VirtualListItemBase} from './Virtual-list-item-base.component'
@@ -17,7 +18,7 @@ const render = ({
 }: RenderVirtualListItemProps) => (
         <ContainerLayout
                 {...containerProps}
-                exit={{duration: 'short2'}}
+                exit={{duration: Duration.SHORT_2}}
                 itemSize={itemSize}
                 onUnmount={onUnmount}
                 style={[containerAnimatedStyle]}

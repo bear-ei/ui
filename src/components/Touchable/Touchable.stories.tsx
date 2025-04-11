@@ -21,7 +21,7 @@ const TouchableComponent = (props: TouchableProps) => {
 const childrenStyle = {
         height: 300,
         width: 300,
-        backgroundColor: '#0e0000'
+        backgroundColor: '#F9F9F8'
 } as ViewStyle
 
 export const Ripple: StoryObj<TouchableProps> = {

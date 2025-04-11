@@ -1,10 +1,10 @@
 import {RefAttributes} from 'react'
 import {View, ViewProps} from 'react-native'
+import {ModalType} from './contexts.enum'
 
-export type ModalName = 'tooltip' | 'sideSheet'
 export interface Modal {
         id: string
-        name?: ModalName
+        type?: ModalType
         props?: Record<string, unknown>
         unmount?: boolean
 }
@@ -18,8 +18,8 @@ export interface ModalState {
 }
 
 export interface ModalItemProps extends ViewProps, RefAttributes<View> {
-        name?: ModalName
+        type?: ModalType
         props?: ViewProps & RefAttributes<View>
 }
 
-export type ModalProps = Pick<Modal, 'name' | 'props'>
+export type ModalProps = Pick<Modal, 'type' | 'props'>

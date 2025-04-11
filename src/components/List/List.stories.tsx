@@ -66,6 +66,7 @@ export const Menu: StoryObj<ListProps> = {
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
                 type: ListType.MENU,
+                closeTrailing: true,
                 data: [
                         {
                                 indexKey: 'TitleA',

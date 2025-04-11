@@ -23,9 +23,9 @@ const handleAnimatedTiming = ({
                 const animation = withTiming(
                         toValue,
                         {
+                                ...config,
                                 duration: transitionDuration,
-                                easing: ReanimatedEasing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1),
-                                ...config
+                                easing: ReanimatedEasing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1)
                         },
                         finished => {
                                 'worklet'

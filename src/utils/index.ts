@@ -1,6 +1,5 @@
 export * from './adapt-window.utils'
 export * from './debounce.utils'
-export * from './generate-random-number.utils'
 export * from './name-path.utils'
 export * from './omit.utils'
 export * from './run-afterInteractions.utils'
