@@ -7,7 +7,7 @@ export interface SkeletonElementProps
         extends ViewProps,
                 RefAttributes<View>,
                 Pick<ShapeProps, 'shape'>,
-                Pick<RenderSkeletonProps, 'containerLayout'> {
+                Pick<RenderSkeletonProps, 'layout'> {
         size?: number | {width?: number; height: number}
 }
 
@@ -16,6 +16,6 @@ export interface SkeletonElementBaseProps extends SkeletonElementProps {
         render: (props: RenderSkeletonElementProps) => React.JSX.Element
 }
 
-export type SkeletonElementContainerProps = Pick<RenderSkeletonElementProps, 'containerLayout'> & {
+export type SkeletonElementContainerProps = Pick<RenderSkeletonElementProps, 'layout'> & {
         showChildren?: boolean
 }

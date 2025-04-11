@@ -1,13 +1,13 @@
-import {Layout} from '@bearei/material-token'
 import {FC, ReactNode} from 'react'
 import {ViewStyle} from 'react-native'
 import {AnimatedStyle} from 'react-native-reanimated'
 import {AnimatedTiming, HandleStateEventChangeOptions} from '../../hooks'
+import {LayoutType} from '../Common'
 import {LayoutAnimatedProps} from '../Layout-animated'
 import {SkeletonElementProps} from './Skeleton-element'
 
 export interface SkeletonProps extends Omit<LayoutAnimatedProps, 'duration'> {
-        containerLayout?: Layout
+        layout?: LayoutType
         duration?: number
         enableAnimated?: boolean
         skeleton?: ReactNode
@@ -39,6 +39,7 @@ export interface SkeletonComponent extends FC<SkeletonProps> {
         Square: FC<SkeletonElementProps>
 }
 
-export type SkeletonContainerProps = Pick<RenderSkeletonProps, 'containerLayout'> & {
+export type SkeletonContainerProps = {
+        layoutType?: LayoutType
         showChildren?: boolean
 }

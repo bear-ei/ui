@@ -3,6 +3,7 @@ import {FC, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
+import {LayoutType} from '../Common'
 import {SkeletonBase} from './Skeleton-base.component'
 import {SkeletonElement, SkeletonElementProps} from './Skeleton-element'
 import {RenderSkeletonProps, SkeletonComponent, SkeletonProps} from './Skeleton.interface'
@@ -15,6 +16,7 @@ const render = ({
         contentSize,
         contentStyle,
         id,
+        layout = LayoutType.HORIZONTAL,
         skeleton,
         style,
         visible,
@@ -34,6 +36,7 @@ const render = ({
                                 >
                                         <AnimatedSkeletonLayout
                                                 {...containerProps}
+                                                layoutType={layout}
                                                 style={[style, containerAnimatedStyle]}
                                                 testID={`skeleton__animatedSkeletonLayout--${id}`}
                                         >
@@ -65,7 +68,7 @@ const ForwardRefSkeleton = forwardRef<View, SkeletonProps>((props, ref) => (
 const Circle: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
         const theme = useTheme()
         const {shape = ShapeType.FULL, size, style, ...skeletonElementProps} = props
-        const defaultSize = theme.adaptFontSize(theme.token.spacing.extraSmall * 10)
+        const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
         const circleSize = typeof size === 'number' ? (size ?? defaultSize) : defaultSize
         const circleStyle = {width: circleSize, height: circleSize}
 
@@ -81,7 +84,7 @@ const Circle: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
 const Square: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
         const theme = useTheme()
         const {shape = ShapeType.SMALL, size, style, ...skeletonElementProps} = props
-        const defaultSize = theme.adaptFontSize(theme.token.spacing.extraSmall * 10)
+        const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
         const squareSize = typeof size === 'number' ? (size ?? defaultSize) : defaultSize
         const squareStyle = {width: squareSize, height: squareSize}
 
@@ -97,11 +100,12 @@ const Square: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
 const Rectangular: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
         const theme = useTheme()
         const {shape = ShapeType.SMALL, style, size, ...skeletonElementProps} = props
-        const defaultSize = theme.adaptFontSize(theme.token.spacing.extraSmall * 10)
+        const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
+        const squareSize = typeof size === 'number' ? (size ?? defaultSize) : defaultSize
         const rectangularStyle =
                 typeof size === 'object' ?
-                        {width: size.width ?? defaultSize, height: size.height ?? defaultSize}
-                :       {width: defaultSize, height: defaultSize}
+                        {minWidth: size.width ?? squareSize, height: size.height ?? squareSize, flex: 1}
+                :       {minWidth: squareSize, height: squareSize, flex: 1}
 
         return (
                 <SkeletonElement

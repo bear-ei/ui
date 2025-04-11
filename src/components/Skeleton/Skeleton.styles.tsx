@@ -11,8 +11,8 @@ export const SkeletonContainer = styled.View<SkeletonContainerProps>`
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
         `}
 
-        ${({containerLayout = LayoutType.HORIZONTAL}) =>
-                containerLayout === LayoutType.HORIZONTAL ?
+        ${({layoutType = LayoutType.HORIZONTAL}) =>
+                layoutType === LayoutType.HORIZONTAL ?
                         css`
                                 flex-direction: row;
                                 align-items: center;
