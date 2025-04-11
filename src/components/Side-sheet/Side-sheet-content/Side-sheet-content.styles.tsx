@@ -2,7 +2,7 @@ import {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {LayoutAnimated} from '../../Layout-animated'
-import {SheetType} from '../Side-sheet.interface'
+import {SheetPosition, SheetType} from '../Side-sheet.enum'
 import {
         SheetContainerProps,
         SheetFooterProps,
@@ -17,26 +17,26 @@ export const Container = styled.View<SheetContainerProps>`
         flex: 1;
         overflow: hidden;
 
-        ${({sheetPosition = 'horizontalEnd', type}) => {
+        ${({sheetPosition = SheetPosition.HORIZONTAL_END, type}) => {
                 const contentPosition = {
-                        horizontalStart: css`
+                        [SheetPosition.HORIZONTAL_START]: css`
                                 justify-content: flex-start;
                         `,
-                        horizontalEnd: css`
+                        [SheetPosition.HORIZONTAL_END]: css`
                                 justify-content: flex-end;
                         `
                 }
 
-                return type === 'modal' && contentPosition[sheetPosition]
+                return type === SheetType.MODAL && contentPosition[sheetPosition]
         }}
 
-        ${({theme, type = 'standard'}) => {
+        ${({theme, type = SheetType.STANDARD}) => {
                 const contentType = {
-                        standard: css`
+                        [SheetType.STANDARD]: css`
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
                         `,
-                        modal: css``,
-                        standardContainer: css`
+                        [SheetType.MODAL]: css``,
+                        [SheetType.SIDEBAR]: css`
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
                         `
                 } as Record<SheetType, RuleSet<object> | undefined>
@@ -51,17 +51,17 @@ export const Content = styled(Shape)<SheetViewContentProps>`
         flex: 1;
         position: relative;
 
-        ${({theme, type = 'standard'}) => {
+        ${({theme, type = SheetType.STANDARD}) => {
                 const contentType = {
-                        standard: css`
+                        [SheetType.STANDARD]: css`
                                 background-color: ${theme.token.scheme.surface};
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
                         `,
-                        modal: css`
+                        [SheetType.MODAL]: css`
                                 background-color: ${theme.token.scheme.surfaceContainerLow};
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 80)}px;
                         `,
-                        standardContainer: css`
+                        [SheetType.SIDEBAR]: css`
                                 background-color: ${theme.token.scheme.surfaceContainerLow};
                                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
                         `
@@ -175,15 +175,15 @@ export const Footer = styled.View<SheetFooterProps>`
                         ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px;
         `}
 
-        ${({theme, type = 'standard'}) => {
+        ${({theme, type = SheetType.STANDARD}) => {
                 const footerType = {
-                        standard: css`
+                        [SheetType.STANDARD]: css`
                                 background-color: ${theme.token.scheme.surface};
                         `,
-                        modal: css`
+                        [SheetType.MODAL]: css`
                                 background-color: ${theme.token.scheme.surfaceContainerLow};
                         `,
-                        standardContainer: css`
+                        [SheetType.SIDEBAR]: css`
                                 background-color: ${theme.token.scheme.surfaceContainerLow};
                         `
                 } as Record<SheetType, RuleSet<object> | undefined>

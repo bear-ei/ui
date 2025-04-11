@@ -18,7 +18,7 @@ const render = ({visible, type = SheetType.STANDARD, id, testID, ...sheetProps}:
 
         return (
                 <>
-                        {[SheetType.STANDARD, SheetType.STANDARD_CONTAINER].includes(type) ?
+                        {[SheetType.STANDARD, SheetType.SIDEBAR].includes(type) ?
                                 sheetContentElement
                         :       <Container testID={testID ?? `sideSheet--${id}`}>{sheetContentElement}</Container>}
                 </>

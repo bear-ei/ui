@@ -1,7 +1,7 @@
 export enum SheetType {
         STANDARD = 'STANDARD',
         MODAL = 'MODAL',
-        STANDARD_CONTAINER = 'STANDARD_CONTAINER'
+        SIDEBAR = 'SIDEBAR'
 }
 
 export enum SheetPosition {

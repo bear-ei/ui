@@ -3,10 +3,6 @@ import {SideSheet} from './Side-sheet.component'
 import {SheetType} from './Side-sheet.enum'
 import {SideSheetProps} from './Side-sheet.interface'
 
-export const Side: StoryObj<SideSheetProps> = {
-        args: {visible: true}
-}
-
 export const Footer: StoryObj<SideSheetProps> = {
         args: {footerVisible: true, visible: true, type: SheetType.STANDARD}
 }

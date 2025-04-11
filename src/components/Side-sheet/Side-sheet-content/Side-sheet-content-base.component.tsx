@@ -1,6 +1,7 @@
 import {forwardRef, useId} from 'react'
 import {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
+import {SheetPosition} from '../Side-sheet.enum'
 import {renderSideSheetContentLeading, renderSideSheetContentTrailing} from './Side-sheet-content-handle'
 import {SideSheetContentBaseProps} from './Side-sheet-content.interface'
 import {useSideSheetContentAnimated} from './use-side-sheet-content-animated.hook'
@@ -17,7 +18,7 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
                         onBack,
                         onClose,
                         render,
-                        sheetPosition = 'horizontalEnd',
+                        sheetPosition = SheetPosition.HORIZONTAL_END,
                         type,
                         visible,
                         ...renderProps

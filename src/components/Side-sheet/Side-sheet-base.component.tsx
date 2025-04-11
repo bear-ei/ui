@@ -97,8 +97,6 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
                         runAfterInteractions(nextCancelEvent)()
                 }, [nextCancelEvent])
 
-                return [SheetType.STANDARD, SheetType.STANDARD_CONTAINER].includes(type) ?
-                                render(renderSheetProps)
-                        :       <></>
+                return [SheetType.STANDARD, SheetType.SIDEBAR].includes(type) ? render(renderSheetProps) : <></>
         }
 )

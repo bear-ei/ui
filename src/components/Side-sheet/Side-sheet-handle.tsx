@@ -18,7 +18,7 @@ export const handleSideSheetBack =
         ({type, disabledClose, onBack}: HandleSideSheetBackOptions) =>
         (setState: Updater<SideSheetState>) => {
                 setState(draft => {
-                        if (type !== SheetType.STANDARD_CONTAINER || !disabledClose) {
+                        if (type !== SheetType.SIDEBAR || !disabledClose) {
                                 draft.sideSheetVisible = false
                         }
 

@@ -49,7 +49,7 @@ const render = ({
         theme,
         trailing,
         type,
-        ...innerProps
+        ...contentProps
 }: RenderSideSheetContentProps) => {
         const footerLayoutContainerContentStyle = {minHeight: theme.adaptFontSize(theme.token.spacing.extraSmall * 20)}
         const sheetShape =
@@ -64,7 +64,7 @@ const render = ({
                         type={type}
                 >
                         <Content
-                                {...innerProps}
+                                {...contentProps}
                                 accessibilityRole='alert'
                                 shape={sheetShape}
                                 style={[style]}
