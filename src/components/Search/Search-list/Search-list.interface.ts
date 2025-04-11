@@ -19,8 +19,8 @@ export interface SearchListBaseProps extends SearchListProps {
 export type HandleSearchListEmitOptions = Pick<RenderSearchListProps, 'visible' | 'id'>
 export type UseSearchListAnimatedOptions = Pick<RenderSearchListProps, 'visible' | 'containerLayout'>
 export interface HandleSearchListAnimatedTimingOptions extends Omit<UseSearchListAnimatedOptions, 'containerLayout'> {
-        heightSharedValue: SharedValue<number>
         animatedTiming: AnimatedTiming
+        heightSharedValue: SharedValue<number>
 }
 
 export type SearchListContainerProps = {

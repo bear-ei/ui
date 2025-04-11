@@ -41,9 +41,9 @@ export interface SearchState {
         listVisible?: boolean
         nextChangeTextEvent?: () => void
         nextPressOutEvent?: () => void
-        value?: string
         state: State
         status: ComponentStatus
+        value?: string
 }
 
 export type HandleSearchChangeTextOptions = Pick<RenderSearchProps, 'onChangeText'> & Pick<SearchListProps, 'data'>

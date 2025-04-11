@@ -31,6 +31,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         {status, value, eventName, layout, listVisible, nextPressOutEvent, nextChangeTextEvent},
                         setState
                 ] = useImmer<SearchState>({layout: {} as SearchState['layout'], state: 'enabled', status: 'idle'})
+
                 const id = useId()
                 const containerRef = useRef<View>(null)
                 const {data} = listProps ?? {}
