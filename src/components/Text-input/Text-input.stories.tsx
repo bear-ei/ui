@@ -1,4 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react'
+import {Density} from '../Common'
 import {Icon} from '../Icon'
 import {TextInput} from './Text-input.component'
 import {TextInputProps} from './Text-input.interface'
@@ -15,6 +16,14 @@ export const IconTextInput: StoryObj<TextInputProps> = {
                 labelText: 'name',
                 supportingText: 'supportingText',
                 leading: <Icon />
+        }
+}
+
+export const DensityScale: StoryObj<TextInputProps> = {
+        args: {
+                labelText: 'name',
+                supportingText: 'supportingText',
+                density: Density.COMPACT
         }
 }
 

@@ -138,11 +138,7 @@ export const useTextInputAnimated = ({
                         activeIndicatorBackgroundColorOutputRanges
                 ),
 
-                transform: [
-                        {
-                                scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.3333, 1])
-                        }
-                ]
+                transform: [{scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.3333, 1])}]
         }))
 
         const supportingTextSharedValueValueColorOutputRanges = [

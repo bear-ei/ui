@@ -102,6 +102,7 @@ const render = ({
 
                                                 <Main
                                                         contentShow={!!content}
+                                                        density={density}
                                                         testID={`textInput__main--${id}`}
                                                 >
                                                         {content}
@@ -138,6 +139,7 @@ const render = ({
                                                 )}
 
                                                 <AnimatedLabel
+                                                        density={density}
                                                         leadingShow={leadingShow}
                                                         style={[labelAnimatedStyle]}
                                                         testID={`textInput__animatedLabel--${id}`}

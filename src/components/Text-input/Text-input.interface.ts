@@ -134,11 +134,11 @@ export interface TextInputControlProps {
         size?: number
 }
 
-export interface TextInputLabelProps extends TypographyProps {
+export interface TextInputLabelProps extends TypographyProps, Pick<RenderTextInputProps, 'density'> {
         leadingShow: boolean
 }
 
-export interface TextInputMainProps {
+export interface TextInputMainProps extends Pick<RenderTextInputProps, 'density'> {
         contentShow?: boolean
 }
 

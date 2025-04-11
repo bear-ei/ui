@@ -64,10 +64,14 @@ export const Label = styled.View<TextInputLabelProps>`
         position: absolute;
         z-index: 8;
 
-        ${({theme}) => css`
-                left: ${theme.adaptSize(theme.token.spacing.medium)}px;
-                top: ${theme.adaptSize(theme.token.spacing.medium)}px;
-        `}
+        ${({theme, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
+
+                return css`
+                        left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+                        top: ${theme.adaptSize(theme.token.spacing.medium + densityScale / 2)}px;
+                `
+        }}
 
         ${({theme, leadingShow}) =>
                 leadingShow &&
@@ -102,26 +106,34 @@ export const Main = styled.View<TextInputMainProps>`
         justify-content: flex-end;
         z-index: 4;
 
-        ${({theme}) => css`
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                padding: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px
-                        ${theme.adaptSize(theme.token.spacing.none)}px
-                        ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-        `};
+        ${({theme, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
 
-        ${({theme, contentShow}) =>
-                contentShow &&
-                css`
-                        flex-direction: row;
-                        flex-wrap: wrap;
-                        gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
-                                ${theme.adaptSize(theme.token.spacing.small)}px;
-
-                        justify-content: flex-start;
-                        padding: ${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px
+                return css`
+                        padding: ${theme.adaptSize(theme.token.spacing.large + densityScale)}px
                                 ${theme.adaptSize(theme.token.spacing.none)}px
                                 ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                `};
+                `
+        }};
+
+        ${({theme, contentShow, density}) => {
+                const densityScale = DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
+
+                return (
+                        contentShow &&
+                        css`
+                                flex-direction: row;
+                                flex-wrap: wrap;
+                                gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
+                                        ${theme.adaptSize(theme.token.spacing.small)}px;
+
+                                justify-content: flex-start;
+                                padding: ${theme.adaptSize(theme.token.spacing.large + densityScale)}px
+                                        ${theme.adaptSize(theme.token.spacing.none)}px
+                                        ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+                        `
+                )
+        }};
 `
 
 export const Control = styled.View<TextInputControlProps>`
@@ -135,7 +147,6 @@ export const Control = styled.View<TextInputControlProps>`
                 max-height: ${theme.adaptSize(theme.token.spacing.large)}px;
                 min-height: ${theme.adaptSize(theme.token.typography[TypographyType.BODY][Size.LARGE].lineHeight)}px;
                 min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
-                padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
         `};
 
         ${({multiline, size = 0}) =>
