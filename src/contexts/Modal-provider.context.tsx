@@ -7,40 +7,40 @@ import {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './contexts.i
 import {handleModal} from './Modal-provider.-handle'
 
 const ModalItem: FC<ModalItemProps> = ({type, props}) => {
-        const component = {[ModalType.TOOL_TIP]: <></>, [ModalType.SIDE_SHEET]: SideSheet}
+	const component = {[ModalType.TOOL_TIP]: <></>, [ModalType.SIDE_SHEET]: SideSheet}
 
-        if (!type) {
-                return <></>
-        }
+	if (!type) {
+		return <></>
+	}
 
-        const ModalComponent = component[type] as FC<unknown>
+	const ModalComponent = component[type] as FC<unknown>
 
-        return <ModalComponent {...props} />
+	return <ModalComponent {...props} />
 }
 
 export const emitter = mitt<EmitterEvent>()
 export const ModalProvider: FC<ModalProps> = () => {
-        const [{modals}, setState] = useImmer<ModalState>({modals: []})
-        const id = useId()
+	const [{modals}, setState] = useImmer<ModalState>({modals: []})
+	const id = useId()
 
-        useEffect(() => {
-                emitter.on('modal', modal => handleModal(setState)(modal))
+	useEffect(() => {
+		emitter.on('modal', modal => handleModal(setState)(modal))
 
-                return () => {
-                        emitter.all.clear()
-                }
-        }, [setState])
+		return () => {
+			emitter.all.clear()
+		}
+	}, [setState])
 
-        return (
-                <>
-                        {modals.map(({type, props, id: modalId}) => (
-                                <ModalItem
-                                        key={modalId}
-                                        type={type}
-                                        props={props}
-                                        testID={id}
-                                />
-                        ))}
-                </>
-        )
+	return (
+		<>
+			{modals.map(({type, props, id: modalId}) => (
+				<ModalItem
+					key={modalId}
+					type={type}
+					props={props}
+					testID={id}
+				/>
+			))}
+		</>
+	)
 }

@@ -10,28 +10,28 @@ import {UseSearchListAnimatedOptions} from './Search-list.interface'
  */
 
 export const useSearchListAnimated = ({visible, containerLayout}: UseSearchListAnimatedOptions) => {
-        const heightSharedValue = useSharedValue(visible ? 1 : 0)
-        const theme = useTheme()
-        const {spacing} = theme.token
-        const animatedTiming = useAnimatedTiming({token: theme.token})
-        const heightOutputRanges = [
-                theme.adaptSize(spacing.none),
-                theme.adaptSize(spacing.extraSmall * 80 + (containerLayout.height ?? 0))
-        ]
+	const heightSharedValue = useSharedValue(visible ? 1 : 0)
+	const theme = useTheme()
+	const {spacing} = theme.token
+	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const heightOutputRanges = [
+		theme.adaptSize(spacing.none),
+		theme.adaptSize(spacing.extraSmall * 80 + (containerLayout.height ?? 0))
+	]
 
-        const containerAnimatedStyle = useAnimatedStyle(() => ({
-                height: interpolate(heightSharedValue.value, [0, 1], heightOutputRanges),
-                transform: [{scaleY: interpolate(heightSharedValue.value, [0, 1], [0, 1])}]
-        }))
+	const containerAnimatedStyle = useAnimatedStyle(() => ({
+		height: interpolate(heightSharedValue.value, [0, 1], heightOutputRanges),
+		transform: [{scaleY: interpolate(heightSharedValue.value, [0, 1], [0, 1])}]
+	}))
 
-        const onSearchListAnimatedTiming = useMemo(
-                () => handleSearchListAnimatedTiming(animatedTiming)(heightSharedValue),
-                [animatedTiming, heightSharedValue]
-        )
+	const onSearchListAnimatedTiming = useMemo(
+		() => handleSearchListAnimatedTiming(animatedTiming)(heightSharedValue),
+		[animatedTiming, heightSharedValue]
+	)
 
-        useEffect(() => {
-                onSearchListAnimatedTiming(visible)
-        }, [onSearchListAnimatedTiming, visible])
+	useEffect(() => {
+		onSearchListAnimatedTiming(visible)
+	}, [onSearchListAnimatedTiming, visible])
 
-        return {containerAnimatedStyle}
+	return {containerAnimatedStyle}
 }

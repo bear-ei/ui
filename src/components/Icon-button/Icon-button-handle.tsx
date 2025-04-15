@@ -1,92 +1,94 @@
 import {cloneElement} from 'react'
-import {DefaultTheme} from 'styled-components/native'
-import {Updater} from 'use-immer'
-import {StateEvent} from '../../hooks'
-import {Icon, IconProps, IconStyle, IconType} from '../Icon'
-import {IconButtonType} from './Icon-button.enum'
-import {
-        HandleIconButtonAnimatedTimingOptions,
-        HandleIconButtonAnimatedTimingSharedValue,
-        HandleIconButtonStateChangeOptions,
-        IconButtonState,
-        RenderIconButtonIconOptions
+import type {DefaultTheme} from 'styled-components/native'
+import type {Updater} from 'use-immer'
+import type {StateEvent} from '../../hooks'
+import type {IconProps} from '../Icon'
+import {ICON_STYLE, ICON_TYPE, Icon} from '../Icon'
+import {ICON_BUTTON_TYPE} from './Icon-button.enum'
+import type {
+	HandleIconButtonAnimatedTimingOptions,
+	HandleIconButtonAnimatedTimingSharedValue,
+	HandleIconButtonStateChangeOptions,
+	IconButtonState,
+	IconButtonType,
+	RenderIconButtonIconOptions
 } from './Icon-button.interface'
 
 export const handleIconButtonStateChange =
-        ({eventName}: HandleIconButtonStateChangeOptions) =>
-        (setState: Updater<IconButtonState>) =>
-        (_event: StateEvent) => {
-                if (eventName === 'layout') {
-                        return
-                }
+	({eventName}: HandleIconButtonStateChangeOptions) =>
+	(setState: Updater<IconButtonState>) =>
+	(_event: StateEvent) => {
+		if (eventName === 'layout') {
+			return
+		}
 
-                setState(draft => {
-                        draft.eventName = eventName
-                })
-        }
+		setState(draft => {
+			draft.eventName = eventName
+		})
+	}
 
 export const handleIconButtonDisabled = (setState: Updater<IconButtonState>) => (disabled?: boolean) =>
-        disabled &&
-        setState(draft => {
-                draft.eventName = 'none'
-        })
+	disabled &&
+	setState(draft => {
+		draft.eventName = 'none'
+	})
 
 export const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
-        const underlay = {
-                [IconButtonType.ACTIVE]: theme.token.scheme.onSurfaceVariant,
-                [IconButtonType.FILLED]: theme.token.scheme.onPrimary,
-                [IconButtonType.OUTLINED]: theme.token.scheme.onSurfaceVariant,
-                [IconButtonType.STANDARD]: theme.token.scheme.onSurfaceVariant,
-                [IconButtonType.TONAL]: theme.token.scheme.onSecondaryContainer
-        }
+	const underlay = {
+		[ICON_BUTTON_TYPE.ACTIVE]: theme.token.scheme.onSurfaceVariant,
+		[ICON_BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,
+		[ICON_BUTTON_TYPE.OUTLINED]: theme.token.scheme.onSurfaceVariant,
+		[ICON_BUTTON_TYPE.STANDARD]: theme.token.scheme.onSurfaceVariant,
+		[ICON_BUTTON_TYPE.TONAL]: theme.token.scheme.onSecondaryContainer
+	}
 
-        return (type: IconButtonType = IconButtonType.FILLED) => underlay[type]
+	return (type: IconButtonType = ICON_BUTTON_TYPE.FILLED) => underlay[type]
 }
 
 export const renderIconButtonIcon =
-        ({disabled, type, fill: rawFill, eventName, loading, id}: RenderIconButtonIconOptions) =>
-        (theme: DefaultTheme) => {
-                const fillType = {
-                        [IconButtonType.ACTIVE]: theme.token.scheme.onSurfaceVariant,
-                        [IconButtonType.FILLED]: theme.token.scheme.onPrimary,
-                        [IconButtonType.OUTLINED]: theme.token.scheme.onSurfaceVariant,
-                        [IconButtonType.STANDARD]: theme.token.scheme.onSurfaceVariant,
-                        [IconButtonType.TONAL]: theme.token.scheme.onSecondaryContainer
-                }
+	({disabled, type, fill: rawFill, eventName, loading, id}: RenderIconButtonIconOptions) =>
+	(theme: DefaultTheme) => {
+		const fillType = {
+			[ICON_BUTTON_TYPE.ACTIVE]: theme.token.scheme.onSurfaceVariant,
+			[ICON_BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,
+			[ICON_BUTTON_TYPE.OUTLINED]: theme.token.scheme.onSurfaceVariant,
+			[ICON_BUTTON_TYPE.STANDARD]: theme.token.scheme.onSurfaceVariant,
+			[ICON_BUTTON_TYPE.TONAL]: theme.token.scheme.onSecondaryContainer
+		}
 
-                const fill =
-                        rawFill ??
-                        (!loading ? fillType[type as keyof typeof fillType] : theme.token.scheme.onSurfaceVariant)
+		const fill =
+			rawFill ??
+			(!loading ? fillType[type as keyof typeof fillType] : theme.token.scheme.onSurfaceVariant)
 
-                return (icon?: React.JSX.Element) =>
-                        cloneElement<IconProps>(
-                                icon ?? (
-                                        <Icon
-                                                iconStyle={IconStyle.ROUNDED}
-                                                type={IconType.OUTLINED}
-                                        />
-                                ),
-                                {
-                                        disabled,
-                                        eventName,
-                                        fill,
-                                        testID: `iconButton__icon--${id}`
-                                }
-                        )
-        }
+		return (icon?: React.JSX.Element) =>
+			cloneElement<IconProps>(
+				icon ?? (
+					<Icon
+						iconStyle={ICON_STYLE.ROUNDED}
+						type={ICON_TYPE.OUTLINED}
+					/>
+				),
+				{
+					disabled,
+					eventName,
+					fill,
+					testID: `iconButton__icon--${id}`
+				}
+			)
+	}
 
 export const handleIconButtonAnimatedTiming =
-        ({animatedTiming, type}: HandleIconButtonAnimatedTimingOptions) =>
-        ({borderSharedValue, colorSharedValue}: HandleIconButtonAnimatedTimingSharedValue) =>
-        (disabled?: boolean) => {
-                const toValue = disabled ? 0 : 1
+	({animatedTiming, type}: HandleIconButtonAnimatedTimingOptions) =>
+	({borderSharedValue, colorSharedValue}: HandleIconButtonAnimatedTimingSharedValue) =>
+	(disabled?: boolean) => {
+		const toValue = disabled ? 0 : 1
 
-                if (type === IconButtonType.OUTLINED) {
-                        animatedTiming()(borderSharedValue)(toValue)
-                        animatedTiming()(colorSharedValue)(toValue)
+		if (type === ICON_BUTTON_TYPE.OUTLINED) {
+			animatedTiming()(borderSharedValue)(toValue)
+			animatedTiming()(colorSharedValue)(toValue)
 
-                        return
-                }
+			return
+		}
 
-                animatedTiming()(colorSharedValue)(toValue)
-        }
+		animatedTiming()(colorSharedValue)(toValue)
+	}

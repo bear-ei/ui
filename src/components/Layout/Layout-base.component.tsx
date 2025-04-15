@@ -1,9 +1,9 @@
 import {forwardRef, useId} from 'react'
-import {View} from 'react-native'
-import {LayoutBaseProps} from './Layout.interface'
+import type {View} from 'react-native'
+import type {LayoutBaseProps} from './Layout.interface'
 
 export const LayoutBase = forwardRef<View, LayoutBaseProps>(({render, ...renderProps}, ref) => {
-        const id = useId()
+	const id = useId()
 
-        return render({...renderProps, ref, id})
+	return render({...renderProps, ref, id})
 })

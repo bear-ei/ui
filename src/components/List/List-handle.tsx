@@ -1,156 +1,156 @@
-import {WritableDraft} from 'immer'
-import {DefaultTheme} from 'styled-components/native'
-import {Updater} from 'use-immer'
-import {DensityScale} from '../Common'
-import {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
+import type {WritableDraft} from 'immer'
+import type {DefaultTheme} from 'styled-components/native'
+import type {Updater} from 'use-immer'
+import {DENSITY_SCALE} from '../Common'
+import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
 import {ListItem} from './List-item'
-import {ListType, SelectType} from './List.enum'
-import {
-        HandleListActiveOptions,
-        HandleListItemSizeOptions,
-        HandleRenderItemOptions,
-        ListData,
-        ListState,
-        OnActiveAfterAffordanceOptions,
-        RenderListItemOptions
+import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
+import type {
+	HandleListActiveOptions,
+	HandleListItemSizeOptions,
+	HandleRenderItemOptions,
+	ListData,
+	ListState,
+	OnActiveAfterAffordanceOptions,
+	RenderListItemOptions
 } from './List.interface'
 
 const handleListSelect =
-        (draft: WritableDraft<ListState>) => (deselect?: boolean) => (activeKeys?: string | string[]) => {
-                const prevActiveKey = draft.activeKey
+	(draft: WritableDraft<ListState>) => (deselect?: boolean) => (activeKeys?: string | string[]) => {
+		const prevActiveKey = draft.activeKey
 
-                if (Array.isArray(activeKeys) || activeKeys === prevActiveKey) {
-                        return
-                }
+		if (Array.isArray(activeKeys) || activeKeys === prevActiveKey) {
+			return
+		}
 
-                draft.activeKey = activeKeys === prevActiveKey && deselect ? undefined : activeKeys
+		draft.activeKey = activeKeys === prevActiveKey && deselect ? undefined : activeKeys
 
-                if (draft.afterAffordanceActiveKey !== activeKeys) {
-                        draft.afterAffordanceActiveKey = undefined
-                }
+		if (draft.afterAffordanceActiveKey !== activeKeys) {
+			draft.afterAffordanceActiveKey = undefined
+		}
 
-                return draft.activeKey
-        }
+		return draft.activeKey
+	}
 
 const handlePrevListActiveKeysFilter = (activeKey: string) => (key: string) => key !== activeKey
 const handleListMultiselect = (draft: WritableDraft<ListState>) => (activeKeys: string | string[]) => {
-        const prevActiveKeys = draft.activeKeys
-        const nextActiveKeys = Array.isArray(activeKeys) ? activeKeys : [...(prevActiveKeys ?? []), activeKeys]
+	const prevActiveKeys = draft.activeKeys
+	const nextActiveKeys = Array.isArray(activeKeys) ? activeKeys : [...(prevActiveKeys ?? []), activeKeys]
 
-        if (prevActiveKeys?.join() === nextActiveKeys?.join()) {
-                return
-        }
+	if (prevActiveKeys?.join() === nextActiveKeys?.join()) {
+		return
+	}
 
-        if (typeof activeKeys === 'string') {
-                draft.activeKeys =
-                        prevActiveKeys?.includes(activeKeys) ?
-                                prevActiveKeys?.filter(handlePrevListActiveKeysFilter(activeKeys))
-                        :       nextActiveKeys
-        }
+	if (typeof activeKeys === 'string') {
+		draft.activeKeys =
+			prevActiveKeys?.includes(activeKeys) ?
+				prevActiveKeys?.filter(handlePrevListActiveKeysFilter(activeKeys))
+			:	nextActiveKeys
+	}
 
-        if (Array.isArray(activeKeys)) {
-                draft.activeKeys = nextActiveKeys
-        }
+	if (Array.isArray(activeKeys)) {
+		draft.activeKeys = nextActiveKeys
+	}
 
-        return draft.activeKeys
+	return draft.activeKeys
 }
 
 const handleNextActiveEvent =
-        ({onActive, onActives}: HandleListActiveOptions) =>
-        (activeKeys?: string | string[]) =>
-        () =>
-                typeof activeKeys === 'string' ? onActive?.(activeKeys) : onActives?.(activeKeys)
+	({onActive, onActives}: HandleListActiveOptions) =>
+	(activeKeys?: string | string[]) =>
+	() =>
+		typeof activeKeys === 'string' ? onActive?.(activeKeys) : onActives?.(activeKeys)
 
 export const handleListActive =
-        ({onActive, selectType, onActives, deselect}: HandleListActiveOptions = {}) =>
-        (setState: Updater<ListState>) =>
-        (activeKeys?: string | string[]) =>
-                selectType &&
-                setState(draft => {
-                        const callbackValue =
-                                selectType === SelectType.SINGLE ?
-                                        handleListSelect(draft)(deselect)(activeKeys)
-                                :       handleListMultiselect(draft)(activeKeys ?? [])
+	({onActive, selectType, onActives, deselect}: HandleListActiveOptions = {}) =>
+	(setState: Updater<ListState>) =>
+	(activeKeys?: string | string[]) =>
+		selectType &&
+		setState(draft => {
+			const callbackValue =
+				selectType === LIST_SELECT_TYPE.SINGLE ?
+					handleListSelect(draft)(deselect)(activeKeys)
+				:	handleListMultiselect(draft)(activeKeys ?? [])
 
-                        if (!callbackValue) {
-                                return
-                        }
+			if (!callbackValue) {
+				return
+			}
 
-                        draft.nextActiveEvent = handleNextActiveEvent(
-                                selectType === SelectType.MULTIPLE ? {onActives} : {onActive}
-                        )(callbackValue)
-                })
+			draft.nextActiveEvent = handleNextActiveEvent(
+				selectType === LIST_SELECT_TYPE.MULTIPLE ? {onActives} : {onActive}
+			)(callbackValue)
+		})
 
 export const handleListItemSize =
-        ({density, type}: HandleListItemSizeOptions) =>
-        (theme: DefaultTheme) =>
-        (itemSize?: number) =>
-                itemSize ??
-                theme.adaptSize(
-                        theme.token.spacing.extraSmall * (type === ListType.STANDARD ? 14 : 12) +
-                                DensityScale[density ?? theme.density] * theme.token.spacing.extraSmall
-                )
+	({density, type}: HandleListItemSizeOptions) =>
+	(theme: DefaultTheme) =>
+	(itemSize?: number) =>
+		itemSize ??
+		theme.adaptSize(
+			theme.token.spacing.extraSmall * (type === LIST_TYPE.STANDARD ? 14 : 12) +
+				DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		)
 
 export const handleListActiveAfterAffordance =
-        ({onActive, selectType}: HandleListActiveOptions) =>
-        (setState: Updater<ListState>) =>
-        ({activeKey, callback} = {} as OnActiveAfterAffordanceOptions) => {
-                const handleNextAfterAffordanceActiveEvent = () => onActive?.(activeKey)
+	({onActive, selectType}: HandleListActiveOptions) =>
+	(setState: Updater<ListState>) =>
+	({activeKey, callback} = {} as OnActiveAfterAffordanceOptions) => {
+		const handleNextAfterAffordanceActiveEvent = () => onActive?.(activeKey)
 
-                if (selectType === SelectType.MULTIPLE) {
-                        return
-                }
+		if (selectType === LIST_SELECT_TYPE.MULTIPLE) {
+			return
+		}
 
-                setState(draft => {
-                        const prevActiveKey = draft.activeKey
+		setState(draft => {
+			const prevActiveKey = draft.activeKey
 
-                        if (draft.afterAffordanceActiveKey === activeKey) {
-                                draft.afterAffordanceActiveKey = undefined
+			if (draft.afterAffordanceActiveKey === activeKey) {
+				draft.afterAffordanceActiveKey = undefined
 
-                                return
-                        }
+				return
+			}
 
-                        draft.afterAffordanceActiveKey = activeKey
+			draft.afterAffordanceActiveKey = activeKey
 
-                        if (activeKey) {
-                                draft.activeKey = activeKey
-                        }
+			if (activeKey) {
+				draft.activeKey = activeKey
+			}
 
-                        if (prevActiveKey !== draft.activeKey) {
-                                draft.nextAfterAffordanceActiveEvent = handleNextAfterAffordanceActiveEvent
-                        }
+			if (prevActiveKey !== draft.activeKey) {
+				draft.nextAfterAffordanceActiveEvent = handleNextAfterAffordanceActiveEvent
+			}
 
-                        if (callback) {
-                                draft.nextAfterAffordanceCallbackEvent = callback
-                        }
-                })
-        }
+			if (callback) {
+				draft.nextAfterAffordanceCallbackEvent = callback
+			}
+		})
+	}
 
 export const handleListClose = (onClose?: (options: OnVirtualListCloseOptions) => void) => {
-        const handleNextCloseEvent = (options: OnVirtualListCloseOptions) => () => onClose?.(options)
+	const handleNextCloseEvent = (options: OnVirtualListCloseOptions) => () => onClose?.(options)
 
-        return (setState: Updater<ListState>) =>
-                ({activeKey, indexKey}: OnVirtualListCloseOptions) => {
-                        setState(draft => {
-                                draft.activeKey = activeKey
-                                draft.nextCloseEvent = handleNextCloseEvent({indexKey, activeKey})
-                        })
-                }
+	return (setState: Updater<ListState>) =>
+		({activeKey, indexKey}: OnVirtualListCloseOptions) => {
+			setState(draft => {
+				draft.activeKey = activeKey
+				draft.nextCloseEvent = handleNextCloseEvent({indexKey, activeKey})
+			})
+		}
 }
 
 const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
-        <ListItem
-                {...(typeof item?.supportingTextNumberOfLines !== 'number' && {
-                        supportingTextNumberOfLines
-                })}
-                {...item}
-                {...props}
-                itemIndex={index}
-                indexKey={item?.indexKey ?? `${index}`}
-        />
+	<ListItem
+		{...(typeof item?.supportingTextNumberOfLines !== 'number' && {
+			supportingTextNumberOfLines
+		})}
+		{...item}
+		{...props}
+		itemIndex={index}
+		indexKey={item?.indexKey ?? `${index}`}
+	/>
 )
 
 export const handleRenderListItem =
-        ({renderItem, ...options}: HandleRenderItemOptions) =>
-        (props: RenderVirtualListItemInfo<ListData>) =>
-                renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})
+	({renderItem, ...options}: HandleRenderItemOptions) =>
+	(props: RenderVirtualListItemInfo<ListData>) =>
+		renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})

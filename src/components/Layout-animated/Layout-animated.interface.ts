@@ -1,90 +1,96 @@
-import {Duration, Easing} from '@bearei/material-token'
-import {RefAttributes} from 'react'
-import {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {Updater} from 'use-immer'
-import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
-import {ComponentStatus, ShapeProps} from '../Common'
-import {LayoutAnimatedType} from './Layout-animated.enum'
+import type {Duration, Easing} from '@bearei/material-token'
+import type {RefAttributes} from 'react'
+import type {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
+import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {Updater} from 'use-immer'
+import type {
+	AnimatedTiming,
+	AnimatedTimingOptions,
+	HandleStateEventChangeOptions,
+	InteractionHandlers
+} from '../../hooks'
+import type {ComponentStatus, ShapeProps} from '../Common'
+import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
+export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
-        animatedType?: LayoutAnimatedType
-        contentSize?: {width?: number; height?: number; minHeight?: number; minWidth?: number}
-        contentStyle?: ViewStyle
-        defaultVisible?: boolean
-        delay?: number
-        duration?: Duration
-        easing?: Easing
-        entry?: AnimatedTimingOptions
-        exit?: AnimatedTimingOptions
-        lazy?: boolean
-        onUnmount?: () => void
-        onVisible?: (visible?: boolean) => void
-        opacity?: number
+	animatedType?: LayoutAnimatedType
+	contentSize?: {width?: number; height?: number; minHeight?: number; minWidth?: number}
+	contentStyle?: ViewStyle
+	defaultVisible?: boolean
+	delay?: number
+	duration?: Duration
+	easing?: Easing
+	entry?: AnimatedTimingOptions
+	exit?: AnimatedTimingOptions
+	lazy?: boolean
+	onUnmount?: () => void
+	onVisible?: (visible?: boolean) => void
+	opacity?: number
 
-        /**
-         * Whether or not to enable scale effects in collapse type animations
-         */
-        scale?: boolean
-        style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> & StyleProp<ViewStyle>
-        unmount?: boolean
-        visible?: boolean
+	/**
+	 * Whether or not to enable scale effects in collapse type animations
+	 */
+	scale?: boolean
+	style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> & StyleProp<ViewStyle>
+	unmount?: boolean
+	visible?: boolean
 }
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
-        containerAnimatedStyle?: AnimatedStyle<ViewStyle>
-        layout: LayoutRectangle
-        stateOnEvent: StateOnEvent
-        visible?: boolean
+	containerAnimatedStyle?: AnimatedStyle<ViewStyle>
+	layout: LayoutRectangle
+	stateOnEvent: InteractionHandlers
+	visible?: boolean
 }
 
 export interface LayoutAnimatedState {
-        invisible?: boolean
-        layout: LayoutRectangle
-        nextUnmountEvent?: () => void
-        nextVisibleEvent?: () => void
-        status: ComponentStatus
-        unmountLayout?: boolean
-        visible?: boolean
+	invisible?: boolean
+	layout: LayoutRectangle
+	nextUnmountEvent?: () => void
+	nextVisibleEvent?: () => void
+	status: ComponentStatus
+	unmountLayout?: boolean
+	visible?: boolean
 }
 
 export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
-        render: (props: RenderLayoutAnimatedProps) => React.JSX.Element
+	render: (props: RenderLayoutAnimatedProps) => React.JSX.Element
 }
 
 export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
 export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEventChangeOptions {
-        onLayoutChange: (layout: LayoutRectangle) => void
+	onLayoutChange: (layout: LayoutRectangle) => void
 }
 
 export interface UseLayoutAnimatedOptions
-        extends Pick<
-                LayoutAnimatedProps,
-                'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible'
-        > {
-        onAnimatedFinished: (visible?: boolean) => void
-        height?: number
-        width?: number
+	extends Pick<
+		LayoutAnimatedProps,
+		'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible'
+	> {
+	onAnimatedFinished: (visible?: boolean) => void
+	height?: number
+	width?: number
 }
 
 export type HandleLayoutAnimatedStatusOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>
 export interface HandleLayoutAnimatedTimingOptions
-        extends Pick<UseLayoutAnimatedOptions, 'onAnimatedFinished' | 'entry' | 'exit'> {
-        animatedTiming: AnimatedTiming
+	extends Pick<UseLayoutAnimatedOptions, 'onAnimatedFinished' | 'entry' | 'exit'> {
+	animatedTiming: AnimatedTiming
 }
 
 export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>
 export interface HandleLayoutAnimatedTimingSharedValue {
-        collapseSharedValue: SharedValue<number>
-        fadeSharedValue: SharedValue<number>
+	collapseSharedValue: SharedValue<number>
+	fadeSharedValue: SharedValue<number>
 }
 
 export interface HandleLayoutAnimatedLayoutVisibleOptions extends Pick<LayoutAnimatedProps, 'onVisible'> {
-        setState: Updater<LayoutAnimatedState>
+	setState: Updater<LayoutAnimatedState>
 }
 
 export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 'visible'> {
-        collapse?: boolean
+	collapse?: boolean
 }
 
 export type ContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'contentSize' | 'visible'>

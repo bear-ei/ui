@@ -5,21 +5,21 @@ import {SideSheetProps} from '../Side-sheet.interface'
 
 export type SideSheetContentProps = SideSheetProps
 export interface RenderSideSheetContentProps extends SideSheetContentProps {
-        containerAnimatedStyle: AnimatedStyle<ViewStyle>
-        leading?: React.JSX.Element
-        theme: DefaultTheme
-        trailing?: React.JSX.Element
+	containerAnimatedStyle: AnimatedStyle<ViewStyle>
+	leading?: React.JSX.Element
+	theme: DefaultTheme
+	trailing?: React.JSX.Element
 }
 
 export interface SideSheetContentBaseProps extends SideSheetContentProps {
-        render: (props: RenderSideSheetContentProps) => React.JSX.Element
+	render: (props: RenderSideSheetContentProps) => React.JSX.Element
 }
 
 export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisible'>
 export type UseSideSheetContentAnimatedOptions = Pick<RenderSideSheetContentProps, 'visible' | 'type'>
 export type RenderSideSheetContentLeadingOptions = Pick<
-        SideSheetContentProps,
-        'headlineLeading' | 'back' | 'sheetPosition' | 'id'
+	SideSheetContentProps,
+	'headlineLeading' | 'back' | 'sheetPosition' | 'id'
 >
 
 export type RenderSideSheetContentTrailingOptions = Pick<SideSheetContentProps, 'headlineTrailing' | 'close' | 'id'>

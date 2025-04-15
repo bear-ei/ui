@@ -1,38 +1,38 @@
 export const debounce =
-        <T extends (...args: any[]) => unknown>(func?: T) =>
-        (delay: number) => {
-                let timeoutId: NodeJS.Timeout
+	<T extends (...args: any[]) => unknown>(func?: T) =>
+	(delay: number) => {
+		let timeoutId: NodeJS.Timeout
 
-                return (...args: Parameters<T>) => {
-                        clearTimeout(timeoutId)
+		return (...args: Parameters<T>) => {
+			clearTimeout(timeoutId)
 
-                        let result!: unknown
+			let result!: unknown
 
-                        timeoutId = setTimeout(() => (result = func?.(...args)), delay)
+			timeoutId = setTimeout(() => (result = func?.(...args)), delay)
 
-                        return result
-                }
-        }
+			return result
+		}
+	}
 
 export const asyncDebounce = <T extends (...args: any[]) => Promise<unknown>>(func?: T) => {
-        const timeoutFunction =
-                (...args: Parameters<T>) =>
-                (resolve: (value: unknown) => void, reject: (reason?: unknown) => void) =>
-                () =>
-                        func?.(...args)
-                                .then(resolve)
-                                .catch(reject)
+	const timeoutFunction =
+		(...args: Parameters<T>) =>
+		(resolve: (value: unknown) => void, reject: (reason?: unknown) => void) =>
+		() =>
+			func?.(...args)
+				.then(resolve)
+				.catch(reject)
 
-        return (delay: number) => {
-                let timeoutId: NodeJS.Timeout
+	return (delay: number) => {
+		let timeoutId: NodeJS.Timeout
 
-                return (...args: Parameters<T>) => {
-                        clearTimeout(timeoutId)
+		return (...args: Parameters<T>) => {
+			clearTimeout(timeoutId)
 
-                        return new Promise(
-                                (resolve, reject) =>
-                                        (timeoutId = setTimeout(timeoutFunction(...args)(resolve, reject), delay))
-                        )
-                }
-        }
+			return new Promise(
+				(resolve, reject) =>
+					(timeoutId = setTimeout(timeoutFunction(...args)(resolve, reject), delay))
+			)
+		}
+	}
 }

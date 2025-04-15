@@ -1,28 +1,28 @@
-import {RuleSet} from 'styled-components'
+import type {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
-import {LayoutType} from '../Common'
-import {FormContainerProps} from './Form.interface'
+import {LAYOUT, type LayoutType} from '../Common'
+import type {FormContainerProps} from './Form.interface'
 
 export const Container = styled.View<FormContainerProps>`
-        display: flex;
+	display: flex;
 
-        ${({theme}) => css`
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        `}
+	${({theme}) => css`
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+	`}
 
-        ${({layout = LayoutType.VERTICAL, theme}) => {
-                const containerLayout = {
-                        [LayoutType.HORIZONTAL]: css`
-                                flex-direction: row;
-                                gap: ${theme.adaptSize(theme.token.spacing.medium)}px;
-                        `,
+	${({layout = LAYOUT.VERTICAL, theme}) => {
+		const containerLayout = {
+			[LAYOUT.HORIZONTAL]: css`
+				flex-direction: row;
+				gap: ${theme.adaptSize(theme.token.spacing.medium)}px;
+			`,
 
-                        [LayoutType.VERTICAL]: css`
-                                flex-direction: column;
-                                gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-                        `
-                } as Record<LayoutType, RuleSet<object> | undefined>
+			[LAYOUT.VERTICAL]: css`
+				flex-direction: column;
+				gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+			`
+		} as Record<LayoutType, RuleSet<object> | undefined>
 
-                return containerLayout[layout]
-        }}
+		return containerLayout[layout]
+	}}
 `

@@ -4,28 +4,28 @@ import {AnimatedTiming} from '../../../hooks'
 import {ListProps} from '../../List'
 
 export interface SearchListProps extends ListProps {
-        containerLayout: LayoutRectangle & {pageX?: number; pageY?: number}
-        visible?: boolean
+	containerLayout: LayoutRectangle & {pageX?: number; pageY?: number}
+	visible?: boolean
 }
 
 export interface RenderSearchListProps extends SearchListProps {
-        containerAnimatedStyle: AnimatedStyle<ViewStyle>
+	containerAnimatedStyle: AnimatedStyle<ViewStyle>
 }
 
 export interface SearchListBaseProps extends SearchListProps {
-        render: (props: RenderSearchListProps) => React.JSX.Element
+	render: (props: RenderSearchListProps) => React.JSX.Element
 }
 
 export type HandleSearchListEmitOptions = Pick<RenderSearchListProps, 'visible' | 'id'>
 export type UseSearchListAnimatedOptions = Pick<RenderSearchListProps, 'visible' | 'containerLayout'>
 export interface HandleSearchListAnimatedTimingOptions extends Omit<UseSearchListAnimatedOptions, 'containerLayout'> {
-        animatedTiming: AnimatedTiming
-        heightSharedValue: SharedValue<number>
+	animatedTiming: AnimatedTiming
+	heightSharedValue: SharedValue<number>
 }
 
 export type SearchListContainerProps = {
-        containerHeight?: number
-        containerPageX?: number
-        containerPageY?: number
-        size?: number
+	containerHeight?: number
+	containerPageX?: number
+	containerPageY?: number
+	size?: number
 }

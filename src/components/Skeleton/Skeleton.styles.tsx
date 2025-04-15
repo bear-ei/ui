@@ -4,34 +4,34 @@ import {LayoutAnimated} from '../Layout-animated'
 import {SkeletonContainerProps} from './Skeleton.interface'
 
 export const SkeletonContainer = styled.View<SkeletonContainerProps>`
-        display: flex;
+	display: flex;
 
-        ${({theme}) => css`
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-                min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-        `}
+	${({theme}) => css`
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+	`}
 
-        ${({layoutType = LayoutType.HORIZONTAL}) =>
-                layoutType === LayoutType.HORIZONTAL ?
-                        css`
-                                flex-direction: row;
-                                align-items: center;
-                        `
-                :       css`
-                                flex-direction: column;
-                                justify-content: center;
-                        `}
+	${({layoutType = LayoutType.HORIZONTAL}) =>
+		layoutType === LayoutType.HORIZONTAL ?
+			css`
+				flex-direction: row;
+				align-items: center;
+			`
+		:	css`
+				flex-direction: column;
+				justify-content: center;
+			`}
 `
 
 export const ContentItemLayout = styled(LayoutAnimated)`
-        position: absolute;
+	position: absolute;
 
-        ${({theme}) => css`
-                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-                left: ${theme.adaptSize(theme.token.spacing.none)}px;
-                right: ${theme.adaptSize(theme.token.spacing.none)}px;
-                top: ${theme.adaptSize(theme.token.spacing.none)}px;
-        `}
+	${({theme}) => css`
+		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+		left: ${theme.adaptSize(theme.token.spacing.none)}px;
+		right: ${theme.adaptSize(theme.token.spacing.none)}px;
+		top: ${theme.adaptSize(theme.token.spacing.none)}px;
+	`}
 `
 
 export const Content = styled.View``

@@ -1,51 +1,52 @@
-import {RefAttributes} from 'react'
-import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatedStyle} from 'react-native-reanimated'
-import {AnimatedTiming, HandleStateEventChangeOptions} from '../../hooks'
-import {EventName, ShapeProps, ShapeType} from '../Common'
-import {ActiveAnimatedType} from './Underlay.enum'
+import type {RefAttributes} from 'react'
+import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
+import type {AnimatedStyle} from 'react-native-reanimated'
+import type {AnimatedTiming, HandleStateEventChangeOptions} from '../../hooks'
+import type {EventName, ShapeProps, ShapeType} from '../Common'
+import type {ACTIVE_ANIMATED} from './Underlay.enum'
 
+export type ActiveAnimatedType = (typeof ACTIVE_ANIMATED)[keyof typeof ACTIVE_ANIMATED]
 export interface UnderlayProps extends Pick<ShapeProps, 'shape'>, ViewProps, RefAttributes<View> {
-        active?: boolean
-        activeAnimatedType?: ActiveAnimatedType
-        activeColor?: string
-        defaultActive?: boolean
+	active?: boolean
+	activeAnimatedType?: ActiveAnimatedType
+	activeColor?: string
+	defaultActive?: boolean
 
-        /**
-         * When the active animation type is scale, set the x,y scaling factor of scale. Default 1.
-         */
-        activeScale?: {x?: number; y?: number}
-        activeShape?: ShapeType
-        eventName?: EventName
-        opacities?: [number, number, number] | [number, number]
-        underlayColor?: string
+	/**
+	 * When the active animation type is scale, set the x,y scaling factor of scale. Default 1.
+	 */
+	activeScale?: {x?: number; y?: number}
+	activeShape?: ShapeType
+	eventName?: EventName
+	opacities?: [number, number, number] | [number, number]
+	underlayColor?: string
 }
 
 export interface RenderUnderlayProps extends UnderlayProps {
-        activeLayerAnimatedStyle: AnimatedStyle<ViewStyle>
-        hoverLayerAnimatedStyle: AnimatedStyle<ViewStyle>
+	activeLayerAnimatedStyle: AnimatedStyle<ViewStyle>
+	hoverLayerAnimatedStyle: AnimatedStyle<ViewStyle>
 }
 
 export interface UnderlayBaseProps extends UnderlayProps {
-        render: (props: RenderUnderlayProps) => React.JSX.Element
+	render: (props: RenderUnderlayProps) => React.JSX.Element
 }
 
 export interface UnderlayState {
-        layout: LayoutRectangle
+	layout: LayoutRectangle
 }
 
 export type UseUnderlayAnimatedOptions = Pick<
-        RenderUnderlayProps,
-        'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'
+	RenderUnderlayProps,
+	'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'
 >
 
 export interface HandleUnderlayStateChangeOptions extends HandleStateEventChangeOptions {
-        onLayoutChange: (layout: LayoutRectangle) => void
+	onLayoutChange: (layout: LayoutRectangle) => void
 }
 
 export interface HandleUnderlayHoveredAnimatedTimingOptions {
-        activeValue: number
-        animatedTiming: AnimatedTiming
+	activeValue: number
+	animatedTiming: AnimatedTiming
 }
 
 export type HoverLayerProps = Pick<RenderUnderlayProps, 'underlayColor'>

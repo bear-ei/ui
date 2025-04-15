@@ -1,4 +1,3 @@
-import {ShapeType, Size} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import Animated from 'react-native-reanimated'
 import {Divider} from '../../Divider'
@@ -9,33 +8,33 @@ import {Container} from './Search-list.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 const render = ({containerAnimatedStyle, containerLayout, id, testID, ...listProps}: RenderSearchListProps) => (
-        <AnimatedContainer
-                containerHeight={containerLayout.height}
-                containerPageX={containerLayout.pageX}
-                containerPageY={containerLayout.pageY}
-                shape={ShapeType.EXTRA_LARGE}
-                size={containerLayout.width}
-                style={[containerAnimatedStyle]}
-                testID={testID ?? `searchList--${id}`}
-        >
-                <Divider
-                        size={Size.LARGE}
-                        testID={testID ?? `searchList__divider--${id}`}
-                />
+	<AnimatedContainer
+		containerHeight={containerLayout.height}
+		containerPageX={containerLayout.pageX}
+		containerPageY={containerLayout.pageY}
+		shape={SHAPE.EXTRA_LARGE}
+		size={containerLayout.width}
+		style={[containerAnimatedStyle]}
+		testID={testID ?? `searchList--${id}`}
+	>
+		<Divider
+			size={SIZE.LARGE}
+			testID={testID ?? `searchList__divider--${id}`}
+		/>
 
-                <List
-                        {...listProps}
-                        testID={testID ?? `searchList__list--${id}`}
-                />
-        </AnimatedContainer>
+		<List
+			{...listProps}
+			testID={testID ?? `searchList__list--${id}`}
+		/>
+	</AnimatedContainer>
 )
 
 const ForwardRefSearch = forwardRef<VirtualListComponent<ListData>, SearchListProps>((props, ref) => (
-        <SearchListBase
-                {...props}
-                ref={ref}
-                render={render}
-        />
+	<SearchListBase
+		{...props}
+		ref={ref}
+		render={render}
+	/>
 ))
 
 export const SearchList = ForwardRefSearch as FC<SearchListProps>

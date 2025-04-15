@@ -1,15 +1,15 @@
 import styled, {css} from 'styled-components/native'
-import {IconLayoutProps} from './Icon.interface'
+import type {IconLayoutProps} from './Icon.interface'
 
 export const Container = styled.View<IconLayoutProps>`
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        overflow: hidden;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	overflow: hidden;
 
-        ${({theme, size}) => css`
-                height: ${size ?? theme.adaptSize(theme.token.spacing.large)}px;
-                width: ${size ?? theme.adaptSize(theme.token.spacing.large)}px;
-        `}
+	${({theme, size}) => css`
+		height: ${size ?? theme.adaptSize(theme.token.spacing.large)}px;
+		width: ${size ?? theme.adaptSize(theme.token.spacing.large)}px;
+	`}
 `

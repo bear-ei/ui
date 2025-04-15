@@ -1,16 +1,16 @@
-export enum LayoutType {
-        HORIZONTAL = 'HORIZONTAL',
-        VERTICAL = 'VERTICAL'
-}
+export const LAYOUT = {
+	HORIZONTAL: 'HORIZONTAL',
+	VERTICAL: 'VERTICAL'
+} as const
 
-export enum Density {
-        COMFORTABLE = 'COMFORTABLE',
-        COMPACT = 'COMPACT',
-        STANDARD = 'STANDARD'
-}
+export const DENSITY = {
+	COMFORTABLE: 'COMFORTABLE',
+	COMPACT: 'COMPACT',
+	STANDARD: 'STANDARD'
+} as const
 
-export enum DensityScale {
-        COMFORTABLE = -1,
-        COMPACT = -2,
-        STANDARD = 0
-}
+export const DENSITY_SCALE = {
+	COMFORTABLE: -1,
+	COMPACT: -2,
+	STANDARD: 0
+} as const

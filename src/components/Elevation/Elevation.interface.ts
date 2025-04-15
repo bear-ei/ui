@@ -1,20 +1,21 @@
-import {RefAttributes} from 'react'
-import {View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatedStyle} from 'react-native-reanimated'
-import {ShapeProps} from '../Common'
-import {ElevationLevel} from './Elevation.enum'
+import type {RefAttributes} from 'react'
+import type {View, ViewProps, ViewStyle} from 'react-native'
+import type {AnimatedStyle} from 'react-native-reanimated'
+import type {ShapeProps} from '../Common'
+import type {ELEVATION} from './Elevation.enum'
 
+export type ElevationLevel = (typeof ELEVATION)[keyof typeof ELEVATION]
 export interface ElevationProps extends ViewProps, RefAttributes<View>, Pick<ShapeProps, 'shape'> {
-        defaultLevel?: ElevationLevel
-        level?: ElevationLevel
+	defaultLevel?: ElevationLevel
+	level?: ElevationLevel
 }
 
 export interface RenderElevationProps extends Omit<ElevationProps, 'renderStyle'> {
-        shadowAnimatedStyle?: AnimatedStyle<ViewStyle>
+	shadowAnimatedStyle?: AnimatedStyle<ViewStyle>
 }
 
 export interface ElevationBaseProps extends ElevationProps {
-        render: (props: RenderElevationProps) => React.JSX.Element
+	render: (props: RenderElevationProps) => React.JSX.Element
 }
 
 export type UseElevationAnimatedOptions = Pick<RenderElevationProps, 'level'>

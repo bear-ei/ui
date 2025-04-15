@@ -8,58 +8,58 @@ import {ProgressProps, RenderProgressProps} from './Progress.interface'
 import {Container} from './Progress.styles'
 
 const render = ({
-        animatedType = ProgressAnimated.INDETERMINATE,
-        content,
-        defaultValue,
-        id,
-        increment,
-        layout,
-        size,
-        stateOnEvent,
-        strokeWidth,
-        testID,
-        type = ProgressType.LINEAR,
-        value,
-        ...containerProps
+	animatedType = ProgressAnimated.INDETERMINATE,
+	content,
+	defaultValue,
+	id,
+	increment,
+	layout,
+	size,
+	stateOnEvent,
+	strokeWidth,
+	testID,
+	type = ProgressType.LINEAR,
+	value,
+	...containerProps
 }: RenderProgressProps) => (
-        <Container
-                {...containerProps}
-                {...stateOnEvent}
-                accessibilityRole='progressbar'
-                pointerEvents='none'
-                progressing={!!(value && value > 0)}
-                testID={testID ?? `progress--${id}`}
-                type={type}
-        >
-                {type === ProgressType.CIRCULAR && (
-                        <ProgressActiveIndicatorCircular
-                                animatedType={animatedType}
-                                content={content}
-                                size={size}
-                                strokeWidth={strokeWidth}
-                                testID={`progress__progressActiveIndicatorCircular--${id}`}
-                        />
-                )}
+	<Container
+		{...containerProps}
+		{...stateOnEvent}
+		accessibilityRole='progressbar'
+		pointerEvents='none'
+		progressing={!!(value && value > 0)}
+		testID={testID ?? `progress--${id}`}
+		type={type}
+	>
+		{type === ProgressType.CIRCULAR && (
+			<ProgressActiveIndicatorCircular
+				animatedType={animatedType}
+				content={content}
+				size={size}
+				strokeWidth={strokeWidth}
+				testID={`progress__progressActiveIndicatorCircular--${id}`}
+			/>
+		)}
 
-                {type === ProgressType.LINEAR && typeof layout.width === 'number' && layout.width !== 0 && (
-                        <ProgressActiveIndicatorLinear
-                                animatedType={animatedType}
-                                containerLayout={layout}
-                                defaultValue={defaultValue}
-                                increment={increment}
-                                testID={`progress__progressActiveIndicatorLinear--${id}`}
-                                value={value}
-                        />
-                )}
-        </Container>
+		{type === ProgressType.LINEAR && typeof layout.width === 'number' && layout.width !== 0 && (
+			<ProgressActiveIndicatorLinear
+				animatedType={animatedType}
+				containerLayout={layout}
+				defaultValue={defaultValue}
+				increment={increment}
+				testID={`progress__progressActiveIndicatorLinear--${id}`}
+				value={value}
+			/>
+		)}
+	</Container>
 )
 
 const ForwardRefProgress = forwardRef<View, ProgressProps>((props, ref) => (
-        <ProgressBase
-                {...props}
-                ref={ref}
-                render={render}
-        />
+	<ProgressBase
+		{...props}
+		ref={ref}
+		render={render}
+	/>
 ))
 
 export const Progress: FC<ProgressProps> = ForwardRefProgress

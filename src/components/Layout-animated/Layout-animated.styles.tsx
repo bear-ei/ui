@@ -1,58 +1,58 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {ContentLayoutProps, LayoutAnimatedContainerProps} from './Layout-animated.interface'
+import type {ContentLayoutProps, LayoutAnimatedContainerProps} from './Layout-animated.interface'
 
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
-        position: relative;
+	position: relative;
 
-        ${({visible, theme, collapse}) =>
-                !visible &&
-                !collapse &&
-                css`
-                        height: ${theme.adaptSize(theme.token.spacing.none)}px;
-                        z-index: -1024;
-                `}
+	${({visible, theme, collapse}) =>
+		!visible &&
+		!collapse &&
+		css`
+			height: ${theme.adaptSize(theme.token.spacing.none)}px;
+			z-index: -1024;
+		`}
 
-        ${({visible}) =>
-                !visible &&
-                css`
-                        overflow: hidden;
-                `}
+	${({visible}) =>
+		!visible &&
+		css`
+			overflow: hidden;
+		`}
 
         ${({collapse}) =>
-                collapse &&
-                css`
-                        overflow: hidden;
-                `}
+		collapse &&
+		css`
+			overflow: hidden;
+		`}
 `
 
 export const ContentLayout = styled.View<ContentLayoutProps>`
-        position: absolute;
+	position: absolute;
 
-        ${({theme}) => css`
-                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-                left: ${theme.adaptSize(theme.token.spacing.none)}px;
-                right: ${theme.adaptSize(theme.token.spacing.none)}px;
-                top: ${theme.adaptSize(theme.token.spacing.none)}px;
-        `};
+	${({theme}) => css`
+		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+		left: ${theme.adaptSize(theme.token.spacing.none)}px;
+		right: ${theme.adaptSize(theme.token.spacing.none)}px;
+		top: ${theme.adaptSize(theme.token.spacing.none)}px;
+	`};
 
-        ${({contentSize, visible}) =>
-                typeof contentSize?.minHeight === 'number' &&
-                !visible &&
-                css`
-                        min-height: ${contentSize.minHeight}px;
-                `}
+	${({contentSize, visible}) =>
+		typeof contentSize?.minHeight === 'number' &&
+		!visible &&
+		css`
+			min-height: ${contentSize.minHeight}px;
+		`}
 
-        ${({contentSize, visible}) =>
-                typeof contentSize?.minWidth === 'number' &&
-                !visible &&
-                css`
-                        min-width: ${contentSize.minWidth}px;
-                `}
+	${({contentSize, visible}) =>
+		typeof contentSize?.minWidth === 'number' &&
+		!visible &&
+		css`
+			min-width: ${contentSize.minWidth}px;
+		`}
 `
 
 export const Content = styled.View`
-        display: flex;
-        align-self: stretch;
-        flex: 1;
+	display: flex;
+	align-self: stretch;
+	flex: 1;
 `

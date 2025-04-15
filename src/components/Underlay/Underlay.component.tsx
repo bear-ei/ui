@@ -8,49 +8,49 @@ import {ActiveLayer, Container, HoverLayer} from './Underlay.styles'
 const AnimatedHoverLayer = Animated.createAnimatedComponent(HoverLayer)
 const AnimatedActiveLayer = Animated.createAnimatedComponent(ActiveLayer)
 const render = ({
-        active,
-        activeColor,
-        activeLayerAnimatedStyle,
-        activeShape,
-        hoverLayerAnimatedStyle,
-        id,
-        shape,
-        style,
-        testID,
-        underlayColor,
-        ...containerProps
+	active,
+	activeColor,
+	activeLayerAnimatedStyle,
+	activeShape,
+	hoverLayerAnimatedStyle,
+	id,
+	shape,
+	style,
+	testID,
+	underlayColor,
+	...containerProps
 }: RenderUnderlayProps) => (
-        <Container
-                {...containerProps}
-                pointerEvents='none'
-                shape={shape}
-                style={[style]}
-                testID={testID ?? `underlay--${id}`}
-        >
-                <AnimatedHoverLayer
-                        shape={shape}
-                        style={[hoverLayerAnimatedStyle]}
-                        testID={`underlay__animatedHoverLayer--${id}`}
-                        underlayColor={underlayColor}
-                />
+	<Container
+		{...containerProps}
+		pointerEvents='none'
+		shape={shape}
+		style={[style]}
+		testID={testID ?? `underlay--${id}`}
+	>
+		<AnimatedHoverLayer
+			shape={shape}
+			style={[hoverLayerAnimatedStyle]}
+			testID={`underlay__animatedHoverLayer--${id}`}
+			underlayColor={underlayColor}
+		/>
 
-                {typeof active === 'boolean' && activeColor && (
-                        <AnimatedActiveLayer
-                                activeColor={activeColor}
-                                shape={activeShape ?? shape}
-                                style={[activeLayerAnimatedStyle]}
-                                testID={`underlay__animatedActiveLayer--${id}`}
-                        />
-                )}
-        </Container>
+		{typeof active === 'boolean' && activeColor && (
+			<AnimatedActiveLayer
+				activeColor={activeColor}
+				shape={activeShape ?? shape}
+				style={[activeLayerAnimatedStyle]}
+				testID={`underlay__animatedActiveLayer--${id}`}
+			/>
+		)}
+	</Container>
 )
 
 const ForwardRefUnderlay = forwardRef<View, UnderlayProps>((props, ref) => (
-        <UnderlayBase
-                {...props}
-                ref={ref}
-                render={render}
-        />
+	<UnderlayBase
+		{...props}
+		ref={ref}
+		render={render}
+	/>
 ))
 
 export const Underlay: FC<UnderlayProps> = ForwardRefUnderlay

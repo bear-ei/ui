@@ -1,5 +1,5 @@
-export enum CheckboxValue {
-        INDETERMINATE = 'INDETERMINATE',
-        SELECTED = 'SELECTED',
-        UNSELECTED = 'UNSELECTED'
-}
+export const CHECKBOX_VALUE = {
+	INDETERMINATE: 'INDETERMINATE',
+	SELECTED: 'SELECTED',
+	UNSELECTED: 'UNSELECTED'
+} as const

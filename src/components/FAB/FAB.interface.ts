@@ -1,39 +1,40 @@
-import {Size} from '@bearei/material-token'
-import {TextStyle, ViewStyle} from 'react-native'
-import {AnimatedStyle} from 'react-native-reanimated'
-import {HandleStateEventChangeOptions, StateOnEvent} from '../../hooks'
-import {CommonProps, ComponentStatus, EventName} from '../Common'
-import {ElevationLevel} from '../Elevation'
-import {TouchableProps} from '../Touchable'
-import {FABType} from './FAB.enum'
+import type {Size} from '@bearei/material-token'
+import type {TextStyle, ViewStyle} from 'react-native'
+import type {AnimatedStyle} from 'react-native-reanimated'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {CommonProps, ComponentStatus, EventName} from '../Common'
+import type {ElevationLevel} from '../Elevation'
+import type {TouchableProps} from '../Touchable'
+import type {FAB_TYPE} from './FAB.enum'
 
+export type FABType = (typeof FAB_TYPE)[keyof typeof FAB_TYPE]
 export interface FABProps extends TouchableProps, CommonProps {
-        disabled?: boolean
-        elevated?: boolean
-        extendedFAB?: boolean
-        icon?: React.JSX.Element
-        labelText?: string
-        loading?: boolean
-        size?: Size
-        type?: FABType
+	disabled?: boolean
+	elevated?: boolean
+	extendedFAB?: boolean
+	icon?: React.JSX.Element
+	labelText?: string
+	loading?: boolean
+	size?: Size
+	type?: FABType
 }
 
 export interface RenderFABProps extends FABProps {
-        backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
-        elevation?: ElevationLevel
-        eventName?: EventName
-        labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-        stateOnEvent: StateOnEvent
+	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
+	elevation?: ElevationLevel
+	eventName?: EventName
+	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
+	stateOnEvent: InteractionHandlers
 }
 
 export interface FABBaseProps extends FABProps {
-        render: (props: RenderFABProps) => React.JSX.Element
+	render: (props: RenderFABProps) => React.JSX.Element
 }
 
 export interface FABState {
-        elevation?: ElevationLevel
-        eventName?: EventName
-        status: ComponentStatus
+	elevation?: ElevationLevel
+	eventName?: EventName
+	status: ComponentStatus
 }
 
 export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB' | 'density'>

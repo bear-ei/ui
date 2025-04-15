@@ -7,42 +7,42 @@ import {SideSheetContentBaseProps} from './Side-sheet-content.interface'
 import {useSideSheetContentAnimated} from './use-side-sheet-content-animated.hook'
 
 export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
-        (
-                {
-                        back,
-                        close,
-                        footerVisible,
-                        headlineLeading,
-                        headlineText = 'Title',
-                        headlineTrailing,
-                        onBack,
-                        onClose,
-                        render,
-                        sheetPosition = SheetPosition.HORIZONTAL_END,
-                        type,
-                        visible,
-                        ...renderProps
-                },
-                ref
-        ) => {
-                const {containerAnimatedStyle} = useSideSheetContentAnimated({type, visible})
-                const id = useId()
-                const theme = useTheme()
-                const leadingElement = renderSideSheetContentLeading({headlineLeading, back, sheetPosition, id})(onBack)
-                const trailingElement = renderSideSheetContentTrailing({headlineTrailing, close, id})(onClose)
+	(
+		{
+			back,
+			close,
+			footerVisible,
+			headlineLeading,
+			headlineText = 'Title',
+			headlineTrailing,
+			onBack,
+			onClose,
+			render,
+			sheetPosition = SheetPosition.HORIZONTAL_END,
+			type,
+			visible,
+			...renderProps
+		},
+		ref
+	) => {
+		const {containerAnimatedStyle} = useSideSheetContentAnimated({type, visible})
+		const id = useId()
+		const theme = useTheme()
+		const leadingElement = renderSideSheetContentLeading({headlineLeading, back, sheetPosition, id})(onBack)
+		const trailingElement = renderSideSheetContentTrailing({headlineTrailing, close, id})(onClose)
 
-                return render({
-                        ...renderProps,
-                        containerAnimatedStyle,
-                        footerVisible,
-                        headlineText,
-                        id,
-                        leading: leadingElement,
-                        ref,
-                        sheetPosition,
-                        theme,
-                        trailing: trailingElement,
-                        type
-                })
-        }
+		return render({
+			...renderProps,
+			containerAnimatedStyle,
+			footerVisible,
+			headlineText,
+			id,
+			leading: leadingElement,
+			ref,
+			sheetPosition,
+			theme,
+			trailing: trailingElement,
+			type
+		})
+	}
 )

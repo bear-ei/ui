@@ -11,18 +11,18 @@ const path = require('path')
 const defaultConfig = getDefaultConfig(__dirname)
 const {assetExts, sourceExts} = defaultConfig.resolver
 const config = {
-        transformer: {
-                babelTransformerPath: require.resolve('react-native-svg-transformer/react-native')
-        },
-        resolver: {
-                assetExts: assetExts.filter(ext => ext !== 'svg'),
-                sourceExts: [...sourceExts, 'svg']
-        }
+	transformer: {
+		babelTransformerPath: require.resolve('react-native-svg-transformer/react-native')
+	},
+	resolver: {
+		assetExts: assetExts.filter(ext => ext !== 'svg'),
+		sourceExts: [...sourceExts, 'svg']
+	}
 }
 
 const finalConfig = mergeConfig(defaultConfig, config)
 
 module.exports = withStorybook(finalConfig, {
-        enabled: true,
-        configPath: path.resolve(__dirname, './.storybook')
+	enabled: true,
+	configPath: path.resolve(__dirname, './.storybook')
 })

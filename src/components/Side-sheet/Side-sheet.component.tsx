@@ -7,30 +7,30 @@ import {RenderSideSheetProps, SideSheetProps} from './Side-sheet.interface'
 import {Container} from './Side-sheet.styles'
 
 const render = ({visible, type = SheetType.STANDARD, id, testID, ...sheetProps}: RenderSideSheetProps) => {
-        const sheetContentElement = typeof visible === 'boolean' && (
-                <SideSheetContent
-                        {...sheetProps}
-                        testID={`sideSheet__sideSheetContent--${id}`}
-                        type={type}
-                        visible={visible}
-                />
-        )
+	const sheetContentElement = typeof visible === 'boolean' && (
+		<SideSheetContent
+			{...sheetProps}
+			testID={`sideSheet__sideSheetContent--${id}`}
+			type={type}
+			visible={visible}
+		/>
+	)
 
-        return (
-                <>
-                        {[SheetType.STANDARD, SheetType.SIDEBAR].includes(type) ?
-                                sheetContentElement
-                        :       <Container testID={testID ?? `sideSheet--${id}`}>{sheetContentElement}</Container>}
-                </>
-        )
+	return (
+		<>
+			{[SheetType.STANDARD, SheetType.SIDEBAR].includes(type) ?
+				sheetContentElement
+			:	<Container testID={testID ?? `sideSheet--${id}`}>{sheetContentElement}</Container>}
+		</>
+	)
 }
 
 const ForwardRefSideSheet = forwardRef<View, SideSheetProps>((props, ref) => (
-        <SideSheetBase
-                {...props}
-                ref={ref}
-                render={render}
-        />
+	<SideSheetBase
+		{...props}
+		ref={ref}
+		render={render}
+	/>
 ))
 
 export const SideSheet: FC<SideSheetProps> = ForwardRefSideSheet

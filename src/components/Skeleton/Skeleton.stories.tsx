@@ -5,37 +5,37 @@ import {SkeletonProps} from './Skeleton.interface'
 
 const {Square, Rectangular, Circle} = Skeleton
 const SkeletonComponent = (props: SkeletonProps) => {
-        const skeletonStyle = {gap: 16, height: 56}
-        const skeleton = (
-                <>
-                        <Square />
-                        <Rectangular
-                                layout={LayoutType.VERTICAL}
-                                size={56}
-                        >
-                                <Rectangular size={24} />
-                                <Rectangular size={24} />
-                        </Rectangular>
-                        <Circle />
-                </>
-        )
+	const skeletonStyle = {gap: 16, height: 56}
+	const skeleton = (
+		<>
+			<Square />
+			<Rectangular
+				layout={LayoutType.VERTICAL}
+				size={56}
+			>
+				<Rectangular size={24} />
+				<Rectangular size={24} />
+			</Rectangular>
+			<Circle />
+		</>
+	)
 
-        return (
-                <Skeleton
-                        {...props}
-                        skeleton={skeleton}
-                        duration={-1}
-                        style={skeletonStyle}
-                />
-        )
+	return (
+		<Skeleton
+			{...props}
+			skeleton={skeleton}
+			duration={-1}
+			style={skeletonStyle}
+		/>
+	)
 }
 
 export const Default: StoryObj<SkeletonProps> = {
-        args: {}
+	args: {}
 }
 
 export default {
-        title: 'components/Skeleton',
-        argTypes: {onPress: {action: 'pressed'}},
-        component: SkeletonComponent
+	title: 'components/Skeleton',
+	argTypes: {onPress: {action: 'pressed'}},
+	component: SkeletonComponent
 } as Meta<typeof Skeleton>

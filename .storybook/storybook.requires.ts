@@ -8,36 +8,36 @@ import '@storybook/addon-links/register'
 import '@storybook/addon-onboarding/register'
 
 const normalizedStories = [
-        {
-                titlePrefix: '',
-                directory: './src',
-                files: '**/*.mdx',
-                importPathMatcher: /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.mdx)$/,
-                // @ts-ignore
-                req: require.context(
-                        '../src',
-                        true,
-                        /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.mdx)$/
-                )
-        },
-        {
-                titlePrefix: '',
-                directory: './src',
-                files: '**/*.stories.@(js|jsx|mjs|ts|tsx)',
-                importPathMatcher:
-                        /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(js|jsx|mjs|ts|tsx))$/,
-                // @ts-ignore
-                req: require.context(
-                        '../src',
-                        true,
-                        /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(js|jsx|mjs|ts|tsx))$/
-                )
-        }
+	{
+		titlePrefix: '',
+		directory: './src',
+		files: '**/*.mdx',
+		importPathMatcher: /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.mdx)$/,
+		// @ts-ignore
+		req: require.context(
+			'../src',
+			true,
+			/^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.mdx)$/
+		)
+	},
+	{
+		titlePrefix: '',
+		directory: './src',
+		files: '**/*.stories.@(js|jsx|mjs|ts|tsx)',
+		importPathMatcher:
+			/^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(js|jsx|mjs|ts|tsx))$/,
+		// @ts-ignore
+		req: require.context(
+			'../src',
+			true,
+			/^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(js|jsx|mjs|ts|tsx))$/
+		)
+	}
 ]
 
 declare global {
-        var view: ReturnType<typeof start>
-        var STORIES: typeof normalizedStories
+	var view: ReturnType<typeof start>
+	var STORIES: typeof normalizedStories
 }
 
 const annotations = [require('./preview'), require('@storybook/react-native/dist/preview')]
@@ -48,12 +48,12 @@ global.STORIES = normalizedStories
 module?.hot?.accept?.()
 
 if (!global.view) {
-        global.view = start({
-                annotations,
-                storyEntries: normalizedStories
-        })
+	global.view = start({
+		annotations,
+		storyEntries: normalizedStories
+	})
 } else {
-        updateView(global.view, annotations, normalizedStories)
+	updateView(global.view, annotations, normalizedStories)
 }
 
 export const view = global.view

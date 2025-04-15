@@ -4,18 +4,18 @@ import {ShapeProps} from '../../Common'
 import {RenderSkeletonProps} from '../Skeleton.interface'
 
 export interface SkeletonElementProps
-        extends ViewProps,
-                RefAttributes<View>,
-                Pick<ShapeProps, 'shape'>,
-                Pick<RenderSkeletonProps, 'layout'> {
-        size?: number | {width?: number; height: number}
+	extends ViewProps,
+		RefAttributes<View>,
+		Pick<ShapeProps, 'shape'>,
+		Pick<RenderSkeletonProps, 'layout'> {
+	size?: number | {width?: number; height: number}
 }
 
 export type RenderSkeletonElementProps = SkeletonElementProps
 export interface SkeletonElementBaseProps extends SkeletonElementProps {
-        render: (props: RenderSkeletonElementProps) => React.JSX.Element
+	render: (props: RenderSkeletonElementProps) => React.JSX.Element
 }
 
 export type SkeletonElementContainerProps = Pick<RenderSkeletonElementProps, 'layout'> & {
-        showChildren?: boolean
+	showChildren?: boolean
 }

@@ -1,84 +1,85 @@
-import {Size} from '@bearei/material-token'
+import {SIZE} from '@bearei/material-token'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../hooks'
-import {State} from '../Common'
+import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {useStateEvent} from '../../hooks'
+import type {State} from '../Common'
 import {
-        handleFABDisabled,
-        handleFABStateChange,
-        handleFABStatus,
-        handleFABUnderlayColor,
-        renderFABIcon
+	handleFABDisabled,
+	handleFABStateChange,
+	handleFABStatus,
+	handleFABUnderlayColor,
+	renderFABIcon
 } from './FAB-handle'
-import {FABType} from './FAB.enum'
-import {FABBaseProps, FABState} from './FAB.interface'
+import {FAB_TYPE} from './FAB.enum'
+import type {FABBaseProps, FABState} from './FAB.interface'
 import {useFABAnimated} from './use-fab-animated.hook'
 
 export const FABBase = forwardRef<View, FABBaseProps>(
-        (
-                {
-                        disabled: rawDisabled,
-                        elevated = true,
-                        extendedFAB,
-                        icon,
-                        labelText,
-                        loading,
-                        render,
-                        size = Size.MEDIUM,
-                        type = FABType.PRIMARY,
-                        ...renderProps
-                },
-                ref
-        ) => {
-                const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: 'idle'})
-                const id = useId()
-                const theme = useTheme()
-                const fabIconElement = renderFABIcon({eventName, type, disabled: rawDisabled, size, id})(theme)(icon)
-                const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
-                const onFABStatus = useMemo(() => handleFABStatus(setState)(rawDisabled), [rawDisabled, setState])
-                const underlayColor = handleFABUnderlayColor(theme)(type)
-                const disabled = loading || rawDisabled
-                const onStateEventChange =
-                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleFABStateChange({...options, state, elevated})(setState)(event)
+	(
+		{
+			disabled: rawDisabled,
+			elevated = true,
+			extendedFAB,
+			icon,
+			labelText,
+			loading,
+			render,
+			size = SIZE.MEDIUM,
+			type = FAB_TYPE.PRIMARY,
+			...renderProps
+		},
+		ref
+	) => {
+		const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: 'idle'})
+		const id = useId()
+		const theme = useTheme()
+		const fabIconElement = renderFABIcon({eventName, type, disabled: rawDisabled, size, id})(theme)(icon)
+		const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
+		const onFABStatus = useMemo(() => handleFABStatus(setState)(rawDisabled), [rawDisabled, setState])
+		const underlayColor = handleFABUnderlayColor(theme)(type)
+		const disabled = loading || rawDisabled
+		const onStateEventChange =
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleFABStateChange({...options, state, elevated})(setState)(event)
 
-                const stateOnEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
-                const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
-                        disabled: rawDisabled,
-                        type
-                })
+		const stateOnEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
+		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
+			disabled: rawDisabled,
+			type
+		})
 
-                useEffect(() => {
-                        onFABDisabled(rawDisabled)
-                }, [rawDisabled, onFABDisabled])
+		useEffect(() => {
+			onFABDisabled(rawDisabled)
+		}, [rawDisabled, onFABDisabled])
 
-                useEffect(() => {
-                        onFABStatus(elevated)
-                }, [elevated, onFABStatus])
+		useEffect(() => {
+			onFABStatus(elevated)
+		}, [elevated, onFABStatus])
 
-                if (status === 'idle') {
-                        return <></>
-                }
+		if (status === 'idle') {
+			return <></>
+		}
 
-                return render({
-                        ...renderProps,
-                        backgroundUnderlayAnimatedStyle,
-                        disabled,
-                        elevation,
-                        eventName,
-                        extendedFAB: extendedFAB ?? !!labelText,
-                        icon: fabIconElement,
-                        id,
-                        labelText,
-                        labelTextAnimatedStyle,
-                        loading,
-                        ref,
-                        size,
-                        stateOnEvent,
-                        type,
-                        underlayColor
-                })
-        }
+		return render({
+			...renderProps,
+			backgroundUnderlayAnimatedStyle,
+			disabled,
+			elevation,
+			eventName,
+			extendedFAB: extendedFAB ?? !!labelText,
+			icon: fabIconElement,
+			id,
+			labelText,
+			labelTextAnimatedStyle,
+			loading,
+			ref,
+			size,
+			stateOnEvent,
+			type,
+			underlayColor
+		})
+	}
 )

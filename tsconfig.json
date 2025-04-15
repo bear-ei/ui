@@ -1,14 +1,15 @@
 {
-        "extends": ["@react-native/typescript-config/tsconfig.json"],
-        "compilerOptions": {
-                "emitDecoratorMetadata": true,
-                "experimentalDecorators": true,
-                "forceConsistentCasingInFileNames": true,
-                "jsx": "react-jsx",
-                "strict": true,
-                "strictPropertyInitialization": false,
-                "lib": ["ES2023"]
-        },
+	"extends": ["@react-native/typescript-config/tsconfig.json"],
+	"compilerOptions": {
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"jsx": "react-jsx",
+		"lib": ["ES2023"],
+		"strict": true,
+		"strictPropertyInitialization": false,
+		"verbatimModuleSyntax": true
+	},
 
-        "include": ["src", ".storybook/*.tsx", ".ondevice/*.tsx"]
+	"include": ["src", ".storybook/*.tsx", ".ondevice/*.tsx"]
 }

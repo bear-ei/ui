@@ -1,24 +1,25 @@
-import {FC, forwardRef} from 'react'
-import {View} from 'react-native'
+import type {FC} from 'react'
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
 import {FormItemBase} from './Form-item-base.component'
-import {FormItemProps, RenderFormItemProps} from './Form-item.interface'
+import type {FormItemProps, RenderFormItemProps} from './Form-item.interface'
 import {Container} from './Form-item.styles'
 
 const render = ({control, id, testID, ...containerProps}: RenderFormItemProps) => (
-        <Container
-                {...containerProps}
-                testID={testID ?? `formItem--${id}`}
-        >
-                {control}
-        </Container>
+	<Container
+		{...containerProps}
+		testID={testID ?? `formItem--${id}`}
+	>
+		{control}
+	</Container>
 )
 
 const ForwardRefFormItem = forwardRef<View, FormItemProps>((props, ref) => (
-        <FormItemBase
-                {...props}
-                ref={ref}
-                render={render}
-        />
+	<FormItemBase
+		{...props}
+		ref={ref}
+		render={render}
+	/>
 ))
 
 export const FormItem: FC<FormItemProps> = ForwardRefFormItem

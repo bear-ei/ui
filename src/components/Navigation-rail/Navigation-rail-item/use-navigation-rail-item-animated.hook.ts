@@ -3,31 +3,31 @@ import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-r
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {handleNavigationRailItemAnimatedTiming} from './Navigation-rail-item-handle'
-import {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.interface'
+import type {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.interface'
 
 export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailItemAnimatedOptions) => {
-        const theme = useTheme()
-        const {palette, scheme, opacity} = theme.token
-        const {hexToRGBA} = palette
-        const animatedTiming = useAnimatedTiming({token: theme.token})
-        const labelTextColorSharedValue = useSharedValue(active ? 1 : 0)
-        const labelTextColorOutputRanges = [
-                hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-                hexToRGBA(scheme.onSurface)(opacity.level10)
-        ]
+	const theme = useTheme()
+	const {palette, scheme, opacity} = theme.token
+	const {hexToRGBA} = palette
+	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const labelTextColorSharedValue = useSharedValue(active ? 1 : 0)
+	const labelTextColorOutputRanges = [
+		hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
+		hexToRGBA(scheme.onSurface)(opacity.level10)
+	]
 
-        const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(labelTextColorSharedValue.value, [0, 1], labelTextColorOutputRanges)
-        }))
+	const labelTextAnimatedStyle = useAnimatedStyle(() => ({
+		color: interpolateColor(labelTextColorSharedValue.value, [0, 1], labelTextColorOutputRanges)
+	}))
 
-        const onNavigationRailItemAnimatedTiming = useMemo(
-                () => handleNavigationRailItemAnimatedTiming({animatedTiming, type})(labelTextColorSharedValue),
-                [animatedTiming, labelTextColorSharedValue, type]
-        )
+	const onNavigationRailItemAnimatedTiming = useMemo(
+		() => handleNavigationRailItemAnimatedTiming({animatedTiming, type})(labelTextColorSharedValue),
+		[animatedTiming, labelTextColorSharedValue, type]
+	)
 
-        useEffect(() => {
-                onNavigationRailItemAnimatedTiming(active)
-        }, [active, onNavigationRailItemAnimatedTiming])
+	useEffect(() => {
+		onNavigationRailItemAnimatedTiming(active)
+	}, [active, onNavigationRailItemAnimatedTiming])
 
-        return {labelTextAnimatedStyle}
+	return {labelTextAnimatedStyle}
 }

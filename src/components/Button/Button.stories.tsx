@@ -1,84 +1,84 @@
-import {Meta, StoryObj} from '@storybook/react'
-import {Density} from '../Common'
-import {Icon as EIIcon, IconStyle, IconType} from '../Icon'
+import type {Meta, StoryObj} from '@storybook/react'
+import {DENSITY} from '../Common'
+import {Icon as EIIcon, ICON_STYLE, ICON_TYPE} from '../Icon'
 import {Button} from './Button.component'
-import {ButtonType} from './Button.enum'
-import {ButtonProps} from './Button.interface'
+import {BUTTON_TYPE} from './Button.enum'
+import type {ButtonProps} from './Button.interface'
 
 export const Filled: StoryObj<ButtonProps> = {
-        args: {
-                labelText: 'Label'
-        }
+	args: {
+		labelText: 'Label'
+	}
 }
 
 export const Outlined: StoryObj<ButtonProps> = {
-        args: {
-                labelText: 'Label',
-                type: ButtonType.OUTLINED
-        }
+	args: {
+		labelText: 'Label',
+		type: BUTTON_TYPE.OUTLINED
+	}
 }
 
 export const Text: StoryObj<ButtonProps> = {
-        args: {
-                labelText: 'Label',
-                type: ButtonType.TEXT
-        }
+	args: {
+		labelText: 'Label',
+		type: BUTTON_TYPE.TEXT
+	}
 }
 
 export const TextIcon: StoryObj<ButtonProps> = {
-        args: {
-                icon: (
-                        <EIIcon
-                                type={IconType.FILLED}
-                                iconStyle={IconStyle.ROUNDED}
-                        />
-                ),
-                labelText: 'Label',
-                type: ButtonType.TEXT
-        }
+	args: {
+		icon: (
+			<EIIcon
+				type={ICON_TYPE.FILLED}
+				iconStyle={ICON_STYLE.ROUNDED}
+			/>
+		),
+		labelText: 'Label',
+		type: BUTTON_TYPE.TEXT
+	}
 }
 
 export const Tonal: StoryObj<ButtonProps> = {
-        args: {
-                labelText: 'Label',
-                type: ButtonType.TONAL
-        }
+	args: {
+		labelText: 'Label',
+		type: BUTTON_TYPE.TONAL
+	}
 }
 
 export const Elevated: StoryObj<ButtonProps> = {
-        args: {
-                labelText: 'Label',
-                type: ButtonType.ELEVATED
-        }
+	args: {
+		labelText: 'Label',
+		type: BUTTON_TYPE.ELEVATED
+	}
 }
 
 export const Link: StoryObj<ButtonProps> = {
-        args: {
-                labelText: 'Label',
-                type: ButtonType.LINK
-        }
+	args: {
+		labelText: 'Label',
+		type: BUTTON_TYPE.LINK
+	}
 }
 
 export const Icon: StoryObj<ButtonProps> = {
-        args: {
-                icon: <EIIcon />,
-                labelText: 'Label'
-        }
+	args: {
+		icon: <EIIcon />,
+		labelText: 'Label'
+	}
 }
 
 export const Err: StoryObj<ButtonProps> = {
-        args: {
-                labelText: 'Label',
-                error: true
-        }
+	args: {
+		labelText: 'Label',
+		error: true
+	}
 }
 
 export const DensityScale: StoryObj<ButtonProps> = {
-        args: {density: Density.COMPACT}
+	args: {density: DENSITY.COMPACT}
 }
 
 export default {
-        title: 'components/Button',
-        argTypes: {onPress: {action: 'pressed'}},
-        component: Button
+	title: 'components/Button',
+	argTypes: {onPress: {action: 'pressed'}},
+	component: Button
 } as Meta<typeof Button>

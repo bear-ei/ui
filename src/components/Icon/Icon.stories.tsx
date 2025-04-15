@@ -1,31 +1,31 @@
-import {Meta, StoryObj} from '@storybook/react'
+import type {Meta, StoryObj} from '@storybook/react'
 import {Icon} from './Icon.component'
-import {IconName, IconStyle, IconType} from './Icon.enum'
-import {IconProps} from './Icon.interface'
+import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'
+import type {IconProps} from './Icon.interface'
 
 export const Filled: StoryObj<IconProps> = {
-        args: {
-                iconStyle: IconStyle.ROUNDED,
-                type: IconType.FILLED
-        }
+	args: {
+		iconStyle: ICON_STYLE.ROUNDED,
+		type: ICON_TYPE.FILLED
+	}
 }
 
 export const Outlined: StoryObj<IconProps> = {
-        args: {
-                iconStyle: IconStyle.ROUNDED,
-                type: IconType.OUTLINED
-        }
+	args: {
+		iconStyle: ICON_STYLE.ROUNDED,
+		type: ICON_TYPE.OUTLINED
+	}
 }
 
 export const Home: StoryObj<IconProps> = {
-        args: {
-                iconStyle: IconStyle.ROUNDED,
-                type: IconType.OUTLINED,
-                name: IconName.HOME
-        }
+	args: {
+		iconStyle: ICON_STYLE.ROUNDED,
+		type: ICON_TYPE.OUTLINED,
+		name: ICON_NAME.HOME
+	}
 }
 
 export default {
-        title: 'components/Icon',
-        component: Icon
+	title: 'components/Icon',
+	component: Icon
 } as Meta<typeof Icon>

@@ -1,9 +1,9 @@
-export enum ProgressType {
-        LINEAR = 'LINEAR',
-        CIRCULAR = 'CIRCULAR'
-}
+export const PROGRESS_TYPE = {
+	LINEAR: 'LINEAR',
+	CIRCULAR: 'CIRCULAR'
+} as const
 
-export enum ProgressAnimated {
-        DETERMINATE = 'DETERMINATE',
-        INDETERMINATE = 'INDETERMINATE'
-}
+export const PROGRESS_ANIMATED = {
+	DETERMINATE: 'DETERMINATE',
+	INDETERMINATE: 'INDETERMINATE'
+} as const

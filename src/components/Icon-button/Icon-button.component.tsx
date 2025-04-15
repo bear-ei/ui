@@ -1,112 +1,112 @@
-import {ShapeType} from '@bearei/material-token'
-import {FC, forwardRef} from 'react'
+import {SHAPE} from '@bearei/material-token'
+import type {FC} from 'react'
+import {forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Progress, ProgressAnimated, ProgressType} from '../Progress'
 import {Touchable} from '../Touchable'
-import {Underlay} from '../Underlay'
-import {ActiveAnimatedType} from '../Underlay/Underlay.enum'
+import {ActiveAnimatedType, Underlay} from '../Underlay'
 import {IconButtonBase} from './Icon-button-base.component'
-import {IconButtonType} from './Icon-button.enum'
-import {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
+import {ICON_BUTTON_TYPE} from './Icon-button.enum'
+import type {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
 import {BackgroundUnderlay, Container, Content, ContentItemLayout, Main} from './Icon-button.styles'
 
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const render = ({
-        active,
-        backgroundUnderlayAnimatedStyle,
-        defaultActive,
-        disabled,
-        eventName,
-        icon,
-        id,
-        loading,
-        ref,
-        size,
-        stateOnEvent,
-        testID,
-        theme,
-        type,
-        underlayColor,
-        ...contentProps
+	active,
+	backgroundUnderlayAnimatedStyle,
+	defaultActive,
+	disabled,
+	eventName,
+	icon,
+	id,
+	loading,
+	ref,
+	size,
+	stateOnEvent,
+	testID,
+	theme,
+	type,
+	underlayColor,
+	...contentProps
 }: RenderIconButtonProps) => {
-        const shape = ShapeType.FULL
-        const activeColor = theme.token.scheme.secondaryContainer
-        const backgroundUnderlayElement = (
-                <AnimatedBackgroundUnderlay
-                        pointerEvents='none'
-                        shape={shape}
-                        style={[backgroundUnderlayAnimatedStyle]}
-                        testID={`iconButton__animatedBackgroundUnderlay--${id}`}
-                />
-        )
+	const shape = SHAPE.FULL
+	const activeColor = theme.token.scheme.secondaryContainer
+	const backgroundUnderlayElement = (
+		<AnimatedBackgroundUnderlay
+			pointerEvents='none'
+			shape={shape}
+			style={[backgroundUnderlayAnimatedStyle]}
+			testID={`iconButton__animatedBackgroundUnderlay--${id}`}
+		/>
+	)
 
-        return (
-                <Container
-                        pointerEvents={loading ? 'none' : 'auto'}
-                        testID={testID ?? `iconButton--${id}`}
-                >
-                        <ContentItemLayout
-                                lazy={true}
-                                testID={`iconButton__contentItemLayoutAnimated--${id}`}
-                                visible={loading}
-                        >
-                                <Progress
-                                        animatedType={ProgressAnimated.INDETERMINATE}
-                                        content={icon}
-                                        size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
-                                        testID={`iconButton__progress--${id}`}
-                                        type={ProgressType.CIRCULAR}
-                                />
-                        </ContentItemLayout>
+	return (
+		<Container
+			pointerEvents={loading ? 'none' : 'auto'}
+			testID={testID ?? `iconButton--${id}`}
+		>
+			<ContentItemLayout
+				lazy={true}
+				testID={`iconButton__contentItemLayoutAnimated--${id}`}
+				visible={loading}
+			>
+				<Progress
+					animatedType={ProgressAnimated.INDETERMINATE}
+					content={icon}
+					size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
+					testID={`iconButton__progress--${id}`}
+					type={ProgressType.CIRCULAR}
+				/>
+			</ContentItemLayout>
 
-                        <ContentItemLayout
-                                testID={`iconButton__contentItemLayoutAnimated--${id}`}
-                                visible={!loading}
-                        >
-                                <Touchable
-                                        {...stateOnEvent}
-                                        backgroundUnderlay={backgroundUnderlayElement}
-                                        disabled={disabled}
-                                        enableTouchableRipple={type !== IconButtonType.ACTIVE}
-                                        mainAlignSelf='center'
-                                        ref={ref}
-                                        shape={shape}
-                                        testID={`iconButton__touchable--${id}`}
-                                        underlayColor={underlayColor}
-                                >
-                                        <Content
-                                                {...contentProps}
-                                                accessibilityRole='button'
-                                                pointerEvents='none'
-                                                shape={shape}
-                                                size={size}
-                                                testID={`iconButton__content--${id}`}
-                                        >
-                                                <Main testID={`iconButton__main--${id}`}>{icon}</Main>
-                                                <Underlay
-                                                        active={active}
-                                                        activeAnimatedType={ActiveAnimatedType.SCALE}
-                                                        activeColor={activeColor}
-                                                        defaultActive={defaultActive}
-                                                        eventName={eventName}
-                                                        shape={shape}
-                                                        testID={`iconButton__underlay--${id}`}
-                                                        underlayColor={underlayColor}
-                                                />
-                                        </Content>
-                                </Touchable>
-                        </ContentItemLayout>
-                </Container>
-        )
+			<ContentItemLayout
+				testID={`iconButton__contentItemLayoutAnimated--${id}`}
+				visible={!loading}
+			>
+				<Touchable
+					{...stateOnEvent}
+					backgroundUnderlay={backgroundUnderlayElement}
+					disabled={disabled}
+					enableTouchableRipple={type !== ICON_BUTTON_TYPE.ACTIVE}
+					mainAlignSelf='center'
+					ref={ref}
+					shape={shape}
+					testID={`iconButton__touchable--${id}`}
+					underlayColor={underlayColor}
+				>
+					<Content
+						{...contentProps}
+						accessibilityRole='button'
+						pointerEvents='none'
+						shape={shape}
+						size={size}
+						testID={`iconButton__content--${id}`}
+					>
+						<Main testID={`iconButton__main--${id}`}>{icon}</Main>
+						<Underlay
+							active={active}
+							activeAnimatedType={ActiveAnimatedType.SCALE}
+							activeColor={activeColor}
+							defaultActive={defaultActive}
+							eventName={eventName}
+							shape={shape}
+							testID={`iconButton__underlay--${id}`}
+							underlayColor={underlayColor}
+						/>
+					</Content>
+				</Touchable>
+			</ContentItemLayout>
+		</Container>
+	)
 }
 
 const ForwardRefIconButton = forwardRef<View, IconButtonProps>((props, ref) => (
-        <IconButtonBase
-                {...props}
-                ref={ref}
-                render={render}
-        />
+	<IconButtonBase
+		{...props}
+		ref={ref}
+		render={render}
+	/>
 ))
 
 export const IconButton: FC<IconButtonProps> = ForwardRefIconButton

@@ -1,11 +1,11 @@
 import {forwardRef, useId} from 'react'
-import {View} from 'react-native'
-import {DividerBaseProps} from './Divider.interface'
+import type {View} from 'react-native'
+import type {DividerBaseProps} from './Divider.interface'
 
 export const DividerBase = forwardRef<View, DividerBaseProps>(
-        ({layout, render, size, subheader, ...renderProps}, ref) => {
-                const id = useId()
+	({layout, render, size, subheader, ...renderProps}, ref) => {
+		const id = useId()
 
-                return render({...renderProps, layout, ref, size, subheader, id})
-        }
+		return render({...renderProps, layout, ref, size, subheader, id})
+	}
 )

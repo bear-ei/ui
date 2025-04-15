@@ -1,4 +1,4 @@
 export enum TextInputType {
-        FILLED = 'FILLED',
-        OUTLINED = 'OUTLINED'
+	FILLED = 'FILLED',
+	OUTLINED = 'OUTLINED'
 }

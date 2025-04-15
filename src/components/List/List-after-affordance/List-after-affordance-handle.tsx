@@ -1,38 +1,38 @@
-import {GestureResponderEvent} from 'react-native'
-import {SharedValue} from 'react-native-reanimated'
-import {Updater} from 'use-immer'
-import {AnimatedTiming} from '../../../hooks'
-import {
-        HandleListAfterAffordanceCancelOptions,
-        HandleListAfterAffordanceConfirmOptions,
-        ListAfterAffordanceState
+import type {GestureResponderEvent} from 'react-native'
+import type {SharedValue} from 'react-native-reanimated'
+import type {Updater} from 'use-immer'
+import type {AnimatedTiming} from '../../../hooks'
+import type {
+	HandleListAfterAffordanceCancelOptions,
+	HandleListAfterAffordanceConfirmOptions,
+	ListAfterAffordanceState
 } from './List-after-affordance.interface'
 
 export const handleListAfterAffordanceConfirm =
-        ({onConfirm, doubleConfirmed, indexKey}: HandleListAfterAffordanceConfirmOptions) =>
-        (_event: GestureResponderEvent) =>
-                onConfirm?.({indexKey, doubleConfirmed})
+	({onConfirm, doubleConfirmed, indexKey}: HandleListAfterAffordanceConfirmOptions) =>
+	(_event: GestureResponderEvent) =>
+		onConfirm?.({indexKey, doubleConfirmed})
 
 export const handleListAfterAffordanceCancel =
-        ({onCancel, doubleConfirmed, indexKey}: HandleListAfterAffordanceCancelOptions) =>
-        (setState: Updater<ListAfterAffordanceState>) =>
-        (_event: GestureResponderEvent) => {
-                const handleNextCancelEvent = () => onCancel?.({indexKey, doubleConfirmed})
+	({onCancel, doubleConfirmed, indexKey}: HandleListAfterAffordanceCancelOptions) =>
+	(setState: Updater<ListAfterAffordanceState>) =>
+	(_event: GestureResponderEvent) => {
+		const handleNextCancelEvent = () => onCancel?.({indexKey, doubleConfirmed})
 
-                setState(draft => {
-                        draft.doubleConfirmed = !doubleConfirmed
-                        draft.nextCancelEvent = handleNextCancelEvent
-                })
-        }
+		setState(draft => {
+			draft.doubleConfirmed = !doubleConfirmed
+			draft.nextCancelEvent = handleNextCancelEvent
+		})
+	}
 
 export const handleListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceState>) => (visible?: boolean) =>
-        !visible &&
-        setState(draft => {
-                draft.doubleConfirmed = false
-        })
+	!visible &&
+	setState(draft => {
+		draft.doubleConfirmed = false
+	})
 
 export const handleListAfterAffordanceAnimatedTiming =
-        (animatedTiming: AnimatedTiming) =>
-        (translateXSharedValue: SharedValue<number>) =>
-        (doubleConfirmed?: boolean) =>
-                typeof doubleConfirmed === 'boolean' && animatedTiming()(translateXSharedValue)(doubleConfirmed ? 1 : 0)
+	(animatedTiming: AnimatedTiming) =>
+	(translateXSharedValue: SharedValue<number>) =>
+	(doubleConfirmed?: boolean) =>
+		typeof doubleConfirmed === 'boolean' && animatedTiming()(translateXSharedValue)(doubleConfirmed ? 1 : 0)

@@ -1,7 +1,6 @@
-import {ShapeType} from '@bearei/material-token'
 import {FC, forwardRef} from 'react'
 import {TextInput as RNTextInput} from 'react-native'
-import {Icon, IconName, IconStyle, IconType} from '../Icon'
+import {Icon} from '../Icon'
 import {Underlay} from '../Underlay'
 import {SearchBase} from './Search-base.component'
 import {SearchList} from './Search-list'
@@ -10,105 +9,105 @@ import {Container, Content, Leading, Main, TextInput, TextInputLayout, Touchable
 
 const SearchTextInput: FC<SearchTextInputProps> = TextInput
 const render = ({
-        containerRef,
-        density,
-        eventName,
-        id,
-        layout,
-        leading,
-        listProps,
-        listVisible,
-        onChangeText,
-        placeholder,
-        stateOnEvent,
-        testID,
-        theme,
-        trailing,
-        value,
-        ...textInputProps
+	containerRef,
+	density,
+	eventName,
+	id,
+	layout,
+	leading,
+	listProps,
+	listVisible,
+	onChangeText,
+	placeholder,
+	stateOnEvent,
+	testID,
+	theme,
+	trailing,
+	value,
+	...textInputProps
 }: RenderSearchProps) => {
-        const {onBlur, onFocus, ...onTouchableEvent} = stateOnEvent
-        const placeholderTextColor = theme.token.scheme.onSurfaceVariant
-        const shape = ShapeType.EXTRA_LARGE
-        const underlayColor = theme.token.scheme.onSurface
-        const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
+	const {onBlur, onFocus, ...onTouchableEvent} = stateOnEvent
+	const placeholderTextColor = theme.token.scheme.onSurfaceVariant
+	const shape = SHAPE.EXTRA_LARGE
+	const underlayColor = theme.token.scheme.onSurface
+	const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
 
-        return (
-                <Container
-                        {...(containerRef && {ref: containerRef})}
-                        testID={testID ?? `search--${id}`}
-                >
-                        <Touchable
-                                {...onTouchableEvent}
-                                testID={`search__touchable--${id}`}
-                        >
-                                <Content
-                                        accessibilityLabel={placeholder}
-                                        accessibilityRole='keyboardkey'
-                                        density={density}
-                                        shape={shape}
-                                        testID={`search__content--${id}`}
-                                        trailingShow={!!trailing}
-                                >
-                                        <Leading testID={`search__leading--${id}`}>
-                                                {leading ?? (
-                                                        <Icon
-                                                                iconStyle={IconStyle.ROUNDED}
-                                                                name={IconName.SEARCH}
-                                                                testID={`search__iconSearch--${id}`}
-                                                                type={IconType.FILLED}
-                                                        />
-                                                )}
-                                        </Leading>
+	return (
+		<Container
+			{...(containerRef && {ref: containerRef})}
+			testID={testID ?? `search--${id}`}
+		>
+			<Touchable
+				{...onTouchableEvent}
+				testID={`search__touchable--${id}`}
+			>
+				<Content
+					accessibilityLabel={placeholder}
+					accessibilityRole='keyboardkey'
+					density={density}
+					shape={shape}
+					testID={`search__content--${id}`}
+					trailingShow={!!trailing}
+				>
+					<Leading testID={`search__leading--${id}`}>
+						{leading ?? (
+							<Icon
+								iconStyle={ICON_STYLE.ROUNDED}
+								name={ICON_NAME.SEARCH}
+								testID={`search__iconSearch--${id}`}
+								type={ICON_TYPE.FILLED}
+							/>
+						)}
+					</Leading>
 
-                                        <Main testID={`search__main--${id}`}>
-                                                <TextInputLayout testID={`search__textInputLayout--${id}`}>
-                                                        <SearchTextInput
-                                                                {...textInputProps}
-                                                                /**
-                                                                 * enableFocusRing is used to disable the focus style in macOS,
-                                                                 * this parameter has been implemented and is available.
-                                                                 * However, react-native-macos does not have an official typescript declaration for this parameter,
-                                                                 * so using it directly in a typescript will result in an undefined parameter.
-                                                                 */
-                                                                enableFocusRing={false}
-                                                                onBlur={onBlur}
-                                                                onChangeText={onChangeText}
-                                                                onFocus={onFocus}
-                                                                placeholder={placeholder}
-                                                                placeholderTextColor={placeholderTextColor}
-                                                                testID={`search__searchTextInput--${id}`}
-                                                                value={value}
-                                                        />
-                                                </TextInputLayout>
-                                        </Main>
+					<Main testID={`search__main--${id}`}>
+						<TextInputLayout testID={`search__textInputLayout--${id}`}>
+							<SearchTextInput
+								{...textInputProps}
+								/**
+								 * enableFocusRing is used to disable the focus style in macOS,
+								 * this parameter has been implemented and is available.
+								 * However, react-native-macos does not have an official typescript declaration for this parameter,
+								 * so using it directly in a typescript will result in an undefined parameter.
+								 */
+								enableFocusRing={false}
+								onBlur={onBlur}
+								onChangeText={onChangeText}
+								onFocus={onFocus}
+								placeholder={placeholder}
+								placeholderTextColor={placeholderTextColor}
+								testID={`search__searchTextInput--${id}`}
+								value={value}
+							/>
+						</TextInputLayout>
+					</Main>
 
-                                        {trailing && <Trailing testID={`search__trailing--${id}`}>{trailing}</Trailing>}
-                                        <Underlay
-                                                eventName={eventName}
-                                                opacities={underlayOpacities}
-                                                shape={listVisible ? ShapeType.EXTRA_LARGE_TOP : shape}
-                                                testID={`search__underlay--${id}`}
-                                                underlayColor={underlayColor}
-                                        />
-                                </Content>
-                        </Touchable>
+					{trailing && <Trailing testID={`search__trailing--${id}`}>{trailing}</Trailing>}
+					<Underlay
+						eventName={eventName}
+						opacities={underlayOpacities}
+						shape={listVisible ? SHAPE.EXTRA_LARGE_TOP : shape}
+						testID={`search__underlay--${id}`}
+						underlayColor={underlayColor}
+					/>
+				</Content>
+			</Touchable>
 
-                        <SearchList
-                                {...listProps}
-                                containerLayout={layout}
-                                testID={`search__searchList--${id}`}
-                        />
-                </Container>
-        )
+			<SearchList
+				{...listProps}
+				containerLayout={layout}
+				testID={`search__searchList--${id}`}
+			/>
+		</Container>
+	)
 }
 
 const ForwardRefSearch = forwardRef<RNTextInput, SearchProps>((props, ref) => (
-        <SearchBase
-                {...props}
-                ref={ref}
-                render={render}
-        />
+	<SearchBase
+		{...props}
+		ref={ref}
+		render={render}
+	/>
 ))
 
 export const Search: FC<SearchProps> = ForwardRefSearch

@@ -6,83 +6,83 @@ import {runAfterInteractions} from '../../utils'
 import {EventName} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
 import {
-        HandleAddTouchableRippleOptions,
-        HandleTouchablePressInOptions,
-        HandleTouchableStateChangeOptions,
-        RenderTouchableRippleOptions,
-        TouchableRippleSequence,
-        TouchableState
+	HandleAddTouchableRippleOptions,
+	HandleTouchablePressInOptions,
+	HandleTouchableStateChangeOptions,
+	RenderTouchableRippleOptions,
+	TouchableRippleSequence,
+	TouchableState
 } from './Touchable.interface'
 
 const handleAddTouchableRipple =
-        (setState: Updater<TouchableState>) =>
-        ({touchableLocation, contentLayout}: HandleAddTouchableRippleOptions) => {
-                const {width, height} = contentLayout
+	(setState: Updater<TouchableState>) =>
+	({touchableLocation, contentLayout}: HandleAddTouchableRippleOptions) => {
+		const {width, height} = contentLayout
 
-                setState(draft => {
-                        draft.contentLayout.height = height
-                        draft.contentLayout.width = width
-                        draft.rippleSequence[nanoid()] = touchableLocation
-                })
-        }
+		setState(draft => {
+			draft.contentLayout.height = height
+			draft.contentLayout.width = width
+			draft.rippleSequence[nanoid()] = touchableLocation
+		})
+	}
 
 const handleTouchablePressIn =
-        ({setState, ref}: HandleTouchablePressInOptions) =>
-        (enableTouchableRipple?: boolean) =>
-        (event: GestureResponderEvent) => {
-                ref.current?.focus()
+	({setState, ref}: HandleTouchablePressInOptions) =>
+	(enableTouchableRipple?: boolean) =>
+	(event: GestureResponderEvent) => {
+		ref.current?.focus()
 
-                const {locationX, locationY} = event.nativeEvent
+		const {locationX, locationY} = event.nativeEvent
 
-                if (enableTouchableRipple) {
-                        ref?.current?.measure((x, y, width, height) =>
-                                runAfterInteractions(handleAddTouchableRipple(setState))({
-                                        contentLayout: {width, height, x, y},
-                                        touchableLocation: {locationX, locationY}
-                                })
-                        )
-                }
-        }
+		if (enableTouchableRipple) {
+			ref?.current?.measure((x, y, width, height) =>
+				runAfterInteractions(handleAddTouchableRipple(setState))({
+					contentLayout: {width, height, x, y},
+					touchableLocation: {locationX, locationY}
+				})
+			)
+		}
+	}
 
 export const handleTouchableStateChange =
-        ({eventName, enableTouchableRipple, ref}: HandleTouchableStateChangeOptions) =>
-        (setState: Updater<TouchableState>) =>
-        (event: StateEvent) => {
-                const nextEvent = {
-                        pressIn: () =>
-                                handleTouchablePressIn({setState, ref})(enableTouchableRipple)(
-                                        event as GestureResponderEvent
-                                )
-                } as Record<EventName, () => void>
+	({eventName, enableTouchableRipple, ref}: HandleTouchableStateChangeOptions) =>
+	(setState: Updater<TouchableState>) =>
+	(event: StateEvent) => {
+		const nextEvent = {
+			pressIn: () =>
+				handleTouchablePressIn({setState, ref})(enableTouchableRipple)(
+					event as GestureResponderEvent
+				)
+		} as Record<EventName, () => void>
 
-                if (eventName) {
-                        nextEvent[eventName]?.()
-                }
-        }
+		if (eventName) {
+			nextEvent[eventName]?.()
+		}
+	}
 
 export const handleTouchableAnimatedFinished = (setState: Updater<TouchableState>) => (index: string) =>
-        setState(draft => {
-                if (draft.rippleSequence[index]) {
-                        delete draft.rippleSequence[index]
-                }
-        })
+	setState(draft => {
+		if (draft.rippleSequence[index]) {
+			delete draft.rippleSequence[index]
+		}
+	})
 
 export const renderTouchableRipple =
-        ({centered, containerLayout, id, ...props}: RenderTouchableRippleOptions) =>
-        (rippleSequence: TouchableRippleSequence) =>
-                Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
-                        const centeredTouchableRipple =
-                                typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
+	({centered, containerLayout, id, ...props}: RenderTouchableRippleOptions) =>
+	(rippleSequence: TouchableRippleSequence) =>
+		Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
+			const centeredTouchableRipple =
+				typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
 
-                        return (
-                                <TouchableRipple
-                                        {...props}
-                                        centered={centeredTouchableRipple}
-                                        containerLayout={containerLayout}
-                                        indexKey={indexKey}
-                                        key={indexKey}
-                                        testID={`touchable__touchableRipple--${id}`}
-                                        touchableLocation={touchableLocation}
-                                />
-                        )
-                })
+			return (
+				<TouchableRipple
+					{...props}
+					centered={centeredTouchableRipple}
+					containerLayout={containerLayout}
+					indexKey={indexKey}
+					key={indexKey}
+					testID={`touchable__touchableRipple--${id}`}
+					touchableLocation={touchableLocation}
+				/>
+			)
+		})

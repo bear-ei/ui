@@ -1,32 +1,32 @@
 import styled, {css} from 'styled-components/native'
-import {ListAfterAffordanceDangerProps} from './List-after-affordance.interface'
+import type {ListAfterAffordanceDangerProps} from './List-after-affordance.interface'
 
 export const Container = styled.View`
-        display: flex;
-        flex-direction: row;
-        position: relative;
+	display: flex;
+	flex-direction: row;
+	position: relative;
 
-        ${({theme}) => css`
-                background-color: ${theme.token.scheme.primary};
-                min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-                width: ${theme.adaptSize(theme.token.spacing.extraSmall * 34)}px;
-        `}
+	${({theme}) => css`
+		background-color: ${theme.token.scheme.primary};
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 34)}px;
+	`}
 `
 
 export const Danger = styled.View<ListAfterAffordanceDangerProps>`
-        position: absolute;
-        width: 50%;
-        z-index: -4;
+	position: absolute;
+	width: 50%;
+	z-index: -4;
 
-        ${({theme}) => css`
-                bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-                right: ${theme.adaptSize(theme.token.spacing.none)}px;
-                top: ${theme.adaptSize(theme.token.spacing.none)}px;
-        `};
+	${({theme}) => css`
+		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+		right: ${theme.adaptSize(theme.token.spacing.none)}px;
+		top: ${theme.adaptSize(theme.token.spacing.none)}px;
+	`};
 
-        ${({theme, disabled}) =>
-                !disabled &&
-                css`
-                        background-color: ${theme.token.scheme.error};
-                `};
+	${({theme, disabled}) =>
+		!disabled &&
+		css`
+			background-color: ${theme.token.scheme.error};
+		`};
 `

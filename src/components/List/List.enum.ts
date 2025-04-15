@@ -1,9 +1,9 @@
-export enum SelectType {
-        SINGLE = 'SINGLE',
-        MULTIPLE = 'MULTIPLE'
-}
+export const LIST_SELECT_TYPE = {
+	SINGLE: 'SINGLE',
+	MULTIPLE: 'MULTIPLE'
+} as const
 
-export enum ListType {
-        MENU = 'MENU',
-        STANDARD = 'STANDARD'
-}
+export const LIST_TYPE = {
+	MENU: 'MENU',
+	STANDARD: 'STANDARD'
+} as const

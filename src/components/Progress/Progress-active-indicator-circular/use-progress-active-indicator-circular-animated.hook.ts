@@ -3,44 +3,44 @@ import {interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'r
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {
-        handleProgressActiveIndicatorCircularAnimatedTiming,
-        handleProgressActiveIndicatorCircularStrokeDashoffset
+	handleProgressActiveIndicatorCircularAnimatedTiming,
+	handleProgressActiveIndicatorCircularStrokeDashoffset
 } from './Progress-active-indicator-circular-handle'
-import {UseProgressActiveIndicatorCircularAnimatedOptions} from './Progress-active-indicator-circular.interface'
+import type {UseProgressActiveIndicatorCircularAnimatedOptions} from './Progress-active-indicator-circular.interface'
 
 export const useProgressActiveIndicatorCircularAnimated = ({
-        circumference
+	circumference
 }: UseProgressActiveIndicatorCircularAnimatedOptions) => {
-        const theme = useTheme()
-        const animatedTiming = useAnimatedTiming({token: theme.token})
-        const circleSharedValue = useSharedValue(0)
-        const containerSharedValue = useSharedValue(0)
-        const containerAnimatedStyle = useAnimatedStyle(() => ({
-                transform: [{rotate: `${interpolate(containerSharedValue.value, [0, 1, 2], [0, 360, 720])}deg`}]
-        }))
+	const theme = useTheme()
+	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const circleSharedValue = useSharedValue(0)
+	const containerSharedValue = useSharedValue(0)
+	const containerAnimatedStyle = useAnimatedStyle(() => ({
+		transform: [{rotate: `${interpolate(containerSharedValue.value, [0, 1, 2], [0, 360, 720])}deg`}]
+	}))
 
-        const circleStrokeDashoffsetOutputRanges = [
-                handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.1),
-                handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.8),
-                handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.1)
-        ]
+	const circleStrokeDashoffsetOutputRanges = [
+		handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.1),
+		handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.8),
+		handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.1)
+	]
 
-        const circleAnimatedProps = useAnimatedProps(() => ({
-                strokeDashoffset: interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRanges)
-        }))
+	const circleAnimatedProps = useAnimatedProps(() => ({
+		strokeDashoffset: interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRanges)
+	}))
 
-        const onProgressActiveIndicatorCircularAnimatedTiming = useMemo(
-                () =>
-                        handleProgressActiveIndicatorCircularAnimatedTiming(animatedTiming)({
-                                circleSharedValue,
-                                containerSharedValue
-                        }),
-                [animatedTiming, circleSharedValue, containerSharedValue]
-        )
+	const onProgressActiveIndicatorCircularAnimatedTiming = useMemo(
+		() =>
+			handleProgressActiveIndicatorCircularAnimatedTiming(animatedTiming)({
+				circleSharedValue,
+				containerSharedValue
+			}),
+		[animatedTiming, circleSharedValue, containerSharedValue]
+	)
 
-        useEffect(() => {
-                onProgressActiveIndicatorCircularAnimatedTiming(2)
-        }, [onProgressActiveIndicatorCircularAnimatedTiming])
+	useEffect(() => {
+		onProgressActiveIndicatorCircularAnimatedTiming(2)
+	}, [onProgressActiveIndicatorCircularAnimatedTiming])
 
-        return {containerAnimatedStyle, circleAnimatedProps}
+	return {containerAnimatedStyle, circleAnimatedProps}
 }

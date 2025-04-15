@@ -1,124 +1,125 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {LayoutRectangle, View} from 'react-native'
+import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../hooks'
+import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {useStateEvent} from '../../hooks'
 import {debounce, runAfterInteractions} from '../../utils'
-import {State} from '../Common'
+import type {State} from '../Common'
 import {
-        handleLayoutAnimatedFinished,
-        handleLayoutAnimatedLayoutChange,
-        handleLayoutAnimatedLayoutVisible,
-        handleLayoutAnimatedStateChange,
-        handleLayoutAnimatedStatus
+	handleLayoutAnimatedFinished,
+	handleLayoutAnimatedLayoutChange,
+	handleLayoutAnimatedLayoutVisible,
+	handleLayoutAnimatedStateChange,
+	handleLayoutAnimatedStatus
 } from './Layout-animated-handle'
-import {LayoutAnimatedType} from './Layout-animated.enum'
-import {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
+import {LAYOUT_ANIMATED} from './Layout-animated.enum'
+import type {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
 export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
-        (
-                {
-                        animatedType = LayoutAnimatedType.FADE,
-                        contentSize,
-                        defaultVisible,
-                        delay: rawDelay = 0,
-                        entry,
-                        exit,
-                        lazy = false,
-                        onUnmount,
-                        onVisible,
-                        opacity,
-                        render,
-                        scale = false,
-                        unmount,
-                        visible: rawVisible,
-                        ...renderProps
-                },
-                ref
-        ) => {
-                const [
-                        {layout, visible, invisible, nextUnmountEvent, nextVisibleEvent, status, unmountLayout},
-                        setState
-                ] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: 'idle'})
+	(
+		{
+			animatedType = LAYOUT_ANIMATED.FADE,
+			contentSize,
+			defaultVisible,
+			delay: rawDelay = 0,
+			entry,
+			exit,
+			lazy = false,
+			onUnmount,
+			onVisible,
+			opacity,
+			render,
+			scale = false,
+			unmount,
+			visible: rawVisible,
+			...renderProps
+		},
+		ref
+	) => {
+		const [
+			{layout, visible, invisible, nextUnmountEvent, nextVisibleEvent, status, unmountLayout},
+			setState
+		] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: 'idle'})
 
-                const id = useId()
-                const layoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
-                const delay = useMemo(() => rawDelay + 50, [rawDelay])
-                const onLayoutAnimatedLayoutVisible = useMemo(
-                        () => debounce(handleLayoutAnimatedLayoutVisible({setState, onVisible}))(delay),
-                        [delay, onVisible, setState]
-                )
+		const id = useId()
+		const layoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
+		const delay = useMemo(() => rawDelay + 50, [rawDelay])
+		const onLayoutAnimatedLayoutVisible = useMemo(
+			() => debounce(handleLayoutAnimatedLayoutVisible({setState, onVisible}))(delay),
+			[delay, onVisible, setState]
+		)
 
-                const onLayoutAnimatedFinished = useMemo(
-                        () => handleLayoutAnimatedFinished({onUnmount, unmount})(setState),
-                        [onUnmount, setState, unmount]
-                )
+		const onLayoutAnimatedFinished = useMemo(
+			() => handleLayoutAnimatedFinished({onUnmount, unmount})(setState),
+			[onUnmount, setState, unmount]
+		)
 
-                const onLayoutAnimatedStatus = useMemo(
-                        () => handleLayoutAnimatedStatus({unmount, lazy})(setState),
-                        [lazy, setState, unmount]
-                )
+		const onLayoutAnimatedStatus = useMemo(
+			() => handleLayoutAnimatedStatus({unmount, lazy})(setState),
+			[lazy, setState, unmount]
+		)
 
-                const onLayoutAnimatedLayoutChange = useMemo(
-                        () => debounce(handleLayoutAnimatedLayoutChange(setState))(50),
-                        [setState]
-                )
+		const onLayoutAnimatedLayoutChange = useMemo(
+			() => debounce(handleLayoutAnimatedLayoutChange(setState))(50),
+			[setState]
+		)
 
-                const onStateEventChange =
-                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleLayoutAnimatedStateChange({
-                                        ...options,
-                                        onLayoutChange: onLayoutAnimatedLayoutChange,
-                                        state
-                                })(event)
+		const onStateEventChange =
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleLayoutAnimatedStateChange({
+					...options,
+					onLayoutChange: onLayoutAnimatedLayoutChange,
+					state
+				})(event)
 
-                const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
-                const {containerAnimatedStyle} = useLayoutAnimated({
-                        animatedType,
-                        entry,
-                        exit,
-                        height: layout.height ?? contentSize?.height ?? contentSize?.minHeight,
-                        onAnimatedFinished: onLayoutAnimatedFinished,
-                        opacity,
-                        scale,
-                        visible: visible ?? layoutVisible,
-                        width: layout.width ?? contentSize?.width ?? contentSize?.minWidth
-                })
+		const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
+		const {containerAnimatedStyle} = useLayoutAnimated({
+			animatedType,
+			entry,
+			exit,
+			height: layout.height ?? contentSize?.height ?? contentSize?.minHeight,
+			onAnimatedFinished: onLayoutAnimatedFinished,
+			opacity,
+			scale,
+			visible: visible ?? layoutVisible,
+			width: layout.width ?? contentSize?.width ?? contentSize?.minWidth
+		})
 
-                useEffect(() => {
-                        onLayoutAnimatedStatus(layoutVisible)
-                }, [layoutVisible, onLayoutAnimatedStatus])
+		useEffect(() => {
+			onLayoutAnimatedStatus(layoutVisible)
+		}, [layoutVisible, onLayoutAnimatedStatus])
 
-                useEffect(() => {
-                        nextUnmountEvent?.()
-                }, [nextUnmountEvent])
+		useEffect(() => {
+			nextUnmountEvent?.()
+		}, [nextUnmountEvent])
 
-                useEffect(() => {
-                        if (status === 'succeeded') {
-                                onLayoutAnimatedLayoutVisible(layoutVisible)
-                        }
-                }, [layoutVisible, onLayoutAnimatedLayoutVisible, status])
+		useEffect(() => {
+			if (status === 'succeeded') {
+				onLayoutAnimatedLayoutVisible(layoutVisible)
+			}
+		}, [layoutVisible, onLayoutAnimatedLayoutVisible, status])
 
-                useEffect(() => {
-                        runAfterInteractions(nextVisibleEvent)()
-                }, [nextVisibleEvent])
+		useEffect(() => {
+			runAfterInteractions(nextVisibleEvent)()
+		}, [nextVisibleEvent])
 
-                if (status === 'idle') {
-                        return <></>
-                }
+		if (status === 'idle') {
+			return <></>
+		}
 
-                return unmountLayout ?
-                                <></>
-                        :       render({
-                                        ...renderProps,
-                                        animatedType,
-                                        containerAnimatedStyle,
-                                        contentSize,
-                                        id,
-                                        layout,
-                                        ref,
-                                        stateOnEvent,
-                                        visible: typeof invisible === 'boolean' ? !invisible : layoutVisible
-                                })
-        }
+		return unmountLayout ?
+				<></>
+			:	render({
+					...renderProps,
+					animatedType,
+					containerAnimatedStyle,
+					contentSize,
+					id,
+					layout,
+					ref,
+					stateOnEvent,
+					visible: typeof invisible === 'boolean' ? !invisible : layoutVisible
+				})
+	}
 )

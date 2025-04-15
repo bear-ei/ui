@@ -1,21 +1,21 @@
-import {Meta, StoryObj} from '@storybook/react'
-import {Density} from '../Common'
+import type {Meta, StoryObj} from '@storybook/react'
+import {DENSITY} from '../Common'
 import {Avatar} from './Avatar.component'
-import {AvatarProps} from './Avatar.interface'
+import type {AvatarProps} from './Avatar.interface'
 
 export const NoneContentText: StoryObj<AvatarProps> = {
-        args: {}
+	args: {}
 }
 
 export const ContentText: StoryObj<AvatarProps> = {
-        args: {labelText: 'Bearei'}
+	args: {labelText: 'Bearei'}
 }
 
 export const DensityScale: StoryObj<AvatarProps> = {
-        args: {density: Density.COMPACT}
+	args: {density: DENSITY.COMPACT}
 }
 
 export default {
-        component: Avatar,
-        title: 'components/Avatar'
+	component: Avatar,
+	title: 'components/Avatar'
 } as Meta<typeof Avatar>
