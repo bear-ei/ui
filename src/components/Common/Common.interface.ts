@@ -12,6 +12,9 @@ import type {
 } from '@bearei/material-token'
 import type {DENSITY, DENSITY_SCALE, LAYOUT} from './Common.enum'
 
+export type Density = (typeof DENSITY)[keyof typeof DENSITY]
+export type DensityScale = (typeof DENSITY_SCALE)[keyof typeof DENSITY_SCALE]
+export type LayoutType = (typeof LAYOUT)[keyof typeof LAYOUT]
 export type BezierType = keyof Bezier
 export type BorderRadiusType = keyof BorderRadius
 export type BorderStyle = 'dotted' | 'solid' | 'dashed'
@@ -50,7 +53,3 @@ export interface TypographyProps {
 export interface CommonProps {
 	density?: Density
 }
-
-export type Density = (typeof DENSITY)[keyof typeof DENSITY]
-export type DensityScale = (typeof DENSITY_SCALE)[keyof typeof DENSITY_SCALE]
-export type LayoutType = (typeof LAYOUT)[keyof typeof LAYOUT]

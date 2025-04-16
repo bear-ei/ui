@@ -20,6 +20,7 @@ const render = ({
 }: RenderAvatarProps) => (
 	<Container
 		{...containerProps}
+		accessibilityLabel={`Avatar: ${labelText}`}
 		accessibilityRole='image'
 		pointerEvents='none'
 		testID={testID ?? `avatar--${id}`}
