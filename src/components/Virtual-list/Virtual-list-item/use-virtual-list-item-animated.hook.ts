@@ -3,7 +3,7 @@ import {useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {handleVirtualListItemAnimated} from './Virtual-list-item-handle'
-import {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
+import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
 export const useVirtualListItemAnimated = ({offsetY = 0}: UseVirtualListItemAnimatedOptions) => {
 	const theme = useTheme()

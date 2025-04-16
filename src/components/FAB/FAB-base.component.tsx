@@ -45,7 +45,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleFABStateChange({...options, state, elevated})(setState)(event)
 
-		const stateOnEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderProps, disabled, onStateEventChange})
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
 			disabled: rawDisabled,
 			type
@@ -77,7 +77,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			loading,
 			ref,
 			size,
-			stateOnEvent,
+			interactionHandlers,
 			type,
 			underlayColor
 		})

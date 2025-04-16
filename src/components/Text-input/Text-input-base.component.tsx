@@ -1,10 +1,11 @@
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
+import type {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../hooks'
+import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {useStateEvent} from '../../hooks'
 import {debounce, runAfterInteractions} from '../../utils'
-import {State} from '../Common'
+import type {State} from '../Common'
 import {
 	handleTextInputChangeText,
 	handleTextInputContentSizeChange,
@@ -16,8 +17,8 @@ import {
 	handleTextInputSupportingTextVisible,
 	handleTouchableHeaderFocus
 } from './Text-input-handle'
-import {TextInputType} from './Text-input.enum'
-import {TextInputBaseProps, TextInputState} from './Text-input.interface'
+import {TEXT_INPUT_TYPE} from './Text-input.enum'
+import type {TextInputBaseProps, TextInputState} from './Text-input.interface'
 import {useTextInputAnimated} from './use-text-input-animated.hook'
 
 export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
@@ -40,7 +41,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			supportingText: rawSupportingText,
 			supportingTextDelay,
 			trailing,
-			type = TextInputType.FILLED,
+			type = TEXT_INPUT_TYPE.FILLED,
 			value: rawValue,
 			...renderProps
 		},
@@ -110,7 +111,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 					state: changedState
 				})(setState)(event)
 
-		const stateOnEvent = useStateEvent({
+		const interactionHandlers = useStateEvent({
 			...renderProps,
 			disabled: disabled ?? (typeof editable === 'boolean' ? !editable : undefined),
 			onStateEventChange
@@ -131,9 +132,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			type
 		})
 
-		useImperativeHandle(ref, () => (textInputRef?.current ? textInputRef?.current : {}) as TextInput, [
-			textInputRef
-		])
+		useImperativeHandle(ref, () => (textInputRef?.current ?? {}) as TextInput, [textInputRef])
 
 		useEffect(() => {
 			onTextInputEditableChange(editable)
@@ -188,7 +187,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			onSupportingTextVisible: onTextInputSupportingTextVisible,
 			placeholderTextColor,
 			ref: textInputRef,
-			stateOnEvent,
+			interactionHandlers,
 			supportingText,
 			supportingTextAnimatedStyle,
 			supportingTextVisible,

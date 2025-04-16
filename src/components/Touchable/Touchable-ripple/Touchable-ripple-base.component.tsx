@@ -1,6 +1,6 @@
 import {forwardRef, useId} from 'react'
-import {NativeTouchEvent, View} from 'react-native'
-import {TouchableRippleBaseProps} from './Touchable-ripple.interface'
+import type {NativeTouchEvent, View} from 'react-native'
+import type {TouchableRippleBaseProps} from './Touchable-ripple.interface'
 import {useTouchableRippleAnimated} from './use-touchable-ripple-animated.hook'
 
 export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(

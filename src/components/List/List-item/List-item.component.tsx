@@ -58,7 +58,7 @@ const render = ({
 	shape,
 	skeletonDuration = 150,
 	skeletonElement,
-	stateOnEvent,
+	interactionHandlers,
 	supporting,
 	supportingTextNumberOfLines,
 	testID,
@@ -115,7 +115,7 @@ const render = ({
 					type={type}
 				>
 					<Touchable
-						{...stateOnEvent}
+						{...interactionHandlers}
 						disabled={disabled}
 						enableTouchableRipple={true}
 						ref={ref}

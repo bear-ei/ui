@@ -1,7 +1,8 @@
+import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import styled, {css} from 'styled-components/native'
-import {Shape, Typography} from '../Common'
+import {DENSITY_SCALE, Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
-import {
+import type {
 	TextInputControlProps,
 	TextInputHeaderProps,
 	TextInputLabelProps,
@@ -144,7 +145,7 @@ export const Control = styled.View<TextInputControlProps>`
 
 	${({theme}) => css`
 		max-height: ${theme.adaptSize(theme.token.spacing.large)}px;
-		min-height: ${theme.adaptSize(theme.token.typography[TypographyType.BODY][SIZE.LARGE].lineHeight)}px;
+		min-height: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
 	`};
 
@@ -170,18 +171,15 @@ export const Input = styled.TextInput`
 		css`
 			align-self: stretch;
 			flex: 1;
-			font-size: ${theme.adaptFontSize(
-				theme.token.typography[TypographyType.BODY][SIZE.LARGE].size
-			)}px;
-
-			font-style: ${theme.token.typography[TypographyType.BODY][SIZE.LARGE].style};
-			font-weight: ${theme.token.typography[TypographyType.BODY][SIZE.LARGE].weight};
+			font-size: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)}px;
+			font-style: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].style};
+			font-weight: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].weight};
 			height: ${theme.adaptFontSize(
-				theme.token.typography[TypographyType.BODY][SIZE.LARGE].lineHeight
+				theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight
 			)}px;
 
 			letter-spacing: ${theme.adaptSize(
-				theme.token.typography[TypographyType.BODY][SIZE.LARGE].letterSpacing
+				theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing
 			)}px;
 
 			padding: ${theme.adaptSize(theme.token.spacing.none)}px;

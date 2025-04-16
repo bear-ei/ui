@@ -3,9 +3,9 @@ import type {FC} from 'react'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Progress, ProgressAnimated, ProgressType} from '../Progress'
+import {Progress} from '../Progress'
 import {Touchable} from '../Touchable'
-import {ActiveAnimatedType, Underlay} from '../Underlay'
+import {Underlay} from '../Underlay'
 import {IconButtonBase} from './Icon-button-base.component'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
@@ -23,7 +23,7 @@ const render = ({
 	loading,
 	ref,
 	size,
-	stateOnEvent,
+	interactionHandlers,
 	testID,
 	theme,
 	type,
@@ -65,7 +65,7 @@ const render = ({
 				visible={!loading}
 			>
 				<Touchable
-					{...stateOnEvent}
+					{...interactionHandlers}
 					backgroundUnderlay={backgroundUnderlayElement}
 					disabled={disabled}
 					enableTouchableRipple={type !== ICON_BUTTON_TYPE.ACTIVE}

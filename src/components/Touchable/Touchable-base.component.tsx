@@ -1,10 +1,11 @@
 import {forwardRef, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {LayoutRectangle, View} from 'react-native'
+import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../hooks'
-import {State} from '../Common'
+import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {useStateEvent} from '../../hooks'
+import type {State} from '../Common'
 import {handleTouchableAnimatedFinished, handleTouchableStateChange, renderTouchableRipple} from './Touchable-handle'
-import {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
+import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
 
 export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 	({centered, disabled, enableTouchableRipple = true, render, underlayColor, ...renderProps}, ref) => {
@@ -25,7 +26,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 					state
 				})(setState)(event)
 
-		const stateOnEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderProps, disabled, onStateEventChange})
 		const rippleElements = renderTouchableRipple({
 			centered,
 			containerLayout: contentLayout,
@@ -34,10 +35,8 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 			underlayColor
 		})(rippleSequence)
 
-		useImperativeHandle(ref, () => (pressableRef?.current ? pressableRef?.current : {}) as View, [
-			pressableRef
-		])
+		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 
-		return render({...renderProps, stateOnEvent, ref: pressableRef, rippleElements, id})
+		return render({...renderProps, interactionHandlers, ref: pressableRef, rippleElements, id})
 	}
 )

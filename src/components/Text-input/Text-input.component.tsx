@@ -1,10 +1,13 @@
-import {cloneElement, FC, forwardRef} from 'react'
-import {TextInput as RNTextInput} from 'react-native'
-import Animated, {AnimatedProps} from 'react-native-reanimated'
-import {FastOmit} from 'styled-components'
+import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import type {FC} from 'react'
+import {cloneElement, forwardRef} from 'react'
+import type {TextInput as RNTextInput} from 'react-native'
+import type {AnimatedProps} from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
+import type {FastOmit} from 'styled-components'
 import {Underlay} from '../Underlay'
 import {TextInputBase} from './Text-input-base.component'
-import {InputProps, RenderTextInputProps, TextInputProps} from './Text-input.interface'
+import type {InputProps, RenderTextInputProps, TextInputProps} from './Text-input.interface'
 import {
 	ActiveIndicator,
 	Container,
@@ -51,7 +54,7 @@ const render = ({
 	multiline,
 	onHeaderFocus,
 	onSupportingTextVisible,
-	stateOnEvent,
+	interactionHandlers,
 	supportingText,
 	supportingTextAnimatedStyle,
 	supportingTextVisible,
@@ -64,7 +67,7 @@ const render = ({
 	const leadingShow = !!leading
 	const underlayColor = theme.token.scheme.onSurface
 	const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
-	const {onFocus, onBlur, ...onTouchableHeaderEvent} = stateOnEvent
+	const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
 
 	return (
 		<Container
@@ -147,7 +150,7 @@ const render = ({
 								size={SIZE.LARGE}
 								style={[labelTextAnimatedStyle]}
 								testID={`textInput__animatedLabelText--${id}`}
-								type={TypographyType.BODY}
+								type={TYPOGRAPHY.BODY}
 							>
 								{labelText}
 							</AnimatedLabelText>
@@ -176,7 +179,7 @@ const render = ({
 						size={SIZE.SMALL}
 						style={[supportingTextAnimatedStyle]}
 						testID={`textInput__animatedSupportingText--${id}`}
-						type={TypographyType.BODY}
+						type={TYPOGRAPHY.BODY}
 					>
 						{supportingText}
 					</AnimatedSupportingText>

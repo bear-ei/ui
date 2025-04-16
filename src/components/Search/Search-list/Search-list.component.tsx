@@ -1,9 +1,12 @@
-import {FC, forwardRef} from 'react'
+import {SHAPE, SIZE} from '@bearei/material-token'
+import type {FC} from 'react'
+import {forwardRef} from 'react'
 import Animated from 'react-native-reanimated'
 import {Divider} from '../../Divider'
-import {List, ListData, VirtualListComponent} from '../../List'
+import type {ListData, VirtualListComponent} from '../../List'
+import {List} from '../../List'
 import {SearchListBase} from './Search-list-base.component'
-import {RenderSearchListProps, SearchListProps} from './Search-list.interface'
+import type {RenderSearchListProps, SearchListProps} from './Search-list.interface'
 import {Container} from './Search-list.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)

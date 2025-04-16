@@ -1,3 +1,4 @@
+import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {useCallback, useEffect, useMemo} from 'react'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -11,15 +12,15 @@ import {
 	handleTextInputNonerrorAnimatedTiming,
 	handleTextInputStateAnimatedTiming
 } from './Text-input-handle'
-import {TextInputType} from './Text-input.enum'
-import {TextInputStateAnimated, UseTextInputAnimatedOptions} from './Text-input.interface'
+import {TEXT_INPUT_TYPE} from './Text-input.enum'
+import type {TextInputStateAnimated, UseTextInputAnimatedOptions} from './Text-input.interface'
 
 export const useTextInputAnimated = ({
 	disabled,
 	error,
 	filled,
 	state,
-	type = TextInputType.FILLED
+	type = TEXT_INPUT_TYPE.FILLED
 }: UseTextInputAnimatedOptions) => {
 	const theme = useTheme()
 	const {palette, scheme, spacing, typography, opacity} = theme.token
@@ -55,14 +56,14 @@ export const useTextInputAnimated = ({
 	const filledToValue = filled ? 0 : 1
 	const labelTextSharedValue = useSharedValue(filledToValue)
 	const backgroundColorType = {
-		[TextInputType.FILLED]: {
+		[TEXT_INPUT_TYPE.FILLED]: {
 			inputRanges: [0, 1],
 			outputRanges: [
 				disabledBackgroundColor,
 				hexToRGBA(scheme.surfaceContainerHighest)(opacity.level10)
 			]
 		},
-		[TextInputType.OUTLINED]: {
+		[TEXT_INPUT_TYPE.OUTLINED]: {
 			inputRanges: [0, 1],
 			outputRanges: [
 				hexToRGBA(scheme.surface)(opacity.level0),
@@ -94,18 +95,18 @@ export const useTextInputAnimated = ({
 	}))
 
 	const labelTextFontSizeOutputRanges = [
-		theme.adaptFontSize(typography[TypographyType.BODY][Size[SIZE.SMALL]].size),
-		theme.adaptFontSize(typography[TypographyType.BODY][Size[SIZE.LARGE]].size)
+		theme.adaptFontSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].size),
+		theme.adaptFontSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)
 	]
 
 	const labelTextLetterSpacingOutputRanges = [
-		theme.adaptSize(typography[TypographyType.BODY][SIZE.SMALL].letterSpacing),
-		theme.adaptSize(typography[TypographyType.BODY][SIZE.LARGE].letterSpacing)
+		theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].letterSpacing),
+		theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing)
 	]
 
 	const labelTextHeightOutputRanges = [
-		theme.adaptSize(typography[TypographyType.BODY][SIZE.SMALL].lineHeight),
-		theme.adaptSize(typography[TypographyType.BODY][SIZE.LARGE].lineHeight)
+		theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].lineHeight),
+		theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)
 	]
 
 	const labelTextColorOutputRanges = [

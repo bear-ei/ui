@@ -1,10 +1,12 @@
-import {ForwardedRef, forwardRef, useEffect, useId, useImperativeHandle, useMemo} from 'react'
-import {LayoutRectangle} from 'react-native'
+import type {ForwardedRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo} from 'react'
+import type {LayoutRectangle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEvent, useDesktopScrollEvent, useStateEvent} from '../../hooks'
+import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {useDesktopScrollEvent, useStateEvent} from '../../hooks'
 import {debounce, runAfterInteractions} from '../../utils'
-import {State} from '../Common'
+import type {State} from '../Common'
 import {
 	handleVirtualListData,
 	handleVirtualListDataChange,
@@ -16,7 +18,7 @@ import {
 	handleVirtualListUnmount,
 	renderVirtualListItem
 } from './Virtual-list-handle'
-import {VirtualListBaseProps, VirtualListState} from './Virtual-list.interface'
+import type {VirtualListBaseProps, VirtualListState} from './Virtual-list.interface'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 
 export const VirtualListBaseInner = <T,>(
@@ -85,7 +87,7 @@ export const VirtualListBaseInner = <T,>(
 	const onStateEventChange = (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 		handleVirtualListStateChange({...options, state})(onVirtualListLayoutChange)(event)
 
-	const stateOnEvent = useStateEvent({...renderProps, disabled: false, onStateEventChange})
+	const interactionHandlers = useStateEvent({...renderProps, disabled: false, onStateEventChange})
 	const itemElements = renderVirtualListItem({
 		extraData,
 		id,
@@ -96,9 +98,7 @@ export const VirtualListBaseInner = <T,>(
 		startIndex
 	})(visibleRangeData)
 
-	useImperativeHandle(ref, () => (animatedRef?.current ? animatedRef?.current : {}) as Animated.ScrollView, [
-		animatedRef
-	])
+	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as Animated.ScrollView, [animatedRef])
 
 	useEffect(() => {
 		runAfterInteractions(onVirtualListData)(data)
@@ -130,7 +130,7 @@ export const VirtualListBaseInner = <T,>(
 		itemElements,
 		itemSize,
 		layout,
-		stateOnEvent,
+		interactionHandlers,
 		ref: animatedRef,
 		status
 	})

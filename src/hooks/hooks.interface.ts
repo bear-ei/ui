@@ -39,7 +39,7 @@ export interface HandleStateEventChangeOptions
 
 export interface HandleStateEventOptions {
 	mobileDevice?: boolean
-	stateOnEvent: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
+	interactionHandlers: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 
 export type UseDesktopScrollEventOptions = Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'>

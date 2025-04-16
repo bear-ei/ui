@@ -3,7 +3,7 @@ import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanim
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {handleSearchListAnimatedTiming} from './Search-list-handle'
-import {UseSearchListAnimatedOptions} from './Search-list.interface'
+import type {UseSearchListAnimatedOptions} from './Search-list.interface'
 
 /**
  * TODO: Use Layout-animated

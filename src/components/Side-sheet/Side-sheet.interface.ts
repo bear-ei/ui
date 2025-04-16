@@ -1,9 +1,11 @@
-import {RefAttributes} from 'react'
-import {ModalProps, View, ViewProps} from 'react-native'
-import {ButtonProps} from '../Button'
-import {ShapeProps} from '../Common'
-import {SheetPosition, SheetType} from './Side-sheet.enum'
+import type {RefAttributes} from 'react'
+import type {ModalProps, View, ViewProps} from 'react-native'
+import type {ButtonProps} from '../Button'
+import type {ShapeProps} from '../Common'
+import type {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from './Side-sheet.enum'
 
+export type SideSheetType = (typeof SIDE_SHEET_TYPE)[keyof typeof SIDE_SHEET_TYPE]
+export type SideSheetPosition = (typeof SIDE_SHEET_POSITION)[keyof typeof SIDE_SHEET_POSITION]
 export interface SideSheetProps extends ViewProps, RefAttributes<View>, Pick<ShapeProps, 'shape'>, ModalProps {
 	back?: boolean
 	close?: boolean
@@ -23,7 +25,7 @@ export interface SideSheetProps extends ViewProps, RefAttributes<View>, Pick<Sha
 	primaryButtonProps?: ButtonProps
 	secondaryButton?: React.JSX.Element
 	secondaryButtonProps?: ButtonProps
-	sheetPosition?: SheetPosition
+	position?: SideSheetPosition
 	visible?: boolean
 
 	/**
@@ -31,7 +33,7 @@ export interface SideSheetProps extends ViewProps, RefAttributes<View>, Pick<Sha
 	 * elements in macOS. This problem is caused by the fact that react-native-macos does not
 	 * implement the native modal and some of the mechanisms of the macos component itself.
 	 */
-	type?: SheetType
+	type?: SideSheetType
 }
 
 export interface RenderSideSheetProps extends SideSheetProps {

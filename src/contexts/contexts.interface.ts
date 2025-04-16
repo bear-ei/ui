@@ -1,7 +1,8 @@
-import {RefAttributes} from 'react'
-import {View, ViewProps} from 'react-native'
-import {ModalType} from './contexts.enum'
+import type {RefAttributes} from 'react'
+import type {View, ViewProps} from 'react-native'
+import type {MODAL_TYPE} from './contexts.enum'
 
+export type ModalType = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE]
 export interface Modal {
 	id: string
 	type?: ModalType

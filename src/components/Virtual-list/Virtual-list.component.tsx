@@ -24,13 +24,13 @@ const render = <T,>({
 	layout,
 	loading,
 	loadingComponent,
-	stateOnEvent,
+	interactionHandlers,
 	scrollEventThrottle = 50,
 	status,
 	testID,
 	...containerProps
 }: RenderVirtualListProps<T>) => {
-	const {onLayout} = stateOnEvent
+	const {onLayout} = interactionHandlers
 	const contentLayoutAnimatedStyle = {position: 'relative'} as ViewStyle
 	const contentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
 	const emptyContentVisible = !loading && emptyList && status === 'succeeded'

@@ -1,7 +1,8 @@
-import {FC, forwardRef} from 'react'
+import type {FC} from 'react'
+import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {SkeletonElementBase} from './Skeleton-element-base.component'
-import {RenderSkeletonElementProps, SkeletonElementProps} from './Skeleton-element.interface'
+import type {RenderSkeletonElementProps, SkeletonElementProps} from './Skeleton-element.interface'
 import {Container} from './Skeleton-element.styles'
 
 const render = ({children, id, testID, ...props}: RenderSkeletonElementProps) => (

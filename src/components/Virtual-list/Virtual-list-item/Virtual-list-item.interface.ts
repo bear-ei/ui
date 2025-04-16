@@ -1,8 +1,8 @@
-import {RefAttributes} from 'react'
-import {View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatedStyle} from 'react-native-reanimated'
-import {ComponentStatus} from '../../Common'
-import {VirtualListProps} from '../Virtual-list.interface'
+import type {RefAttributes} from 'react'
+import type {View, ViewProps, ViewStyle} from 'react-native'
+import type {AnimatedStyle} from 'react-native-reanimated'
+import type {ComponentStatus} from '../../Common'
+import type {VirtualListProps} from '../Virtual-list.interface'
 
 export interface Item {
 	extraData?: string[]

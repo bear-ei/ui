@@ -1,5 +1,5 @@
-import {RefAttributes, RefObject} from 'react'
-import {
+import type {RefAttributes, RefObject} from 'react'
+import type {
 	PressableProps,
 	TextInputProps as RNTextInputProps,
 	TextInput,
@@ -7,12 +7,13 @@ import {
 	TextStyle,
 	ViewStyle
 } from 'react-native'
-import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {DefaultTheme} from 'styled-components/native'
-import {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
-import {CommonProps, ComponentStatus, EventName, ShapeProps, State, TypographyProps} from '../Common'
-import {TextInputType} from './Text-input.enum'
+import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {DefaultTheme} from 'styled-components/native'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {CommonProps, ComponentStatus, EventName, ShapeProps, State, TypographyProps} from '../Common'
+import type {TEXT_INPUT_TYPE} from './Text-input.enum'
 
+export type TextInputType = (typeof TEXT_INPUT_TYPE)[keyof typeof TEXT_INPUT_TYPE]
 export interface InputProps extends RNTextInputProps, RefAttributes<TextInput> {
 	enableFocusRing?: boolean
 }
@@ -49,7 +50,7 @@ export interface RenderTextInputProps extends TextInputProps {
 	labelAnimatedStyle: AnimatedStyle<ViewStyle>
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 	onHeaderFocus?: () => void
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 	onSupportingTextVisible?: (visible?: boolean) => void
 	supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
 	supportingTextVisible?: boolean

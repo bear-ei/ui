@@ -1,9 +1,9 @@
-import {RefAttributes} from 'react'
-import {LayoutRectangle, NativeTouchEvent, PressableProps, View, ViewProps, ViewStyle} from 'react-native'
-import {Updater} from 'use-immer'
-import {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
-import {ShapeProps} from '../Common'
-import {TouchableRippleProps} from './Touchable-ripple'
+import type {RefAttributes} from 'react'
+import type {LayoutRectangle, NativeTouchEvent, PressableProps, View, ViewProps, ViewStyle} from 'react-native'
+import type {Updater} from 'use-immer'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {ShapeProps} from '../Common'
+import type {TouchableRippleProps} from './Touchable-ripple'
 
 export interface TouchableProps
 	extends Omit<
@@ -29,7 +29,7 @@ export interface TouchableProps
 }
 
 export interface RenderTouchableProps extends TouchableProps {
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 	rippleElements?: React.JSX.Element[]
 }
 

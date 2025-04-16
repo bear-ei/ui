@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components/native'
-import {ThemeContainerProps} from './Theme-provider.interface'
+import type {ThemeContainerProps} from './Theme-provider.interface'
 
 export const Container = styled.Pressable<ThemeContainerProps>`
 	align-self: stretch;

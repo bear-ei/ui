@@ -2,12 +2,12 @@ import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {SheetType} from '../Side-sheet.enum'
+import {SIDE_SHEET_TYPE} from '../Side-sheet.enum'
 import {handleSideSheetContentVisibleAnimatedTiming} from './Side-sheet-content-handle'
-import {UseSideSheetContentAnimatedOptions} from './Side-sheet-content.interface'
+import type {UseSideSheetContentAnimatedOptions} from './Side-sheet-content.interface'
 
 export const useSideSheetContentAnimated = ({
-	type = SheetType.STANDARD,
+	type = SIDE_SHEET_TYPE.STANDARD,
 	visible
 }: UseSideSheetContentAnimatedOptions) => {
 	const animatedValue = visible ? 1 : 0
@@ -16,10 +16,11 @@ export const useSideSheetContentAnimated = ({
 	const {hexToRGBA} = palette
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const backgroundColorSharedValue = useSharedValue(animatedValue)
-	const standard = [SheetType.STANDARD, SheetType.SIDEBAR].includes(type)
+	const sideSheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const
+	const isStandard = sideSheetTypes.includes(type as (typeof sideSheetTypes)[number])
 	const containerBackgroundColorOutputRanges = [
 		hexToRGBA(scheme.scrim)(opacity.level0),
-		standard ? hexToRGBA(scheme.scrim)(opacity.level0) : hexToRGBA(scheme.scrim)(opacity.level4)
+		isStandard ? hexToRGBA(scheme.scrim)(opacity.level0) : hexToRGBA(scheme.scrim)(opacity.level4)
 	]
 
 	const containerAnimatedStyle = useAnimatedStyle(() => ({

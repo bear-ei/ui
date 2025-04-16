@@ -3,7 +3,7 @@ import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanim
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {handleSkeletonAnimatedTiming} from './Skeleton-handle'
-import {UseSkeletonAnimatedOptions} from './Skeleton.interface'
+import type {UseSkeletonAnimatedOptions} from './Skeleton.interface'
 
 export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimatedOptions) => {
 	const opacitySharedValue = useSharedValue(0)

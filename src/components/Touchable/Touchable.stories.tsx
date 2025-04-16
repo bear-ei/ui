@@ -1,7 +1,8 @@
-import {Meta, StoryObj} from '@storybook/react'
-import {View, ViewStyle} from 'react-native'
+import type {Meta, StoryObj} from '@storybook/react'
+import type {ViewStyle} from 'react-native'
+import {View} from 'react-native'
 import {Touchable} from './Touchable.component'
-import {TouchableProps} from './Touchable.interface'
+import type {TouchableProps} from './Touchable.interface'
 
 const TouchableComponent = (props: TouchableProps) => {
 	const style = {

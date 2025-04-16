@@ -37,7 +37,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 					setState
 				)(event)
 
-		const stateOnEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderProps, disabled, onStateEventChange})
 
 		useEffect(() => {
 			onCheckboxStatus(indeterminate)
@@ -56,6 +56,6 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			return <></>
 		}
 
-		return render({...renderProps, disabled, error, eventName, stateOnEvent, ref, theme, value, id})
+		return render({...renderProps, disabled, error, eventName, interactionHandlers, ref, theme, value, id})
 	}
 )

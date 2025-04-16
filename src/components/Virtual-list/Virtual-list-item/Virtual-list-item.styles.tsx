@@ -1,6 +1,7 @@
 import styled, {css} from 'styled-components/native'
-import {LayoutAnimated, LayoutAnimatedProps} from '../../Layout-animated'
-import {VirtualListItemContainerProps} from './Virtual-list-item.interface'
+import type {LayoutAnimatedProps} from '../../Layout-animated'
+import {LayoutAnimated} from '../../Layout-animated'
+import type {VirtualListItemContainerProps} from './Virtual-list-item.interface'
 
 export const ContainerLayout = styled(LayoutAnimated)<VirtualListItemContainerProps & LayoutAnimatedProps>`
 	display: flex;

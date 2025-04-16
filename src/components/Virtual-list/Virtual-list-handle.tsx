@@ -1,12 +1,15 @@
-import {WritableDraft} from 'immer'
-import {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, Platform} from 'react-native'
-import {SharedValue} from 'react-native-reanimated'
-import {Updater} from 'use-immer'
-import {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {EventName} from '../Common'
-import {ListData} from '../List'
-import {RenderVirtualListItemInfo, VirtualListItem} from './Virtual-list-item'
-import {
+import {DURATION} from '@bearei/material-token'
+import type {WritableDraft} from 'immer'
+import type {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
+import {Platform} from 'react-native'
+import type {SharedValue} from 'react-native-reanimated'
+import type {Updater} from 'use-immer'
+import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import type {EventName} from '../Common'
+import type {ListData} from '../List'
+import type {RenderVirtualListItemInfo} from './Virtual-list-item'
+import {VirtualListItem} from './Virtual-list-item'
+import type {
 	HandleVirtualListCloseOptions,
 	HandleVirtualListScrollOptions,
 	HandleVirtualListUnmountOptions,
@@ -81,7 +84,7 @@ export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListS
 
 	return (setState: Updater<VirtualListState>) => (event: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
-		const hitBottom = contentSIZE.height - layoutMeasurement.height - contentOffset.y < 1
+		const hitBottom = contentSize.height - layoutMeasurement.height - contentOffset.y < 1
 		const scrollOffset = event.nativeEvent.contentOffset.y
 
 		if (hitBottom || contentOffset.y <= 0) {
@@ -225,4 +228,4 @@ export const renderVirtualListItem =
 
 export const handleVirtualListAnimated =
 	(animatedTiming: AnimatedTiming) => (contentHeightSharedValue: SharedValue<number>) => (contentSize: number) =>
-		animatedTiming({duration: Duration.SHORT_2})(contentHeightSharedValue)(contentSize)
+		animatedTiming({duration: DURATION.SHORT_2})(contentHeightSharedValue)(contentSize)

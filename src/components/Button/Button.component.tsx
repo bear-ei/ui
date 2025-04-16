@@ -33,21 +33,21 @@ const render = ({
 	labelTextAnimatedStyle,
 	loading,
 	ref,
-	stateOnEvent,
+	interactionHandlers,
 	testID,
 	type = BUTTON_TYPE.FILLED,
 	underlayColor,
 	...contentProps
 }: RenderButtonProps) => {
-	const activeIndicatorVisible =
+	const isActiveIndicatorVisible =
 		type === BUTTON_TYPE.LINK &&
 		eventName &&
 		['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
 
-	const link = type === BUTTON_TYPE.LINK
+	const isLink = type === BUTTON_TYPE.LINK
 	const loadingTypes = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as const
 	const loadingEventName = loadingTypes.includes(type as (typeof loadingTypes)[number]) ? 'none' : 'longPress'
-	const shape = link ? SHAPE.EXTRA_SMALL : SHAPE.FULL
+	const shape = isLink ? SHAPE.EXTRA_SMALL : SHAPE.FULL
 	const backgroundUnderlayElement = (
 		<AnimatedBackgroundUnderlay
 			pointerEvents='none'
@@ -72,7 +72,7 @@ const render = ({
 			type={type}
 		>
 			<Touchable
-				{...stateOnEvent}
+				{...interactionHandlers}
 				backgroundUnderlay={backgroundUnderlayElement}
 				disabled={disabled}
 				elevationUnderlay={elevationUnderlayElement}
@@ -97,7 +97,7 @@ const render = ({
 						testID={`button__main--${id}`}
 						type={type}
 					>
-						{icon && !link && (
+						{icon && !isLink && (
 							<IconLayout testID={`button__iconLayout--${id}`}>
 								{icon}
 							</IconLayout>
@@ -106,10 +106,10 @@ const render = ({
 						<AnimatedLabelText
 							ellipsizeMode='tail'
 							numberOfLines={1}
-							size={link ? SIZE.SMALL : SIZE.LARGE}
+							size={isLink ? SIZE.SMALL : SIZE.LARGE}
 							style={[labelTextAnimatedStyle]}
 							testID={`button__animatedLabelText--${id}`}
-							type={link ? TYPOGRAPHY.BODY : TYPOGRAPHY.LABEL}
+							type={isLink ? TYPOGRAPHY.BODY : TYPOGRAPHY.LABEL}
 						>
 							{labelText}
 						</AnimatedLabelText>
@@ -118,7 +118,7 @@ const render = ({
 					{type === BUTTON_TYPE.LINK && (
 						<ActiveIndicatorLayoutAnimated
 							testID={`button__activeIndicatorLayoutAnimated--${id}`}
-							visible={activeIndicatorVisible}
+							visible={isActiveIndicatorVisible}
 						/>
 					)}
 

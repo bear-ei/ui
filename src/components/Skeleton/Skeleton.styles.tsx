@@ -1,7 +1,7 @@
 import styled, {css} from 'styled-components/native'
-import {LayoutType} from '../Common'
+import {LAYOUT} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
-import {SkeletonContainerProps} from './Skeleton.interface'
+import type {SkeletonContainerProps} from './Skeleton.interface'
 
 export const SkeletonContainer = styled.View<SkeletonContainerProps>`
 	display: flex;
@@ -11,8 +11,8 @@ export const SkeletonContainer = styled.View<SkeletonContainerProps>`
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 	`}
 
-	${({layoutType = LayoutType.HORIZONTAL}) =>
-		layoutType === LayoutType.HORIZONTAL ?
+	${({layoutType = LAYOUT.HORIZONTAL}) =>
+		layoutType === LAYOUT.HORIZONTAL ?
 			css`
 				flex-direction: row;
 				align-items: center;

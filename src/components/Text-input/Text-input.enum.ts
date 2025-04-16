@@ -1,4 +1,4 @@
-export enum TextInputType {
-	FILLED = 'FILLED',
-	OUTLINED = 'OUTLINED'
-}
+export const TEXT_INPUT_TYPE = {
+	FILLED: 'FILLED',
+	OUTLINED: 'OUTLINED'
+} as const

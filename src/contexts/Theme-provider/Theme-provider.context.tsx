@@ -1,22 +1,25 @@
-import {token as materialToken, Platform, Scheme} from '@bearei/material-token'
-import {FC, useId, useRef} from 'react'
+import type {Platform, Scheme} from '@bearei/material-token'
+import {CONTRAST, token as materialToken, PALETTE, SCHEME, WINDOW_SIZE} from '@bearei/material-token'
+import type {FC} from 'react'
+import {useId, useRef} from 'react'
 import {Platform as RNPlatform, useColorScheme, View} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
+import {DENSITY} from '../../components'
 import {useWindowSize} from '../../hooks'
 import {adaptWindow} from '../../utils'
 import {ModalProvider} from '../Modal-provider.context'
 import {handleThemeProviderFocus} from './Theme-provider-handle'
-import {ThemeProps} from './Theme-provider.interface'
+import type {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'
 
-const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToken, density = Density.STANDARD}) => {
+const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToken, density = DENSITY.STANDARD}) => {
 	const {windowSize, width, height} = useWindowSize()
 	const design = {
-		[WindowSIZE.COMPACT]: {designWidth: 375, designHeight: 812, designDensity: 3},
-		[WindowSIZE.EXPANDED]: {designWidth: 375, designHeight: 812, designDensity: 3},
-		[WindowSIZE.EXTRA_LARGE]: {designWidth: 1920, designHeight: 1080, designDensity: 3},
-		[WindowSIZE.LARGE]: {designWidth: 1920, designHeight: 1080, designDensity: 3},
-		[WindowSIZE.MEDIUM]: {designWidth: 375, designHeight: 812, designDensity: 3}
+		[WINDOW_SIZE.COMPACT]: {designWidth: 375, designHeight: 812, designDensity: 3},
+		[WINDOW_SIZE.EXPANDED]: {designWidth: 375, designHeight: 812, designDensity: 3},
+		[WINDOW_SIZE.EXTRA_LARGE]: {designWidth: 1920, designHeight: 1080, designDensity: 3},
+		[WINDOW_SIZE.LARGE]: {designWidth: 1920, designHeight: 1080, designDensity: 3},
+		[WINDOW_SIZE.MEDIUM]: {designWidth: 375, designHeight: 812, designDensity: 3}
 	}
 
 	const {adaptFontSize, adaptSize} = adaptWindow({screenWidth: width, screenHeight: height})(
@@ -27,9 +30,9 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToke
 	const token =
 		themeToken ??
 		materialToken()({
-			contrast: Contrast.STANDARD,
-			scheme: (colorScheme?.toUpperCase() as Scheme) ?? Scheme.LIGHT
-		})(PaletteType.FROSTY_ICE)
+			contrast: CONTRAST.STANDARD,
+			scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
+		})(PALETTE.FROSTY_ICE)
 
 	return (
 		<StyledComponentThemeProvider
@@ -41,15 +44,15 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToke
 	)
 }
 
-const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken, density = Density.STANDARD}) => {
+const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken, density = DENSITY.STANDARD}) => {
 	const {adaptFontSize, adaptSize} = adaptWindow()()(true)
 	const colorScheme = useColorScheme()
 	const token =
 		themeToken ??
 		materialToken({platform: RNPlatform.OS.toUpperCase() as Platform})({
-			contrast: Contrast.STANDARD,
-			scheme: (colorScheme?.toUpperCase() as Scheme) ?? Scheme.LIGHT
-		})(PaletteType.FROSTY_ICE)
+			contrast: CONTRAST.STANDARD,
+			scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
+		})(PALETTE.FROSTY_ICE)
 
 	return (
 		<StyledComponentThemeProvider

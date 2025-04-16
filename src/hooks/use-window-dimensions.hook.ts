@@ -1,8 +1,10 @@
 import {useEffect, useMemo} from 'react'
-import {Dimensions, ScaledSize} from 'react-native'
-import {Updater, useImmer} from 'use-immer'
+import type {ScaledSize} from 'react-native'
+import {Dimensions} from 'react-native'
+import type {Updater} from 'use-immer'
+import {useImmer} from 'use-immer'
 import {debounce} from '../utils'
-import {UseWindowDimensionsOptions} from './hooks.interface'
+import type {UseWindowDimensionsOptions} from './hooks.interface'
 
 const handleWindowScaledSize =
 	(setState: Updater<ScaledSize>) =>

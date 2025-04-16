@@ -4,12 +4,12 @@ import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {debounce} from '../../utils'
 import {handleUnderlayActiveAnimatedTiming, handleUnderlayHoveredAnimatedTiming} from './Underlay-handle'
-import {ActiveAnimatedType} from './Underlay.enum'
-import {UseUnderlayAnimatedOptions} from './Underlay.interface'
+import {ACTIVE_ANIMATED} from './Underlay.enum'
+import type {UseUnderlayAnimatedOptions} from './Underlay.interface'
 
 export const useUnderlayAnimated = ({
 	active,
-	activeAnimatedType = ActiveAnimatedType.SCALE,
+	activeAnimatedType = ACTIVE_ANIMATED.SCALE,
 	activeScale,
 	eventName,
 	opacities: rawOpacities
@@ -70,10 +70,10 @@ export const useUnderlayAnimated = ({
 	}))
 
 	const activeLayerAnimated = {
-		[ActiveAnimatedType.FADE]: activeLayerFadeAnimatedStyle,
-		[ActiveAnimatedType.SCALE_X]: activeLayerScaleXAnimatedStyle,
-		[ActiveAnimatedType.SCALE_Y]: activeLayerScaleYAnimatedStyle,
-		[ActiveAnimatedType.SCALE]: activeLayerScaleAnimatedStyle
+		[ACTIVE_ANIMATED.FADE]: activeLayerFadeAnimatedStyle,
+		[ACTIVE_ANIMATED.SCALE_X]: activeLayerScaleXAnimatedStyle,
+		[ACTIVE_ANIMATED.SCALE_Y]: activeLayerScaleYAnimatedStyle,
+		[ACTIVE_ANIMATED.SCALE]: activeLayerScaleAnimatedStyle
 	}
 
 	const onUnderlayHoveredAnimatedTiming = useMemo(

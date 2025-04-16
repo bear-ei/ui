@@ -9,7 +9,7 @@ export interface MaskProps extends Omit<LayoutAnimatedProps & TouchableProps, 'r
 }
 
 export interface RenderMaskProps extends MaskProps {
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 }
 
 export interface MaskBaseProps extends MaskProps {

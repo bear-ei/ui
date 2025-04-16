@@ -9,7 +9,7 @@ import Animated, {
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {handleVirtualListAnimated} from './Virtual-list-handle'
-import {UseVirtualListScrollAnimatedOptions} from './Virtual-list.interface'
+import type {UseVirtualListScrollAnimatedOptions} from './Virtual-list.interface'
 
 export const useVirtualListAnimated = ({
 	contentSize = 0,

@@ -1,7 +1,7 @@
-import {LayoutRectangle, ViewStyle} from 'react-native'
-import {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {AnimatedTiming} from '../../../hooks'
-import {ListProps} from '../../List'
+import type {LayoutRectangle, ViewStyle} from 'react-native'
+import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {AnimatedTiming} from '../../../hooks'
+import type {ListProps} from '../../List'
 
 export interface SearchListProps extends ListProps {
 	containerLayout: LayoutRectangle & {pageX?: number; pageY?: number}

@@ -1,11 +1,11 @@
-import {WritableDraft} from 'immer'
-import {View} from 'react-native'
-import {Updater} from 'use-immer'
-import {StateEvent} from '../../hooks'
+import type {WritableDraft} from 'immer'
+import type {View} from 'react-native'
+import type {Updater} from 'use-immer'
+import type {StateEvent} from '../../hooks'
 import {textSearch} from '../../utils'
-import {EventName} from '../Common'
-import {ListData} from '../List'
-import {HandleSearchChangeTextOptions, HandleSearchStateChangeOptions, SearchState} from './Search.interface'
+import type {EventName} from '../Common'
+import type {ListData} from '../List'
+import type {HandleSearchChangeTextOptions, HandleSearchStateChangeOptions, SearchState} from './Search.interface'
 
 export const handleSearchStateChange =
 	({eventName, ref, state}: HandleSearchStateChangeOptions) =>

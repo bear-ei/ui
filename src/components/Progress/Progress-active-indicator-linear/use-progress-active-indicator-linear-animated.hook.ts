@@ -6,7 +6,7 @@ import {
 	handleOutputRanges,
 	handleProgressActiveIndicatorLinearAnimatedTiming
 } from './Progress-active-indicator-linear-handle'
-import {UseProgressActiveIndicatorLinearAnimatedOptions} from './Progress-active-indicator-linear.interface'
+import type {UseProgressActiveIndicatorLinearAnimatedOptions} from './Progress-active-indicator-linear.interface'
 
 export const useProgressActiveIndicatorLinearAnimated = ({
 	containerLayout,

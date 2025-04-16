@@ -1,14 +1,14 @@
-import {Meta, StoryObj} from '@storybook/react'
+import type {Meta, StoryObj} from '@storybook/react'
 import {SideSheet} from './Side-sheet.component'
-import {SheetType} from './Side-sheet.enum'
-import {SideSheetProps} from './Side-sheet.interface'
+import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
+import type {SideSheetProps} from './Side-sheet.interface'
 
 export const Footer: StoryObj<SideSheetProps> = {
-	args: {footerVisible: true, visible: true, type: SheetType.STANDARD}
+	args: {footerVisible: true, visible: true, type: SIDE_SHEET_TYPE.STANDARD}
 }
 
 export const Standard: StoryObj<SideSheetProps> = {
-	args: {footerVisible: false, visible: true, type: SheetType.STANDARD}
+	args: {footerVisible: false, visible: true, type: SIDE_SHEET_TYPE.STANDARD}
 }
 
 export const Close: StoryObj<SideSheetProps> = {
@@ -16,7 +16,7 @@ export const Close: StoryObj<SideSheetProps> = {
 		back: true,
 		close: true,
 		footerVisible: true,
-		type: SheetType.STANDARD,
+		type: SIDE_SHEET_TYPE.STANDARD,
 		visible: true
 	}
 }

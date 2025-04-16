@@ -1,7 +1,7 @@
-import {ViewStyle} from 'react-native'
-import {AnimatedStyle} from 'react-native-reanimated'
-import {DefaultTheme} from 'styled-components/native'
-import {SideSheetProps} from '../Side-sheet.interface'
+import type {ViewStyle} from 'react-native'
+import type {AnimatedStyle} from 'react-native-reanimated'
+import type {DefaultTheme} from 'styled-components/native'
+import type {SideSheetProps} from '../Side-sheet.interface'
 
 export type SideSheetContentProps = SideSheetProps
 export interface RenderSideSheetContentProps extends SideSheetContentProps {
@@ -19,11 +19,11 @@ export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisibl
 export type UseSideSheetContentAnimatedOptions = Pick<RenderSideSheetContentProps, 'visible' | 'type'>
 export type RenderSideSheetContentLeadingOptions = Pick<
 	SideSheetContentProps,
-	'headlineLeading' | 'back' | 'sheetPosition' | 'id'
+	'headlineLeading' | 'back' | 'position' | 'id'
 >
 
 export type RenderSideSheetContentTrailingOptions = Pick<SideSheetContentProps, 'headlineTrailing' | 'close' | 'id'>
-export type SheetContainerProps = Pick<RenderSideSheetContentProps, 'sheetPosition' | 'type'>
+export type SheetContainerProps = Pick<RenderSideSheetContentProps, 'position' | 'type'>
 export type SheetHeaderProps = {leadingShow?: boolean; trailingShow?: boolean}
 export type SheetViewContentProps = Pick<RenderSideSheetContentProps, 'type'>
 export type SheetFooterProps = Pick<RenderSideSheetContentProps, 'type'>

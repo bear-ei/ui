@@ -1,8 +1,9 @@
-import {FC, forwardRef} from 'react'
-import {View} from 'react-native'
+import type {FC} from 'react'
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {UnderlayBase} from './Underlay-base.component'
-import {RenderUnderlayProps, UnderlayProps} from './Underlay.interface'
+import type {RenderUnderlayProps, UnderlayProps} from './Underlay.interface'
 import {ActiveLayer, Container, HoverLayer} from './Underlay.styles'
 
 const AnimatedHoverLayer = Animated.createAnimatedComponent(HoverLayer)

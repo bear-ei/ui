@@ -40,7 +40,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
 	containerAnimatedStyle?: AnimatedStyle<ViewStyle>
 	layout: LayoutRectangle
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 	visible?: boolean
 }
 

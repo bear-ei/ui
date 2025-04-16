@@ -1,7 +1,7 @@
-import {Token} from '@bearei/material-token'
-import {ColorSchemeName} from 'react-native'
+import type {Token} from '@bearei/material-token'
+import type {ColorSchemeName} from 'react-native'
 import 'styled-components/native'
-import {Density} from './components'
+import type {Density} from './components'
 
 declare module 'styled-components/native' {
 	export interface DefaultTheme {

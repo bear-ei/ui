@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../../Common'
-import {SearchListContainerProps} from './Search-list.interface'
+import {type SearchListContainerProps} from './Search-list.interface'
 
 export const Container = styled(Shape)<SearchListContainerProps>`
 	overflow: hidden;

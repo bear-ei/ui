@@ -31,7 +31,7 @@ const render = ({
 	labelText,
 	labelTextAnimatedStyle,
 	ref,
-	stateOnEvent,
+	interactionHandlers,
 	testID,
 	theme,
 	type,
@@ -51,7 +51,7 @@ const render = ({
 			testID={testID ?? `navigationRailItem--${id}`}
 		>
 			<TouchableContent
-				{...stateOnEvent}
+				{...interactionHandlers}
 				enableFocusRing={false}
 				ref={ref}
 				testID={`navigationRailItem__touchableContent--${id}`}

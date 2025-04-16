@@ -1,6 +1,6 @@
 import {forwardRef, useId, useMemo} from 'react'
-import {View} from 'react-native'
-import {UnderlayBaseProps} from './Underlay.interface'
+import type {View} from 'react-native'
+import type {UnderlayBaseProps} from './Underlay.interface'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
 
 export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(

@@ -19,7 +19,7 @@ const render = ({
 	id,
 	labelText,
 	labelTextAnimatedStyle,
-	stateOnEvent,
+	interactionHandlers,
 	testID,
 	theme
 }: RenderListAffordanceButtonProps) => {
@@ -35,7 +35,7 @@ const render = ({
 	return (
 		<Container testID={testID ?? `listAffordanceButton--${id}`}>
 			<Touchable
-				{...stateOnEvent}
+				{...interactionHandlers}
 				backgroundUnderlay={backgroundUnderlayElement}
 				disabled={disabled}
 				testID={`listAffordanceButton__touchable--${id}`}

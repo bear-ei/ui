@@ -72,7 +72,7 @@ export interface RenderListItemProps extends ListItemProps {
 	eventName?: EventName
 	headlineTextAnimatedStyle: AnimatedStyle<TextStyle>
 	leadingElement?: React.JSX.Element
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 	panResponder?: PanResponderInstance
 	skeletonVisible?: boolean
 	state?: State
@@ -123,7 +123,7 @@ export interface RenderListItemTrailingOptions
 		RenderListItemProps,
 		'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps' | 'id'
 	> {
-	stateOnEvent: Partial<InteractionHandlers>
+	interactionHandlers: Partial<InteractionHandlers>
 	theme: DefaultTheme
 }
 

@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../../Common'
-import {TouchableRippleLayoutProps} from './Touchable-ripple.interface'
+import type {TouchableRippleLayoutProps} from './Touchable-ripple.interface'
 
 export const Container = styled(Shape)<TouchableRippleLayoutProps>`
 	position: absolute;

@@ -1,7 +1,8 @@
+import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {css} from 'styled-components'
 import styled from 'styled-components/native'
-import {Shape} from '../Common'
-import {SearchContentProps} from './Search.interface'
+import {DENSITY_SCALE, Shape} from '../Common'
+import type {SearchContentProps} from './Search.interface'
 
 export const Container = styled.View`
 	align-self: stretch;
@@ -69,7 +70,7 @@ export const Leading = styled.View`
 
 export const TextInputLayout = styled.View`
 	${({theme}) => css`
-		height: ${theme.adaptSize(theme.token.typography[TypographyType.BODY][SIZE.LARGE].lineHeight)}px;
+		height: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)}px;
 		padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 	`};
 `
@@ -92,14 +93,11 @@ export const TextInput = styled.TextInput`
 		 */
 		!secureTextEntry &&
 		css`
-			font-size: ${theme.adaptFontSize(
-				theme.token.typography[TypographyType.BODY][SIZE.LARGE].size
-			)}px;
-
-			font-style: ${theme.token.typography[TypographyType.BODY][SIZE.LARGE].style};
-			font-weight: ${theme.token.typography[TypographyType.BODY][SIZE.LARGE].weight};
+			font-size: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)}px;
+			font-style: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].style};
+			font-weight: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].weight};
 			letter-spacing: ${theme.adaptSize(
-				theme.token.typography[TypographyType.BODY][SIZE.LARGE].letterSpacing
+				theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing
 			)}px;
 
 			padding: ${theme.token.spacing.none}px;

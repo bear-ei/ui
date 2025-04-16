@@ -17,7 +17,7 @@ export interface RenderListAffordanceButtonProps extends ListAffordanceButtonPro
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 	theme: DefaultTheme
 }
 

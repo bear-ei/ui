@@ -1,5 +1,6 @@
-import {Meta} from '@storybook/react'
-import {Text, View, ViewStyle} from 'react-native'
+import type {Meta} from '@storybook/react'
+import type {ViewStyle} from 'react-native'
+import {Text, View} from 'react-native'
 import {Icon} from '../Icon'
 import {VirtualList} from './Virtual-list.component'
 

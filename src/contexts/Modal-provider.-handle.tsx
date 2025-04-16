@@ -1,6 +1,6 @@
-import {WritableDraft} from 'immer'
-import {Updater} from 'use-immer'
-import {Modal, ModalState} from './contexts.interface'
+import type {WritableDraft} from 'immer'
+import type {Updater} from 'use-immer'
+import type {Modal, ModalState} from './contexts.interface'
 
 export const handleModal = (setState: Updater<ModalState>) => (modal: Modal) => {
 	const {id, unmount, props} = modal

@@ -1,20 +1,20 @@
-import {Meta, StoryObj} from '@storybook/react'
+import type {Meta, StoryObj} from '@storybook/react'
 import {Progress} from './Progress.component'
-import {ProgressAnimated, ProgressType} from './Progress.enum'
-import {ProgressProps} from './Progress.interface'
+import {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
+import type {ProgressProps} from './Progress.interface'
 
 export const LinearDeterminate: StoryObj<ProgressProps> = {
 	args: {
 		increment: 1,
 		value: 0,
-		animatedType: ProgressAnimated.DETERMINATE
+		animatedType: PROGRESS_ANIMATED.DETERMINATE
 	}
 }
 
 export const CircularDeterminate: StoryObj<ProgressProps> = {
 	args: {
 		increment: 1,
-		type: ProgressType.CIRCULAR,
+		type: PROGRESS_TYPE.CIRCULAR,
 		value: 0
 	}
 }

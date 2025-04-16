@@ -1,8 +1,8 @@
 import {nanoid} from 'nanoid'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import {ListData, RenderListProps, VirtualListComponent} from '../../List'
+import type {ListData, RenderListProps, VirtualListComponent} from '../../List'
 import {handleSearchListEmit, handleSearchListUnmount} from './Search-list-handle'
-import {SearchListBaseProps} from './Search-list.interface'
+import type {SearchListBaseProps} from './Search-list.interface'
 import {useSearchListAnimated} from './use-search-list-animated.hook'
 
 /**

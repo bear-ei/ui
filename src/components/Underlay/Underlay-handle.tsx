@@ -1,7 +1,7 @@
-import {SharedValue} from 'react-native-reanimated'
-import {AnimatedTiming} from '../../hooks'
-import {EventName} from '../Common'
-import {HandleUnderlayHoveredAnimatedTimingOptions} from './Underlay.interface'
+import type {SharedValue} from 'react-native-reanimated'
+import type {AnimatedTiming} from '../../hooks'
+import type {EventName} from '../Common'
+import type {HandleUnderlayHoveredAnimatedTimingOptions} from './Underlay.interface'
 
 export const handleUnderlayHoveredAnimatedTiming = ({
 	animatedTiming,

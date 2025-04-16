@@ -1,9 +1,10 @@
-import {RefAttributes} from 'react'
-import {LayoutRectangle, ScrollViewProps, ViewStyle} from 'react-native'
-import Animated, {AnimatedStyle} from 'react-native-reanimated'
-import {InteractionHandlers} from '../../hooks'
-import {ComponentStatus} from '../Common'
-import {RenderVirtualListItemInfo} from './Virtual-list-item/Virtual-list-item.interface'
+import type {RefAttributes} from 'react'
+import type {LayoutRectangle, ScrollViewProps, ViewStyle} from 'react-native'
+import type Animated from 'react-native-reanimated'
+import type {AnimatedStyle} from 'react-native-reanimated'
+import type {InteractionHandlers} from '../../hooks'
+import type {ComponentStatus} from '../Common'
+import type {RenderVirtualListItemInfo} from './Virtual-list-item/Virtual-list-item.interface'
 
 export type VirtualListData<T = Record<string, unknown>> = T & {
 	indexKey?: string
@@ -35,7 +36,7 @@ export interface RenderVirtualListProps<T = Record<string, unknown>> extends Vir
 	emptyList?: boolean
 	itemElements?: React.JSX.Element[]
 	layout: LayoutRectangle
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 	status: ComponentStatus
 }
 

@@ -24,8 +24,8 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(
 					event
 				)
 
-		const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderProps, onStateEventChange})
 
-		return render({...renderProps, layout, stateOnEvent, ref, type, id})
+		return render({...renderProps, layout, interactionHandlers, ref, type, id})
 	}
 )

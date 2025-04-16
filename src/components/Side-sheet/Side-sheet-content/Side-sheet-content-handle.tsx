@@ -1,18 +1,18 @@
-import {SharedValue} from 'react-native-reanimated'
-import {AnimatedTiming} from '../../../hooks'
-import {Icon} from '../../Icon'
-import {IconButton} from '../../Icon-button'
-import {SheetPosition} from '../Side-sheet.enum'
-import {
+import type {SharedValue} from 'react-native-reanimated'
+import type {AnimatedTiming} from '../../../hooks'
+import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
+import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
+import {SIDE_SHEET_POSITION} from '../Side-sheet.enum'
+import type {
 	RenderSideSheetContentLeadingOptions,
 	RenderSideSheetContentTrailingOptions
 } from './Side-sheet-content.interface'
 
 export const renderSideSheetContentLeading =
-	({headlineLeading, back, sheetPosition, id}: RenderSideSheetContentLeadingOptions) =>
+	({headlineLeading, back, position, id}: RenderSideSheetContentLeadingOptions) =>
 	(onBack?: () => void) => {
 		const iconName =
-			sheetPosition === SheetPosition.HORIZONTAL_START ?
+			position === SIDE_SHEET_POSITION.HORIZONTAL_START ?
 				ICON_NAME.ARROW_FORWARD
 			:	ICON_NAME.ARROW_BACK
 
@@ -32,7 +32,7 @@ export const renderSideSheetContentLeading =
 					icon={iconElement}
 					onPressOut={onBack}
 					testID={`sideSheet__iconButton--${id}`}
-					type={IconBUTTON_TYPE.STANDARD}
+					type={ICON_BUTTON_TYPE.STANDARD}
 				/>
 			:	undefined)
 		)
@@ -57,7 +57,7 @@ export const renderSideSheetContentTrailing =
 					icon={iconElement}
 					onPressOut={onClose}
 					testID={`sideSheet__iconButton--${id}`}
-					type={IconBUTTON_TYPE.STANDARD}
+					type={ICON_BUTTON_TYPE.STANDARD}
 				/>
 			:	undefined)
 		)

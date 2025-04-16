@@ -1,9 +1,11 @@
-import {FC, forwardRef, memo} from 'react'
-import {View} from 'react-native'
+import {SHAPE} from '@bearei/material-token'
+import type {FC} from 'react'
+import {forwardRef, memo} from 'react'
+import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {TouchableRippleBase} from './Touchable-ripple-base.component'
 import {handleTouchableRipplePropsEqual} from './Touchable-ripple-handle'
-import {RenderTouchableRippleProps, TouchableRippleProps} from './Touchable-ripple.interface'
+import type {RenderTouchableRippleProps, TouchableRippleProps} from './Touchable-ripple.interface'
 import {Container} from './Touchable-ripple.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)

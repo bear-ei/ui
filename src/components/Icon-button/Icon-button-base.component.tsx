@@ -38,7 +38,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 				handleIconButtonStateChange({...options, state})(setState)(event)
 
 		const disabled = loading || rawDisabled
-		const stateOnEvent = useStateEvent({...renderProps, disabled, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderProps, disabled, onStateEventChange})
 		const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})
 		const iconElement = renderIconButtonIcon({disabled, eventName, fill, loading, type, id})(theme)(icon)
 
@@ -54,7 +54,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 			icon: iconElement,
 			loading,
 			ref,
-			stateOnEvent,
+			interactionHandlers,
 			theme,
 			type,
 			underlayColor

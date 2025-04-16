@@ -1,11 +1,14 @@
-import {FC, forwardRef} from 'react'
-import {View} from 'react-native'
+import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import type {FC} from 'react'
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Button} from '../../Button'
+import {Button, BUTTON_TYPE} from '../../Button'
 import {Divider} from '../../Divider'
-import {SheetPosition} from '../Side-sheet.enum'
+import {LAYOUT_ANIMATED} from '../../Layout-animated'
+import {SIDE_SHEET_POSITION} from '../Side-sheet.enum'
 import {SideSheetContentBase} from './Side-sheet-content-base.component'
-import {RenderSideSheetContentProps, SideSheetContentProps} from './Side-sheet-content.interface'
+import type {RenderSideSheetContentProps, SideSheetContentProps} from './Side-sheet-content.interface'
 import {
 	Container,
 	Content,
@@ -41,7 +44,7 @@ const render = ({
 	secondaryButton,
 	secondaryButtonProps,
 	shape,
-	sheetPosition,
+	position,
 	style,
 	testID,
 	theme,
@@ -51,11 +54,11 @@ const render = ({
 }: RenderSideSheetContentProps) => {
 	const footerLayoutContainerContentStyle = {minHeight: theme.adaptFontSize(theme.token.spacing.extraSmall * 20)}
 	const sheetShape =
-		shape ?? (sheetPosition === SheetPosition.HORIZONTAL_START ? SHAPE.LARGE_END : SHAPE.LARGE_START)
+		shape ?? (position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.LARGE_END : SHAPE.LARGE_START)
 
 	return (
 		<AnimatedContainer
-			sheetPosition={sheetPosition}
+			position={position}
 			style={[containerAnimatedStyle]}
 			testID={testID ?? `sideSheetContent--${id}}`}
 			type={type}
@@ -84,7 +87,7 @@ const render = ({
 							numberOfLines={1}
 							size={SIZE.LARGE}
 							testID={`sideSheetContent__headerText--${id}}`}
-							type={TypographyType.TITLE}
+							type={TYPOGRAPHY.TITLE}
 						>
 							{headlineText}
 						</HeaderText>
@@ -99,10 +102,10 @@ const render = ({
 
 				<Main testID={`sideSheetContent__main--${id}}`}>{content}</Main>
 				<FooterLayoutContainer
-					animatedType={LayoutAnimatedType.COLLAPSE_Y}
+					animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
 					contentStyle={footerLayoutContainerContentStyle}
-					entry={{duration: Duration.MEDIUM_3, easing: Easing.EMPHASIZED_DECELERATE}}
-					exit={{duration: Duration.SHORT_3, easing: Easing.EMPHASIZED_ACCELERATE}}
+					entry={{duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE}}
+					exit={{duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}}
 					testID={`sideSheetContent__footerLayoutContainer--${id}}`}
 					visible={footerVisible}
 				>

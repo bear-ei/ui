@@ -1,9 +1,10 @@
-import {RuleSet} from 'styled-components'
+import type {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {LayoutAnimated} from '../../Layout-animated'
-import {SheetPosition, SheetType} from '../Side-sheet.enum'
-import {
+import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Side-sheet.enum'
+import type {SideSheetPosition, SideSheetType} from '../Side-sheet.interface'
+import type {
 	SheetContainerProps,
 	SheetFooterProps,
 	SheetHeaderProps,
@@ -17,29 +18,29 @@ export const Container = styled.View<SheetContainerProps>`
 	flex: 1;
 	overflow: hidden;
 
-	${({sheetPosition = SheetPosition.HORIZONTAL_END, type}) => {
+	${({position = SIDE_SHEET_POSITION.HORIZONTAL_END, type}) => {
 		const contentPosition = {
-			[SheetPosition.HORIZONTAL_START]: css`
+			[SIDE_SHEET_POSITION.HORIZONTAL_START]: css`
 				justify-content: flex-start;
 			`,
-			[SheetPosition.HORIZONTAL_END]: css`
+			[SIDE_SHEET_POSITION.HORIZONTAL_END]: css`
 				justify-content: flex-end;
 			`
-		}
+		} as Record<SideSheetPosition, RuleSet<object> | undefined>
 
-		return type === SheetType.MODAL && contentPosition[sheetPosition]
+		return type === SIDE_SHEET_TYPE.MODAL && contentPosition[position]
 	}}
 
-	${({theme, type = SheetType.STANDARD}) => {
+	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
 		const contentType = {
-			[SheetType.STANDARD]: css`
+			[SIDE_SHEET_TYPE.STANDARD]: css`
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
 			`,
-			[SheetType.MODAL]: css``,
-			[SheetType.SIDEBAR]: css`
+			[SIDE_SHEET_TYPE.MODAL]: css``,
+			[SIDE_SHEET_TYPE.SIDEBAR]: css`
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
 			`
-		} as Record<SheetType, RuleSet<object> | undefined>
+		} as Record<SideSheetType, RuleSet<object> | undefined>
 
 		return contentType[type]
 	}}
@@ -51,21 +52,21 @@ export const Content = styled(Shape)<SheetViewContentProps>`
 	flex: 1;
 	position: relative;
 
-	${({theme, type = SheetType.STANDARD}) => {
+	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
 		const contentType = {
-			[SheetType.STANDARD]: css`
+			[SIDE_SHEET_TYPE.STANDARD]: css`
 				background-color: ${theme.token.scheme.surface};
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
 			`,
-			[SheetType.MODAL]: css`
+			[SIDE_SHEET_TYPE.MODAL]: css`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 80)}px;
 			`,
-			[SheetType.SIDEBAR]: css`
+			[SIDE_SHEET_TYPE.SIDEBAR]: css`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
 			`
-		} as Record<SheetType, RuleSet<object> | undefined>
+		} as Record<SideSheetType, RuleSet<object> | undefined>
 
 		return contentType[type]
 	}}
@@ -175,18 +176,18 @@ export const Footer = styled.View<SheetFooterProps>`
 			${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px;
 	`}
 
-	${({theme, type = SheetType.STANDARD}) => {
+	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
 		const footerType = {
-			[SheetType.STANDARD]: css`
+			[SIDE_SHEET_TYPE.STANDARD]: css`
 				background-color: ${theme.token.scheme.surface};
 			`,
-			[SheetType.MODAL]: css`
+			[SIDE_SHEET_TYPE.MODAL]: css`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
 			`,
-			[SheetType.SIDEBAR]: css`
+			[SIDE_SHEET_TYPE.SIDEBAR]: css`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
 			`
-		} as Record<SheetType, RuleSet<object> | undefined>
+		} as Record<SideSheetType, RuleSet<object> | undefined>
 
 		return footerType[type]
 	}}

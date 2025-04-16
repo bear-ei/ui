@@ -1,7 +1,7 @@
-import {Meta, StoryObj} from '@storybook/react'
-import {LayoutType} from '../Common'
+import type {Meta, StoryObj} from '@storybook/react'
+import {LAYOUT} from '../Common'
 import {Skeleton} from './Skeleton.component'
-import {SkeletonProps} from './Skeleton.interface'
+import type {SkeletonProps} from './Skeleton.interface'
 
 const {Square, Rectangular, Circle} = Skeleton
 const SkeletonComponent = (props: SkeletonProps) => {
@@ -10,7 +10,7 @@ const SkeletonComponent = (props: SkeletonProps) => {
 		<>
 			<Square />
 			<Rectangular
-				layout={LayoutType.VERTICAL}
+				layout={LAYOUT.VERTICAL}
 				size={56}
 			>
 				<Rectangular size={24} />

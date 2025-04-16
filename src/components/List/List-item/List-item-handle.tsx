@@ -252,15 +252,15 @@ export const renderListItemTrailing = ({
 	closeTrailing,
 	disabled,
 	id,
-	stateOnEvent,
+	interactionHandlers,
 	trailing,
 	trailingProps
 }: RenderListItemTrailingOptions) => {
-	const {onHoverIn, onHoverOut} = stateOnEvent
+	const {onHoverIn, onHoverOut} = interactionHandlers
 	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
 	const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
 	const props = {
-		...stateOnEvent,
+		...interactionHandlers,
 		...trailingProps,
 		disabled,
 		pointerEvents: 'box-only' as ViewProps['pointerEvents'],

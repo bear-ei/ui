@@ -24,7 +24,7 @@ export interface RenderFABProps extends FABProps {
 	elevation?: ElevationLevel
 	eventName?: EventName
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 }
 
 export interface FABBaseProps extends FABProps {

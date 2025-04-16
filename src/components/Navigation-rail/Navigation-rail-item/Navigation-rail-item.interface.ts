@@ -30,7 +30,7 @@ export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemPr
 	eventName?: EventName
 	iconElement: React.JSX.Element
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 	theme: DefaultTheme
 }
 

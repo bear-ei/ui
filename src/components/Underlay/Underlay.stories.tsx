@@ -1,9 +1,10 @@
-import {Meta, StoryObj} from '@storybook/react'
+import type {Meta, StoryObj} from '@storybook/react'
 import {useState} from 'react'
-import {Pressable, ViewStyle} from 'react-native'
-import {EventName} from '../Common'
+import type {ViewStyle} from 'react-native'
+import {Pressable} from 'react-native'
+import type {EventName} from '../Common'
 import {Underlay} from './Underlay.component'
-import {UnderlayProps} from './Underlay.interface'
+import type {UnderlayProps} from './Underlay.interface'
 
 const UnderlayComponent = (props: UnderlayProps) => {
 	const [eventName, setEventName] = useState<EventName>('none')

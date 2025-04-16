@@ -3,7 +3,7 @@ import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanim
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {handleTouchableRippleAnimatedTiming} from './Touchable-ripple-handle'
-import {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
+import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
 
 export const useTouchableRippleAnimated = ({
 	indexKey,

@@ -1,7 +1,8 @@
-import {FC, forwardRef} from 'react'
-import {View} from 'react-native'
+import type {FC} from 'react'
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
 import {TouchableBase} from './Touchable-base.component'
-import {RenderTouchableProps, TouchableProps} from './Touchable.interface'
+import type {RenderTouchableProps, TouchableProps} from './Touchable.interface'
 import {Container, Main, RippleLayout, TouchableContent} from './Touchable.styles'
 
 const render = ({
@@ -9,17 +10,17 @@ const render = ({
 	children,
 	elevationUnderlay,
 	id,
+	interactionHandlers,
 	mainAlignSelf,
 	rippleElements,
 	shape,
-	stateOnEvent,
 	testID,
 	...contentProps
 }: RenderTouchableProps) => (
 	<Container testID={testID ?? `touchable--${id}`}>
 		<TouchableContent
 			{...contentProps}
-			{...stateOnEvent}
+			{...interactionHandlers}
 			enableFocusRing={false}
 			testID={`touchable__touchableContent--${id}`}
 		>

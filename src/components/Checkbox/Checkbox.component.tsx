@@ -17,7 +17,7 @@ const render = ({
 	error,
 	eventName,
 	id,
-	stateOnEvent,
+	interactionHandlers,
 	testID,
 	theme,
 	value,
@@ -48,7 +48,7 @@ const render = ({
 	return (
 		<Container testID={testID ?? `checkbox--${id}`}>
 			<Touchable
-				{...stateOnEvent}
+				{...interactionHandlers}
 				disabled={disabled}
 				mainAlignSelf='center'
 				shape={shape}

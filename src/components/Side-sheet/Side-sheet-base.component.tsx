@@ -10,8 +10,8 @@ import {
 	handleSideSheetUnmount,
 	handleSideSheetVisible
 } from './Side-sheet-handle'
-import {SheetType} from './Side-sheet.enum'
-import {SideSheetBaseProps, SideSheetState} from './Side-sheet.interface'
+import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
+import type {SideSheetBaseProps, SideSheetState} from './Side-sheet.interface'
 
 export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 	(
@@ -22,7 +22,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 			onClose,
 			onVisible,
 			render,
-			type = SheetType.MODAL,
+			type = SIDE_SHEET_TYPE.MODAL,
 			visible,
 			...renderProps
 		},
@@ -33,6 +33,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 
 		const emitId = useMemo(() => nanoid(), [])
 		const id = useId()
+		const sideSheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const
 		const onSideSheetBack = useCallback(
 			() => handleSideSheetBack({onBack, disabledClose, type})(setState),
 			[disabledClose, onBack, setState, type]
@@ -97,6 +98,8 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 			runAfterInteractions(nextCancelEvent)()
 		}, [nextCancelEvent])
 
-		return [SheetType.STANDARD, SheetType.SIDEBAR].includes(type) ? render(renderSheetProps) : <></>
+		return sideSheetTypes.includes(type as (typeof sideSheetTypes)[number]) ?
+				render(renderSheetProps)
+			:	<></>
 	}
 )

@@ -1,5 +1,5 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {debounce} from '../../../utils'
 import {
@@ -7,7 +7,7 @@ import {
 	handleVirtualListItemInit,
 	handleVirtualListItemUnmount
 } from './Virtual-list-item-handle'
-import {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
+import type {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
 import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
 
 export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(

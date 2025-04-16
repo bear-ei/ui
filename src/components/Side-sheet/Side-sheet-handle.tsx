@@ -1,11 +1,12 @@
-import {Updater} from 'use-immer'
-import {emitter} from '../../contexts'
-import {SheetType} from './Side-sheet.enum'
-import {
+import type {Updater} from 'use-immer'
+import {emitter, MODAL_TYPE} from '../../contexts'
+import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
+import type {
 	HandleSideSheetBackOptions,
 	HandleSideSheetEmitOptions,
 	SideSheetProps,
-	SideSheetState
+	SideSheetState,
+	SideSheetType
 } from './Side-sheet.interface'
 
 export const handleSideSheetClose = (setState: Updater<SideSheetState>) => (onClose?: () => void) =>
@@ -18,7 +19,7 @@ export const handleSideSheetBack =
 	({type, disabledClose, onBack}: HandleSideSheetBackOptions) =>
 	(setState: Updater<SideSheetState>) => {
 		setState(draft => {
-			if (type !== SheetType.SIDEBAR || !disabledClose) {
+			if (type !== SIDE_SHEET_TYPE.SIDEBAR || !disabledClose) {
 				draft.sideSheetVisible = false
 			}
 
@@ -37,13 +38,13 @@ export const handleSideSheetEmit =
 	(props: SideSheetProps) =>
 	(visible?: boolean) =>
 		typeof visible === 'boolean' &&
-		type === SheetType.MODAL &&
-		emitter.emit('modal', {id: `sideSheet__${id}`, name: 'sideSheet', props: {...props}})
+		type === SIDE_SHEET_TYPE.MODAL &&
+		emitter.emit('modal', {id: `sideSheet__${id}`, type: MODAL_TYPE.SIDE_SHEET, props: {...props}})
 
-export const handleSideSheetUnmount = (id: string) => (type: SheetType) =>
-	type === SheetType.MODAL &&
+export const handleSideSheetUnmount = (id: string) => (type: SideSheetType) =>
+	type === SIDE_SHEET_TYPE.MODAL &&
 	emitter.emit('modal', {
 		id: `sideSheet__${id}`,
-		name: 'sideSheet',
+		type: MODAL_TYPE.SIDE_SHEET,
 		unmount: true
 	})

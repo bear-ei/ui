@@ -1,11 +1,11 @@
-import {Size} from '@bearei/material-token'
-import {RefAttributes, RefObject} from 'react'
-import {LayoutRectangle, PressableProps, TextInput, TextInputProps, View} from 'react-native'
-import {DefaultTheme} from 'styled-components/native'
-import {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
-import {CommonProps, ComponentStatus, EventName, State} from '../Common'
-import {ListData, ListProps} from '../List'
-import {SearchListProps} from './Search-list'
+import type {Size} from '@bearei/material-token'
+import type {RefAttributes, RefObject} from 'react'
+import type {LayoutRectangle, PressableProps, TextInput, TextInputProps, View} from 'react-native'
+import type {DefaultTheme} from 'styled-components/native'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {CommonProps, ComponentStatus, EventName, State} from '../Common'
+import type {ListData, ListProps} from '../List'
+import type {SearchListProps} from './Search-list'
 
 export interface SearchTextInputProps extends TextInputProps, RefAttributes<TextInput> {
 	enableFocusRing?: boolean
@@ -26,7 +26,7 @@ export interface RenderSearchProps extends SearchProps {
 	eventName?: EventName
 	layout: LayoutRectangle & {pageX?: number; pageY?: number}
 	listVisible?: boolean
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 	theme: DefaultTheme
 }
 

@@ -18,7 +18,7 @@ export interface ProgressProps extends ViewProps, RefAttributes<View> {
 
 export interface RenderProgressProps extends ProgressProps {
 	layout: LayoutRectangle
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 }
 
 export interface ProgressBaseProps extends ProgressProps {

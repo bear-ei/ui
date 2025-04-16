@@ -1,10 +1,12 @@
-import {FC, forwardRef} from 'react'
-import {TextInput as RNTextInput} from 'react-native'
-import {Icon} from '../Icon'
+import {SHAPE} from '@bearei/material-token'
+import type {FC} from 'react'
+import {forwardRef} from 'react'
+import type {TextInput as RNTextInput} from 'react-native'
+import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
 import {Underlay} from '../Underlay'
 import {SearchBase} from './Search-base.component'
 import {SearchList} from './Search-list'
-import {RenderSearchProps, SearchProps, SearchTextInputProps} from './Search.interface'
+import type {RenderSearchProps, SearchProps, SearchTextInputProps} from './Search.interface'
 import {Container, Content, Leading, Main, TextInput, TextInputLayout, Touchable, Trailing} from './Search.styles'
 
 const SearchTextInput: FC<SearchTextInputProps> = TextInput
@@ -13,20 +15,20 @@ const render = ({
 	density,
 	eventName,
 	id,
+	interactionHandlers,
 	layout,
 	leading,
 	listProps,
 	listVisible,
 	onChangeText,
 	placeholder,
-	stateOnEvent,
 	testID,
 	theme,
 	trailing,
 	value,
 	...textInputProps
 }: RenderSearchProps) => {
-	const {onBlur, onFocus, ...onTouchableEvent} = stateOnEvent
+	const {onBlur, onFocus, ...onTouchableEvent} = interactionHandlers
 	const placeholderTextColor = theme.token.scheme.onSurfaceVariant
 	const shape = SHAPE.EXTRA_LARGE
 	const underlayColor = theme.token.scheme.onSurface

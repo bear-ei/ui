@@ -20,7 +20,7 @@ export interface RenderButtonProps extends ButtonProps {
 	elevation?: ElevationLevel
 	eventName?: EventName
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-	stateOnEvent: InteractionHandlers
+	interactionHandlers: InteractionHandlers
 }
 
 export interface ButtonBaseProps extends ButtonProps {

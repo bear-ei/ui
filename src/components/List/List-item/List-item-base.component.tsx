@@ -138,7 +138,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 					type
 				})(setState)(event)
 
-		const stateOnEvent = useStateEvent({...renderProps, onStateEventChange, disabled})
+		const interactionHandlers = useStateEvent({...renderProps, onStateEventChange, disabled})
 		const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
 			active,
 			afterAffordanceVisible,
@@ -150,7 +150,10 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			closeTrailing,
 			disabled,
 			id,
-			stateOnEvent: {onPressOut: onListItemTrailingPressOut, onPressIn: onListItemTrailingPressIn},
+			interactionHandlers: {
+				onPressOut: onListItemTrailingPressOut,
+				onPressIn: onListItemTrailingPressIn
+			},
 			theme,
 			trailing,
 			trailingProps
@@ -203,7 +206,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			indexKey,
 			leadingElement: leading,
 			onConfirm: onListItemConfirm,
-			stateOnEvent,
+			interactionHandlers,
 			// panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,
 			ref: pressableRef,
 			selectType,

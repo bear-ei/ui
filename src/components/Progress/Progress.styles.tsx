@@ -1,20 +1,20 @@
-import {RuleSet} from 'styled-components'
+import type {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
-import {ProgressType} from './Progress.enum'
-import {ProgressContainerProps} from './Progress.interface'
+import {PROGRESS_TYPE} from './Progress.enum'
+import type {ProgressContainerProps, ProgressType} from './Progress.interface'
 
 export const Container = styled.View<ProgressContainerProps>`
 	align-self: stretch;
 	display: flex;
 	flex-direction: column;
 
-	${({theme, type = ProgressType.LINEAR, size}) => {
+	${({theme, type = PROGRESS_TYPE.LINEAR, size}) => {
 		const containerType = {
-			[ProgressType.LINEAR]: css`
+			[PROGRESS_TYPE.LINEAR]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 			`,
-			[ProgressType.CIRCULAR]: css`
+			[PROGRESS_TYPE.CIRCULAR]: css`
 				height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 				width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 			`
@@ -25,7 +25,7 @@ export const Container = styled.View<ProgressContainerProps>`
 
 	${({theme, progressing, type}) =>
 		progressing &&
-		type === ProgressType.LINEAR &&
+		type === PROGRESS_TYPE.LINEAR &&
 		css`
 			gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 		`};

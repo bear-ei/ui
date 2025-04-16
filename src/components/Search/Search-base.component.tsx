@@ -1,10 +1,11 @@
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {TextInput, View} from 'react-native'
+import type {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {HandleStateEventChangeOptions, StateEvent, useStateEvent} from '../../hooks'
+import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {useStateEvent} from '../../hooks'
 import {runAfterInteractions} from '../../utils'
-import {State} from '../Common'
+import type {State} from '../Common'
 import {
 	handleSearchChangeText,
 	handleSearchContainerLayout,
@@ -12,7 +13,7 @@ import {
 	handleSearchStateChange,
 	handleSearchTextInputRawChangeText
 } from './Search-handle'
-import {SearchBaseProps, SearchState} from './Search.interface'
+import type {SearchBaseProps, SearchState} from './Search.interface'
 
 /**
  * TODO:
@@ -53,9 +54,9 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleSearchStateChange({...options, ref: inputRef, state})(setState)(event)
 
-		const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderProps, onStateEventChange})
 
-		useImperativeHandle(ref, () => (inputRef?.current ? inputRef?.current : {}) as TextInput, [inputRef])
+		useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
 
 		useEffect(() => {
 			onSearchTextInputRawChangeText(rawValue ?? defaultValue)
@@ -95,7 +96,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			listProps,
 			listVisible,
 			onChangeText: onSearchChangeText,
-			stateOnEvent,
+			interactionHandlers,
 			placeholder,
 			ref: inputRef,
 			theme,

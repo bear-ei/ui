@@ -1,17 +1,17 @@
-import {Duration, Easing} from '@bearei/material-token'
-import {SharedValue} from 'react-native-reanimated'
-import {emitter} from '../../../contexts'
-import {AnimatedTiming} from '../../../hooks'
+import {DURATION, EASING} from '@bearei/material-token'
+import type {SharedValue} from 'react-native-reanimated'
+import {emitter, MODAL_TYPE} from '../../../contexts'
+import type {AnimatedTiming} from '../../../hooks'
 
 export const handleSearchListEmit = (id: string) => (_render: () => React.JSX.Element) => (visible?: boolean) =>
-	typeof visible === 'boolean' && emitter.emit('modal', {id: `search__list--${id}`, name: 'tooltip'})
+	typeof visible === 'boolean' && emitter.emit('modal', {id: `search__list--${id}`, type: MODAL_TYPE.TOOL_TIP})
 
 export const handleSearchListUnmount = (id: string) =>
-	emitter.emit('modal', {id: `search__list--${id}`, name: 'tooltip'})
+	emitter.emit('modal', {id: `search__list--${id}`, type: MODAL_TYPE.TOOL_TIP})
 
 export const handleSearchListAnimatedTiming =
 	(animatedTiming: AnimatedTiming) => (heightSharedValue: SharedValue<number>) => (visible?: boolean) =>
 		animatedTiming({
-			duration: visible ? Duration.MEDIUM_3 : Duration.SHORT_3,
-			easing: visible ? Easing.EMPHASIZED_DECELERATE : Easing.EMPHASIZED_ACCELERATE
+			duration: visible ? DURATION.MEDIUM_3 : DURATION.SHORT_3,
+			easing: visible ? EASING.EMPHASIZED_DECELERATE : EASING.EMPHASIZED_ACCELERATE
 		})(heightSharedValue)(visible ? 1 : 0)

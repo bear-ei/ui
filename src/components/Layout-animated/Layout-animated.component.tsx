@@ -15,13 +15,13 @@ const render = ({
 	contentStyle,
 	id,
 	layout,
-	stateOnEvent,
+	interactionHandlers,
 	style,
 	testID,
 	visible,
 	...containerProps
 }: RenderLayoutAnimatedProps) => {
-	const {onLayout} = stateOnEvent
+	const {onLayout} = interactionHandlers
 	const collapse = animatedType?.startsWith('COLLAPSE')
 
 	return (

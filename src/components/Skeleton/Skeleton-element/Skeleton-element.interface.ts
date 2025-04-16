@@ -1,7 +1,7 @@
-import {RefAttributes} from 'react'
-import {View, ViewProps} from 'react-native'
-import {ShapeProps} from '../../Common'
-import {RenderSkeletonProps} from '../Skeleton.interface'
+import type {RefAttributes} from 'react'
+import type {View, ViewProps} from 'react-native'
+import type {ShapeProps} from '../../Common'
+import type {RenderSkeletonProps} from '../Skeleton.interface'
 
 export interface SkeletonElementProps
 	extends ViewProps,

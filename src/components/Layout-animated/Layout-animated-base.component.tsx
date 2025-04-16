@@ -73,7 +73,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					state
 				})(event)
 
-		const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderProps, onStateEventChange})
 		const {containerAnimatedStyle} = useLayoutAnimated({
 			animatedType,
 			entry,
@@ -118,7 +118,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					id,
 					layout,
 					ref,
-					stateOnEvent,
+					interactionHandlers,
 					visible: typeof invisible === 'boolean' ? !invisible : layoutVisible
 				})
 	}

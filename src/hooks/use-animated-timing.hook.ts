@@ -1,18 +1,12 @@
-import {Duration, Easing} from '@bearei/material-token'
+import {DURATION, EASING} from '@bearei/material-token'
 import {useCallback} from 'react'
-import {
-	AnimationCallback,
-	Easing as ReanimatedEasing,
-	runOnJS,
-	SharedValue,
-	withRepeat,
-	withTiming
-} from 'react-native-reanimated'
-import {AnimatedTimingOptions, HandleAnimatedTimingOptions, UseAnimatedTimingOptions} from './hooks.interface'
+import type {AnimationCallback, SharedValue} from 'react-native-reanimated'
+import {Easing as ReanimatedEasing, runOnJS, withRepeat, withTiming} from 'react-native-reanimated'
+import type {AnimatedTimingOptions, HandleAnimatedTimingOptions, UseAnimatedTimingOptions} from './hooks.interface'
 
 const handleAnimatedTiming = ({
-	duration = Duration.MEDIUM_1,
-	easing = Easing.EMPHASIZED,
+	duration = DURATION.MEDIUM_1,
+	easing = EASING.EMPHASIZED,
 	repeat,
 	token,
 	...config

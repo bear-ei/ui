@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {TouchableContentProps, TouchableMainProps} from './Touchable.interface'
+import type {TouchableContentProps, TouchableMainProps} from './Touchable.interface'
 
 export const Container = styled.View`
 	align-self: stretch;

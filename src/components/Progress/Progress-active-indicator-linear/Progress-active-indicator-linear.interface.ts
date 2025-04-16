@@ -1,7 +1,7 @@
-import {RefAttributes} from 'react'
-import {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
-import {AnimatedStyle} from 'react-native-reanimated'
-import {ProgressProps} from '../Progress.interface'
+import type {RefAttributes} from 'react'
+import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
+import type {AnimatedStyle} from 'react-native-reanimated'
+import type {ProgressProps} from '../Progress.interface'
 
 export interface ProgressActiveIndicatorLinearProps
 	extends ViewProps,

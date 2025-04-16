@@ -1,9 +1,9 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
 import {handleSkeletonDurationChange} from './Skeleton-handle'
-import {SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
+import type {SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
 export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(

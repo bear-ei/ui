@@ -13,9 +13,9 @@ export const MaskBase: FC<MaskBaseProps> = ({render, ref, ...renderProps}) => {
 	const onStateEventChange = (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 		handleMaskStateChange({...options, state, ref: pressableRef})(event)
 
-	const stateOnEvent = useStateEvent({...renderProps, onStateEventChange})
+	const interactionHandlers = useStateEvent({...renderProps, onStateEventChange})
 
 	useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 
-	return render({...renderProps, stateOnEvent, ref: pressableRef, id})
+	return render({...renderProps, interactionHandlers, ref: pressableRef, id})
 }

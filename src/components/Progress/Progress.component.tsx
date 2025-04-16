@@ -1,37 +1,38 @@
-import {FC, forwardRef} from 'react'
-import {View} from 'react-native'
+import type {FC} from 'react'
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
 import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circular'
 import {ProgressActiveIndicatorLinear} from './Progress-active-indicator-linear'
 import {ProgressBase} from './Progress-base.component'
-import {ProgressAnimated, ProgressType} from './Progress.enum'
-import {ProgressProps, RenderProgressProps} from './Progress.interface'
+import {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
+import type {ProgressProps, RenderProgressProps} from './Progress.interface'
 import {Container} from './Progress.styles'
 
 const render = ({
-	animatedType = ProgressAnimated.INDETERMINATE,
+	animatedType = PROGRESS_ANIMATED.INDETERMINATE,
 	content,
 	defaultValue,
 	id,
 	increment,
 	layout,
 	size,
-	stateOnEvent,
+	interactionHandlers,
 	strokeWidth,
 	testID,
-	type = ProgressType.LINEAR,
+	type = PROGRESS_TYPE.LINEAR,
 	value,
 	...containerProps
 }: RenderProgressProps) => (
 	<Container
 		{...containerProps}
-		{...stateOnEvent}
+		{...interactionHandlers}
 		accessibilityRole='progressbar'
 		pointerEvents='none'
 		progressing={!!(value && value > 0)}
 		testID={testID ?? `progress--${id}`}
 		type={type}
 	>
-		{type === ProgressType.CIRCULAR && (
+		{type === PROGRESS_TYPE.CIRCULAR && (
 			<ProgressActiveIndicatorCircular
 				animatedType={animatedType}
 				content={content}
@@ -41,7 +42,7 @@ const render = ({
 			/>
 		)}
 
-		{type === ProgressType.LINEAR && typeof layout.width === 'number' && layout.width !== 0 && (
+		{type === PROGRESS_TYPE.LINEAR && typeof layout.width === 'number' && layout.width !== 0 && (
 			<ProgressActiveIndicatorLinear
 				animatedType={animatedType}
 				containerLayout={layout}

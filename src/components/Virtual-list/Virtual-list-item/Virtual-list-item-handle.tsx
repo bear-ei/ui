@@ -1,8 +1,8 @@
-import {Duration} from '@bearei/material-token'
-import {SharedValue} from 'react-native-reanimated'
-import {Updater} from 'use-immer'
-import {AnimatedTiming} from '../../../hooks'
-import {VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
+import {DURATION} from '@bearei/material-token'
+import type {SharedValue} from 'react-native-reanimated'
+import type {Updater} from 'use-immer'
+import type {AnimatedTiming} from '../../../hooks'
+import type {VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
 
 export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps) => {
 	const {extraData: prevExtraData, index: prevIndex, item: prevItem} = prevProps
@@ -28,7 +28,7 @@ export const handleVirtualListItemUnmount = (onUnmount?: (indexKey?: string) => 
 
 export const handleVirtualListItemAnimated =
 	(animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<number>) => (offsetY: number) =>
-		animatedTiming({duration: Duration.SHORT_2})(topSharedValue)(offsetY)
+		animatedTiming({duration: DURATION.SHORT_2})(topSharedValue)(offsetY)
 
 export const handleVirtualListItemInit = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {

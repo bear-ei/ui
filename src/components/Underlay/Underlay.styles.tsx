@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
-import {ActiveLayerProps, HoverLayerProps} from './Underlay.interface'
+import type {ActiveLayerProps, HoverLayerProps} from './Underlay.interface'
 
 export const Container = styled(Shape)`
 	align-items: center;

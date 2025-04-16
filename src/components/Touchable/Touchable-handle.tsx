@@ -1,11 +1,11 @@
 import {nanoid} from 'nanoid'
-import {GestureResponderEvent} from 'react-native'
-import {Updater} from 'use-immer'
-import {StateEvent} from '../../hooks'
+import type {GestureResponderEvent} from 'react-native'
+import type {Updater} from 'use-immer'
+import type {StateEvent} from '../../hooks'
 import {runAfterInteractions} from '../../utils'
-import {EventName} from '../Common'
+import type {EventName} from '../Common'
 import {TouchableRipple} from './Touchable-ripple'
-import {
+import type {
 	HandleAddTouchableRippleOptions,
 	HandleTouchablePressInOptions,
 	HandleTouchableStateChangeOptions,

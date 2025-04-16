@@ -1,8 +1,8 @@
-import {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
-import {Updater} from 'use-immer'
-import {AnimatedTiming, StateEvent} from '../../hooks'
-import {EventName, State} from '../Common'
-import {
+import type {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
+import type {Updater} from 'use-immer'
+import type {AnimatedTiming, StateEvent} from '../../hooks'
+import type {EventName, State} from '../Common'
+import type {
 	HandleTextInputDisabledSharedValue,
 	HandleTextInputEnabledSharedOptions,
 	HandleTextInputEnabledSharedValue,
@@ -54,8 +54,8 @@ export const handleTextInputContentSizeChange =
 		const contentSize = event.nativeEvent.contentSize
 
 		setState(draft => {
-			draft.contentSIZE.height = contentSIZE.height
-			draft.contentSIZE.width = contentSIZE.width
+			draft.contentSize.height = contentSize.height
+			draft.contentSize.width = contentSize.width
 			draft.nextContentSizeChangeEvent = handleNextContentSizeChangeEvent
 		})
 	}

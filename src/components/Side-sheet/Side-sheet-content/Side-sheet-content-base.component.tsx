@@ -1,9 +1,9 @@
 import {forwardRef, useId} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
-import {SheetPosition} from '../Side-sheet.enum'
+import {SIDE_SHEET_POSITION} from '../Side-sheet.enum'
 import {renderSideSheetContentLeading, renderSideSheetContentTrailing} from './Side-sheet-content-handle'
-import {SideSheetContentBaseProps} from './Side-sheet-content.interface'
+import type {SideSheetContentBaseProps} from './Side-sheet-content.interface'
 import {useSideSheetContentAnimated} from './use-side-sheet-content-animated.hook'
 
 export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
@@ -17,8 +17,8 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 			headlineTrailing,
 			onBack,
 			onClose,
+			position = SIDE_SHEET_POSITION.HORIZONTAL_END,
 			render,
-			sheetPosition = SheetPosition.HORIZONTAL_END,
 			type,
 			visible,
 			...renderProps
@@ -28,7 +28,7 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 		const {containerAnimatedStyle} = useSideSheetContentAnimated({type, visible})
 		const id = useId()
 		const theme = useTheme()
-		const leadingElement = renderSideSheetContentLeading({headlineLeading, back, sheetPosition, id})(onBack)
+		const leadingElement = renderSideSheetContentLeading({headlineLeading, back, position, id})(onBack)
 		const trailingElement = renderSideSheetContentTrailing({headlineTrailing, close, id})(onClose)
 
 		return render({
@@ -39,7 +39,7 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 			id,
 			leading: leadingElement,
 			ref,
-			sheetPosition,
+			position,
 			theme,
 			trailing: trailingElement,
 			type

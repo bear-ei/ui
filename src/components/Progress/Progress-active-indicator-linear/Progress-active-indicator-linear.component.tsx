@@ -1,9 +1,11 @@
-import {FC, forwardRef} from 'react'
-import {View} from 'react-native'
+import {SHAPE} from '@bearei/material-token'
+import type {FC} from 'react'
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {ProgressAnimated} from '../Progress.enum'
+import {PROGRESS_ANIMATED} from '../Progress.enum'
 import {ProgressActiveIndicatorLinearBase} from './Progress-active-indicator-linear-base.component'
-import {
+import type {
 	ProgressActiveIndicatorLinearProps,
 	RenderProgressActiveIndicatorLinearProps
 } from './Progress-active-indicator-linear.interface'
@@ -37,7 +39,7 @@ const render = ({
 				testID={`progressActiveIndicatorLinear__track--${id}`}
 			/>
 
-			{animatedType === ProgressAnimated.DETERMINATE && (
+			{animatedType === PROGRESS_ANIMATED.DETERMINATE && (
 				<Stop
 					shape={SHAPE.FULL}
 					testID={`progressActiveIndicatorLinear__stop--${id}`}
