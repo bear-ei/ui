@@ -1,4 +1,4 @@
-const filterText =
+const matchByKeys =
 	<T>(keys: (keyof T)[]) =>
 	(item: T) =>
 	(matchText: string) =>
@@ -10,5 +10,5 @@ export const textSearch =
 	(searchText: string): T[] => {
 		const matchText = searchText.toLowerCase()
 
-		return data.filter(item => filterText(keys)(item)(matchText))
+		return data.filter(item => matchByKeys(keys)(item)(matchText))
 	}

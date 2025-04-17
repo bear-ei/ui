@@ -1,7 +1,7 @@
 import {DURATION, EASING} from '@bearei/material-token'
 import {useCallback} from 'react'
 import type {AnimationCallback, SharedValue} from 'react-native-reanimated'
-import {Easing as ReanimatedEasing, runOnJS, withRepeat, withTiming} from 'react-native-reanimated'
+import {Easing, runOnJS, withRepeat, withTiming} from 'react-native-reanimated'
 import type {AnimatedTimingOptions, HandleAnimatedTimingOptions, UseAnimatedTimingOptions} from './hooks.interface'
 
 const handleAnimatedTiming = ({
@@ -19,7 +19,7 @@ const handleAnimatedTiming = ({
 			{
 				...config,
 				duration: transitionDuration,
-				easing: ReanimatedEasing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1)
+				easing: Easing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1)
 			},
 			finished => {
 				'worklet'

@@ -24,7 +24,7 @@ export interface RenderButtonProps extends ButtonProps {
 }
 
 export interface ButtonBaseProps extends ButtonProps {
-	render: (props: RenderButtonProps) => React.JSX.Element
+	renderButton: (props: RenderButtonProps) => React.JSX.Element
 }
 
 export interface ButtonState {

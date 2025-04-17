@@ -12,8 +12,9 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 			defaultActive,
 			eventName,
 			opacities,
-			render,
-			...renderProps
+			renderUnderlay,
+			testID,
+			...renderUnderlayProps
 		},
 		ref
 	) => {
@@ -27,6 +28,13 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 			opacities
 		})
 
-		return render({...renderProps, active, activeLayerAnimatedStyle, hoverLayerAnimatedStyle, id, ref})
+		return renderUnderlay({
+			...renderUnderlayProps,
+			active,
+			activeLayerAnimatedStyle,
+			hoverLayerAnimatedStyle,
+			ref,
+			testID: testID ?? id
+		})
 	}
 )

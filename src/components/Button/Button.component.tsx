@@ -139,7 +139,7 @@ const ButtonWithRef = forwardRef<View, ButtonProps>((props, ref) => (
 	<ButtonBase
 		{...props}
 		ref={ref}
-		render={renderButton}
+		renderButton={renderButton}
 	/>
 ))
 

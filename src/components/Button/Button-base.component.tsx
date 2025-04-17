@@ -24,7 +24,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			icon,
 			labelText = 'Label',
 			loading,
-			render,
+			renderButton,
 			testID,
 			type = BUTTON_TYPE.FILLED,
 			...renderButtonProps
@@ -64,7 +64,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			return <></>
 		}
 
-		return render({
+		return renderButton({
 			...renderButtonProps,
 			backgroundUnderlayAnimatedStyle,
 			disabled,

@@ -53,9 +53,10 @@ describe('Avatar', () => {
 	})
 
 	it('should include accessibility label and role', () => {
-		const {getByLabelText, getByRole} = renderWithTheme(<Avatar labelText='A' />)
+		const {getByLabelText, getByRole, toJSON} = renderWithTheme(<Avatar labelText='A' />)
 
 		expect(getByLabelText('Avatar: A')).toBeTruthy()
 		expect(getByRole('image')).toBeTruthy()
+		expect(toJSON()).toMatchSnapshot()
 	})
 })

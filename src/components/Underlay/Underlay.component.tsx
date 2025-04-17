@@ -8,13 +8,12 @@ import {ActiveLayer, Container, HoverLayer} from './Underlay.styles'
 
 const AnimatedHoverLayer = Animated.createAnimatedComponent(HoverLayer)
 const AnimatedActiveLayer = Animated.createAnimatedComponent(ActiveLayer)
-const render = ({
+const renderUnderlay = ({
 	active,
 	activeColor,
 	activeLayerAnimatedStyle,
 	activeShape,
 	hoverLayerAnimatedStyle,
-	id,
 	shape,
 	style,
 	testID,
@@ -26,12 +25,12 @@ const render = ({
 		pointerEvents='none'
 		shape={shape}
 		style={[style]}
-		testID={testID ?? `underlay--${id}`}
+		testID={`underlay--${testID}`}
 	>
 		<AnimatedHoverLayer
 			shape={shape}
 			style={[hoverLayerAnimatedStyle]}
-			testID={`underlay__animatedHoverLayer--${id}`}
+			testID={`underlay__animatedHoverLayer--${testID}`}
 			underlayColor={underlayColor}
 		/>
 
@@ -40,18 +39,18 @@ const render = ({
 				activeColor={activeColor}
 				shape={activeShape ?? shape}
 				style={[activeLayerAnimatedStyle]}
-				testID={`underlay__animatedActiveLayer--${id}`}
+				testID={`underlay__animatedActiveLayer--${testID}`}
 			/>
 		)}
 	</Container>
 )
 
-const ForwardRefUnderlay = forwardRef<View, UnderlayProps>((props, ref) => (
+const UnderlayWithRef = forwardRef<View, UnderlayProps>((props, ref) => (
 	<UnderlayBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderUnderlay={renderUnderlay}
 	/>
 ))
 
-export const Underlay: FC<UnderlayProps> = ForwardRefUnderlay
+export const Underlay: FC<UnderlayProps> = UnderlayWithRef
