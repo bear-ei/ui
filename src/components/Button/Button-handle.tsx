@@ -102,7 +102,7 @@ export const handleButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const renderButtonIcon =
-	({disabled, eventName, type = BUTTON_TYPE.FILLED, id}: RenderButtonIconOptions) =>
+	({disabled, eventName, type = BUTTON_TYPE.FILLED, testID}: RenderButtonIconOptions) =>
 	(theme: DefaultTheme) => {
 		const fillType = {
 			[BUTTON_TYPE.ELEVATED]: theme.token.scheme.primary,
@@ -124,7 +124,7 @@ export const renderButtonIcon =
 				eventName,
 				fill: fillType[type],
 				size,
-				testID: `button__icon--${id}`
+				testID
 			})
 		}
 	}
