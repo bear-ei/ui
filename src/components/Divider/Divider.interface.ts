@@ -12,7 +12,7 @@ export interface DividerProps extends ViewProps, RefAttributes<View> {
 
 export type RenderDividerProps = DividerProps
 export interface DividerBaseProps extends DividerProps {
-	render: (props: RenderDividerProps) => React.JSX.Element
+	renderDivider: (props: RenderDividerProps) => React.JSX.Element
 }
 
 export type DividerLayoutProps = Pick<RenderDividerProps, 'layout' | 'size'>
