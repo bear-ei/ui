@@ -92,7 +92,7 @@ export const handleFABUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const renderFABIcon =
-	({disabled, eventName, size, type = FAB_TYPE.PRIMARY, id}: RenderFABIconOptions) =>
+	({disabled, eventName, size, type = FAB_TYPE.PRIMARY, testID}: RenderFABIconOptions) =>
 	(theme: DefaultTheme) => {
 		const fillType = {
 			[FAB_TYPE.PRIMARY]: theme.token.scheme.onPrimaryContainer,
@@ -113,7 +113,7 @@ export const renderFABIcon =
 				disabled,
 				eventName,
 				fill: fillType[type],
-				testID: `fab__icon--${id}`
+				testID
 			})
 		}
 	}

@@ -12,7 +12,7 @@ import {BackgroundUnderlay, Container, Content, IconLayout, LabelText, Main} fro
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
-const render = ({
+const renderFAB = ({
 	accessibilityLabel,
 	backgroundUnderlayAnimatedStyle,
 	density,
@@ -21,12 +21,11 @@ const render = ({
 	eventName,
 	extendedFAB,
 	icon,
-	id,
+	interactionHandlers,
 	labelText,
 	labelTextAnimatedStyle,
 	ref,
 	size,
-	interactionHandlers,
 	testID,
 	type,
 	underlayColor,
@@ -39,7 +38,7 @@ const render = ({
 			pointerEvents='none'
 			shape={shape}
 			style={[backgroundUnderlayAnimatedStyle]}
-			testID={`fab__animatedBackgroundUnderlay--${id}`}
+			testID={`fab__animatedBackgroundUnderlay--${testID}`}
 		/>
 	)
 
@@ -47,16 +46,19 @@ const render = ({
 		<Elevation
 			level={elevation}
 			shape={shape}
-			testID={`fab__elevation--${id}`}
+			testID={testID}
 		/>
 	)
 
 	return (
 		<Container
+			accessibilityLabel={labelText ?? accessibilityLabel}
+			accessibilityRole='button'
+			accessibilityState={{disabled}}
 			density={density}
 			extendedFAB={extendedFAB}
 			size={size}
-			testID={testID ?? `fab--${id}`}
+			testID={`fab--${testID}`}
 		>
 			<Touchable
 				{...interactionHandlers}
@@ -66,28 +68,26 @@ const render = ({
 				mainAlignSelf={size === SIZE.SMALL ? 'center' : 'stretch'}
 				ref={ref}
 				shape={shape}
-				testID={`fab__touchable--${id}`}
+				testID={testID}
 				underlayColor={underlayColor}
 			>
 				<Content
 					{...contentProps}
-					accessibilityLabel={labelText ?? accessibilityLabel}
-					accessibilityRole='button'
 					density={density}
 					extendedFAB={extendedFAB}
 					pointerEvents='none'
 					size={size}
-					testID={`fab__content--${id}`}
+					testID={`fab__content--${testID}`}
 					type={type}
 				>
 					<Main
 						extendedFAB={extendedFAB}
 						size={size}
-						testID={`fab__main--${id}`}
+						testID={`fab__main--${testID}`}
 						type={type}
 					>
 						{icon && (
-							<IconLayout testID={`fab__iconLayout--${id}`}>
+							<IconLayout testID={`fab__iconLayout--${testID}`}>
 								{icon}
 							</IconLayout>
 						)}
@@ -96,7 +96,7 @@ const render = ({
 							<AnimatedLabelText
 								size={SIZE.LARGE}
 								style={[labelTextAnimatedStyle]}
-								testID={`fab__animatedLabelText--${id}`}
+								testID={`fab__animatedLabelText--${testID}`}
 								type={TYPOGRAPHY.LABEL}
 							>
 								{labelText}
@@ -107,7 +107,7 @@ const render = ({
 					<Underlay
 						eventName={eventName}
 						shape={shape}
-						testID={`fab__underlay--${id}`}
+						testID={testID}
 						underlayColor={underlayColor}
 					/>
 				</Content>
@@ -116,14 +116,14 @@ const render = ({
 	)
 }
 
-const ForwardRefFAB = forwardRef<View, FABProps>((props, ref) => (
+const FABWithRef = forwardRef<View, FABProps>((props, ref) => (
 	<FABBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderFAB={renderFAB}
 	/>
 ))
 
-const FAB: FC<FABProps> = ForwardRefFAB
+const FAB: FC<FABProps> = FABWithRef
 
 export const Fab = FAB

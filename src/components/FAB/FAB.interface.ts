@@ -28,7 +28,7 @@ export interface RenderFABProps extends FABProps {
 }
 
 export interface FABBaseProps extends FABProps {
-	render: (props: RenderFABProps) => React.JSX.Element
+	renderFAB: (props: RenderFABProps) => React.JSX.Element
 }
 
 export interface FABState {
@@ -41,5 +41,5 @@ export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extended
 export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB' | 'density'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type HandleFABStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
-export type RenderFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'eventName' | 'id'>
+export type RenderFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'eventName' | 'testID'>
 export type UseFABAnimatedOptions = Pick<RenderFABProps, 'disabled' | 'type'>
