@@ -17,6 +17,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			name = ICON_NAME.CIRCLE,
 			render,
 			svgStyle,
+			testID,
 			type = ICON_TYPE.OUTLINED,
 			...renderProps
 		},
@@ -40,6 +41,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			/>
 		)
 
-		return render({...renderProps, containerAnimatedStyle, ref, svgIconElement, id})
+		return render({...renderProps, containerAnimatedStyle, ref, svgIconElement, testID: testID ?? id})
 	}
 )

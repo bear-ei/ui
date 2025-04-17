@@ -11,12 +11,11 @@ import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {CheckboxIconAnimatedOptions, CheckboxProps, RenderCheckboxProps} from './Checkbox.interface'
 import {Container, Content, IconLayout, Main} from './Checkbox.styles'
 
-const render = ({
+const renderCheckbox = ({
 	density,
-	disabled = false,
+	disabled,
 	error,
 	eventName,
-	id,
 	interactionHandlers,
 	testID,
 	theme,
@@ -51,14 +50,14 @@ const render = ({
 			accessibilityRole='checkbox'
 			accessibilityState={{disabled}}
 			accessible={true}
-			testID={testID ?? `checkbox--${id}`}
+			testID={`checkbox--${testID}`}
 		>
 			<Touchable
 				{...interactionHandlers}
 				disabled={disabled}
 				mainAlignSelf='center'
 				shape={shape}
-				testID={`checkbox__touchable--${id}`}
+				testID={testID}
 				underlayColor={underlayColor}
 			>
 				<Content
@@ -66,14 +65,14 @@ const render = ({
 					density={density}
 					pointerEvents='none'
 					shape={shape}
-					testID={`checkbox__content--${id}`}
+					testID={`checkbox__content--${testID}`}
 				>
 					<Main
 						shape={SHAPE.TINY_SMALL}
-						testID={`checkbox__main--${id}`}
+						testID={`checkbox__main--${testID}`}
 					>
 						<IconLayout
-							testID={`checkbox__iconLayout--blank--${id}`}
+							testID={`checkbox__iconLayout--blank--${testID}`}
 							visible={true}
 						>
 							<Icon
@@ -83,14 +82,14 @@ const render = ({
 								name={ICON_NAME.CHECK_BOX_OUTLINE_BLANK}
 								size={iconSize}
 								svgStyle={iconSvgStyle}
-								testID={`checkbox__iconCheckBoxOutlineBlank--${id}`}
+								testID={testID}
 								type={ICON_TYPE.FILLED}
 							/>
 						</IconLayout>
 
 						<IconLayout
 							{...animatedOptions}
-							testID={`checkbox__iconLayout--selected--${id}`}
+							testID={`checkbox__iconLayout--selected--${testID}`}
 							visible={value === CHECKBOX_VALUE.SELECTED}
 						>
 							<Icon
@@ -100,14 +99,14 @@ const render = ({
 								name={ICON_NAME.CHECK_BOX}
 								size={iconSize}
 								svgStyle={iconSvgStyle}
-								testID={`checkbox__iconCheckBox--${id}`}
+								testID={testID}
 								type={ICON_TYPE.FILLED}
 							/>
 						</IconLayout>
 
 						<IconLayout
 							{...animatedOptions}
-							testID={`checkbox__iconLayout--indeterminate--${id}`}
+							testID={`checkbox__iconLayout--indeterminate--${testID}`}
 							visible={value === CHECKBOX_VALUE.INDETERMINATE}
 						>
 							<Icon
@@ -117,7 +116,7 @@ const render = ({
 								name={ICON_NAME.INDETERMINATE_CHECK_BOX}
 								size={iconSize}
 								svgStyle={iconSvgStyle}
-								testID={`checkbox__iconIndeterminateCheckBox--${id}`}
+								testID={testID}
 								type={ICON_TYPE.FILLED}
 							/>
 						</IconLayout>
@@ -126,7 +125,7 @@ const render = ({
 					<Underlay
 						eventName={eventName}
 						shape={shape}
-						testID={`checkbox__underlay--${id}`}
+						testID={testID}
 						underlayColor={underlayColor}
 					/>
 				</Content>
@@ -135,12 +134,12 @@ const render = ({
 	)
 }
 
-const ForwardRefCheckbox = forwardRef<View, CheckboxProps>((props, ref) => (
+const CheckboxWithRef = forwardRef<View, CheckboxProps>((props, ref) => (
 	<CheckboxBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderCheckbox={renderCheckbox}
 	/>
 ))
 
-export const Checkbox: FC<CheckboxProps> = ForwardRefCheckbox
+export const Checkbox: FC<CheckboxProps> = CheckboxWithRef
