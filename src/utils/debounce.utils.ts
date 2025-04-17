@@ -18,10 +18,17 @@ export const asyncDebounce = <T extends (...args: any[]) => Promise<unknown>>(fu
 	const timeoutFunction =
 		(...args: Parameters<T>) =>
 		(resolve: (value: unknown) => void, reject: (reason?: unknown) => void) =>
-		() =>
-			func?.(...args)
+		() => {
+			if (!func) {
+				resolve(undefined)
+
+				return
+			}
+
+			return func?.(...args)
 				.then(resolve)
 				.catch(reject)
+		}
 
 	return (delay: number) => {
 		let timeoutId: NodeJS.Timeout
