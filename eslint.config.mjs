@@ -53,6 +53,13 @@ export default [
 		ignores: ['storybook.requires.ts']
 	},
 	{
-		ignores: ['**/metro.config.js', '**/storybook.requires.ts']
+		ignores: [
+			'__mocks__/**/*',
+			'**/**.test.ts',
+			'**/**.test.tsx',
+			'**/metro.config.js',
+			'**/storybook.requires.ts',
+			'node_modules'
+		]
 	}
 ]

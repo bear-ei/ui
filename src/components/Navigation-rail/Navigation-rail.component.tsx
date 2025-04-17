@@ -1,6 +1,6 @@
 import type {FC} from 'react'
 import {forwardRef} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
 import {NavigationRailBase} from './Navigation-rail-base.component'
 import type {NavigationRailProps, RenderNavigationRailProps} from './Navigation-rail.interface'
 import {Container, Destination, Fab, Menu} from './Navigation-rail.styles'

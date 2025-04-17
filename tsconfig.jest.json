@@ -9,6 +9,5 @@
 		"strict": true,
 		"strictPropertyInitialization": false,
 		"verbatimModuleSyntax": false
-	},
-	"include": ["src", "**/*.spec.ts", "**/*.spec.tsx"]
+	}
 }

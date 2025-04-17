@@ -5,7 +5,7 @@ import {useImmer} from 'use-immer'
 import {SideSheet} from '../components'
 import {MODAL_TYPE} from './contexts.enum'
 import type {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './contexts.interface'
-import {handleModal} from './Modal-provider.-handle'
+import {handleModal} from './Modal-provider-handle'
 
 const ModalItem: FC<ModalItemProps> = ({type, props}) => {
 	const component = {[MODAL_TYPE.TOOL_TIP]: <></>, [MODAL_TYPE.SIDE_SHEET]: SideSheet}

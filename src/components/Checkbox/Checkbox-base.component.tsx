@@ -16,7 +16,20 @@ import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {CheckboxBaseProps, CheckboxState} from './Checkbox.interface'
 
 export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
-	({active: rawActive, defaultActive, disabled, error, indeterminate, render, onActive, ...renderProps}, ref) => {
+	(
+		{
+			active: rawActive,
+			defaultActive,
+			disabled,
+			error,
+			indeterminate,
+			onActive,
+			render,
+			testID,
+			...renderProps
+		},
+		ref
+	) => {
 		const [{active, eventName, status, value, nextActiveEvent}, setState] = useImmer<CheckboxState>({
 			status: 'idle',
 			value: CHECKBOX_VALUE.UNSELECTED
@@ -56,6 +69,17 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			return <></>
 		}
 
-		return render({...renderProps, disabled, error, eventName, interactionHandlers, ref, theme, value, id})
+		return render({
+			...renderProps,
+			disabled,
+			error,
+			eventName,
+			id: testID ?? id,
+			interactionHandlers,
+			ref,
+			testID,
+			theme,
+			value
+		})
 	}
 )

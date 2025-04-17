@@ -22,6 +22,7 @@ const render = ({
 		{...containerProps}
 		accessibilityLabel={`Avatar: ${labelText}`}
 		accessibilityRole='image'
+		accessible={true}
 		pointerEvents='none'
 		testID={testID ?? `avatar--${id}`}
 	>

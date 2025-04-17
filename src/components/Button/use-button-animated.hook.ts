@@ -132,18 +132,18 @@ export const useButtonAnimated = ({
 	]
 
 	const notBackgroundColorTypes = [BUTTON_TYPE.TEXT, BUTTON_TYPE.LINK] as const
-	const notBackgroundColor = notBackgroundColorTypes.includes(type as (typeof notBackgroundColorTypes)[number])
-	const notBorderColor = type !== BUTTON_TYPE.OUTLINED
+	const isNotBackgroundColor = notBackgroundColorTypes.includes(type as (typeof notBackgroundColorTypes)[number])
+	const isNotBorderColor = type !== BUTTON_TYPE.OUTLINED
 	const borderWidth = theme.adaptSize(spacing.extraSmall / 4)
 	const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
-		...(!notBackgroundColor && {
+		...(!isNotBackgroundColor && {
 			backgroundColor: interpolateColor(
 				colorSharedValue.value,
 				backgroundColorType[type].inputRanges,
 				backgroundColorType[type].outputRanges
 			)
 		}),
-		...(!notBorderColor && {
+		...(!isNotBorderColor && {
 			borderColor: interpolateColor(
 				borderSharedValue.value,
 				borderColorInputRanges,

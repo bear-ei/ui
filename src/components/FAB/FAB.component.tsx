@@ -1,7 +1,7 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import type {FC} from 'react'
 import {forwardRef} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Elevation} from '../Elevation'
 import {Touchable} from '../Touchable'

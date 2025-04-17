@@ -24,7 +24,7 @@ const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUn
 const render = ({
 	backgroundUnderlayAnimatedStyle,
 	density,
-	disabled,
+	disabled = false,
 	elevation,
 	eventName,
 	icon,
@@ -68,6 +68,10 @@ const render = ({
 
 	return (
 		<Container
+			accessibilityLabel={labelText}
+			accessibilityRole='button'
+			accessibilityState={{disabled}}
+			accessible={true}
 			testID={testID ?? `button--${id}`}
 			type={type}
 		>
@@ -84,8 +88,6 @@ const render = ({
 			>
 				<Content
 					{...contentProps}
-					accessibilityLabel={labelText}
-					accessibilityRole='button'
 					density={density}
 					pointerEvents='none'
 					shape={shape}

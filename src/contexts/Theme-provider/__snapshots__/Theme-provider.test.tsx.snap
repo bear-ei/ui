@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ThemeProvider passes the correct platform branch (Mobile/Desktop) 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  enableFocusRing={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignSelf": "stretch",
+      "display": "flex",
+      "flexBasis": 0,
+      "flexDirection": "column",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "outlineStyle": "none",
+    }
+  }
+  testID="bearei__material--:r2:"
+>
+  <Text>
+    Test
+  </Text>
+</View>
+`;
+
+exports[`ThemeProvider supports story mode and adjusts height 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  enableFocusRing={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  story={true}
+  style={
+    {
+      "alignSelf": "stretch",
+      "display": "flex",
+      "flexBasis": 0,
+      "flexDirection": "column",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "height": 800,
+      "outlineStyle": "none",
+    }
+  }
+  testID="bearei__material--:r6:"
+>
+  <Text>
+    Story Mode
+  </Text>
+</View>
+`;

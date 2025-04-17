@@ -1,6 +1,6 @@
 import type {FC} from 'react'
 import {forwardRef} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
 import {SideSheetBase} from './Side-sheet-base.component'
 import {SideSheetContent} from './Side-sheet-content'
 import {SIDE_SHEET_TYPE} from './Side-sheet.enum'

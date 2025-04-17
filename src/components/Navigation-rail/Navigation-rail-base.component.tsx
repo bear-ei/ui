@@ -1,5 +1,5 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
 import type {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'

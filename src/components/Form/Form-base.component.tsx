@@ -1,6 +1,6 @@
 import type {ForwardedRef} from 'react'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {handleFormCallback, handleFormFieldKeys, handleFormStatus, renderFormItems} from './Form-handle'
 import type {FormBaseProps, FormState} from './Form.interface'

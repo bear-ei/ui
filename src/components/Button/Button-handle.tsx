@@ -137,8 +137,7 @@ export const handleButtonOutlinedAnimatedTiming = ({
 	const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]
 
 	return (borderSharedValue: SharedValue<number>) => (eventName?: EventName) => {
-		const responseEvent = eventName === 'focus'
-		const toValue = responseEvent ? borderColorInputRanges[2] : value
+		const toValue = eventName === 'focus' ? borderColorInputRanges[2] : value
 
 		return animatedTiming()(borderSharedValue)(toValue)
 	}

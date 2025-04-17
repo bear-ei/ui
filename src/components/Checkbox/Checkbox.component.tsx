@@ -13,7 +13,7 @@ import {Container, Content, IconLayout, Main} from './Checkbox.styles'
 
 const render = ({
 	density,
-	disabled,
+	disabled = false,
 	error,
 	eventName,
 	id,
@@ -46,7 +46,13 @@ const render = ({
 	} as CheckboxIconAnimatedOptions
 
 	return (
-		<Container testID={testID ?? `checkbox--${id}`}>
+		<Container
+			accessibilityLabel='checkbox'
+			accessibilityRole='checkbox'
+			accessibilityState={{disabled}}
+			accessible={true}
+			testID={testID ?? `checkbox--${id}`}
+		>
 			<Touchable
 				{...interactionHandlers}
 				disabled={disabled}
@@ -57,7 +63,6 @@ const render = ({
 			>
 				<Content
 					{...contentProps}
-					accessibilityRole='checkbox'
 					density={density}
 					pointerEvents='none'
 					shape={shape}
@@ -68,7 +73,7 @@ const render = ({
 						testID={`checkbox__main--${id}`}
 					>
 						<IconLayout
-							testID={`checkbox__iconLayout--${id}`}
+							testID={`checkbox__iconLayout--blank--${id}`}
 							visible={true}
 						>
 							<Icon
@@ -85,7 +90,7 @@ const render = ({
 
 						<IconLayout
 							{...animatedOptions}
-							testID={`checkbox__iconLayout--${id}`}
+							testID={`checkbox__iconLayout--selected--${id}`}
 							visible={value === CHECKBOX_VALUE.SELECTED}
 						>
 							<Icon
@@ -102,7 +107,7 @@ const render = ({
 
 						<IconLayout
 							{...animatedOptions}
-							testID={`checkbox__iconLayout--${id}`}
+							testID={`checkbox__iconLayout--indeterminate--${id}`}
 							visible={value === CHECKBOX_VALUE.INDETERMINATE}
 						>
 							<Icon

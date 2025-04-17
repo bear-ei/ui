@@ -25,6 +25,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			labelText = 'Label',
 			loading,
 			render,
+			testID,
 			type = BUTTON_TYPE.FILLED,
 			...renderProps
 		},
@@ -70,12 +71,13 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			elevation,
 			eventName,
 			icon: iconButtonElement,
-			id,
+			id: testID ?? id,
+			interactionHandlers,
 			labelText,
 			labelTextAnimatedStyle,
 			loading,
 			ref,
-			interactionHandlers,
+			testID,
 			type,
 			underlayColor
 		})

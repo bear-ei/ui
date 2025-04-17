@@ -1,6 +1,6 @@
 import {nanoid} from 'nanoid'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
 import {

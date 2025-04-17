@@ -1,4 +1,4 @@
-export {token} from '@bearei/material-token'
+export {createToken} from '@bearei/material-token'
 export type {Token} from '@bearei/material-token'
 export * from 'class-validator'
 export * from './components'
