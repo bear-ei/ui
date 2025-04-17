@@ -7,7 +7,7 @@ import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/n
 import {DENSITY} from '../../components'
 import {useWindowSize} from '../../hooks'
 import {adaptWindow} from '../../utils'
-import {ModalProvider} from '../Modal-provider.context'
+import {ModalProvider} from '../Modal-provider'
 import {handleThemeProviderFocus} from './Theme-provider-handle'
 import type {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'

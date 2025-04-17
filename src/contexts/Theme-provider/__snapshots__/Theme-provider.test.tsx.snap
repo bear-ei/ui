@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ThemeProvider passes the correct platform branch (Mobile/Desktop) 1`] = `
+exports[`ThemeProvider uses DesktopDevice on web 1`] = `
 <View
   accessibilityState={
     {
@@ -26,6 +26,8 @@ exports[`ThemeProvider passes the correct platform branch (Mobile/Desktop) 1`] =
   onBlur={[Function]}
   onClick={[Function]}
   onFocus={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
   onResponderRelease={[Function]}
@@ -43,15 +45,15 @@ exports[`ThemeProvider passes the correct platform branch (Mobile/Desktop) 1`] =
       "outlineStyle": "none",
     }
   }
-  testID="bearei__material--:r2:"
+  testID="bearei__material--test-id"
 >
   <Text>
-    Test
+    Web View
   </Text>
 </View>
 `;
 
-exports[`ThemeProvider supports story mode and adjusts height 1`] = `
+exports[`ThemeProvider uses MobileDevice on iOS/Android 1`] = `
 <View
   accessibilityState={
     {
@@ -83,7 +85,6 @@ exports[`ThemeProvider supports story mode and adjusts height 1`] = `
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
-  story={true}
   style={
     {
       "alignSelf": "stretch",
@@ -92,14 +93,13 @@ exports[`ThemeProvider supports story mode and adjusts height 1`] = `
       "flexDirection": "column",
       "flexGrow": 1,
       "flexShrink": 1,
-      "height": 800,
       "outlineStyle": "none",
     }
   }
-  testID="bearei__material--:r6:"
+  testID="bearei__material--test-id"
 >
   <Text>
-    Story Mode
+    Mobile View
   </Text>
 </View>
 `;

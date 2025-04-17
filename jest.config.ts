@@ -20,8 +20,9 @@ const config: Config = {
 		'!**/.storybook/**',
 		'!**/*.config.ts',
 		'!**/*.d.ts',
+		'!**/*.interface.ts',
 		'!**/*.stories.tsx',
-		'!**/index.ts',
+		'!**/index.{ts,tsx}',
 		'!**/App.tsx',
 		'!**/App.*.tsx',
 		'!**/node_modules/**'
@@ -35,7 +36,7 @@ const config: Config = {
 	moduleFileExtensions: [...defaults.moduleFileExtensions, 'ts', 'tsx'],
 	setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 	moduleNameMapper: {
-		'\\.svg$': '<rootDir>/__mocks__/Svg-mock.tsx'
+		'\\.svg$': '<rootDir>/__mocks__/Svg.mock.tsx'
 	}
 }
 

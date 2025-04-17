@@ -1,1 +1,1 @@
-export * from './test-utils'
+export * from './render-with-theme.utils'
