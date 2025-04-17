@@ -7,7 +7,7 @@ import type {ElevationProps, RenderElevationProps} from './Elevation.interface'
 import {Container, Shadow} from './Elevation.styles'
 
 const AnimatedShadow = Animated.createAnimatedComponent(Shadow)
-const render = ({level, shadowAnimatedStyle, shape, testID, ...containerProps}: RenderElevationProps) => (
+const renderElevation = ({level, shadowAnimatedStyle, shape, testID, ...containerProps}: RenderElevationProps) => (
 	<Container
 		{...containerProps}
 		testID={`elevation--${testID}`}
@@ -21,12 +21,12 @@ const render = ({level, shadowAnimatedStyle, shape, testID, ...containerProps}: 
 	</Container>
 )
 
-const ForwardRefElevation = forwardRef<View, ElevationProps>((props, ref) => (
+const ElevationWithRef = forwardRef<View, ElevationProps>((props, ref) => (
 	<ElevationBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderElevation={renderElevation}
 	/>
 ))
 
-export const Elevation: FC<ElevationProps> = ForwardRefElevation
+export const Elevation: FC<ElevationProps> = ElevationWithRef
