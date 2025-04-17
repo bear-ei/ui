@@ -21,19 +21,18 @@ import {
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
-const render = ({
+const renderButton = ({
 	backgroundUnderlayAnimatedStyle,
 	density,
-	disabled = false,
+	disabled,
 	elevation,
 	eventName,
 	icon,
-	id,
+	interactionHandlers,
 	labelText,
 	labelTextAnimatedStyle,
 	loading,
 	ref,
-	interactionHandlers,
 	testID,
 	type = BUTTON_TYPE.FILLED,
 	underlayColor,
@@ -53,7 +52,7 @@ const render = ({
 			pointerEvents='none'
 			shape={shape}
 			style={[backgroundUnderlayAnimatedStyle]}
-			testID={`button__animatedBackgroundUnderlay--${id}`}
+			testID={`button__animatedBackgroundUnderlay--${testID}`}
 		/>
 	)
 
@@ -62,7 +61,7 @@ const render = ({
 			<Elevation
 				level={elevation}
 				shape={shape}
-				testID={`button__elevation--${id}`}
+				testID={testID}
 			/>
 		:	<></>
 
@@ -72,7 +71,7 @@ const render = ({
 			accessibilityRole='button'
 			accessibilityState={{disabled}}
 			accessible={true}
-			testID={testID ?? `button--${id}`}
+			testID={`button--${testID}`}
 			type={type}
 		>
 			<Touchable
@@ -83,7 +82,7 @@ const render = ({
 				hotZone={type !== BUTTON_TYPE.LINK}
 				ref={ref}
 				shape={shape}
-				testID={`button__touchable--${id}`}
+				testID={testID}
 				underlayColor={underlayColor}
 			>
 				<Content
@@ -91,16 +90,16 @@ const render = ({
 					density={density}
 					pointerEvents='none'
 					shape={shape}
-					testID={`button__content--${id}`}
+					testID={`button__content--${testID}`}
 					type={type}
 				>
 					<Main
 						iconShow={!!icon}
-						testID={`button__main--${id}`}
+						testID={`button__main--${testID}`}
 						type={type}
 					>
 						{icon && !isLink && (
-							<IconLayout testID={`button__iconLayout--${id}`}>
+							<IconLayout testID={`button__iconLayout--${testID}`}>
 								{icon}
 							</IconLayout>
 						)}
@@ -110,7 +109,7 @@ const render = ({
 							numberOfLines={1}
 							size={isLink ? SIZE.SMALL : SIZE.LARGE}
 							style={[labelTextAnimatedStyle]}
-							testID={`button__animatedLabelText--${id}`}
+							testID={`button__animatedLabelText--${testID}`}
 							type={isLink ? TYPOGRAPHY.BODY : TYPOGRAPHY.LABEL}
 						>
 							{labelText}
@@ -119,7 +118,7 @@ const render = ({
 
 					{type === BUTTON_TYPE.LINK && (
 						<ActiveIndicatorLayoutAnimated
-							testID={`button__activeIndicatorLayoutAnimated--${id}`}
+							testID={`button__activeIndicatorLayoutAnimated--${testID}`}
 							visible={isActiveIndicatorVisible}
 						/>
 					)}
@@ -127,7 +126,7 @@ const render = ({
 					<Underlay
 						eventName={loading ? loadingEventName : eventName}
 						shape={shape}
-						testID={`button__underlay--${id}`}
+						testID={testID}
 						underlayColor={underlayColor}
 					/>
 				</Content>
@@ -136,12 +135,12 @@ const render = ({
 	)
 }
 
-const ForwardRefButton = forwardRef<View, ButtonProps>((props, ref) => (
+const ButtonWithRef = forwardRef<View, ButtonProps>((props, ref) => (
 	<ButtonBase
 		{...props}
 		ref={ref}
-		render={render}
+		render={renderButton}
 	/>
 ))
 
-export const Button: FC<ButtonProps> = ForwardRefButton
+export const Button: FC<ButtonProps> = ButtonWithRef

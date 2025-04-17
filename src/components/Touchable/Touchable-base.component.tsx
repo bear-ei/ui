@@ -8,7 +8,18 @@ import {handleTouchableAnimatedFinished, handleTouchableStateChange, renderTouch
 import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
 
 export const TouchableBase = forwardRef<View, TouchableBaseProps>(
-	({centered, disabled, enableTouchableRipple = true, render, underlayColor, ...renderProps}, ref) => {
+	(
+		{
+			centered,
+			disabled,
+			enableTouchableRipple = true,
+			renderTouchable,
+			underlayColor,
+			testID,
+			...renderTouchableProps
+		},
+		ref
+	) => {
 		const [{rippleSequence, contentLayout}, setState] = useImmer<TouchableState>({
 			contentLayout: {} as LayoutRectangle,
 			rippleSequence: {} as TouchableRippleSequence
@@ -26,7 +37,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 					state
 				})(setState)(event)
 
-		const interactionHandlers = useStateEvent({...renderProps, disabled, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderTouchableProps, disabled, onStateEventChange})
 		const rippleElements = renderTouchableRipple({
 			centered,
 			containerLayout: contentLayout,
@@ -37,6 +48,12 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 
-		return render({...renderProps, interactionHandlers, ref: pressableRef, rippleElements, id})
+		return renderTouchable({
+			...renderTouchableProps,
+			interactionHandlers,
+			ref: pressableRef,
+			rippleElements,
+			testID: testID ?? id
+		})
 	}
 )

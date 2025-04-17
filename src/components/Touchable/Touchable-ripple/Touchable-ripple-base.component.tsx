@@ -10,10 +10,11 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
 			containerLayout,
 			indexKey,
 			onAnimatedFinished,
-			render,
+			renderTouchableRipple,
+			testID,
 			touchableLocation = {} as Pick<NativeTouchEvent, 'locationX' | 'locationY'>,
 			underlayColor,
-			...renderProps
+			...renderTouchableRippleProps
 		},
 		ref
 	) => {
@@ -30,14 +31,14 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
 		const diameter = radius * 2
 		const {containerAnimatedStyle} = useTouchableRippleAnimated({indexKey, onAnimatedFinished, radius})
 
-		return render({
-			...renderProps,
+		return renderTouchableRipple({
+			...renderTouchableRippleProps,
 			containerAnimatedStyle,
-			id,
 			locationX,
 			locationY,
 			ref,
 			size: diameter,
+			testID: testID ?? id,
 			underlayColor
 		})
 	}

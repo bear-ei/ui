@@ -57,7 +57,7 @@ const AvatarWithRef = forwardRef<View, AvatarProps>((props, ref) => (
 	<AvatarBase
 		{...props}
 		ref={ref}
-		render={renderAvatar}
+		renderAvatar={renderAvatar}
 	/>
 ))
 

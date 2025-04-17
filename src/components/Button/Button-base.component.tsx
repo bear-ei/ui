@@ -27,7 +27,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			render,
 			testID,
 			type = BUTTON_TYPE.FILLED,
-			...renderProps
+			...renderButtonProps
 		},
 		ref
 	) => {
@@ -42,7 +42,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 				handleButtonStateChange({...options, state, type})(setState)(event)
 
 		const disabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
-		const interactionHandlers = useStateEvent({...renderProps, disabled, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderButtonProps, disabled, onStateEventChange})
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
 			disabled: rawDisabled,
 			error,
@@ -65,19 +65,18 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		}
 
 		return render({
-			...renderProps,
+			...renderButtonProps,
 			backgroundUnderlayAnimatedStyle,
 			disabled,
 			elevation,
 			eventName,
 			icon: iconButtonElement,
-			id: testID ?? id,
 			interactionHandlers,
 			labelText,
 			labelTextAnimatedStyle,
 			loading,
 			ref,
-			testID,
+			testID: testID ?? id,
 			type,
 			underlayColor
 		})

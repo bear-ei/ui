@@ -22,7 +22,7 @@ export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, '
 }
 
 export interface TouchableRippleBaseProps extends TouchableRippleProps {
-	render: (props: RenderTouchableRippleProps) => React.JSX.Element
+	renderTouchableRipple: (props: RenderTouchableRippleProps) => React.JSX.Element
 }
 
 export interface UseTouchableRippleAnimatedOptions

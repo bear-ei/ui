@@ -5,11 +5,10 @@ import {TouchableBase} from './Touchable-base.component'
 import type {RenderTouchableProps, TouchableProps} from './Touchable.interface'
 import {Container, Main, RippleLayout, TouchableContent} from './Touchable.styles'
 
-const render = ({
+const renderTouchable = ({
 	backgroundUnderlay,
 	children,
 	elevationUnderlay,
-	id,
 	interactionHandlers,
 	mainAlignSelf,
 	rippleElements,
@@ -17,22 +16,22 @@ const render = ({
 	testID,
 	...contentProps
 }: RenderTouchableProps) => (
-	<Container testID={testID ?? `touchable--${id}`}>
+	<Container testID={`touchable--${testID}`}>
 		<TouchableContent
 			{...contentProps}
 			{...interactionHandlers}
 			enableFocusRing={false}
-			testID={`touchable__touchableContent--${id}`}
+			testID={`touchable__touchableContent--${testID}`}
 		>
 			<Main
 				alignSelf={mainAlignSelf}
 				shape={shape}
-				testID={`touchable__main--${id}`}
+				testID={`touchable__main--${testID}`}
 			>
 				{children}
 				<RippleLayout
 					shape={shape}
-					testID={`touchable__rippleLayout--${id}`}
+					testID={testID}
 				>
 					{rippleElements}
 				</RippleLayout>
@@ -44,12 +43,12 @@ const render = ({
 	</Container>
 )
 
-const ForwardRefTouchable = forwardRef<View, TouchableProps>((props, ref) => (
+const TouchableWithRef = forwardRef<View, TouchableProps>((props, ref) => (
 	<TouchableBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderTouchable={renderTouchable}
 	/>
 ))
 
-export const Touchable: FC<TouchableProps> = ForwardRefTouchable
+export const Touchable: FC<TouchableProps> = TouchableWithRef

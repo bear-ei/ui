@@ -34,7 +34,7 @@ export interface RenderTouchableProps extends TouchableProps {
 }
 
 export interface TouchableBaseProps extends TouchableProps {
-	render: (props: RenderTouchableProps) => React.JSX.Element
+	renderTouchable: (props: RenderTouchableProps) => React.JSX.Element
 }
 
 export type TouchableRipple = TouchableRippleProps['touchableLocation']

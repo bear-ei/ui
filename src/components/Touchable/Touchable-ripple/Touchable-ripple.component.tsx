@@ -9,9 +9,8 @@ import type {RenderTouchableRippleProps, TouchableRippleProps} from './Touchable
 import {Container} from './Touchable-ripple.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const render = ({
+const renderTouchableRipple = ({
 	containerAnimatedStyle,
-	id,
 	locationX,
 	locationY,
 	size,
@@ -27,18 +26,18 @@ const render = ({
 		shape={SHAPE.FULL}
 		size={size}
 		style={[style, containerAnimatedStyle]}
-		testID={testID ?? `touchableRipple--${id}`}
+		testID={`touchableRipple--${testID}`}
 	/>
 )
 
-const ForwardRefTouchableRipple = forwardRef<View, TouchableRippleProps>((props, ref) => (
+const TouchableRippleWithRef = forwardRef<View, TouchableRippleProps>((props, ref) => (
 	<TouchableRippleBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderTouchableRipple={renderTouchableRipple}
 	/>
 ))
 
-export const TouchableRipple = memo(ForwardRefTouchableRipple, (prevProps, nextProps) =>
+export const TouchableRipple = memo(TouchableRippleWithRef, (prevProps, nextProps) =>
 	handleTouchableRipplePropsEqual(prevProps)(nextProps)
 ) as FC<TouchableRippleProps>
