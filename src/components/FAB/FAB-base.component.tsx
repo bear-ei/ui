@@ -82,7 +82,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			loading,
 			ref,
 			size,
-			testID: testID ?? id,
+			testID,
 			type,
 			underlayColor
 		})

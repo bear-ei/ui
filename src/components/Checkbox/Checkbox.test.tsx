@@ -42,7 +42,7 @@ describe('Checkbox', () => {
 			/>
 		)
 
-		const touchable = getByTestId('cb-4')
+		const touchable = getByTestId('touchable__touchableContent--cb-4')
 		fireEvent(touchable, 'pressOut')
 
 		await waitFor(() => {
@@ -60,7 +60,7 @@ describe('Checkbox', () => {
 			/>
 		)
 
-		const touchable = getByTestId('cb-5')
+		const touchable = getByTestId('touchable__touchableContent--cb-5')
 		fireEvent(touchable, 'pressOut')
 
 		await waitFor(() => {
@@ -79,7 +79,7 @@ describe('Checkbox', () => {
 			/>
 		)
 
-		const touchable = getByTestId('cb-6')
+		const touchable = getByTestId('touchable__touchableContent--cb-6')
 		fireEvent(touchable, 'pressOut')
 
 		await waitFor(() => {

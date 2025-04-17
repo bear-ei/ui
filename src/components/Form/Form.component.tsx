@@ -7,11 +7,11 @@ import {Container} from './Form.styles'
 import {FormContext} from './use-form-context.hook'
 import {useForm} from './use-form.hook'
 
-const render = <T,>({form, itemElements, id, testID, ...containerProps}: RenderFormProps<T>) => (
+const renderForm = <T,>({form, itemElements, testID, ...containerProps}: RenderFormProps<T>) => (
 	<FormContext.Provider value={form as FormStore<Record<string, unknown>>}>
 		<Container
 			{...containerProps}
-			testID={testID ?? `form--${id}`}
+			testID={`form--${testID}`}
 		>
 			{itemElements}
 		</Container>
@@ -22,12 +22,12 @@ const FormInner = <T,>(props: FormProps<T>, ref: ForwardedRef<View>) => (
 	<FormBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderForm={renderForm}
 	/>
 )
 
-export const ForwardRefForm = forwardRef(FormInner) as typeof FormInner
+export const FormWithRef = forwardRef(FormInner) as typeof FormInner
 
-Object.defineProperty(ForwardRefForm, 'useForm', {value: useForm})
+Object.defineProperty(FormWithRef, 'useForm', {value: useForm})
 
-export const Form = ForwardRefForm as FormComponent
+export const Form = FormWithRef as FormComponent

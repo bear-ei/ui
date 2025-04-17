@@ -14,20 +14,22 @@ const FormBaseInner = <T,>(
 		onFinish,
 		onFinishFailed,
 		onValueChange,
-		render,
+		renderForm,
+		testID: rawTestID,
 		validatorOptions,
-		...renderProps
+		...renderFormProps
 	}: FormBaseProps<T>,
 	ref: ForwardedRef<View>
 ) => {
 	const [{status}, setState] = useImmer<FormState>({status: 'idle'})
 	const id = useId()
+	const testID = rawTestID ?? id
 	const formStore = useForm(form)
 	const {setCallback, setInitialValue, setFieldKeys} = formStore
 	const onFormCallback = useMemo(() => handleFormCallback<T>(setCallback), [setCallback])
 	const onFormFieldKeys = useMemo(() => handleFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
 	const onFormStatus = useMemo(() => handleFormStatus<T>(setState)(setInitialValue), [setInitialValue, setState])
-	const formItemElements = renderFormItems({validatorOptions})(status)(items)
+	const formItemElements = renderFormItems({validatorOptions, testID})(status)(items)
 
 	useEffect(() => {
 		onFormCallback({onFinish, onFinishFailed, onValueChange})
@@ -45,7 +47,13 @@ const FormBaseInner = <T,>(
 		return <></>
 	}
 
-	return render({...renderProps, form: formStore, ref, itemElements: formItemElements, id})
+	return renderForm({
+		...renderFormProps,
+		form: formStore,
+		itemElements: formItemElements,
+		ref,
+		testID
+	})
 }
 
 export const FormBase = forwardRef(FormBaseInner) as typeof FormBaseInner

@@ -1,3 +1,4 @@
+import {fireEvent, waitFor} from '@testing-library/react-native'
 import React from 'react'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../__test__'
@@ -66,11 +67,26 @@ describe('Button', () => {
 		expect(elevation).toBeTruthy()
 	})
 
+	it('should correctly handle elevation for ELEVATED disabled button', () => {
+		const {getByTestId} = renderWithTheme(
+			<Button
+				labelText='Elevate'
+				type={BUTTON_TYPE.ELEVATED}
+				testID='btn-elevated'
+				disabled={true}
+			/>
+		)
+
+		const elevation = getByTestId('btn-elevated')
+		expect(elevation).toBeTruthy()
+	})
+
 	it('should render Underlay with correct props', () => {
 		const {getByTestId} = renderWithTheme(
 			<Button
 				labelText='Underlay'
 				testID='btn-underlay'
+				type={BUTTON_TYPE.OUTLINED}
 			/>
 		)
 
@@ -89,5 +105,22 @@ describe('Button', () => {
 
 		const animatedText = getByTestId('button__animatedLabelText--btn-error')
 		expect(animatedText).toBeTruthy()
+	})
+
+	it('should trigger onPressOut callback when pressOut event occurs', async () => {
+		const mockFn = jest.fn()
+		const {getByTestId} = renderWithTheme(
+			<Button
+				testID='cb-4'
+				onPressOut={mockFn}
+			/>
+		)
+
+		const touchable = getByTestId('touchable__touchableContent--cb-4')
+		fireEvent(touchable, 'pressOut')
+
+		await waitFor(() => {
+			expect(mockFn).toHaveBeenCalled()
+		})
 	})
 })

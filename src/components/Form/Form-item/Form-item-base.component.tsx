@@ -6,7 +6,7 @@ import {handleComponentUpdate, handleFormItemStatus, handleFormItemValueChange} 
 import type {FormItemBaseProps, FormItemState} from './Form-item.interface'
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-	({labelText, name, render, renderControl, rule, validatorOptions, ...renderProps}, ref) => {
+	({labelText, name, render, renderControl, rule, validatorOptions, testID, ...renderProps}, ref) => {
 		const [{signOut, status}, setState] = useImmer<FormItemState>({shouldUpdate: {}, status: 'idle'})
 		const id = useId()
 		const {getFieldsError, getFieldsValue, getInitialValues, setFieldValue, signInField} = useFormContext()
@@ -43,6 +43,6 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			return <></>
 		}
 
-		return render({...renderProps, control: controlElement, ref, id})
+		return render({...renderProps, control: controlElement, ref, testID: testID ?? id})
 	}
 )

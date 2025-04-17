@@ -57,7 +57,7 @@ export const handleFormValidate = <T,>({rule, validatorOptions}: HandleFormValid
 }
 
 export const renderFormItems =
-	({id, ...options}: RenderFormItemsOptions) =>
+	({testID, ...options}: RenderFormItemsOptions) =>
 	(status: ComponentStatus) =>
 	(items?: FormItemProps[]) =>
 		status === 'succeeded' ?
@@ -66,7 +66,7 @@ export const renderFormItems =
 					{...item}
 					{...options}
 					key={item.name ?? index}
-					testID={`form__formItem--${id}`}
+					testID={testID}
 				/>
 			))
 		:	<></>

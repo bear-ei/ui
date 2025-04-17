@@ -4,7 +4,7 @@ import type {View, ViewProps} from 'react-native'
 import type {NamePath} from '../../utils'
 import type {ComponentStatus, LayoutType} from '../Common'
 import type {FormItemProps} from './Form-item'
-import type {ForwardRefForm} from './Form.component'
+import type {FormWithRef} from './Form.component'
 import type {useForm} from './use-form.hook'
 
 export type FormError<T> = Partial<Record<keyof T, ValidationError[] | undefined>>
@@ -89,7 +89,7 @@ export interface RenderFormProps<T = Record<string, unknown>> extends FormProps<
 }
 
 export interface FormBaseProps<T = Record<string, unknown>> extends FormProps<T> {
-	render: (props: RenderFormProps<T>) => React.JSX.Element
+	renderForm: (props: RenderFormProps<T>) => React.JSX.Element
 }
 
 export interface FormState {
@@ -97,13 +97,13 @@ export interface FormState {
 }
 
 export type HandleFormCallbackOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValueChange'>
-export type RenderFormItemsOptions = Pick<FormProps, 'validatorOptions' | 'id'>
+export type RenderFormItemsOptions = Pick<FormProps, 'validatorOptions' | 'testID'>
 export interface HandleFormValidateOptions {
 	rule?: ValidationRule
 	validatorOptions?: ValidatorOptions
 }
 
-export type FormComponent = typeof ForwardRefForm & {
+export type FormComponent = typeof FormWithRef & {
 	useForm: typeof useForm
 }
 
