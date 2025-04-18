@@ -28,6 +28,7 @@ describe('useWindowDimensions', () => {
 
 	it('initializes with Dimensions.get', () => {
 		const {result} = renderHook(() => useWindowDimensions())
+
 		expect(result.current).toEqual({
 			width: 375,
 			height: 812,
@@ -38,8 +39,8 @@ describe('useWindowDimensions', () => {
 
 	it('adds and removes Dimensions listener', () => {
 		const {unmount} = renderHook(() => useWindowDimensions())
-		expect(Dimensions.addEventListener).toHaveBeenCalledWith('change', expect.any(Function))
 
+		expect(Dimensions.addEventListener).toHaveBeenCalledWith('change', expect.any(Function))
 		unmount()
 		expect(mockRemove).toHaveBeenCalled()
 	})

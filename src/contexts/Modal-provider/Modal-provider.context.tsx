@@ -41,7 +41,7 @@ export const ModalProvider: FC<ModalProps> = () => {
 		<>
 			{modals.map(({type, props, id}) => (
 				<ModalItem
-					key={id}
+					key={`${id}`}
 					modalProps={props}
 					testID={`modal--${id}`}
 					type={type}

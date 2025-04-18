@@ -69,7 +69,6 @@ describe('FormItem', () => {
 		})
 
 		fireEvent.changeText(getByTestId('formItem__input'), 'Rose')
-
 		await waitFor(() => {
 			expect(ref.current?.form.getFieldsValue('username')).toBe('Rose')
 		})
@@ -89,9 +88,7 @@ describe('FormItem', () => {
 		})
 
 		ref.current?.form.validateFields('username')
-
 		unmount()
-
 		await waitFor(() => {
 			expect(ref.current?.form.getFieldsValue('username')).toBeUndefined()
 		})

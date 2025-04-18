@@ -14,11 +14,8 @@ describe('debounce (sync)', () => {
 		debounced('a')
 		debounced('b')
 		debounced('c')
-
 		expect(fn).not.toHaveBeenCalled()
-
 		jest.runAllTimers()
-
 		expect(fn).toHaveBeenCalledTimes(1)
 		expect(fn).toHaveBeenCalledWith('c')
 	})
@@ -26,11 +23,9 @@ describe('debounce (sync)', () => {
 	it('should return undefined immediately', () => {
 		const fn = jest.fn().mockReturnValue('value')
 		const debounced = debounce(fn)(100)
-
 		const result = debounced('test')
 
 		expect(result).toBeUndefined()
-
 		jest.runAllTimers()
 		expect(fn).toHaveBeenCalledWith('test')
 	})
@@ -49,10 +44,9 @@ describe('asyncDebounce', () => {
 	it('should call async function after delay and resolve', async () => {
 		const fn = jest.fn().mockResolvedValue('done')
 		const debounced = asyncDebounce(fn)(200)
-
 		const promise = debounced('test')
-		jest.runAllTimers()
 
+		jest.runAllTimers()
 		await expect(promise).resolves.toBe('done')
 		expect(fn).toHaveBeenCalledWith('test')
 	})
@@ -60,7 +54,6 @@ describe('asyncDebounce', () => {
 	it('should only call the last async function', async () => {
 		const fn = jest.fn().mockResolvedValue('result')
 		const debounced = asyncDebounce(fn)(300)
-
 		const _first = debounced('a')
 		const second = debounced('b')
 
@@ -75,19 +68,17 @@ describe('asyncDebounce', () => {
 	it('should reject when async function throws', async () => {
 		const fn = jest.fn().mockRejectedValue(new Error('fail'))
 		const debounced = asyncDebounce(fn)(100)
-
 		const promise = debounced('error')
-		jest.runAllTimers()
 
+		jest.runAllTimers()
 		await expect(promise).rejects.toThrow('fail')
 	})
 
 	it('should resolve undefined if function not provided', async () => {
 		const debounced = asyncDebounce()(150)
-
 		const promise = debounced('noop')
-		jest.runAllTimers()
 
+		jest.runAllTimers()
 		await expect(promise).resolves.toBeUndefined()
 	})
 })

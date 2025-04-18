@@ -5,7 +5,7 @@ import {Checkbox} from './Checkbox.component'
 
 describe('Checkbox', () => {
 	it('should render as unselected by default', () => {
-		const {getByTestId} = renderWithTheme(<Checkbox testID='cb-1' />)
+		const {getByTestId, toJSON} = renderWithTheme(<Checkbox testID='cb-1' />)
 
 		expect(getByTestId('checkbox__iconLayout--blank--cb-1')).toBeTruthy()
 	})
@@ -43,8 +43,8 @@ describe('Checkbox', () => {
 		)
 
 		const touchable = getByTestId('touchable__touchableContent--cb-4')
-		fireEvent(touchable, 'pressOut')
 
+		fireEvent(touchable, 'pressOut')
 		await waitFor(() => {
 			expect(mockFn).toHaveBeenCalledWith(true)
 		})
@@ -61,8 +61,8 @@ describe('Checkbox', () => {
 		)
 
 		const touchable = getByTestId('touchable__touchableContent--cb-5')
-		fireEvent(touchable, 'pressOut')
 
+		fireEvent(touchable, 'pressOut')
 		await waitFor(() => {
 			expect(mockFn).toHaveBeenCalledWith(false)
 		})
@@ -80,8 +80,8 @@ describe('Checkbox', () => {
 		)
 
 		const touchable = getByTestId('touchable__touchableContent--cb-6')
-		fireEvent(touchable, 'pressOut')
 
+		fireEvent(touchable, 'pressOut')
 		await waitFor(() => {
 			expect(mockFn).not.toHaveBeenCalled()
 		})

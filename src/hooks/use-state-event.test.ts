@@ -16,7 +16,6 @@ describe('useStateEvent', () => {
 	it('calls onStateEventChange and callback for pressIn', () => {
 		const onPressIn = jest.fn()
 		const onStateEventChange = jest.fn(() => () => jest.fn())
-
 		const {result} = renderHook(() => useStateEvent({onPressIn, onStateEventChange}))
 
 		act(() => {
@@ -31,7 +30,6 @@ describe('useStateEvent', () => {
 		const onPress = jest.fn()
 		const onLayout = jest.fn()
 		const onStateEventChange = jest.fn(() => () => jest.fn())
-
 		const {result} = renderHook(() =>
 			useStateEvent({disabled: true, onPress, onLayout, onStateEventChange})
 		)
@@ -39,8 +37,8 @@ describe('useStateEvent', () => {
 		act(() => {
 			result.current.onPress?.(createMockEvent() as any)
 		})
-		expect(onPress).not.toHaveBeenCalled()
 
+		expect(onPress).not.toHaveBeenCalled()
 		act(() => {
 			result.current.onLayout?.(createMockEvent() as any)
 		})
@@ -53,23 +51,20 @@ describe('useStateEvent', () => {
 		const onFocus = jest.fn()
 		const onBlur = jest.fn()
 		const onStateEventChange = jest.fn(() => () => jest.fn())
-
 		const {result} = renderHook(() => useStateEvent({onFocus, onBlur, onStateEventChange}))
 
 		act(() => result.current.onFocus(createMockEvent() as any))
 		act(() => result.current.onBlur(createMockEvent() as any))
-
 		expect(onFocus).toHaveBeenCalled()
 		expect(onBlur).toHaveBeenCalled()
 	})
 
 	it('sets mobileDevice to true on iOS', () => {
 		const originalOS = Platform.OS
-		Object.defineProperty(Platform, 'OS', {get: () => 'ios'})
-
 		const {result} = renderHook(() => useStateEvent({}))
-		expect(result.current.mobileDevice).toBe(true)
 
+		Object.defineProperty(Platform, 'OS', {get: () => 'ios'})
+		expect(result.current.mobileDevice).toBe(true)
 		Object.defineProperty(Platform, 'OS', {get: () => originalOS})
 	})
 })

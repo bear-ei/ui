@@ -8,10 +8,8 @@ describe('useLazyRef', () => {
 
 		expect(result.current.current).toEqual({value: 123})
 		expect(factory).toHaveBeenCalledTimes(1)
-
 		rerender()
 		expect(factory).toHaveBeenCalledTimes(1)
-
 		expect(result.current.current).toEqual({value: 123})
 	})
 

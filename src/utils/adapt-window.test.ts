@@ -39,13 +39,15 @@ describe('adaptWindow', () => {
 		const font = adaptFontSize(10)
 		const size = adaptSize(10)
 
-		expect(font).toBe(40) // ✅
+		expect(font).toBe(40)
 		expect(size).toBe(40)
 	})
+
 	it('respects PixelRatio font scale', () => {
 		;(PixelRatio.getFontScale as jest.Mock).mockReturnValue(1.5)
 
 		const {adaptFontSize} = adaptWindow()()()
+
 		expect(adaptFontSize(10)).toBeGreaterThan(10)
 	})
 })

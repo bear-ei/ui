@@ -101,6 +101,7 @@ describe('ModalProvider', () => {
 				type: MODAL_TYPE.SIDE_SHEET,
 				props: {}
 			})
+
 			emitter.emit('modal', {
 				id: 'm2',
 				type: MODAL_TYPE.SIDE_SHEET,

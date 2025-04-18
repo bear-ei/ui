@@ -6,12 +6,14 @@ describe('Avatar', () => {
 	it('should render with default label "A" if no labelText is provided', () => {
 		const {getByTestId} = renderWithTheme(<Avatar />)
 		const label = getByTestId(/avatar__labelText--/)
+
 		expect(label.props.children).toBe('A')
 	})
 
 	it('should render first character of labelText when provided', () => {
 		const {getByTestId} = renderWithTheme(<Avatar labelText='OpenAI' />)
 		const label = getByTestId(/avatar__labelText--/)
+
 		expect(label.props.children).toBe('O')
 	})
 
@@ -44,10 +46,12 @@ describe('Avatar', () => {
 	it('should fallback to generated testID if custom testID is not provided', () => {
 		const {getByTestId} = renderWithTheme(<Avatar labelText='Z' />)
 		const root = getByTestId(/^avatar--/)
+
 		expect(root).toBeTruthy()
 	})
 	it('should use custom testID if provided', () => {
 		const {getByTestId} = renderWithTheme(<Avatar testID='my-avatar' />)
+
 		expect(getByTestId('avatar--my-avatar')).toBeTruthy()
 		expect(getByTestId('avatar__content--my-avatar')).toBeTruthy()
 	})

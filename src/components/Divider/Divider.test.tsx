@@ -7,7 +7,6 @@ import {Divider} from './Divider.component'
 describe('Divider', () => {
 	it('should render horizontal divider with default props', () => {
 		const {getByTestId} = renderWithTheme(<Divider />)
-
 		const container = getByTestId(/^divider--/)
 		const content = getByTestId(/^divider__content--/)
 
@@ -17,8 +16,8 @@ describe('Divider', () => {
 
 	it('should render vertical layout', () => {
 		const {getByTestId} = renderWithTheme(<Divider layout={LAYOUT.VERTICAL} />)
-
 		const container = getByTestId(/^divider--/)
+
 		expect(container).toBeTruthy()
 	})
 
@@ -31,6 +30,7 @@ describe('Divider', () => {
 		)
 
 		const subheader = getByTestId(/^divider__subheader--/)
+
 		expect(subheader).toBeTruthy()
 	})
 

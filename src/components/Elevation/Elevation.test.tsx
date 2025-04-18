@@ -28,6 +28,7 @@ describe('Elevation', () => {
 		)
 
 		const shadow = getByTestId('elevation__animatedShadow--prior-test')
+
 		expect(shadow.props.level).toBe(ELEVATION.LEVEL_5)
 	})
 
@@ -41,6 +42,7 @@ describe('Elevation', () => {
 		)
 
 		const shadow = getByTestId('elevation__animatedShadow--fallback-test')
+
 		expect(shadow.props.level).toBe(ELEVATION.LEVEL_2)
 	})
 
@@ -54,6 +56,7 @@ describe('Elevation', () => {
 		)
 
 		const shadow = getByTestId('elevation__animatedShadow--shape-test')
+
 		expect(shadow.props.shape).toBe('EXTRA_SMALL')
 	})
 })

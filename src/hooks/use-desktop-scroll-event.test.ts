@@ -26,7 +26,6 @@ describe('useDesktopScrollEvent', () => {
 
 		const onScroll = jest.fn()
 		const onMomentumScrollEnd = jest.fn()
-
 		const {result} = renderHook(() => useDesktopScrollEvent({onScroll, onMomentumScrollEnd}))
 
 		expect(result.current.onScroll).toBe(onScroll)
@@ -39,7 +38,6 @@ describe('useDesktopScrollEvent', () => {
 		const onScroll = jest.fn()
 		const onMomentumScrollEnd = jest.fn()
 		const event = createEvent()
-
 		const {result} = renderHook(() => useDesktopScrollEvent({onScroll, onMomentumScrollEnd}))
 
 		act(() => {
@@ -48,7 +46,6 @@ describe('useDesktopScrollEvent', () => {
 
 		expect(onScroll).toHaveBeenCalledWith(event)
 		expect(onMomentumScrollEnd).not.toHaveBeenCalled()
-
 		act(() => {
 			jest.advanceTimersByTime(150)
 		})
@@ -72,7 +69,6 @@ describe('useDesktopScrollEvent', () => {
 		})
 
 		unmount()
-
 		expect(clearTimeoutSpy).toHaveBeenCalled()
 		clearTimeoutSpy.mockRestore()
 	})

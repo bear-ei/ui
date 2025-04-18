@@ -5,6 +5,7 @@ jest.mock('react-native', () => ({
 	InteractionManager: {
 		runAfterInteractions: jest.fn(callback => {
 			callback()
+
 			return {cancel: jest.fn()}
 		})
 	}
@@ -16,7 +17,6 @@ describe('runAfterInteractions', () => {
 		const wrapped = runAfterInteractions(mockFn)
 
 		wrapped('arg1', 2)
-
 		expect(mockFn).toHaveBeenCalledTimes(1)
 		expect(mockFn).toHaveBeenCalledWith('arg1', 2)
 	})

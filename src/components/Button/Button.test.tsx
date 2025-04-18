@@ -13,6 +13,7 @@ describe('Button', () => {
 				testID='btn-1'
 			/>
 		)
+
 		expect(getByText('Submit')).toBeTruthy()
 	})
 
@@ -25,6 +26,7 @@ describe('Button', () => {
 				testID='btn-2'
 			/>
 		)
+
 		expect(getByText('Icon')).toBeTruthy()
 	})
 
@@ -39,6 +41,7 @@ describe('Button', () => {
 		)
 
 		const button = getByTestId('button--btn-link')
+
 		expect(button).toBeTruthy()
 	})
 
@@ -51,6 +54,7 @@ describe('Button', () => {
 				testID='btn-4'
 			/>
 		)
+
 		expect(getByTestId('button--btn-4')).toBeTruthy()
 	})
 
@@ -64,6 +68,7 @@ describe('Button', () => {
 		)
 
 		const elevation = getByTestId('btn-elevated')
+
 		expect(elevation).toBeTruthy()
 	})
 
@@ -78,6 +83,7 @@ describe('Button', () => {
 		)
 
 		const elevation = getByTestId('btn-elevated')
+
 		expect(elevation).toBeTruthy()
 	})
 
@@ -91,6 +97,7 @@ describe('Button', () => {
 		)
 
 		const underlay = getByTestId('btn-underlay')
+
 		expect(underlay).toBeTruthy()
 	})
 
@@ -104,6 +111,7 @@ describe('Button', () => {
 		)
 
 		const animatedText = getByTestId('button__animatedLabelText--btn-error')
+
 		expect(animatedText).toBeTruthy()
 	})
 
@@ -117,8 +125,8 @@ describe('Button', () => {
 		)
 
 		const touchable = getByTestId('touchable__touchableContent--cb-4')
-		fireEvent(touchable, 'pressOut')
 
+		fireEvent(touchable, 'pressOut')
 		await waitFor(() => {
 			expect(mockFn).toHaveBeenCalled()
 		})

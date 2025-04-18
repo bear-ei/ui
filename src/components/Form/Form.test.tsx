@@ -6,7 +6,6 @@ import {Form} from './Form.component'
 describe('Form', () => {
 	it('should render form items and call onFinish using form instance', async () => {
 		const handleFinish = jest.fn()
-
 		const TestForm = forwardRef((_, ref) => {
 			const form = Form.useForm<Record<string, unknown>>()
 
@@ -33,7 +32,6 @@ describe('Form', () => {
 		})
 
 		testFormRef.current?.submit()
-
 		await waitFor(() => {
 			expect(handleFinish).toHaveBeenCalledWith({name: 'Jack'})
 		})
@@ -41,7 +39,6 @@ describe('Form', () => {
 
 	it('should trigger onValueChange and resetFields properly', async () => {
 		const onValueChange = jest.fn()
-
 		const TestForm = forwardRef((_, ref) => {
 			const form = Form.useForm<Record<string, unknown>>()
 
@@ -61,8 +58,8 @@ describe('Form', () => {
 		})
 
 		const ref = React.createRef<{changeValue: () => void; reset: () => void}>()
-		renderWithTheme(<TestForm ref={ref} />)
 
+		renderWithTheme(<TestForm ref={ref} />)
 		await act(async () => {
 			ref.current?.changeValue()
 		})
@@ -89,7 +86,6 @@ describe('Form', () => {
 
 	it('should call onFinishFailed when validation fails', async () => {
 		const handleFailed = jest.fn()
-
 		const TestForm = forwardRef((_, ref) => {
 			const form = Form.useForm<Record<string, unknown>>()
 
@@ -115,10 +111,9 @@ describe('Form', () => {
 		})
 
 		const ref = React.createRef<{submit: () => void}>()
+
 		renderWithTheme(<TestForm ref={ref} />)
-
 		ref.current?.submit()
-
 		await waitFor(() => {
 			expect(handleFailed).toHaveBeenCalled()
 		})
