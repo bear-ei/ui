@@ -29,11 +29,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			onUnmount,
 			onVisible,
 			opacity,
-			render,
+			renderLayoutAnimated,
 			scale = false,
+			testID,
 			unmount,
 			visible: rawVisible,
-			...renderProps
+			...renderLayoutAnimatedProps
 		},
 		ref
 	) => {
@@ -73,7 +74,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					state
 				})(event)
 
-		const interactionHandlers = useStateEvent({...renderProps, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderLayoutAnimatedProps, onStateEventChange})
 		const {containerAnimatedStyle} = useLayoutAnimated({
 			animatedType,
 			entry,
@@ -110,15 +111,15 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
 		return unmountLayout ?
 				<></>
-			:	render({
-					...renderProps,
+			:	renderLayoutAnimated({
+					...renderLayoutAnimatedProps,
 					animatedType,
 					containerAnimatedStyle,
 					contentSize,
-					id,
+					interactionHandlers,
 					layout,
 					ref,
-					interactionHandlers,
+					testID: testID ?? id,
 					visible: typeof invisible === 'boolean' ? !invisible : layoutVisible
 				})
 	}

@@ -55,7 +55,7 @@ export interface LayoutAnimatedState {
 }
 
 export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
-	render: (props: RenderLayoutAnimatedProps) => React.JSX.Element
+	renderLayoutAnimated: (props: RenderLayoutAnimatedProps) => React.JSX.Element
 }
 
 export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>

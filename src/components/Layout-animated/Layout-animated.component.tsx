@@ -7,15 +7,14 @@ import type {LayoutAnimatedProps, RenderLayoutAnimatedProps} from './Layout-anim
 import {Container, Content, ContentLayout} from './Layout-animated.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const render = ({
+const renderLayoutAnimated = ({
 	animatedType,
 	children,
 	containerAnimatedStyle,
 	contentSize,
 	contentStyle,
-	id,
-	layout,
 	interactionHandlers,
+	layout,
 	style,
 	testID,
 	visible,
@@ -29,18 +28,18 @@ const render = ({
 			{...containerProps}
 			collapse={collapse}
 			style={[style, containerAnimatedStyle]}
-			testID={testID ?? `layoutAnimated--${id}`}
+			testID={`layoutAnimated--${testID}`}
 			visible={visible}
 		>
 			<ContentLayout
 				contentSize={contentSize ?? layout}
-				testID={`layoutAnimated__contentSize--${id}`}
+				testID={`layoutAnimated__contentSize--${testID}`}
 				visible={visible}
 			>
 				<Content
 					{...(!contentSize && {onLayout})}
 					style={[contentStyle]}
-					testID={`layoutAnimated__content--${id}`}
+					testID={`layoutAnimated__content--${testID}`}
 				>
 					{children}
 				</Content>
@@ -49,12 +48,12 @@ const render = ({
 	)
 }
 
-const ForwardRefLayoutAnimated = forwardRef<View, LayoutAnimatedProps>((props, ref) => (
+const LayoutAnimatedWithRef = forwardRef<View, LayoutAnimatedProps>((props, ref) => (
 	<LayoutAnimatedBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderLayoutAnimated={renderLayoutAnimated}
 	/>
 ))
 
-export const LayoutAnimated: FC<LayoutAnimatedProps> = ForwardRefLayoutAnimated
+export const LayoutAnimated: FC<LayoutAnimatedProps> = LayoutAnimatedWithRef

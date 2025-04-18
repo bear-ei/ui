@@ -7,7 +7,7 @@ describe('Checkbox', () => {
 	it('should render as unselected by default', () => {
 		const {getByTestId} = renderWithTheme(<Checkbox testID='cb-1' />)
 
-		expect(getByTestId('checkbox__iconLayout--blank--cb-1')).toBeTruthy()
+		expect(getByTestId('layoutAnimated--checkbox__iconLayout--blank--cb-1')).toBeTruthy()
 	})
 
 	it('should render selected icon when active=true', () => {
@@ -18,7 +18,7 @@ describe('Checkbox', () => {
 			/>
 		)
 
-		expect(getByTestId('checkbox__iconLayout--selected--cb-2')).toBeTruthy()
+		expect(getByTestId('layoutAnimated--checkbox__iconLayout--selected--cb-2')).toBeTruthy()
 	})
 
 	it('should render indeterminate icon when indeterminate=true', () => {
@@ -29,7 +29,7 @@ describe('Checkbox', () => {
 			/>
 		)
 
-		expect(getByTestId('checkbox__iconLayout--indeterminate--cb-3')).toBeTruthy()
+		expect(getByTestId('layoutAnimated--checkbox__iconLayout--indeterminate--cb-3')).toBeTruthy()
 	})
 
 	it('should call onActive(true) when toggled from false to true', async () => {
@@ -96,6 +96,6 @@ describe('Checkbox', () => {
 			/>
 		)
 
-		expect(getByTestId('checkbox__iconLayout--selected--cb-7')).toBeTruthy()
+		expect(getByTestId('layoutAnimated--checkbox__iconLayout--selected--cb-7')).toBeTruthy()
 	})
 })

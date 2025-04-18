@@ -8,7 +8,7 @@ describe('LayoutNavigation', () => {
 	it('should render LayoutNavigation with default testID', () => {
 		const {getByTestId} = renderWithTheme(<LayoutNavigation testID='default' />)
 
-		expect(getByTestId('layoutNavigation--default')).toBeTruthy()
+		expect(getByTestId('layoutAnimated--layoutNavigation--default')).toBeTruthy()
 	})
 
 	it('should render LayoutNavigation with collapse animation type', () => {
@@ -21,7 +21,7 @@ describe('LayoutNavigation', () => {
 			</LayoutNavigation>
 		)
 
-		const layoutNavigationContainer = getByTestId('layoutNavigation--collapse')
+		const layoutNavigationContainer = getByTestId('layoutAnimated--layoutNavigation--collapse')
 		expect(layoutNavigationContainer).toBeTruthy()
 	})
 
@@ -32,7 +32,7 @@ describe('LayoutNavigation', () => {
 			</LayoutNavigation>
 		)
 
-		const layoutNavigationContainer = getByTestId('layoutNavigation--visible')
+		const layoutNavigationContainer = getByTestId('layoutAnimated--layoutNavigation--visible')
 		expect(layoutNavigationContainer).toBeTruthy()
 	})
 })

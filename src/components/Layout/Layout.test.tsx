@@ -7,30 +7,30 @@ describe('Layout', () => {
 	it('should render the Layout component with default testID', () => {
 		const {getByTestId} = renderWithTheme(<Layout testID='default' />)
 
-		expect(getByTestId('layout--default')).toBeTruthy()
+		expect(getByTestId('layoutAnimated--layout--default')).toBeTruthy()
 	})
 
 	it('should render Layout with a child Pane component', () => {
 		const {getByTestId} = renderWithTheme(
-			<Layout testID='layout--with-pane'>
+			<Layout testID='with-pane'>
 				<Layout.Pane testID='child'>
 					<Text>Pane Content</Text>
 				</Layout.Pane>
 			</Layout>
 		)
 
-		expect(getByTestId('layoutPane--child')).toBeTruthy()
+		expect(getByTestId('layoutAnimated--layoutPane--child')).toBeTruthy()
 	})
 
 	it('should render Layout with a child Navigation component', () => {
 		const {getByTestId} = renderWithTheme(
-			<Layout testID='layout--with-navigation'>
+			<Layout testID='with-navigation'>
 				<Layout.Navigation testID='child'>
 					<Text>Navigation Content</Text>
 				</Layout.Navigation>
 			</Layout>
 		)
 
-		expect(getByTestId('layoutNavigation--child')).toBeTruthy()
+		expect(getByTestId('layoutAnimated--layoutNavigation--child')).toBeTruthy()
 	})
 })
