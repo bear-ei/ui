@@ -34,7 +34,7 @@ export interface RenderVirtualListItemProps<T = Record<string, unknown>>
 }
 
 export interface VirtualListItemBaseProps<T = Record<string, unknown>> extends VirtualListItemProps<T> {
-	render: (props: RenderVirtualListItemProps<T>) => React.JSX.Element
+	renderVirtualListItem: (props: RenderVirtualListItemProps<T>) => React.JSX.Element
 }
 
 export interface VirtualListItemState {

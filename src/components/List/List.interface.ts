@@ -117,7 +117,7 @@ export type HandleRenderItemOptions = Pick<
 >
 
 export interface ListBaseProps extends ListProps {
-	render: (props: RenderListProps) => React.JSX.Element
+	renderList: (props: RenderListProps) => React.JSX.Element
 }
 
 export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>

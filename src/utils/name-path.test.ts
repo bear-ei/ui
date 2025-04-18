@@ -1,19 +1,19 @@
 import {namePath} from './name-path.utils'
 
 describe('namePath', () => {
-	it('returns array when given a single string key', () => {
-		const result = namePath('username')
+	it('should return the array if name is an array', () => {
+		const result = namePath(['a', 'b'])
 
-		expect(result).toEqual(['username'])
+		expect(result).toEqual(['a', 'b'])
 	})
 
-	it('returns same array when given an array of keys', () => {
-		const result = namePath(['user', 'name'])
+	it('should return an array with the name if name is a string', () => {
+		const result = namePath('a')
 
-		expect(result).toEqual(['user', 'name'])
+		expect(result).toEqual(['a'])
 	})
 
-	it('returns undefined when no name is provided', () => {
+	it('should return undefined if name is undefined', () => {
 		const result = namePath(undefined)
 
 		expect(result).toBeUndefined()

@@ -172,11 +172,11 @@ export const handleVirtualListLoadEnd = (setState: Updater<VirtualListState>) =>
 					findVisibleRangeDataIndex(indexKey)
 				)
 
-				const loadEnd =
+				const isLoadEnd =
 					(draft.visibleRangeData?.length ?? 0) - 1 === visibleRangeDataIndex &&
 					visibleRangeDataIndex !== -1
 
-				if (loadEnd) {
+				if (isLoadEnd) {
 					onLoadEnd?.(indexKey)
 				}
 			})
@@ -200,7 +200,13 @@ export const handleVirtualListDataChange =
 		})
 
 export const renderVirtualListItem =
-	<T,>({renderItem, onLoadEnd, id, startIndex = 0, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>
+	<T,>({
+		onLoadEnd,
+		renderItem,
+		startIndex = 0,
+		testID,
+		...virtualListItemProps
+	}: RenderVirtualListItemOptions<T>) =>
 	(data?: VirtualListData[]) => {
 		if (data?.length === 0) {
 			onLoadEnd?.()
@@ -216,7 +222,7 @@ export const renderVirtualListItem =
 				key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
 				onLoadEnd={onLoadEnd}
 				startIndex={startIndex}
-				testID={`virtualList__virtualListItem--${id}`}
+				testID={testID}
 				renderItem={
 					renderItem as (
 						options: RenderVirtualListItemInfo<Record<string, unknown>>

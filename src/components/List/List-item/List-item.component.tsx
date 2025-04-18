@@ -29,7 +29,7 @@ import {
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
-const render = ({
+const renderListItem = ({
 	active,
 	affordanceShow,
 	afterAffordance,
@@ -246,7 +246,7 @@ const ForwardRefListItem = forwardRef<View, ListItemProps>((props, ref) => (
 	<ListItemBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderListItem={renderListItem}
 	/>
 ))
 

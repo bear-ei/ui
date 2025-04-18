@@ -44,7 +44,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			onClose,
 			onConfirm,
 			onLoadEnd,
-			render,
+			renderListItem,
 			selectType,
 			shape,
 			supporting,
@@ -52,7 +52,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			trailingProps,
 			trailingTriggerEvenName,
 			type = LIST_TYPE.STANDARD,
-			...renderProps
+			...renderListItemProps
 		},
 		ref
 	) => {
@@ -138,7 +138,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 					type
 				})(setState)(event)
 
-		const interactionHandlers = useStateEvent({...renderProps, onStateEventChange, disabled})
+		const interactionHandlers = useStateEvent({...renderListItemProps, onStateEventChange, disabled})
 		const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
 			active,
 			afterAffordanceVisible,
@@ -189,8 +189,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			runAfterInteractions(nextLayoutEvent)()
 		}, [nextLayoutEvent])
 
-		return render({
-			...renderProps,
+		return renderListItem({
+			...renderListItemProps,
 			active,
 			affordanceShow,
 			afterAffordance,

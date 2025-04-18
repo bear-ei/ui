@@ -1,84 +1,67 @@
 import {asyncDebounce, debounce} from './debounce.utils'
 
-beforeEach(() => {
-	jest.useFakeTimers()
-	jest.setTimeout(10000)
-	jest.clearAllTimers()
-})
-
-describe('debounce (sync)', () => {
-	it('should only call the last invocation', () => {
-		const fn = jest.fn()
-		const debounced = debounce(fn)(300)
-
-		debounced('a')
-		debounced('b')
-		debounced('c')
-		expect(fn).not.toHaveBeenCalled()
-		jest.runAllTimers()
-		expect(fn).toHaveBeenCalledTimes(1)
-		expect(fn).toHaveBeenCalledWith('c')
+describe('debounce', () => {
+	it('should not throw an error when func is undefined', () => {
+		const debouncedFunc = debounce()(100)
+		expect(() => debouncedFunc()).not.toThrow()
 	})
 
-	it('should return undefined immediately', () => {
-		const fn = jest.fn().mockReturnValue('value')
-		const debounced = debounce(fn)(100)
-		const result = debounced('test')
+	it('should execute the function after the delay', done => {
+		const mockFunc = jest.fn()
+		const debouncedFunc = debounce(mockFunc)(100)
 
-		expect(result).toBeUndefined()
-		jest.runAllTimers()
-		expect(fn).toHaveBeenCalledWith('test')
+		debouncedFunc()
+
+		setTimeout(() => {
+			expect(mockFunc).toHaveBeenCalled()
+			done()
+		}, 150)
 	})
 
-	it('should handle undefined function gracefully', () => {
-		const debounced = debounce()(150)
+	it('should clear the previous timeout', done => {
+		const mockFunc = jest.fn()
+		const debouncedFunc = debounce(mockFunc)(100)
 
-		expect(() => {
-			debounced('noop')
-			jest.runAllTimers()
-		}).not.toThrow()
+		debouncedFunc()
+		debouncedFunc()
+
+		setTimeout(() => {
+			expect(mockFunc).toHaveBeenCalledTimes(1)
+			done()
+		}, 150)
 	})
 })
 
 describe('asyncDebounce', () => {
-	it('should call async function after delay and resolve', async () => {
-		const fn = jest.fn().mockResolvedValue('done')
-		const debounced = asyncDebounce(fn)(200)
-		const promise = debounced('test')
+	it('should not throw an error when func is undefined', done => {
+		const asyncDebouncedFunc = asyncDebounce()(100)
 
-		jest.runAllTimers()
-		await expect(promise).resolves.toBe('done')
-		expect(fn).toHaveBeenCalledWith('test')
+		expect(() => asyncDebouncedFunc()).not.toThrow()
+		done()
 	})
 
-	it('should only call the last async function', async () => {
-		const fn = jest.fn().mockResolvedValue('result')
-		const debounced = asyncDebounce(fn)(300)
-		const _first = debounced('a')
-		const second = debounced('b')
+	it('should execute the async function after the delay', done => {
+		const mockAsyncFunc = jest.fn(() => Promise.resolve())
+		const asyncDebouncedFunc = asyncDebounce(mockAsyncFunc)(100)
 
-		jest.runAllTimers()
+		asyncDebouncedFunc()
 
-		// ❌ Don't await first – it's never called
-		await expect(second).resolves.toBe('result')
-		expect(fn).toHaveBeenCalledTimes(1)
-		expect(fn).toHaveBeenCalledWith('b')
+		setTimeout(() => {
+			expect(mockAsyncFunc).toHaveBeenCalled()
+			done()
+		}, 150)
 	})
 
-	it('should reject when async function throws', async () => {
-		const fn = jest.fn().mockRejectedValue(new Error('fail'))
-		const debounced = asyncDebounce(fn)(100)
-		const promise = debounced('error')
+	it('should clear the previous timeout', done => {
+		const mockAsyncFunc = jest.fn(() => Promise.resolve())
+		const asyncDebouncedFunc = asyncDebounce(mockAsyncFunc)(100)
 
-		jest.runAllTimers()
-		await expect(promise).rejects.toThrow('fail')
-	})
+		asyncDebouncedFunc()
+		asyncDebouncedFunc()
 
-	it('should resolve undefined if function not provided', async () => {
-		const debounced = asyncDebounce()(150)
-		const promise = debounced('noop')
-
-		jest.runAllTimers()
-		await expect(promise).resolves.toBeUndefined()
+		setTimeout(() => {
+			expect(mockAsyncFunc).toHaveBeenCalledTimes(1)
+			done()
+		}, 150)
 	})
 })

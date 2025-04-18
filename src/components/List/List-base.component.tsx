@@ -39,16 +39,17 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			onClose,
 			onConfirm,
 			onItemStateEvent,
-			render,
 			renderItem,
+			renderList,
 			selectType,
 			shape,
 			skeletonDuration = 0,
 			skeletonElement,
 			supportingTextNumberOfLines,
+			testID,
 			trailingTriggerEvenName,
 			type,
-			...renderProps
+			...renderListProps
 		},
 		ref
 	) => {
@@ -124,8 +125,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			runAfterInteractions(nextAfterAffordanceCallbackEvent)()
 		}, [nextAfterAffordanceCallbackEvent])
 
-		return render({
-			...renderProps,
+		return renderList({
+			...renderListProps,
 			activeKey,
 			activeKeys,
 			afterAffordanceActiveKey,
@@ -136,7 +137,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			loadingComponent,
 			onClose: onListClose,
 			ref: listRef as RenderListProps['ref'],
-			renderItem: renderListItem
+			renderItem: renderListItem,
+			testID: testID ?? id
 		})
 	}
 )

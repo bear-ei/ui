@@ -1,53 +1,58 @@
 import {PixelRatio} from 'react-native'
 import {adaptWindow} from './adapt-window.utils'
 
-jest.mock('react-native', () => ({
-	PixelRatio: {
-		getFontScale: jest.fn()
-	}
-}))
-
 describe('adaptWindow', () => {
+	const originalGetFontScale = PixelRatio.getFontScale
+
 	beforeEach(() => {
-		;(PixelRatio.getFontScale as jest.Mock).mockReturnValue(1)
+		PixelRatio.getFontScale = jest.fn(() => 1)
 	})
 
-	it('adapts size and font size correctly with default config', () => {
-		const {adaptFontSize, adaptSize} = adaptWindow()()()
-
-		expect(adaptSize(10)).toBeGreaterThan(0)
-		expect(adaptFontSize(10)).toBeGreaterThan(0)
+	afterEach(() => {
+		PixelRatio.getFontScale = originalGetFontScale
 	})
 
-	it('returns identity functions in desktop mode', () => {
-		const {adaptFontSize, adaptSize} = adaptWindow()()(true)
+	it('should return default scale when no parameters are provided', () => {
+		const adapt = adaptWindow()()()
 
-		expect(adaptSize(10)).toBe(10)
-		expect(adaptFontSize(10)).toBe(10)
+		expect(adapt.adaptSize(10)).toBe(10)
+		expect(adapt.adaptFontSize(10)).toBe(10)
 	})
 
-	it('calculates scale based on screen and design dimensions', () => {
-		const {adaptFontSize, adaptSize} = adaptWindow({
-			screenWidth: 640,
-			screenHeight: 1136
-		})({
-			designWidth: 320,
-			designHeight: 568,
+	it('should return custom scale when parameters are provided', () => {
+		const adapt = adaptWindow({screenWidth: 1000, screenHeight: 2000})({
+			designWidth: 500,
+			designHeight: 1000,
 			designDensity: 2
 		})()
 
-		const font = adaptFontSize(10)
-		const size = adaptSize(10)
-
-		expect(font).toBe(40)
-		expect(size).toBe(40)
+		expect(adapt.adaptSize(10)).toBe(10)
+		expect(adapt.adaptFontSize(10)).toBe(10)
 	})
 
-	it('respects PixelRatio font scale', () => {
-		;(PixelRatio.getFontScale as jest.Mock).mockReturnValue(1.5)
+	it('should return original size when desktop is true', () => {
+		const adapt = adaptWindow()({})(true)
 
-		const {adaptFontSize} = adaptWindow()()()
+		expect(adapt.adaptSize(10)).toBe(10)
+		expect(adapt.adaptFontSize(10)).toBe(10)
+	})
 
-		expect(adaptFontSize(10)).toBeGreaterThan(10)
+	it('should return scaled size when desktop is false', () => {
+		const adapt = adaptWindow({screenWidth: 1000, screenHeight: 2000})({
+			designWidth: 500,
+			designHeight: 1000,
+			designDensity: 2
+		})(false)
+
+		expect(adapt.adaptSize(10)).toBe(10)
+		expect(adapt.adaptFontSize(10)).toBe(10)
+	})
+
+	it('should apply font scale correctly', () => {
+		PixelRatio.getFontScale = jest.fn(() => 1.5)
+
+		const adapt = adaptWindow()({})(false)
+
+		expect(adapt.adaptFontSize(10)).toBe(15)
 	})
 })

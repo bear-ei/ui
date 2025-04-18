@@ -6,9 +6,8 @@ import {handleVirtualListItemPropsEqual} from './Virtual-list-item-handle'
 import type {RenderVirtualListItemProps, VirtualListItemProps} from './Virtual-list-item.interface'
 import {ContainerLayout} from './Virtual-list-item.styles'
 
-const render = ({
+const renderVirtualListItem = ({
 	containerAnimatedStyle,
-	id,
 	itemElement,
 	itemSize = 0,
 	onUnmount,
@@ -22,7 +21,7 @@ const render = ({
 		itemSize={itemSize}
 		onUnmount={onUnmount}
 		style={[containerAnimatedStyle]}
-		testID={testID ?? `virtualListItem--${id}`}
+		testID={`virtualListItem--${testID}`}
 		unmount={true}
 		visible={visible}
 	>
@@ -34,7 +33,7 @@ const ForwardRefVirtualListItem = forwardRef<View, VirtualListItemProps>((props,
 	<VirtualListItemBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderVirtualListItem={renderVirtualListItem}
 	/>
 ))
 

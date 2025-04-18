@@ -33,27 +33,29 @@ export const VirtualListBaseInner = <T,>(
 		onLoadEnd,
 		onMomentumScrollEnd,
 		onScroll,
-		render,
 		renderItem,
-		...renderProps
+		renderVirtualList,
+		testID: rawTestID,
+		...renderVirtualListProps
 	}: VirtualListBaseProps<T>,
 	ref: ForwardedRef<Animated.ScrollView>
 ) => {
 	const [
 		{
 			emptyList,
+			layout,
 			nextCloseEvent,
 			nextScrollEvent,
 			startIndex,
 			status,
 			virtualListData,
-			visibleRangeData,
-			layout
+			visibleRangeData
 		},
 		setState
 	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: 'idle', startIndex: 0})
 
 	const id = useId()
+	const testID = rawTestID ?? id
 	const contentSize = useMemo(
 		() => (virtualListData ?? data ?? []).length * (itemSize + gap) - gap,
 		[virtualListData, data, itemSize, gap]
@@ -87,15 +89,15 @@ export const VirtualListBaseInner = <T,>(
 	const onStateEventChange = (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 		handleVirtualListStateChange({...options, state})(onVirtualListLayoutChange)(event)
 
-	const interactionHandlers = useStateEvent({...renderProps, disabled: false, onStateEventChange})
+	const interactionHandlers = useStateEvent({...renderVirtualListProps, disabled: false, onStateEventChange})
 	const itemElements = renderVirtualListItem({
 		extraData,
-		id,
 		itemSize: itemSize + gap,
 		onLoadEnd: onVirtualListLoadEnd,
 		onUnmount: onVirtualListUnmount,
 		renderItem,
-		startIndex
+		startIndex,
+		testID
 	})(visibleRangeData)
 
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as Animated.ScrollView, [animatedRef])
@@ -120,19 +122,19 @@ export const VirtualListBaseInner = <T,>(
 		return <></>
 	}
 
-	return render({
-		...renderProps,
+	return renderVirtualList({
+		...renderVirtualListProps,
 		...scrollEvent,
 		contentAnimatedStyle,
 		contentSize,
 		emptyList,
-		id,
+		interactionHandlers,
 		itemElements,
 		itemSize,
 		layout,
-		interactionHandlers,
 		ref: animatedRef,
-		status
+		status,
+		testID
 	})
 }
 

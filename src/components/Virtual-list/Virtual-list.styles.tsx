@@ -16,11 +16,11 @@ export const Content = styled.View`
 	flex: 1;
 `
 
-export const ContentLayoutAnimated = styled(LayoutAnimated)`
+export const ContentLayout = styled(LayoutAnimated)`
 	flex: 1;
 `
 
-export const EmptyContentLayoutAnimated = styled(LayoutAnimated)`
+export const EmptyContentLayout = styled(LayoutAnimated)`
 	align-items: center;
 	display: flex;
 	flex-direction: column;
@@ -35,5 +35,5 @@ export const EmptyContentLayoutAnimated = styled(LayoutAnimated)`
 	`}
 `
 
-export const LoadingContentLayoutAnimated = styled(EmptyContentLayoutAnimated)``
+export const LoadingContentLayout = styled(EmptyContentLayout)``
 export const SupportingText = styled(Typography)``

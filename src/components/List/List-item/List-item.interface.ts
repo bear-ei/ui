@@ -82,7 +82,7 @@ export interface RenderListItemProps extends ListItemProps {
 }
 
 export interface ListItemBaseProps extends ListItemProps {
-	render: (props: RenderListItemProps) => React.JSX.Element
+	renderListItem: (props: RenderListItemProps) => React.JSX.Element
 }
 
 export interface ListItemState {

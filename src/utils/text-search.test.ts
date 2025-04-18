@@ -1,64 +1,58 @@
 import {textSearch} from './text-search.utils'
 
-type User = {
-	id: number
+interface Item {
 	name: string
-	email: string
-	age: number
+	description: string
+	category: string
 }
 
-const users: User[] = [
-	{id: 1, name: 'Alice Johnson', email: 'alice@example.com', age: 28},
-	{id: 2, name: 'Bob Smith', email: 'bob.smith@example.com', age: 35},
-	{id: 3, name: 'Charlie', email: 'charlie@company.com', age: 40}
+const items: Item[] = [
+	{name: 'Apple', description: 'A sweet fruit', category: 'Fruit'},
+	{name: 'Banana', description: 'A yellow fruit', category: 'Fruit'},
+	{name: 'Carrot', description: 'A root vegetable', category: 'Vegetable'},
+	{name: 'Date', description: 'A sweet fruit', category: 'Fruit'}
 ]
 
 describe('textSearch', () => {
-	it('should match name field with partial lowercase match', () => {
-		const result = textSearch(users)(['name'])('ali')
+	it('should return an empty array when data is empty', () => {
+		const search = textSearch<Item>([])
 
-		expect(result).toEqual([users[0]])
+		expect(search(['name'])('apple')).toEqual([])
 	})
 
-	it('should match email field with exact lowercase match', () => {
-		const result = textSearch(users)(['email'])('charlie@company.com')
+	it('should return an empty array when keys are empty', () => {
+		const search = textSearch<Item>(items)
 
-		expect(result).toEqual([users[2]])
+		expect(search([])('apple')).toEqual([])
 	})
 
-	it('should be case-insensitive', () => {
-		const result = textSearch(users)(['name'])('BOB')
+	it('should return all items when searchText is empty', () => {
+		const search = textSearch<Item>(items)
 
-		expect(result).toEqual([users[1]])
+		expect(search(['name'])('')).toEqual(items)
 	})
 
-	it('should match multiple keys', () => {
-		const result = textSearch(users)(['name', 'email'])('example')
+	it('should return items matching a single key', () => {
+		const search = textSearch<Item>(items)
 
-		expect(result).toEqual([users[0], users[1]])
+		expect(search(['name'])('apple')).toEqual([items[0]])
 	})
 
-	it('should return empty array if no match', () => {
-		const result = textSearch(users)(['name'])('notfound')
+	it('should return items matching multiple keys', () => {
+		const search = textSearch<Item>(items)
 
-		expect(result).toEqual([])
+		expect(search(['name', 'description'])('sweet')).toEqual([items[0], items[3]])
 	})
 
-	it('should match number fields by converting to string', () => {
-		const result = textSearch(users)(['age'])('40')
+	it('should perform case-insensitive search', () => {
+		const search = textSearch<Item>(items)
 
-		expect(result).toEqual([users[2]])
+		expect(search(['name'])('APPLE')).toEqual([items[0]])
 	})
 
-	it('should return all data when search text is empty', () => {
-		const result = textSearch(users)(['name', 'email'])('')
+	it('should return an empty array when no items match', () => {
+		const search = textSearch<Item>(items)
 
-		expect(result).toEqual(users)
-	})
-
-	it('should handle empty data array', () => {
-		const result = textSearch<User>([])(['name'])('bob')
-
-		expect(result).toEqual([])
+		expect(search(['name'])('orange')).toEqual([])
 	})
 })

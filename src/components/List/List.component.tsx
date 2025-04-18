@@ -5,13 +5,12 @@ import {ListBase} from './List-base.component'
 import type {ListData, ListProps, RenderListProps, VirtualListComponent} from './List.interface'
 import {Container} from './List.styles'
 
-const render = ({
+const renderList = ({
 	activeKey,
 	activeKeys,
 	afterAffordanceActiveKey,
 	extraData = [],
 	focusedIndex,
-	id,
 	loading,
 	style,
 	testID,
@@ -21,11 +20,11 @@ const render = ({
 		accessibilityLabel='list'
 		accessibilityRole='list'
 		style={[style]}
-		testID={testID ?? `list--${id}`}
+		testID={`list--${testID}`}
 	>
 		<VirtualList
 			{...virtualListProps}
-			testID={`list__virtualList--${id}`}
+			testID={testID}
 			extraData={[
 				`${activeKey}`,
 				`${activeKeys?.join()} `,
@@ -40,12 +39,12 @@ const render = ({
 	</Container>
 )
 
-const ForwardRefList = forwardRef<VirtualListComponent<ListData>, ListProps>((props, ref) => (
+const ListWithRef = forwardRef<VirtualListComponent<ListData>, ListProps>((props, ref) => (
 	<ListBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderList={renderList}
 	/>
 ))
 
-export const List = ForwardRefList as FC<ListProps>
+export const List = ListWithRef as FC<ListProps>

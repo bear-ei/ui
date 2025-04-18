@@ -41,7 +41,7 @@ export interface RenderVirtualListProps<T = Record<string, unknown>> extends Vir
 }
 
 export interface VirtualListBaseProps<T> extends VirtualListProps<T> {
-	render: (props: RenderVirtualListProps<T>) => React.JSX.Element
+	renderVirtualList: (props: RenderVirtualListProps<T>) => React.JSX.Element
 }
 
 export interface VirtualListState {
@@ -77,7 +77,10 @@ export interface UseVirtualListScrollAnimatedOptions extends Pick<RenderVirtualL
 }
 
 export interface RenderVirtualListItemOptions<T>
-	extends Pick<RenderVirtualListProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'id'> {
+	extends Pick<
+		RenderVirtualListProps<T>,
+		'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'testID'
+	> {
 	onUnmount?: (indexKey?: string) => void
 	startIndex?: number
 }
