@@ -11,7 +11,6 @@ const render = ({
 	animatedType = LAYOUT_ANIMATED.COLLAPSE_X,
 	children,
 	defaultVisible = true,
-	id,
 	testID,
 	...containerProps
 }: RenderLayoutNavigationProps) => (
@@ -21,7 +20,7 @@ const render = ({
 		defaultVisible={defaultVisible}
 		entry={{duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE}}
 		exit={{duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}}
-		testID={testID ?? `layoutNavigation--${id}`}
+		testID={`layoutNavigation--${testID}`}
 	>
 		{children}
 	</ContainerLayout>

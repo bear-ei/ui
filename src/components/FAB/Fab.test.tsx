@@ -6,7 +6,7 @@ import {renderWithTheme} from '../../../__test__'
 import {Fab} from './FAB.component'
 import {FAB_TYPE} from './FAB.enum'
 
-describe('Fab Component', () => {
+describe('Fab', () => {
 	it('renders with default props', () => {
 		const {getByTestId} = renderWithTheme(<Fab />)
 		const container = getByTestId(/^fab--/)

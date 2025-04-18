@@ -11,7 +11,6 @@ const render = ({
 	children,
 	contentStyle: rawContentStyle,
 	defaultVisible = true,
-	id,
 	layout = LAYOUT.HORIZONTAL,
 	testID,
 	...containerProps
@@ -28,7 +27,7 @@ const render = ({
 			defaultVisible={defaultVisible}
 			entry={{duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE}}
 			exit={{duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}}
-			testID={testID ?? `layoutPane--${id}`}
+			testID={`layoutPane--${testID}`}
 		>
 			{children}
 		</ContainerLayout>

@@ -1,4 +1,4 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import React, {forwardRef, useImperativeHandle} from 'react'
 import {Text, TextInput} from 'react-native'
 import {renderWithTheme} from '../../../../__test__'
@@ -74,8 +74,12 @@ describe('FormItem', () => {
 		})
 
 		fireEvent.changeText(getByTestId('formItem__input'), 'Rose')
+
+		await act(async () => {
+			await ref.current?.form.validateFields('username')
+		})
+
 		await waitFor(() => {
-			ref.current?.form.validateFields('username')
 			expect(ref.current?.form.getFieldsValue('username')).toBe('Rose')
 		})
 	})

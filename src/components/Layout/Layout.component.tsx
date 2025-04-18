@@ -8,11 +8,10 @@ import {LayoutPane} from './Layout-pane'
 import type {LayoutComponent, LayoutProps, RenderLayoutProps} from './Layout.interface'
 import {ContainerLayout} from './Layout.styles'
 
-const render = ({
+const renderLayout = ({
 	children,
 	contentStyle: rawContentStyle,
 	defaultVisible = true,
-	id,
 	layout = LAYOUT.HORIZONTAL,
 	testID,
 	...containerProps
@@ -27,7 +26,7 @@ const render = ({
 			{...containerProps}
 			contentStyle={contentStyle}
 			defaultVisible={defaultVisible}
-			testID={testID ?? `layout--${id}`}
+			testID={`layout--${testID}`}
 		>
 			{children}
 		</ContainerLayout>
@@ -38,7 +37,7 @@ const ForwardRefLayout = forwardRef<View, LayoutProps>((props, ref) => (
 	<LayoutBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderLayout={renderLayout}
 	/>
 ))
 

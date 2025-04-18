@@ -4,7 +4,7 @@ import {TouchableRipple} from './Touchable-ripple.component'
 
 jest.useFakeTimers()
 
-describe('TouchableRipple (logic only)', () => {
+describe('TouchableRipple', () => {
 	const defaultLayout = {width: 100, height: 60, x: 0, y: 0}
 
 	it('should render centered ripple when centered=true', () => {
