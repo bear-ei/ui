@@ -11,8 +11,8 @@ describe('Underlay', () => {
 			/>
 		)
 
-		expect(getByTestId('underlay--hover-test')).toBeTruthy()
-		expect(getByTestId('underlay__animatedHoverLayer--hover-test')).toBeTruthy()
+		expect(getByTestId('hover-test')).toBeTruthy()
+		expect(getByTestId('underlay__animatedHoverLayer--test-id')).toBeTruthy()
 	})
 
 	it('should render active layer when active is true and activeColor is set', () => {
@@ -25,7 +25,7 @@ describe('Underlay', () => {
 			/>
 		)
 
-		expect(getByTestId('underlay__animatedActiveLayer--active-test')).toBeTruthy()
+		expect(getByTestId('underlay__animatedActiveLayer--test-id')).toBeTruthy()
 	})
 
 	it('should not render active layer when activeColor is missing', () => {
@@ -37,7 +37,7 @@ describe('Underlay', () => {
 			/>
 		)
 
-		expect(queryByTestId('underlay__animatedActiveLayer--no-active-color')).toBeNull()
+		expect(queryByTestId('underlay__animatedActiveLayer--test-id')).toBeNull()
 	})
 
 	it('should pass shape and underlayColor props to hover layer', () => {
@@ -49,7 +49,7 @@ describe('Underlay', () => {
 			/>
 		)
 
-		const hoverLayer = getByTestId('underlay__animatedHoverLayer--color-shape')
+		const hoverLayer = getByTestId('underlay__animatedHoverLayer--test-id')
 		expect(hoverLayer.props.shape).toBe('EXTRA_SMALL')
 		expect(hoverLayer.props.underlayColor).toBe('#abcdef')
 	})
@@ -65,7 +65,7 @@ describe('Underlay', () => {
 			/>
 		)
 
-		const activeLayer = getByTestId('underlay__animatedActiveLayer--shape-test')
+		const activeLayer = getByTestId('underlay__animatedActiveLayer--test-id')
 		expect(activeLayer.props.shape).toBe('EXTRA_SMALL')
 	})
 })

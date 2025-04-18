@@ -84,15 +84,16 @@ export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListS
 
 	return (setState: Updater<VirtualListState>) => (event: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
-		const hitBottom = contentSize.height - layoutMeasurement.height - contentOffset.y < 1
+		const isHitBottom = contentSize.height - layoutMeasurement.height - contentOffset.y < 1
 		const scrollOffset = event.nativeEvent.contentOffset.y
 
-		if (hitBottom || contentOffset.y <= 0) {
+		if (isHitBottom || contentOffset.y <= 0) {
 			return
 		}
 
 		setState(draft => {
 			draft.nextScrollEvent = handleNextScrollEvent(event)
+
 			handleVirtualListVisibleRanges(itemSize)(draft)(scrollOffset)
 		})
 	}
@@ -200,13 +201,7 @@ export const handleVirtualListDataChange =
 		})
 
 export const renderVirtualListItem =
-	<T,>({
-		onLoadEnd,
-		renderItem,
-		startIndex = 0,
-		testID,
-		...virtualListItemProps
-	}: RenderVirtualListItemOptions<T>) =>
+	<T,>({onLoadEnd, renderItem, startIndex = 0, id, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>
 	(data?: VirtualListData[]) => {
 		if (data?.length === 0) {
 			onLoadEnd?.()
@@ -222,7 +217,7 @@ export const renderVirtualListItem =
 				key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
 				onLoadEnd={onLoadEnd}
 				startIndex={startIndex}
-				testID={testID}
+				testID={`virtualList__virtualListItem--${id}`}
 				renderItem={
 					renderItem as (
 						options: RenderVirtualListItemInfo<Record<string, unknown>>

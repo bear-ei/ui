@@ -35,7 +35,6 @@ export const VirtualListBaseInner = <T,>(
 		onScroll,
 		renderItem,
 		renderVirtualList,
-		testID: rawTestID,
 		...renderVirtualListProps
 	}: VirtualListBaseProps<T>,
 	ref: ForwardedRef<Animated.ScrollView>
@@ -55,7 +54,6 @@ export const VirtualListBaseInner = <T,>(
 	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: 'idle', startIndex: 0})
 
 	const id = useId()
-	const testID = rawTestID ?? id
 	const contentSize = useMemo(
 		() => (virtualListData ?? data ?? []).length * (itemSize + gap) - gap,
 		[virtualListData, data, itemSize, gap]
@@ -92,12 +90,12 @@ export const VirtualListBaseInner = <T,>(
 	const interactionHandlers = useStateEvent({...renderVirtualListProps, disabled: false, onStateEventChange})
 	const itemElements = renderVirtualListItem({
 		extraData,
+		id,
 		itemSize: itemSize + gap,
 		onLoadEnd: onVirtualListLoadEnd,
 		onUnmount: onVirtualListUnmount,
 		renderItem,
-		startIndex,
-		testID
+		startIndex
 	})(visibleRangeData)
 
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as Animated.ScrollView, [animatedRef])
@@ -128,13 +126,13 @@ export const VirtualListBaseInner = <T,>(
 		contentAnimatedStyle,
 		contentSize,
 		emptyList,
+		id,
 		interactionHandlers,
 		itemElements,
 		itemSize,
 		layout,
 		ref: animatedRef,
-		status,
-		testID
+		status
 	})
 }
 

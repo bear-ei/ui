@@ -22,6 +22,7 @@ const renderVirtualList = <T,>({
 	contentSize,
 	emptyComponent,
 	emptyList,
+	id,
 	interactionHandlers,
 	itemElements,
 	layout,
@@ -34,10 +35,10 @@ const renderVirtualList = <T,>({
 }: RenderVirtualListProps<T>) => {
 	const {onLayout} = interactionHandlers
 	const contentLayoutAnimatedStyle = {position: 'relative'} as ViewStyle
-	const contentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
-	const emptyContentVisible = !loading && emptyList && status === 'succeeded'
-	const layoutCompleted = typeof layout?.height === 'number' && layout.height > 0
-	const loadingVisible = loading
+	const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
+	const isEmptyContentVisible = !loading && emptyList && status === 'succeeded'
+	const isLayoutCompleted = typeof layout?.height === 'number' && layout.height > 0
+	const isLoadingVisible = loading
 	const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch', minHeight: contentSize} as ViewStyle
 	const emptyContentLayoutAnimatedStyle = {
 		alignItems: 'center',
@@ -48,24 +49,24 @@ const renderVirtualList = <T,>({
 
 	return (
 		<Container
-			testID={`virtualList--${testID}`}
+			testID={testID ?? `virtualList--${id}`}
 			onLayout={onLayout}
 		>
-			{layoutCompleted && (
+			{isLayoutCompleted && (
 				<AnimatedScrollView
 					{...containerProps}
 					contentContainerStyle={scrollViewContentStyle}
 					scrollEventThrottle={scrollEventThrottle}
-					testID={`virtualList__animatedScrollView--${testID}`}
+					testID={`virtualList__animatedScrollView--${id}`}
 				>
 					<AnimatedContent
 						style={contentAnimatedStyle}
-						testID={`virtualList__animatedContent--${testID}`}
+						testID={`virtualList__animatedContent--${id}`}
 					>
 						<ContentLayout
 							contentStyle={contentLayoutAnimatedStyle}
-							testID={`virtualList__contentLayout--${testID}`}
-							visible={contentVisible}
+							testID={`virtualList__contentLayout--${id}`}
+							visible={isContentVisible}
 						>
 							{itemElements}
 						</ContentLayout>
@@ -73,14 +74,14 @@ const renderVirtualList = <T,>({
 						<EmptyContentLayout
 							contentStyle={emptyContentLayoutAnimatedStyle}
 							lazy={true}
-							testID={`virtualList__emptyContentLayout--${testID}`}
+							testID={`virtualList__emptyContentLayout--${id}`}
 							unmount={true}
-							visible={emptyContentVisible}
+							visible={isEmptyContentVisible}
 						>
 							{emptyComponent ?? (
 								<SupportingText
 									size={SIZE.MEDIUM}
-									testID={`virtualList__supportingText--${testID}`}
+									testID={`virtualList__supportingText--${id}`}
 									type={TYPOGRAPHY.BODY}
 								>
 									No data
@@ -91,14 +92,14 @@ const renderVirtualList = <T,>({
 						<LoadingContentLayout
 							contentStyle={emptyContentLayoutAnimatedStyle}
 							lazy={true}
-							testID={`virtualList__loadingContentLayout--${testID}`}
+							testID={`virtualList__loadingContentLayout--${id}`}
 							unmount={true}
-							visible={loadingVisible}
+							visible={isLoadingVisible}
 						>
 							{loadingComponent ?? (
 								<SupportingText
 									size={SIZE.MEDIUM}
-									testID={`virtualList__supportingText--${testID}`}
+									testID={`virtualList__supportingText--${id}`}
 									type={TYPOGRAPHY.BODY}
 								>
 									Loading

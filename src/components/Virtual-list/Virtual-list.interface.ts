@@ -77,10 +77,7 @@ export interface UseVirtualListScrollAnimatedOptions extends Pick<RenderVirtualL
 }
 
 export interface RenderVirtualListItemOptions<T>
-	extends Pick<
-		RenderVirtualListProps<T>,
-		'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'testID'
-	> {
+	extends Pick<RenderVirtualListProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'id'> {
 	onUnmount?: (indexKey?: string) => void
 	startIndex?: number
 }

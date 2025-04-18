@@ -13,15 +13,14 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 			eventName,
 			opacities,
 			renderUnderlay,
-			testID,
 			...renderUnderlayProps
 		},
 		ref
 	) => {
 		const id = useId()
-		const active = useMemo(() => rawActive ?? defaultActive, [defaultActive, rawActive])
+		const isActive = useMemo(() => rawActive ?? defaultActive, [defaultActive, rawActive])
 		const {hoverLayerAnimatedStyle, activeLayerAnimatedStyle} = useUnderlayAnimated({
-			active,
+			active: isActive,
 			activeAnimatedType,
 			activeScale,
 			eventName,
@@ -30,11 +29,11 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 
 		return renderUnderlay({
 			...renderUnderlayProps,
-			active,
+			active: isActive,
 			activeLayerAnimatedStyle,
 			hoverLayerAnimatedStyle,
-			ref,
-			testID: testID ?? id
+			id,
+			ref
 		})
 	}
 )

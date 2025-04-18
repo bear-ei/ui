@@ -18,6 +18,7 @@ jest.mock('../../components', () => {
 describe('ModalProvider', () => {
 	it('renders nothing on initial mount', () => {
 		const {queryAllByTestId} = render(<ModalProvider />)
+
 		expect(queryAllByTestId(/^modal--/)).toHaveLength(0)
 	})
 

@@ -57,7 +57,7 @@ describe('ThemeProvider', () => {
 			</ThemeProvider>
 		)
 
-		const container = getByTestId('bearei__material--themeProvider')
+		const container = getByTestId('bearei__material--test-id')
 
 		expect(container.props.story).toBe(true)
 	})
@@ -69,7 +69,7 @@ describe('ThemeProvider', () => {
 			</ThemeProvider>
 		)
 
-		const container = getByTestId('bearei__material--themeProvider')
+		const container = getByTestId('bearei__material--test-id')
 
 		fireEvent(container, 'pressIn')
 		expect(container).toBeTruthy()
