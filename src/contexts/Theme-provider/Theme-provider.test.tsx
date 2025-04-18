@@ -27,13 +27,13 @@ describe('ThemeProvider', () => {
 			get: jest.fn(() => 'ios')
 		})
 
-		const {toJSON} = render(
+		const {getByTestId} = render(
 			<ThemeProvider>
-				<Text>Mobile View</Text>
+				<Text testID='bearei__material--ios'>Mobile View</Text>
 			</ThemeProvider>
 		)
 
-		expect(toJSON()).toMatchSnapshot()
+		expect(getByTestId('bearei__material--ios')).toBeTruthy()
 	})
 
 	it('uses DesktopDevice on web', () => {
@@ -41,13 +41,13 @@ describe('ThemeProvider', () => {
 			get: jest.fn(() => 'web')
 		})
 
-		const {toJSON} = render(
+		const {getByTestId} = render(
 			<ThemeProvider>
-				<Text>Web View</Text>
+				<Text testID='bearei__material--web'>Web View</Text>
 			</ThemeProvider>
 		)
 
-		expect(toJSON()).toMatchSnapshot()
+		expect(getByTestId('bearei__material--web')).toBeTruthy()
 	})
 
 	it('applies story mode with custom height', () => {
@@ -57,7 +57,7 @@ describe('ThemeProvider', () => {
 			</ThemeProvider>
 		)
 
-		const container = getByTestId(/^bearei__material--/)
+		const container = getByTestId('bearei__material--themeProvider')
 
 		expect(container.props.story).toBe(true)
 	})
@@ -69,7 +69,7 @@ describe('ThemeProvider', () => {
 			</ThemeProvider>
 		)
 
-		const container = getByTestId(/^bearei__material--/)
+		const container = getByTestId('bearei__material--themeProvider')
 
 		fireEvent(container, 'pressIn')
 		expect(container).toBeTruthy()

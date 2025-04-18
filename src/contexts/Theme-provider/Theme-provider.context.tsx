@@ -1,7 +1,7 @@
 import type {Platform, Scheme} from '@bearei/material-token'
 import {CONTRAST, createToken, PALETTE, SCHEME, WINDOW_SIZE} from '@bearei/material-token'
 import type {FC} from 'react'
-import {useId, useRef} from 'react'
+import {useRef} from 'react'
 import {Platform as RNPlatform, useColorScheme, View} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
 import {DENSITY} from '../../components'
@@ -81,7 +81,6 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken, density = D
 export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
 	const themeProviderRef = useRef<View>(null)
 	const onThemeProviderFocus = handleThemeProviderFocus(themeProviderRef)
-	const testId = useId()
 
 	return (
 		<Container
@@ -89,7 +88,7 @@ export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
 			onPressIn={onThemeProviderFocus}
 			ref={themeProviderRef}
 			story={story}
-			testID={`bearei__material--${testId}`}
+			testID='bearei__material--themeProvider'
 		>
 			{['macos', 'windows', 'web'].includes(RNPlatform.OS) ?
 				<DesktopDevice {...props} />

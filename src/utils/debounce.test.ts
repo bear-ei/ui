@@ -45,7 +45,6 @@ describe('asyncDebounce', () => {
 		const asyncDebouncedFunc = asyncDebounce(mockAsyncFunc)(100)
 
 		asyncDebouncedFunc()
-
 		setTimeout(() => {
 			expect(mockAsyncFunc).toHaveBeenCalled()
 			done()
@@ -58,7 +57,6 @@ describe('asyncDebounce', () => {
 
 		asyncDebouncedFunc()
 		asyncDebouncedFunc()
-
 		setTimeout(() => {
 			expect(mockAsyncFunc).toHaveBeenCalledTimes(1)
 			done()

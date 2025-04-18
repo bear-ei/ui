@@ -22,6 +22,7 @@ describe('useDesktopScrollEvent', () => {
 
 	it('should call onScroll immediately', () => {
 		Platform.OS = 'macos'
+
 		const onScroll = jest.fn()
 		const {result} = renderHook(() => useDesktopScrollEvent({onScroll}))
 		const fakeEvent = {nativeEvent: {}} as any
@@ -35,6 +36,7 @@ describe('useDesktopScrollEvent', () => {
 
 	it('should call onMomentumScrollEnd after 150ms', () => {
 		Platform.OS = 'web'
+
 		const onScroll = jest.fn()
 		const onMomentumScrollEnd = jest.fn()
 		const {result} = renderHook(() => useDesktopScrollEvent({onScroll, onMomentumScrollEnd}))

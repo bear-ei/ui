@@ -4,6 +4,7 @@ import {SharedValue} from 'react-native-reanimated'
 import {useAnimatedTiming} from './use-animated-timing.hook'
 
 type TimingArgs = [number, Record<string, any>, ((finished: boolean) => void)?]
+
 const mockWithTiming = jest.fn((_toValue, _config, callback) => {
 	if (callback) {
 		callback(true)
