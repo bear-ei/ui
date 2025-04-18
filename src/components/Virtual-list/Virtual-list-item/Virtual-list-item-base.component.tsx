@@ -21,8 +21,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			renderItem,
 			renderVirtualListItem,
 			startIndex = 0,
-			testID,
-			...renderProps
+			...renderVirtualListItemProps
 		},
 		ref
 	) => {
@@ -55,14 +54,14 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		}
 
 		return renderVirtualListItem({
-			...renderProps,
+			...renderVirtualListItemProps,
 			containerAnimatedStyle,
+			id,
 			index,
 			itemElement,
 			itemSize,
 			onUnmount: onVirtualListItemUnmount,
 			ref,
-			testID: testID ?? id,
 			visible
 		})
 	}

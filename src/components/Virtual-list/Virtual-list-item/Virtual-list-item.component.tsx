@@ -8,6 +8,7 @@ import {ContainerLayout} from './Virtual-list-item.styles'
 
 const renderVirtualListItem = ({
 	containerAnimatedStyle,
+	id,
 	itemElement,
 	itemSize = 0,
 	onUnmount,
@@ -21,7 +22,7 @@ const renderVirtualListItem = ({
 		itemSize={itemSize}
 		onUnmount={onUnmount}
 		style={[containerAnimatedStyle]}
-		testID={`virtualListItem--${testID}`}
+		testID={testID ?? `virtualListItem--${id}`}
 		unmount={true}
 		visible={visible}
 	>
