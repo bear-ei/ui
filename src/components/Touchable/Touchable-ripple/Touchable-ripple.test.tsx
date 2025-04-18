@@ -17,7 +17,7 @@ describe('TouchableRipple', () => {
 			/>
 		)
 
-		expect(getByTestId('touchableRipple--ripple-1')).toBeTruthy()
+		expect(getByTestId('ripple-1')).toBeTruthy()
 	})
 
 	it('should use touchableLocation when centered=false', () => {
@@ -31,7 +31,7 @@ describe('TouchableRipple', () => {
 			/>
 		)
 
-		expect(getByTestId('touchableRipple--ripple-2')).toBeTruthy()
+		expect(getByTestId('ripple-2')).toBeTruthy()
 	})
 
 	it('should calculate diameter greater than container size', () => {
@@ -44,7 +44,7 @@ describe('TouchableRipple', () => {
 			/>
 		)
 
-		const ripple = getByTestId('touchableRipple--ripple-3')
+		const ripple = getByTestId('ripple-3')
 		expect(ripple.props.size).toBeGreaterThan(defaultLayout.width)
 	})
 
