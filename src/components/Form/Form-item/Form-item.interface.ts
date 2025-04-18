@@ -28,7 +28,7 @@ export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {
 }
 
 export interface FormItemBaseProps extends FormItemProps {
-	render: (props: RenderFormItemProps) => React.JSX.Element
+	renderFormItem: (props: RenderFormItemProps) => React.JSX.Element
 }
 
 export interface FormItemState {
