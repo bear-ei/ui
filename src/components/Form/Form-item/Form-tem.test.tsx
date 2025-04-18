@@ -4,6 +4,10 @@ import {Text, TextInput} from 'react-native'
 import {renderWithTheme} from '../../../../__test__'
 import {Form} from '../Form.component'
 
+class UsernameRule {
+	username: string
+}
+
 describe('FormItem', () => {
 	const TestForm = forwardRef<
 		{
@@ -24,6 +28,7 @@ describe('FormItem', () => {
 				items={[
 					{
 						name: 'username',
+						rule: UsernameRule,
 						renderControl: ({value, onValueChange, errorMessage}) => (
 							<>
 								<TextInput
@@ -70,6 +75,7 @@ describe('FormItem', () => {
 
 		fireEvent.changeText(getByTestId('formItem__input'), 'Rose')
 		await waitFor(() => {
+			ref.current?.form.validateFields('username')
 			expect(ref.current?.form.getFieldsValue('username')).toBe('Rose')
 		})
 	})
@@ -87,7 +93,6 @@ describe('FormItem', () => {
 			expect(getByTestId('formItem__input')).toBeTruthy()
 		})
 
-		ref.current?.form.validateFields('username')
 		unmount()
 		await waitFor(() => {
 			expect(ref.current?.form.getFieldsValue('username')).toBeUndefined()

@@ -76,7 +76,6 @@ describe('Form', () => {
 		})
 
 		await waitFor(() => {
-			// Value should reset to undefined
 			expect(onValueChange).toHaveBeenCalledWith({
 				changedValue: {age: undefined},
 				value: {age: undefined}

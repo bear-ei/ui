@@ -19,7 +19,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			svgStyle,
 			testID,
 			type = ICON_TYPE.OUTLINED,
-			...renderProps
+			...renderIconProps
 		},
 		ref
 	) => {
@@ -32,7 +32,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 		const IconComponent = icon ?? iconStyleConfig[style]?.[type]?.[name]
 		const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
 		const {containerAnimatedStyle} = useIconAnimated({eventName})
-		const svgIconElement = IconComponent && (
+		const iconElement = IconComponent && (
 			<IconComponent
 				fill={iconFill}
 				height='100%'
@@ -41,6 +41,13 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			/>
 		)
 
-		return renderIcon({...renderProps, containerAnimatedStyle, ref, svgIconElement, testID: testID ?? id})
+		return renderIcon({
+			...renderIconProps,
+			containerAnimatedStyle,
+			iconElement,
+			name,
+			ref,
+			testID: testID ?? id
+		})
 	}
 )

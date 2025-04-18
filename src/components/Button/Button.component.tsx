@@ -22,6 +22,7 @@ import {
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const renderButton = ({
+	accessibilityLabel,
 	backgroundUnderlayAnimatedStyle,
 	density,
 	disabled,
@@ -67,7 +68,7 @@ const renderButton = ({
 
 	return (
 		<Container
-			accessibilityLabel={labelText}
+			accessibilityLabel={labelText ?? accessibilityLabel}
 			accessibilityRole='button'
 			accessibilityState={{disabled}}
 			accessible={true}

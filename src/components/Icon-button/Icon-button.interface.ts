@@ -12,6 +12,7 @@ export interface IconButtonProps extends TouchableProps, CommonProps {
 	defaultActive?: boolean
 	fill?: string
 	icon?: React.JSX.Element
+	labelText?: string
 	loading?: boolean
 	size?: number
 	type?: IconButtonType
@@ -25,7 +26,7 @@ export interface RenderIconButtonProps extends IconButtonProps {
 }
 
 export interface IconButtonBaseProps extends IconButtonProps {
-	render: (props: RenderIconButtonProps) => React.JSX.Element
+	renderIconButton: (props: RenderIconButtonProps) => React.JSX.Element
 }
 
 export interface IconButtonState {
@@ -33,7 +34,7 @@ export interface IconButtonState {
 }
 
 export interface RenderIconButtonIconOptions
-	extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading' | 'id'> {
+	extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading' | 'testID'> {
 	eventName?: EventName
 }
 

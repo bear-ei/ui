@@ -3,27 +3,28 @@ import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Progress} from '../Progress'
+import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
 import {Touchable} from '../Touchable'
-import {Underlay} from '../Underlay'
+import {ACTIVE_ANIMATED, Underlay} from '../Underlay'
 import {IconButtonBase} from './Icon-button-base.component'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {IconButtonProps, RenderIconButtonProps} from './Icon-button.interface'
 import {BackgroundUnderlay, Container, Content, ContentItemLayout, Main} from './Icon-button.styles'
 
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
-const render = ({
+const renderIconButton = ({
+	accessibilityLabel,
 	active,
 	backgroundUnderlayAnimatedStyle,
 	defaultActive,
 	disabled,
 	eventName,
 	icon,
-	id,
+	interactionHandlers,
+	labelText,
 	loading,
 	ref,
 	size,
-	interactionHandlers,
 	testID,
 	theme,
 	type,
@@ -37,31 +38,35 @@ const render = ({
 			pointerEvents='none'
 			shape={shape}
 			style={[backgroundUnderlayAnimatedStyle]}
-			testID={`iconButton__animatedBackgroundUnderlay--${id}`}
+			testID={`iconButton__animatedBackgroundUnderlay--${testID}`}
 		/>
 	)
 
 	return (
 		<Container
+			accessibilityLabel={labelText ?? accessibilityLabel}
+			accessibilityRole='button'
+			accessibilityState={{disabled}}
+			accessible={true}
 			pointerEvents={loading ? 'none' : 'auto'}
-			testID={testID ?? `iconButton--${id}`}
+			testID={`iconButton--${testID}`}
 		>
 			<ContentItemLayout
 				lazy={true}
-				testID={`iconButton__contentItemLayoutAnimated--${id}`}
+				testID={`iconButton__contentItemLayout--${testID}`}
 				visible={loading}
 			>
 				<Progress
-					animatedType={ProgressAnimated.INDETERMINATE}
+					animatedType={PROGRESS_ANIMATED.INDETERMINATE}
 					content={icon}
 					size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
-					testID={`iconButton__progress--${id}`}
-					type={ProgressType.CIRCULAR}
+					testID={testID}
+					type={PROGRESS_TYPE.CIRCULAR}
 				/>
 			</ContentItemLayout>
 
 			<ContentItemLayout
-				testID={`iconButton__contentItemLayoutAnimated--${id}`}
+				testID={`iconButton__contentItemLayout--${testID}`}
 				visible={!loading}
 			>
 				<Touchable
@@ -72,26 +77,25 @@ const render = ({
 					mainAlignSelf='center'
 					ref={ref}
 					shape={shape}
-					testID={`iconButton__touchable--${id}`}
+					testID={testID}
 					underlayColor={underlayColor}
 				>
 					<Content
 						{...contentProps}
-						accessibilityRole='button'
 						pointerEvents='none'
 						shape={shape}
 						size={size}
-						testID={`iconButton__content--${id}`}
+						testID={`iconButton__content--${testID}`}
 					>
-						<Main testID={`iconButton__main--${id}`}>{icon}</Main>
+						<Main testID={`iconButton__main--${testID}`}>{icon}</Main>
 						<Underlay
 							active={active}
-							activeAnimatedType={ActiveAnimatedType.SCALE}
+							activeAnimatedType={ACTIVE_ANIMATED.SCALE}
 							activeColor={activeColor}
 							defaultActive={defaultActive}
 							eventName={eventName}
 							shape={shape}
-							testID={`iconButton__underlay--${id}`}
+							testID={testID}
 							underlayColor={underlayColor}
 						/>
 					</Content>
@@ -101,12 +105,12 @@ const render = ({
 	)
 }
 
-const ForwardRefIconButton = forwardRef<View, IconButtonProps>((props, ref) => (
+const ButtonWithRef = forwardRef<View, IconButtonProps>((props, ref) => (
 	<IconButtonBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderIconButton={renderIconButton}
 	/>
 ))
 
-export const IconButton: FC<IconButtonProps> = ForwardRefIconButton
+export const IconButton: FC<IconButtonProps> = ButtonWithRef

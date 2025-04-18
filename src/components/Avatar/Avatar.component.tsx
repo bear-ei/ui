@@ -7,6 +7,7 @@ import type {AvatarProps, RenderAvatarProps} from './Avatar.interface'
 import {Container, Content, Image, LabelText} from './Avatar.styles'
 
 const renderAvatar = ({
+	accessibilityLabel,
 	backgroundColor,
 	defaultSource,
 	density,
@@ -19,7 +20,7 @@ const renderAvatar = ({
 }: RenderAvatarProps) => (
 	<Container
 		{...containerProps}
-		accessibilityLabel={`Avatar: ${labelText}`}
+		accessibilityLabel={labelText ? `Avatar: ${labelText}` : accessibilityLabel}
 		accessibilityRole='image'
 		accessible={true}
 		pointerEvents='none'
