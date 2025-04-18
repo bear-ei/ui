@@ -12,15 +12,15 @@ describe('Touchable', () => {
 			</Touchable>
 		)
 
-		expect(getByTestId('touchable--touch-id')).toBeTruthy()
-		expect(getByTestId('touchable__touchableContent--touch-id')).toBeTruthy()
-		expect(getByTestId('touchable__main--touch-id')).toBeTruthy()
+		expect(getByTestId('touchable__touchableContent--test-id')).toBeTruthy()
+		expect(getByTestId('touchable__main--test-id')).toBeTruthy()
 		expect(getByTestId('touch-id')).toBeTruthy()
 	})
 
 	it('should forward ref to internal pressable View', () => {
 		const TestComponent = () => {
 			const ref = useRef<View>(null)
+
 			return (
 				<Touchable
 					ref={ref}
@@ -32,7 +32,8 @@ describe('Touchable', () => {
 		}
 
 		const {getByTestId} = renderWithTheme(<TestComponent />)
-		expect(getByTestId('touchable--forward-ref')).toBeTruthy()
+
+		expect(getByTestId('forward-ref')).toBeTruthy()
 	})
 
 	it('should support centered ripple rendering', () => {
@@ -46,6 +47,7 @@ describe('Touchable', () => {
 		)
 
 		const ripple = getAllByTestId('ripple-test')
+
 		expect(ripple.length).toBeGreaterThanOrEqual(1)
 	})
 
@@ -59,13 +61,13 @@ describe('Touchable', () => {
 			</Touchable>
 		)
 
-		const node = getByTestId('touchable__touchableContent--disabled')
+		const node = getByTestId('touchable__touchableContent--test-id')
+
 		expect(node).toBeTruthy()
 	})
 
 	it('should call interaction handler on pressIn', () => {
 		const onPressIn = jest.fn()
-
 		const {getByTestId} = renderWithTheme(
 			<Touchable
 				testID='press-test'
@@ -75,7 +77,7 @@ describe('Touchable', () => {
 			</Touchable>
 		)
 
-		const node = getByTestId('touchable__touchableContent--press-test')
+		const node = getByTestId('touchable__touchableContent--test-id')
 
 		fireEvent(node, 'pressIn', {
 			nativeEvent: {

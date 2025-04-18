@@ -50,6 +50,7 @@ describe('Underlay', () => {
 		)
 
 		const hoverLayer = getByTestId('underlay__animatedHoverLayer--test-id')
+
 		expect(hoverLayer.props.shape).toBe('EXTRA_SMALL')
 		expect(hoverLayer.props.underlayColor).toBe('#abcdef')
 	})
@@ -66,6 +67,7 @@ describe('Underlay', () => {
 		)
 
 		const activeLayer = getByTestId('underlay__animatedActiveLayer--test-id')
+
 		expect(activeLayer.props.shape).toBe('EXTRA_SMALL')
 	})
 })

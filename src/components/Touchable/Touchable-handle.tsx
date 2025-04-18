@@ -71,13 +71,13 @@ export const renderTouchableRipple =
 	({centered, containerLayout, id, ...props}: RenderTouchableRippleOptions) =>
 	(rippleSequence: TouchableRippleSequence) =>
 		Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
-			const centeredTouchableRipple =
+			const isEnteredTouchableRipple =
 				typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
 
 			return (
 				<TouchableRipple
 					{...props}
-					centered={centeredTouchableRipple}
+					centered={isEnteredTouchableRipple}
 					containerLayout={containerLayout}
 					indexKey={indexKey}
 					key={indexKey}

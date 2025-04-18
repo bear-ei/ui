@@ -15,7 +15,6 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 			enableTouchableRipple = true,
 			renderTouchable,
 			underlayColor,
-			testID,
 			...renderTouchableProps
 		},
 		ref
@@ -50,10 +49,10 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 
 		return renderTouchable({
 			...renderTouchableProps,
+			id,
 			interactionHandlers,
 			ref: pressableRef,
-			rippleElements,
-			testID: testID ?? id
+			rippleElements
 		})
 	}
 )
