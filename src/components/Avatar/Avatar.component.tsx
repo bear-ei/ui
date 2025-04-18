@@ -11,6 +11,7 @@ const renderAvatar = ({
 	backgroundColor,
 	defaultSource,
 	density,
+	id,
 	labelText,
 	shape = SHAPE.FULL,
 	size,
@@ -24,27 +25,27 @@ const renderAvatar = ({
 		accessibilityRole='image'
 		accessible={true}
 		pointerEvents='none'
-		testID={`avatar--${testID}`}
+		testID={testID ?? `avatar--${testID}`}
 	>
 		<Content
 			backgroundColor={backgroundColor}
 			density={density}
 			shape={shape}
 			size={size}
-			testID={`avatar__content--${testID}`}
+			testID={`avatar__content--${id}`}
 		>
 			{source || defaultSource ?
 				<Image
 					defaultSource={defaultSource ?? {}}
 					resizeMode='cover'
 					source={source ?? {}}
-					testID={`avatar__image--${testID}`}
+					testID={`avatar__image--${id}`}
 				/>
 			:	<LabelText
 					ellipsizeMode='tail'
 					numberOfLines={1}
 					size={SIZE.MEDIUM}
-					testID={`avatar__labelText--${testID}`}
+					testID={`avatar__labelText--${id}`}
 					type={TYPOGRAPHY.TITLE}
 				>
 					{labelText}
