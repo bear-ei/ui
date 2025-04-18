@@ -13,6 +13,7 @@ const renderLayoutAnimated = ({
 	containerAnimatedStyle,
 	contentSize,
 	contentStyle,
+	id,
 	interactionHandlers,
 	layout,
 	style,
@@ -28,18 +29,18 @@ const renderLayoutAnimated = ({
 			{...containerProps}
 			collapse={collapse}
 			style={[style, containerAnimatedStyle]}
-			testID={`layoutAnimated--${testID}`}
+			testID={testID ?? `layoutAnimated--${testID}`}
 			visible={visible}
 		>
 			<ContentLayout
 				contentSize={contentSize ?? layout}
-				testID={`layoutAnimated__contentSize--${testID}`}
+				testID={`layoutAnimated__contentSize--${id}`}
 				visible={visible}
 			>
 				<Content
 					{...(!contentSize && {onLayout})}
 					style={[contentStyle]}
-					testID={`layoutAnimated__content--${testID}`}
+					testID={`layoutAnimated__content--${id}`}
 				>
 					{children}
 				</Content>

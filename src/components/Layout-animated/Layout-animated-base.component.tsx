@@ -31,7 +31,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			opacity,
 			renderLayoutAnimated,
 			scale = false,
-			testID,
 			unmount,
 			visible: rawVisible,
 			...renderLayoutAnimatedProps
@@ -44,7 +43,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: 'idle'})
 
 		const id = useId()
-		const layoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
+		const isLayoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
 		const delay = useMemo(() => rawDelay + 50, [rawDelay])
 		const onLayoutAnimatedLayoutVisible = useMemo(
 			() => debounce(handleLayoutAnimatedLayoutVisible({setState, onVisible}))(delay),
@@ -83,13 +82,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			onAnimatedFinished: onLayoutAnimatedFinished,
 			opacity,
 			scale,
-			visible: visible ?? layoutVisible,
+			visible: visible ?? isLayoutVisible,
 			width: layout.width ?? contentSize?.width ?? contentSize?.minWidth
 		})
 
 		useEffect(() => {
-			onLayoutAnimatedStatus(layoutVisible)
-		}, [layoutVisible, onLayoutAnimatedStatus])
+			onLayoutAnimatedStatus(isLayoutVisible)
+		}, [isLayoutVisible, onLayoutAnimatedStatus])
 
 		useEffect(() => {
 			nextUnmountEvent?.()
@@ -97,9 +96,9 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
 		useEffect(() => {
 			if (status === 'succeeded') {
-				onLayoutAnimatedLayoutVisible(layoutVisible)
+				onLayoutAnimatedLayoutVisible(isLayoutVisible)
 			}
-		}, [layoutVisible, onLayoutAnimatedLayoutVisible, status])
+		}, [isLayoutVisible, onLayoutAnimatedLayoutVisible, status])
 
 		useEffect(() => {
 			runAfterInteractions(nextVisibleEvent)()
@@ -116,11 +115,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					animatedType,
 					containerAnimatedStyle,
 					contentSize,
+					id,
 					interactionHandlers,
 					layout,
 					ref,
-					testID: testID ?? id,
-					visible: typeof invisible === 'boolean' ? !invisible : layoutVisible
+					visible: typeof invisible === 'boolean' ? !invisible : isLayoutVisible
 				})
 	}
 )

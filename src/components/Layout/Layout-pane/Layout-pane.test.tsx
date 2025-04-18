@@ -7,7 +7,7 @@ describe('LayoutPane', () => {
 	it('should render the LayoutPane component with default testID', () => {
 		const {getByTestId} = renderWithTheme(<LayoutPane testID='default' />)
 
-		expect(getByTestId('layoutAnimated--layoutPane--default')).toBeTruthy()
+		expect(getByTestId('layoutPane--default')).toBeTruthy()
 	})
 
 	it('should render LayoutPane with default visibility as true', () => {
@@ -17,7 +17,7 @@ describe('LayoutPane', () => {
 			</LayoutPane>
 		)
 
-		const layoutPaneContainer = getByTestId('layoutAnimated--layoutPane--visible')
+		const layoutPaneContainer = getByTestId('layoutPane--visible')
 		expect(layoutPaneContainer).toBeTruthy()
 	})
 })
