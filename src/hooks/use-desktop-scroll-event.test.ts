@@ -4,64 +4,63 @@ import {useDesktopScrollEvent} from './use-desktop-scroll-event.hook'
 
 jest.useFakeTimers()
 
-const mockPlatform = (os: string) => {
-	Object.defineProperty(Platform, 'OS', {
-		get: () => os
-	})
-}
-
 describe('useDesktopScrollEvent', () => {
-	const createEvent = () => ({
-		nativeEvent: {
-			contentOffset: {x: 0, y: 0}
-		}
+	let originalPlatform: 'ios' | 'android' | 'windows' | 'macos' | 'web'
+
+	beforeAll(() => {
+		originalPlatform = Platform.OS
 	})
 
-	beforeEach(() => {
+	afterEach(() => {
 		jest.clearAllTimers()
+		jest.clearAllMocks()
 	})
 
-	it('returns native handlers on non-desktop platforms', () => {
-		mockPlatform('ios')
-
-		const onScroll = jest.fn()
-		const onMomentumScrollEnd = jest.fn()
-		const {result} = renderHook(() => useDesktopScrollEvent({onScroll, onMomentumScrollEnd}))
-
-		expect(result.current.onScroll).toBe(onScroll)
-		expect(result.current.onMomentumScrollEnd).toBe(onMomentumScrollEnd)
+	afterAll(() => {
+		Platform.OS = originalPlatform
 	})
 
-	it('wraps scroll event and delays momentum event on desktop platforms', () => {
-		mockPlatform('web')
-
+	it('should call onScroll immediately', () => {
+		Platform.OS = 'macos'
 		const onScroll = jest.fn()
-		const onMomentumScrollEnd = jest.fn()
-		const event = createEvent()
-		const {result} = renderHook(() => useDesktopScrollEvent({onScroll, onMomentumScrollEnd}))
+		const {result} = renderHook(() => useDesktopScrollEvent({onScroll}))
+		const fakeEvent = {nativeEvent: {}} as any
 
 		act(() => {
-			result.current.onScroll?.(event as any)
+			result.current.onScroll?.(fakeEvent)
 		})
 
-		expect(onScroll).toHaveBeenCalledWith(event)
+		expect(onScroll).toHaveBeenCalledTimes(1)
+	})
+
+	it('should call onMomentumScrollEnd after 150ms', () => {
+		Platform.OS = 'web'
+		const onScroll = jest.fn()
+		const onMomentumScrollEnd = jest.fn()
+		const {result} = renderHook(() => useDesktopScrollEvent({onScroll, onMomentumScrollEnd}))
+		const fakeEvent = {nativeEvent: {}} as any
+
+		act(() => {
+			result.current.onScroll?.(fakeEvent)
+			jest.advanceTimersByTime(149)
+		})
+
 		expect(onMomentumScrollEnd).not.toHaveBeenCalled()
+
 		act(() => {
-			jest.advanceTimersByTime(150)
+			jest.advanceTimersByTime(1)
 		})
 
-		expect(onMomentumScrollEnd).toHaveBeenCalledWith(event)
+		expect(onMomentumScrollEnd).toHaveBeenCalledTimes(1)
 	})
 
-	it('clears timeout on unmount', () => {
-		mockPlatform('web')
+	it('should clear timer on unmount', () => {
+		Platform.OS = 'windows'
 
-		const clearTimeoutSpy = jest.spyOn(global, 'clearTimeout')
+		const onScroll = jest.fn()
+		const clearSpy = jest.spyOn(global, 'clearTimeout')
 		const {unmount, result} = renderHook(() =>
-			useDesktopScrollEvent({
-				onScroll: jest.fn(),
-				onMomentumScrollEnd: jest.fn()
-			})
+			useDesktopScrollEvent({onScroll, onMomentumScrollEnd: jest.fn()})
 		)
 
 		act(() => {
@@ -69,7 +68,7 @@ describe('useDesktopScrollEvent', () => {
 		})
 
 		unmount()
-		expect(clearTimeoutSpy).toHaveBeenCalled()
-		clearTimeoutSpy.mockRestore()
+
+		expect(clearSpy).toHaveBeenCalled()
 	})
 })

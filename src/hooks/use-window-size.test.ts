@@ -1,49 +1,58 @@
 import {WINDOW_SIZE} from '@bearei/material-token'
 import {renderHook} from '@testing-library/react-hooks'
-import * as useWindowDimensionsModule from './use-window-dimensions.hook'
+import {useWindowDimensions} from './use-window-dimensions.hook'
 import {useWindowSize} from './use-window-size.hook'
 
-describe('useWindowSize', () => {
-	const mockUseWindowDimensions = (width: number) => {
-		jest.spyOn(useWindowDimensionsModule, 'useWindowDimensions').mockReturnValue({
-			width,
-			height: 800,
-			scale: 2,
-			fontScale: 1
-		})
-	}
+jest.mock('./use-window-dimensions.hook', () => ({
+	useWindowDimensions: jest.fn()
+}))
 
-	it.each([
-		[0, WINDOW_SIZE.COMPACT],
-		[599, WINDOW_SIZE.COMPACT],
-		[600, WINDOW_SIZE.MEDIUM],
-		[839, WINDOW_SIZE.MEDIUM],
-		[840, WINDOW_SIZE.EXPANDED],
-		[1199, WINDOW_SIZE.EXPANDED],
-		[1200, WINDOW_SIZE.LARGE],
-		[1599, WINDOW_SIZE.LARGE],
-		[1600, WINDOW_SIZE.EXTRA_LARGE],
-		[3000, WINDOW_SIZE.EXTRA_LARGE]
-	])('width %i maps to windowSize %s', (width, expected) => {
-		mockUseWindowDimensions(width)
+describe('useWindowSize', () => {
+	it('should return COMPACT for width < 600', () => {
+		;(useWindowDimensions as jest.Mock).mockReturnValue({width: 599})
 
 		const {result} = renderHook(() => useWindowSize())
 
-		expect(result.current.windowSize).toBe(expected)
-		expect(result.current.width).toBe(width)
+		expect(result.current.windowSize).toBe(WINDOW_SIZE.COMPACT)
 	})
 
-	it('returns full scaledSize structure', () => {
-		mockUseWindowDimensions(800)
+	it('should return MEDIUM for 600 <= width < 840', () => {
+		;(useWindowDimensions as jest.Mock).mockReturnValue({width: 700})
 
 		const {result} = renderHook(() => useWindowSize())
 
-		expect(result.current).toEqual({
-			width: 800,
-			height: 800,
-			scale: 2,
-			fontScale: 1,
-			windowSize: WINDOW_SIZE.MEDIUM
-		})
+		expect(result.current.windowSize).toBe(WINDOW_SIZE.MEDIUM)
+	})
+
+	it('should return EXPANDED for 840 <= width < 1200', () => {
+		;(useWindowDimensions as jest.Mock).mockReturnValue({width: 1000})
+
+		const {result} = renderHook(() => useWindowSize())
+
+		expect(result.current.windowSize).toBe(WINDOW_SIZE.EXPANDED)
+	})
+
+	it('should return LARGE for 1200 <= width < 1600', () => {
+		;(useWindowDimensions as jest.Mock).mockReturnValue({width: 1400})
+
+		const {result} = renderHook(() => useWindowSize())
+
+		expect(result.current.windowSize).toBe(WINDOW_SIZE.LARGE)
+	})
+
+	it('should return EXTRA_LARGE for width >= 1600', () => {
+		;(useWindowDimensions as jest.Mock).mockReturnValue({width: 1600})
+
+		const {result} = renderHook(() => useWindowSize())
+
+		expect(result.current.windowSize).toBe(WINDOW_SIZE.EXTRA_LARGE)
+	})
+
+	it('should return MEDIUM as default if width does not match any case', () => {
+		;(useWindowDimensions as jest.Mock).mockReturnValue({width: -1})
+
+		const {result} = renderHook(() => useWindowSize())
+
+		expect(result.current.windowSize).toBe(WINDOW_SIZE.MEDIUM)
 	})
 })

@@ -1,32 +1,59 @@
+import {Token} from '@bearei/material-token'
 import {renderHook} from '@testing-library/react-hooks'
-import type {SharedValue} from 'react-native-reanimated'
+import {SharedValue} from 'react-native-reanimated'
 import {useAnimatedTiming} from './use-animated-timing.hook'
 
-describe('useAnimatedTiming', () => {
-	const mockSharedValue = {value: 0}
-	const mockToken = {
-		animated: () => () => ({
-			bezier: {x0: 0, y0: 0, x1: 1, y1: 1},
-			duration: 300
-		})
+type TimingArgs = [number, Record<string, any>, ((finished: boolean) => void)?]
+const mockWithTiming = jest.fn((_toValue, _config, callback) => {
+	if (callback) {
+		callback(true)
 	}
 
-	it('skips animation if toValue equals current value', () => {
-		mockSharedValue.value = 100
+	return 'timing-animation'
+})
 
-		const {result} = renderHook(() => useAnimatedTiming({token: mockToken as any}))
+const mockWithRepeat = jest.fn((_animation, _numberOfReps, _reverse) => {
+	return 'repeated-timing-animation'
+})
 
-		result.current()(mockSharedValue as SharedValue<number>)(100)
-		expect(mockSharedValue.value).toBe(100)
+const mockRunOnJS = jest.fn(callback => callback)
+
+jest.mock('react-native-reanimated', () => ({
+	Easing: {
+		bezier: jest.fn(() => jest.fn(v => v))
+	},
+	withTiming: jest.fn().mockImplementation((...args: TimingArgs) => mockWithTiming(...args)),
+	withRepeat: jest.fn().mockImplementation((...args: TimingArgs) => mockWithRepeat(...args)),
+	runOnJS: jest.fn().mockImplementation(cb => mockRunOnJS(cb))
+}))
+
+const mockToken = {
+	animated: jest.fn().mockImplementation(() => () => ({
+		bezier: {x0: 0.2, y0: 0, x1: 0, y1: 1},
+		duration: 250
+	}))
+} as unknown as Token
+
+describe('useAnimatedTiming', () => {
+	it('should animate shared value with callback', () => {
+		const callback = jest.fn()
+		const sharedValue = {value: 0} as SharedValue<number>
+		const {result} = renderHook(() => useAnimatedTiming({token: mockToken}))
+		const animate = result.current({callback})
+
+		animate(sharedValue)(1)
+		expect(sharedValue.value).toBe('timing-animation')
+		expect(mockWithTiming).toHaveBeenCalled()
+		expect(callback).toHaveBeenCalledWith(true)
 	})
 
-	it('updates sharedValue when toValue changes', () => {
-		mockSharedValue.value = 0
+	it('should use repeat when repeat is defined', () => {
+		const sharedValue = {value: 0} as SharedValue<number>
+		const {result} = renderHook(() => useAnimatedTiming({token: mockToken}))
+		const animate = result.current({repeat: 2})
 
-		const {result} = renderHook(() => useAnimatedTiming({token: mockToken as any}))
-
-		result.current()(mockSharedValue as SharedValue<number>)(200)
-		expect(mockSharedValue.value).not.toBe(0)
-		expect(mockSharedValue.value).toBeDefined()
+		animate(sharedValue)(1)
+		expect(sharedValue.value).toBe('repeated-timing-animation')
+		expect(mockWithRepeat).toHaveBeenCalledWith('timing-animation', 2)
 	})
 })

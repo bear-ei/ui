@@ -2,26 +2,39 @@ import {renderHook} from '@testing-library/react-hooks'
 import {useLazyRef} from './use-lazy-ref.hook'
 
 describe('useLazyRef', () => {
-	it('calls the callback only once and returns a ref', () => {
-		const factory = jest.fn(() => ({value: 123}))
-		const {result, rerender} = renderHook(() => useLazyRef(factory))
+	it('should call the callback and initialize ref value on first invocation', () => {
+		const mockCallback = jest.fn(() => 'initialValue')
+		const {result} = renderHook(() => useLazyRef(mockCallback))
 
-		expect(result.current.current).toEqual({value: 123})
-		expect(factory).toHaveBeenCalledTimes(1)
-		rerender()
-		expect(factory).toHaveBeenCalledTimes(1)
-		expect(result.current.current).toEqual({value: 123})
+		expect(mockCallback).toHaveBeenCalledTimes(1)
+		expect(result.current.current).toBe('initialValue')
 	})
 
-	it('can return primitive value', () => {
-		const {result} = renderHook(() => useLazyRef(() => 42))
+	it('should not call the callback again on subsequent invocations', () => {
+		const mockCallback = jest.fn(() => 'initialValue')
+		const {rerender} = renderHook(() => useLazyRef(mockCallback))
 
+		rerender()
+		rerender()
+		expect(mockCallback).toHaveBeenCalledTimes(1)
+	})
+
+	it('should correctly infer and maintain the type of the ref value', () => {
+		const mockCallback = jest.fn(() => 42)
+		const {result} = renderHook(() => useLazyRef<number>(mockCallback))
+
+		expect(typeof result.current.current).toBe('number')
 		expect(result.current.current).toBe(42)
 	})
 
-	it('can return undefined if callback returns it', () => {
-		const {result} = renderHook(() => useLazyRef(() => undefined))
+	it('should throw an error if the callback throws', () => {
+		const mockCallback = jest.fn(() => {
+			throw new Error('Callback error')
+		})
 
-		expect(result.current.current).toBeUndefined()
+		const {result} = renderHook(() => useLazyRef(mockCallback))
+
+		expect(result.error).toBeDefined()
+		expect(result?.error?.message).toBe('Callback error')
 	})
 })

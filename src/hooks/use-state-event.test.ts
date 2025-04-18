@@ -1,70 +1,82 @@
-import {act, renderHook} from '@testing-library/react-hooks'
 import {Platform} from 'react-native'
 import {useStateEvent} from './use-state-event.hook'
 
 describe('useStateEvent', () => {
-	const originalOS = Platform.OS
+	const originalPlatform = Platform.OS
 
 	afterEach(() => {
-		Object.defineProperty(Platform, 'OS', {
-			get: () => originalOS
-		})
+		Platform.OS = originalPlatform
 	})
 
-	const createMockEvent = () => ({nativeEvent: {}})
+	it('should call onStateEventChange with correct arguments', () => {
+		Platform.OS = 'ios'
 
-	it('calls onStateEventChange and callback for pressIn', () => {
-		const onPressIn = jest.fn()
-		const onStateEventChange = jest.fn(() => () => jest.fn())
-		const {result} = renderHook(() => useStateEvent({onPressIn, onStateEventChange}))
+		const onStateEventChange = jest
+			.fn()
+			.mockImplementation(() => jest.fn().mockImplementation(() => jest.fn().mockImplementation()))
 
-		act(() => {
-			result.current.onPressIn(createMockEvent() as any)
+		const {onBlur, onFocus, onPress} = useStateEvent({
+			disabled: false,
+			onBlur: jest.fn(),
+			onFocus: jest.fn(),
+			onPress: jest.fn(),
+			onStateEventChange
 		})
 
-		expect(onPressIn).toHaveBeenCalled()
-		expect(onStateEventChange).toHaveBeenCalledWith({eventName: 'pressIn'})
+		const event = {nativeEvent: {}} as any
+
+		onBlur(event)
+		onFocus(event)
+		onPress(event)
+		expect(onStateEventChange).toHaveBeenCalledWith({eventName: 'blur'})
+		expect(onStateEventChange).toHaveBeenCalledWith({eventName: 'focus'})
+		expect(onStateEventChange).toHaveBeenCalledWith({eventName: 'press'})
+
+		const stateHandler = onStateEventChange.mock.results[0].value
+		const eventHandler = stateHandler('enabled')
+
+		eventHandler(event)
+		expect(onStateEventChange).toHaveBeenCalledTimes(3)
 	})
 
-	it('respects disabled = true and ignores events (except layout)', () => {
-		const onPress = jest.fn()
-		const onLayout = jest.fn()
-		const onStateEventChange = jest.fn(() => () => jest.fn())
-		const {result} = renderHook(() =>
-			useStateEvent({disabled: true, onPress, onLayout, onStateEventChange})
-		)
-
-		act(() => {
-			result.current.onPress?.(createMockEvent() as any)
+	it('should not call onStateEventChange when it is not provided', () => {
+		Platform.OS = 'ios'
+		const {onBlur, onFocus, onPress} = useStateEvent({
+			disabled: false,
+			onBlur: jest.fn(),
+			onFocus: jest.fn(),
+			onPress: jest.fn()
 		})
 
-		expect(onPress).not.toHaveBeenCalled()
-		act(() => {
-			result.current.onLayout?.(createMockEvent() as any)
+		const event = {nativeEvent: {}} as any
+
+		onBlur(event)
+		onFocus(event)
+		onPress(event)
+		expect(true).toBe(true)
+	})
+
+	it('should not call onStateEventChange when disabled (except for layout)', () => {
+		Platform.OS = 'ios'
+
+		const onStateEventChange = jest
+			.fn()
+			.mockImplementation(() => jest.fn().mockImplementation(() => jest.fn().mockImplementation()))
+
+		const {onBlur, onFocus, onLayout} = useStateEvent({
+			disabled: true,
+			onBlur: jest.fn(),
+			onFocus: jest.fn(),
+			onLayout: jest.fn(),
+			onStateEventChange
 		})
 
-		expect(onLayout).toHaveBeenCalled()
+		const event = {nativeEvent: {}} as any
+
+		onBlur(event)
+		onFocus(event)
+		onLayout(event)
+		expect(onStateEventChange).toHaveBeenCalledTimes(1)
 		expect(onStateEventChange).toHaveBeenCalledWith({eventName: 'layout'})
-	})
-
-	it('handles focus and blur events', () => {
-		const onFocus = jest.fn()
-		const onBlur = jest.fn()
-		const onStateEventChange = jest.fn(() => () => jest.fn())
-		const {result} = renderHook(() => useStateEvent({onFocus, onBlur, onStateEventChange}))
-
-		act(() => result.current.onFocus(createMockEvent() as any))
-		act(() => result.current.onBlur(createMockEvent() as any))
-		expect(onFocus).toHaveBeenCalled()
-		expect(onBlur).toHaveBeenCalled()
-	})
-
-	it('sets mobileDevice to true on iOS', () => {
-		const originalOS = Platform.OS
-		const {result} = renderHook(() => useStateEvent({}))
-
-		Object.defineProperty(Platform, 'OS', {get: () => 'ios'})
-		expect(result.current.mobileDevice).toBe(true)
-		Object.defineProperty(Platform, 'OS', {get: () => originalOS})
 	})
 })

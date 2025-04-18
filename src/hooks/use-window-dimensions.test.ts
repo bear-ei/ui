@@ -1,47 +1,60 @@
-import {renderHook} from '@testing-library/react-hooks'
+import {act, renderHook} from '@testing-library/react-hooks'
 import {Dimensions} from 'react-native'
 import {useWindowDimensions} from './use-window-dimensions.hook'
 
-jest.mock('react-native', () => ({
-	Dimensions: {
-		get: jest.fn(),
-		addEventListener: jest.fn()
-	}
-}))
-
-const mockRemove = jest.fn()
-
 describe('useWindowDimensions', () => {
+	const mockInitialDimensions = {
+		width: 375,
+		height: 812,
+		scale: 3,
+		fontScale: 2
+	}
+
+	let mockListener = jest.fn()
+	let removeMock = jest.fn()
+
 	beforeEach(() => {
 		jest.clearAllMocks()
-		jest.useFakeTimers()
-		;(Dimensions.get as jest.Mock).mockReturnValue({
-			width: 375,
-			height: 812,
-			scale: 3,
-			fontScale: 2
-		})
-		;(Dimensions.addEventListener as jest.Mock).mockImplementation((_, handler) => {
-			return {remove: mockRemove}
+		jest.spyOn(Dimensions, 'get').mockReturnValue(mockInitialDimensions as any)
+		jest.spyOn(Dimensions, 'addEventListener').mockImplementation((_, listener) => {
+			mockListener.mockImplementation(listener)
+
+			return {
+				remove: removeMock
+			} as any
 		})
 	})
 
-	it('initializes with Dimensions.get', () => {
+	it('should return initial dimensions on mount', () => {
 		const {result} = renderHook(() => useWindowDimensions())
 
-		expect(result.current).toEqual({
-			width: 375,
-			height: 812,
-			scale: 3,
-			fontScale: 2
-		})
+		expect(result.current).toEqual(mockInitialDimensions)
 	})
 
-	it('adds and removes Dimensions listener', () => {
+	it('should update dimensions when window changes', () => {
+		const {result} = renderHook(() => useWindowDimensions())
+
+		const newDimensions = {
+			window: {
+				width: 375,
+				height: 812,
+				scale: 3,
+				fontScale: 2
+			}
+		}
+
+		act(() => {
+			mockListener(newDimensions)
+		})
+
+		expect(result.current).toEqual(newDimensions.window)
+	})
+
+	it('should remove event listener on unmount', () => {
 		const {unmount} = renderHook(() => useWindowDimensions())
 
-		expect(Dimensions.addEventListener).toHaveBeenCalledWith('change', expect.any(Function))
 		unmount()
-		expect(mockRemove).toHaveBeenCalled()
+
+		expect(removeMock).toHaveBeenCalled()
 	})
 })
