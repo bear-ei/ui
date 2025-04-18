@@ -24,7 +24,7 @@ export interface RenderIconProps extends IconProps {
 }
 
 export interface IconBaseProps extends IconProps {
-	render: (props: RenderIconProps) => React.JSX.Element
+	renderIcon: (props: RenderIconProps) => React.JSX.Element
 }
 
 export type UseIconAnimatedOptions = Pick<RenderIconProps, 'eventName'>

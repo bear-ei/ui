@@ -5,7 +5,7 @@ import {Checkbox} from './Checkbox.component'
 
 describe('Checkbox', () => {
 	it('should render as unselected by default', () => {
-		const {getByTestId, toJSON} = renderWithTheme(<Checkbox testID='cb-1' />)
+		const {getByTestId} = renderWithTheme(<Checkbox testID='cb-1' />)
 
 		expect(getByTestId('checkbox__iconLayout--blank--cb-1')).toBeTruthy()
 	})

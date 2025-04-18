@@ -7,7 +7,7 @@ import type {IconProps, RenderIconProps} from './Icon.interface'
 import {Container} from './Icon.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const render = ({containerAnimatedStyle, style, svgIconElement, testID, ...containerProps}: RenderIconProps) => (
+const renderIcon = ({containerAnimatedStyle, style, svgIconElement, testID, ...containerProps}: RenderIconProps) => (
 	<AnimatedContainer
 		{...containerProps}
 		accessibilityRole='image'
@@ -19,12 +19,12 @@ const render = ({containerAnimatedStyle, style, svgIconElement, testID, ...conta
 	</AnimatedContainer>
 )
 
-const ForwardRefIcon = forwardRef<View, IconProps>((props, ref) => (
+const IconWithRef = forwardRef<View, IconProps>((props, ref) => (
 	<IconBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderIcon={renderIcon}
 	/>
 ))
 
-export const Icon: FC<IconProps> = ForwardRefIcon
+export const Icon: FC<IconProps> = IconWithRef

@@ -3,7 +3,7 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'
 import type {IconBaseProps} from './Icon.interface'
-import {iconStyle} from './icon-style'
+import {iconStyleConfig} from './icon-style'
 import {useIconAnimated} from './use-icon-animated.hook'
 
 export const IconBase = forwardRef<View, IconBaseProps>(
@@ -15,7 +15,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			icon,
 			iconStyle: style = ICON_STYLE.ROUNDED,
 			name = ICON_NAME.CIRCLE,
-			render,
+			renderIcon,
 			svgStyle,
 			testID,
 			type = ICON_TYPE.OUTLINED,
@@ -29,11 +29,11 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			theme.token.opacity.level5
 		)
 
-		const SvgIcon = icon ?? iconStyle[style]?.[type]?.[name]
+		const IconComponent = icon ?? iconStyleConfig[style]?.[type]?.[name]
 		const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
 		const {containerAnimatedStyle} = useIconAnimated({eventName})
-		const svgIconElement = SvgIcon && (
-			<SvgIcon
+		const svgIconElement = IconComponent && (
+			<IconComponent
 				fill={iconFill}
 				height='100%'
 				style={svgStyle}
@@ -41,6 +41,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			/>
 		)
 
-		return render({...renderProps, containerAnimatedStyle, ref, svgIconElement, testID: testID ?? id})
+		return renderIcon({...renderProps, containerAnimatedStyle, ref, svgIconElement, testID: testID ?? id})
 	}
 )
