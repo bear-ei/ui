@@ -7,7 +7,7 @@ import {LayoutPaneBase} from './Layout-pane-base.component'
 import type {LayoutPaneProps, RenderLayoutPaneProps} from './Layout-pane.interface'
 import {ContainerLayout} from './Layout-pane.styles'
 
-const render = ({
+const renderLayoutPane = ({
 	children,
 	contentStyle: rawContentStyle,
 	defaultVisible = true,
@@ -34,12 +34,12 @@ const render = ({
 	)
 }
 
-const ForwardRefLayoutPane = forwardRef<View, LayoutPaneProps>((props, ref) => (
+const LayoutPaneWithRef = forwardRef<View, LayoutPaneProps>((props, ref) => (
 	<LayoutPaneBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderLayoutPane={renderLayoutPane}
 	/>
 ))
 
-export const LayoutPane = ForwardRefLayoutPane as FC<LayoutPaneProps>
+export const LayoutPane = LayoutPaneWithRef as FC<LayoutPaneProps>

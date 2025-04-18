@@ -33,7 +33,7 @@ const renderLayout = ({
 	)
 }
 
-const ForwardRefLayout = forwardRef<View, LayoutProps>((props, ref) => (
+const LayoutWithRef = forwardRef<View, LayoutProps>((props, ref) => (
 	<LayoutBase
 		{...props}
 		ref={ref}
@@ -41,7 +41,7 @@ const ForwardRefLayout = forwardRef<View, LayoutProps>((props, ref) => (
 	/>
 ))
 
-Object.defineProperty(ForwardRefLayout, 'Pane', {value: LayoutPane})
-Object.defineProperty(ForwardRefLayout, 'Navigation', {value: LayoutNavigation})
+Object.defineProperty(LayoutWithRef, 'Pane', {value: LayoutPane})
+Object.defineProperty(LayoutWithRef, 'Navigation', {value: LayoutNavigation})
 
-export const Layout = ForwardRefLayout as FC<LayoutProps> as LayoutComponent
+export const Layout = LayoutWithRef as FC<LayoutProps> as LayoutComponent

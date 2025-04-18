@@ -7,7 +7,7 @@ import {LayoutNavigationBase} from './Layout-navigation-base.component'
 import type {LayoutNavigationProps, RenderLayoutNavigationProps} from './Layout-navigation.interface'
 import {ContainerLayout} from './Layout-navigation.styles'
 
-const render = ({
+const renderLayoutNavigation = ({
 	animatedType = LAYOUT_ANIMATED.COLLAPSE_X,
 	children,
 	defaultVisible = true,
@@ -26,12 +26,12 @@ const render = ({
 	</ContainerLayout>
 )
 
-const ForwardRefLayoutNavigation = forwardRef<View, LayoutNavigationProps>((props, ref) => (
+const LayoutNavigationWithRef = forwardRef<View, LayoutNavigationProps>((props, ref) => (
 	<LayoutNavigationBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderLayoutNavigation={renderLayoutNavigation}
 	/>
 ))
 
-export const LayoutNavigation = ForwardRefLayoutNavigation as FC<LayoutNavigationProps>
+export const LayoutNavigation = LayoutNavigationWithRef as FC<LayoutNavigationProps>
