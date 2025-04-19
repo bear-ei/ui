@@ -7,7 +7,15 @@ import {DividerBase} from './Divider-base.component'
 import type {DividerProps, RenderDividerProps} from './Divider.interface'
 import {Container, Content, Subheader} from './Divider.styles'
 
-const renderDivider = ({subheader, style, layout, size: rawSize, testID, ...containerProps}: RenderDividerProps) => {
+const renderDivider = ({
+	id,
+	layout,
+	size: rawSize,
+	style,
+	subheader,
+	testID,
+	...containerProps
+}: RenderDividerProps) => {
 	const size = subheader && layout === LAYOUT.HORIZONTAL ? SIZE.SMALL : rawSize
 
 	return (
@@ -15,17 +23,17 @@ const renderDivider = ({subheader, style, layout, size: rawSize, testID, ...cont
 			{...containerProps}
 			layout={layout}
 			size={size}
-			testID={`divider--${testID}`}
+			testID={testID ?? `divider--${id}`}
 		>
 			<Content
 				style={[style]}
-				testID={`divider__content--${testID}`}
+				testID={`divider__content--${id}`}
 			/>
 
 			{subheader && (
 				<Subheader
 					size={SIZE.SMALL}
-					testID={`divider__subheader--${testID}`}
+					testID={`divider__subheader--${id}`}
 					type={TYPOGRAPHY.TITLE}
 				>
 					{subheader}
