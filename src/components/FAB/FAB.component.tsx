@@ -27,6 +27,7 @@ const renderFAB = ({
 	ref,
 	size,
 	testID,
+	id,
 	type,
 	underlayColor,
 	...contentProps
@@ -38,7 +39,7 @@ const renderFAB = ({
 			pointerEvents='none'
 			shape={shape}
 			style={[backgroundUnderlayAnimatedStyle]}
-			testID={`fab__animatedBackgroundUnderlay--${testID}`}
+			testID={`fab__animatedBackgroundUnderlay--${id}`}
 		/>
 	)
 
@@ -46,7 +47,7 @@ const renderFAB = ({
 		<Elevation
 			level={elevation}
 			shape={shape}
-			testID={testID}
+			testID={`fab__elevation--${id}`}
 		/>
 	)
 
@@ -58,7 +59,7 @@ const renderFAB = ({
 			density={density}
 			extendedFAB={extendedFAB}
 			size={size}
-			testID={`fab--${testID}`}
+			testID={testID ?? `fab--${id}`}
 		>
 			<Touchable
 				{...interactionHandlers}
@@ -68,7 +69,7 @@ const renderFAB = ({
 				mainAlignSelf={size === SIZE.SMALL ? 'center' : 'stretch'}
 				ref={ref}
 				shape={shape}
-				testID={testID}
+				testID={`fab__touchable--${id}`}
 				underlayColor={underlayColor}
 			>
 				<Content
@@ -77,17 +78,17 @@ const renderFAB = ({
 					extendedFAB={extendedFAB}
 					pointerEvents='none'
 					size={size}
-					testID={`fab__content--${testID}`}
+					testID={`fab__content--${id}`}
 					type={type}
 				>
 					<Main
 						extendedFAB={extendedFAB}
 						size={size}
-						testID={`fab__main--${testID}`}
+						testID={`fab__main--${id}`}
 						type={type}
 					>
 						{icon && (
-							<IconLayout testID={`fab__iconLayout--${testID}`}>
+							<IconLayout testID={`fab__iconLayout--${id}`}>
 								{icon}
 							</IconLayout>
 						)}
@@ -96,7 +97,7 @@ const renderFAB = ({
 							<AnimatedLabelText
 								size={SIZE.LARGE}
 								style={[labelTextAnimatedStyle]}
-								testID={`fab__animatedLabelText--${testID}`}
+								testID={`fab__animatedLabelText--${id}`}
 								type={TYPOGRAPHY.LABEL}
 							>
 								{labelText}
@@ -107,7 +108,7 @@ const renderFAB = ({
 					<Underlay
 						eventName={eventName}
 						shape={shape}
-						testID={testID}
+						testID={`fab__underlay--${id}`}
 						underlayColor={underlayColor}
 					/>
 				</Content>

@@ -28,7 +28,6 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			loading,
 			renderFAB,
 			size = SIZE.MEDIUM,
-			testID: rawTestID,
 			type = FAB_TYPE.PRIMARY,
 			...renderFABProps
 		},
@@ -36,12 +35,8 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 	) => {
 		const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: 'idle'})
 		const id = useId()
-		const testID = rawTestID ?? id
 		const theme = useTheme()
-		const fabIconElement = renderFABIcon({eventName, type, disabled: rawDisabled, size, testID})(theme)(
-			icon
-		)
-
+		const fabIconElement = renderFABIcon({eventName, type, disabled: rawDisabled, size, id})(theme)(icon)
 		const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
 		const onFABStatus = useMemo(() => handleFABStatus(setState)(rawDisabled), [rawDisabled, setState])
 		const underlayColor = handleFABUnderlayColor(theme)(type)
@@ -76,13 +71,13 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			eventName,
 			extendedFAB: extendedFAB ?? !!labelText,
 			icon: fabIconElement,
+			id,
 			interactionHandlers,
 			labelText,
 			labelTextAnimatedStyle,
 			loading,
 			ref,
 			size,
-			testID,
 			type,
 			underlayColor
 		})
