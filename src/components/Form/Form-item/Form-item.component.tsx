@@ -5,10 +5,10 @@ import {FormItemBase} from './Form-item-base.component'
 import type {FormItemProps, RenderFormItemProps} from './Form-item.interface'
 import {Container} from './Form-item.styles'
 
-const renderFormItem = ({control, testID, ...containerProps}: RenderFormItemProps) => (
+const renderFormItem = ({control, testID, id, ...containerProps}: RenderFormItemProps) => (
 	<Container
 		{...containerProps}
-		testID={`formItem--${testID}`}
+		testID={testID ?? `formItem--${id}`}
 	>
 		{control}
 	</Container>

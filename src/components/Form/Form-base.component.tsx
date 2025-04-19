@@ -15,7 +15,6 @@ const FormBaseInner = <T,>(
 		onFinishFailed,
 		onValueChange,
 		renderForm,
-		testID: rawTestID,
 		validatorOptions,
 		...renderFormProps
 	}: FormBaseProps<T>,
@@ -23,13 +22,12 @@ const FormBaseInner = <T,>(
 ) => {
 	const [{status}, setState] = useImmer<FormState>({status: 'idle'})
 	const id = useId()
-	const testID = rawTestID ?? id
 	const formStore = useForm(form)
 	const {setCallback, setInitialValue, setFieldKeys} = formStore
 	const onFormCallback = useMemo(() => handleFormCallback<T>(setCallback), [setCallback])
 	const onFormFieldKeys = useMemo(() => handleFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
 	const onFormStatus = useMemo(() => handleFormStatus<T>(setState)(setInitialValue), [setInitialValue, setState])
-	const formItemElements = renderFormItems({validatorOptions, testID})(status)(items)
+	const formItemElements = renderFormItems({validatorOptions, id})(status)(items)
 
 	useEffect(() => {
 		onFormCallback({onFinish, onFinishFailed, onValueChange})
@@ -50,9 +48,9 @@ const FormBaseInner = <T,>(
 	return renderForm({
 		...renderFormProps,
 		form: formStore,
+		id,
 		itemElements: formItemElements,
-		ref,
-		testID
+		ref
 	})
 }
 
