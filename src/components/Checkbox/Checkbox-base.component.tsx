@@ -25,7 +25,6 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			indeterminate,
 			onActive,
 			renderCheckbox,
-			testID,
 			...renderCheckboxProps
 		},
 		ref
@@ -74,9 +73,9 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			disabled,
 			error,
 			eventName,
+			id,
 			interactionHandlers,
 			ref,
-			testID: testID ?? id,
 			theme,
 			value
 		})

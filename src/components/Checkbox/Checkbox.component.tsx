@@ -16,6 +16,7 @@ const renderCheckbox = ({
 	disabled,
 	error,
 	eventName,
+	id,
 	interactionHandlers,
 	testID,
 	theme,
@@ -27,8 +28,8 @@ const renderCheckbox = ({
 		value === CHECKBOX_VALUE.UNSELECTED ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
 
 	const checkBoxOutlineFill = error ? theme.token.scheme.error : unselectedFill
-	const shape = SHAPE.FULL
 	const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
+	const shape = SHAPE.FULL
 	const checkUnderlayColor =
 		value === CHECKBOX_VALUE.UNSELECTED ? theme.token.scheme.onSurfaceVariant : theme.token.scheme.primary
 
@@ -50,14 +51,14 @@ const renderCheckbox = ({
 			accessibilityRole='checkbox'
 			accessibilityState={{disabled}}
 			accessible={true}
-			testID={`checkbox--${testID}`}
+			testID={testID ?? `checkbox--${id}`}
 		>
 			<Touchable
 				{...interactionHandlers}
 				disabled={disabled}
 				mainAlignSelf='center'
 				shape={shape}
-				testID={testID}
+				testID={`checkbox__touchable--${id}`}
 				underlayColor={underlayColor}
 			>
 				<Content
@@ -65,14 +66,14 @@ const renderCheckbox = ({
 					density={density}
 					pointerEvents='none'
 					shape={shape}
-					testID={`checkbox__content--${testID}`}
+					testID={`checkbox__content--${id}`}
 				>
 					<Main
 						shape={SHAPE.TINY_SMALL}
-						testID={`checkbox__main--${testID}`}
+						testID={`checkbox__main--${id}`}
 					>
 						<IconLayout
-							testID={`checkbox__iconLayout--blank--${testID}`}
+							testID={`checkbox__iconLayout--blank--${id}`}
 							visible={true}
 						>
 							<Icon
@@ -82,14 +83,14 @@ const renderCheckbox = ({
 								name={ICON_NAME.CHECK_BOX_OUTLINE_BLANK}
 								size={iconSize}
 								svgStyle={iconSvgStyle}
-								testID={testID}
+								testID={`checkbox__icon--blank--${id}`}
 								type={ICON_TYPE.FILLED}
 							/>
 						</IconLayout>
 
 						<IconLayout
 							{...animatedOptions}
-							testID={`checkbox__iconLayout--selected--${testID}`}
+							testID={`checkbox__iconLayout--selected--${id}`}
 							visible={value === CHECKBOX_VALUE.SELECTED}
 						>
 							<Icon
@@ -99,14 +100,14 @@ const renderCheckbox = ({
 								name={ICON_NAME.CHECK_BOX}
 								size={iconSize}
 								svgStyle={iconSvgStyle}
-								testID={testID}
+								testID={`checkbox__icon--selected--${id}`}
 								type={ICON_TYPE.FILLED}
 							/>
 						</IconLayout>
 
 						<IconLayout
 							{...animatedOptions}
-							testID={`checkbox__iconLayout--indeterminate--${testID}`}
+							testID={`checkbox__iconLayout--indeterminate--${id}`}
 							visible={value === CHECKBOX_VALUE.INDETERMINATE}
 						>
 							<Icon
@@ -116,7 +117,7 @@ const renderCheckbox = ({
 								name={ICON_NAME.INDETERMINATE_CHECK_BOX}
 								size={iconSize}
 								svgStyle={iconSvgStyle}
-								testID={testID}
+								testID={`checkbox__icon--indeterminate--${id}`}
 								type={ICON_TYPE.FILLED}
 							/>
 						</IconLayout>
@@ -125,7 +126,7 @@ const renderCheckbox = ({
 					<Underlay
 						eventName={eventName}
 						shape={shape}
-						testID={testID}
+						testID={`checkbox__underlay--${id}`}
 						underlayColor={underlayColor}
 					/>
 				</Content>
