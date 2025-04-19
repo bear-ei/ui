@@ -34,7 +34,7 @@ export interface IconButtonState {
 }
 
 export interface RenderIconButtonIconOptions
-	extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading' | 'testID'> {
+	extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading' | 'id'> {
 	eventName?: EventName
 }
 

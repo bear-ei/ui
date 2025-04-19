@@ -12,6 +12,7 @@ const renderLayout = ({
 	children,
 	contentStyle: rawContentStyle,
 	defaultVisible = true,
+	id,
 	layout = LAYOUT.HORIZONTAL,
 	testID,
 	...containerProps
@@ -26,7 +27,7 @@ const renderLayout = ({
 			{...containerProps}
 			contentStyle={contentStyle}
 			defaultVisible={defaultVisible}
-			testID={`layout--${testID}`}
+			testID={testID ?? `layout--${id}`}
 		>
 			{children}
 		</ContainerLayout>

@@ -40,12 +40,12 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
 		const onFABStatus = useMemo(() => handleFABStatus(setState)(rawDisabled), [rawDisabled, setState])
 		const underlayColor = handleFABUnderlayColor(theme)(type)
-		const disabled = loading || rawDisabled
+		const isDisabled = loading || rawDisabled
 		const onStateEventChange =
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleFABStateChange({...options, state, elevated})(setState)(event)
 
-		const interactionHandlers = useStateEvent({...renderFABProps, disabled, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderFABProps, disabled: isDisabled, onStateEventChange})
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
 			disabled: rawDisabled,
 			type
@@ -66,7 +66,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		return renderFAB({
 			...renderFABProps,
 			backgroundUnderlayAnimatedStyle,
-			disabled,
+			disabled: isDisabled,
 			elevation,
 			eventName,
 			extendedFAB: extendedFAB ?? !!labelText,

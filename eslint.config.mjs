@@ -30,6 +30,8 @@ export default [
 			ecmaVersion: 6,
 			sourceType: 'module',
 			parserOptions: {
+				project: './tsconfig.json',
+				tsconfigRootDir: __dirname,
 				ecmaFeatures: {
 					jsx: true,
 					modules: true
@@ -48,6 +50,15 @@ export default [
 					varsIgnorePattern: '^_',
 					caughtErrorsIgnorePattern: '^_'
 				}
+			],
+			'@typescript-eslint/naming-convention': [
+				'error',
+				{
+					selector: 'variable',
+					format: ['PascalCase', 'camelCase'],
+					prefix: ['is', 'IS_'],
+					types: ['boolean']
+				}
 			]
 		},
 		ignores: ['storybook.requires.ts']
@@ -59,6 +70,7 @@ export default [
 			'**/**.test.tsx',
 			'**/metro.config.js',
 			'**/storybook.requires.ts',
+			'eslint.config.mjs',
 			'node_modules'
 		]
 	}

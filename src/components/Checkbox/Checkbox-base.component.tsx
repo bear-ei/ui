@@ -29,10 +29,11 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 		},
 		ref
 	) => {
-		const [{active, eventName, status, value, nextActiveEvent}, setState] = useImmer<CheckboxState>({
-			status: 'idle',
-			value: CHECKBOX_VALUE.UNSELECTED
-		})
+		const [{active: isActive, eventName, status, value, nextActiveEvent}, setState] =
+			useImmer<CheckboxState>({
+				status: 'idle',
+				value: CHECKBOX_VALUE.UNSELECTED
+			})
 
 		const id = useId()
 		const theme = useTheme()
@@ -45,9 +46,13 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 
 		const onStateEventChange =
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleCheckboxStateChange({...options, active, indeterminate, state, onActive})(
-					setState
-				)(event)
+				handleCheckboxStateChange({
+					...options,
+					active: isActive,
+					indeterminate,
+					onActive,
+					state
+				})(setState)(event)
 
 		const interactionHandlers = useStateEvent({...renderCheckboxProps, disabled, onStateEventChange})
 

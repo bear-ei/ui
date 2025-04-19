@@ -40,8 +40,13 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleButtonStateChange({...options, state, type})(setState)(event)
 
-		const disabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
-		const interactionHandlers = useStateEvent({...renderButtonProps, disabled, onStateEventChange})
+		const isDisabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
+		const interactionHandlers = useStateEvent({
+			...renderButtonProps,
+			disabled: isDisabled,
+			onStateEventChange
+		})
+
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
 			disabled: rawDisabled,
 			error,
@@ -56,8 +61,8 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		}, [onButtonStatus, type])
 
 		useEffect(() => {
-			onButtonDisabled(disabled)
-		}, [disabled, onButtonDisabled])
+			onButtonDisabled(isDisabled)
+		}, [isDisabled, onButtonDisabled])
 
 		if (status === 'idle') {
 			return <></>
@@ -66,7 +71,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		return renderButton({
 			...renderButtonProps,
 			backgroundUnderlayAnimatedStyle,
-			disabled,
+			disabled: isDisabled,
 			elevation,
 			eventName,
 			icon: iconButtonElement,

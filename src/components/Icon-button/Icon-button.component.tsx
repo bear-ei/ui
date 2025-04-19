@@ -20,6 +20,7 @@ const renderIconButton = ({
 	disabled,
 	eventName,
 	icon,
+	id,
 	interactionHandlers,
 	labelText,
 	loading,
@@ -38,7 +39,7 @@ const renderIconButton = ({
 			pointerEvents='none'
 			shape={shape}
 			style={[backgroundUnderlayAnimatedStyle]}
-			testID={`iconButton__animatedBackgroundUnderlay--${testID}`}
+			testID={`iconButton__animatedBackgroundUnderlay--${id}`}
 		/>
 	)
 
@@ -49,24 +50,24 @@ const renderIconButton = ({
 			accessibilityState={{disabled}}
 			accessible={true}
 			pointerEvents={loading ? 'none' : 'auto'}
-			testID={`iconButton--${testID}`}
+			testID={testID ?? `iconButton--${id}`}
 		>
 			<ContentItemLayout
 				lazy={true}
-				testID={`iconButton__contentItemLayout--${testID}`}
+				testID={`iconButton__contentItemLayout--${id}`}
 				visible={loading}
 			>
 				<Progress
 					animatedType={PROGRESS_ANIMATED.INDETERMINATE}
 					content={icon}
 					size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
-					testID={testID}
+					testID={`iconButton__progress--${id}`}
 					type={PROGRESS_TYPE.CIRCULAR}
 				/>
 			</ContentItemLayout>
 
 			<ContentItemLayout
-				testID={`iconButton__contentItemLayout--${testID}`}
+				testID={`iconButton__contentItemLayout--${id}`}
 				visible={!loading}
 			>
 				<Touchable
@@ -77,7 +78,7 @@ const renderIconButton = ({
 					mainAlignSelf='center'
 					ref={ref}
 					shape={shape}
-					testID={testID}
+					testID={`iconButton__touchable--${id}`}
 					underlayColor={underlayColor}
 				>
 					<Content
@@ -85,9 +86,9 @@ const renderIconButton = ({
 						pointerEvents='none'
 						shape={shape}
 						size={size}
-						testID={`iconButton__content--${testID}`}
+						testID={`iconButton__content--${id}`}
 					>
-						<Main testID={`iconButton__main--${testID}`}>{icon}</Main>
+						<Main testID={`iconButton__main--${id}`}>{icon}</Main>
 						<Underlay
 							active={active}
 							activeAnimatedType={ACTIVE_ANIMATED.SCALE}
@@ -95,7 +96,7 @@ const renderIconButton = ({
 							defaultActive={defaultActive}
 							eventName={eventName}
 							shape={shape}
-							testID={testID}
+							testID={`iconButton__underlay--${id}`}
 							underlayColor={underlayColor}
 						/>
 					</Content>
