@@ -22,14 +22,14 @@ const renderLayoutAnimated = ({
 	...containerProps
 }: RenderLayoutAnimatedProps) => {
 	const {onLayout} = interactionHandlers
-	const collapse = animatedType?.startsWith('COLLAPSE')
+	const isCollapse = animatedType?.startsWith('COLLAPSE')
 
 	return (
 		<AnimatedContainer
 			{...containerProps}
-			collapse={collapse}
+			collapse={isCollapse}
 			style={[style, containerAnimatedStyle]}
-			testID={testID ?? `layoutAnimated--${testID}`}
+			testID={testID ?? `layoutAnimated--${id}`}
 			visible={visible}
 		>
 			<ContentLayout

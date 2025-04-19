@@ -7,7 +7,7 @@ import {LayoutAnimated} from './Layout-animated.component'
 import type {LayoutAnimatedProps} from './Layout-animated.interface'
 
 const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
-	const [visible, setVisible] = useState(false)
+	const [isVisible, setIsVisible] = useState(false)
 	const style = {
 		display: 'flex',
 		flexDirection: 'column'
@@ -21,13 +21,13 @@ const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
 			<View style={contentStyle}>
 				<LayoutAnimated
 					{...props}
-					visible={visible}
+					visible={isVisible}
 				>
 					<View style={innerStyle} />
 				</LayoutAnimated>
 			</View>
 
-			<Button onPressOut={() => setVisible(!visible)} />
+			<Button onPressOut={() => setIsVisible(!isVisible)} />
 		</View>
 	)
 }

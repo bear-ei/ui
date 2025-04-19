@@ -38,7 +38,15 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		ref
 	) => {
 		const [
-			{layout, visible, invisible, nextUnmountEvent, nextVisibleEvent, status, unmountLayout},
+			{
+				invisible: isInvisible,
+				layout,
+				nextUnmountEvent,
+				nextVisibleEvent,
+				status,
+				unmountLayout: isUnmountLayout,
+				visible: isVisible
+			},
 			setState
 		] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: 'idle'})
 
@@ -82,7 +90,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			onAnimatedFinished: onLayoutAnimatedFinished,
 			opacity,
 			scale,
-			visible: visible ?? isLayoutVisible,
+			visible: isVisible ?? isLayoutVisible,
 			width: layout.width ?? contentSize?.width ?? contentSize?.minWidth
 		})
 
@@ -108,7 +116,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			return <></>
 		}
 
-		return unmountLayout ?
+		return isUnmountLayout ?
 				<></>
 			:	renderLayoutAnimated({
 					...renderLayoutAnimatedProps,
@@ -119,7 +127,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					interactionHandlers,
 					layout,
 					ref,
-					visible: typeof invisible === 'boolean' ? !invisible : isLayoutVisible
+					visible: typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible
 				})
 	}
 )
