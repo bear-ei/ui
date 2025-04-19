@@ -12,11 +12,9 @@ describe('Avatar', () => {
 		)
 
 		const label = getByTestId('avatar__labelText--test-id')
-
-		expect(label.props.children).toBe('J')
-
 		const container = getByLabelText('Avatar: J')
 
+		expect(label.props.children).toBe('J')
 		expect(container).toBeTruthy()
 		expect(container.props.accessibilityRole).toBe('image')
 		expect(container.props.accessible).toBe(true)

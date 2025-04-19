@@ -25,7 +25,6 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			labelText = 'Label',
 			loading,
 			renderButton,
-			testID: rawTestID,
 			type = BUTTON_TYPE.FILLED,
 			...renderButtonProps
 		},
@@ -33,7 +32,6 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 	) => {
 		const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: 'idle'})
 		const id = useId()
-		const testID = rawTestID ?? id
 		const theme = useTheme()
 		const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
 		const onButtonStatus = useMemo(() => handleButtonStatus(setState)(rawDisabled), [rawDisabled, setState])
@@ -51,9 +49,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			type
 		})
 
-		const iconButtonElement = renderButtonIcon({eventName, type, disabled: rawDisabled, testID})(theme)(
-			icon
-		)
+		const iconButtonElement = renderButtonIcon({eventName, type, disabled: rawDisabled, id})(theme)(icon)
 
 		useEffect(() => {
 			onButtonStatus(type)
@@ -74,12 +70,12 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			elevation,
 			eventName,
 			icon: iconButtonElement,
+			id,
 			interactionHandlers,
 			labelText,
 			labelTextAnimatedStyle,
 			loading,
 			ref,
-			testID,
 			type,
 			underlayColor
 		})

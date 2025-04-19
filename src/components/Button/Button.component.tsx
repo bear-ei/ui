@@ -37,6 +37,7 @@ const renderButton = ({
 	testID,
 	type = BUTTON_TYPE.FILLED,
 	underlayColor,
+	id,
 	...contentProps
 }: RenderButtonProps) => {
 	const isActiveIndicatorVisible =
@@ -53,7 +54,7 @@ const renderButton = ({
 			pointerEvents='none'
 			shape={shape}
 			style={[backgroundUnderlayAnimatedStyle]}
-			testID={`button__animatedBackgroundUnderlay--${testID}`}
+			testID={`button__animatedBackgroundUnderlay--${id}`}
 		/>
 	)
 
@@ -62,7 +63,7 @@ const renderButton = ({
 			<Elevation
 				level={elevation}
 				shape={shape}
-				testID={testID}
+				testID={`button__elevation--${id}`}
 			/>
 		:	<></>
 
@@ -72,7 +73,7 @@ const renderButton = ({
 			accessibilityRole='button'
 			accessibilityState={{disabled}}
 			accessible={true}
-			testID={`button--${testID}`}
+			testID={testID ?? `button--${id}`}
 			type={type}
 		>
 			<Touchable
@@ -83,7 +84,7 @@ const renderButton = ({
 				hotZone={type !== BUTTON_TYPE.LINK}
 				ref={ref}
 				shape={shape}
-				testID={testID}
+				testID={`button__touchable--${id}`}
 				underlayColor={underlayColor}
 			>
 				<Content
@@ -91,16 +92,16 @@ const renderButton = ({
 					density={density}
 					pointerEvents='none'
 					shape={shape}
-					testID={`button__content--${testID}`}
+					testID={`button__content--${id}`}
 					type={type}
 				>
 					<Main
 						iconShow={!!icon}
-						testID={`button__main--${testID}`}
+						testID={`button__main--${id}`}
 						type={type}
 					>
 						{icon && !isLink && (
-							<IconLayout testID={`button__iconLayout--${testID}`}>
+							<IconLayout testID={`button__iconLayout--${id}`}>
 								{icon}
 							</IconLayout>
 						)}
@@ -110,7 +111,7 @@ const renderButton = ({
 							numberOfLines={1}
 							size={isLink ? SIZE.SMALL : SIZE.LARGE}
 							style={[labelTextAnimatedStyle]}
-							testID={`button__animatedLabelText--${testID}`}
+							testID={`button__animatedLabelText--${id}`}
 							type={isLink ? TYPOGRAPHY.BODY : TYPOGRAPHY.LABEL}
 						>
 							{labelText}
@@ -119,7 +120,7 @@ const renderButton = ({
 
 					{type === BUTTON_TYPE.LINK && (
 						<ActiveIndicatorLayoutAnimated
-							testID={`button__activeIndicatorLayoutAnimated--${testID}`}
+							testID={`button__activeIndicatorLayoutAnimated--${id}`}
 							visible={isActiveIndicatorVisible}
 						/>
 					)}
@@ -127,7 +128,7 @@ const renderButton = ({
 					<Underlay
 						eventName={loading ? loadingEventName : eventName}
 						shape={shape}
-						testID={testID}
+						testID={`button__underlay--${id}`}
 						underlayColor={underlayColor}
 					/>
 				</Content>
