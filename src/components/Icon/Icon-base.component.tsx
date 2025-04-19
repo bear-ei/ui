@@ -17,7 +17,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			name = ICON_NAME.CIRCLE,
 			renderIcon,
 			svgStyle,
-			testID,
 			type = ICON_TYPE.OUTLINED,
 			...renderIconProps
 		},
@@ -45,9 +44,9 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			...renderIconProps,
 			containerAnimatedStyle,
 			iconElement,
+			id,
 			name,
-			ref,
-			testID: testID ?? id
+			ref
 		})
 	}
 )

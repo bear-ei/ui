@@ -10,9 +10,7 @@ class UsernameRule {
 
 describe('FormItem', () => {
 	const TestForm = forwardRef<
-		{
-			form: ReturnType<typeof Form.useForm<{username: string}>>
-		},
+		{form: ReturnType<typeof Form.useForm<{username: string}>>},
 		{initialValue?: {username: string}}
 	>(({initialValue}, ref) => {
 		const form = Form.useForm<{username: string}>()
