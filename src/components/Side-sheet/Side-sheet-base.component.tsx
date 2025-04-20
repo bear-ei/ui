@@ -21,15 +21,17 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 			onBack,
 			onClose,
 			onVisible,
-			render,
+			renderSideSheet,
 			type = SIDE_SHEET_TYPE.MODAL,
 			visible,
-			...renderProps
+			...renderSideSheetProps
 		},
 		ref
 	) => {
-		const [{sideSheetVisible, nextCloseEvent, nextBackEvent, nextCancelEvent}, setState] =
-			useImmer<SideSheetState>({})
+		const [
+			{sideSheetVisible: isSideSheetVisible, nextCloseEvent, nextBackEvent, nextCancelEvent},
+			setState
+		] = useImmer<SideSheetState>({})
 
 		const emitId = useMemo(() => nanoid(), [])
 		const id = useId()
@@ -43,7 +45,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		const onSideSheetVisible = useMemo(() => handleSideSheetVisible(setState), [setState])
 		const renderSheetProps = useMemo(
 			() => ({
-				...renderProps,
+				...renderSideSheetProps,
 				disabledClose,
 				id,
 				onBack: onSideSheetBack,
@@ -51,18 +53,18 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 				onVisible,
 				ref,
 				type,
-				visible: sideSheetVisible
+				visible: isSideSheetVisible
 			}),
 			[
+				renderSideSheetProps,
 				disabledClose,
 				id,
 				onSideSheetBack,
 				onSideSheetClose,
 				onVisible,
 				ref,
-				renderProps,
-				sideSheetVisible,
-				type
+				type,
+				isSideSheetVisible
 			]
 		)
 
@@ -76,8 +78,8 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		}, [defaultVisible, onSideSheetVisible, visible])
 
 		useEffect(() => {
-			onSideSheetEmit(sideSheetVisible)
-		}, [onSideSheetEmit, sideSheetVisible])
+			onSideSheetEmit(isSideSheetVisible)
+		}, [onSideSheetEmit, isSideSheetVisible])
 
 		useEffect(
 			() => () => {
@@ -99,7 +101,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		}, [nextCancelEvent])
 
 		return sideSheetTypes.includes(type as (typeof sideSheetTypes)[number]) ?
-				render(renderSheetProps)
+				renderSideSheet(renderSheetProps)
 			:	<></>
 	}
 )

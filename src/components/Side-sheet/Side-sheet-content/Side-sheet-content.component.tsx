@@ -30,7 +30,7 @@ const AnimatedContainer = Animated.createAnimatedComponent(Container)
 /**
  * TODO: Add visible animation for modal layer types.
  */
-const render = ({
+const renderSideSheetContent = ({
 	containerAnimatedStyle,
 	content,
 	footerVisible,
@@ -58,35 +58,34 @@ const render = ({
 
 	return (
 		<AnimatedContainer
+			accessibilityRole='alert'
+			accessible={true}
 			position={position}
 			style={[containerAnimatedStyle]}
-			testID={testID ?? `sideSheetContent--${id}}`}
+			testID={testID ?? `sideSheetContent--${id}`}
 			type={type}
 		>
 			<Content
 				{...contentProps}
-				accessibilityRole='alert'
 				shape={sheetShape}
 				style={[style]}
-				testID={`sideSheetContent__content--${id}}`}
+				testID={`sideSheetContent__content--${id}`}
 				type={type}
 			>
 				<Header
 					leadingShow={!!leading}
-					testID={`sideSheetContent__header--${id}}`}
+					testID={`sideSheetContent__header--${id}`}
 					trailingShow={!!trailing}
 				>
 					{leading && (
-						<Leading testID={`sideSheetContent__leading--${id}}`}>
-							{leading}
-						</Leading>
+						<Leading testID={`sideSheetContent__leading--${id}`}>{leading}</Leading>
 					)}
 
-					<HeadlineLayout testID={`sideSheetContent__headlineLayout--${id}}`}>
+					<HeadlineLayout testID={`sideSheetContent__headlineLayout--${id}`}>
 						<HeaderText
 							numberOfLines={1}
 							size={SIZE.LARGE}
-							testID={`sideSheetContent__headerText--${id}}`}
+							testID={`sideSheetContent__headerText--${id}`}
 							type={TYPOGRAPHY.TITLE}
 						>
 							{headlineText}
@@ -94,33 +93,33 @@ const render = ({
 					</HeadlineLayout>
 
 					{trailing && (
-						<Trailing testID={`sideSheetContent__trailing--${id}}`}>
+						<Trailing testID={`sideSheetContent__trailing--${id}`}>
 							{trailing}
 						</Trailing>
 					)}
 				</Header>
 
-				<Main testID={`sideSheetContent__main--${id}}`}>{content}</Main>
+				<Main testID={`sideSheetContent__main--${id}`}>{content}</Main>
 				<FooterLayoutContainer
 					animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
 					contentStyle={footerLayoutContainerContentStyle}
 					entry={{duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE}}
 					exit={{duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}}
-					testID={`sideSheetContent__footerLayoutContainer--${id}}`}
+					testID={`sideSheetContent__footerLayoutContainer--${id}`}
 					visible={footerVisible}
 				>
-					<FooterLayout testID={`sideSheetContent__footerLayout--${id}}`}>
+					<FooterLayout testID={`sideSheetContent__footerLayout--${id}`}>
 						<Divider
 							size={SIZE.LARGE}
-							testID={`sideSheetContent__divider--${id}}`}
+							testID={`sideSheetContent__divider--${id}`}
 						/>
 
 						<Footer
 							type={type}
-							testID={`sideSheetContent__footer--${id}}`}
+							testID={`sideSheetContent__footer--${id}`}
 						>
 							<PrimaryButton
-								testID={`sideSheetContent__primaryButton--${id}}`}
+								testID={`sideSheetContent__primaryButton--${id}`}
 							>
 								{primaryButton ?? (
 									<Button
@@ -129,14 +128,14 @@ const render = ({
 											...primaryButtonProps
 										}}
 										onPressOut={onConfirm}
-										testID={`sideSheetContent__confirmButton--${id}}`}
+										testID={`sideSheetContent__confirmButton--${id}`}
 										type={BUTTON_TYPE.FILLED}
 									/>
 								)}
 							</PrimaryButton>
 
 							<SecondaryButton
-								testID={`sideSheetContent__secondaryButton--${id}}`}
+								testID={`sideSheetContent__secondaryButton--${id}`}
 							>
 								{secondaryButton ?? (
 									<Button
@@ -145,7 +144,7 @@ const render = ({
 											...secondaryButtonProps
 										}}
 										onPressOut={onCancel}
-										testID={`sideSheetContent__cancelButton--${id}}`}
+										testID={`sideSheetContent__cancelButton--${id}`}
 										type={BUTTON_TYPE.OUTLINED}
 									/>
 								)}
@@ -158,12 +157,12 @@ const render = ({
 	)
 }
 
-const ForwardRefSideSheetContent = forwardRef<View, SideSheetContentProps>((props, ref) => (
+const SideSheetContentWithRef = forwardRef<View, SideSheetContentProps>((props, ref) => (
 	<SideSheetContentBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderSideSheetContent={renderSideSheetContent}
 	/>
 ))
 
-export const SideSheetContent: FC<SideSheetContentProps> = ForwardRefSideSheetContent
+export const SideSheetContent: FC<SideSheetContentProps> = SideSheetContentWithRef

@@ -18,10 +18,10 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 			onBack,
 			onClose,
 			position = SIDE_SHEET_POSITION.HORIZONTAL_END,
-			render,
+			renderSideSheetContent,
 			type,
 			visible,
-			...renderProps
+			...renderSideSheetContentProps
 		},
 		ref
 	) => {
@@ -31,8 +31,8 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 		const leadingElement = renderSideSheetContentLeading({headlineLeading, back, position, id})(onBack)
 		const trailingElement = renderSideSheetContentTrailing({headlineTrailing, close, id})(onClose)
 
-		return render({
-			...renderProps,
+		return renderSideSheetContent({
+			...renderSideSheetContentProps,
 			containerAnimatedStyle,
 			footerVisible,
 			headlineText,

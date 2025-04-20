@@ -7,7 +7,13 @@ import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
 import type {RenderSideSheetProps, SideSheetProps} from './Side-sheet.interface'
 import {Container} from './Side-sheet.styles'
 
-const render = ({visible, type = SIDE_SHEET_TYPE.STANDARD, id, testID, ...sheetProps}: RenderSideSheetProps) => {
+const renderSideSheet = ({
+	visible,
+	type = SIDE_SHEET_TYPE.STANDARD,
+	id,
+	testID,
+	...sheetProps
+}: RenderSideSheetProps) => {
 	const sideSheetContentElement = typeof visible === 'boolean' && (
 		<SideSheetContent
 			{...sheetProps}
@@ -28,12 +34,12 @@ const render = ({visible, type = SIDE_SHEET_TYPE.STANDARD, id, testID, ...sheetP
 	)
 }
 
-const ForwardRefSideSheet = forwardRef<View, SideSheetProps>((props, ref) => (
+const SideSheetWithRef = forwardRef<View, SideSheetProps>((props, ref) => (
 	<SideSheetBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderSideSheet={renderSideSheet}
 	/>
 ))
 
-export const SideSheet: FC<SideSheetProps> = ForwardRefSideSheet
+export const SideSheet: FC<SideSheetProps> = SideSheetWithRef
