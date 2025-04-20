@@ -37,7 +37,7 @@ export interface RenderNavigationRailProps extends NavigationRailProps {
 }
 
 export interface NavigationRailBaseProps extends NavigationRailProps {
-	render: (props: RenderNavigationRailProps) => React.JSX.Element
+	renderNavigationRail: (props: RenderNavigationRailProps) => React.JSX.Element
 }
 
 export interface NavigationRailState {

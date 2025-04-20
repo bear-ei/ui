@@ -21,17 +21,17 @@ import {
 } from './Navigation-rail-item.styles'
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
-const render = ({
+const renderNavigationRailItem = ({
 	active,
 	activeIconElement,
 	animatedType,
 	eventName,
 	iconElement,
 	id,
+	interactionHandlers,
 	labelText,
 	labelTextAnimatedStyle,
 	ref,
-	interactionHandlers,
 	testID,
 	theme,
 	type,
@@ -48,6 +48,7 @@ const render = ({
 			{...containerProps}
 			accessibilityLabel={labelText}
 			accessibilityRole='tab'
+			accessible={true}
 			testID={testID ?? `navigationRailItem--${id}`}
 		>
 			<TouchableContent
@@ -118,14 +119,14 @@ const render = ({
 	)
 }
 
-const ForwardRefNavigationRailItem = forwardRef<View, NavigationRailItemProps>((props, ref) => (
+const NavigationRailItemWithRef = forwardRef<View, NavigationRailItemProps>((props, ref) => (
 	<NavigationRailItemBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderNavigationRailItem={renderNavigationRailItem}
 	/>
 ))
 
-export const NavigationRailItem = memo(ForwardRefNavigationRailItem, (prevProps, nextProps) =>
+export const NavigationRailItem = memo(NavigationRailItemWithRef, (prevProps, nextProps) =>
 	handleNavigationRailItemPropsEqual(prevProps)(nextProps)
 ) as FC<NavigationRailItemProps>

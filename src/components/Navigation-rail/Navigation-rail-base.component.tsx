@@ -21,9 +21,9 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			destinationPosition = NAVIGATION_DESTINATION_POSITION.TOP,
 			fab,
 			onActive,
-			render,
+			renderNavigationRail,
 			type,
-			...renderProps
+			...renderNavigationRailProps
 		},
 		ref
 	) => {
@@ -61,8 +61,8 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			return <></>
 		}
 
-		return render({
-			...renderProps,
+		return renderNavigationRail({
+			...renderNavigationRailProps,
 			destinationPosition,
 			fabElement,
 			id,

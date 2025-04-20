@@ -30,16 +30,16 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			),
 			indexKey,
 			onActive,
-			render,
+			renderNavigationRailItem,
 			type = NAVIGATION_RAIL_TYPE.SEGMENT,
-			...renderProps
+			...renderNavigationRailItemProps
 		},
 		ref
 	) => {
 		const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({})
-		const active = useMemo(() => activeKey === indexKey, [activeKey, indexKey])
+		const isActive = useMemo(() => activeKey === indexKey, [activeKey, indexKey])
 		const id = useId()
-		const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active, type})
+		const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active: isActive, type})
 		const pressableRef = useRef<View>(null)
 		const theme = useTheme()
 		const onStateEventChange =
@@ -52,7 +52,12 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 					state
 				})(setState)(event)
 
-		const interactionHandlers = useStateEvent({...renderProps, disabled: false, onStateEventChange})
+		const interactionHandlers = useStateEvent({
+			...renderNavigationRailItemProps,
+			disabled: false,
+			onStateEventChange
+		})
+
 		const activeIconElement = renderNavigationRailItemActiveIcon(id)(icon)(eventName)
 		const iconElement = renderNavigationRailItemIcon(id)(icon)(eventName)
 
@@ -62,17 +67,17 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			runAfterInteractions(nextPressOutEvent)()
 		}, [nextPressOutEvent])
 
-		return render({
-			...renderProps,
-			active,
+		return renderNavigationRailItem({
+			...renderNavigationRailItemProps,
+			active: isActive,
 			activeIconElement,
 			animatedType,
 			eventName,
 			iconElement,
 			id,
+			interactionHandlers,
 			labelTextAnimatedStyle,
 			ref: pressableRef,
-			interactionHandlers,
 			theme,
 			type
 		})

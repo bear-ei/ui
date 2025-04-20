@@ -35,7 +35,7 @@ export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemPr
 }
 
 export interface NavigationRailItemBaseProps extends NavigationRailItemProps {
-	render: (props: RenderNavigationRailItemProps) => React.JSX.Element
+	renderNavigationRailItem: (props: RenderNavigationRailItemProps) => React.JSX.Element
 }
 
 export interface NavigationRailItemState {
