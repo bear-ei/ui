@@ -1,7 +1,7 @@
 import {fireEvent, waitFor} from '@testing-library/react-native'
 import React from 'react'
 import {renderWithTheme} from '../../../../__test__'
-import {ListAffordanceButton} from '../List-affordance-button'
+import {ListAffordanceButton} from './List-affordance-button.component'
 
 jest.useFakeTimers()
 

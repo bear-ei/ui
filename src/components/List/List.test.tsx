@@ -1,7 +1,7 @@
 import {waitFor} from '@testing-library/react-native'
 import React from 'react'
 import {renderWithTheme} from '../../../__test__'
-import {List} from '../List'
+import {List} from './List.component'
 
 jest.mock('react-native-reanimated', () => {
 	const Reanimated = require('react-native-reanimated/mock')

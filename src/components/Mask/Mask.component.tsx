@@ -5,10 +5,11 @@ import {MaskBase} from './Mask-base.component'
 import type {MaskProps, RenderMaskProps} from './Mask.interface'
 import {ContainerLayout, Content} from './Mask.styles'
 
-const render = ({ref, interactionHandlers, id, testID, ...containerProps}: RenderMaskProps) => (
+const renderMask = ({ref, interactionHandlers, id, testID, ...containerProps}: RenderMaskProps) => (
 	<ContainerLayout
 		{...containerProps}
 		accessibilityRole='alert'
+		accessible={true}
 		testID={testID ?? `mask--${id}`}
 	>
 		<Content
@@ -19,12 +20,12 @@ const render = ({ref, interactionHandlers, id, testID, ...containerProps}: Rende
 	</ContainerLayout>
 )
 
-const ForwardRefMask = forwardRef<View, MaskProps>((props, ref) => (
+const MaskWithRef = forwardRef<View, MaskProps>((props, ref) => (
 	<MaskBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderMask={renderMask}
 	/>
 ))
 
-export const Mask = ForwardRefMask as FC<MaskProps>
+export const Mask = MaskWithRef as FC<MaskProps>

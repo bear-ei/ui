@@ -74,7 +74,7 @@ const renderListAfterAffordance = ({
 	)
 }
 
-export const AfterAffordanceWithRef = forwardRef<View, ListAfterAffordanceProps>((props, ref) => (
+export const ListAfterAffordanceWithRef = forwardRef<View, ListAfterAffordanceProps>((props, ref) => (
 	<ListAfterAffordanceBase
 		{...props}
 		ref={ref}
@@ -82,4 +82,4 @@ export const AfterAffordanceWithRef = forwardRef<View, ListAfterAffordanceProps>
 	/>
 ))
 
-export const ListAfterAffordance = AfterAffordanceWithRef
+export const ListAfterAffordance = ListAfterAffordanceWithRef
