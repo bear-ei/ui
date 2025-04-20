@@ -12,7 +12,7 @@ import type {
 import {Container, Content, Stop, Track} from './Progress-active-indicator-linear.styles'
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
-const render = ({
+const renderProgressActiveIndicatorLinear = ({
 	animatedType,
 	contentAnimatedStyle,
 	id,
@@ -49,13 +49,13 @@ const render = ({
 	)
 }
 
-const ForwardRefProgressActiveIndicatorLinear = forwardRef<View, ProgressActiveIndicatorLinearProps>((props, ref) => (
+const ProgressActiveIndicatorLinearWithRef = forwardRef<View, ProgressActiveIndicatorLinearProps>((props, ref) => (
 	<ProgressActiveIndicatorLinearBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderProgressActiveIndicatorLinear={renderProgressActiveIndicatorLinear}
 	/>
 ))
 
 export const ProgressActiveIndicatorLinear: FC<ProgressActiveIndicatorLinearProps> =
-	ForwardRefProgressActiveIndicatorLinear
+	ProgressActiveIndicatorLinearWithRef

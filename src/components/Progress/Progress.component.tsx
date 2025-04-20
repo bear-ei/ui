@@ -8,7 +8,7 @@ import {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 import type {ProgressProps, RenderProgressProps} from './Progress.interface'
 import {Container} from './Progress.styles'
 
-const render = ({
+const renderProgress = ({
 	animatedType = PROGRESS_ANIMATED.INDETERMINATE,
 	content,
 	defaultValue,
@@ -55,12 +55,12 @@ const render = ({
 	</Container>
 )
 
-const ForwardRefProgress = forwardRef<View, ProgressProps>((props, ref) => (
+const ProgressWithRef = forwardRef<View, ProgressProps>((props, ref) => (
 	<ProgressBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderProgress={renderProgress}
 	/>
 ))
 
-export const Progress: FC<ProgressProps> = ForwardRefProgress
+export const Progress: FC<ProgressProps> = ProgressWithRef

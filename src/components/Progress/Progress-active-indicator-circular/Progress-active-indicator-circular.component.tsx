@@ -13,7 +13,7 @@ import {Container, Content, Main} from './Progress-active-indicator-circular.sty
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 const AnimatedMain = Animated.createAnimatedComponent(Main)
-const render = ({
+const renderProgressActiveIndicatorCircular = ({
 	animatedType = PROGRESS_ANIMATED.INDETERMINATE,
 	circleAnimatedProps,
 	circumference,
@@ -72,7 +72,7 @@ const render = ({
 						strokeDasharray={circumference}
 						strokeLinecap='round'
 						strokeWidth={strokeWidth}
-						testID={`progressActiveIndicatorCircular__circle--${id}`}
+						testID={`progressActiveIndicatorCircular__animatedCircle--${id}`}
 					/>
 				</Svg>
 			</AnimatedMain>
@@ -80,15 +80,13 @@ const render = ({
 	)
 }
 
-const ForwardRefProgressActiveIndicatorCircular = forwardRef<View, ProgressActiveIndicatorCircularProps>(
-	(props, ref) => (
-		<ProgressActiveIndicatorCircularBase
-			{...props}
-			ref={ref}
-			render={render}
-		/>
-	)
-)
+const ProgressActiveIndicatorCircularWithRef = forwardRef<View, ProgressActiveIndicatorCircularProps>((props, ref) => (
+	<ProgressActiveIndicatorCircularBase
+		{...props}
+		ref={ref}
+		renderProgressActiveIndicatorCircular={renderProgressActiveIndicatorCircular}
+	/>
+))
 
 export const ProgressActiveIndicatorCircular: FC<ProgressActiveIndicatorCircularProps> =
-	ForwardRefProgressActiveIndicatorCircular
+	ProgressActiveIndicatorCircularWithRef

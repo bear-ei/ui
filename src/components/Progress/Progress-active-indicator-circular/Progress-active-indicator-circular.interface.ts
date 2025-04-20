@@ -24,7 +24,7 @@ export interface RenderProgressActiveIndicatorCircularProps extends ProgressActi
 }
 
 export interface ProgressActiveIndicatorCircularBaseProps extends ProgressActiveIndicatorCircularProps {
-	render: (props: RenderProgressActiveIndicatorCircularProps) => React.JSX.Element
+	renderProgressActiveIndicatorCircular: (props: RenderProgressActiveIndicatorCircularProps) => React.JSX.Element
 }
 
 export type UseProgressActiveIndicatorCircularAnimatedOptions = Pick<

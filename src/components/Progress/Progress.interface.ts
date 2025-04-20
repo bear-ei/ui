@@ -22,7 +22,7 @@ export interface RenderProgressProps extends ProgressProps {
 }
 
 export interface ProgressBaseProps extends ProgressProps {
-	render: (props: RenderProgressProps) => React.JSX.Element
+	renderProgress: (props: RenderProgressProps) => React.JSX.Element
 }
 
 export interface ProgressState {

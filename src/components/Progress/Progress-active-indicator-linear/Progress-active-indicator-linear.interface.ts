@@ -16,7 +16,7 @@ export interface RenderProgressActiveIndicatorLinearProps
 }
 
 export interface ProgressActiveIndicatorLinearBaseProps extends ProgressActiveIndicatorLinearProps {
-	render: (props: RenderProgressActiveIndicatorLinearProps) => React.JSX.Element
+	renderProgressActiveIndicatorLinear: (props: RenderProgressActiveIndicatorLinearProps) => React.JSX.Element
 }
 
 export type UseProgressActiveIndicatorLinearAnimatedOptions = Pick<

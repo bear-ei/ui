@@ -10,7 +10,7 @@ import {PROGRESS_TYPE} from './Progress.enum'
 import type {ProgressBaseProps, ProgressState} from './Progress.interface'
 
 export const ProgressBase = forwardRef<View, ProgressBaseProps>(
-	({render, type = PROGRESS_TYPE.LINEAR, ...renderProps}, ref) => {
+	({renderProgress, type = PROGRESS_TYPE.LINEAR, ...renderProgressProps}, ref) => {
 		const [{layout}, setState] = useImmer<ProgressState>({layout: {} as LayoutRectangle})
 		const id = useId()
 		const onProgressLayoutChange = useMemo(
@@ -24,8 +24,8 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(
 					event
 				)
 
-		const interactionHandlers = useStateEvent({...renderProps, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderProgressProps, onStateEventChange})
 
-		return render({...renderProps, layout, interactionHandlers, ref, type, id})
+		return renderProgress({...renderProgressProps, layout, interactionHandlers, ref, type, id})
 	}
 )
