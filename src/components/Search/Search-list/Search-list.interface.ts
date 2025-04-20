@@ -13,7 +13,7 @@ export interface RenderSearchListProps extends SearchListProps {
 }
 
 export interface SearchListBaseProps extends SearchListProps {
-	render: (props: RenderSearchListProps) => React.JSX.Element
+	renderSearchList: (props: RenderSearchListProps) => React.JSX.Element
 }
 
 export type HandleSearchListEmitOptions = Pick<RenderSearchListProps, 'visible' | 'id'>

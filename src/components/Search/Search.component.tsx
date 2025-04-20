@@ -5,20 +5,17 @@ import type {TextInput as RNTextInput} from 'react-native'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
 import {Underlay} from '../Underlay'
 import {SearchBase} from './Search-base.component'
-import {SearchList} from './Search-list'
 import type {RenderSearchProps, SearchProps, SearchTextInputProps} from './Search.interface'
 import {Container, Content, Leading, Main, TextInput, TextInputLayout, Touchable, Trailing} from './Search.styles'
 
 const SearchTextInput: FC<SearchTextInputProps> = TextInput
-const render = ({
+const renderSearch = ({
 	containerRef,
 	density,
 	eventName,
 	id,
 	interactionHandlers,
-	layout,
 	leading,
-	listProps,
 	listVisible,
 	onChangeText,
 	placeholder,
@@ -95,21 +92,21 @@ const render = ({
 				</Content>
 			</Touchable>
 
-			<SearchList
+			{/* <SearchList
 				{...listProps}
 				containerLayout={layout}
 				testID={`search__searchList--${id}`}
-			/>
+			/> */}
 		</Container>
 	)
 }
 
-const ForwardRefSearch = forwardRef<RNTextInput, SearchProps>((props, ref) => (
+const SearchWithRef = forwardRef<RNTextInput, SearchProps>((props, ref) => (
 	<SearchBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderSearch={renderSearch}
 	/>
 ))
 
-export const Search: FC<SearchProps> = ForwardRefSearch
+export const Search: FC<SearchProps> = SearchWithRef

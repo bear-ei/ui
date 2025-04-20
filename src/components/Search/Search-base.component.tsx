@@ -25,11 +25,28 @@ import type {SearchBaseProps, SearchState} from './Search.interface'
  */
 export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 	(
-		{defaultValue, leading, listProps, onChangeText, placeholder, render, value: rawValue, ...renderProps},
+		{
+			defaultValue,
+			leading,
+			listProps,
+			onChangeText,
+			placeholder,
+			renderSearch,
+			value: rawValue,
+			...renderSearchProps
+		},
 		ref
 	) => {
 		const [
-			{status, value, eventName, layout, listVisible, nextPressOutEvent, nextChangeTextEvent},
+			{
+				eventName,
+				layout,
+				listVisible: isListVisible,
+				nextChangeTextEvent,
+				nextPressOutEvent,
+				status,
+				value
+			},
 			setState
 		] = useImmer<SearchState>({layout: {} as SearchState['layout'], state: 'enabled', status: 'idle'})
 
@@ -54,7 +71,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleSearchStateChange({...options, ref: inputRef, state})(setState)(event)
 
-		const interactionHandlers = useStateEvent({...renderProps, onStateEventChange})
+		const interactionHandlers = useStateEvent({...renderSearchProps, onStateEventChange})
 
 		useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
 
@@ -71,8 +88,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		}, [data, onSearchListVisible])
 
 		useEffect(() => {
-			onSearchContainerLayout(listVisible)
-		}, [listVisible, onSearchContainerLayout])
+			onSearchContainerLayout(isListVisible)
+		}, [isListVisible, onSearchContainerLayout])
 
 		useEffect(() => {
 			nextChangeTextEvent?.()
@@ -86,17 +103,17 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			return
 		}
 
-		return render({
-			...renderProps,
+		return renderSearch({
+			...renderSearchProps,
 			containerRef,
 			eventName,
 			id,
+			interactionHandlers,
 			layout,
 			leading,
 			listProps,
-			listVisible,
+			listVisible: isListVisible,
 			onChangeText: onSearchChangeText,
-			interactionHandlers,
 			placeholder,
 			ref: inputRef,
 			theme,

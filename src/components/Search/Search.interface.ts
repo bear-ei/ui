@@ -31,7 +31,7 @@ export interface RenderSearchProps extends SearchProps {
 }
 
 export interface SearchBaseProps extends SearchProps {
-	render: (props: RenderSearchProps) => React.JSX.Element
+	renderSearch: (props: RenderSearchProps) => React.JSX.Element
 }
 
 export interface SearchState {
