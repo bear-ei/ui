@@ -1,17 +1,16 @@
 import {cloneElement} from 'react'
-import type {GestureResponderEvent, PanResponderGestureState, ViewProps} from 'react-native'
+import type {ViewProps} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../../hooks'
 import type {EventName} from '../../Common'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
-import {LIST_TYPE} from '../List.enum'
+import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
 import type {
 	HandleListItemAfterAffordanceVisibleAnimatedTimingOptions,
 	HandleListItemConfirmOptions,
-	HandleListItemPanResponderReleaseOptions,
 	HandleListItemStateEventChangeOptions,
 	HandleListItemTrailingPressOutOptions,
 	ListItemProps,
@@ -24,7 +23,7 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 		activeKey: prevActiveKey,
 		activeKeys: prevActiveKeys,
 		afterAffordanceActiveKey: prevAfterAffordanceActiveKey,
-		disabled: prevDisabled,
+		disabled: isPrevDisabled,
 		extraData: prevExtraData,
 		focusedIndex: prevFocusedIndex,
 		itemIndex: prevItemIndex,
@@ -37,7 +36,7 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 			activeKey: nextActiveKey,
 			activeKeys: nextActiveKeys,
 			afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
-			disabled: nextDisabled,
+			disabled: isNextDisabled,
 			extraData: nextExtraData,
 			focusedIndex: nextFocusedIndex,
 			itemIndex: nextItemIndex,
@@ -45,30 +44,30 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 			skeletonDuration: nextSkeletonMinDuration
 		} = nextProps
 
-		const activeKeyChange =
+		const isActiveKeyChange =
 			prevActiveKey !== nextActiveKey &&
 			(nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
 
-		const nextActive = nextActiveKeys?.includes(nextItemKey)
-		const prevActive = prevActiveKeys?.includes(prevItemKey)
-		const activeKeysChange =
+		const isNextActive = nextActiveKeys?.includes(nextItemKey)
+		const isPrevActive = prevActiveKeys?.includes(prevItemKey)
+		const isActiveKeysChange =
 			nextActiveKeys?.join() !== prevActiveKeys?.join() &&
-			((nextActive && !prevActive) || (prevActive && !nextActive))
+			((isNextActive && !isPrevActive) || (isPrevActive && !isNextActive))
 
-		const afterAffordanceActiveChange =
+		const isAfterAffordanceActiveChange =
 			prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
 			(nextAfterAffordanceActiveKey === nextItemKey || prevAfterAffordanceActiveKey === prevItemKey)
 
-		const focusedIndexChange =
+		const isFocusedIndexChange =
 			nextFocusedIndex !== prevFocusedIndex &&
 			(nextFocusedIndex === nextItemIndex || prevFocusedIndex === prevItemIndex)
 
 		return ![
-			activeKeyChange,
-			activeKeysChange,
-			afterAffordanceActiveChange,
-			focusedIndexChange,
-			prevDisabled !== nextDisabled,
+			isActiveKeyChange,
+			isActiveKeysChange,
+			isAfterAffordanceActiveChange,
+			isFocusedIndexChange,
+			isPrevDisabled !== isNextDisabled,
 			prevExtraData?.join() !== nextExtraData?.join(),
 			prevSkeletonMinDuration !== nextSkeletonMinDuration
 		].some(Boolean)
@@ -122,13 +121,13 @@ export const handleListItemStateChange =
 			}
 
 			if (trailingTriggerEvenName) {
-				const visible =
+				const isVisible =
 					trailingTriggerEvenName === 'hoverIn' ?
 						state &&
 						['hovered', 'longPressIn', 'pressIn', 'focused'].includes(state)
 					:	trailingTriggerEvenName === state
 
-				draft.trailingVisible = visible
+				draft.trailingVisible = isVisible
 			}
 
 			switch (eventName) {
@@ -138,14 +137,14 @@ export const handleListItemStateChange =
 					break
 
 				case 'pressIn':
-					if (activeTriggerEvenName === 'pressIn') {
+					if (activeTriggerEvenName === ACTIVE_TRIGGER_EVEN_NAME.PRESS_IN) {
 						draft.nextPressInEvent = nextEvent[eventName]
 					}
 
 					break
 
 				case 'pressOut':
-					if (activeTriggerEvenName === 'pressOut') {
+					if (activeTriggerEvenName === ACTIVE_TRIGGER_EVEN_NAME.PRESS_OUT) {
 						draft.nextPressOutEvent = nextEvent[eventName]
 					}
 
@@ -182,7 +181,7 @@ export const handleListItemTrailingPressOut =
 
 export const handleListItemTrailingPressIn = (setState: Updater<ListItemState>) => () => {
 	setState(draft => {
-		draft.affordanceShow = true
+		draft.affordanceVisible = true
 	})
 }
 
@@ -193,16 +192,16 @@ export const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<L
 
 export const handleItemListAffordanceShow = (setState: Updater<ListItemState>) => () =>
 	setState(draft => {
-		draft.affordanceShow = true
+		draft.affordanceVisible = true
 	})
 
 export const handleListItemConfirm =
 	({options, onConfirm, onActiveAfterAffordance, onListItemClose}: HandleListItemConfirmOptions) =>
 	(indexKey?: string) => {
-		const {doubleConfirmed} = options
+		const {doubleConfirmed: isDoubleConfirmed} = options
 
-		if (doubleConfirmed) {
-			onListItemClose(doubleConfirmed)
+		if (isDoubleConfirmed) {
+			onListItemClose(isDoubleConfirmed)
 
 			return
 		}
@@ -230,22 +229,25 @@ export const handleListItemClose =
 		onClose?.(indexKey)
 	}
 
-export const handleListItemPanResponderRelease =
-	({onActiveAfterAffordance, disabled}: HandleListItemPanResponderReleaseOptions) =>
-	(indexKey: string) =>
-	(_event: GestureResponderEvent, gestureState: PanResponderGestureState) => {
-		if (disabled) {
-			return
-		}
+/**
+ * TODO:
+ */
+// export const handleListItemPanResponderRelease =
+// 	({onActiveAfterAffordance, disabled}: HandleListItemPanResponderReleaseOptions) =>
+// 	(indexKey: string) =>
+// 	(_event: GestureResponderEvent, gestureState: PanResponderGestureState) => {
+// 		if (disabled) {
+// 			return
+// 		}
 
-		if (gestureState.dx < -50) {
-			onActiveAfterAffordance?.({activeKey: indexKey})
-		}
+// 		if (gestureState.dx < -50) {
+// 			onActiveAfterAffordance?.({activeKey: indexKey})
+// 		}
 
-		if (gestureState.dx > 50) {
-			onActiveAfterAffordance?.()
-		}
-	}
+// 		if (gestureState.dx > 50) {
+// 			onActiveAfterAffordance?.()
+// 		}
+// 	}
 
 export const renderListItemTrailing = ({
 	afterAffordance,

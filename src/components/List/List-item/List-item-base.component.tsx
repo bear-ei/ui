@@ -7,7 +7,7 @@ import {useStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import type {State} from '../../Common'
 import type {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
-import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
+import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
 	handleItemListAfterAffordanceVisibleFinished,
 	handleListItemClose,
@@ -26,7 +26,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		{
 			activeKey,
 			activeKeys,
-			activeTriggerEvenName,
+			activeTriggerEvenName = ACTIVE_TRIGGER_EVEN_NAME.PRESS_OUT,
 			afterAffordance,
 			afterAffordanceActiveKey,
 			beforeAffordance,
@@ -58,21 +58,21 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 	) => {
 		const [
 			{
-				affordanceShow,
-				afterAffordanceClosed,
+				affordanceVisible: isAffordanceVisible,
+				afterAffordanceClosed: isAfterAffordanceClosed,
 				eventName,
 				listItemState,
 				nextLayoutEvent,
 				nextPressInEvent,
 				nextPressOutEvent,
-				trailingVisible
+				trailingVisible: isTrailingVisible
 			},
 			setState
 		] = useImmer<ListItemState>({status: 'idle'})
 
 		const id = useId()
 		const pressableRef = useRef<View>(null)
-		const active = useMemo(
+		const isActive = useMemo(
 			() =>
 				selectType === LIST_SELECT_TYPE.SINGLE ?
 					activeKey === indexKey
@@ -81,7 +81,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		)
 
 		const theme = useTheme()
-		const afterAffordanceVisible = useMemo(
+		const isAfterAffordanceVisible = useMemo(
 			() => afterAffordanceActiveKey === indexKey,
 			[afterAffordanceActiveKey, indexKey]
 		)
@@ -128,8 +128,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 				handleListItemStateChange({
 					...options,
 					activeTriggerEvenName,
-					itemIndex,
 					indexKey,
+					itemIndex,
 					onActive,
 					onLoadEnd,
 					selectType,
@@ -140,8 +140,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
 		const interactionHandlers = useStateEvent({...renderListItemProps, onStateEventChange, disabled})
 		const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
-			active,
-			afterAffordanceVisible,
+			active: isActive,
+			afterAffordanceVisible: isAfterAffordanceVisible,
 			onListItemAfterAffordanceVisibleFinished
 		})
 
@@ -158,14 +158,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			trailing,
 			trailingProps
 		})
-
-		// const leadingElement =
-		//         leading ?
-		//                 cloneElement(leading, {
-		//                         ...(selectType && {type: active ? 'filled' : 'outlined'}),
-		//                         testID: `listItem__leading--${id}`
-		//                 })
-		//         :       undefined
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 
@@ -191,10 +183,11 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
 		return renderListItem({
 			...renderListItemProps,
-			active,
-			affordanceShow,
+			// panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,
+			active: isActive,
+			affordanceVisible: isAffordanceVisible,
 			afterAffordance,
-			afterAffordanceVisible: !afterAffordanceClosed,
+			afterAffordanceVisible: !isAfterAffordanceClosed,
 			beforeAffordance,
 			contentAnimatedStyle,
 			disabled,
@@ -204,10 +197,9 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			headlineTextAnimatedStyle,
 			id,
 			indexKey,
+			interactionHandlers,
 			leadingElement: leading,
 			onConfirm: onListItemConfirm,
-			interactionHandlers,
-			// panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,
 			ref: pressableRef,
 			selectType,
 			shape,
@@ -216,7 +208,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			theme,
 			trailingElement,
 			trailingTriggerEvenName,
-			trailingVisible,
+			trailingVisible: isTrailingVisible,
 			type
 		})
 	}

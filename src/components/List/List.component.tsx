@@ -11,6 +11,7 @@ const renderList = ({
 	afterAffordanceActiveKey,
 	extraData = [],
 	focusedIndex,
+	id,
 	loading,
 	style,
 	testID,
@@ -19,12 +20,13 @@ const renderList = ({
 	<Container
 		accessibilityLabel='list'
 		accessibilityRole='list'
+		accessible={true}
 		style={[style]}
-		testID={`list--${testID}`}
+		testID={testID ?? `list--${id}`}
 	>
 		<VirtualList
 			{...virtualListProps}
-			testID={testID}
+			testID={`list__virtualList--${id}`}
 			extraData={[
 				`${activeKey}`,
 				`${activeKeys?.join()} `,

@@ -138,15 +138,14 @@ export const handleListClose = (onClose?: (options: OnVirtualListCloseOptions) =
 		}
 }
 
-const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, ...props}: RenderListItemOptions) => (
+const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, id, ...props}: RenderListItemOptions) => (
 	<ListItem
-		{...(typeof item?.supportingTextNumberOfLines !== 'number' && {
-			supportingTextNumberOfLines
-		})}
+		{...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
 		{...item}
 		{...props}
-		itemIndex={index}
 		indexKey={item?.indexKey ?? `${index}`}
+		itemIndex={index}
+		testID={`list__listItem--${id}`}
 	/>
 )
 

@@ -15,20 +15,27 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
 	indexKey,
 	onCancel,
 	onConfirm,
-	render,
+	renderListAfterAffordance,
 	visible,
-	...renderProps
+	...renderListAfterAffordanceProps
 }) => {
-	const [{doubleConfirmed, nextCancelEvent}, setState] = useImmer<ListAfterAffordanceState>({})
+	const [{doubleConfirmed: isDoubleConfirmed, nextCancelEvent}, setState] = useImmer<ListAfterAffordanceState>({})
 	const theme = useTheme()
 	const id = useId()
-	const onListAfterAffordanceConfirm = handleListAfterAffordanceConfirm({doubleConfirmed, onConfirm, indexKey})
-	const onListAfterAffordanceCancel = handleListAfterAffordanceCancel({doubleConfirmed, onCancel, indexKey})(
-		setState
-	)
+	const onListAfterAffordanceConfirm = handleListAfterAffordanceConfirm({
+		doubleConfirmed: isDoubleConfirmed,
+		onConfirm,
+		indexKey
+	})
+
+	const onListAfterAffordanceCancel = handleListAfterAffordanceCancel({
+		doubleConfirmed: isDoubleConfirmed,
+		onCancel,
+		indexKey
+	})(setState)
 
 	const onListAfterAffordanceVisible = useMemo(() => handleListAfterAffordanceVisible(setState), [setState])
-	const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed})
+	const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed})
 
 	useEffect(() => {
 		onListAfterAffordanceVisible(visible)
@@ -38,10 +45,10 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
 		runAfterInteractions(nextCancelEvent)()
 	}, [nextCancelEvent])
 
-	return render({
-		...renderProps,
+	return renderListAfterAffordance({
+		...renderListAfterAffordanceProps,
 		dangerAnimatedStyle,
-		doubleConfirmed,
+		doubleConfirmed: isDoubleConfirmed,
 		id,
 		onCancel: onListAfterAffordanceCancel,
 		onConfirm: onListAfterAffordanceConfirm,

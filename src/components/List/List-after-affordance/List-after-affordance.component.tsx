@@ -8,7 +8,7 @@ import type {ListAfterAffordanceProps, RenderListAfterAffordanceProps} from './L
 import {Container, Danger} from './List-after-affordance.styles'
 
 const AnimatedDanger = Animated.createAnimatedComponent(Danger)
-const render = ({
+const renderListAfterAffordance = ({
 	dangerAnimatedStyle,
 	doubleConfirmed,
 	id,
@@ -43,7 +43,7 @@ const render = ({
 				})}
 				{...{labelText: 'Confirm', ...primaryButtonProps}}
 				onPressOut={onConfirm}
-				testID={`listAfterAffordance__listAffordanceButton--${id}`}
+				testID={`listAfterAffordance__listAffordanceButton--confirmed--${id}`}
 				visible={visible}
 			/>
 
@@ -61,7 +61,7 @@ const render = ({
 				})}
 				{...{labelText: 'Cancel', ...secondaryButtonProps}}
 				onPressOut={onCancel}
-				testID={`listAfterAffordance__listAffordanceButton--${id}`}
+				testID={`listAfterAffordance__listAffordanceButton--close--${id}`}
 				visible={visible}
 			/>
 
@@ -74,12 +74,12 @@ const render = ({
 	)
 }
 
-export const ForwardRefListAfterAffordance = forwardRef<View, ListAfterAffordanceProps>((props, ref) => (
+export const AfterAffordanceWithRef = forwardRef<View, ListAfterAffordanceProps>((props, ref) => (
 	<ListAfterAffordanceBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderListAfterAffordance={renderListAfterAffordance}
 	/>
 ))
 
-export const ListAfterAffordance = ForwardRefListAfterAffordance
+export const ListAfterAffordance = AfterAffordanceWithRef

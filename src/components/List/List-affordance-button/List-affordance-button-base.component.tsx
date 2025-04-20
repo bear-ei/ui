@@ -10,7 +10,16 @@ import {handleListAffordanceButtonStateChange} from './List-affordance-handle'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
 export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBaseProps>(
-	({labelText = 'Label', render, disabled, visible, ...renderProps}, ref) => {
+	(
+		{
+			labelText = 'Label',
+			renderListAffordanceButton,
+			disabled,
+			visible,
+			...renderListAffordanceButtonProps
+		},
+		ref
+	) => {
 		const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({})
 		const theme = useTheme()
 		const id = useId()
@@ -18,13 +27,18 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleListAffordanceButtonStateChange({...options, state, visible})(setState)(event)
 
-		const interactionHandlers = useStateEvent({...renderProps, onStateEventChange, disabled})
+		const interactionHandlers = useStateEvent({
+			...renderListAffordanceButtonProps,
+			onStateEventChange,
+			disabled
+		})
+
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({
 			disabled
 		})
 
-		return render({
-			...renderProps,
+		return renderListAffordanceButton({
+			...renderListAffordanceButtonProps,
 			backgroundUnderlayAnimatedStyle,
 			disabled,
 			eventName,

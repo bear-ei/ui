@@ -66,13 +66,13 @@ export interface ListItemProps
 
 export interface RenderListItemProps extends ListItemProps {
 	active?: boolean
-	affordanceShow?: boolean
+	affordanceVisible?: boolean
 	afterAffordanceVisible?: boolean
 	contentAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
 	headlineTextAnimatedStyle: AnimatedStyle<TextStyle>
-	leadingElement?: React.JSX.Element
 	interactionHandlers: InteractionHandlers
+	leadingElement?: React.JSX.Element
 	panResponder?: PanResponderInstance
 	skeletonVisible?: boolean
 	state?: State
@@ -87,7 +87,7 @@ export interface ListItemBaseProps extends ListItemProps {
 
 export interface ListItemState {
 	afterAffordanceClosed?: boolean
-	affordanceShow?: boolean
+	affordanceVisible?: boolean
 	eventName?: EventName
 	listItemState?: State
 	nextLayoutEvent?: () => void

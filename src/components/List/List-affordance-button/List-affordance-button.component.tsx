@@ -11,7 +11,7 @@ import {BackgroundUnderlay, Container, Content, LabelText} from './List-affordan
 
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
-const render = ({
+const renderListAffordanceButton = ({
 	backgroundUnderlayAnimatedStyle,
 	disabled,
 	eventName,
@@ -71,12 +71,12 @@ const render = ({
 	)
 }
 
-const ForwardRefListAffordanceButton = forwardRef<View, ListAffordanceButtonProps>((props, ref) => (
+const ListAffordanceButtonWithRef = forwardRef<View, ListAffordanceButtonProps>((props, ref) => (
 	<ListAffordanceButtonBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderListAffordanceButton={renderListAffordanceButton}
 	/>
 ))
 
-export const ListAffordanceButton: FC<ListAffordanceButtonProps> = ForwardRefListAffordanceButton
+export const ListAffordanceButton: FC<ListAffordanceButtonProps> = ListAffordanceButtonWithRef

@@ -46,7 +46,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			skeletonDuration = 0,
 			skeletonElement,
 			supportingTextNumberOfLines,
-			testID,
 			trailingTriggerEvenName,
 			type,
 			...renderListProps
@@ -89,6 +88,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			enableUnderlay,
 			enableUnderlayActive,
 			focusedIndex,
+			id,
 			onActive: onListActive,
 			onActiveAfterAffordance: onListActiveAfterAffordance,
 			onCancel,
@@ -137,8 +137,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			loadingComponent,
 			onClose: onListClose,
 			ref: listRef as RenderListProps['ref'],
-			renderItem: renderListItem,
-			testID: testID ?? id
+			renderItem: renderListItem
 		})
 	}
 )

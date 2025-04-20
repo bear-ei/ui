@@ -31,7 +31,7 @@ const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 const renderListItem = ({
 	active,
-	affordanceShow,
+	affordanceVisible,
 	afterAffordance,
 	afterAffordancePrimaryButtonProps,
 	afterAffordanceSecondaryButtonProps,
@@ -49,6 +49,7 @@ const renderListItem = ({
 	headlineTextAnimatedStyle,
 	id,
 	indexKey,
+	interactionHandlers,
 	leadingElement,
 	onCancel,
 	onConfirm,
@@ -58,7 +59,6 @@ const renderListItem = ({
 	shape,
 	skeletonDuration = 150,
 	skeletonElement,
-	interactionHandlers,
 	supporting,
 	supportingTextNumberOfLines,
 	testID,
@@ -71,8 +71,8 @@ const renderListItem = ({
 }: RenderListItemProps) => {
 	const activeColor = theme.token.scheme.secondaryContainer
 	const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
-	const supportingTextShow = !!supporting
-	const trailingShow = !!trailingElement
+	const isSupportingTextShow = !!supporting
+	const isTrailingShow = !!trailingElement
 	const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
 	const underlayProps = selectType &&
 		[LIST_SELECT_TYPE.SINGLE, LIST_SELECT_TYPE.MULTIPLE].includes(selectType) &&
@@ -90,6 +90,8 @@ const renderListItem = ({
 	return (
 		<Container
 			{...panResponder?.panHandlers}
+			accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
+			accessibilityRole='list'
 			shape={shape}
 			testID={testID ?? `listItem--${id}`}
 			type={type}
@@ -108,8 +110,6 @@ const renderListItem = ({
 				)}
 
 				<AnimatedContent
-					accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
-					accessibilityRole='list'
 					style={[contentStyle, contentAnimatedStyle]}
 					testID={`listItem__animatedContent--${id}`}
 					type={type}
@@ -126,7 +126,7 @@ const renderListItem = ({
 							{...mainProps}
 							density={density}
 							supportingTextNumberOfLines={supportingTextNumberOfLines}
-							supportingTextShow={supportingTextShow}
+							supportingTextShow={isSupportingTextShow}
 							testID={`listItem__main--${id}`}
 							type={type}
 						>
@@ -145,9 +145,9 @@ const renderListItem = ({
 							<MainInner
 								leadingShow={!!leadingElement}
 								pointerEvents='none'
-								supportingTextShow={supportingTextShow}
+								supportingTextShow={isSupportingTextShow}
 								testID={`listItem__mainInner--${id}`}
-								trailingShow={trailingShow}
+								trailingShow={isTrailingShow}
 								type={type}
 							>
 								{headline &&
@@ -189,7 +189,7 @@ const renderListItem = ({
 										supportingTextNumberOfLines
 									}
 									testID={`listItem__trailingLayoutAnimated--${id}`}
-									trailingShow={trailingShow}
+									trailingShow={isTrailingShow}
 									type={type}
 									unmount={true}
 									visible={trailingVisible}
@@ -210,7 +210,7 @@ const renderListItem = ({
 					)}
 				</AnimatedContent>
 
-				{afterAffordance && affordanceShow && (
+				{afterAffordance && affordanceVisible && (
 					<AfterAffordanceLayout testID={`listItem__afterAffordanceLayout--${id}`}>
 						{typeof afterAffordance === 'boolean' ?
 							<ListAfterAffordance
@@ -242,7 +242,7 @@ const renderListItem = ({
 	)
 }
 
-const ForwardRefListItem = forwardRef<View, ListItemProps>((props, ref) => (
+const ListItemWithRef = forwardRef<View, ListItemProps>((props, ref) => (
 	<ListItemBase
 		{...props}
 		ref={ref}
@@ -250,6 +250,6 @@ const ForwardRefListItem = forwardRef<View, ListItemProps>((props, ref) => (
 	/>
 ))
 
-export const ListItem = memo(ForwardRefListItem, (prevProps, nextProps) =>
+export const ListItem = memo(ListItemWithRef, (prevProps, nextProps) =>
 	handleListItemPropsEqual(prevProps)(nextProps)
 ) as FC<ListItemProps>

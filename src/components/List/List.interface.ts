@@ -4,10 +4,11 @@ import type {CommonProps, EventName, ShapeType} from '../Common'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
 import type {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from './List-after-affordance'
 import type {ListItemProps} from './List-item'
-import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
+import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 
 export type ListSelectType = (typeof LIST_SELECT_TYPE)[keyof typeof LIST_SELECT_TYPE]
 export type ListType = (typeof LIST_TYPE)[keyof typeof LIST_TYPE]
+export type ActiveTriggerEvenName = (typeof ACTIVE_TRIGGER_EVEN_NAME)[keyof typeof ACTIVE_TRIGGER_EVEN_NAME]
 export type VirtualListComponent<T> = typeof VirtualList<T>
 export interface ListData
 	extends Pick<
@@ -35,7 +36,7 @@ export interface ListProps
 		CommonProps {
 	activeKey?: string
 	activeKeys?: string[]
-	activeTriggerEvenName?: EventName
+	activeTriggerEvenName?: ActiveTriggerEvenName
 	afterAffordance?: React.JSX.Element | boolean
 	afterAffordanceActiveKey?: string
 	afterAffordancePrimaryButtonProps?: ListAfterAffordanceProps['primaryButtonProps']
@@ -101,6 +102,7 @@ export type HandleRenderItemOptions = Pick<
 	| 'enableUnderlayActive'
 	| 'extraData'
 	| 'focusedIndex'
+	| 'id'
 	| 'onActive'
 	| 'onActiveAfterAffordance'
 	| 'onCancel'
