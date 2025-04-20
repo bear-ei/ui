@@ -12,7 +12,7 @@ import type {RenderSkeletonProps, SkeletonComponent, SkeletonProps} from './Skel
 import {ContentItemLayout, SkeletonContainer} from './Skeleton.styles'
 
 const AnimatedSkeletonLayout = Animated.createAnimatedComponent(SkeletonContainer)
-const render = ({
+const renderSkeleton = ({
 	children,
 	containerAnimatedStyle,
 	contentSize,
@@ -24,7 +24,7 @@ const render = ({
 	visible,
 	...containerProps
 }: RenderSkeletonProps) => {
-	const skeletonVisible = !!(skeleton && visible)
+	const isSkeletonVisible = !!(skeleton && visible)
 
 	return (
 		<>
@@ -32,9 +32,9 @@ const render = ({
 				<ContentItemLayout
 					contentSize={contentSize}
 					contentStyle={contentStyle}
-					testID={`skeleton__contentItemLayoutAnimated--${id}`}
+					testID={`skeleton__contentItemLayoutAnimatedVisible--${id}`}
 					unmount={true}
-					visible={skeletonVisible}
+					visible={isSkeletonVisible}
 				>
 					<AnimatedSkeletonLayout
 						{...containerProps}
@@ -50,8 +50,8 @@ const render = ({
 			<ContentItemLayout
 				contentSize={contentSize}
 				contentStyle={contentStyle}
-				testID={`skeleton__contentItemLayoutAnimated--${id}`}
-				visible={!skeletonVisible}
+				testID={`skeleton__contentItemLayoutAnimatedNotVisible--${id}`}
+				visible={!isSkeletonVisible}
 			>
 				{children}
 			</ContentItemLayout>
@@ -59,11 +59,11 @@ const render = ({
 	)
 }
 
-const ForwardRefSkeleton = forwardRef<View, SkeletonProps>((props, ref) => (
+const SkeletonWithRef = forwardRef<View, SkeletonProps>((props, ref) => (
 	<SkeletonBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderSkeleton={renderSkeleton}
 	/>
 ))
 
@@ -118,8 +118,8 @@ const Rectangular: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
 	)
 }
 
-Object.defineProperty(ForwardRefSkeleton, 'Circle', {value: Circle})
-Object.defineProperty(ForwardRefSkeleton, 'Rectangular', {value: Rectangular})
-Object.defineProperty(ForwardRefSkeleton, 'Square', {value: Square})
+Object.defineProperty(SkeletonWithRef, 'Circle', {value: Circle})
+Object.defineProperty(SkeletonWithRef, 'Rectangular', {value: Rectangular})
+Object.defineProperty(SkeletonWithRef, 'Square', {value: Square})
 
-export const Skeleton = ForwardRefSkeleton as FC<SkeletonProps> as SkeletonComponent
+export const Skeleton = SkeletonWithRef as FC<SkeletonProps> as SkeletonComponent

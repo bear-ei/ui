@@ -5,7 +5,7 @@ import {SkeletonElementBase} from './Skeleton-element-base.component'
 import type {RenderSkeletonElementProps, SkeletonElementProps} from './Skeleton-element.interface'
 import {Container} from './Skeleton-element.styles'
 
-const render = ({children, id, testID, ...props}: RenderSkeletonElementProps) => (
+const renderSkeletonElement = ({children, id, testID, ...props}: RenderSkeletonElementProps) => (
 	<Container
 		{...props}
 		showChildren={!!children}
@@ -15,12 +15,12 @@ const render = ({children, id, testID, ...props}: RenderSkeletonElementProps) =>
 	</Container>
 )
 
-const ForwardRefSkeletonElement = forwardRef<View, SkeletonElementProps>((props, ref) => (
+const SkeletonElementWithRef = forwardRef<View, SkeletonElementProps>((props, ref) => (
 	<SkeletonElementBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderSkeletonElement={renderSkeletonElement}
 	/>
 ))
 
-export const SkeletonElement: FC<SkeletonElementProps> = ForwardRefSkeletonElement
+export const SkeletonElement: FC<SkeletonElementProps> = SkeletonElementWithRef

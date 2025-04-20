@@ -7,13 +7,15 @@ import type {SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
 export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
-	({render, enableAnimated = true, duration, ...renderProps}, ref) => {
-		const [{visible, nextSkeletonVisibleEvent}, setState] = useImmer<SkeletonState>({visible: true})
+	({renderSkeleton, enableAnimated = true, duration, ...renderSkeletonProps}, ref) => {
+		const [{visible: isVisible, nextSkeletonVisibleEvent}, setState] = useImmer<SkeletonState>({
+			visible: true
+		})
 		const id = useId()
 		const onSkeletonDurationChange = useMemo(() => handleSkeletonDurationChange(setState), [setState])
 		const {containerAnimatedStyle} = useSkeletonAnimated({
 			enableAnimated,
-			visible: typeof duration === 'number' && duration ? visible : false
+			visible: typeof duration === 'number' && duration ? isVisible : false
 		})
 
 		useEffect(() => {
@@ -24,6 +26,6 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 			runAfterInteractions(nextSkeletonVisibleEvent)()
 		}, [nextSkeletonVisibleEvent])
 
-		return render({...renderProps, containerAnimatedStyle, ref, visible, id})
+		return renderSkeleton({...renderSkeletonProps, containerAnimatedStyle, ref, visible: isVisible, id})
 	}
 )
