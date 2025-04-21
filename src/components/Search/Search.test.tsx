@@ -34,8 +34,8 @@ describe('Search Component', () => {
 		)
 
 		const input = getByTestId('search__searchTextInput--test-id')
-		fireEvent.changeText(input, 'new text')
 
+		fireEvent.changeText(input, 'new text')
 		await waitFor(() => {
 			expect(handleChangeText).toHaveBeenCalledWith('new text')
 		})

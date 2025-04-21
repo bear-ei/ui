@@ -1,80 +1,15 @@
-import {PluginItem} from '@babel/core'
 import react from '@vitejs/plugin-react'
 import {resolve} from 'node:path'
-import {Plugin, defineConfig} from 'vite'
+import {defineConfig} from 'vite'
 import dts from 'vite-plugin-dts'
+import reactNativeWeb from 'vite-plugin-react-native-web'
 import svgr from 'vite-plugin-svgr'
 
-const reactNativeWeb = (options: {babelPlugins: PluginItem[]}): Plugin => {
-	const plugin: Plugin = {
-		name: 'vite:react-native-web',
-		enforce: 'pre',
-		config(_userConfig, env) {
-			return {
-				plugins: [
-					react({
-						babel: {
-							plugins: options.babelPlugins
-						}
-					})
-				],
-				define: {
-					// reanimated support
-					'global.__x': {},
-					_frameTimestamp: undefined,
-					_WORKLET: false,
-					__DEV__: `${env.mode === 'development'}`,
-					'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || env.mode)
-				},
-				optimizeDeps: {
-					include: ['react-native-reanimated', 'react-native-web'],
-					esbuildOptions: {
-						jsx: 'transform',
-						resolveExtensions: [
-							'.web.js',
-							'.web.ts',
-							'.web.tsx',
-							'.js',
-							'.jsx',
-							'.json',
-							'.ts',
-							'.tsx',
-							'.mjs'
-						],
-						loader: {
-							'.js': 'jsx',
-							'.ts': 'ts',
-							'.tsx': 'tsx'
-						}
-					}
-				},
-				resolve: {
-					extensions: [
-						'.web.js',
-						'.web.ts',
-						'.web.tsx',
-						'.js',
-						'.jsx',
-						'.json',
-						'.ts',
-						'.tsx',
-						'.mjs'
-					],
-					alias: {
-						'react-native': 'react-native-web'
-					}
-				}
-			}
-		}
-	}
-
-	return plugin
-}
-
 const babelPlugins = [
-	'@babel/plugin-proposal-export-namespace-from',
 	['@babel/plugin-proposal-decorators', {legacy: true}],
-	'@babel/plugin-transform-class-properties',
+	['@babel/plugin-proposal-class-properties', {loose: true}],
+	['@babel/plugin-proposal-private-methods', {loose: true}],
+	['@babel/plugin-proposal-private-property-in-object', {loose: true}],
 	'react-native-reanimated/plugin'
 ]
 

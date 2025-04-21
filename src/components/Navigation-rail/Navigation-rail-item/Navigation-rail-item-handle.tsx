@@ -16,11 +16,11 @@ export const handleNavigationRailItemPropsEqual =
 	(prevProps: NavigationRailItemProps) => (nextProps: NavigationRailItemProps) => {
 		const {activeKey: prevActiveKey, indexKey: prevItemKey} = prevProps
 		const {activeKey: nextActiveKey, indexKey: nextItemKey} = nextProps
-		const activeChange =
+		const isActiveChange =
 			prevActiveKey !== nextActiveKey &&
 			(nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
 
-		return ![activeChange].some(Boolean)
+		return ![isActiveChange].some(Boolean)
 	}
 
 const handleNavigationRailItemPressOut = (onActive?: (activeKey: string) => void) => (activeKey: string) =>

@@ -41,7 +41,7 @@ export const VirtualListBaseInner = <T,>(
 ) => {
 	const [
 		{
-			emptyList,
+			emptyList: isEmptyList,
 			layout,
 			nextCloseEvent,
 			nextScrollEvent,
@@ -125,7 +125,7 @@ export const VirtualListBaseInner = <T,>(
 		...scrollEvent,
 		contentAnimatedStyle,
 		contentSize,
-		emptyList,
+		emptyList: isEmptyList,
 		id,
 		interactionHandlers,
 		itemElements,

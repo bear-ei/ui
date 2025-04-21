@@ -206,10 +206,10 @@ export const handleTextInputNonerrorAnimatedTiming = ({
 	error,
 	disabled
 }: HandleTextInputNonerrorAnimatedTimingOptions) => {
-	const nonerror = typeof error !== 'boolean' && disabled
+	const isNonerror = typeof error !== 'boolean' && disabled
 
 	return (stateAnimated: TextInputStateAnimated) => (state: State) =>
-		!nonerror && stateAnimated[error ? 'error' : state]?.()
+		!isNonerror && stateAnimated[error ? 'error' : state]?.()
 }
 
 export const handleTextInputDisabledAnimatedTiming =

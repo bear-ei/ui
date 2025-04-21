@@ -30,7 +30,7 @@ const renderVirtualListItem = ({
 	</ContainerLayout>
 )
 
-const ForwardRefVirtualListItem = forwardRef<View, VirtualListItemProps>((props, ref) => (
+const VirtualListItemWithRef = forwardRef<View, VirtualListItemProps>((props, ref) => (
 	<VirtualListItemBase
 		{...props}
 		ref={ref}
@@ -38,6 +38,6 @@ const ForwardRefVirtualListItem = forwardRef<View, VirtualListItemProps>((props,
 	/>
 ))
 
-export const VirtualListItem = memo(ForwardRefVirtualListItem, (prevProps, nextProps) =>
+export const VirtualListItem = memo(VirtualListItemWithRef, (prevProps, nextProps) =>
 	handleVirtualListItemPropsEqual(prevProps)(nextProps)
 )

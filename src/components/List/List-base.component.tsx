@@ -9,6 +9,7 @@ import {
 	handleListItemSize,
 	handleRenderListItem
 } from './List-handle'
+import {ACTIVE_TRIGGER_EVEN_NAME} from './List.enum'
 import type {ListBaseProps, ListData, ListState, RenderListProps, VirtualListComponent} from './List.interface'
 
 export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps>(
@@ -16,7 +17,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		{
 			activeKey: rawActiveKey,
 			activeKeys: rawActiveKeys,
-			activeTriggerEvenName = 'pressOut',
+			activeTriggerEvenName = ACTIVE_TRIGGER_EVEN_NAME.PRESS_OUT,
 			afterAffordance,
 			afterAffordancePrimaryButtonProps,
 			afterAffordanceSecondaryButtonProps,

@@ -58,7 +58,7 @@ export interface RenderTextInputProps extends TextInputProps {
 }
 
 export interface TextInputBaseProps extends TextInputProps {
-	render: (props: RenderTextInputProps) => React.JSX.Element
+	renderTextInput: (props: RenderTextInputProps) => React.JSX.Element
 }
 
 export interface TextInputState {

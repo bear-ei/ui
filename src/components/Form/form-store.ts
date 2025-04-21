@@ -25,8 +25,16 @@ const createFormContext = <T>() => ({
 })
 
 export const formStore = <T extends Record<string, unknown> = Record<string, unknown>>() => {
-	let {callback, error, fieldEntities, initialValue, store, signInFieldCompleted, fieldKeys, validatorOptions} =
-		createFormContext<T>()
+	let {
+		callback,
+		error,
+		fieldEntities,
+		initialValue,
+		store,
+		signInFieldCompleted: isSignInFieldCompleted,
+		fieldKeys,
+		validatorOptions
+	} = createFormContext<T>()
 
 	const getFieldEntities = (signOut = false) => (signOut ? fieldEntities : fieldEntities.filter(({name}) => name))
 	const getFieldEntitiesName =
@@ -135,7 +143,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 	const setFieldValidate =
 		({delay = 300, ...restValidatorOptions}: FormValidatorOptions = {}) =>
 		(validateRule: FormValidateRule<T>) => {
-			if (!signInFieldCompleted) {
+			if (!isSignInFieldCompleted) {
 				return
 			}
 
@@ -172,7 +180,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 	const setFieldTouched =
 		(touched = false) =>
 		(name?: keyof T) => {
-			if (!(name || signInFieldCompleted)) {
+			if (!(name || isSignInFieldCompleted)) {
 				return
 			}
 
@@ -278,7 +286,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			.join(',')
 
 		if (fieldKeySting === fieldEntitySting) {
-			signInFieldCompleted = true
+			isSignInFieldCompleted = true
 		}
 
 		return {
@@ -290,7 +298,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		const entities = getFieldEntities(true)
 		const names = namePath(namePaths)
 		const handleSignOut = (signOutName?: keyof T) => {
-			if (!signOutName || !signInFieldCompleted) {
+			if (!signOutName || !isSignInFieldCompleted) {
 				return
 			}
 

@@ -25,7 +25,11 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		},
 		ref
 	) => {
-		const [{visible, status}, setState] = useImmer<VirtualListItemState>({visible: true, status: 'idle'})
+		const [{visible: isVisible, status}, setState] = useImmer<VirtualListItemState>({
+			visible: true,
+			status: 'idle'
+		})
+
 		const renderIndex = useMemo(() => index + startIndex, [index, startIndex])
 		const offsetY = useMemo(() => itemSize * renderIndex, [itemSize, renderIndex])
 		const {containerAnimatedStyle} = useVirtualListItemAnimated({offsetY})
@@ -62,7 +66,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			itemSize,
 			onUnmount: onVirtualListItemUnmount,
 			ref,
-			visible
+			visible: isVisible
 		})
 	}
 )

@@ -1,6 +1,6 @@
 {
 	"name": "@bearei/material",
-	"version": "0.0.150",
+	"version": "0.0.151",
 	"main": "./dist/index.umd.cjs",
 	"module": "./dist/index.js",
 	"react-native": "./src/index.ts",
@@ -114,6 +114,7 @@
 		"typescript": "5.5.4",
 		"vite": "^5.4.8",
 		"vite-plugin-dts": "^4.2.3",
+		"vite-plugin-react-native-web": "^2.1.1",
 		"vite-plugin-svgr": "^4.2.0"
 	},
 	"peerDependencies": {
@@ -163,7 +164,7 @@
 	"scripts": {
 		"android": "react-native run-android",
 		"build-storybook": "storybook build",
-		"build": "yarn lint && && yarn coverage && yarn run clean && yarn vite build",
+		"build": "yarn lint && yarn coverage && yarn run clean && yarn vite build",
 		"check-dependencies": "rnx-align-deps",
 		"clean": "yarn shx rm -rf dist",
 		"coverage": "yarn test --coverage",

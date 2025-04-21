@@ -37,7 +37,7 @@ const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.Funct
 	AnimatedProps<FastOmit<InputProps, never>>
 >
 
-const render = ({
+const renderTextInput = ({
 	activeIndicatorAnimatedStyle,
 	content,
 	contentSize,
@@ -64,7 +64,7 @@ const render = ({
 	...inputProps
 }: RenderTextInputProps) => {
 	const shape = SHAPE.EXTRA_SMALL_TOP
-	const leadingShow = !!leading
+	const isLeadingShow = !!leading
 	const underlayColor = theme.token.scheme.onSurface
 	const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
 	const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
@@ -90,7 +90,7 @@ const render = ({
 				>
 					<AnimatedHeader
 						density={density}
-						leadingShow={leadingShow}
+						leadingShow={isLeadingShow}
 						shape={shape}
 						style={[headerAnimatedStyle]}
 						testID={`textInput__animatedHeader--${id}`}
@@ -142,7 +142,7 @@ const render = ({
 
 						<AnimatedLabel
 							density={density}
-							leadingShow={leadingShow}
+							leadingShow={isLeadingShow}
 							style={[labelAnimatedStyle]}
 							testID={`textInput__animatedLabel--${id}`}
 						>
@@ -189,12 +189,12 @@ const render = ({
 	)
 }
 
-const ForwardRefTextInput = forwardRef<RNTextInput, TextInputProps>((props, ref) => (
+const TextInputWithRef = forwardRef<RNTextInput, TextInputProps>((props, ref) => (
 	<TextInputBase
 		{...props}
 		ref={ref}
-		render={render}
+		renderTextInput={renderTextInput}
 	/>
 ))
 
-export const TextInput: FC<TextInputProps> = ForwardRefTextInput
+export const TextInput: FC<TextInputProps> = TextInputWithRef

@@ -18,6 +18,7 @@ describe('LayoutPane', () => {
 		)
 
 		const layoutPaneContainer = getByTestId('visible')
+
 		expect(layoutPaneContainer).toBeTruthy()
 	})
 })

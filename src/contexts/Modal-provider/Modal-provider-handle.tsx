@@ -2,10 +2,10 @@ import type {Updater} from 'use-immer'
 import type {Modal, ModalState} from './Modal-provider.interface'
 
 export const handleModal = (setState: Updater<ModalState>) => (modal: Modal) => {
-	const {id, unmount, props} = modal
+	const {id, unmount: isUnmount, props} = modal
 
 	setState(draft => {
-		if (unmount) {
+		if (isUnmount) {
 			draft.modals = draft.modals.filter(item => item.id !== id)
 
 			return

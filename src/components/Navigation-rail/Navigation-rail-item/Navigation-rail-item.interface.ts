@@ -4,18 +4,8 @@ import type {AnimatedStyle} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {EventName, TypographyProps} from '../../Common'
-import type {
-	NAVIGATION_DESTINATION_POSITION,
-	NAVIGATION_RAIL_ANIMATED,
-	NAVIGATION_RAIL_TYPE
-} from '../Navigation-rail.enum'
 import type {NavigationRailProps} from '../Navigation-rail.interface'
 
-export type NavigationDestinationPosition =
-	(typeof NAVIGATION_DESTINATION_POSITION)[keyof typeof NAVIGATION_DESTINATION_POSITION]
-
-export type NavigationRailAnimated = (typeof NAVIGATION_RAIL_ANIMATED)[keyof typeof NAVIGATION_RAIL_ANIMATED]
-export type NavigationRailType = (typeof NAVIGATION_RAIL_TYPE)[keyof typeof NAVIGATION_RAIL_TYPE]
 export interface NavigationRailItemProps
 	extends Partial<ViewProps & RefAttributes<View> & PressableProps & InteractionHandlers>,
 		Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {

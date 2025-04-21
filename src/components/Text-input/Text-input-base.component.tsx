@@ -37,13 +37,13 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			onContentSizeChange,
 			onSupportingTextVisible,
 			placeholder,
-			render,
+			renderTextInput,
 			supportingText: rawSupportingText,
 			supportingTextDelay,
 			trailing,
 			type = TEXT_INPUT_TYPE.FILLED,
 			value: rawValue,
-			...renderProps
+			...renderTextInputProps
 		},
 		ref
 	) => {
@@ -58,7 +58,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 				state,
 				status,
 				supportingText,
-				supportingTextVisible,
+				supportingTextVisible: isSupportingTextVisible,
 				value
 			},
 			setState
@@ -112,7 +112,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 				})(setState)(event)
 
 		const interactionHandlers = useStateEvent({
-			...renderProps,
+			...renderTextInputProps,
 			disabled: disabled ?? (typeof editable === 'boolean' ? !editable : undefined),
 			onStateEventChange
 		})
@@ -166,8 +166,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			return <></>
 		}
 
-		return render({
-			...renderProps,
+		return renderTextInput({
+			...renderTextInputProps,
 			activeIndicatorAnimatedStyle,
 			content,
 			contentSize,
@@ -176,6 +176,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			headerAnimatedStyle,
 			id,
 			inputAnimatedStyle,
+			interactionHandlers,
 			labelAnimatedStyle,
 			labelText,
 			labelTextAnimatedStyle,
@@ -187,10 +188,9 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			onSupportingTextVisible: onTextInputSupportingTextVisible,
 			placeholderTextColor,
 			ref: textInputRef,
-			interactionHandlers,
 			supportingText,
 			supportingTextAnimatedStyle,
-			supportingTextVisible,
+			supportingTextVisible: isSupportingTextVisible,
 			theme,
 			trailing,
 			value

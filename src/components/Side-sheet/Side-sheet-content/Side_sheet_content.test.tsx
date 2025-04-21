@@ -34,6 +34,7 @@ describe('SideSheetContent', () => {
 				position={SIDE_SHEET_POSITION.HORIZONTAL_START}
 			/>
 		)
+
 		expect(getByTestId('sideSheetContent__content--test-id')).toBeTruthy()
 	})
 })

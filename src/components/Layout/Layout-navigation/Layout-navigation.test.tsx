@@ -22,6 +22,7 @@ describe('LayoutNavigation', () => {
 		)
 
 		const layoutNavigationContainer = getByTestId('collapse')
+
 		expect(layoutNavigationContainer).toBeTruthy()
 	})
 
@@ -33,6 +34,7 @@ describe('LayoutNavigation', () => {
 		)
 
 		const layoutNavigationContainer = getByTestId('visible')
+
 		expect(layoutNavigationContainer).toBeTruthy()
 	})
 })

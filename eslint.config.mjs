@@ -66,11 +66,12 @@ export default [
 	{
 		ignores: [
 			'__mocks__/**/*',
+			'**/**.config.js',
+			'**/**.config.mjs',
+			'**/**.config.ts',
 			'**/**.test.ts',
 			'**/**.test.tsx',
-			'**/metro.config.js',
 			'**/storybook.requires.ts',
-			'eslint.config.mjs',
 			'node_modules'
 		]
 	}

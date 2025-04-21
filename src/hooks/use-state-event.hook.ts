@@ -99,7 +99,7 @@ export const useStateEvent = ({
 	onPressOut,
 	onStateEventChange
 }: UseHandleStateEventOptions) => {
-	const mobileDevice = ['ios', 'android'].includes(Platform.OS)
+	const isMobileDevice = ['ios', 'android'].includes(Platform.OS)
 	const interactionHandlers = (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 		handleStateEventChange({...options, disabled, onStateEventChange})(disabled ? 'disabled' : state)(event)
 
@@ -109,12 +109,12 @@ export const useStateEvent = ({
 	const handleHoverOut = handleHoverOutEvent({interactionHandlers})(onHoverOut)
 	const handleLayout = handleLayoutEvent({interactionHandlers})(onLayout)
 	const handleLongPress = handleLongPressEvent({interactionHandlers})(onLongPress)
-	const handlePress = handlePressEvent({interactionHandlers, mobileDevice})(onPress)
+	const handlePress = handlePressEvent({interactionHandlers, mobileDevice: isMobileDevice})(onPress)
 	const handlePressIn = handlePressInEvent({interactionHandlers})(onPressIn)
-	const handlePressOut = handlePressOutEvent({interactionHandlers, mobileDevice})(onPressOut)
+	const handlePressOut = handlePressOutEvent({interactionHandlers, mobileDevice: isMobileDevice})(onPressOut)
 
 	return {
-		mobileDevice,
+		mobileDevice: isMobileDevice,
 		onBlur: handleBlur,
 		onFocus: handleFocus,
 		onHoverIn: handleHoverIn,

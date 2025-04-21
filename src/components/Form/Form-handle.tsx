@@ -39,9 +39,9 @@ export const handleFormFieldKeys =
 
 export const handleFormValidate = <T,>({rule, validatorOptions}: HandleFormValidateOptions) => {
 	const {
-		forbidNonWhitelisted = true,
-		skipMissingProperties = true,
-		whitelist = true,
+		forbidNonWhitelisted: isForbidNonWhitelisted = true,
+		skipMissingProperties: isSkipMissingProperties = true,
+		whitelist: isWhitelist = true,
 		...otherValidatorOptions
 	} = validatorOptions ?? {}
 
@@ -49,9 +49,9 @@ export const handleFormValidate = <T,>({rule, validatorOptions}: HandleFormValid
 		name && rule ?
 			validate(Object.assign(new rule(), {[name]: value}), {
 				...otherValidatorOptions,
-				forbidNonWhitelisted,
-				skipMissingProperties,
-				whitelist
+				forbidNonWhitelisted: isForbidNonWhitelisted,
+				skipMissingProperties: isSkipMissingProperties,
+				whitelist: isWhitelist
 			}).then(errors => (errors.length ? errors : undefined))
 		:	([] as ValidationError[])
 }
