@@ -1,4 +1,5 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef, type ForwardedRef} from 'react'
+import type Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
@@ -10,7 +11,7 @@ import {
 	handleRenderListItem
 } from './List-handle'
 import {ACTIVE_TRIGGER_EVEN_NAME} from './List.enum'
-import type {ListBaseProps, ListData, ListState, RenderListProps, VirtualListComponent} from './List.interface'
+import type {ListBaseProps, ListData, ListState, VirtualListComponent} from './List.interface'
 
 export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps>(
 	(
@@ -66,7 +67,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			setState
 		] = useImmer<ListState>({})
 
-		const listRef = useRef<VirtualListComponent<ListData>>(null)
+		const listRef = useRef<ForwardedRef<Animated.ScrollView>>(null)
 		const id = useId()
 		const theme = useTheme()
 		const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
@@ -137,7 +138,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			loading,
 			loadingComponent,
 			onClose: onListClose,
-			ref: listRef as RenderListProps['ref'],
+			ref: listRef as ForwardedRef<Animated.ScrollView>,
 			renderItem: renderListItem
 		})
 	}

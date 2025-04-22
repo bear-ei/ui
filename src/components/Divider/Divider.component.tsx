@@ -1,5 +1,4 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {LAYOUT} from '../Common'
@@ -51,4 +50,4 @@ const DividerWithRef = forwardRef<View, DividerProps>((props, ref) => (
 	/>
 ))
 
-export const Divider: FC<DividerProps> = DividerWithRef
+export const Divider = DividerWithRef

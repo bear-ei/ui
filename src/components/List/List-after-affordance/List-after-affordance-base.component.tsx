@@ -1,5 +1,5 @@
-import type {FC} from 'react'
-import {useEffect, useId, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
+import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../../utils'
@@ -11,48 +11,52 @@ import {
 import type {ListAfterAffordanceBaseProps, ListAfterAffordanceState} from './List-after-affordance.interface'
 import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animated.hook'
 
-export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
-	indexKey,
-	onCancel,
-	onConfirm,
-	renderListAfterAffordance,
-	visible,
-	...renderListAfterAffordanceProps
-}) => {
-	const [{doubleConfirmed: isDoubleConfirmed, nextCancelEvent}, setState] = useImmer<ListAfterAffordanceState>({})
-	const theme = useTheme()
-	const id = useId()
-	const onListAfterAffordanceConfirm = handleListAfterAffordanceConfirm({
-		doubleConfirmed: isDoubleConfirmed,
-		onConfirm,
-		indexKey
-	})
+export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseProps>(
+	(
+		{indexKey, onCancel, onConfirm, renderListAfterAffordance, visible, ...renderListAfterAffordanceProps},
+		ref
+	) => {
+		const [{doubleConfirmed: isDoubleConfirmed, nextCancelEvent}, setState] =
+			useImmer<ListAfterAffordanceState>({})
 
-	const onListAfterAffordanceCancel = handleListAfterAffordanceCancel({
-		doubleConfirmed: isDoubleConfirmed,
-		onCancel,
-		indexKey
-	})(setState)
+		const theme = useTheme()
+		const id = useId()
+		const onListAfterAffordanceConfirm = handleListAfterAffordanceConfirm({
+			doubleConfirmed: isDoubleConfirmed,
+			onConfirm,
+			indexKey
+		})
 
-	const onListAfterAffordanceVisible = useMemo(() => handleListAfterAffordanceVisible(setState), [setState])
-	const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed})
+		const onListAfterAffordanceCancel = handleListAfterAffordanceCancel({
+			doubleConfirmed: isDoubleConfirmed,
+			onCancel,
+			indexKey
+		})(setState)
 
-	useEffect(() => {
-		onListAfterAffordanceVisible(visible)
-	}, [onListAfterAffordanceVisible, visible])
+		const onListAfterAffordanceVisible = useMemo(
+			() => handleListAfterAffordanceVisible(setState),
+			[setState]
+		)
+		const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed})
 
-	useEffect(() => {
-		runAfterInteractions(nextCancelEvent)()
-	}, [nextCancelEvent])
+		useEffect(() => {
+			onListAfterAffordanceVisible(visible)
+		}, [onListAfterAffordanceVisible, visible])
 
-	return renderListAfterAffordance({
-		...renderListAfterAffordanceProps,
-		dangerAnimatedStyle,
-		doubleConfirmed: isDoubleConfirmed,
-		id,
-		onCancel: onListAfterAffordanceCancel,
-		onConfirm: onListAfterAffordanceConfirm,
-		theme,
-		visible
-	})
-}
+		useEffect(() => {
+			runAfterInteractions(nextCancelEvent)()
+		}, [nextCancelEvent])
+
+		return renderListAfterAffordance({
+			...renderListAfterAffordanceProps,
+			dangerAnimatedStyle,
+			doubleConfirmed: isDoubleConfirmed,
+			id,
+			onCancel: onListAfterAffordanceCancel,
+			onConfirm: onListAfterAffordanceConfirm,
+			ref,
+			theme,
+			visible
+		})
+	}
+)

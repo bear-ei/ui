@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -88,5 +87,4 @@ const ProgressActiveIndicatorCircularWithRef = forwardRef<View, ProgressActiveIn
 	/>
 ))
 
-export const ProgressActiveIndicatorCircular: FC<ProgressActiveIndicatorCircularProps> =
-	ProgressActiveIndicatorCircularWithRef
+export const ProgressActiveIndicatorCircular = ProgressActiveIndicatorCircularWithRef

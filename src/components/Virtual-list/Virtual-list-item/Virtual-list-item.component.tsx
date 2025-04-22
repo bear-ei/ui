@@ -40,4 +40,4 @@ const VirtualListItemWithRef = forwardRef<View, VirtualListItemProps>((props, re
 
 export const VirtualListItem = memo(VirtualListItemWithRef, (prevProps, nextProps) =>
 	handleVirtualListItemPropsEqual(prevProps)(nextProps)
-)
+) as typeof VirtualListItemWithRef

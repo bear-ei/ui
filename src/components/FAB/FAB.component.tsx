@@ -1,5 +1,4 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -125,6 +124,4 @@ const FABWithRef = forwardRef<View, FABProps>((props, ref) => (
 	/>
 ))
 
-const FAB: FC<FABProps> = FABWithRef
-
-export const Fab = FAB
+export const Fab = FABWithRef

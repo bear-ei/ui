@@ -8,7 +8,7 @@ import {SearchBase} from './Search-base.component'
 import type {RenderSearchProps, SearchProps, SearchTextInputProps} from './Search.interface'
 import {Container, Content, Leading, Main, TextInput, TextInputLayout, Touchable, Trailing} from './Search.styles'
 
-const SearchTextInput: FC<SearchTextInputProps> = TextInput
+const SearchTextInput = TextInput as FC<SearchTextInputProps>
 const renderSearch = ({
 	containerRef,
 	density,
@@ -109,4 +109,4 @@ const SearchWithRef = forwardRef<RNTextInput, SearchProps>((props, ref) => (
 	/>
 ))
 
-export const Search: FC<SearchProps> = SearchWithRef
+export const Search = SearchWithRef

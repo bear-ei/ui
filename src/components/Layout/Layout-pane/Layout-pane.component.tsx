@@ -1,5 +1,4 @@
 import {DURATION, EASING} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {LAYOUT} from '../../Common'
@@ -43,4 +42,4 @@ const LayoutPaneWithRef = forwardRef<View, LayoutPaneProps>((props, ref) => (
 	/>
 ))
 
-export const LayoutPane = LayoutPaneWithRef as FC<LayoutPaneProps>
+export const LayoutPane = LayoutPaneWithRef

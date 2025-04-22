@@ -54,4 +54,6 @@ const FormBaseInner = <T,>(
 	})
 }
 
-export const FormBase = forwardRef(FormBaseInner) as typeof FormBaseInner
+export const FormBase = forwardRef(FormBaseInner) as <T>(
+	props: FormBaseProps<T> & {ref?: ForwardedRef<View>}
+) => ReturnType<typeof FormBaseInner>

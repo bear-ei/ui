@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {FormItemBase} from './Form-item-base.component'
@@ -22,4 +21,4 @@ const FormItemWithRef = forwardRef<View, FormItemProps>((props, ref) => (
 	/>
 ))
 
-export const FormItem: FC<FormItemProps> = FormItemWithRef
+export const FormItem = FormItemWithRef

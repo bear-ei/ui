@@ -2,7 +2,7 @@ import type {ForwardedRef} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {FormBase} from './Form-base.component'
-import type {FormComponent, FormProps, FormStore, RenderFormProps} from './Form.interface'
+import type {FormProps, FormStore, RenderFormProps} from './Form.interface'
 import {Container} from './Form.styles'
 import {FormContext} from './use-form-context.hook'
 import {useForm} from './use-form.hook'
@@ -26,8 +26,7 @@ const FormInner = <T,>(props: FormProps<T>, ref: ForwardedRef<View>) => (
 	/>
 )
 
-export const FormWithRef = forwardRef(FormInner) as typeof FormInner
-
-Object.defineProperty(FormWithRef, 'useForm', {value: useForm})
-
-export const Form = FormWithRef as FormComponent
+export const Form = Object.assign(
+	forwardRef(FormInner) as <T>(props: FormProps<T> & {ref?: ForwardedRef<View>}) => ReturnType<typeof FormInner>,
+	{useForm}
+)

@@ -1,5 +1,4 @@
 import {DURATION, SHAPE} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
@@ -143,4 +142,4 @@ const CheckboxWithRef = forwardRef<View, CheckboxProps>((props, ref) => (
 	/>
 ))
 
-export const Checkbox: FC<CheckboxProps> = CheckboxWithRef
+export const Checkbox = CheckboxWithRef

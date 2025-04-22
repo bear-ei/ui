@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {NavigationRailBase} from './Navigation-rail-base.component'
@@ -37,4 +36,4 @@ const NavigationRailWithRef = forwardRef<View, NavigationRailProps>((props, ref)
 	/>
 ))
 
-export const NavigationRail: FC<NavigationRailProps> = NavigationRailWithRef
+export const NavigationRail = NavigationRailWithRef

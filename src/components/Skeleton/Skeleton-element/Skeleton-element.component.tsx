@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {SkeletonElementBase} from './Skeleton-element-base.component'
@@ -23,4 +22,4 @@ const SkeletonElementWithRef = forwardRef<View, SkeletonElementProps>((props, re
 	/>
 ))
 
-export const SkeletonElement: FC<SkeletonElementProps> = SkeletonElementWithRef
+export const SkeletonElement = SkeletonElementWithRef

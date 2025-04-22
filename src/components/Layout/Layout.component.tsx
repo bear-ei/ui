@@ -1,11 +1,10 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {LAYOUT} from '../Common'
 import {LayoutBase} from './Layout-base.component'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
-import type {LayoutComponent, LayoutProps, RenderLayoutProps} from './Layout.interface'
+import type {LayoutProps, RenderLayoutProps} from './Layout.interface'
 import {ContainerLayout} from './Layout.styles'
 
 const renderLayout = ({
@@ -42,7 +41,7 @@ const LayoutWithRef = forwardRef<View, LayoutProps>((props, ref) => (
 	/>
 ))
 
-Object.defineProperty(LayoutWithRef, 'Pane', {value: LayoutPane})
-Object.defineProperty(LayoutWithRef, 'Navigation', {value: LayoutNavigation})
-
-export const Layout = LayoutWithRef as FC<LayoutProps> as LayoutComponent
+export const Layout = Object.assign(LayoutWithRef, {
+	Pane: LayoutPane,
+	Navigation: LayoutNavigation
+})

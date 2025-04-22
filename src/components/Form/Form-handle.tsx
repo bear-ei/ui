@@ -35,7 +35,7 @@ export const handleFormCallback =
 export const handleFormFieldKeys =
 	<T,>(setFieldKeys: (keys?: (keyof T)[]) => void) =>
 	(items?: FormItemProps[]) =>
-		items && setFieldKeys(items.map(({name}) => name).filter(item => item) as (keyof T)[])
+		items && setFieldKeys(items.map(({name}) => name).filter(Boolean) as (keyof T)[])
 
 export const handleFormValidate = <T,>({rule, validatorOptions}: HandleFormValidateOptions) => {
 	const {

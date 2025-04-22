@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -57,4 +56,4 @@ const LayoutAnimatedWithRef = forwardRef<View, LayoutAnimatedProps>((props, ref)
 	/>
 ))
 
-export const LayoutAnimated: FC<LayoutAnimatedProps> = LayoutAnimatedWithRef
+export const LayoutAnimated = LayoutAnimatedWithRef

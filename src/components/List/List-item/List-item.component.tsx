@@ -1,5 +1,4 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef, isValidElement, memo} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -252,4 +251,4 @@ const ListItemWithRef = forwardRef<View, ListItemProps>((props, ref) => (
 
 export const ListItem = memo(ListItemWithRef, (prevProps, nextProps) =>
 	handleListItemPropsEqual(prevProps)(nextProps)
-) as FC<ListItemProps>
+) as typeof ListItemWithRef

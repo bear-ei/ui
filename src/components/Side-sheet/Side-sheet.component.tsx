@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {SideSheetBase} from './Side-sheet-base.component'
@@ -42,4 +41,4 @@ const SideSheetWithRef = forwardRef<View, SideSheetProps>((props, ref) => (
 	/>
 ))
 
-export const SideSheet: FC<SideSheetProps> = SideSheetWithRef
+export const SideSheet = SideSheetWithRef

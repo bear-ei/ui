@@ -1,5 +1,4 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {AvatarBase} from './Avatar-base.component'
@@ -63,4 +62,4 @@ const AvatarWithRef = forwardRef<View, AvatarProps>((props, ref) => (
 	/>
 ))
 
-export const Avatar: FC<AvatarProps> = AvatarWithRef
+export const Avatar = AvatarWithRef

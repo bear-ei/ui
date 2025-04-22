@@ -8,7 +8,7 @@ import {LAYOUT} from '../Common'
 import {SkeletonBase} from './Skeleton-base.component'
 import type {SkeletonElementProps} from './Skeleton-element'
 import {SkeletonElement} from './Skeleton-element'
-import type {RenderSkeletonProps, SkeletonComponent, SkeletonProps} from './Skeleton.interface'
+import type {RenderSkeletonProps, SkeletonProps} from './Skeleton.interface'
 import {ContentItemLayout, SkeletonContainer} from './Skeleton.styles'
 
 const AnimatedSkeletonLayout = Animated.createAnimatedComponent(SkeletonContainer)
@@ -118,8 +118,8 @@ const Rectangular: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
 	)
 }
 
-Object.defineProperty(SkeletonWithRef, 'Circle', {value: Circle})
-Object.defineProperty(SkeletonWithRef, 'Rectangular', {value: Rectangular})
-Object.defineProperty(SkeletonWithRef, 'Square', {value: Square})
-
-export const Skeleton = SkeletonWithRef as FC<SkeletonProps> as SkeletonComponent
+export const Skeleton = Object.assign(SkeletonWithRef, {
+	Circle,
+	Rectangular,
+	Square
+})

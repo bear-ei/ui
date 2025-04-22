@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -54,4 +53,4 @@ const UnderlayWithRef = forwardRef<View, UnderlayProps>((props, ref) => (
 	/>
 ))
 
-export const Underlay: FC<UnderlayProps> = UnderlayWithRef
+export const Underlay = UnderlayWithRef

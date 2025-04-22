@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {TouchableBase} from './Touchable-base.component'
@@ -52,4 +51,4 @@ const TouchableWithRef = forwardRef<View, TouchableProps>((props, ref) => (
 	/>
 ))
 
-export const Touchable: FC<TouchableProps> = TouchableWithRef
+export const Touchable = TouchableWithRef

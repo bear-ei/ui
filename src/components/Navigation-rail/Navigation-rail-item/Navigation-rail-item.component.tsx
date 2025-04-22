@@ -1,5 +1,4 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef, memo} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -129,4 +128,4 @@ const NavigationRailItemWithRef = forwardRef<View, NavigationRailItemProps>((pro
 
 export const NavigationRailItem = memo(NavigationRailItemWithRef, (prevProps, nextProps) =>
 	handleNavigationRailItemPropsEqual(prevProps)(nextProps)
-) as FC<NavigationRailItemProps>
+) as typeof NavigationRailItemWithRef

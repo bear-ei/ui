@@ -1,11 +1,9 @@
 import type {ValidationError, ValidatorOptions} from 'class-validator'
-import type {RefAttributes} from 'react'
+import type {ForwardedRef, RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 import type {NamePath} from '../../utils'
 import type {ComponentStatus, LayoutType} from '../Common'
 import type {FormItemProps} from './Form-item'
-import type {FormWithRef} from './Form.component'
-import type {useForm} from './use-form.hook'
 
 export type FormError<T> = Partial<Record<keyof T, ValidationError[] | undefined>>
 export type FormValidateRule<T> = Partial<Record<keyof T, ValidationRule | undefined>>
@@ -78,9 +76,10 @@ export interface FormStore<T = Record<string, unknown>> {
 
 export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormCallback<T>, RefAttributes<View> {
 	form?: FormStore<T>
-	layout?: LayoutType
 	initialValue?: T
 	items?: FormItemProps[]
+	layout?: LayoutType
+	ref?: ForwardedRef<View>
 	validatorOptions?: FormValidatorOptions
 }
 
@@ -101,10 +100,6 @@ export type RenderFormItemsOptions = Pick<FormProps, 'validatorOptions' | 'id'>
 export interface HandleFormValidateOptions {
 	rule?: ValidationRule
 	validatorOptions?: ValidatorOptions
-}
-
-export type FormComponent = typeof FormWithRef & {
-	useForm: typeof useForm
 }
 
 export interface UseFormOptions<T> {

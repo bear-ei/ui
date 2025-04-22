@@ -136,4 +136,6 @@ export const VirtualListBaseInner = <T,>(
 	})
 }
 
-export const VirtualListBase = forwardRef(VirtualListBaseInner) as typeof VirtualListBaseInner
+export const VirtualListBase = forwardRef(VirtualListBaseInner) as <T>(
+	props: VirtualListBaseProps<T> & {ref?: ForwardedRef<Animated.ScrollView>}
+) => ReturnType<typeof VirtualListBaseInner>

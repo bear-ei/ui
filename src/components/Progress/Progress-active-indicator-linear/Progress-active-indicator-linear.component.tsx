@@ -1,5 +1,4 @@
 import {SHAPE} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -57,5 +56,4 @@ const ProgressActiveIndicatorLinearWithRef = forwardRef<View, ProgressActiveIndi
 	/>
 ))
 
-export const ProgressActiveIndicatorLinear: FC<ProgressActiveIndicatorLinearProps> =
-	ProgressActiveIndicatorLinearWithRef
+export const ProgressActiveIndicatorLinear = ProgressActiveIndicatorLinearWithRef

@@ -1,5 +1,4 @@
 import {SHAPE} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -114,4 +113,4 @@ const ButtonWithRef = forwardRef<View, IconButtonProps>((props, ref) => (
 	/>
 ))
 
-export const IconButton: FC<IconButtonProps> = ButtonWithRef
+export const IconButton = ButtonWithRef

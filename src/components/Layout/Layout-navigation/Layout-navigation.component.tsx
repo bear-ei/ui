@@ -1,5 +1,4 @@
 import {DURATION, EASING} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {LAYOUT_ANIMATED} from '../../Layout-animated'
@@ -35,4 +34,4 @@ const LayoutNavigationWithRef = forwardRef<View, LayoutNavigationProps>((props, 
 	/>
 ))
 
-export const LayoutNavigation = LayoutNavigationWithRef as FC<LayoutNavigationProps>
+export const LayoutNavigation = LayoutNavigationWithRef

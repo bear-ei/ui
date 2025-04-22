@@ -1,7 +1,8 @@
-import type {RefAttributes} from 'react'
+import type {ForwardedRef, RefAttributes} from 'react'
+import type Animated from 'react-native-reanimated'
 import type {InteractionHandlers} from '../../hooks'
 import type {CommonProps, EventName, ShapeType} from '../Common'
-import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualList, VirtualListProps} from '../Virtual-list'
+import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualListProps} from '../Virtual-list'
 import type {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from './List-after-affordance'
 import type {ListItemProps} from './List-item'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
@@ -9,7 +10,10 @@ import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from './List.enum
 export type ListSelectType = (typeof LIST_SELECT_TYPE)[keyof typeof LIST_SELECT_TYPE]
 export type ListType = (typeof LIST_TYPE)[keyof typeof LIST_TYPE]
 export type ActiveTriggerEvenName = (typeof ACTIVE_TRIGGER_EVEN_NAME)[keyof typeof ACTIVE_TRIGGER_EVEN_NAME]
-export type VirtualListComponent<T> = typeof VirtualList<T>
+export type VirtualListComponent<T> = (
+	props: VirtualListProps<T> & {ref?: ForwardedRef<Animated.ScrollView>}
+) => React.ReactElement | null
+
 export interface ListData
 	extends Pick<
 		ListItemProps,
@@ -32,7 +36,7 @@ export interface OnActiveAfterAffordanceOptions {
 }
 
 export interface ListProps
-	extends Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>>,
+	extends Omit<Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>>, 'ref'>,
 		CommonProps {
 	activeKey?: string
 	activeKeys?: string[]
@@ -59,6 +63,7 @@ export interface ListProps
 	onClose?: (options: OnVirtualListCloseOptions) => void
 	onConfirm?: (options: ListAfterAffordancePressOutOptions) => void
 	onItemStateEvent?: InteractionHandlers
+	ref?: ForwardedRef<Animated.ScrollView>
 	selectType?: ListSelectType
 	shape?: ShapeType
 	skeletonDuration?: number

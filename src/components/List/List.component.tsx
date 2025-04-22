@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import {VirtualList} from '../Virtual-list'
 import {ListBase} from './List-base.component'
@@ -49,4 +48,4 @@ const ListWithRef = forwardRef<VirtualListComponent<ListData>, ListProps>((props
 	/>
 ))
 
-export const List = ListWithRef as FC<ListProps>
+export const List = ListWithRef

@@ -1,5 +1,4 @@
 import {SHAPE} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef, memo} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -41,4 +40,4 @@ const TouchableRippleWithRef = forwardRef<View, TouchableRippleProps>((props, re
 
 export const TouchableRipple = memo(TouchableRippleWithRef, (prevProps, nextProps) =>
 	handleTouchableRipplePropsEqual(prevProps)(nextProps)
-) as FC<TouchableRippleProps>
+) as typeof TouchableRippleWithRef

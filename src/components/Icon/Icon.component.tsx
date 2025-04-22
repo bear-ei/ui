@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -37,4 +36,4 @@ const IconWithRef = forwardRef<View, IconProps>((props, ref) => (
 	/>
 ))
 
-export const Icon: FC<IconProps> = IconWithRef
+export const Icon = IconWithRef

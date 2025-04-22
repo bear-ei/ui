@@ -1,5 +1,4 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import type {FC} from 'react'
 import {cloneElement, forwardRef} from 'react'
 import type {TextInput as RNTextInput} from 'react-native'
 import type {AnimatedProps} from 'react-native-reanimated'
@@ -197,4 +196,4 @@ const TextInputWithRef = forwardRef<RNTextInput, TextInputProps>((props, ref) =>
 	/>
 ))
 
-export const TextInput: FC<TextInputProps> = TextInputWithRef
+export const TextInput = TextInputWithRef

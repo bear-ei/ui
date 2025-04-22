@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -29,4 +28,4 @@ const ElevationWithRef = forwardRef<View, ElevationProps>((props, ref) => (
 	/>
 ))
 
-export const Elevation: FC<ElevationProps> = ElevationWithRef
+export const Elevation = ElevationWithRef

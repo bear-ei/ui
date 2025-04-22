@@ -1,4 +1,3 @@
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {MaskBase} from './Mask-base.component'
@@ -28,4 +27,4 @@ const MaskWithRef = forwardRef<View, MaskProps>((props, ref) => (
 	/>
 ))
 
-export const Mask = MaskWithRef as FC<MaskProps>
+export const Mask = MaskWithRef

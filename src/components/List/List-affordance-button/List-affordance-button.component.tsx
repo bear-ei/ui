@@ -1,5 +1,4 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -79,4 +78,4 @@ const ListAffordanceButtonWithRef = forwardRef<View, ListAffordanceButtonProps>(
 	/>
 ))
 
-export const ListAffordanceButton: FC<ListAffordanceButtonProps> = ListAffordanceButtonWithRef
+export const ListAffordanceButton = ListAffordanceButtonWithRef

@@ -1,5 +1,4 @@
 import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -165,4 +164,4 @@ const SideSheetContentWithRef = forwardRef<View, SideSheetContentProps>((props, 
 	/>
 ))
 
-export const SideSheetContent: FC<SideSheetContentProps> = SideSheetContentWithRef
+export const SideSheetContent = SideSheetContentWithRef
