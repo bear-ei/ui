@@ -64,14 +64,9 @@ export const Label = styled.View<TextInputLabelProps>`
 	position: absolute;
 	z-index: 8;
 
-	${({theme, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
-
-		return css`
-			left: ${theme.adaptSize(theme.token.spacing.medium)}px;
-			top: ${theme.adaptSize(theme.token.spacing.medium + densityScale / 2)}px;
-		`
-	}}
+	${({theme}) => css`
+		left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+	`}
 
 	${({theme, leadingShow}) =>
 		leadingShow &&

@@ -81,7 +81,8 @@ export interface HandleTextInputStateEventChangeOptions
 	ref?: RefObject<TextInput>
 }
 
-export interface UseTextInputAnimatedOptions extends Pick<RenderTextInputProps, 'type' | 'error' | 'disabled'> {
+export interface UseTextInputAnimatedOptions
+	extends Pick<RenderTextInputProps, 'type' | 'error' | 'disabled' | 'density'> {
 	filled: boolean
 	state: State
 }

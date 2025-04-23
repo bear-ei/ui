@@ -26,6 +26,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		{
 			content,
 			defaultValue,
+			density,
 			disabled,
 			editable,
 			error,
@@ -125,6 +126,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			labelTextAnimatedStyle,
 			supportingTextAnimatedStyle
 		} = useTextInputAnimated({
+			density,
 			disabled,
 			error,
 			filled: [rawValue, defaultValue, placeholder, value, content, filled].some(Boolean),
@@ -171,6 +173,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			activeIndicatorAnimatedStyle,
 			content,
 			contentSize,
+			density,
 			editable,
 			eventName,
 			headerAnimatedStyle,

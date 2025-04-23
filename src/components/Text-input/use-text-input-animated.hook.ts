@@ -3,6 +3,7 @@ import {useCallback, useEffect, useMemo} from 'react'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
+import {DENSITY_SCALE} from '../Common'
 import {
 	handleTextInputDisabled,
 	handleTextInputDisabledAnimatedTiming,
@@ -16,6 +17,7 @@ import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import type {TextInputStateAnimated, UseTextInputAnimatedOptions} from './Text-input.interface'
 
 export const useTextInputAnimated = ({
+	density,
 	disabled,
 	error,
 	filled,
@@ -23,7 +25,8 @@ export const useTextInputAnimated = ({
 	type = TEXT_INPUT_TYPE.FILLED
 }: UseTextInputAnimatedOptions) => {
 	const theme = useTheme()
-	const {palette, scheme, spacing, typography, opacity} = theme.token
+	const {palette, scheme, typography, opacity} = theme.token
+	const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
 	const {hexToRGBA} = palette
 	const disabledAnimatedValue = disabled ? 0 : 1
 	const defaultAnimatedValue = {
@@ -85,13 +88,13 @@ export const useTextInputAnimated = ({
 		color: interpolateColor(colorSharedValue.value, [0, 1], inputColorSharedValueOutputRanges)
 	}))
 
-	const labelTranslateYOutputRanges = [-theme.adaptSize(spacing.small), theme.adaptSize(spacing.none)]
+	const labelTopOutputRanges = [
+		theme.adaptSize(theme.token.spacing.small + densityScale / 2),
+		theme.adaptSize(theme.token.spacing.medium + densityScale / 2)
+	]
+
 	const labelAnimatedStyle = useAnimatedStyle(() => ({
-		transform: [
-			{
-				translateY: interpolate(labelTextSharedValue.value, [0, 1], labelTranslateYOutputRanges)
-			}
-		]
+		top: interpolate(labelTextSharedValue.value, [0, 1], labelTopOutputRanges)
 	}))
 
 	const labelTextFontSizeOutputRanges = [
