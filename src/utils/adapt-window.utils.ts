@@ -12,14 +12,14 @@ export const adaptWindow =
 		return (desktop?: boolean) => {
 			if (desktop) {
 				return {
-					adaptFontSize: (size: number) => size,
-					adaptSize: (size: number) => size
+					adaptFontSize: (size: number) => Math.max(0, size),
+					adaptSize: (size: number) => Math.max(0, size)
 				}
 			}
 
 			return {
-				adaptFontSize: (size: number) => Math.round(size * scale * fontScale),
-				adaptSize: (size: number) => Math.round(size * scale)
+				adaptFontSize: (size: number) => Math.max(0, Math.round(size * scale * fontScale)),
+				adaptSize: (size: number) => Math.max(0, Math.round(size * scale))
 			}
 		}
 	}

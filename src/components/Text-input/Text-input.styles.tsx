@@ -107,7 +107,7 @@ export const Main = styled.View<TextInputMainProps>`
 		return css`
 			padding: ${theme.adaptSize(theme.token.spacing.large + densityScale)}px
 				${theme.adaptSize(theme.token.spacing.none)}px
-				${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+				${theme.adaptSize(theme.token.spacing.extraSmall + densityScale)}px;
 		`
 	}};
 
@@ -125,7 +125,7 @@ export const Main = styled.View<TextInputMainProps>`
 				justify-content: flex-start;
 				padding: ${theme.adaptSize(theme.token.spacing.large + densityScale)}px
 					${theme.adaptSize(theme.token.spacing.none)}px
-					${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+					${theme.adaptSize(theme.token.spacing.extraSmall + densityScale)}px;
 			`
 		)
 	}};
@@ -139,9 +139,9 @@ export const Control = styled.View<TextInputControlProps>`
 	justify-content: center;
 
 	${({theme}) => css`
-		max-height: ${theme.adaptSize(theme.token.spacing.large)}px;
 		min-height: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
+		padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 	`};
 
 	${({multiline, size = 0}) =>
@@ -169,6 +169,7 @@ export const Input = styled.TextInput`
 			font-size: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)}px;
 			font-style: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].style};
 			font-weight: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].weight};
+			text-align: left;
 			height: ${theme.adaptFontSize(
 				theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight
 			)}px;
@@ -178,6 +179,14 @@ export const Input = styled.TextInput`
 			)}px;
 
 			padding: ${theme.adaptSize(theme.token.spacing.none)}px;
+		`};
+
+	${({theme}) =>
+		theme.OS === 'macos' &&
+		css`
+			margin-left: ${-theme.adaptSize(
+				theme.token.spacing.extraSmall + -0.5 * theme.token.spacing.extraSmall
+			)}px;
 		`};
 `
 
