@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -14,7 +15,7 @@ export const useListItemAnimated = ({
 	onListItemAfterAffordanceVisibleFinished
 }: UseListItemAnimatedOptions) => {
 	const theme = useTheme()
-	const {spacing, palette, scheme, opacity} = theme.token
+	const {spacing, scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const contentLeftSharedValue = useSharedValue(0)
 	const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
@@ -24,8 +25,8 @@ export const useListItemAnimated = ({
 	}))
 
 	const headlineTextColorOutputRanges = [
-		palette.hexToRGBA(scheme.onSurface)(opacity.level10),
-		palette.hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
+		hexToRGBA(scheme.onSurface)(opacity.level10),
+		hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
 	]
 
 	const headlineTextAnimatedStyle = useAnimatedStyle(() => ({

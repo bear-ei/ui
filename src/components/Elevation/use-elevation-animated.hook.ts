@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {Platform} from 'react-native'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
@@ -11,7 +12,7 @@ import type {UseElevationAnimatedOptions} from './Elevation.interface'
 export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAnimatedOptions) => {
 	const shadowSharedValue = useSharedValue<number>(level)
 	const theme = useTheme()
-	const {elevation, palette} = theme.token
+	const {elevation} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const inputRanges = useMemo(() => [0, 1, 2, 3, 4, 5], [])
 	const shadowOpacityOutputRanges = [
@@ -67,7 +68,7 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
 		const shadowColor =
 			Platform.OS === 'web' ?
 				/** Running in JS thread*/
-				palette.hexToRGBA(elevation.shadowColor)(shadowOpacity)
+				hexToRGBA(elevation.shadowColor)(shadowOpacity)
 			:	elevation.shadowColor
 
 		return (

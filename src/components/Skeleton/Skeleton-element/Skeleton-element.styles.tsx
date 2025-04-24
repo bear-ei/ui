@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import styled, {css} from 'styled-components/native'
 import {LAYOUT, Shape} from '../../Common'
 import type {SkeletonElementContainerProps} from './Skeleton-element.interface'
@@ -6,7 +7,7 @@ export const Container = styled(Shape)<SkeletonElementContainerProps>`
 	display: flex;
 
 	${({theme, showChildren}) => css`
-		background-color: ${theme.token.palette.hexToRGBA(theme.token.scheme.onSurface)(
+		background-color: ${hexToRGBA(theme.token.scheme.onSurface)(
 			showChildren ? theme.token.opacity.level0 : theme.token.opacity.level2
 		)};
 

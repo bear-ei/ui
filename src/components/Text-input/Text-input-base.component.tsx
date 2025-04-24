@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
@@ -75,7 +76,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		const theme = useTheme()
 		const placeholderTextColor =
 			state === 'disabled' ?
-				theme.token.palette.hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
+				hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
 			:	theme.token.scheme.onSurfaceVariant
 
 		const onTextInputContentSizeChange = handleTextInputContentSizeChange(setState)(onContentSizeChange)

@@ -3,6 +3,7 @@ export {
 	createToken,
 	DURATION,
 	EASING,
+	hexToRGBA,
 	PALETTE,
 	PLATFORM,
 	SCHEME,

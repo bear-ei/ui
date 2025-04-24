@@ -1592,10 +1592,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bearei/material-token@npm:^0.0.34":
-  version: 0.0.34
-  resolution: "@bearei/material-token@npm:0.0.34"
-  checksum: 10c0/b8bd63d458b8d059ea8ad3c09893c2f50d13fefce0443b87f3c48899087d0e51bd11235a1b57a7c6b1e432b0ee2265a4cec4ee8c6f5c6e19c1e6c8f43ee77481
+"@bearei/material-token@npm:^0.0.35":
+  version: 0.0.35
+  resolution: "@bearei/material-token@npm:0.0.35"
+  checksum: 10c0/e351c3e6a598fa0a0b15fbf6aff0633386473c0dfdb9864a49ea4dcdb8311d5155e179687b05dd2d07882f05dcd5f17dc442a985248e485cf0631a1b45b8d3f9
   languageName: node
   linkType: hard
 
@@ -1611,7 +1611,7 @@ __metadata:
     "@babel/plugin-transform-class-properties": "npm:^7.25.7"
     "@babel/preset-env": "npm:^7.20.0"
     "@babel/runtime": "npm:^7.20.0"
-    "@bearei/material-token": "npm:^0.0.34"
+    "@bearei/material-token": "npm:^0.0.35"
     "@chromatic-com/storybook": "npm:^1.9.0"
     "@gorhom/bottom-sheet": "npm:^4.6.4"
     "@material-symbols/svg-400": "npm:^0.27.1"

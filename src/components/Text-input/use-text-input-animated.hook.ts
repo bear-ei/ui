@@ -1,4 +1,4 @@
-import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {hexToRGBA, SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {useCallback, useEffect, useMemo} from 'react'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -25,9 +25,8 @@ export const useTextInputAnimated = ({
 	type = TEXT_INPUT_TYPE.FILLED
 }: UseTextInputAnimatedOptions) => {
 	const theme = useTheme()
-	const {palette, scheme, typography, opacity} = theme.token
+	const {scheme, typography, opacity} = theme.token
 	const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
-	const {hexToRGBA} = palette
 	const disabledAnimatedValue = disabled ? 0 : 1
 	const defaultAnimatedValue = {
 		activeIndicatorScaleYSharedValue: error ? 1 : 0,

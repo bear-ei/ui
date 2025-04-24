@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -9,8 +10,7 @@ import type {UseFABAnimatedOptions} from './FAB.interface'
 export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimatedOptions) => {
 	const colorSharedValue = useSharedValue(disabled ? 0 : 1)
 	const theme = useTheme()
-	const {palette, scheme, opacity} = theme.token
-	const {hexToRGBA} = palette
+	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
 	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)

@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
@@ -24,10 +25,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 	) => {
 		const id = useId()
 		const theme = useTheme()
-		const disabledFill = theme.token.palette.hexToRGBA(theme.token.scheme.onSurface)(
-			theme.token.opacity.level5
-		)
-
+		const disabledFill = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
 		const IconComponent = icon ?? iconStyleConfig[style]?.[type]?.[name]
 		const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
 		const {containerAnimatedStyle} = useIconAnimated({eventName})

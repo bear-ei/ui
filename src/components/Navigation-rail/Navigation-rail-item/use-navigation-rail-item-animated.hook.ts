@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -7,8 +8,7 @@ import type {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.
 
 export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailItemAnimatedOptions) => {
 	const theme = useTheme()
-	const {palette, scheme, opacity} = theme.token
-	const {hexToRGBA} = palette
+	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const labelTextColorSharedValue = useSharedValue(active ? 1 : 0)
 	const labelTextColorOutputRanges = [

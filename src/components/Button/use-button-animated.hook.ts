@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -13,8 +14,7 @@ export const useButtonAnimated = ({
 	error
 }: UseButtonAnimatedOptions) => {
 	const theme = useTheme()
-	const {palette, scheme, spacing, opacity} = theme.token
-	const {hexToRGBA} = palette
+	const {scheme, spacing, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const animatedValue = disabled ? 0 : 1
 	const borderSharedValue = useSharedValue(animatedValue)

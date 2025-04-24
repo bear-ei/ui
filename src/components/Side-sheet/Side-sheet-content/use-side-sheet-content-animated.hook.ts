@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -12,8 +13,7 @@ export const useSideSheetContentAnimated = ({
 }: UseSideSheetContentAnimatedOptions) => {
 	const animatedValue = visible ? 1 : 0
 	const theme = useTheme()
-	const {palette, scheme, opacity} = theme.token
-	const {hexToRGBA} = palette
+	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const backgroundColorSharedValue = useSharedValue(animatedValue)
 	const sideSheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const

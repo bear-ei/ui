@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -7,8 +8,7 @@ import {handleListAffordanceButtonAnimatedTiming} from './List-affordance-handle
 
 export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceButtonAnimatedOptions) => {
 	const theme = useTheme()
-	const {palette, scheme, opacity} = theme.token
-	const {hexToRGBA} = palette
+	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const animatedValue = disabled ? 0 : 1
 	const colorSharedValue = useSharedValue(animatedValue)

@@ -1,3 +1,4 @@
+import {hexToRGBA} from '@bearei/material-token'
 import styled, {css} from 'styled-components/native'
 import {LayoutAnimated} from '../Layout-animated'
 import type {MaskContainerProps} from './Mask.interface'
@@ -7,10 +8,7 @@ export const ContainerLayout = styled(LayoutAnimated)<MaskContainerProps>`
 	position: absolute;
 
 	${({theme, backgroundColor}) => css`
-		background-color: ${theme.token.palette.hexToRGBA(backgroundColor ?? theme.token.scheme.scrim)(
-			theme.token.opacity.level4
-		)};
-
+		background-color: ${hexToRGBA(backgroundColor ?? theme.token.scheme.scrim)(theme.token.opacity.level4)};
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
 		left: ${theme.adaptSize(theme.token.spacing.none)}px;
 		right: ${theme.adaptSize(theme.token.spacing.none)}px;
