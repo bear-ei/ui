@@ -27,7 +27,7 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 		extraData: prevExtraData,
 		focusedIndex: prevFocusedIndex,
 		itemIndex: prevItemIndex,
-		indexKey: prevItemKey,
+		indexKey: prevIndexKey,
 		skeletonDuration: prevSkeletonMinDuration
 	} = prevProps
 
@@ -40,23 +40,23 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 			extraData: nextExtraData,
 			focusedIndex: nextFocusedIndex,
 			itemIndex: nextItemIndex,
-			indexKey: nextItemKey,
+			indexKey: nextIndexKey,
 			skeletonDuration: nextSkeletonMinDuration
 		} = nextProps
 
 		const isActiveKeyChange =
 			prevActiveKey !== nextActiveKey &&
-			(nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
+			(nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
 
-		const isNextActive = nextActiveKeys?.includes(nextItemKey)
-		const isPrevActive = prevActiveKeys?.includes(prevItemKey)
+		const isNextActive = nextActiveKeys?.includes(nextIndexKey)
+		const isPrevActive = prevActiveKeys?.includes(prevIndexKey)
 		const isActiveKeysChange =
 			nextActiveKeys?.join() !== prevActiveKeys?.join() &&
 			((isNextActive && !isPrevActive) || (isPrevActive && !isNextActive))
 
 		const isAfterAffordanceActiveChange =
 			prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
-			(nextAfterAffordanceActiveKey === nextItemKey || prevAfterAffordanceActiveKey === prevItemKey)
+			(nextAfterAffordanceActiveKey === nextIndexKey || prevAfterAffordanceActiveKey === prevIndexKey)
 
 		const isFocusedIndexChange =
 			nextFocusedIndex !== prevFocusedIndex &&

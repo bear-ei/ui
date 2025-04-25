@@ -20,14 +20,14 @@ const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 const renderVirtualList = <T,>({
 	contentAnimatedStyle,
 	contentSize,
-	emptyComponent,
+	emptyElement,
 	emptyList,
 	id,
 	interactionHandlers,
 	itemElements,
 	layout,
 	loading,
-	loadingComponent,
+	loadingElement,
 	scrollEventThrottle = 50,
 	status,
 	testID,
@@ -78,7 +78,7 @@ const renderVirtualList = <T,>({
 							unmount={true}
 							visible={isEmptyContentVisible}
 						>
-							{emptyComponent ?? (
+							{emptyElement ?? (
 								<SupportingText
 									size={SIZE.MEDIUM}
 									testID={`virtualList__supportingText--${id}`}
@@ -96,7 +96,7 @@ const renderVirtualList = <T,>({
 							unmount={true}
 							visible={isLoadingVisible}
 						>
-							{loadingComponent ?? (
+							{loadingElement ?? (
 								<SupportingText
 									size={SIZE.MEDIUM}
 									testID={`virtualList__supportingText--${id}`}

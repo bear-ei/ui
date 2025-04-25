@@ -66,7 +66,7 @@ describe('VirtualList', () => {
 				data={[]}
 				itemSize={50}
 				renderItem={() => <View />}
-				emptyComponent={<Text>Custom empty</Text>}
+				emptyElement={<Text>Custom empty</Text>}
 			/>
 		)
 
@@ -91,7 +91,7 @@ describe('VirtualList', () => {
 				loading
 				itemSize={50}
 				renderItem={() => <View />}
-				loadingComponent={<Text>Loading now...</Text>}
+				loadingElement={<Text>Loading now...</Text>}
 			/>
 		)
 

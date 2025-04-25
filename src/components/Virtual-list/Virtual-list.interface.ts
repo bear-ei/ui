@@ -17,14 +17,14 @@ export interface OnVirtualListCloseOptions {
 
 export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Animated.ScrollView> {
 	data?: VirtualListData<T>[]
-	emptyComponent?: React.JSX.Element
+	emptyElement?: React.JSX.Element
 	enableAutoSelect?: boolean
 	extraData?: string[]
 	focusedIndex?: number
 	gap?: number
 	itemSize?: number
 	loading?: boolean
-	loadingComponent?: React.JSX.Element
+	loadingElement?: React.JSX.Element
 	onClose?: (options: OnVirtualListCloseOptions) => void
 	onLoadEnd?: (indexKey?: string) => void
 	renderItem?: (options: RenderVirtualListItemInfo<T>) => React.JSX.Element

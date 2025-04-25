@@ -14,11 +14,11 @@ import type {
 
 export const handleNavigationRailItemPropsEqual =
 	(prevProps: NavigationRailItemProps) => (nextProps: NavigationRailItemProps) => {
-		const {activeKey: prevActiveKey, indexKey: prevItemKey} = prevProps
-		const {activeKey: nextActiveKey, indexKey: nextItemKey} = nextProps
+		const {activeKey: prevActiveKey, indexKey: prevIndexKey} = prevProps
+		const {activeKey: nextActiveKey, indexKey: nextIndexKey} = nextProps
 		const isActiveChange =
 			prevActiveKey !== nextActiveKey &&
-			(nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
+			(nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
 
 		return ![isActiveChange].some(Boolean)
 	}
