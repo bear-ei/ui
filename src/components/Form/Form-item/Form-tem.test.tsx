@@ -27,12 +27,12 @@ describe('FormItem', () => {
 					{
 						name: 'username',
 						rule: UsernameRule,
-						renderControl: ({value, onValueChange, errorMessage}) => (
+						renderControl: ({value, onValuesChange, errorMessage}) => (
 							<>
 								<TextInput
 									testID='formItem__input'
 									value={value as string}
-									onChangeText={onValueChange}
+									onChangeText={onValuesChange}
 								/>
 								{errorMessage && <Text>{errorMessage}</Text>}
 							</>

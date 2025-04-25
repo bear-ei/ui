@@ -3,10 +3,10 @@ import type {FormError} from '../Form.interface'
 import type {FormItemState, HandleFormItemInitOptions, HandleFormItemValueChangeOptions} from './Form-item.interface'
 
 export const handleFormItemValueChange =
-	({setFieldValue, storeValue}: HandleFormItemValueChangeOptions) =>
+	({setFieldsValue, storeValue}: HandleFormItemValueChangeOptions) =>
 	(name?: string) =>
 	(value?: unknown) =>
-		name && storeValue !== value && setFieldValue()({[name]: value})
+		name && storeValue !== value && setFieldsValue()({[name]: value})
 
 export const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
 	setState(draft => {

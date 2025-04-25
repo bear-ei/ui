@@ -2,7 +2,7 @@ import type {ForwardedRef} from 'react'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {handleFormCallback, handleFormFieldKeys, handleFormStatus, renderFormItems} from './Form-handle'
+import {handleFormCallbacks, handleFormFieldKeys, handleFormStatus, renderFormItems} from './Form-handle'
 import type {FormBaseProps, FormState} from './Form.interface'
 import {useForm} from './use-form.hook'
 
@@ -13,7 +13,7 @@ const FormBaseInner = <T,>(
 		items,
 		onFinish,
 		onFinishFailed,
-		onValueChange,
+		onValuesChange,
 		renderForm,
 		validatorOptions,
 		...renderFormProps
@@ -23,15 +23,19 @@ const FormBaseInner = <T,>(
 	const [{status}, setState] = useImmer<FormState>({status: 'idle'})
 	const id = useId()
 	const formStore = useForm(form)
-	const {setCallback, setInitialValue, setFieldKeys} = formStore
-	const onFormCallback = useMemo(() => handleFormCallback<T>(setCallback), [setCallback])
+	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
+	const onFormCallbacks = useMemo(() => handleFormCallbacks<T>(setCallbacks), [setCallbacks])
 	const onFormFieldKeys = useMemo(() => handleFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
-	const onFormStatus = useMemo(() => handleFormStatus<T>(setState)(setInitialValue), [setInitialValue, setState])
+	const onFormStatus = useMemo(
+		() => handleFormStatus<T>(setState)(setInitialValues),
+		[setInitialValues, setState]
+	)
+
 	const formItemElements = renderFormItems({validatorOptions, id})(status)(items)
 
 	useEffect(() => {
-		onFormCallback({onFinish, onFinishFailed, onValueChange})
-	}, [onFinish, onFinishFailed, onFormCallback, onValueChange])
+		onFormCallbacks({onFinish, onFinishFailed, onValuesChange})
+	}, [onFinish, onFinishFailed, onFormCallbacks, onValuesChange])
 
 	useEffect(() => {
 		onFormFieldKeys(items)

@@ -6,14 +6,14 @@ import {FormItem} from './Form-item'
 import type {
 	FormCallback,
 	FormState,
-	HandleFormCallbackOptions,
+	handleFormCallbacksOptions,
 	HandleFormValidateOptions,
 	RenderFormItemsOptions
 } from './Form.interface'
 
 export const handleFormStatus =
 	<T,>(setState: Updater<FormState>) =>
-	(setInitialValue: (initialized?: boolean) => (value?: T) => void) =>
+	(setInitialValues: (initialized?: boolean) => (value?: T) => void) =>
 	(value?: T) =>
 		setState(draft => {
 			if (draft.status !== 'idle') {
@@ -21,16 +21,16 @@ export const handleFormStatus =
 			}
 
 			if (value) {
-				setInitialValue()(value)
+				setInitialValues()(value)
 			}
 
 			draft.status = 'succeeded'
 		})
 
-export const handleFormCallback =
-	<T,>(setCallback: (callback: FormCallback<T>) => void) =>
-	({onFinish, onFinishFailed, onValueChange}: HandleFormCallbackOptions<T>) =>
-		setCallback({onFinish, onFinishFailed, onValueChange})
+export const handleFormCallbacks =
+	<T,>(setCallbacks: (callback: FormCallback<T>) => void) =>
+	({onFinish, onFinishFailed, onValuesChange}: handleFormCallbacksOptions<T>) =>
+		setCallbacks({onFinish, onFinishFailed, onValuesChange})
 
 export const handleFormFieldKeys =
 	<T,>(setFieldKeys: (keys?: (keyof T)[]) => void) =>

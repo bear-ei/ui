@@ -24,13 +24,13 @@ class AgeRule {
 }
 
 const RenderForm = (props: FormProps<Record<string, unknown>>) => {
-	const renderControl = ({errorMessage, id, labelText, onBlur, onValueChange, value}: FormItemControlProps) => (
+	const renderControl = ({errorMessage, id, labelText, onBlur, onValuesChange, value}: FormItemControlProps) => (
 		<TextInput
 			error={!!errorMessage}
 			key={id}
 			labelText={labelText}
 			onBlur={onBlur}
-			onChangeText={onValueChange}
+			onChangeText={onValuesChange}
 			supportingText={errorMessage}
 			value={value as string}
 		/>
@@ -71,7 +71,7 @@ const RenderForm = (props: FormProps<Record<string, unknown>>) => {
 
 	useEffect(() => {
 		setTimeout(() => {
-			form.setFieldValue()({name: '333', age: '999'})
+			form.setFieldsValue()({name: '333', age: '999'})
 		}, 1000)
 	}, [form])
 

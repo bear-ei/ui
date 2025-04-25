@@ -10,7 +10,7 @@ export interface FormItemControlProps {
 	id?: string
 	labelText?: string
 	onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
-	onValueChange?: (value?: unknown) => void
+	onValuesChange?: (value?: unknown) => void
 	value?: unknown
 }
 
@@ -37,11 +37,11 @@ export interface FormItemState {
 	status: ComponentStatus
 }
 
-export interface HandleFormItemValueChangeOptions extends Pick<FormStore, 'setFieldValue'> {
+export interface HandleFormItemValueChangeOptions extends Pick<FormStore, 'setFieldsValue'> {
 	storeValue?: unknown
 }
 
-export interface HandleFormItemRuleChangeOptions extends Pick<FormStore, 'setFieldValidate'> {
+export interface HandleFormItemRuleChangeOptions extends Pick<FormStore, 'setFieldsValidate'> {
 	validatorOptions?: FormValidatorOptions
 }
 

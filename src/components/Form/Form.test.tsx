@@ -36,11 +36,11 @@ describe('Form', () => {
 		})
 	})
 
-	it('should trigger onValueChange and resetFields properly', async () => {
-		const onValueChange = jest.fn()
+	it('should trigger onValuesChange and resetFields properly', async () => {
+		const onValuesChange = jest.fn()
 		const TestForm = forwardRef((_, ref) => {
 			const form = Form.useForm<Record<string, unknown>>()
-			const changeValue = () => form.setFieldValue()({age: 18})
+			const changeValue = () => form.setFieldsValue()({age: 18})
 			const reset = () => form.resetFields()
 
 			useImperativeHandle(ref, () => ({changeValue, reset}))
@@ -49,7 +49,7 @@ describe('Form', () => {
 				<Form
 					form={form}
 					items={[{name: 'age'}]}
-					onValueChange={onValueChange}
+					onValuesChange={onValuesChange}
 					testID='test-form'
 				/>
 			)
@@ -63,7 +63,7 @@ describe('Form', () => {
 		})
 
 		await waitFor(() => {
-			expect(onValueChange).toHaveBeenCalledWith({
+			expect(onValuesChange).toHaveBeenCalledWith({
 				changedValue: {age: 18},
 				value: {age: 18}
 			})
@@ -74,7 +74,7 @@ describe('Form', () => {
 		})
 
 		await waitFor(() => {
-			expect(onValueChange).toHaveBeenCalledWith({
+			expect(onValuesChange).toHaveBeenCalledWith({
 				changedValue: {age: undefined},
 				value: {age: undefined}
 			})
