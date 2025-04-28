@@ -24,13 +24,13 @@ class AgeRule {
 }
 
 const RenderForm = (props: FormProps<Record<string, unknown>>) => {
-	const renderControl = ({errorMessage, id, labelText, onBlur, onValuesChange, value}: FormItemControlProps) => (
+	const renderControl = ({errorMessage, id, labelText, onBlur, onValueChange, value}: FormItemControlProps) => (
 		<TextInput
 			error={!!errorMessage}
 			key={id}
 			labelText={labelText}
 			onBlur={onBlur}
-			onChangeText={onValuesChange}
+			onChangeText={onValueChange}
 			supportingText={errorMessage}
 			value={value as string}
 		/>

@@ -10,7 +10,7 @@ export interface FormItemControlProps {
 	id?: string
 	labelText?: string
 	onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
-	onValuesChange?: (value?: unknown) => void
+	onValueChange?: (value?: unknown) => void
 	value?: unknown
 }
 

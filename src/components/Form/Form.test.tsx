@@ -36,7 +36,7 @@ describe('Form', () => {
 		})
 	})
 
-	it('should trigger onValuesChange and resetFields properly', async () => {
+	it('should trigger onValueChange and resetFields properly', async () => {
 		const onValuesChange = jest.fn()
 		const TestForm = forwardRef((_, ref) => {
 			const form = Form.useForm<Record<string, unknown>>()

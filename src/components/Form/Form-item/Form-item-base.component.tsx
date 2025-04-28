@@ -19,7 +19,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			[getInitialValues, name, status, storeValue]
 		)
 
-		const onValuesChange = handleFormItemValueChange({setFieldsValue, storeValue})(name)
+		const onValueChange = handleFormItemValueChange({setFieldsValue, storeValue})(name)
 		const onFormItemStatus = useMemo(
 			() =>
 				handleFormItemStatus({
@@ -31,7 +31,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			[onFormItemComponentUpdate, rule, setState, signInField, validatorOptions]
 		)
 
-		const controlElement = renderControl?.({errorMessage, labelText, onValuesChange, value})
+		const controlElement = renderControl?.({errorMessage, labelText, onValueChange, value})
 
 		useEffect(() => {
 			onFormItemStatus(name)
