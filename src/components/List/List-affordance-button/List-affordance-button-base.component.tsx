@@ -12,9 +12,9 @@ import {useListAffordanceButtonAnimated} from './use-list-affordance-button-anim
 export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBaseProps>(
 	(
 		{
+			disabled,
 			labelText = 'Label',
 			renderListAffordanceButton,
-			disabled,
 			visible,
 			...renderListAffordanceButtonProps
 		},

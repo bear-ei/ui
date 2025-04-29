@@ -11,6 +11,7 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 		const [{visible: isVisible, nextSkeletonVisibleEvent}, setState] = useImmer<SkeletonState>({
 			visible: true
 		})
+
 		const id = useId()
 		const onSkeletonDurationChange = useMemo(() => handleSkeletonDurationChange(setState), [setState])
 		const {containerAnimatedStyle} = useSkeletonAnimated({
