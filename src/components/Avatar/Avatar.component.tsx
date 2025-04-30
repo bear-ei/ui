@@ -7,7 +7,6 @@ import {Container, Content, Image, LabelText} from './Avatar.styles'
 
 const renderAvatar = ({
 	accessibilityLabel,
-	backgroundColor,
 	defaultSource,
 	density,
 	id,
@@ -24,14 +23,14 @@ const renderAvatar = ({
 		accessibilityRole='image'
 		accessible={true}
 		pointerEvents='none'
+		shape={shape}
 		testID={testID ?? `avatar--${testID}`}
 	>
 		<Content
-			backgroundColor={backgroundColor}
 			density={density}
-			shape={shape}
 			size={size}
 			testID={`avatar__content--${id}`}
+			shape={shape}
 		>
 			{source || defaultSource ?
 				<Image

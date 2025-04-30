@@ -15,4 +15,5 @@ export interface AvatarBaseProps extends AvatarProps {
 	renderAvatar: (props: RenderAvatarProps) => React.JSX.Element
 }
 
-export type AvatarContentProps = Pick<RenderAvatarProps, 'backgroundColor' | 'size' | 'density'>
+export type AvatarContainerProps = Pick<RenderAvatarProps, 'backgroundColor'>
+export type AvatarContentProps = Pick<RenderAvatarProps, 'size' | 'density'>

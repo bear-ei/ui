@@ -26,10 +26,11 @@
 	"files": [
 		"dist",
 		"src",
-		"!**/App.tsx",
-		"!**/App.style.tsx",
+		"!**/__snapshots__",
 		"!**/*.stories.*",
-		"!**/__snapshots__"
+		"!**/App.style.tsx",
+		"!**/App.tsx",
+		"!**/test.*"
 	],
 	"dependencies": {
 		"@bearei/material-token": "^0.0.35",
