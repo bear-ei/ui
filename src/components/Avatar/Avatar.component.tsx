@@ -28,9 +28,9 @@ const renderAvatar = ({
 	>
 		<Content
 			density={density}
+			shape={shape}
 			size={size}
 			testID={`avatar__content--${id}`}
-			shape={shape}
 		>
 			{source || defaultSource ?
 				<Image
