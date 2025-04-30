@@ -34,7 +34,7 @@ export interface ButtonState {
 }
 
 export type HandleButtonStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderButtonProps, 'type'>
-export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName' | 'id'>
+export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'id'>
 export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName' | 'error'>
 export interface HandleButtonAnimatedTimingOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
 	animatedTiming: AnimatedTiming

@@ -54,7 +54,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			type
 		})
 
-		const iconButtonElement = renderButtonIcon({eventName, type, disabled: rawDisabled, id})(theme)(icon)
+		const iconButtonElement = renderButtonIcon({type, disabled: rawDisabled, id})(theme)(icon)
 
 		useEffect(() => {
 			onButtonStatus(type)

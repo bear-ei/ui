@@ -29,15 +29,15 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		ref
 	) => {
 		const [{eventName}, setState] = useImmer<IconButtonState>({})
-		const theme = useTheme()
 		const id = useId()
+		const isDisabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
+		const theme = useTheme()
 		const underlayColor = handleIconButtonUnderlayColor(theme)(type)
 		const onIconButtonDisabled = useMemo(() => handleIconButtonDisabled(setState), [setState])
 		const onStateEventChange =
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleIconButtonStateChange({...options, state})(setState)(event)
 
-		const isDisabled = loading || rawDisabled
 		const interactionHandlers = useStateEvent({
 			...renderIconButtonProps,
 			disabled: isDisabled,

@@ -6,22 +6,14 @@ import type {IconProps, RenderIconProps} from './Icon.interface'
 import {Container} from './Icon.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const renderIcon = ({
-	containerAnimatedStyle,
-	iconElement,
-	id,
-	name,
-	style,
-	testID,
-	...containerProps
-}: RenderIconProps) => (
+const renderIcon = ({iconElement, id, name, style, testID, ...containerProps}: RenderIconProps) => (
 	<AnimatedContainer
 		{...containerProps}
 		accessibilityLabel={`Icon: ${name}`}
 		accessibilityRole='image'
 		accessible={true}
 		pointerEvents='none'
-		style={[style, containerAnimatedStyle]}
+		style={[style]}
 		testID={testID ?? `icon--${id}`}
 	>
 		{iconElement}

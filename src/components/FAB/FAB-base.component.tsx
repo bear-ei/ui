@@ -36,11 +36,11 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: 'idle'})
 		const id = useId()
 		const theme = useTheme()
-		const fabIconElement = renderFABIcon({eventName, type, disabled: rawDisabled, size, id})(theme)(icon)
+		const fabIconElement = renderFABIcon({type, disabled: rawDisabled, size, id})(theme)(icon)
+		const isDisabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
+		const underlayColor = handleFABUnderlayColor(theme)(type)
 		const onFABDisabled = useMemo(() => handleFABDisabled(setState)(elevated), [elevated, setState])
 		const onFABStatus = useMemo(() => handleFABStatus(setState)(rawDisabled), [rawDisabled, setState])
-		const underlayColor = handleFABUnderlayColor(theme)(type)
-		const isDisabled = loading || rawDisabled
 		const onStateEventChange =
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleFABStateChange({...options, state, elevated})(setState)(event)
@@ -52,8 +52,8 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		})
 
 		useEffect(() => {
-			onFABDisabled(rawDisabled)
-		}, [rawDisabled, onFABDisabled])
+			onFABDisabled(isDisabled)
+		}, [isDisabled, onFABDisabled])
 
 		useEffect(() => {
 			onFABStatus(elevated)

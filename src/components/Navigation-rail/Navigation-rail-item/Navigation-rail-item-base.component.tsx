@@ -58,8 +58,8 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			onStateEventChange
 		})
 
-		const activeIconElement = renderNavigationRailItemActiveIcon(id)(icon)(eventName)
-		const iconElement = renderNavigationRailItemIcon(id)(icon)(eventName)
+		const activeIconElement = renderNavigationRailItemActiveIcon(id)(icon)
+		const iconElement = renderNavigationRailItemIcon(id)(icon)
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 

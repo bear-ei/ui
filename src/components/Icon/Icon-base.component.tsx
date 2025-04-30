@@ -5,13 +5,11 @@ import {useTheme} from 'styled-components/native'
 import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'
 import type {IconBaseProps} from './Icon.interface'
 import {iconStyleConfig} from './icon-style'
-import {useIconAnimated} from './use-icon-animated.hook'
 
 export const IconBase = forwardRef<View, IconBaseProps>(
 	(
 		{
 			disabled,
-			eventName,
 			fill,
 			icon,
 			iconStyle: style = ICON_STYLE.ROUNDED,
@@ -28,7 +26,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 		const disabledFill = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
 		const IconComponent = icon ?? iconStyleConfig[style]?.[type]?.[name]
 		const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
-		const {containerAnimatedStyle} = useIconAnimated({eventName})
+
 		const iconElement = IconComponent && (
 			<IconComponent
 				fill={iconFill}
@@ -38,13 +36,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			/>
 		)
 
-		return renderIcon({
-			...renderIconProps,
-			containerAnimatedStyle,
-			iconElement,
-			id,
-			name,
-			ref
-		})
+		return renderIcon({...renderIconProps, iconElement, id, name, ref})
 	}
 )

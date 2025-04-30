@@ -46,7 +46,7 @@ export const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const renderIconButtonIcon =
-	({disabled, type, fill: rawFill, eventName, loading, id}: RenderIconButtonIconOptions) =>
+	({disabled, type, fill: rawFill, loading, id}: RenderIconButtonIconOptions) =>
 	(theme: DefaultTheme) => {
 		const fillType = {
 			[ICON_BUTTON_TYPE.ACTIVE]: theme.token.scheme.onSurfaceVariant,
@@ -70,7 +70,6 @@ export const renderIconButtonIcon =
 				),
 				{
 					disabled,
-					eventName,
 					fill,
 					testID: `iconButton__icon--${id}`
 				}

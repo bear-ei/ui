@@ -102,7 +102,7 @@ export const handleButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const renderButtonIcon =
-	({disabled, eventName, type = BUTTON_TYPE.FILLED, id}: RenderButtonIconOptions) =>
+	({disabled, type = BUTTON_TYPE.FILLED, id}: RenderButtonIconOptions) =>
 	(theme: DefaultTheme) => {
 		const fillType = {
 			[BUTTON_TYPE.ELEVATED]: theme.token.scheme.primary,
@@ -121,7 +121,6 @@ export const renderButtonIcon =
 
 			return cloneElement<IconProps>(icon, {
 				disabled,
-				eventName,
 				fill: fillType[type],
 				size,
 				testID: `button__icon--${id}`

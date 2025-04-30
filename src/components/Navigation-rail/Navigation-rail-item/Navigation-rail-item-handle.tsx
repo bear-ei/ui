@@ -56,22 +56,19 @@ export const handleNavigationRailItemStateChange =
 		})
 	}
 
-export const renderNavigationRailItemIcon = (id: string) => (icon: React.JSX.Element) => (eventName?: EventName) =>
+export const renderNavigationRailItemIcon = (id: string) => (icon: React.JSX.Element) =>
 	cloneElement<IconProps>(icon, {
-		eventName,
 		iconStyle: ICON_STYLE.ROUNDED,
 		testID: `navigationRailItem__icon--${id}`,
 		type: ICON_TYPE.OUTLINED
 	})
 
-export const renderNavigationRailItemActiveIcon =
-	(id: string) => (icon: React.JSX.Element) => (eventName?: EventName) =>
-		cloneElement<IconProps>(icon, {
-			eventName,
-			iconStyle: ICON_STYLE.ROUNDED,
-			testID: `navigationRailItem__activeIcon--${id}`,
-			type: ICON_TYPE.FILLED
-		})
+export const renderNavigationRailItemActiveIcon = (id: string) => (icon: React.JSX.Element) =>
+	cloneElement<IconProps>(icon, {
+		iconStyle: ICON_STYLE.ROUNDED,
+		testID: `navigationRailItem__activeIcon--${id}`,
+		type: ICON_TYPE.FILLED
+	})
 
 export const handleNavigationRailItemAnimatedTiming =
 	({animatedTiming, type}: HandleNavigationRailItemAnimatedTimingOptions) =>

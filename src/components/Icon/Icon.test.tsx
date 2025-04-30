@@ -1,4 +1,3 @@
-import {waitFor} from '@testing-library/react-native'
 import React from 'react'
 import {renderWithTheme} from '../../../__test__'
 import {Icon} from './Icon.component'
@@ -15,22 +14,6 @@ describe('Icon', () => {
 			/>
 		)
 		expect(getByTestId('close')).toBeTruthy()
-	})
-
-	it('should trigger animated scale on hoverIn event', async () => {
-		const {getByTestId} = renderWithTheme(
-			<Icon
-				name={ICON_NAME.EDIT}
-				eventName='hoverIn'
-				testID='edit'
-			/>
-		)
-
-		await waitFor(() => {
-			expect(getByTestId('edit')).toHaveStyle({
-				transform: [{scale: 1}]
-			})
-		})
 	})
 
 	it('should fallback to generated testID if custom testID is not provided', () => {
