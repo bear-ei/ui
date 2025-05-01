@@ -50,6 +50,7 @@ export const Content = styled(Shape)<SheetViewContentProps>`
 	display: flex;
 	flex-direction: column;
 	flex: 1;
+	overflow: hidden;
 	position: relative;
 
 	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
