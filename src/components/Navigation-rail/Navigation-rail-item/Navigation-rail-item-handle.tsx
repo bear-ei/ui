@@ -3,7 +3,7 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../../hooks'
 import type {EventName} from '../../Common'
-import {ICON_STYLE, ICON_TYPE, type IconProps} from '../../Icon'
+import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE, type IconProps} from '../../Icon'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {
 	HandleNavigationRailItemAnimatedTimingOptions,
@@ -56,19 +56,21 @@ export const handleNavigationRailItemStateChange =
 		})
 	}
 
-export const renderNavigationRailItemIcon = (id: string) => (icon: React.JSX.Element) =>
-	cloneElement<IconProps>(icon, {
-		iconStyle: ICON_STYLE.ROUNDED,
-		testID: `navigationRailItem__icon--${id}`,
-		type: ICON_TYPE.OUTLINED
-	})
-
-export const renderNavigationRailItemActiveIcon = (id: string) => (icon: React.JSX.Element) =>
-	cloneElement<IconProps>(icon, {
-		iconStyle: ICON_STYLE.ROUNDED,
-		testID: `navigationRailItem__activeIcon--${id}`,
-		type: ICON_TYPE.FILLED
-	})
+export const renderNavigationRailItemIcon = (id: string) => (icon?: React.JSX.Element) => (active?: boolean) =>
+	cloneElement<IconProps>(
+		icon ?? (
+			<Icon
+				iconStyle={ICON_STYLE.ROUNDED}
+				name={ICON_NAME.CIRCLE}
+				type={ICON_TYPE.OUTLINED}
+			/>
+		),
+		{
+			iconStyle: ICON_STYLE.ROUNDED,
+			testID: `navigationRailItem__icon--${id}`,
+			type: active ? ICON_TYPE.FILLED : ICON_TYPE.OUTLINED
+		}
+	)
 
 export const handleNavigationRailItemAnimatedTiming =
 	({animatedTiming, type}: HandleNavigationRailItemAnimatedTimingOptions) =>

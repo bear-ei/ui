@@ -6,13 +6,8 @@ import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import {useStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import type {State} from '../../Common'
-import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
-import {
-	handleNavigationRailItemStateChange,
-	renderNavigationRailItemActiveIcon,
-	renderNavigationRailItemIcon
-} from './Navigation-rail-item-handle'
+import {handleNavigationRailItemStateChange, renderNavigationRailItemIcon} from './Navigation-rail-item-handle'
 import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
 
@@ -21,13 +16,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 		{
 			activeKey,
 			animatedType = NAVIGATION_RAIL_ANIMATED.STANDARD,
-			icon = (
-				<Icon
-					iconStyle={ICON_STYLE.ROUNDED}
-					name={ICON_NAME.CIRCLE}
-					type={ICON_TYPE.OUTLINED}
-				/>
-			),
+			icon,
 			indexKey,
 			onActive,
 			renderNavigationRailItem,
@@ -58,8 +47,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			onStateEventChange
 		})
 
-		const activeIconElement = renderNavigationRailItemActiveIcon(id)(icon)
-		const iconElement = renderNavigationRailItemIcon(id)(icon)
+		const iconElement = renderNavigationRailItemIcon(id)(icon)(isActive)
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 
@@ -70,7 +58,6 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 		return renderNavigationRailItem({
 			...renderNavigationRailItemProps,
 			active: isActive,
-			activeIconElement,
 			animatedType,
 			eventName,
 			iconElement,

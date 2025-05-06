@@ -4,7 +4,6 @@ import {LayoutAnimated} from '../../Layout-animated'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {
 	NavigationRailItemHeaderProps,
-	NavigationRailItemIconProps,
 	NavigationRailItemLabelTextProps,
 	NavigationTouchableContentProps
 } from './Navigation-rail-item.interface'
@@ -45,22 +44,10 @@ export const Header = styled.View<NavigationRailItemHeaderProps>`
 
 export const IconLayoutContainer = styled.View`
 	overflow: hidden;
-	position: relative;
 
 	${({theme}) => css`
 		height: ${theme.adaptSize(theme.token.spacing.large)}px;
 		width: ${theme.adaptSize(theme.token.spacing.large)}px;
-	`}
-`
-
-export const IconLayout = styled(LayoutAnimated)<NavigationRailItemIconProps>`
-	position: absolute;
-
-	${({theme}) => css`
-		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-		left: ${theme.adaptSize(theme.token.spacing.none)}px;
-		right: ${theme.adaptSize(theme.token.spacing.none)}px;
-		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`}
 `
 

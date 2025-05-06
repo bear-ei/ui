@@ -16,7 +16,6 @@ export interface NavigationRailItemProps
 
 export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'indexKey'> {
 	active?: boolean
-	activeIconElement: React.JSX.Element
 	eventName?: EventName
 	iconElement: React.JSX.Element
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
@@ -49,9 +48,6 @@ export interface HandleNavigationRailItemAnimatedTimingOptions extends UseNaviga
 
 export type NavigationRailItemLabelTextProps = Pick<RenderNavigationRailItemProps, 'active'> & TypographyProps
 export type NavigationRailItemHeaderProps = Pick<RenderNavigationRailItemProps, 'type'>
-export interface NavigationRailItemIconProps {
-	visible?: boolean
-}
 
 export interface NavigationTouchableContentProps {
 	enableFocusRing?: boolean

@@ -72,6 +72,7 @@ const renderCheckbox = ({
 						testID={`checkbox__main--${id}`}
 					>
 						<IconLayout
+							animatedType={LAYOUT_ANIMATED.STANDARD}
 							testID={`checkbox__iconLayout--blank--${id}`}
 							visible={true}
 						>

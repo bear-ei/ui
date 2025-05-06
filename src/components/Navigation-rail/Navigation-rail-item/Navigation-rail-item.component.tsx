@@ -11,7 +11,6 @@ import type {NavigationRailItemProps, RenderNavigationRailItemProps} from './Nav
 import {
 	Container,
 	Header,
-	IconLayout,
 	IconLayoutContainer,
 	Label,
 	LabelLayout,
@@ -22,7 +21,6 @@ import {
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const renderNavigationRailItem = ({
 	active,
-	activeIconElement,
 	animatedType,
 	eventName,
 	iconElement,
@@ -62,19 +60,7 @@ const renderNavigationRailItem = ({
 					type={type}
 				>
 					<IconLayoutContainer testID={`navigationRailItem__iconLayout--${id}`}>
-						<IconLayout
-							testID={`navigationRailItem__iconLayoutAnimated--${id}`}
-							visible={!active}
-						>
-							{iconElement}
-						</IconLayout>
-
-						<IconLayout
-							testID={`navigationRailItem__iconLayoutAnimated--${id}`}
-							visible={active}
-						>
-							{activeIconElement}
-						</IconLayout>
+						{iconElement}
 					</IconLayoutContainer>
 
 					<Underlay
