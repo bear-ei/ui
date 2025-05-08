@@ -1,24 +1,8 @@
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {IconBase} from './Icon-base.component'
-import type {IconProps, RenderIconProps} from './Icon.interface'
-import {Container} from './Icon.styles'
-
-const AnimatedContainer = Animated.createAnimatedComponent(Container)
-const renderIcon = ({iconElement, id, name, style, testID, ...containerProps}: RenderIconProps) => (
-	<AnimatedContainer
-		{...containerProps}
-		accessibilityLabel={`Icon: ${name}`}
-		accessibilityRole='image'
-		accessible={true}
-		pointerEvents='none'
-		style={[style]}
-		testID={testID ?? `icon--${id}`}
-	>
-		{iconElement}
-	</AnimatedContainer>
-)
+import type {IconProps} from './Icon.interface'
+import {renderIcon} from './Icon.render'
 
 const IconWithRef = forwardRef<View, IconProps>((props, ref) => (
 	<IconBase

@@ -2,62 +2,12 @@ import {SHAPE} from '@bearei/material-token'
 import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {LAYOUT} from '../Common'
 import {SkeletonBase} from './Skeleton-base.component'
 import type {SkeletonElementProps} from './Skeleton-element'
 import {SkeletonElement} from './Skeleton-element'
-import type {RenderSkeletonProps, SkeletonProps} from './Skeleton.interface'
-import {ContentItemLayout, SkeletonContainer} from './Skeleton.styles'
-
-const AnimatedSkeletonLayout = Animated.createAnimatedComponent(SkeletonContainer)
-const renderSkeleton = ({
-	children,
-	containerAnimatedStyle,
-	contentSize,
-	contentStyle,
-	id,
-	layout = LAYOUT.HORIZONTAL,
-	skeleton,
-	style,
-	visible,
-	...containerProps
-}: RenderSkeletonProps) => {
-	const isSkeletonVisible = !!(skeleton && visible)
-
-	return (
-		<>
-			{skeleton && (
-				<ContentItemLayout
-					contentSize={contentSize}
-					contentStyle={contentStyle}
-					testID={`skeleton__contentItemLayoutAnimatedVisible--${id}`}
-					unmount={true}
-					visible={isSkeletonVisible}
-				>
-					<AnimatedSkeletonLayout
-						{...containerProps}
-						layoutType={layout}
-						style={[style, containerAnimatedStyle]}
-						testID={`skeleton__animatedSkeletonLayout--${id}`}
-					>
-						{skeleton}
-					</AnimatedSkeletonLayout>
-				</ContentItemLayout>
-			)}
-
-			<ContentItemLayout
-				contentSize={contentSize}
-				contentStyle={contentStyle}
-				testID={`skeleton__contentItemLayoutAnimatedNotVisible--${id}`}
-				visible={!isSkeletonVisible}
-			>
-				{children}
-			</ContentItemLayout>
-		</>
-	)
-}
+import type {SkeletonProps} from './Skeleton.interface'
+import {renderSkeleton} from './Skeleton.render'
 
 const SkeletonWithRef = forwardRef<View, SkeletonProps>((props, ref) => (
 	<SkeletonBase

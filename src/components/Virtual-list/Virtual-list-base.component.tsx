@@ -7,6 +7,7 @@ import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useStateEvent} from '../../hooks'
 import {debounce, runAfterInteractions} from '../../utils'
 import type {State} from '../Common'
+import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
 	handleVirtualListData,
 	handleVirtualListDataChange,
@@ -15,11 +16,10 @@ import {
 	handleVirtualListMomentumScrollEnd,
 	handleVirtualListScroll,
 	handleVirtualListStateChange,
-	handleVirtualListUnmount,
-	renderVirtualListItem
+	handleVirtualListUnmount
 } from './Virtual-list-handle'
 import type {VirtualListBaseProps, VirtualListState} from './Virtual-list.interface'
-import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
+import {renderVirtualListItem} from './Virtual-list.render'
 
 export const VirtualListBaseInner = <T,>(
 	{

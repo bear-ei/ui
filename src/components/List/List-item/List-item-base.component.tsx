@@ -15,10 +15,10 @@ import {
 	handleListItemFocus,
 	handleListItemStateChange,
 	handleListItemTrailingPressIn,
-	handleListItemTrailingPressOut,
-	renderListItemTrailing
+	handleListItemTrailingPressOut
 } from './List-item-handle'
 import type {ListItemBaseProps, ListItemState} from './List-item.interface'
+import {renderListItemTrailing} from './List-item.render'
 import {useListItemAnimated} from './use-list-item-animated.hook'
 
 export const ListItemBase = forwardRef<View, ListItemBaseProps>(

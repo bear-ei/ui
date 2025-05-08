@@ -4,8 +4,9 @@ import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
 import type {State} from '../Common'
-import {handleTouchableAnimatedFinished, handleTouchableStateChange, renderTouchableRipple} from './Touchable-handle'
+import {handleTouchableAnimatedFinished, handleTouchableStateChange} from './Touchable-handle'
 import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
+import {renderTouchableRipple} from './Touchable.render'
 
 export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 	(

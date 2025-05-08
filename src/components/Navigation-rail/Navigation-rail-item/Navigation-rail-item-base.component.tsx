@@ -7,8 +7,9 @@ import {useStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import type {State} from '../../Common'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
-import {handleNavigationRailItemStateChange, renderNavigationRailItemIcon} from './Navigation-rail-item-handle'
+import {handleNavigationRailItemStateChange} from './Navigation-rail-item-handle'
 import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
+import {renderNavigationRailItemIcon} from './Navigation-rail-item.render'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
 
 export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBaseProps>(

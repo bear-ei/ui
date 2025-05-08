@@ -7,13 +7,10 @@ import type {Updater} from 'use-immer'
 import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import type {EventName} from '../Common'
 import type {ListData} from '../List'
-import type {RenderVirtualListItemInfo} from './Virtual-list-item'
-import {VirtualListItem} from './Virtual-list-item'
 import type {
 	HandleVirtualListCloseOptions,
 	HandleVirtualListScrollOptions,
 	HandleVirtualListUnmountOptions,
-	RenderVirtualListItemOptions,
 	VirtualListData,
 	VirtualListState
 } from './Virtual-list.interface'
@@ -199,33 +196,6 @@ export const handleVirtualListDataChange =
 				handleVirtualListVisibleRanges(itemSize)(draft)()
 			}
 		})
-
-export const renderVirtualListItem =
-	<T,>({onLoadEnd, renderItem, startIndex = 0, id, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>
-	(data?: VirtualListData[]) => {
-		if (data?.length === 0) {
-			onLoadEnd?.()
-
-			return
-		}
-
-		return data?.map((item, index) => (
-			<VirtualListItem
-				{...virtualListItemProps}
-				index={index}
-				item={item as Record<string, unknown>}
-				key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
-				onLoadEnd={onLoadEnd}
-				startIndex={startIndex}
-				testID={`virtualList__virtualListItem--${id}`}
-				renderItem={
-					renderItem as (
-						options: RenderVirtualListItemInfo<Record<string, unknown>>
-					) => React.JSX.Element
-				}
-			/>
-		))
-	}
 
 export const handleVirtualListAnimated =
 	(animatedTiming: AnimatedTiming) => (contentHeightSharedValue: SharedValue<number>) => (contentSize: number) =>

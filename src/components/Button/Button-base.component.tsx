@@ -9,11 +9,11 @@ import {
 	handleButtonDisabled,
 	handleButtonStateChange,
 	handleButtonStatus,
-	handleButtonUnderlayColor,
-	renderButtonIcon
+	handleButtonUnderlayColor
 } from './Button-handle'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonBaseProps, ButtonState} from './Button.interface'
+import {renderButtonIcon} from './Button.render'
 import {useButtonAnimated} from './use-button-animated.hook'
 
 export const ButtonBase = forwardRef<View, ButtonBaseProps>(

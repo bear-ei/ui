@@ -1,0 +1,51 @@
+import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import type {RenderAvatarProps} from './Avatar.interface'
+import {Container, Content, Image, LabelText} from './Avatar.styles'
+
+export const renderAvatar = ({
+	accessibilityLabel,
+	defaultSource,
+	density,
+	id,
+	labelText,
+	shape = SHAPE.FULL,
+	size,
+	source,
+	testID,
+	...containerProps
+}: RenderAvatarProps) => (
+	<Container
+		{...containerProps}
+		accessibilityLabel={labelText ? `Avatar: ${labelText}` : accessibilityLabel}
+		accessibilityRole='image'
+		accessible={true}
+		pointerEvents='none'
+		shape={shape}
+		testID={testID ?? `avatar--${testID}`}
+	>
+		<Content
+			density={density}
+			shape={shape}
+			size={size}
+			testID={`avatar__content--${id}`}
+		>
+			{source || defaultSource ?
+				<Image
+					defaultSource={defaultSource ?? {}}
+					resizeMode='cover'
+					source={source ?? {}}
+					testID={`avatar__image--${id}`}
+				/>
+			:	<LabelText
+					ellipsizeMode='tail'
+					numberOfLines={1}
+					size={SIZE.MEDIUM}
+					testID={`avatar__labelText--${id}`}
+					type={TYPOGRAPHY.TITLE}
+				>
+					{labelText}
+				</LabelText>
+			}
+		</Content>
+	</Container>
+)

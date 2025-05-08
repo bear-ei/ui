@@ -1,20 +1,17 @@
 import type {WritableDraft} from 'immer'
-import {cloneElement} from 'react'
 import type {SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
 import type {EventName, State} from '../Common'
 import {ELEVATION, type ElevationLevel} from '../Elevation'
-import type {IconProps} from '../Icon'
 import {BUTTON_TYPE} from './Button.enum'
 import type {
 	ButtonState,
 	ButtonType,
 	HandleButtonAnimatedTimingOptions,
 	HandleButtonAnimatedTimingSharedValue,
-	HandleButtonStateChangeOptions,
-	RenderButtonIconOptions
+	HandleButtonStateChangeOptions
 } from './Button.interface'
 
 export const handleButtonStatus = (setState: Updater<ButtonState>) => (disabled?: boolean) => (type?: ButtonType) =>
@@ -100,33 +97,6 @@ export const handleButtonUnderlayColor = (theme: DefaultTheme) => {
 
 	return (type: ButtonType) => underlay[type]
 }
-
-export const renderButtonIcon =
-	({disabled, type = BUTTON_TYPE.FILLED, id}: RenderButtonIconOptions) =>
-	(theme: DefaultTheme) => {
-		const fillType = {
-			[BUTTON_TYPE.ELEVATED]: theme.token.scheme.primary,
-			[BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,
-			[BUTTON_TYPE.LINK]: theme.token.scheme.primary,
-			[BUTTON_TYPE.TEXT]: theme.token.scheme.primary,
-			[BUTTON_TYPE.TONAL]: theme.token.scheme.onSecondaryContainer
-		} as Record<ButtonType, string>
-
-		return (icon?: React.JSX.Element) => {
-			if (!icon) {
-				return icon
-			}
-
-			const size = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
-
-			return cloneElement<IconProps>(icon, {
-				disabled,
-				fill: fillType[type],
-				size,
-				testID: `button__icon--${id}`
-			})
-		}
-	}
 
 export const handleButtonOutlinedAnimatedTiming = ({
 	animatedTiming,

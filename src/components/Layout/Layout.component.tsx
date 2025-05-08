@@ -1,37 +1,10 @@
 import {forwardRef} from 'react'
-import type {View, ViewStyle} from 'react-native'
-import {LAYOUT} from '../Common'
+import type {View} from 'react-native'
 import {LayoutBase} from './Layout-base.component'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
-import type {LayoutProps, RenderLayoutProps} from './Layout.interface'
-import {ContainerLayout} from './Layout.styles'
-
-const renderLayout = ({
-	children,
-	contentStyle: rawContentStyle,
-	defaultVisible = true,
-	id,
-	layout = LAYOUT.HORIZONTAL,
-	testID,
-	...containerProps
-}: RenderLayoutProps) => {
-	const contentStyle = {
-		...rawContentStyle,
-		flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'
-	} as ViewStyle
-
-	return (
-		<ContainerLayout
-			{...containerProps}
-			contentStyle={contentStyle}
-			defaultVisible={defaultVisible}
-			testID={testID ?? `layout--${id}`}
-		>
-			{children}
-		</ContainerLayout>
-	)
-}
+import type {LayoutProps} from './Layout.interface'
+import {renderLayout} from './Layout.render'
 
 const LayoutWithRef = forwardRef<View, LayoutProps>((props, ref) => (
 	<LayoutBase

@@ -1,15 +1,7 @@
 import {validate, ValidationError} from 'class-validator'
 import type {Updater} from 'use-immer'
-import type {ComponentStatus} from '../Common'
 import type {FormItemProps} from './Form-item'
-import {FormItem} from './Form-item'
-import type {
-	FormCallback,
-	FormState,
-	handleFormCallbacksOptions,
-	HandleFormValidateOptions,
-	RenderFormItemsOptions
-} from './Form.interface'
+import type {FormCallback, FormState, handleFormCallbacksOptions, HandleFormValidateOptions} from './Form.interface'
 
 export const handleFormStatus =
 	<T,>(setState: Updater<FormState>) =>
@@ -55,18 +47,3 @@ export const handleFormValidate = <T,>({rule, validatorOptions}: HandleFormValid
 			}).then(errors => (errors.length ? errors : undefined))
 		:	([] as ValidationError[])
 }
-
-export const renderFormItems =
-	({id, ...options}: RenderFormItemsOptions) =>
-	(status: ComponentStatus) =>
-	(items?: FormItemProps[]) =>
-		status === 'succeeded' ?
-			items?.map((item, index) => (
-				<FormItem
-					{...item}
-					{...options}
-					key={item.name ?? index}
-					testID={`form__formItem--${id}`}
-				/>
-			))
-		:	<></>

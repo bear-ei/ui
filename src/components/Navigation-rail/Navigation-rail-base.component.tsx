@@ -3,13 +3,9 @@ import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
 import type {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
-import {
-	handleNavigationRailActive,
-	handleNavigationRailData,
-	renderNavigationRailFAB,
-	renderNavigationRailItems
-} from './Navigation-rail-handle'
+import {handleNavigationRailActive, handleNavigationRailData} from './Navigation-rail-handle'
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
+import {renderNavigationRailFAB, renderNavigationRailItems} from './Navigation-rail.render'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 	(

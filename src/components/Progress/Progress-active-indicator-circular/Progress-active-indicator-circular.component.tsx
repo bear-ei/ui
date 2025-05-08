@@ -1,83 +1,8 @@
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import Animated from 'react-native-reanimated'
-import {Circle, Svg} from 'react-native-svg'
-import {PROGRESS_ANIMATED} from '../Progress.enum'
 import {ProgressActiveIndicatorCircularBase} from './Progress-active-indicator-circular-base.component'
-import type {
-	ProgressActiveIndicatorCircularProps,
-	RenderProgressActiveIndicatorCircularProps
-} from './Progress-active-indicator-circular.interface'
-import {Container, Content, Main} from './Progress-active-indicator-circular.styles'
-
-const AnimatedCircle = Animated.createAnimatedComponent(Circle)
-const AnimatedMain = Animated.createAnimatedComponent(Main)
-const renderProgressActiveIndicatorCircular = ({
-	animatedType = PROGRESS_ANIMATED.INDETERMINATE,
-	circleAnimatedProps,
-	circumference,
-	containerAnimatedStyle,
-	content,
-	id,
-	radius,
-	size = 48,
-	strokeWidth,
-	testID,
-	theme,
-	...containerProps
-}: RenderProgressActiveIndicatorCircularProps) => {
-	const activeIndicatorColor = theme.token.scheme.primary
-	const cx = size / 2
-	const cy = size / 2
-	const trackColor = theme.token.scheme.primaryContainer
-
-	return (
-		<Container
-			{...containerProps}
-			pointerEvents='none'
-			testID={testID ?? `progressActiveIndicatorCircular--${id}`}
-		>
-			<Content testID={`progressActiveIndicatorCircular__content--${id}`}>{content}</Content>
-			<AnimatedMain
-				style={[containerAnimatedStyle]}
-				testID={`progressActiveIndicatorCircular__animatedMain--${id}`}
-			>
-				<Svg
-					fill='none'
-					testID={`progressActiveIndicatorCircular__svg--${id}`}
-					viewBox={`0 0 ${size} ${size}`}
-				>
-					{animatedType === PROGRESS_ANIMATED.DETERMINATE && (
-						<Circle
-							cx={cx}
-							cy={cy}
-							r={radius}
-							stroke={trackColor}
-							strokeDasharray={circumference}
-							strokeDashoffset={0}
-							strokeLinecap='round'
-							strokeWidth={strokeWidth}
-							testID={`progressActiveIndicatorCircular__circle--${id}`}
-						/>
-					)}
-
-					<AnimatedCircle
-						animatedProps={circleAnimatedProps}
-						cx={cx}
-						cy={cy}
-						r={radius}
-						rotation={`180 ${cx} ${cy}`}
-						stroke={activeIndicatorColor}
-						strokeDasharray={circumference}
-						strokeLinecap='round'
-						strokeWidth={strokeWidth}
-						testID={`progressActiveIndicatorCircular__animatedCircle--${id}`}
-					/>
-				</Svg>
-			</AnimatedMain>
-		</Container>
-	)
-}
+import type {ProgressActiveIndicatorCircularProps} from './Progress-active-indicator-circular.interface'
+import {renderProgressActiveIndicatorCircular} from './Progress-active-indicator-circular.render'
 
 const ProgressActiveIndicatorCircularWithRef = forwardRef<View, ProgressActiveIndicatorCircularProps>((props, ref) => (
 	<ProgressActiveIndicatorCircularBase

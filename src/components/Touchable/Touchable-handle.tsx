@@ -4,13 +4,10 @@ import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
 import {runAfterInteractions} from '../../utils'
 import type {EventName} from '../Common'
-import {TouchableRipple} from './Touchable-ripple'
 import type {
 	HandleAddTouchableRippleOptions,
 	HandleTouchablePressInOptions,
 	HandleTouchableStateChangeOptions,
-	RenderTouchableRippleOptions,
-	TouchableRippleSequence,
 	TouchableState
 } from './Touchable.interface'
 
@@ -66,23 +63,3 @@ export const handleTouchableAnimatedFinished = (setState: Updater<TouchableState
 			delete draft.rippleSequence[index]
 		}
 	})
-
-export const renderTouchableRipple =
-	({centered, containerLayout, id, ...props}: RenderTouchableRippleOptions) =>
-	(rippleSequence: TouchableRippleSequence) =>
-		Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
-			const isEnteredTouchableRipple =
-				typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
-
-			return (
-				<TouchableRipple
-					{...props}
-					centered={isEnteredTouchableRipple}
-					containerLayout={containerLayout}
-					indexKey={indexKey}
-					key={indexKey}
-					testID={`touchable__touchableRipple--${id}`}
-					touchableLocation={touchableLocation}
-				/>
-			)
-		})

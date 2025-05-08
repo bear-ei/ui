@@ -160,9 +160,14 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 								validate: asyncDebounce(
 									handleFormValidate<T>({
 										rule: validateRule[entity.name],
+
+										/**
+										 * When setting field validation via API,
+										 * the merge options parameters should prioritize global validation options as the highest priority.
+										 */
 										validatorOptions: {
-											...validatorOptions,
-											...restValidatorOptions
+											...restValidatorOptions,
+											...validatorOptions
 										}
 									})(entity.name)
 								)(delay) as (

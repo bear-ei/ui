@@ -1,11 +1,7 @@
-import {cloneElement} from 'react'
-import type {ViewProps} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../../hooks'
 import type {EventName} from '../../Common'
-import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
-import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
 import type {
@@ -14,8 +10,7 @@ import type {
 	HandleListItemStateEventChangeOptions,
 	HandleListItemTrailingPressOutOptions,
 	ListItemProps,
-	ListItemState,
-	RenderListItemTrailingOptions
+	ListItemState
 } from './List-item.interface'
 
 export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
@@ -248,64 +243,6 @@ export const handleListItemClose =
 // 			onActiveAfterAffordance?.()
 // 		}
 // 	}
-
-export const renderListItemTrailing = ({
-	afterAffordance,
-	closeTrailing,
-	disabled,
-	id,
-	interactionHandlers,
-	trailing,
-	trailingProps
-}: RenderListItemTrailingOptions) => {
-	const {onHoverIn, onHoverOut} = interactionHandlers
-	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
-	const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
-	const props = {
-		...interactionHandlers,
-		...trailingProps,
-		disabled,
-		pointerEvents: 'box-only' as ViewProps['pointerEvents'],
-		testID: `listItem__trailing--${id}`,
-		type: ICON_BUTTON_TYPE.STANDARD
-	}
-
-	const trailingElement = {
-		afterAffordance:
-			trailing ?
-				cloneElement(trailing, props)
-			:	<IconButton
-					{...props}
-					testID={`listItem__trailingIconButton--${id}`}
-					icon={
-						<Icon
-							iconStyle={ICON_STYLE.ROUNDED}
-							name={ICON_NAME.MORE_HORIZ}
-							testID={`listItem__trailingIconMoreHoriz--${id}`}
-							type={ICON_TYPE.OUTLINED}
-						/>
-					}
-				/>,
-		closeTrailing:
-			trailing ?
-				cloneElement(trailing, props)
-			:	<IconButton
-					{...props}
-					testID={`listItem__trailingIconButton--${id}`}
-					icon={
-						<Icon
-							iconStyle={ICON_STYLE.ROUNDED}
-							name={ICON_NAME.CLOSE}
-							testID={`listItem__trailingIconClose--${id}`}
-							type={ICON_TYPE.OUTLINED}
-						/>
-					}
-				/>,
-		standard: trailing ? cloneElement(trailing, {onHoverIn, onHoverOut, ...props}) : undefined
-	}
-
-	return trailingElement[trailingType]
-}
 
 export const handleListItemAfterAffordanceVisibleAnimatedTiming =
 	({

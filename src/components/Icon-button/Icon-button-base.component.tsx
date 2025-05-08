@@ -8,11 +8,11 @@ import type {State} from '../Common'
 import {
 	handleIconButtonDisabled,
 	handleIconButtonStateChange,
-	handleIconButtonUnderlayColor,
-	renderIconButtonIcon
+	handleIconButtonUnderlayColor
 } from './Icon-button-handle'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {IconButtonBaseProps, IconButtonState} from './Icon-button.interface'
+import {renderIconButtonIcon} from './Icon-button.render'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
 export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(

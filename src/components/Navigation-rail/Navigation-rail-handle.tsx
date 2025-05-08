@@ -1,13 +1,5 @@
-import {SIZE} from '@bearei/material-token'
-import {cloneElement} from 'react'
 import type {Updater} from 'use-immer'
-import type {FABProps} from '../FAB'
-import {NavigationRailItem} from './Navigation-rail-item'
-import type {
-	NavigationRailData,
-	NavigationRailState,
-	RenderNavigationRailItemOptions
-} from './Navigation-rail.interface'
+import type {NavigationRailData, NavigationRailState} from './Navigation-rail.interface'
 
 export const handleNavigationRailActive =
 	(onActive?: (activeKey?: string) => void) =>
@@ -33,25 +25,3 @@ export const handleNavigationRailData = (setState: Updater<NavigationRailState>)
 		draft.status = 'succeeded'
 	})
 }
-
-export const renderNavigationRailItems =
-	({id, ...renderNavigationRailItemOptions}: RenderNavigationRailItemOptions) =>
-	(data?: NavigationRailData[]) =>
-		data?.map(({indexKey, ...props}, index) => (
-			<NavigationRailItem
-				{...props}
-				{...renderNavigationRailItemOptions}
-				indexKey={indexKey ?? index.toString()}
-				key={indexKey}
-				testID={`navigationRail__navigationRailItem--${id}`}
-			/>
-		))
-
-export const renderNavigationRailFAB = (id: string) => (fab?: React.JSX.Element) =>
-	fab ?
-		cloneElement<FABProps>(fab, {
-			elevated: false,
-			size: SIZE.MEDIUM,
-			testID: `navigationRail__fab--${id}`
-		})
-	:	undefined

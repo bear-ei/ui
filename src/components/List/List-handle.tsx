@@ -3,7 +3,6 @@ import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
 import {DENSITY_SCALE} from '../Common'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
-import {ListItem} from './List-item'
 import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 import type {
 	HandleListActiveOptions,
@@ -11,9 +10,9 @@ import type {
 	HandleRenderItemOptions,
 	ListData,
 	ListState,
-	OnActiveAfterAffordanceOptions,
-	RenderListItemOptions
+	OnActiveAfterAffordanceOptions
 } from './List.interface'
+import {renderDefaultListItem} from './List.render'
 
 const handleListSelect =
 	(draft: WritableDraft<ListState>) => (deselect?: boolean) => (activeKeys?: string | string[]) => {
@@ -137,17 +136,6 @@ export const handleListClose = (onClose?: (options: OnVirtualListCloseOptions) =
 			})
 		}
 }
-
-const renderDefaultListItem = ({index, item, supportingTextNumberOfLines, id, ...props}: RenderListItemOptions) => (
-	<ListItem
-		{...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
-		{...item}
-		{...props}
-		indexKey={item?.indexKey ?? `${index}`}
-		itemIndex={index}
-		testID={`list__listItem--${id}`}
-	/>
-)
 
 export const handleRenderListItem =
 	({renderItem, ...options}: HandleRenderItemOptions) =>

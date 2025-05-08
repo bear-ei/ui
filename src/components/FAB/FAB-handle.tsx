@@ -1,15 +1,12 @@
-import {SIZE} from '@bearei/material-token'
 import type {WritableDraft} from 'immer'
-import {cloneElement} from 'react'
 import type {SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../hooks'
 import type {State} from '../Common'
 import {ELEVATION, type ElevationLevel} from '../Elevation'
-import type {IconProps} from '../Icon'
 import {FAB_TYPE} from './FAB.enum'
-import type {FABState, FABType, HandleFABStateChangeOptions, RenderFABIconOptions} from './FAB.interface'
+import type {FABState, FABType, HandleFABStateChangeOptions} from './FAB.interface'
 
 export const handleFABStatus = (setState: Updater<FABState>) => (disabled?: boolean) => (elevated?: boolean) =>
 	setState(draft => {
@@ -90,32 +87,6 @@ export const handleFABUnderlayColor = (theme: DefaultTheme) => {
 
 	return (type: FABType) => underlay[type]
 }
-
-export const renderFABIcon =
-	({disabled, size, type = FAB_TYPE.PRIMARY, id}: RenderFABIconOptions) =>
-	(theme: DefaultTheme) => {
-		const fillType = {
-			[FAB_TYPE.PRIMARY]: theme.token.scheme.onPrimaryContainer,
-			[FAB_TYPE.SECONDARY]: theme.token.scheme.onSecondaryContainer,
-			[FAB_TYPE.SURFACE]: theme.token.scheme.primary,
-			[FAB_TYPE.TERTIARY]: theme.token.scheme.onTertiaryContainer
-		} as Record<FABType, string>
-
-		return (icon?: React.JSX.Element) => {
-			if (!icon) {
-				return icon
-			}
-
-			const iconSize = theme.adaptSize(theme.token.spacing.large + 3 * theme.token.spacing.extraSmall)
-
-			return cloneElement<IconProps>(icon, {
-				...(size === SIZE.LARGE && {width: iconSize, height: iconSize}),
-				disabled,
-				fill: fillType[type],
-				testID: `fab__icon--${id}`
-			})
-		}
-	}
 
 export const handleFABAnimatedTiming =
 	(animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<number>) => (disabled?: boolean) =>

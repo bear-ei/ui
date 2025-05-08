@@ -6,15 +6,10 @@ import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
 import type {State} from '../Common'
-import {
-	handleFABDisabled,
-	handleFABStateChange,
-	handleFABStatus,
-	handleFABUnderlayColor,
-	renderFABIcon
-} from './FAB-handle'
+import {handleFABDisabled, handleFABStateChange, handleFABStatus, handleFABUnderlayColor} from './FAB-handle'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABBaseProps, FABState} from './FAB.interface'
+import {renderFABIcon} from './FAB.render'
 import {useFABAnimated} from './use-fab-animated.hook'
 
 export const FABBase = forwardRef<View, FABBaseProps>(
