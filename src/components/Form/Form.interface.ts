@@ -61,7 +61,7 @@ export interface FormStore<T = Record<string, unknown>> {
 	setFieldKeys: (fieldKeys?: (keyof T)[]) => void
 	setFieldsError: (componentUpdate?: boolean) => (error: FormError<T>) => void
 	setFieldsTouched: (touched?: boolean) => (name?: keyof T) => void
-	setFieldsValidate: (options: FormValidatorOptions) => (rule: FormValidateRule<T>) => void
+	setFieldsValidate: (options?: FormValidatorOptions) => (rule: FormValidateRule<T>) => void
 	setFieldsValue: (options?: SetFieldsValueOptions) => (value?: T) => void
 	setInitialValues: (initialized?: boolean) => (value?: T) => void
 	signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined

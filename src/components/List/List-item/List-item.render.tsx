@@ -33,15 +33,15 @@ export const renderListItemTrailing = ({
 	id,
 	interactionHandlers,
 	trailing,
-	trailingProps
+	trailingProps: rawTrailingProps = {}
 }: RenderListItemTrailingOptions) => {
-	const {onHoverIn, onHoverOut} = interactionHandlers
 	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
 	const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
-	const props = {
+	const {disabled: isDisabled, ...restTrailingProps} = rawTrailingProps
+	const trailingProps = {
 		...interactionHandlers,
-		...trailingProps,
-		disabled,
+		...restTrailingProps,
+		disabled: isDisabled ?? disabled,
 		pointerEvents: 'box-only' as ViewProps['pointerEvents'],
 		testID: `listItem__trailing--${id}`,
 		type: ICON_BUTTON_TYPE.STANDARD
@@ -50,9 +50,9 @@ export const renderListItemTrailing = ({
 	const trailingElement = {
 		afterAffordance:
 			trailing ?
-				cloneElement(trailing, props)
+				cloneElement(trailing, trailingProps)
 			:	<IconButton
-					{...props}
+					{...trailingProps}
 					testID={`listItem__trailingIconButton--${id}`}
 					icon={
 						<Icon
@@ -65,9 +65,9 @@ export const renderListItemTrailing = ({
 				/>,
 		closeTrailing:
 			trailing ?
-				cloneElement(trailing, props)
+				cloneElement(trailing, trailingProps)
 			:	<IconButton
-					{...props}
+					{...trailingProps}
 					testID={`listItem__trailingIconButton--${id}`}
 					icon={
 						<Icon
@@ -78,7 +78,7 @@ export const renderListItemTrailing = ({
 						/>
 					}
 				/>,
-		standard: trailing ? cloneElement(trailing, {onHoverIn, onHoverOut, ...props}) : undefined
+		standard: trailing ? cloneElement(trailing, trailingProps) : undefined
 	}
 
 	return trailingElement[trailingType]

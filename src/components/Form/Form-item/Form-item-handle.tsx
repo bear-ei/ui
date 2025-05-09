@@ -1,3 +1,4 @@
+import type {NativeSyntheticEvent, TargetedEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {FormError} from '../Form.interface'
 import type {FormItemState, HandleFormItemInitOptions, HandleFormItemValueChangeOptions} from './Form-item.interface'
@@ -29,8 +30,10 @@ export const handleFormItemStatus =
 			draft.status = 'succeeded'
 		})
 
-export const handleFormItemValidateField =
-	(validateFields: (name?: string) => Promise<FormError<unknown>>) => (name?: string) => () => {
+export const handleFormItemBlur =
+	(validateFields: (name?: string) => Promise<FormError<unknown>>) =>
+	(name?: string) =>
+	(_event: NativeSyntheticEvent<TargetedEvent>) => {
 		if (name) {
 			validateFields(name)
 		}
