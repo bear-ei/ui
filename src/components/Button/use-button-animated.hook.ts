@@ -21,115 +21,147 @@ export const useButtonAnimated = ({
 	const colorSharedValue = useSharedValue(animatedValue)
 	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
 	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
-	const backgroundColorType = {
-		[BUTTON_TYPE.ELEVATED]: {
-			inputRanges: [0, 1],
-			outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerLow)(opacity.level10)]
-		},
-		[BUTTON_TYPE.FILLED]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				disabledBackgroundColor,
-				error ?
-					hexToRGBA(scheme.error)(opacity.level10)
-				:	hexToRGBA(scheme.primary)(opacity.level10)
-			]
-		},
-		[BUTTON_TYPE.OUTLINED]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				hexToRGBA(scheme.primary)(opacity.level0),
-				hexToRGBA(scheme.primary)(opacity.level0)
-			]
-		},
-		[BUTTON_TYPE.TEXT]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				hexToRGBA(scheme.primary)(opacity.level0),
-				hexToRGBA(scheme.primary)(opacity.level0)
-			]
-		},
-		[BUTTON_TYPE.LINK]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				hexToRGBA(scheme.primary)(opacity.level0),
-				hexToRGBA(scheme.primary)(opacity.level0)
-			]
-		},
-		[BUTTON_TYPE.TONAL]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				disabledBackgroundColor,
-				error ?
-					hexToRGBA(scheme.errorContainer)(opacity.level10)
-				:	hexToRGBA(scheme.secondaryContainer)(opacity.level10)
-			]
-		}
-	}
+	const backgroundColorType = useMemo(
+		() => ({
+			[BUTTON_TYPE.ELEVATED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledBackgroundColor,
+					hexToRGBA(scheme.surfaceContainerLow)(opacity.level10)
+				]
+			},
+			[BUTTON_TYPE.FILLED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledBackgroundColor,
+					error ?
+						hexToRGBA(scheme.error)(opacity.level10)
+					:	hexToRGBA(scheme.primary)(opacity.level10)
+				]
+			},
+			[BUTTON_TYPE.OUTLINED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					hexToRGBA(scheme.primary)(opacity.level0),
+					hexToRGBA(scheme.primary)(opacity.level0)
+				]
+			},
+			[BUTTON_TYPE.TEXT]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					hexToRGBA(scheme.primary)(opacity.level0),
+					hexToRGBA(scheme.primary)(opacity.level0)
+				]
+			},
+			[BUTTON_TYPE.LINK]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					hexToRGBA(scheme.primary)(opacity.level0),
+					hexToRGBA(scheme.primary)(opacity.level0)
+				]
+			},
+			[BUTTON_TYPE.TONAL]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledBackgroundColor,
+					error ?
+						hexToRGBA(scheme.errorContainer)(opacity.level10)
+					:	hexToRGBA(scheme.secondaryContainer)(opacity.level10)
+				]
+			}
+		}),
+		[
+			disabledBackgroundColor,
+			error,
+			opacity.level0,
+			opacity.level10,
+			scheme.error,
+			scheme.errorContainer,
+			scheme.primary,
+			scheme.secondaryContainer,
+			scheme.surfaceContainerLow
+		]
+	)
 
-	const colorType = {
-		[BUTTON_TYPE.ELEVATED]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				disabledColor,
-				error ?
-					hexToRGBA(scheme.error)(opacity.level10)
-				:	hexToRGBA(scheme.primary)(opacity.level10)
-			]
-		},
-		[BUTTON_TYPE.FILLED]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				disabledColor,
-				error ?
-					hexToRGBA(scheme.onError)(opacity.level10)
-				:	hexToRGBA(scheme.onPrimary)(opacity.level10)
-			]
-		},
-		[BUTTON_TYPE.OUTLINED]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				disabledColor,
-				error ?
-					hexToRGBA(scheme.error)(opacity.level10)
-				:	hexToRGBA(scheme.primary)(opacity.level10)
-			]
-		},
-		[BUTTON_TYPE.TEXT]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				disabledColor,
-				error ?
-					hexToRGBA(scheme.error)(opacity.level10)
-				:	hexToRGBA(scheme.primary)(opacity.level10)
-			]
-		},
-		[BUTTON_TYPE.LINK]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				disabledColor,
-				error ?
-					hexToRGBA(scheme.error)(opacity.level10)
-				:	hexToRGBA(scheme.primary)(opacity.level10)
-			]
-		},
-		[BUTTON_TYPE.TONAL]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				disabledColor,
-				error ?
-					hexToRGBA(scheme.onErrorContainer)(opacity.level10)
-				:	hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
-			]
-		}
-	}
+	const colorType = useMemo(
+		() => ({
+			[BUTTON_TYPE.ELEVATED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledColor,
+					error ?
+						hexToRGBA(scheme.error)(opacity.level10)
+					:	hexToRGBA(scheme.primary)(opacity.level10)
+				]
+			},
+			[BUTTON_TYPE.FILLED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledColor,
+					error ?
+						hexToRGBA(scheme.onError)(opacity.level10)
+					:	hexToRGBA(scheme.onPrimary)(opacity.level10)
+				]
+			},
+			[BUTTON_TYPE.OUTLINED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledColor,
+					error ?
+						hexToRGBA(scheme.error)(opacity.level10)
+					:	hexToRGBA(scheme.primary)(opacity.level10)
+				]
+			},
+			[BUTTON_TYPE.TEXT]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledColor,
+					error ?
+						hexToRGBA(scheme.error)(opacity.level10)
+					:	hexToRGBA(scheme.primary)(opacity.level10)
+				]
+			},
+			[BUTTON_TYPE.LINK]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledColor,
+					error ?
+						hexToRGBA(scheme.error)(opacity.level10)
+					:	hexToRGBA(scheme.primary)(opacity.level10)
+				]
+			},
+			[BUTTON_TYPE.TONAL]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledColor,
+					error ?
+						hexToRGBA(scheme.onErrorContainer)(opacity.level10)
+					:	hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
+				]
+			}
+		}),
+		[
+			disabledColor,
+			error,
+			opacity.level10,
+			scheme.error,
+			scheme.onError,
+			scheme.onErrorContainer,
+			scheme.onPrimary,
+			scheme.onSecondaryContainer,
+			scheme.primary
+		]
+	)
 
 	const borderColorInputRanges = useMemo(() => [0, 1, 2], [])
-	const borderColorOutputRanges = [
-		disabledBackgroundColor,
-		hexToRGBA(scheme.outline)(opacity.level10),
-		hexToRGBA(scheme.primary)(opacity.level10)
-	]
+	const borderColorOutputRanges = useMemo(
+		() => [
+			disabledBackgroundColor,
+			hexToRGBA(scheme.outline)(opacity.level10),
+			hexToRGBA(scheme.primary)(opacity.level10)
+		],
+		[disabledBackgroundColor, opacity.level10, scheme.outline, scheme.primary]
+	)
 
 	const notBackgroundColorTypes = [BUTTON_TYPE.TEXT, BUTTON_TYPE.LINK] as const
 	const isNotBackgroundColor = notBackgroundColorTypes.includes(type as (typeof notBackgroundColorTypes)[number])

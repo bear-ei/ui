@@ -24,7 +24,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		ref
 	) => {
 		const [{activeKey, nextActiveEvent, status, data}, setState] = useImmer<NavigationRailState>({
-			status: 'idle'
+			status: COMPONENT_STATUS.IDLE
 		})
 
 		const id = useId()
@@ -61,7 +61,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			runAfterInteractions(nextActiveEvent)()
 		}, [nextActiveEvent])
 
-		if (status === 'idle') {
+		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
 		}
 

@@ -51,7 +51,7 @@ export const VirtualListBaseInner = <T,>(
 			visibleRangeData
 		},
 		setState
-	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: 'idle', startIndex: 0})
+	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE, startIndex: 0})
 
 	const id = useId()
 	const contentSize = useMemo(
@@ -116,7 +116,7 @@ export const VirtualListBaseInner = <T,>(
 		runAfterInteractions(nextCloseEvent)()
 	}, [nextCloseEvent])
 
-	if (status === 'idle') {
+	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>
 	}
 

@@ -80,7 +80,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			onButtonDisabled(isDisabled)
 		}, [isDisabled, onButtonDisabled])
 
-		if (status === 'idle') {
+		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
 		}
 

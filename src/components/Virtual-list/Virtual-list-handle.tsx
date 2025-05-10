@@ -37,7 +37,7 @@ const handleVirtualListVisibleRanges =
 		draft.endIndex = endIndex
 		draft.scrollOffset = nextScrollOffset
 		draft.startIndex = startIndex
-		draft.status = 'succeeded'
+		draft.status = COMPONENT_STATUS.SUCCEEDED
 		draft.visibleRangeData = nextVisibleRangeData
 	}
 

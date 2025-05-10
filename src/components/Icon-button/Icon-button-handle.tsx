@@ -14,7 +14,7 @@ export const handleIconButtonStateChange =
 	({eventName}: HandleIconButtonStateChangeOptions) =>
 	(setState: Updater<IconButtonState>) =>
 	(_event: StateEvent) => {
-		if (eventName === 'layout') {
+		if (eventName === EVENT_NAME.LAYOUT) {
 			return
 		}
 

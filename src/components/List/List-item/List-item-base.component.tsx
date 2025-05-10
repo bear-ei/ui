@@ -67,7 +67,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 				trailingVisible: isTrailingVisible
 			},
 			setState
-		] = useImmer<ListItemState>({status: 'idle'})
+		] = useImmer<ListItemState>({status: COMPONENT_STATUS.IDLE})
 
 		const id = useId()
 		const theme = useTheme()

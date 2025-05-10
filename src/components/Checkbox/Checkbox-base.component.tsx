@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createHandler, runAfterInteractions} from '../../utils'
-import type {State} from '../Common'
+import {COMPONENT_STATUS, type State} from '../Common'
 import {
 	handleCheckboxActive,
 	handleCheckboxIndeterminate,
@@ -29,7 +29,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 		ref
 	) => {
 		const [{active: isActive, eventName, status, value, nextActiveEvent}, setState] =
-			useImmer<CheckboxState>({status: 'idle', value: CHECKBOX_VALUE.UNSELECTED})
+			useImmer<CheckboxState>({status: COMPONENT_STATUS.IDLE, value: CHECKBOX_VALUE.UNSELECTED})
 
 		const id = useId()
 		const theme = useTheme()
@@ -71,7 +71,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			runAfterInteractions(nextActiveEvent)()
 		}, [nextActiveEvent])
 
-		if (status === 'idle') {
+		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
 		}
 

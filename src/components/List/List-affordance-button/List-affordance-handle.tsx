@@ -10,7 +10,7 @@ export const handleListAffordanceButtonStateChange =
 	({eventName, visible}: HandleListAffordanceButtonStateEventChangeOptions) =>
 	(setState: Updater<ListAffordanceButtonState>) =>
 	(_event: StateEvent) => {
-		if (eventName === 'layout' || !visible) {
+		if (eventName === EVENT_NAME.LAYOUT || !visible) {
 			return
 		}
 

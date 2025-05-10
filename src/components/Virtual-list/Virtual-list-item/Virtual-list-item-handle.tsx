@@ -32,7 +32,7 @@ export const handleVirtualListItemAnimated =
 
 export const handleVirtualListItemInit = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {
-		if (draft.status === 'idle') {
-			draft.status = 'succeeded'
+		if (draft.status === COMPONENT_STATUS.IDLE) {
+			draft.status = COMPONENT_STATUS.SUCCEEDED
 		}
 	})

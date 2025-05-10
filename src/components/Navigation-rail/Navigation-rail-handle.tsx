@@ -22,6 +22,6 @@ export const handleNavigationRailActive =
 export const handleNavigationRailData = (setState: Updater<NavigationRailState>) => (data?: NavigationRailData[]) => {
 	setState(draft => {
 		draft.data = data
-		draft.status = 'succeeded'
+		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 }

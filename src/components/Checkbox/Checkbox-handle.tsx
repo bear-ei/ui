@@ -1,12 +1,13 @@
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
+import {COMPONENT_STATUS, EVENT_NAME} from '../Common'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {CheckboxState, HandleCheckboxActiveOptions, HandleCheckboxStateChangeOptions} from './Checkbox.interface'
 
 export const handleCheckboxStatus = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
 	setState(draft => {
-		if (draft.status !== 'idle') {
+		if (draft.status !== COMPONENT_STATUS.IDLE) {
 			return
 		}
 
@@ -16,7 +17,7 @@ export const handleCheckboxStatus = (setState: Updater<CheckboxState>) => (indet
 			draft.value = indeterminate ? CHECKBOX_VALUE.INDETERMINATE : defaultValue
 		}
 
-		draft.status = 'succeeded'
+		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
 const handleCheckboxActiveDraftChange =
@@ -51,7 +52,7 @@ export const handleCheckboxStateChange =
 	({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
 	(setState: Updater<CheckboxState>) =>
 	(_event: StateEvent) => {
-		if (eventName === 'layout') {
+		if (eventName === EVENT_NAME.LAYOUT) {
 			return
 		}
 
@@ -62,7 +63,7 @@ export const handleCheckboxStateChange =
 				draft.eventName = eventName
 			}
 
-			if (prevEventName !== eventName && eventName === 'pressOut') {
+			if (prevEventName !== eventName && eventName === EVENT_NAME.PRESS_OUT) {
 				handleCheckboxActiveDraftChange(draft)({indeterminate, onActive})(!active)
 			}
 		})

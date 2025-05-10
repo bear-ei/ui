@@ -8,7 +8,7 @@ export const handleFormItemInit =
 	(setState: Updater<FormItemState>) =>
 	(name?: string) =>
 		setState(draft => {
-			if (draft.status !== 'idle') {
+			if (draft.status !== COMPONENT_STATUS.IDLE) {
 				return
 			}
 
@@ -16,7 +16,7 @@ export const handleFormItemInit =
 				signInField({name, onComponentUpdate, rule, touched: false, validatorOptions}) ?? {}
 
 			draft.signOut = signOut
-			draft.status = 'succeeded'
+			draft.status = COMPONENT_STATUS.SUCCEEDED
 		})
 
 export const handleFormItemValueChange =

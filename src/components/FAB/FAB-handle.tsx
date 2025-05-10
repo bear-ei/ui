@@ -10,7 +10,7 @@ import type {FABState, FABType, HandleFABStateChangeOptions} from './FAB.interfa
 
 export const handleFABInit = (disabled?: boolean) => (setState: Updater<FABState>) => (elevated?: boolean) =>
 	setState(draft => {
-		if (draft.status !== 'idle') {
+		if (draft.status !== COMPONENT_STATUS.IDLE) {
 			return
 		}
 
@@ -18,7 +18,7 @@ export const handleFABInit = (disabled?: boolean) => (setState: Updater<FABState
 			draft.elevation = ELEVATION.LEVEL_3
 		}
 
-		draft.status = 'succeeded'
+		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
 const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boolean) => (state?: State) => {
@@ -48,7 +48,7 @@ export const handleFABStateChange =
 	({eventName, elevated, state}: HandleFABStateChangeOptions) =>
 	(setState: Updater<FABState>) =>
 	(_event: StateEvent) => {
-		if (eventName === 'layout') {
+		if (eventName === EVENT_NAME.LAYOUT) {
 			return
 		}
 

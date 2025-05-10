@@ -33,7 +33,7 @@ export const handleNavigationRailItemStateChange =
 			pressOut: () => handleNavigationRailItemPressOut(onActive)(indexKey)
 		} as Record<EventName, () => void>
 
-		if (eventName === 'layout') {
+		if (eventName === EVENT_NAME.LAYOUT) {
 			return
 		}
 
@@ -48,7 +48,7 @@ export const handleNavigationRailItemStateChange =
 				nextEvent[eventName]()
 			}
 
-			if (prevEventName !== eventName && eventName === 'pressOut') {
+			if (prevEventName !== eventName && eventName === EVENT_NAME.PRESS_OUT) {
 				draft.nextPressOutEvent = nextEvent[eventName]
 			}
 		})

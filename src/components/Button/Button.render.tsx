@@ -2,6 +2,7 @@ import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {cloneElement} from 'react'
 import Animated from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
+import {EVENT_NAME} from '../Common'
 import {Elevation} from '../Elevation'
 import type {IconProps} from '../Icon'
 import {Touchable} from '../Touchable'
@@ -66,14 +67,23 @@ export const renderButton = ({
 	underlayColor,
 	...contentProps
 }: RenderButtonProps) => {
+	const eventNames = [
+		EVENT_NAME.FOCUS,
+		EVENT_NAME.HOVER_IN,
+		EVENT_NAME.LONG_PRESS,
+		EVENT_NAME.PRESS_IN,
+		EVENT_NAME.PRESS_OUT,
+		EVENT_NAME.PRESS
+	] as const
+
 	const isActiveIndicatorVisible =
-		type === BUTTON_TYPE.LINK &&
-		eventName &&
-		['focus', 'hoverIn', 'longPress', 'press', 'pressIn', 'pressOut'].includes(eventName)
+		type === BUTTON_TYPE.LINK && eventName && eventNames.includes(eventName as (typeof eventNames)[number])
 
 	const isLink = type === BUTTON_TYPE.LINK
 	const loadingTypes = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as const
-	const loadingEventName = loadingTypes.includes(type as (typeof loadingTypes)[number]) ? 'none' : 'longPress'
+	const loadingEventName =
+		loadingTypes.includes(type as (typeof loadingTypes)[number]) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
+
 	const shape = isLink ? SHAPE.EXTRA_SMALL : SHAPE.FULL
 	const backgroundUnderlayElement = (
 		<AnimatedBackgroundUnderlay

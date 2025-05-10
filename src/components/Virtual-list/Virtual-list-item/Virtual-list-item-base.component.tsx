@@ -27,7 +27,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 	) => {
 		const [{visible: isVisible, status}, setState] = useImmer<VirtualListItemState>({
 			visible: true,
-			status: 'idle'
+			status: COMPONENT_STATUS.IDLE
 		})
 
 		const renderIndex = useMemo(() => index + startIndex, [index, startIndex])
@@ -53,7 +53,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			onVirtualListItemInit()
 		}, [onVirtualListItemInit])
 
-		if (status === 'idle') {
+		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
 		}
 

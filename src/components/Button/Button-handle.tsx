@@ -3,7 +3,7 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
-import type {EventName, State} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName, type State} from '../Common'
 import {ELEVATION, type ElevationLevel} from '../Elevation'
 import {BUTTON_TYPE} from './Button.enum'
 import type {
@@ -16,7 +16,7 @@ import type {
 
 export const handleButtonInit = (disabled?: boolean) => (setState: Updater<ButtonState>) => (type?: ButtonType) =>
 	setState(draft => {
-		if (draft.status !== 'idle') {
+		if (draft.status !== COMPONENT_STATUS.IDLE) {
 			return
 		}
 
@@ -24,7 +24,7 @@ export const handleButtonInit = (disabled?: boolean) => (setState: Updater<Butto
 			draft.elevation = ELEVATION.LEVEL_1
 		}
 
-		draft.status = 'succeeded'
+		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
 export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
@@ -36,13 +36,13 @@ export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
 	}
 
 	const level = {
-		disabled: ELEVATION.LEVEL_0,
-		enabled: ELEVATION.LEVEL_0,
-		error: ELEVATION.LEVEL_0,
-		focused: ELEVATION.LEVEL_0,
-		hovered: ELEVATION.LEVEL_1,
-		longPressIn: ELEVATION.LEVEL_0,
-		pressIn: ELEVATION.LEVEL_0
+		[STATE.DISABLED]: ELEVATION.LEVEL_0,
+		[STATE.ENABLED]: ELEVATION.LEVEL_0,
+		[STATE.ERROR]: ELEVATION.LEVEL_0,
+		[STATE.FOCUSED]: ELEVATION.LEVEL_0,
+		[STATE.HOVERED]: ELEVATION.LEVEL_1,
+		[STATE.LONG_PRESS_IN]: ELEVATION.LEVEL_0,
+		[STATE.PRESS_IN]: ELEVATION.LEVEL_0
 	}
 
 	const correctionCoefficient = type === BUTTON_TYPE.ELEVATED ? ELEVATION.LEVEL_1 : ELEVATION.LEVEL_0
@@ -51,14 +51,17 @@ export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
 		return
 	}
 
-	draft.elevation = (state === 'disabled' ? level[state] : level[state] + correctionCoefficient) as ElevationLevel
+	draft.elevation = (
+		state === STATE.DISABLED ?
+			level[state]
+		:	level[state] + correctionCoefficient) as ElevationLevel
 }
 
 export const handleButtonStateChange =
 	({eventName, type, state}: HandleButtonStateChangeOptions) =>
 	(setState: Updater<ButtonState>) =>
 	(_event: StateEvent) => {
-		if (eventName === 'layout') {
+		if (eventName === EVENT_NAME.LAYOUT) {
 			return
 		}
 
@@ -77,7 +80,7 @@ export const handleButtonDisabled = (type?: ButtonType) => (setState: Updater<Bu
 	typeof disabled === 'boolean' &&
 	setState(draft => {
 		if (disabled) {
-			draft.eventName = 'none'
+			draft.eventName = EVENT_NAME.NONE
 		}
 
 		if (type === BUTTON_TYPE.ELEVATED) {
@@ -106,7 +109,7 @@ export const handleButtonOutlinedAnimatedTiming = ({
 	const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]
 
 	return (borderSharedValue: SharedValue<number>) => (eventName?: EventName) => {
-		const toValue = eventName === 'focus' ? borderColorInputRanges[2] : value
+		const toValue = eventName === EVENT_NAME.FOCUS ? borderColorInputRanges[2] : value
 
 		return animatedTiming()(borderSharedValue)(toValue)
 	}

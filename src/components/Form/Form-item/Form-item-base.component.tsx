@@ -13,7 +13,10 @@ import type {FormItemBaseProps, FormItemState} from './Form-item.interface'
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 	({labelText, name, renderControl, renderFormItem, rule, validatorOptions, ...renderFormItemProps}, ref) => {
-		const [{signOut, status}, setState] = useImmer<FormItemState>({shouldUpdate: {}, status: 'idle'})
+		const [{signOut, status}, setState] = useImmer<FormItemState>({
+			shouldUpdate: {},
+			status: COMPONENT_STATUS.IDLE
+		})
 		const id = useId()
 		const {getFieldsError, getFieldsValue, getInitialValues, setFieldsValue, signInField, validateFields} =
 			useFormContext()
@@ -22,7 +25,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
 		const storeValue = getFieldsValue(name)
 		const value = useMemo(
-			() => storeValue ?? (status === 'idle' ? getInitialValues(name) : storeValue),
+			() => storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue),
 			[getInitialValues, name, status, storeValue]
 		)
 
@@ -70,7 +73,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 
 		useEffect(() => () => signOut?.(), [signOut])
 
-		if (status === 'idle') {
+		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
 		}
 

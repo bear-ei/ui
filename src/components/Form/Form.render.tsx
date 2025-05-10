@@ -8,7 +8,7 @@ export const renderFormItems =
 	({id, ...options}: RenderFormItemsOptions) =>
 	(status: ComponentStatus) =>
 	(items?: FormItemProps[]) =>
-		status === 'succeeded' ?
+		status === COMPONENT_STATUS.SUCCEEDED ?
 			items?.map((item, index) => (
 				<FormItem
 					{...item}

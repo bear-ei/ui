@@ -48,7 +48,11 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 				value
 			},
 			setState
-		] = useImmer<SearchState>({layout: {} as SearchState['layout'], state: 'enabled', status: 'idle'})
+		] = useImmer<SearchState>({
+			layout: {} as SearchState['layout'],
+			state: 'enabled',
+			status: COMPONENT_STATUS.IDLE
+		})
 
 		const id = useId()
 		const containerRef = useRef<View>(null)
@@ -99,7 +103,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			runAfterInteractions(nextPressOutEvent)()
 		}, [nextPressOutEvent])
 
-		if (status === 'idle') {
+		if (status === COMPONENT_STATUS.IDLE) {
 			return
 		}
 

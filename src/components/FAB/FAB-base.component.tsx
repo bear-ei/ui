@@ -28,7 +28,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		},
 		ref
 	) => {
-		const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: 'idle'})
+		const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: COMPONENT_STATUS.IDLE})
 		const id = useId()
 		const theme = useTheme()
 		const isDisabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
@@ -68,7 +68,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			onFABInit(elevated)
 		}, [elevated, onFABInit])
 
-		if (status === 'idle') {
+		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
 		}
 

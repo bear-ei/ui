@@ -8,7 +8,7 @@ export const handleFormInit =
 	(setInitialValues: (initialized?: boolean) => (value?: T) => void) =>
 	(value?: T) =>
 		setState(draft => {
-			if (draft.status !== 'idle') {
+			if (draft.status !== COMPONENT_STATUS.IDLE) {
 				return
 			}
 
@@ -16,7 +16,7 @@ export const handleFormInit =
 				setInitialValues()(value)
 			}
 
-			draft.status = 'succeeded'
+			draft.status = COMPONENT_STATUS.SUCCEEDED
 		})
 
 export const handleFormCallbacks =

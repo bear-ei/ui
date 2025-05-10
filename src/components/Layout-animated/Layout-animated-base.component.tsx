@@ -47,7 +47,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 				visible: isVisible
 			},
 			setState
-		] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: 'idle'})
+		] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE})
 
 		const id = useId()
 		const isLayoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
@@ -104,7 +104,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		}, [isLayoutVisible, onLayoutAnimatedInit])
 
 		useEffect(() => {
-			if (status === 'succeeded') {
+			if (status === COMPONENT_STATUS.SUCCEEDED) {
 				onLayoutAnimatedLayoutVisible(isLayoutVisible)
 			}
 		}, [isLayoutVisible, onLayoutAnimatedLayoutVisible, status])
@@ -117,7 +117,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			runAfterInteractions(nextVisibleEvent)()
 		}, [nextVisibleEvent])
 
-		if (status === 'idle') {
+		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
 		}
 

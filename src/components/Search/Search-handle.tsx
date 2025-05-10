@@ -16,7 +16,7 @@ export const handleSearchStateChange =
 			pressOut: () => handleTextInputFocus()
 		} as Record<EventName, () => void>
 
-		if (eventName === 'layout') {
+		if (eventName === EVENT_NAME.LAYOUT) {
 			return
 		}
 
@@ -35,7 +35,7 @@ export const handleSearchStateChange =
 				draft.state = state
 			}
 
-			if (prevEventName !== eventName && eventName === 'pressOut') {
+			if (prevEventName !== eventName && eventName === EVENT_NAME.PRESS_OUT) {
 				draft.nextPressOutEvent = nextEvent[eventName]
 			}
 		})
@@ -77,8 +77,8 @@ export const handleSearchTextInputRawChangeText =
 				draft.value = value ?? ''
 			}
 
-			if (draft.status === 'idle') {
-				draft.status = 'succeeded'
+			if (draft.status === COMPONENT_STATUS.IDLE) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
 			}
 		})
 	}

@@ -22,7 +22,7 @@ const FormBaseInner = <T,>(
 	}: FormBaseProps<T>,
 	ref: ForwardedRef<View>
 ) => {
-	const [{status}, setState] = useImmer<FormState>({status: 'idle'})
+	const [{status}, setState] = useImmer<FormState>({status: COMPONENT_STATUS.IDLE})
 	const id = useId()
 	const formStore = useForm(form)
 	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
@@ -50,7 +50,7 @@ const FormBaseInner = <T,>(
 		onFormInit(initialValue)
 	}, [initialValue, onFormInit])
 
-	if (status === 'idle') {
+	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>
 	}
 

@@ -95,7 +95,7 @@ export const handleListItemStateChange =
 		} as Record<EventName, () => void>
 
 		setState(draft => {
-			if (eventName === 'layout' && draft.status !== 'idle') {
+			if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.IDLE) {
 				return
 			}
 
@@ -110,7 +110,7 @@ export const handleListItemStateChange =
 				return
 			}
 
-			if (eventName && draft.status === 'succeeded') {
+			if (eventName && draft.status === COMPONENT_STATUS.SUCCEEDED) {
 				draft.eventName = eventName
 				draft.listItemState = state
 			}
@@ -128,7 +128,7 @@ export const handleListItemStateChange =
 			switch (eventName) {
 				case 'layout':
 					draft.nextLayoutEvent = nextEvent[eventName]
-					draft.status = 'succeeded'
+					draft.status = COMPONENT_STATUS.SUCCEEDED
 					break
 
 				case 'pressIn':

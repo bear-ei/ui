@@ -61,7 +61,7 @@ export const renderVirtualList = <T,>({
 	const {onLayout} = interactionHandlers
 	const contentLayoutAnimatedStyle = {position: 'relative'} as ViewStyle
 	const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
-	const isEmptyContentVisible = !loading && emptyList && status === 'succeeded'
+	const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
 	const isLayoutCompleted = typeof layout?.height === 'number' && layout.height > 0
 	const isLoadingVisible = loading
 	const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch', minHeight: contentSize} as ViewStyle

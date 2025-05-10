@@ -24,8 +24,8 @@ export const handleLayoutAnimatedLayoutChange =
 				draft.layout.width = width
 			}
 
-			if (draft.status !== 'succeeded') {
-				draft.status = 'succeeded'
+			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
 			}
 		})
 	}
@@ -69,7 +69,7 @@ export const handleLayoutAnimatedFinished =
 
 			if (unmount && !visible) {
 				draft.nextUnmountEvent = onUnmount
-				draft.status = 'idle'
+				draft.status = COMPONENT_STATUS.IDLE
 				draft.unmountLayout = true
 			}
 		})
@@ -80,7 +80,7 @@ export const handleLayoutAnimatedInit =
 	(setState: Updater<LayoutAnimatedState>) =>
 	(visible?: boolean) =>
 		setState(draft => {
-			if (draft.status === 'succeeded') {
+			if (draft.status === COMPONENT_STATUS.SUCCEEDED) {
 				return
 			}
 
@@ -88,7 +88,7 @@ export const handleLayoutAnimatedInit =
 				draft.unmountLayout = !visible
 			}
 
-			draft.status = lazy && !visible ? 'idle' : 'loading'
+			draft.status = lazy && !visible ? COMPONENT_STATUS.IDLE : 'loading'
 		})
 
 export const handleLayoutAnimatedTiming =

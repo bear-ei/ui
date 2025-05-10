@@ -67,7 +67,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		] = useImmer<TextInputState>({
 			contentSize: {} as TextInputContentSizeChangeEventData['contentSize'],
 			state: 'enabled',
-			status: 'idle',
+			status: COMPONENT_STATUS.IDLE,
 			value: ''
 		})
 
@@ -165,7 +165,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			runAfterInteractions(nextPressOutEvent)()
 		}, [nextPressOutEvent])
 
-		if (status === 'idle') {
+		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
 		}
 
