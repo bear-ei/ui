@@ -1,5 +1,5 @@
 import {hexToRGBA} from '@bearei/material-token'
-import {forwardRef, useId} from 'react'
+import {forwardRef, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'
@@ -24,16 +24,23 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 		const id = useId()
 		const theme = useTheme()
 		const disabledFill = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
-		const IconComponent = icon ?? iconStyleConfig[style]?.[type]?.[name]
-		const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
+		const IconComponent = useMemo(
+			() => icon ?? iconStyleConfig[style]?.[type]?.[name],
+			[icon, name, style, type]
+		)
 
-		const iconElement = IconComponent && (
-			<IconComponent
-				fill={iconFill}
-				height='100%'
-				style={svgStyle}
-				width='100%'
-			/>
+		const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
+		const iconElement = useMemo(
+			() =>
+				IconComponent && (
+					<IconComponent
+						fill={iconFill}
+						height='100%'
+						style={svgStyle}
+						width='100%'
+					/>
+				),
+			[IconComponent, iconFill, svgStyle]
 		)
 
 		return renderIcon({...renderIconProps, iconElement, id, name, ref})

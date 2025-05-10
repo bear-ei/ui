@@ -3,18 +3,7 @@ import type {Updater} from 'use-immer'
 import type {FormError} from '../Form.interface'
 import type {FormItemState, HandleFormItemInitOptions, HandleFormItemValueChangeOptions} from './Form-item.interface'
 
-export const handleFormItemValueChange =
-	({setFieldsValue, storeValue}: HandleFormItemValueChangeOptions) =>
-	(name?: string) =>
-	(value?: unknown) =>
-		name && storeValue !== value && setFieldsValue()({[name]: value})
-
-export const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
-	setState(draft => {
-		draft.shouldUpdate = {}
-	})
-
-export const handleFormItemStatus =
+export const handleFormItemInit =
 	({rule, signInField, onComponentUpdate, validatorOptions}: HandleFormItemInitOptions) =>
 	(setState: Updater<FormItemState>) =>
 	(name?: string) =>
@@ -29,6 +18,17 @@ export const handleFormItemStatus =
 			draft.signOut = signOut
 			draft.status = 'succeeded'
 		})
+
+export const handleFormItemValueChange =
+	({setFieldsValue, storeValue}: HandleFormItemValueChangeOptions) =>
+	(name?: string) =>
+	(value?: unknown) =>
+		name && storeValue !== value && setFieldsValue()({[name]: value})
+
+export const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
+	setState(draft => {
+		draft.shouldUpdate = {}
+	})
 
 export const handleFormItemBlur =
 	(validateFields: (name?: string) => Promise<FormError<unknown>>) =>

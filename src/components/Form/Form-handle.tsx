@@ -3,7 +3,7 @@ import type {Updater} from 'use-immer'
 import type {FormItemProps} from './Form-item'
 import type {FormCallback, FormState, handleFormCallbacksOptions, HandleFormValidateOptions} from './Form.interface'
 
-export const handleFormStatus =
+export const handleFormInit =
 	<T,>(setState: Updater<FormState>) =>
 	(setInitialValues: (initialized?: boolean) => (value?: T) => void) =>
 	(value?: T) =>

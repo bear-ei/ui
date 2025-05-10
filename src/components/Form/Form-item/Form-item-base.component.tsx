@@ -1,11 +1,12 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+import {createHandler} from '../../../utils'
 import {useFormContext} from '../use-form-context.hook'
 import {
 	handleComponentUpdate,
 	handleFormItemBlur,
-	handleFormItemStatus,
+	handleFormItemInit,
 	handleFormItemValueChange
 } from './Form-item-handle'
 import type {FormItemBaseProps, FormItemState} from './Form-item.interface'
@@ -19,18 +20,30 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 
 		const errors = getFieldsError(name)
 		const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
-		const onFormItemComponentUpdate = useMemo(() => handleComponentUpdate(setState), [setState])
 		const storeValue = getFieldsValue(name)
 		const value = useMemo(
 			() => storeValue ?? (status === 'idle' ? getInitialValues(name) : storeValue),
 			[getInitialValues, name, status, storeValue]
 		)
 
-		const onValueChange = handleFormItemValueChange({setFieldsValue, storeValue})(name)
-		const onFormItemBlur = handleFormItemBlur(validateFields)(name)
-		const onFormItemStatus = useMemo(
+		const onFormItemComponentUpdate = useMemo(
+			() => createHandler(handleComponentUpdate, setState),
+			[setState]
+		)
+
+		const onFormValueChange = useMemo(
+			() => createHandler(handleFormItemValueChange({setFieldsValue, storeValue})(name)),
+			[name, setFieldsValue, storeValue]
+		)
+
+		const onFormItemBlur = useMemo(
+			() => createHandler(handleFormItemBlur(validateFields)(name)),
+			[name, validateFields]
+		)
+
+		const onFormItemInit = useMemo(
 			() =>
-				handleFormItemStatus({
+				handleFormItemInit({
 					onComponentUpdate: onFormItemComponentUpdate,
 					rule,
 					signInField,
@@ -39,17 +52,21 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			[onFormItemComponentUpdate, rule, setState, signInField, validatorOptions]
 		)
 
-		const controlElement = renderControl?.({
-			errorMessage,
-			labelText,
-			onBlur: onFormItemBlur,
-			onValueChange,
-			value
-		})
+		const controlElement = useMemo(
+			() =>
+				renderControl?.({
+					errorMessage,
+					labelText,
+					onBlur: onFormItemBlur,
+					onValueChange: onFormValueChange,
+					value
+				}),
+			[errorMessage, labelText, onFormItemBlur, onFormValueChange, renderControl, value]
+		)
 
 		useEffect(() => {
-			onFormItemStatus(name)
-		}, [name, onFormItemStatus])
+			onFormItemInit(name)
+		}, [name, onFormItemInit])
 
 		useEffect(() => () => signOut?.(), [signOut])
 
