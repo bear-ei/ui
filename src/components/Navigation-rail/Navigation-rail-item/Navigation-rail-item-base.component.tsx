@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -29,10 +29,9 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 		const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({})
 		const isActive = useMemo(() => activeKey === indexKey, [activeKey, indexKey])
 		const id = useId()
-		const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active: isActive, type})
 		const pressableRef = useRef<View>(null)
 		const theme = useTheme()
-		const onStateEventChange =
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleNavigationRailItemStateChange({
 					...options,
@@ -40,7 +39,9 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 					onActive,
 					ref: pressableRef,
 					state
-				})(setState)(event)
+				})(setState)(event),
+			[indexKey, onActive, setState]
+		)
 
 		const interactionHandlers = useStateEvent({
 			...renderNavigationRailItemProps,
@@ -48,7 +49,11 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			onStateEventChange
 		})
 
-		const iconElement = renderNavigationRailItemIcon(id)(icon)(isActive)
+		const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active: isActive, type})
+		const iconElement = useMemo(
+			() => renderNavigationRailItemIcon(id)(icon)(isActive),
+			[icon, id, isActive]
+		)
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 

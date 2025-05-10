@@ -2,7 +2,7 @@ import type {RefAttributes} from 'react'
 import type {LayoutRectangle, ScrollViewProps, ViewStyle} from 'react-native'
 import type Animated from 'react-native-reanimated'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {InteractionHandlers} from '../../hooks'
+import type {InteractionHandler} from '../../hooks'
 import type {ComponentStatus} from '../Common'
 import type {RenderVirtualListItemInfo} from './Virtual-list-item/Virtual-list-item.interface'
 
@@ -36,7 +36,7 @@ export interface RenderVirtualListProps<T = Record<string, unknown>> extends Vir
 	emptyList?: boolean
 	itemElements?: React.JSX.Element[]
 	layout: LayoutRectangle
-	interactionHandlers: InteractionHandlers
+	interactionHandlers: InteractionHandler
 	status: ComponentStatus
 }
 

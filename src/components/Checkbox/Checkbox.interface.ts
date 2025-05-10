@@ -3,7 +3,7 @@ import type {
 	AnimatedTiming,
 	AnimatedTimingOptions,
 	HandleStateEventChangeOptions,
-	InteractionHandlers
+	InteractionHandler
 } from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName} from '../Common'
 import type {LayoutAnimatedType} from '../Layout-animated'
@@ -23,7 +23,7 @@ export interface CheckboxProps extends TouchableProps, CommonProps {
 
 export interface RenderCheckboxProps extends CheckboxProps {
 	eventName?: EventName
-	interactionHandlers: InteractionHandlers
+	interactionHandlers: InteractionHandler
 	theme: DefaultTheme
 }
 

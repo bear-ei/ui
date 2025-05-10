@@ -31,7 +31,7 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
 
 	useEffect(() => {
 		onListAffordanceButtonAnimatedTiming(disabled)
-	}, [animatedTiming, disabled, onListAffordanceButtonAnimatedTiming])
+	}, [disabled, onListAffordanceButtonAnimatedTiming])
 
 	return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

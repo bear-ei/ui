@@ -29,21 +29,18 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 		ref
 	) => {
 		const [{active: isActive, eventName, status, value, nextActiveEvent}, setState] =
-			useImmer<CheckboxState>({
-				status: 'idle',
-				value: CHECKBOX_VALUE.UNSELECTED
-			})
+			useImmer<CheckboxState>({status: 'idle', value: CHECKBOX_VALUE.UNSELECTED})
 
 		const id = useId()
 		const theme = useTheme()
-		const onCheckboxStatus = useMemo(() => createHandler(handleCheckboxStatus, setState), [setState])
+		const onCheckboxStatus = useMemo(() => createHandler(handleCheckboxStatus)(setState)(), [setState])
 		const onCheckboxIndeterminate = useMemo(
-			() => createHandler(handleCheckboxIndeterminate, setState),
+			() => createHandler(handleCheckboxIndeterminate)(setState)(),
 			[setState]
 		)
 
 		const onCheckboxRawActive = useMemo(
-			() => createHandler(handleCheckboxActive({indeterminate}), setState),
+			() => createHandler(handleCheckboxActive({indeterminate}))(setState)(),
 			[indeterminate, setState]
 		)
 

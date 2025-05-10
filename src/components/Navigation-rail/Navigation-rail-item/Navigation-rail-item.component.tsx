@@ -1,4 +1,4 @@
-import {forwardRef, memo} from 'react'
+import {forwardRef, memo, type FC} from 'react'
 import type {View} from 'react-native'
 import {NavigationRailItemBase} from './Navigation-rail-item-base.component'
 import {handleNavigationRailItemPropsEqual} from './Navigation-rail-item-handle'
@@ -15,4 +15,4 @@ const NavigationRailItemWithRef = forwardRef<View, NavigationRailItemProps>((pro
 
 export const NavigationRailItem = memo(NavigationRailItemWithRef, (prevProps, nextProps) =>
 	handleNavigationRailItemPropsEqual(prevProps)(nextProps)
-) as typeof NavigationRailItemWithRef
+) as FC<NavigationRailItemProps>

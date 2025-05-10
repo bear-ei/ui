@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createHandler} from '../../utils'
-import type {State} from '../Common'
+import {COMPONENT_STATUS, type State} from '../Common'
 import {
 	handleButtonDisabled,
 	handleButtonInit,
@@ -30,18 +30,21 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		},
 		ref
 	) => {
-		const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: 'idle'})
+		const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({
+			status: COMPONENT_STATUS.IDLE
+		})
+
 		const id = useId()
 		const theme = useTheme()
-		const isDisabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
+		const isDisabled = loading || rawDisabled
 		const underlayColor = handleButtonUnderlayColor(theme)(type)
 		const onButtonInit = useMemo(
-			() => createHandler(handleButtonInit(rawDisabled), setState),
+			() => createHandler(handleButtonInit(rawDisabled))(setState)(),
 			[rawDisabled, setState]
 		)
 
 		const onButtonDisabled = useMemo(
-			() => createHandler(handleButtonDisabled(type), setState),
+			() => createHandler(handleButtonDisabled(type))(setState)(),
 			[setState, type]
 		)
 

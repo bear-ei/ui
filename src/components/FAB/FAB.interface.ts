@@ -1,7 +1,7 @@
 import type {Size} from '@bearei/material-token'
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName} from '../Common'
 import type {ElevationLevel} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
@@ -24,7 +24,7 @@ export interface RenderFABProps extends FABProps {
 	elevation?: ElevationLevel
 	eventName?: EventName
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-	interactionHandlers: InteractionHandlers
+	interactionHandlers: InteractionHandler
 }
 
 export interface FABBaseProps extends FABProps {

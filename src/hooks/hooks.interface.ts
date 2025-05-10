@@ -13,7 +13,7 @@ import type {AnimationCallback, SharedValue, WithTimingConfig} from 'react-nativ
 import type {EventName, State} from '../components'
 
 export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
-export type InteractionHandlers = {
+export type InteractionHandler = {
 	onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
 	onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
 	onHoverIn?: (event: MouseEvent) => void
@@ -25,7 +25,7 @@ export type InteractionHandlers = {
 	onPressOut?: (event: GestureResponderEvent) => void
 }
 
-export interface UseHandleStateEventOptions extends Partial<PressableProps & InteractionHandlers> {
+export interface UseHandleStateEventOptions extends Partial<PressableProps & InteractionHandler> {
 	disabled?: boolean
 	onStateEventChange?: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
@@ -70,3 +70,8 @@ export type AnimatedTiming = (
 export interface UseWindowDimensionsOptions {
 	changeEventThrottle?: number
 }
+
+export type GestureResponderEventHandler = (event: GestureResponderEvent) => void
+export type LayoutEventHandler = (event: LayoutChangeEvent) => void
+export type MouseEventHandler = (event: MouseEvent) => void
+export type TargetedEventHandler = (event: NativeSyntheticEvent<TargetedEvent>) => void

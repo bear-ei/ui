@@ -10,36 +10,24 @@ import type {
 	Spacing,
 	Typography
 } from '@bearei/material-token'
-import type {DENSITY, DENSITY_SCALE, LAYOUT} from './Common.enum'
+import type {COMPONENT_STATUS, DENSITY, DENSITY_SCALE, EVENT_NAME, LAYOUT, STATE, TRIGGER_EVENT} from './Common.enum'
 
-export type Density = (typeof DENSITY)[keyof typeof DENSITY]
-export type DensityScale = (typeof DENSITY_SCALE)[keyof typeof DENSITY_SCALE]
-export type LayoutType = (typeof LAYOUT)[keyof typeof LAYOUT]
 export type BezierType = keyof Bezier
 export type BorderRadiusType = keyof BorderRadius
-export type BorderStyle = 'dotted' | 'solid' | 'dashed'
+export type ComponentStatus = (typeof COMPONENT_STATUS)[keyof typeof COMPONENT_STATUS]
+export type Density = (typeof DENSITY)[keyof typeof DENSITY]
+export type DensityScale = (typeof DENSITY_SCALE)[keyof typeof DENSITY_SCALE]
 export type ElevationType = keyof Elevation
+export type EventName = (typeof EVENT_NAME)[keyof typeof EVENT_NAME]
 export type FontType = keyof Font
+export type LayoutType = (typeof LAYOUT)[keyof typeof LAYOUT]
 export type PaletteType = keyof Palette
 export type ShadowType = keyof Shadow
 export type ShapeType = keyof Shape
 export type SpacingType = keyof Spacing
-export type State = 'enabled' | 'focused' | 'hovered' | 'longPressIn' | 'pressIn' | 'error' | 'disabled'
+export type State = (typeof STATE)[keyof typeof STATE]
 export type TypographyType = keyof Typography
-export type EventName =
-	| 'blur'
-	| 'focus'
-	| 'hoverIn'
-	| 'hoverOut'
-	| 'layout'
-	| 'longPress'
-	| 'none'
-	| 'press'
-	| 'pressIn'
-	| 'pressOut'
-
-export type TriggerEvent = 'focus' | 'hover' | 'press'
-export type ComponentStatus = 'idle' | 'loading' | 'failed' | 'succeeded'
+export type TriggerEvent = (typeof TRIGGER_EVENT)[keyof typeof TRIGGER_EVENT]
 export interface ShapeProps {
 	shape?: ShapeType
 }

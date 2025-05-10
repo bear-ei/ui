@@ -9,7 +9,7 @@ import type {
 } from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName, ShapeProps, State, TypographyProps} from '../Common'
 import type {TEXT_INPUT_TYPE} from './Text-input.enum'
 
@@ -24,7 +24,7 @@ export interface TextInputProps
 				PressableProps &
 				RefAttributes<TextInput> &
 				Pick<ShapeProps, 'shape'> &
-				InteractionHandlers
+				InteractionHandler
 		>,
 		CommonProps {
 	content?: React.ReactNode
@@ -50,7 +50,7 @@ export interface RenderTextInputProps extends TextInputProps {
 	labelAnimatedStyle: AnimatedStyle<ViewStyle>
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 	onHeaderFocus?: () => void
-	interactionHandlers: InteractionHandlers
+	interactionHandlers: InteractionHandler
 	onSupportingTextVisible?: (visible?: boolean) => void
 	supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
 	supportingTextVisible?: boolean

@@ -1,6 +1,6 @@
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName} from '../Common'
 import type {ElevationLevel} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
@@ -20,7 +20,7 @@ export interface RenderButtonProps extends ButtonProps {
 	elevation?: ElevationLevel
 	eventName?: EventName
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-	interactionHandlers: InteractionHandlers
+	interactionHandlers: InteractionHandler
 }
 
 export interface ButtonBaseProps extends ButtonProps {

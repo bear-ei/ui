@@ -104,14 +104,14 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		}, [isLayoutVisible, onLayoutAnimatedInit])
 
 		useEffect(() => {
-			nextUnmountEvent?.()
-		}, [nextUnmountEvent])
-
-		useEffect(() => {
 			if (status === 'succeeded') {
 				onLayoutAnimatedLayoutVisible(isLayoutVisible)
 			}
 		}, [isLayoutVisible, onLayoutAnimatedLayoutVisible, status])
+
+		useEffect(() => {
+			runAfterInteractions(nextUnmountEvent)()
+		}, [nextUnmountEvent])
 
 		useEffect(() => {
 			runAfterInteractions(nextVisibleEvent)()

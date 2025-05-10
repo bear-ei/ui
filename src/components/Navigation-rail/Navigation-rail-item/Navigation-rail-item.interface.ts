@@ -2,12 +2,12 @@ import type {RefAttributes} from 'react'
 import type {PressableProps, TextStyle, View, ViewProps} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
-import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
+import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandler} from '../../../hooks'
 import type {EventName, TypographyProps} from '../../Common'
 import type {NavigationRailProps} from '../Navigation-rail.interface'
 
 export interface NavigationRailItemProps
-	extends Partial<ViewProps & RefAttributes<View> & PressableProps & InteractionHandlers>,
+	extends Partial<ViewProps & RefAttributes<View> & PressableProps & InteractionHandler>,
 		Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {
 	icon?: React.JSX.Element
 	indexKey: string
@@ -19,7 +19,7 @@ export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemPr
 	eventName?: EventName
 	iconElement: React.JSX.Element
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-	interactionHandlers: InteractionHandlers
+	interactionHandlers: InteractionHandler
 	theme: DefaultTheme
 }
 

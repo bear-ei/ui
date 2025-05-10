@@ -1,5 +1,5 @@
 import type {View} from 'react-native'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
 import type {LayoutAnimatedProps} from '../Layout-animated'
 import type {TouchableProps} from '../Touchable'
 
@@ -9,7 +9,7 @@ export interface MaskProps extends Omit<LayoutAnimatedProps & TouchableProps, 'r
 }
 
 export interface RenderMaskProps extends MaskProps {
-	interactionHandlers: InteractionHandlers
+	interactionHandlers: InteractionHandler
 }
 
 export interface MaskBaseProps extends MaskProps {

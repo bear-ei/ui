@@ -1,4 +1,4 @@
-import {forwardRef, memo} from 'react'
+import {forwardRef, memo, type FC} from 'react'
 import type {View} from 'react-native'
 import {ListItemBase} from './List-item-base.component'
 import {handleListItemPropsEqual} from './List-item-handle'
@@ -15,4 +15,4 @@ const ListItemWithRef = forwardRef<View, ListItemProps>((props, ref) => (
 
 export const ListItem = memo(ListItemWithRef, (prevProps, nextProps) =>
 	handleListItemPropsEqual(prevProps)(nextProps)
-) as typeof ListItemWithRef
+) as FC<ListItemProps>

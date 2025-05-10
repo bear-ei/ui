@@ -209,7 +209,7 @@ export const handleListItemConfirm =
  * Otherwise the Text-field-picker will lose focus.
  */
 export const handleListItemFocus =
-	(setState: Updater<ListItemState>) => (itemIndex?: number) => (focusedIndex?: number) =>
+	(itemIndex?: number) => (setState: Updater<ListItemState>) => (focusedIndex?: number) =>
 		typeof focusedIndex === 'number' &&
 		setState(draft => {
 			draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
