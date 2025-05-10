@@ -1,4 +1,4 @@
-import {forwardRef} from 'react'
+import {forwardRef, memo, type FC} from 'react'
 import type {View} from 'react-native'
 import {LayoutAnimatedBase} from './Layout-animated-base.component'
 import type {LayoutAnimatedProps} from './Layout-animated.interface'
@@ -12,4 +12,4 @@ const LayoutAnimatedWithRef = forwardRef<View, LayoutAnimatedProps>((props, ref)
 	/>
 ))
 
-export const LayoutAnimated = LayoutAnimatedWithRef
+export const LayoutAnimated = memo(LayoutAnimatedWithRef) as FC<LayoutAnimatedProps>

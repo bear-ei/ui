@@ -6,7 +6,6 @@ import type {StateEvent} from '../../hooks'
 import type {EventName} from '../Common'
 import type {
 	HandleLayoutAnimatedFinishedOptions,
-	HandleLayoutAnimatedLayoutVisibleOptions,
 	HandleLayoutAnimatedStateChangeOptions,
 	HandleLayoutAnimatedStatusOptions,
 	HandleLayoutAnimatedTimingOptions,
@@ -45,20 +44,21 @@ export const handleLayoutAnimatedStateChange =
 		nextEvent[eventName]?.()
 	}
 
-export const handleLayoutAnimatedLayoutVisible = ({onVisible, setState}: HandleLayoutAnimatedLayoutVisibleOptions) => {
-	const handleNextVisibleEvent = (visible?: boolean) => () => onVisible?.(visible)
-	const handleDraftChange = (visible?: boolean) => (draft: WritableDraft<LayoutAnimatedState>) => {
-		if (visible === draft.visible) {
-			return
+export const handleLayoutAnimatedLayoutVisible =
+	(onVisible?: (visible?: boolean) => void) => (setState: Updater<LayoutAnimatedState>) => {
+		const handleNextVisibleEvent = (visible?: boolean) => () => onVisible?.(visible)
+		const handleDraftChange = (visible?: boolean) => (draft: WritableDraft<LayoutAnimatedState>) => {
+			if (visible === draft.visible) {
+				return
+			}
+
+			draft.invisible = !visible
+			draft.visible = visible
+			draft.nextVisibleEvent = handleNextVisibleEvent(visible)
 		}
 
-		draft.invisible = !visible
-		draft.visible = visible
-		draft.nextVisibleEvent = handleNextVisibleEvent(visible)
+		return (visible?: boolean) => setState(handleDraftChange(visible))
 	}
-
-	return (visible?: boolean) => setState(handleDraftChange(visible))
-}
 
 export const handleLayoutAnimatedFinished =
 	({onUnmount, unmount}: HandleLayoutAnimatedFinishedOptions) =>
@@ -75,7 +75,7 @@ export const handleLayoutAnimatedFinished =
 		})
 	}
 
-export const handleLayoutAnimatedStatus =
+export const handleLayoutAnimatedInit =
 	({unmount, lazy}: HandleLayoutAnimatedStatusOptions) =>
 	(setState: Updater<LayoutAnimatedState>) =>
 	(visible?: boolean) =>

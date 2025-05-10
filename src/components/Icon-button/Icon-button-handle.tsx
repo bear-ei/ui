@@ -4,7 +4,7 @@ import type {StateEvent} from '../../hooks'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {
 	HandleIconButtonAnimatedTimingOptions,
-	HandleIconButtonAnimatedTimingSharedValue,
+	HandleIconButtonAnimatedTimingSharedValueOptions,
 	HandleIconButtonStateChangeOptions,
 	IconButtonState,
 	IconButtonType
@@ -43,7 +43,7 @@ export const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
 
 export const handleIconButtonAnimatedTiming =
 	({animatedTiming, type}: HandleIconButtonAnimatedTimingOptions) =>
-	({borderSharedValue, colorSharedValue}: HandleIconButtonAnimatedTimingSharedValue) =>
+	({borderSharedValue, colorSharedValue}: HandleIconButtonAnimatedTimingSharedValueOptions) =>
 	(disabled?: boolean) => {
 		const toValue = disabled ? 0 : 1
 

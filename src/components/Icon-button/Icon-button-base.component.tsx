@@ -1,9 +1,9 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useStateEvent} from '../../hooks'
+import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {createHandler} from '../../utils'
 import type {State} from '../Common'
 import {
 	handleIconButtonDisabled,
@@ -33,10 +33,16 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		const isDisabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
 		const theme = useTheme()
 		const underlayColor = handleIconButtonUnderlayColor(theme)(type)
-		const onIconButtonDisabled = useMemo(() => handleIconButtonDisabled(setState), [setState])
-		const onStateEventChange =
+		const onIconButtonDisabled = useMemo(
+			() => createHandler(handleIconButtonDisabled, setState),
+			[setState]
+		)
+
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleIconButtonStateChange({...options, state})(setState)(event)
+				handleIconButtonStateChange({...options, state})(setState)(event),
+			[setState]
+		)
 
 		const interactionHandlers = useStateEvent({
 			...renderIconButtonProps,
@@ -45,9 +51,13 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		})
 
 		const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})
-		const iconElement = renderIconButtonIcon({disabled: isDisabled, eventName, fill, loading, type, id})(
-			theme
-		)(icon)
+		const iconElement = useMemo(
+			() =>
+				renderIconButtonIcon({disabled: isDisabled, eventName, fill, loading, type, id})(theme)(
+					icon
+				),
+			[eventName, fill, icon, id, isDisabled, loading, theme, type]
+		)
 
 		useEffect(() => {
 			onIconButtonDisabled(isDisabled)

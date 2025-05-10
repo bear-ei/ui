@@ -44,7 +44,7 @@ export interface HandleIconButtonAnimatedTimingOptions extends Pick<UseIconButto
 	animatedTiming: AnimatedTiming
 }
 
-export interface HandleIconButtonAnimatedTimingSharedValue {
+export interface HandleIconButtonAnimatedTimingSharedValueOptions {
 	borderSharedValue: SharedValue<number>
 	colorSharedValue: SharedValue<number>
 }

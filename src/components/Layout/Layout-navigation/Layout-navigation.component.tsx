@@ -1,4 +1,4 @@
-import {forwardRef} from 'react'
+import {forwardRef, memo, type FC} from 'react'
 import type {View} from 'react-native'
 import {LayoutNavigationBase} from './Layout-navigation-base.component'
 import type {LayoutNavigationProps} from './Layout-navigation.interface'
@@ -12,4 +12,4 @@ const LayoutNavigationWithRef = forwardRef<View, LayoutNavigationProps>((props, 
 	/>
 ))
 
-export const LayoutNavigation = LayoutNavigationWithRef
+export const LayoutNavigation = memo(LayoutNavigationWithRef) as FC<LayoutNavigationProps>
