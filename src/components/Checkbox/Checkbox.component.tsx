@@ -1,4 +1,4 @@
-import {forwardRef, memo} from 'react'
+import {forwardRef, memo, type FC} from 'react'
 import type {View} from 'react-native'
 import {CheckboxBase} from './Checkbox-base.component'
 import type {CheckboxProps} from './Checkbox.interface'
@@ -12,4 +12,4 @@ const CheckboxWithRef = forwardRef<View, CheckboxProps>((props, ref) => (
 	/>
 ))
 
-export const Checkbox = memo(CheckboxWithRef)
+export const Checkbox = memo(CheckboxWithRef) as FC<CheckboxProps>

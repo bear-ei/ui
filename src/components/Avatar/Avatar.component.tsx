@@ -1,4 +1,4 @@
-import {forwardRef, memo} from 'react'
+import {forwardRef, memo, type FC} from 'react'
 import type {View} from 'react-native'
 import {AvatarBase} from './Avatar-base.component'
 import type {AvatarProps} from './Avatar.interface'
@@ -12,4 +12,4 @@ const AvatarWithRef = forwardRef<View, AvatarProps>((props, ref) => (
 	/>
 ))
 
-export const Avatar = memo(AvatarWithRef)
+export const Avatar = memo(AvatarWithRef) as FC<AvatarProps>

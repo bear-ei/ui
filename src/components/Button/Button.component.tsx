@@ -1,4 +1,4 @@
-import {forwardRef, memo} from 'react'
+import {forwardRef, memo, type FC} from 'react'
 import type {View} from 'react-native'
 import {ButtonBase} from './Button-base.component'
 import type {ButtonProps} from './Button.interface'
@@ -12,4 +12,4 @@ const ButtonWithRef = forwardRef<View, ButtonProps>((props, ref) => (
 	/>
 ))
 
-export const Button = memo(ButtonWithRef)
+export const Button = memo(ButtonWithRef) as FC<ButtonProps>

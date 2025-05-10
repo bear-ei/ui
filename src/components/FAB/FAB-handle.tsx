@@ -8,7 +8,7 @@ import {ELEVATION, type ElevationLevel} from '../Elevation'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABState, FABType, HandleFABStateChangeOptions} from './FAB.interface'
 
-export const handleFABStatus = (setState: Updater<FABState>) => (disabled?: boolean) => (elevated?: boolean) =>
+export const handleFABInit = (disabled?: boolean) => (setState: Updater<FABState>) => (elevated?: boolean) =>
 	setState(draft => {
 		if (draft.status !== 'idle') {
 			return
@@ -65,7 +65,7 @@ export const handleFABStateChange =
 		})
 	}
 
-export const handleFABDisabled = (setState: Updater<FABState>) => (elevated?: boolean) => (disabled?: boolean) =>
+export const handleFABDisabled = (elevated?: boolean) => (setState: Updater<FABState>) => (disabled?: boolean) =>
 	typeof disabled === 'boolean' &&
 	setState(draft => {
 		if (disabled) {

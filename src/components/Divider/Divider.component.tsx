@@ -1,4 +1,4 @@
-import {forwardRef} from 'react'
+import {forwardRef, memo, type FC} from 'react'
 import type {View} from 'react-native'
 import {DividerBase} from './Divider-base.component'
 import type {DividerProps} from './Divider.interface'
@@ -12,4 +12,4 @@ const DividerWithRef = forwardRef<View, DividerProps>((props, ref) => (
 	/>
 ))
 
-export const Divider = DividerWithRef
+export const Divider = memo(DividerWithRef) as FC<DividerProps>

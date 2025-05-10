@@ -1,4 +1,4 @@
-import {forwardRef} from 'react'
+import {forwardRef, memo, type FC} from 'react'
 import type {View} from 'react-native'
 import {FABBase} from './FAB-base.component'
 import type {FABProps} from './FAB.interface'
@@ -12,4 +12,4 @@ const FABWithRef = forwardRef<View, FABProps>((props, ref) => (
 	/>
 ))
 
-export const Fab = FABWithRef
+export const Fab = memo(FABWithRef) as FC<FABProps>

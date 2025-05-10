@@ -1,4 +1,4 @@
-import {forwardRef} from 'react'
+import {forwardRef, memo, type FC} from 'react'
 import type {View} from 'react-native'
 import {ElevationBase} from './Elevation-base.component'
 import type {ElevationProps} from './Elevation.interface'
@@ -12,4 +12,4 @@ const ElevationWithRef = forwardRef<View, ElevationProps>((props, ref) => (
 	/>
 ))
 
-export const Elevation = ElevationWithRef
+export const Elevation = memo(ElevationWithRef) as FC<ElevationProps>

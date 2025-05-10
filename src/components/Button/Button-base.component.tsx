@@ -41,7 +41,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		)
 
 		const onButtonDisabled = useMemo(
-			() => createHandler(handleButtonDisabled(type), setState, {debounceMillisecond: 50}),
+			() => createHandler(handleButtonDisabled(type), setState),
 			[setState, type]
 		)
 
