@@ -1,9 +1,9 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useStateEvent} from '../../hooks'
+import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {createHandler} from '../../utils'
 import type {State} from '../Common'
 import {
 	handleButtonDisabled,
@@ -33,14 +33,24 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: 'idle'})
 		const id = useId()
 		const theme = useTheme()
-		const onButtonDisabled = useMemo(() => handleButtonDisabled(setState)(type), [setState, type])
-		const onButtonStatus = useMemo(() => handleButtonStatus(setState)(rawDisabled), [rawDisabled, setState])
-		const underlayColor = handleButtonUnderlayColor(theme)(type)
-		const onStateEventChange =
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleButtonStateChange({...options, state, type})(setState)(event)
-
 		const isDisabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
+		const underlayColor = handleButtonUnderlayColor(theme)(type)
+		const onButtonDisabled = useMemo(
+			() => createHandler(handleButtonDisabled(type), setState, {debounceMillisecond: 50}),
+			[setState, type]
+		)
+
+		const onButtonStatus = useMemo(
+			() => createHandler(handleButtonStatus(rawDisabled), setState),
+			[rawDisabled, setState]
+		)
+
+		const onStateEventChange = useCallback(
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleButtonStateChange({...options, state, type})(setState)(event),
+			[setState, type]
+		)
+
 		const interactionHandlers = useStateEvent({
 			...renderButtonProps,
 			disabled: isDisabled,
@@ -54,7 +64,10 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			type
 		})
 
-		const iconButtonElement = renderButtonIcon({type, disabled: rawDisabled, id})(theme)(icon)
+		const iconButtonElement = useMemo(
+			() => renderButtonIcon({type, disabled: rawDisabled, id})(theme)(icon),
+			[icon, id, rawDisabled, theme, type]
+		)
 
 		useEffect(() => {
 			onButtonStatus(type)

@@ -15,3 +15,7 @@ export interface RunAfterInteractionsResult {
 	done: (...args: any[]) => unknown
 	cancel: () => void
 }
+
+export interface CreateHandlerOptions {
+	debounceMillisecond?: number
+}

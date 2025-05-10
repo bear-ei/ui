@@ -31,7 +31,7 @@ export interface FormFieldEntity<T = Record<string, unknown>> {
 
 export interface SetFieldsValueOptions {
 	componentUpdate?: boolean
-	skipValidate?: boolean
+	enableValidate?: boolean
 }
 
 export interface FormStore<T = Record<string, unknown>> {
@@ -66,7 +66,7 @@ export interface FormStore<T = Record<string, unknown>> {
 	setInitialValues: (initialized?: boolean) => (value?: T) => void
 	signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
 	signOutFields: (namePaths?: NamePath) => void
-	submit: (skipValidate?: boolean) => void
+	submit: (enableValidate?: boolean) => void
 	validateFields: {
 		(): Promise<FormError<T>>
 		(namePaths?: (keyof T)[]): Promise<FormError<T>>

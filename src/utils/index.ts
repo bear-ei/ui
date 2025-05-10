@@ -1,4 +1,5 @@
 export * from './adapt-window.utils'
+export * from './create-handler'
 export * from './debounce.utils'
 export * from './name-path.utils'
 export * from './run-afterInteractions.utils'
