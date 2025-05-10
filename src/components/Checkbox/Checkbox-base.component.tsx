@@ -1,10 +1,9 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useStateEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
+import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {createHandler, runAfterInteractions} from '../../utils'
 import type {State} from '../Common'
 import {
 	handleCheckboxActive,
@@ -37,14 +36,18 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 
 		const id = useId()
 		const theme = useTheme()
-		const onCheckboxStatus = useMemo(() => handleCheckboxStatus(setState), [setState])
-		const onCheckboxIndeterminate = useMemo(() => handleCheckboxIndeterminate(setState), [setState])
+		const onCheckboxStatus = useMemo(() => createHandler(handleCheckboxStatus, setState), [setState])
+		const onCheckboxIndeterminate = useMemo(
+			() => createHandler(handleCheckboxIndeterminate, setState),
+			[setState]
+		)
+
 		const onCheckboxRawActive = useMemo(
-			() => handleCheckboxActive({indeterminate})(setState),
+			() => createHandler(handleCheckboxActive({indeterminate}), setState),
 			[indeterminate, setState]
 		)
 
-		const onStateEventChange =
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleCheckboxStateChange({
 					...options,
@@ -52,7 +55,9 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 					indeterminate,
 					onActive,
 					state
-				})(setState)(event)
+				})(setState)(event),
+			[indeterminate, isActive, onActive, setState]
+		)
 
 		const interactionHandlers = useStateEvent({...renderCheckboxProps, disabled, onStateEventChange})
 

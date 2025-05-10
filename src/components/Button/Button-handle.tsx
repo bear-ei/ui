@@ -10,11 +10,11 @@ import type {
 	ButtonState,
 	ButtonType,
 	HandleButtonAnimatedTimingOptions,
-	HandleButtonAnimatedTimingSharedValue,
+	HandleButtonAnimatedTimingSharedValueOptions,
 	HandleButtonStateChangeOptions
 } from './Button.interface'
 
-export const handleButtonStatus = (disabled?: boolean) => (setState: Updater<ButtonState>) => (type?: ButtonType) =>
+export const handleButtonInit = (disabled?: boolean) => (setState: Updater<ButtonState>) => (type?: ButtonType) =>
 	setState(draft => {
 		if (draft.status !== 'idle') {
 			return
@@ -120,7 +120,7 @@ export const handleButtonAnimatedTiming = ({
 }: HandleButtonAnimatedTimingOptions) => {
 	const toValue = disabled ? 0 : 1
 
-	return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValue) =>
+	return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValueOptions) =>
 		(eventName?: EventName) => {
 			if (type === BUTTON_TYPE.OUTLINED) {
 				handleButtonOutlinedAnimatedTiming({animatedTiming, borderColorInputRanges, disabled})(

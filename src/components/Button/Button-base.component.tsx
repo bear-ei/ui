@@ -7,8 +7,8 @@ import {createHandler} from '../../utils'
 import type {State} from '../Common'
 import {
 	handleButtonDisabled,
+	handleButtonInit,
 	handleButtonStateChange,
-	handleButtonStatus,
 	handleButtonUnderlayColor
 } from './Button-handle'
 import {BUTTON_TYPE} from './Button.enum'
@@ -35,14 +35,14 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		const theme = useTheme()
 		const isDisabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
 		const underlayColor = handleButtonUnderlayColor(theme)(type)
+		const onButtonInit = useMemo(
+			() => createHandler(handleButtonInit(rawDisabled), setState),
+			[rawDisabled, setState]
+		)
+
 		const onButtonDisabled = useMemo(
 			() => createHandler(handleButtonDisabled(type), setState, {debounceMillisecond: 50}),
 			[setState, type]
-		)
-
-		const onButtonStatus = useMemo(
-			() => createHandler(handleButtonStatus(rawDisabled), setState),
-			[rawDisabled, setState]
 		)
 
 		const onStateEventChange = useCallback(
@@ -70,8 +70,8 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		)
 
 		useEffect(() => {
-			onButtonStatus(type)
-		}, [onButtonStatus, type])
+			onButtonInit(type)
+		}, [onButtonInit, type])
 
 		useEffect(() => {
 			onButtonDisabled(isDisabled)

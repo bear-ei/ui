@@ -41,7 +41,7 @@ export interface HandleButtonAnimatedTimingOptions extends Omit<UseButtonAnimate
 	borderColorInputRanges: number[]
 }
 
-export interface HandleButtonAnimatedTimingSharedValue {
+export interface HandleButtonAnimatedTimingSharedValueOptions {
 	borderSharedValue: SharedValue<number>
 	colorSharedValue: SharedValue<number>
 }
