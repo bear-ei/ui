@@ -10,7 +10,7 @@ export interface NavigationRailItemProps
 	extends Partial<ViewProps & RefAttributes<View> & PressableProps & InteractionHandler>,
 		Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {
 	icon?: React.JSX.Element
-	indexKey: string
+	indexKey?: string
 	labelText?: string
 }
 

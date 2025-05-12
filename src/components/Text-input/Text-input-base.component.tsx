@@ -1,12 +1,12 @@
 import {hexToRGBA} from '@bearei/material-token'
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
-import {debounce, runAfterInteractions} from '../../utils'
-import type {State} from '../Common'
+import {createHandler, createHandlerFinal, runAfterInteractions} from '../../utils'
+import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {
 	handleTextInputChangeText,
 	handleTextInputContentSizeChange,
@@ -66,7 +66,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			setState
 		] = useImmer<TextInputState>({
 			contentSize: {} as TextInputContentSizeChangeEventData['contentSize'],
-			state: 'enabled',
+			state: STATE.ENABLED,
 			status: COMPONENT_STATUS.IDLE,
 			value: ''
 		})
@@ -75,43 +75,67 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		const textInputRef = useRef<TextInput>(null)
 		const theme = useTheme()
 		const placeholderTextColor =
-			state === 'disabled' ?
+			state === STATE.DISABLED ?
 				hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
 			:	theme.token.scheme.onSurfaceVariant
 
-		const onTextInputContentSizeChange = handleTextInputContentSizeChange(setState)(onContentSizeChange)
+		const onTextInputContentSizeChange = useMemo(
+			() => createHandler(handleTextInputContentSizeChange(onContentSizeChange))(setState)(),
+			[onContentSizeChange, setState]
+		)
 		const onTextInputSupportingTextClose = useMemo(
-			() => debounce(handleTextInputSupportingTextClose(setState))(supportingTextDelay ?? 0),
+			() =>
+				createHandler(handleTextInputSupportingTextClose)(setState)({
+					debounceMillisecond: supportingTextDelay ?? 0
+				}),
 			[setState, supportingTextDelay]
 		)
 
 		const onTextInputSupportingText = useMemo(
 			() =>
-				handleTextInputSupportingText({supportingTextDelay, onTextInputSupportingTextClose})(
-					setState
-				),
+				createHandler(
+					handleTextInputSupportingText({
+						supportingTextDelay,
+						onTextInputSupportingTextClose
+					})
+				)(setState)(),
 			[onTextInputSupportingTextClose, setState, supportingTextDelay]
 		)
 
 		const onTextInputEditableChange = useMemo(
-			() => handleTextInputEditableChange(textInputRef),
+			() => createHandlerFinal(handleTextInputEditableChange(textInputRef))(),
 			[textInputRef]
 		)
 
-		const onTextInputChangeText = handleTextInputChangeText(onChangeText)(setState)
-		const onTextInputChangeTextStatus = useMemo(() => handleTextInputRawChangeText(setState), [setState])
-		const onTextInputSupportingTextVisible =
-			handleTextInputSupportingTextVisible(setState)(onSupportingTextVisible)
+		const onTextInputChangeText = useMemo(
+			() => createHandler(handleTextInputChangeText(onChangeText))(setState)(),
+			[onChangeText, setState]
+		)
 
-		const onTouchableHeaderFocus = handleTouchableHeaderFocus(textInputRef)
-		const onStateEventChange =
+		const onTextInputChangeTextStatus = useMemo(
+			() => createHandler(handleTextInputRawChangeText)(setState)(),
+			[setState]
+		)
+
+		const onTextInputSupportingTextVisible = useMemo(
+			() => createHandler(handleTextInputSupportingTextVisible(onSupportingTextVisible))(setState)(),
+			[onSupportingTextVisible, setState]
+		)
+
+		const onTouchableHeaderFocus = useMemo(
+			() => createHandlerFinal(handleTouchableHeaderFocus(textInputRef))(),
+			[]
+		)
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
 				handleTextInputStateChange({
 					...options,
 					content,
 					ref: textInputRef,
 					state: changedState
-				})(setState)(event)
+				})(setState)(event),
+			[content, setState]
+		)
 
 		const interactionHandlers = useStateEvent({
 			...renderTextInputProps,
@@ -150,15 +174,15 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		}, [defaultValue, onTextInputChangeTextStatus, rawValue])
 
 		useEffect(() => {
-			nextChangeTextEvent?.()
+			runAfterInteractions(nextChangeTextEvent)()
 		}, [nextChangeTextEvent])
 
 		useEffect(() => {
-			nextContentSizeChangeEvent?.()
+			runAfterInteractions(nextContentSizeChangeEvent)()
 		}, [nextContentSizeChangeEvent])
 
 		useEffect(() => {
-			nextSupportingTextVisibleEvent?.()
+			runAfterInteractions(nextSupportingTextVisibleEvent)()
 		}, [nextSupportingTextVisibleEvent])
 
 		useEffect(() => {

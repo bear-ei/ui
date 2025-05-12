@@ -2,11 +2,10 @@ import type {ForwardedRef} from 'react'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createHandler} from '../../utils'
+import {createHandler, createHandlerFinal} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
 import {handleFormCallbacks, handleFormFieldKeys, handleFormStatus} from './Form-handle'
-import type {FormItemProps} from './Form-item'
-import type {FormBaseProps, FormState, HandleFormCallbacksOptions} from './Form.interface'
+import type {FormBaseProps, FormState} from './Form.interface'
 import {renderFormItems} from './Form.render'
 import {useForm} from './use-form.hook'
 
@@ -29,20 +28,17 @@ const FormBaseInner = <T,>(
 	const formStore = useForm(form)
 	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
 	const onFormStatus = useMemo(
-		() => createHandler<(value?: T) => void>(handleFormStatus<T>(setState)(setInitialValues))()(),
+		() => createHandler(handleFormStatus<T>(setInitialValues))(setState)(),
 		[setInitialValues, setState]
 	)
 
 	const onFormCallbacks = useMemo(
-		() =>
-			createHandler<(options: HandleFormCallbacksOptions<T>) => void>(
-				handleFormCallbacks<T>(setCallbacks)
-			)()(),
+		() => createHandlerFinal(handleFormCallbacks<T>(setCallbacks))(),
 		[setCallbacks]
 	)
 
 	const onFormFieldKeys = useMemo(
-		() => createHandler<(items?: FormItemProps[]) => void>(handleFormFieldKeys<T>(setFieldKeys))()(),
+		() => createHandlerFinal(handleFormFieldKeys<T>(setFieldKeys))(),
 		[setFieldKeys]
 	)
 

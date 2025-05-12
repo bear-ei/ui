@@ -9,7 +9,7 @@ import type {
 	SideSheetType
 } from './Side-sheet.interface'
 
-export const handleSideSheetClose = (setState: Updater<SideSheetState>) => (onClose?: () => void) =>
+export const handleSideSheetClose = (onClose?: () => void) => (setState: Updater<SideSheetState>) => () =>
 	setState(draft => {
 		draft.nextCloseEvent = onClose
 		draft.sideSheetVisible = false
@@ -17,7 +17,8 @@ export const handleSideSheetClose = (setState: Updater<SideSheetState>) => (onCl
 
 export const handleSideSheetBack =
 	({type, disabledClose, onBack}: HandleSideSheetBackOptions) =>
-	(setState: Updater<SideSheetState>) => {
+	(setState: Updater<SideSheetState>) =>
+	() => {
 		setState(draft => {
 			if (type !== SIDE_SHEET_TYPE.SIDEBAR || !disabledClose) {
 				draft.sideSheetVisible = false

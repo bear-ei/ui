@@ -1,8 +1,9 @@
-import {forwardRef, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
+import {createHandler} from '../../utils'
 import type {State} from '../Common'
 import {handleTouchableAnimatedFinished, handleTouchableStateChange} from './Touchable-handle'
 import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
@@ -27,24 +28,34 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 
 		const id = useId()
 		const pressableRef = useRef<View>(null)
-		const onTouchableAnimatedFinished = useMemo(() => handleTouchableAnimatedFinished(setState), [setState])
-		const onStateEventChange =
+		const onTouchableAnimatedFinished = useMemo(
+			() => createHandler(handleTouchableAnimatedFinished)(setState)(),
+			[setState]
+		)
+
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleTouchableStateChange({
 					...options,
 					enableTouchableRipple,
 					ref: pressableRef,
 					state
-				})(setState)(event)
+				})(setState)(event),
+			[enableTouchableRipple, setState]
+		)
 
 		const interactionHandlers = useStateEvent({...renderTouchableProps, disabled, onStateEventChange})
-		const rippleElements = renderTouchableRipple({
-			centered,
-			containerLayout: contentLayout,
-			id,
-			onAnimatedFinished: onTouchableAnimatedFinished,
-			underlayColor
-		})(rippleSequence)
+		const rippleElements = useMemo(
+			() =>
+				renderTouchableRipple({
+					centered,
+					containerLayout: contentLayout,
+					id,
+					onAnimatedFinished: onTouchableAnimatedFinished,
+					underlayColor
+				})(rippleSequence),
+			[centered, contentLayout, id, onTouchableAnimatedFinished, rippleSequence, underlayColor]
+		)
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 

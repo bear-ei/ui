@@ -3,7 +3,7 @@ import type {GestureResponderEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
 import {runAfterInteractions} from '../../utils'
-import type {EventName} from '../Common'
+import {EVENT_NAME, type EventName} from '../Common'
 import type {
 	HandleAddTouchableRippleOptions,
 	HandleTouchablePressInOptions,
@@ -46,7 +46,7 @@ export const handleTouchableStateChange =
 	(setState: Updater<TouchableState>) =>
 	(event: StateEvent) => {
 		const nextEvent = {
-			pressIn: () =>
+			[EVENT_NAME.PRESS_IN]: () =>
 				handleTouchablePressIn({setState, ref})(enableTouchableRipple)(
 					event as GestureResponderEvent
 				)
@@ -57,7 +57,8 @@ export const handleTouchableStateChange =
 		}
 	}
 
-export const handleTouchableAnimatedFinished = (setState: Updater<TouchableState>) => (index: string) =>
+export const handleTouchableAnimatedFinished = (setState: Updater<TouchableState>) => (index?: string) =>
+	index &&
 	setState(draft => {
 		if (draft.rippleSequence[index]) {
 			delete draft.rippleSequence[index]

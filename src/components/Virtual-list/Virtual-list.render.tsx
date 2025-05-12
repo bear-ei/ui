@@ -2,6 +2,7 @@ import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import type {ViewStyle} from 'react-native'
 import {ScrollView} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {COMPONENT_STATUS} from '../Common'
 import {VirtualListItem, type RenderVirtualListItemInfo} from './Virtual-list-item'
 import type {RenderVirtualListItemOptions, RenderVirtualListProps, VirtualListData} from './Virtual-list.interface'
 import {

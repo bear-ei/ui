@@ -1,5 +1,6 @@
-import {forwardRef, memo, type FC} from 'react'
+import {forwardRef} from 'react'
 import type {View} from 'react-native'
+import {typedMemo} from '../../utils'
 import {LayoutBase} from './Layout-base.component'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
@@ -14,7 +15,7 @@ const LayoutWithRef = forwardRef<View, LayoutProps>((props, ref) => (
 	/>
 ))
 
-export const Layout = Object.assign(memo(LayoutWithRef) as FC<LayoutProps>, {
+export const Layout = Object.assign(typedMemo(LayoutWithRef)(), {
 	Pane: LayoutPane,
 	Navigation: LayoutNavigation
 })

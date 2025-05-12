@@ -1,4 +1,4 @@
-import {forwardRef, useId, useMemo} from 'react'
+import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
 import type {UnderlayBaseProps} from './Underlay.interface'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
@@ -18,7 +18,7 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 		ref
 	) => {
 		const id = useId()
-		const isActive = useMemo(() => rawActive ?? defaultActive, [defaultActive, rawActive])
+		const isActive = rawActive ?? defaultActive
 		const {hoverLayerAnimatedStyle, activeLayerAnimatedStyle} = useUnderlayAnimated({
 			active: isActive,
 			activeAnimatedType,

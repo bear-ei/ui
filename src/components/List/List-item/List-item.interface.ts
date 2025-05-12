@@ -6,7 +6,6 @@ import type {ComponentStatus, EventName, State} from '../../Common'
 import type {IconButtonProps} from '../../Icon-button'
 import type {TouchableProps} from '../../Touchable'
 import type {ListAffordanceButtonProps} from '../List-affordance-button'
-import type {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import type {ListProps} from '../List.interface'
 
 export interface ListItemProps
@@ -51,7 +50,7 @@ export interface ListItemProps
 	contentStyle?: StyleProp<ViewStyle>
 	extraData?: string[]
 	headline?: React.ReactNode
-	indexKey: string
+	indexKey?: string
 	itemIndex?: number
 	itemLayout?: {width?: number; height?: number}
 	leading?: React.JSX.Element
@@ -114,7 +113,6 @@ export interface HandleListItemStateEventChangeOptions
 export type HandleListItemTrailingEventOptions = {callback?: () => void}
 export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
 	onConfirm?: ListItemProps['onConfirm']
-	options: ListAfterAffordancePressOutOptions
 	onListItemClose: (indexKey?: boolean) => void
 }
 

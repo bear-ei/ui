@@ -1,5 +1,5 @@
 import type {StateEvent} from '../../hooks'
-import type {EventName} from '../Common'
+import {EVENT_NAME, type EventName} from '../Common'
 import type {HandleMaskStateChangeOptions} from './Mask.interface'
 
 export const handleMaskStateChange =
@@ -12,7 +12,7 @@ export const handleMaskStateChange =
 			 * the modal is closed. However, there is a problem with the focus style not being able to be
 			 * removed on MACOS.  The focus acquisition is not enabled for the time being..
 			 */
-			pressIn: () => {}
+			[EVENT_NAME.PRESS_IN]: () => {}
 		} as Record<EventName, () => void>
 
 		if (eventName) {

@@ -5,7 +5,7 @@ import {Platform} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import type {EventName} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import type {ListData} from '../List'
 import type {
 	HandleVirtualListCloseOptions,
@@ -66,7 +66,8 @@ export const handleVirtualListStateChange =
 	(onVirtualListLayoutChange: (layout: LayoutRectangle) => void) =>
 	(event: StateEvent) => {
 		const nextEvent = {
-			layout: () => onVirtualListLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
+			[EVENT_NAME.LAYOUT]: () =>
+				onVirtualListLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
 		} as Record<EventName, () => void>
 
 		if (!eventName) {
@@ -154,16 +155,16 @@ export const handleVirtualListUnmount = ({
 export const handleVirtualListData = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
 	setState(draft => {
 		draft.virtualListData = data
-		draft.status = 'loading'
+		draft.status = COMPONENT_STATUS.LOADING
 	})
 
-export const handleVirtualListLoadEnd = (setState: Updater<VirtualListState>) => {
+export const handleVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => {
 	const findVisibleRangeDataIndex =
 		(key: string) =>
 		({indexKey}: VirtualListData) =>
 			indexKey === key
 
-	return (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => {
+	return (setState: Updater<VirtualListState>) => (indexKey?: string) => {
 		if (indexKey) {
 			setState(draft => {
 				const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(

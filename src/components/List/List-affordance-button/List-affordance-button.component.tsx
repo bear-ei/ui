@@ -1,5 +1,6 @@
-import {forwardRef, memo, type FC} from 'react'
+import {forwardRef} from 'react'
 import type {View} from 'react-native'
+import {typedMemo} from '../../../utils'
 import {ListAffordanceButtonBase} from './List-affordance-button-base.component'
 import type {ListAffordanceButtonProps} from './List-affordance-button.interface'
 import {renderListAffordanceButton} from './List-affordance-button.render'
@@ -12,4 +13,4 @@ const ListAffordanceButtonWithRef = forwardRef<View, ListAffordanceButtonProps>(
 	/>
 ))
 
-export const ListAffordanceButton = memo(ListAffordanceButtonWithRef) as FC<ListAffordanceButtonProps>
+export const ListAffordanceButton = typedMemo(ListAffordanceButtonWithRef)()

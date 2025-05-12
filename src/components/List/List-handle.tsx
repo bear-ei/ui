@@ -5,9 +5,9 @@ import {DENSITY_SCALE} from '../Common'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
 import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 import type {
+	CreateRenderItemOptions,
 	HandleListActiveOptions,
 	HandleListItemSizeOptions,
-	HandleRenderItemOptions,
 	ListData,
 	ListState,
 	OnActiveAfterAffordanceOptions
@@ -137,7 +137,7 @@ export const handleListClose = (onClose?: (options: OnVirtualListCloseOptions) =
 		}
 }
 
-export const handleRenderListItem =
-	({renderItem, ...options}: HandleRenderItemOptions) =>
+export const createRenderListItem =
+	({renderItem, ...options}: CreateRenderItemOptions) =>
 	(props: RenderVirtualListItemInfo<ListData>) =>
 		renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})

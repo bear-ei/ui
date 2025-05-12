@@ -27,10 +27,10 @@ export const handleTouchableRippleAnimatedTiming = ({
 				toValue === 1 ? scaleSharedValue : opacitySharedValue
 			)(toValue)
 
-	return (sharedValue: HandleTouchableRippleAnimatedTimingSharedValue) => (index: string) => {
+	return (sharedValue: HandleTouchableRippleAnimatedTimingSharedValue) => (index?: string) => {
 		const entryAnimatedTiming = handleRippleAnimatedTiming(sharedValue)(1)
 		const exitAnimatedTiming = handleRippleAnimatedTiming(sharedValue)(0)
-		const exitAnimatedFinished = () => onAnimatedFinished?.(index)
+		const exitAnimatedFinished = () => index && onAnimatedFinished?.(index)
 
 		entryAnimatedTiming(() => exitAnimatedTiming(exitAnimatedFinished))
 	}

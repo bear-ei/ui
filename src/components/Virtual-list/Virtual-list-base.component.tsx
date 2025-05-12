@@ -1,12 +1,12 @@
 import type {ForwardedRef} from 'react'
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo} from 'react'
 import type {LayoutRectangle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useStateEvent} from '../../hooks'
-import {debounce, runAfterInteractions} from '../../utils'
-import type {State} from '../Common'
+import {createHandler, createHandlerFinal, runAfterInteractions} from '../../utils'
+import {COMPONENT_STATUS, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
 	handleVirtualListData,
@@ -54,58 +54,83 @@ export const VirtualListBaseInner = <T,>(
 	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE, startIndex: 0})
 
 	const id = useId()
-	const contentSize = useMemo(
-		() => (virtualListData ?? data ?? []).length * (itemSize + gap) - gap,
-		[virtualListData, data, itemSize, gap]
-	)
-
-	const {animatedRef, contentAnimatedStyle} = useVirtualListAnimated({focusedIndex, itemSize, contentSize})
+	const contentSize = (virtualListData ?? data ?? []).length * (itemSize + gap) - gap
 	const onVirtualListVisibleRanges = useMemo(
-		() => handleVirtualListDataChange(itemSize)(setState),
+		() => createHandler(handleVirtualListDataChange(itemSize))(setState)(),
 		[itemSize, setState]
 	)
 
 	const onVirtualListScroll = useMemo(
-		() => handleVirtualListScroll({onScroll, itemSize})(setState),
+		() => createHandler(handleVirtualListScroll({onScroll, itemSize}))(setState)(),
 		[itemSize, onScroll, setState]
 	)
 
-	const onVirtualListMomentumScrollEnd = handleVirtualListMomentumScrollEnd(onMomentumScrollEnd)
-	const onVirtualListData = useMemo(() => handleVirtualListData(setState), [setState])
-	const onVirtualListLoadEnd = handleVirtualListLoadEnd(setState)(onLoadEnd)
+	const onVirtualListMomentumScrollEnd = useMemo(
+		() => createHandlerFinal(handleVirtualListMomentumScrollEnd(onMomentumScrollEnd))(),
+		[onMomentumScrollEnd]
+	)
+
+	const onVirtualListData = useMemo(() => createHandler(handleVirtualListData)(setState)(), [setState])
+	const onVirtualListLoadEnd = useMemo(
+		() => createHandler(handleVirtualListLoadEnd(onLoadEnd))(setState)(),
+		[onLoadEnd, setState]
+	)
+
 	const scrollEvent = useDesktopScrollEvent({
 		onMomentumScrollEnd: onVirtualListMomentumScrollEnd,
 		onScroll: onVirtualListScroll
 	})
 
-	const onVirtualListUnmount = handleVirtualListUnmount({itemSize, enableAutoSelect, onClose})(setState)
+	const onVirtualListUnmount = useMemo(
+		() => createHandler(handleVirtualListUnmount({itemSize, enableAutoSelect, onClose}))(setState)(),
+		[enableAutoSelect, itemSize, onClose, setState]
+	)
+
 	const onVirtualListLayoutChange = useMemo(
-		() => debounce(handleVirtualListLayoutChange(itemSize)(setState))(50),
+		() => createHandler(handleVirtualListLayoutChange(itemSize))(setState)({debounceMillisecond: 50}),
 		[itemSize, setState]
 	)
 
-	const onStateEventChange = (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-		handleVirtualListStateChange({...options, state})(onVirtualListLayoutChange)(event)
+	const onStateEventChange = useCallback(
+		(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			handleVirtualListStateChange({...options, state})(onVirtualListLayoutChange)(event),
+		[onVirtualListLayoutChange]
+	)
 
 	const interactionHandlers = useStateEvent({...renderVirtualListProps, disabled: false, onStateEventChange})
-	const itemElements = renderVirtualListItem({
-		extraData,
-		id,
-		itemSize: itemSize + gap,
-		onLoadEnd: onVirtualListLoadEnd,
-		onUnmount: onVirtualListUnmount,
-		renderItem,
-		startIndex
-	})(visibleRangeData)
+	const {animatedRef, contentAnimatedStyle} = useVirtualListAnimated({focusedIndex, itemSize, contentSize})
+	const itemElements = useMemo(
+		() =>
+			renderVirtualListItem({
+				extraData,
+				id,
+				itemSize: itemSize + gap,
+				onLoadEnd: onVirtualListLoadEnd,
+				onUnmount: onVirtualListUnmount,
+				renderItem,
+				startIndex
+			})(visibleRangeData),
+		[
+			extraData,
+			gap,
+			id,
+			itemSize,
+			onVirtualListLoadEnd,
+			onVirtualListUnmount,
+			renderItem,
+			startIndex,
+			visibleRangeData
+		]
+	)
 
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as Animated.ScrollView, [animatedRef])
 
 	useEffect(() => {
-		runAfterInteractions(onVirtualListData)(data)
+		onVirtualListData(data)
 	}, [data, onVirtualListData])
 
 	useEffect(() => {
-		runAfterInteractions(onVirtualListVisibleRanges)(virtualListData)
+		onVirtualListVisibleRanges(virtualListData)
 	}, [onVirtualListVisibleRanges, virtualListData])
 
 	useEffect(() => {

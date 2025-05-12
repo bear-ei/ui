@@ -3,7 +3,7 @@ import type {View} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
 import {textSearch} from '../../utils'
-import type {EventName} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../Common'
 import type {ListData} from '../List'
 import type {HandleSearchChangeTextOptions, HandleSearchStateChangeOptions, SearchState} from './Search.interface'
 
@@ -13,7 +13,7 @@ export const handleSearchStateChange =
 	(_event: StateEvent) => {
 		const handleTextInputFocus = () => ref?.current?.focus()
 		const nextEvent = {
-			pressOut: () => handleTextInputFocus()
+			[EVENT_NAME.PRESS_OUT]: () => handleTextInputFocus()
 		} as Record<EventName, () => void>
 
 		if (eventName === EVENT_NAME.LAYOUT) {
@@ -21,7 +21,7 @@ export const handleSearchStateChange =
 		}
 
 		setState(draft => {
-			if (draft.state === 'focused' && eventName !== 'blur') {
+			if (draft.state === STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) {
 				return
 			}
 
@@ -45,12 +45,7 @@ export const handleSearchChangeText =
 	({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) =>
 	(setState: Updater<SearchState>) =>
 	(value?: string) => {
-		const handleNextChangeTextEvent = () => {
-			if (value) {
-				onChangeText?.(value)
-			}
-		}
-
+		const handleNextChangeTextEvent = () => value && onChangeText?.(value)
 		const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
 
 		setState(draft => {
@@ -89,18 +84,19 @@ export const handleSearchListVisible = (setState: Updater<SearchState>) => (visi
 		draft.listVisible = visible
 	})
 
-export const handleSearchLayout = (setState: Updater<SearchState>) => (containerCurrent?: View | null) =>
-	containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
-		setState(draft => {
-			draft.layout.height = height
-			draft.layout.pageX = pageX
-			draft.layout.pageY = pageY
-			draft.layout.width = width
-			draft.layout.x = x
-			draft.layout.y = y
-		})
-	)
+export const handleSearchContainerLayout = (containerCurrent?: View | null) => {
+	const handleSearchLayout = (setState: Updater<SearchState>) =>
+		containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
+			setState(draft => {
+				draft.layout.height = height
+				draft.layout.pageX = pageX
+				draft.layout.pageY = pageY
+				draft.layout.width = width
+				draft.layout.x = x
+				draft.layout.y = y
+			})
+		)
 
-export const handleSearchContainerLayout =
-	(setState: Updater<SearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) =>
-		listVisible && handleSearchLayout(setState)(containerCurrent)
+	return (setState: Updater<SearchState>) => (listVisible?: boolean) =>
+		listVisible && handleSearchLayout(setState)
+}

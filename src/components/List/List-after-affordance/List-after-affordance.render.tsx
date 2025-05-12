@@ -19,6 +19,25 @@ export const renderListAfterAffordance = ({
 	...containerProps
 }: RenderListAfterAffordanceProps) => {
 	const fill = theme.token.scheme.onPrimary
+	const checkIconElement = (
+		<Icon
+			fill={fill}
+			iconStyle={ICON_STYLE.SHARP}
+			name={ICON_NAME.CHECK}
+			testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`}
+			type={ICON_TYPE.OUTLINED}
+		/>
+	)
+
+	const closeIconElement = (
+		<Icon
+			fill={fill}
+			iconStyle={ICON_STYLE.SHARP}
+			name={ICON_NAME.CLOSE}
+			testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`}
+			type={ICON_TYPE.OUTLINED}
+		/>
+	)
 
 	return (
 		<Container
@@ -27,17 +46,7 @@ export const renderListAfterAffordance = ({
 			testID={testID ?? `listAfterAffordance--${id}`}
 		>
 			<ListAffordanceButton
-				{...(doubleConfirmed && {
-					icon: (
-						<Icon
-							fill={fill}
-							iconStyle={ICON_STYLE.SHARP}
-							name={ICON_NAME.CHECK}
-							testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`}
-							type={ICON_TYPE.OUTLINED}
-						/>
-					)
-				})}
+				{...(doubleConfirmed && {icon: checkIconElement})}
 				{...{labelText: 'Confirm', ...primaryButtonProps}}
 				onPressOut={onConfirm}
 				testID={`listAfterAffordance__listAffordanceButton--confirmed--${id}`}
@@ -45,17 +54,7 @@ export const renderListAfterAffordance = ({
 			/>
 
 			<ListAffordanceButton
-				{...(doubleConfirmed && {
-					icon: (
-						<Icon
-							fill={fill}
-							iconStyle={ICON_STYLE.SHARP}
-							name={ICON_NAME.CLOSE}
-							testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`}
-							type={ICON_TYPE.OUTLINED}
-						/>
-					)
-				})}
+				{...(doubleConfirmed && {icon: closeIconElement})}
 				{...{labelText: 'Cancel', ...secondaryButtonProps}}
 				onPressOut={onCancel}
 				testID={`listAfterAffordance__listAffordanceButton--close--${id}`}

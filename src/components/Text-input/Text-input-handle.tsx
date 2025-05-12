@@ -1,7 +1,7 @@
 import type {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../hooks'
-import type {EventName, State} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName, type State} from '../Common'
 import type {
 	HandleTextInputDisabledSharedValue,
 	HandleTextInputEnabledSharedOptions,
@@ -20,7 +20,7 @@ export const handleTextInputStateChange =
 	(setState: Updater<TextInputState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
-			pressOut: () => ref?.current?.focus()
+			[EVENT_NAME.PRESS_OUT]: () => ref?.current?.focus()
 		} as Record<EventName, () => void>
 
 		if (eventName === EVENT_NAME.LAYOUT) {
@@ -28,7 +28,7 @@ export const handleTextInputStateChange =
 		}
 
 		setState(draft => {
-			if ((draft.state === 'focused' && eventName !== 'blur') || content) {
+			if ((draft.state === STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) || content) {
 				return
 			}
 
@@ -47,8 +47,8 @@ export const handleTextInputStateChange =
 	}
 
 export const handleTextInputContentSizeChange =
-	(setState: Updater<TextInputState>) =>
 	(onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
+	(setState: Updater<TextInputState>) =>
 	(event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
 		const handleNextContentSizeChangeEvent = () => onContentSizeChange?.(event)
 		const contentSize = event.nativeEvent.contentSize
@@ -84,8 +84,8 @@ export const handleTextInputSupportingText =
 	}
 
 export const handleTextInputSupportingTextVisible =
-	(setState: Updater<TextInputState>) =>
 	(onSupportingTextVisible?: (visible?: boolean) => void) =>
+	(setState: Updater<TextInputState>) =>
 	(visible?: boolean) => {
 		const handleNextSupportingTextVisibleEvent = () => onSupportingTextVisible?.(visible)
 
@@ -209,9 +209,9 @@ export const handleTextInputNonerrorAnimatedTiming = ({
 	const isNonerror = typeof error !== 'boolean' && disabled
 
 	return (stateAnimated: TextInputStateAnimated) => (state: State) =>
-		!isNonerror && stateAnimated[error ? 'error' : state]?.()
+		!isNonerror && stateAnimated[error ? STATE.ERROR : state]?.()
 }
 
 export const handleTextInputDisabledAnimatedTiming =
 	(stateAnimated: TextInputStateAnimated) => (state: State) => (disabled?: boolean) =>
-		typeof disabled === 'boolean' && stateAnimated[disabled ? 'disabled' : state]?.()
+		typeof disabled === 'boolean' && stateAnimated[disabled ? STATE.DISABLED : state]?.()

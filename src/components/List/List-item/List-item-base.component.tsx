@@ -3,9 +3,8 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
-import {createHandler, runAfterInteractions} from '../../../utils'
+import {createHandler, createHandlerFinal, runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
-import type {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
 	handleItemListAfterAffordanceVisibleFinished,
@@ -73,8 +72,9 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		const theme = useTheme()
 		const pressableRef = useRef<View>(null)
 		const isAfterAffordanceVisible = afterAffordanceActiveKey === indexKey
-		const isActive =
-			selectType === LIST_SELECT_TYPE.SINGLE ? activeKey === indexKey : activeKeys?.includes(indexKey)
+		const isActive = !!(selectType === LIST_SELECT_TYPE.SINGLE ?
+			activeKey === indexKey
+		:	indexKey && activeKeys?.includes(indexKey))
 
 		/**
 		 * TODO: Support mobile touch swipe.
@@ -101,33 +101,28 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		)
 
 		const onListItemClose = useMemo(
-			() => createHandler<(close?: boolean) => void>(handleListItemClose(onClose)(indexKey))()(),
+			() => createHandlerFinal(handleListItemClose(onClose)(indexKey))(),
 			[indexKey, onClose]
 		)
 
 		const onListItemConfirm = useMemo(
 			() =>
-				createHandler(({indexKey: key, ...options}: ListAfterAffordancePressOutOptions) =>
-					handleListItemConfirm({
-						options,
-						onActiveAfterAffordance,
-						onListItemClose,
-						onConfirm
-					})(key)
-				),
+				createHandlerFinal(
+					handleListItemConfirm({onActiveAfterAffordance, onListItemClose, onConfirm})
+				)(),
 			[onActiveAfterAffordance, onConfirm, onListItemClose]
 		)
 
 		const onListItemTrailingPressOut = useMemo(
 			() =>
-				createHandler<() => void>(
+				createHandlerFinal(
 					handleListItemTrailingPressOut({
 						afterAffordance,
 						closeTrailing,
 						onActiveAfterAffordance,
 						onListItemClose
 					})(indexKey)
-				)()(),
+				)(),
 			[afterAffordance, closeTrailing, indexKey, onActiveAfterAffordance, onListItemClose]
 		)
 

@@ -1,5 +1,6 @@
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
+import {typedMemo} from '../../../utils'
 import {SideSheetContentBase} from './Side-sheet-content-base.component'
 import type {SideSheetContentProps} from './Side-sheet-content.interface'
 import {renderSideSheetContent} from './Side-sheet-content.render'
@@ -12,4 +13,4 @@ const SideSheetContentWithRef = forwardRef<View, SideSheetContentProps>((props, 
 	/>
 ))
 
-export const SideSheetContent = SideSheetContentWithRef
+export const SideSheetContent = typedMemo(SideSheetContentWithRef)()

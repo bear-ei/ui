@@ -28,12 +28,15 @@ export const useTextInputAnimated = ({
 	const {scheme, typography, opacity} = theme.token
 	const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
 	const disabledAnimatedValue = disabled ? 0 : 1
-	const defaultAnimatedValue = {
-		activeIndicatorScaleYSharedValue: error ? 1 : 0,
-		colorSharedValue: error ? 3 : 1,
-		inputColorSharedValue: error ? 3 : 1,
-		supportingTextSharedValueValue: error ? 2 : 1
-	}
+	const defaultAnimatedValue = useMemo(
+		() => ({
+			activeIndicatorScaleYSharedValue: error ? 1 : 0,
+			colorSharedValue: error ? 3 : 1,
+			inputColorSharedValue: error ? 3 : 1,
+			supportingTextSharedValueValue: error ? 2 : 1
+		}),
+		[error]
+	)
 
 	const activeIndicatorScaleYSharedValue = useSharedValue(
 		disabled ? disabledAnimatedValue : defaultAnimatedValue.activeIndicatorScaleYSharedValue
@@ -57,22 +60,31 @@ export const useTextInputAnimated = ({
 	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
 	const filledToValue = filled ? 0 : 1
 	const labelTextSharedValue = useSharedValue(filledToValue)
-	const backgroundColorType = {
-		[TEXT_INPUT_TYPE.FILLED]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				disabledBackgroundColor,
-				hexToRGBA(scheme.surfaceContainerHighest)(opacity.level10)
-			]
-		},
-		[TEXT_INPUT_TYPE.OUTLINED]: {
-			inputRanges: [0, 1],
-			outputRanges: [
-				hexToRGBA(scheme.surface)(opacity.level0),
-				hexToRGBA(scheme.surface)(opacity.level0)
-			]
-		}
-	}
+	const backgroundColorType = useMemo(
+		() => ({
+			[TEXT_INPUT_TYPE.FILLED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledBackgroundColor,
+					hexToRGBA(scheme.surfaceContainerHighest)(opacity.level10)
+				]
+			},
+			[TEXT_INPUT_TYPE.OUTLINED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					hexToRGBA(scheme.surface)(opacity.level0),
+					hexToRGBA(scheme.surface)(opacity.level0)
+				]
+			}
+		}),
+		[
+			disabledBackgroundColor,
+			opacity.level0,
+			opacity.level10,
+			scheme.surface,
+			scheme.surfaceContainerHighest
+		]
+	)
 
 	const headerAnimatedStyle = useAnimatedStyle(() => ({
 		backgroundColor: interpolateColor(
@@ -82,41 +94,60 @@ export const useTextInputAnimated = ({
 		)
 	}))
 
-	const inputColorSharedValueOutputRanges = [disabledColor, hexToRGBA(scheme.onSurface)(opacity.level10)]
+	const inputColorSharedValueOutputRanges = useMemo(
+		() => [disabledColor, hexToRGBA(scheme.onSurface)(opacity.level10)],
+		[disabledColor, opacity.level10, scheme.onSurface]
+	)
+
 	const inputAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(colorSharedValue.value, [0, 1], inputColorSharedValueOutputRanges)
 	}))
 
-	const labelTopOutputRanges = [
-		theme.adaptSize(theme.token.spacing.small + densityScale / 2),
-		theme.adaptSize(theme.token.spacing.medium + densityScale / 2)
-	]
+	const labelTopOutputRanges = useMemo(
+		() => [
+			theme.adaptSize(theme.token.spacing.small + densityScale / 2),
+			theme.adaptSize(theme.token.spacing.medium + densityScale / 2)
+		],
+		[densityScale, theme]
+	)
 
 	const labelAnimatedStyle = useAnimatedStyle(() => ({
 		top: interpolate(labelTextSharedValue.value, [0, 1], labelTopOutputRanges)
 	}))
 
-	const labelTextFontSizeOutputRanges = [
-		theme.adaptFontSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].size),
-		theme.adaptFontSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)
-	]
+	const labelTextFontSizeOutputRanges = useMemo(
+		() => [
+			theme.adaptFontSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].size),
+			theme.adaptFontSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)
+		],
+		[theme, typography]
+	)
 
-	const labelTextLetterSpacingOutputRanges = [
-		theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].letterSpacing),
-		theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing)
-	]
+	const labelTextLetterSpacingOutputRanges = useMemo(
+		() => [
+			theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].letterSpacing),
+			theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing)
+		],
+		[theme, typography]
+	)
 
-	const labelTextHeightOutputRanges = [
-		theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].lineHeight),
-		theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)
-	]
+	const labelTextHeightOutputRanges = useMemo(
+		() => [
+			theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].lineHeight),
+			theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)
+		],
+		[theme, typography]
+	)
 
-	const labelTextColorOutputRanges = [
-		disabledColor,
-		hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-		hexToRGBA(scheme.primary)(opacity.level10),
-		hexToRGBA(scheme.error)(opacity.level10)
-	]
+	const labelTextColorOutputRanges = useMemo(
+		() => [
+			disabledColor,
+			hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
+			hexToRGBA(scheme.primary)(opacity.level10),
+			hexToRGBA(scheme.error)(opacity.level10)
+		],
+		[disabledColor, opacity.level10, scheme.error, scheme.onSurfaceVariant, scheme.primary]
+	)
 
 	const labelTextAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(colorSharedValue.value, [0, 1, 2, 3], labelTextColorOutputRanges),
@@ -126,12 +157,15 @@ export const useTextInputAnimated = ({
 		lineHeight: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRanges)
 	}))
 
-	const activeIndicatorBackgroundColorOutputRanges = [
-		disabledColor,
-		hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-		hexToRGBA(scheme.primary)(opacity.level10),
-		hexToRGBA(scheme.error)(opacity.level10)
-	]
+	const activeIndicatorBackgroundColorOutputRanges = useMemo(
+		() => [
+			disabledColor,
+			hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
+			hexToRGBA(scheme.primary)(opacity.level10),
+			hexToRGBA(scheme.error)(opacity.level10)
+		],
+		[disabledColor, opacity.level10, scheme.error, scheme.onSurfaceVariant, scheme.primary]
+	)
 
 	const activeIndicatorAnimatedStyle = useAnimatedStyle(() => ({
 		backgroundColor: interpolateColor(
@@ -142,11 +176,14 @@ export const useTextInputAnimated = ({
 		transform: [{scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.3333, 1])}]
 	}))
 
-	const supportingTextSharedValueValueColorOutputRanges = [
-		disabledColor,
-		hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-		hexToRGBA(scheme.error)(opacity.level10)
-	]
+	const supportingTextSharedValueValueColorOutputRanges = useMemo(
+		() => [
+			disabledColor,
+			hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
+			hexToRGBA(scheme.error)(opacity.level10)
+		],
+		[disabledColor, opacity.level10, scheme.error, scheme.onSurfaceVariant]
+	)
 
 	const supportingTextAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(
@@ -223,13 +260,14 @@ export const useTextInputAnimated = ({
 		[activeIndicatorScaleYSharedValue, animatedTiming, colorSharedValue, error, labelTextSharedValue]
 	)
 
-	const stateAnimated: TextInputStateAnimated = useMemo(
-		() => ({
-			disabled: handleTextInputDisabledState,
-			enabled: handleTextInputEnabledState,
-			error: handleTextInputErrorState,
-			focused: handleTextInputFocusedState
-		}),
+	const stateAnimated = useMemo(
+		() =>
+			({
+				disabled: handleTextInputDisabledState,
+				enabled: handleTextInputEnabledState,
+				error: handleTextInputErrorState,
+				focused: handleTextInputFocusedState
+			}) as TextInputStateAnimated,
 		[
 			handleTextInputDisabledState,
 			handleTextInputEnabledState,

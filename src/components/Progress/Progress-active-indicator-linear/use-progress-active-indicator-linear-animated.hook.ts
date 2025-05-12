@@ -17,8 +17,12 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 	const widthSharedValue = useSharedValue(defaultValue)
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const outputRanges = handleOutputRanges(containerLayout.width)(increment)
-	const inputRanges = outputRanges.map((_value, index) => index)
+	const outputRanges = useMemo(
+		() => handleOutputRanges(containerLayout.width)(increment),
+		[containerLayout.width, increment]
+	)
+
+	const inputRanges = useMemo(() => outputRanges.map((_value, index) => index), [outputRanges])
 	const contentAnimatedStyle = useAnimatedStyle(() => ({
 		width: interpolate(widthSharedValue.value, inputRanges, outputRanges)
 	}))

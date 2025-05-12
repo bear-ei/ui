@@ -1,11 +1,11 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
-import type {State} from '../Common'
+import {createHandler, runAfterInteractions} from '../../utils'
+import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {
 	handleSearchChangeText,
 	handleSearchContainerLayout,
@@ -50,30 +50,40 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			setState
 		] = useImmer<SearchState>({
 			layout: {} as SearchState['layout'],
-			state: 'enabled',
+			state: STATE.ENABLED,
 			status: COMPONENT_STATUS.IDLE
 		})
 
 		const id = useId()
 		const containerRef = useRef<View>(null)
-		const {data} = listProps ?? {}
+		const {data} = useMemo(() => listProps ?? {}, [listProps])
 		const inputRef = useRef<TextInput>(null)
 		const theme = useTheme()
-		const onSearchListVisible = handleSearchListVisible(setState)
-		const onSearchChangeText = handleSearchChangeText({data, onChangeText})(setState)
+		const onSearchListVisible = useMemo(
+			() => createHandler(handleSearchListVisible)(setState)(),
+			[setState]
+		)
+
+		const onSearchChangeText = useMemo(
+			() => createHandler(handleSearchChangeText({data, onChangeText}))(setState)(),
+			[data, onChangeText, setState]
+		)
+
 		const onSearchTextInputRawChangeText = useMemo(
-			() => handleSearchTextInputRawChangeText(data)(setState),
+			() => createHandler(handleSearchTextInputRawChangeText(data))(setState)(),
 			[data, setState]
 		)
 
 		const onSearchContainerLayout = useMemo(
-			() => handleSearchContainerLayout(setState)(containerRef.current),
+			() => createHandler(handleSearchContainerLayout(containerRef.current))(setState)(),
 			[setState]
 		)
 
-		const onStateEventChange =
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleSearchStateChange({...options, ref: inputRef, state})(setState)(event)
+				handleSearchStateChange({...options, ref: inputRef, state})(setState)(event),
+			[setState]
+		)
 
 		const interactionHandlers = useStateEvent({...renderSearchProps, onStateEventChange})
 

@@ -29,7 +29,7 @@ export interface ListData
 	indexKey: string
 }
 
-export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & HandleRenderItemOptions
+export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & CreateRenderItemOptions
 export interface OnActiveAfterAffordanceOptions {
 	callback?: () => void
 	activeKey?: string
@@ -89,7 +89,7 @@ export interface ListState {
 	nextCloseEvent?: () => void
 }
 
-export type HandleRenderItemOptions = Pick<
+export type CreateRenderItemOptions = Pick<
 	RenderListProps,
 	| 'activeKey'
 	| 'activeKeys'

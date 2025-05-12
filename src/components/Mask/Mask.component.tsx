@@ -1,5 +1,6 @@
-import {forwardRef, memo, type FC} from 'react'
+import {forwardRef} from 'react'
 import type {View} from 'react-native'
+import {typedMemo} from '../../utils'
 import {MaskBase} from './Mask-base.component'
 import type {MaskProps} from './Mask.interface'
 import {renderMask} from './Mask.render'
@@ -12,4 +13,4 @@ const MaskWithRef = forwardRef<View, MaskProps>((props, ref) => (
 	/>
 ))
 
-export const Mask = memo(MaskWithRef) as FC<MaskProps>
+export const Mask = typedMemo(MaskWithRef)()

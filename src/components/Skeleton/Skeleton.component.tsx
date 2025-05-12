@@ -1,8 +1,8 @@
 import {SHAPE} from '@bearei/material-token'
-import type {FC} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
+import {typedMemo} from '../../utils'
 import {SkeletonBase} from './Skeleton-base.component'
 import type {SkeletonElementProps} from './Skeleton-element'
 import {SkeletonElement} from './Skeleton-element'
@@ -17,7 +17,7 @@ const SkeletonWithRef = forwardRef<View, SkeletonProps>((props, ref) => (
 	/>
 ))
 
-const Circle: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
+const Circle = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps) => {
 	const theme = useTheme()
 	const {shape = SHAPE.FULL, size, style, ...skeletonElementProps} = props
 	const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
@@ -31,9 +31,9 @@ const Circle: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
 			style={[circleStyle, style]}
 		/>
 	)
-}
+})
 
-const Square: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
+const Square = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => {
 	const theme = useTheme()
 	const {shape = SHAPE.SMALL, size, style, ...skeletonElementProps} = props
 	const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
@@ -43,13 +43,14 @@ const Square: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
 	return (
 		<SkeletonElement
 			{...skeletonElementProps}
+			ref={ref}
 			shape={shape}
 			style={[squareStyle, style]}
 		/>
 	)
-}
+})
 
-const Rectangular: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
+const Rectangular = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps) => {
 	const theme = useTheme()
 	const {shape = SHAPE.SMALL, style, size, ...skeletonElementProps} = props
 	const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
@@ -66,10 +67,10 @@ const Rectangular: FC<SkeletonElementProps> = (props: SkeletonElementProps) => {
 			style={[rectangularStyle, style]}
 		/>
 	)
-}
+})
 
-export const Skeleton = Object.assign(SkeletonWithRef, {
-	Circle,
-	Rectangular,
-	Square
+export const Skeleton = Object.assign(typedMemo(SkeletonWithRef)(), {
+	Circle: typedMemo(Circle)(),
+	Rectangular: typedMemo(Rectangular)(),
+	Square: typedMemo(Square)()
 })

@@ -2,13 +2,13 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef, type
 import type Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {runAfterInteractions} from '../../utils'
+import {createHandler, runAfterInteractions} from '../../utils'
 import {
+	createRenderListItem,
 	handleListActive,
 	handleListActiveAfterAffordance,
 	handleListClose,
-	handleListItemSize,
-	handleRenderListItem
+	handleListItemSize
 } from './List-handle'
 import {ACTIVE_TRIGGER_EVEN_NAME} from './List.enum'
 import type {ListBaseProps, ListData, ListState, VirtualListComponent} from './List.interface'
@@ -70,40 +70,93 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		const listRef = useRef<ForwardedRef<Animated.ScrollView>>(null)
 		const id = useId()
 		const theme = useTheme()
-		const onListActive = handleListActive({onActive, selectType, onActives, deselect})(setState)
-		const onListActiveAfterAffordance = handleListActiveAfterAffordance({onActive, selectType})(setState)
-		const onListClose = handleListClose(onClose)(setState)
-		const onListRawActive = useMemo(() => handleListActive({selectType})(setState), [setState, selectType])
-		const renderListItem = handleRenderListItem({
-			...onItemStateEvent,
-			activeKey: activeKey ?? defaultActiveKey,
-			activeKeys: activeKeys ?? defaultActiveKeys,
-			activeTriggerEvenName,
-			afterAffordance,
-			afterAffordanceActiveKey,
-			afterAffordancePrimaryButtonProps,
-			afterAffordanceSecondaryButtonProps,
-			beforeAffordance,
-			closeTrailing,
-			density,
-			divider,
-			enableUnderlay,
-			enableUnderlayActive,
-			focusedIndex,
-			id,
-			onActive: onListActive,
-			onActiveAfterAffordance: onListActiveAfterAffordance,
-			onCancel,
-			onConfirm,
-			renderItem,
-			selectType,
-			shape,
-			skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
-			skeletonElement,
-			supportingTextNumberOfLines,
-			trailingTriggerEvenName,
-			type
-		})
+		const onListActive = useMemo(
+			() => createHandler(handleListActive({onActive, selectType, onActives, deselect}))(setState)(),
+			[deselect, onActive, onActives, selectType, setState]
+		)
+
+		const onListActiveAfterAffordance = useMemo(
+			() => createHandler(handleListActiveAfterAffordance({onActive, selectType}))(setState)(),
+			[onActive, selectType, setState]
+		)
+
+		const onListClose = useMemo(
+			() => createHandler(handleListClose(onClose))(setState)(),
+			[onClose, setState]
+		)
+
+		const onListRawActive = useMemo(
+			() => createHandler(handleListActive({selectType}))(setState)(),
+			[setState, selectType]
+		)
+
+		const renderListItem = useMemo(
+			() =>
+				createRenderListItem({
+					...onItemStateEvent,
+					activeKey: activeKey ?? defaultActiveKey,
+					activeKeys: activeKeys ?? defaultActiveKeys,
+					activeTriggerEvenName,
+					afterAffordance,
+					afterAffordanceActiveKey,
+					afterAffordancePrimaryButtonProps,
+					afterAffordanceSecondaryButtonProps,
+					beforeAffordance,
+					closeTrailing,
+					density,
+					divider,
+					enableUnderlay,
+					enableUnderlayActive,
+					focusedIndex,
+					id,
+					onActive: onListActive,
+					onActiveAfterAffordance: onListActiveAfterAffordance,
+					onCancel,
+					onConfirm,
+					renderItem,
+					selectType,
+					shape,
+					skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
+					skeletonElement,
+					supportingTextNumberOfLines,
+					trailingTriggerEvenName,
+					type
+				}),
+			[
+				activeKey,
+				activeKeys,
+				activeTriggerEvenName,
+				afterAffordance,
+				afterAffordanceActiveKey,
+				afterAffordancePrimaryButtonProps,
+				afterAffordanceSecondaryButtonProps,
+				beforeAffordance,
+				closeTrailing,
+				defaultActiveKey,
+				defaultActiveKeys,
+				density,
+				divider,
+				enableUnderlay,
+				enableUnderlayActive,
+				focusedIndex,
+				id,
+				loading,
+				loadingElement,
+				onCancel,
+				onConfirm,
+				onItemStateEvent,
+				onListActive,
+				onListActiveAfterAffordance,
+				renderItem,
+				selectType,
+				shape,
+				skeletonDuration,
+				skeletonElement,
+				supportingTextNumberOfLines,
+				trailingTriggerEvenName,
+				type
+			]
+		)
 
 		useImperativeHandle(ref, () => (listRef?.current ?? {}) as VirtualListComponent<ListData>, [listRef])
 

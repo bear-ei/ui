@@ -1,12 +1,12 @@
 import type {LayoutChangeEvent, LayoutRectangle} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
-import type {EventName} from '../Common'
+import {EVENT_NAME, type EventName} from '../Common'
 import {PROGRESS_TYPE} from './Progress.enum'
 import type {HandleProgressStateChangeOptions, ProgressState, ProgressType} from './Progress.interface'
 
 export const handleProgressLayoutChange =
-	(setState: Updater<ProgressState>) => (type?: ProgressType) => (layout: LayoutRectangle) => {
+	(type?: ProgressType) => (setState: Updater<ProgressState>) => (layout: LayoutRectangle) => {
 		if (type !== PROGRESS_TYPE.LINEAR) {
 			return
 		}
@@ -27,7 +27,7 @@ export const handleTouchableStateChange =
 	({eventName, onLayoutChange}: HandleProgressStateChangeOptions) =>
 	(event: StateEvent) => {
 		const nextEvent = {
-			layout: () => onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
+			[EVENT_NAME.LAYOUT]: () => onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
 		} as Record<EventName, () => void>
 
 		if (eventName) {

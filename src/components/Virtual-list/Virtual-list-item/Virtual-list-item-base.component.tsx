@@ -1,10 +1,11 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {debounce} from '../../../utils'
+import {createHandler} from '../../../utils'
+import {COMPONENT_STATUS} from '../../Common'
 import {
 	handleVirtualListItemClose,
-	handleVirtualListItemInit,
+	handleVirtualListItemStatus,
 	handleVirtualListItemUnmount
 } from './Virtual-list-item-handle'
 import type {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
@@ -30,28 +31,42 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			status: COMPONENT_STATUS.IDLE
 		})
 
-		const renderIndex = useMemo(() => index + startIndex, [index, startIndex])
-		const offsetY = useMemo(() => itemSize * renderIndex, [itemSize, renderIndex])
-		const {containerAnimatedStyle} = useVirtualListItemAnimated({offsetY})
 		const id = useId()
-		const onVirtualListItemInit = useMemo(
-			() => debounce(handleVirtualListItemInit(setState))(Math.min(index * 10, 300)),
+		const renderIndex = index + startIndex
+		const offsetY = itemSize * renderIndex
+		const onVirtualListItemStatus = useMemo(
+			() =>
+				createHandler(handleVirtualListItemStatus)(setState)({
+					debounceMillisecond: Math.min(index * 10, 300)
+				}),
 			[index, setState]
 		)
 
-		const onVirtualListItemClose = handleVirtualListItemClose(setState)
-		const onVirtualListItemUnmount = handleVirtualListItemUnmount(onUnmount)(item?.indexKey as string)
-		const itemElement =
-			!item ?
-				<></>
-			:	renderItem?.({
-					index: renderIndex,
-					item: {...item, onClose: onVirtualListItemClose, onLoadEnd}
-				})
+		const onVirtualListItemClose = useMemo(
+			() => createHandler(handleVirtualListItemClose)(setState)(),
+			[setState]
+		)
+
+		const onVirtualListItemUnmount = useMemo(
+			() => createHandler(handleVirtualListItemUnmount(onUnmount)(item?.indexKey as string))(),
+			[item?.indexKey, onUnmount]
+		)
+
+		const {containerAnimatedStyle} = useVirtualListItemAnimated({offsetY})
+		const itemElement = useMemo(
+			() =>
+				!item ?
+					<></>
+				:	renderItem?.({
+						index: renderIndex,
+						item: {...item, onClose: onVirtualListItemClose, onLoadEnd}
+					}),
+			[item, onLoadEnd, onVirtualListItemClose, renderIndex, renderItem]
+		)
 
 		useEffect(() => {
-			onVirtualListItemInit()
-		}, [onVirtualListItemInit])
+			onVirtualListItemStatus()
+		}, [onVirtualListItemStatus])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

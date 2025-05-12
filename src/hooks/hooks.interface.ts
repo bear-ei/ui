@@ -70,8 +70,3 @@ export type AnimatedTiming = (
 export interface UseWindowDimensionsOptions {
 	changeEventThrottle?: number
 }
-
-export type GestureResponderEventHandler = (event: GestureResponderEvent) => void
-export type LayoutEventHandler = (event: LayoutChangeEvent) => void
-export type MouseEventHandler = (event: MouseEvent) => void
-export type TargetedEventHandler = (event: NativeSyntheticEvent<TargetedEvent>) => void

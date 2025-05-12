@@ -9,7 +9,7 @@ export interface TouchableRippleProps
 		RefAttributes<View>,
 		Pick<TouchableProps, 'centered' | 'underlayColor'> {
 	containerLayout?: LayoutRectangle
-	indexKey: string
+	indexKey?: string
 	onAnimatedFinished?: (indexKey: string) => void
 	touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>
 }

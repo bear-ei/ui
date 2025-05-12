@@ -2,6 +2,7 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../Common'
+import type {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
 import type {
@@ -43,8 +44,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 			prevActiveKey !== nextActiveKey &&
 			(nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
 
-		const isNextActive = nextActiveKeys?.includes(nextIndexKey)
-		const isPrevActive = prevActiveKeys?.includes(prevIndexKey)
+		const isNextActive = nextIndexKey && nextActiveKeys?.includes(nextIndexKey)
+		const isPrevActive = prevIndexKey && prevActiveKeys?.includes(prevIndexKey)
 		const isActiveKeysChange =
 			nextActiveKeys?.join() !== prevActiveKeys?.join() &&
 			((isNextActive && !isPrevActive) || (isPrevActive && !isNextActive))
@@ -70,8 +71,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 }
 
 const handleListItemActive =
-	(selectType?: ListSelectType) => (onActive?: (activeKey?: string) => void) => (activeKey: string) =>
-		selectType && onActive?.(activeKey)
+	(selectType?: ListSelectType) => (onActive?: (activeKey?: string) => void) => (activeKey?: string) =>
+		selectType && activeKey && onActive?.(activeKey)
 
 const handleListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
 export const handleListItemStateChange =
@@ -151,7 +152,6 @@ export const handleListItemStateChange =
 					}
 
 					break
-
 				default:
 					break
 			}
@@ -165,7 +165,7 @@ export const handleListItemTrailingPressOut =
 		onActiveAfterAffordance,
 		onListItemClose
 	}: HandleListItemTrailingPressOutOptions) =>
-	(indexKey: string) =>
+	(indexKey?: string) =>
 	() => {
 		const nextEvent = {
 			afterAffordance: () => onActiveAfterAffordance?.({activeKey: indexKey}),
@@ -198,8 +198,8 @@ export const handleItemListAffordanceShow = (setState: Updater<ListItemState>) =
 	})
 
 export const handleListItemConfirm =
-	({options, onConfirm, onActiveAfterAffordance, onListItemClose}: HandleListItemConfirmOptions) =>
-	(indexKey?: string) => {
+	({onActiveAfterAffordance, onListItemClose, onConfirm}: HandleListItemConfirmOptions) =>
+	({indexKey, ...options}: ListAfterAffordancePressOutOptions) => {
 		const {doubleConfirmed: isDoubleConfirmed} = options
 
 		if (isDoubleConfirmed) {
@@ -223,8 +223,8 @@ export const handleListItemFocus =
 		})
 
 export const handleListItemClose =
-	(onClose?: (indexKey?: string) => void) => (indexKey: string) => (close?: boolean) => {
-		if (!close) {
+	(onClose?: (indexKey?: string) => void) => (indexKey?: string) => (close?: boolean) => {
+		if (!(close && indexKey)) {
 			return
 		}
 

@@ -8,15 +8,11 @@ import type {
 } from 'react-native'
 import {Platform} from 'react-native'
 import {EVENT_NAME, STATE, type State} from '../components'
-import {createHandler} from '../utils'
+import {createHandlerFinal} from '../utils'
 import type {
-	GestureResponderEventHandler,
 	HandleStateEventChangeOptions,
 	HandleStateEventOptions,
-	LayoutEventHandler,
-	MouseEventHandler,
 	StateEvent,
-	TargetedEventHandler,
 	UseHandleStateEventOptions
 } from './hooks.interface'
 
@@ -125,59 +121,53 @@ export const useStateEvent = ({
 	)
 
 	const handleBlur = useMemo(
-		() => createHandler<TargetedEventHandler>(handleBlurEvent({interactionHandlers})(onBlur))()(),
+		() => createHandlerFinal(handleBlurEvent({interactionHandlers})(onBlur))(),
 		[interactionHandlers, onBlur]
 	)
 
 	const handleFocus = useMemo(
-		() => createHandler<TargetedEventHandler>(handleFocusEvent({interactionHandlers})(onFocus))()(),
+		() => createHandlerFinal(handleFocusEvent({interactionHandlers})(onFocus))(),
 		[interactionHandlers, onFocus]
 	)
 
 	const handleHoverIn = useMemo(
-		() => createHandler<MouseEventHandler>(handleHoverIntEvent({interactionHandlers})(onHoverIn))()(),
+		() => createHandlerFinal(handleHoverIntEvent({interactionHandlers})(onHoverIn))(),
 		[interactionHandlers, onHoverIn]
 	)
 
 	const handleHoverOut = useMemo(
-		() => createHandler<MouseEventHandler>(handleHoverOutEvent({interactionHandlers})(onHoverOut))()(),
+		() => createHandlerFinal(handleHoverOutEvent({interactionHandlers})(onHoverOut))(),
 		[interactionHandlers, onHoverOut]
 	)
 
 	const handleLayout = useMemo(
-		() => createHandler<LayoutEventHandler>(handleLayoutEvent({interactionHandlers})(onLayout))()(),
+		() => createHandlerFinal(handleLayoutEvent({interactionHandlers})(onLayout))(),
 		[interactionHandlers, onLayout]
 	)
 
 	const handleLongPress = useMemo(
-		() =>
-			createHandler<GestureResponderEventHandler>(
-				handleLongPressEvent({interactionHandlers})(onLongPress)
-			)()(),
+		() => createHandlerFinal(handleLongPressEvent({interactionHandlers})(onLongPress))(),
 		[interactionHandlers, onLongPress]
 	)
 
 	const handlePress = useMemo(
 		() =>
-			createHandler<GestureResponderEventHandler>(
+			createHandlerFinal(
 				handlePressEvent({interactionHandlers, mobileDevice: isMobileDevice})(onPress)
-			)()(),
+			)(),
 		[interactionHandlers, isMobileDevice, onPress]
 	)
 
 	const handlePressIn = useMemo(
-		() =>
-			createHandler<GestureResponderEventHandler>(
-				handlePressInEvent({interactionHandlers})(onPressIn)
-			)()(),
+		() => createHandlerFinal(handlePressInEvent({interactionHandlers})(onPressIn))(),
 		[interactionHandlers, onPressIn]
 	)
 
 	const handlePressOut = useMemo(
 		() =>
-			createHandler<GestureResponderEventHandler>(
+			createHandlerFinal(
 				handlePressOutEvent({interactionHandlers, mobileDevice: isMobileDevice})(onPressOut)
-			)()(),
+			)(),
 		[interactionHandlers, isMobileDevice, onPressOut]
 	)
 

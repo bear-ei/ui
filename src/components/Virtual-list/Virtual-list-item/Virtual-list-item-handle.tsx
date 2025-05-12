@@ -2,6 +2,7 @@ import {DURATION} from '@bearei/material-token'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming} from '../../../hooks'
+import {COMPONENT_STATUS} from '../../Common'
 import type {VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
 
 export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps) => {
@@ -30,7 +31,7 @@ export const handleVirtualListItemAnimated =
 	(animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<number>) => (offsetY: number) =>
 		animatedTiming({duration: DURATION.SHORT_2})(topSharedValue)(offsetY)
 
-export const handleVirtualListItemInit = (setState: Updater<VirtualListItemState>) => () =>
+export const handleVirtualListItemStatus = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {
 		if (draft.status === COMPONENT_STATUS.IDLE) {
 			draft.status = COMPONENT_STATUS.SUCCEEDED

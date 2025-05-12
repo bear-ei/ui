@@ -1,8 +1,8 @@
 import {nanoid} from 'nanoid'
-import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {runAfterInteractions} from '../../utils'
+import {createHandler, runAfterInteractions} from '../../utils'
 import {
 	handleSideSheetBack,
 	handleSideSheetClose,
@@ -36,13 +36,17 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		const emitId = useMemo(() => nanoid(), [])
 		const id = useId()
 		const sideSheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const
-		const onSideSheetBack = useCallback(
-			() => handleSideSheetBack({onBack, disabledClose, type})(setState),
+		const onSideSheetBack = useMemo(
+			() => createHandler(handleSideSheetBack({onBack, disabledClose, type}))(setState)(),
 			[disabledClose, onBack, setState, type]
 		)
 
-		const onSideSheetClose = useCallback(() => handleSideSheetClose(setState)(onClose), [onClose, setState])
-		const onSideSheetVisible = useMemo(() => handleSideSheetVisible(setState), [setState])
+		const onSideSheetClose = useMemo(
+			() => createHandler(handleSideSheetClose(onClose))(setState)(),
+			[onClose, setState]
+		)
+
+		const onSideSheetVisible = useMemo(() => createHandler(handleSideSheetVisible)(setState)(), [setState])
 		const renderSheetProps = useMemo(
 			() => ({
 				...renderSideSheetProps,

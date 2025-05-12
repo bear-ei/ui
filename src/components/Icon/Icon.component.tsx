@@ -1,5 +1,6 @@
-import {forwardRef, memo, type FC} from 'react'
+import {forwardRef} from 'react'
 import type {View} from 'react-native'
+import {typedMemo} from '../../utils'
 import {IconBase} from './Icon-base.component'
 import type {IconProps} from './Icon.interface'
 import {renderIcon} from './Icon.render'
@@ -12,4 +13,4 @@ const IconWithRef = forwardRef<View, IconProps>((props, ref) => (
 	/>
 ))
 
-export const Icon = memo(IconWithRef) as FC<IconProps>
+export const Icon = typedMemo(IconWithRef)()

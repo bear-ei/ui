@@ -18,10 +18,13 @@ export const useSideSheetContentAnimated = ({
 	const backgroundColorSharedValue = useSharedValue(animatedValue)
 	const sideSheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const
 	const isStandard = sideSheetTypes.includes(type as (typeof sideSheetTypes)[number])
-	const containerBackgroundColorOutputRanges = [
-		hexToRGBA(scheme.scrim)(opacity.level0),
-		isStandard ? hexToRGBA(scheme.scrim)(opacity.level0) : hexToRGBA(scheme.scrim)(opacity.level4)
-	]
+	const containerBackgroundColorOutputRanges = useMemo(
+		() => [
+			hexToRGBA(scheme.scrim)(opacity.level0),
+			isStandard ? hexToRGBA(scheme.scrim)(opacity.level0) : hexToRGBA(scheme.scrim)(opacity.level4)
+		],
+		[isStandard, opacity.level0, opacity.level4, scheme.scrim]
+	)
 
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
 		backgroundColor: interpolateColor(
