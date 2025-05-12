@@ -6,7 +6,7 @@ import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createHandler} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
-import {handleFABDisabled, handleFABInit, handleFABStateChange, handleFABUnderlayColor} from './FAB-handle'
+import {handleFABDisabled, handleFABStateChange, handleFABStatus, handleFABUnderlayColor} from './FAB-handle'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABBaseProps, FABState} from './FAB.interface'
 import {renderFABIcon} from './FAB.render'
@@ -33,8 +33,8 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		const theme = useTheme()
 		const isDisabled = loading || rawDisabled
 		const underlayColor = handleFABUnderlayColor(theme)(type)
-		const onFABInit = useMemo(
-			() => createHandler(handleFABInit(rawDisabled))(setState)(),
+		const onFABStatus = useMemo(
+			() => createHandler(handleFABStatus(rawDisabled))(setState)(),
 			[rawDisabled, setState]
 		)
 
@@ -65,8 +65,8 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		}, [isDisabled, onFABDisabled])
 
 		useEffect(() => {
-			onFABInit(elevated)
-		}, [elevated, onFABInit])
+			onFABStatus(elevated)
+		}, [elevated, onFABStatus])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

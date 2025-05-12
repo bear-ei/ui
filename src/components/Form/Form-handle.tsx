@@ -4,7 +4,7 @@ import {COMPONENT_STATUS} from '../Common'
 import type {FormItemProps} from './Form-item'
 import type {FormCallback, FormState, HandleFormCallbacksOptions, HandleFormValidateOptions} from './Form.interface'
 
-export const handleFormInit =
+export const handleFormStatus =
 	<T,>(setState: Updater<FormState>) =>
 	(setInitialValues: (initialized?: boolean) => (value?: T) => void) =>
 	(value?: T) =>

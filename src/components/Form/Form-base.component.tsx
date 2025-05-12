@@ -4,7 +4,7 @@ import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {createHandler} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
-import {handleFormCallbacks, handleFormFieldKeys, handleFormInit} from './Form-handle'
+import {handleFormCallbacks, handleFormFieldKeys, handleFormStatus} from './Form-handle'
 import type {FormItemProps} from './Form-item'
 import type {FormBaseProps, FormState, HandleFormCallbacksOptions} from './Form.interface'
 import {renderFormItems} from './Form.render'
@@ -28,8 +28,8 @@ const FormBaseInner = <T,>(
 	const id = useId()
 	const formStore = useForm(form)
 	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
-	const onFormInit = useMemo(
-		() => createHandler<(value?: T) => void>(handleFormInit<T>(setState)(setInitialValues))()(),
+	const onFormStatus = useMemo(
+		() => createHandler<(value?: T) => void>(handleFormStatus<T>(setState)(setInitialValues))()(),
 		[setInitialValues, setState]
 	)
 
@@ -60,8 +60,8 @@ const FormBaseInner = <T,>(
 	}, [items, onFormFieldKeys])
 
 	useEffect(() => {
-		onFormInit(initialValue)
-	}, [initialValue, onFormInit])
+		onFormStatus(initialValue)
+	}, [initialValue, onFormStatus])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

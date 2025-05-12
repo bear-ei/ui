@@ -45,7 +45,7 @@ export interface HandleFormItemRuleChangeOptions extends Pick<FormStore, 'setFie
 	validatorOptions?: FormValidatorOptions
 }
 
-export type HandleFormItemInitOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
+export type HandleFormItemStatusOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
 	onComponentUpdate: () => void
 	validationDelay?: number
 	validatorOptions?: ValidatorOptions

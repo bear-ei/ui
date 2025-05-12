@@ -8,7 +8,7 @@ import {ELEVATION, type ElevationLevel} from '../Elevation'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABState, FABType, HandleFABStateChangeOptions} from './FAB.interface'
 
-export const handleFABInit = (disabled?: boolean) => (setState: Updater<FABState>) => (elevated?: boolean) =>
+export const handleFABStatus = (disabled?: boolean) => (setState: Updater<FABState>) => (elevated?: boolean) =>
 	setState(draft => {
 		if (draft.status !== COMPONENT_STATUS.IDLE) {
 			return

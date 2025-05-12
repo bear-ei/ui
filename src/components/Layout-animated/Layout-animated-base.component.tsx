@@ -50,8 +50,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE})
 
 		const id = useId()
-		const isLayoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
-		const delay = useMemo(() => rawDelay + 50, [rawDelay])
+		const isLayoutVisible = rawVisible ?? defaultVisible
+		const delay = rawDelay + 50
 		const onLayoutAnimatedStatus = useMemo(
 			() => createHandler(handleLayoutAnimatedStatus({unmount, lazy}))(setState)(),
 			[lazy, setState, unmount]

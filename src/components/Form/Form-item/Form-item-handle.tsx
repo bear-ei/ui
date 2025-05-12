@@ -2,10 +2,10 @@ import type {NativeSyntheticEvent, TargetedEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS} from '../../Common'
 import type {FormError} from '../Form.interface'
-import type {FormItemState, HandleFormItemInitOptions, HandleFormItemValueChangeOptions} from './Form-item.interface'
+import type {FormItemState, HandleFormItemStatusOptions, HandleFormItemValueChangeOptions} from './Form-item.interface'
 
-export const handleFormItemInit =
-	({rule, signInField, onComponentUpdate, validatorOptions}: HandleFormItemInitOptions) =>
+export const handleFormItemStatus =
+	({rule, signInField, onComponentUpdate, validatorOptions}: HandleFormItemStatusOptions) =>
 	(setState: Updater<FormItemState>) =>
 	(name?: string) =>
 		setState(draft => {
