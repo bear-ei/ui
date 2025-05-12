@@ -3,13 +3,13 @@ import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createHandler, runAfterInteractions} from '../../utils'
-import type {State} from '../Common'
+import {COMPONENT_STATUS, type State} from '../Common'
 import {
 	handleLayoutAnimatedFinished,
-	handleLayoutAnimatedInit,
 	handleLayoutAnimatedLayoutChange,
 	handleLayoutAnimatedLayoutVisible,
-	handleLayoutAnimatedStateChange
+	handleLayoutAnimatedStateChange,
+	handleLayoutAnimatedStatus
 } from './Layout-animated-handle'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import type {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
@@ -52,14 +52,14 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		const id = useId()
 		const isLayoutVisible = useMemo(() => rawVisible ?? defaultVisible, [defaultVisible, rawVisible])
 		const delay = useMemo(() => rawDelay + 50, [rawDelay])
-		const onLayoutAnimatedInit = useMemo(
-			() => createHandler(handleLayoutAnimatedInit({unmount, lazy}), setState),
+		const onLayoutAnimatedStatus = useMemo(
+			() => createHandler(handleLayoutAnimatedStatus({unmount, lazy}))(setState)(),
 			[lazy, setState, unmount]
 		)
 
 		const onLayoutAnimatedLayoutVisible = useMemo(
 			() =>
-				createHandler(handleLayoutAnimatedLayoutVisible(onVisible), setState, {
+				createHandler(handleLayoutAnimatedLayoutVisible(onVisible))(setState)({
 					debounceMillisecond: delay
 				}),
 
@@ -67,12 +67,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		)
 
 		const onLayoutAnimatedFinished = useMemo(
-			() => createHandler(handleLayoutAnimatedFinished({onUnmount, unmount}), setState),
+			() => createHandler(handleLayoutAnimatedFinished({onUnmount, unmount}))(setState)(),
 			[onUnmount, setState, unmount]
 		)
 
 		const onLayoutAnimatedLayoutChange = useMemo(
-			() => createHandler(handleLayoutAnimatedLayoutChange, setState, {debounceMillisecond: 50}),
+			() => createHandler(handleLayoutAnimatedLayoutChange)(setState)({debounceMillisecond: 50}),
 			[setState]
 		)
 
@@ -100,8 +100,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		})
 
 		useEffect(() => {
-			onLayoutAnimatedInit(isLayoutVisible)
-		}, [isLayoutVisible, onLayoutAnimatedInit])
+			onLayoutAnimatedStatus(isLayoutVisible)
+		}, [isLayoutVisible, onLayoutAnimatedStatus])
 
 		useEffect(() => {
 			if (status === COMPONENT_STATUS.SUCCEEDED) {

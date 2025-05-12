@@ -3,7 +3,7 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../hooks'
-import type {State} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, STATE, type State} from '../Common'
 import {ELEVATION, type ElevationLevel} from '../Elevation'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABState, FABType, HandleFABStateChangeOptions} from './FAB.interface'
@@ -27,18 +27,18 @@ const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boole
 	}
 
 	const level = {
-		disabled: ELEVATION.LEVEL_0,
-		enabled: ELEVATION.LEVEL_0,
-		error: ELEVATION.LEVEL_0,
-		focused: ELEVATION.LEVEL_0,
-		hovered: ELEVATION.LEVEL_1,
-		longPressIn: ELEVATION.LEVEL_0,
-		pressIn: ELEVATION.LEVEL_0
+		[STATE.DISABLED]: ELEVATION.LEVEL_0,
+		[STATE.ENABLED]: ELEVATION.LEVEL_0,
+		[STATE.ERROR]: ELEVATION.LEVEL_0,
+		[STATE.FOCUSED]: ELEVATION.LEVEL_0,
+		[STATE.HOVERED]: ELEVATION.LEVEL_1,
+		[STATE.LONG_PRESS_IN]: ELEVATION.LEVEL_0,
+		[STATE.PRESS_IN]: ELEVATION.LEVEL_0
 	}
 
 	if (state) {
 		draft.elevation = (
-			state === 'disabled' ?
+			state === STATE.DISABLED ?
 				level[state]
 			:	level[state] + ELEVATION.LEVEL_3) as ElevationLevel
 	}
@@ -69,7 +69,7 @@ export const handleFABDisabled = (elevated?: boolean) => (setState: Updater<FABS
 	typeof disabled === 'boolean' &&
 	setState(draft => {
 		if (disabled) {
-			draft.eventName = 'none'
+			draft.eventName = EVENT_NAME.NONE
 		}
 
 		if (elevated) {

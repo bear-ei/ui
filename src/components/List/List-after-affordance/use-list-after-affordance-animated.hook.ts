@@ -10,10 +10,10 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
 	const theme = useTheme()
 	const {spacing} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const dangerTranslateXOutputRanges = [
-		theme.adaptSize(spacing.none),
-		-(theme.adaptSize(spacing.extraSmall * 34) / 2)
-	]
+	const dangerTranslateXOutputRanges = useMemo(
+		() => [theme.adaptSize(spacing.none), -(theme.adaptSize(spacing.extraSmall * 34) / 2)],
+		[spacing.extraSmall, spacing.none, theme]
+	)
 
 	const dangerAnimatedStyle = useAnimatedStyle(() => ({
 		transform: [

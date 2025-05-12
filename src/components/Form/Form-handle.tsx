@@ -1,7 +1,8 @@
 import {validate, ValidationError} from 'class-validator'
 import type {Updater} from 'use-immer'
+import {COMPONENT_STATUS} from '../Common'
 import type {FormItemProps} from './Form-item'
-import type {FormCallback, FormState, handleFormCallbacksOptions, HandleFormValidateOptions} from './Form.interface'
+import type {FormCallback, FormState, HandleFormCallbacksOptions, HandleFormValidateOptions} from './Form.interface'
 
 export const handleFormInit =
 	<T,>(setState: Updater<FormState>) =>
@@ -21,7 +22,7 @@ export const handleFormInit =
 
 export const handleFormCallbacks =
 	<T,>(setCallbacks: (callback: FormCallback<T>) => void) =>
-	({onFinish, onFinishFailed, onValuesChange}: handleFormCallbacksOptions<T>) =>
+	({onFinish, onFinishFailed, onValuesChange}: HandleFormCallbacksOptions<T>) =>
 		setCallbacks({onFinish, onFinishFailed, onValuesChange})
 
 export const handleFormFieldKeys =

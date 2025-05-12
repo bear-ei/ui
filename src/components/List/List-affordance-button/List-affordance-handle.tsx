@@ -1,6 +1,7 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../../hooks'
+import {EVENT_NAME} from '../../Common'
 import type {
 	HandleListAffordanceButtonStateEventChangeOptions,
 	ListAffordanceButtonState

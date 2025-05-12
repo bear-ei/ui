@@ -1,7 +1,9 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+import type {TargetedEventHandler} from '../../../hooks'
 import {createHandler} from '../../../utils'
+import {COMPONENT_STATUS} from '../../Common'
 import {useFormContext} from '../use-form-context.hook'
 import {
 	handleComponentUpdate,
@@ -17,6 +19,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			shouldUpdate: {},
 			status: COMPONENT_STATUS.IDLE
 		})
+
 		const id = useId()
 		const {getFieldsError, getFieldsValue, getInitialValues, setFieldsValue, signInField, validateFields} =
 			useFormContext()
@@ -30,17 +33,20 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		)
 
 		const onFormItemComponentUpdate = useMemo(
-			() => createHandler(handleComponentUpdate, setState),
+			() => createHandler(handleComponentUpdate)(setState)(),
 			[setState]
 		)
 
 		const onFormValueChange = useMemo(
-			() => createHandler(handleFormItemValueChange({setFieldsValue, storeValue})(name)),
+			() =>
+				createHandler<(value?: unknown) => void>(
+					handleFormItemValueChange({setFieldsValue, storeValue})(name)
+				)()(),
 			[name, setFieldsValue, storeValue]
 		)
 
 		const onFormItemBlur = useMemo(
-			() => createHandler(handleFormItemBlur(validateFields)(name)),
+			() => createHandler<TargetedEventHandler>(handleFormItemBlur(validateFields)(name))()(),
 			[name, validateFields]
 		)
 

@@ -3,7 +3,7 @@ import type {LayoutChangeEvent, LayoutRectangle} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
-import type {EventName} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import type {
 	HandleLayoutAnimatedFinishedOptions,
 	HandleLayoutAnimatedStateChangeOptions,
@@ -34,7 +34,7 @@ export const handleLayoutAnimatedStateChange =
 	({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
 	(event: StateEvent) => {
 		const nextEvent = {
-			layout: () => onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
+			[EVENT_NAME.LAYOUT]: () => onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
 		} as Record<EventName, () => void>
 
 		if (!eventName) {
@@ -75,7 +75,7 @@ export const handleLayoutAnimatedFinished =
 		})
 	}
 
-export const handleLayoutAnimatedInit =
+export const handleLayoutAnimatedStatus =
 	({unmount, lazy}: HandleLayoutAnimatedStatusOptions) =>
 	(setState: Updater<LayoutAnimatedState>) =>
 	(visible?: boolean) =>
@@ -88,7 +88,7 @@ export const handleLayoutAnimatedInit =
 				draft.unmountLayout = !visible
 			}
 
-			draft.status = lazy && !visible ? COMPONENT_STATUS.IDLE : 'loading'
+			draft.status = lazy && !visible ? COMPONENT_STATUS.IDLE : COMPONENT_STATUS.LOADING
 		})
 
 export const handleLayoutAnimatedTiming =

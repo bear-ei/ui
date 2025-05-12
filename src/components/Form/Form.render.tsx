@@ -1,4 +1,4 @@
-import type {ComponentStatus} from '../Common'
+import {COMPONENT_STATUS, type ComponentStatus} from '../Common'
 import {FormItem, type FormItemProps} from './Form-item'
 import type {FormStore, RenderFormItemsOptions, RenderFormProps} from './Form.interface'
 import {Container} from './Form.styles'

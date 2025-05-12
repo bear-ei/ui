@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import {createHandler, runAfterInteractions} from '../../../utils'
-import type {State} from '../../Common'
+import {COMPONENT_STATUS, type State} from '../../Common'
 import type {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
@@ -96,12 +96,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		// ).current
 
 		const onListItemFocus = useMemo(
-			() => createHandler(handleListItemFocus(itemIndex), setState),
+			() => createHandler(handleListItemFocus(itemIndex))(setState)(),
 			[itemIndex, setState]
 		)
 
 		const onListItemClose = useMemo(
-			() => createHandler(handleListItemClose(onClose)(indexKey)),
+			() => createHandler<(close?: boolean) => void>(handleListItemClose(onClose)(indexKey))()(),
 			[indexKey, onClose]
 		)
 
@@ -120,24 +120,24 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
 		const onListItemTrailingPressOut = useMemo(
 			() =>
-				createHandler(
+				createHandler<() => void>(
 					handleListItemTrailingPressOut({
 						afterAffordance,
 						closeTrailing,
 						onActiveAfterAffordance,
 						onListItemClose
 					})(indexKey)
-				),
+				)()(),
 			[afterAffordance, closeTrailing, indexKey, onActiveAfterAffordance, onListItemClose]
 		)
 
 		const onListItemTrailingPressIn = useMemo(
-			() => createHandler(handleListItemTrailingPressIn(setState)),
+			() => createHandler(handleListItemTrailingPressIn)(setState)(),
 			[setState]
 		)
 
 		const onListItemAfterAffordanceVisibleFinished = useMemo(
-			() => createHandler(handleItemListAfterAffordanceVisibleFinished, setState),
+			() => createHandler(handleItemListAfterAffordanceVisibleFinished)(setState)(),
 			[setState]
 		)
 

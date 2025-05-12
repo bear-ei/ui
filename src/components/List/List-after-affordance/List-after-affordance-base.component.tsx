@@ -2,6 +2,7 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
+import type {GestureResponderEventHandler} from '../../../hooks'
 import {createHandler, runAfterInteractions} from '../../../utils'
 import {
 	handleListAfterAffordanceCancel,
@@ -23,13 +24,13 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 		const id = useId()
 		const onListAfterAffordanceConfirm = useMemo(
 			() =>
-				createHandler(
+				createHandler<GestureResponderEventHandler>(
 					handleListAfterAffordanceConfirm({
 						doubleConfirmed: isDoubleConfirmed,
 						indexKey,
 						onConfirm
 					})
-				),
+				)()(),
 			[indexKey, isDoubleConfirmed, onConfirm]
 		)
 
@@ -40,14 +41,13 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 						doubleConfirmed: isDoubleConfirmed,
 						indexKey,
 						onCancel
-					}),
-					setState
-				),
+					})
+				)(setState)(),
 			[indexKey, isDoubleConfirmed, onCancel, setState]
 		)
 
 		const onListAfterAffordanceVisible = useMemo(
-			() => createHandler(handleListAfterAffordanceVisible, setState),
+			() => createHandler(handleListAfterAffordanceVisible)(setState)(),
 			[setState]
 		)
 		const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed})

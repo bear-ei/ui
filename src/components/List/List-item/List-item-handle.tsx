@@ -1,7 +1,7 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../../hooks'
-import type {EventName} from '../../Common'
+import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../Common'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
 import type {
@@ -89,9 +89,9 @@ export const handleListItemStateChange =
 	(setState: Updater<ListItemState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
-			layout: () => handleListItemLoadEnd?.(onLoadEnd)(indexKey),
-			pressIn: () => handleListItemActive(selectType)(onActive)(indexKey),
-			pressOut: () => handleListItemActive(selectType)(onActive)(indexKey)
+			[EVENT_NAME.LAYOUT]: () => handleListItemLoadEnd?.(onLoadEnd)(indexKey),
+			[EVENT_NAME.PRESS_IN]: () => handleListItemActive(selectType)(onActive)(indexKey),
+			[EVENT_NAME.PRESS_OUT]: () => handleListItemActive(selectType)(onActive)(indexKey)
 		} as Record<EventName, () => void>
 
 		setState(draft => {
@@ -100,11 +100,12 @@ export const handleListItemStateChange =
 			}
 
 			const prevEventName = draft.eventName
+			const eventNames = [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT] as const
 			const isMenuFocus =
-				eventName === 'blur' &&
-				prevEventName === 'focus' &&
+				eventName === EVENT_NAME.BLUR &&
+				prevEventName === EVENT_NAME.FOCUS &&
 				type === LIST_TYPE.MENU &&
-				['hoverIn', 'hoverOut'].includes(eventName)
+				eventNames.includes(eventName as (typeof eventNames)[number])
 
 			if (isMenuFocus) {
 				return
@@ -116,29 +117,35 @@ export const handleListItemStateChange =
 			}
 
 			if (trailingTriggerEvenName) {
+				const states = [
+					STATE.HOVERED,
+					STATE.LONG_PRESS_IN,
+					STATE.PRESS_IN,
+					STATE.FOCUSED
+				] as const
+
 				const isVisible =
-					trailingTriggerEvenName === 'hoverIn' ?
-						state &&
-						['hovered', 'longPressIn', 'pressIn', 'focused'].includes(state)
+					trailingTriggerEvenName === EVENT_NAME.HOVER_IN ?
+						state && states.includes(state as (typeof states)[number])
 					:	trailingTriggerEvenName === state
 
 				draft.trailingVisible = isVisible
 			}
 
 			switch (eventName) {
-				case 'layout':
+				case EVENT_NAME.LAYOUT:
 					draft.nextLayoutEvent = nextEvent[eventName]
 					draft.status = COMPONENT_STATUS.SUCCEEDED
 					break
 
-				case 'pressIn':
+				case EVENT_NAME.PRESS_IN:
 					if (activeTriggerEvenName === ACTIVE_TRIGGER_EVEN_NAME.PRESS_IN) {
 						draft.nextPressInEvent = nextEvent[eventName]
 					}
 
 					break
 
-				case 'pressOut':
+				case EVENT_NAME.PRESS_OUT:
 					if (activeTriggerEvenName === ACTIVE_TRIGGER_EVEN_NAME.PRESS_OUT) {
 						draft.nextPressOutEvent = nextEvent[eventName]
 					}
@@ -212,7 +219,7 @@ export const handleListItemFocus =
 	(itemIndex?: number) => (setState: Updater<ListItemState>) => (focusedIndex?: number) =>
 		typeof focusedIndex === 'number' &&
 		setState(draft => {
-			draft.eventName = itemIndex === focusedIndex ? 'focus' : 'blur'
+			draft.eventName = itemIndex === focusedIndex ? EVENT_NAME.FOCUS : EVENT_NAME.BLUR
 		})
 
 export const handleListItemClose =

@@ -1,6 +1,7 @@
 import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
+import {EVENT_NAME} from '../Common'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {
 	HandleIconButtonAnimatedTimingOptions,
@@ -26,7 +27,7 @@ export const handleIconButtonStateChange =
 export const handleIconButtonDisabled = (setState: Updater<IconButtonState>) => (disabled?: boolean) =>
 	disabled &&
 	setState(draft => {
-		draft.eventName = 'none'
+		draft.eventName = EVENT_NAME.NONE
 	})
 
 export const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {

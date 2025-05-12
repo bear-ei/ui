@@ -26,8 +26,8 @@ export type ShadowType = keyof Shadow
 export type ShapeType = keyof Shape
 export type SpacingType = keyof Spacing
 export type State = (typeof STATE)[keyof typeof STATE]
-export type TypographyType = keyof Typography
 export type TriggerEvent = (typeof TRIGGER_EVENT)[keyof typeof TRIGGER_EVENT]
+export type TypographyType = keyof Typography
 export interface ShapeProps {
 	shape?: ShapeType
 }

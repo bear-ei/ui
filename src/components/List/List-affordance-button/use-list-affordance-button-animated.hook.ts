@@ -14,8 +14,16 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
 	const colorSharedValue = useSharedValue(animatedValue)
 	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
 	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
-	const backgroundColorOutputRanges = [disabledBackgroundColor, hexToRGBA(scheme.primary)(opacity.level0)]
-	const colorOutputRanges = [disabledColor, hexToRGBA(scheme.onPrimary)(opacity.level10)]
+	const backgroundColorOutputRanges = useMemo(
+		() => [disabledBackgroundColor, hexToRGBA(scheme.primary)(opacity.level0)],
+		[disabledBackgroundColor, opacity.level0, scheme.primary]
+	)
+
+	const colorOutputRanges = useMemo(
+		() => [disabledColor, hexToRGBA(scheme.onPrimary)(opacity.level10)],
+		[disabledColor, opacity.level10, scheme.onPrimary]
+	)
+
 	const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
 		backgroundColor: interpolateColor(colorSharedValue.value, [0, 1], backgroundColorOutputRanges)
 	}))

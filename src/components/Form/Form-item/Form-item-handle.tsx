@@ -1,5 +1,6 @@
 import type {NativeSyntheticEvent, TargetedEvent} from 'react-native'
 import type {Updater} from 'use-immer'
+import {COMPONENT_STATUS} from '../../Common'
 import type {FormError} from '../Form.interface'
 import type {FormItemState, HandleFormItemInitOptions, HandleFormItemValueChangeOptions} from './Form-item.interface'
 

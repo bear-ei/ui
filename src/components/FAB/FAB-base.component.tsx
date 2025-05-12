@@ -5,7 +5,7 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createHandler} from '../../utils'
-import type {State} from '../Common'
+import {COMPONENT_STATUS, type State} from '../Common'
 import {handleFABDisabled, handleFABInit, handleFABStateChange, handleFABUnderlayColor} from './FAB-handle'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABBaseProps, FABState} from './FAB.interface'
@@ -31,15 +31,15 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: COMPONENT_STATUS.IDLE})
 		const id = useId()
 		const theme = useTheme()
-		const isDisabled = useMemo(() => loading || rawDisabled, [loading, rawDisabled])
+		const isDisabled = loading || rawDisabled
 		const underlayColor = handleFABUnderlayColor(theme)(type)
 		const onFABInit = useMemo(
-			() => createHandler(handleFABInit(rawDisabled), setState),
+			() => createHandler(handleFABInit(rawDisabled))(setState)(),
 			[rawDisabled, setState]
 		)
 
 		const onFABDisabled = useMemo(
-			() => createHandler(handleFABDisabled(elevated), setState),
+			() => createHandler(handleFABDisabled(elevated))(setState)(),
 			[elevated, setState]
 		)
 
