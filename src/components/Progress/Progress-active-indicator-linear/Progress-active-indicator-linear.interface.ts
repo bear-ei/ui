@@ -7,7 +7,7 @@ export interface ProgressActiveIndicatorLinearProps
 	extends ViewProps,
 		RefAttributes<View>,
 		Pick<ProgressProps, 'animatedType' | 'value' | 'increment' | 'defaultValue'> {
-	containerLayout: LayoutRectangle
+	containerLayout?: LayoutRectangle
 }
 
 export interface RenderProgressActiveIndicatorLinearProps

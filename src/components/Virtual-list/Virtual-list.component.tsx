@@ -14,8 +14,8 @@ const VirtualListInner = <T,>(props: VirtualListProps<T>, ref: ForwardedRef<Anim
 	/>
 )
 
-const VirtualListWithRef = forwardRef(VirtualListInner) as <T>(
+const VirtualListWithRef = forwardRef(VirtualListInner)
+
+export const VirtualList = typedMemo(VirtualListWithRef)() as <T>(
 	props: VirtualListProps<T> & {ref?: ForwardedRef<Animated.ScrollView>}
 ) => ReturnType<typeof VirtualListInner>
-
-export const VirtualList = typedMemo(VirtualListWithRef)()

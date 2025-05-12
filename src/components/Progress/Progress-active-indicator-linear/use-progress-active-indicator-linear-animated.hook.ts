@@ -18,8 +18,8 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const outputRanges = useMemo(
-		() => handleOutputRanges(containerLayout.width)(increment),
-		[containerLayout.width, increment]
+		() => handleOutputRanges(containerLayout?.width)(increment),
+		[containerLayout?.width, increment]
 	)
 
 	const inputRanges = useMemo(() => outputRanges.map((_value, index) => index), [outputRanges])
