@@ -31,8 +31,8 @@ export const renderCheckbox = ({
 
 	const underlayColor = error ? theme.token.scheme.error : checkUnderlayColor
 	const iconSvgStyle = {
-		minWidth: theme.adaptSize(theme.token.spacing.large),
-		minHeight: theme.adaptSize(theme.token.spacing.large)
+		minHeight: theme.adaptSize(theme.token.spacing.large),
+		minWidth: theme.adaptSize(theme.token.spacing.large)
 	}
 
 	const animatedOptions = {
