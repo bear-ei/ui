@@ -9,9 +9,9 @@ export const Container = styled(Shape)<AvatarContainerProps>`
 	justify-content: center;
 
 	${({theme, backgroundColor}) => css`
+		background-color: ${backgroundColor ?? theme.token.scheme.primaryContainer};
 		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		background-color: ${backgroundColor ?? theme.token.scheme.primaryContainer};
 	`};
 `
 
