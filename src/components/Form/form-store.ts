@@ -198,7 +198,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			onStorageChange?.({changedValue: value, value: store})
 		}
 
-	const handleComponentUpdate = (enableValidate = true) => {
+	const createHandleComponentUpdate = (enableValidate = true) => {
 		const findEntity = (name: keyof T) => getFieldEntities().find(entityItem => name === entityItem.name)
 
 		return (value = {} as T) =>
@@ -227,7 +227,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			}
 	}
 
-	const handleValueChange =
+	const createHandleValueChange =
 		(value = {} as T) =>
 		() =>
 			callback.onValuesChange?.({changedValue: value, value: store})
@@ -236,8 +236,8 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		({componentUpdate = true, enableValidate = true} = {} as SetFieldsValueOptions) =>
 		(value = {} as T) => {
 			const {onValuesChange} = callback
-			const handleChange = handleValueChange(value)
-			const handleUpdate = handleComponentUpdate(enableValidate)(value)
+			const handleChange = createHandleValueChange(value)
+			const handleUpdate = createHandleComponentUpdate(enableValidate)(value)
 
 			if (componentUpdate) {
 				Promise.all(Object.keys(value).map(handleUpdate)).then(handleChange)

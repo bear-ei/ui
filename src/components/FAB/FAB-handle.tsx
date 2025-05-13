@@ -77,7 +77,7 @@ export const handleFABDisabled = (elevated?: boolean) => (setState: Updater<FABS
 		}
 	})
 
-export const handleFABUnderlayColor = (theme: DefaultTheme) => {
+export const createFABUnderlayColor = (theme: DefaultTheme) => {
 	const underlay = {
 		[FAB_TYPE.PRIMARY]: theme.token.scheme.onPrimaryContainer,
 		[FAB_TYPE.SECONDARY]: theme.token.scheme.onSecondaryContainer,

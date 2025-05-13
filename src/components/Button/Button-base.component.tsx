@@ -6,10 +6,10 @@ import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from
 import {createHandler} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {
+	createButtonUnderlayColor,
 	handleButtonDisabled,
 	handleButtonStateChange,
-	handleButtonStatus,
-	handleButtonUnderlayColor
+	handleButtonStatus
 } from './Button-handle'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonBaseProps, ButtonState} from './Button.interface'
@@ -37,7 +37,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		const id = useId()
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
-		const underlayColor = handleButtonUnderlayColor(theme)(type)
+		const underlayColor = createButtonUnderlayColor(theme)(type)
 		const onButtonStatus = useMemo(
 			() => createHandler(handleButtonStatus(rawDisabled))(setState)(),
 			[rawDisabled, setState]

@@ -88,7 +88,7 @@ export const handleButtonDisabled = (type?: ButtonType) => (setState: Updater<Bu
 		}
 	})
 
-export const handleButtonUnderlayColor = (theme: DefaultTheme) => {
+export const createButtonUnderlayColor = (theme: DefaultTheme) => {
 	const underlay = {
 		[BUTTON_TYPE.ELEVATED]: theme.token.scheme.primary,
 		[BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,

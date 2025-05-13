@@ -46,14 +46,14 @@ export const handleLayoutAnimatedStateChange =
 
 export const handleLayoutAnimatedLayoutVisible =
 	(onVisible?: (visible?: boolean) => void) => (setState: Updater<LayoutAnimatedState>) => {
-		const handleNextVisibleEvent = (visible?: boolean) => () => onVisible?.(visible)
+		const createNextVisibleEvent = (visible?: boolean) => () => onVisible?.(visible)
 		const handleDraftChange = (visible?: boolean) => (draft: WritableDraft<LayoutAnimatedState>) => {
 			if (visible === draft.visible) {
 				return
 			}
 
 			draft.invisible = !visible
-			draft.nextVisibleEvent = handleNextVisibleEvent(visible)
+			draft.nextVisibleEvent = createNextVisibleEvent(visible)
 			draft.visible = visible
 		}
 

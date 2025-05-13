@@ -102,14 +102,14 @@ export const handleTextInputSupportingTextVisible =
 export const handleTextInputChangeText =
 	(onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value?: string) => {
 		const nextValue = value?.trim()
-		const handleNextChangeTextEvent = () => typeof nextValue === 'string' && onChangeText?.(nextValue)
+		const createNextChangeTextEvent = () => typeof nextValue === 'string' && onChangeText?.(nextValue)
 
 		setState(draft => {
 			if (nextValue === draft.value) {
 				return
 			}
 
-			draft.nextChangeTextEvent = handleNextChangeTextEvent
+			draft.nextChangeTextEvent = createNextChangeTextEvent
 			draft.value = nextValue ?? ''
 		})
 	}

@@ -31,7 +31,7 @@ export interface UseTouchableRippleAnimatedOptions
 	radius: number
 }
 
-export interface HandleTouchableRippleAnimatedTimingSharedValue {
+export interface CreateTouchableRippleAnimatedTimingSharedValue {
 	scaleSharedValue: SharedValue<number>
 	opacitySharedValue: SharedValue<number>
 }

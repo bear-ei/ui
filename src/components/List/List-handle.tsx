@@ -54,7 +54,7 @@ const handleListMultiselect = (draft: WritableDraft<ListState>) => (activeKeys: 
 	return draft.activeKeys
 }
 
-const handleNextActiveEvent =
+const createNextActiveEvent =
 	({onActive, onActives}: HandleListActiveOptions) =>
 	(activeKeys?: string | string[]) =>
 	() =>
@@ -75,12 +75,12 @@ export const handleListActive =
 				return
 			}
 
-			draft.nextActiveEvent = handleNextActiveEvent(
+			draft.nextActiveEvent = createNextActiveEvent(
 				selectType === LIST_SELECT_TYPE.MULTIPLE ? {onActives} : {onActive}
 			)(callbackValue)
 		})
 
-export const handleListItemSize =
+export const createListItemSize =
 	({density, type}: HandleListItemSizeOptions) =>
 	(theme: DefaultTheme) =>
 	(itemSize?: number) =>
@@ -126,13 +126,13 @@ export const handleListActiveAfterAffordance =
 	}
 
 export const handleListClose = (onClose?: (options: OnVirtualListCloseOptions) => void) => {
-	const handleNextCloseEvent = (options: OnVirtualListCloseOptions) => () => onClose?.(options)
+	const createNextCloseEvent = (options: OnVirtualListCloseOptions) => () => onClose?.(options)
 
 	return (setState: Updater<ListState>) =>
 		({activeKey, indexKey}: OnVirtualListCloseOptions) => {
 			setState(draft => {
 				draft.activeKey = activeKey
-				draft.nextCloseEvent = handleNextCloseEvent({indexKey, activeKey})
+				draft.nextCloseEvent = createNextCloseEvent({indexKey, activeKey})
 			})
 		}
 }

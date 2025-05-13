@@ -30,7 +30,7 @@ export const handleIconButtonDisabled = (setState: Updater<IconButtonState>) => 
 		draft.eventName = EVENT_NAME.NONE
 	})
 
-export const handleIconButtonUnderlayColor = (theme: DefaultTheme) => {
+export const createButtonUnderlayColor = (theme: DefaultTheme) => {
 	const underlay = {
 		[ICON_BUTTON_TYPE.ACTIVE]: theme.token.scheme.onSurfaceVariant,
 		[ICON_BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,

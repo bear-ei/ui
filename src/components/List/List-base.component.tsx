@@ -4,11 +4,11 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {createHandler, runAfterInteractions} from '../../utils'
 import {
+	createListItemSize,
 	createRenderListItem,
 	handleListActive,
 	handleListActiveAfterAffordance,
-	handleListClose,
-	handleListItemSize
+	handleListClose
 } from './List-handle'
 import {ACTIVE_TRIGGER_EVEN_NAME} from './List.enum'
 import type {ListBaseProps, ListData, ListState, VirtualListComponent} from './List.interface'
@@ -70,7 +70,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		const listRef = useRef<ForwardedRef<Animated.ScrollView>>(null)
 		const id = useId()
 		const theme = useTheme()
-		const itemSize = handleListItemSize({density, type})(theme)(rawItemSize)
+		const itemSize = createListItemSize({density, type})(theme)(rawItemSize)
 		const onListActive = useMemo(
 			() => createHandler(handleListActive({onActive, selectType, onActives, deselect}))(setState)(),
 			[deselect, onActive, onActives, selectType, setState]

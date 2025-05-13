@@ -78,7 +78,7 @@ export const handleVirtualListStateChange =
 	}
 
 export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListScrollOptions) => {
-	const handleNextScrollEvent = (event: NativeSyntheticEvent<NativeScrollEvent>) => () => onScroll?.(event)
+	const createNextScrollEvent = (event: NativeSyntheticEvent<NativeScrollEvent>) => () => onScroll?.(event)
 
 	return (setState: Updater<VirtualListState>) => (event: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
@@ -90,7 +90,7 @@ export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListS
 		}
 
 		setState(draft => {
-			draft.nextScrollEvent = handleNextScrollEvent(event)
+			draft.nextScrollEvent = createNextScrollEvent(event)
 
 			handleVirtualListVisibleRanges(itemSize)(draft)(scrollOffset)
 		})
@@ -109,8 +109,8 @@ export const handleVirtualListClose =
 		const findDataIndex = (datum: ListData) => datum.indexKey === indexKey
 
 		if (!enableAutoSelect) {
-			const handleNextCloseEvent = () => onClose?.({indexKey})
-			draft.nextCloseEvent = handleNextCloseEvent
+			const createNextCloseEvent = () => onClose?.({indexKey})
+			draft.nextCloseEvent = createNextCloseEvent
 
 			return
 		}

@@ -5,11 +5,7 @@ import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createHandler} from '../../utils'
 import type {State} from '../Common'
-import {
-	handleIconButtonDisabled,
-	handleIconButtonStateChange,
-	handleIconButtonUnderlayColor
-} from './Icon-button-handle'
+import {createButtonUnderlayColor, handleIconButtonDisabled, handleIconButtonStateChange} from './Icon-button-handle'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {IconButtonBaseProps, IconButtonState} from './Icon-button.interface'
 import {renderIconButtonIcon} from './Icon-button.render'
@@ -32,7 +28,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		const id = useId()
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
-		const underlayColor = handleIconButtonUnderlayColor(theme)(type)
+		const underlayColor = createButtonUnderlayColor(theme)(type)
 		const onIconButtonDisabled = useMemo(
 			() => createHandler(handleIconButtonDisabled)(setState)(),
 			[setState]
