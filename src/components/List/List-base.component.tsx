@@ -32,7 +32,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			enableUnderlay,
 			enableUnderlayActive,
 			focusedIndex,
-			itemSize,
+			itemSize: rawItemSize,
 			loading,
 			loadingElement,
 			onActive,
@@ -70,6 +70,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		const listRef = useRef<ForwardedRef<Animated.ScrollView>>(null)
 		const id = useId()
 		const theme = useTheme()
+		const itemSize = handleListItemSize({density, type})(theme)(rawItemSize)
 		const onListActive = useMemo(
 			() => createHandler(handleListActive({onActive, selectType, onActives, deselect}))(setState)(),
 			[deselect, onActive, onActives, selectType, setState]
@@ -187,7 +188,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			afterAffordanceActiveKey,
 			focusedIndex,
 			id,
-			itemSize: handleListItemSize({density, type})(theme)(itemSize),
+			itemSize,
 			loading,
 			loadingElement,
 			onClose: onListClose,
