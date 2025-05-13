@@ -14,9 +14,9 @@ export const handleUnderlayHoveredAnimatedTiming = ({
 		[EVENT_NAME.HOVER_OUT]: 0,
 		[EVENT_NAME.LONG_PRESS]: activeValue,
 		[EVENT_NAME.NONE]: 0,
-		[EVENT_NAME.PRESS]: 1,
 		[EVENT_NAME.PRESS_IN]: activeValue,
-		[EVENT_NAME.PRESS_OUT]: 1
+		[EVENT_NAME.PRESS_OUT]: 1,
+		[EVENT_NAME.PRESS]: 1
 	} as Record<EventName, number>
 
 	const eventKeys = Object.keys(event)

@@ -23,7 +23,7 @@ export const useUnderlayAnimated = ({
 		[rawOpacities, theme.token.opacity.level0, theme.token.opacity.level1, theme.token.opacity.level2]
 	)
 
-	const {x: scaleX = 1.2, y: scaleY = 1.2} = useMemo(() => activeScale ?? {}, [activeScale])
+	const {x: scaleX = 1.2, y: scaleY = 1.2} = activeScale ?? {}
 	const defaultScaleValue = active ? 1 : 0
 	const activeValue = opacities.length === 3 ? opacities.length - 1 : 0
 	const hoverLayerSharedValue = useSharedValue(0)

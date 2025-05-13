@@ -56,7 +56,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 
 		const id = useId()
 		const containerRef = useRef<View>(null)
-		const {data} = useMemo(() => listProps ?? {}, [listProps])
+		const {data} = listProps ?? {}
 		const inputRef = useRef<TextInput>(null)
 		const theme = useTheme()
 		const onSearchListVisible = useMemo(

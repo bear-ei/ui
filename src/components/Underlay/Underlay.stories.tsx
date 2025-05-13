@@ -2,12 +2,12 @@ import type {Meta, StoryObj} from '@storybook/react'
 import {useState} from 'react'
 import type {ViewStyle} from 'react-native'
 import {Pressable} from 'react-native'
-import type {EventName} from '../Common'
+import {EVENT_NAME, type EventName} from '../Common'
 import {Underlay} from './Underlay.component'
 import type {UnderlayProps} from './Underlay.interface'
 
 const UnderlayComponent = (props: UnderlayProps) => {
-	const [eventName, setEventName] = useState<EventName>('none')
+	const [eventName, setEventName] = useState<EventName>(EVENT_NAME.NONE)
 	const style = {
 		height: 80,
 		width: 200,
@@ -16,10 +16,10 @@ const UnderlayComponent = (props: UnderlayProps) => {
 
 	return (
 		<Pressable
-			onHoverIn={() => setEventName('hoverIn')}
-			onHoverOut={() => setEventName('hoverOut')}
-			onPressIn={() => setEventName('pressIn')}
-			onPressOut={() => setEventName('pressOut')}
+			onHoverIn={() => setEventName(EVENT_NAME.HOVER_IN)}
+			onHoverOut={() => setEventName(EVENT_NAME.HOVER_OUT)}
+			onPressIn={() => setEventName(EVENT_NAME.PRESS_IN)}
+			onPressOut={() => setEventName(EVENT_NAME.PRESS_OUT)}
 			style={[style]}
 		>
 			<Underlay
