@@ -26,11 +26,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		const errors = getFieldsError(name)
 		const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
 		const storeValue = getFieldsValue(name)
-		const value = useMemo(
-			() => storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue),
-			[getInitialValues, name, status, storeValue]
-		)
-
+		const value = storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue)
 		const onFormItemComponentUpdate = useMemo(
 			() => createHandler(handleComponentUpdate)(setState)(),
 			[setState]
