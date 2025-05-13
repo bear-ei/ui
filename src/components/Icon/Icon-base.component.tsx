@@ -2,9 +2,9 @@ import {hexToRGBA} from '@bearei/material-token'
 import {forwardRef, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
+import {iconStyleConfig} from './Icon-style'
 import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'
 import type {IconBaseProps} from './Icon.interface'
-import {iconStyleConfig} from './icon-style'
 
 export const IconBase = forwardRef<View, IconBaseProps>(
 	(
