@@ -106,7 +106,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		}, [isListVisible, onSearchContainerLayout])
 
 		useEffect(() => {
-			nextChangeTextEvent?.()
+			runAfterInteractions(nextChangeTextEvent)()
 		}, [nextChangeTextEvent])
 
 		useEffect(() => {
