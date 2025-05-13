@@ -2,7 +2,7 @@ import {nanoid} from 'nanoid'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createHandler, runAfterInteractions} from '../../utils'
+import {createHandler, createHandlerFinal, runAfterInteractions} from '../../utils'
 import {
 	handleSideSheetBack,
 	handleSideSheetClose,
@@ -73,7 +73,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		)
 
 		const onSideSheetEmit = useMemo(
-			() => handleSideSheetEmit({id: emitId, type})(renderSheetProps),
+			() => createHandlerFinal(handleSideSheetEmit({id: emitId, type})(renderSheetProps))(),
 			[emitId, renderSheetProps, type]
 		)
 

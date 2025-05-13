@@ -45,8 +45,8 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 			headlineText,
 			id,
 			leading: leadingElement,
-			ref,
 			position,
+			ref,
 			theme,
 			trailing: trailingElement,
 			type
