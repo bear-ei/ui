@@ -1,7 +1,7 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../../hooks'
-import type {EventName} from '../../Common'
+import {EVENT_NAME, type EventName} from '../../Common'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {
 	HandleNavigationRailItemAnimatedTimingOptions,
@@ -21,16 +21,16 @@ export const handleNavigationRailItemPropsEqual =
 		return ![isActiveChange].some(Boolean)
 	}
 
-const handleNavigationRailItemPressOut = (onActive?: (activeKey: string) => void) => (activeKey: string) =>
-	onActive?.(activeKey)
+const handleNavigationRailItemPressOut = (onActive?: (activeKey: string) => void) => (activeKey?: string) =>
+	activeKey && onActive?.(activeKey)
 
 export const handleNavigationRailItemStateChange =
 	({eventName, indexKey, onActive, ref}: HandleNavigationRailItemStateEventChangeOptions) =>
 	(setState: Updater<NavigationRailItemState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
-			pressIn: () => ref.current?.focus(),
-			pressOut: () => handleNavigationRailItemPressOut(onActive)(indexKey)
+			[EVENT_NAME.PRESS_IN]: () => ref.current?.focus(),
+			[EVENT_NAME.PRESS_OUT]: () => handleNavigationRailItemPressOut(onActive)(indexKey)
 		} as Record<EventName, () => void>
 
 		if (eventName === EVENT_NAME.LAYOUT) {
@@ -44,7 +44,7 @@ export const handleNavigationRailItemStateChange =
 				draft.eventName = eventName
 			}
 
-			if (eventName === 'pressIn') {
+			if (eventName === EVENT_NAME.PRESS_IN) {
 				nextEvent[eventName]()
 			}
 

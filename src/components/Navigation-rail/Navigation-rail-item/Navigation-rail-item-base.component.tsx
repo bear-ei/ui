@@ -27,7 +27,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 		ref
 	) => {
 		const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({})
-		const isActive = useMemo(() => activeKey === indexKey, [activeKey, indexKey])
+		const isActive = activeKey === indexKey
 		const id = useId()
 		const pressableRef = useRef<View>(null)
 		const theme = useTheme()

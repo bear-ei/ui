@@ -11,10 +11,13 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
 	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const labelTextColorSharedValue = useSharedValue(active ? 1 : 0)
-	const labelTextColorOutputRanges = [
-		hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-		hexToRGBA(scheme.onSurface)(opacity.level10)
-	]
+	const labelTextColorOutputRanges = useMemo(
+		() => [
+			hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
+			hexToRGBA(scheme.onSurface)(opacity.level10)
+		],
+		[opacity.level10, scheme.onSurface, scheme.onSurfaceVariant]
+	)
 
 	const labelTextAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(labelTextColorSharedValue.value, [0, 1], labelTextColorOutputRanges)
