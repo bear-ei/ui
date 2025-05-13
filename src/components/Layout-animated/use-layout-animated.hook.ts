@@ -63,13 +63,17 @@ export const useLayoutAnimated = ({
 		[animatedTiming, containerSharedValue, entry, exit, onAnimatedFinished]
 	)
 
-	const containerAnimated = {
-		[LAYOUT_ANIMATED.COLLAPSE_X]: collapseXAnimatedStyle,
-		[LAYOUT_ANIMATED.COLLAPSE_Y]: collapseYAnimatedStyle,
-		[LAYOUT_ANIMATED.FADE]: fadeAnimatedStyle,
-		[LAYOUT_ANIMATED.SCALE]: scaleAnimatedStyle,
-		[LAYOUT_ANIMATED.STANDARD]: undefined
-	} as Record<LayoutAnimatedType, DefaultStyle | undefined>
+	const containerAnimated = useMemo(
+		() =>
+			({
+				[LAYOUT_ANIMATED.COLLAPSE_X]: collapseXAnimatedStyle,
+				[LAYOUT_ANIMATED.COLLAPSE_Y]: collapseYAnimatedStyle,
+				[LAYOUT_ANIMATED.FADE]: fadeAnimatedStyle,
+				[LAYOUT_ANIMATED.SCALE]: scaleAnimatedStyle,
+				[LAYOUT_ANIMATED.STANDARD]: undefined
+			}) as Record<LayoutAnimatedType, DefaultStyle | undefined>,
+		[collapseXAnimatedStyle, collapseYAnimatedStyle, fadeAnimatedStyle, scaleAnimatedStyle]
+	)
 
 	useEffect(() => {
 		onLayoutAnimatedTiming(visible)
