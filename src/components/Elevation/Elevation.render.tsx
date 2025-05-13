@@ -4,11 +4,11 @@ import {Container, Shadow} from './Elevation.styles'
 
 const AnimatedShadow = Animated.createAnimatedComponent(Shadow)
 export const renderElevation = ({
+	id,
 	level,
 	shadowAnimatedStyle,
 	shape,
 	testID,
-	id,
 	...containerProps
 }: RenderElevationProps) => (
 	<Container
