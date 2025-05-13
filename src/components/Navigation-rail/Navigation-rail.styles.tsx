@@ -59,7 +59,7 @@ export const Fab = styled.View`
 
 	${({theme}) => css`
 		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
-		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
 		margin-bottom: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
 	`};
 `
