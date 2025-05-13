@@ -22,8 +22,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 		disabled: isPrevDisabled,
 		extraData: prevExtraData,
 		focusedIndex: prevFocusedIndex,
-		itemIndex: prevItemIndex,
 		indexKey: prevIndexKey,
+		itemIndex: prevItemIndex,
 		skeletonDuration: prevSkeletonMinDuration
 	} = prevProps
 
@@ -35,8 +35,8 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 			disabled: isNextDisabled,
 			extraData: nextExtraData,
 			focusedIndex: nextFocusedIndex,
-			itemIndex: nextItemIndex,
 			indexKey: nextIndexKey,
+			itemIndex: nextItemIndex,
 			skeletonDuration: nextSkeletonMinDuration
 		} = nextProps
 
@@ -104,9 +104,9 @@ export const handleListItemStateChange =
 			const eventNames = [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT] as const
 			const isMenuFocus =
 				eventName === EVENT_NAME.BLUR &&
+				eventNames.includes(eventName as (typeof eventNames)[number]) &&
 				prevEventName === EVENT_NAME.FOCUS &&
-				type === LIST_TYPE.MENU &&
-				eventNames.includes(eventName as (typeof eventNames)[number])
+				type === LIST_TYPE.MENU
 
 			if (isMenuFocus) {
 				return
@@ -119,10 +119,10 @@ export const handleListItemStateChange =
 
 			if (trailingTriggerEvenName) {
 				const states = [
+					STATE.FOCUSED,
 					STATE.HOVERED,
 					STATE.LONG_PRESS_IN,
-					STATE.PRESS_IN,
-					STATE.FOCUSED
+					STATE.PRESS_IN
 				] as const
 
 				const isVisible =
