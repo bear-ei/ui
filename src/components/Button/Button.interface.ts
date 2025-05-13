@@ -19,8 +19,8 @@ export interface RenderButtonProps extends ButtonProps {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	elevation?: ElevationLevel
 	eventName?: EventName
-	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 	interactionHandlers: InteractionHandler
+	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 }
 
 export interface ButtonBaseProps extends ButtonProps {
