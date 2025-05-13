@@ -54,7 +54,7 @@ export interface AnimatedTimingOptions extends Omit<WithTimingConfig, 'duration'
 	repeat?: number
 }
 
-export interface HandleAnimatedTimingOptions extends Omit<AnimatedTimingOptions, 'sharedValue' | 'callback'> {
+export interface CreateAnimatedTimingOptions extends Omit<AnimatedTimingOptions, 'sharedValue' | 'callback'> {
 	token: Token
 }
 

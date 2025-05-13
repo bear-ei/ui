@@ -2,15 +2,15 @@ import {DURATION, EASING} from '@bearei/material-token'
 import {useCallback} from 'react'
 import type {AnimationCallback, SharedValue} from 'react-native-reanimated'
 import {Easing, runOnJS, withRepeat, withTiming} from 'react-native-reanimated'
-import type {AnimatedTimingOptions, HandleAnimatedTimingOptions, UseAnimatedTimingOptions} from './hooks.interface'
+import type {AnimatedTimingOptions, CreateAnimatedTimingOptions, UseAnimatedTimingOptions} from './hooks.interface'
 
-const handleAnimatedTiming = ({
+const createAnimatedTiming = ({
 	duration = DURATION.MEDIUM_1,
 	easing = EASING.EMPHASIZED,
 	repeat,
 	token,
 	...config
-}: HandleAnimatedTimingOptions) => {
+}: CreateAnimatedTimingOptions) => {
 	const {bezier, duration: transitionDuration} = token.animated(easing)(duration)
 
 	return (callback?: AnimationCallback) => (toValue: number) => {
@@ -43,7 +43,7 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 					return
 				}
 
-				sharedValue.value = handleAnimatedTiming({...options, token})(callback)(toValue)
+				sharedValue.value = createAnimatedTiming({...options, token})(callback)(toValue)
 			},
 		[token]
 	)

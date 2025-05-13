@@ -3,7 +3,6 @@ import type {ScaledSize} from 'react-native'
 import {Dimensions} from 'react-native'
 import type {Updater} from 'use-immer'
 import {useImmer} from 'use-immer'
-
 import {createHandler} from '../utils'
 import type {UseWindowDimensionsOptions} from './hooks.interface'
 
@@ -20,7 +19,7 @@ const handleWindowScaledSize =
 		})
 	}
 
-const handleEventListener = (onWindowScaledSize: ({window}: {window: ScaledSize}) => void) => {
+const createEventListener = (onWindowScaledSize: ({window}: {window: ScaledSize}) => void) => {
 	const subscription = () => Dimensions.addEventListener('change', onWindowScaledSize)
 
 	return subscription()
@@ -36,7 +35,7 @@ export const useWindowDimensions = ({changeEventThrottle = 50}: UseWindowDimensi
 	const onWindowScaledSize = useMemo(() => createHandler(handleWindowScaledSize)(setState)(), [setState])
 
 	useEffect(() => {
-		const subscription = handleEventListener(onDebounceWindowScaledSize)
+		const subscription = createEventListener(onDebounceWindowScaledSize)
 
 		return () => {
 			if (subscription) {
