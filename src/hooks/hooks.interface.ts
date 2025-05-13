@@ -70,5 +70,3 @@ export type AnimatedTiming = (
 export interface UseWindowDimensionsOptions {
 	changeEventThrottle?: number
 }
-
-export type CreateHandlerOptions = {debounceMillisecond?: number}

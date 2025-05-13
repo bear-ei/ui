@@ -12,8 +12,9 @@ import {handleThemeProviderFocus} from './Theme-provider-handle'
 import type {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'
 
-const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToken, density = DENSITY.STANDARD}) => {
+const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeToken, density = DENSITY.STANDARD}) => {
 	const {windowSize, width, height} = useWindowSize()
+	const colorScheme = useColorScheme()
 	const defaultDesignOptions = useMemo(
 		() => ({
 			[WINDOW_SIZE.COMPACT]: {designWidth: 375, designHeight: 812, designDensity: 3},
@@ -33,27 +34,19 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToke
 		[defaultDesignOptions, designOptions, height, width, windowSize]
 	)
 
-	const colorScheme = useColorScheme()
-	const themeTokenFinal = useMemo(
+	const themeToken = useMemo(
 		() =>
-			themeToken ??
+			rawThemeToken ??
 			createToken()({
 				contrast: CONTRAST.STANDARD,
 				scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
 			})(PALETTE.FROSTY_ICE),
-		[colorScheme, themeToken]
+		[colorScheme, rawThemeToken]
 	)
 
 	return (
 		<StyledComponentThemeProvider
-			theme={{
-				adaptFontSize,
-				adaptSize,
-				colorScheme,
-				density,
-				OS: RNPlatform.OS,
-				token: themeTokenFinal
-			}}
+			theme={{adaptFontSize, adaptSize, colorScheme, density, OS: RNPlatform.OS, token: themeToken}}
 		>
 			{children}
 			<ModalProvider />
@@ -61,29 +54,22 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToke
 	)
 }
 
-const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken, density = DENSITY.STANDARD}) => {
+const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density = DENSITY.STANDARD}) => {
 	const {adaptFontSize, adaptSize} = useMemo(() => adaptWindow()()(true), [])
 	const colorScheme = useColorScheme()
-	const themeTokenFinal = useMemo(
+	const themeToken = useMemo(
 		() =>
-			themeToken ??
+			rawThemeToken ??
 			createToken({platform: RNPlatform.OS.toUpperCase() as Platform})({
 				contrast: CONTRAST.STANDARD,
 				scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
 			})(PALETTE.FROSTY_ICE),
-		[colorScheme, themeToken]
+		[colorScheme, rawThemeToken]
 	)
 
 	return (
 		<StyledComponentThemeProvider
-			theme={{
-				adaptFontSize,
-				adaptSize,
-				colorScheme,
-				density,
-				OS: RNPlatform.OS,
-				token: themeTokenFinal
-			}}
+			theme={{adaptFontSize, adaptSize, colorScheme, density, OS: RNPlatform.OS, token: themeToken}}
 		>
 			{children}
 			<ModalProvider />
