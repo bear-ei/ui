@@ -13,9 +13,9 @@ export const renderListAffordanceButton = ({
 	eventName,
 	icon,
 	id,
+	interactionHandlers,
 	labelText,
 	labelTextAnimatedStyle,
-	interactionHandlers,
 	testID,
 	theme
 }: RenderListAffordanceButtonProps) => {
