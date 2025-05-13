@@ -1,15 +1,14 @@
 import styled, {css} from 'styled-components/native'
 import {DENSITY_SCALE, Shape, Typography} from '../Common'
-import type {AvatarContainerProps, AvatarContentProps} from './Avatar.interface'
+import type {AvatarContentProps} from './Avatar.interface'
 
-export const Container = styled(Shape)<AvatarContainerProps>`
+export const Container = styled(Shape)`
 	align-items: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 
-	${({theme, backgroundColor}) => css`
-		background-color: ${backgroundColor ?? theme.token.scheme.primaryContainer};
+	${({theme}) => css`
 		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 	`};
@@ -22,10 +21,11 @@ export const Content = styled(Shape)<AvatarContentProps>`
 	justify-content: center;
 	overflow: hidden;
 
-	${({theme, size, density}) => {
+	${({theme, size, density, backgroundColor}) => {
 		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
 
 		return css`
+			background-color: ${backgroundColor ?? theme.token.scheme.primaryContainer};
 			height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
 			width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
 		`
