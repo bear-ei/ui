@@ -1,9 +1,10 @@
 import mitt from 'mitt'
 import type {FC, RefAttributes} from 'react'
-import {useEffect} from 'react'
+import {useEffect, useMemo} from 'react'
 import type {View, ViewProps} from 'react-native'
 import {useImmer} from 'use-immer'
 import {SideSheet} from '../../components'
+import {createHandler} from '../../utils'
 import {handleModal} from './Modal-provider-handle'
 import {MODAL_TYPE} from './Modal-provider.enum'
 import type {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './Modal-provider.interface'
@@ -28,14 +29,13 @@ const ModalItem: FC<ModalItemProps> = ({type, modalProps, testID}) => {
 export const emitter = mitt<EmitterEvent>()
 export const ModalProvider: FC<ModalProps> = () => {
 	const [{modals}, setState] = useImmer<ModalState>({modals: []})
+	const onModal = useMemo(() => createHandler(handleModal)(setState)(), [setState])
 
 	useEffect(() => {
-		emitter.on('modal', modal => handleModal(setState)(modal))
+		emitter.on('modal', modal => onModal(modal))
 
-		return () => {
-			emitter.all.clear()
-		}
-	}, [setState])
+		return () => emitter.all.clear()
+	}, [onModal])
 
 	return (
 		<>

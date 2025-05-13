@@ -1,12 +1,12 @@
 import type {Platform, Scheme} from '@bearei/material-token'
 import {CONTRAST, createToken, PALETTE, SCHEME, WINDOW_SIZE} from '@bearei/material-token'
 import type {FC} from 'react'
-import {useId, useRef} from 'react'
+import {useId, useMemo, useRef} from 'react'
 import {Platform as RNPlatform, useColorScheme, View} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
 import {DENSITY} from '../../components'
 import {useWindowSize} from '../../hooks'
-import {adaptWindow} from '../../utils'
+import {adaptWindow, createHandlerFinal} from '../../utils'
 import {ModalProvider} from '../Modal-provider'
 import {handleThemeProviderFocus} from './Theme-provider-handle'
 import type {ThemeProps} from './Theme-provider.interface'
@@ -14,25 +14,35 @@ import {Container} from './Theme-provider.styles'
 
 const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToken, density = DENSITY.STANDARD}) => {
 	const {windowSize, width, height} = useWindowSize()
-	const defaultDesignOptions = {
-		[WINDOW_SIZE.COMPACT]: {designWidth: 375, designHeight: 812, designDensity: 3},
-		[WINDOW_SIZE.EXPANDED]: {designWidth: 375, designHeight: 812, designDensity: 3},
-		[WINDOW_SIZE.EXTRA_LARGE]: {designWidth: 1920, designHeight: 1080, designDensity: 3},
-		[WINDOW_SIZE.LARGE]: {designWidth: 1920, designHeight: 1080, designDensity: 3},
-		[WINDOW_SIZE.MEDIUM]: {designWidth: 375, designHeight: 812, designDensity: 3}
-	}
+	const defaultDesignOptions = useMemo(
+		() => ({
+			[WINDOW_SIZE.COMPACT]: {designWidth: 375, designHeight: 812, designDensity: 3},
+			[WINDOW_SIZE.EXPANDED]: {designWidth: 375, designHeight: 812, designDensity: 3},
+			[WINDOW_SIZE.EXTRA_LARGE]: {designWidth: 1920, designHeight: 1080, designDensity: 3},
+			[WINDOW_SIZE.LARGE]: {designWidth: 1920, designHeight: 1080, designDensity: 3},
+			[WINDOW_SIZE.MEDIUM]: {designWidth: 375, designHeight: 812, designDensity: 3}
+		}),
+		[]
+	)
 
-	const {adaptFontSize, adaptSize} = adaptWindow({screenWidth: width, screenHeight: height})(
-		designOptions ?? defaultDesignOptions[windowSize]
-	)()
+	const {adaptFontSize, adaptSize} = useMemo(
+		() =>
+			adaptWindow({screenWidth: width, screenHeight: height})(
+				designOptions ?? defaultDesignOptions[windowSize]
+			)(),
+		[defaultDesignOptions, designOptions, height, width, windowSize]
+	)
 
 	const colorScheme = useColorScheme()
-	const themeTokenFinal =
-		themeToken ??
-		createToken()({
-			contrast: CONTRAST.STANDARD,
-			scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
-		})(PALETTE.FROSTY_ICE)
+	const themeTokenFinal = useMemo(
+		() =>
+			themeToken ??
+			createToken()({
+				contrast: CONTRAST.STANDARD,
+				scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
+			})(PALETTE.FROSTY_ICE),
+		[colorScheme, themeToken]
+	)
 
 	return (
 		<StyledComponentThemeProvider
@@ -52,14 +62,17 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: themeToke
 }
 
 const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken, density = DENSITY.STANDARD}) => {
-	const {adaptFontSize, adaptSize} = adaptWindow()()(true)
+	const {adaptFontSize, adaptSize} = useMemo(() => adaptWindow()()(true), [])
 	const colorScheme = useColorScheme()
-	const themeTokenFinal =
-		themeToken ??
-		createToken({platform: RNPlatform.OS.toUpperCase() as Platform})({
-			contrast: CONTRAST.STANDARD,
-			scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
-		})(PALETTE.FROSTY_ICE)
+	const themeTokenFinal = useMemo(
+		() =>
+			themeToken ??
+			createToken({platform: RNPlatform.OS.toUpperCase() as Platform})({
+				contrast: CONTRAST.STANDARD,
+				scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
+			})(PALETTE.FROSTY_ICE),
+		[colorScheme, themeToken]
+	)
 
 	return (
 		<StyledComponentThemeProvider
@@ -80,7 +93,7 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: themeToken, density = D
 
 export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
 	const themeProviderRef = useRef<View>(null)
-	const onThemeProviderFocus = handleThemeProviderFocus(themeProviderRef)
+	const onThemeProviderFocus = useMemo(() => createHandlerFinal(handleThemeProviderFocus(themeProviderRef))(), [])
 	const id = useId()
 
 	return (

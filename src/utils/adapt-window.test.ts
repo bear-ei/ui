@@ -1,5 +1,5 @@
-import {PixelRatio} from 'react-native'
-import {adaptWindow} from './adapt-window.utils'
+import { PixelRatio } from 'react-native'
+import { adaptWindow } from './adapt-window.utils'
 
 describe('adaptWindow', () => {
 	const originalGetFontScale = PixelRatio.getFontScale

@@ -1,22 +1,22 @@
 import {debounce, runAfterInteractions} from '../utils'
+import type {CreateHandlerOptions} from './hooks.interface'
 
-type HandlerOptions = {debounceMillisecond?: number}
 export function createHandler<T extends (...args: any[]) => unknown>(
 	handler: T,
 	setState?: undefined,
-	options?: HandlerOptions
+	options?: CreateHandlerOptions
 ): T
 
 export function createHandler<T extends (...args: any[]) => unknown, S>(
 	handlerFactory: (setState: S) => T,
 	setState: S,
-	options?: HandlerOptions
+	options?: CreateHandlerOptions
 ): T
 
 export function createHandler<T extends (...args: any[]) => unknown, S>(
 	handlerFactory: T | ((setState: S) => T),
 	setState?: S,
-	options: HandlerOptions = {}
+	options: CreateHandlerOptions = {}
 ): T {
 	const {debounceMillisecond} = options
 	const func = runAfterInteractions<T>((setState ? handlerFactory(setState) : handlerFactory) as T)

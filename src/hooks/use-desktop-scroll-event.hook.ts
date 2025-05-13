@@ -1,6 +1,7 @@
-import {useEffect, useRef} from 'react'
+import {useEffect, useMemo, useRef} from 'react'
 import type {NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
 import {Platform} from 'react-native'
+import {createHandlerFinal} from '../utils'
 import type {HandleScrollOptions, UseDesktopScrollEventOptions} from './hooks.interface'
 
 const handleScroll =
@@ -21,8 +22,10 @@ const handleScroll =
 
 export const useDesktopScrollEvent = ({onScroll, onMomentumScrollEnd}: UseDesktopScrollEventOptions) => {
 	const momentumScrollEndTimer = useRef<ReturnType<typeof setTimeout>>(null)
-	const onDesktopScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) =>
-		handleScroll({momentumScrollEndTimer, onScroll, onMomentumScrollEnd})(event)
+	const onDesktopScroll = useMemo(
+		() => createHandlerFinal(handleScroll({momentumScrollEndTimer, onScroll, onMomentumScrollEnd}))(),
+		[onMomentumScrollEnd, onScroll]
+	)
 
 	useEffect(
 		() => () => {
