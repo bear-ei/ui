@@ -3,7 +3,7 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../../hooks'
-import {createHandler, createHandlerFinal, runAfterInteractions} from '../../../utils'
+import {createHandler, createHandlerWithUpdater, runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
@@ -96,18 +96,18 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		// ).current
 
 		const onListItemFocus = useMemo(
-			() => createHandler(handleListItemFocus(itemIndex))(setState)(),
+			() => createHandlerWithUpdater(handleListItemFocus(itemIndex))(setState)(),
 			[itemIndex, setState]
 		)
 
 		const onListItemClose = useMemo(
-			() => createHandlerFinal(handleListItemClose(onClose)(indexKey))(),
+			() => createHandler(handleListItemClose(onClose)(indexKey))(),
 			[indexKey, onClose]
 		)
 
 		const onListItemConfirm = useMemo(
 			() =>
-				createHandlerFinal(
+				createHandler(
 					handleListItemConfirm({onActiveAfterAffordance, onListItemClose, onConfirm})
 				)(),
 			[onActiveAfterAffordance, onConfirm, onListItemClose]
@@ -115,7 +115,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
 		const onListItemTrailingPressOut = useMemo(
 			() =>
-				createHandlerFinal(
+				createHandler(
 					handleListItemTrailingPressOut({
 						afterAffordance,
 						closeTrailing,
@@ -127,12 +127,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		)
 
 		const onListItemTrailingPressIn = useMemo(
-			() => createHandler(handleListItemTrailingPressIn)(setState)(),
+			() => createHandlerWithUpdater(handleListItemTrailingPressIn)(setState)(),
 			[setState]
 		)
 
 		const onListItemAfterAffordanceVisibleFinished = useMemo(
-			() => createHandler(handleItemListAfterAffordanceVisibleFinished)(setState)(),
+			() => createHandlerWithUpdater(handleItemListAfterAffordanceVisibleFinished)(setState)(),
 			[setState]
 		)
 

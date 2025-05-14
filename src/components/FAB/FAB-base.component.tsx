@@ -4,7 +4,7 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createHandler} from '../../utils'
+import {createHandlerWithUpdater} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {createFABUnderlayColor, handleFABDisabled, handleFABStateChange, handleFABStatus} from './FAB-handle'
 import {FAB_TYPE} from './FAB.enum'
@@ -34,12 +34,12 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		const isDisabled = loading || rawDisabled
 		const underlayColor = createFABUnderlayColor(theme)(type)
 		const onFABStatus = useMemo(
-			() => createHandler(handleFABStatus(rawDisabled))(setState)(),
+			() => createHandlerWithUpdater(handleFABStatus(rawDisabled))(setState)(),
 			[rawDisabled, setState]
 		)
 
 		const onFABDisabled = useMemo(
-			() => createHandler(handleFABDisabled(elevated))(setState)(),
+			() => createHandlerWithUpdater(handleFABDisabled(elevated))(setState)(),
 			[elevated, setState]
 		)
 

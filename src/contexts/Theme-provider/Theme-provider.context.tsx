@@ -6,7 +6,7 @@ import {Platform as RNPlatform, useColorScheme, View} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
 import {DENSITY} from '../../components'
 import {useWindowSize} from '../../hooks'
-import {adaptWindow, createHandlerFinal} from '../../utils'
+import {adaptWindow, createHandler} from '../../utils'
 import {ModalProvider} from '../Modal-provider'
 import {handleThemeProviderFocus} from './Theme-provider-handle'
 import type {ThemeProps} from './Theme-provider.interface'
@@ -79,7 +79,7 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density 
 
 export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
 	const themeProviderRef = useRef<View>(null)
-	const onThemeProviderFocus = useMemo(() => createHandlerFinal(handleThemeProviderFocus(themeProviderRef))(), [])
+	const onThemeProviderFocus = useMemo(() => createHandler(handleThemeProviderFocus(themeProviderRef))(), [])
 	const id = useId()
 
 	return (

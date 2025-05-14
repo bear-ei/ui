@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {ProcessStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
-import {createHandler, runAfterInteractions} from '../../utils'
+import {createHandlerWithUpdater, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {
 	handleSearchChangeText,
@@ -60,22 +60,22 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		const inputRef = useRef<TextInput>(null)
 		const theme = useTheme()
 		const onSearchListVisible = useMemo(
-			() => createHandler(handleSearchListVisible)(setState)(),
+			() => createHandlerWithUpdater(handleSearchListVisible)(setState)(),
 			[setState]
 		)
 
 		const onSearchChangeText = useMemo(
-			() => createHandler(handleSearchChangeText({data, onChangeText}))(setState)(),
+			() => createHandlerWithUpdater(handleSearchChangeText({data, onChangeText}))(setState)(),
 			[data, onChangeText, setState]
 		)
 
 		const onSearchTextInputRawChangeText = useMemo(
-			() => createHandler(handleSearchTextInputRawChangeText(data))(setState)(),
+			() => createHandlerWithUpdater(handleSearchTextInputRawChangeText(data))(setState)(),
 			[data, setState]
 		)
 
 		const onSearchContainerLayout = useMemo(
-			() => createHandler(handleSearchContainerLayout(containerRef.current))(setState)(),
+			() => createHandlerWithUpdater(handleSearchContainerLayout(containerRef.current))(setState)(),
 			[setState]
 		)
 

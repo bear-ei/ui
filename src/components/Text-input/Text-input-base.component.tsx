@@ -5,7 +5,7 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {ProcessStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
-import {createHandler, createHandlerFinal, runAfterInteractions} from '../../utils'
+import {createHandler, createHandlerWithUpdater, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {
 	handleTextInputChangeText,
@@ -80,12 +80,15 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			:	theme.token.scheme.onSurfaceVariant
 
 		const onTextInputContentSizeChange = useMemo(
-			() => createHandler(handleTextInputContentSizeChange(onContentSizeChange))(setState)(),
+			() =>
+				createHandlerWithUpdater(handleTextInputContentSizeChange(onContentSizeChange))(
+					setState
+				)(),
 			[onContentSizeChange, setState]
 		)
 		const onTextInputSupportingTextClose = useMemo(
 			() =>
-				createHandler(handleTextInputSupportingTextClose)(setState)({
+				createHandlerWithUpdater(handleTextInputSupportingTextClose)(setState)({
 					debounceMillisecond: supportingTextDelay ?? 0
 				}),
 			[setState, supportingTextDelay]
@@ -93,7 +96,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 
 		const onTextInputSupportingText = useMemo(
 			() =>
-				createHandler(
+				createHandlerWithUpdater(
 					handleTextInputSupportingText({
 						supportingTextDelay,
 						onTextInputSupportingTextClose
@@ -103,27 +106,30 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		)
 
 		const onTextInputEditableChange = useMemo(
-			() => createHandlerFinal(handleTextInputEditableChange(textInputRef))(),
+			() => createHandler(handleTextInputEditableChange(textInputRef))(),
 			[textInputRef]
 		)
 
 		const onTextInputChangeText = useMemo(
-			() => createHandler(handleTextInputChangeText(onChangeText))(setState)(),
+			() => createHandlerWithUpdater(handleTextInputChangeText(onChangeText))(setState)(),
 			[onChangeText, setState]
 		)
 
 		const onTextInputChangeTextStatus = useMemo(
-			() => createHandler(handleTextInputRawChangeText)(setState)(),
+			() => createHandlerWithUpdater(handleTextInputRawChangeText)(setState)(),
 			[setState]
 		)
 
 		const onTextInputSupportingTextVisible = useMemo(
-			() => createHandler(handleTextInputSupportingTextVisible(onSupportingTextVisible))(setState)(),
+			() =>
+				createHandlerWithUpdater(handleTextInputSupportingTextVisible(onSupportingTextVisible))(
+					setState
+				)(),
 			[onSupportingTextVisible, setState]
 		)
 
 		const onTouchableHeaderFocus = useMemo(
-			() => createHandlerFinal(handleTouchableHeaderFocus(textInputRef))(),
+			() => createHandler(handleTouchableHeaderFocus(textInputRef))(),
 			[]
 		)
 		const onStateEventChange = useCallback(

@@ -3,7 +3,7 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createHandler} from '../../utils'
+import {createHandlerWithUpdater} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {
 	processButtonDisabled,
@@ -38,13 +38,13 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
 		const underlayColor = processButtonUnderlayColor(theme)(type)
-		const onButtonStatus = useMemo(
-			() => createHandler(processButtonStatus(rawDisabled))(setState)(),
+		const buttonStatusHandler = useMemo(
+			() => createHandlerWithUpdater(processButtonStatus(rawDisabled))(setState)(),
 			[rawDisabled, setState]
 		)
 
-		const onButtonDisabled = useMemo(
-			() => createHandler(processButtonDisabled(type))(setState)(),
+		const buttonDisabledHandler = useMemo(
+			() => createHandlerWithUpdater(processButtonDisabled(type))(setState)(),
 			[setState, type]
 		)
 
@@ -73,12 +73,12 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		)
 
 		useEffect(() => {
-			onButtonStatus(type)
-		}, [onButtonStatus, type])
+			buttonStatusHandler(type)
+		}, [buttonStatusHandler, type])
 
 		useEffect(() => {
-			onButtonDisabled(isDisabled)
-		}, [isDisabled, onButtonDisabled])
+			buttonDisabledHandler(isDisabled)
+		}, [isDisabled, buttonDisabledHandler])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

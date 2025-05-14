@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {createHandler, createHandlerFinal, runAfterInteractions} from '../../../utils'
+import {createHandler, createHandlerWithUpdater, runAfterInteractions} from '../../../utils'
 import {
 	handleListAfterAffordanceCancel,
 	handleListAfterAffordanceConfirm,
@@ -23,7 +23,7 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 		const id = useId()
 		const onListAfterAffordanceConfirm = useMemo(
 			() =>
-				createHandlerFinal(
+				createHandler(
 					handleListAfterAffordanceConfirm({
 						doubleConfirmed: isDoubleConfirmed,
 						indexKey,
@@ -35,7 +35,7 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 
 		const onListAfterAffordanceCancel = useMemo(
 			() =>
-				createHandler(
+				createHandlerWithUpdater(
 					handleListAfterAffordanceCancel({
 						doubleConfirmed: isDoubleConfirmed,
 						indexKey,
@@ -46,7 +46,7 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 		)
 
 		const onListAfterAffordanceVisible = useMemo(
-			() => createHandler(handleListAfterAffordanceVisible)(setState)(),
+			() => createHandlerWithUpdater(handleListAfterAffordanceVisible)(setState)(),
 			[setState]
 		)
 		const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed})
