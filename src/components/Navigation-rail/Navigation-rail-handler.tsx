@@ -2,11 +2,11 @@ import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS} from '../Common'
 import type {NavigationRailData, NavigationRailState} from './Navigation-rail.interface'
 
-export const handleNavigationRailActive =
+export const handleActiveKeyChange =
 	(onActive?: (activeKey?: string) => void) =>
 	(setState: Updater<NavigationRailState>) =>
 	(activeKey?: string) => {
-		const handleNextActiveEvent = () => onActive?.(activeKey)
+		const triggerNextActiveEvent = () => onActive?.(activeKey)
 
 		if (!activeKey) {
 			return
@@ -15,12 +15,12 @@ export const handleNavigationRailActive =
 		setState(draft => {
 			if (activeKey !== draft.activeKey) {
 				draft.activeKey = activeKey
-				draft.nextActiveEvent = handleNextActiveEvent
+				draft.nextActiveEvent = triggerNextActiveEvent
 			}
 		})
 	}
 
-export const handleNavigationRailData = (setState: Updater<NavigationRailState>) => (data?: NavigationRailData[]) => {
+export const updateNavigationRailData = (setState: Updater<NavigationRailState>) => (data?: NavigationRailData[]) => {
 	setState(draft => {
 		draft.data = data
 		draft.status = COMPONENT_STATUS.SUCCEEDED

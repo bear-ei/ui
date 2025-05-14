@@ -42,7 +42,7 @@ export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigat
 	defaultActive?: boolean
 }
 
-export interface HandleNavigationRailItemAnimatedTimingOptions extends UseNavigationRailItemAnimatedOptions {
+export interface AnimateNavigationRailItemLabelColorOptions extends UseNavigationRailItemAnimatedOptions {
 	animatedTiming: AnimatedTiming
 }
 
