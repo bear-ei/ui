@@ -6,8 +6,8 @@ import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
-import {getFABUnderlayColor, handleFABStateChange, updateFABDisabledState, updateFABStatus} from './FAB-handler'
 import {FAB_TYPE} from './FAB.enum'
+import {getFABUnderlayColor, handleFABStateChange, updateFABDisabledState, updateFABStatus} from './FAB.handler'
 import type {FABBaseProps, FABState} from './FAB.interface'
 import {renderFABIcon} from './FAB.render'
 import {useFABAnimated} from './use-fab-animated.hook'
@@ -43,13 +43,18 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			[elevated, setState]
 		)
 
-		const onStateEventChange = useCallback(
+		const onFABStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleFABStateChange({...options, state, elevated})(setState)(event),
 			[elevated, setState]
 		)
 
-		const interactionHandlers = useStateEvent({...renderFABProps, disabled: isDisabled, onStateEventChange})
+		const interactionHandlers = useStateEvent({
+			...renderFABProps,
+			disabled: isDisabled,
+			onStateEventChange: onFABStateEventChange
+		})
+
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
 			disabled: rawDisabled,
 			type

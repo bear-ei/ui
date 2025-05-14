@@ -3,8 +3,8 @@ import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {animateIconButtonColorAndBorder} from './Icon-button-handler'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
+import {animateIconButtonColorAndBorder} from './Icon-button.handler'
 import type {UseIconButtonAnimatedOptions} from './Icon-button.interface'
 
 export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}: UseIconButtonAnimatedOptions) => {
@@ -71,7 +71,7 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
 		})
 	}))
 
-	const animateIconButtonEffect = useMemo(
+	const animateIconButtonColorAndBorderEffect = useMemo(
 		() =>
 			animateIconButtonColorAndBorder({animatedTiming, type})({
 				borderSharedValue,
@@ -81,8 +81,8 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
 	)
 
 	useEffect(() => {
-		animateIconButtonEffect(disabled)
-	}, [animateIconButtonEffect, disabled])
+		animateIconButtonColorAndBorderEffect(disabled)
+	}, [animateIconButtonColorAndBorderEffect, disabled])
 
 	return {backgroundUnderlayAnimatedStyle}
 }

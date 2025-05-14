@@ -41,7 +41,7 @@ export interface AnimateButtonColorAndBorderOptions extends Omit<UseButtonAnimat
 	borderColorInputRanges: number[]
 }
 
-export interface ButtonAnimatedTimingSharedValueOptions {
+export interface AnimateButtonColorAndBorderSharedValueOptions {
 	borderSharedValue: SharedValue<number>
 	colorSharedValue: SharedValue<number>
 }

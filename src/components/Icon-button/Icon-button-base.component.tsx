@@ -5,8 +5,8 @@ import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
-import {getButtonUnderlayColor, handleIconButtonStateChange, updateIconButtonDisabledState} from './Icon-button-handler'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
+import {getButtonUnderlayColor, handleIconButtonStateChange, updateIconButtonDisabledState} from './Icon-button.handler'
 import type {IconButtonBaseProps, IconButtonState} from './Icon-button.interface'
 import {renderIconButtonIcon} from './Icon-button.render'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
@@ -34,7 +34,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 			[setState]
 		)
 
-		const onStateEventChange = useCallback(
+		const onIconButtonStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleIconButtonStateChange({...options, state})(setState)(event),
 			[setState]
@@ -43,7 +43,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		const interactionHandlers = useStateEvent({
 			...renderIconButtonProps,
 			disabled: isDisabled,
-			onStateEventChange
+			onStateEventChange: onIconButtonStateEventChange
 		})
 
 		const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})

@@ -5,13 +5,13 @@ import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
+import {CHECKBOX_VALUE} from './Checkbox.enum'
 import {
 	handleCheckboxStateChange,
 	updateCheckboxActive,
 	updateCheckboxIndeterminate,
 	updateCheckboxStatus
-} from './Checkbox-handler'
-import {CHECKBOX_VALUE} from './Checkbox.enum'
+} from './Checkbox.handler'
 import type {CheckboxBaseProps, CheckboxState} from './Checkbox.interface'
 
 export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
@@ -47,7 +47,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			[indeterminate, setState]
 		)
 
-		const onStateEventChange = useCallback(
+		const onCheckboxStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleCheckboxStateChange({
 					...options,
@@ -59,7 +59,11 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			[indeterminate, isActive, onActive, setState]
 		)
 
-		const interactionHandlers = useStateEvent({...renderCheckboxProps, disabled, onStateEventChange})
+		const interactionHandlers = useStateEvent({
+			...renderCheckboxProps,
+			disabled,
+			onStateEventChange: onCheckboxStateEventChange
+		})
 
 		useEffect(() => {
 			updateCheckboxStatusEffect(indeterminate)

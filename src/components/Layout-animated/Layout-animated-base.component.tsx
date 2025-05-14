@@ -4,14 +4,14 @@ import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
+import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
 	handleLayoutAnimatedStateChange,
 	handleLayoutAnimationEnd,
+	updateLayoutAnimatedSizeOnChange,
 	updateLayoutAnimatedStatus,
-	updateLayoutAnimatedVisible,
-	updateLayoutSizeOnChange
-} from './Layout-animated-handler'
-import {LAYOUT_ANIMATED} from './Layout-animated.enum'
+	updateLayoutAnimatedVisible
+} from './Layout-animated.handler'
 import type {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
@@ -71,31 +71,35 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[onUnmount, setState, unmount]
 		)
 
-		const onLayoutSizeChange = useMemo(
+		const onLayoutAnimatedSizeOnChange = useMemo(
 			() =>
-				createStableHandlerWithState(updateLayoutSizeOnChange)(setState)({
+				createStableHandlerWithState(updateLayoutAnimatedSizeOnChange)(setState)({
 					debounceMillisecond: 50
 				}),
 			[setState]
 		)
 
-		const onStateEventChange = useCallback(
+		const onLayoutAnimatedStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleLayoutAnimatedStateChange({
 					...options,
-					onLayoutChange: onLayoutSizeChange,
+					onLayoutChange: onLayoutAnimatedSizeOnChange,
 					state
 				})(event),
-			[onLayoutSizeChange]
+			[onLayoutAnimatedSizeOnChange]
 		)
 
-		const interactionHandlers = useStateEvent({...renderLayoutAnimatedProps, onStateEventChange})
+		const interactionHandlers = useStateEvent({
+			...renderLayoutAnimatedProps,
+			onStateEventChange: onLayoutAnimatedStateEventChange
+		})
+
 		const {containerAnimatedStyle} = useLayoutAnimated({
 			animatedType,
 			entry,
 			exit,
 			height: layout.height ?? contentSize?.height ?? contentSize?.minHeight,
-			onAnimatedFinished: onLayoutAnimationEnd,
+			onAnimationFinished: onLayoutAnimationEnd,
 			opacity,
 			scale,
 			visible: isVisible ?? isLayoutVisible,

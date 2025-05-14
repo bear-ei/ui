@@ -2,7 +2,7 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {animateAffordanceTranslateX} from './List-after-affordance-handler'
+import {animateListAfterAffordanceTranslateX} from './List-after-affordance.handler'
 import type {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
 
 export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAffordanceAnimatedOptions) => {
@@ -27,14 +27,14 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
 		]
 	}))
 
-	const animateAffordanceTranslateXEffect = useMemo(
-		() => animateAffordanceTranslateX(animatedTiming)(translateXSharedValue),
+	const animateListAfterAffordanceTranslateXEffect = useMemo(
+		() => animateListAfterAffordanceTranslateX(animatedTiming)(translateXSharedValue),
 		[animatedTiming, translateXSharedValue]
 	)
 
 	useEffect(() => {
-		animateAffordanceTranslateXEffect(doubleConfirmed)
-	}, [doubleConfirmed, animateAffordanceTranslateXEffect])
+		animateListAfterAffordanceTranslateXEffect(doubleConfirmed)
+	}, [doubleConfirmed, animateListAfterAffordanceTranslateXEffect])
 
 	return {dangerAnimatedStyle}
 }

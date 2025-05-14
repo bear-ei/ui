@@ -2,10 +2,8 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {
-	handleProgressActiveIndicatorCircularAnimatedTiming,
-	handleProgressActiveIndicatorCircularStrokeDashoffset
-} from './Progress-active-indicator-circular-handle'
+
+import {animateProgressCircular, computeProgressStrokeDashoffset} from './Progress-active-indicator-circular-handler'
 import type {UseProgressActiveIndicatorCircularAnimatedOptions} from './Progress-active-indicator-circular.interface'
 
 export const useProgressActiveIndicatorCircularAnimated = ({
@@ -21,9 +19,9 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 
 	const circleStrokeDashoffsetOutputRanges = useMemo(
 		() => [
-			handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.1),
-			handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.8),
-			handleProgressActiveIndicatorCircularStrokeDashoffset(circumference)(0.1)
+			computeProgressStrokeDashoffset(circumference)(0.1),
+			computeProgressStrokeDashoffset(circumference)(0.8),
+			computeProgressStrokeDashoffset(circumference)(0.1)
 		],
 		[circumference]
 	)
@@ -32,18 +30,14 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 		strokeDashoffset: interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRanges)
 	}))
 
-	const onProgressActiveIndicatorCircularAnimatedTiming = useMemo(
-		() =>
-			handleProgressActiveIndicatorCircularAnimatedTiming(animatedTiming)({
-				circleSharedValue,
-				containerSharedValue
-			}),
+	const animateProgressCircularEffect = useMemo(
+		() => animateProgressCircular(animatedTiming)({circleSharedValue, containerSharedValue}),
 		[animatedTiming, circleSharedValue, containerSharedValue]
 	)
 
 	useEffect(() => {
-		onProgressActiveIndicatorCircularAnimatedTiming(2)
-	}, [onProgressActiveIndicatorCircularAnimatedTiming])
+		animateProgressCircularEffect(2)
+	}, [animateProgressCircularEffect])
 
 	return {containerAnimatedStyle, circleAnimatedProps}
 }

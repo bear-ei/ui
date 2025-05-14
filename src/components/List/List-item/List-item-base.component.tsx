@@ -7,14 +7,14 @@ import {createStableHandler, createStableHandlerWithState, runAfterInteractions}
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
-	handleAffordanceVisibleFinished,
-	handleItemClose,
-	handleItemConfirm,
-	handleItemFocusChange,
-	handleItemStateChange,
-	handleItemTrailingPressIn,
-	handleItemTrailingPressOut
-} from './List-item-handler'
+	handleListItemAffordanceVisibleEnd,
+	handleListItemClose,
+	handleListItemConfirm,
+	handleListItemFocusChange,
+	handleListItemStateChange,
+	handleListItemTrailingPressIn,
+	handleListItemTrailingPressOut
+} from './List-item.handler'
 import type {ListItemBaseProps, ListItemState} from './List-item.interface'
 import {renderListItemTrailing} from './List-item.render'
 import {useListItemAnimated} from './use-list-item-animated.hook'
@@ -95,54 +95,54 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		//         })
 		// ).current
 
-		const itemFocusChangeEffect = useMemo(
-			() => createStableHandlerWithState(handleItemFocusChange(itemIndex))(setState)(),
+		const listItemFocusChangeEffect = useMemo(
+			() => createStableHandlerWithState(handleListItemFocusChange(itemIndex))(setState)(),
 			[itemIndex, setState]
 		)
 
-		const onItemCloseEffect = useMemo(
-			() => createStableHandler(handleItemClose(onClose)(indexKey))(),
+		const onListItemCloseEffect = useMemo(
+			() => createStableHandler(handleListItemClose(onClose)(indexKey))(),
 			[indexKey, onClose]
 		)
 
-		const onItemConfirm = useMemo(
+		const onListItemConfirm = useMemo(
 			() =>
 				createStableHandler(
-					handleItemConfirm({
+					handleListItemConfirm({
 						onActiveAfterAffordance,
-						onItemClose: onItemCloseEffect,
+						onItemClose: onListItemCloseEffect,
 						onConfirm
 					})
 				)(),
-			[onActiveAfterAffordance, onConfirm, onItemCloseEffect]
+			[onActiveAfterAffordance, onConfirm, onListItemCloseEffect]
 		)
 
-		const onItemTrailingPressOut = useMemo(
+		const onListItemTrailingPressOut = useMemo(
 			() =>
 				createStableHandler(
-					handleItemTrailingPressOut({
+					handleListItemTrailingPressOut({
 						afterAffordance,
 						closeTrailing,
 						onActiveAfterAffordance,
-						onItemClose: onItemCloseEffect
+						onItemClose: onListItemCloseEffect
 					})(indexKey)
 				)(),
-			[afterAffordance, closeTrailing, indexKey, onActiveAfterAffordance, onItemCloseEffect]
+			[afterAffordance, closeTrailing, indexKey, onActiveAfterAffordance, onListItemCloseEffect]
 		)
 
-		const onItemTrailingPressIn = useMemo(
-			() => createStableHandlerWithState(handleItemTrailingPressIn)(setState)(),
+		const onListItemTrailingPressIn = useMemo(
+			() => createStableHandlerWithState(handleListItemTrailingPressIn)(setState)(),
 			[setState]
 		)
 
-		const onItemAfterAffordanceVisibleFinished = useMemo(
-			() => createStableHandlerWithState(handleAffordanceVisibleFinished)(setState)(),
+		const onListItemAfterAffordanceVisibleEnd = useMemo(
+			() => createStableHandlerWithState(handleListItemAffordanceVisibleEnd)(setState)(),
 			[setState]
 		)
 
-		const onStateEventChange = useCallback(
+		const onListItemStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleItemStateChange({
+				handleListItemStateChange({
 					...options,
 					activeTriggerEvenName,
 					indexKey,
@@ -167,11 +167,16 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			]
 		)
 
-		const interactionHandlers = useStateEvent({...renderListItemProps, onStateEventChange, disabled})
+		const interactionHandlers = useStateEvent({
+			...renderListItemProps,
+			disabled,
+			onStateEventChange: onListItemStateEventChange
+		})
+
 		const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
 			active: isActive,
 			afterAffordanceVisible: isAfterAffordanceVisible,
-			onItemAfterAffordanceVisibleFinished
+			onAfterAffordanceVisibleFinished: onListItemAfterAffordanceVisibleEnd
 		})
 
 		const trailingElement = useMemo(
@@ -182,8 +187,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 					disabled,
 					id,
 					interactionHandlers: {
-						onPressOut: onItemTrailingPressOut,
-						onPressIn: onItemTrailingPressIn
+						onPressIn: onListItemTrailingPressIn,
+						onPressOut: onListItemTrailingPressOut
 					},
 					theme,
 					trailing,
@@ -194,8 +199,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 				closeTrailing,
 				disabled,
 				id,
-				onItemTrailingPressIn,
-				onItemTrailingPressOut,
+				onListItemTrailingPressIn,
+				onListItemTrailingPressOut,
 				theme,
 				trailing,
 				trailingProps
@@ -205,12 +210,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 
 		useEffect(() => {
-			itemFocusChangeEffect(focusedIndex)
-		}, [focusedIndex, itemFocusChangeEffect])
+			listItemFocusChangeEffect(focusedIndex)
+		}, [focusedIndex, listItemFocusChangeEffect])
 
 		useEffect(() => {
-			onItemCloseEffect(close)
-		}, [close, onItemCloseEffect])
+			onListItemCloseEffect(close)
+		}, [close, onListItemCloseEffect])
 
 		useEffect(() => {
 			runAfterInteractions(nextPressInEvent)()
@@ -242,7 +247,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			indexKey,
 			interactionHandlers,
 			leadingElement: leading,
-			onConfirm: onItemConfirm,
+			onConfirm: onListItemConfirm,
 			ref: pressableRef,
 			selectType,
 			shape,

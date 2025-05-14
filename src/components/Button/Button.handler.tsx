@@ -8,7 +8,7 @@ import {ELEVATION, type ElevationLevel} from '../Elevation'
 import {BUTTON_TYPE} from './Button.enum'
 import type {
 	AnimateButtonColorAndBorderOptions,
-	ButtonAnimatedTimingSharedValueOptions,
+	AnimateButtonColorAndBorderSharedValueOptions,
 	ButtonState,
 	ButtonType,
 	HandleButtonStateChangeOptions
@@ -118,7 +118,7 @@ export const animateButtonColorAndBorder = ({
 			)
 	}
 
-	return ({borderSharedValue, colorSharedValue}: ButtonAnimatedTimingSharedValueOptions) =>
+	return ({borderSharedValue, colorSharedValue}: AnimateButtonColorAndBorderSharedValueOptions) =>
 		(eventName?: EventName) => {
 			if (type === BUTTON_TYPE.OUTLINED) {
 				animateOutlinedButtonBorder(borderSharedValue)(eventName)

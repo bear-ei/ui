@@ -58,7 +58,7 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 	renderLayoutAnimated: (props: RenderLayoutAnimatedProps) => React.JSX.Element
 }
 
-export type HandleLayoutAnimatedEndOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
+export type HandleLayoutAnimationEndOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
 export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEventChangeOptions {
 	onLayoutChange: (layout: LayoutRectangle) => void
 }
@@ -68,14 +68,14 @@ export interface UseLayoutAnimatedOptions
 		LayoutAnimatedProps,
 		'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible'
 	> {
-	onAnimatedFinished: (visible?: boolean) => void
+	onAnimationFinished: (visible?: boolean) => void
 	height?: number
 	width?: number
 }
 
 export type HandleLayoutAnimatedStatusOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>
-export interface TriggerLayoutAnimationOptions
-	extends Pick<UseLayoutAnimatedOptions, 'onAnimatedFinished' | 'entry' | 'exit'> {
+export interface AnimateLayoutAnimatedContainerOptions
+	extends Pick<UseLayoutAnimatedOptions, 'onAnimationFinished' | 'entry' | 'exit'> {
 	animatedTiming: AnimatedTiming
 }
 

@@ -8,13 +8,13 @@ import type {ListSelectType} from '../List.interface'
 import type {
 	AnimateListItemAffordanceVisibleOptions,
 	HandleListItemConfirmOptions,
-	HandleListItemStateEventChangeOptions,
+	HandleListItemStateChangeOptions,
 	HandleListItemTrailingPressOutOptions,
 	ListItemProps,
 	ListItemState
 } from './List-item.interface'
 
-export const compareItemProps = (prevProps: ListItemProps) => {
+export const compareListItemProps = (prevProps: ListItemProps) => {
 	const {
 		activeKey: prevActiveKey,
 		activeKeys: prevActiveKeys,
@@ -70,12 +70,12 @@ export const compareItemProps = (prevProps: ListItemProps) => {
 	}
 }
 
-const triggerItemActive =
+const triggerListItemActive =
 	(selectType?: ListSelectType) => (onActive?: (activeKey?: string) => void) => (activeKey?: string) =>
 		selectType && activeKey && onActive?.(activeKey)
 
-const handleItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
-export const handleItemStateChange =
+const handleListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
+export const handleListItemStateChange =
 	({
 		activeTriggerEvenName,
 		eventName,
@@ -86,13 +86,13 @@ export const handleItemStateChange =
 		state,
 		trailingTriggerEvenName,
 		type
-	}: HandleListItemStateEventChangeOptions) =>
+	}: HandleListItemStateChangeOptions) =>
 	(setState: Updater<ListItemState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
-			[EVENT_NAME.LAYOUT]: () => handleItemLoadEnd?.(onLoadEnd)(indexKey),
-			[EVENT_NAME.PRESS_IN]: () => triggerItemActive(selectType)(onActive)(indexKey),
-			[EVENT_NAME.PRESS_OUT]: () => triggerItemActive(selectType)(onActive)(indexKey)
+			[EVENT_NAME.LAYOUT]: () => handleListItemLoadEnd?.(onLoadEnd)(indexKey),
+			[EVENT_NAME.PRESS_IN]: () => triggerListItemActive(selectType)(onActive)(indexKey),
+			[EVENT_NAME.PRESS_OUT]: () => triggerListItemActive(selectType)(onActive)(indexKey)
 		} as Record<EventName, () => void>
 
 		setState(draft => {
@@ -158,7 +158,7 @@ export const handleItemStateChange =
 		})
 	}
 
-export const handleItemTrailingPressOut =
+export const handleListItemTrailingPressOut =
 	({
 		afterAffordance,
 		closeTrailing,
@@ -181,23 +181,23 @@ export const handleItemTrailingPressOut =
 		}
 	}
 
-export const handleItemTrailingPressIn = (setState: Updater<ListItemState>) => () => {
+export const handleListItemTrailingPressIn = (setState: Updater<ListItemState>) => () => {
 	setState(draft => {
 		draft.affordanceVisible = true
 	})
 }
 
-export const handleAffordanceVisibleFinished = (setState: Updater<ListItemState>) => (visible?: boolean) =>
+export const handleListItemAffordanceVisibleEnd = (setState: Updater<ListItemState>) => (visible?: boolean) =>
 	setState(draft => {
 		draft.afterAffordanceClosed = !visible
 	})
 
-export const showAffordance = (setState: Updater<ListItemState>) => () =>
+export const showListItemAffordance = (setState: Updater<ListItemState>) => () =>
 	setState(draft => {
 		draft.affordanceVisible = true
 	})
 
-export const handleItemConfirm =
+export const handleListItemConfirm =
 	({onActiveAfterAffordance, onItemClose, onConfirm}: HandleListItemConfirmOptions) =>
 	({indexKey, ...options}: ListItemAfterAffordancePressOutOptions) => {
 		const {doubleConfirmed: isDoubleConfirmed} = options
@@ -215,20 +215,21 @@ export const handleItemConfirm =
  * When using the component Text-field-picker, you only need to change the focus style. Do not get the real focus.
  * Otherwise the Text-field-picker will lose focus.
  */
-export const handleItemFocusChange =
+export const handleListItemFocusChange =
 	(itemIndex?: number) => (setState: Updater<ListItemState>) => (focusedIndex?: number) =>
 		typeof focusedIndex === 'number' &&
 		setState(draft => {
 			draft.eventName = itemIndex === focusedIndex ? EVENT_NAME.FOCUS : EVENT_NAME.BLUR
 		})
 
-export const handleItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => (close?: boolean) => {
-	if (!(close && indexKey)) {
-		return
-	}
+export const handleListItemClose =
+	(onClose?: (indexKey?: string) => void) => (indexKey?: string) => (close?: boolean) => {
+		if (!(close && indexKey)) {
+			return
+		}
 
-	onClose?.(indexKey)
-}
+		onClose?.(indexKey)
+	}
 
 /**
  * TODO:
@@ -250,14 +251,14 @@ export const handleItemClose = (onClose?: (indexKey?: string) => void) => (index
 // 		}
 // 	}
 
-export const animateAffordanceVisible =
-	({animatedTiming, onItemAfterAffordanceVisibleFinished}: AnimateListItemAffordanceVisibleOptions) =>
+export const animateListItemAffordanceVisible =
+	({animatedTiming, onAfterAffordanceVisibleFinished}: AnimateListItemAffordanceVisibleOptions) =>
 	(contentLeftSharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
 		animatedTiming({
-			callback: (finished?: boolean) => finished && onItemAfterAffordanceVisibleFinished?.(visible)
+			callback: (finished?: boolean) => finished && onAfterAffordanceVisibleFinished?.(visible)
 		})(contentLeftSharedValue)(visible ? 1 : 0)
 
-export const animateItemActiveState =
+export const animateListItemActiveState =
 	(animatedTiming: AnimatedTiming) => (headlineTextSharedValue: SharedValue<number>) => (active?: boolean) =>
 		animatedTiming()(headlineTextSharedValue)(active ? 1 : 0)

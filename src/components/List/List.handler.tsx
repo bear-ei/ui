@@ -7,14 +7,14 @@ import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 import type {
 	CreateListItemSizeOptions,
 	CreateRenderListItemOptions,
-	HandleListItemActiveChangeOptions,
+	HandleListActiveChangeOptions,
+	HandleListAffordanceActiveChangeOptions,
 	ListData,
-	ListState,
-	OnListItemAfterAffordanceActiveOptions
+	ListState
 } from './List.interface'
 import {renderDefaultListItem} from './List.render'
 
-const updateItemActiveKey =
+const updateListItemActiveKey =
 	(draft: WritableDraft<ListState>) => (deselect?: boolean) => (activeKeys?: string | string[]) => {
 		const prevActiveKey = draft.activeKey
 
@@ -31,8 +31,8 @@ const updateItemActiveKey =
 		return draft.activeKey
 	}
 
-const filterPrevActiveKeys = (activeKey: string) => (key: string) => key !== activeKey
-const updateItemActiveKeys = (draft: WritableDraft<ListState>) => (activeKeys: string | string[]) => {
+const updateListItemActiveKeys = (draft: WritableDraft<ListState>) => (activeKeys: string | string[]) => {
+	const filterPrevActiveKeys = (activeKey: string) => (key: string) => key !== activeKey
 	const prevActiveKeys = draft.activeKeys
 	const nextActiveKeys = Array.isArray(activeKeys) ? activeKeys : [...(prevActiveKeys ?? []), activeKeys]
 
@@ -54,33 +54,32 @@ const updateItemActiveKeys = (draft: WritableDraft<ListState>) => (activeKeys: s
 	return draft.activeKeys
 }
 
-const createNextActiveCallback =
-	({onActive, onActives}: HandleListItemActiveChangeOptions) =>
-	(activeKeys?: string | string[]) =>
-	() =>
+export const handleListActiveChange = ({
+	deselect,
+	onActive,
+	onActives,
+	selectType
+}: HandleListActiveChangeOptions = {}) => {
+	const createNextActiveEvent = (activeKeys?: string | string[]) => () =>
 		typeof activeKeys === 'string' ? onActive?.(activeKeys) : onActives?.(activeKeys)
 
-export const handleItemActiveChange =
-	({onActive, selectType, onActives, deselect}: HandleListItemActiveChangeOptions = {}) =>
-	(setState: Updater<ListState>) =>
-	(activeKeys?: string | string[]) =>
+	return (setState: Updater<ListState>) => (activeKeys?: string | string[]) =>
 		selectType &&
 		setState(draft => {
 			const callbackValue =
 				selectType === LIST_SELECT_TYPE.SINGLE ?
-					updateItemActiveKey(draft)(deselect)(activeKeys)
-				:	updateItemActiveKeys(draft)(activeKeys ?? [])
+					updateListItemActiveKey(draft)(deselect)(activeKeys)
+				:	updateListItemActiveKeys(draft)(activeKeys ?? [])
 
 			if (!callbackValue) {
 				return
 			}
 
-			draft.nextActiveEvent = createNextActiveCallback(
-				selectType === LIST_SELECT_TYPE.MULTIPLE ? {onActives} : {onActive}
-			)(callbackValue)
+			draft.nextActiveEvent = createNextActiveEvent(callbackValue)
 		})
+}
 
-export const createItemSize =
+export const createListItemSize =
 	({density, type}: CreateListItemSizeOptions) =>
 	(theme: DefaultTheme) =>
 	(itemSize?: number) =>
@@ -90,10 +89,10 @@ export const createItemSize =
 				DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
 		)
 
-export const handleAffordanceActiveChange =
-	({onActive, selectType}: HandleListItemActiveChangeOptions) =>
+export const handleListAffordanceActiveChange =
+	({onActive, selectType}: HandleListActiveChangeOptions) =>
 	(setState: Updater<ListState>) =>
-	({activeKey, callback} = {} as OnListItemAfterAffordanceActiveOptions) => {
+	({activeKey, callback} = {} as HandleListAffordanceActiveChangeOptions) => {
 		const triggerNextAfterAffordanceActiveEvent = () => onActive?.(activeKey)
 
 		if (selectType === LIST_SELECT_TYPE.MULTIPLE) {
@@ -125,7 +124,7 @@ export const handleAffordanceActiveChange =
 		})
 	}
 
-export const handleItemClose = (onClose?: (options: OnVirtualListCloseOptions) => void) => {
+export const handleListClose = (onClose?: (options: OnVirtualListCloseOptions) => void) => {
 	const createNextCloseEvent = (options: OnVirtualListCloseOptions) => () => onClose?.(options)
 
 	return (setState: Updater<ListState>) =>
@@ -137,7 +136,7 @@ export const handleItemClose = (onClose?: (options: OnVirtualListCloseOptions) =
 		}
 }
 
-export const createItemRenderer =
+export const createListItemRenderer =
 	({renderItem, ...options}: CreateRenderListItemOptions) =>
 	(props: RenderVirtualListItemInfo<ListData>) =>
 		renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})

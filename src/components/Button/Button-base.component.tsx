@@ -5,13 +5,13 @@ import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
+import {BUTTON_TYPE} from './Button.enum'
 import {
 	getButtonUnderlayColor,
 	handleButtonStateChange,
 	updateButtonDisabledState,
 	updateButtonState
-} from './Button-handler'
-import {BUTTON_TYPE} from './Button.enum'
+} from './Button.handler'
 import type {ButtonBaseProps, ButtonState} from './Button.interface'
 import {renderButtonIcon} from './Button.render'
 import {useButtonAnimated} from './use-button-animated.hook'
@@ -48,7 +48,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			[setState, type]
 		)
 
-		const onStateEventChange = useCallback(
+		const onButtonStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleButtonStateChange({...options, state, type})(setState)(event),
 			[setState, type]
@@ -57,7 +57,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		const interactionHandlers = useStateEvent({
 			...renderButtonProps,
 			disabled: isDisabled,
-			onStateEventChange
+			onStateEventChange: onButtonStateEventChange
 		})
 
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
@@ -67,7 +67,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			type
 		})
 
-		const iconButtonElement = useMemo(
+		const iconElement = useMemo(
 			() => renderButtonIcon({type, disabled: rawDisabled, id})(theme)(icon),
 			[icon, id, rawDisabled, theme, type]
 		)
@@ -90,7 +90,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			disabled: isDisabled,
 			elevation,
 			eventName,
-			icon: iconButtonElement,
+			icon: iconElement,
 			id,
 			interactionHandlers,
 			labelText,

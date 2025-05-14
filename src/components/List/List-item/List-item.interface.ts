@@ -96,7 +96,7 @@ export interface ListItemState {
 	trailingVisible?: boolean
 }
 
-export interface HandleListItemStateEventChangeOptions
+export interface HandleListItemStateChangeOptions
 	extends HandleStateEventChangeOptions,
 		Pick<
 			RenderListItemProps,
@@ -128,11 +128,11 @@ export interface RenderListItemTrailingOptions
 export interface UseListItemAnimatedOptions {
 	active?: boolean
 	afterAffordanceVisible?: boolean
-	onItemAfterAffordanceVisibleFinished?: (visible?: boolean) => false | void
+	onAfterAffordanceVisibleFinished?: (visible?: boolean) => false | void
 }
 
 export interface AnimateListItemAffordanceVisibleOptions
-	extends Pick<UseListItemAnimatedOptions, 'onItemAfterAffordanceVisibleFinished'> {
+	extends Pick<UseListItemAnimatedOptions, 'onAfterAffordanceVisibleFinished'> {
 	animatedTiming: AnimatedTiming
 }
 

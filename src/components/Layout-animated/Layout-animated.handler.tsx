@@ -5,29 +5,30 @@ import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import type {
-	HandleLayoutAnimatedEndOptions,
+	AnimateLayoutAnimatedContainerOptions,
 	HandleLayoutAnimatedStateChangeOptions,
 	HandleLayoutAnimatedStatusOptions,
-	LayoutAnimatedState,
-	TriggerLayoutAnimationOptions
+	HandleLayoutAnimationEndOptions,
+	LayoutAnimatedState
 } from './Layout-animated.interface'
 
-export const updateLayoutSizeOnChange = (setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
-	const {height, width} = layout
+export const updateLayoutAnimatedSizeOnChange =
+	(setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
+		const {height, width} = layout
 
-	setState(draft => {
-		const {width: prevWidth, height: prevHeight} = draft.layout
+		setState(draft => {
+			const {width: prevWidth, height: prevHeight} = draft.layout
 
-		if (prevHeight !== height || prevWidth !== width) {
-			draft.layout.height = height
-			draft.layout.width = width
-		}
+			if (prevHeight !== height || prevWidth !== width) {
+				draft.layout.height = height
+				draft.layout.width = width
+			}
 
-		if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-			draft.status = COMPONENT_STATUS.SUCCEEDED
-		}
-	})
-}
+			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
+			}
+		})
+	}
 
 export const handleLayoutAnimatedStateChange =
 	({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
@@ -60,7 +61,7 @@ export const updateLayoutAnimatedVisible =
 	}
 
 export const handleLayoutAnimationEnd =
-	({onUnmount, unmount}: HandleLayoutAnimatedEndOptions) =>
+	({onUnmount, unmount}: HandleLayoutAnimationEndOptions) =>
 	(setState: Updater<LayoutAnimatedState>) =>
 	(visible?: boolean) => {
 		setState(draft => {
@@ -90,12 +91,12 @@ export const updateLayoutAnimatedStatus =
 			draft.status = lazy && !visible ? COMPONENT_STATUS.IDLE : COMPONENT_STATUS.LOADING
 		})
 
-export const triggerLayoutAnimation =
-	({animatedTiming, onAnimatedFinished, entry, exit}: TriggerLayoutAnimationOptions) =>
+export const animateLayoutAnimatedContainer =
+	({animatedTiming, onAnimationFinished, entry, exit}: AnimateLayoutAnimatedContainerOptions) =>
 	(containerSharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
 		typeof visible === 'boolean' &&
 		animatedTiming({
 			...(visible ? entry : exit),
-			callback: (finished?: boolean) => finished && onAnimatedFinished?.(visible)
+			callback: (finished?: boolean) => finished && onAnimationFinished?.(visible)
 		})(containerSharedValue)(visible ? 1 : 0)

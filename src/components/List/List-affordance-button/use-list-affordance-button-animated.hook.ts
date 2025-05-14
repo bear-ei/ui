@@ -4,7 +4,7 @@ import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-r
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import type {UseListAffordanceButtonAnimatedOptions} from './List-affordance-button.interface'
-import {animateListAffordanceButtonColor} from './List-affordance-handler'
+import {animateListAffordanceButtonColor} from './List-affordance.handler'
 
 export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceButtonAnimatedOptions) => {
 	const theme = useTheme()
@@ -32,14 +32,14 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
 		color: interpolateColor(colorSharedValue.value, [0, 1], colorOutputRanges)
 	}))
 
-	const animateListAffordanceButtonEffect = useMemo(
+	const animateListAffordanceButtonColorEffect = useMemo(
 		() => animateListAffordanceButtonColor(animatedTiming)(colorSharedValue),
 		[animatedTiming, colorSharedValue]
 	)
 
 	useEffect(() => {
-		animateListAffordanceButtonEffect(disabled)
-	}, [disabled, animateListAffordanceButtonEffect])
+		animateListAffordanceButtonColorEffect(disabled)
+	}, [disabled, animateListAffordanceButtonColorEffect])
 
 	return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }
