@@ -75,6 +75,6 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			return <></>
 		}
 
-		return renderFormItem({...renderFormItemProps, control: controlElement, ref, id})
+		return renderFormItem({...renderFormItemProps, controlElement, ref, id})
 	}
 )

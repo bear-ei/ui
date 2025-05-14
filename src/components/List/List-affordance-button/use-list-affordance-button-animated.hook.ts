@@ -3,8 +3,8 @@ import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
+import {animateListAffordanceButtonColor} from './List-affordance-button.handler'
 import type {UseListAffordanceButtonAnimatedOptions} from './List-affordance-button.interface'
-import {animateListAffordanceButtonColor} from './List-affordance.handler'
 
 export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceButtonAnimatedOptions) => {
 	const theme = useTheme()

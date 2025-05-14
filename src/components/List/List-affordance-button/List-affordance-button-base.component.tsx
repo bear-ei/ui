@@ -4,8 +4,8 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import type {State} from '../../Common'
+import {handleListAffordanceButtonStateChange} from './List-affordance-button.handler'
 import type {ListAffordanceButtonBaseProps, ListAffordanceButtonState} from './List-affordance-button.interface'
-import {handleListAffordanceButtonStateChange} from './List-affordance.handler'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
 export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBaseProps>(

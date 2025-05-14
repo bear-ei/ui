@@ -14,8 +14,13 @@ import type {
 } from './List.interface'
 import {renderDefaultListItem} from './List.render'
 
-const updateListItemActiveKey =
-	(draft: WritableDraft<ListState>) => (deselect?: boolean) => (activeKeys?: string | string[]) => {
+export const handleListActiveChange = ({
+	deselect,
+	onActive,
+	onActives,
+	selectType
+}: HandleListActiveChangeOptions = {}) => {
+	const updateListActiveKey = (draft: WritableDraft<ListState>) => (activeKeys?: string | string[]) => {
 		const prevActiveKey = draft.activeKey
 
 		if (Array.isArray(activeKeys) || activeKeys === prevActiveKey) {
@@ -31,35 +36,29 @@ const updateListItemActiveKey =
 		return draft.activeKey
 	}
 
-const updateListItemActiveKeys = (draft: WritableDraft<ListState>) => (activeKeys: string | string[]) => {
-	const filterPrevActiveKeys = (activeKey: string) => (key: string) => key !== activeKey
-	const prevActiveKeys = draft.activeKeys
-	const nextActiveKeys = Array.isArray(activeKeys) ? activeKeys : [...(prevActiveKeys ?? []), activeKeys]
+	const updateListActiveKeys = (draft: WritableDraft<ListState>) => (activeKeys: string | string[]) => {
+		const filterPrevActiveKeys = (key: string) => key !== activeKeys
+		const prevActiveKeys = draft.activeKeys
+		const nextActiveKeys = Array.isArray(activeKeys) ? activeKeys : [...(prevActiveKeys ?? []), activeKeys]
 
-	if (prevActiveKeys?.join() === nextActiveKeys?.join()) {
-		return
+		if (prevActiveKeys?.join() === nextActiveKeys?.join()) {
+			return
+		}
+
+		if (typeof activeKeys === 'string') {
+			draft.activeKeys =
+				prevActiveKeys?.includes(activeKeys) ?
+					prevActiveKeys?.filter(filterPrevActiveKeys)
+				:	nextActiveKeys
+		}
+
+		if (Array.isArray(activeKeys)) {
+			draft.activeKeys = nextActiveKeys
+		}
+
+		return draft.activeKeys
 	}
 
-	if (typeof activeKeys === 'string') {
-		draft.activeKeys =
-			prevActiveKeys?.includes(activeKeys) ?
-				prevActiveKeys?.filter(filterPrevActiveKeys(activeKeys))
-			:	nextActiveKeys
-	}
-
-	if (Array.isArray(activeKeys)) {
-		draft.activeKeys = nextActiveKeys
-	}
-
-	return draft.activeKeys
-}
-
-export const handleListActiveChange = ({
-	deselect,
-	onActive,
-	onActives,
-	selectType
-}: HandleListActiveChangeOptions = {}) => {
 	const createNextActiveEvent = (activeKeys?: string | string[]) => () =>
 		typeof activeKeys === 'string' ? onActive?.(activeKeys) : onActives?.(activeKeys)
 
@@ -68,8 +67,8 @@ export const handleListActiveChange = ({
 		setState(draft => {
 			const callbackValue =
 				selectType === LIST_SELECT_TYPE.SINGLE ?
-					updateListItemActiveKey(draft)(deselect)(activeKeys)
-				:	updateListItemActiveKeys(draft)(activeKeys ?? [])
+					updateListActiveKey(draft)(activeKeys)
+				:	updateListActiveKeys(draft)(activeKeys ?? [])
 
 			if (!callbackValue) {
 				return

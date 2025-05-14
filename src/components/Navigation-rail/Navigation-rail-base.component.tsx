@@ -4,9 +4,8 @@ import {useImmer} from 'use-immer'
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
 import type {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
-
-import {handleActiveKeyChange, updateNavigationRailData} from './Navigation-rail-handler'
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
+import {handleNavigationRailActiveKeyChange, updateNavigationRailData} from './Navigation-rail.handler'
 import {renderNavigationRailFAB, renderNavigationRailItems} from './Navigation-rail.render'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
@@ -21,6 +20,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			onActive,
 			renderNavigationRail,
 			type,
+			menu,
 			...renderNavigationRailProps
 		},
 		ref
@@ -30,8 +30,8 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		})
 
 		const id = useId()
-		const onActiveKeyChange = useMemo(
-			() => createStableHandlerWithState(handleActiveKeyChange(onActive))(setState)(),
+		const onNavigationRailActiveKeyChange = useMemo(
+			() => createStableHandlerWithState(handleNavigationRailActiveKeyChange(onActive))(setState)(),
 			[onActive, setState]
 		)
 
@@ -40,8 +40,8 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			[setState]
 		)
 
-		const handleActiveKeyChangeEffect = useMemo(
-			() => createStableHandlerWithState(handleActiveKeyChange())(setState)(),
+		const navigationRailActiveKeyChangeEffect = useMemo(
+			() => createStableHandlerWithState(handleNavigationRailActiveKeyChange())(setState)(),
 			[setState]
 		)
 
@@ -51,17 +51,17 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 					activeKey: activeKey ?? defaultActiveKey,
 					animatedType,
 					id,
-					onActive: onActiveKeyChange,
+					onActive: onNavigationRailActiveKeyChange,
 					type
 				})(data),
-			[activeKey, animatedType, data, defaultActiveKey, id, onActiveKeyChange, type]
+			[activeKey, animatedType, data, defaultActiveKey, id, onNavigationRailActiveKeyChange, type]
 		)
 
 		const fabElement = useMemo(() => renderNavigationRailFAB(id)(fab), [fab, id])
 
 		useEffect(() => {
-			handleActiveKeyChangeEffect(rawActiveKey ?? defaultActiveKey)
-		}, [rawActiveKey, defaultActiveKey, handleActiveKeyChangeEffect])
+			navigationRailActiveKeyChangeEffect(rawActiveKey ?? defaultActiveKey)
+		}, [defaultActiveKey, navigationRailActiveKeyChangeEffect, rawActiveKey])
 
 		useEffect(() => {
 			updateNavigationRailDataEffect(rawData)
@@ -80,7 +80,8 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			destinationPosition,
 			fabElement,
 			id,
-			navigationRailItemElements: itemElements,
+			itemElements,
+			menuElement: menu,
 			ref
 		})
 	}

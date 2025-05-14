@@ -55,7 +55,7 @@ export const renderButton = ({
 	disabled,
 	elevation,
 	eventName,
-	icon,
+	iconElement,
 	id,
 	interactionHandlers,
 	labelText,
@@ -132,13 +132,13 @@ export const renderButton = ({
 					type={type}
 				>
 					<Main
-						iconShow={!!icon}
+						iconShow={!!iconElement}
 						testID={`button__main--${id}`}
 						type={type}
 					>
-						{icon && !isLink && (
+						{iconElement && !isLink && (
 							<IconLayout testID={`button__iconLayout--${id}`}>
-								{icon}
+								{iconElement}
 							</IconLayout>
 						)}
 

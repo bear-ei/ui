@@ -23,8 +23,9 @@ export interface RenderFABProps extends FABProps {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	elevation?: ElevationLevel
 	eventName?: EventName
-	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
+	iconElement?: React.JSX.Element
 	interactionHandlers: InteractionHandler
+	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 }
 
 export interface FABBaseProps extends FABProps {

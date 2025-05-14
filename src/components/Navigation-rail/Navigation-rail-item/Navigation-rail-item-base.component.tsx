@@ -7,7 +7,7 @@ import {useStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import type {State} from '../../Common'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
-import {handleItemStateChange} from './Navigation-rail-item-handler'
+import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
 import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
 import {renderNavigationRailItemIcon} from './Navigation-rail-item.render'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
@@ -31,18 +31,22 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 		const pressableRef = useRef<View>(null)
 		const isActive = activeKey === indexKey
 		const theme = useTheme()
-		const onStateEventChange = useCallback(
+		const onNavigationRailItemStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleItemStateChange({...options, indexKey, onActive, ref: pressableRef, state})(
-					setState
-				)(event),
+				handleNavigationRailItemStateChange({
+					...options,
+					indexKey,
+					onActive,
+					ref: pressableRef,
+					state
+				})(setState)(event),
 			[indexKey, onActive, setState]
 		)
 
 		const interactionHandlers = useStateEvent({
 			...renderNavigationRailItemProps,
 			disabled: false,
-			onStateEventChange
+			onStateEventChange: onNavigationRailItemStateEventChange
 		})
 
 		const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active: isActive, type})

@@ -5,8 +5,8 @@ import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
-import {handleProgressLayoutChange, handleTouchableStateChange} from './Progress-handle'
 import {PROGRESS_TYPE} from './Progress.enum'
+import {handleProgressStateChange, updateProgressLayoutSize} from './Progress.handle'
 import type {ProgressBaseProps, ProgressState} from './Progress.interface'
 
 export const ProgressBase = forwardRef<View, ProgressBaseProps>(
@@ -14,19 +14,22 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(
 		const [{layout}, setState] = useImmer<ProgressState>({layout: {} as LayoutRectangle})
 		const id = useId()
 		const onProgressLayoutChange = useMemo(
-			() => createStableHandlerWithState(handleProgressLayoutChange(type))(setState)(),
+			() => createStableHandlerWithState(updateProgressLayoutSize(type))(setState)(),
 			[setState, type]
 		)
 
-		const onStateEventChange = useCallback(
+		const onProgressStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleTouchableStateChange({...options, state, onLayoutChange: onProgressLayoutChange})(
+				handleProgressStateChange({...options, state, onLayoutChange: onProgressLayoutChange})(
 					event
 				),
 			[onProgressLayoutChange]
 		)
 
-		const interactionHandlers = useStateEvent({...renderProgressProps, onStateEventChange})
+		const interactionHandlers = useStateEvent({
+			...renderProgressProps,
+			onStateEventChange: onProgressStateEventChange
+		})
 
 		return renderProgress({...renderProgressProps, layout, interactionHandlers, ref, type, id})
 	}

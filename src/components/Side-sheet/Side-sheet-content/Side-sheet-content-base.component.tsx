@@ -44,11 +44,11 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 			footerVisible,
 			headlineText,
 			id,
-			leading: leadingElement,
+			leadingElement,
 			position,
 			ref,
 			theme,
-			trailing: trailingElement,
+			trailingElement,
 			type
 		})
 	}

@@ -5,7 +5,7 @@ import {EVENT_NAME, type EventName} from '../Common'
 import {PROGRESS_TYPE} from './Progress.enum'
 import type {HandleProgressStateChangeOptions, ProgressState, ProgressType} from './Progress.interface'
 
-export const handleProgressLayoutChange =
+export const updateProgressLayoutSize =
 	(type?: ProgressType) => (setState: Updater<ProgressState>) => (layout: LayoutRectangle) => {
 		if (type !== PROGRESS_TYPE.LINEAR) {
 			return
@@ -23,7 +23,7 @@ export const handleProgressLayoutChange =
 		})
 	}
 
-export const handleTouchableStateChange =
+export const handleProgressStateChange =
 	({eventName, onLayoutChange}: HandleProgressStateChangeOptions) =>
 	(event: StateEvent) => {
 		const nextEvent = {

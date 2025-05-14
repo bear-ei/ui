@@ -46,7 +46,7 @@ export const renderFAB = ({
 	elevation,
 	eventName,
 	extendedFAB,
-	icon,
+	iconElement,
 	id,
 	interactionHandlers,
 	labelText,
@@ -113,9 +113,9 @@ export const renderFAB = ({
 						testID={`fab__main--${id}`}
 						type={type}
 					>
-						{icon && (
+						{iconElement && (
 							<IconLayout testID={`fab__iconLayout--${id}`}>
-								{icon}
+								{iconElement}
 							</IconLayout>
 						)}
 

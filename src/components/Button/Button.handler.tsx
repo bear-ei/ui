@@ -7,8 +7,8 @@ import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName, type State} from '.
 import {ELEVATION, type ElevationLevel} from '../Elevation'
 import {BUTTON_TYPE} from './Button.enum'
 import type {
-	AnimateButtonColorAndBorderOptions,
-	AnimateButtonColorAndBorderSharedValueOptions,
+	AnimateButton,
+	AnimateButtonColorAndBorderSharedValues,
 	ButtonState,
 	ButtonType,
 	HandleButtonStateChangeOptions
@@ -102,14 +102,9 @@ export const getButtonUnderlayColor = (theme: DefaultTheme) => {
 	return (type: ButtonType) => underlay[type]
 }
 
-export const animateButtonColorAndBorder = ({
-	animatedTiming,
-	borderColorInputRanges,
-	disabled,
-	type
-}: AnimateButtonColorAndBorderOptions) => {
+export const animateButton = ({animatedTiming, borderColorInputRanges, disabled, type}: AnimateButton) => {
 	const toValue = disabled ? 0 : 1
-	const animateOutlinedButtonBorder = (borderSharedValue: SharedValue<number>) => {
+	const animateOutlinedButton = (borderSharedValue: SharedValue<number>) => {
 		const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]
 
 		return (eventName?: EventName) =>
@@ -118,10 +113,10 @@ export const animateButtonColorAndBorder = ({
 			)
 	}
 
-	return ({borderSharedValue, colorSharedValue}: AnimateButtonColorAndBorderSharedValueOptions) =>
+	return ({borderSharedValue, colorSharedValue}: AnimateButtonColorAndBorderSharedValues) =>
 		(eventName?: EventName) => {
 			if (type === BUTTON_TYPE.OUTLINED) {
-				animateOutlinedButtonBorder(borderSharedValue)(eventName)
+				animateOutlinedButton(borderSharedValue)(eventName)
 				animatedTiming()(colorSharedValue)(toValue)
 
 				return

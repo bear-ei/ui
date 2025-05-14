@@ -90,7 +90,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			disabled: isDisabled,
 			elevation,
 			eventName,
-			icon: iconElement,
+			iconElement,
 			id,
 			interactionHandlers,
 			labelText,

@@ -21,6 +21,7 @@ export interface IconButtonProps extends TouchableProps, CommonProps {
 export interface RenderIconButtonProps extends IconButtonProps {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
+	iconElement?: React.JSX.Element
 	interactionHandlers: InteractionHandler
 	theme: DefaultTheme
 }
@@ -44,7 +45,7 @@ export interface AnimateIconButtonColorAndBorderOptions extends Pick<UseIconButt
 	animatedTiming: AnimatedTiming
 }
 
-export interface AnimateIconButtonColorAndBorderSharedValueOptions {
+export interface AnimateIconButtonColorAndBorderSharedValues {
 	borderSharedValue: SharedValue<number>
 	colorSharedValue: SharedValue<number>
 }

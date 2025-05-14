@@ -4,7 +4,7 @@ import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-r
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {BUTTON_TYPE} from './Button.enum'
-import {animateButtonColorAndBorder} from './Button.handler'
+import {animateButton} from './Button.handler'
 import type {UseButtonAnimatedOptions} from './Button.interface'
 
 export const useButtonAnimated = ({
@@ -194,9 +194,9 @@ export const useButtonAnimated = ({
 		)
 	}))
 
-	const animateButtonColorAndBorderEffect = useMemo(
+	const animateButtonEffect = useMemo(
 		() =>
-			animateButtonColorAndBorder({animatedTiming, borderColorInputRanges, type, disabled})({
+			animateButton({animatedTiming, borderColorInputRanges, type, disabled})({
 				borderSharedValue,
 				colorSharedValue
 			}),
@@ -204,8 +204,8 @@ export const useButtonAnimated = ({
 	)
 
 	useEffect(() => {
-		animateButtonColorAndBorderEffect(eventName)
-	}, [animateButtonColorAndBorderEffect, eventName])
+		animateButtonEffect(eventName)
+	}, [animateButtonEffect, eventName])
 
 	return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

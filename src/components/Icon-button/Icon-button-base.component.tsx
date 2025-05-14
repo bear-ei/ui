@@ -64,7 +64,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 			backgroundUnderlayAnimatedStyle,
 			disabled: isDisabled,
 			eventName,
-			icon: iconElement,
+			iconElement,
 			id,
 			interactionHandlers,
 			loading,

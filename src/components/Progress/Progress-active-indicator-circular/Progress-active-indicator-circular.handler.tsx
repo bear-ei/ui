@@ -1,10 +1,10 @@
 import {EASING} from '@bearei/material-token'
 import type {AnimatedTiming} from '../../../hooks'
-import type {AnimateProgressCircularOptions} from './Progress-active-indicator-circular.interface'
+import type {AnimateProgressActiveIndicatorCircularSharedValues} from './Progress-active-indicator-circular.interface'
 
-export const animateProgressCircular =
+export const animateProgressActiveIndicatorCircular =
 	(animatedTiming: AnimatedTiming) =>
-	({containerSharedValue, circleSharedValue}: AnimateProgressCircularOptions) =>
+	({containerSharedValue, circleSharedValue}: AnimateProgressActiveIndicatorCircularSharedValues) =>
 	(value: number) => {
 		animatedTiming({repeat: 0, duration: 2000, easing: EASING.LINEAR})(circleSharedValue)(value)
 		animatedTiming({repeat: 0, duration: 2000, easing: EASING.LINEAR})(containerSharedValue)(value)

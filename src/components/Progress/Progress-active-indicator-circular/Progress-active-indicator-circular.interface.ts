@@ -32,7 +32,7 @@ export type UseProgressActiveIndicatorCircularAnimatedOptions = Pick<
 	'circumference'
 >
 
-export interface AnimateProgressCircularOptions {
+export interface AnimateProgressActiveIndicatorCircularSharedValues {
 	containerSharedValue: SharedValue<number>
 	circleSharedValue: SharedValue<number>
 }

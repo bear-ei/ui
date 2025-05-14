@@ -2,10 +2,7 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {
-	handleOutputRanges,
-	handleProgressActiveIndicatorLinearAnimatedTiming
-} from './Progress-active-indicator-linear-handle'
+import {animateProgressActiveIndicatorLinear, generateStepPositions} from './Progress-active-indicator-linear.handler'
 import type {UseProgressActiveIndicatorLinearAnimatedOptions} from './Progress-active-indicator-linear.interface'
 
 export const useProgressActiveIndicatorLinearAnimated = ({
@@ -18,7 +15,7 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const outputRanges = useMemo(
-		() => handleOutputRanges(containerLayout?.width)(increment),
+		() => generateStepPositions(containerLayout?.width)(increment),
 		[containerLayout?.width, increment]
 	)
 
@@ -27,14 +24,14 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 		width: interpolate(widthSharedValue.value, inputRanges, outputRanges)
 	}))
 
-	const onProgressActiveIndicatorLinearAnimatedTiming = useMemo(
-		() => handleProgressActiveIndicatorLinearAnimatedTiming(animatedTiming)(widthSharedValue),
+	const animateProgressActiveIndicatorLinearEffect = useMemo(
+		() => animateProgressActiveIndicatorLinear(animatedTiming)(widthSharedValue),
 		[animatedTiming, widthSharedValue]
 	)
 
 	useEffect(() => {
-		onProgressActiveIndicatorLinearAnimatedTiming(value)
-	}, [onProgressActiveIndicatorLinearAnimatedTiming, value])
+		animateProgressActiveIndicatorLinearEffect(value)
+	}, [animateProgressActiveIndicatorLinearEffect, value])
 
 	return {contentAnimatedStyle}
 }

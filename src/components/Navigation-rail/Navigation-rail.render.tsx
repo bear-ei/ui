@@ -35,8 +35,8 @@ export const renderNavigationRail = ({
 	destinationPosition,
 	fabElement,
 	id,
+	itemElements,
 	menu,
-	navigationRailItemElements,
 	testID,
 	...containerProps
 }: RenderNavigationRailProps) => (
@@ -50,7 +50,7 @@ export const renderNavigationRail = ({
 			destinationPosition={destinationPosition}
 			testID={`navigationRail__destination--${id}`}
 		>
-			{navigationRailItemElements}
+			{itemElements}
 		</Destination>
 	</Container>
 )

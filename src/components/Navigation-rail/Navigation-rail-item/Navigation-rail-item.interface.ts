@@ -32,7 +32,7 @@ export interface NavigationRailItemState {
 	nextPressOutEvent?: () => void
 }
 
-export interface HandleNavigationRailItemStateEventChangeOptions
+export interface HandleNavigationRailItemStateChangeOptions
 	extends HandleStateEventChangeOptions,
 		Pick<NavigationRailItemProps, 'indexKey' | 'onActive'> {
 	ref: React.RefObject<View>

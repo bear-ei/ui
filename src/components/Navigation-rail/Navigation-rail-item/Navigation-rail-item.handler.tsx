@@ -5,30 +5,30 @@ import {EVENT_NAME, type EventName} from '../../Common'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {
 	AnimateNavigationRailItemLabelColorOptions,
-	HandleNavigationRailItemStateEventChangeOptions,
+	HandleNavigationRailItemStateChangeOptions,
 	NavigationRailItemProps,
 	NavigationRailItemState
 } from './Navigation-rail-item.interface'
 
-export const compareItemProps = (prevProps: NavigationRailItemProps) => (nextProps: NavigationRailItemProps) => {
-	const {activeKey: prevActiveKey, indexKey: prevIndexKey} = prevProps
-	const {activeKey: nextActiveKey, indexKey: nextIndexKey} = nextProps
-	const isActiveChange =
-		prevActiveKey !== nextActiveKey && (nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
+export const compareNavigationRailItemProps =
+	(prevProps: NavigationRailItemProps) => (nextProps: NavigationRailItemProps) => {
+		const {activeKey: prevActiveKey, indexKey: prevIndexKey} = prevProps
+		const {activeKey: nextActiveKey, indexKey: nextIndexKey} = nextProps
+		const isActiveChange =
+			prevActiveKey !== nextActiveKey &&
+			(nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
 
-	return ![isActiveChange].some(Boolean)
-}
+		return ![isActiveChange].some(Boolean)
+	}
 
-const triggerItemPressOut = (onActive?: (activeKey: string) => void) => (activeKey?: string) =>
-	activeKey && onActive?.(activeKey)
-
-export const handleItemStateChange =
-	({eventName, indexKey, onActive, ref}: HandleNavigationRailItemStateEventChangeOptions) =>
+export const handleNavigationRailItemStateChange =
+	({eventName, indexKey, onActive, ref}: HandleNavigationRailItemStateChangeOptions) =>
 	(setState: Updater<NavigationRailItemState>) =>
 	(_event: StateEvent) => {
+		const triggerNavigationRailItemPressOut = (activeKey?: string) => activeKey && onActive?.(activeKey)
 		const nextEvent = {
 			[EVENT_NAME.PRESS_IN]: () => ref.current?.focus(),
-			[EVENT_NAME.PRESS_OUT]: () => triggerItemPressOut(onActive)(indexKey)
+			[EVENT_NAME.PRESS_OUT]: () => triggerNavigationRailItemPressOut(indexKey)
 		} as Record<EventName, () => void>
 
 		if (eventName === EVENT_NAME.LAYOUT) {
@@ -52,7 +52,7 @@ export const handleItemStateChange =
 		})
 	}
 
-export const animateItemLabelColor =
+export const animateNavigationRailItemLabelColor =
 	({animatedTiming, type}: AnimateNavigationRailItemLabelColorOptions) =>
 	(labelTextColorSharedValue: SharedValue<number>) =>
 	(active?: boolean) => {

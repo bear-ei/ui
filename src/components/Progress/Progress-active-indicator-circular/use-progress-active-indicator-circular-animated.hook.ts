@@ -2,8 +2,10 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-
-import {animateProgressCircular, computeProgressStrokeDashoffset} from './Progress-active-indicator-circular-handler'
+import {
+	animateProgressActiveIndicatorCircular,
+	computeProgressStrokeDashoffset
+} from './Progress-active-indicator-circular.handler'
 import type {UseProgressActiveIndicatorCircularAnimatedOptions} from './Progress-active-indicator-circular.interface'
 
 export const useProgressActiveIndicatorCircularAnimated = ({
@@ -30,14 +32,14 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 		strokeDashoffset: interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRanges)
 	}))
 
-	const animateProgressCircularEffect = useMemo(
-		() => animateProgressCircular(animatedTiming)({circleSharedValue, containerSharedValue}),
+	const animateProgressActiveIndicatorCircularEffect = useMemo(
+		() => animateProgressActiveIndicatorCircular(animatedTiming)({circleSharedValue, containerSharedValue}),
 		[animatedTiming, circleSharedValue, containerSharedValue]
 	)
 
 	useEffect(() => {
-		animateProgressCircularEffect(2)
-	}, [animateProgressCircularEffect])
+		animateProgressActiveIndicatorCircularEffect(2)
+	}, [animateProgressActiveIndicatorCircularEffect])
 
 	return {containerAnimatedStyle, circleAnimatedProps}
 }

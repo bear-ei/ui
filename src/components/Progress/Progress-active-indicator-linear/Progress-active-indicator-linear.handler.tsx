@@ -1,11 +1,11 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {AnimatedTiming} from '../../../hooks'
 
-export const handleProgressActiveIndicatorLinearAnimatedTiming =
+export const animateProgressActiveIndicatorLinear =
 	(animatedTiming: AnimatedTiming) => (widthSharedValue: SharedValue<number>) => (value?: number) =>
 		typeof value === 'number' && animatedTiming()(widthSharedValue)(Math.ceil(value))
 
-export const handleOutputRanges =
+export const generateStepPositions =
 	(width = 0) =>
 	(increment: number) => {
 		const actualIncrement = width * (increment / 100)
