@@ -6,8 +6,8 @@ import type {Updater} from 'use-immer'
 import type {
 	AnimatedTiming,
 	AnimatedTimingOptions,
-	InteractionHandler,
-	ProcessStateEventChangeOptions
+	HandleStateEventChangeOptions,
+	InteractionHandler
 } from '../../hooks'
 import type {ComponentStatus, ShapeProps} from '../Common'
 import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
@@ -59,7 +59,7 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 }
 
 export type HandleLayoutAnimatedFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
-export interface HandleLayoutAnimatedStateChangeOptions extends ProcessStateEventChangeOptions {
+export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEventChangeOptions {
 	onLayoutChange: (layout: LayoutRectangle) => void
 }
 

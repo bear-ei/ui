@@ -9,7 +9,7 @@ import type {
 } from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
-import type {InteractionHandler, ProcessStateEventChangeOptions} from '../../hooks'
+import type {HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName, ShapeProps, State, TypographyProps} from '../Common'
 import type {TEXT_INPUT_TYPE} from './Text-input.enum'
 
@@ -76,7 +76,7 @@ export interface TextInputState {
 }
 
 export interface HandleTextInputStateEventChangeOptions
-	extends ProcessStateEventChangeOptions,
+	extends HandleStateEventChangeOptions,
 		Pick<TextInputProps, 'content'> {
 	ref?: RefObject<TextInput>
 }

@@ -2,8 +2,8 @@ import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo,
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../../hooks'
-import {createHandler, createHandlerWithUpdater, runAfterInteractions} from '../../../utils'
+import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
+import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
@@ -96,18 +96,18 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		// ).current
 
 		const onListItemFocus = useMemo(
-			() => createHandlerWithUpdater(handleListItemFocus(itemIndex))(setState)(),
+			() => createStableHandlerWithState(handleListItemFocus(itemIndex))(setState)(),
 			[itemIndex, setState]
 		)
 
 		const onListItemClose = useMemo(
-			() => createHandler(handleListItemClose(onClose)(indexKey))(),
+			() => createStableHandler(handleListItemClose(onClose)(indexKey))(),
 			[indexKey, onClose]
 		)
 
 		const onListItemConfirm = useMemo(
 			() =>
-				createHandler(
+				createStableHandler(
 					handleListItemConfirm({onActiveAfterAffordance, onListItemClose, onConfirm})
 				)(),
 			[onActiveAfterAffordance, onConfirm, onListItemClose]
@@ -115,7 +115,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
 		const onListItemTrailingPressOut = useMemo(
 			() =>
-				createHandler(
+				createStableHandler(
 					handleListItemTrailingPressOut({
 						afterAffordance,
 						closeTrailing,
@@ -127,17 +127,17 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		)
 
 		const onListItemTrailingPressIn = useMemo(
-			() => createHandlerWithUpdater(handleListItemTrailingPressIn)(setState)(),
+			() => createStableHandlerWithState(handleListItemTrailingPressIn)(setState)(),
 			[setState]
 		)
 
 		const onListItemAfterAffordanceVisibleFinished = useMemo(
-			() => createHandlerWithUpdater(handleItemListAfterAffordanceVisibleFinished)(setState)(),
+			() => createStableHandlerWithState(handleItemListAfterAffordanceVisibleFinished)(setState)(),
 			[setState]
 		)
 
 		const onStateEventChange = useCallback(
-			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleListItemStateChange({
 					...options,
 					activeTriggerEvenName,

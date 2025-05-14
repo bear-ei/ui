@@ -1,7 +1,7 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createHandler, createHandlerWithUpdater} from '../../../utils'
+import {createStableHandler, createStableHandlerWithState} from '../../../utils'
 import {COMPONENT_STATUS} from '../../Common'
 import {useFormContext} from '../use-form-context.hook'
 import {
@@ -28,17 +28,17 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		const storeValue = getFieldsValue(name)
 		const value = storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue)
 		const onFormItemComponentUpdate = useMemo(
-			() => createHandlerWithUpdater(handleComponentUpdate)(setState)(),
+			() => createStableHandlerWithState(handleComponentUpdate)(setState)(),
 			[setState]
 		)
 
 		const onFormValueChange = useMemo(
-			() => createHandler(handleFormItemValueChange({setFieldsValue, storeValue})(name))(),
+			() => createStableHandler(handleFormItemValueChange({setFieldsValue, storeValue})(name))(),
 			[name, setFieldsValue, storeValue]
 		)
 
 		const onFormItemBlur = useMemo(
-			() => createHandler(handleFormItemBlur(validateFields)(name))(),
+			() => createStableHandler(handleFormItemBlur(validateFields)(name))(),
 			[name, validateFields]
 		)
 

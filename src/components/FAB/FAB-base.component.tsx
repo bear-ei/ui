@@ -3,8 +3,8 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createHandlerWithUpdater} from '../../utils'
+import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {createStableHandlerWithState} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {createFABUnderlayColor, handleFABDisabled, handleFABStateChange, handleFABStatus} from './FAB-handle'
 import {FAB_TYPE} from './FAB.enum'
@@ -34,17 +34,17 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		const isDisabled = loading || rawDisabled
 		const underlayColor = createFABUnderlayColor(theme)(type)
 		const onFABStatus = useMemo(
-			() => createHandlerWithUpdater(handleFABStatus(rawDisabled))(setState)(),
+			() => createStableHandlerWithState(handleFABStatus(rawDisabled))(setState)(),
 			[rawDisabled, setState]
 		)
 
 		const onFABDisabled = useMemo(
-			() => createHandlerWithUpdater(handleFABDisabled(elevated))(setState)(),
+			() => createStableHandlerWithState(handleFABDisabled(elevated))(setState)(),
 			[elevated, setState]
 		)
 
 		const onStateEventChange = useCallback(
-			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleFABStateChange({...options, state, elevated})(setState)(event),
 			[elevated, setState]
 		)

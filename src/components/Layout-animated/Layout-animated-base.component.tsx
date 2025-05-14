@@ -1,8 +1,8 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createHandlerWithUpdater, runAfterInteractions} from '../../utils'
+import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {
 	handleLayoutAnimatedFinished,
@@ -53,13 +53,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		const isLayoutVisible = rawVisible ?? defaultVisible
 		const delay = rawDelay + 50
 		const onLayoutAnimatedStatus = useMemo(
-			() => createHandlerWithUpdater(handleLayoutAnimatedStatus({unmount, lazy}))(setState)(),
+			() => createStableHandlerWithState(handleLayoutAnimatedStatus({unmount, lazy}))(setState)(),
 			[lazy, setState, unmount]
 		)
 
 		const onLayoutAnimatedLayoutVisible = useMemo(
 			() =>
-				createHandlerWithUpdater(handleLayoutAnimatedLayoutVisible(onVisible))(setState)({
+				createStableHandlerWithState(handleLayoutAnimatedLayoutVisible(onVisible))(setState)({
 					debounceMillisecond: delay
 				}),
 
@@ -67,20 +67,23 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		)
 
 		const onLayoutAnimatedFinished = useMemo(
-			() => createHandlerWithUpdater(handleLayoutAnimatedFinished({onUnmount, unmount}))(setState)(),
+			() =>
+				createStableHandlerWithState(handleLayoutAnimatedFinished({onUnmount, unmount}))(
+					setState
+				)(),
 			[onUnmount, setState, unmount]
 		)
 
 		const onLayoutAnimatedLayoutChange = useMemo(
 			() =>
-				createHandlerWithUpdater(handleLayoutAnimatedLayoutChange)(setState)({
+				createStableHandlerWithState(handleLayoutAnimatedLayoutChange)(setState)({
 					debounceMillisecond: 50
 				}),
 			[setState]
 		)
 
 		const onStateEventChange = useCallback(
-			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleLayoutAnimatedStateChange({
 					...options,
 					onLayoutChange: onLayoutAnimatedLayoutChange,

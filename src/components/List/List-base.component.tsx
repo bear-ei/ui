@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef, type
 import type Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {createHandlerWithUpdater, runAfterInteractions} from '../../utils'
+import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {
 	createListItemSize,
 	createRenderListItem,
@@ -73,27 +73,27 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		const itemSize = createListItemSize({density, type})(theme)(rawItemSize)
 		const onListActive = useMemo(
 			() =>
-				createHandlerWithUpdater(handleListActive({onActive, selectType, onActives, deselect}))(
-					setState
-				)(),
+				createStableHandlerWithState(
+					handleListActive({onActive, selectType, onActives, deselect})
+				)(setState)(),
 			[deselect, onActive, onActives, selectType, setState]
 		)
 
 		const onListActiveAfterAffordance = useMemo(
 			() =>
-				createHandlerWithUpdater(handleListActiveAfterAffordance({onActive, selectType}))(
+				createStableHandlerWithState(handleListActiveAfterAffordance({onActive, selectType}))(
 					setState
 				)(),
 			[onActive, selectType, setState]
 		)
 
 		const onListClose = useMemo(
-			() => createHandlerWithUpdater(handleListClose(onClose))(setState)(),
+			() => createStableHandlerWithState(handleListClose(onClose))(setState)(),
 			[onClose, setState]
 		)
 
 		const onListRawActive = useMemo(
-			() => createHandlerWithUpdater(handleListActive({selectType}))(setState)(),
+			() => createStableHandlerWithState(handleListActive({selectType}))(setState)(),
 			[setState, selectType]
 		)
 

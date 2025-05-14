@@ -3,7 +3,7 @@ import type {ScaledSize} from 'react-native'
 import {Dimensions} from 'react-native'
 import type {Updater} from 'use-immer'
 import {useImmer} from 'use-immer'
-import {createHandlerWithUpdater} from '../utils'
+import {createStableHandlerWithState} from '../utils'
 import type {UseWindowDimensionsOptions} from './hooks.interface'
 
 const handleWindowScaledSize =
@@ -29,14 +29,14 @@ export const useWindowDimensions = ({changeEventThrottle = 50}: UseWindowDimensi
 	const [scaledSize, setState] = useImmer<ScaledSize>({fontScale: 0, height: 0, scale: 0, width: 0})
 	const onDebounceWindowScaledSize = useMemo(
 		() =>
-			createHandlerWithUpdater(handleWindowScaledSize)(setState)({
+			createStableHandlerWithState(handleWindowScaledSize)(setState)({
 				debounceMillisecond: changeEventThrottle
 			}),
 		[changeEventThrottle, setState]
 	)
 
 	const onWindowScaledSize = useMemo(
-		() => createHandlerWithUpdater(handleWindowScaledSize)(setState)(),
+		() => createStableHandlerWithState(handleWindowScaledSize)(setState)(),
 		[setState]
 	)
 

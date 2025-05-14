@@ -1,9 +1,9 @@
 import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
-import type {ProcessStateEventChangeOptions, StateEvent} from '../../hooks'
+import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
-import {createHandlerWithUpdater} from '../../utils'
+import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
 import {handleTouchableAnimatedFinished, handleTouchableStateChange} from './Touchable-handle'
 import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
@@ -29,12 +29,12 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 		const id = useId()
 		const pressableRef = useRef<View>(null)
 		const onTouchableAnimatedFinished = useMemo(
-			() => createHandlerWithUpdater(handleTouchableAnimatedFinished)(setState)(),
+			() => createStableHandlerWithState(handleTouchableAnimatedFinished)(setState)(),
 			[setState]
 		)
 
 		const onStateEventChange = useCallback(
-			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleTouchableStateChange({
 					...options,
 					enableTouchableRipple,

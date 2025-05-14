@@ -2,8 +2,8 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createHandlerWithUpdater} from '../../utils'
+import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
 import {handleIconButtonDisabled, handleIconButtonStateChange, processButtonUnderlayColor} from './Icon-button-handle'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
@@ -30,12 +30,12 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		const theme = useTheme()
 		const underlayColor = processButtonUnderlayColor(theme)(type)
 		const onIconButtonDisabled = useMemo(
-			() => createHandlerWithUpdater(handleIconButtonDisabled)(setState)(),
+			() => createStableHandlerWithState(handleIconButtonDisabled)(setState)(),
 			[setState]
 		)
 
 		const onStateEventChange = useCallback(
-			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleIconButtonStateChange({...options, state})(setState)(event),
 			[setState]
 		)

@@ -2,14 +2,14 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createHandlerWithUpdater} from '../../utils'
+import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {createStableHandlerWithState} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {
-	processButtonDisabled,
-	processButtonStateChange,
-	processButtonStatus,
-	processButtonUnderlayColor
+	getButtonUnderlayColor,
+	handleButtonStateChange,
+	updateButtonDisabledState,
+	updateButtonState
 } from './Button-handler'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonBaseProps, ButtonState} from './Button.interface'
@@ -37,20 +37,20 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		const id = useId()
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
-		const underlayColor = processButtonUnderlayColor(theme)(type)
-		const buttonStatusHandler = useMemo(
-			() => createHandlerWithUpdater(processButtonStatus(rawDisabled))(setState)(),
+		const underlayColor = getButtonUnderlayColor(theme)(type)
+		const updateButtonStateHandler = useMemo(
+			() => createStableHandlerWithState(updateButtonState(rawDisabled))(setState)(),
 			[rawDisabled, setState]
 		)
 
-		const buttonDisabledHandler = useMemo(
-			() => createHandlerWithUpdater(processButtonDisabled(type))(setState)(),
+		const updateButtonDisabledStateHandler = useMemo(
+			() => createStableHandlerWithState(updateButtonDisabledState(type))(setState)(),
 			[setState, type]
 		)
 
 		const onStateEventChange = useCallback(
-			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				processButtonStateChange({...options, state, type})(setState)(event),
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleButtonStateChange({...options, state, type})(setState)(event),
 			[setState, type]
 		)
 
@@ -73,12 +73,12 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		)
 
 		useEffect(() => {
-			buttonStatusHandler(type)
-		}, [buttonStatusHandler, type])
+			updateButtonStateHandler(type)
+		}, [updateButtonStateHandler, type])
 
 		useEffect(() => {
-			buttonDisabledHandler(isDisabled)
-		}, [isDisabled, buttonDisabledHandler])
+			updateButtonDisabledStateHandler(isDisabled)
+		}, [isDisabled, updateButtonDisabledStateHandler])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

@@ -8,16 +8,16 @@ import type {
 } from 'react-native'
 import {Platform} from 'react-native'
 import {EVENT_NAME, STATE, type State} from '../components'
-import {createHandler} from '../utils'
+import {createStableHandler} from '../utils'
 import type {
+	HandleStateEventChangeOptions,
 	HandleStateEventOptions,
-	ProcessStateEventChangeOptions,
 	StateEvent,
 	UseHandleStateEventOptions
 } from './hooks.interface'
 
 const handleStateEventChange =
-	({callback, disabled, eventName, onStateEventChange}: ProcessStateEventChangeOptions) =>
+	({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
 	(state: State) =>
 	(event: StateEvent) => {
 		if (disabled && eventName !== EVENT_NAME.LAYOUT) {
@@ -113,7 +113,7 @@ export const useStateEvent = ({
 }: UseHandleStateEventOptions) => {
 	const isMobileDevice = ['ios', 'android'].includes(Platform.OS)
 	const interactionHandlers = useCallback(
-		(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+		(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 			handleStateEventChange({...options, disabled, onStateEventChange})(
 				disabled ? STATE.DISABLED : state
 			)(event),
@@ -121,51 +121,51 @@ export const useStateEvent = ({
 	)
 
 	const onBlur = useMemo(
-		() => createHandler(handleBlurEvent({interactionHandlers})(rawOnBlur))(),
+		() => createStableHandler(handleBlurEvent({interactionHandlers})(rawOnBlur))(),
 		[interactionHandlers, rawOnBlur]
 	)
 
 	const onFocus = useMemo(
-		() => createHandler(handleFocusEvent({interactionHandlers})(rawOnFocus))(),
+		() => createStableHandler(handleFocusEvent({interactionHandlers})(rawOnFocus))(),
 		[interactionHandlers, rawOnFocus]
 	)
 
 	const onHoverIn = useMemo(
-		() => createHandler(handleHoverIntEvent({interactionHandlers})(rawOnHoverIn))(),
+		() => createStableHandler(handleHoverIntEvent({interactionHandlers})(rawOnHoverIn))(),
 		[interactionHandlers, rawOnHoverIn]
 	)
 
 	const onHoverOut = useMemo(
-		() => createHandler(handleHoverOutEvent({interactionHandlers})(rawOnHoverOut))(),
+		() => createStableHandler(handleHoverOutEvent({interactionHandlers})(rawOnHoverOut))(),
 		[interactionHandlers, rawOnHoverOut]
 	)
 
 	const onLayout = useMemo(
-		() => createHandler(handleLayoutEvent({interactionHandlers})(rawOnLayout))(),
+		() => createStableHandler(handleLayoutEvent({interactionHandlers})(rawOnLayout))(),
 		[interactionHandlers, rawOnLayout]
 	)
 
 	const onLongPress = useMemo(
-		() => createHandler(handleLongPressEvent({interactionHandlers})(rawOnLongPress))(),
+		() => createStableHandler(handleLongPressEvent({interactionHandlers})(rawOnLongPress))(),
 		[interactionHandlers, rawOnLongPress]
 	)
 
 	const onPress = useMemo(
 		() =>
-			createHandler(
+			createStableHandler(
 				handlePressEvent({interactionHandlers, mobileDevice: isMobileDevice})(rawOnPress)
 			)(),
 		[interactionHandlers, isMobileDevice, rawOnPress]
 	)
 
 	const onPressIn = useMemo(
-		() => createHandler(handlePressInEvent({interactionHandlers})(rawOnPressIn))(),
+		() => createStableHandler(handlePressInEvent({interactionHandlers})(rawOnPressIn))(),
 		[interactionHandlers, rawOnPressIn]
 	)
 
 	const onPressOut = useMemo(
 		() =>
-			createHandler(
+			createStableHandler(
 				handlePressOutEvent({interactionHandlers, mobileDevice: isMobileDevice})(rawOnPressOut)
 			)(),
 		[interactionHandlers, isMobileDevice, rawOnPressOut]

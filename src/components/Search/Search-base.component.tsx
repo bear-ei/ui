@@ -2,9 +2,9 @@ import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo,
 import type {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import type {ProcessStateEventChangeOptions, StateEvent} from '../../hooks'
+import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
-import {createHandlerWithUpdater, runAfterInteractions} from '../../utils'
+import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {
 	handleSearchChangeText,
@@ -60,27 +60,30 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		const inputRef = useRef<TextInput>(null)
 		const theme = useTheme()
 		const onSearchListVisible = useMemo(
-			() => createHandlerWithUpdater(handleSearchListVisible)(setState)(),
+			() => createStableHandlerWithState(handleSearchListVisible)(setState)(),
 			[setState]
 		)
 
 		const onSearchChangeText = useMemo(
-			() => createHandlerWithUpdater(handleSearchChangeText({data, onChangeText}))(setState)(),
+			() => createStableHandlerWithState(handleSearchChangeText({data, onChangeText}))(setState)(),
 			[data, onChangeText, setState]
 		)
 
 		const onSearchTextInputRawChangeText = useMemo(
-			() => createHandlerWithUpdater(handleSearchTextInputRawChangeText(data))(setState)(),
+			() => createStableHandlerWithState(handleSearchTextInputRawChangeText(data))(setState)(),
 			[data, setState]
 		)
 
 		const onSearchContainerLayout = useMemo(
-			() => createHandlerWithUpdater(handleSearchContainerLayout(containerRef.current))(setState)(),
+			() =>
+				createStableHandlerWithState(handleSearchContainerLayout(containerRef.current))(
+					setState
+				)(),
 			[setState]
 		)
 
 		const onStateEventChange = useCallback(
-			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleSearchStateChange({...options, ref: inputRef, state})(setState)(event),
 			[setState]
 		)

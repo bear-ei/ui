@@ -2,7 +2,7 @@ import {nanoid} from 'nanoid'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createHandler, createHandlerWithUpdater, runAfterInteractions} from '../../utils'
+import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {
 	handleSideSheetBack,
 	handleSideSheetClose,
@@ -37,17 +37,20 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		const id = useId()
 		const sideSheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const
 		const onSideSheetBack = useMemo(
-			() => createHandlerWithUpdater(handleSideSheetBack({onBack, disabledClose, type}))(setState)(),
+			() =>
+				createStableHandlerWithState(handleSideSheetBack({onBack, disabledClose, type}))(
+					setState
+				)(),
 			[disabledClose, onBack, setState, type]
 		)
 
 		const onSideSheetClose = useMemo(
-			() => createHandlerWithUpdater(handleSideSheetClose(onClose))(setState)(),
+			() => createStableHandlerWithState(handleSideSheetClose(onClose))(setState)(),
 			[onClose, setState]
 		)
 
 		const onSideSheetVisible = useMemo(
-			() => createHandlerWithUpdater(handleSideSheetVisible)(setState)(),
+			() => createStableHandlerWithState(handleSideSheetVisible)(setState)(),
 			[setState]
 		)
 		const renderSheetProps = useMemo(
@@ -76,7 +79,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		)
 
 		const onSideSheetEmit = useMemo(
-			() => createHandler(handleSideSheetEmit({id: emitId, type})(renderSheetProps))(),
+			() => createStableHandler(handleSideSheetEmit({id: emitId, type})(renderSheetProps))(),
 			[emitId, renderSheetProps, type]
 		)
 

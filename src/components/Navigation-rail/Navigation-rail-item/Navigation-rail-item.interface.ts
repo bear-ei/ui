@@ -2,7 +2,7 @@ import type {RefAttributes} from 'react'
 import type {PressableProps, TextStyle, View, ViewProps} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
-import type {AnimatedTiming, InteractionHandler, ProcessStateEventChangeOptions} from '../../../hooks'
+import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandler} from '../../../hooks'
 import type {EventName, TypographyProps} from '../../Common'
 import type {NavigationRailProps} from '../Navigation-rail.interface'
 
@@ -33,7 +33,7 @@ export interface NavigationRailItemState {
 }
 
 export interface HandleNavigationRailItemStateEventChangeOptions
-	extends ProcessStateEventChangeOptions,
+	extends HandleStateEventChangeOptions,
 		Pick<NavigationRailItemProps, 'indexKey' | 'onActive'> {
 	ref: React.RefObject<View>
 }

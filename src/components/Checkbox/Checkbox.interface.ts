@@ -2,8 +2,8 @@ import type {DefaultTheme} from 'styled-components/native'
 import type {
 	AnimatedTiming,
 	AnimatedTimingOptions,
-	InteractionHandler,
-	ProcessStateEventChangeOptions
+	HandleStateEventChangeOptions,
+	InteractionHandler
 } from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName} from '../Common'
 import type {LayoutAnimatedType} from '../Layout-animated'
@@ -40,7 +40,7 @@ export interface CheckboxState {
 }
 
 export type HandleCheckboxActiveOptions = Pick<RenderCheckboxProps, 'onActive' | 'indeterminate'>
-export type HandleCheckboxStateChangeOptions = ProcessStateEventChangeOptions &
+export type HandleCheckboxStateChangeOptions = HandleStateEventChangeOptions &
 	Pick<RenderCheckboxProps, 'active' | 'indeterminate'> &
 	HandleCheckboxActiveOptions
 

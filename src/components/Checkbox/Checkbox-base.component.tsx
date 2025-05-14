@@ -2,8 +2,8 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createHandlerWithUpdater, runAfterInteractions} from '../../utils'
+import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {
 	handleCheckboxActive,
@@ -34,21 +34,21 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 		const id = useId()
 		const theme = useTheme()
 		const onCheckboxStatus = useMemo(
-			() => createHandlerWithUpdater(handleCheckboxStatus)(setState)(),
+			() => createStableHandlerWithState(handleCheckboxStatus)(setState)(),
 			[setState]
 		)
 		const onCheckboxIndeterminate = useMemo(
-			() => createHandlerWithUpdater(handleCheckboxIndeterminate)(setState)(),
+			() => createStableHandlerWithState(handleCheckboxIndeterminate)(setState)(),
 			[setState]
 		)
 
 		const onCheckboxRawActive = useMemo(
-			() => createHandlerWithUpdater(handleCheckboxActive({indeterminate}))(setState)(),
+			() => createStableHandlerWithState(handleCheckboxActive({indeterminate}))(setState)(),
 			[indeterminate, setState]
 		)
 
 		const onStateEventChange = useCallback(
-			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleCheckboxStateChange({
 					...options,
 					active: isActive,

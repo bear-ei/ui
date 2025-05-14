@@ -1,7 +1,7 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createHandlerWithUpdater, runAfterInteractions} from '../../utils'
+import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
 import type {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
 import {handleNavigationRailActive, handleNavigationRailData} from './Navigation-rail-handle'
@@ -30,17 +30,17 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 
 		const id = useId()
 		const onNavigationRailActive = useMemo(
-			() => createHandlerWithUpdater(handleNavigationRailActive(onActive))(setState)(),
+			() => createStableHandlerWithState(handleNavigationRailActive(onActive))(setState)(),
 			[onActive, setState]
 		)
 
 		const onNavigationRailData = useMemo(
-			() => createHandlerWithUpdater(handleNavigationRailData)(setState)(),
+			() => createStableHandlerWithState(handleNavigationRailData)(setState)(),
 			[setState]
 		)
 
 		const onNavigationRailRawActive = useMemo(
-			() => createHandlerWithUpdater(handleNavigationRailActive())(setState)(),
+			() => createStableHandlerWithState(handleNavigationRailActive())(setState)(),
 			[setState]
 		)
 
