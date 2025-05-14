@@ -5,12 +5,12 @@ import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {
-	handleLayoutAnimatedFinished,
-	handleLayoutAnimatedLayoutChange,
-	handleLayoutAnimatedLayoutVisible,
 	handleLayoutAnimatedStateChange,
-	handleLayoutAnimatedStatus
-} from './Layout-animated-handle'
+	handleLayoutAnimationEnd,
+	updateLayoutAnimatedStatus,
+	updateLayoutAnimatedVisible,
+	updateLayoutSizeOnChange
+} from './Layout-animated-handler'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import type {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
@@ -52,31 +52,28 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		const id = useId()
 		const isLayoutVisible = rawVisible ?? defaultVisible
 		const delay = rawDelay + 50
-		const onLayoutAnimatedStatus = useMemo(
-			() => createStableHandlerWithState(handleLayoutAnimatedStatus({unmount, lazy}))(setState)(),
+		const updateLayoutAnimatedStatusEffect = useMemo(
+			() => createStableHandlerWithState(updateLayoutAnimatedStatus({unmount, lazy}))(setState)(),
 			[lazy, setState, unmount]
 		)
 
-		const onLayoutAnimatedLayoutVisible = useMemo(
+		const updateLayoutAnimatedVisibleEffect = useMemo(
 			() =>
-				createStableHandlerWithState(handleLayoutAnimatedLayoutVisible(onVisible))(setState)({
+				createStableHandlerWithState(updateLayoutAnimatedVisible(onVisible))(setState)({
 					debounceMillisecond: delay
 				}),
 
 			[delay, onVisible, setState]
 		)
 
-		const onLayoutAnimatedFinished = useMemo(
-			() =>
-				createStableHandlerWithState(handleLayoutAnimatedFinished({onUnmount, unmount}))(
-					setState
-				)(),
+		const onLayoutAnimationEnd = useMemo(
+			() => createStableHandlerWithState(handleLayoutAnimationEnd({onUnmount, unmount}))(setState)(),
 			[onUnmount, setState, unmount]
 		)
 
-		const onLayoutAnimatedLayoutChange = useMemo(
+		const onLayoutSizeChange = useMemo(
 			() =>
-				createStableHandlerWithState(handleLayoutAnimatedLayoutChange)(setState)({
+				createStableHandlerWithState(updateLayoutSizeOnChange)(setState)({
 					debounceMillisecond: 50
 				}),
 			[setState]
@@ -86,10 +83,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleLayoutAnimatedStateChange({
 					...options,
-					onLayoutChange: onLayoutAnimatedLayoutChange,
+					onLayoutChange: onLayoutSizeChange,
 					state
 				})(event),
-			[onLayoutAnimatedLayoutChange]
+			[onLayoutSizeChange]
 		)
 
 		const interactionHandlers = useStateEvent({...renderLayoutAnimatedProps, onStateEventChange})
@@ -98,7 +95,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			entry,
 			exit,
 			height: layout.height ?? contentSize?.height ?? contentSize?.minHeight,
-			onAnimatedFinished: onLayoutAnimatedFinished,
+			onAnimatedFinished: onLayoutAnimationEnd,
 			opacity,
 			scale,
 			visible: isVisible ?? isLayoutVisible,
@@ -106,14 +103,14 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		})
 
 		useEffect(() => {
-			onLayoutAnimatedStatus(isLayoutVisible)
-		}, [isLayoutVisible, onLayoutAnimatedStatus])
+			updateLayoutAnimatedStatusEffect(isLayoutVisible)
+		}, [isLayoutVisible, updateLayoutAnimatedStatusEffect])
 
 		useEffect(() => {
 			if (status === COMPONENT_STATUS.SUCCEEDED) {
-				onLayoutAnimatedLayoutVisible(isLayoutVisible)
+				updateLayoutAnimatedVisibleEffect(isLayoutVisible)
 			}
-		}, [isLayoutVisible, onLayoutAnimatedLayoutVisible, status])
+		}, [isLayoutVisible, status, updateLayoutAnimatedVisibleEffect])
 
 		useEffect(() => {
 			runAfterInteractions(nextUnmountEvent)()

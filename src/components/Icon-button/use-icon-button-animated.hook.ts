@@ -82,7 +82,7 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
 
 	useEffect(() => {
 		animateIconButtonEffect(disabled)
-	}, [disabled, animateIconButtonEffect, type])
+	}, [animateIconButtonEffect, disabled])
 
 	return {backgroundUnderlayAnimatedStyle}
 }

@@ -3,7 +3,7 @@ import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanim
 import type {DefaultStyle} from 'react-native-reanimated/lib/typescript/hook/commonTypes'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {handleLayoutAnimatedTiming} from './Layout-animated-handle'
+import {triggerLayoutAnimation} from './Layout-animated-handler'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import type {LayoutAnimatedType, UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
@@ -55,11 +55,8 @@ export const useLayoutAnimated = ({
 		transform: [{scale: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
 	}))
 
-	const onLayoutAnimatedTiming = useMemo(
-		() =>
-			handleLayoutAnimatedTiming({animatedTiming, entry, exit, onAnimatedFinished})(
-				containerSharedValue
-			),
+	const triggerLayoutAnimationEffect = useMemo(
+		() => triggerLayoutAnimation({animatedTiming, entry, exit, onAnimatedFinished})(containerSharedValue),
 		[animatedTiming, containerSharedValue, entry, exit, onAnimatedFinished]
 	)
 
@@ -76,8 +73,8 @@ export const useLayoutAnimated = ({
 	)
 
 	useEffect(() => {
-		onLayoutAnimatedTiming(visible)
-	}, [visible, onLayoutAnimatedTiming])
+		triggerLayoutAnimationEffect(visible)
+	}, [visible, triggerLayoutAnimationEffect])
 
 	return {containerAnimatedStyle: containerAnimated[animatedType]}
 }

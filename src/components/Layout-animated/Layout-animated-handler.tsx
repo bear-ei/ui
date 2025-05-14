@@ -5,30 +5,29 @@ import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import type {
-	HandleLayoutAnimatedFinishedOptions,
+	HandleLayoutAnimatedEndOptions,
 	HandleLayoutAnimatedStateChangeOptions,
 	HandleLayoutAnimatedStatusOptions,
-	HandleLayoutAnimatedTimingOptions,
-	LayoutAnimatedState
+	LayoutAnimatedState,
+	TriggerLayoutAnimatedTimingOptions
 } from './Layout-animated.interface'
 
-export const handleLayoutAnimatedLayoutChange =
-	(setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
-		const {height, width} = layout
+export const updateLayoutSizeOnChange = (setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
+	const {height, width} = layout
 
-		setState(draft => {
-			const {width: prevWidth, height: prevHeight} = draft.layout
+	setState(draft => {
+		const {width: prevWidth, height: prevHeight} = draft.layout
 
-			if (prevHeight !== height || prevWidth !== width) {
-				draft.layout.height = height
-				draft.layout.width = width
-			}
+		if (prevHeight !== height || prevWidth !== width) {
+			draft.layout.height = height
+			draft.layout.width = width
+		}
 
-			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-				draft.status = COMPONENT_STATUS.SUCCEEDED
-			}
-		})
-	}
+		if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+			draft.status = COMPONENT_STATUS.SUCCEEDED
+		}
+	})
+}
 
 export const handleLayoutAnimatedStateChange =
 	({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
@@ -44,7 +43,7 @@ export const handleLayoutAnimatedStateChange =
 		nextEvent[eventName]?.()
 	}
 
-export const handleLayoutAnimatedLayoutVisible =
+export const updateLayoutAnimatedVisible =
 	(onVisible?: (visible?: boolean) => void) => (setState: Updater<LayoutAnimatedState>) => {
 		const createNextVisibleEvent = (visible?: boolean) => () => onVisible?.(visible)
 		const handleDraftChange = (visible?: boolean) => (draft: WritableDraft<LayoutAnimatedState>) => {
@@ -60,8 +59,8 @@ export const handleLayoutAnimatedLayoutVisible =
 		return (visible?: boolean) => setState(handleDraftChange(visible))
 	}
 
-export const handleLayoutAnimatedFinished =
-	({onUnmount, unmount}: HandleLayoutAnimatedFinishedOptions) =>
+export const handleLayoutAnimationEnd =
+	({onUnmount, unmount}: HandleLayoutAnimatedEndOptions) =>
 	(setState: Updater<LayoutAnimatedState>) =>
 	(visible?: boolean) => {
 		setState(draft => {
@@ -75,7 +74,7 @@ export const handleLayoutAnimatedFinished =
 		})
 	}
 
-export const handleLayoutAnimatedStatus =
+export const updateLayoutAnimatedStatus =
 	({unmount, lazy}: HandleLayoutAnimatedStatusOptions) =>
 	(setState: Updater<LayoutAnimatedState>) =>
 	(visible?: boolean) =>
@@ -91,8 +90,8 @@ export const handleLayoutAnimatedStatus =
 			draft.status = lazy && !visible ? COMPONENT_STATUS.IDLE : COMPONENT_STATUS.LOADING
 		})
 
-export const handleLayoutAnimatedTiming =
-	({animatedTiming, onAnimatedFinished, entry, exit}: HandleLayoutAnimatedTimingOptions) =>
+export const triggerLayoutAnimation =
+	({animatedTiming, onAnimatedFinished, entry, exit}: TriggerLayoutAnimatedTimingOptions) =>
 	(containerSharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
 		typeof visible === 'boolean' &&
