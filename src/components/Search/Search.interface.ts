@@ -2,7 +2,7 @@ import type {Size} from '@bearei/material-token'
 import type {RefAttributes, RefObject} from 'react'
 import type {LayoutRectangle, PressableProps, TextInput, TextInputProps, View} from 'react-native'
 import type {DefaultTheme} from 'styled-components/native'
-import type {HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
+import type {InteractionHandler, ProcessStateEventChangeOptions} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName, State} from '../Common'
 import type {ListData, ListProps} from '../List'
 import type {SearchListProps} from './Search-list'
@@ -47,7 +47,7 @@ export interface SearchState {
 }
 
 export type HandleSearchChangeTextOptions = Pick<RenderSearchProps, 'onChangeText'> & Pick<SearchListProps, 'data'>
-export interface HandleSearchStateChangeOptions extends HandleStateEventChangeOptions {
+export interface HandleSearchStateChangeOptions extends ProcessStateEventChangeOptions {
 	ref?: RefObject<TextInput>
 }
 

@@ -2,15 +2,15 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createHandler} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {
-	createButtonUnderlayColor,
-	handleButtonDisabled,
-	handleButtonStateChange,
-	handleButtonStatus
-} from './Button-handle'
+	processButtonDisabled,
+	processButtonStateChange,
+	processButtonStatus,
+	processButtonUnderlayColor
+} from './Button-handler'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonBaseProps, ButtonState} from './Button.interface'
 import {renderButtonIcon} from './Button.render'
@@ -37,20 +37,20 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		const id = useId()
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
-		const underlayColor = createButtonUnderlayColor(theme)(type)
+		const underlayColor = processButtonUnderlayColor(theme)(type)
 		const onButtonStatus = useMemo(
-			() => createHandler(handleButtonStatus(rawDisabled))(setState)(),
+			() => createHandler(processButtonStatus(rawDisabled))(setState)(),
 			[rawDisabled, setState]
 		)
 
 		const onButtonDisabled = useMemo(
-			() => createHandler(handleButtonDisabled(type))(setState)(),
+			() => createHandler(processButtonDisabled(type))(setState)(),
 			[setState, type]
 		)
 
 		const onStateEventChange = useCallback(
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleButtonStateChange({...options, state, type})(setState)(event),
+			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				processButtonStateChange({...options, state, type})(setState)(event),
 			[setState, type]
 		)
 

@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo,
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {ProcessStateEventChangeOptions, StateEvent} from '../../../hooks'
 import {useStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import type {State} from '../../Common'
@@ -32,7 +32,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 		const pressableRef = useRef<View>(null)
 		const theme = useTheme()
 		const onStateEventChange = useCallback(
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleNavigationRailItemStateChange({
 					...options,
 					indexKey,

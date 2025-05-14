@@ -3,7 +3,7 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createHandler} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {createFABUnderlayColor, handleFABDisabled, handleFABStateChange, handleFABStatus} from './FAB-handle'
@@ -44,7 +44,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		)
 
 		const onStateEventChange = useCallback(
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleFABStateChange({...options, state, elevated})(setState)(event),
 			[elevated, setState]
 		)

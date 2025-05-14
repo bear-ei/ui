@@ -27,10 +27,10 @@ export type InteractionHandler = {
 
 export interface UseHandleStateEventOptions extends Partial<PressableProps & InteractionHandler> {
 	disabled?: boolean
-	onStateEventChange?: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
+	onStateEventChange?: (options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 
-export interface HandleStateEventChangeOptions
+export interface ProcessStateEventChangeOptions
 	extends Pick<UseHandleStateEventOptions, 'disabled' | 'onStateEventChange'> {
 	callback?: () => void
 	eventName?: EventName
@@ -39,7 +39,7 @@ export interface HandleStateEventChangeOptions
 
 export interface HandleStateEventOptions {
 	mobileDevice?: boolean
-	interactionHandlers: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
+	interactionHandlers: (options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 
 export type UseDesktopScrollEventOptions = Pick<ScrollViewProps, 'onScroll' | 'onMomentumScrollEnd'>

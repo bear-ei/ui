@@ -3,7 +3,7 @@ import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {handleButtonAnimatedTiming} from './Button-handle'
+import {processButtonAnimatedTiming} from './Button-handler'
 import {BUTTON_TYPE} from './Button.enum'
 import type {UseButtonAnimatedOptions} from './Button.interface'
 
@@ -196,7 +196,7 @@ export const useButtonAnimated = ({
 
 	const onButtonAnimatedTiming = useMemo(
 		() =>
-			handleButtonAnimatedTiming({animatedTiming, borderColorInputRanges, type, disabled})({
+			processButtonAnimatedTiming({animatedTiming, borderColorInputRanges, type, disabled})({
 				borderSharedValue,
 				colorSharedValue
 			}),

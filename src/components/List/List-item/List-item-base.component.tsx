@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo,
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
+import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import {createHandler, createHandlerFinal, runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
@@ -137,7 +137,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		)
 
 		const onStateEventChange = useCallback(
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleListItemStateChange({
 					...options,
 					activeTriggerEvenName,

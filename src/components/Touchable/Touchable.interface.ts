@@ -1,7 +1,7 @@
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, NativeTouchEvent, PressableProps, View, ViewProps, ViewStyle} from 'react-native'
 import type {Updater} from 'use-immer'
-import type {HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
+import type {InteractionHandler, ProcessStateEventChangeOptions} from '../../hooks'
 import type {ShapeProps} from '../Common'
 import type {TouchableRippleProps} from './Touchable-ripple'
 
@@ -47,7 +47,7 @@ export interface TouchableState {
 export type RenderTouchableRippleOptions = Omit<TouchableRippleProps, 'indexKey'>
 export interface HandleTouchableStateChangeOptions
 	extends Pick<TouchableRippleProps, 'touchableLocation'>,
-		HandleStateEventChangeOptions,
+		ProcessStateEventChangeOptions,
 		Pick<TouchableProps, 'enableTouchableRipple'> {
 	ref: React.RefObject<View>
 }

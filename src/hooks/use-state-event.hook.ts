@@ -10,14 +10,14 @@ import {Platform} from 'react-native'
 import {EVENT_NAME, STATE, type State} from '../components'
 import {createHandlerFinal} from '../utils'
 import type {
-	HandleStateEventChangeOptions,
 	HandleStateEventOptions,
+	ProcessStateEventChangeOptions,
 	StateEvent,
 	UseHandleStateEventOptions
 } from './hooks.interface'
 
 const handleStateEventChange =
-	({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
+	({callback, disabled, eventName, onStateEventChange}: ProcessStateEventChangeOptions) =>
 	(state: State) =>
 	(event: StateEvent) => {
 		if (disabled && eventName !== EVENT_NAME.LAYOUT) {
@@ -113,7 +113,7 @@ export const useStateEvent = ({
 }: UseHandleStateEventOptions) => {
 	const isMobileDevice = ['ios', 'android'].includes(Platform.OS)
 	const interactionHandlers = useCallback(
-		(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+		(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 			handleStateEventChange({...options, disabled, onStateEventChange})(
 				disabled ? STATE.DISABLED : state
 			)(event),

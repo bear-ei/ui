@@ -3,7 +3,7 @@ import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo}
 import type {LayoutRectangle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
-import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import type {ProcessStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useStateEvent} from '../../hooks'
 import {createHandler, createHandlerFinal, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
@@ -92,7 +92,7 @@ export const VirtualListBaseInner = <T,>(
 	)
 
 	const onStateEventChange = useCallback(
-		(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+		(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 			handleVirtualListStateChange({...options, state})(onVirtualListLayoutChange)(event),
 		[onVirtualListLayoutChange]
 	)

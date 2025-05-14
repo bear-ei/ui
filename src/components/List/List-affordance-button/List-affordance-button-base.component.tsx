@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useId} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
+import {useStateEvent, type ProcessStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import type {State} from '../../Common'
 import type {ListAffordanceButtonBaseProps, ListAffordanceButtonState} from './List-affordance-button.interface'
 import {handleListAffordanceButtonStateChange} from './List-affordance-handle'
@@ -23,7 +23,7 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
 		const theme = useTheme()
 		const id = useId()
 		const onStateEventChange = useCallback(
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleListAffordanceButtonStateChange({...options, state, visible})(setState)(event),
 			[setState, visible]
 		)

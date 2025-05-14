@@ -1,7 +1,7 @@
 import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
-import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import type {ProcessStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
 import {createHandler} from '../../utils'
 import type {State} from '../Common'
@@ -34,7 +34,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 		)
 
 		const onStateEventChange = useCallback(
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: ProcessStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleTouchableStateChange({
 					...options,
 					enableTouchableRipple,

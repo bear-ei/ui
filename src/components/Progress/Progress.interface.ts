@@ -1,6 +1,6 @@
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, View, ViewProps} from 'react-native'
-import type {HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
+import type {InteractionHandler, ProcessStateEventChangeOptions} from '../../hooks'
 import type {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 
 export type ProgressType = (typeof PROGRESS_TYPE)[keyof typeof PROGRESS_TYPE]
@@ -29,7 +29,7 @@ export interface ProgressState {
 	layout: LayoutRectangle
 }
 
-export interface HandleProgressStateChangeOptions extends HandleStateEventChangeOptions {
+export interface HandleProgressStateChangeOptions extends ProcessStateEventChangeOptions {
 	onLayoutChange: (layout: LayoutRectangle) => void
 }
 

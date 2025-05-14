@@ -9,12 +9,12 @@ import {BUTTON_TYPE} from './Button.enum'
 import type {
 	ButtonState,
 	ButtonType,
-	HandleButtonAnimatedTimingOptions,
-	HandleButtonAnimatedTimingSharedValueOptions,
-	HandleButtonStateChangeOptions
+	HandleButtonStateChangeOptions,
+	ProcessButtonAnimatedTimingOptions,
+	ProcessButtonAnimatedTimingSharedValueOptions
 } from './Button.interface'
 
-export const handleButtonStatus = (disabled?: boolean) => (setState: Updater<ButtonState>) => (type?: ButtonType) =>
+export const processButtonStatus = (disabled?: boolean) => (setState: Updater<ButtonState>) => (type?: ButtonType) =>
 	setState(draft => {
 		if (draft.status !== COMPONENT_STATUS.IDLE) {
 			return
@@ -27,7 +27,7 @@ export const handleButtonStatus = (disabled?: boolean) => (setState: Updater<But
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
-export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
+export const processButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
 	const elevatedTypes = [BUTTON_TYPE.ELEVATED, BUTTON_TYPE.FILLED, BUTTON_TYPE.TONAL] as const
 	const isElevated = elevatedTypes.includes(type as (typeof elevatedTypes)[number])
 
@@ -57,7 +57,7 @@ export const handleButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
 		:	level[state] + correctionCoefficient) as ElevationLevel
 }
 
-export const handleButtonStateChange =
+export const processButtonStateChange =
 	({eventName, type, state}: HandleButtonStateChangeOptions) =>
 	(setState: Updater<ButtonState>) =>
 	(_event: StateEvent) => {
@@ -71,12 +71,12 @@ export const handleButtonStateChange =
 			draft.eventName = eventName
 
 			if (prevEventName !== eventName) {
-				handleButtonElevation(draft)(type)(state)
+				processButtonElevation(draft)(type)(state)
 			}
 		})
 	}
 
-export const handleButtonDisabled = (type?: ButtonType) => (setState: Updater<ButtonState>) => (disabled?: boolean) =>
+export const processButtonDisabled = (type?: ButtonType) => (setState: Updater<ButtonState>) => (disabled?: boolean) =>
 	typeof disabled === 'boolean' &&
 	setState(draft => {
 		if (disabled) {
@@ -88,7 +88,7 @@ export const handleButtonDisabled = (type?: ButtonType) => (setState: Updater<Bu
 		}
 	})
 
-export const createButtonUnderlayColor = (theme: DefaultTheme) => {
+export const processButtonUnderlayColor = (theme: DefaultTheme) => {
 	const underlay = {
 		[BUTTON_TYPE.ELEVATED]: theme.token.scheme.primary,
 		[BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,
@@ -101,11 +101,11 @@ export const createButtonUnderlayColor = (theme: DefaultTheme) => {
 	return (type: ButtonType) => underlay[type]
 }
 
-export const handleButtonOutlinedAnimatedTiming = ({
+export const processButtonOutlinedAnimatedTiming = ({
 	animatedTiming,
 	borderColorInputRanges,
 	disabled
-}: HandleButtonAnimatedTimingOptions) => {
+}: ProcessButtonAnimatedTimingOptions) => {
 	const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]
 
 	return (borderSharedValue: SharedValue<number>) => (eventName?: EventName) => {
@@ -115,18 +115,18 @@ export const handleButtonOutlinedAnimatedTiming = ({
 	}
 }
 
-export const handleButtonAnimatedTiming = ({
+export const processButtonAnimatedTiming = ({
 	animatedTiming,
 	borderColorInputRanges,
 	disabled,
 	type
-}: HandleButtonAnimatedTimingOptions) => {
+}: ProcessButtonAnimatedTimingOptions) => {
 	const toValue = disabled ? 0 : 1
 
-	return ({borderSharedValue, colorSharedValue}: HandleButtonAnimatedTimingSharedValueOptions) =>
+	return ({borderSharedValue, colorSharedValue}: ProcessButtonAnimatedTimingSharedValueOptions) =>
 		(eventName?: EventName) => {
 			if (type === BUTTON_TYPE.OUTLINED) {
-				handleButtonOutlinedAnimatedTiming({animatedTiming, borderColorInputRanges, disabled})(
+				processButtonOutlinedAnimatedTiming({animatedTiming, borderColorInputRanges, disabled})(
 					borderSharedValue
 				)(eventName)
 

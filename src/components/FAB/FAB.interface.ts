@@ -1,7 +1,7 @@
 import type {Size} from '@bearei/material-token'
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
+import type {InteractionHandler, ProcessStateEventChangeOptions} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName} from '../Common'
 import type {ElevationLevel} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
@@ -40,6 +40,6 @@ export interface FABState {
 export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB' | 'density'>
 export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB' | 'density'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
-export type HandleFABStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
+export type HandleFABStateChangeOptions = ProcessStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
 export type RenderFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'id'>
 export type UseFABAnimatedOptions = Pick<RenderFABProps, 'disabled' | 'type'>
