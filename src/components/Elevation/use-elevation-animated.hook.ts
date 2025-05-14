@@ -5,7 +5,7 @@ import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanim
 import type {DefaultStyle} from 'react-native-reanimated/lib/typescript/hook/commonTypes'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {handleElevationAnimatedTiming} from './Elevation-handle'
+import {animateElevationLevel} from './Elevation-handler'
 import {ELEVATION} from './Elevation.enum'
 import type {UseElevationAnimatedOptions} from './Elevation.interface'
 
@@ -140,14 +140,14 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
 				}) as DefaultStyle
 	})
 
-	const onElevationAnimatedTiming = useMemo(
-		() => handleElevationAnimatedTiming(animatedTiming)(shadowSharedValue),
+	const animateElevationEffect = useMemo(
+		() => animateElevationLevel(animatedTiming)(shadowSharedValue),
 		[animatedTiming, shadowSharedValue]
 	)
 
 	useEffect(() => {
-		onElevationAnimatedTiming(level)
-	}, [level, onElevationAnimatedTiming])
+		animateElevationEffect(level)
+	}, [level, animateElevationEffect])
 
 	return {shadowAnimatedStyle}
 }
