@@ -5,7 +5,7 @@ import {COMPONENT_STATUS, EVENT_NAME} from '../Common'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {CheckboxState, HandleCheckboxActiveOptions, HandleCheckboxStateChangeOptions} from './Checkbox.interface'
 
-export const handleCheckboxStatus = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
+export const updateCheckboxStatus = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
 	setState(draft => {
 		if (draft.status !== COMPONENT_STATUS.IDLE) {
 			return
@@ -38,7 +38,7 @@ const handleCheckboxActiveDraftChange =
 		draft.value = nextValue
 	}
 
-export const handleCheckboxActive =
+export const updateCheckboxActive =
 	(options: HandleCheckboxActiveOptions) => (setState: Updater<CheckboxState>) => (active?: boolean) =>
 		setState(draft => {
 			if (active === draft.active) {
@@ -69,7 +69,7 @@ export const handleCheckboxStateChange =
 		})
 	}
 
-export const handleCheckboxIndeterminate = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
+export const updateCheckboxIndeterminate = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
 	typeof indeterminate === 'boolean' &&
 	setState(draft => {
 		if (indeterminate) {

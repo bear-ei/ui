@@ -194,7 +194,7 @@ export const useButtonAnimated = ({
 		)
 	}))
 
-	const onButtonAnimatedTiming = useMemo(
+	const animateButtonEffect = useMemo(
 		() =>
 			animateButtonColorAndBorder({animatedTiming, borderColorInputRanges, type, disabled})({
 				borderSharedValue,
@@ -204,8 +204,8 @@ export const useButtonAnimated = ({
 	)
 
 	useEffect(() => {
-		onButtonAnimatedTiming(eventName)
-	}, [eventName, onButtonAnimatedTiming])
+		animateButtonEffect(eventName)
+	}, [animateButtonEffect, eventName])
 
 	return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

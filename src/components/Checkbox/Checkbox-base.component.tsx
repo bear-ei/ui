@@ -6,11 +6,11 @@ import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {
-	handleCheckboxActive,
-	handleCheckboxIndeterminate,
 	handleCheckboxStateChange,
-	handleCheckboxStatus
-} from './Checkbox-handle'
+	updateCheckboxActive,
+	updateCheckboxIndeterminate,
+	updateCheckboxStatus
+} from './Checkbox-handler'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {CheckboxBaseProps, CheckboxState} from './Checkbox.interface'
 
@@ -33,17 +33,17 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 
 		const id = useId()
 		const theme = useTheme()
-		const onCheckboxStatus = useMemo(
-			() => createStableHandlerWithState(handleCheckboxStatus)(setState)(),
+		const updateCheckboxStatusEffect = useMemo(
+			() => createStableHandlerWithState(updateCheckboxStatus)(setState)(),
 			[setState]
 		)
-		const onCheckboxIndeterminate = useMemo(
-			() => createStableHandlerWithState(handleCheckboxIndeterminate)(setState)(),
+		const updateCheckboxIndeterminateEffect = useMemo(
+			() => createStableHandlerWithState(updateCheckboxIndeterminate)(setState)(),
 			[setState]
 		)
 
-		const onCheckboxRawActive = useMemo(
-			() => createStableHandlerWithState(handleCheckboxActive({indeterminate}))(setState)(),
+		const updateCheckboxActiveEffect = useMemo(
+			() => createStableHandlerWithState(updateCheckboxActive({indeterminate}))(setState)(),
 			[indeterminate, setState]
 		)
 
@@ -62,13 +62,13 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 		const interactionHandlers = useStateEvent({...renderCheckboxProps, disabled, onStateEventChange})
 
 		useEffect(() => {
-			onCheckboxStatus(indeterminate)
-			onCheckboxIndeterminate(indeterminate)
-		}, [indeterminate, onCheckboxIndeterminate, onCheckboxStatus])
+			updateCheckboxStatusEffect(indeterminate)
+			updateCheckboxIndeterminateEffect(indeterminate)
+		}, [indeterminate, updateCheckboxIndeterminateEffect, updateCheckboxStatusEffect])
 
 		useEffect(() => {
-			onCheckboxRawActive(rawActive ?? defaultActive)
-		}, [rawActive, defaultActive, onCheckboxRawActive])
+			updateCheckboxActiveEffect(rawActive ?? defaultActive)
+		}, [defaultActive, rawActive, updateCheckboxActiveEffect])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()
