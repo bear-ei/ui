@@ -3,7 +3,7 @@ import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {handleFABAnimatedTiming} from './FAB-handle'
+import {animateFABColor} from './FAB-handler'
 import {FAB_TYPE} from './FAB.enum'
 import type {UseFABAnimatedOptions} from './FAB.interface'
 
@@ -100,14 +100,14 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
 		)
 	}))
 
-	const onFABAnimatedTiming = useMemo(
-		() => handleFABAnimatedTiming(animatedTiming)(colorSharedValue),
+	const animateFABEffect = useMemo(
+		() => animateFABColor(animatedTiming)(colorSharedValue),
 		[animatedTiming, colorSharedValue]
 	)
 
 	useEffect(() => {
-		onFABAnimatedTiming(disabled)
-	}, [disabled, onFABAnimatedTiming])
+		animateFABEffect(disabled)
+	}, [disabled, animateFABEffect])
 
 	return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

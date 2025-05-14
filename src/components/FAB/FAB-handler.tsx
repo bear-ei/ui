@@ -8,7 +8,7 @@ import {ELEVATION, type ElevationLevel} from '../Elevation'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABState, FABType, HandleFABStateChangeOptions} from './FAB.interface'
 
-export const handleFABStatus = (disabled?: boolean) => (setState: Updater<FABState>) => (elevated?: boolean) =>
+export const updateFABStatus = (disabled?: boolean) => (setState: Updater<FABState>) => (elevated?: boolean) =>
 	setState(draft => {
 		if (draft.status !== COMPONENT_STATUS.IDLE) {
 			return
@@ -21,7 +21,7 @@ export const handleFABStatus = (disabled?: boolean) => (setState: Updater<FABSta
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
-const handleFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boolean) => (state?: State) => {
+const updateFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boolean) => (state?: State) => {
 	if (!elevated) {
 		return
 	}
@@ -60,12 +60,12 @@ export const handleFABStateChange =
 			}
 
 			if (prevEventName !== eventName) {
-				handleFABElevation(draft)(elevated)(state)
+				updateFABElevation(draft)(elevated)(state)
 			}
 		})
 	}
 
-export const handleFABDisabled = (elevated?: boolean) => (setState: Updater<FABState>) => (disabled?: boolean) =>
+export const updateFABDisabledState = (elevated?: boolean) => (setState: Updater<FABState>) => (disabled?: boolean) =>
 	typeof disabled === 'boolean' &&
 	setState(draft => {
 		if (disabled) {
@@ -77,7 +77,7 @@ export const handleFABDisabled = (elevated?: boolean) => (setState: Updater<FABS
 		}
 	})
 
-export const createFABUnderlayColor = (theme: DefaultTheme) => {
+export const getFABUnderlayColor = (theme: DefaultTheme) => {
 	const underlay = {
 		[FAB_TYPE.PRIMARY]: theme.token.scheme.onPrimaryContainer,
 		[FAB_TYPE.SECONDARY]: theme.token.scheme.onSecondaryContainer,
@@ -88,6 +88,6 @@ export const createFABUnderlayColor = (theme: DefaultTheme) => {
 	return (type: FABType) => underlay[type]
 }
 
-export const handleFABAnimatedTiming =
+export const animateFABColor =
 	(animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<number>) => (disabled?: boolean) =>
 		animatedTiming()(colorSharedValue)(disabled ? 0 : 1)
