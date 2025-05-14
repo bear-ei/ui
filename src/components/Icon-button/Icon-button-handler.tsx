@@ -4,9 +4,9 @@ import type {StateEvent} from '../../hooks'
 import {EVENT_NAME} from '../Common'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {
-	HandleIconButtonAnimatedTimingOptions,
-	HandleIconButtonAnimatedTimingSharedValueOptions,
+	AnimateIconButtonColorAndBorderOptions,
 	HandleIconButtonStateChangeOptions,
+	IconButtonAnimatedTimingSharedValueOptions,
 	IconButtonState,
 	IconButtonType
 } from './Icon-button.interface'
@@ -24,13 +24,13 @@ export const handleIconButtonStateChange =
 		})
 	}
 
-export const handleIconButtonDisabled = (setState: Updater<IconButtonState>) => (disabled?: boolean) =>
+export const updateIconButtonDisabledState = (setState: Updater<IconButtonState>) => (disabled?: boolean) =>
 	disabled &&
 	setState(draft => {
 		draft.eventName = EVENT_NAME.NONE
 	})
 
-export const processButtonUnderlayColor = (theme: DefaultTheme) => {
+export const getButtonUnderlayColor = (theme: DefaultTheme) => {
 	const underlay = {
 		[ICON_BUTTON_TYPE.ACTIVE]: theme.token.scheme.onSurfaceVariant,
 		[ICON_BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,
@@ -42,9 +42,9 @@ export const processButtonUnderlayColor = (theme: DefaultTheme) => {
 	return (type: IconButtonType = ICON_BUTTON_TYPE.FILLED) => underlay[type]
 }
 
-export const handleIconButtonAnimatedTiming =
-	({animatedTiming, type}: HandleIconButtonAnimatedTimingOptions) =>
-	({borderSharedValue, colorSharedValue}: HandleIconButtonAnimatedTimingSharedValueOptions) =>
+export const animateIconButtonColorAndBorder =
+	({animatedTiming, type}: AnimateIconButtonColorAndBorderOptions) =>
+	({borderSharedValue, colorSharedValue}: IconButtonAnimatedTimingSharedValueOptions) =>
 	(disabled?: boolean) => {
 		const toValue = disabled ? 0 : 1
 

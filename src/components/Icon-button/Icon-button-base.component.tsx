@@ -5,7 +5,7 @@ import {useImmer} from 'use-immer'
 import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
-import {handleIconButtonDisabled, handleIconButtonStateChange, processButtonUnderlayColor} from './Icon-button-handle'
+import {getButtonUnderlayColor, handleIconButtonStateChange, updateIconButtonDisabledState} from './Icon-button-handler'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {IconButtonBaseProps, IconButtonState} from './Icon-button.interface'
 import {renderIconButtonIcon} from './Icon-button.render'
@@ -28,9 +28,9 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		const id = useId()
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
-		const underlayColor = processButtonUnderlayColor(theme)(type)
-		const onIconButtonDisabled = useMemo(
-			() => createStableHandlerWithState(handleIconButtonDisabled)(setState)(),
+		const underlayColor = getButtonUnderlayColor(theme)(type)
+		const updateIconButtonDisabledStateEffect = useMemo(
+			() => createStableHandlerWithState(updateIconButtonDisabledState)(setState)(),
 			[setState]
 		)
 
@@ -56,8 +56,8 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		)
 
 		useEffect(() => {
-			onIconButtonDisabled(isDisabled)
-		}, [isDisabled, onIconButtonDisabled])
+			updateIconButtonDisabledStateEffect(isDisabled)
+		}, [isDisabled, updateIconButtonDisabledStateEffect])
 
 		return renderIconButton({
 			...renderIconButtonProps,
