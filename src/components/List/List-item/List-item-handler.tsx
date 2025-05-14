@@ -2,11 +2,11 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../Common'
-import type {ListAfterAffordancePressOutOptions} from '../List-after-affordance'
+import type {ListItemAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
 import type {
-	HandleListItemAfterAffordanceVisibleAnimatedTimingOptions,
+	AnimateListItemAffordanceVisibleOptions,
 	HandleListItemConfirmOptions,
 	HandleListItemStateEventChangeOptions,
 	HandleListItemTrailingPressOutOptions,
@@ -14,7 +14,7 @@ import type {
 	ListItemState
 } from './List-item.interface'
 
-export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
+export const compareItemProps = (prevProps: ListItemProps) => {
 	const {
 		activeKey: prevActiveKey,
 		activeKeys: prevActiveKeys,
@@ -70,12 +70,12 @@ export const handleListItemPropsEqual = (prevProps: ListItemProps) => {
 	}
 }
 
-const handleListItemActive =
+const triggerItemActive =
 	(selectType?: ListSelectType) => (onActive?: (activeKey?: string) => void) => (activeKey?: string) =>
 		selectType && activeKey && onActive?.(activeKey)
 
-const handleListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
-export const handleListItemStateChange =
+const handleItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
+export const handleItemStateChange =
 	({
 		activeTriggerEvenName,
 		eventName,
@@ -90,9 +90,9 @@ export const handleListItemStateChange =
 	(setState: Updater<ListItemState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
-			[EVENT_NAME.LAYOUT]: () => handleListItemLoadEnd?.(onLoadEnd)(indexKey),
-			[EVENT_NAME.PRESS_IN]: () => handleListItemActive(selectType)(onActive)(indexKey),
-			[EVENT_NAME.PRESS_OUT]: () => handleListItemActive(selectType)(onActive)(indexKey)
+			[EVENT_NAME.LAYOUT]: () => handleItemLoadEnd?.(onLoadEnd)(indexKey),
+			[EVENT_NAME.PRESS_IN]: () => triggerItemActive(selectType)(onActive)(indexKey),
+			[EVENT_NAME.PRESS_OUT]: () => triggerItemActive(selectType)(onActive)(indexKey)
 		} as Record<EventName, () => void>
 
 		setState(draft => {
@@ -158,18 +158,18 @@ export const handleListItemStateChange =
 		})
 	}
 
-export const handleListItemTrailingPressOut =
+export const handleItemTrailingPressOut =
 	({
 		afterAffordance,
 		closeTrailing,
 		onActiveAfterAffordance,
-		onListItemClose
+		onItemClose
 	}: HandleListItemTrailingPressOutOptions) =>
 	(indexKey?: string) =>
 	() => {
 		const nextEvent = {
 			afterAffordance: () => onActiveAfterAffordance?.({activeKey: indexKey}),
-			closeTrailing: () => onListItemClose(true)
+			closeTrailing: () => onItemClose(true)
 		}
 
 		if (afterAffordance) {
@@ -181,29 +181,29 @@ export const handleListItemTrailingPressOut =
 		}
 	}
 
-export const handleListItemTrailingPressIn = (setState: Updater<ListItemState>) => () => {
+export const handleItemTrailingPressIn = (setState: Updater<ListItemState>) => () => {
 	setState(draft => {
 		draft.affordanceVisible = true
 	})
 }
 
-export const handleItemListAfterAffordanceVisibleFinished = (setState: Updater<ListItemState>) => (visible?: boolean) =>
+export const handleAffordanceVisibleFinished = (setState: Updater<ListItemState>) => (visible?: boolean) =>
 	setState(draft => {
 		draft.afterAffordanceClosed = !visible
 	})
 
-export const handleItemListAffordanceShow = (setState: Updater<ListItemState>) => () =>
+export const showAffordance = (setState: Updater<ListItemState>) => () =>
 	setState(draft => {
 		draft.affordanceVisible = true
 	})
 
-export const handleListItemConfirm =
-	({onActiveAfterAffordance, onListItemClose, onConfirm}: HandleListItemConfirmOptions) =>
-	({indexKey, ...options}: ListAfterAffordancePressOutOptions) => {
+export const handleItemConfirm =
+	({onActiveAfterAffordance, onItemClose, onConfirm}: HandleListItemConfirmOptions) =>
+	({indexKey, ...options}: ListItemAfterAffordancePressOutOptions) => {
 		const {doubleConfirmed: isDoubleConfirmed} = options
 
 		if (isDoubleConfirmed) {
-			onListItemClose(isDoubleConfirmed)
+			onItemClose(isDoubleConfirmed)
 
 			return
 		}
@@ -215,21 +215,20 @@ export const handleListItemConfirm =
  * When using the component Text-field-picker, you only need to change the focus style. Do not get the real focus.
  * Otherwise the Text-field-picker will lose focus.
  */
-export const handleListItemFocus =
+export const handleItemFocusChange =
 	(itemIndex?: number) => (setState: Updater<ListItemState>) => (focusedIndex?: number) =>
 		typeof focusedIndex === 'number' &&
 		setState(draft => {
 			draft.eventName = itemIndex === focusedIndex ? EVENT_NAME.FOCUS : EVENT_NAME.BLUR
 		})
 
-export const handleListItemClose =
-	(onClose?: (indexKey?: string) => void) => (indexKey?: string) => (close?: boolean) => {
-		if (!(close && indexKey)) {
-			return
-		}
-
-		onClose?.(indexKey)
+export const handleItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => (close?: boolean) => {
+	if (!(close && indexKey)) {
+		return
 	}
+
+	onClose?.(indexKey)
+}
 
 /**
  * TODO:
@@ -251,18 +250,14 @@ export const handleListItemClose =
 // 		}
 // 	}
 
-export const handleListItemAfterAffordanceVisibleAnimatedTiming =
-	({
-		animatedTiming,
-		onListItemAfterAffordanceVisibleFinished
-	}: HandleListItemAfterAffordanceVisibleAnimatedTimingOptions) =>
+export const animateAffordanceVisible =
+	({animatedTiming, onItemAfterAffordanceVisibleFinished}: AnimateListItemAffordanceVisibleOptions) =>
 	(contentLeftSharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
 		animatedTiming({
-			callback: (finished?: boolean) =>
-				finished && onListItemAfterAffordanceVisibleFinished?.(visible)
+			callback: (finished?: boolean) => finished && onItemAfterAffordanceVisibleFinished?.(visible)
 		})(contentLeftSharedValue)(visible ? 1 : 0)
 
-export const handleListItemActiveAnimatedTiming =
+export const animateItemActiveState =
 	(animatedTiming: AnimatedTiming) => (headlineTextSharedValue: SharedValue<number>) => (active?: boolean) =>
 		animatedTiming()(headlineTextSharedValue)(active ? 1 : 0)

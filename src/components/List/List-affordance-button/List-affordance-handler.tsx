@@ -20,6 +20,6 @@ export const handleListAffordanceButtonStateChange =
 		})
 	}
 
-export const handleListAffordanceButtonAnimatedTiming =
+export const animateListAffordanceButtonColor =
 	(animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<number>) => (disabled?: boolean) =>
 		animatedTiming()(colorSharedValue)(disabled ? 0 : 1)

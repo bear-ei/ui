@@ -4,12 +4,12 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {
-	createListItemSize,
-	createRenderListItem,
-	handleListActive,
-	handleListActiveAfterAffordance,
-	handleListClose
-} from './List-handle'
+	createItemRenderer,
+	createItemSize,
+	handleAffordanceActiveChange,
+	handleItemActiveChange,
+	handleItemClose
+} from './List-handler'
 import {ACTIVE_TRIGGER_EVEN_NAME} from './List.enum'
 import type {ListBaseProps, ListData, ListState, VirtualListComponent} from './List.interface'
 
@@ -61,7 +61,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 				afterAffordanceActiveKey,
 				nextActiveEvent,
 				nextAfterAffordanceActiveEvent,
-				nextAfterAffordanceCallbackEvent,
+				nextAfterAffordanceEvent,
 				nextCloseEvent
 			},
 			setState
@@ -70,36 +70,36 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		const listRef = useRef<ForwardedRef<Animated.ScrollView>>(null)
 		const id = useId()
 		const theme = useTheme()
-		const itemSize = createListItemSize({density, type})(theme)(rawItemSize)
-		const onListActive = useMemo(
+		const itemSize = createItemSize({density, type})(theme)(rawItemSize)
+		const onItemActiveChange = useMemo(
 			() =>
 				createStableHandlerWithState(
-					handleListActive({onActive, selectType, onActives, deselect})
+					handleItemActiveChange({onActive, selectType, onActives, deselect})
 				)(setState)(),
 			[deselect, onActive, onActives, selectType, setState]
 		)
 
-		const onListActiveAfterAffordance = useMemo(
+		const onAffordanceActiveChange = useMemo(
 			() =>
-				createStableHandlerWithState(handleListActiveAfterAffordance({onActive, selectType}))(
+				createStableHandlerWithState(handleAffordanceActiveChange({onActive, selectType}))(
 					setState
 				)(),
 			[onActive, selectType, setState]
 		)
 
-		const onListClose = useMemo(
-			() => createStableHandlerWithState(handleListClose(onClose))(setState)(),
+		const onItemClose = useMemo(
+			() => createStableHandlerWithState(handleItemClose(onClose))(setState)(),
 			[onClose, setState]
 		)
 
-		const onListRawActive = useMemo(
-			() => createStableHandlerWithState(handleListActive({selectType}))(setState)(),
+		const itemActiveChangeEffect = useMemo(
+			() => createStableHandlerWithState(handleItemActiveChange({selectType}))(setState)(),
 			[setState, selectType]
 		)
 
 		const renderListItem = useMemo(
 			() =>
-				createRenderListItem({
+				createItemRenderer({
 					...onItemStateEvent,
 					activeKey: activeKey ?? defaultActiveKey,
 					activeKeys: activeKeys ?? defaultActiveKeys,
@@ -116,8 +116,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 					enableUnderlayActive,
 					focusedIndex,
 					id,
-					onActive: onListActive,
-					onActiveAfterAffordance: onListActiveAfterAffordance,
+					onActive: onItemActiveChange,
+					onActiveAfterAffordance: onAffordanceActiveChange,
 					onCancel,
 					onConfirm,
 					renderItem,
@@ -149,11 +149,11 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 				id,
 				loading,
 				loadingElement,
+				onAffordanceActiveChange,
 				onCancel,
 				onConfirm,
+				onItemActiveChange,
 				onItemStateEvent,
-				onListActive,
-				onListActiveAfterAffordance,
 				renderItem,
 				selectType,
 				shape,
@@ -168,8 +168,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		useImperativeHandle(ref, () => (listRef?.current ?? {}) as VirtualListComponent<ListData>, [listRef])
 
 		useEffect(() => {
-			onListRawActive(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
-		}, [rawActiveKey, rawActiveKeys, defaultActiveKey, defaultActiveKeys, onListRawActive])
+			itemActiveChangeEffect(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
+		}, [defaultActiveKey, defaultActiveKeys, itemActiveChangeEffect, rawActiveKey, rawActiveKeys])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()
@@ -184,8 +184,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		}, [nextCloseEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextAfterAffordanceCallbackEvent)()
-		}, [nextAfterAffordanceCallbackEvent])
+			runAfterInteractions(nextAfterAffordanceEvent)()
+		}, [nextAfterAffordanceEvent])
 
 		return renderList({
 			...renderListProps,
@@ -197,7 +197,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			itemSize,
 			loading,
 			loadingElement,
-			onClose: onListClose,
+			onClose: onItemClose,
 			ref: listRef as ForwardedRef<Animated.ScrollView>,
 			renderItem: renderListItem
 		})

@@ -9,7 +9,7 @@ import type {
 	HandleLayoutAnimatedStateChangeOptions,
 	HandleLayoutAnimatedStatusOptions,
 	LayoutAnimatedState,
-	TriggerLayoutAnimatedTimingOptions
+	TriggerLayoutAnimationOptions
 } from './Layout-animated.interface'
 
 export const updateLayoutSizeOnChange = (setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
@@ -91,7 +91,7 @@ export const updateLayoutAnimatedStatus =
 		})
 
 export const triggerLayoutAnimation =
-	({animatedTiming, onAnimatedFinished, entry, exit}: TriggerLayoutAnimatedTimingOptions) =>
+	({animatedTiming, onAnimatedFinished, entry, exit}: TriggerLayoutAnimationOptions) =>
 	(containerSharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
 		typeof visible === 'boolean' &&

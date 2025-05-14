@@ -4,7 +4,7 @@ import type {AnimatedStyle} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {ListItemProps} from '../List-item'
 
-export interface ListAfterAffordancePressOutOptions {
+export interface ListItemAfterAffordancePressOutOptions {
 	doubleConfirmed?: boolean
 	indexKey?: string
 }
@@ -37,10 +37,10 @@ export interface ListAfterAffordanceState {
 	nextCancelEvent?: () => void
 }
 
-export type HandleListAfterAffordanceConfirmOptions = Pick<ListAfterAffordanceProps, 'onConfirm' | 'indexKey'> &
+export type TriggerListAffordanceConfirmOptions = Pick<ListAfterAffordanceProps, 'onConfirm' | 'indexKey'> &
 	ListAfterAffordanceState
 
-export type HandleListAfterAffordanceCancelOptions = Pick<ListAfterAffordanceProps, 'onCancel' | 'indexKey'> &
+export type HandleListAffordanceCancelOptions = Pick<ListAfterAffordanceProps, 'onCancel' | 'indexKey'> &
 	ListAfterAffordanceState
 
 export interface UseListAfterAffordanceAnimatedOptions extends Pick<RenderListAfterAffordanceProps, 'doubleConfirmed'> {

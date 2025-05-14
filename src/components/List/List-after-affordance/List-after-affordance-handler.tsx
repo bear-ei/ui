@@ -3,35 +3,35 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming} from '../../../hooks'
 import type {
-	HandleListAfterAffordanceCancelOptions,
-	HandleListAfterAffordanceConfirmOptions,
-	ListAfterAffordanceState
+	HandleListAffordanceCancelOptions,
+	ListAfterAffordanceState,
+	TriggerListAffordanceConfirmOptions
 } from './List-after-affordance.interface'
 
-export const handleListAfterAffordanceConfirm =
-	({onConfirm, doubleConfirmed, indexKey}: HandleListAfterAffordanceConfirmOptions) =>
+export const triggerAffordanceConfirm =
+	({onConfirm, doubleConfirmed, indexKey}: TriggerListAffordanceConfirmOptions) =>
 	(_event: GestureResponderEvent) =>
 		onConfirm?.({indexKey, doubleConfirmed})
 
-export const handleListAfterAffordanceCancel =
-	({onCancel, doubleConfirmed, indexKey}: HandleListAfterAffordanceCancelOptions) =>
+export const handleAffordanceCancel =
+	({onCancel, doubleConfirmed, indexKey}: HandleListAffordanceCancelOptions) =>
 	(setState: Updater<ListAfterAffordanceState>) =>
 	(_event: GestureResponderEvent) => {
-		const handleNextCancelEvent = () => onCancel?.({indexKey, doubleConfirmed})
+		const triggerNextCancelEvent = () => onCancel?.({indexKey, doubleConfirmed})
 
 		setState(draft => {
 			draft.doubleConfirmed = !doubleConfirmed
-			draft.nextCancelEvent = handleNextCancelEvent
+			draft.nextCancelEvent = triggerNextCancelEvent
 		})
 	}
 
-export const handleListAfterAffordanceVisible = (setState: Updater<ListAfterAffordanceState>) => (visible?: boolean) =>
+export const updateAffordanceVisible = (setState: Updater<ListAfterAffordanceState>) => (visible?: boolean) =>
 	!visible &&
 	setState(draft => {
 		draft.doubleConfirmed = false
 	})
 
-export const handleListAfterAffordanceAnimatedTiming =
+export const animateAffordanceTranslateX =
 	(animatedTiming: AnimatedTiming) =>
 	(translateXSharedValue: SharedValue<number>) =>
 	(doubleConfirmed?: boolean) =>

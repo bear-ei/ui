@@ -3,7 +3,7 @@ import type Animated from 'react-native-reanimated'
 import type {InteractionHandler} from '../../hooks'
 import type {CommonProps, EventName, ShapeType} from '../Common'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualListProps} from '../Virtual-list'
-import type {ListAfterAffordancePressOutOptions, ListAfterAffordanceProps} from './List-after-affordance'
+import type {ListAfterAffordanceProps, ListItemAfterAffordancePressOutOptions} from './List-after-affordance'
 import type {ListItemProps} from './List-item'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 
@@ -29,8 +29,8 @@ export interface ListData
 	indexKey: string
 }
 
-export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & CreateRenderItemOptions
-export interface OnActiveAfterAffordanceOptions {
+export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & CreateRenderListItemOptions
+export interface OnListItemAfterAffordanceActiveOptions {
 	callback?: () => void
 	activeKey?: string
 }
@@ -57,11 +57,11 @@ export interface ListProps
 	focusedIndex?: number
 	gap?: number
 	onActive?: (activeKey?: string) => void
-	onActiveAfterAffordance?: (options?: OnActiveAfterAffordanceOptions) => void
+	onActiveAfterAffordance?: (options?: OnListItemAfterAffordanceActiveOptions) => void
 	onActives?: (activeKeys?: string[]) => void
-	onCancel?: (options: ListAfterAffordancePressOutOptions) => void
+	onCancel?: (options: ListItemAfterAffordancePressOutOptions) => void
 	onClose?: (options: OnVirtualListCloseOptions) => void
-	onConfirm?: (options: ListAfterAffordancePressOutOptions) => void
+	onConfirm?: (options: ListItemAfterAffordancePressOutOptions) => void
 	onItemStateEvent?: InteractionHandler
 	ref?: ForwardedRef<Animated.ScrollView>
 	selectType?: ListSelectType
@@ -85,11 +85,11 @@ export interface ListState {
 	data?: ListData[]
 	nextActiveEvent?: () => void
 	nextAfterAffordanceActiveEvent?: () => void
-	nextAfterAffordanceCallbackEvent?: () => void
+	nextAfterAffordanceEvent?: () => void
 	nextCloseEvent?: () => void
 }
 
-export type CreateRenderItemOptions = Pick<
+export type CreateRenderListItemOptions = Pick<
 	RenderListProps,
 	| 'activeKey'
 	| 'activeKeys'
@@ -127,5 +127,5 @@ export interface ListBaseProps extends ListProps {
 	renderList: (props: RenderListProps) => React.JSX.Element
 }
 
-export type HandleListActiveOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
-export type HandleListItemSizeOptions = Pick<RenderListProps, 'density' | 'type'>
+export type HandleListItemActiveChangeOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
+export type CreateListItemSizeOptions = Pick<RenderListProps, 'density' | 'type'>

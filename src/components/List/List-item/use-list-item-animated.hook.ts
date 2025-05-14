@@ -3,16 +3,13 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {
-	handleListItemActiveAnimatedTiming,
-	handleListItemAfterAffordanceVisibleAnimatedTiming
-} from './List-item-handle'
+import {animateAffordanceVisible, animateItemActiveState} from './List-item-handler'
 import type {UseListItemAnimatedOptions} from './List-item.interface'
 
 export const useListItemAnimated = ({
 	active,
 	afterAffordanceVisible,
-	onListItemAfterAffordanceVisibleFinished
+	onItemAfterAffordanceVisibleFinished
 }: UseListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const {spacing, scheme, opacity} = theme.token
@@ -40,27 +37,27 @@ export const useListItemAnimated = ({
 		color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRanges)
 	}))
 
-	const onListItemAfterAffordanceVisibleAnimatedTiming = useMemo(
+	const animateAffordanceVisibleEffect = useMemo(
 		() =>
-			handleListItemAfterAffordanceVisibleAnimatedTiming({
+			animateAffordanceVisible({
 				animatedTiming,
-				onListItemAfterAffordanceVisibleFinished
+				onItemAfterAffordanceVisibleFinished
 			})(contentLeftSharedValue),
-		[animatedTiming, contentLeftSharedValue, onListItemAfterAffordanceVisibleFinished]
+		[animatedTiming, contentLeftSharedValue, onItemAfterAffordanceVisibleFinished]
 	)
 
-	const onListItemActiveAnimatedTiming = useMemo(
-		() => handleListItemActiveAnimatedTiming(animatedTiming)(headlineTextSharedValue),
+	const animateItemActiveStateEffect = useMemo(
+		() => animateItemActiveState(animatedTiming)(headlineTextSharedValue),
 		[animatedTiming, headlineTextSharedValue]
 	)
 
 	useEffect(() => {
-		onListItemAfterAffordanceVisibleAnimatedTiming(afterAffordanceVisible)
-	}, [afterAffordanceVisible, onListItemAfterAffordanceVisibleAnimatedTiming])
+		animateAffordanceVisibleEffect(afterAffordanceVisible)
+	}, [afterAffordanceVisible, animateAffordanceVisibleEffect])
 
 	useEffect(() => {
-		onListItemActiveAnimatedTiming(active)
-	}, [active, onListItemActiveAnimatedTiming])
+		animateItemActiveStateEffect(active)
+	}, [active, animateItemActiveStateEffect])
 
 	return {contentAnimatedStyle, headlineTextAnimatedStyle}
 }
