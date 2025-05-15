@@ -2,9 +2,15 @@ import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import Animated from 'react-native-reanimated'
 import {Button, BUTTON_TYPE} from '../../Button'
 import {Divider} from '../../Divider'
+import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
+import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {LAYOUT_ANIMATED} from '../../Layout-animated'
 import {SIDE_SHEET_POSITION} from '../Side-sheet.enum'
-import type {RenderSideSheetContentProps} from './Side-sheet-content.interface'
+import type {
+	RenderSideSheetContentLeadingOptions,
+	RenderSideSheetContentProps,
+	RenderSideSheetContentTrailingOptions
+} from './Side-sheet-content.interface'
 import {
 	Container,
 	Content,
@@ -21,6 +27,61 @@ import {
 	Trailing
 } from './Side-sheet-content.styles'
 
+export const renderSideSheetContentLeading =
+	({headlineLeading, back, position, id}: RenderSideSheetContentLeadingOptions) =>
+	(onBack?: () => void) => {
+		const iconName =
+			position === SIDE_SHEET_POSITION.HORIZONTAL_START ?
+				ICON_NAME.ARROW_FORWARD
+			:	ICON_NAME.ARROW_BACK
+
+		const iconElement = (
+			<Icon
+				iconStyle={ICON_STYLE.ROUNDED}
+				name={iconName}
+				testID={`sideSheet__iconForward--${id}`}
+				type={ICON_TYPE.FILLED}
+			/>
+		)
+
+		return (
+			headlineLeading ??
+			(back ?
+				<IconButton
+					icon={iconElement}
+					onPressOut={onBack}
+					testID={`sideSheet__iconButton--${id}`}
+					type={ICON_BUTTON_TYPE.STANDARD}
+				/>
+			:	undefined)
+		)
+	}
+
+export const renderSideSheetContentTrailing =
+	({headlineTrailing, close, id}: RenderSideSheetContentTrailingOptions) =>
+	(onClose?: () => void) => {
+		const iconElement = (
+			<Icon
+				iconStyle={ICON_STYLE.ROUNDED}
+				name={ICON_NAME.CLOSE}
+				testID={`sideSheet__iconClose--${id}`}
+				type={ICON_TYPE.FILLED}
+			/>
+		)
+
+		return (
+			headlineTrailing ??
+			(close ?
+				<IconButton
+					icon={iconElement}
+					onPressOut={onClose}
+					testID={`sideSheet__iconButton--${id}`}
+					type={ICON_BUTTON_TYPE.STANDARD}
+				/>
+			:	undefined)
+		)
+	}
+
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
 /**
@@ -32,19 +93,19 @@ export const renderSideSheetContent = ({
 	footerVisible,
 	headlineText,
 	id,
-	leading,
+	leadingElement,
 	onCancel,
 	onConfirm,
+	position,
 	primaryButton,
 	primaryButtonProps,
 	secondaryButton,
 	secondaryButtonProps,
 	shape,
-	position,
 	style,
 	testID,
 	theme,
-	trailing,
+	trailingElement,
 	type,
 	...contentProps
 }: RenderSideSheetContentProps) => {
@@ -69,12 +130,14 @@ export const renderSideSheetContent = ({
 				type={type}
 			>
 				<Header
-					leadingShow={!!leading}
+					leadingShow={!!leadingElement}
 					testID={`sideSheetContent__header--${id}`}
-					trailingShow={!!trailing}
+					trailingShow={!!trailingElement}
 				>
-					{leading && (
-						<Leading testID={`sideSheetContent__leading--${id}`}>{leading}</Leading>
+					{leadingElement && (
+						<Leading testID={`sideSheetContent__leading--${id}`}>
+							{leadingElement}
+						</Leading>
 					)}
 
 					<HeadlineLayout testID={`sideSheetContent__headlineLayout--${id}`}>
@@ -88,9 +151,9 @@ export const renderSideSheetContent = ({
 						</HeaderText>
 					</HeadlineLayout>
 
-					{trailing && (
+					{trailingElement && (
 						<Trailing testID={`sideSheetContent__trailing--${id}`}>
-							{trailing}
+							{trailingElement}
 						</Trailing>
 					)}
 				</Header>

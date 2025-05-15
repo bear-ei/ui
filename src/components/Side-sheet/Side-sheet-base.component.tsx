@@ -3,14 +3,14 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../utils'
+import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
 import {
+	emitSideSheetModal,
+	emitSideSheetModalUnmount,
 	handleSideSheetBack,
 	handleSideSheetClose,
-	handleSideSheetEmit,
-	handleSideSheetUnmount,
-	handleSideSheetVisible
-} from './Side-sheet-handle'
-import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
+	handleSideSheetVisibleChange
+} from './Side-sheet.handle'
 import type {SideSheetBaseProps, SideSheetState} from './Side-sheet.interface'
 
 export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
@@ -49,10 +49,16 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 			[onClose, setState]
 		)
 
-		const onSideSheetVisible = useMemo(
-			() => createStableHandlerWithState(handleSideSheetVisible)(setState)(),
+		const handleSideSheetVisibleChangeEffect = useMemo(
+			() => createStableHandlerWithState(handleSideSheetVisibleChange)(setState)(),
 			[setState]
 		)
+
+		const emitSideSheetModalUnmountEffect = useMemo(
+			() => createStableHandler(emitSideSheetModalUnmount(emitId))(),
+			[emitId]
+		)
+
 		const renderSheetProps = useMemo(
 			() => ({
 				...renderSideSheetProps,
@@ -66,36 +72,36 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 				visible: isSideSheetVisible
 			}),
 			[
-				renderSideSheetProps,
 				disabledClose,
 				id,
+				isSideSheetVisible,
 				onSideSheetBack,
 				onSideSheetClose,
 				onVisible,
 				ref,
-				type,
-				isSideSheetVisible
+				renderSideSheetProps,
+				type
 			]
 		)
 
-		const onSideSheetEmit = useMemo(
-			() => createStableHandler(handleSideSheetEmit({id: emitId, type})(renderSheetProps))(),
+		const emitSideSheetModalEffect = useMemo(
+			() => createStableHandler(emitSideSheetModal({id: emitId, type})(renderSheetProps))(),
 			[emitId, renderSheetProps, type]
 		)
 
 		useEffect(() => {
-			onSideSheetVisible(visible ?? defaultVisible)
-		}, [defaultVisible, onSideSheetVisible, visible])
+			handleSideSheetVisibleChangeEffect(visible ?? defaultVisible)
+		}, [defaultVisible, handleSideSheetVisibleChangeEffect, visible])
 
 		useEffect(() => {
-			onSideSheetEmit(isSideSheetVisible)
-		}, [onSideSheetEmit, isSideSheetVisible])
+			emitSideSheetModalEffect(isSideSheetVisible)
+		}, [emitSideSheetModalEffect, isSideSheetVisible])
 
 		useEffect(
 			() => () => {
-				handleSideSheetUnmount(emitId)(type)
+				emitSideSheetModalUnmountEffect(type)
 			},
-			[emitId, type]
+			[emitSideSheetModalUnmountEffect, type]
 		)
 
 		useEffect(() => {

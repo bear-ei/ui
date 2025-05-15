@@ -3,20 +3,20 @@ import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName, type State} from '../Common'
 import type {
-	HandleTextInputDisabledSharedValue,
-	HandleTextInputEnabledSharedOptions,
-	HandleTextInputEnabledSharedValue,
-	HandleTextInputErrorSharedValue,
-	HandleTextInputFocusedSharedValue,
-	HandleTextInputNonerrorAnimatedTimingOptions,
-	HandleTextInputStateEventChangeOptions,
-	HandleTextInputSupportingTextOptions,
+	AnimateTextInputNonErrorStateTimingOptions,
+	CreateTextInputDisabledSharedValues,
+	CreateTextInputEnabledSharedValues,
+	CreateTextInputEnabledStateOptions,
+	CreateTextInputErrorSharedValues,
+	CreateTextInputFocusedSharedValues,
+	HandleTextInputStateChangeOptions,
 	TextInputState,
-	TextInputStateAnimated
+	TextInputStateAnimated,
+	UpdateTextInputSupportingTextOptions
 } from './Text-input.interface'
 
 export const handleTextInputStateChange =
-	({content, eventName, ref, state}: HandleTextInputStateEventChangeOptions) =>
+	({content, eventName, ref, state}: HandleTextInputStateChangeOptions) =>
 	(setState: Updater<TextInputState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
@@ -60,13 +60,13 @@ export const handleTextInputContentSizeChange =
 		})
 	}
 
-export const handleTextInputSupportingTextClose = (setState: Updater<TextInputState>) => () =>
+export const updateTextInputSupportingTextClose = (setState: Updater<TextInputState>) => () =>
 	setState(draft => {
 		draft.supportingTextVisible = false
 	})
 
-export const handleTextInputSupportingText =
-	({onTextInputSupportingTextClose, supportingTextDelay}: HandleTextInputSupportingTextOptions) =>
+export const updateTextInputSupportingText =
+	({onTextInputSupportingTextClose, supportingTextDelay}: UpdateTextInputSupportingTextOptions) =>
 	(setState: Updater<TextInputState>) =>
 	(value?: string) => {
 		setState(draft => {
@@ -83,7 +83,7 @@ export const handleTextInputSupportingText =
 		}
 	}
 
-export const handleTextInputSupportingTextVisible =
+export const updateTextInputSupportingTextVisibility =
 	(onSupportingTextVisible?: (visible?: boolean) => void) =>
 	(setState: Updater<TextInputState>) =>
 	(visible?: boolean) => {
@@ -99,7 +99,7 @@ export const handleTextInputSupportingTextVisible =
 		})
 	}
 
-export const handleTextInputChangeText =
+export const updateTextInputValueWithCallback =
 	(onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value?: string) => {
 		const nextValue = value?.trim()
 		const createNextChangeTextEvent = () => typeof nextValue === 'string' && onChangeText?.(nextValue)
@@ -114,7 +114,7 @@ export const handleTextInputChangeText =
 		})
 	}
 
-export const handleTextInputRawChangeText = (setState: Updater<TextInputState>) => (value?: string) =>
+export const updateTextInputValue = (setState: Updater<TextInputState>) => (value?: string) =>
 	setState(draft => {
 		if (value !== draft.value) {
 			draft.value = value ?? ''
@@ -128,8 +128,8 @@ export const handleTextInputRawChangeText = (setState: Updater<TextInputState>) 
 export const handleTextInputEditableChange = (ref: React.RefObject<TextInput>) => (editable?: boolean) =>
 	editable && ref?.current?.blur()
 
-export const handleTouchableHeaderFocus = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
-export const handleTextInputEnabled =
+export const handleTextInputFocusFromHeader = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
+export const createAnimateTextInputEnabledState =
 	(animatedTiming: AnimatedTiming) =>
 	({
 		activeIndicatorScaleYSharedValue,
@@ -137,8 +137,8 @@ export const handleTextInputEnabled =
 		inputColorSharedValue,
 		labelTextSharedValue,
 		supportingTextSharedValue
-	}: HandleTextInputEnabledSharedValue) =>
-	({filledToValue, error}: HandleTextInputEnabledSharedOptions) => {
+	}: CreateTextInputEnabledSharedValues) =>
+	({filledToValue, error}: CreateTextInputEnabledStateOptions) => {
 		if (error) {
 			return animatedTiming()(labelTextSharedValue)(filledToValue)
 		}
@@ -150,7 +150,7 @@ export const handleTextInputEnabled =
 		animatedTiming()(supportingTextSharedValue)(1)
 	}
 
-export const handleTextInputDisabled =
+export const createAnimateTextInputDisabledState =
 	(animatedTiming: AnimatedTiming) =>
 	({
 		activeIndicatorScaleYSharedValue,
@@ -158,7 +158,7 @@ export const handleTextInputDisabled =
 		headerInnerBackgroundColorSharedValue,
 		inputColorSharedValue,
 		supportingTextSharedValue
-	}: HandleTextInputDisabledSharedValue) => {
+	}: CreateTextInputDisabledSharedValues) => {
 		const toValue = 0
 
 		animatedTiming()(activeIndicatorScaleYSharedValue)(toValue)
@@ -168,27 +168,27 @@ export const handleTextInputDisabled =
 		animatedTiming()(supportingTextSharedValue)(1)
 	}
 
-export const handleTextInputError =
+export const createAnimateTextInputErrorState =
 	(animatedTiming: AnimatedTiming) =>
 	({
 		activeIndicatorScaleYSharedValue,
 		colorSharedValue,
 		inputColorSharedValue,
 		supportingTextSharedValue
-	}: HandleTextInputErrorSharedValue) => {
+	}: CreateTextInputErrorSharedValues) => {
 		animatedTiming()(activeIndicatorScaleYSharedValue)(1)
 		animatedTiming()(colorSharedValue)(3)
 		animatedTiming()(inputColorSharedValue)(1)
 		animatedTiming()(supportingTextSharedValue)(2)
 	}
 
-export const handleTextInputFocused =
+export const createAnimateTextInputFocusedState =
 	(animatedTiming: AnimatedTiming) =>
 	({
 		activeIndicatorScaleYSharedValue,
 		colorSharedValue,
 		labelTextSharedValue
-	}: HandleTextInputFocusedSharedValue) =>
+	}: CreateTextInputFocusedSharedValues) =>
 	(error?: boolean) => {
 		if (error) {
 			return animatedTiming()(labelTextSharedValue)(0)
@@ -199,19 +199,16 @@ export const handleTextInputFocused =
 		animatedTiming()(labelTextSharedValue)(0)
 	}
 
-export const handleTextInputStateAnimatedTiming = (stateAnimated: TextInputStateAnimated) => (state: State) =>
+export const animateTextInputStateTiming = (stateAnimated: TextInputStateAnimated) => (state: State) =>
 	stateAnimated[state]?.()
 
-export const handleTextInputNonerrorAnimatedTiming = ({
-	error,
-	disabled
-}: HandleTextInputNonerrorAnimatedTimingOptions) => {
+export const animateTextInputNonErrorStateTiming = ({error, disabled}: AnimateTextInputNonErrorStateTimingOptions) => {
 	const isNonerror = typeof error !== 'boolean' && disabled
 
 	return (stateAnimated: TextInputStateAnimated) => (state: State) =>
 		!isNonerror && stateAnimated[error ? STATE.ERROR : state]?.()
 }
 
-export const handleTextInputDisabledAnimatedTiming =
+export const animateTextInputDisabledStateTiming =
 	(stateAnimated: TextInputStateAnimated) => (state: State) => (disabled?: boolean) =>
 		typeof disabled === 'boolean' && stateAnimated[disabled ? STATE.DISABLED : state]?.()

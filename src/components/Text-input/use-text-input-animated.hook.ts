@@ -4,16 +4,16 @@ import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'r
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {DENSITY_SCALE} from '../Common'
-import {
-	handleTextInputDisabled,
-	handleTextInputDisabledAnimatedTiming,
-	handleTextInputEnabled,
-	handleTextInputError,
-	handleTextInputFocused,
-	handleTextInputNonerrorAnimatedTiming,
-	handleTextInputStateAnimatedTiming
-} from './Text-input-handle'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
+import {
+	animateTextInputDisabledStateTiming,
+	animateTextInputNonErrorStateTiming,
+	animateTextInputStateTiming,
+	createAnimateTextInputDisabledState,
+	createAnimateTextInputEnabledState,
+	createAnimateTextInputErrorState,
+	createAnimateTextInputFocusedState
+} from './Text-input.handle'
 import type {TextInputStateAnimated, UseTextInputAnimatedOptions} from './Text-input.interface'
 
 export const useTextInputAnimated = ({
@@ -193,9 +193,9 @@ export const useTextInputAnimated = ({
 		)
 	}))
 
-	const handleTextInputEnabledState = useCallback(
+	const animateTextInputEnabledState = useCallback(
 		() =>
-			handleTextInputEnabled(animatedTiming)({
+			createAnimateTextInputEnabledState(animatedTiming)({
 				activeIndicatorScaleYSharedValue,
 				colorSharedValue,
 				inputColorSharedValue,
@@ -214,9 +214,9 @@ export const useTextInputAnimated = ({
 		]
 	)
 
-	const handleTextInputDisabledState = useCallback(
+	const animateTextInputDisabledState = useCallback(
 		() =>
-			handleTextInputDisabled(animatedTiming)({
+			createAnimateTextInputDisabledState(animatedTiming)({
 				activeIndicatorScaleYSharedValue,
 				headerInnerBackgroundColorSharedValue,
 				colorSharedValue,
@@ -233,9 +233,9 @@ export const useTextInputAnimated = ({
 		]
 	)
 
-	const handleTextInputErrorState = useCallback(
+	const animateTextInputErrorState = useCallback(
 		() =>
-			handleTextInputError(animatedTiming)({
+			createAnimateTextInputErrorState(animatedTiming)({
 				activeIndicatorScaleYSharedValue,
 				colorSharedValue,
 				inputColorSharedValue,
@@ -250,9 +250,9 @@ export const useTextInputAnimated = ({
 		]
 	)
 
-	const handleTextInputFocusedState = useCallback(
+	const animateTextInputFocusedState = useCallback(
 		() =>
-			handleTextInputFocused(animatedTiming)({
+			createAnimateTextInputFocusedState(animatedTiming)({
 				activeIndicatorScaleYSharedValue,
 				colorSharedValue,
 				labelTextSharedValue
@@ -263,45 +263,41 @@ export const useTextInputAnimated = ({
 	const stateAnimated = useMemo(
 		() =>
 			({
-				disabled: handleTextInputDisabledState,
-				enabled: handleTextInputEnabledState,
-				error: handleTextInputErrorState,
-				focused: handleTextInputFocusedState
+				disabled: animateTextInputDisabledState,
+				enabled: animateTextInputEnabledState,
+				error: animateTextInputErrorState,
+				focused: animateTextInputFocusedState
 			}) as TextInputStateAnimated,
 		[
-			handleTextInputDisabledState,
-			handleTextInputEnabledState,
-			handleTextInputErrorState,
-			handleTextInputFocusedState
+			animateTextInputDisabledState,
+			animateTextInputEnabledState,
+			animateTextInputErrorState,
+			animateTextInputFocusedState
 		]
 	)
 
-	const onTextInputStateAnimatedTiming = useMemo(
-		() => handleTextInputStateAnimatedTiming(stateAnimated),
-		[stateAnimated]
-	)
-
-	const onTextInputNonerrorAnimatedTiming = useMemo(
-		() => handleTextInputNonerrorAnimatedTiming({disabled, error})(stateAnimated),
+	const animateTextInputStateEffect = useMemo(() => animateTextInputStateTiming(stateAnimated), [stateAnimated])
+	const animateTextInputNonErrorStateTimingEffect = useMemo(
+		() => animateTextInputNonErrorStateTiming({disabled, error})(stateAnimated),
 		[disabled, error, stateAnimated]
 	)
 
-	const onTextInputDisabledAnimatedTiming = useMemo(
-		() => handleTextInputDisabledAnimatedTiming(stateAnimated)(state),
+	const animateTextInputDisabledStateTimingEffect = useMemo(
+		() => animateTextInputDisabledStateTiming(stateAnimated)(state),
 		[state, stateAnimated]
 	)
 
 	useEffect(() => {
-		onTextInputStateAnimatedTiming(state)
-	}, [onTextInputStateAnimatedTiming, state])
+		animateTextInputStateEffect(state)
+	}, [animateTextInputStateEffect, state])
 
 	useEffect(() => {
-		onTextInputNonerrorAnimatedTiming(state)
-	}, [onTextInputNonerrorAnimatedTiming, state])
+		animateTextInputNonErrorStateTimingEffect(state)
+	}, [animateTextInputNonErrorStateTimingEffect, state])
 
 	useEffect(() => {
-		onTextInputDisabledAnimatedTiming(disabled)
-	}, [disabled, onTextInputDisabledAnimatedTiming])
+		animateTextInputDisabledStateTimingEffect(disabled)
+	}, [animateTextInputDisabledStateTimingEffect, disabled])
 
 	return {
 		activeIndicatorAnimatedStyle,

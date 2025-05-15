@@ -6,9 +6,9 @@ import type {SideSheetProps} from '../Side-sheet.interface'
 export type SideSheetContentProps = SideSheetProps
 export interface RenderSideSheetContentProps extends SideSheetContentProps {
 	containerAnimatedStyle: AnimatedStyle<ViewStyle>
-	leading?: React.JSX.Element
+	leadingElement?: React.JSX.Element
 	theme: DefaultTheme
-	trailing?: React.JSX.Element
+	trailingElement?: React.JSX.Element
 }
 
 export interface SideSheetContentBaseProps extends SideSheetContentProps {

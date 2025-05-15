@@ -4,7 +4,7 @@ import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-r
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {SIDE_SHEET_TYPE} from '../Side-sheet.enum'
-import {handleSideSheetContentVisibleAnimatedTiming} from './Side-sheet-content-handle'
+import {animateSideSheetContentVisibility} from './Side-sheet-content.handle'
 import type {UseSideSheetContentAnimatedOptions} from './Side-sheet-content.interface'
 
 export const useSideSheetContentAnimated = ({
@@ -34,14 +34,14 @@ export const useSideSheetContentAnimated = ({
 		)
 	}))
 
-	const onSideSheetContentVisibleAnimatedTiming = useMemo(
-		() => handleSideSheetContentVisibleAnimatedTiming(animatedTiming)(backgroundColorSharedValue),
+	const animateSideSheetContentVisibilityEffect = useMemo(
+		() => animateSideSheetContentVisibility(animatedTiming)(backgroundColorSharedValue),
 		[animatedTiming, backgroundColorSharedValue]
 	)
 
 	useEffect(() => {
-		onSideSheetContentVisibleAnimatedTiming(visible)
-	}, [onSideSheetContentVisibleAnimatedTiming, visible])
+		animateSideSheetContentVisibilityEffect(visible)
+	}, [animateSideSheetContentVisibilityEffect, visible])
 
 	return {containerAnimatedStyle}
 }

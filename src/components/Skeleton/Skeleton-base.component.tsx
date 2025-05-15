@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
-import {handleSkeletonDurationChange} from './Skeleton-handle'
+import {updateSkeletonDuration} from './Skeleton.handle'
 import type {SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
@@ -13,8 +13,8 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 		})
 
 		const id = useId()
-		const onSkeletonDurationChange = useMemo(
-			() => createStableHandlerWithState(handleSkeletonDurationChange)(setState)(),
+		const updateSkeletonDurationEffect = useMemo(
+			() => createStableHandlerWithState(updateSkeletonDuration)(setState)(),
 			[setState]
 		)
 
@@ -24,8 +24,8 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 		})
 
 		useEffect(() => {
-			onSkeletonDurationChange(duration)
-		}, [duration, onSkeletonDurationChange])
+			updateSkeletonDurationEffect(duration)
+		}, [duration, updateSkeletonDurationEffect])
 
 		useEffect(() => {
 			runAfterInteractions(nextSkeletonVisibleEvent)()

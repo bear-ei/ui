@@ -75,7 +75,7 @@ export interface TextInputState {
 	value?: string
 }
 
-export interface HandleTextInputStateEventChangeOptions
+export interface HandleTextInputStateChangeOptions
 	extends HandleStateEventChangeOptions,
 		Pick<TextInputProps, 'content'> {
 	ref?: RefObject<TextInput>
@@ -87,15 +87,15 @@ export interface UseTextInputAnimatedOptions
 	state: State
 }
 
-export interface HandleTextInputEnabledSharedOptions extends Pick<UseTextInputAnimatedOptions, 'error'> {
+export interface CreateTextInputEnabledStateOptions extends Pick<UseTextInputAnimatedOptions, 'error'> {
 	filledToValue: number
 }
 
-export interface HandleTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelay'> {
+export interface UpdateTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelay'> {
 	onTextInputSupportingTextClose: () => void
 }
 
-export interface HandleTextInputEnabledSharedValue {
+export interface CreateTextInputEnabledSharedValues {
 	activeIndicatorScaleYSharedValue: SharedValue<number>
 	colorSharedValue: SharedValue<number>
 	inputColorSharedValue: SharedValue<number>
@@ -103,7 +103,7 @@ export interface HandleTextInputEnabledSharedValue {
 	supportingTextSharedValue: SharedValue<number>
 }
 
-export interface HandleTextInputDisabledSharedValue {
+export interface CreateTextInputDisabledSharedValues {
 	activeIndicatorScaleYSharedValue: SharedValue<number>
 	colorSharedValue: SharedValue<number>
 	headerInnerBackgroundColorSharedValue: SharedValue<number>
@@ -111,21 +111,21 @@ export interface HandleTextInputDisabledSharedValue {
 	supportingTextSharedValue: SharedValue<number>
 }
 
-export interface HandleTextInputErrorSharedValue {
+export interface CreateTextInputErrorSharedValues {
 	activeIndicatorScaleYSharedValue: SharedValue<number>
 	colorSharedValue: SharedValue<number>
 	inputColorSharedValue: SharedValue<number>
 	supportingTextSharedValue: SharedValue<number>
 }
 
-export interface HandleTextInputFocusedSharedValue {
+export interface CreateTextInputFocusedSharedValues {
 	activeIndicatorScaleYSharedValue: SharedValue<number>
 	colorSharedValue: SharedValue<number>
 	labelTextSharedValue: SharedValue<number>
 }
 
 export type TextInputStateAnimated = Partial<Record<State, () => void>>
-export type HandleTextInputNonerrorAnimatedTimingOptions = Pick<UseTextInputAnimatedOptions, 'disabled' | 'error'>
+export type AnimateTextInputNonErrorStateTimingOptions = Pick<UseTextInputAnimatedOptions, 'disabled' | 'error'>
 export type TextInputHeaderProps = Pick<RenderTextInputProps, 'type' | 'density'> & {
 	leadingShow: boolean
 	trailingShow: boolean

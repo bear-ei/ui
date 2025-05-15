@@ -2,9 +2,9 @@ import {EASING} from '@bearei/material-token'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import {debounce} from '../../utils'
-import type {HandleSkeletonAnimatedTimingOptions, SkeletonState} from './Skeleton.interface'
+import type {AnimateSkeletonOptions, SkeletonState} from './Skeleton.interface'
 
-const handleSkeletonVisible = (setState: Updater<SkeletonState>) => (duration?: number) => {
+const updateSkeletonVisibility = (setState: Updater<SkeletonState>) => (duration?: number) => {
 	if (typeof duration === 'number' && duration >= 0) {
 		const handleNextSkeletonVisibleEvent = debounce(() =>
 			setState(nextDraft => {
@@ -27,11 +27,11 @@ const handleSkeletonVisible = (setState: Updater<SkeletonState>) => (duration?: 
 	}
 }
 
-export const handleSkeletonDurationChange = (setState: Updater<SkeletonState>) => (duration?: number) =>
-	handleSkeletonVisible(setState)(duration)
+export const updateSkeletonDuration = (setState: Updater<SkeletonState>) => (duration?: number) =>
+	updateSkeletonVisibility(setState)(duration)
 
-export const handleSkeletonAnimatedTiming =
-	({animatedTiming, enableAnimated}: HandleSkeletonAnimatedTimingOptions) =>
+export const animateSkeleton =
+	({animatedTiming, enableAnimated}: AnimateSkeletonOptions) =>
 	(opacitySharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
 		enableAnimated &&

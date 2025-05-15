@@ -5,10 +5,10 @@ import type {StateEvent} from '../../hooks'
 import {textSearch} from '../../utils'
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../Common'
 import type {ListData} from '../List'
-import type {HandleSearchChangeTextOptions, HandleSearchStateChangeOptions, SearchState} from './Search.interface'
+import type {HandleSearchInputStateChangeOptions, HandleSearchTextChangeOptions, SearchState} from './Search.interface'
 
-export const handleSearchStateChange =
-	({eventName, ref, state}: HandleSearchStateChangeOptions) =>
+export const handleSearchInputStateChange =
+	({eventName, ref, state}: HandleSearchInputStateChangeOptions) =>
 	(setState: Updater<SearchState>) =>
 	(_event: StateEvent) => {
 		const handleTextInputFocus = () => ref?.current?.focus()
@@ -41,11 +41,11 @@ export const handleSearchStateChange =
 		})
 	}
 
-export const handleSearchChangeText =
-	({data = [], onChangeText}: HandleSearchChangeTextOptions = {}) =>
+export const handleSearchTextChange =
+	({data = [], onChangeText}: HandleSearchTextChangeOptions = {}) =>
 	(setState: Updater<SearchState>) =>
 	(value?: string) => {
-		const handleNextChangeTextEvent = () => value && onChangeText?.(value)
+		const triggerNextTextChangeEvent = () => value && onChangeText?.(value)
 		const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
 
 		setState(draft => {
@@ -55,12 +55,12 @@ export const handleSearchChangeText =
 			draft.value = value
 
 			if (typeof value === 'string' && value !== prevValue) {
-				draft.nextChangeTextEvent = handleNextChangeTextEvent
+				draft.nextChangeTextEvent = triggerNextTextChangeEvent
 			}
 		})
 	}
 
-export const handleSearchTextInputRawChangeText =
+export const updateSearchInputValue =
 	(data: ListData[] = []) =>
 	(setState: Updater<SearchState>) =>
 	(value?: string) => {
@@ -78,14 +78,14 @@ export const handleSearchTextInputRawChangeText =
 		})
 	}
 
-export const handleSearchListVisible = (setState: Updater<SearchState>) => (visible?: boolean) =>
+export const updateSearchListVisible = (setState: Updater<SearchState>) => (visible?: boolean) =>
 	typeof visible === 'boolean' &&
 	setState(draft => {
 		draft.listVisible = visible
 	})
 
-export const handleSearchContainerLayout = (containerCurrent?: View | null) => {
-	const handleSearchLayout = (setState: Updater<SearchState>) =>
+export const handleSearchContainerLayoutChange = (containerCurrent?: View | null) => {
+	const measureSearchContainerLayout = (setState: Updater<SearchState>) =>
 		containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
 			setState(draft => {
 				draft.layout.height = height
@@ -98,5 +98,5 @@ export const handleSearchContainerLayout = (containerCurrent?: View | null) => {
 		)
 
 	return (setState: Updater<SearchState>) => (listVisible?: boolean) =>
-		listVisible && handleSearchLayout(setState)
+		listVisible && measureSearchContainerLayout(setState)
 }

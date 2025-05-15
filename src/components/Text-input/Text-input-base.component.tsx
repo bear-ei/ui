@@ -7,18 +7,19 @@ import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useStateEvent} from '../../hooks'
 import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
+
+import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
-	handleTextInputChangeText,
 	handleTextInputContentSizeChange,
 	handleTextInputEditableChange,
-	handleTextInputRawChangeText,
+	handleTextInputFocusFromHeader,
 	handleTextInputStateChange,
-	handleTextInputSupportingText,
-	handleTextInputSupportingTextClose,
-	handleTextInputSupportingTextVisible,
-	handleTouchableHeaderFocus
-} from './Text-input-handle'
-import {TEXT_INPUT_TYPE} from './Text-input.enum'
+	updateTextInputSupportingText,
+	updateTextInputSupportingTextClose,
+	updateTextInputSupportingTextVisibility,
+	updateTextInputValue,
+	updateTextInputValueWithCallback
+} from './Text-input.handle'
 import type {TextInputBaseProps, TextInputState} from './Text-input.interface'
 import {useTextInputAnimated} from './use-text-input-animated.hook'
 
@@ -86,18 +87,19 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 				)(),
 			[onContentSizeChange, setState]
 		)
+
 		const onTextInputSupportingTextClose = useMemo(
 			() =>
-				createStableHandlerWithState(handleTextInputSupportingTextClose)(setState)({
+				createStableHandlerWithState(updateTextInputSupportingTextClose)(setState)({
 					debounceMillisecond: supportingTextDelay ?? 0
 				}),
 			[setState, supportingTextDelay]
 		)
 
-		const onTextInputSupportingText = useMemo(
+		const updateTextInputSupportingTextEffect = useMemo(
 			() =>
 				createStableHandlerWithState(
-					handleTextInputSupportingText({
+					updateTextInputSupportingText({
 						supportingTextDelay,
 						onTextInputSupportingTextClose
 					})
@@ -105,34 +107,34 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[onTextInputSupportingTextClose, setState, supportingTextDelay]
 		)
 
-		const onTextInputEditableChange = useMemo(
+		const handleTextInputEditableChangeEffect = useMemo(
 			() => createStableHandler(handleTextInputEditableChange(textInputRef))(),
 			[textInputRef]
 		)
 
-		const onTextInputChangeText = useMemo(
-			() => createStableHandlerWithState(handleTextInputChangeText(onChangeText))(setState)(),
+		const onTextInputValueWithCallback = useMemo(
+			() => createStableHandlerWithState(updateTextInputValueWithCallback(onChangeText))(setState)(),
 			[onChangeText, setState]
 		)
 
-		const onTextInputChangeTextStatus = useMemo(
-			() => createStableHandlerWithState(handleTextInputRawChangeText)(setState)(),
+		const updateTextInputValueEffect = useMemo(
+			() => createStableHandlerWithState(updateTextInputValue)(setState)(),
 			[setState]
 		)
 
-		const onTextInputSupportingTextVisible = useMemo(
+		const onTextInputSupportingTextVisibility = useMemo(
 			() =>
 				createStableHandlerWithState(
-					handleTextInputSupportingTextVisible(onSupportingTextVisible)
+					updateTextInputSupportingTextVisibility(onSupportingTextVisible)
 				)(setState)(),
 			[onSupportingTextVisible, setState]
 		)
 
-		const onTouchableHeaderFocus = useMemo(
-			() => createStableHandler(handleTouchableHeaderFocus(textInputRef))(),
+		const onTextInputFocusFromHeader = useMemo(
+			() => createStableHandler(handleTextInputFocusFromHeader(textInputRef))(),
 			[]
 		)
-		const onStateEventChange = useCallback(
+		const onTextInputStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
 				handleTextInputStateChange({
 					...options,
@@ -146,7 +148,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		const interactionHandlers = useStateEvent({
 			...renderTextInputProps,
 			disabled: disabled ?? (typeof editable === 'boolean' ? !editable : undefined),
-			onStateEventChange
+			onStateEventChange: onTextInputStateEventChange
 		})
 
 		const {
@@ -168,16 +170,16 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		useImperativeHandle(ref, () => (textInputRef?.current ?? {}) as TextInput, [textInputRef])
 
 		useEffect(() => {
-			onTextInputEditableChange(editable)
-		}, [editable, onTextInputEditableChange])
+			handleTextInputEditableChangeEffect(editable)
+		}, [editable, handleTextInputEditableChangeEffect])
 
 		useEffect(() => {
-			onTextInputSupportingText(rawSupportingText)
-		}, [onTextInputSupportingText, rawSupportingText])
+			updateTextInputSupportingTextEffect(rawSupportingText)
+		}, [updateTextInputSupportingTextEffect, rawSupportingText])
 
 		useEffect(() => {
-			onTextInputChangeTextStatus(rawValue ?? defaultValue)
-		}, [defaultValue, onTextInputChangeTextStatus, rawValue])
+			updateTextInputValueEffect(rawValue ?? defaultValue)
+		}, [defaultValue, updateTextInputValueEffect, rawValue])
 
 		useEffect(() => {
 			runAfterInteractions(nextChangeTextEvent)()
@@ -216,10 +218,10 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			labelTextAnimatedStyle,
 			leading,
 			multiline,
-			onChangeText: onTextInputChangeText,
+			onChangeText: onTextInputValueWithCallback,
 			onContentSizeChange: onTextInputContentSizeChange,
-			onHeaderFocus: onTouchableHeaderFocus,
-			onSupportingTextVisible: onTextInputSupportingTextVisible,
+			onHeaderFocus: onTextInputFocusFromHeader,
+			onSupportingTextVisible: onTextInputSupportingTextVisibility,
 			placeholderTextColor,
 			ref: textInputRef,
 			supportingText,

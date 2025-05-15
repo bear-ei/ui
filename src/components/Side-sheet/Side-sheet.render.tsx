@@ -4,10 +4,10 @@ import type {RenderSideSheetProps} from './Side-sheet.interface'
 import {Container} from './Side-sheet.styles'
 
 export const renderSideSheet = ({
-	visible,
-	type = SIDE_SHEET_TYPE.STANDARD,
 	id,
 	testID,
+	type = SIDE_SHEET_TYPE.STANDARD,
+	visible,
 	...sheetProps
 }: RenderSideSheetProps) => {
 	const sideSheetContentElement = typeof visible === 'boolean' && (
