@@ -5,7 +5,7 @@ import type {AnimatedTiming} from '../../../hooks'
 import {COMPONENT_STATUS} from '../../Common'
 import type {VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
 
-export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps) => {
+export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => {
 	const {extraData: prevExtraData, index: prevIndex, item: prevItem} = prevProps
 
 	return (nextProps: VirtualListItemProps) => {
@@ -19,19 +19,19 @@ export const handleVirtualListItemPropsEqual = (prevProps: VirtualListItemProps)
 	}
 }
 
-export const handleVirtualListItemClose = (setState: Updater<VirtualListItemState>) => () =>
+export const closeVirtualListItem = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {
 		draft.visible = false
 	})
 
-export const handleVirtualListItemUnmount = (onUnmount?: (indexKey?: string) => void) => (indexKey?: string) => () =>
+export const triggerVirtualListItemUnmount = (onUnmount?: (indexKey?: string) => void) => (indexKey?: string) => () =>
 	onUnmount?.(indexKey)
 
-export const handleVirtualListItemAnimated =
+export const animateVirtualListItem =
 	(animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<number>) => (offsetY: number) =>
 		animatedTiming({duration: DURATION.SHORT_2})(topSharedValue)(offsetY)
 
-export const handleVirtualListItemStatus = (setState: Updater<VirtualListItemState>) => () =>
+export const updateVirtualListItemStatus = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {
 		if (draft.status === COMPONENT_STATUS.IDLE) {
 			draft.status = COMPONENT_STATUS.SUCCEEDED

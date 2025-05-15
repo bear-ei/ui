@@ -44,7 +44,7 @@ export interface HandleUnderlayStateChangeOptions extends HandleStateEventChange
 	onLayoutChange: (layout: LayoutRectangle) => void
 }
 
-export interface HandleUnderlayHoveredAnimatedTimingOptions {
+export interface AnimateUnderlayHoverStateOptions {
 	activeValue: number
 	animatedTiming: AnimatedTiming
 }

@@ -48,14 +48,14 @@ describe('TouchableRipple', () => {
 		expect(ripple.props.size).toBeGreaterThan(defaultLayout.width)
 	})
 
-	it('should call onAnimatedFinished with correct indexKey', () => {
+	it('should call onAnimateFinished with correct indexKey', () => {
 		const mockCallback = jest.fn()
 
 		renderWithTheme(
 			<TouchableRipple
 				containerLayout={defaultLayout}
 				indexKey='ripple-4'
-				onAnimatedFinished={mockCallback}
+				onAnimateFinished={mockCallback}
 				testID='ripple-4'
 			/>
 		)

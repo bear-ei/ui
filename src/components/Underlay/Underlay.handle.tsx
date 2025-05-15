@@ -1,12 +1,9 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {AnimatedTiming} from '../../hooks'
 import {EVENT_NAME, type EventName} from '../Common'
-import type {HandleUnderlayHoveredAnimatedTimingOptions} from './Underlay.interface'
+import type {AnimateUnderlayHoverStateOptions} from './Underlay.interface'
 
-export const handleUnderlayHoveredAnimatedTiming = ({
-	animatedTiming,
-	activeValue
-}: HandleUnderlayHoveredAnimatedTimingOptions) => {
+export const animateUnderlayHoverState = ({animatedTiming, activeValue}: AnimateUnderlayHoverStateOptions) => {
 	const event = {
 		[EVENT_NAME.BLUR]: 0,
 		[EVENT_NAME.FOCUS]: activeValue,
@@ -25,6 +22,6 @@ export const handleUnderlayHoveredAnimatedTiming = ({
 		eventName && eventKeys.includes(eventName) && animatedTiming()(hoverLayerSharedValue)(event[eventName])
 }
 
-export const handleUnderlayActiveAnimatedTiming =
+export const animateUnderlayActiveState =
 	(animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<number>) => (active?: boolean) =>
 		typeof active === 'boolean' && animatedTiming()(activeLayerSharedValue)(active ? 1 : 0)

@@ -2,7 +2,7 @@ import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {typedMemo} from '../../../utils'
 import {VirtualListItemBase} from './Virtual-list-item-base.component'
-import {handleVirtualListItemPropsEqual} from './Virtual-list-item-handle'
+import {compareVirtualListItemProps} from './Virtual-list-item.handle'
 import type {VirtualListItemProps} from './Virtual-list-item.interface'
 import {renderVirtualListItem} from './Virtual-list-item.render'
 
@@ -15,5 +15,5 @@ const VirtualListItemWithRef = forwardRef<View, VirtualListItemProps>((props, re
 ))
 
 export const VirtualListItem = typedMemo(VirtualListItemWithRef)((prevProps, nextProps) =>
-	handleVirtualListItemPropsEqual(prevProps)(nextProps)
+	compareVirtualListItemProps(prevProps)(nextProps)
 )

@@ -3,8 +3,8 @@ import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 're
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {debounce} from '../../utils'
-import {handleUnderlayActiveAnimatedTiming, handleUnderlayHoveredAnimatedTiming} from './Underlay-handle'
 import {ACTIVE_ANIMATED} from './Underlay.enum'
+import {animateUnderlayActiveState, animateUnderlayHoverState} from './Underlay.handle'
 import type {UseUnderlayAnimatedOptions} from './Underlay.interface'
 
 export const useUnderlayAnimated = ({
@@ -84,29 +84,24 @@ export const useUnderlayAnimated = ({
 		]
 	)
 
-	const onUnderlayHoveredAnimatedTiming = useMemo(
-		() =>
-			debounce(
-				handleUnderlayHoveredAnimatedTiming({activeValue, animatedTiming})(
-					hoverLayerSharedValue
-				)
-			)(50),
+	const animateUnderlayHoverStateEffect = useMemo(
+		() => debounce(animateUnderlayHoverState({activeValue, animatedTiming})(hoverLayerSharedValue))(50),
 		[animatedTiming, activeValue, hoverLayerSharedValue]
 	)
 
-	const onUnderlayActiveAnimatedTiming = useMemo(
-		() => handleUnderlayActiveAnimatedTiming(animatedTiming)(activeLayerSharedValue),
+	const animateUnderlayActiveStateEffect = useMemo(
+		() => animateUnderlayActiveState(animatedTiming)(activeLayerSharedValue),
 		[animatedTiming, activeLayerSharedValue]
 	)
 
 	useEffect(() => {
 		cancelAnimation(hoverLayerSharedValue)
-		onUnderlayHoveredAnimatedTiming(eventName)
-	}, [eventName, hoverLayerSharedValue, onUnderlayHoveredAnimatedTiming])
+		animateUnderlayHoverStateEffect(eventName)
+	}, [animateUnderlayHoverStateEffect, eventName, hoverLayerSharedValue])
 
 	useEffect(() => {
-		onUnderlayActiveAnimatedTiming(active)
-	}, [active, onUnderlayActiveAnimatedTiming])
+		animateUnderlayActiveStateEffect(active)
+	}, [active, animateUnderlayActiveStateEffect])
 
 	return {hoverLayerAnimatedStyle, activeLayerAnimatedStyle: activeLayerAnimated[activeAnimatedType]}
 }

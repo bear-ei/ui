@@ -3,7 +3,7 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {FAB_TYPE} from './FAB.enum'
@@ -49,7 +49,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			[elevated, setState]
 		)
 
-		const interactionHandlers = useStateEvent({
+		const interactionHandlers = useInteractionStateEvent({
 			...renderFABProps,
 			disabled: isDisabled,
 			onStateEventChange: onFABStateEventChange

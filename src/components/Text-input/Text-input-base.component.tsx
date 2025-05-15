@@ -4,7 +4,7 @@ import type {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useStateEvent} from '../../hooks'
+import {useInteractionStateEvent} from '../../hooks'
 import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 
@@ -145,7 +145,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[content, setState]
 		)
 
-		const interactionHandlers = useStateEvent({
+		const interactionHandlers = useInteractionStateEvent({
 			...renderTextInputProps,
 			disabled: disabled ?? (typeof editable === 'boolean' ? !editable : undefined),
 			onStateEventChange: onTextInputStateEventChange

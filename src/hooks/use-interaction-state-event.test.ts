@@ -1,7 +1,7 @@
 import {Platform} from 'react-native'
-import {useStateEvent} from './use-state-event.hook'
+import {useInteractionStateEvent} from './use-interaction-state-event.hook'
 
-describe('useStateEvent', () => {
+describe('useInteractionStateEvent', () => {
 	const originalPlatform = Platform.OS
 
 	afterEach(() => {
@@ -15,7 +15,7 @@ describe('useStateEvent', () => {
 			.fn()
 			.mockImplementation(() => jest.fn().mockImplementation(() => jest.fn().mockImplementation()))
 
-		const {onBlur, onFocus, onPress} = useStateEvent({
+		const {onBlur, onFocus, onPress} = useInteractionStateEvent({
 			disabled: false,
 			onBlur: jest.fn(),
 			onFocus: jest.fn(),
@@ -41,7 +41,7 @@ describe('useStateEvent', () => {
 
 	it('should not call onStateEventChange when it is not provided', () => {
 		Platform.OS = 'ios'
-		const {onBlur, onFocus, onPress} = useStateEvent({
+		const {onBlur, onFocus, onPress} = useInteractionStateEvent({
 			disabled: false,
 			onBlur: jest.fn(),
 			onFocus: jest.fn(),
@@ -63,7 +63,7 @@ describe('useStateEvent', () => {
 			.fn()
 			.mockImplementation(() => jest.fn().mockImplementation(() => jest.fn().mockImplementation()))
 
-		const {onBlur, onFocus, onLayout} = useStateEvent({
+		const {onBlur, onFocus, onLayout} = useInteractionStateEvent({
 			disabled: true,
 			onBlur: jest.fn(),
 			onFocus: jest.fn(),

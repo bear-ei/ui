@@ -3,13 +3,13 @@ import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {createStableHandlerWithState} from '../../../utils'
 import {COMPONENT_STATUS} from '../../Common'
-import {
-	handleVirtualListItemClose,
-	handleVirtualListItemStatus,
-	handleVirtualListItemUnmount
-} from './Virtual-list-item-handle'
-import type {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
 import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
+import {
+	closeVirtualListItem,
+	triggerVirtualListItemUnmount,
+	updateVirtualListItemStatus
+} from './Virtual-list-item.handle'
+import type {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
 
 export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 	(
@@ -34,23 +34,23 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		const id = useId()
 		const renderIndex = index + startIndex
 		const offsetY = itemSize * renderIndex
-		const onVirtualListItemStatus = useMemo(
+		const updateVirtualListItemStatusEffect = useMemo(
 			() =>
-				createStableHandlerWithState(handleVirtualListItemStatus)(setState)({
+				createStableHandlerWithState(updateVirtualListItemStatus)(setState)({
 					debounceMillisecond: Math.min(index * 10, 300)
 				}),
 			[index, setState]
 		)
 
 		const onVirtualListItemClose = useMemo(
-			() => createStableHandlerWithState(handleVirtualListItemClose)(setState)(),
+			() => createStableHandlerWithState(closeVirtualListItem)(setState)(),
 			[setState]
 		)
 
 		const onVirtualListItemUnmount = useMemo(
 			() =>
 				createStableHandlerWithState(
-					handleVirtualListItemUnmount(onUnmount)(item?.indexKey as string)
+					triggerVirtualListItemUnmount(onUnmount)(item?.indexKey as string)
 				)(),
 			[item?.indexKey, onUnmount]
 		)
@@ -68,8 +68,8 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		)
 
 		useEffect(() => {
-			onVirtualListItemStatus()
-		}, [onVirtualListItemStatus])
+			updateVirtualListItemStatusEffect()
+		}, [updateVirtualListItemStatusEffect])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

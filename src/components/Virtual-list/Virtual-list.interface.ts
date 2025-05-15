@@ -62,9 +62,9 @@ export interface HandleVirtualListLayoutChangeOptions {
 	layout: LayoutRectangle
 }
 
-export type HandleVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose'>
-export interface HandleVirtualListUnmountOptions
-	extends HandleVirtualListCloseOptions,
+export type TriggerVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose'>
+export interface UnmountVirtualListUnmountOptions
+	extends TriggerVirtualListCloseOptions,
 		Pick<RenderVirtualListProps, 'itemSize'> {}
 
 export interface HandleVirtualListContentVisibleOptions {

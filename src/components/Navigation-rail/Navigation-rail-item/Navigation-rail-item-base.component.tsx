@@ -3,7 +3,7 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
-import {useStateEvent} from '../../../hooks'
+import {useInteractionStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import type {State} from '../../Common'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
@@ -43,7 +43,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			[indexKey, onActive, setState]
 		)
 
-		const interactionHandlers = useStateEvent({
+		const interactionHandlers = useInteractionStateEvent({
 			...renderNavigationRailItemProps,
 			disabled: false,
 			onStateEventChange: onNavigationRailItemStateEventChange

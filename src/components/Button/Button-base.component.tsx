@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {BUTTON_TYPE} from './Button.enum'
@@ -54,7 +54,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			[setState, type]
 		)
 
-		const interactionHandlers = useStateEvent({
+		const interactionHandlers = useInteractionStateEvent({
 			...renderButtonProps,
 			disabled: isDisabled,
 			onStateEventChange: onButtonStateEventChange

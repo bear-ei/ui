@@ -1,7 +1,7 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
@@ -89,7 +89,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[onLayoutAnimatedSizeOnChange]
 		)
 
-		const interactionHandlers = useStateEvent({
+		const interactionHandlers = useInteractionStateEvent({
 			...renderLayoutAnimatedProps,
 			onStateEventChange: onLayoutAnimatedStateEventChange
 		})

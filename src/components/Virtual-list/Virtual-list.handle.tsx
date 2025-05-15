@@ -8,14 +8,14 @@ import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '..
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import type {ListData} from '../List'
 import type {
-	HandleVirtualListCloseOptions,
 	HandleVirtualListScrollOptions,
-	HandleVirtualListUnmountOptions,
+	TriggerVirtualListCloseOptions,
+	UnmountVirtualListUnmountOptions,
 	VirtualListData,
 	VirtualListState
 } from './Virtual-list.interface'
 
-const handleVirtualListVisibleRanges =
+const calculateVirtualListVisibleRanges =
 	(itemSize = 0) =>
 	(draft: WritableDraft<VirtualListState>) =>
 	(scrollOffset?: number) => {
@@ -41,7 +41,7 @@ const handleVirtualListVisibleRanges =
 		draft.visibleRangeData = nextVisibleRangeData
 	}
 
-export const handleVirtualListLayoutChange =
+export const updateVirtualListLayout =
 	(itemSize = 0) =>
 	(setState: Updater<VirtualListState>) =>
 	({width, height}: LayoutRectangle) => {
@@ -57,7 +57,7 @@ export const handleVirtualListLayoutChange =
 				draft.layout.width = width
 			}
 
-			handleVirtualListVisibleRanges(itemSize)(draft)()
+			calculateVirtualListVisibleRanges(itemSize)(draft)()
 		})
 	}
 
@@ -92,7 +92,7 @@ export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListS
 		setState(draft => {
 			draft.nextScrollEvent = createNextScrollEvent(event)
 
-			handleVirtualListVisibleRanges(itemSize)(draft)(scrollOffset)
+			calculateVirtualListVisibleRanges(itemSize)(draft)(scrollOffset)
 		})
 	}
 }
@@ -102,8 +102,8 @@ export const handleVirtualListMomentumScrollEnd =
 	(event: NativeSyntheticEvent<NativeScrollEvent>) =>
 		onMomentumScrollEnd?.(event)
 
-export const handleVirtualListClose =
-	({enableAutoSelect, onClose}: HandleVirtualListCloseOptions) =>
+export const triggerVirtualListClose =
+	({enableAutoSelect, onClose}: TriggerVirtualListCloseOptions) =>
 	(draft: WritableDraft<VirtualListState>) =>
 	(indexKey?: string) => {
 		const findDataIndex = (datum: ListData) => datum.indexKey === indexKey
@@ -118,16 +118,12 @@ export const handleVirtualListClose =
 		const data = (draft.virtualListData ?? []) as ListData[]
 		const datumIndex = data.findIndex(findDataIndex)
 		const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
-		const handleNextEnableAutoSelectCloseEvent = () => onClose?.({activeKey: nextActiveKey, indexKey})
+		const nextEnableAutoSelectCloseEvent = () => onClose?.({activeKey: nextActiveKey, indexKey})
 
-		draft.nextCloseEvent = handleNextEnableAutoSelectCloseEvent
+		draft.nextCloseEvent = nextEnableAutoSelectCloseEvent
 	}
 
-export const handleVirtualListUnmount = ({
-	enableAutoSelect,
-	itemSize = 0,
-	onClose
-}: HandleVirtualListUnmountOptions) => {
+export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose}: UnmountVirtualListUnmountOptions) => {
 	const handleVisibleRangeDataFilter =
 		(key: string) =>
 		({indexKey}: VirtualListData) =>
@@ -139,7 +135,7 @@ export const handleVirtualListUnmount = ({
 		}
 
 		setState(draft => {
-			handleVirtualListClose({enableAutoSelect, onClose})(draft)(indexKey)
+			triggerVirtualListClose({enableAutoSelect, onClose})(draft)(indexKey)
 
 			const nextVirtualListData = draft.virtualListData?.filter(
 				handleVisibleRangeDataFilter(indexKey)
@@ -147,18 +143,18 @@ export const handleVirtualListUnmount = ({
 
 			draft.virtualListData = nextVirtualListData
 
-			handleVirtualListVisibleRanges(itemSize)(draft)()
+			calculateVirtualListVisibleRanges(itemSize)(draft)()
 		})
 	}
 }
 
-export const handleVirtualListData = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
+export const updateVirtualListData = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
 	setState(draft => {
 		draft.virtualListData = data
 		draft.status = COMPONENT_STATUS.LOADING
 	})
 
-export const handleVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => {
+export const checkVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => {
 	const findVisibleRangeDataIndex =
 		(key: string) =>
 		({indexKey}: VirtualListData) =>
@@ -194,10 +190,10 @@ export const handleVirtualListDataChange =
 		virtualListData &&
 		setState(draft => {
 			if (draft.layout.height) {
-				handleVirtualListVisibleRanges(itemSize)(draft)()
+				calculateVirtualListVisibleRanges(itemSize)(draft)()
 			}
 		})
 
-export const handleVirtualListAnimated =
+export const animateVirtualList =
 	(animatedTiming: AnimatedTiming) => (contentHeightSharedValue: SharedValue<number>) => (contentSize: number) =>
 		animatedTiming({duration: DURATION.SHORT_2})(contentHeightSharedValue)(contentSize)

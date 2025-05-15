@@ -3,7 +3,7 @@ import type {TextInput, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useStateEvent} from '../../hooks'
+import {useInteractionStateEvent} from '../../hooks'
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {
@@ -88,7 +88,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			[setState]
 		)
 
-		const interactionHandlers = useStateEvent({
+		const interactionHandlers = useInteractionStateEvent({
 			...renderSearchProps,
 			onStateEventChange: onSearchInputStateEventChange
 		})

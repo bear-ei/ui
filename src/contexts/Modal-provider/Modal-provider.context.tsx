@@ -5,8 +5,8 @@ import type {View, ViewProps} from 'react-native'
 import {useImmer} from 'use-immer'
 import {SideSheet} from '../../components'
 import {createStableHandlerWithState} from '../../utils'
-import {handleModal} from './Modal-provider-handle'
 import {MODAL_TYPE} from './Modal-provider.enum'
+import {manageModalState} from './Modal-provider.handle'
 import type {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './Modal-provider.interface'
 
 const ModalItem: FC<ModalItemProps> = ({type, modalProps, testID}) => {
@@ -29,7 +29,7 @@ const ModalItem: FC<ModalItemProps> = ({type, modalProps, testID}) => {
 export const emitter = mitt<EmitterEvent>()
 export const ModalProvider: FC<ModalProps> = () => {
 	const [{modals}, setState] = useImmer<ModalState>({modals: []})
-	const onModal = useMemo(() => createStableHandlerWithState(handleModal)(setState)(), [setState])
+	const onModal = useMemo(() => createStableHandlerWithState(manageModalState)(setState)(), [setState])
 
 	useEffect(() => {
 		emitter.on('modal', modal => onModal(modal))

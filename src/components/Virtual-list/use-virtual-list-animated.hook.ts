@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {handleVirtualListAnimated} from './Virtual-list-handle'
+import {animateVirtualList} from './Virtual-list.handle'
 import type {UseVirtualListScrollAnimatedOptions} from './Virtual-list.interface'
 
 export const useVirtualListAnimated = ({
@@ -22,16 +22,16 @@ export const useVirtualListAnimated = ({
 	const contentHeightSharedValue = useSharedValue(contentSize)
 	const scrollY = useSharedValue(0)
 	const contentAnimatedStyle = useAnimatedStyle(() => ({minHeight: contentHeightSharedValue.value}))
-	const onVirtualListItemAnimated = useMemo(
-		() => handleVirtualListAnimated(animatedTiming)(contentHeightSharedValue),
+	const animateVirtualListEffect = useMemo(
+		() => animateVirtualList(animatedTiming)(contentHeightSharedValue),
 		[animatedTiming, contentHeightSharedValue]
 	)
 
 	useDerivedValue(() => scrollTo(animatedRef, focusedIndex * itemSize, scrollY.value, true))
 
 	useEffect(() => {
-		onVirtualListItemAnimated(contentSize)
-	}, [onVirtualListItemAnimated, contentSize])
+		animateVirtualListEffect(contentSize)
+	}, [animateVirtualListEffect, contentSize])
 
 	return {animatedRef, contentAnimatedStyle}
 }

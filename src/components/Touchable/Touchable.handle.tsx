@@ -11,9 +11,8 @@ import type {
 	TouchableState
 } from './Touchable.interface'
 
-const handleAddTouchableRipple =
-	(setState: Updater<TouchableState>) =>
-	({touchableLocation, contentLayout}: HandleAddTouchableRippleOptions) => {
+const handleTouchablePressIn = ({setState, ref}: HandleTouchablePressInOptions) => {
+	const addTouchableRipple = ({touchableLocation, contentLayout}: HandleAddTouchableRippleOptions) => {
 		const {width, height} = contentLayout
 
 		setState(draft => {
@@ -23,23 +22,21 @@ const handleAddTouchableRipple =
 		})
 	}
 
-const handleTouchablePressIn =
-	({setState, ref}: HandleTouchablePressInOptions) =>
-	(enableTouchableRipple?: boolean) =>
-	(event: GestureResponderEvent) => {
+	return (enableTouchableRipple?: boolean) => (event: GestureResponderEvent) => {
 		ref.current?.focus()
 
 		const {locationX, locationY} = event.nativeEvent
 
 		if (enableTouchableRipple) {
 			ref?.current?.measure((x, y, width, height) =>
-				runAfterInteractions(handleAddTouchableRipple(setState))({
+				runAfterInteractions(addTouchableRipple)({
 					contentLayout: {width, height, x, y},
 					touchableLocation: {locationX, locationY}
 				})
 			)
 		}
 	}
+}
 
 export const handleTouchableStateChange =
 	({eventName, enableTouchableRipple, ref}: HandleTouchableStateChangeOptions) =>
@@ -57,7 +54,7 @@ export const handleTouchableStateChange =
 		}
 	}
 
-export const handleTouchableAnimatedFinished = (setState: Updater<TouchableState>) => (index?: string) =>
+export const removeTouchableRipple = (setState: Updater<TouchableState>) => (index?: string) =>
 	index &&
 	setState(draft => {
 		if (draft.rippleSequence[index]) {

@@ -6,7 +6,7 @@ import {useImmer} from 'use-immer'
 import {createStableHandlerWithState} from '../utils'
 import type {UseWindowDimensionsOptions} from './hooks.interface'
 
-const handleWindowScaledSize =
+const updateWindowScaledSize =
 	(setState: Updater<ScaledSize>) =>
 	({window}: {window: ScaledSize}) => {
 		const {width, height, scale, fontScale} = window
@@ -19,42 +19,39 @@ const handleWindowScaledSize =
 		})
 	}
 
-const createEventListener = (onWindowScaledSize: ({window}: {window: ScaledSize}) => void) => {
-	const subscription = () => Dimensions.addEventListener('change', onWindowScaledSize)
-
-	return subscription()
-}
+const createDimensionsChangeListener = (onWindowScaledSize: ({window}: {window: ScaledSize}) => void) =>
+	Dimensions.addEventListener('change', onWindowScaledSize)
 
 export const useWindowDimensions = ({changeEventThrottle = 50}: UseWindowDimensionsOptions = {}) => {
 	const [scaledSize, setState] = useImmer<ScaledSize>({fontScale: 0, height: 0, scale: 0, width: 0})
-	const onDebounceWindowScaledSize = useMemo(
+	const debounceUpdateWindowScaledSizeEffect = useMemo(
 		() =>
-			createStableHandlerWithState(handleWindowScaledSize)(setState)({
+			createStableHandlerWithState(updateWindowScaledSize)(setState)({
 				debounceMillisecond: changeEventThrottle
 			}),
 		[changeEventThrottle, setState]
 	)
 
-	const onWindowScaledSize = useMemo(
-		() => createStableHandlerWithState(handleWindowScaledSize)(setState)(),
+	const updateWindowScaledSizeEffect = useMemo(
+		() => createStableHandlerWithState(updateWindowScaledSize)(setState)(),
 		[setState]
 	)
 
 	useEffect(() => {
-		const subscription = createEventListener(onDebounceWindowScaledSize)
+		const subscription = createDimensionsChangeListener(debounceUpdateWindowScaledSizeEffect)
 
 		return () => {
 			if (subscription) {
 				subscription.remove()
 			}
 		}
-	}, [onDebounceWindowScaledSize])
+	}, [debounceUpdateWindowScaledSizeEffect])
 
 	useEffect(() => {
 		const initialWindow = Dimensions.get('window')
 
-		onWindowScaledSize({window: initialWindow})
-	}, [onWindowScaledSize])
+		updateWindowScaledSizeEffect({window: initialWindow})
+	}, [updateWindowScaledSizeEffect])
 
 	return scaledSize
 }

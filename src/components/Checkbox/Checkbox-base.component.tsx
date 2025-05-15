@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
@@ -59,7 +59,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			[indeterminate, isActive, onActive, setState]
 		)
 
-		const interactionHandlers = useStateEvent({
+		const interactionHandlers = useInteractionStateEvent({
 			...renderCheckboxProps,
 			disabled,
 			onStateEventChange: onCheckboxStateEventChange

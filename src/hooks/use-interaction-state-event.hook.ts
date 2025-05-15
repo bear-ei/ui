@@ -98,7 +98,7 @@ const handleLayoutEvent =
 			event
 		)
 
-export const useStateEvent = ({
+export const useInteractionStateEvent = ({
 	disabled,
 	onBlur: rawOnBlur,
 	onFocus: rawOnFocus,

@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useId, useMemo} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useStateEvent} from '../../hooks'
+import {useInteractionStateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
 import {PROGRESS_TYPE} from './Progress.enum'
@@ -26,7 +26,7 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(
 			[onProgressLayoutChange]
 		)
 
-		const interactionHandlers = useStateEvent({
+		const interactionHandlers = useInteractionStateEvent({
 			...renderProgressProps,
 			onStateEventChange: onProgressStateEventChange
 		})

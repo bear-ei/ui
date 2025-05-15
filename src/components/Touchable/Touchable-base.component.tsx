@@ -2,10 +2,10 @@ import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} fr
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useStateEvent} from '../../hooks'
+import {useInteractionStateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
-import {handleTouchableAnimatedFinished, handleTouchableStateChange} from './Touchable-handle'
+import {handleTouchableStateChange, removeTouchableRipple} from './Touchable.handle'
 import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
 import {renderTouchableRipple} from './Touchable.render'
 
@@ -28,12 +28,12 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 
 		const id = useId()
 		const pressableRef = useRef<View>(null)
-		const onTouchableAnimatedFinished = useMemo(
-			() => createStableHandlerWithState(handleTouchableAnimatedFinished)(setState)(),
+		const onRemoveTouchableRipple = useMemo(
+			() => createStableHandlerWithState(removeTouchableRipple)(setState)(),
 			[setState]
 		)
 
-		const onStateEventChange = useCallback(
+		const onTouchableStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleTouchableStateChange({
 					...options,
@@ -44,17 +44,21 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 			[enableTouchableRipple, setState]
 		)
 
-		const interactionHandlers = useStateEvent({...renderTouchableProps, disabled, onStateEventChange})
+		const interactionHandlers = useInteractionStateEvent({
+			...renderTouchableProps,
+			disabled,
+			onStateEventChange: onTouchableStateEventChange
+		})
 		const rippleElements = useMemo(
 			() =>
 				renderTouchableRipple({
 					centered,
 					containerLayout: contentLayout,
 					id,
-					onAnimatedFinished: onTouchableAnimatedFinished,
+					onAnimateFinished: onRemoveTouchableRipple,
 					underlayColor
 				})(rippleSequence),
-			[centered, contentLayout, id, onTouchableAnimatedFinished, rippleSequence, underlayColor]
+			[centered, contentLayout, id, onRemoveTouchableRipple, rippleSequence, underlayColor]
 		)
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])

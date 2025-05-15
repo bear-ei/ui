@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {useStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
@@ -40,7 +40,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 			[setState]
 		)
 
-		const interactionHandlers = useStateEvent({
+		const interactionHandlers = useInteractionStateEvent({
 			...renderIconButtonProps,
 			disabled: isDisabled,
 			onStateEventChange: onIconButtonStateEventChange

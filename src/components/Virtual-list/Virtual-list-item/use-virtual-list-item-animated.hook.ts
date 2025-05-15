@@ -3,7 +3,7 @@ import {useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {createStableHandler} from '../../../utils'
-import {handleVirtualListItemAnimated} from './Virtual-list-item-handle'
+import {animateVirtualListItem} from './Virtual-list-item.handle'
 import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
 export const useVirtualListItemAnimated = ({offsetY = 0}: UseVirtualListItemAnimatedOptions) => {
@@ -11,14 +11,14 @@ export const useVirtualListItemAnimated = ({offsetY = 0}: UseVirtualListItemAnim
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const topSharedValue = useSharedValue(offsetY)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({top: topSharedValue.value}))
-	const onVirtualListItemAnimated = useMemo(
-		() => createStableHandler(handleVirtualListItemAnimated(animatedTiming)(topSharedValue))(),
+	const animateVirtualListItemEffect = useMemo(
+		() => createStableHandler(animateVirtualListItem(animatedTiming)(topSharedValue))(),
 		[animatedTiming, topSharedValue]
 	)
 
 	useEffect(() => {
-		onVirtualListItemAnimated(offsetY)
-	}, [onVirtualListItemAnimated, offsetY])
+		animateVirtualListItemEffect(offsetY)
+	}, [offsetY, animateVirtualListItemEffect])
 
 	return {containerAnimatedStyle}
 }

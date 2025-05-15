@@ -8,7 +8,7 @@ import {DENSITY} from '../../components'
 import {useWindowSize} from '../../hooks'
 import {adaptWindow, createStableHandler} from '../../utils'
 import {ModalProvider} from '../Modal-provider'
-import {handleThemeProviderFocus} from './Theme-provider-handle'
+import {focusThemeProvider} from './Theme-provider.handle'
 import type {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'
 
@@ -79,10 +79,7 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density 
 
 export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
 	const themeProviderRef = useRef<View>(null)
-	const onThemeProviderFocus = useMemo(
-		() => createStableHandler(handleThemeProviderFocus(themeProviderRef))(),
-		[]
-	)
+	const onThemeProviderFocus = useMemo(() => createStableHandler(focusThemeProvider(themeProviderRef))(), [])
 	const id = useId()
 
 	return (

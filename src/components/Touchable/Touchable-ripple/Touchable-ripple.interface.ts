@@ -10,7 +10,7 @@ export interface TouchableRippleProps
 		Pick<TouchableProps, 'centered' | 'underlayColor'> {
 	containerLayout?: LayoutRectangle
 	indexKey?: string
-	onAnimatedFinished?: (indexKey: string) => void
+	onAnimateFinished?: (indexKey: string) => void
 	touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>
 }
 
@@ -26,18 +26,18 @@ export interface TouchableRippleBaseProps extends TouchableRippleProps {
 }
 
 export interface UseTouchableRippleAnimatedOptions
-	extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished'>,
+	extends Pick<RenderTouchableRippleProps, 'onAnimateFinished'>,
 		Pick<TouchableRippleProps, 'indexKey'> {
 	radius: number
 }
 
-export interface CreateTouchableRippleAnimatedTimingSharedValue {
+export interface AnimateTouchableRippleSharedValues {
 	scaleSharedValue: SharedValue<number>
 	opacitySharedValue: SharedValue<number>
 }
 
-export interface HandleTouchableRippleAnimatedTimingOptions
-	extends Pick<RenderTouchableRippleProps, 'onAnimatedFinished' | 'containerLayout'> {
+export interface AnimateTouchableRippleOptions
+	extends Pick<RenderTouchableRippleProps, 'onAnimateFinished' | 'containerLayout'> {
 	animatedTiming: AnimatedTiming
 }
 
