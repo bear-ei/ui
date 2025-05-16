@@ -37,7 +37,7 @@ export interface FormItemState {
 	status: ComponentStatus
 }
 
-export interface HandleFormItemValueChangeOptions extends Pick<FormStore, 'setFieldsValue'> {
+export interface UpdateFormFieldValueIfChangedOptions extends Pick<FormStore, 'setFieldsValue'> {
 	storeValue?: unknown
 }
 
@@ -45,7 +45,7 @@ export interface HandleFormItemRuleChangeOptions extends Pick<FormStore, 'setFie
 	validatorOptions?: FormValidatorOptions
 }
 
-export type HandleFormItemStatusOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
+export type ApplyFormItemStatusInitToDraftOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
 	onComponentUpdate: () => void
 	validationDelay?: number
 	validatorOptions?: ValidatorOptions

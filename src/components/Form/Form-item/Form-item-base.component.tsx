@@ -5,11 +5,11 @@ import {createStableHandler, createStableHandlerWithState} from '../../../utils'
 import {COMPONENT_STATUS} from '../../Common'
 import {useFormContext} from '../use-form-context.hook'
 import {
-	handleComponentUpdate,
-	handleFormItemBlur,
-	handleFormItemStatus,
-	handleFormItemValueChange
-} from './Form-item-handle'
+	applyFormItemStatusInitToDraft,
+	triggerFormItemShouldUpdate,
+	updateFormFieldValueIfChanged,
+	validateFormFieldOnBlur
+} from './Form-item.handle'
 import type {FormItemBaseProps, FormItemState} from './Form-item.interface'
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
@@ -28,23 +28,23 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		const storeValue = getFieldsValue(name)
 		const value = storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue)
 		const onFormItemComponentUpdate = useMemo(
-			() => createStableHandlerWithState(handleComponentUpdate)(setState)(),
+			() => createStableHandlerWithState(triggerFormItemShouldUpdate)(setState)(),
 			[setState]
 		)
 
-		const onFormValueChange = useMemo(
-			() => createStableHandler(handleFormItemValueChange({setFieldsValue, storeValue})(name))(),
+		const onFormItemValueChange = useMemo(
+			() => createStableHandler(updateFormFieldValueIfChanged({setFieldsValue, storeValue})(name))(),
 			[name, setFieldsValue, storeValue]
 		)
 
 		const onFormItemBlur = useMemo(
-			() => createStableHandler(handleFormItemBlur(validateFields)(name))(),
+			() => createStableHandler(validateFormFieldOnBlur(validateFields)(name))(),
 			[name, validateFields]
 		)
 
-		const onFormItemStatus = useMemo(
+		const applyFormItemStatusInitToDraftEffect = useMemo(
 			() =>
-				handleFormItemStatus({
+				applyFormItemStatusInitToDraft({
 					onComponentUpdate: onFormItemComponentUpdate,
 					rule,
 					signInField,
@@ -59,15 +59,15 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 					errorMessage,
 					labelText,
 					onBlur: onFormItemBlur,
-					onValueChange: onFormValueChange,
+					onValueChange: onFormItemValueChange,
 					value
 				}),
-			[errorMessage, labelText, onFormItemBlur, onFormValueChange, renderControl, value]
+			[errorMessage, labelText, onFormItemBlur, onFormItemValueChange, renderControl, value]
 		)
 
 		useEffect(() => {
-			onFormItemStatus(name)
-		}, [name, onFormItemStatus])
+			applyFormItemStatusInitToDraftEffect(name)
+		}, [applyFormItemStatusInitToDraftEffect, name])
 
 		useEffect(() => () => signOut?.(), [signOut])
 

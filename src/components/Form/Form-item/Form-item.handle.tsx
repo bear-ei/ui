@@ -2,10 +2,14 @@ import type {NativeSyntheticEvent, TargetedEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS} from '../../Common'
 import type {FormError} from '../Form.interface'
-import type {FormItemState, HandleFormItemStatusOptions, HandleFormItemValueChangeOptions} from './Form-item.interface'
+import type {
+	ApplyFormItemStatusInitToDraftOptions,
+	FormItemState,
+	UpdateFormFieldValueIfChangedOptions
+} from './Form-item.interface'
 
-export const handleFormItemStatus =
-	({rule, signInField, onComponentUpdate, validatorOptions}: HandleFormItemStatusOptions) =>
+export const applyFormItemStatusInitToDraft =
+	({rule, signInField, onComponentUpdate, validatorOptions}: ApplyFormItemStatusInitToDraftOptions) =>
 	(setState: Updater<FormItemState>) =>
 	(name?: string) =>
 		setState(draft => {
@@ -20,18 +24,18 @@ export const handleFormItemStatus =
 			draft.status = COMPONENT_STATUS.SUCCEEDED
 		})
 
-export const handleFormItemValueChange =
-	({setFieldsValue, storeValue}: HandleFormItemValueChangeOptions) =>
+export const updateFormFieldValueIfChanged =
+	({setFieldsValue, storeValue}: UpdateFormFieldValueIfChangedOptions) =>
 	(name?: string) =>
 	(value?: unknown) =>
 		name && storeValue !== value && setFieldsValue()({[name]: value})
 
-export const handleComponentUpdate = (setState: Updater<FormItemState>) => () =>
+export const triggerFormItemShouldUpdate = (setState: Updater<FormItemState>) => () =>
 	setState(draft => {
 		draft.shouldUpdate = {}
 	})
 
-export const handleFormItemBlur =
+export const validateFormFieldOnBlur =
 	(validateFields: (name?: string) => Promise<FormError<unknown>>) =>
 	(name?: string) =>
 	(_event: NativeSyntheticEvent<TargetedEvent>) => {
