@@ -1,4 +1,3 @@
-import React from 'react'
 import {renderWithTheme} from '../../../__test__'
 import {Elevation} from './Elevation.component'
 import {ELEVATION} from './Elevation.enum'

@@ -3,7 +3,7 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
 import type {AnimatedTiming, StateEvent} from '../../hooks'
-import {COMPONENT_STATUS, EVENT_NAME, STATE, type State} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, STATE} from '../Common'
 import {ELEVATION, type ElevationLevel} from '../Elevation'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABState, FABType, HandleFABStateChangeOptions} from './FAB.interface'
@@ -21,33 +21,31 @@ export const updateFABStatus = (disabled?: boolean) => (setState: Updater<FABSta
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
-const updateFABElevation = (draft: WritableDraft<FABState>) => (elevated?: boolean) => (state?: State) => {
-	if (!elevated) {
-		return
+export const handleFABStateChange = ({eventName, elevated, state}: HandleFABStateChangeOptions) => {
+	const applyFABElevationToDraft = (draft: WritableDraft<FABState>) => {
+		if (!elevated) {
+			return
+		}
+
+		const level = {
+			[STATE.DISABLED]: ELEVATION.LEVEL_0,
+			[STATE.ENABLED]: ELEVATION.LEVEL_0,
+			[STATE.ERROR]: ELEVATION.LEVEL_0,
+			[STATE.FOCUSED]: ELEVATION.LEVEL_0,
+			[STATE.HOVERED]: ELEVATION.LEVEL_1,
+			[STATE.LONG_PRESS_IN]: ELEVATION.LEVEL_0,
+			[STATE.PRESS_IN]: ELEVATION.LEVEL_0
+		}
+
+		if (state) {
+			draft.elevation = (
+				state === STATE.DISABLED ?
+					level[state]
+				:	level[state] + ELEVATION.LEVEL_3) as ElevationLevel
+		}
 	}
 
-	const level = {
-		[STATE.DISABLED]: ELEVATION.LEVEL_0,
-		[STATE.ENABLED]: ELEVATION.LEVEL_0,
-		[STATE.ERROR]: ELEVATION.LEVEL_0,
-		[STATE.FOCUSED]: ELEVATION.LEVEL_0,
-		[STATE.HOVERED]: ELEVATION.LEVEL_1,
-		[STATE.LONG_PRESS_IN]: ELEVATION.LEVEL_0,
-		[STATE.PRESS_IN]: ELEVATION.LEVEL_0
-	}
-
-	if (state) {
-		draft.elevation = (
-			state === STATE.DISABLED ?
-				level[state]
-			:	level[state] + ELEVATION.LEVEL_3) as ElevationLevel
-	}
-}
-
-export const handleFABStateChange =
-	({eventName, elevated, state}: HandleFABStateChangeOptions) =>
-	(setState: Updater<FABState>) =>
-	(_event: StateEvent) => {
+	return (setState: Updater<FABState>) => (_event: StateEvent) => {
 		if (eventName === EVENT_NAME.LAYOUT) {
 			return
 		}
@@ -60,10 +58,11 @@ export const handleFABStateChange =
 			}
 
 			if (prevEventName !== eventName) {
-				updateFABElevation(draft)(elevated)(state)
+				applyFABElevationToDraft(draft)
 			}
 		})
 	}
+}
 
 export const updateFABDisabledState = (elevated?: boolean) => (setState: Updater<FABState>) => (disabled?: boolean) =>
 	typeof disabled === 'boolean' &&
@@ -88,6 +87,6 @@ export const getFABUnderlayColor = (theme: DefaultTheme) => {
 	return (type: FABType) => underlay[type]
 }
 
-export const animateFABColor =
+export const animateFAB =
 	(animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<number>) => (disabled?: boolean) =>
 		animatedTiming()(colorSharedValue)(disabled ? 0 : 1)

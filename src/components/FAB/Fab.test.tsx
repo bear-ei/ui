@@ -1,6 +1,5 @@
 import {SIZE} from '@bearei/material-token'
 import {fireEvent, waitFor} from '@testing-library/react-native'
-import React from 'react'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../__test__'
 import {Fab} from './FAB.component'
