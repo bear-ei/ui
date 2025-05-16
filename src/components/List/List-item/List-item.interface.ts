@@ -111,7 +111,7 @@ export interface HandleListItemStateChangeOptions
 		> {}
 
 export type HandleListItemTrailingEventOptions = {callback?: () => void}
-export interface HandleListItemConfirmOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
+export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
 	onConfirm?: ListItemProps['onConfirm']
 	onItemClose: (indexKey?: boolean) => void
 }
@@ -128,15 +128,15 @@ export interface RenderListItemTrailingOptions
 export interface UseListItemAnimatedOptions {
 	active?: boolean
 	afterAffordanceVisible?: boolean
-	onAfterAffordanceVisibleFinished?: (visible?: boolean) => false | void
+	onAfterAffordanceVisibilityFinished?: (visible?: boolean) => false | void
 }
 
-export interface AnimateListItemAffordanceVisibleOptions
-	extends Pick<UseListItemAnimatedOptions, 'onAfterAffordanceVisibleFinished'> {
+export interface AnimateListItemAffordanceVisibilityOptions
+	extends Pick<UseListItemAnimatedOptions, 'onAfterAffordanceVisibilityFinished'> {
 	animatedTiming: AnimatedTiming
 }
 
-export interface HandleListItemTrailingPressOutOptions
+export interface TriggerListItemTrailingActionsOptions
 	extends Pick<ListItemProps, 'closeTrailing' | 'afterAffordance' | 'onActiveAfterAffordance'> {
 	onItemClose: (close?: boolean) => void
 }

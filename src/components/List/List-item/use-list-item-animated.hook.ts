@@ -3,13 +3,13 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {animateListItemActiveState, animateListItemAffordanceVisible} from './List-item.handler'
+import {animateListItemActiveState, animateListItemAffordanceVisibility} from './List-item.handler'
 import type {UseListItemAnimatedOptions} from './List-item.interface'
 
 export const useListItemAnimated = ({
 	active,
 	afterAffordanceVisible,
-	onAfterAffordanceVisibleFinished
+	onAfterAffordanceVisibilityFinished
 }: UseListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const {spacing, scheme, opacity} = theme.token
@@ -37,12 +37,12 @@ export const useListItemAnimated = ({
 		color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRanges)
 	}))
 
-	const animateListItemAffordanceVisibleEffect = useMemo(
+	const animateListItemAffordanceVisibilityEffect = useMemo(
 		() =>
-			animateListItemAffordanceVisible({animatedTiming, onAfterAffordanceVisibleFinished})(
+			animateListItemAffordanceVisibility({animatedTiming, onAfterAffordanceVisibilityFinished})(
 				contentLeftSharedValue
 			),
-		[animatedTiming, contentLeftSharedValue, onAfterAffordanceVisibleFinished]
+		[animatedTiming, contentLeftSharedValue, onAfterAffordanceVisibilityFinished]
 	)
 
 	const animateListItemActiveStateEffect = useMemo(
@@ -51,8 +51,8 @@ export const useListItemAnimated = ({
 	)
 
 	useEffect(() => {
-		animateListItemAffordanceVisibleEffect(afterAffordanceVisible)
-	}, [afterAffordanceVisible, animateListItemAffordanceVisibleEffect])
+		animateListItemAffordanceVisibilityEffect(afterAffordanceVisible)
+	}, [afterAffordanceVisible, animateListItemAffordanceVisibilityEffect])
 
 	useEffect(() => {
 		animateListItemActiveStateEffect(active)

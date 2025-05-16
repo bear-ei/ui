@@ -6,12 +6,12 @@ import type {ListItemAfterAffordancePressOutOptions} from '../List-after-afforda
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
 import type {
-	AnimateListItemAffordanceVisibleOptions,
-	HandleListItemConfirmOptions,
+	AnimateListItemAffordanceVisibilityOptions,
+	ConfirmListItemAffordanceActionOptions,
 	HandleListItemStateChangeOptions,
-	HandleListItemTrailingPressOutOptions,
 	ListItemProps,
-	ListItemState
+	ListItemState,
+	TriggerListItemTrailingActionsOptions
 } from './List-item.interface'
 
 export const compareListItemProps = (prevProps: ListItemProps) => {
@@ -158,13 +158,13 @@ export const handleListItemStateChange =
 		})
 	}
 
-export const handleListItemTrailingPressOut =
+export const triggerListItemTrailingActions =
 	({
 		afterAffordance,
 		closeTrailing,
 		onActiveAfterAffordance,
 		onItemClose
-	}: HandleListItemTrailingPressOutOptions) =>
+	}: TriggerListItemTrailingActionsOptions) =>
 	(indexKey?: string) =>
 	() => {
 		const nextEvent = {
@@ -181,13 +181,13 @@ export const handleListItemTrailingPressOut =
 		}
 	}
 
-export const handleListItemTrailingPressIn = (setState: Updater<ListItemState>) => () => {
+export const showListItemTrailingAffordance = (setState: Updater<ListItemState>) => () => {
 	setState(draft => {
 		draft.affordanceVisible = true
 	})
 }
 
-export const handleListItemAffordanceVisibleEnd = (setState: Updater<ListItemState>) => (visible?: boolean) =>
+export const setListItemAffordanceClosed = (setState: Updater<ListItemState>) => (visible?: boolean) =>
 	setState(draft => {
 		draft.afterAffordanceClosed = !visible
 	})
@@ -197,8 +197,8 @@ export const showListItemAffordance = (setState: Updater<ListItemState>) => () =
 		draft.affordanceVisible = true
 	})
 
-export const handleListItemConfirm =
-	({onActiveAfterAffordance, onItemClose, onConfirm}: HandleListItemConfirmOptions) =>
+export const confirmListItemAffordanceAction =
+	({onActiveAfterAffordance, onItemClose, onConfirm}: ConfirmListItemAffordanceActionOptions) =>
 	({indexKey, ...options}: ListItemAfterAffordancePressOutOptions) => {
 		const {doubleConfirmed: isDoubleConfirmed} = options
 
@@ -215,7 +215,7 @@ export const handleListItemConfirm =
  * When using the component Text-field-picker, you only need to change the focus style. Do not get the real focus.
  * Otherwise the Text-field-picker will lose focus.
  */
-export const handleListItemFocusChange =
+export const updateListItemFocusState =
 	(itemIndex?: number) => (setState: Updater<ListItemState>) => (focusedIndex?: number) =>
 		typeof focusedIndex === 'number' &&
 		setState(draft => {
@@ -251,12 +251,12 @@ export const handleListItemClose =
 // 		}
 // 	}
 
-export const animateListItemAffordanceVisible =
-	({animatedTiming, onAfterAffordanceVisibleFinished}: AnimateListItemAffordanceVisibleOptions) =>
+export const animateListItemAffordanceVisibility =
+	({animatedTiming, onAfterAffordanceVisibilityFinished}: AnimateListItemAffordanceVisibilityOptions) =>
 	(contentLeftSharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
 		animatedTiming({
-			callback: (finished?: boolean) => finished && onAfterAffordanceVisibleFinished?.(visible)
+			callback: (finished?: boolean) => finished && onAfterAffordanceVisibilityFinished?.(visible)
 		})(contentLeftSharedValue)(visible ? 1 : 0)
 
 export const animateListItemActiveState =
