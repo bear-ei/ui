@@ -10,10 +10,10 @@ import {COMPONENT_STATUS, STATE, type State} from '../Common'
 
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
-	handleTextInputContentSizeChange,
-	handleTextInputEditableChange,
-	handleTextInputFocusFromHeader,
+	handleTextInputEditableFocusLoss,
+	handleTextInputFocusTrigger,
 	handleTextInputStateChange,
+	updateTextInputContentSize,
 	updateTextInputSupportingText,
 	updateTextInputSupportingTextClose,
 	updateTextInputSupportingTextVisibility,
@@ -80,11 +80,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 				hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
 			:	theme.token.scheme.onSurfaceVariant
 
-		const onTextInputContentSizeChange = useMemo(
-			() =>
-				createStableHandlerWithState(handleTextInputContentSizeChange(onContentSizeChange))(
-					setState
-				)(),
+		const onTextInputContentSize = useMemo(
+			() => createStableHandlerWithState(updateTextInputContentSize(onContentSizeChange))(setState)(),
 			[onContentSizeChange, setState]
 		)
 
@@ -96,7 +93,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[setState, supportingTextDelay]
 		)
 
-		const updateTextInputSupportingTextEffect = useMemo(
+		const applyUpdateTextInputSupportingTextEffect = useMemo(
 			() =>
 				createStableHandlerWithState(
 					updateTextInputSupportingText({
@@ -107,8 +104,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[onTextInputSupportingTextClose, setState, supportingTextDelay]
 		)
 
-		const handleTextInputEditableChangeEffect = useMemo(
-			() => createStableHandler(handleTextInputEditableChange(textInputRef))(),
+		const applyHandleTextInputEditableFocusLossEffect = useMemo(
+			() => createStableHandler(handleTextInputEditableFocusLoss(textInputRef))(),
 			[textInputRef]
 		)
 
@@ -117,7 +114,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[onChangeText, setState]
 		)
 
-		const updateTextInputValueEffect = useMemo(
+		const applyUpdateTextInputValueEffect = useMemo(
 			() => createStableHandlerWithState(updateTextInputValue)(setState)(),
 			[setState]
 		)
@@ -130,8 +127,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[onSupportingTextVisible, setState]
 		)
 
-		const onTextInputFocusFromHeader = useMemo(
-			() => createStableHandler(handleTextInputFocusFromHeader(textInputRef))(),
+		const onTextInputFocusTrigger = useMemo(
+			() => createStableHandler(handleTextInputFocusTrigger(textInputRef))(),
 			[]
 		)
 		const onTextInputStateEventChange = useCallback(
@@ -170,16 +167,16 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		useImperativeHandle(ref, () => (textInputRef?.current ?? {}) as TextInput, [textInputRef])
 
 		useEffect(() => {
-			handleTextInputEditableChangeEffect(editable)
-		}, [editable, handleTextInputEditableChangeEffect])
+			applyHandleTextInputEditableFocusLossEffect(editable)
+		}, [applyHandleTextInputEditableFocusLossEffect, editable])
 
 		useEffect(() => {
-			updateTextInputSupportingTextEffect(rawSupportingText)
-		}, [updateTextInputSupportingTextEffect, rawSupportingText])
+			applyUpdateTextInputSupportingTextEffect(rawSupportingText)
+		}, [applyUpdateTextInputSupportingTextEffect, rawSupportingText])
 
 		useEffect(() => {
-			updateTextInputValueEffect(rawValue ?? defaultValue)
-		}, [defaultValue, updateTextInputValueEffect, rawValue])
+			applyUpdateTextInputValueEffect(rawValue ?? defaultValue)
+		}, [applyUpdateTextInputValueEffect, defaultValue, rawValue])
 
 		useEffect(() => {
 			runAfterInteractions(nextChangeTextEvent)()
@@ -219,8 +216,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			leading,
 			multiline,
 			onChangeText: onTextInputValueWithCallback,
-			onContentSizeChange: onTextInputContentSizeChange,
-			onHeaderFocus: onTextInputFocusFromHeader,
+			onContentSizeChange: onTextInputContentSize,
+			onHeaderFocus: onTextInputFocusTrigger,
 			onSupportingTextVisible: onTextInputSupportingTextVisibility,
 			placeholderTextColor,
 			ref: textInputRef,

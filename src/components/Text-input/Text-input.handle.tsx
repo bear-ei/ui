@@ -46,7 +46,7 @@ export const handleTextInputStateChange =
 		})
 	}
 
-export const handleTextInputContentSizeChange =
+export const updateTextInputContentSize =
 	(onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
 	(setState: Updater<TextInputState>) =>
 	(event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
@@ -125,10 +125,10 @@ export const updateTextInputValue = (setState: Updater<TextInputState>) => (valu
 		}
 	})
 
-export const handleTextInputEditableChange = (ref: React.RefObject<TextInput>) => (editable?: boolean) =>
+export const handleTextInputEditableFocusLoss = (ref: React.RefObject<TextInput>) => (editable?: boolean) =>
 	editable && ref?.current?.blur()
 
-export const handleTextInputFocusFromHeader = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
+export const handleTextInputFocusTrigger = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
 export const createAnimateTextInputEnabledState =
 	(animatedTiming: AnimatedTiming) =>
 	({
