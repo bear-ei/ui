@@ -5,7 +5,11 @@ import type {StateEvent} from '../../hooks'
 import {textSearch} from '../../utils'
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../Common'
 import type {ListData} from '../List'
-import type {HandleSearchInputStateChangeOptions, HandleSearchTextChangeOptions, SearchState} from './Search.interface'
+import type {
+	HandleSearchInputStateChangeOptions,
+	SearchState,
+	UpdateSearchTextWithMatchOptions
+} from './Search.interface'
 
 export const handleSearchInputStateChange =
 	({eventName, ref, state}: HandleSearchInputStateChangeOptions) =>
@@ -41,11 +45,11 @@ export const handleSearchInputStateChange =
 		})
 	}
 
-export const handleSearchTextChange =
-	({data = [], onChangeText}: HandleSearchTextChangeOptions = {}) =>
+export const updateSearchTextWithMatch =
+	({data = [], onChangeText}: UpdateSearchTextWithMatchOptions = {}) =>
 	(setState: Updater<SearchState>) =>
 	(value?: string) => {
-		const triggerNextTextChangeEvent = () => value && onChangeText?.(value)
+		const nextChangeTextEvent = () => value && onChangeText?.(value)
 		const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
 
 		setState(draft => {
@@ -55,7 +59,7 @@ export const handleSearchTextChange =
 			draft.value = value
 
 			if (typeof value === 'string' && value !== prevValue) {
-				draft.nextChangeTextEvent = triggerNextTextChangeEvent
+				draft.nextChangeTextEvent = nextChangeTextEvent
 			}
 		})
 	}
@@ -78,13 +82,13 @@ export const updateSearchInputValue =
 		})
 	}
 
-export const updateSearchListVisible = (setState: Updater<SearchState>) => (visible?: boolean) =>
+export const updateSearchListVisibility = (setState: Updater<SearchState>) => (visible?: boolean) =>
 	typeof visible === 'boolean' &&
 	setState(draft => {
 		draft.listVisible = visible
 	})
 
-export const handleSearchContainerLayoutChange = (containerCurrent?: View | null) => {
+export const createSearchLayoutMeasureHandler = (containerCurrent?: View | null) => {
 	const measureSearchContainerLayout = (setState: Updater<SearchState>) =>
 		containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
 			setState(draft => {

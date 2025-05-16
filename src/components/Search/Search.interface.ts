@@ -46,7 +46,7 @@ export interface SearchState {
 	value?: string
 }
 
-export type HandleSearchTextChangeOptions = Pick<RenderSearchProps, 'onChangeText'> & Pick<SearchListProps, 'data'>
+export type UpdateSearchTextWithMatchOptions = Pick<RenderSearchProps, 'onChangeText'> & Pick<SearchListProps, 'data'>
 export interface HandleSearchInputStateChangeOptions extends HandleStateEventChangeOptions {
 	ref?: RefObject<TextInput>
 }
