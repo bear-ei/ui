@@ -37,6 +37,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			() => createStableHandlerWithState(updateCheckboxStatus)(setState)(),
 			[setState]
 		)
+
 		const updateCheckboxIndeterminateEffect = useMemo(
 			() => createStableHandlerWithState(updateCheckboxIndeterminate)(setState)(),
 			[setState]

@@ -39,10 +39,10 @@ export interface CheckboxState {
 	value?: CheckboxValue
 }
 
-export type HandleCheckboxActiveOptions = Pick<RenderCheckboxProps, 'onActive' | 'indeterminate'>
+export type UpdateCheckboxActiveOptions = Pick<RenderCheckboxProps, 'onActive' | 'indeterminate'>
 export type HandleCheckboxStateChangeOptions = HandleStateEventChangeOptions &
 	Pick<RenderCheckboxProps, 'active' | 'indeterminate'> &
-	HandleCheckboxActiveOptions
+	UpdateCheckboxActiveOptions
 
 export type UseCheckboxAnimatedOptions = Pick<RenderCheckboxProps, 'active'>
 export interface HandleCheckboxIconAnimatedOptions {

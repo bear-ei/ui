@@ -3,7 +3,7 @@ import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME} from '../Common'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
-import type {CheckboxState, HandleCheckboxActiveOptions, HandleCheckboxStateChangeOptions} from './Checkbox.interface'
+import type {CheckboxState, HandleCheckboxStateChangeOptions, UpdateCheckboxActiveOptions} from './Checkbox.interface'
 
 export const updateCheckboxStatus = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
 	setState(draft => {
@@ -20,11 +20,11 @@ export const updateCheckboxStatus = (setState: Updater<CheckboxState>) => (indet
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
-const handleCheckboxActiveDraftChange =
+const applyCheckboxActiveToDraft =
 	(draft: WritableDraft<CheckboxState>) =>
-	({indeterminate, onActive}: HandleCheckboxActiveOptions) =>
+	({indeterminate, onActive}: UpdateCheckboxActiveOptions) =>
 	(active?: boolean) => {
-		const handleNextActiveEvent = () => onActive?.(active)
+		const nextActiveEvent = () => onActive?.(active)
 
 		if (typeof active !== 'boolean') {
 			return
@@ -34,19 +34,20 @@ const handleCheckboxActiveDraftChange =
 		const nextValue = active ? activeValue : CHECKBOX_VALUE.UNSELECTED
 
 		draft.active = active
-		draft.nextActiveEvent = handleNextActiveEvent
+		draft.nextActiveEvent = nextActiveEvent
 		draft.value = nextValue
 	}
 
-export const updateCheckboxActive =
-	(options: HandleCheckboxActiveOptions) => (setState: Updater<CheckboxState>) => (active?: boolean) =>
+export const updateCheckboxActive = (options: UpdateCheckboxActiveOptions) => {
+	return (setState: Updater<CheckboxState>) => (active?: boolean) =>
 		setState(draft => {
 			if (active === draft.active) {
 				return
 			}
 
-			handleCheckboxActiveDraftChange(draft)(options)(active)
+			applyCheckboxActiveToDraft(draft)(options)(active)
 		})
+}
 
 export const handleCheckboxStateChange =
 	({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
@@ -64,7 +65,7 @@ export const handleCheckboxStateChange =
 			}
 
 			if (prevEventName !== eventName && eventName === EVENT_NAME.PRESS_OUT) {
-				handleCheckboxActiveDraftChange(draft)({indeterminate, onActive})(!active)
+				applyCheckboxActiveToDraft(draft)({indeterminate, onActive})(!active)
 			}
 		})
 	}
