@@ -1,6 +1,6 @@
-import {debounce} from './debounce.utils'
-import {runAfterInteractions} from './run-afterInteractions.utils'
-import type {CreateHandlerOptions} from './utils.interface'
+import {debounce} from '../debounce'
+import {runAfterInteractions} from '../run-afterInteractions'
+import type {CreateHandlerOptions} from './create-handler.interface'
 
 export const createStableHandlerWithState =
 	<T extends (...args: any[]) => unknown, S = undefined>(handlerFactory: T | ((setState: S) => T)) =>

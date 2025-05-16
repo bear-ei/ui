@@ -1,5 +1,5 @@
 import {WINDOW_SIZE, type WindowSize} from '@bearei/material-token'
-import {useWindowDimensions} from './use-window-dimensions.hook'
+import {useWindowDimensions} from '../use-window-dimensions'
 
 export const useWindowSize = () => {
 	const {width, ...scaledSize} = useWindowDimensions({changeEventThrottle: 150})

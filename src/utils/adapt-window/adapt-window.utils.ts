@@ -1,5 +1,5 @@
 import {PixelRatio} from 'react-native'
-import type {AdaptDesignOptions, AdaptWindowOptions} from './utils.interface'
+import type {AdaptDesignOptions, AdaptWindowOptions} from './adapt-window.interface'
 
 export const adaptWindow =
 	({screenWidth = 1125, screenHeight = 2436}: AdaptWindowOptions = {}) =>

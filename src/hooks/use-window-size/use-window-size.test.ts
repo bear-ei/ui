@@ -1,6 +1,6 @@
 import {WINDOW_SIZE} from '@bearei/material-token'
 import {renderHook} from '@testing-library/react-hooks'
-import {useWindowDimensions} from './use-window-dimensions.hook'
+import {useWindowDimensions} from '../use-window-dimensions'
 import {useWindowSize} from './use-window-size.hook'
 
 jest.mock('./use-window-dimensions.hook', () => ({

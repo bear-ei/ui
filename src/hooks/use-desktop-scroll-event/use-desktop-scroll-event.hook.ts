@@ -1,24 +1,8 @@
 import {useEffect, useMemo, useRef} from 'react'
-import type {NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
 import {Platform} from 'react-native'
-import {createStableHandler} from '../utils'
-import type {HandleScrollOptions, UseDesktopScrollEventOptions} from './hooks.interface'
-
-const handleThrottledScroll =
-	({momentumScrollEndTimer, onMomentumScrollEnd, onScroll}: HandleScrollOptions) =>
-	(event: NativeSyntheticEvent<NativeScrollEvent>) => {
-		onScroll?.(event)
-
-		if (!onMomentumScrollEnd) {
-			return
-		}
-
-		if (momentumScrollEndTimer.current) {
-			clearTimeout(momentumScrollEndTimer.current)
-		}
-
-		momentumScrollEndTimer.current = setTimeout(() => onMomentumScrollEnd?.(event), 150)
-	}
+import {createStableHandler} from '../../utils'
+import {handleThrottledScroll} from './use-desktop-scroll-event.handler'
+import type {UseDesktopScrollEventOptions} from './use-desktop-scroll-event.interface'
 
 export const useDesktopScrollEvent = ({onScroll, onMomentumScrollEnd}: UseDesktopScrollEventOptions) => {
 	const momentumScrollEndTimer = useRef<ReturnType<typeof setTimeout>>(null)

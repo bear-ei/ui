@@ -1,4 +1,4 @@
-import type {NamePath} from './utils.interface'
+import type {NamePath} from './name-path.interface'
 
 export const namePath = <T = Record<string, unknown>>(name?: NamePath<T>) => {
 	const formatName = Array.isArray(name) ? name : name && [name]
