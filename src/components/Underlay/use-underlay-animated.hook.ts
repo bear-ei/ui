@@ -84,24 +84,24 @@ export const useUnderlayAnimated = ({
 		]
 	)
 
-	const animateUnderlayHoverStateEffect = useMemo(
+	const applyAnimateUnderlayHoverStateEffect = useMemo(
 		() => debounce(animateUnderlayHoverState({activeValue, animatedTiming})(hoverLayerSharedValue))(50),
 		[animatedTiming, activeValue, hoverLayerSharedValue]
 	)
 
-	const animateUnderlayActiveStateEffect = useMemo(
+	const applyAnimateUnderlayActiveStateEffect = useMemo(
 		() => animateUnderlayActiveState(animatedTiming)(activeLayerSharedValue),
 		[animatedTiming, activeLayerSharedValue]
 	)
 
 	useEffect(() => {
 		cancelAnimation(hoverLayerSharedValue)
-		animateUnderlayHoverStateEffect(eventName)
-	}, [animateUnderlayHoverStateEffect, eventName, hoverLayerSharedValue])
+		applyAnimateUnderlayHoverStateEffect(eventName)
+	}, [applyAnimateUnderlayHoverStateEffect, eventName, hoverLayerSharedValue])
 
 	useEffect(() => {
-		animateUnderlayActiveStateEffect(active)
-	}, [active, animateUnderlayActiveStateEffect])
+		applyAnimateUnderlayActiveStateEffect(active)
+	}, [active, applyAnimateUnderlayActiveStateEffect])
 
 	return {hoverLayerAnimatedStyle, activeLayerAnimatedStyle: activeLayerAnimated[activeAnimatedType]}
 }

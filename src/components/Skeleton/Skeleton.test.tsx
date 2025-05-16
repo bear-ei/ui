@@ -1,4 +1,3 @@
-import React from 'react'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../__test__'
 import {Skeleton} from '../Skeleton'

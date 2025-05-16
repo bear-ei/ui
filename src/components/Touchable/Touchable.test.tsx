@@ -1,5 +1,5 @@
 import {fireEvent} from '@testing-library/react-native'
-import React, {useRef} from 'react'
+import {useRef} from 'react'
 import {Text, View} from 'react-native'
 import {renderWithTheme} from '../../../__test__'
 import {Touchable} from './Touchable.component'

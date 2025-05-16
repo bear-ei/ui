@@ -131,6 +131,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			() => createStableHandler(handleTextInputFocusTrigger(textInputRef))(),
 			[]
 		)
+
 		const onTextInputStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
 				handleTextInputStateChange({

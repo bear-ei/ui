@@ -1,4 +1,3 @@
-import React from 'react'
 import {renderWithTheme} from '../../../__test__'
 import {Underlay} from './Underlay.component'
 

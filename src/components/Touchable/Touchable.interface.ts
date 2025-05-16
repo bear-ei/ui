@@ -1,6 +1,5 @@
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, NativeTouchEvent, PressableProps, View, ViewProps, ViewStyle} from 'react-native'
-import type {Updater} from 'use-immer'
 import type {HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
 import type {ShapeProps} from '../Common'
 import type {TouchableRippleProps} from './Touchable-ripple'
@@ -57,10 +56,6 @@ export interface TouchableMainProps {
 	alignSelf?: ViewStyle['alignSelf']
 }
 
-export interface HandleTouchablePressInOptions extends Pick<HandleTouchableStateChangeOptions, 'ref'> {
-	setState: Updater<TouchableState>
-}
-
-export interface HandleAddTouchableRippleOptions extends Pick<TouchableState, 'contentLayout'> {
+export interface AddTouchableRippleOptions extends Pick<TouchableState, 'contentLayout'> {
 	touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>
 }
