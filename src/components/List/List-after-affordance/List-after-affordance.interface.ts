@@ -40,7 +40,7 @@ export interface ListAfterAffordanceState {
 export type TriggerListAfterAffordanceConfirmOptions = Pick<ListAfterAffordanceProps, 'onConfirm' | 'indexKey'> &
 	ListAfterAffordanceState
 
-export type HandleListAfterAffordanceCancelOptions = Pick<ListAfterAffordanceProps, 'onCancel' | 'indexKey'> &
+export type UpdateListAffordanceCancelStateOptions = Pick<ListAfterAffordanceProps, 'onCancel' | 'indexKey'> &
 	ListAfterAffordanceState
 
 export interface UseListAfterAffordanceAnimatedOptions extends Pick<RenderListAfterAffordanceProps, 'doubleConfirmed'> {

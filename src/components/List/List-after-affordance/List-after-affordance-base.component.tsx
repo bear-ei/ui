@@ -4,9 +4,9 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../../utils'
 import {
-	handleListAfterAffordanceCancel,
+	resetAffordanceConfirmationOnHide,
 	triggerListAfterAffordanceConfirm,
-	updateListAfterAffordanceVisible
+	updateListAffordanceCancelState
 } from './List-after-affordance.handler'
 import type {ListAfterAffordanceBaseProps, ListAfterAffordanceState} from './List-after-affordance.interface'
 import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animated.hook'
@@ -36,7 +36,7 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 		const onListAfterAffordanceCancel = useMemo(
 			() =>
 				createStableHandlerWithState(
-					handleListAfterAffordanceCancel({
+					updateListAffordanceCancelState({
 						doubleConfirmed: isDoubleConfirmed,
 						indexKey,
 						onCancel
@@ -45,15 +45,15 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 			[indexKey, isDoubleConfirmed, onCancel, setState]
 		)
 
-		const updateListAfterAffordanceVisibleEffect = useMemo(
-			() => createStableHandlerWithState(updateListAfterAffordanceVisible)(setState)(),
+		const resetAffordanceConfirmationOnHideEffect = useMemo(
+			() => createStableHandlerWithState(resetAffordanceConfirmationOnHide)(setState)(),
 			[setState]
 		)
 		const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed})
 
 		useEffect(() => {
-			updateListAfterAffordanceVisibleEffect(visible)
-		}, [updateListAfterAffordanceVisibleEffect, visible])
+			resetAffordanceConfirmationOnHideEffect(visible)
+		}, [resetAffordanceConfirmationOnHideEffect, visible])
 
 		useEffect(() => {
 			runAfterInteractions(nextCancelEvent)()
