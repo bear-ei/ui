@@ -4,7 +4,7 @@ import type {StateEvent} from '../../../hooks'
 import {EVENT_NAME, type EventName} from '../../Common'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {
-	AnimateNavigationRailItemLabelColorOptions,
+	AnimateNavigationRailItemLabelOptions,
 	HandleNavigationRailItemStateChangeOptions,
 	NavigationRailItemProps,
 	NavigationRailItemState
@@ -52,8 +52,8 @@ export const handleNavigationRailItemStateChange =
 		})
 	}
 
-export const animateNavigationRailItemLabelColor =
-	({animatedTiming, type}: AnimateNavigationRailItemLabelColorOptions) =>
+export const animateNavigationRailItemLabel =
+	({animatedTiming, type}: AnimateNavigationRailItemLabelOptions) =>
 	(labelTextColorSharedValue: SharedValue<number>) =>
 	(active?: boolean) => {
 		if (!(type === NAVIGATION_RAIL_TYPE.SEGMENT && typeof active === 'boolean')) {

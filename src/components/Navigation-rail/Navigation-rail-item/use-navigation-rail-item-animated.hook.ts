@@ -3,7 +3,7 @@ import {useEffect, useMemo} from 'react'
 import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {animateNavigationRailItemLabelColor} from './Navigation-rail-item.handler'
+import {animateNavigationRailItemLabel} from './Navigation-rail-item.handler'
 import type {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.interface'
 
 export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailItemAnimatedOptions) => {
@@ -23,14 +23,14 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
 		color: interpolateColor(labelTextColorSharedValue.value, [0, 1], labelTextColorOutputRanges)
 	}))
 
-	const animateNavigationRailItemLabelColorEffect = useMemo(
-		() => animateNavigationRailItemLabelColor({animatedTiming, type})(labelTextColorSharedValue),
+	const animateNavigationRailItemLabelEffect = useMemo(
+		() => animateNavigationRailItemLabel({animatedTiming, type})(labelTextColorSharedValue),
 		[animatedTiming, labelTextColorSharedValue, type]
 	)
 
 	useEffect(() => {
-		animateNavigationRailItemLabelColorEffect(active)
-	}, [active, animateNavigationRailItemLabelColorEffect])
+		animateNavigationRailItemLabelEffect(active)
+	}, [active, animateNavigationRailItemLabelEffect])
 
 	return {labelTextAnimatedStyle}
 }

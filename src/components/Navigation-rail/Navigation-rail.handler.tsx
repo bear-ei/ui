@@ -2,7 +2,7 @@ import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS} from '../Common'
 import type {NavigationRailData, NavigationRailState} from './Navigation-rail.interface'
 
-export const handleNavigationRailActiveKeyChange =
+export const updateNavigationRailActiveKey =
 	(onActive?: (activeKey?: string) => void) =>
 	(setState: Updater<NavigationRailState>) =>
 	(activeKey?: string) => {
