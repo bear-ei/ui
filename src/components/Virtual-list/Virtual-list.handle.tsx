@@ -15,7 +15,7 @@ import type {
 	VirtualListState
 } from './Virtual-list.interface'
 
-const calculateVirtualListVisibleRanges =
+const calculateVirtualListVisibilityRanges =
 	(itemSize = 0) =>
 	(draft: WritableDraft<VirtualListState>) =>
 	(scrollOffset?: number) => {
@@ -57,7 +57,7 @@ export const updateVirtualListLayout =
 				draft.layout.width = width
 			}
 
-			calculateVirtualListVisibleRanges(itemSize)(draft)()
+			calculateVirtualListVisibilityRanges(itemSize)(draft)()
 		})
 	}
 
@@ -92,12 +92,12 @@ export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListS
 		setState(draft => {
 			draft.nextScrollEvent = createNextScrollEvent(event)
 
-			calculateVirtualListVisibleRanges(itemSize)(draft)(scrollOffset)
+			calculateVirtualListVisibilityRanges(itemSize)(draft)(scrollOffset)
 		})
 	}
 }
 
-export const handleVirtualListMomentumScrollEnd =
+export const triggerVirtualListMomentumScrollEnd =
 	(onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void) =>
 	(event: NativeSyntheticEvent<NativeScrollEvent>) =>
 		onMomentumScrollEnd?.(event)
@@ -143,7 +143,7 @@ export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose}: Un
 
 			draft.virtualListData = nextVirtualListData
 
-			calculateVirtualListVisibleRanges(itemSize)(draft)()
+			calculateVirtualListVisibilityRanges(itemSize)(draft)()
 		})
 	}
 }
@@ -183,14 +183,14 @@ export const checkVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void)
 	}
 }
 
-export const handleVirtualListDataChange =
+export const updateVirtualListVisibilityRangesData =
 	(itemSize = 0) =>
 	(setState: Updater<VirtualListState>) =>
 	(virtualListData?: VirtualListData[]) =>
 		virtualListData &&
 		setState(draft => {
 			if (draft.layout.height) {
-				calculateVirtualListVisibleRanges(itemSize)(draft)()
+				calculateVirtualListVisibilityRanges(itemSize)(draft)()
 			}
 		})
 

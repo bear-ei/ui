@@ -1,5 +1,4 @@
 import {act, waitFor} from '@testing-library/react-native'
-import React from 'react'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../../__test__'
 import {VirtualListItem} from '../Virtual-list-item'

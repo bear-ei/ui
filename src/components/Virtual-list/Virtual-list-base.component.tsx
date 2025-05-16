@@ -10,13 +10,13 @@ import {COMPONENT_STATUS, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
 	checkVirtualListLoadEnd,
-	handleVirtualListDataChange,
-	handleVirtualListMomentumScrollEnd,
 	handleVirtualListScroll,
 	handleVirtualListStateChange,
+	triggerVirtualListMomentumScrollEnd,
 	unmountVirtualList,
 	updateVirtualListData,
-	updateVirtualListLayout
+	updateVirtualListLayout,
+	updateVirtualListVisibilityRangesData
 } from './Virtual-list.handle'
 import type {VirtualListBaseProps, VirtualListState} from './Virtual-list.interface'
 import {renderVirtualListItem} from './Virtual-list.render'
@@ -55,8 +55,8 @@ export const VirtualListBaseInner = <T,>(
 
 	const id = useId()
 	const contentSize = (virtualListData ?? data ?? []).length * (itemSize + gap) - gap
-	const handleVirtualListDataChangeEffect = useMemo(
-		() => createStableHandlerWithState(handleVirtualListDataChange(itemSize))(setState)(),
+	const applyUpdateVirtualListVisibilityRangesDataEffect = useMemo(
+		() => createStableHandlerWithState(updateVirtualListVisibilityRangesData(itemSize))(setState)(),
 		[itemSize, setState]
 	)
 
@@ -66,11 +66,11 @@ export const VirtualListBaseInner = <T,>(
 	)
 
 	const onVirtualListMomentumScrollEnd = useMemo(
-		() => createStableHandler(handleVirtualListMomentumScrollEnd(onMomentumScrollEnd))(),
+		() => createStableHandler(triggerVirtualListMomentumScrollEnd(onMomentumScrollEnd))(),
 		[onMomentumScrollEnd]
 	)
 
-	const updateVirtualListDataEffect = useMemo(
+	const applyUpdateVirtualListDataEffect = useMemo(
 		() => createStableHandlerWithState(updateVirtualListData)(setState)(),
 		[setState]
 	)
@@ -140,12 +140,12 @@ export const VirtualListBaseInner = <T,>(
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as Animated.ScrollView, [animatedRef])
 
 	useEffect(() => {
-		updateVirtualListDataEffect(data)
-	}, [data, updateVirtualListDataEffect])
+		applyUpdateVirtualListDataEffect(data)
+	}, [applyUpdateVirtualListDataEffect, data])
 
 	useEffect(() => {
-		handleVirtualListDataChangeEffect(virtualListData)
-	}, [handleVirtualListDataChangeEffect, virtualListData])
+		applyUpdateVirtualListVisibilityRangesDataEffect(virtualListData)
+	}, [applyUpdateVirtualListVisibilityRangesDataEffect, virtualListData])
 
 	useEffect(() => {
 		runAfterInteractions(nextScrollEvent)()
