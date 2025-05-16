@@ -139,7 +139,7 @@ export const IconLayout = styled.View`
 	overflow: hidden;
 `
 
-export const ActiveIndicatorLayoutAnimated = styled(LayoutAnimated)`
+export const ActiveIndicatorLayout = styled(LayoutAnimated)`
 	position: absolute;
 	z-index: 8;
 

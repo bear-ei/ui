@@ -33,7 +33,7 @@
 		"!**/test.*"
 	],
 	"dependencies": {
-		"@bearei/material-token": "^0.0.36",
+		"@bearei/material-token": "^0.0.37",
 		"@material-symbols/svg-400": "^0.27.1",
 		"class-validator": "^0.14.1",
 		"immer": "^10.1.1",

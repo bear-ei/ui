@@ -74,7 +74,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 
 		useEffect(() => {
 			updateButtonStateEffect(type)
-		}, [updateButtonStateEffect, type])
+		}, [type, updateButtonStateEffect])
 
 		useEffect(() => {
 			updateButtonDisabledStateEffect(isDisabled)

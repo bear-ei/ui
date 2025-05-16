@@ -10,7 +10,7 @@ import {Underlay} from '../Underlay'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonType, RenderButtonIconOptions, RenderButtonProps} from './Button.interface'
 import {
-	ActiveIndicatorLayoutAnimated,
+	ActiveIndicatorLayout,
 	BackgroundUnderlay,
 	Container,
 	Content,
@@ -155,7 +155,7 @@ export const renderButton = ({
 					</Main>
 
 					{type === BUTTON_TYPE.LINK && (
-						<ActiveIndicatorLayoutAnimated
+						<ActiveIndicatorLayout
 							testID={`button__activeIndicatorLayoutAnimated--${id}`}
 							visible={isActiveIndicatorVisible}
 						/>

@@ -37,12 +37,12 @@ export interface ButtonState {
 export type HandleButtonStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderButtonProps, 'type'>
 export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'id'>
 export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName' | 'error'>
-export interface AnimateButton extends Omit<UseButtonAnimatedOptions, 'eventName'> {
+export interface AnimateButtonOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
 	animatedTiming: AnimatedTiming
 	borderColorInputRanges: number[]
 }
 
-export interface AnimateButtonColorAndBorderSharedValues {
+export interface AnimateButtonSharedValues {
 	borderSharedValue: SharedValue<number>
 	colorSharedValue: SharedValue<number>
 }
