@@ -30,7 +30,7 @@ export interface ListAffordanceButtonState {
 }
 
 export type UseListAffordanceButtonAnimatedOptions = Pick<RenderListAffordanceButtonProps, 'disabled'>
-export type HandleListAffordanceButtonStateEventChangeOptions = HandleStateEventChangeOptions &
+export type HandleListAffordanceButtonStateChangeOptions = HandleStateEventChangeOptions &
 	Pick<RenderListAffordanceButtonProps, 'visible'>
 
 export type ListAffordanceButtonContainerProps = Pick<RenderListAffordanceButtonProps, 'disabled'>
