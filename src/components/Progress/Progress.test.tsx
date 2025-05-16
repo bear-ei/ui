@@ -1,5 +1,4 @@
 import {fireEvent} from '@testing-library/react-native'
-import React from 'react'
 import {View} from 'react-native'
 import {renderWithTheme} from '../../../__test__'
 import {Progress} from './Progress.component'

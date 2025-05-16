@@ -1,4 +1,3 @@
-import React from 'react'
 import {renderWithTheme} from '../../../../__test__'
 import {PROGRESS_ANIMATED} from '../Progress.enum'
 import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circular.component'

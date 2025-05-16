@@ -38,12 +38,12 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
 		const underlayColor = getButtonUnderlayColor(theme)(type)
-		const updateButtonStateEffect = useMemo(
+		const applyUpdateButtonStateEffect = useMemo(
 			() => createStableHandlerWithState(updateButtonState(rawDisabled))(setState)(),
 			[rawDisabled, setState]
 		)
 
-		const updateButtonDisabledStateEffect = useMemo(
+		const applyUpdateButtonDisabledStateEffect = useMemo(
 			() => createStableHandlerWithState(updateButtonDisabledState(type))(setState)(),
 			[setState, type]
 		)
@@ -73,12 +73,12 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		)
 
 		useEffect(() => {
-			updateButtonStateEffect(type)
-		}, [type, updateButtonStateEffect])
+			applyUpdateButtonStateEffect(type)
+		}, [type, applyUpdateButtonStateEffect])
 
 		useEffect(() => {
-			updateButtonDisabledStateEffect(isDisabled)
-		}, [isDisabled, updateButtonDisabledStateEffect])
+			applyUpdateButtonDisabledStateEffect(isDisabled)
+		}, [isDisabled, applyUpdateButtonDisabledStateEffect])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

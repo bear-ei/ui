@@ -6,7 +6,7 @@ export const updateNavigationRailActiveKey =
 	(onActive?: (activeKey?: string) => void) =>
 	(setState: Updater<NavigationRailState>) =>
 	(activeKey?: string) => {
-		const triggerNextActiveEvent = () => onActive?.(activeKey)
+		const nextActiveEvent = () => onActive?.(activeKey)
 
 		if (!activeKey) {
 			return
@@ -15,7 +15,7 @@ export const updateNavigationRailActiveKey =
 		setState(draft => {
 			if (activeKey !== draft.activeKey) {
 				draft.activeKey = activeKey
-				draft.nextActiveEvent = triggerNextActiveEvent
+				draft.nextActiveEvent = nextActiveEvent
 			}
 		})
 	}

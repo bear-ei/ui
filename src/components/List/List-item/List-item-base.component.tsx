@@ -95,12 +95,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		//         })
 		// ).current
 
-		const updateListItemFocusStateEffect = useMemo(
+		const applyUpdateListItemFocusStateEffect = useMemo(
 			() => createStableHandlerWithState(updateListItemFocusState(itemIndex))(setState)(),
 			[itemIndex, setState]
 		)
 
-		const onListItemCloseEffect = useMemo(
+		const applyListItemCloseEffect = useMemo(
 			() => createStableHandler(handleListItemClose(onClose)(indexKey))(),
 			[indexKey, onClose]
 		)
@@ -111,10 +111,10 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 					confirmListItemAffordanceAction({
 						onActiveAfterAffordance,
 						onConfirm,
-						onItemClose: onListItemCloseEffect
+						onItemClose: applyListItemCloseEffect
 					})
 				)(),
-			[onActiveAfterAffordance, onConfirm, onListItemCloseEffect]
+			[applyListItemCloseEffect, onActiveAfterAffordance, onConfirm]
 		)
 
 		const onTriggerListItemTrailingActions = useMemo(
@@ -124,10 +124,10 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 						afterAffordance,
 						closeTrailing,
 						onActiveAfterAffordance,
-						onItemClose: onListItemCloseEffect
+						onItemClose: applyListItemCloseEffect
 					})(indexKey)
 				)(),
-			[afterAffordance, closeTrailing, indexKey, onActiveAfterAffordance, onListItemCloseEffect]
+			[afterAffordance, applyListItemCloseEffect, closeTrailing, indexKey, onActiveAfterAffordance]
 		)
 
 		const onShowListItemTrailingAffordance = useMemo(
@@ -210,12 +210,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 
 		useEffect(() => {
-			updateListItemFocusStateEffect(focusedIndex)
-		}, [focusedIndex, updateListItemFocusStateEffect])
+			applyUpdateListItemFocusStateEffect(focusedIndex)
+		}, [applyUpdateListItemFocusStateEffect, focusedIndex])
 
 		useEffect(() => {
-			onListItemCloseEffect(close)
-		}, [close, onListItemCloseEffect])
+			applyListItemCloseEffect(close)
+		}, [close, applyListItemCloseEffect])
 
 		useEffect(() => {
 			runAfterInteractions(nextPressInEvent)()

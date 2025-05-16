@@ -35,12 +35,12 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			[onActive, setState]
 		)
 
-		const updateNavigationRailDataEffect = useMemo(
+		const applyUpdateNavigationRailDataEffect = useMemo(
 			() => createStableHandlerWithState(updateNavigationRailData)(setState)(),
 			[setState]
 		)
 
-		const navigationRailActiveKeyEffect = useMemo(
+		const applyNavigationRailActiveKeyEffect = useMemo(
 			() => createStableHandlerWithState(updateNavigationRailActiveKey())(setState)(),
 			[setState]
 		)
@@ -60,12 +60,12 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		const fabElement = useMemo(() => renderNavigationRailFAB(id)(fab), [fab, id])
 
 		useEffect(() => {
-			navigationRailActiveKeyEffect(rawActiveKey ?? defaultActiveKey)
-		}, [defaultActiveKey, navigationRailActiveKeyEffect, rawActiveKey])
+			applyNavigationRailActiveKeyEffect(rawActiveKey ?? defaultActiveKey)
+		}, [applyNavigationRailActiveKeyEffect, defaultActiveKey, rawActiveKey])
 
 		useEffect(() => {
-			updateNavigationRailDataEffect(rawData)
-		}, [rawData, updateNavigationRailDataEffect])
+			applyUpdateNavigationRailDataEffect(rawData)
+		}, [applyUpdateNavigationRailDataEffect, rawData])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()
