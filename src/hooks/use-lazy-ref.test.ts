@@ -3,15 +3,15 @@ import {useLazyRef} from './use-lazy-ref.hook'
 
 describe('useLazyRef', () => {
 	it('should call the callback and initialize ref value on first invocation', () => {
-		const mockCallback = jest.fn(() => 'initialValue')
+		const mockCallback = jest.fn(() => 'initialValues')
 		const {result} = renderHook(() => useLazyRef(mockCallback))
 
 		expect(mockCallback).toHaveBeenCalledTimes(1)
-		expect(result.current.current).toBe('initialValue')
+		expect(result.current.current).toBe('initialValues')
 	})
 
 	it('should not call the callback again on subsequent invocations', () => {
-		const mockCallback = jest.fn(() => 'initialValue')
+		const mockCallback = jest.fn(() => 'initialValues')
 		const {rerender} = renderHook(() => useLazyRef(mockCallback))
 
 		rerender()

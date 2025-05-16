@@ -4,7 +4,7 @@ import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {createStableHandler, createStableHandlerWithState} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
-import {handleFormCallbacks, handleFormFieldKeys, handleFormStatus} from './Form-handle'
+import {extractAndSetFormFieldKeys, initializeFormStateWithValues, registerFormCallbacks} from './Form.handle'
 import type {FormBaseProps, FormState} from './Form.interface'
 import {renderFormItems} from './Form.render'
 import {useForm} from './use-form.hook'
@@ -12,7 +12,7 @@ import {useForm} from './use-form.hook'
 const FormBaseInner = <T,>(
 	{
 		form,
-		initialValue,
+		initialValues,
 		items,
 		onFinish,
 		onFinishFailed,
@@ -27,18 +27,18 @@ const FormBaseInner = <T,>(
 	const id = useId()
 	const formStore = useForm(form)
 	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
-	const onFormStatus = useMemo(
-		() => createStableHandlerWithState(handleFormStatus<T>(setInitialValues))(setState)(),
+	const initializeFormStateWithValuesEffect = useMemo(
+		() => createStableHandlerWithState(initializeFormStateWithValues<T>(setInitialValues))(setState)(),
 		[setInitialValues, setState]
 	)
 
-	const onFormCallbacks = useMemo(
-		() => createStableHandler(handleFormCallbacks<T>(setCallbacks))(),
+	const registerFormCallbacksEffect = useMemo(
+		() => createStableHandler(registerFormCallbacks<T>(setCallbacks))(),
 		[setCallbacks]
 	)
 
-	const onFormFieldKeys = useMemo(
-		() => createStableHandler(handleFormFieldKeys<T>(setFieldKeys))(),
+	const extractAndSetFormFieldKeysEffect = useMemo(
+		() => createStableHandler(extractAndSetFormFieldKeys<T>(setFieldKeys))(),
 		[setFieldKeys]
 	)
 
@@ -48,16 +48,16 @@ const FormBaseInner = <T,>(
 	)
 
 	useEffect(() => {
-		onFormCallbacks({onFinish, onFinishFailed, onValuesChange})
-	}, [onFinish, onFinishFailed, onFormCallbacks, onValuesChange])
+		registerFormCallbacksEffect({onFinish, onFinishFailed, onValuesChange})
+	}, [onFinish, onFinishFailed, onValuesChange, registerFormCallbacksEffect])
 
 	useEffect(() => {
-		onFormFieldKeys(items)
-	}, [items, onFormFieldKeys])
+		extractAndSetFormFieldKeysEffect(items)
+	}, [extractAndSetFormFieldKeysEffect, items])
 
 	useEffect(() => {
-		onFormStatus(initialValue)
-	}, [initialValue, onFormStatus])
+		initializeFormStateWithValuesEffect(initialValues)
+	}, [initialValues, initializeFormStateWithValuesEffect])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

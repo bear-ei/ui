@@ -2,9 +2,14 @@ import {validate, ValidationError} from 'class-validator'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS} from '../Common'
 import type {FormItemProps} from './Form-item'
-import type {FormCallback, FormState, HandleFormCallbacksOptions, HandleFormValidateOptions} from './Form.interface'
+import type {
+	CreateFormFieldValidatorOptions,
+	FormCallback,
+	FormState,
+	RegisterFormCallbacksOptions
+} from './Form.interface'
 
-export const handleFormStatus =
+export const initializeFormStateWithValues =
 	<T,>(setInitialValues: (initialized?: boolean) => (value?: T) => void) =>
 	(setState: Updater<FormState>) =>
 	(value?: T) =>
@@ -20,17 +25,17 @@ export const handleFormStatus =
 			draft.status = COMPONENT_STATUS.SUCCEEDED
 		})
 
-export const handleFormCallbacks =
+export const registerFormCallbacks =
 	<T,>(setCallbacks: (callback: FormCallback<T>) => void) =>
-	({onFinish, onFinishFailed, onValuesChange}: HandleFormCallbacksOptions<T>) =>
+	({onFinish, onFinishFailed, onValuesChange}: RegisterFormCallbacksOptions<T>) =>
 		setCallbacks({onFinish, onFinishFailed, onValuesChange})
 
-export const handleFormFieldKeys =
+export const extractAndSetFormFieldKeys =
 	<T,>(setFieldKeys: (keys?: (keyof T)[]) => void) =>
 	(items?: FormItemProps[]) =>
 		items && setFieldKeys(items.map(({name}) => name).filter(Boolean) as (keyof T)[])
 
-export const handleFormValidate = <T,>({rule, validatorOptions}: HandleFormValidateOptions) => {
+export const createFormFieldValidator = <T,>({rule, validatorOptions}: CreateFormFieldValidatorOptions) => {
 	const {
 		forbidNonWhitelisted: isForbidNonWhitelisted = true,
 		skipMissingProperties: isSkipMissingProperties = true,

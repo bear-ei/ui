@@ -76,7 +76,7 @@ export interface FormStore<T = Record<string, unknown>> {
 
 export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormCallback<T>, RefAttributes<View> {
 	form?: FormStore<T>
-	initialValue?: T
+	initialValues?: T
 	items?: FormItemProps[]
 	layout?: LayoutType
 	ref?: ForwardedRef<View>
@@ -95,9 +95,9 @@ export interface FormState {
 	status: ComponentStatus
 }
 
-export type HandleFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
+export type RegisterFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
 export type RenderFormItemsOptions = Pick<FormProps, 'validatorOptions' | 'id'>
-export interface HandleFormValidateOptions {
+export interface CreateFormFieldValidatorOptions {
 	rule?: ValidationRule
 	validatorOptions?: ValidatorOptions
 }

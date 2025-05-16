@@ -1,7 +1,7 @@
 import {ValidationError} from 'class-validator'
 import type {NamePath} from '../../utils'
 import {asyncDebounce, namePath} from '../../utils'
-import {handleFormValidate} from './Form-handle'
+import {createFormFieldValidator} from './Form.handle'
 import type {
 	FormCallback,
 	FormError,
@@ -18,7 +18,7 @@ const createFormContext = <T>() => ({
 	error: {} as FormError<T>,
 	fieldEntities: [] as FormFieldEntity<T>[],
 	fieldKeys: [] as (keyof T)[],
-	initialValue: {} as T,
+	initialValues: {} as T,
 	signInFieldCompleted: false,
 	store: {} as T,
 	validatorOptions: undefined as FormValidatorOptions | undefined
@@ -30,7 +30,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		error,
 		fieldEntities,
 		fieldKeys,
-		initialValue,
+		initialValues,
 		signInFieldCompleted: isSignInFieldCompleted,
 		store,
 		validatorOptions
@@ -87,7 +87,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 						entityName ?
 							{
 								...accumulator,
-								[entityName]: initialValue[entityName]
+								[entityName]: initialValues[entityName]
 							}
 						:	accumulator,
 					{} as T
@@ -158,7 +158,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 							{
 								...entity,
 								validate: asyncDebounce(
-									handleFormValidate<T>({
+									createFormFieldValidator<T>({
 										rule: validateRule[entity.name],
 										validatorOptions: {
 											...restValidatorOptions,
@@ -253,7 +253,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 				return
 			}
 
-			initialValue = {...initialValue, ...value}
+			initialValues = {...initialValues, ...value}
 		}
 
 	const signInField = (rawEntity: FormFieldEntity<T>) => {
@@ -272,13 +272,15 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		}
 
 		const asyncDebouncedValidate = asyncDebounce(
-			handleFormValidate<T>({rule: rule, validatorOptions: restValidatorOptions})(rawEntity.name)
+			createFormFieldValidator<T>({rule: rule, validatorOptions: restValidatorOptions})(
+				rawEntity.name
+			)
 		)(delay) as (value?: unknown) => Promise<ValidationError[] | undefined>
 
 		fieldEntities = [...entities, {...rawEntity, validate: asyncDebouncedValidate}]
 
 		setFieldsError()({[name]: undefined} as FormError<T>)
-		setFieldsValue({componentUpdate: false, enableValidate: false})({[name]: initialValue[name]} as T)
+		setFieldsValue({componentUpdate: false, enableValidate: false})({[name]: initialValues[name]} as T)
 
 		const fieldKeySting = fieldKeys?.toSorted((a, b) => (a as string).localeCompare(b as string)).join(',')
 		const fieldEntitySting = Object.keys(fieldEntities)

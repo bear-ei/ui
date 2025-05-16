@@ -15,7 +15,7 @@ describe('Form', () => {
 			return (
 				<Form
 					form={form}
-					initialValue={{name: 'Jack'}}
+					initialValues={{name: 'Jack'}}
 					items={[{name: 'name'}]}
 					onFinish={handleFinish}
 					testID='test-form'

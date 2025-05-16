@@ -17,7 +17,7 @@ export interface FormItemControlProps {
 export interface FormItemProps
 	extends Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>>,
 		Pick<FormProps, 'validatorOptions'> {
-	initialValue?: Record<string, unknown>
+	initialValues?: Record<string, unknown>
 	name?: string
 	renderControl?: (props: FormItemControlProps) => React.JSX.Element
 	rule?: ValidationRule

@@ -11,8 +11,8 @@ class UsernameRule {
 describe('FormItem', () => {
 	const TestForm = forwardRef<
 		{form: ReturnType<typeof Form.useForm<{username: string}>>},
-		{initialValue?: {username: string}}
-	>(({initialValue}, ref) => {
+		{initialValues?: {username: string}}
+	>(({initialValues}, ref) => {
 		const form = Form.useForm<{username: string}>()
 
 		useImperativeHandle(ref, () => ({
@@ -22,7 +22,7 @@ describe('FormItem', () => {
 		return (
 			<Form
 				form={form}
-				initialValue={initialValue}
+				initialValues={initialValues}
 				items={[
 					{
 						name: 'username',
@@ -49,7 +49,7 @@ describe('FormItem', () => {
 		const {getByTestId} = renderWithTheme(
 			<TestForm
 				ref={ref}
-				initialValue={{username: 'Jack'}}
+				initialValues={{username: 'Jack'}}
 			/>
 		)
 
@@ -63,7 +63,7 @@ describe('FormItem', () => {
 		const {getByTestId} = renderWithTheme(
 			<TestForm
 				ref={ref}
-				initialValue={{username: 'Jack'}}
+				initialValues={{username: 'Jack'}}
 			/>
 		)
 
@@ -87,7 +87,7 @@ describe('FormItem', () => {
 		const {unmount, getByTestId} = renderWithTheme(
 			<TestForm
 				ref={ref}
-				initialValue={{username: 'Jack'}}
+				initialValues={{username: 'Jack'}}
 			/>
 		)
 
