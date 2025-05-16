@@ -147,7 +147,7 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
 
 	useEffect(() => {
 		animateElevationEffect(level)
-	}, [level, animateElevationEffect])
+	}, [animateElevationEffect, level])
 
 	return {shadowAnimatedStyle}
 }
