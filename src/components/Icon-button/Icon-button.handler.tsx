@@ -4,8 +4,8 @@ import type {StateEvent} from '../../hooks'
 import {EVENT_NAME} from '../Common'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {
-	AnimateIconButtonColorAndBorderOptions,
-	AnimateIconButtonColorAndBorderSharedValues,
+	AnimateIconButtonOptions,
+	AnimateIconButtonSharedValues,
 	HandleIconButtonStateChangeOptions,
 	IconButtonState,
 	IconButtonType
@@ -42,9 +42,9 @@ export const getButtonUnderlayColor = (theme: DefaultTheme) => {
 	return (type: IconButtonType = ICON_BUTTON_TYPE.FILLED) => underlay[type]
 }
 
-export const animateIconButtonColorAndBorder =
-	({animatedTiming, type}: AnimateIconButtonColorAndBorderOptions) =>
-	({borderSharedValue, colorSharedValue}: AnimateIconButtonColorAndBorderSharedValues) =>
+export const animateIconButton =
+	({animatedTiming, type}: AnimateIconButtonOptions) =>
+	({borderSharedValue, colorSharedValue}: AnimateIconButtonSharedValues) =>
 	(disabled?: boolean) => {
 		const toValue = disabled ? 0 : 1
 

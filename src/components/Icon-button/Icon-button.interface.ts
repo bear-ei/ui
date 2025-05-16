@@ -41,11 +41,11 @@ export interface RenderIconButtonIconOptions
 
 export type HandleIconButtonStateChangeOptions = HandleStateEventChangeOptions
 export type UseIconButtonAnimatedOptions = Pick<RenderIconButtonProps, 'disabled' | 'type'>
-export interface AnimateIconButtonColorAndBorderOptions extends Pick<UseIconButtonAnimatedOptions, 'type'> {
+export interface AnimateIconButtonOptions extends Pick<UseIconButtonAnimatedOptions, 'type'> {
 	animatedTiming: AnimatedTiming
 }
 
-export interface AnimateIconButtonColorAndBorderSharedValues {
+export interface AnimateIconButtonSharedValues {
 	borderSharedValue: SharedValue<number>
 	colorSharedValue: SharedValue<number>
 }

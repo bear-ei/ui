@@ -1,5 +1,4 @@
 import {fireEvent} from '@testing-library/react-native'
-import React from 'react'
 import {renderWithTheme} from '../../../__test__'
 import {IconButton} from './Icon-button.component'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'

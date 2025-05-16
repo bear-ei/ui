@@ -1,4 +1,3 @@
-import React from 'react'
 import {renderWithTheme} from '../../../__test__'
 import {Icon} from './Icon.component'
 import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'

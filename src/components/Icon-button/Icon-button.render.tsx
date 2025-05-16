@@ -49,7 +49,7 @@ export const renderIconButton = ({
 	defaultActive,
 	disabled,
 	eventName,
-	icon,
+	iconElement,
 	id,
 	interactionHandlers,
 	labelText,
@@ -89,7 +89,7 @@ export const renderIconButton = ({
 			>
 				<Progress
 					animatedType={PROGRESS_ANIMATED.INDETERMINATE}
-					content={icon}
+					content={iconElement}
 					size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
 					testID={`iconButton__progress--${id}`}
 					type={PROGRESS_TYPE.CIRCULAR}
@@ -118,7 +118,7 @@ export const renderIconButton = ({
 						size={size}
 						testID={`iconButton__content--${id}`}
 					>
-						<Main testID={`iconButton__main--${id}`}>{icon}</Main>
+						<Main testID={`iconButton__main--${id}`}>{iconElement}</Main>
 						<Underlay
 							active={active}
 							activeAnimatedType={ACTIVE_ANIMATED.SCALE}
