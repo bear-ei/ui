@@ -7,9 +7,9 @@ import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
 import {
 	emitSideSheetModal,
 	emitSideSheetModalUnmount,
-	handleSideSheetBack,
-	handleSideSheetClose,
-	handleSideSheetVisibleChange
+	setSideSheetVisibility,
+	updateSideSheetBackWithEvent,
+	updateSideSheetClose
 } from './Side-sheet.handle'
 import type {SideSheetBaseProps, SideSheetState} from './Side-sheet.interface'
 
@@ -35,22 +35,22 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 
 		const emitId = useMemo(() => nanoid(), [])
 		const id = useId()
-		const sideSheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const
+		const sideSheetTypes = useMemo(() => [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const, [])
 		const onSideSheetBack = useMemo(
 			() =>
-				createStableHandlerWithState(handleSideSheetBack({onBack, disabledClose, type}))(
-					setState
-				)(),
+				createStableHandlerWithState(
+					updateSideSheetBackWithEvent({onBack, disabledClose, type})
+				)(setState)(),
 			[disabledClose, onBack, setState, type]
 		)
 
 		const onSideSheetClose = useMemo(
-			() => createStableHandlerWithState(handleSideSheetClose(onClose))(setState)(),
+			() => createStableHandlerWithState(updateSideSheetClose(onClose))(setState)(),
 			[onClose, setState]
 		)
 
-		const handleSideSheetVisibleChangeEffect = useMemo(
-			() => createStableHandlerWithState(handleSideSheetVisibleChange)(setState)(),
+		const applySetSideSheetVisibilityEffect = useMemo(
+			() => createStableHandlerWithState(setSideSheetVisibility)(setState)(),
 			[setState]
 		)
 
@@ -90,8 +90,8 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		)
 
 		useEffect(() => {
-			handleSideSheetVisibleChangeEffect(visible ?? defaultVisible)
-		}, [defaultVisible, handleSideSheetVisibleChangeEffect, visible])
+			applySetSideSheetVisibilityEffect(visible ?? defaultVisible)
+		}, [applySetSideSheetVisibilityEffect, defaultVisible, visible])
 
 		useEffect(() => {
 			emitSideSheetModalEffect(isSideSheetVisible)

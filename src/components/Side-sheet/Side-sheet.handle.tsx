@@ -3,20 +3,20 @@ import {emitter, MODAL_TYPE} from '../../contexts'
 import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
 import type {
 	EmitSideSheetModalOptions,
-	HandleSideSheetBackOptions,
 	SideSheetProps,
 	SideSheetState,
-	SideSheetType
+	SideSheetType,
+	UpdateSideSheetBackWithEventOptions
 } from './Side-sheet.interface'
 
-export const handleSideSheetClose = (onClose?: () => void) => (setState: Updater<SideSheetState>) => () =>
+export const updateSideSheetClose = (onClose?: () => void) => (setState: Updater<SideSheetState>) => () =>
 	setState(draft => {
 		draft.nextCloseEvent = onClose
 		draft.sideSheetVisible = false
 	})
 
-export const handleSideSheetBack =
-	({type, disabledClose, onBack}: HandleSideSheetBackOptions) =>
+export const updateSideSheetBackWithEvent =
+	({type, disabledClose, onBack}: UpdateSideSheetBackWithEventOptions) =>
 	(setState: Updater<SideSheetState>) =>
 	() => {
 		setState(draft => {
@@ -28,7 +28,7 @@ export const handleSideSheetBack =
 		})
 	}
 
-export const handleSideSheetVisibleChange = (setState: Updater<SideSheetState>) => (visible?: boolean) =>
+export const setSideSheetVisibility = (setState: Updater<SideSheetState>) => (visible?: boolean) =>
 	typeof visible === 'boolean' &&
 	setState(draft => {
 		draft.sideSheetVisible = visible

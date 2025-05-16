@@ -1,4 +1,3 @@
-import React from 'react'
 import {renderWithTheme} from '../../../__test__'
 import {SideSheet} from './Side-sheet.component'
 import {SIDE_SHEET_TYPE} from './Side-sheet.enum'

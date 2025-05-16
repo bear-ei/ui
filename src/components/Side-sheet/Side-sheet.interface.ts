@@ -51,5 +51,5 @@ export interface SideSheetState {
 	sideSheetVisible?: boolean
 }
 
-export type HandleSideSheetBackOptions = Pick<SideSheetBaseProps, 'type' | 'disabledClose' | 'onBack'>
+export type UpdateSideSheetBackWithEventOptions = Pick<SideSheetBaseProps, 'type' | 'disabledClose' | 'onBack'>
 export type EmitSideSheetModalOptions = Pick<SideSheetBaseProps, 'visible' | 'id' | 'type'>
