@@ -7,19 +7,19 @@ import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 import type {
 	CreateListItemSizeOptions,
 	CreateRenderListItemOptions,
-	HandleListActiveChangeOptions,
-	HandleListAffordanceActiveChangeOptions,
 	ListData,
-	ListState
+	ListState,
+	UpdateListActiveStateOptions,
+	UpdateListAffordanceActiveStateOptions
 } from './List.interface'
 import {renderDefaultListItem} from './List.render'
 
-export const handleListActiveChange = ({
+export const updateListActiveState = ({
 	deselect,
 	onActive,
 	onActives,
 	selectType
-}: HandleListActiveChangeOptions = {}) => {
+}: UpdateListActiveStateOptions = {}) => {
 	const updateListActiveKey = (draft: WritableDraft<ListState>) => (activeKeys?: string | string[]) => {
 		const prevActiveKey = draft.activeKey
 
@@ -88,10 +88,10 @@ export const createListItemSize =
 				DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
 		)
 
-export const handleListAffordanceActiveChange =
-	({onActive, selectType}: HandleListActiveChangeOptions) =>
+export const updateListAffordanceActiveState =
+	({onActive, selectType}: UpdateListActiveStateOptions) =>
 	(setState: Updater<ListState>) =>
-	({activeKey, callback} = {} as HandleListAffordanceActiveChangeOptions) => {
+	({activeKey, callback} = {} as UpdateListAffordanceActiveStateOptions) => {
 		const triggerNextAfterAffordanceActiveEvent = () => onActive?.(activeKey)
 
 		if (selectType === LIST_SELECT_TYPE.MULTIPLE) {
@@ -123,7 +123,7 @@ export const handleListAffordanceActiveChange =
 		})
 	}
 
-export const handleListClose = (onClose?: (options: OnVirtualListCloseOptions) => void) => {
+export const triggerListClose = (onClose?: (options: OnVirtualListCloseOptions) => void) => {
 	const createNextCloseEvent = (options: OnVirtualListCloseOptions) => () => onClose?.(options)
 
 	return (setState: Updater<ListState>) =>

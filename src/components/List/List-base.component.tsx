@@ -7,9 +7,9 @@ import {ACTIVE_TRIGGER_EVEN_NAME} from './List.enum'
 import {
 	createListItemRenderer,
 	createListItemSize,
-	handleListActiveChange,
-	handleListAffordanceActiveChange,
-	handleListClose
+	triggerListClose,
+	updateListActiveState,
+	updateListAffordanceActiveState
 } from './List.handler'
 import type {ListBaseProps, ListData, ListState, VirtualListComponent} from './List.interface'
 
@@ -71,30 +71,30 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		const id = useId()
 		const theme = useTheme()
 		const itemSize = createListItemSize({density, type})(theme)(rawItemSize)
-		const onListActiveChang = useMemo(
+		const onListActiveState = useMemo(
 			() =>
 				createStableHandlerWithState(
-					handleListActiveChange({onActive, selectType, onActives, deselect})
+					updateListActiveState({onActive, selectType, onActives, deselect})
 				)(setState)(),
 			[deselect, onActive, onActives, selectType, setState]
 		)
 
-		const onListAffordanceActiveChange = useMemo(
+		const onListAffordanceActiveState = useMemo(
 			() =>
-				createStableHandlerWithState(handleListAffordanceActiveChange({onActive, selectType}))(
+				createStableHandlerWithState(updateListAffordanceActiveState({onActive, selectType}))(
 					setState
 				)(),
 			[onActive, selectType, setState]
 		)
 
 		const onListClose = useMemo(
-			() => createStableHandlerWithState(handleListClose(onClose))(setState)(),
+			() => createStableHandlerWithState(triggerListClose(onClose))(setState)(),
 			[onClose, setState]
 		)
 
-		const listActiveChangeEffect = useMemo(
-			() => createStableHandlerWithState(handleListActiveChange({selectType}))(setState)(),
-			[setState, selectType]
+		const listActiveStateEffect = useMemo(
+			() => createStableHandlerWithState(updateListActiveState({selectType}))(setState)(),
+			[selectType, setState]
 		)
 
 		const renderListItem = useMemo(
@@ -116,8 +116,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 					enableUnderlayActive,
 					focusedIndex,
 					id,
-					onActive: onListActiveChang,
-					onActiveAfterAffordance: onListAffordanceActiveChange,
+					onActive: onListActiveState,
+					onActiveAfterAffordance: onListAffordanceActiveState,
 					onCancel,
 					onConfirm,
 					renderItem,
@@ -152,8 +152,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 				onCancel,
 				onConfirm,
 				onItemStateEvent,
-				onListActiveChang,
-				onListAffordanceActiveChange,
+				onListActiveState,
+				onListAffordanceActiveState,
 				renderItem,
 				selectType,
 				shape,
@@ -168,8 +168,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		useImperativeHandle(ref, () => (listRef?.current ?? {}) as VirtualListComponent<ListData>, [listRef])
 
 		useEffect(() => {
-			listActiveChangeEffect(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
-		}, [defaultActiveKey, defaultActiveKeys, listActiveChangeEffect, rawActiveKey, rawActiveKeys])
+			listActiveStateEffect(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
+		}, [defaultActiveKey, defaultActiveKeys, listActiveStateEffect, rawActiveKey, rawActiveKeys])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()

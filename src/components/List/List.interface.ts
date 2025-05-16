@@ -30,7 +30,7 @@ export interface ListData
 }
 
 export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & CreateRenderListItemOptions
-export interface HandleListAffordanceActiveChangeOptions {
+export interface UpdateListAffordanceActiveStateOptions {
 	callback?: () => void
 	activeKey?: string
 }
@@ -57,7 +57,7 @@ export interface ListProps
 	focusedIndex?: number
 	gap?: number
 	onActive?: (activeKey?: string) => void
-	onActiveAfterAffordance?: (options?: HandleListAffordanceActiveChangeOptions) => void
+	onActiveAfterAffordance?: (options?: UpdateListAffordanceActiveStateOptions) => void
 	onActives?: (activeKeys?: string[]) => void
 	onCancel?: (options: ListItemAfterAffordancePressOutOptions) => void
 	onClose?: (options: OnVirtualListCloseOptions) => void
@@ -127,5 +127,5 @@ export interface ListBaseProps extends ListProps {
 	renderList: (props: RenderListProps) => React.JSX.Element
 }
 
-export type HandleListActiveChangeOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
+export type UpdateListActiveStateOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
 export type CreateListItemSizeOptions = Pick<RenderListProps, 'density' | 'type'>
