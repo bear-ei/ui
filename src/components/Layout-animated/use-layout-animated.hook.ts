@@ -4,7 +4,7 @@ import type {DefaultStyle} from 'react-native-reanimated/lib/typescript/hook/com
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
-import {animateLayoutAnimatedContainer} from './Layout-animated.handler'
+import {animateLayoutAnimated} from './Layout-animated.handler'
 import type {LayoutAnimatedType, UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
 export const useLayoutAnimated = ({
@@ -55,15 +55,12 @@ export const useLayoutAnimated = ({
 		transform: [{scale: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
 	}))
 
-	const animateLayoutAnimatedContainerEffect = useMemo(
-		() =>
-			animateLayoutAnimatedContainer({animatedTiming, entry, exit, onAnimationFinished})(
-				containerSharedValue
-			),
+	const animateLayoutAnimatedEffect = useMemo(
+		() => animateLayoutAnimated({animatedTiming, entry, exit, onAnimationFinished})(containerSharedValue),
 		[animatedTiming, containerSharedValue, entry, exit, onAnimationFinished]
 	)
 
-	const containerAnimated = useMemo(
+	const containerAnimatedTypeStyle = useMemo(
 		() =>
 			({
 				[LAYOUT_ANIMATED.COLLAPSE_X]: collapseXAnimatedStyle,
@@ -76,8 +73,8 @@ export const useLayoutAnimated = ({
 	)
 
 	useEffect(() => {
-		animateLayoutAnimatedContainerEffect(visible)
-	}, [visible, animateLayoutAnimatedContainerEffect])
+		animateLayoutAnimatedEffect(visible)
+	}, [animateLayoutAnimatedEffect, visible])
 
-	return {containerAnimatedStyle: containerAnimated[animatedType]}
+	return {containerAnimatedStyle: containerAnimatedTypeStyle[animatedType]}
 }

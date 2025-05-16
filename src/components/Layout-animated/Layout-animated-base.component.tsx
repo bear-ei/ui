@@ -7,10 +7,10 @@ import {COMPONENT_STATUS, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
 	handleLayoutAnimatedStateChange,
-	handleLayoutAnimationEnd,
+	handleLayoutAnimationFinished,
 	updateLayoutAnimatedSizeOnChange,
 	updateLayoutAnimatedStatus,
-	updateLayoutAnimatedVisible
+	updateLayoutAnimatedVisibility
 } from './Layout-animated.handler'
 import type {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
 import {useLayoutAnimated} from './use-layout-animated.hook'
@@ -41,7 +41,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 				invisible: isInvisible,
 				layout,
 				nextUnmountEvent,
-				nextVisibleEvent,
+				nextVisibilityEvent,
 				status,
 				unmountLayout: isUnmountLayout,
 				visible: isVisible
@@ -57,17 +57,20 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[lazy, setState, unmount]
 		)
 
-		const updateLayoutAnimatedVisibleEffect = useMemo(
+		const updateLayoutAnimatedVisibilityEffect = useMemo(
 			() =>
-				createStableHandlerWithState(updateLayoutAnimatedVisible(onVisible))(setState)({
+				createStableHandlerWithState(updateLayoutAnimatedVisibility(onVisible))(setState)({
 					debounceMillisecond: delay
 				}),
 
 			[delay, onVisible, setState]
 		)
 
-		const onLayoutAnimationEnd = useMemo(
-			() => createStableHandlerWithState(handleLayoutAnimationEnd({onUnmount, unmount}))(setState)(),
+		const onLayoutAnimationFinished = useMemo(
+			() =>
+				createStableHandlerWithState(handleLayoutAnimationFinished({onUnmount, unmount}))(
+					setState
+				)(),
 			[onUnmount, setState, unmount]
 		)
 
@@ -99,7 +102,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			entry,
 			exit,
 			height: layout.height ?? contentSize?.height ?? contentSize?.minHeight,
-			onAnimationFinished: onLayoutAnimationEnd,
+			onAnimationFinished: onLayoutAnimationFinished,
 			opacity,
 			scale,
 			visible: isVisible ?? isLayoutVisible,
@@ -112,17 +115,17 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
 		useEffect(() => {
 			if (status === COMPONENT_STATUS.SUCCEEDED) {
-				updateLayoutAnimatedVisibleEffect(isLayoutVisible)
+				updateLayoutAnimatedVisibilityEffect(isLayoutVisible)
 			}
-		}, [isLayoutVisible, status, updateLayoutAnimatedVisibleEffect])
+		}, [isLayoutVisible, status, updateLayoutAnimatedVisibilityEffect])
 
 		useEffect(() => {
 			runAfterInteractions(nextUnmountEvent)()
 		}, [nextUnmountEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibleEvent)()
-		}, [nextVisibleEvent])
+			runAfterInteractions(nextVisibilityEvent)()
+		}, [nextVisibilityEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
