@@ -6,8 +6,8 @@ import type {StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import type {
 	AnimateLayoutAnimatedOptions,
+	FinalizeLayoutAnimatedVisibilityChangeOptions,
 	HandleLayoutAnimatedStateChangeOptions,
-	HandleLayoutAnimationFinishedOptions,
 	LayoutAnimatedState,
 	UpdateLayoutAnimatedStatusOptions
 } from './Layout-animated.interface'
@@ -61,8 +61,8 @@ export const updateLayoutAnimatedVisibility =
 		return (visible?: boolean) => setState(applyLayoutVisibilityToDraft(visible))
 	}
 
-export const handleLayoutAnimationFinished =
-	({onUnmount, unmount}: HandleLayoutAnimationFinishedOptions) =>
+export const finalizeLayoutAnimatedVisibilityChange =
+	({onUnmount, unmount}: FinalizeLayoutAnimatedVisibilityChangeOptions) =>
 	(setState: Updater<LayoutAnimatedState>) =>
 	(visible?: boolean) => {
 		setState(draft => {

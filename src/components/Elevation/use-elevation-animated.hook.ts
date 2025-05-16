@@ -140,14 +140,14 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
 				}) as DefaultStyle
 	})
 
-	const applyAnimateElevationEffect = useMemo(
+	const runAnimateElevationEffect = useMemo(
 		() => animateElevation(animatedTiming)(shadowSharedValue),
 		[animatedTiming, shadowSharedValue]
 	)
 
 	useEffect(() => {
-		applyAnimateElevationEffect(level)
-	}, [applyAnimateElevationEffect, level])
+		runAnimateElevationEffect(level)
+	}, [runAnimateElevationEffect, level])
 
 	return {shadowAnimatedStyle}
 }

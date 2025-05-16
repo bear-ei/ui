@@ -42,7 +42,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			[name, validateFields]
 		)
 
-		const applyFormItemStatusInitToDraftEffect = useMemo(
+		const runFormItemStatusInitToDraftEffect = useMemo(
 			() =>
 				applyFormItemStatusInitToDraft({
 					onComponentUpdate: onFormItemComponentUpdate,
@@ -66,8 +66,8 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		)
 
 		useEffect(() => {
-			applyFormItemStatusInitToDraftEffect(name)
-		}, [applyFormItemStatusInitToDraftEffect, name])
+			runFormItemStatusInitToDraftEffect(name)
+		}, [runFormItemStatusInitToDraftEffect, name])
 
 		useEffect(() => () => signOut?.(), [signOut])
 

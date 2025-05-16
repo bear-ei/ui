@@ -100,14 +100,14 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
 		)
 	}))
 
-	const applyAnimateFABEffect = useMemo(
+	const runAnimateFABEffect = useMemo(
 		() => animateFAB(animatedTiming)(colorSharedValue),
 		[animatedTiming, colorSharedValue]
 	)
 
 	useEffect(() => {
-		applyAnimateFABEffect(disabled)
-	}, [applyAnimateFABEffect, disabled])
+		runAnimateFABEffect(disabled)
+	}, [runAnimateFABEffect, disabled])
 
 	return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

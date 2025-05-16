@@ -22,7 +22,7 @@ export const useVirtualListAnimated = ({
 	const contentHeightSharedValue = useSharedValue(contentSize)
 	const scrollY = useSharedValue(0)
 	const contentAnimatedStyle = useAnimatedStyle(() => ({minHeight: contentHeightSharedValue.value}))
-	const applyAnimateVirtualListEffect = useMemo(
+	const runAnimateVirtualListEffect = useMemo(
 		() => animateVirtualList(animatedTiming)(contentHeightSharedValue),
 		[animatedTiming, contentHeightSharedValue]
 	)
@@ -30,8 +30,8 @@ export const useVirtualListAnimated = ({
 	useDerivedValue(() => scrollTo(animatedRef, focusedIndex * itemSize, scrollY.value, true))
 
 	useEffect(() => {
-		applyAnimateVirtualListEffect(contentSize)
-	}, [applyAnimateVirtualListEffect, contentSize])
+		runAnimateVirtualListEffect(contentSize)
+	}, [runAnimateVirtualListEffect, contentSize])
 
 	return {animatedRef, contentAnimatedStyle}
 }

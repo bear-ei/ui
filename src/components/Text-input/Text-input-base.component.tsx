@@ -7,11 +7,10 @@ import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useInteractionStateEvent} from '../../hooks'
 import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
-
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
-	handleTextInputEditableFocusLoss,
-	handleTextInputFocusTrigger,
+	blurTextInputIfEditable,
+	focusTextInput,
 	handleTextInputStateChange,
 	updateTextInputContentSize,
 	updateTextInputSupportingText,
@@ -93,7 +92,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[setState, supportingTextDelay]
 		)
 
-		const applyUpdateTextInputSupportingTextEffect = useMemo(
+		const runUpdateTextInputSupportingTextEffect = useMemo(
 			() =>
 				createStableHandlerWithState(
 					updateTextInputSupportingText({
@@ -104,8 +103,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[onTextInputSupportingTextClose, setState, supportingTextDelay]
 		)
 
-		const applyHandleTextInputEditableFocusLossEffect = useMemo(
-			() => createStableHandler(handleTextInputEditableFocusLoss(textInputRef))(),
+		const runBlurTextInputIfEditableEffect = useMemo(
+			() => createStableHandler(blurTextInputIfEditable(textInputRef))(),
 			[textInputRef]
 		)
 
@@ -114,7 +113,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[onChangeText, setState]
 		)
 
-		const applyUpdateTextInputValueEffect = useMemo(
+		const runUpdateTextInputValueEffect = useMemo(
 			() => createStableHandlerWithState(updateTextInputValue)(setState)(),
 			[setState]
 		)
@@ -127,11 +126,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[onSupportingTextVisible, setState]
 		)
 
-		const onTextInputFocusTrigger = useMemo(
-			() => createStableHandler(handleTextInputFocusTrigger(textInputRef))(),
-			[]
-		)
-
+		const onTextInputFocus = useMemo(() => createStableHandler(focusTextInput(textInputRef))(), [])
 		const onTextInputStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
 				handleTextInputStateChange({
@@ -168,16 +163,16 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		useImperativeHandle(ref, () => (textInputRef?.current ?? {}) as TextInput, [textInputRef])
 
 		useEffect(() => {
-			applyHandleTextInputEditableFocusLossEffect(editable)
-		}, [applyHandleTextInputEditableFocusLossEffect, editable])
+			runBlurTextInputIfEditableEffect(editable)
+		}, [runBlurTextInputIfEditableEffect, editable])
 
 		useEffect(() => {
-			applyUpdateTextInputSupportingTextEffect(rawSupportingText)
-		}, [applyUpdateTextInputSupportingTextEffect, rawSupportingText])
+			runUpdateTextInputSupportingTextEffect(rawSupportingText)
+		}, [runUpdateTextInputSupportingTextEffect, rawSupportingText])
 
 		useEffect(() => {
-			applyUpdateTextInputValueEffect(rawValue ?? defaultValue)
-		}, [applyUpdateTextInputValueEffect, defaultValue, rawValue])
+			runUpdateTextInputValueEffect(rawValue ?? defaultValue)
+		}, [runUpdateTextInputValueEffect, defaultValue, rawValue])
 
 		useEffect(() => {
 			runAfterInteractions(nextChangeTextEvent)()
@@ -218,7 +213,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			multiline,
 			onChangeText: onTextInputValueWithCallback,
 			onContentSizeChange: onTextInputContentSize,
-			onHeaderFocus: onTextInputFocusTrigger,
+			onHeaderFocus: onTextInputFocus,
 			onSupportingTextVisible: onTextInputSupportingTextVisibility,
 			placeholderTextColor,
 			ref: textInputRef,

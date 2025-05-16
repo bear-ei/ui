@@ -11,14 +11,14 @@ export const useVirtualListItemAnimated = ({offsetY = 0}: UseVirtualListItemAnim
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const topSharedValue = useSharedValue(offsetY)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({top: topSharedValue.value}))
-	const applyAnimateVirtualListItemEffect = useMemo(
+	const runAnimateVirtualListItemEffect = useMemo(
 		() => createStableHandler(animateVirtualListItem(animatedTiming)(topSharedValue))(),
 		[animatedTiming, topSharedValue]
 	)
 
 	useEffect(() => {
-		applyAnimateVirtualListItemEffect(offsetY)
-	}, [applyAnimateVirtualListItemEffect, offsetY])
+		runAnimateVirtualListItemEffect(offsetY)
+	}, [runAnimateVirtualListItemEffect, offsetY])
 
 	return {containerAnimatedStyle}
 }

@@ -13,7 +13,7 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 		})
 
 		const id = useId()
-		const applyUpdateSkeletonDurationEffect = useMemo(
+		const runUpdateSkeletonDurationEffect = useMemo(
 			() => createStableHandlerWithState(updateSkeletonDuration)(setState)(),
 			[setState]
 		)
@@ -24,8 +24,8 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 		})
 
 		useEffect(() => {
-			applyUpdateSkeletonDurationEffect(duration)
-		}, [duration, applyUpdateSkeletonDurationEffect])
+			runUpdateSkeletonDurationEffect(duration)
+		}, [duration, runUpdateSkeletonDurationEffect])
 
 		useEffect(() => {
 			runAfterInteractions(nextSkeletonVisibilityEvent)()

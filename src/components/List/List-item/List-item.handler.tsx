@@ -74,7 +74,7 @@ const triggerListItemActive =
 	(selectType?: ListSelectType) => (onActive?: (activeKey?: string) => void) => (activeKey?: string) =>
 		selectType && activeKey && onActive?.(activeKey)
 
-const handleListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
+const triggerListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
 export const handleListItemStateChange =
 	({
 		activeTriggerEvenName,
@@ -90,7 +90,7 @@ export const handleListItemStateChange =
 	(setState: Updater<ListItemState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
-			[EVENT_NAME.LAYOUT]: () => handleListItemLoadEnd?.(onLoadEnd)(indexKey),
+			[EVENT_NAME.LAYOUT]: () => triggerListItemLoadEnd?.(onLoadEnd)(indexKey),
 			[EVENT_NAME.PRESS_IN]: () => triggerListItemActive(selectType)(onActive)(indexKey),
 			[EVENT_NAME.PRESS_OUT]: () => triggerListItemActive(selectType)(onActive)(indexKey)
 		} as Record<EventName, () => void>
@@ -222,7 +222,7 @@ export const updateListItemFocusState =
 			draft.eventName = itemIndex === focusedIndex ? EVENT_NAME.FOCUS : EVENT_NAME.BLUR
 		})
 
-export const handleListItemClose =
+export const maybeTriggerListItemClose =
 	(onClose?: (indexKey?: string) => void) => (indexKey?: string) => (close?: boolean) => {
 		if (!(close && indexKey)) {
 			return

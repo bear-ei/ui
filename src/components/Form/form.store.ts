@@ -100,15 +100,15 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 	const isFieldsTouched = (namePaths?: NamePath<T>) => {
 		const entities = getFieldEntities()
 		const names = namePath(namePaths)
-		const handleFieldsTouched = (entityName?: keyof T) =>
+		const isFieldTouchedByName = (entityName?: keyof T) =>
 			entityName && entities.find(entity => entity.name === entityName)?.touched
 
-		return getFieldEntitiesName()(names).map(handleFieldsTouched).every(Boolean)
+		return getFieldEntitiesName()(names).map(isFieldTouchedByName).every(Boolean)
 	}
 
 	const resetFields = (namePaths?: NamePath<T>) => {
 		const names = namePath(namePaths)
-		const handleReset = (entityName?: keyof T) => {
+		const resetFormFieldByName = (entityName?: keyof T) => {
 			if (!entityName) {
 				return
 			}
@@ -117,7 +117,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			setFieldsValue({componentUpdate: true, enableValidate: false})({[entityName]: undefined} as T)
 		}
 
-		getFieldEntitiesName()(names).forEach(handleReset)
+		getFieldEntitiesName()(names).forEach(resetFormFieldByName)
 	}
 
 	const setCallbacks = (callbackValues: FormCallback<T>) => (callback = {...callback, ...callbackValues})
@@ -191,14 +191,14 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			]
 		}
 
-	const handleStoreUpdate =
+	const updateStoreWithCallback =
 		(onStorageChange?: (options: OnValuesChangeOptions<T>) => void) =>
 		(value = {} as T) => {
 			store = {...store, ...value}
 			onStorageChange?.({changedValue: value, value: store})
 		}
 
-	const createHandleComponentUpdate = (enableValidate = true) => {
+	const createFieldEntityUpdateHandler = (enableValidate = true) => {
 		const findEntity = (name: keyof T) => getFieldEntities().find(entityItem => name === entityItem.name)
 
 		return (value = {} as T) =>
@@ -209,7 +209,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 					return
 				}
 
-				handleStoreUpdate()(value)
+				updateStoreWithCallback()(value)
 
 				if (error[name]) {
 					setFieldsError()({[name]: undefined} as FormError<T>)
@@ -227,7 +227,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			}
 	}
 
-	const createHandleValueChange =
+	const createNotifyValueChange =
 		(value = {} as T) =>
 		() =>
 			callback.onValuesChange?.({changedValue: value, value: store})
@@ -236,13 +236,13 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		({componentUpdate = true, enableValidate = true} = {} as SetFieldsValueOptions) =>
 		(value = {} as T) => {
 			const {onValuesChange} = callback
-			const handleChange = createHandleValueChange(value)
-			const handleUpdate = createHandleComponentUpdate(enableValidate)(value)
+			const fieldEntityUpdateHandler = createFieldEntityUpdateHandler(enableValidate)(value)
+			const notifyValueChange = createNotifyValueChange(value)
 
 			if (componentUpdate) {
-				Promise.all(Object.keys(value).map(handleUpdate)).then(handleChange)
+				Promise.all(Object.keys(value).map(fieldEntityUpdateHandler)).then(notifyValueChange)
 			} else {
-				handleStoreUpdate(onValuesChange)(value)
+				updateStoreWithCallback(onValuesChange)(value)
 			}
 		}
 
@@ -299,7 +299,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 	const signOutFields = (namePaths?: NamePath<T>) => {
 		const entities = getFieldEntities(true)
 		const names = namePath(namePaths)
-		const handleSignOut = (signOutName?: keyof T) => {
+		const signOutFormField = (signOutName?: keyof T) => {
 			if (!signOutName || !isSignInFieldCompleted) {
 				return
 			}
@@ -319,29 +319,29 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			fieldEntities = entities.filter(entity => entity.name !== signOutName)
 		}
 
-		getFieldEntitiesName()(names).forEach(handleSignOut)
+		getFieldEntitiesName()(names).forEach(signOutFormField)
 	}
 
 	const submit = (enableValidate = true) => {
 		const {onFinish, onFinishFailed} = callback
-		const handleFailed = (err: FormError<T>) => onFinishFailed?.(err)
-		const handleFinish = () => onFinish?.(store)
+		const triggerOnFinishFailed = (err: FormError<T>) => onFinishFailed?.(err)
+		const triggerOnFinish = () => onFinish?.(store)
 
 		if (!enableValidate) {
-			handleFinish()
+			triggerOnFinish()
 
 			return
 		}
 
 		validateFields().then(err =>
-			Object.entries(err).some(([, value]) => value) ? handleFailed(err) : handleFinish()
+			Object.entries(err).some(([, value]) => value) ? triggerOnFinishFailed(err) : triggerOnFinish()
 		)
 	}
 
 	const validateFields = (async (namePaths?: NamePath<T>) => {
 		const entities = getFieldEntities()
 		const names = namePath(namePaths)
-		const handleValidate = async (entityName?: keyof T) => {
+		const validateFormField = async (entityName?: keyof T) => {
 			if (!entityName) {
 				return
 			}
@@ -358,7 +358,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			})
 		}
 
-		const fieldErrors = await Promise.all(getFieldEntitiesName()(names).map(handleValidate))
+		const fieldErrors = await Promise.all(getFieldEntitiesName()(names).map(validateFormField))
 		const err = fieldErrors.reduce((accumulator, value) => ({...accumulator, ...value}), {} as FormError<T>)
 
 		return !Array.isArray(namePaths) && namePaths ? err[namePaths] : err

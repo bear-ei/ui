@@ -71,14 +71,14 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
 		})
 	}))
 
-	const applyAnimateIconButtonEffect = useMemo(
+	const runAnimateIconButtonEffect = useMemo(
 		() => animateIconButton({animatedTiming, type})({borderSharedValue, colorSharedValue}),
 		[animatedTiming, borderSharedValue, colorSharedValue, type]
 	)
 
 	useEffect(() => {
-		applyAnimateIconButtonEffect(disabled)
-	}, [applyAnimateIconButtonEffect, disabled])
+		runAnimateIconButtonEffect(disabled)
+	}, [runAnimateIconButtonEffect, disabled])
 
 	return {backgroundUnderlayAnimatedStyle}
 }

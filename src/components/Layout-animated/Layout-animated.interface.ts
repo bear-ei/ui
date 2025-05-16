@@ -58,7 +58,7 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 	renderLayoutAnimated: (props: RenderLayoutAnimatedProps) => React.JSX.Element
 }
 
-export type HandleLayoutAnimationFinishedOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
+export type FinalizeLayoutAnimatedVisibilityChangeOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
 export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEventChangeOptions {
 	onLayoutChange: (layout: LayoutRectangle) => void
 }

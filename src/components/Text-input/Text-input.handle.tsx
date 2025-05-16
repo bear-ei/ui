@@ -50,13 +50,13 @@ export const updateTextInputContentSize =
 	(onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
 	(setState: Updater<TextInputState>) =>
 	(event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
-		const handleNextContentSizeChangeEvent = () => onContentSizeChange?.(event)
+		const nextContentSizeChangeEvent = () => onContentSizeChange?.(event)
 		const contentSize = event.nativeEvent.contentSize
 
 		setState(draft => {
 			draft.contentSize.height = contentSize.height
 			draft.contentSize.width = contentSize.width
-			draft.nextContentSizeChangeEvent = handleNextContentSizeChangeEvent
+			draft.nextContentSizeChangeEvent = nextContentSizeChangeEvent
 		})
 	}
 
@@ -87,14 +87,14 @@ export const updateTextInputSupportingTextVisibility =
 	(onSupportingTextVisible?: (visible?: boolean) => void) =>
 	(setState: Updater<TextInputState>) =>
 	(visible?: boolean) => {
-		const handleNextSupportingTextVisibleEvent = () => onSupportingTextVisible?.(visible)
+		const nextSupportingTextVisibleEvent = () => onSupportingTextVisible?.(visible)
 
 		if (typeof visible !== 'boolean') {
 			return
 		}
 
 		setState(draft => {
-			draft.nextSupportingTextVisibleEvent = handleNextSupportingTextVisibleEvent
+			draft.nextSupportingTextVisibleEvent = nextSupportingTextVisibleEvent
 			draft.supportingText = visible ? draft.supportingText : undefined
 		})
 	}
@@ -125,10 +125,10 @@ export const updateTextInputValue = (setState: Updater<TextInputState>) => (valu
 		}
 	})
 
-export const handleTextInputEditableFocusLoss = (ref: React.RefObject<TextInput>) => (editable?: boolean) =>
+export const blurTextInputIfEditable = (ref: React.RefObject<TextInput>) => (editable?: boolean) =>
 	editable && ref?.current?.blur()
 
-export const handleTextInputFocusTrigger = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
+export const focusTextInput = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
 export const createAnimateTextInputEnabledState =
 	(animatedTiming: AnimatedTiming) =>
 	({

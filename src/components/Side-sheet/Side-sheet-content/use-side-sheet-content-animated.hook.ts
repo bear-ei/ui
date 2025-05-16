@@ -34,14 +34,14 @@ export const useSideSheetContentAnimated = ({
 		)
 	}))
 
-	const applyAnimateSideSheetContentEffect = useMemo(
+	const runAnimateSideSheetContentEffect = useMemo(
 		() => animateSideSheetContent(animatedTiming)(backgroundColorSharedValue),
 		[animatedTiming, backgroundColorSharedValue]
 	)
 
 	useEffect(() => {
-		applyAnimateSideSheetContentEffect(visible)
-	}, [applyAnimateSideSheetContentEffect, visible])
+		runAnimateSideSheetContentEffect(visible)
+	}, [runAnimateSideSheetContentEffect, visible])
 
 	return {containerAnimatedStyle}
 }

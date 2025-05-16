@@ -8,9 +8,9 @@ import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '..
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import type {ListData} from '../List'
 import type {
-	HandleVirtualListScrollOptions,
 	TriggerVirtualListCloseOptions,
 	UnmountVirtualListUnmountOptions,
+	UpdateVirtualListOnScrollOptions,
 	VirtualListData,
 	VirtualListState
 } from './Virtual-list.interface'
@@ -77,7 +77,7 @@ export const handleVirtualListStateChange =
 		nextEvent[eventName]?.()
 	}
 
-export const handleVirtualListScroll = ({onScroll, itemSize}: HandleVirtualListScrollOptions) => {
+export const updateVirtualListOnScroll = ({onScroll, itemSize}: UpdateVirtualListOnScrollOptions) => {
 	const createNextScrollEvent = (event: NativeSyntheticEvent<NativeScrollEvent>) => () => onScroll?.(event)
 
 	return (setState: Updater<VirtualListState>) => (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -124,7 +124,7 @@ export const triggerVirtualListClose =
 	}
 
 export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose}: UnmountVirtualListUnmountOptions) => {
-	const handleVisibleRangeDataFilter =
+	const filterVirtualListData =
 		(key: string) =>
 		({indexKey}: VirtualListData) =>
 			indexKey !== key
@@ -137,9 +137,7 @@ export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose}: Un
 		setState(draft => {
 			triggerVirtualListClose({enableAutoSelect, onClose})(draft)(indexKey)
 
-			const nextVirtualListData = draft.virtualListData?.filter(
-				handleVisibleRangeDataFilter(indexKey)
-			)
+			const nextVirtualListData = draft.virtualListData?.filter(filterVirtualListData(indexKey))
 
 			draft.virtualListData = nextVirtualListData
 

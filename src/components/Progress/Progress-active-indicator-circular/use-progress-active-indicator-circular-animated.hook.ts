@@ -32,14 +32,14 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 		strokeDashoffset: interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRanges)
 	}))
 
-	const applyAnimateProgressActiveIndicatorCircularEffect = useMemo(
+	const runAnimateProgressActiveIndicatorCircularEffect = useMemo(
 		() => animateProgressActiveIndicatorCircular(animatedTiming)({circleSharedValue, containerSharedValue}),
 		[animatedTiming, circleSharedValue, containerSharedValue]
 	)
 
 	useEffect(() => {
-		applyAnimateProgressActiveIndicatorCircularEffect(2)
-	}, [applyAnimateProgressActiveIndicatorCircularEffect])
+		runAnimateProgressActiveIndicatorCircularEffect(2)
+	}, [runAnimateProgressActiveIndicatorCircularEffect])
 
 	return {containerAnimatedStyle, circleAnimatedProps}
 }
