@@ -13,7 +13,7 @@ const updateSkeletonVisibility = (setState: Updater<SkeletonState>) => (duration
 		)(duration)
 
 		setState(draft => {
-			draft.nextSkeletonVisibleEvent = handleNextSkeletonVisibleEvent
+			draft.nextSkeletonVisibilityEvent = handleNextSkeletonVisibleEvent
 			draft.visible = true
 		})
 

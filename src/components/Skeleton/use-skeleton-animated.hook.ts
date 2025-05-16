@@ -17,14 +17,14 @@ export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimat
 		)
 	}))
 
-	const animateSkeletonEffect = useMemo(
+	const applyAnimateSkeletonEffect = useMemo(
 		() => animateSkeleton({animatedTiming, enableAnimated})(opacitySharedValue),
 		[animatedTiming, enableAnimated, opacitySharedValue]
 	)
 
 	useEffect(() => {
-		animateSkeletonEffect(visible)
-	}, [animateSkeletonEffect, visible])
+		applyAnimateSkeletonEffect(visible)
+	}, [applyAnimateSkeletonEffect, visible])
 
 	return {containerAnimatedStyle}
 }
