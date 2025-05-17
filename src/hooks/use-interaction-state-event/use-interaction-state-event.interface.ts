@@ -1,6 +1,7 @@
 import type {
 	GestureResponderEvent,
 	LayoutChangeEvent,
+	MouseEvent,
 	NativeSyntheticEvent,
 	PressableProps,
 	TargetedEvent
@@ -8,7 +9,7 @@ import type {
 import type {EventName, State} from '../../components'
 
 export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
-export interface UseHandleStateEventOptions extends Partial<PressableProps & InteractionHandler> {
+export interface UseHandleStateEventOptions extends Partial<PressableProps & InteractionHandlers> {
 	disabled?: boolean
 	onStateEventChange?: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
@@ -25,7 +26,7 @@ export interface HandleStateEventOptions {
 	interactionHandlers: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 
-export type InteractionHandler = {
+export type InteractionHandlers = {
 	onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
 	onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
 	onHoverIn?: (event: MouseEvent) => void

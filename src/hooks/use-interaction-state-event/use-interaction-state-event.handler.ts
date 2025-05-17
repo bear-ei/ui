@@ -1,4 +1,10 @@
-import type {GestureResponderEvent, LayoutChangeEvent, NativeSyntheticEvent, TargetedEvent} from 'react-native'
+import type {
+	GestureResponderEvent,
+	LayoutChangeEvent,
+	MouseEvent,
+	NativeSyntheticEvent,
+	TargetedEvent
+} from 'react-native'
 import {EVENT_NAME, STATE, type State} from '../../components'
 import type {
 	HandleStateEventChangeOptions,

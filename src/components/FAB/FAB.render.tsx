@@ -65,7 +65,7 @@ export const renderFAB = ({
 			pointerEvents='none'
 			shape={shape}
 			style={[backgroundUnderlayAnimatedStyle]}
-			testID={`fab__animatedBackgroundUnderlay--${id}`}
+			testID={`fab__backgroundUnderlay--${id}`}
 		/>
 	)
 

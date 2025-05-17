@@ -43,7 +43,7 @@ describe('Fab', () => {
 
 	it('renders correct underlay and elevation', () => {
 		const {getByTestId} = renderWithTheme(<Fab />)
-		const underlay = getByTestId('fab__animatedBackgroundUnderlay--test-id')
+		const underlay = getByTestId('fab__backgroundUnderlay--test-id')
 		const elevation = getByTestId('fab__elevation--test-id')
 
 		expect(underlay).toBeTruthy()

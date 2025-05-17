@@ -24,7 +24,7 @@ export const renderListAffordanceButton = ({
 		<AnimatedBackgroundUnderlay
 			pointerEvents='none'
 			style={[backgroundUnderlayAnimatedStyle]}
-			testID={`listAffordanceButton__animatedBackgroundUnderlay--${id}`}
+			testID={`listAffordanceButton__backgroundUnderlay--${id}`}
 		/>
 	)
 

@@ -31,7 +31,7 @@ describe('ListAffordanceButton', () => {
 
 		await waitFor(() => {
 			jest.runAllTimers()
-			expect(getByTestId('listAffordanceButton__animatedBackgroundUnderlay--test-id')).toBeTruthy()
+			expect(getByTestId('listAffordanceButton__backgroundUnderlay--test-id')).toBeTruthy()
 		})
 	})
 

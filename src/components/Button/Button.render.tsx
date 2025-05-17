@@ -90,7 +90,7 @@ export const renderButton = ({
 			pointerEvents='none'
 			shape={shape}
 			style={[backgroundUnderlayAnimatedStyle]}
-			testID={`button__animatedBackgroundUnderlay--${id}`}
+			testID={`button__backgroundUnderlay--${id}`}
 		/>
 	)
 
