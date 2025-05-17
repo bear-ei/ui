@@ -32,14 +32,14 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
 		color: interpolateColor(colorSharedValue.value, [0, 1], colorOutputRanges)
 	}))
 
-	const runAnimateListAffordanceButtonEffect = useMemo(
+	const runAnimateListAffordanceButton = useMemo(
 		() => animateListAffordanceButton(animatedTiming)(colorSharedValue),
 		[animatedTiming, colorSharedValue]
 	)
 
 	useEffect(() => {
-		runAnimateListAffordanceButtonEffect(disabled)
-	}, [runAnimateListAffordanceButtonEffect, disabled])
+		runAnimateListAffordanceButton(disabled)
+	}, [runAnimateListAffordanceButton, disabled])
 
 	return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

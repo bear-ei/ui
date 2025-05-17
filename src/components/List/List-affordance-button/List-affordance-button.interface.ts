@@ -1,7 +1,7 @@
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components'
-import type {HandleStateEventChangeOptions, InteractionHandler} from '../../../hooks'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {EventName} from '../../Common'
 import type {TouchableProps} from '../../Touchable'
 
@@ -17,7 +17,7 @@ export interface RenderListAffordanceButtonProps extends ListAffordanceButtonPro
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-	interactionHandlers: InteractionHandler
+	interactionHandlers: InteractionHandlers
 	theme: DefaultTheme
 }
 
