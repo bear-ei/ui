@@ -33,17 +33,17 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 
 		const id = useId()
 		const theme = useTheme()
-		const runUpdateCheckboxStatusEffect = useMemo(
+		const runUpdateCheckboxStatus = useMemo(
 			() => createStableHandlerWithState(updateCheckboxStatus)(setState)(),
 			[setState]
 		)
 
-		const runUpdateCheckboxIndeterminateEffect = useMemo(
+		const runUpdateCheckboxIndeterminate = useMemo(
 			() => createStableHandlerWithState(updateCheckboxIndeterminate)(setState)(),
 			[setState]
 		)
 
-		const runUpdateCheckboxActiveEffect = useMemo(
+		const runUpdateCheckboxActive = useMemo(
 			() => createStableHandlerWithState(updateCheckboxActive({indeterminate}))(setState)(),
 			[indeterminate, setState]
 		)
@@ -67,13 +67,13 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 		})
 
 		useEffect(() => {
-			runUpdateCheckboxStatusEffect(indeterminate)
-			runUpdateCheckboxIndeterminateEffect(indeterminate)
-		}, [runUpdateCheckboxIndeterminateEffect, runUpdateCheckboxStatusEffect, indeterminate])
+			runUpdateCheckboxStatus(indeterminate)
+			runUpdateCheckboxIndeterminate(indeterminate)
+		}, [runUpdateCheckboxIndeterminate, runUpdateCheckboxStatus, indeterminate])
 
 		useEffect(() => {
-			runUpdateCheckboxActiveEffect(rawActive ?? defaultActive)
-		}, [runUpdateCheckboxActiveEffect, defaultActive, rawActive])
+			runUpdateCheckboxActive(rawActive ?? defaultActive)
+		}, [runUpdateCheckboxActive, defaultActive, rawActive])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()
