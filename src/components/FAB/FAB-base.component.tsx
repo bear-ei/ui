@@ -33,12 +33,12 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		const theme = useTheme()
 		const isDisabled = loading || rawDisabled
 		const underlayColor = getFABUnderlayColor(theme)(type)
-		const runUpdateFABStatusEffect = useMemo(
+		const runUpdateFABStatus = useMemo(
 			() => createStableHandlerWithState(updateFABStatus(rawDisabled))(setState)(),
 			[rawDisabled, setState]
 		)
 
-		const runUpdateFABDisabledStateEffect = useMemo(
+		const runUpdateFABDisabledState = useMemo(
 			() => createStableHandlerWithState(updateFABDisabledState(elevated))(setState)(),
 			[elevated, setState]
 		)
@@ -66,12 +66,12 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		)
 
 		useEffect(() => {
-			runUpdateFABStatusEffect(isDisabled)
-		}, [runUpdateFABStatusEffect, isDisabled])
+			runUpdateFABStatus(isDisabled)
+		}, [runUpdateFABStatus, isDisabled])
 
 		useEffect(() => {
-			runUpdateFABDisabledStateEffect(elevated)
-		}, [runUpdateFABDisabledStateEffect, elevated])
+			runUpdateFABDisabledState(elevated)
+		}, [runUpdateFABDisabledState, elevated])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

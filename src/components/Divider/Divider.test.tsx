@@ -1,5 +1,4 @@
 import {SIZE} from '@bearei/material-token'
-import React from 'react'
 import {renderWithTheme} from '../../../__test__'
 import {LAYOUT} from '../Common'
 import {Divider} from './Divider.component'

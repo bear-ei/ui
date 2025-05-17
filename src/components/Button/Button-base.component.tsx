@@ -35,7 +35,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		})
 
 		const id = useId()
-		const isDisabled = loading ?? rawDisabled
+		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
 		const underlayColor = getButtonUnderlayColor(theme)(type)
 		const runUpdateButtonStatus = useMemo(
