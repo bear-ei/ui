@@ -55,7 +55,7 @@ export const useLayoutAnimated = ({
 		transform: [{scale: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
 	}))
 
-	const runAnimateLayoutAnimatedEffect = useMemo(
+	const runAnimateLayoutAnimated = useMemo(
 		() => animateLayoutAnimated({animatedTiming, entry, exit, onAnimationFinished})(containerSharedValue),
 		[animatedTiming, containerSharedValue, entry, exit, onAnimationFinished]
 	)
@@ -73,8 +73,8 @@ export const useLayoutAnimated = ({
 	)
 
 	useEffect(() => {
-		runAnimateLayoutAnimatedEffect(visible)
-	}, [runAnimateLayoutAnimatedEffect, visible])
+		runAnimateLayoutAnimated(visible)
+	}, [runAnimateLayoutAnimated, visible])
 
 	return {containerAnimatedStyle: containerAnimatedTypeStyle[animatedType]}
 }

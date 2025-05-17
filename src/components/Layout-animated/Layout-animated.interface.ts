@@ -7,7 +7,7 @@ import type {
 	AnimatedTiming,
 	AnimatedTimingOptions,
 	HandleStateEventChangeOptions,
-	InteractionHandler
+	InteractionHandlers
 } from '../../hooks'
 import type {ComponentStatus, ShapeProps} from '../Common'
 import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
@@ -40,7 +40,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
 	containerAnimatedStyle?: AnimatedStyle<ViewStyle>
 	layout: LayoutRectangle
-	interactionHandlers: InteractionHandler
+	interactionHandlers: InteractionHandlers
 	visible?: boolean
 }
 

@@ -1,7 +1,7 @@
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
-import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
+import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {CommonProps, EventName} from '../Common'
 import type {TouchableProps} from '../Touchable'
 import type {ICON_BUTTON_TYPE} from './Icon-button.enum'
@@ -22,7 +22,7 @@ export interface RenderIconButtonProps extends IconButtonProps {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
 	iconElement?: React.JSX.Element
-	interactionHandlers: InteractionHandler
+	interactionHandlers: InteractionHandlers
 	theme: DefaultTheme
 }
 
