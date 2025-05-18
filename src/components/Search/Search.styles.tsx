@@ -78,6 +78,7 @@ export const TextInputLayout = styled.View`
 export const TextInput = styled.TextInput`
 	align-self: stretch;
 	flex: 1;
+	outline-style: none;
 
 	${({theme}) => css`
 		color: ${theme.token.scheme.onSurface};

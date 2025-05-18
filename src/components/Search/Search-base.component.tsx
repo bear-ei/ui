@@ -59,7 +59,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		const {data} = listProps ?? {}
 		const inputRef = useRef<TextInput>(null)
 		const theme = useTheme()
-		const runUpdateSearchListVisibilityEffect = useMemo(
+		const runUpdateSearchListVisibility = useMemo(
 			() => createStableHandlerWithState(updateSearchListVisibility)(setState)(),
 			[setState]
 		)
@@ -69,12 +69,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			[data, onChangeText, setState]
 		)
 
-		const runUpdateSearchInputValueEffect = useMemo(
+		const runUpdateSearchInputValue = useMemo(
 			() => createStableHandlerWithState(updateSearchInputValue(data))(setState)(),
 			[data, setState]
 		)
 
-		const runSearchLayoutMeasureHandlerEffect = useMemo(
+		const runSearchLayoutMeasureHandler = useMemo(
 			() =>
 				createStableHandlerWithState(createSearchLayoutMeasureHandler(containerRef.current))(
 					setState
@@ -96,20 +96,20 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
 
 		useEffect(() => {
-			runUpdateSearchInputValueEffect(rawValue ?? defaultValue)
-		}, [runUpdateSearchInputValueEffect, defaultValue, rawValue])
+			runUpdateSearchInputValue(rawValue ?? defaultValue)
+		}, [runUpdateSearchInputValue, defaultValue, rawValue])
 
 		useEffect(() => {
 			if (!data) {
 				return
 			}
 
-			runUpdateSearchListVisibilityEffect(!data?.length)
-		}, [runUpdateSearchListVisibilityEffect, data])
+			runUpdateSearchListVisibility(!data?.length)
+		}, [runUpdateSearchListVisibility, data])
 
 		useEffect(() => {
-			runSearchLayoutMeasureHandlerEffect(isListVisible)
-		}, [runSearchLayoutMeasureHandlerEffect, isListVisible])
+			runSearchLayoutMeasureHandler(isListVisible)
+		}, [runSearchLayoutMeasureHandler, isListVisible])
 
 		useEffect(() => {
 			runAfterInteractions(nextChangeTextEvent)()
