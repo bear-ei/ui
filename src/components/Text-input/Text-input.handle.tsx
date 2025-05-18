@@ -84,10 +84,10 @@ export const updateTextInputSupportingText =
 	}
 
 export const updateTextInputSupportingTextVisibility =
-	(onSupportingTextVisibility?: (visible?: boolean) => void) =>
+	(onSupportingTextVisible?: (visible?: boolean) => void) =>
 	(setState: Updater<TextInputState>) =>
 	(visible?: boolean) => {
-		const nextSupportingTextVisibilityEvent = () => onSupportingTextVisibility?.(visible)
+		const nextSupportingTextVisibilityEvent = () => onSupportingTextVisible?.(visible)
 
 		if (typeof visible !== 'boolean') {
 			return

@@ -37,7 +37,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			multiline,
 			onChangeText,
 			onContentSizeChange,
-			onSupportingTextVisibility,
+			onSupportingTextVisible,
 			placeholder,
 			renderTextInput,
 			supportingText: rawSupportingText,
@@ -121,9 +121,9 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		const onTextInputSupportingTextVisibility = useMemo(
 			() =>
 				createStableHandlerWithState(
-					updateTextInputSupportingTextVisibility(onSupportingTextVisibility)
+					updateTextInputSupportingTextVisibility(onSupportingTextVisible)
 				)(setState)(),
-			[onSupportingTextVisibility, setState]
+			[onSupportingTextVisible, setState]
 		)
 
 		const onFocusTextInput = useMemo(() => createStableHandler(focusTextInput(textInputRef))(), [])
@@ -214,7 +214,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			onChangeText: onTextInputValueWithCallback,
 			onContentSizeChange: onTextInputContentSize,
 			onHeaderFocus: onFocusTextInput,
-			onSupportingTextVisibility: onTextInputSupportingTextVisibility,
+			onSupportingTextVisible: onTextInputSupportingTextVisibility,
 			placeholderTextColor,
 			ref: textInputRef,
 			supportingText,

@@ -9,13 +9,13 @@ import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import type {ListData} from '../List'
 import type {
 	TriggerVirtualListCloseOptions,
-	UnmountVirtualListUnmountOptions,
+	UnmountVirtualListOptions,
 	UpdateVirtualListOnScrollOptions,
 	VirtualListData,
 	VirtualListState
 } from './Virtual-list.interface'
 
-const calculateVirtualListVisibilityRanges =
+const calculateVirtualListVisibilityRange =
 	(itemSize = 0) =>
 	(draft: WritableDraft<VirtualListState>) =>
 	(scrollOffset?: number) => {
@@ -57,7 +57,7 @@ export const updateVirtualListLayout =
 				draft.layout.width = width
 			}
 
-			calculateVirtualListVisibilityRanges(itemSize)(draft)()
+			calculateVirtualListVisibilityRange(itemSize)(draft)()
 		})
 	}
 
@@ -92,7 +92,7 @@ export const updateVirtualListOnScroll = ({onScroll, itemSize}: UpdateVirtualLis
 		setState(draft => {
 			draft.nextScrollEvent = createNextScrollEvent(event)
 
-			calculateVirtualListVisibilityRanges(itemSize)(draft)(scrollOffset)
+			calculateVirtualListVisibilityRange(itemSize)(draft)(scrollOffset)
 		})
 	}
 }
@@ -106,8 +106,6 @@ export const triggerVirtualListClose =
 	({enableAutoSelect, onClose}: TriggerVirtualListCloseOptions) =>
 	(draft: WritableDraft<VirtualListState>) =>
 	(indexKey?: string) => {
-		const findDataIndex = (datum: ListData) => datum.indexKey === indexKey
-
 		if (!enableAutoSelect) {
 			const nextCloseEvent = () => onClose?.({indexKey})
 			draft.nextCloseEvent = nextCloseEvent
@@ -116,14 +114,14 @@ export const triggerVirtualListClose =
 		}
 
 		const data = (draft.virtualListData ?? []) as ListData[]
-		const datumIndex = data.findIndex(findDataIndex)
+		const datumIndex = data.findIndex((datum: ListData) => datum.indexKey === indexKey)
 		const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
-		const nextEnableAutoSelectCloseEvent = () => onClose?.({activeKey: nextActiveKey, indexKey})
+		const nextAutoSelectCloseEvent = () => onClose?.({activeKey: nextActiveKey, indexKey})
 
-		draft.nextCloseEvent = nextEnableAutoSelectCloseEvent
+		draft.nextCloseEvent = nextAutoSelectCloseEvent
 	}
 
-export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose}: UnmountVirtualListUnmountOptions) => {
+export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose}: UnmountVirtualListOptions) => {
 	const filterVirtualListData =
 		(key: string) =>
 		({indexKey}: VirtualListData) =>
@@ -139,7 +137,7 @@ export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose}: Un
 
 			draft.virtualListData = draft.virtualListData?.filter(filterVirtualListData(indexKey))
 
-			calculateVirtualListVisibilityRanges(itemSize)(draft)()
+			calculateVirtualListVisibilityRange(itemSize)(draft)()
 		})
 	}
 }
@@ -186,7 +184,7 @@ export const updateVirtualListVisibilityRangeData =
 		virtualListData &&
 		setState(draft => {
 			if (draft.layout.height) {
-				calculateVirtualListVisibilityRanges(itemSize)(draft)()
+				calculateVirtualListVisibilityRange(itemSize)(draft)()
 			}
 		})
 

@@ -6,14 +6,14 @@ import type {AnimateSkeletonOptions, SkeletonState} from './Skeleton.interface'
 
 const updateSkeletonVisibility = (setState: Updater<SkeletonState>) => (duration?: number) => {
 	if (typeof duration === 'number' && duration >= 0) {
-		const nextSkeletonVisibleEvent = debounce(() =>
+		const nextDebounceSkeletonVisibilityEvent = debounce(() =>
 			setState(nextDraft => {
 				nextDraft.visible = false
 			})
 		)(duration)
 
 		setState(draft => {
-			draft.nextSkeletonVisibilityEvent = nextSkeletonVisibleEvent
+			draft.nextSkeletonVisibilityEvent = nextDebounceSkeletonVisibilityEvent
 			draft.visible = true
 		})
 

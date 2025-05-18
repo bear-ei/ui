@@ -15,7 +15,7 @@ export interface SideSheetContentBaseProps extends SideSheetContentProps {
 	renderSideSheetContent: (props: RenderSideSheetContentProps) => React.JSX.Element
 }
 
-export type HandleSheetWasVisibleOptions = Pick<SideSheetContentProps, 'onVisible'>
+export type HandleSheetWasVisibilityOptions = Pick<SideSheetContentProps, 'onVisible'>
 export type UseSideSheetContentAnimatedOptions = Pick<RenderSideSheetContentProps, 'visible' | 'type'>
 export type RenderSideSheetContentLeadingOptions = Pick<
 	SideSheetContentProps,

@@ -85,7 +85,7 @@ export interface HandleLayoutAnimatedTimingSharedValue {
 	fadeSharedValue: SharedValue<number>
 }
 
-export interface HandleLayoutAnimatedLayoutVisibleOptions extends Pick<LayoutAnimatedProps, 'onVisible'> {
+export interface HandleLayoutAnimatedLayoutVisibilityOptions extends Pick<LayoutAnimatedProps, 'onVisible'> {
 	setState: Updater<LayoutAnimatedState>
 }
 

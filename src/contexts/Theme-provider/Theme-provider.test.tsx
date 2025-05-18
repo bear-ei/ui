@@ -1,5 +1,4 @@
 import {fireEvent, render} from '@testing-library/react-native'
-import React from 'react'
 import {Platform, Text} from 'react-native'
 import {ThemeProvider} from '../Theme-provider'
 

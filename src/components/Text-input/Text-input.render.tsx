@@ -50,7 +50,7 @@ export const renderTextInput = ({
 	leading,
 	multiline,
 	onHeaderFocus,
-	onSupportingTextVisibility,
+	onSupportingTextVisible,
 	interactionHandlers,
 	supportingText,
 	supportingTextAnimatedStyle,
@@ -168,7 +168,7 @@ export const renderTextInput = ({
 				</TouchableHeader>
 
 				<SupportingLayoutAnimated
-					onVisible={onSupportingTextVisibility}
+					onVisible={onSupportingTextVisible}
 					testID={`textInput__supportingLayoutAnimated--${id}`}
 					visible={supportingTextVisible}
 				>
