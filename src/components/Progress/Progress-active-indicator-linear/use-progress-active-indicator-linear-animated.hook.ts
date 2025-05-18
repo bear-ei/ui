@@ -15,7 +15,10 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const outputRanges = useMemo(
-		() => generateStepPositions(containerLayout?.width)(increment),
+		() =>
+			generateStepPositions(containerLayout?.width)(
+				typeof increment === 'number' && increment < 1 ? 1 : increment
+			),
 		[containerLayout?.width, increment]
 	)
 
@@ -24,14 +27,14 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 		width: interpolate(widthSharedValue.value, inputRanges, outputRanges)
 	}))
 
-	const runAnimateProgressActiveIndicatorLinearEffect = useMemo(
+	const runAnimateProgressActiveIndicatorLinear = useMemo(
 		() => animateProgressActiveIndicatorLinear(animatedTiming)(widthSharedValue),
 		[animatedTiming, widthSharedValue]
 	)
 
 	useEffect(() => {
-		runAnimateProgressActiveIndicatorLinearEffect(value)
-	}, [runAnimateProgressActiveIndicatorLinearEffect, value])
+		runAnimateProgressActiveIndicatorLinear(value)
+	}, [runAnimateProgressActiveIndicatorLinear, value])
 
 	return {contentAnimatedStyle}
 }
