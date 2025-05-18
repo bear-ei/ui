@@ -27,18 +27,18 @@ export const useTouchableRippleAnimated = ({
 		]
 	}))
 
-	const runAnimateTouchableRippleEffect = useMemo(
+	const runAnimateTouchableRipple = useMemo(
 		() =>
 			animateTouchableRipple({animatedTiming, onAnimateFinished})({
-				scaleSharedValue,
-				opacitySharedValue
+				opacitySharedValue,
+				scaleSharedValue
 			}),
 		[animatedTiming, onAnimateFinished, opacitySharedValue, scaleSharedValue]
 	)
 
 	useEffect(() => {
-		runAnimateTouchableRippleEffect(indexKey)
-	}, [runAnimateTouchableRippleEffect, indexKey])
+		runAnimateTouchableRipple(indexKey)
+	}, [runAnimateTouchableRipple, indexKey])
 
 	return {containerAnimatedStyle}
 }
