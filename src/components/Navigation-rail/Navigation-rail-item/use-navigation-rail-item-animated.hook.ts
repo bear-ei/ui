@@ -23,14 +23,14 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
 		color: interpolateColor(labelTextColorSharedValue.value, [0, 1], labelTextColorOutputRanges)
 	}))
 
-	const runAnimateNavigationRailItemLabelEffect = useMemo(
+	const runAnimateNavigationRailItemLabel = useMemo(
 		() => animateNavigationRailItemLabel({animatedTiming, type})(labelTextColorSharedValue),
 		[animatedTiming, labelTextColorSharedValue, type]
 	)
 
 	useEffect(() => {
-		runAnimateNavigationRailItemLabelEffect(active)
-	}, [active, runAnimateNavigationRailItemLabelEffect])
+		runAnimateNavigationRailItemLabel(active)
+	}, [active, runAnimateNavigationRailItemLabel])
 
 	return {labelTextAnimatedStyle}
 }

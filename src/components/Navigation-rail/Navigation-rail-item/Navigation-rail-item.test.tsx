@@ -1,5 +1,4 @@
 import {waitFor} from '@testing-library/react-native'
-import React from 'react'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../../__test__'
 import {NAVIGATION_RAIL_TYPE} from '../../Navigation-rail/Navigation-rail.enum'

@@ -24,11 +24,7 @@ export const renderNavigationRailItems =
 
 export const renderNavigationRailFAB = (id: string) => (fab?: React.JSX.Element) =>
 	fab ?
-		cloneElement<FABProps>(fab, {
-			elevated: false,
-			size: SIZE.MEDIUM,
-			testID: `navigationRail__fab--${id}`
-		})
+		cloneElement<FABProps>(fab, {elevated: false, size: SIZE.MEDIUM, testID: `navigationRail__fab--${id}`})
 	:	undefined
 
 export const renderNavigationRail = ({

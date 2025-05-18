@@ -17,15 +17,15 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			defaultActiveKey,
 			destinationPosition = NAVIGATION_DESTINATION_POSITION.TOP,
 			fab,
+			menu,
 			onActive,
 			renderNavigationRail,
 			type,
-			menu,
 			...renderNavigationRailProps
 		},
 		ref
 	) => {
-		const [{activeKey, nextActiveEvent, status, data}, setState] = useImmer<NavigationRailState>({
+		const [{activeKey, data, nextActiveEvent, status}, setState] = useImmer<NavigationRailState>({
 			status: COMPONENT_STATUS.IDLE
 		})
 
@@ -35,12 +35,12 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			[onActive, setState]
 		)
 
-		const runUpdateNavigationRailDataEffect = useMemo(
+		const runUpdateNavigationRailData = useMemo(
 			() => createStableHandlerWithState(updateNavigationRailData)(setState)(),
 			[setState]
 		)
 
-		const runNavigationRailActiveKeyEffect = useMemo(
+		const runUpdateNavigationRailActiveKey = useMemo(
 			() => createStableHandlerWithState(updateNavigationRailActiveKey())(setState)(),
 			[setState]
 		)
@@ -60,12 +60,12 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		const fabElement = useMemo(() => renderNavigationRailFAB(id)(fab), [fab, id])
 
 		useEffect(() => {
-			runNavigationRailActiveKeyEffect(rawActiveKey ?? defaultActiveKey)
-		}, [runNavigationRailActiveKeyEffect, defaultActiveKey, rawActiveKey])
+			runUpdateNavigationRailActiveKey(rawActiveKey ?? defaultActiveKey)
+		}, [defaultActiveKey, rawActiveKey, runUpdateNavigationRailActiveKey])
 
 		useEffect(() => {
-			runUpdateNavigationRailDataEffect(rawData)
-		}, [runUpdateNavigationRailDataEffect, rawData])
+			runUpdateNavigationRailData(rawData)
+		}, [runUpdateNavigationRailData, rawData])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()
