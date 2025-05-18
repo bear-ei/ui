@@ -92,7 +92,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			[onClose, setState]
 		)
 
-		const runUpdateListActiveStateEffect = useMemo(
+		const runUpdateListActiveState = useMemo(
 			() => createStableHandlerWithState(updateListActiveState({selectType}))(setState)(),
 			[selectType, setState]
 		)
@@ -168,10 +168,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		useImperativeHandle(ref, () => (listRef?.current ?? {}) as VirtualListComponent<ListData>, [listRef])
 
 		useEffect(() => {
-			runUpdateListActiveStateEffect(
-				rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys
-			)
-		}, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateListActiveStateEffect])
+			runUpdateListActiveState(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
+		}, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateListActiveState])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()

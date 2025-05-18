@@ -37,7 +37,7 @@ export const useListItemAnimated = ({
 		color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRanges)
 	}))
 
-	const runAnimateListItemAffordanceVisibilityEffect = useMemo(
+	const runAnimateListItemAffordanceVisibility = useMemo(
 		() =>
 			animateListItemAffordanceVisibility({animatedTiming, onAfterAffordanceVisibilityFinished})(
 				contentLeftSharedValue
@@ -45,18 +45,18 @@ export const useListItemAnimated = ({
 		[animatedTiming, contentLeftSharedValue, onAfterAffordanceVisibilityFinished]
 	)
 
-	const runAnimateListItemActiveStateEffect = useMemo(
+	const runAnimateListItemActiveState = useMemo(
 		() => animateListItemActiveState(animatedTiming)(headlineTextSharedValue),
 		[animatedTiming, headlineTextSharedValue]
 	)
 
 	useEffect(() => {
-		runAnimateListItemAffordanceVisibilityEffect(afterAffordanceVisible)
-	}, [afterAffordanceVisible, runAnimateListItemAffordanceVisibilityEffect])
+		runAnimateListItemAffordanceVisibility(afterAffordanceVisible)
+	}, [afterAffordanceVisible, runAnimateListItemAffordanceVisibility])
 
 	useEffect(() => {
-		runAnimateListItemActiveStateEffect(active)
-	}, [active, runAnimateListItemActiveStateEffect])
+		runAnimateListItemActiveState(active)
+	}, [active, runAnimateListItemActiveState])
 
 	return {contentAnimatedStyle, headlineTextAnimatedStyle}
 }

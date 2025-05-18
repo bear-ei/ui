@@ -1,6 +1,6 @@
 import type {ForwardedRef, RefAttributes} from 'react'
 import type Animated from 'react-native-reanimated'
-import type {InteractionHandler} from '../../hooks'
+import type {InteractionHandlers} from '../../hooks'
 import type {CommonProps, EventName, ShapeType} from '../Common'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualListProps} from '../Virtual-list'
 import type {ListAfterAffordanceProps, ListItemAfterAffordancePressOutOptions} from './List-after-affordance'
@@ -62,7 +62,7 @@ export interface ListProps
 	onCancel?: (options: ListItemAfterAffordancePressOutOptions) => void
 	onClose?: (options: OnVirtualListCloseOptions) => void
 	onConfirm?: (options: ListItemAfterAffordancePressOutOptions) => void
-	onItemStateEvent?: InteractionHandler
+	onItemStateEvent?: InteractionHandlers
 	ref?: ForwardedRef<Animated.ScrollView>
 	selectType?: ListSelectType
 	shape?: ShapeType

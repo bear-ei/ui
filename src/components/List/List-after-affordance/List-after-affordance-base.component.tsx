@@ -45,15 +45,15 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 			[indexKey, isDoubleConfirmed, onCancel, setState]
 		)
 
-		const runResetAffordanceConfirmationOnHideEffect = useMemo(
+		const runResetAffordanceConfirmationOnHide = useMemo(
 			() => createStableHandlerWithState(resetAffordanceConfirmationOnHide)(setState)(),
 			[setState]
 		)
 		const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed})
 
 		useEffect(() => {
-			runResetAffordanceConfirmationOnHideEffect(visible)
-		}, [runResetAffordanceConfirmationOnHideEffect, visible])
+			runResetAffordanceConfirmationOnHide(visible)
+		}, [runResetAffordanceConfirmationOnHide, visible])
 
 		useEffect(() => {
 			runAfterInteractions(nextCancelEvent)()

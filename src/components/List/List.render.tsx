@@ -4,10 +4,10 @@ import type {RenderListItemOptions, RenderListProps} from './List.interface'
 import {Container} from './List.styles'
 
 export const renderDefaultListItem = ({
+	id,
 	index,
 	item,
 	supportingTextNumberOfLines,
-	id,
 	...props
 }: RenderListItemOptions) => (
 	<ListItem

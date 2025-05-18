@@ -1,5 +1,4 @@
 import {waitFor} from '@testing-library/react-native'
-import React from 'react'
 import {renderWithTheme} from '../../../../__test__'
 import {ListAfterAffordance} from './List-after-affordance.component'
 
