@@ -16,7 +16,7 @@ import {
 	updateVirtualListData,
 	updateVirtualListLayout,
 	updateVirtualListOnScroll,
-	updateVirtualListVisibilityRangesData
+	updateVirtualListVisibilityRangeData
 } from './Virtual-list.handle'
 import type {VirtualListBaseProps, VirtualListState} from './Virtual-list.interface'
 import {renderVirtualListItem} from './Virtual-list.render'
@@ -55,8 +55,8 @@ export const VirtualListBaseInner = <T,>(
 
 	const id = useId()
 	const contentSize = (virtualListData ?? data ?? []).length * (itemSize + gap) - gap
-	const runUpdateVirtualListVisibilityRangesDataEffect = useMemo(
-		() => createStableHandlerWithState(updateVirtualListVisibilityRangesData(itemSize))(setState)(),
+	const runUpdateVirtualListVisibilityRangeData = useMemo(
+		() => createStableHandlerWithState(updateVirtualListVisibilityRangeData(itemSize))(setState)(),
 		[itemSize, setState]
 	)
 
@@ -70,7 +70,7 @@ export const VirtualListBaseInner = <T,>(
 		[onMomentumScrollEnd]
 	)
 
-	const runUpdateVirtualListDataEffect = useMemo(
+	const runUpdateVirtualListData = useMemo(
 		() => createStableHandlerWithState(updateVirtualListData)(setState)(),
 		[setState]
 	)
@@ -140,12 +140,12 @@ export const VirtualListBaseInner = <T,>(
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as Animated.ScrollView, [animatedRef])
 
 	useEffect(() => {
-		runUpdateVirtualListDataEffect(data)
-	}, [runUpdateVirtualListDataEffect, data])
+		runUpdateVirtualListData(data)
+	}, [runUpdateVirtualListData, data])
 
 	useEffect(() => {
-		runUpdateVirtualListVisibilityRangesDataEffect(virtualListData)
-	}, [runUpdateVirtualListVisibilityRangesDataEffect, virtualListData])
+		runUpdateVirtualListVisibilityRangeData(virtualListData)
+	}, [runUpdateVirtualListVisibilityRangeData, virtualListData])
 
 	useEffect(() => {
 		runAfterInteractions(nextScrollEvent)()

@@ -109,8 +109,8 @@ export const triggerVirtualListClose =
 		const findDataIndex = (datum: ListData) => datum.indexKey === indexKey
 
 		if (!enableAutoSelect) {
-			const createNextCloseEvent = () => onClose?.({indexKey})
-			draft.nextCloseEvent = createNextCloseEvent
+			const nextCloseEvent = () => onClose?.({indexKey})
+			draft.nextCloseEvent = nextCloseEvent
 
 			return
 		}
@@ -153,7 +153,7 @@ export const updateVirtualListData = (setState: Updater<VirtualListState>) => (d
 	})
 
 export const checkVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => {
-	const findVisibleRangeDataIndex =
+	const createIndexKeyMatcher =
 		(key: string) =>
 		({indexKey}: VirtualListData) =>
 			indexKey === key
@@ -161,15 +161,15 @@ export const checkVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void)
 	return (setState: Updater<VirtualListState>) => (indexKey?: string) => {
 		if (indexKey) {
 			setState(draft => {
-				const visibleRangeDataIndex = draft.visibleRangeData?.findIndex(
-					findVisibleRangeDataIndex(indexKey)
+				const visibleRangeDataMatchedIndex = draft.visibleRangeData?.findIndex(
+					createIndexKeyMatcher(indexKey)
 				)
 
-				const isLoadEnd =
-					(draft.visibleRangeData?.length ?? 0) - 1 === visibleRangeDataIndex &&
-					visibleRangeDataIndex !== -1
+				const isAtEndOfVisibleRange =
+					(draft.visibleRangeData?.length ?? 0) - 1 === visibleRangeDataMatchedIndex &&
+					visibleRangeDataMatchedIndex !== -1
 
-				if (isLoadEnd) {
+				if (isAtEndOfVisibleRange) {
 					onLoadEnd?.(indexKey)
 				}
 			})
@@ -181,7 +181,7 @@ export const checkVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void)
 	}
 }
 
-export const updateVirtualListVisibilityRangesData =
+export const updateVirtualListVisibilityRangeData =
 	(itemSize = 0) =>
 	(setState: Updater<VirtualListState>) =>
 	(virtualListData?: VirtualListData[]) =>

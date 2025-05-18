@@ -5,7 +5,7 @@ import {createStableHandlerWithState} from '../../../utils'
 import {COMPONENT_STATUS} from '../../Common'
 import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
 import {
-	closeVirtualListItem,
+	triggerVirtualListItemClose,
 	triggerVirtualListItemUnmount,
 	updateVirtualListItemStatus
 } from './Virtual-list-item.handle'
@@ -34,16 +34,16 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		const id = useId()
 		const renderIndex = index + startIndex
 		const offsetY = itemSize * renderIndex
-		const runUpdateVirtualListItemStatusEffect = useMemo(
+		const runUpdateVirtualListItemStatus = useMemo(
 			() =>
 				createStableHandlerWithState(updateVirtualListItemStatus)(setState)({
-					debounceMillisecond: Math.min(index * 10, 300)
+					debounceMillisecond: 300
 				}),
-			[index, setState]
+			[setState]
 		)
 
 		const onVirtualListItemClose = useMemo(
-			() => createStableHandlerWithState(closeVirtualListItem)(setState)(),
+			() => createStableHandlerWithState(triggerVirtualListItemClose)(setState)(),
 			[setState]
 		)
 
@@ -68,8 +68,8 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		)
 
 		useEffect(() => {
-			runUpdateVirtualListItemStatusEffect()
-		}, [runUpdateVirtualListItemStatusEffect])
+			runUpdateVirtualListItemStatus()
+		}, [runUpdateVirtualListItemStatus])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

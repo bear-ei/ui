@@ -19,7 +19,7 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => 
 	}
 }
 
-export const closeVirtualListItem = (setState: Updater<VirtualListItemState>) => () =>
+export const triggerVirtualListItemClose = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {
 		draft.visible = false
 	})
