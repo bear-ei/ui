@@ -37,7 +37,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			multiline,
 			onChangeText,
 			onContentSizeChange,
-			onSupportingTextVisible,
+			onSupportingTextVisibility,
 			placeholder,
 			renderTextInput,
 			supportingText: rawSupportingText,
@@ -56,7 +56,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 				nextChangeTextEvent,
 				nextContentSizeChangeEvent,
 				nextPressOutEvent,
-				nextSupportingTextVisibleEvent,
+				nextSupportingTextVisibilityEvent,
 				state,
 				status,
 				supportingText,
@@ -92,7 +92,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[setState, supportingTextDelay]
 		)
 
-		const runUpdateTextInputSupportingTextEffect = useMemo(
+		const runUpdateTextInputSupportingText = useMemo(
 			() =>
 				createStableHandlerWithState(
 					updateTextInputSupportingText({
@@ -103,7 +103,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[onTextInputSupportingTextClose, setState, supportingTextDelay]
 		)
 
-		const runBlurTextInputIfEditableEffect = useMemo(
+		const runBlurTextInputIfEditable = useMemo(
 			() => createStableHandler(blurTextInputIfEditable(textInputRef))(),
 			[textInputRef]
 		)
@@ -113,7 +113,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[onChangeText, setState]
 		)
 
-		const runUpdateTextInputValueEffect = useMemo(
+		const runUpdateTextInputValue = useMemo(
 			() => createStableHandlerWithState(updateTextInputValue)(setState)(),
 			[setState]
 		)
@@ -121,12 +121,12 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		const onTextInputSupportingTextVisibility = useMemo(
 			() =>
 				createStableHandlerWithState(
-					updateTextInputSupportingTextVisibility(onSupportingTextVisible)
+					updateTextInputSupportingTextVisibility(onSupportingTextVisibility)
 				)(setState)(),
-			[onSupportingTextVisible, setState]
+			[onSupportingTextVisibility, setState]
 		)
 
-		const onTextInputFocus = useMemo(() => createStableHandler(focusTextInput(textInputRef))(), [])
+		const onFocusTextInput = useMemo(() => createStableHandler(focusTextInput(textInputRef))(), [])
 		const onTextInputStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
 				handleTextInputStateChange({
@@ -163,16 +163,16 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		useImperativeHandle(ref, () => (textInputRef?.current ?? {}) as TextInput, [textInputRef])
 
 		useEffect(() => {
-			runBlurTextInputIfEditableEffect(editable)
-		}, [runBlurTextInputIfEditableEffect, editable])
+			runBlurTextInputIfEditable(editable)
+		}, [runBlurTextInputIfEditable, editable])
 
 		useEffect(() => {
-			runUpdateTextInputSupportingTextEffect(rawSupportingText)
-		}, [runUpdateTextInputSupportingTextEffect, rawSupportingText])
+			runUpdateTextInputSupportingText(rawSupportingText)
+		}, [runUpdateTextInputSupportingText, rawSupportingText])
 
 		useEffect(() => {
-			runUpdateTextInputValueEffect(rawValue ?? defaultValue)
-		}, [runUpdateTextInputValueEffect, defaultValue, rawValue])
+			runUpdateTextInputValue(rawValue ?? defaultValue)
+		}, [runUpdateTextInputValue, defaultValue, rawValue])
 
 		useEffect(() => {
 			runAfterInteractions(nextChangeTextEvent)()
@@ -183,8 +183,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		}, [nextContentSizeChangeEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextSupportingTextVisibleEvent)()
-		}, [nextSupportingTextVisibleEvent])
+			runAfterInteractions(nextSupportingTextVisibilityEvent)()
+		}, [nextSupportingTextVisibilityEvent])
 
 		useEffect(() => {
 			runAfterInteractions(nextPressOutEvent)()
@@ -213,8 +213,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			multiline,
 			onChangeText: onTextInputValueWithCallback,
 			onContentSizeChange: onTextInputContentSize,
-			onHeaderFocus: onTextInputFocus,
-			onSupportingTextVisible: onTextInputSupportingTextVisibility,
+			onHeaderFocus: onFocusTextInput,
+			onSupportingTextVisibility: onTextInputSupportingTextVisibility,
 			placeholderTextColor,
 			ref: textInputRef,
 			supportingText,

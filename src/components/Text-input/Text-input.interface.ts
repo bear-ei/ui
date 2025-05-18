@@ -9,7 +9,7 @@ import type {
 } from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
-import type {HandleStateEventChangeOptions, InteractionHandler} from '../../hooks'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName, ShapeProps, State, TypographyProps} from '../Common'
 import type {TEXT_INPUT_TYPE} from './Text-input.enum'
 
@@ -24,7 +24,7 @@ export interface TextInputProps
 				PressableProps &
 				RefAttributes<TextInput> &
 				Pick<ShapeProps, 'shape'> &
-				InteractionHandler
+				InteractionHandlers
 		>,
 		CommonProps {
 	content?: React.ReactNode
@@ -34,7 +34,7 @@ export interface TextInputProps
 	filled?: boolean
 	labelText?: string
 	leading?: React.JSX.Element
-	onSupportingTextVisible?: (visible?: boolean) => void
+	onSupportingTextVisibility?: (visible?: boolean) => void
 	supportingText?: string
 	supportingTextDelay?: number
 	trailing?: React.JSX.Element
@@ -50,8 +50,8 @@ export interface RenderTextInputProps extends TextInputProps {
 	labelAnimatedStyle: AnimatedStyle<ViewStyle>
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 	onHeaderFocus?: () => void
-	interactionHandlers: InteractionHandler
-	onSupportingTextVisible?: (visible?: boolean) => void
+	interactionHandlers: InteractionHandlers
+	onSupportingTextVisibility?: (visible?: boolean) => void
 	supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
 	supportingTextVisible?: boolean
 	theme: DefaultTheme
@@ -67,7 +67,7 @@ export interface TextInputState {
 	nextChangeTextEvent?: () => void
 	nextContentSizeChangeEvent?: () => void
 	nextPressOutEvent?: () => void
-	nextSupportingTextVisibleEvent?: () => void
+	nextSupportingTextVisibilityEvent?: () => void
 	state: State
 	status: ComponentStatus
 	supportingText?: string
