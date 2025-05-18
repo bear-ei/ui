@@ -137,9 +137,7 @@ export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose}: Un
 		setState(draft => {
 			triggerVirtualListClose({enableAutoSelect, onClose})(draft)(indexKey)
 
-			const nextVirtualListData = draft.virtualListData?.filter(filterVirtualListData(indexKey))
-
-			draft.virtualListData = nextVirtualListData
+			draft.virtualListData = draft.virtualListData?.filter(filterVirtualListData(indexKey))
 
 			calculateVirtualListVisibilityRanges(itemSize)(draft)()
 		})

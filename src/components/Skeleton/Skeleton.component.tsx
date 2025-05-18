@@ -17,7 +17,7 @@ const SkeletonWithRef = forwardRef<View, SkeletonProps>((props, ref) => (
 	/>
 ))
 
-const Circle = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps) => {
+const Circle = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => {
 	const theme = useTheme()
 	const {shape = SHAPE.FULL, size, style, ...skeletonElementProps} = props
 	const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
@@ -27,6 +27,7 @@ const Circle = forwardRef<View, SkeletonElementProps>((props: SkeletonElementPro
 	return (
 		<SkeletonElement
 			{...skeletonElementProps}
+			ref={ref}
 			shape={shape}
 			style={[circleStyle, style]}
 		/>
@@ -50,7 +51,7 @@ const Square = forwardRef<View, SkeletonElementProps>((props: SkeletonElementPro
 	)
 })
 
-const Rectangular = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps) => {
+const Rectangular = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => {
 	const theme = useTheme()
 	const {shape = SHAPE.SMALL, style, size, ...skeletonElementProps} = props
 	const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
@@ -63,6 +64,7 @@ const Rectangular = forwardRef<View, SkeletonElementProps>((props: SkeletonEleme
 	return (
 		<SkeletonElement
 			{...skeletonElementProps}
+			ref={ref}
 			shape={shape}
 			style={[rectangularStyle, style]}
 		/>
