@@ -10,6 +10,6 @@
 		"strictPropertyInitialization": false,
 		"verbatimModuleSyntax": true
 	},
-	"include": ["src", ".storybook/*.tsx", ".ondevice/*.tsx"],
+	"include": ["src", ".storybook/*.tsx", ".ondevice/*.tsx", "index.js"],
 	"exclude": ["node_modules", "dist", "**/**.test.ts", "**/**.test.tsx"]
 }

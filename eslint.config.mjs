@@ -60,11 +60,11 @@ export default [
 					types: ['boolean']
 				}
 			]
-		},
-		ignores: ['storybook.requires.ts']
+		}
 	},
 	{
 		ignores: [
+			'__test__/**/*',
 			'__mocks__/**/*',
 			'**/**.config.js',
 			'**/**.config.mjs',
@@ -72,7 +72,8 @@ export default [
 			'**/**.test.ts',
 			'**/**.test.tsx',
 			'**/storybook.requires.ts',
-			'node_modules'
+			'node_modules',
+			'jest.setup.ts'
 		]
 	}
 ]

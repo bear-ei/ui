@@ -67,7 +67,6 @@ export const renderButton = ({
 	underlayColor,
 	...contentProps
 }: RenderButtonProps) => {
-	console.info('testID', testID)
 	const eventNames = [
 		EVENT_NAME.FOCUS,
 		EVENT_NAME.HOVER_IN,
