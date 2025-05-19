@@ -14,7 +14,7 @@ describe('Button Component', () => {
 		})
 	})
 
-	it('should renders with different BUTTON_TYPE', async () => {
+	it('should renders with different BUTTON_TYPE.FILLED', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Button
 				type={BUTTON_TYPE.FILLED}
@@ -24,6 +24,19 @@ describe('Button Component', () => {
 
 		await waitFor(() => {
 			expect(getByTestId(`button-${BUTTON_TYPE.FILLED}`)).toBeTruthy()
+		})
+	})
+
+	it('should renders with different BUTTON_TYPE.OUTLINED', async () => {
+		const {getByTestId} = renderWithTheme(
+			<Button
+				type={BUTTON_TYPE.OUTLINED}
+				testID={`button-${BUTTON_TYPE.OUTLINED}`}
+			/>
+		)
+
+		await waitFor(() => {
+			expect(getByTestId(`button-${BUTTON_TYPE.OUTLINED}`)).toBeTruthy()
 		})
 	})
 
@@ -96,15 +109,14 @@ describe('Button Component', () => {
 	})
 
 	it('should trigger onPressOut callback when pressOut event occurs', async () => {
-		const mockFn = jest.fn()
-		const {getByTestId, getByText} = renderWithTheme(<Button onPressOut={mockFn} />)
+		const onPressOut = jest.fn()
+		const {getByTestId} = renderWithTheme(<Button onPressOut={onPressOut} />)
 		const touchable = await waitFor(() => getByTestId('button__touchable--test-id'))
 
 		fireEvent(touchable, 'pressOut')
 
 		await waitFor(() => {
-			expect(getByText('Label')).toBeTruthy()
-			expect(mockFn).toHaveBeenCalled()
+			expect(onPressOut).toHaveBeenCalled()
 		})
 	})
 })
