@@ -6,11 +6,13 @@ import {Divider} from './Divider.component'
 describe('Divider Component', () => {
 	it('should renders with default props', async () => {
 		const {getByTestId} = renderWithTheme(<Divider testID='divider' />)
+		const {divider, dividerContent} = await waitFor(() => ({
+			divider: getByTestId('divider'),
+			dividerContent: getByTestId('divider__content--test-id')
+		}))
 
-		await waitFor(() => {
-			expect(getByTestId('divider')).toBeTruthy()
-			expect(getByTestId('divider__content--test-id')).toBeTruthy()
-		})
+		expect(divider).toBeTruthy()
+		expect(dividerContent).toBeTruthy()
 	})
 
 	it('should renders horizontal layout with subheader', async () => {
@@ -22,10 +24,13 @@ describe('Divider Component', () => {
 			/>
 		)
 
-		await waitFor(() => {
-			expect(getByTestId('divider__subheader--test-id')).toBeTruthy()
-			expect(getByText('Section A')).toBeTruthy()
-		})
+		const {dividerSubheader, dividerSectionA} = await waitFor(() => ({
+			dividerSubheader: getByTestId('divider__subheader--test-id'),
+			dividerSectionA: getByText('Section A')
+		}))
+
+		expect(dividerSubheader).toBeTruthy()
+		expect(dividerSectionA).toBeTruthy()
 	})
 
 	it('should renders vertical layout without subheader', async () => {
@@ -36,11 +41,15 @@ describe('Divider Component', () => {
 			/>
 		)
 
-		await waitFor(() => {
-			expect(getByTestId('divider')).toBeTruthy()
-			expect(getByTestId('divider__content--test-id')).toBeTruthy()
-			expect(queryByTestId('divider__subheader--test-id')).toBeNull()
-		})
+		const {divider, dividerContent, dividerSubheader} = await waitFor(() => ({
+			divider: getByTestId('divider'),
+			dividerContent: getByTestId('divider__content--test-id'),
+			dividerSubheader: queryByTestId('divider__subheader--test-id')
+		}))
+
+		expect(divider).toBeTruthy()
+		expect(dividerContent).toBeTruthy()
+		expect(dividerSubheader).toBeNull()
 	})
 
 	it('should applies size SMALL when subheader is present and layout is horizontal', async () => {
@@ -52,9 +61,9 @@ describe('Divider Component', () => {
 			/>
 		)
 
-		await waitFor(() => {
-			expect(getByTestId('divider')).toBeTruthy()
-		})
+		const divider = await waitFor(() => getByTestId('divider'))
+
+		expect(divider).toBeTruthy()
 	})
 
 	it('should supports custom size prop', async () => {
@@ -66,8 +75,8 @@ describe('Divider Component', () => {
 			/>
 		)
 
-		await waitFor(() => {
-			expect(getByTestId('divider')).toBeTruthy()
-		})
+		const divider = await waitFor(() => getByTestId('divider'))
+
+		expect(divider).toBeTruthy()
 	})
 })

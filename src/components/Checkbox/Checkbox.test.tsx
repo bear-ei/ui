@@ -5,10 +5,9 @@ import {Checkbox} from './Checkbox.component'
 describe('Checkbox Component', () => {
 	it('should renders with default UNSELECTED state', async () => {
 		const {getByTestId} = renderWithTheme(<Checkbox testID='checkbox-test' />)
+		const checkboxIcon = await waitFor(() => getByTestId('checkbox__icon--blank--test-id'))
 
-		await waitFor(() => {
-			expect(getByTestId('checkbox__icon--blank--test-id')).toBeTruthy()
-		})
+		expect(checkboxIcon).toBeTruthy()
 	})
 
 	it('should renders SELECTED when active=true', async () => {
@@ -19,9 +18,9 @@ describe('Checkbox Component', () => {
 			/>
 		)
 
-		await waitFor(() => {
-			expect(getByTestId('checkbox__icon--selected--test-id')).toBeTruthy()
-		})
+		const checkboxIcon = await waitFor(() => getByTestId('checkbox__icon--selected--test-id'))
+
+		expect(checkboxIcon).toBeTruthy()
 	})
 
 	it('should renders INDETERMINATE when indeterminate=true', async () => {
@@ -32,9 +31,9 @@ describe('Checkbox Component', () => {
 			/>
 		)
 
-		await waitFor(() => {
-			expect(getByTestId('checkbox__icon--indeterminate--test-id')).toBeTruthy()
-		})
+		const checkboxIcon = await waitFor(() => getByTestId('checkbox__icon--indeterminate--test-id'))
+
+		expect(checkboxIcon).toBeTruthy()
 	})
 
 	it('should calls onActive with updated state when pressed', async () => {

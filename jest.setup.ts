@@ -7,3 +7,15 @@ jest.mock('react', () => {
 		useId: () => 'test-id'
 	}
 })
+
+jest.mock('react-native-reanimated', () => {
+	const Reanimated = jest.requireActual('react-native-reanimated/mock')
+
+	return {
+		...Reanimated,
+		useSharedValue: jest.fn(() => ({value: 0})),
+		useAnimatedStyle: jest.fn(() => ({})),
+		interpolate: jest.fn(() => 0),
+		Platform: {OS: 'ios'}
+	}
+})
