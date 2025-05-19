@@ -7,10 +7,12 @@ import type {
 	FormError,
 	FormFieldEntity,
 	FormStore,
+	FormStoreOptions,
 	FormValidateRule,
 	FormValidatorOptions,
 	OnValuesChangeOptions,
-	SetFieldsValueOptions
+	SetFieldsValueOptions,
+	SignInFieldOptions
 } from './Form.interface'
 
 const createFormContext = <T>() => ({
@@ -24,7 +26,9 @@ const createFormContext = <T>() => ({
 	validatorOptions: undefined as FormValidatorOptions | undefined
 })
 
-export const formStore = <T extends Record<string, unknown> = Record<string, unknown>>() => {
+export const formStore = <T extends Record<string, unknown> = Record<string, unknown>>(
+	{validateFields: rawValidateFields} = {} as FormStoreOptions<T>
+) => {
 	let {
 		callback,
 		error,
@@ -92,7 +96,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 						:	accumulator,
 					{} as T
 				)
-			:	store
+			:	initialValues
 
 		return !Array.isArray(namePaths) && namePaths ? value[namePaths] : value
 	}) as FormStore<T>['getInitialValues']
@@ -195,6 +199,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		(onStorageChange?: (options: OnValuesChangeOptions<T>) => void) =>
 		(value = {} as T) => {
 			store = {...store, ...value}
+
 			onStorageChange?.({changedValue: value, value: store})
 		}
 
@@ -256,7 +261,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			initialValues = {...initialValues, ...value}
 		}
 
-	const signInField = (rawEntity: FormFieldEntity<T>) => {
+	const signInField = (rawEntity: SignInFieldOptions<T>) => {
 		const {name, validatorOptions: rawValidatorOptions, rule} = rawEntity
 		const {delay = 300, ...restValidatorOptions} = rawValidatorOptions ?? {}
 
@@ -322,23 +327,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		getFieldEntitiesName()(names).forEach(signOutFormField)
 	}
 
-	const submit = (enableValidate = true) => {
-		const {onFinish, onFinishFailed} = callback
-		const triggerOnFinishFailed = (err: FormError<T>) => onFinishFailed?.(err)
-		const triggerOnFinish = () => onFinish?.(store)
-
-		if (!enableValidate) {
-			triggerOnFinish()
-
-			return
-		}
-
-		validateFields().then(err =>
-			Object.entries(err).some(([, value]) => value) ? triggerOnFinishFailed(err) : triggerOnFinish()
-		)
-	}
-
-	const validateFields = (async (namePaths?: NamePath<T>) => {
+	const defaultValidateFields = (async (namePaths?: NamePath<T>) => {
 		const entities = getFieldEntities()
 		const names = namePath(namePaths)
 		const validateFormField = async (entityName?: keyof T) => {
@@ -363,6 +352,24 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 
 		return !Array.isArray(namePaths) && namePaths ? err[namePaths] : err
 	}) as FormStore<T>['validateFields']
+
+	const validateFields = rawValidateFields ?? defaultValidateFields
+
+	const submit = (enableValidate = true) => {
+		const {onFinish, onFinishFailed} = callback
+		const triggerOnFinishFailed = (err: FormError<T>) => onFinishFailed?.(err)
+		const triggerOnFinish = () => onFinish?.(store)
+
+		if (!enableValidate) {
+			triggerOnFinish()
+
+			return
+		}
+
+		validateFields().then(err =>
+			Object.entries(err).some(([, value]) => value) ? triggerOnFinishFailed(err) : triggerOnFinish()
+		)
+	}
 
 	return {
 		getFieldEntities,

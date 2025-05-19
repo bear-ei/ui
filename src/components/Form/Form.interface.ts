@@ -29,9 +29,15 @@ export interface FormFieldEntity<T = Record<string, unknown>> {
 	validatorOptions?: FormValidatorOptions
 }
 
+export type SignInFieldOptions<T> = Omit<FormFieldEntity<T>, 'validate'>
+
 export interface SetFieldsValueOptions {
 	componentUpdate?: boolean
 	enableValidate?: boolean
+}
+
+export interface FormStoreOptions<T> {
+	validateFields?: FormStore<T>['validateFields']
 }
 
 export interface FormStore<T = Record<string, unknown>> {

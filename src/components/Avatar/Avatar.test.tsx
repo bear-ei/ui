@@ -5,11 +5,10 @@ import {Avatar} from './Avatar.component'
 describe('Avatar Component', () => {
 	it('should renders labelText when no image source is provided', async () => {
 		const {getByTestId} = renderWithTheme(<Avatar labelText='John' />)
+		const avatarLabelText = await waitFor(() => getByTestId('avatar__labelText--test-id'))
 
-		await waitFor(() => {
-			expect(getByTestId('avatar__labelText--test-id')).toBeTruthy()
-			expect(getByTestId('avatar__labelText--test-id').props.children).toBe('J')
-		})
+		expect(avatarLabelText).toBeTruthy()
+		expect(avatarLabelText.props.children).toBe('J')
 	})
 
 	it('should renders image when source is provided', async () => {
@@ -20,10 +19,13 @@ describe('Avatar Component', () => {
 			/>
 		)
 
-		await waitFor(() => {
-			expect(getByTestId('avatar__image--test-id')).toBeTruthy()
-			expect(queryByTestId('avatar__labelText--test-id')).toBeNull()
-		})
+		const {avatarImage, avatarLabelText} = await waitFor(() => ({
+			avatarImage: getByTestId('avatar__image--test-id'),
+			avatarLabelText: queryByTestId('avatar__labelText--test-id')
+		}))
+
+		expect(avatarImage).toBeTruthy()
+		expect(avatarLabelText).toBeNull()
 	})
 
 	it('should renders image with defaultSource when only defaultSource is provided', async () => {
@@ -35,10 +37,13 @@ describe('Avatar Component', () => {
 			/>
 		)
 
-		await waitFor(() => {
-			expect(getByTestId('avatar__image--test-id')).toBeTruthy()
-			expect(queryByTestId('avatar__labelText--test-id')).toBeNull()
-		})
+		const {avatarImage, avatarLabelText} = await waitFor(() => ({
+			avatarImage: getByTestId('avatar__image--test-id'),
+			avatarLabelText: queryByTestId('avatar__labelText--test-id')
+		}))
+
+		expect(avatarImage).toBeTruthy()
+		expect(avatarLabelText).toBeNull()
 	})
 
 	it('should applies backgroundColor and size correctly', async () => {
@@ -51,12 +56,10 @@ describe('Avatar Component', () => {
 			/>
 		)
 
-		await waitFor(() => {
-			const content = getByTestId('avatar__content--test-id')
+		const avatarContent = await waitFor(() => getByTestId('avatar__content--test-id'))
 
-			expect(content).toBeTruthy()
-			expect(content.props.style).toBeDefined()
-		})
+		expect(avatarContent).toBeTruthy()
+		expect(avatarContent.props.style).toBeDefined()
 	})
 
 	it('should sets accessibilityLabel based on labelText', async () => {
@@ -67,8 +70,8 @@ describe('Avatar Component', () => {
 			/>
 		)
 
-		await waitFor(() => {
-			expect(getByLabelText('Avatar: Z')).toBeTruthy()
-		})
+		const avatarLabelText = await waitFor(() => getByLabelText('Avatar: Z'))
+
+		expect(avatarLabelText).toBeTruthy()
 	})
 })
