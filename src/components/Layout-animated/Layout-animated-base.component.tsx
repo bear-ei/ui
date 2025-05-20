@@ -8,7 +8,7 @@ import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
 	finalizeLayoutAnimatedVisibilityChange,
 	handleLayoutAnimatedStateChange,
-	updateLayoutAnimatedSizeOnChange,
+	updateLayoutAnimatedSize,
 	updateLayoutAnimatedStatus,
 	updateLayoutAnimatedVisibility
 } from './Layout-animated.handler'
@@ -21,7 +21,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			animatedType = LAYOUT_ANIMATED.FADE,
 			contentSize,
 			defaultVisible,
-			delay: rawDelay = 0,
+			delay = 0,
 			entry,
 			exit,
 			lazy = false,
@@ -51,7 +51,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
 		const id = useId()
 		const isLayoutVisible = rawVisible ?? defaultVisible
-		const delay = rawDelay + 50
 		const runUpdateLayoutAnimatedStatus = useMemo(
 			() => createStableHandlerWithState(updateLayoutAnimatedStatus({unmount, lazy}))(setState)(),
 			[lazy, setState, unmount]
@@ -74,9 +73,9 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[onUnmount, setState, unmount]
 		)
 
-		const onLayoutAnimatedSizeOnChange = useMemo(
+		const onLayoutAnimatedSize = useMemo(
 			() =>
-				createStableHandlerWithState(updateLayoutAnimatedSizeOnChange)(setState)({
+				createStableHandlerWithState(updateLayoutAnimatedSize)(setState)({
 					debounceMillisecond: 50
 				}),
 			[setState]
@@ -86,10 +85,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleLayoutAnimatedStateChange({
 					...options,
-					onLayoutChange: onLayoutAnimatedSizeOnChange,
+					onLayoutChange: onLayoutAnimatedSize,
 					state
 				})(event),
-			[onLayoutAnimatedSizeOnChange]
+			[onLayoutAnimatedSize]
 		)
 
 		const interactionHandlers = useInteractionStateEvent({

@@ -64,6 +64,10 @@ export const renderIconButton = ({
 }: RenderIconButtonProps) => {
 	const shape = SHAPE.FULL
 	const activeColor = theme.token.scheme.secondaryContainer
+	const progressIconElement = cloneElement(iconElement ?? <></>, {
+		testID: `iconButton__progressIcon--${id}`
+	})
+
 	const backgroundUnderlayElement = (
 		<AnimatedBackgroundUnderlay
 			pointerEvents='none'
@@ -75,7 +79,7 @@ export const renderIconButton = ({
 
 	return (
 		<Container
-			accessibilityLabel={labelText ?? accessibilityLabel}
+			accessibilityLabel={accessibilityLabel ?? labelText}
 			accessibilityRole='button'
 			accessibilityState={{disabled}}
 			accessible={true}
@@ -89,7 +93,7 @@ export const renderIconButton = ({
 			>
 				<Progress
 					animatedType={PROGRESS_ANIMATED.INDETERMINATE}
-					content={iconElement}
+					content={progressIconElement}
 					size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
 					testID={`iconButton__progress--${id}`}
 					type={PROGRESS_TYPE.CIRCULAR}

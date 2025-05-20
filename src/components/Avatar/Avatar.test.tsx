@@ -70,7 +70,7 @@ describe('Avatar Component', () => {
 			/>
 		)
 
-		const avatarLabelText = await waitFor(() => getByLabelText('Avatar: Z'))
+		const avatarLabelText = await waitFor(() => getByLabelText('Z'))
 
 		expect(avatarLabelText).toBeTruthy()
 	})

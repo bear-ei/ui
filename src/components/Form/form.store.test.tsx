@@ -3,13 +3,13 @@ import {ValidationError} from 'class-validator'
 import {FormStore} from './Form.interface'
 import {formStore} from './form.store'
 
-describe('formStore', () => {
-	interface TestForm {
-		[key: string]: unknown
-		email?: string
-		username?: string
-	}
+interface TestForm {
+	[key: string]: unknown
+	email?: string
+	username?: string
+}
 
+describe('formStore', () => {
 	let store = formStore<TestForm>()
 	const updateMock = jest.fn()
 

@@ -7,6 +7,7 @@ import {Container, Content, Leading, Main, TextInput, TextInputLayout, Touchable
 
 const SearchTextInput = TextInput as FC<SearchTextInputProps>
 export const renderSearch = ({
+	accessibilityLabel,
 	containerRef,
 	density,
 	eventName,
@@ -38,7 +39,7 @@ export const renderSearch = ({
 				testID={`search__touchable--${id}`}
 			>
 				<Content
-					accessibilityLabel={placeholder}
+					accessibilityLabel={accessibilityLabel ?? placeholder}
 					accessibilityRole='keyboardkey'
 					density={density}
 					shape={shape}

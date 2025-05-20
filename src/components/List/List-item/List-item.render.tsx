@@ -87,6 +87,7 @@ export const renderListItemTrailing = ({
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 export const renderListItem = ({
+	accessibilityLabel,
 	active,
 	affordanceVisible,
 	afterAffordance,
@@ -147,7 +148,9 @@ export const renderListItem = ({
 	return (
 		<Container
 			{...panResponder?.panHandlers}
-			accessibilityLabel={typeof headline === 'string' ? headline : 'headline'}
+			accessibilityLabel={
+				accessibilityLabel ?? (typeof headline === 'string' ? headline : 'headline')
+			}
 			accessibilityRole='list'
 			shape={shape}
 			testID={testID ?? `listItem--${id}`}

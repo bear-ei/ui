@@ -35,6 +35,7 @@ const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.Funct
 >
 
 export const renderTextInput = ({
+	accessibilityLabel,
 	activeIndicatorAnimatedStyle,
 	content,
 	contentSize,
@@ -44,6 +45,7 @@ export const renderTextInput = ({
 	headerAnimatedStyle,
 	id,
 	inputAnimatedStyle,
+	interactionHandlers,
 	labelAnimatedStyle,
 	labelText,
 	labelTextAnimatedStyle,
@@ -51,7 +53,6 @@ export const renderTextInput = ({
 	multiline,
 	onHeaderFocus,
 	onSupportingTextVisible,
-	interactionHandlers,
 	supportingText,
 	supportingTextAnimatedStyle,
 	supportingTextVisible,
@@ -69,7 +70,7 @@ export const renderTextInput = ({
 	return (
 		<Container
 			{...(error && {
-				accessibilityLabel: supportingText,
+				accessibilityLabel: accessibilityLabel ?? supportingText,
 				accessibilityRole: 'alert'
 			})}
 			testID={testID ?? `textInput--${id}`}
@@ -78,7 +79,7 @@ export const renderTextInput = ({
 				<TouchableHeader
 					{...onTouchableHeaderEvent}
 					{...(!error && {
-						accessibilityLabel: labelText,
+						accessibilityLabel: accessibilityLabel ?? labelText,
 						accessibilityRole: 'keyboardkey'
 					})}
 					enableFocusRing={false}

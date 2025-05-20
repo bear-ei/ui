@@ -8,6 +8,7 @@ import {BackgroundUnderlay, Container, Content, LabelText} from './List-affordan
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 export const renderListAffordanceButton = ({
+	accessibilityLabel,
 	backgroundUnderlayAnimatedStyle,
 	disabled,
 	eventName,
@@ -38,7 +39,7 @@ export const renderListAffordanceButton = ({
 				underlayColor={underlayColor}
 			>
 				<Content
-					accessibilityLabel={labelText}
+					accessibilityLabel={accessibilityLabel ?? labelText}
 					accessibilityRole='button'
 					pointerEvents='none'
 					testID={`listAffordanceButton__content--${id}`}

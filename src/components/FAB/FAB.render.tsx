@@ -79,7 +79,7 @@ export const renderFAB = ({
 
 	return (
 		<Container
-			accessibilityLabel={labelText ?? accessibilityLabel}
+			accessibilityLabel={accessibilityLabel ?? labelText}
 			accessibilityRole='button'
 			accessibilityState={{disabled}}
 			density={density}

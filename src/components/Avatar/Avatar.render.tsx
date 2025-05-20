@@ -17,7 +17,7 @@ export const renderAvatar = ({
 }: RenderAvatarProps) => (
 	<Container
 		{...containerProps}
-		accessibilityLabel={accessibilityLabel ?? `Avatar: ${labelText}`}
+		accessibilityLabel={accessibilityLabel ?? labelText}
 		accessibilityRole='image'
 		accessible={true}
 		pointerEvents='none'

@@ -105,7 +105,7 @@ export const renderButton = ({
 
 	return (
 		<Container
-			accessibilityLabel={labelText ?? accessibilityLabel}
+			accessibilityLabel={accessibilityLabel ?? `Button: ${labelText}`}
 			accessibilityRole='button'
 			accessibilityState={{disabled}}
 			accessible={true}

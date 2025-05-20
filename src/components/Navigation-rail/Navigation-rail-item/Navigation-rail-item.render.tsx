@@ -34,6 +34,7 @@ export const renderNavigationRailItemIcon = (id: string) => (icon?: React.JSX.El
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 export const renderNavigationRailItem = ({
+	accessibilityLabel,
 	active,
 	animatedType,
 	eventName,
@@ -57,7 +58,7 @@ export const renderNavigationRailItem = ({
 	return (
 		<Container
 			{...containerProps}
-			accessibilityLabel={labelText}
+			accessibilityLabel={accessibilityLabel ?? labelText}
 			accessibilityRole='tab'
 			accessible={true}
 			testID={testID ?? `navigationRailItem--${id}`}
