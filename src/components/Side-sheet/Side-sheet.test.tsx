@@ -1,4 +1,4 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {renderWithTheme} from '../../../__test__'
 import {SideSheet} from './Side-sheet.component'
 import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
@@ -59,8 +59,7 @@ describe('SideSheet Component', () => {
 
 		const closeButton = await waitFor(() => getByTestId('sideSheet__closeIconButton--test-id'))
 
-		fireEvent(closeButton, 'pressOut')
-
+		await act(async () => fireEvent(closeButton, 'pressOut'))
 		await waitFor(() => expect(mockOnClose).toHaveBeenCalled())
 	})
 
@@ -75,10 +74,9 @@ describe('SideSheet Component', () => {
 			/>
 		)
 
-		const backBtn = await waitFor(() => getByTestId('sideSheet__backIconButton--test-id'))
+		const backButton = await waitFor(() => getByTestId('sideSheet__backIconButton--test-id'))
 
-		fireEvent(backBtn, 'pressOut')
-
+		await act(async () => fireEvent(backButton, 'pressOut'))
 		await waitFor(() => expect(mockOnBack).toHaveBeenCalled())
 	})
 
@@ -94,10 +92,9 @@ describe('SideSheet Component', () => {
 			/>
 		)
 
-		const backBtn = await waitFor(() => getByTestId('sideSheet__backIconButton--test-id'))
+		const backButton = await waitFor(() => getByTestId('sideSheet__backIconButton--test-id'))
 
-		fireEvent(backBtn, 'pressOut')
-
+		await act(async () => fireEvent(backButton, 'pressOut'))
 		await waitFor(() => expect(mockOnBack).toHaveBeenCalled())
 	})
 
@@ -117,8 +114,10 @@ describe('SideSheet Component', () => {
 			confirmButton: getByTestId('sideSheetContent__confirmButton--test-id')
 		}))
 
-		fireEvent(cancelButton, 'pressOut')
-		fireEvent(confirmButton, 'pressOut')
+		await act(async () => {
+			fireEvent(cancelButton, 'pressOut')
+			fireEvent(confirmButton, 'pressOut')
+		})
 
 		await waitFor(() => {
 			expect(mockOnCancel).toHaveBeenCalled()

@@ -1,4 +1,4 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {renderWithTheme} from '../../../__test__'
 import {Checkbox} from './Checkbox.component'
 
@@ -48,7 +48,7 @@ describe('Checkbox Component', () => {
 
 		const touchable = await waitFor(() => getByTestId('checkbox__touchable--test-id'))
 
-		fireEvent(touchable, 'pressOut')
+		await act(async () => fireEvent(touchable, 'pressOut'))
 		await waitFor(() => expect(onActive).toHaveBeenCalledWith(true))
 	})
 
@@ -64,7 +64,7 @@ describe('Checkbox Component', () => {
 
 		const touchable = await waitFor(() => getByTestId('checkbox__touchable--test-id'))
 
-		fireEvent(touchable, 'pressOut')
+		await act(async () => fireEvent(touchable, 'pressOut'))
 		await waitFor(() => expect(onActive).not.toHaveBeenCalled())
 	})
 })

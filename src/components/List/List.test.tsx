@@ -1,4 +1,4 @@
-import {waitFor} from '@testing-library/react-native'
+import {act, waitFor} from '@testing-library/react-native'
 import {renderWithTheme} from '../../../__test__'
 import {List} from './List.component'
 import type {ListData} from './List.interface'
@@ -14,11 +14,13 @@ describe('List Component', () => {
 		const {getByText, getByTestId} = renderWithTheme(<List data={mockData} />)
 		const virtualList = await waitFor(() => getByTestId('list__virtualList--test-id'))
 
-		virtualList.props.onLayout?.({
-			nativeEvent: {
-				layout: {x: 0, y: 0, width: 800, height: 800}
-			}
-		})
+		await act(async () =>
+			virtualList.props.onLayout?.({
+				nativeEvent: {
+					layout: {x: 0, y: 0, width: 800, height: 800}
+				}
+			})
+		)
 
 		const {item1, item2, item3} = await waitFor(() => ({
 			item1: getByText('Item 1'),

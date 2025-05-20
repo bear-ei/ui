@@ -1,5 +1,5 @@
 import {SIZE} from '@bearei/material-token'
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../__test__'
 import {Fab} from './FAB.component'
@@ -86,7 +86,7 @@ describe('Fab Component', () => {
 		const {getByTestId} = renderWithTheme(<Fab onPressOut={onPressOut} />)
 		const touchable = await waitFor(() => getByTestId('fab__touchable--test-id'))
 
-		fireEvent(touchable, 'pressOut')
+		await act(async () => fireEvent(touchable, 'pressOut'))
 		await waitFor(() => expect(onPressOut).toHaveBeenCalled())
 	})
 })

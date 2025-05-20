@@ -1,4 +1,4 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {renderWithTheme} from '../../../../__test__'
 import {ListAfterAffordance} from './List-after-affordance.component'
 
@@ -61,7 +61,7 @@ describe('ListAfterAffordance Component', () => {
 			getByTestId('listAfterAffordance__listAffordanceButton--confirmed--test-id')
 		)
 
-		fireEvent(confirmed, 'pressOut', {})
+		await act(async () => fireEvent(confirmed, 'pressOut', {}))
 		await waitFor(() => expect(onConfirm).toHaveBeenCalledWith({indexKey: 'key-1'}))
 	})
 
@@ -79,7 +79,7 @@ describe('ListAfterAffordance Component', () => {
 			getByTestId('listAfterAffordance__listAffordanceButton--close--test-id')
 		)
 
-		fireEvent(cancel, 'pressOut', {})
+		await act(async () => fireEvent(cancel, 'pressOut', {}))
 		await waitFor(() => expect(onCancel).toHaveBeenCalledWith({indexKey: 'key-2'}))
 	})
 })

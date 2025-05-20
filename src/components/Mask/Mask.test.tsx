@@ -1,4 +1,4 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {renderWithTheme} from '../../../__test__'
 import {Mask} from './Mask.component'
 
@@ -39,6 +39,6 @@ describe('Mask Component', () => {
 
 		expect(content).toBeTruthy()
 
-		fireEvent(content, 'pressIn')
+		await act(async () => fireEvent(content, 'pressIn'))
 	})
 })

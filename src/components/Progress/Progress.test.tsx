@@ -1,4 +1,4 @@
-import {waitFor} from '@testing-library/react-native'
+import {act, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../__test__'
 import {Progress} from './Progress.component'
@@ -9,11 +9,13 @@ describe('Progress Component', () => {
 		const {getByTestId} = renderWithTheme(<Progress value={50} />)
 		const progress = await waitFor(() => getByTestId('progress--test-id'))
 
-		progress.props.onLayout?.({
-			nativeEvent: {
-				layout: {x: 0, y: 0, width: 800, height: 800}
-			}
-		})
+		await act(async () =>
+			progress.props.onLayout?.({
+				nativeEvent: {
+					layout: {x: 0, y: 0, width: 800, height: 800}
+				}
+			})
+		)
 
 		const linear = await waitFor(() => getByTestId('progress__progressActiveIndicatorLinear--test-id'))
 
@@ -25,11 +27,14 @@ describe('Progress Component', () => {
 		const {getByTestId} = renderWithTheme(<Progress type={PROGRESS_TYPE.CIRCULAR} />)
 		const progress = await waitFor(() => getByTestId('progress--test-id'))
 
-		progress.props.onLayout?.({
-			nativeEvent: {
-				layout: {x: 0, y: 0, width: 800, height: 800}
-			}
-		})
+		await act(async () =>
+			progress.props.onLayout?.({
+				nativeEvent: {
+					layout: {x: 0, y: 0, width: 800, height: 800}
+				}
+			})
+		)
+
 		const circular = await waitFor(() => getByTestId('progress__progressActiveIndicatorCircular--test-id'))
 
 		expect(circular).toBeTruthy()
@@ -71,11 +76,13 @@ describe('Progress Component', () => {
 		)
 		const progress = await waitFor(() => getByTestId('progress--test-id'))
 
-		progress.props.onLayout?.({
-			nativeEvent: {
-				layout: {x: 0, y: 0, width: 800, height: 800}
-			}
-		})
+		await act(async () =>
+			progress.props.onLayout?.({
+				nativeEvent: {
+					layout: {x: 0, y: 0, width: 800, height: 800}
+				}
+			})
+		)
 
 		const loading = await waitFor(() => getByText('Loading'))
 

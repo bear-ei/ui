@@ -1,4 +1,4 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {NativeSyntheticEvent, TargetedEvent, Text} from 'react-native'
 import {renderWithTheme} from '../../../../__test__'
 import {FormStore} from '../Form.interface'
@@ -100,7 +100,7 @@ describe('FormItem Component', () => {
 
 		const control = await waitFor(() => getByTestId('formItem--control'))
 
-		fireEvent(control, 'longPress')
+		await act(async () => fireEvent(control, 'longPress'))
 		await waitFor(() => expect(mockValidateFields).toHaveBeenCalledWith('email'))
 	})
 

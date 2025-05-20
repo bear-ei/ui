@@ -1,4 +1,4 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../../__test__'
 import {LIST_SELECT_TYPE} from '../List.enum'
@@ -50,7 +50,7 @@ describe('ListItem', () => {
 
 		const touchable = await waitFor(() => getByTestId('listItem__touchable--test-id'))
 
-		fireEvent(touchable, 'pressOut', {})
+		await act(async () => fireEvent(touchable, 'pressOut', {}))
 		await waitFor(() => expect(onActive).toHaveBeenCalledWith('item-3'))
 	})
 

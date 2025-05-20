@@ -1,4 +1,4 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {renderWithTheme} from '../../../../__test__'
 import {NavigationRailItem} from './Navigation-rail-item.component'
 
@@ -37,7 +37,7 @@ describe('NavigationRailItem Component', () => {
 
 		const touchable = await waitFor(() => getByTestId('navigationRailItem__touchableContent--test-id'))
 
-		fireEvent(touchable, 'onPressOut')
+		await act(async () => fireEvent(touchable, 'onPressOut'))
 		await waitFor(() => expect(onActive).toHaveBeenCalledWith('home'))
 	})
 
@@ -54,7 +54,7 @@ describe('NavigationRailItem Component', () => {
 
 		const touchable = await waitFor(() => getByTestId('navigationRailItem__touchableContent--test-id'))
 
-		fireEvent(touchable, 'onPressOut')
+		await act(async () => fireEvent(touchable, 'onPressOut'))
 		await waitFor(() => expect(onActive).toHaveBeenCalled())
 	})
 })

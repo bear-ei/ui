@@ -1,4 +1,4 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../__test__'
 import {Button} from './Button.component'
@@ -111,7 +111,7 @@ describe('Button Component', () => {
 		const {getByTestId} = renderWithTheme(<Button onPressOut={onPressOut} />)
 		const touchable = await waitFor(() => getByTestId('button__touchable--test-id'))
 
-		fireEvent(touchable, 'pressOut')
+		await act(async () => fireEvent(touchable, 'pressOut'))
 		await waitFor(() => expect(onPressOut).toHaveBeenCalled())
 	})
 })

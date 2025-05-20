@@ -1,10 +1,10 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../../__test__'
 import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Side-sheet.enum'
 import {SideSheetContent} from './Side-sheet-content.component'
 
-describe('SideSheetContent', () => {
+describe('SideSheetContent Component', () => {
 	it('should renders correctly with default props', async () => {
 		const {getByTestId} = renderWithTheme(<SideSheetContent visible />)
 		const {sheetContent, header, headerText} = await waitFor(() => ({
@@ -58,8 +58,10 @@ describe('SideSheetContent', () => {
 			closeIconButton: getByTestId('sideSheet__closeIconButton--test-id')
 		}))
 
-		fireEvent(backIconButton, 'pressOut')
-		fireEvent(closeIconButton, 'pressOut')
+		await act(async () => {
+			fireEvent(backIconButton, 'pressOut')
+			fireEvent(closeIconButton, 'pressOut')
+		})
 
 		await waitFor(() => {
 			expect(mockBack).toHaveBeenCalled()
@@ -84,8 +86,10 @@ describe('SideSheetContent', () => {
 			confirmButton: getByTestId('sideSheetContent__confirmButton--test-id')
 		}))
 
-		fireEvent(cancelButton, 'pressOut')
-		fireEvent(confirmButton, 'pressOut')
+		await act(async () => {
+			fireEvent(cancelButton, 'pressOut')
+			fireEvent(confirmButton, 'pressOut')
+		})
 
 		await waitFor(() => {
 			expect(mockCancel).toHaveBeenCalled()

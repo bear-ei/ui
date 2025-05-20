@@ -1,4 +1,4 @@
-import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {renderWithTheme} from '../../../__test__'
 import {Icon} from '../Icon'
 import {IconButton} from './Icon-button.component'
@@ -53,7 +53,7 @@ describe('IconButton Component', () => {
 
 		const touchable = await waitFor(() => getByTestId('iconButton__touchable--test-id'))
 
-		fireEvent(touchable, 'pressOut')
+		await act(async () => fireEvent(touchable, 'pressOut'))
 		await waitFor(() => expect(onPressOut).not.toHaveBeenCalled())
 	})
 
@@ -70,7 +70,7 @@ describe('IconButton Component', () => {
 
 		const touchable = await waitFor(() => getByTestId('iconButton__touchable--test-id'))
 
-		fireEvent(touchable, 'pressOut')
+		await act(async () => fireEvent(touchable, 'pressOut'))
 		await waitFor(() => expect(onPressOut).not.toHaveBeenCalled())
 	})
 

@@ -24,7 +24,7 @@ export const renderSkeleton = ({
 				<ContentItemLayout
 					contentSize={contentSize}
 					contentStyle={contentStyle}
-					testID={`skeleton__contentItemLayoutAnimatedVisible--${id}`}
+					testID={`skeleton__contentItemLayoutVisible--${id}`}
 					unmount={true}
 					visible={isSkeletonVisible}
 				>
@@ -42,7 +42,7 @@ export const renderSkeleton = ({
 			<ContentItemLayout
 				contentSize={contentSize}
 				contentStyle={contentStyle}
-				testID={`skeleton__contentItemLayoutAnimatedNotVisible--${id}`}
+				testID={`skeleton__contentItemLayoutNotVisible--${id}`}
 				visible={!isSkeletonVisible}
 			>
 				{children}
