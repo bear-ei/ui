@@ -35,10 +35,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		const renderIndex = index + startIndex
 		const offsetY = itemSize * renderIndex
 		const runUpdateVirtualListItemStatus = useMemo(
-			() =>
-				createStableHandlerWithState(updateVirtualListItemStatus)(setState)({
-					debounceMillisecond: 300
-				}),
+			() => createStableHandlerWithState(updateVirtualListItemStatus)(setState)(),
 			[setState]
 		)
 

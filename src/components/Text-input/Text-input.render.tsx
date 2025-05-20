@@ -131,10 +131,7 @@ export const renderTextInput = ({
 
 						{trailing && (
 							<Trailing testID={`textInput__trailing--${id}`}>
-								{cloneElement(trailing, {
-									disabledFocus: true,
-									testID: `textInput__trailing--${id}`
-								})}
+								{cloneElement(trailing, {disabledFocus: true})}
 							</Trailing>
 						)}
 

@@ -4,7 +4,7 @@ import {renderWithAct} from '../../../__test__'
 import {LayoutAnimated} from './Layout-animated.component'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
-describe('LayoutAnimated', () => {
+describe('LayoutAnimated Component', () => {
 	it('should renders children when visible by default', async () => {
 		const {getByText} = await renderWithAct(
 			<LayoutAnimated>

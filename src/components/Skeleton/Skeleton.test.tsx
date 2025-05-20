@@ -6,7 +6,7 @@ import {Skeleton} from '../Skeleton'
 
 jest.useFakeTimers()
 
-describe('Skeleton', () => {
+describe('Skeleton Component', () => {
 	it('should render skeleton by default', async () => {
 		const {getByTestId} = await renderWithAct(<Skeleton skeleton={<Text>Loading...</Text>} />)
 		const contentItemLayout = await waitFor(() =>

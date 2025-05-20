@@ -4,7 +4,7 @@ import {renderWithAct} from '../../../../__test__'
 import {LIST_SELECT_TYPE} from '../List.enum'
 import {ListItem} from './List-item.component'
 
-describe('ListItem', () => {
+describe('ListItem Component', () => {
 	it('should renders headline and supporting text', async () => {
 		const {getByText} = await renderWithAct(
 			<ListItem
