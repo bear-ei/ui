@@ -9,7 +9,7 @@ describe('Icon Component', () => {
 
 	it('should render with default props', async () => {
 		const {getByTestId} = renderWithTheme(<Icon name={ICON_NAME.ADD} />)
-		const icon = await waitFor(() => getByTestId(/^icon--/))
+		const icon = await waitFor(() => getByTestId('icon--test-id'))
 
 		expect(icon).toBeTruthy()
 	})
@@ -36,7 +36,7 @@ describe('Icon Component', () => {
 			/>
 		)
 
-		const icon = await waitFor(() => getByTestId(/^icon--/))
+		const icon = await waitFor(() => getByTestId('icon--test-id'))
 
 		expect(icon).toBeTruthy()
 	})
@@ -49,7 +49,7 @@ describe('Icon Component', () => {
 			/>
 		)
 
-		const icon = await waitFor(() => getByTestId(/^icon--/))
+		const icon = await waitFor(() => getByTestId('icon--test-id'))
 
 		expect(icon.props.accessibilityLabel).toBe(ICON_NAME.CHECK)
 		expect(icon.props.accessible).toBe(true)

@@ -102,7 +102,6 @@ describe('FormItem Component', () => {
 		const formItemControl = await waitFor(() => getByTestId('formItem--control'))
 
 		fireEvent(formItemControl, 'longPress')
-
 		await waitFor(() => expect(mockValidateFields).toHaveBeenCalledWith('email'))
 	})
 

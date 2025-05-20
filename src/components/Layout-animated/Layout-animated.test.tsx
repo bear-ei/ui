@@ -1,4 +1,4 @@
-import {waitFor} from '@testing-library/react-native'
+import {act, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../__test__'
 import {LayoutAnimated} from './Layout-animated.component'
@@ -77,9 +77,15 @@ describe('LayoutAnimated', () => {
 			</LayoutAnimated>
 		)
 
-		const layoutContent = await waitFor(() => getByTestId(/^layoutAnimated__content--/))
+		const content = await waitFor(() => getByTestId('layoutAnimated__content--test-id'))
 
-		layoutContent.props.onLayout?.({nativeEvent: {layout: {x: 0, y: 0, width: 100, height: 100}}})
+		await act(async () => {
+			content.props.onLayout?.({
+				nativeEvent: {
+					layout: {x: 0, y: 0, width: 800, height: 800}
+				}
+			})
+		})
 
 		await waitFor(() => expect(onVisible).toHaveBeenCalledWith(true))
 	})

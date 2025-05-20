@@ -192,11 +192,6 @@ export const setListItemAffordanceClosed = (setState: Updater<ListItemState>) =>
 		draft.afterAffordanceClosed = !visible
 	})
 
-export const showListItemAffordance = (setState: Updater<ListItemState>) => () =>
-	setState(draft => {
-		draft.affordanceVisible = true
-	})
-
 export const confirmListItemAffordanceAction =
 	({onActiveAfterAffordance, onItemClose, onConfirm}: ConfirmListItemAffordanceActionOptions) =>
 	({indexKey, ...options}: ListItemAfterAffordancePressOutOptions) => {

@@ -5,7 +5,7 @@ import {IconButton} from './Icon-button.component'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
 describe('IconButton Component', () => {
-	it('renders default filled icon button correctly', async () => {
+	it('should renders default filled icon button correctly', async () => {
 		const {getByTestId} = renderWithTheme(
 			<IconButton
 				icon={<Icon />}
@@ -15,14 +15,14 @@ describe('IconButton Component', () => {
 
 		const {iconButton, icon} = await waitFor(() => ({
 			iconButton: getByTestId('iconButton'),
-			icon: getByTestId(/^iconButton__icon--/)
+			icon: getByTestId('iconButton__icon--test-id')
 		}))
 
 		expect(iconButton).toBeTruthy()
 		expect(icon).toBeTruthy()
 	})
 
-	it('renders loading state with progress indicator', async () => {
+	it('should renders loading state with progress indicator', async () => {
 		const {getByTestId} = renderWithTheme(
 			<IconButton
 				loading
@@ -32,15 +32,15 @@ describe('IconButton Component', () => {
 		)
 
 		const {progress, icon} = await waitFor(() => ({
-			progress: getByTestId(/^iconButton__progress--/),
-			icon: getByTestId(/^iconButton__progressIcon--/)
+			progress: getByTestId('iconButton__progress--test-id'),
+			icon: getByTestId('iconButton__progressIcon--test-id')
 		}))
 
 		expect(progress).toBeTruthy()
 		expect(icon).toBeTruthy()
 	})
 
-	it('disables interaction when loading is true', async () => {
+	it('should disables interaction when loading is true', async () => {
 		const onPressOut = jest.fn()
 		const {getByTestId} = renderWithTheme(
 			<IconButton
@@ -51,13 +51,13 @@ describe('IconButton Component', () => {
 			/>
 		)
 
-		const touchable = await waitFor(() => getByTestId(/^iconButton__touchable--/))
+		const touchable = await waitFor(() => getByTestId('iconButton__touchable--test-id'))
 
 		fireEvent(touchable, 'onPressOut')
-		expect(onPressOut).not.toHaveBeenCalled()
+		await waitFor(() => expect(onPressOut).not.toHaveBeenCalled())
 	})
 
-	it('disables interaction when disabled prop is true', async () => {
+	it('should disables interaction when disabled prop is true', async () => {
 		const onPressOut = jest.fn()
 		const {getByTestId} = renderWithTheme(
 			<IconButton
@@ -68,13 +68,13 @@ describe('IconButton Component', () => {
 			/>
 		)
 
-		const touchable = await waitFor(() => getByTestId(/^iconButton__touchable--/))
+		const touchable = await waitFor(() => getByTestId('iconButton__touchable--test-id'))
 
 		fireEvent(touchable, 'onPressOut')
-		expect(onPressOut).not.toHaveBeenCalled()
+		await waitFor(() => expect(onPressOut).not.toHaveBeenCalled())
 	})
 
-	it('renders different button types', async () => {
+	it('should renders different button types', async () => {
 		const types = Object.values(ICON_BUTTON_TYPE)
 
 		for (const type of types) {
@@ -93,7 +93,7 @@ describe('IconButton Component', () => {
 		}
 	})
 
-	it('renders with labelText used as accessibilityLabel', async () => {
+	it('should renders with labelText used as accessibilityLabel', async () => {
 		const {getByLabelText} = renderWithTheme(
 			<IconButton
 				icon={<Icon />}

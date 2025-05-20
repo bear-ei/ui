@@ -112,9 +112,6 @@ describe('Button Component', () => {
 		const touchable = await waitFor(() => getByTestId('button__touchable--test-id'))
 
 		fireEvent(touchable, 'pressOut')
-
-		await waitFor(() => {
-			expect(onPressOut).toHaveBeenCalled()
-		})
+		await waitFor(() => expect(onPressOut).toHaveBeenCalled())
 	})
 })

@@ -43,12 +43,12 @@ export const renderList = ({
 			{...virtualListProps}
 			testID={`list__virtualList--${id}`}
 			extraData={[
+				...extraData,
 				`${activeKey}`,
 				`${activeKeys?.join()} `,
 				`${afterAffordanceActiveKey}`,
 				`${focusedIndex}`,
-				`${loading}`,
-				...extraData
+				`${loading}`
 			]}
 			focusedIndex={focusedIndex}
 			loading={loading}

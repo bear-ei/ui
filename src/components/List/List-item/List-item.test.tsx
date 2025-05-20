@@ -1,0 +1,87 @@
+import {fireEvent, waitFor} from '@testing-library/react-native'
+import {Text} from 'react-native'
+import {renderWithTheme} from '../../../../__test__'
+import {LIST_SELECT_TYPE} from '../List.enum'
+import {ListItem} from './List-item.component'
+
+describe('ListItem', () => {
+	it('should renders headline and supporting text', async () => {
+		const {getByText} = renderWithTheme(
+			<ListItem
+				headline='Headline'
+				supporting='Supporting'
+				indexKey='item-1'
+			/>
+		)
+
+		const {headline, supporting} = await waitFor(() => ({
+			headline: getByText('Headline'),
+			supporting: getByText('Supporting')
+		}))
+
+		expect(headline).toBeTruthy()
+		expect(supporting).toBeTruthy()
+	})
+
+	it('should renders trailing icon when trailing prop is provided', async () => {
+		const {getByTestId} = renderWithTheme(
+			<ListItem
+				headline='With Trailing'
+				trailing={<Text testID='customTrailing'>⋯</Text>}
+				indexKey='item-2'
+			/>
+		)
+
+		const customTrailing = await waitFor(() => getByTestId('listItem__trailing--test-id'))
+
+		expect(customTrailing).toBeTruthy()
+	})
+
+	it('should triggers onActive callback when pressed', async () => {
+		const onActive = jest.fn()
+		const {getByTestId} = renderWithTheme(
+			<ListItem
+				headline='Press Me'
+				selectType={LIST_SELECT_TYPE.SINGLE}
+				indexKey='item-3'
+				onActive={onActive}
+			/>
+		)
+
+		const touchable = await waitFor(() => getByTestId('listItem__touchable--test-id'))
+
+		fireEvent(touchable, 'onPressOut', {})
+		await waitFor(() => expect(onActive).toHaveBeenCalledWith('item-3'))
+	})
+
+	it('should renders divider correctly', async () => {
+		const {getByTestId} = renderWithTheme(
+			<ListItem
+				headline='With Divider'
+				indexKey='item-5'
+				divider
+				afterAffordance
+				afterAffordanceActiveKey='item-5'
+			/>
+		)
+
+		const divider = await waitFor(() => expect(getByTestId('listItem__divider--test-id')))
+
+		expect(divider).toBeTruthy()
+	})
+
+	it('should applies animated headline and content styles', async () => {
+		const {getByTestId} = renderWithTheme(
+			<ListItem
+				headline='Animated'
+				indexKey='item-6'
+				activeKey='item-6'
+				selectType={LIST_SELECT_TYPE.SINGLE}
+			/>
+		)
+
+		const animatedHeadlineText = await waitFor(() => getByTestId('listItem__animatedHeadlineText--test-id'))
+
+		expect(animatedHeadlineText).toBeTruthy()
+	})
+})

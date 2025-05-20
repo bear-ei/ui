@@ -24,7 +24,7 @@ describe('LayoutNavigation Component', () => {
 			</LayoutNavigation>
 		)
 
-		const layoutNavigation = await waitFor(() => getByTestId(/^layoutNavigation--/))
+		const layoutNavigation = await waitFor(() => getByTestId('layoutNavigation--test-id'))
 
 		expect(layoutNavigation).toBeTruthy()
 	})

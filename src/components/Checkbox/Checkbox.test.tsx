@@ -49,10 +49,7 @@ describe('Checkbox Component', () => {
 		const touchable = await waitFor(() => getByTestId('checkbox__touchable--test-id'))
 
 		fireEvent(touchable, 'pressOut')
-
-		await waitFor(() => {
-			expect(onActive).toHaveBeenCalledWith(true)
-		})
+		await waitFor(() => expect(onActive).toHaveBeenCalledWith(true))
 	})
 
 	it('should does not call onActive when disabled', async () => {
@@ -69,8 +66,6 @@ describe('Checkbox Component', () => {
 
 		fireEvent(touchable, 'pressOut')
 
-		await waitFor(() => {
-			expect(onActive).not.toHaveBeenCalled()
-		})
+		await waitFor(() => expect(onActive).not.toHaveBeenCalled())
 	})
 })

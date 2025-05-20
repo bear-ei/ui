@@ -87,9 +87,6 @@ describe('Fab Component', () => {
 		const touchable = await waitFor(() => getByTestId('fab__touchable--test-id'))
 
 		fireEvent(touchable, 'pressOut')
-
-		await waitFor(() => {
-			expect(onPressOut).toHaveBeenCalled()
-		})
+		await waitFor(() => expect(onPressOut).toHaveBeenCalled())
 	})
 })
