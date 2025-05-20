@@ -17,8 +17,8 @@ describe('Icon Component', () => {
 	it('should render with custom icon', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Icon
-				name={ICON_NAME.ADD}
 				icon={CustomIcon}
+				name={ICON_NAME.ADD}
 			/>
 		)
 
@@ -30,8 +30,8 @@ describe('Icon Component', () => {
 	it('should apply different icon style and type', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Icon
-				name={ICON_NAME.ALARM_ON}
 				iconStyle={ICON_STYLE.SHARP}
+				name={ICON_NAME.ALARM_ON}
 				type={ICON_TYPE.FILLED}
 			/>
 		)
@@ -44,8 +44,8 @@ describe('Icon Component', () => {
 	it('should apply disabled fill color when disabled', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Icon
-				name={ICON_NAME.CHECK}
 				disabled
+				name={ICON_NAME.CHECK}
 			/>
 		)
 

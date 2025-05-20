@@ -2,74 +2,70 @@ import {fireEvent, waitFor} from '@testing-library/react-native'
 import {renderWithTheme} from '../../../../__test__'
 import {ListAfterAffordance} from './List-after-affordance.component'
 
-describe('ListAfterAffordance', () => {
-	it('renders both confirm and cancel buttons by default', async () => {
+describe('ListAfterAffordance Component', () => {
+	it('should renders both confirm and cancel buttons by default', async () => {
 		const {getByTestId} = renderWithTheme(
 			<ListAfterAffordance
-				visible
 				indexKey='item-1'
+				visible
 			/>
 		)
 
-		const {listAffordanceButtonConfirmed, listAffordanceButtonClose} = await waitFor(() => ({
-			listAffordanceButtonConfirmed: getByTestId(
-				'listAfterAffordance__listAffordanceButton--confirmed--test-id'
-			),
-			listAffordanceButtonClose: getByTestId(
-				'listAfterAffordance__listAffordanceButton--close--test-id'
-			)
+		const {confirmed, close} = await waitFor(() => ({
+			close: getByTestId('listAfterAffordance__listAffordanceButton--close--test-id'),
+			confirmed: getByTestId('listAfterAffordance__listAffordanceButton--confirmed--test-id')
 		}))
 
-		expect(listAffordanceButtonConfirmed).toBeTruthy()
-		expect(listAffordanceButtonClose).toBeTruthy()
+		expect(close).toBeTruthy()
+		expect(confirmed).toBeTruthy()
 	})
 
-	it('does not render when visible is false', async () => {
+	it('should does not render when visible is false', async () => {
 		const {getByTestId} = renderWithTheme(
 			<ListAfterAffordance
-				visible={false}
 				indexKey='item-2'
 				testID='listAfterAffordance'
+				visible={false}
 			/>
 		)
 
-		const listAfterAffordance = await waitFor(() => getByTestId('listAfterAffordance'))
+		const afterAffordance = await waitFor(() => getByTestId('listAfterAffordance'))
 
-		expect(listAfterAffordance.props.pointerEvents).toBe('none')
+		expect(afterAffordance.props.pointerEvents).toBe('none')
 	})
 
-	it('renders animated danger element', async () => {
+	it('should renders animated danger element', async () => {
 		const {getByTestId} = renderWithTheme(
 			<ListAfterAffordance
-				visible
 				indexKey='item-3'
+				visible
 			/>
 		)
 
-		const animatedDanger = await waitFor(() => getByTestId('listAfterAffordance__animatedDanger--test-id'))
+		const danger = await waitFor(() => getByTestId('listAfterAffordance__animatedDanger--test-id'))
 
-		expect(animatedDanger).toBeTruthy()
+		expect(danger).toBeTruthy()
 	})
 
-	it('calls onConfirm with correct params on press', async () => {
+	it('should calls onConfirm with correct params on press', async () => {
 		const onConfirm = jest.fn()
 		const {getByTestId} = renderWithTheme(
 			<ListAfterAffordance
-				visible
 				indexKey='key-1'
 				onConfirm={onConfirm}
+				visible
 			/>
 		)
 
-		const confirmButton = await waitFor(() =>
+		const confirmed = await waitFor(() =>
 			getByTestId('listAfterAffordance__listAffordanceButton--confirmed--test-id')
 		)
 
-		fireEvent(confirmButton, 'onPressOut', {})
+		fireEvent(confirmed, 'pressOut', {})
 		await waitFor(() => expect(onConfirm).toHaveBeenCalledWith({indexKey: 'key-1'}))
 	})
 
-	it('calls onCancel with toggled doubleConfirmed state', async () => {
+	it('should calls onCancel with toggled doubleConfirmed state', async () => {
 		const onCancel = jest.fn()
 		const {getByTestId} = renderWithTheme(
 			<ListAfterAffordance
@@ -79,11 +75,11 @@ describe('ListAfterAffordance', () => {
 			/>
 		)
 
-		const cancelButton = await waitFor(() =>
+		const cancel = await waitFor(() =>
 			getByTestId('listAfterAffordance__listAffordanceButton--close--test-id')
 		)
 
-		fireEvent(cancelButton, 'onPressOut', {})
+		fireEvent(cancel, 'pressOut', {})
 		await waitFor(() => expect(onCancel).toHaveBeenCalledWith({indexKey: 'key-2'}))
 	})
 })

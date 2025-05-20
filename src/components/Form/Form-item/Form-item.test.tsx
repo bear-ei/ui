@@ -7,25 +7,25 @@ import {FormItem} from './Form-item.component'
 import {FormItemControlProps} from './Form-item.interface'
 
 describe('FormItem Component', () => {
-	const mockSetFieldsValue = jest.fn(() => jest.fn())
-	const mockValidateFields = jest.fn()
-	const mockSignInField = jest.fn(() => ({signOut: jest.fn()}))
-	const mockGetInitialValues = jest.fn(() => 'initial')
-	const mockGetFieldsValue = jest.fn(() => undefined)
 	const mockGetFieldsError = jest.fn(() => [{constraints: {required: 'This field is required.'}}])
+	const mockGetFieldsValue = jest.fn(() => undefined)
+	const mockGetInitialValues = jest.fn(() => 'initial')
+	const mockSetFieldsValue = jest.fn(() => jest.fn())
+	const mockSignInField = jest.fn(() => ({signOut: jest.fn()}))
+	const mockValidateFields = jest.fn()
 	const mockContext = {
-		setFieldsValue: mockSetFieldsValue,
-		validateFields: mockValidateFields,
-		signInField: mockSignInField,
-		getInitialValues: mockGetInitialValues,
+		getFieldsError: mockGetFieldsError,
 		getFieldsValue: mockGetFieldsValue,
-		getFieldsError: mockGetFieldsError
+		getInitialValues: mockGetInitialValues,
+		setFieldsValue: mockSetFieldsValue,
+		signInField: mockSignInField,
+		validateFields: mockValidateFields
 	} as unknown as FormStore<Record<string, unknown>>
 
 	const renderControl = ({value, errorMessage, onBlur, onValueChange}: FormItemControlProps) => (
 		<Text
-			testID='formItem--control'
 			onPress={() => onValueChange?.('newValue')}
+			testID='formItem--control'
 			onLongPress={() =>
 				(onBlur as (event?: NativeSyntheticEvent<TargetedEvent>) => void | undefined)?.()
 			}
@@ -38,37 +38,36 @@ describe('FormItem Component', () => {
 		const {getByTestId} = renderWithTheme(
 			<FormContext.Provider value={mockContext}>
 				<FormItem
-					testID='formItem'
 					name='username'
 					renderControl={renderControl}
+					testID='formItem'
 				/>
 			</FormContext.Provider>
 		)
 
-		const {formItem, formItemControl} = await waitFor(() => ({
-			formItem: getByTestId('formItem'),
-			formItemControl: getByTestId('formItem--control')
+		const {formItem, control} = await waitFor(() => ({
+			control: getByTestId('formItem--control'),
+			formItem: getByTestId('formItem')
 		}))
 
+		expect(control).toBeTruthy()
 		expect(formItem).toBeTruthy()
-		expect(formItemControl).toBeTruthy()
 	})
 
 	it('should calls setFieldsValue on value change', async () => {
 		const {getByTestId} = renderWithTheme(
 			<FormContext.Provider value={mockContext}>
 				<FormItem
-					testID='form'
 					name='password'
 					renderControl={renderControl}
+					testID='form'
 				/>
 			</FormContext.Provider>
 		)
 
-		const formItemControl = await waitFor(() => getByTestId('formItem--control'))
+		const control = await waitFor(() => getByTestId('formItem--control'))
 
-		fireEvent.press(formItemControl)
-
+		fireEvent.press(control)
 		await waitFor(() => expect(mockSetFieldsValue).toHaveBeenCalled())
 	})
 
@@ -76,45 +75,46 @@ describe('FormItem Component', () => {
 		const {getByTestId} = renderWithTheme(
 			<FormContext.Provider value={mockContext}>
 				<FormItem
-					testID='form'
 					name='email'
 					renderControl={renderControl}
+					testID='form'
 				/>
 			</FormContext.Provider>
 		)
 
-		const formItemControl = await waitFor(() => getByTestId('formItem--control'))
+		const control = await waitFor(() => getByTestId('formItem--control'))
 
-		expect(formItemControl.props.children).toContain('This field is required.')
+		expect(control.props.children).toContain('This field is required.')
 	})
 
 	it('should calls validateFields on blur', async () => {
 		const {getByTestId} = renderWithTheme(
 			<FormContext.Provider value={mockContext}>
 				<FormItem
-					testID='form'
 					name='email'
 					renderControl={renderControl}
+					testID='form'
 				/>
 			</FormContext.Provider>
 		)
 
-		const formItemControl = await waitFor(() => getByTestId('formItem--control'))
+		const control = await waitFor(() => getByTestId('formItem--control'))
 
-		fireEvent(formItemControl, 'longPress')
+		fireEvent(control, 'longPress')
 		await waitFor(() => expect(mockValidateFields).toHaveBeenCalledWith('email'))
 	})
 
 	it('should calls signOut on unmount', async () => {
 		const mockSignOut = jest.fn()
+
 		mockSignInField.mockReturnValueOnce({signOut: mockSignOut})
 
 		const {unmount, getByTestId} = renderWithTheme(
 			<FormContext.Provider value={mockContext}>
 				<FormItem
-					testID='formItem'
 					name='logoutField'
 					renderControl={renderControl}
+					testID='formItem'
 				/>
 			</FormContext.Provider>
 		)

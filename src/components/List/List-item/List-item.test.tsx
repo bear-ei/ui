@@ -9,8 +9,8 @@ describe('ListItem', () => {
 		const {getByText} = renderWithTheme(
 			<ListItem
 				headline='Headline'
-				supporting='Supporting'
 				indexKey='item-1'
+				supporting='Supporting'
 			/>
 		)
 
@@ -27,14 +27,14 @@ describe('ListItem', () => {
 		const {getByTestId} = renderWithTheme(
 			<ListItem
 				headline='With Trailing'
-				trailing={<Text testID='customTrailing'>⋯</Text>}
 				indexKey='item-2'
+				trailing={<Text testID='customTrailing'>⋯</Text>}
 			/>
 		)
 
-		const customTrailing = await waitFor(() => getByTestId('listItem__trailing--test-id'))
+		const trailing = await waitFor(() => getByTestId('listItem__trailing--test-id'))
 
-		expect(customTrailing).toBeTruthy()
+		expect(trailing).toBeTruthy()
 	})
 
 	it('should triggers onActive callback when pressed', async () => {
@@ -42,26 +42,26 @@ describe('ListItem', () => {
 		const {getByTestId} = renderWithTheme(
 			<ListItem
 				headline='Press Me'
-				selectType={LIST_SELECT_TYPE.SINGLE}
 				indexKey='item-3'
 				onActive={onActive}
+				selectType={LIST_SELECT_TYPE.SINGLE}
 			/>
 		)
 
 		const touchable = await waitFor(() => getByTestId('listItem__touchable--test-id'))
 
-		fireEvent(touchable, 'onPressOut', {})
+		fireEvent(touchable, 'pressOut', {})
 		await waitFor(() => expect(onActive).toHaveBeenCalledWith('item-3'))
 	})
 
 	it('should renders divider correctly', async () => {
 		const {getByTestId} = renderWithTheme(
 			<ListItem
-				headline='With Divider'
-				indexKey='item-5'
-				divider
 				afterAffordance
 				afterAffordanceActiveKey='item-5'
+				divider
+				headline='With Divider'
+				indexKey='item-5'
 			/>
 		)
 
@@ -73,15 +73,15 @@ describe('ListItem', () => {
 	it('should applies animated headline and content styles', async () => {
 		const {getByTestId} = renderWithTheme(
 			<ListItem
+				activeKey='item-6'
 				headline='Animated'
 				indexKey='item-6'
-				activeKey='item-6'
 				selectType={LIST_SELECT_TYPE.SINGLE}
 			/>
 		)
 
-		const animatedHeadlineText = await waitFor(() => getByTestId('listItem__animatedHeadlineText--test-id'))
+		const headlineText = await waitFor(() => getByTestId('listItem__animatedHeadlineText--test-id'))
 
-		expect(animatedHeadlineText).toBeTruthy()
+		expect(headlineText).toBeTruthy()
 	})
 })

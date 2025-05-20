@@ -5,61 +5,61 @@ import {Avatar} from './Avatar.component'
 describe('Avatar Component', () => {
 	it('should renders labelText when no image source is provided', async () => {
 		const {getByTestId} = renderWithTheme(<Avatar labelText='John' />)
-		const avatarLabelText = await waitFor(() => getByTestId('avatar__labelText--test-id'))
+		const labelText = await waitFor(() => getByTestId('avatar__labelText--test-id'))
 
-		expect(avatarLabelText).toBeTruthy()
-		expect(avatarLabelText.props.children).toBe('J')
+		expect(labelText.props.children).toBe('J')
+		expect(labelText).toBeTruthy()
 	})
 
 	it('should renders image when source is provided', async () => {
 		const {getByTestId, queryByTestId} = renderWithTheme(
 			<Avatar
-				testID='avatar'
 				source={{uri: 'https://example.com/image.png'}}
+				testID='avatar'
 			/>
 		)
 
-		const {avatarImage, avatarLabelText} = await waitFor(() => ({
-			avatarImage: getByTestId('avatar__image--test-id'),
-			avatarLabelText: queryByTestId('avatar__labelText--test-id')
+		const {image, labelText} = await waitFor(() => ({
+			image: getByTestId('avatar__image--test-id'),
+			labelText: queryByTestId('avatar__labelText--test-id')
 		}))
 
-		expect(avatarImage).toBeTruthy()
-		expect(avatarLabelText).toBeNull()
+		expect(image).toBeTruthy()
+		expect(labelText).toBeNull()
 	})
 
 	it('should renders image with defaultSource when only defaultSource is provided', async () => {
 		const {getByTestId, queryByTestId} = renderWithTheme(
 			<Avatar
 				accessibilityLabel='T'
-				testID='avatar'
 				defaultSource={{uri: 'https://example.com/default.png'}}
+				testID='avatar'
 			/>
 		)
 
-		const {avatarImage, avatarLabelText} = await waitFor(() => ({
-			avatarImage: getByTestId('avatar__image--test-id'),
-			avatarLabelText: queryByTestId('avatar__labelText--test-id')
+		const {image, labelText} = await waitFor(() => ({
+			image: getByTestId('avatar__image--test-id'),
+			labelText: queryByTestId('avatar__labelText--test-id')
 		}))
 
-		expect(avatarImage).toBeTruthy()
-		expect(avatarLabelText).toBeNull()
+		expect(image).toBeTruthy()
+		expect(labelText).toBeNull()
 	})
 
 	it('should applies backgroundColor and size correctly', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Avatar
-				labelText='B'
-				testID='avatar'
 				backgroundColor='#123456'
+				labelText='B'
 				size={60}
+				testID='avatar'
 			/>
 		)
 
-		const avatarContent = await waitFor(() => getByTestId('avatar__content--test-id'))
+		const content = await waitFor(() => getByTestId('avatar__content--test-id'))
 
-		expect(avatarContent).toBeTruthy()
-		expect(avatarContent.props.style).toBeDefined()
+		expect(content.props.style).toBeDefined()
+		expect(content).toBeTruthy()
 	})
 
 	it('should sets accessibilityLabel based on labelText', async () => {
@@ -70,8 +70,8 @@ describe('Avatar Component', () => {
 			/>
 		)
 
-		const avatarLabelText = await waitFor(() => getByLabelText('Z'))
+		const labelText = await waitFor(() => getByLabelText('Z'))
 
-		expect(avatarLabelText).toBeTruthy()
+		expect(labelText).toBeTruthy()
 	})
 })

@@ -7,40 +7,40 @@ describe('Elevation Component', () => {
 	it('should renders correctly with default level', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Elevation
-				testID='elevation'
 				defaultLevel={ELEVATION.LEVEL_1}
+				testID='elevation'
 			/>
 		)
 
-		const {elevation, elevationAnimatedShadow} = await waitFor(() => ({
+		const {elevation, shadow} = await waitFor(() => ({
 			elevation: getByTestId('elevation'),
-			elevationAnimatedShadow: getByTestId('elevation__animatedShadow--test-id')
+			shadow: getByTestId('elevation__animatedShadow--test-id')
 		}))
 
 		expect(elevation).toBeTruthy()
-		expect(elevationAnimatedShadow).toBeTruthy()
+		expect(shadow).toBeTruthy()
 	})
 
 	it('should uses level prop instead of defaultLevel', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Elevation
-				testID='elevation'
-				level={ELEVATION.LEVEL_3}
 				defaultLevel={ELEVATION.LEVEL_1}
+				level={ELEVATION.LEVEL_3}
+				testID='elevation'
 			/>
 		)
 
 		const shadow = await waitFor(() => getByTestId('elevation__animatedShadow--test-id'))
 
-		expect(shadow).toBeTruthy()
 		expect(shadow.props.level).toBe(ELEVATION.LEVEL_3)
+		expect(shadow).toBeTruthy()
 	})
 
 	it('should applies animated shadow style', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Elevation
-				testID='elevation'
 				level={ELEVATION.LEVEL_2}
+				testID='elevation'
 			/>
 		)
 
@@ -52,9 +52,9 @@ describe('Elevation Component', () => {
 	it('should renders with custom shape prop', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Elevation
-				testID='elevation'
 				level={ELEVATION.LEVEL_2}
 				shape='FULL'
+				testID='elevation'
 			/>
 		)
 

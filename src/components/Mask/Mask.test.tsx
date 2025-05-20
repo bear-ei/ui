@@ -5,20 +5,20 @@ import {Mask} from './Mask.component'
 describe('Mask Component', () => {
 	it('should renders correctly with default props', async () => {
 		const {getByTestId} = renderWithTheme(<Mask visible />)
-		const {mask, maskContent} = await waitFor(() => ({
-			mask: getByTestId('mask--test-id'),
-			maskContent: getByTestId('mask__content--test-id')
+		const {mask, content} = await waitFor(() => ({
+			content: getByTestId('mask__content--test-id'),
+			mask: getByTestId('mask--test-id')
 		}))
 
+		expect(content).toBeTruthy()
 		expect(mask).toBeTruthy()
-		expect(maskContent).toBeTruthy()
 	})
 
 	it('should applies background color if provided', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Mask
-				visible
 				backgroundColor='#123456'
+				visible
 			/>
 		)
 
@@ -30,14 +30,15 @@ describe('Mask Component', () => {
 	it('should passes interaction handlers to Content', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Mask
-				visible
 				testID='custom-mask'
+				visible
 			/>
 		)
 
 		const content = await waitFor(() => getByTestId('mask__content--test-id'))
 
 		expect(content).toBeTruthy()
+
 		fireEvent(content, 'pressIn')
 	})
 })

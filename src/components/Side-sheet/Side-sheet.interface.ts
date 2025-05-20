@@ -20,6 +20,10 @@ export interface SideSheetProps extends ViewProps, RefAttributes<View>, Pick<Sha
 	onCancel?: () => void
 	onClose?: () => void
 	onConfirm?: () => void
+
+	/**
+	 * FIXME: Unable to trigger callbacks properly
+	 */
 	onVisible?: (visible?: boolean) => void
 	primaryButton?: React.JSX.Element
 	primaryButtonProps?: ButtonProps

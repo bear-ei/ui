@@ -12,9 +12,9 @@ describe('LayoutPane Component', () => {
 			</LayoutPane>
 		)
 
-		const layoutPane = await waitFor(() => getByText('Pane Content'))
+		const pane = await waitFor(() => getByText('Pane Content'))
 
-		expect(layoutPane).toBeTruthy()
+		expect(pane).toBeTruthy()
 	})
 
 	it('should applies default layout direction as horizontal', async () => {
@@ -24,53 +24,53 @@ describe('LayoutPane Component', () => {
 			</LayoutPane>
 		)
 
-		const layoutPane = await waitFor(() => getByTestId('pane-default'))
+		const pane = await waitFor(() => getByTestId('pane-default'))
 
-		expect(layoutPane).toBeTruthy()
+		expect(pane).toBeTruthy()
 	})
 
 	it('should applies vertical layout style when layout is set to VERTICAL', async () => {
 		const {getByTestId} = renderWithTheme(
 			<LayoutPane
-				testID='pane-vertical'
 				layout={LAYOUT.VERTICAL}
+				testID='pane-vertical'
 			>
 				<Text>Vertical Layout</Text>
 			</LayoutPane>
 		)
 
-		const layoutPane = await waitFor(() => getByTestId('pane-vertical'))
+		const pane = await waitFor(() => getByTestId('pane-vertical'))
 
-		expect(layoutPane).toBeTruthy()
+		expect(pane).toBeTruthy()
 	})
 
 	it('should merges contentStyle correctly', async () => {
 		const {getByTestId} = renderWithTheme(
 			<LayoutPane
-				testID='pane-style'
 				contentStyle={{padding: 12}}
+				testID='pane-style'
 			>
 				<Text>Styled</Text>
 			</LayoutPane>
 		)
 
-		const layoutPane = await waitFor(() => getByTestId('pane-style'))
+		const pane = await waitFor(() => getByTestId('pane-style'))
 
-		expect(layoutPane).toBeTruthy()
+		expect(pane).toBeTruthy()
 	})
 
 	it('should respects defaultVisible prop', async () => {
 		const {getByTestId} = renderWithTheme(
 			<LayoutPane
-				testID='pane-visible'
 				defaultVisible={false}
+				testID='pane-visible'
 			>
 				<Text>Hidden Layout</Text>
 			</LayoutPane>
 		)
 
-		const layoutPane = await waitFor(() => getByTestId('pane-visible'))
+		const pane = await waitFor(() => getByTestId('pane-visible'))
 
-		expect(layoutPane).toBeTruthy()
+		expect(pane).toBeTruthy()
 	})
 })

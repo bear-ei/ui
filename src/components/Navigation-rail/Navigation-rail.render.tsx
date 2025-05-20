@@ -32,7 +32,7 @@ export const renderNavigationRail = ({
 	fabElement,
 	id,
 	itemElements,
-	menu,
+	menuElement,
 	testID,
 	...containerProps
 }: RenderNavigationRailProps) => (
@@ -40,7 +40,7 @@ export const renderNavigationRail = ({
 		{...containerProps}
 		testID={testID ?? `navigationRail--${id}`}
 	>
-		{menu && <Menu testID={`navigationRail__menu--${id}`}>{menu}</Menu>}
+		{menuElement && <Menu testID={`navigationRail__menu--${id}`}>{menuElement}</Menu>}
 		{fabElement && <Fab testID={`navigationRail__fab--${id}`}>{fabElement}</Fab>}
 		<Destination
 			destinationPosition={destinationPosition}

@@ -32,8 +32,8 @@ describe('Layout Component', () => {
 	it('should applies vertical layout direction correctly', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Layout
-				testID='layout-vertical'
 				layout={LAYOUT.VERTICAL}
+				testID='layout-vertical'
 			>
 				<Text>Vertical Content</Text>
 			</Layout>
@@ -47,8 +47,8 @@ describe('Layout Component', () => {
 	it('should merges contentStyle correctly', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Layout
-				testID='layout-style'
 				contentStyle={{margin: 8}}
+				testID='layout-style'
 			>
 				<Text>Styled Layout</Text>
 			</Layout>
@@ -62,8 +62,8 @@ describe('Layout Component', () => {
 	it('should respects defaultVisible flag', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Layout
-				testID='layout-hidden'
 				defaultVisible={false}
+				testID='layout-hidden'
 			>
 				<Text>Hidden Layout</Text>
 			</Layout>

@@ -6,13 +6,13 @@ import {ListAffordanceButton} from './List-affordance-button.component'
 describe('ListAffordanceButton', () => {
 	it('should renders label text correctly when no icon provided', async () => {
 		const {getByTestId, getByText} = renderWithTheme(<ListAffordanceButton labelText='Action' />)
-		const {listAffordanceButtonAction, listAffordanceButton} = await waitFor(() => ({
-			listAffordanceButtonAction: getByText('Action'),
-			listAffordanceButton: getByTestId('listAffordanceButton__animatedLabelText--test-id')
+		const {action, labelText} = await waitFor(() => ({
+			action: getByText('Action'),
+			labelText: getByTestId('listAffordanceButton__animatedLabelText--test-id')
 		}))
 
-		expect(listAffordanceButtonAction).toBeTruthy()
-		expect(listAffordanceButton).toBeTruthy()
+		expect(action).toBeTruthy()
+		expect(labelText).toBeTruthy()
 	})
 
 	it('should renders custom icon instead of labelText when provided', async () => {
@@ -23,36 +23,36 @@ describe('ListAffordanceButton', () => {
 			/>
 		)
 
-		const {listAffordanceButtonIcon, listAffordanceButton} = await waitFor(() => ({
-			listAffordanceButtonIcon: getByText('🔔'),
-			listAffordanceButton: queryByTestId('listAffordanceButton__animatedLabelText--test-id')
+		const {text, labelText} = await waitFor(() => ({
+			labelText: queryByTestId('listAffordanceButton__animatedLabelText--test-id'),
+			text: getByText('🔔')
 		}))
 
-		expect(listAffordanceButtonIcon).toBeTruthy()
-		expect(listAffordanceButton).toBeNull()
+		expect(labelText).toBeNull()
+		expect(text).toBeTruthy()
 	})
 
 	it('should applies backgroundUnderlayAnimatedStyle and labelTextAnimatedStyle', async () => {
 		const {getByTestId} = renderWithTheme(<ListAffordanceButton labelText='Styled Button' />)
-		const {backgroundUnderlay, animatedLabelText} = await waitFor(() => ({
+		const {backgroundUnderlay, labelText} = await waitFor(() => ({
 			backgroundUnderlay: getByTestId('listAffordanceButton__backgroundUnderlay--test-id'),
-			animatedLabelText: getByTestId('listAffordanceButton__animatedLabelText--test-id')
+			labelText: getByTestId('listAffordanceButton__animatedLabelText--test-id')
 		}))
 
 		expect(backgroundUnderlay).toBeTruthy()
-		expect(animatedLabelText).toBeTruthy()
+		expect(labelText).toBeTruthy()
 	})
 
 	it('should uses custom testID if provided', async () => {
 		const {getByTestId} = renderWithTheme(
 			<ListAffordanceButton
-				testID='customAffordance'
 				labelText='X'
+				testID='customAffordance'
 			/>
 		)
 
-		const customAffordance = await waitFor(() => getByTestId('customAffordance'))
+		const affordance = await waitFor(() => getByTestId('customAffordance'))
 
-		expect(customAffordance).toBeTruthy()
+		expect(affordance).toBeTruthy()
 	})
 })

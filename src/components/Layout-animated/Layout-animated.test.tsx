@@ -1,4 +1,4 @@
-import {act, waitFor} from '@testing-library/react-native'
+import {waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithTheme} from '../../../__test__'
 import {LayoutAnimated} from './Layout-animated.component'
@@ -12,9 +12,9 @@ describe('LayoutAnimated', () => {
 			</LayoutAnimated>
 		)
 
-		const Layout = await waitFor(() => getByText('Visible Layout'))
+		const layout = await waitFor(() => getByText('Visible Layout'))
 
-		expect(Layout).toBeTruthy()
+		expect(layout).toBeTruthy()
 	})
 
 	it('should does not render children if unmount is true and visible is false', async () => {
@@ -26,9 +26,9 @@ describe('LayoutAnimated', () => {
 			/>
 		)
 
-		const Layout = await waitFor(() => queryByTestId('unmounted'))
+		const layout = await waitFor(() => queryByTestId('unmounted'))
 
-		expect(Layout).toBeNull()
+		expect(layout).toBeNull()
 	})
 
 	it('should renders correctly with lazy mode off', async () => {
@@ -41,9 +41,9 @@ describe('LayoutAnimated', () => {
 			</LayoutAnimated>
 		)
 
-		const Layout = await waitFor(() => getByTestId('lazy-off'))
+		const layout = await waitFor(() => getByTestId('lazy-off'))
 
-		expect(Layout).toBeTruthy()
+		expect(layout).toBeTruthy()
 	})
 
 	it('should applies different animated types', async () => {
@@ -59,9 +59,9 @@ describe('LayoutAnimated', () => {
 				</LayoutAnimated>
 			)
 
-			const Layout = await waitFor(() => getByTestId(`animated-${type}`))
+			const layout = await waitFor(() => getByTestId(`animated-${type}`))
 
-			expect(Layout).toBeTruthy()
+			expect(layout).toBeTruthy()
 			unmount()
 		}
 	})
@@ -79,12 +79,10 @@ describe('LayoutAnimated', () => {
 
 		const content = await waitFor(() => getByTestId('layoutAnimated__content--test-id'))
 
-		await act(async () => {
-			content.props.onLayout?.({
-				nativeEvent: {
-					layout: {x: 0, y: 0, width: 800, height: 800}
-				}
-			})
+		content.props.onLayout?.({
+			nativeEvent: {
+				layout: {x: 0, y: 0, width: 800, height: 800}
+			}
 		})
 
 		await waitFor(() => expect(onVisible).toHaveBeenCalledWith(true))

@@ -18,42 +18,42 @@ describe('IconButton Component', () => {
 			icon: getByTestId('iconButton__icon--test-id')
 		}))
 
-		expect(iconButton).toBeTruthy()
 		expect(icon).toBeTruthy()
+		expect(iconButton).toBeTruthy()
 	})
 
 	it('should renders loading state with progress indicator', async () => {
 		const {getByTestId} = renderWithTheme(
 			<IconButton
-				loading
 				icon={<Icon />}
+				loading
 				testID='iconButton'
 			/>
 		)
 
 		const {progress, icon} = await waitFor(() => ({
-			progress: getByTestId('iconButton__progress--test-id'),
-			icon: getByTestId('iconButton__progressIcon--test-id')
+			icon: getByTestId('iconButton__progressIcon--test-id'),
+			progress: getByTestId('iconButton__progress--test-id')
 		}))
 
-		expect(progress).toBeTruthy()
 		expect(icon).toBeTruthy()
+		expect(progress).toBeTruthy()
 	})
 
 	it('should disables interaction when loading is true', async () => {
 		const onPressOut = jest.fn()
 		const {getByTestId} = renderWithTheme(
 			<IconButton
+				icon={<Icon />}
 				loading
 				onPressOut={onPressOut}
-				icon={<Icon />}
 				testID='iconButton'
 			/>
 		)
 
 		const touchable = await waitFor(() => getByTestId('iconButton__touchable--test-id'))
 
-		fireEvent(touchable, 'onPressOut')
+		fireEvent(touchable, 'pressOut')
 		await waitFor(() => expect(onPressOut).not.toHaveBeenCalled())
 	})
 
@@ -62,15 +62,15 @@ describe('IconButton Component', () => {
 		const {getByTestId} = renderWithTheme(
 			<IconButton
 				disabled
-				onPressOut={onPressOut}
 				icon={<Icon />}
+				onPressOut={onPressOut}
 				testID='iconButton'
 			/>
 		)
 
 		const touchable = await waitFor(() => getByTestId('iconButton__touchable--test-id'))
 
-		fireEvent(touchable, 'onPressOut')
+		fireEvent(touchable, 'pressOut')
 		await waitFor(() => expect(onPressOut).not.toHaveBeenCalled())
 	})
 
@@ -80,9 +80,9 @@ describe('IconButton Component', () => {
 		for (const type of types) {
 			const {getByTestId, unmount} = renderWithTheme(
 				<IconButton
-					type={type}
 					icon={<Icon />}
 					testID='iconButton'
+					type={type}
 				/>
 			)
 

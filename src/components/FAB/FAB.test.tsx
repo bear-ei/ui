@@ -9,18 +9,18 @@ describe('Fab Component', () => {
 	it('should renders correctly with default props', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Fab
-				testID='fab'
 				icon={<Text>+</Text>}
+				testID='fab'
 			/>
 		)
 
-		const {fab, fabIcon} = await waitFor(() => ({
+		const {fab, icon} = await waitFor(() => ({
 			fab: getByTestId('fab'),
-			fabIcon: getByTestId('fab__icon--test-id')
+			icon: getByTestId('fab__icon--test-id')
 		}))
 
 		expect(fab).toBeTruthy()
-		expect(fabIcon).toBeTruthy()
+		expect(icon).toBeTruthy()
 	})
 
 	it('should renders labelText when extendedFAB is true', async () => {
@@ -32,34 +32,34 @@ describe('Fab Component', () => {
 			/>
 		)
 
-		const {fabAnimatedLabelText, fabCreate} = await waitFor(() => ({
-			fabAnimatedLabelText: getByTestId('fab__animatedLabelText--test-id'),
-			fabCreate: getByText('Create')
+		const {labelText, create} = await waitFor(() => ({
+			create: getByText('Create'),
+			labelText: getByTestId('fab__animatedLabelText--test-id')
 		}))
 
-		expect(fabAnimatedLabelText).toBeTruthy()
-		expect(fabCreate).toBeTruthy()
+		expect(create).toBeTruthy()
+		expect(labelText).toBeTruthy()
 	})
 
 	it('should renders with different type and size', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Fab
-				testID='fab'
+				extendedFAB
 				icon={<Text>+</Text>}
 				labelText='Add'
-				type={FAB_TYPE.SECONDARY}
 				size={SIZE.LARGE}
-				extendedFAB
+				testID='fab'
+				type={FAB_TYPE.SECONDARY}
 			/>
 		)
 
-		const {fabAnimatedLabelText, fabIcon} = await waitFor(() => ({
-			fabAnimatedLabelText: getByTestId('fab__animatedLabelText--test-id'),
-			fabIcon: getByTestId('fab__icon--test-id')
+		const {labelText, icon} = await waitFor(() => ({
+			icon: getByTestId('fab__icon--test-id'),
+			labelText: getByTestId('fab__animatedLabelText--test-id')
 		}))
 
-		expect(fabIcon).toBeTruthy()
-		expect(fabAnimatedLabelText).toBeTruthy()
+		expect(icon).toBeTruthy()
+		expect(labelText).toBeTruthy()
 	})
 
 	it('should applies animated styles', async () => {
@@ -72,13 +72,13 @@ describe('Fab Component', () => {
 			/>
 		)
 
-		const {fabBackground, fabAnimatedLabelText} = await waitFor(() => ({
-			fabAnimatedLabelText: getByTestId('fab__animatedLabelText--test-id'),
-			fabBackground: getByTestId('fab__backgroundUnderlay--test-id')
+		const {backgroundUnderlay, labelText} = await waitFor(() => ({
+			backgroundUnderlay: getByTestId('fab__backgroundUnderlay--test-id'),
+			labelText: getByTestId('fab__animatedLabelText--test-id')
 		}))
 
-		expect(fabAnimatedLabelText.props.style).toBeDefined()
-		expect(fabBackground.props.style).toBeDefined()
+		expect(backgroundUnderlay.props.style).toBeDefined()
+		expect(labelText.props.style).toBeDefined()
 	})
 
 	it('should trigger onPressOut callback when pressOut event occurs', async () => {

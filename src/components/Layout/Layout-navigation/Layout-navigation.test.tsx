@@ -12,9 +12,9 @@ describe('LayoutNavigation Component', () => {
 			</LayoutNavigation>
 		)
 
-		const layoutNavigation = await waitFor(() => getByText('Navigation Item'))
+		const navigation = await waitFor(() => getByText('Navigation Item'))
 
-		expect(layoutNavigation).toBeTruthy()
+		expect(navigation).toBeTruthy()
 	})
 
 	it('should applies default animatedType and visibility', async () => {
@@ -24,9 +24,9 @@ describe('LayoutNavigation Component', () => {
 			</LayoutNavigation>
 		)
 
-		const layoutNavigation = await waitFor(() => getByTestId('layoutNavigation--test-id'))
+		const navigation = await waitFor(() => getByTestId('layoutNavigation--test-id'))
 
-		expect(layoutNavigation).toBeTruthy()
+		expect(navigation).toBeTruthy()
 	})
 
 	it('should accepts custom testID', async () => {
@@ -36,23 +36,23 @@ describe('LayoutNavigation Component', () => {
 			</LayoutNavigation>
 		)
 
-		const layoutNavigation = await waitFor(() => getByTestId('customNavTest'))
+		const navigation = await waitFor(() => getByTestId('customNavTest'))
 
-		expect(layoutNavigation).toBeTruthy()
+		expect(navigation).toBeTruthy()
 	})
 
 	it(' should renders with specified animatedType', async () => {
 		const {getByTestId} = renderWithTheme(
 			<LayoutNavigation
-				testID='animatedNav'
 				animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
+				testID='animatedNav'
 			>
 				<Text>Expanded</Text>
 			</LayoutNavigation>
 		)
 
-		const layoutNavigation = await waitFor(() => getByTestId('animatedNav'))
+		const navigation = await waitFor(() => getByTestId('animatedNav'))
 
-		expect(layoutNavigation).toBeTruthy()
+		expect(navigation).toBeTruthy()
 	})
 })

@@ -50,7 +50,7 @@ export const renderSideSheetContentLeading =
 				<IconButton
 					icon={iconElement}
 					onPressOut={onBack}
-					testID={`sideSheet__iconButton--${id}`}
+					testID={`sideSheet__backIconButton--${id}`}
 					type={ICON_BUTTON_TYPE.STANDARD}
 				/>
 			:	undefined)
@@ -75,7 +75,7 @@ export const renderSideSheetContentTrailing =
 				<IconButton
 					icon={iconElement}
 					onPressOut={onClose}
-					testID={`sideSheet__iconButton--${id}`}
+					testID={`sideSheet__closeIconButton--${id}`}
 					type={ICON_BUTTON_TYPE.STANDARD}
 				/>
 			:	undefined)

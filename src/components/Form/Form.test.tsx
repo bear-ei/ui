@@ -7,27 +7,27 @@ import {FormStore} from './Form.interface'
 
 describe('Form Component', () => {
 	const mockSetCallbacks = jest.fn()
-	const mockSetInitialValues = jest.fn(() => jest.fn())
 	const mockSetFieldKeys = jest.fn()
+	const mockSetInitialValues = jest.fn(() => jest.fn())
 	const mockForm = {
-		setCallbacks: mockSetCallbacks,
-		setInitialValues: mockSetInitialValues,
-		setFieldKeys: mockSetFieldKeys,
 		getFieldEntities: () => [],
 		getFieldEntitiesName: () => () => [],
 		getFieldsError: () => ({}),
 		getFieldsValue: () => 'value',
 		getInitialValues: () => ({}),
+		isFieldsTouched: undefined,
 		resetFields: jest.fn(),
+		setCallbacks: mockSetCallbacks,
+		setFieldKeys: mockSetFieldKeys,
 		setFieldsError: jest.fn(() => jest.fn()),
 		setFieldsTouched: jest.fn(() => jest.fn()),
 		setFieldsValidate: jest.fn(),
 		setFieldsValue: jest.fn(() => jest.fn()),
+		setInitialValues: mockSetInitialValues,
 		signInField: jest.fn(),
 		signOutFields: jest.fn(),
 		submit: jest.fn(),
-		validateFields: jest.fn(() => Promise.resolve({})),
-		isFieldsTouched: undefined
+		validateFields: jest.fn(() => Promise.resolve({}))
 	} as unknown as FormStore
 
 	const mockItems = [
@@ -45,12 +45,12 @@ describe('Form Component', () => {
 		const {getAllByTestId} = renderWithTheme(
 			<Form
 				form={mockForm}
-				items={mockItems}
 				initialValues={{username: 'admin', email: 'email'}}
+				items={mockItems}
 			/>
 		)
 
-		const items = await waitFor(() => getAllByTestId(/form__formItem--/))
+		const items = await waitFor(() => getAllByTestId('form__formItem--test-id'))
 
 		expect(items.length).toBe(2)
 	})
@@ -66,7 +66,7 @@ describe('Form Component', () => {
 			/>
 		)
 
-		await waitFor(() => getAllByTestId(/form__formItem--/))
+		await waitFor(() => getAllByTestId('form__formItem--test-id'))
 
 		expect(mockSetCallbacks).toHaveBeenCalled()
 	})
@@ -75,12 +75,12 @@ describe('Form Component', () => {
 		const {getAllByTestId} = renderWithTheme(
 			<Form
 				form={mockForm}
-				items={mockItems}
 				initialValues={{username: 'admin'}}
+				items={mockItems}
 			/>
 		)
 
-		await waitFor(() => getAllByTestId(/form__formItem--/))
+		await waitFor(() => getAllByTestId('form__formItem--test-id'))
 
 		expect(mockSetInitialValues).toHaveBeenCalled()
 	})
@@ -93,7 +93,7 @@ describe('Form Component', () => {
 			/>
 		)
 
-		await waitFor(() => getAllByTestId(/form__formItem--/))
+		await waitFor(() => getAllByTestId('form__formItem--test-id'))
 
 		expect(mockSetFieldKeys).toHaveBeenCalledWith(['username', 'email'])
 	})

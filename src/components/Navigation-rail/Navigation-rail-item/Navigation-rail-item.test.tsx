@@ -2,7 +2,7 @@ import {fireEvent, waitFor} from '@testing-library/react-native'
 import {renderWithTheme} from '../../../../__test__'
 import {NavigationRailItem} from './Navigation-rail-item.component'
 
-describe('NavigationRailItem', () => {
+describe('NavigationRailItem Component', () => {
 	it('should renders correctly with label and icon', async () => {
 		const {getByTestId, getByText} = renderWithTheme(
 			<NavigationRailItem
@@ -30,8 +30,8 @@ describe('NavigationRailItem', () => {
 			<NavigationRailItem
 				activeKey='other'
 				indexKey='home'
-				onActive={onActive}
 				labelText='Home'
+				onActive={onActive}
 			/>
 		)
 
@@ -47,8 +47,8 @@ describe('NavigationRailItem', () => {
 			<NavigationRailItem
 				activeKey='home'
 				indexKey='home'
-				onActive={onActive}
 				labelText='Home'
+				onActive={onActive}
 			/>
 		)
 

@@ -7,21 +7,21 @@ import {BUTTON_TYPE} from './Button.enum'
 describe('Button Component', () => {
 	it('should renders with default props', async () => {
 		const {getByTestId} = renderWithTheme(<Button testID='button' />)
-		const {button, buttonAnimatedLabelText} = await waitFor(() => ({
+		const {button, labelText} = await waitFor(() => ({
 			button: getByTestId('button'),
-			buttonAnimatedLabelText: getByTestId('button__animatedLabelText--test-id')
+			labelText: getByTestId('button__animatedLabelText--test-id')
 		}))
 
 		expect(button).toBeTruthy()
-		expect(buttonAnimatedLabelText.props.children).toBe('Label')
+		expect(labelText.props.children).toBe('Label')
 	})
 
 	it('should renders with different BUTTON_TYPE.FILLED', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Button
-				type={BUTTON_TYPE.FILLED}
-				testID={`button-${BUTTON_TYPE.FILLED}`}
 				loading
+				testID={`button-${BUTTON_TYPE.FILLED}`}
+				type={BUTTON_TYPE.FILLED}
 			/>
 		)
 
@@ -33,8 +33,8 @@ describe('Button Component', () => {
 	it('should renders with different BUTTON_TYPE.OUTLINED', async () => {
 		const {getByTestId} = renderWithTheme(
 			<Button
-				type={BUTTON_TYPE.OUTLINED}
 				testID={`button-${BUTTON_TYPE.OUTLINED}`}
+				type={BUTTON_TYPE.OUTLINED}
 			/>
 		)
 
@@ -47,18 +47,18 @@ describe('Button Component', () => {
 		const icon = <Text>🔥</Text>
 		const {getByTestId} = renderWithTheme(
 			<Button
-				testID='icon-button'
 				icon={icon}
+				testID='icon-button'
 			/>
 		)
 
-		const {button, buttonIcon} = await waitFor(() => ({
+		const {button, iconLayout} = await waitFor(() => ({
 			button: getByTestId('icon-button'),
-			buttonIcon: getByTestId('button__iconLayout--test-id')
+			iconLayout: getByTestId('button__iconLayout--test-id')
 		}))
 
 		expect(button).toBeTruthy()
-		expect(buttonIcon).toBeTruthy()
+		expect(iconLayout).toBeTruthy()
 	})
 
 	it('should renders underlay and elevation correctly', async () => {
@@ -69,13 +69,13 @@ describe('Button Component', () => {
 			/>
 		)
 
-		const {buttonBackground, buttonElevation} = await waitFor(() => ({
-			buttonBackground: getByTestId('button__backgroundUnderlay--test-id'),
-			buttonElevation: getByTestId('button__elevation--test-id')
+		const {underlay, elevation} = await waitFor(() => ({
+			elevation: getByTestId('button__elevation--test-id'),
+			underlay: getByTestId('button__backgroundUnderlay--test-id')
 		}))
 
-		expect(buttonBackground).toBeTruthy()
-		expect(buttonElevation).toBeTruthy()
+		expect(elevation).toBeTruthy()
+		expect(underlay).toBeTruthy()
 	})
 
 	it('should does not render elevation for non-elevated buttons', async () => {
@@ -86,9 +86,9 @@ describe('Button Component', () => {
 			/>
 		)
 
-		const buttonElevation = await waitFor(() => queryByTestId('button__elevation--test-id'))
+		const elevation = await waitFor(() => queryByTestId('button__elevation--test-id'))
 
-		expect(buttonElevation).toBeNull()
+		expect(elevation).toBeNull()
 	})
 
 	it('should shows active indicator for LINK type on interaction', async () => {
@@ -99,11 +99,11 @@ describe('Button Component', () => {
 			/>
 		)
 
-		const buttonActiveIndicatorLayoutAnimated = await waitFor(() =>
+		const indicatorLayout = await waitFor(() =>
 			getByTestId('button__activeIndicatorLayoutAnimated--test-id')
 		)
 
-		expect(buttonActiveIndicatorLayoutAnimated).toBeTruthy()
+		expect(indicatorLayout).toBeTruthy()
 	})
 
 	it('should trigger onPressOut callback when pressOut event occurs', async () => {
