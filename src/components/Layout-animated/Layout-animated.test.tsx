@@ -1,12 +1,12 @@
 import {act, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {LayoutAnimated} from './Layout-animated.component'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 describe('LayoutAnimated', () => {
 	it('should renders children when visible by default', async () => {
-		const {getByText} = renderWithTheme(
+		const {getByText} = await renderWithAct(
 			<LayoutAnimated>
 				<Text>Visible Layout</Text>
 			</LayoutAnimated>
@@ -18,7 +18,7 @@ describe('LayoutAnimated', () => {
 	})
 
 	it('should does not render children if unmount is true and visible is false', async () => {
-		const {queryByTestId} = renderWithTheme(
+		const {queryByTestId} = await renderWithAct(
 			<LayoutAnimated
 				unmount
 				visible={false}
@@ -32,7 +32,7 @@ describe('LayoutAnimated', () => {
 	})
 
 	it('should renders correctly with lazy mode off', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<LayoutAnimated
 				lazy={false}
 				testID='lazy-off'
@@ -50,7 +50,7 @@ describe('LayoutAnimated', () => {
 		const types = Object.values(LAYOUT_ANIMATED)
 
 		for (const type of types) {
-			const {getByTestId, unmount} = renderWithTheme(
+			const {getByTestId, unmount} = await renderWithAct(
 				<LayoutAnimated
 					animatedType={type}
 					testID={`animated-${type}`}
@@ -68,7 +68,7 @@ describe('LayoutAnimated', () => {
 
 	it('should calls onVisible when visibility changes', async () => {
 		const onVisible = jest.fn()
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<LayoutAnimated
 				visible={true}
 				onVisible={onVisible}

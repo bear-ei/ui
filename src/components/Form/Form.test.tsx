@@ -1,6 +1,6 @@
 import {waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {FormItemProps} from './Form-item'
 import {Form} from './Form.component'
 import {FormStore} from './Form.interface'
@@ -42,7 +42,7 @@ describe('Form Component', () => {
 	] as FormItemProps[]
 
 	it('should render items after status is SUCCEEDED', async () => {
-		const {getAllByTestId} = renderWithTheme(
+		const {getAllByTestId} = await renderWithAct(
 			<Form
 				form={mockForm}
 				initialValues={{username: 'admin', email: 'email'}}
@@ -56,7 +56,7 @@ describe('Form Component', () => {
 	})
 
 	it('should register callbacks correctly', async () => {
-		const {getAllByTestId} = renderWithTheme(
+		const {getAllByTestId} = await renderWithAct(
 			<Form
 				form={mockForm}
 				items={mockItems}
@@ -72,7 +72,7 @@ describe('Form Component', () => {
 	})
 
 	it('should initialize initial values correctly', async () => {
-		const {getAllByTestId} = renderWithTheme(
+		const {getAllByTestId} = await renderWithAct(
 			<Form
 				form={mockForm}
 				initialValues={{username: 'admin'}}
@@ -86,7 +86,7 @@ describe('Form Component', () => {
 	})
 
 	it('should extract and set form field keys', async () => {
-		const {getAllByTestId} = renderWithTheme(
+		const {getAllByTestId} = await renderWithAct(
 			<Form
 				form={mockForm}
 				items={mockItems}
@@ -99,7 +99,7 @@ describe('Form Component', () => {
 	})
 
 	it('should apply testID correctly', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Form
 				form={mockForm}
 				items={mockItems}

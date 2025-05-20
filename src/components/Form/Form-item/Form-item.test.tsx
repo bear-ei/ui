@@ -1,6 +1,6 @@
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {NativeSyntheticEvent, TargetedEvent, Text} from 'react-native'
-import {renderWithTheme} from '../../../../__test__'
+import {renderWithAct} from '../../../../__test__'
 import {FormStore} from '../Form.interface'
 import {FormContext} from '../use-form-context.hook'
 import {FormItem} from './Form-item.component'
@@ -35,7 +35,7 @@ describe('FormItem Component', () => {
 	)
 
 	it('should renders nothing when status is IDLE, then renders after init', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<FormContext.Provider value={mockContext}>
 				<FormItem
 					name='username'
@@ -55,7 +55,7 @@ describe('FormItem Component', () => {
 	})
 
 	it('should calls setFieldsValue on value change', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<FormContext.Provider value={mockContext}>
 				<FormItem
 					name='password'
@@ -72,7 +72,7 @@ describe('FormItem Component', () => {
 	})
 
 	it('should displays error message from constraints', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<FormContext.Provider value={mockContext}>
 				<FormItem
 					name='email'
@@ -88,7 +88,7 @@ describe('FormItem Component', () => {
 	})
 
 	it('should calls validateFields on blur', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<FormContext.Provider value={mockContext}>
 				<FormItem
 					name='email'
@@ -109,7 +109,7 @@ describe('FormItem Component', () => {
 
 		mockSignInField.mockReturnValueOnce({signOut: mockSignOut})
 
-		const {unmount, getByTestId} = renderWithTheme(
+		const {unmount, getByTestId} = await renderWithAct(
 			<FormContext.Provider value={mockContext}>
 				<FormItem
 					name='logoutField'

@@ -1,5 +1,5 @@
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {SideSheet} from './Side-sheet.component'
 import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
 
@@ -19,7 +19,7 @@ describe('SideSheet Component', () => {
 	})
 
 	it('should not render content when visible is false by default', async () => {
-		const {queryByTestId} = renderWithTheme(
+		const {queryByTestId} = await renderWithAct(
 			<SideSheet
 				content={<></>}
 				testID='test-sheet'
@@ -32,7 +32,7 @@ describe('SideSheet Component', () => {
 	})
 
 	it('should render SideSheetContent when visible is true', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<SideSheet
 				content={<></>}
 				testID='test-sheet'
@@ -47,7 +47,7 @@ describe('SideSheet Component', () => {
 	})
 
 	it('should trigger onClose and hide when close button is pressed', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<SideSheet
 				close
 				content={<></>}
@@ -64,7 +64,7 @@ describe('SideSheet Component', () => {
 	})
 
 	it('should trigger onBack if back button is pressed (not disabled)', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<SideSheet
 				back
 				content={<></>}
@@ -81,7 +81,7 @@ describe('SideSheet Component', () => {
 	})
 
 	it('should not close if back is pressed but disabledClose is true (SIDEBAR)', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<SideSheet
 				content={<></>}
 				back
@@ -99,7 +99,7 @@ describe('SideSheet Component', () => {
 	})
 
 	it('should call onCancel and onConfirm buttons if defined', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<SideSheet
 				content={<></>}
 				onCancel={mockOnCancel}
@@ -126,7 +126,7 @@ describe('SideSheet Component', () => {
 	})
 
 	it('should not render modal container for STANDARD and SIDEBAR types', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<SideSheet
 				content={<></>}
 				type={SIDE_SHEET_TYPE.STANDARD}

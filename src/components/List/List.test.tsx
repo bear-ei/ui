@@ -1,5 +1,5 @@
 import {act, waitFor} from '@testing-library/react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {List} from './List.component'
 import type {ListData} from './List.interface'
 
@@ -11,7 +11,7 @@ const mockData: ListData[] = [
 
 describe('List Component', () => {
 	it('should renders the list with all items', async () => {
-		const {getByText, getByTestId} = renderWithTheme(<List data={mockData} />)
+		const {getByText, getByTestId} = await renderWithAct(<List data={mockData} />)
 		const virtualList = await waitFor(() => getByTestId('list__virtualList--test-id'))
 
 		await act(async () =>
@@ -35,7 +35,7 @@ describe('List Component', () => {
 
 	it('should applies extraData correctly and rerenders items', async () => {
 		const extraData = ['foo']
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<List
 				data={mockData}
 				extraData={extraData}

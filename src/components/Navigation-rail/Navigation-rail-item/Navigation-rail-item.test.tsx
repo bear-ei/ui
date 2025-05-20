@@ -1,10 +1,10 @@
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
-import {renderWithTheme} from '../../../../__test__'
+import {renderWithAct} from '../../../../__test__'
 import {NavigationRailItem} from './Navigation-rail-item.component'
 
 describe('NavigationRailItem Component', () => {
 	it('should renders correctly with label and icon', async () => {
-		const {getByTestId, getByText} = renderWithTheme(
+		const {getByTestId, getByText} = await renderWithAct(
 			<NavigationRailItem
 				activeKey='home'
 				indexKey='home'
@@ -26,7 +26,7 @@ describe('NavigationRailItem Component', () => {
 
 	it('should calls onActive on press out when inactive', async () => {
 		const onActive = jest.fn()
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<NavigationRailItem
 				activeKey='other'
 				indexKey='home'
@@ -43,7 +43,7 @@ describe('NavigationRailItem Component', () => {
 
 	it('should does not call onActive when already active', async () => {
 		const onActive = jest.fn()
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<NavigationRailItem
 				activeKey='home'
 				indexKey='home'

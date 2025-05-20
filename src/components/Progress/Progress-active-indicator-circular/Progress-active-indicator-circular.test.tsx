@@ -1,11 +1,11 @@
 import {waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../../__test__'
+import {renderWithAct} from '../../../../__test__'
 import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circular.component'
 
 describe('ProgressActiveIndicatorCircular Component', () => {
 	it('should renders correctly with default props', async () => {
-		const {getByTestId} = renderWithTheme(<ProgressActiveIndicatorCircular />)
+		const {getByTestId} = await renderWithAct(<ProgressActiveIndicatorCircular />)
 		const {indicator, svg, circle} = await waitFor(() => ({
 			circle: getByTestId('progressActiveIndicatorCircular__animatedCircle--test-id'),
 			indicator: getByTestId('progressActiveIndicatorCircular--test-id'),
@@ -18,7 +18,7 @@ describe('ProgressActiveIndicatorCircular Component', () => {
 	})
 
 	it('should renders with custom size and strokeWidth', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<ProgressActiveIndicatorCircular
 				size={100}
 				strokeWidth={8}
@@ -31,7 +31,7 @@ describe('ProgressActiveIndicatorCircular Component', () => {
 	})
 
 	it('should renders content inside the indicator', async () => {
-		const {getByText} = renderWithTheme(
+		const {getByText} = await renderWithAct(
 			<ProgressActiveIndicatorCircular content={<Text>{'Loading'}</Text>} />
 		)
 

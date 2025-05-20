@@ -1,12 +1,12 @@
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {Icon} from '../Icon'
 import {IconButton} from './Icon-button.component'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
 describe('IconButton Component', () => {
 	it('should renders default filled icon button correctly', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<IconButton
 				icon={<Icon />}
 				testID='iconButton'
@@ -23,7 +23,7 @@ describe('IconButton Component', () => {
 	})
 
 	it('should renders loading state with progress indicator', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<IconButton
 				icon={<Icon />}
 				loading
@@ -42,7 +42,7 @@ describe('IconButton Component', () => {
 
 	it('should disables interaction when loading is true', async () => {
 		const onPressOut = jest.fn()
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<IconButton
 				icon={<Icon />}
 				loading
@@ -59,7 +59,7 @@ describe('IconButton Component', () => {
 
 	it('should disables interaction when disabled prop is true', async () => {
 		const onPressOut = jest.fn()
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<IconButton
 				disabled
 				icon={<Icon />}
@@ -78,7 +78,7 @@ describe('IconButton Component', () => {
 		const types = Object.values(ICON_BUTTON_TYPE)
 
 		for (const type of types) {
-			const {getByTestId, unmount} = renderWithTheme(
+			const {getByTestId, unmount} = await renderWithAct(
 				<IconButton
 					icon={<Icon />}
 					testID='iconButton'
@@ -94,7 +94,7 @@ describe('IconButton Component', () => {
 	})
 
 	it('should renders with labelText used as accessibilityLabel', async () => {
-		const {getByLabelText} = renderWithTheme(
+		const {getByLabelText} = await renderWithAct(
 			<IconButton
 				icon={<Icon />}
 				labelText='Warning'

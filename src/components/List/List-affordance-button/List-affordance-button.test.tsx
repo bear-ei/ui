@@ -1,11 +1,11 @@
 import {waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../../__test__'
+import {renderWithAct} from '../../../../__test__'
 import {ListAffordanceButton} from './List-affordance-button.component'
 
 describe('ListAffordanceButton', () => {
 	it('should renders label text correctly when no icon provided', async () => {
-		const {getByTestId, getByText} = renderWithTheme(<ListAffordanceButton labelText='Action' />)
+		const {getByTestId, getByText} = await renderWithAct(<ListAffordanceButton labelText='Action' />)
 		const {action, labelText} = await waitFor(() => ({
 			action: getByText('Action'),
 			labelText: getByTestId('listAffordanceButton__animatedLabelText--test-id')
@@ -16,7 +16,7 @@ describe('ListAffordanceButton', () => {
 	})
 
 	it('should renders custom icon instead of labelText when provided', async () => {
-		const {queryByTestId, getByText} = renderWithTheme(
+		const {queryByTestId, getByText} = await renderWithAct(
 			<ListAffordanceButton
 				icon={<Text>🔔</Text>}
 				labelText='ShouldNotRender'
@@ -33,7 +33,7 @@ describe('ListAffordanceButton', () => {
 	})
 
 	it('should applies backgroundUnderlayAnimatedStyle and labelTextAnimatedStyle', async () => {
-		const {getByTestId} = renderWithTheme(<ListAffordanceButton labelText='Styled Button' />)
+		const {getByTestId} = await renderWithAct(<ListAffordanceButton labelText='Styled Button' />)
 		const {backgroundUnderlay, labelText} = await waitFor(() => ({
 			backgroundUnderlay: getByTestId('listAffordanceButton__backgroundUnderlay--test-id'),
 			labelText: getByTestId('listAffordanceButton__animatedLabelText--test-id')
@@ -44,7 +44,7 @@ describe('ListAffordanceButton', () => {
 	})
 
 	it('should uses custom testID if provided', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<ListAffordanceButton
 				labelText='X'
 				testID='customAffordance'

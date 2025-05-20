@@ -1,12 +1,12 @@
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../../__test__'
+import {renderWithAct} from '../../../../__test__'
 import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Side-sheet.enum'
 import {SideSheetContent} from './Side-sheet-content.component'
 
 describe('SideSheetContent Component', () => {
 	it('should renders correctly with default props', async () => {
-		const {getByTestId} = renderWithTheme(<SideSheetContent visible />)
+		const {getByTestId} = await renderWithAct(<SideSheetContent visible />)
 		const {sheetContent, header, headerText} = await waitFor(() => ({
 			header: getByTestId('sideSheetContent__header--test-id'),
 			headerText: getByTestId('sideSheetContent__headerText--test-id'),
@@ -19,7 +19,7 @@ describe('SideSheetContent Component', () => {
 	})
 
 	it('should renders leading and trailing elements when provided', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<SideSheetContent
 				headlineLeading={
 					<Text testID='sideSheetContent__leading--text'>{'customLeading'}</Text>
@@ -43,7 +43,7 @@ describe('SideSheetContent Component', () => {
 	it('should fires onBack and onClose when IconButtons are clicked', async () => {
 		const mockBack = jest.fn()
 		const mockClose = jest.fn()
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<SideSheetContent
 				back
 				close
@@ -72,7 +72,7 @@ describe('SideSheetContent Component', () => {
 	it('should renders footer buttons and handles cancel/confirm', async () => {
 		const mockCancel = jest.fn()
 		const mockConfirm = jest.fn()
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<SideSheetContent
 				footerVisible
 				onCancel={mockCancel}
@@ -98,7 +98,7 @@ describe('SideSheetContent Component', () => {
 	})
 
 	it('should applies correct styles for type and position', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<SideSheetContent
 				position={SIDE_SHEET_POSITION.HORIZONTAL_START}
 				type={SIDE_SHEET_TYPE.MODAL}

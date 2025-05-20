@@ -1,14 +1,14 @@
 import {waitFor} from '@testing-library/react-native'
 import {act} from 'react'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {Skeleton} from '../Skeleton'
 
 jest.useFakeTimers()
 
 describe('Skeleton', () => {
 	it('should render skeleton by default', async () => {
-		const {getByTestId} = renderWithTheme(<Skeleton skeleton={<Text>Loading...</Text>} />)
+		const {getByTestId} = await renderWithAct(<Skeleton skeleton={<Text>Loading...</Text>} />)
 		const contentItemLayout = await waitFor(() =>
 			getByTestId('skeleton__contentItemLayoutVisible--test-id')
 		)
@@ -17,7 +17,7 @@ describe('Skeleton', () => {
 	})
 
 	it('should hide skeleton after duration', async () => {
-		const {getByTestId, queryByTestId} = renderWithTheme(
+		const {getByTestId, queryByTestId} = await renderWithAct(
 			<Skeleton
 				duration={1000}
 				skeleton={<Text>Loading...</Text>}
@@ -41,21 +41,21 @@ describe('Skeleton', () => {
 	})
 
 	it('should render Circle shape correctly', async () => {
-		const {getByTestId} = renderWithTheme(<Skeleton.Circle testID='skeleton-circle' />)
+		const {getByTestId} = await renderWithAct(<Skeleton.Circle testID='skeleton-circle' />)
 		const circle = await waitFor(() => getByTestId('skeleton-circle'))
 
 		expect(circle).toBeTruthy()
 	})
 
 	it('should render Square shape correctly', async () => {
-		const {getByTestId} = renderWithTheme(<Skeleton.Square testID='skeleton-square' />)
+		const {getByTestId} = await renderWithAct(<Skeleton.Square testID='skeleton-square' />)
 		const square = await waitFor(() => getByTestId('skeleton-square'))
 
 		expect(square).toBeTruthy()
 	})
 
 	it('should render Rectangular shape correctly', async () => {
-		const {getByTestId} = renderWithTheme(<Skeleton.Rectangular testID='skeleton-rectangular' />)
+		const {getByTestId} = await renderWithAct(<Skeleton.Rectangular testID='skeleton-rectangular' />)
 		const rectangular = await waitFor(() => getByTestId('skeleton-rectangular'))
 
 		expect(rectangular).toBeTruthy()

@@ -1,10 +1,10 @@
 import {waitFor} from '@testing-library/react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {Avatar} from './Avatar.component'
 
 describe('Avatar Component', () => {
 	it('should renders labelText when no image source is provided', async () => {
-		const {getByTestId} = renderWithTheme(<Avatar labelText='John' />)
+		const {getByTestId} = await renderWithAct(<Avatar labelText='John' />)
 		const labelText = await waitFor(() => getByTestId('avatar__labelText--test-id'))
 
 		expect(labelText.props.children).toBe('J')
@@ -12,7 +12,7 @@ describe('Avatar Component', () => {
 	})
 
 	it('should renders image when source is provided', async () => {
-		const {getByTestId, queryByTestId} = renderWithTheme(
+		const {getByTestId, queryByTestId} = await renderWithAct(
 			<Avatar
 				source={{uri: 'https://example.com/image.png'}}
 				testID='avatar'
@@ -29,7 +29,7 @@ describe('Avatar Component', () => {
 	})
 
 	it('should renders image with defaultSource when only defaultSource is provided', async () => {
-		const {getByTestId, queryByTestId} = renderWithTheme(
+		const {getByTestId, queryByTestId} = await renderWithAct(
 			<Avatar
 				accessibilityLabel='T'
 				defaultSource={{uri: 'https://example.com/default.png'}}
@@ -47,7 +47,7 @@ describe('Avatar Component', () => {
 	})
 
 	it('should applies backgroundColor and size correctly', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Avatar
 				backgroundColor='#123456'
 				labelText='B'
@@ -63,7 +63,7 @@ describe('Avatar Component', () => {
 	})
 
 	it('should sets accessibilityLabel based on labelText', async () => {
-		const {getByLabelText} = renderWithTheme(
+		const {getByLabelText} = await renderWithAct(
 			<Avatar
 				labelText='Z'
 				testID='avatar'

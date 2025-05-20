@@ -1,11 +1,11 @@
 import {waitFor} from '@testing-library/react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {Elevation} from './Elevation.component'
 import {ELEVATION} from './Elevation.enum'
 
 describe('Elevation Component', () => {
 	it('should renders correctly with default level', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Elevation
 				defaultLevel={ELEVATION.LEVEL_1}
 				testID='elevation'
@@ -22,7 +22,7 @@ describe('Elevation Component', () => {
 	})
 
 	it('should uses level prop instead of defaultLevel', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Elevation
 				defaultLevel={ELEVATION.LEVEL_1}
 				level={ELEVATION.LEVEL_3}
@@ -37,7 +37,7 @@ describe('Elevation Component', () => {
 	})
 
 	it('should applies animated shadow style', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Elevation
 				level={ELEVATION.LEVEL_2}
 				testID='elevation'
@@ -50,7 +50,7 @@ describe('Elevation Component', () => {
 	})
 
 	it('should renders with custom shape prop', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Elevation
 				level={ELEVATION.LEVEL_2}
 				shape='FULL'

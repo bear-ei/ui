@@ -1,12 +1,12 @@
 import {waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {LAYOUT} from '../Common'
 import {Layout} from './Layout.component'
 
 describe('Layout Component', () => {
 	it('should renders children correctly', async () => {
-		const {getByText} = renderWithTheme(
+		const {getByText} = await renderWithAct(
 			<Layout>
 				<Text>Layout Content</Text>
 			</Layout>
@@ -18,7 +18,7 @@ describe('Layout Component', () => {
 	})
 
 	it('should uses default layout direction as horizontal', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Layout testID='layout-default'>
 				<Text>Default Layout</Text>
 			</Layout>
@@ -30,7 +30,7 @@ describe('Layout Component', () => {
 	})
 
 	it('should applies vertical layout direction correctly', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Layout
 				layout={LAYOUT.VERTICAL}
 				testID='layout-vertical'
@@ -45,7 +45,7 @@ describe('Layout Component', () => {
 	})
 
 	it('should merges contentStyle correctly', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Layout
 				contentStyle={{margin: 8}}
 				testID='layout-style'
@@ -60,7 +60,7 @@ describe('Layout Component', () => {
 	})
 
 	it('should respects defaultVisible flag', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Layout
 				defaultVisible={false}
 				testID='layout-hidden'

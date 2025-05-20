@@ -1,12 +1,12 @@
 import {waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../../__test__'
+import {renderWithAct} from '../../../../__test__'
 import {LAYOUT} from '../../Common'
 import {LayoutPane} from './Layout-pane.component'
 
 describe('LayoutPane Component', () => {
 	it('should renders children correctly', async () => {
-		const {getByText} = renderWithTheme(
+		const {getByText} = await renderWithAct(
 			<LayoutPane>
 				<Text>Pane Content</Text>
 			</LayoutPane>
@@ -18,7 +18,7 @@ describe('LayoutPane Component', () => {
 	})
 
 	it('should applies default layout direction as horizontal', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<LayoutPane testID='pane-default'>
 				<Text>Default Layout</Text>
 			</LayoutPane>
@@ -30,7 +30,7 @@ describe('LayoutPane Component', () => {
 	})
 
 	it('should applies vertical layout style when layout is set to VERTICAL', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<LayoutPane
 				layout={LAYOUT.VERTICAL}
 				testID='pane-vertical'
@@ -45,7 +45,7 @@ describe('LayoutPane Component', () => {
 	})
 
 	it('should merges contentStyle correctly', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<LayoutPane
 				contentStyle={{padding: 12}}
 				testID='pane-style'
@@ -60,7 +60,7 @@ describe('LayoutPane Component', () => {
 	})
 
 	it('should respects defaultVisible prop', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<LayoutPane
 				defaultVisible={false}
 				testID='pane-visible'

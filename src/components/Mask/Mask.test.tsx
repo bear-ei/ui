@@ -1,10 +1,10 @@
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {Mask} from './Mask.component'
 
 describe('Mask Component', () => {
 	it('should renders correctly with default props', async () => {
-		const {getByTestId} = renderWithTheme(<Mask visible />)
+		const {getByTestId} = await renderWithAct(<Mask visible />)
 		const {mask, content} = await waitFor(() => ({
 			content: getByTestId('mask__content--test-id'),
 			mask: getByTestId('mask--test-id')
@@ -15,7 +15,7 @@ describe('Mask Component', () => {
 	})
 
 	it('should applies background color if provided', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Mask
 				backgroundColor='#123456'
 				visible
@@ -28,7 +28,7 @@ describe('Mask Component', () => {
 	})
 
 	it('should passes interaction handlers to Content', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Mask
 				testID='custom-mask'
 				visible

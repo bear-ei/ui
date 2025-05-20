@@ -1,13 +1,13 @@
 import {SIZE} from '@bearei/material-token'
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {Fab} from './FAB.component'
 import {FAB_TYPE} from './FAB.enum'
 
 describe('Fab Component', () => {
 	it('should renders correctly with default props', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Fab
 				icon={<Text>+</Text>}
 				testID='fab'
@@ -24,7 +24,7 @@ describe('Fab Component', () => {
 	})
 
 	it('should renders labelText when extendedFAB is true', async () => {
-		const {getByTestId, getByText} = renderWithTheme(
+		const {getByTestId, getByText} = await renderWithAct(
 			<Fab
 				icon={<Text>+</Text>}
 				labelText='Create'
@@ -42,7 +42,7 @@ describe('Fab Component', () => {
 	})
 
 	it('should renders with different type and size', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Fab
 				extendedFAB
 				icon={<Text>+</Text>}
@@ -63,7 +63,7 @@ describe('Fab Component', () => {
 	})
 
 	it('should applies animated styles', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Fab
 				extendedFAB
 				icon={<Text>+</Text>}
@@ -83,7 +83,7 @@ describe('Fab Component', () => {
 
 	it('should trigger onPressOut callback when pressOut event occurs', async () => {
 		const onPressOut = jest.fn()
-		const {getByTestId} = renderWithTheme(<Fab onPressOut={onPressOut} />)
+		const {getByTestId} = await renderWithAct(<Fab onPressOut={onPressOut} />)
 		const touchable = await waitFor(() => getByTestId('fab__touchable--test-id'))
 
 		await act(async () => fireEvent(touchable, 'pressOut'))

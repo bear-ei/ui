@@ -1,6 +1,6 @@
 import {waitFor} from '@testing-library/react-native'
 import {SvgMock} from '../../../__mocks__'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {Icon} from './Icon.component'
 import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'
 
@@ -8,14 +8,14 @@ describe('Icon Component', () => {
 	const CustomIcon = () => <SvgMock />
 
 	it('should render with default props', async () => {
-		const {getByTestId} = renderWithTheme(<Icon name={ICON_NAME.ADD} />)
+		const {getByTestId} = await renderWithAct(<Icon name={ICON_NAME.ADD} />)
 		const icon = await waitFor(() => getByTestId('icon--test-id'))
 
 		expect(icon).toBeTruthy()
 	})
 
 	it('should render with custom icon', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Icon
 				icon={CustomIcon}
 				name={ICON_NAME.ADD}
@@ -28,7 +28,7 @@ describe('Icon Component', () => {
 	})
 
 	it('should apply different icon style and type', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Icon
 				iconStyle={ICON_STYLE.SHARP}
 				name={ICON_NAME.ALARM_ON}
@@ -42,7 +42,7 @@ describe('Icon Component', () => {
 	})
 
 	it('should apply disabled fill color when disabled', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Icon
 				disabled
 				name={ICON_NAME.CHECK}
@@ -56,7 +56,7 @@ describe('Icon Component', () => {
 	})
 
 	it('should set correct accessibility props', async () => {
-		const {getByLabelText} = renderWithTheme(<Icon name={ICON_NAME.HOME} />)
+		const {getByLabelText} = await renderWithAct(<Icon name={ICON_NAME.HOME} />)
 		const icon = await waitFor(() => getByLabelText(ICON_NAME.HOME))
 
 		expect(icon).toBeTruthy()

@@ -1,12 +1,12 @@
 import {act, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {Progress} from './Progress.component'
 import {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 
 describe('Progress Component', () => {
 	it('should renders LINEAR progress by default', async () => {
-		const {getByTestId} = renderWithTheme(<Progress value={50} />)
+		const {getByTestId} = await renderWithAct(<Progress value={50} />)
 		const progress = await waitFor(() => getByTestId('progress--test-id'))
 
 		await act(async () =>
@@ -24,7 +24,7 @@ describe('Progress Component', () => {
 	})
 
 	it('should renders CIRCULAR progress when type is CIRCULAR', async () => {
-		const {getByTestId} = renderWithTheme(<Progress type={PROGRESS_TYPE.CIRCULAR} />)
+		const {getByTestId} = await renderWithAct(<Progress type={PROGRESS_TYPE.CIRCULAR} />)
 		const progress = await waitFor(() => getByTestId('progress--test-id'))
 
 		await act(async () =>
@@ -42,7 +42,7 @@ describe('Progress Component', () => {
 	})
 
 	it('should does not render LINEAR indicator when layout.width is 0', async () => {
-		const {queryByTestId} = renderWithTheme(
+		const {queryByTestId} = await renderWithAct(
 			<Progress
 				style={{width: 0}}
 				value={50}
@@ -55,7 +55,7 @@ describe('Progress Component', () => {
 	})
 
 	it('should renders with animatedType DETERMINATE', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<Progress
 				animatedType={PROGRESS_ANIMATED.DETERMINATE}
 				type={PROGRESS_TYPE.CIRCULAR}
@@ -68,7 +68,7 @@ describe('Progress Component', () => {
 	})
 
 	it('should renders custom content in circular progress', async () => {
-		const {getByText, getByTestId} = renderWithTheme(
+		const {getByText, getByTestId} = await renderWithAct(
 			<Progress
 				content={<Text>{'Loading'}</Text>}
 				type={PROGRESS_TYPE.CIRCULAR}

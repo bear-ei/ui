@@ -1,12 +1,12 @@
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
-import {renderWithTheme} from '../../../../__test__'
+import {renderWithAct} from '../../../../__test__'
 import {LIST_SELECT_TYPE} from '../List.enum'
 import {ListItem} from './List-item.component'
 
 describe('ListItem', () => {
 	it('should renders headline and supporting text', async () => {
-		const {getByText} = renderWithTheme(
+		const {getByText} = await renderWithAct(
 			<ListItem
 				headline='Headline'
 				indexKey='item-1'
@@ -24,7 +24,7 @@ describe('ListItem', () => {
 	})
 
 	it('should renders trailing icon when trailing prop is provided', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<ListItem
 				headline='With Trailing'
 				indexKey='item-2'
@@ -39,7 +39,7 @@ describe('ListItem', () => {
 
 	it('should triggers onActive callback when pressed', async () => {
 		const onActive = jest.fn()
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<ListItem
 				headline='Press Me'
 				indexKey='item-3'
@@ -55,7 +55,7 @@ describe('ListItem', () => {
 	})
 
 	it('should renders divider correctly', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<ListItem
 				afterAffordance
 				afterAffordanceActiveKey='item-5'
@@ -71,7 +71,7 @@ describe('ListItem', () => {
 	})
 
 	it('should applies animated headline and content styles', async () => {
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<ListItem
 				activeKey='item-6'
 				headline='Animated'

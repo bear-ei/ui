@@ -1,5 +1,5 @@
 import {waitFor} from '@testing-library/react-native'
-import {renderWithTheme} from '../../../__test__'
+import {renderWithAct} from '../../../__test__'
 import {NavigationRail} from './Navigation-rail.component'
 
 describe('NavigationRail Component', () => {
@@ -9,7 +9,7 @@ describe('NavigationRail Component', () => {
 	]
 
 	it('should renders with items and activates defaultActiveKey', async () => {
-		const {getByTestId, getAllByTestId, getByText} = renderWithTheme(
+		const {getByTestId, getAllByTestId, getByText} = await renderWithAct(
 			<NavigationRail
 				data={mockData}
 				defaultActiveKey='search'
@@ -30,7 +30,7 @@ describe('NavigationRail Component', () => {
 	it('should renders fab and menu elements when provided', async () => {
 		const Fab = () => <></>
 		const Menu = () => <></>
-		const {getByTestId} = renderWithTheme(
+		const {getByTestId} = await renderWithAct(
 			<NavigationRail
 				data={mockData}
 				fab={<Fab />}
