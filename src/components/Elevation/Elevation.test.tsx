@@ -4,6 +4,10 @@ import {Elevation} from './Elevation.component'
 import {ELEVATION} from './Elevation.enum'
 
 describe('Elevation Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders correctly with default level', async () => {
 		const {getByTestId} = await renderWithAct(
 			<Elevation

@@ -1,6 +1,5 @@
-import {ValidationError} from 'class-validator'
 import type {NamePath} from '../../utils'
-import {asyncDebounce, namePath} from '../../utils'
+import {debounce, namePath} from '../../utils'
 import {createFormFieldValidator} from './Form.handle'
 import type {
 	FormCallback,
@@ -161,7 +160,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 							...accumulator,
 							{
 								...entity,
-								validate: asyncDebounce(
+								validate: debounce(
 									createFormFieldValidator<T>({
 										rule: validateRule[entity.name],
 										validatorOptions: {
@@ -169,9 +168,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 											...validatorOptions
 										}
 									})(entity.name)
-								)(delay) as (
-									value?: unknown
-								) => Promise<ValidationError[] | undefined>
+								)(delay)
 							}
 						]
 					:	accumulator,
@@ -276,13 +273,13 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			return
 		}
 
-		const asyncDebouncedValidate = asyncDebounce(
+		const debouncedValidate = debounce(
 			createFormFieldValidator<T>({rule: rule, validatorOptions: restValidatorOptions})(
 				rawEntity.name
 			)
-		)(delay) as (value?: unknown) => Promise<ValidationError[] | undefined>
+		)(delay)
 
-		fieldEntities = [...entities, {...rawEntity, validate: asyncDebouncedValidate}]
+		fieldEntities = [...entities, {...rawEntity, validate: debouncedValidate}]
 
 		setFieldsError()({[name]: undefined} as FormError<T>)
 		setFieldsValue({componentUpdate: false, enableValidate: false})({[name]: initialValues[name]} as T)

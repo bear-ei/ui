@@ -3,6 +3,10 @@ import {renderWithAct} from '../../../__test__'
 import {Mask} from './Mask.component'
 
 describe('Mask Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders correctly with default props', async () => {
 		const {getByTestId} = await renderWithAct(<Mask visible />)
 		const {mask, content} = await waitFor(() => ({

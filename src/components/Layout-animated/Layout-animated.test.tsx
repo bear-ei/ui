@@ -5,6 +5,10 @@ import {LayoutAnimated} from './Layout-animated.component'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 describe('LayoutAnimated Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders children when visible by default', async () => {
 		const {getByText} = await renderWithAct(
 			<LayoutAnimated>

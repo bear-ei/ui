@@ -3,6 +3,10 @@ import {renderWithAct} from '../../../../__test__'
 import {TouchableRipple} from '../Touchable-ripple'
 
 describe('TouchableRipple Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders centered ripple', async () => {
 		const {getByTestId} = await renderWithAct(
 			<TouchableRipple

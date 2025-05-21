@@ -14,6 +14,7 @@ describe('formStore', () => {
 	const updateMock = jest.fn()
 
 	beforeEach(() => {
+		jest.clearAllMocks()
 		store = formStore<TestForm>()
 		store.setFieldKeys(['username', 'email'])
 		store.signInField({

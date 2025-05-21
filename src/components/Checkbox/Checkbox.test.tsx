@@ -3,6 +3,10 @@ import {renderWithAct} from '../../../__test__'
 import {Checkbox} from './Checkbox.component'
 
 describe('Checkbox Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders with default UNSELECTED state', async () => {
 		const {getByTestId} = await renderWithAct(<Checkbox testID='checkbox-test' />)
 		const icon = await waitFor(() => getByTestId('checkbox__icon--blank--test-id'))

@@ -5,6 +5,10 @@ import {IconButton} from './Icon-button.component'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
 describe('IconButton Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders default filled icon button correctly', async () => {
 		const {getByTestId} = await renderWithAct(
 			<IconButton

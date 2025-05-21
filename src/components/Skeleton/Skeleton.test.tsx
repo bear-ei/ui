@@ -1,12 +1,19 @@
-import {waitFor} from '@testing-library/react-native'
-import {act} from 'react'
+import {act, waitFor} from '@testing-library/react-native'
+
 import {Text} from 'react-native'
 import {renderWithAct} from '../../../__test__'
 import {Skeleton} from '../Skeleton'
 
-jest.useFakeTimers()
-
 describe('Skeleton Component', () => {
+	beforeAll(() => {
+		jest.useFakeTimers()
+	})
+
+	afterAll(() => {
+		jest.clearAllTimers()
+		jest.clearAllMocks()
+	})
+
 	it('should render skeleton by default', async () => {
 		const {getByTestId} = await renderWithAct(<Skeleton skeleton={<Text>Loading...</Text>} />)
 		const contentItemLayout = await waitFor(() =>
@@ -32,11 +39,13 @@ describe('Skeleton Component', () => {
 
 		expect(contentItemLayout).toBeTruthy()
 
-		act(() => jest.advanceTimersByTime(1000))
-
+		await act(async () => jest.advanceTimersByTime(1000))
 		await waitFor(() => {
-			expect(queryByTestId('skeleton__contentItemLayoutVisible--test-id')).toBeNull()
-			expect(getByTestId('skeleton__contentItemLayoutNotVisible--test-id')).toBeTruthy()
+			const layoutVisible = queryByTestId('skeleton__contentItemLayoutVisible--test-id')
+			const layoutNotVisible = getByTestId('skeleton__contentItemLayoutNotVisible--test-id')
+
+			expect(layoutVisible).toBeNull()
+			expect(layoutNotVisible).toBeTruthy()
 		})
 	})
 

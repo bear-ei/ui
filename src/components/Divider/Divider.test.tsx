@@ -4,6 +4,10 @@ import {LAYOUT} from '../Common'
 import {Divider} from './Divider.component'
 
 describe('Divider Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders with default props', async () => {
 		const {getByTestId} = await renderWithAct(<Divider testID='divider' />)
 		const {divider, content} = await waitFor(() => ({

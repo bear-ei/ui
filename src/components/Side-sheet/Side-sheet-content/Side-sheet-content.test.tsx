@@ -5,6 +5,10 @@ import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Side-sheet.enum'
 import {SideSheetContent} from './Side-sheet-content.component'
 
 describe('SideSheetContent Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders correctly with default props', async () => {
 		const {getByTestId} = await renderWithAct(<SideSheetContent visible />)
 		const {sheetContent, header, headerText} = await waitFor(() => ({

@@ -6,6 +6,10 @@ import {Fab} from './FAB.component'
 import {FAB_TYPE} from './FAB.enum'
 
 describe('Fab Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders correctly with default props', async () => {
 		const {getByTestId} = await renderWithAct(
 			<Fab

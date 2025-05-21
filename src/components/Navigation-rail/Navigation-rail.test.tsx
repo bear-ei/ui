@@ -8,6 +8,10 @@ describe('NavigationRail Component', () => {
 		{indexKey: 'search', labelText: 'Search'}
 	]
 
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders with items and activates defaultActiveKey', async () => {
 		const {getByTestId, getAllByTestId, getByText} = await renderWithAct(
 			<NavigationRail

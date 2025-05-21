@@ -4,6 +4,10 @@ import {renderWithAct} from '../../../../__test__'
 import {ListAffordanceButton} from './List-affordance-button.component'
 
 describe('ListAffordanceButton Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders label text correctly when no icon provided', async () => {
 		const {getByTestId, getByText} = await renderWithAct(<ListAffordanceButton labelText='Action' />)
 		const {action, labelText} = await waitFor(() => ({

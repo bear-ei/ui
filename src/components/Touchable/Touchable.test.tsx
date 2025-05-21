@@ -3,6 +3,10 @@ import {renderWithAct} from '../../../__test__'
 import {Touchable} from '../Touchable'
 
 describe('Touchable Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should render ripple layout and content', async () => {
 		const {getByTestId} = await renderWithAct(
 			<Touchable testID='touchable'>

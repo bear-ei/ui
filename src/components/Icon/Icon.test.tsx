@@ -7,6 +7,10 @@ import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'
 describe('Icon Component', () => {
 	const CustomIcon = () => <SvgMock />
 
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should render with default props', async () => {
 		const {getByTestId} = await renderWithAct(<Icon name={ICON_NAME.ADD} />)
 		const icon = await waitFor(() => getByTestId('icon--test-id'))

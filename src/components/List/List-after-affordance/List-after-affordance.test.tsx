@@ -3,6 +3,10 @@ import {renderWithAct} from '../../../../__test__'
 import {ListAfterAffordance} from './List-after-affordance.component'
 
 describe('ListAfterAffordance Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders both confirm and cancel buttons by default', async () => {
 		const {getByTestId} = await renderWithAct(
 			<ListAfterAffordance

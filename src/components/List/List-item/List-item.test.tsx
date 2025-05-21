@@ -5,6 +5,10 @@ import {LIST_SELECT_TYPE} from '../List.enum'
 import {ListItem} from './List-item.component'
 
 describe('ListItem Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders headline and supporting text', async () => {
 		const {getByText} = await renderWithAct(
 			<ListItem

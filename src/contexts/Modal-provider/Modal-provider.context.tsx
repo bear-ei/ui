@@ -21,7 +21,7 @@ const ModalItem: FC<ModalItemProps> = ({type, modalProps, testID}) => {
 	return (
 		<ModalComponent
 			{...modalProps}
-			testID={testID}
+			testID={modalProps?.testID ?? testID}
 		/>
 	)
 }

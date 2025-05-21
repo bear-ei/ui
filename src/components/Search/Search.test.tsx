@@ -4,6 +4,10 @@ import {renderWithAct} from '../../../__test__'
 import {Search} from './Search.component'
 
 describe('Search Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders correctly with default props', async () => {
 		const {getByTestId} = await renderWithAct(<Search placeholder='Search here' />)
 		const {search, labelText} = await waitFor(() => ({

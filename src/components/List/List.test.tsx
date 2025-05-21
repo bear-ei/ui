@@ -3,13 +3,16 @@ import {renderWithAct} from '../../../__test__'
 import {List} from './List.component'
 import type {ListData} from './List.interface'
 
-const mockData: ListData[] = [
-	{indexKey: 'item-1', headline: 'Item 1'},
-	{indexKey: 'item-2', headline: 'Item 2'},
-	{indexKey: 'item-3', headline: 'Item 3'}
-]
-
 describe('List Component', () => {
+	const mockData: ListData[] = [
+		{indexKey: 'item-1', headline: 'Item 1'},
+		{indexKey: 'item-2', headline: 'Item 2'},
+		{indexKey: 'item-3', headline: 'Item 3'}
+	]
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders the list with all items', async () => {
 		const {getByText, getByTestId} = await renderWithAct(<List data={mockData} />)
 		const virtualList = await waitFor(() => getByTestId('list__virtualList--test-id'))

@@ -5,6 +5,10 @@ import {Button} from './Button.component'
 import {BUTTON_TYPE} from './Button.enum'
 
 describe('Button Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders with default props', async () => {
 		const {getByTestId} = await renderWithAct(<Button testID='button' />)
 		const {button, labelText} = await waitFor(() => ({

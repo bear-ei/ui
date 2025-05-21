@@ -3,6 +3,10 @@ import {renderWithAct} from '../../../../__test__'
 import {NavigationRailItem} from './Navigation-rail-item.component'
 
 describe('NavigationRailItem Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders correctly with label and icon', async () => {
 		const {getByTestId, getByText} = await renderWithAct(
 			<NavigationRailItem

@@ -3,6 +3,10 @@ import {renderWithAct} from '../../../__test__'
 import {Avatar} from './Avatar.component'
 
 describe('Avatar Component', () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders labelText when no image source is provided', async () => {
 		const {getByTestId} = await renderWithAct(<Avatar labelText='John' />)
 		const labelText = await waitFor(() => getByTestId('avatar__labelText--test-id'))

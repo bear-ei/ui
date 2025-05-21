@@ -5,6 +5,10 @@ import {LAYOUT} from '../Common'
 import {Layout} from './Layout.component'
 
 describe('Layout Component', () => {
+	afterAll(() => {
+		jest.clearAllMocks()
+	})
+
 	it('should renders children correctly', async () => {
 		const {getByText} = await renderWithAct(
 			<Layout>
