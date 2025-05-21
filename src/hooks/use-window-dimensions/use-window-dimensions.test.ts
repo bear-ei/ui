@@ -16,7 +16,6 @@ describe('useWindowDimensions', () => {
 
 	beforeEach(() => {
 		jest.useFakeTimers()
-		jest.clearAllMocks()
 		jest.spyOn(Dimensions, 'get').mockReturnValue(mockInitialDimensions as any)
 		jest.spyOn(Dimensions, 'addEventListener').mockImplementation((_, listener) => {
 			mockListener.mockImplementation(listener)

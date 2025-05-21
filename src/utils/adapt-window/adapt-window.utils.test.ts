@@ -8,11 +8,6 @@ jest.mock('react-native', () => ({
 }))
 
 describe('adaptWindow', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-		;(PixelRatio.getFontScale as jest.Mock).mockReturnValue(1)
-	})
-
 	it('should use default screen and design options', () => {
 		const adapt = adaptWindow()()
 		const result = adapt()

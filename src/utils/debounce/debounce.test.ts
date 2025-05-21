@@ -3,7 +3,6 @@ import {debounce} from './debounce.utils'
 describe('debounce (promise version, sync and async)', () => {
 	beforeEach(() => {
 		jest.useFakeTimers()
-		jest.clearAllMocks()
 	})
 
 	afterEach(() => {
@@ -14,7 +13,9 @@ describe('debounce (promise version, sync and async)', () => {
 		const fn = jest.fn((x: number) => x * 2)
 		const debounced = debounce(fn)(100)
 		const promise = debounced(5)
+
 		jest.advanceTimersByTime(100)
+
 		await expect(promise).resolves.toBe(10)
 		expect(fn).toHaveBeenCalledWith(5)
 	})
@@ -23,7 +24,9 @@ describe('debounce (promise version, sync and async)', () => {
 		const fn = jest.fn(async (x: number) => x * 3)
 		const debounced = debounce(fn)(50)
 		const promise = debounced(7)
+
 		jest.advanceTimersByTime(50)
+
 		await Promise.resolve() // flush microtasks
 		await expect(promise).resolves.toBe(21)
 		expect(fn).toHaveBeenCalledWith(7)

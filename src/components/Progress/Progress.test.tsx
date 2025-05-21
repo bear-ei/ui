@@ -5,10 +5,6 @@ import {Progress} from './Progress.component'
 import {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 
 describe('Progress Component', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should renders LINEAR progress by default', async () => {
 		const {getByTestId} = await renderWithAct(<Progress value={50} />)
 		const progress = await waitFor(() => getByTestId('progress--test-id'))

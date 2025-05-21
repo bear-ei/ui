@@ -3,10 +3,6 @@ import {renderWithAct} from '../../../../__test__'
 import {ProgressActiveIndicatorLinear} from './Progress-active-indicator-linear.component'
 
 describe('ProgressActiveIndicatorLinear Component', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should renders correctly with default props', async () => {
 		const {getByTestId} = await renderWithAct(<ProgressActiveIndicatorLinear />)
 		const {linear, content, track} = await waitFor(() => ({

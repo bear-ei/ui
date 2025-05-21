@@ -11,10 +11,6 @@ jest.mock('../use-window-dimensions', () => {
 })
 
 describe('useWindowSize', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should return COMPACT for width < 600', () => {
 		;(useWindowDimensions as jest.Mock).mockReturnValue({width: 599})
 

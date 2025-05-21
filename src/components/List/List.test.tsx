@@ -9,9 +9,6 @@ describe('List Component', () => {
 		{indexKey: 'item-2', headline: 'Item 2'},
 		{indexKey: 'item-3', headline: 'Item 3'}
 	]
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
 
 	it('should renders the list with all items', async () => {
 		const {getByText, getByTestId} = await renderWithAct(<List data={mockData} />)

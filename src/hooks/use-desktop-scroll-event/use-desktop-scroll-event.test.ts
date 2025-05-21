@@ -6,14 +6,13 @@ import {useDesktopScrollEvent} from '../use-desktop-scroll-event'
 describe('useDesktopScrollEvent', () => {
 	const mockEvent = {nativeEvent: {contentOffset: {y: 100}}} as any
 
-	afterEach(() => {
-		jest.clearAllTimers()
-		Object.defineProperty(Platform, 'OS', {value: 'ios'})
-	})
-
 	beforeEach(() => {
 		jest.useFakeTimers()
-		jest.clearAllMocks()
+	})
+
+	afterEach(() => {
+		Object.defineProperty(Platform, 'OS', {value: 'ios'})
+		jest.clearAllTimers()
 	})
 
 	it('should call onScroll immediately', async () => {
@@ -29,6 +28,7 @@ describe('useDesktopScrollEvent', () => {
 
 	it('should call onMomentumScrollEnd after 150ms delay', async () => {
 		Object.defineProperty(Platform, 'OS', {value: 'web'})
+
 		const onScroll = jest.fn()
 		const onMomentumScrollEnd = jest.fn()
 		const {result} = renderHook(() => useDesktopScrollEvent({onScroll, onMomentumScrollEnd}))
@@ -47,6 +47,7 @@ describe('useDesktopScrollEvent', () => {
 
 	it('should debounce multiple scroll events', async () => {
 		Object.defineProperty(Platform, 'OS', {value: 'web'})
+
 		const onMomentumScrollEnd = jest.fn()
 		const {result} = renderHook(() => useDesktopScrollEvent({onMomentumScrollEnd}))
 
@@ -65,6 +66,7 @@ describe('useDesktopScrollEvent', () => {
 
 	it('should return native onScroll handler for non-desktop platforms', () => {
 		const originalPlatform = Platform.OS
+
 		Object.defineProperty(Platform, 'OS', {value: 'android'})
 
 		const onScroll = jest.fn()

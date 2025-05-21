@@ -14,10 +14,6 @@ describe('SideSheet Component', () => {
 	 */
 	const _mockOnVisible = jest.fn()
 
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should not render content when visible is false by default', async () => {
 		const {queryByTestId} = await renderWithAct(
 			<SideSheet

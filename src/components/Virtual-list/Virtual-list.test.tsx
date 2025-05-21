@@ -11,10 +11,6 @@ const createItem = (index: number): VirtualListData => ({
 describe('VirtualList Component', () => {
 	const renderItem = ({item}: any) => <>{item.label}</>
 
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should renders loading state', async () => {
 		const {getByTestId, getByText} = await renderWithAct(
 			<VirtualList

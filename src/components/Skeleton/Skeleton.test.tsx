@@ -1,5 +1,4 @@
 import {act, waitFor} from '@testing-library/react-native'
-
 import {Text} from 'react-native'
 import {renderWithAct} from '../../../__test__'
 import {Skeleton} from '../Skeleton'
@@ -11,7 +10,6 @@ describe('Skeleton Component', () => {
 
 	afterAll(() => {
 		jest.clearAllTimers()
-		jest.clearAllMocks()
 	})
 
 	it('should render skeleton by default', async () => {

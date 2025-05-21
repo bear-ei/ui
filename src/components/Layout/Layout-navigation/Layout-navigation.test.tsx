@@ -5,10 +5,6 @@ import {LAYOUT_ANIMATED} from '../../Layout-animated'
 import {LayoutNavigation} from './Layout-navigation.component'
 
 describe('LayoutNavigation Component', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should renders children content correctly', async () => {
 		const {getByText} = await renderWithAct(
 			<LayoutNavigation>

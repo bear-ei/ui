@@ -11,10 +11,6 @@ describe('textSearch', () => {
 		{name: 'Eve', age: 40, tags: undefined}
 	]
 
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should find by a string key (case-insensitive)', () => {
 		const search = textSearch(data)(['name'])
 

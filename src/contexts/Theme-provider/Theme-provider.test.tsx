@@ -11,10 +11,6 @@ describe('ThemeProvider Context', () => {
 		})
 	})
 
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('renders correctly on mobile platform', async () => {
 		Object.defineProperty(RNPlatform, 'OS', {value: 'ios'})
 		const {getByTestId} = render(

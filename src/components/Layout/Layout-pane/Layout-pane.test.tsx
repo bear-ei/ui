@@ -5,10 +5,6 @@ import {LAYOUT} from '../../Common'
 import {LayoutPane} from './Layout-pane.component'
 
 describe('LayoutPane Component', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should renders children correctly', async () => {
 		const {getByText} = await renderWithAct(
 			<LayoutPane>

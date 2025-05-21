@@ -6,9 +6,6 @@ import {useInteractionStateEvent} from '../use-interaction-state-event'
 const createEvent = (type: string = 'pressIn') => ({nativeEvent: {}, type}) as any
 
 describe('useInteractionStateEvent', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
 	it('should return expected handlers', () => {
 		const {result} = renderHook(() => useInteractionStateEvent({onStateEventChange: jest.fn()}))
 

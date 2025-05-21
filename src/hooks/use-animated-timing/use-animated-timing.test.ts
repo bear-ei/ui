@@ -12,10 +12,6 @@ describe('useAnimatedTiming', () => {
 		})
 	} as Token
 
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('returns a valid timing function', () => {
 		const toValue = 1
 		const callback = jest.fn()

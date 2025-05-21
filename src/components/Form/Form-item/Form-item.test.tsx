@@ -34,10 +34,6 @@ describe('FormItem Component', () => {
 		</Text>
 	)
 
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should renders nothing when status is IDLE, then renders after init', async () => {
 		const {getByTestId} = await renderWithAct(
 			<FormContext.Provider value={mockContext}>
@@ -71,7 +67,7 @@ describe('FormItem Component', () => {
 
 		const control = await waitFor(() => getByTestId('formItem--control'))
 
-		fireEvent.press(control)
+		await act(async () => fireEvent.press(control))
 		await waitFor(() => expect(mockSetFieldsValue).toHaveBeenCalled())
 	})
 

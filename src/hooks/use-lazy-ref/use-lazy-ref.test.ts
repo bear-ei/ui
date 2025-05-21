@@ -2,10 +2,6 @@ import {renderHook} from '@testing-library/react-hooks'
 import {useLazyRef} from './use-lazy-ref.hook'
 
 describe('useLazyRef', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should call callback only once', () => {
 		const callback = jest.fn(() => 'initial value')
 		const {result, rerender} = renderHook(() => useLazyRef(callback))

@@ -11,10 +11,6 @@ jest.mock('../run-afterInteractions', () => ({
 }))
 
 describe('createStableHandlerWithState', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should handle without setState and debounce', () => {
 		const handler = jest.fn()
 
@@ -58,10 +54,6 @@ describe('createStableHandlerWithState', () => {
 })
 
 describe('createStableHandler', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should work as a simple wrapper of createStableHandlerWithState', () => {
 		const handler = jest.fn()
 

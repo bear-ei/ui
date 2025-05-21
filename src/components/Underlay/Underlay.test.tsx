@@ -3,10 +3,6 @@ import {renderWithAct} from '../../../__test__'
 import {Underlay} from '../Underlay'
 
 describe('Underlay Component', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should render hover layer by default', async () => {
 		const {getByTestId} = await renderWithAct(<Underlay testID='underlay' />)
 		const {underlay, hoverLayer} = await waitFor(() => ({

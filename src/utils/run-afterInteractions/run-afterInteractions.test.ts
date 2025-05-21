@@ -8,10 +8,6 @@ jest.mock('react-native', () => ({
 }))
 
 describe('runAfterInteractions', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should call InteractionManager.runAfterInteractions with the provided function', () => {
 		const fn = jest.fn()
 		const mockResult = {then: jest.fn(), done: jest.fn(), cancel: jest.fn()}
@@ -38,6 +34,7 @@ describe('runAfterInteractions', () => {
 		const result = wrapped('a', 'b')
 
 		expect(InteractionManager.runAfterInteractions).toHaveBeenCalledTimes(1)
+
 		const calledFn = (InteractionManager.runAfterInteractions as jest.Mock).mock.calls[0][0]
 
 		expect(() => calledFn()).not.toThrow()

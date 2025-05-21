@@ -4,10 +4,6 @@ import {Icon, ICON_NAME} from '../Icon'
 import {TextInput} from '../Text-input'
 
 describe('TextInput Component', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should renders with label and placeholder', async () => {
 		const {getByTestId, getByText} = await renderWithAct(
 			<TextInput

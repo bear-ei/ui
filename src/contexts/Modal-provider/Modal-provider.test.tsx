@@ -10,10 +10,6 @@ jest.mock('../../components', () => {
 })
 
 describe('ModalProvider Context', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should render no modals initially', async () => {
 		const {queryByTestId} = render(<ModalProvider />)
 		const modal = await waitFor(() => queryByTestId('modal--test-id'))

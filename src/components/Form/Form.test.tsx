@@ -41,10 +41,6 @@ describe('Form Component', () => {
 		}
 	] as FormItemProps[]
 
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should render items after status is SUCCEEDED', async () => {
 		const {getAllByTestId} = await renderWithAct(
 			<Form

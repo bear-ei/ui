@@ -1,13 +1,10 @@
 import {fireEvent, waitFor} from '@testing-library/react-native'
+import {act} from 'react'
 import {Text} from 'react-native'
 import {renderWithAct} from '../../../__test__'
 import {Search} from './Search.component'
 
 describe('Search Component', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should renders correctly with default props', async () => {
 		const {getByTestId} = await renderWithAct(<Search placeholder='Search here' />)
 		const {search, labelText} = await waitFor(() => ({
@@ -48,8 +45,7 @@ describe('Search Component', () => {
 
 		const textInput = await waitFor(() => getByTestId('search__searchTextInput--test-id'))
 
-		fireEvent.changeText(textInput, 'apple')
-
+		await act(async () => fireEvent(textInput, 'changeText', 'apple'))
 		await waitFor(() => expect(mockOnChangeText).toHaveBeenCalledWith('apple'))
 	})
 

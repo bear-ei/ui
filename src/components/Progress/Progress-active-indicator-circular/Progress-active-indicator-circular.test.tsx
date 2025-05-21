@@ -4,10 +4,6 @@ import {renderWithAct} from '../../../../__test__'
 import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circular.component'
 
 describe('ProgressActiveIndicatorCircular Component', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should renders correctly with default props', async () => {
 		const {getByTestId} = await renderWithAct(<ProgressActiveIndicatorCircular />)
 		const {indicator, svg, circle} = await waitFor(() => ({

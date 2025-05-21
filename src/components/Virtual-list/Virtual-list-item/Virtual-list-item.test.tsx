@@ -9,7 +9,6 @@ describe('VirtualListItem Component', () => {
 	const mockOnLoadEnd = jest.fn()
 
 	beforeEach(() => {
-		jest.clearAllMocks()
 		mockRenderItem.mockClear()
 		mockOnUnmount.mockClear()
 		mockOnLoadEnd.mockClear()

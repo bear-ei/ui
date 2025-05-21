@@ -5,10 +5,6 @@ import {LAYOUT} from '../../Common'
 import {SkeletonElement} from './Skeleton-element.component'
 
 describe('SkeletonElement Component', () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should render without crashing', async () => {
 		const {getByTestId} = await renderWithAct(<SkeletonElement />)
 		const element = await waitFor(() => getByTestId('skeletonElement--test-id'))
