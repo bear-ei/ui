@@ -44,12 +44,14 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 
 		const runFormItemStatusInitToDraft = useMemo(
 			() =>
-				applyFormItemStatusInitToDraft({
-					onComponentUpdate: onFormItemComponentUpdate,
-					rule,
-					signInField,
-					validatorOptions
-				})(setState),
+				createStableHandlerWithState(
+					applyFormItemStatusInitToDraft({
+						onComponentUpdate: onFormItemComponentUpdate,
+						rule,
+						signInField,
+						validatorOptions
+					})
+				)(setState)(),
 			[onFormItemComponentUpdate, rule, setState, signInField, validatorOptions]
 		)
 
