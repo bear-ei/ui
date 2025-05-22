@@ -1,8 +1,9 @@
 import {useCallback, useMemo} from 'react'
 import {Platform} from 'react-native'
 import {STATE, type State} from '../../components'
-import {createStableHandler} from '../../utils'
+
 import {
+	createStableEventHandler,
 	handleBlurEvent,
 	handleFocusEvent,
 	handleHoverIntEvent,
@@ -43,53 +44,53 @@ export const useInteractionStateEvent = ({
 	)
 
 	const onBlur = useMemo(
-		() => createStableHandler(handleBlurEvent({interactionHandlers})(rawOnBlur))(),
+		() => createStableEventHandler(handleBlurEvent({interactionHandlers})(rawOnBlur)),
 		[interactionHandlers, rawOnBlur]
 	)
 
 	const onFocus = useMemo(
-		() => createStableHandler(handleFocusEvent({interactionHandlers})(rawOnFocus))(),
+		() => createStableEventHandler(handleFocusEvent({interactionHandlers})(rawOnFocus)),
 		[interactionHandlers, rawOnFocus]
 	)
 
 	const onHoverIn = useMemo(
-		() => createStableHandler(handleHoverIntEvent({interactionHandlers})(rawOnHoverIn))(),
+		() => createStableEventHandler(handleHoverIntEvent({interactionHandlers})(rawOnHoverIn)),
 		[interactionHandlers, rawOnHoverIn]
 	)
 
 	const onHoverOut = useMemo(
-		() => createStableHandler(handleHoverOutEvent({interactionHandlers})(rawOnHoverOut))(),
+		() => createStableEventHandler(handleHoverOutEvent({interactionHandlers})(rawOnHoverOut)),
 		[interactionHandlers, rawOnHoverOut]
 	)
 
 	const onLayout = useMemo(
-		() => createStableHandler(handleLayoutEvent({interactionHandlers})(rawOnLayout))(),
+		() => createStableEventHandler(handleLayoutEvent({interactionHandlers})(rawOnLayout)),
 		[interactionHandlers, rawOnLayout]
 	)
 
 	const onLongPress = useMemo(
-		() => createStableHandler(handleLongPressEvent({interactionHandlers})(rawOnLongPress))(),
+		() => createStableEventHandler(handleLongPressEvent({interactionHandlers})(rawOnLongPress)),
 		[interactionHandlers, rawOnLongPress]
 	)
 
 	const onPress = useMemo(
 		() =>
-			createStableHandler(
+			createStableEventHandler(
 				handlePressEvent({interactionHandlers, mobileDevice: isMobileDevice})(rawOnPress)
-			)(),
+			),
 		[interactionHandlers, isMobileDevice, rawOnPress]
 	)
 
 	const onPressIn = useMemo(
-		() => createStableHandler(handlePressInEvent({interactionHandlers})(rawOnPressIn))(),
+		() => createStableEventHandler(handlePressInEvent({interactionHandlers})(rawOnPressIn)),
 		[interactionHandlers, rawOnPressIn]
 	)
 
 	const onPressOut = useMemo(
 		() =>
-			createStableHandler(
+			createStableEventHandler(
 				handlePressOutEvent({interactionHandlers, mobileDevice: isMobileDevice})(rawOnPressOut)
-			)(),
+			),
 		[interactionHandlers, isMobileDevice, rawOnPressOut]
 	)
 
