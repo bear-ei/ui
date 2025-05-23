@@ -180,33 +180,16 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			onAfterAffordanceVisibilityFinished
 		})
 
-		const trailingElement = useMemo(
-			() =>
-				renderListItemTrailing({
-					afterAffordance,
-					closeTrailing,
-					disabled,
-					id,
-					interactionHandlers: {
-						onPressIn: onTrailingPressIn,
-						onPressOut: onTrailingPressOut
-					},
-					theme,
-					trailing,
-					trailingProps
-				}),
-			[
-				afterAffordance,
-				closeTrailing,
-				disabled,
-				id,
-				onTrailingPressIn,
-				onTrailingPressOut,
-				theme,
-				trailing,
-				trailingProps
-			]
-		)
+		const trailingElement = renderListItemTrailing({
+			afterAffordance,
+			closeTrailing,
+			disabled,
+			id,
+			interactionHandlers: {onPressIn: onTrailingPressIn, onPressOut: onTrailingPressOut},
+			theme,
+			trailing,
+			trailingProps
+		})
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 

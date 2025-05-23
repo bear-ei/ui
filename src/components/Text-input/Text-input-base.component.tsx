@@ -4,21 +4,21 @@ import type {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useInteractionStateEvent} from '../../hooks'
+import {createStableEventHandler, useInteractionStateEvent} from '../../hooks'
 import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
 	blurTextInputIfEditable,
+	createUpdateTextInputContentSize,
 	focusTextInput,
 	handleTextInputStateChange,
-	updateTextInputContentSize,
 	updateTextInputSupportingText,
 	updateTextInputSupportingTextClose,
 	updateTextInputSupportingTextVisibility,
 	updateTextInputValue,
 	updateTextInputValueWithCallback
-} from './Text-input.handle'
+} from './Text-input.handler'
 import type {TextInputBaseProps, TextInputState} from './Text-input.interface'
 import {useTextInputAnimated} from './use-text-input-animated.hook'
 
@@ -81,9 +81,9 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 
 		const onContentSizeChange = useMemo(
 			() =>
-				createStableHandlerWithState(updateTextInputContentSize(rawOnContentSizeChange))(
-					setState
-				)(),
+				createStableEventHandler(
+					createUpdateTextInputContentSize(rawOnContentSizeChange)(setState)
+				),
 			[rawOnContentSizeChange, setState]
 		)
 

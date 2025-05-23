@@ -46,7 +46,7 @@ export const handleTextInputStateChange =
 		})
 	}
 
-export const updateTextInputContentSize =
+export const createUpdateTextInputContentSize =
 	(onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
 	(setState: Updater<TextInputState>) =>
 	(event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {

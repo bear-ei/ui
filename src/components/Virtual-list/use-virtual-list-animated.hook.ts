@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {animateVirtualList} from './Virtual-list.handle'
+import {animateVirtualList} from './Virtual-list.handler'
 import type {UseVirtualListScrollAnimatedOptions} from './Virtual-list.interface'
 
 export const useVirtualListAnimated = ({

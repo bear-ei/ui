@@ -1,4 +1,4 @@
-import {forwardRef, useId, useMemo} from 'react'
+import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {SIDE_SHEET_POSITION} from '../Side-sheet.enum'
@@ -28,15 +28,8 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 		const id = useId()
 		const theme = useTheme()
 		const {containerAnimatedStyle} = useSideSheetContentAnimated({type, visible})
-		const leadingElement = useMemo(
-			() => renderSideSheetContentLeading({headlineLeading, back, position, id})(onBack),
-			[back, headlineLeading, id, onBack, position]
-		)
-
-		const trailingElement = useMemo(
-			() => renderSideSheetContentTrailing({headlineTrailing, close, id})(onClose),
-			[close, headlineTrailing, id, onClose]
-		)
+		const leadingElement = renderSideSheetContentLeading({headlineLeading, back, position, id})(onBack)
+		const trailingElement = renderSideSheetContentTrailing({headlineTrailing, close, id})(onClose)
 
 		return renderSideSheetContent({
 			...renderSideSheetContentProps,

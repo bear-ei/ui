@@ -9,7 +9,7 @@ import {
 	triggerFormItemShouldUpdate,
 	updateFormFieldValueIfChanged,
 	validateFormFieldOnBlur
-} from './Form-item.handle'
+} from './Form-item.handler'
 import type {FormItemBaseProps, FormItemState} from './Form-item.interface'
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
@@ -55,10 +55,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			[onComponentUpdate, rule, setState, signInField, validatorOptions]
 		)
 
-		const controlElement = useMemo(
-			() => renderControl?.({errorMessage, labelText, onBlur, onValueChange, value}),
-			[errorMessage, labelText, onBlur, onValueChange, renderControl, value]
-		)
+		const controlElement = renderControl?.({errorMessage, labelText, onBlur, onValueChange, value})
 
 		useEffect(() => {
 			runApplyFormItemStatusInitToDraft(name)

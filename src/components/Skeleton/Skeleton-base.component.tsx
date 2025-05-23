@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
-import {updateSkeletonDuration} from './Skeleton.handle'
+import {updateSkeletonDuration} from './Skeleton.handler'
 import type {SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 

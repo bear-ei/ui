@@ -10,7 +10,7 @@ import {
 	setSideSheetVisibility,
 	updateSideSheetBackWithEvent,
 	updateSideSheetClose
-} from './Side-sheet.handle'
+} from './Side-sheet.handler'
 import type {SideSheetBaseProps, SideSheetState} from './Side-sheet.interface'
 
 export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(

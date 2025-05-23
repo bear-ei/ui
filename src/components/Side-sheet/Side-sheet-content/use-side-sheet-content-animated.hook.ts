@@ -4,7 +4,7 @@ import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-r
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {SIDE_SHEET_TYPE} from '../Side-sheet.enum'
-import {animateSideSheetContent} from './Side-sheet-content.handle'
+import {animateSideSheetContent} from './Side-sheet-content.handler'
 import type {UseSideSheetContentAnimatedOptions} from './Side-sheet-content.interface'
 
 export const useSideSheetContentAnimated = ({

@@ -1,6 +1,6 @@
 import type {NamePath} from '../../utils'
 import {debounce, namePath} from '../../utils'
-import {createFormFieldValidator} from './Form.handle'
+import {createFormFieldValidator} from './Form.handler'
 import type {
 	FormCallback,
 	FormError,

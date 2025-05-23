@@ -60,10 +60,7 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			type
 		})
 
-		const iconElement = useMemo(
-			() => renderFABIcon({type, disabled: rawDisabled, size, id})(theme)(icon),
-			[icon, id, rawDisabled, size, theme, type]
-		)
+		const iconElement = renderFABIcon({type, disabled: rawDisabled, size, id})(theme)(icon)
 
 		useEffect(() => {
 			runUpdateFABStatus(isDisabled)

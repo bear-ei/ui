@@ -5,7 +5,7 @@ import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useInteractionStateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
-import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handle'
+import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handler'
 import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
 import {renderTouchableRipple} from './Touchable.render'
 

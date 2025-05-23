@@ -2,7 +2,7 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {animateSkeleton} from './Skeleton.handle'
+import {animateSkeleton} from './Skeleton.handler'
 import type {UseSkeletonAnimatedOptions} from './Skeleton.interface'
 
 export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimatedOptions) => {

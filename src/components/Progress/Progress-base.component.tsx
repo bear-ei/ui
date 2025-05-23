@@ -6,7 +6,7 @@ import {useInteractionStateEvent} from '../../hooks'
 import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
 import {PROGRESS_TYPE} from './Progress.enum'
-import {handleProgressStateChange, updateProgressLayoutSize} from './Progress.handle'
+import {handleProgressStateChange, updateProgressLayoutSize} from './Progress.handler'
 import type {ProgressBaseProps, ProgressState} from './Progress.interface'
 
 export const ProgressBase = forwardRef<View, ProgressBaseProps>(

@@ -67,10 +67,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			type
 		})
 
-		const iconElement = useMemo(
-			() => renderButtonIcon({type, disabled: rawDisabled, id})(theme)(icon),
-			[icon, id, rawDisabled, theme, type]
-		)
+		const iconElement = renderButtonIcon({type, disabled: rawDisabled, id})(theme)(icon)
 
 		useEffect(() => {
 			runUpdateButtonStatus(type)

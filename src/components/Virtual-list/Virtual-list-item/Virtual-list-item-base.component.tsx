@@ -8,7 +8,7 @@ import {
 	triggerVirtualListItemClose,
 	triggerVirtualListItemUnmount,
 	updateVirtualListItemStatus
-} from './Virtual-list-item.handle'
+} from './Virtual-list-item.handler'
 import type {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
 
 export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
@@ -53,16 +53,13 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		)
 
 		const {containerAnimatedStyle} = useVirtualListItemAnimated({offsetY})
-		const itemElement = useMemo(
-			() =>
-				!item ?
-					<></>
-				:	renderItem?.({
-						index: renderIndex,
-						item: {...item, onClose, onLoadEnd}
-					}),
-			[item, onClose, onLoadEnd, renderIndex, renderItem]
-		)
+		const itemElement =
+			!item ?
+				<></>
+			:	renderItem?.({
+					index: renderIndex,
+					item: {...item, onClose, onLoadEnd}
+				})
 
 		useEffect(() => {
 			runUpdateVirtualListItemStatus()

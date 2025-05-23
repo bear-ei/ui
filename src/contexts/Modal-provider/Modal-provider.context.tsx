@@ -6,7 +6,7 @@ import {useImmer} from 'use-immer'
 import {SideSheet} from '../../components'
 import {createStableHandlerWithState} from '../../utils'
 import {MODAL_TYPE} from './Modal-provider.enum'
-import {manageModalState} from './Modal-provider.handle'
+import {manageModalState} from './Modal-provider.handler'
 import type {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './Modal-provider.interface'
 
 const ModalItem: FC<ModalItemProps> = ({type, modalProps, testID}) => {

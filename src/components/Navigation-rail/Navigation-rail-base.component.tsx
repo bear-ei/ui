@@ -57,7 +57,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			[activeKey, animatedType, data, defaultActiveKey, id, onActive, type]
 		)
 
-		const fabElement = useMemo(() => renderNavigationRailFAB(id)(fab), [fab, id])
+		const fabElement = renderNavigationRailFAB(id)(fab)
 
 		useEffect(() => {
 			runUpdateNavigationRailActiveKey(rawActiveKey ?? defaultActiveKey)

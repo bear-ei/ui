@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {debounce} from '../../utils'
 import {ACTIVE_ANIMATED} from './Underlay.enum'
-import {animateUnderlayActiveState, animateUnderlayHoverState} from './Underlay.handle'
+import {animateUnderlayActiveState, animateUnderlayHoverState} from './Underlay.handler'
 import type {UseUnderlayAnimatedOptions} from './Underlay.interface'
 
 export const useUnderlayAnimated = ({

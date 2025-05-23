@@ -21,7 +21,7 @@ export const createStableEventHandler = <T extends StateEvent>(handler: (event: 
 			event.persist()
 		}
 
-		eventHandler(event)
+		return eventHandler(event)
 	}
 }
 

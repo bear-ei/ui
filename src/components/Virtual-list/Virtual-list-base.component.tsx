@@ -17,7 +17,7 @@ import {
 	updateVirtualListLayout,
 	updateVirtualListOnScroll,
 	updateVirtualListVisibilityRangeData
-} from './Virtual-list.handle'
+} from './Virtual-list.handler'
 import type {VirtualListBaseProps, VirtualListState} from './Virtual-list.interface'
 import {renderVirtualListItem} from './Virtual-list.render'
 

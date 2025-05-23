@@ -12,7 +12,7 @@ import {
 	updateSearchInputValue,
 	updateSearchListVisibility,
 	updateSearchTextWithMatch
-} from './Search.handle'
+} from './Search.handler'
 import type {SearchBaseProps, SearchState} from './Search.interface'
 
 /**

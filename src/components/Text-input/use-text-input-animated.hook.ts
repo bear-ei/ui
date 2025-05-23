@@ -13,7 +13,7 @@ import {
 	createAnimateTextInputEnabledState,
 	createAnimateTextInputErrorState,
 	createAnimateTextInputFocusedState
-} from './Text-input.handle'
+} from './Text-input.handler'
 import type {UseTextInputAnimatedOptions} from './Text-input.interface'
 
 export const useTextInputAnimated = ({

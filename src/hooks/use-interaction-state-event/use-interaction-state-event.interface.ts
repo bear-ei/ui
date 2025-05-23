@@ -4,11 +4,18 @@ import type {
 	MouseEvent,
 	NativeSyntheticEvent,
 	PressableProps,
-	TargetedEvent
+	TargetedEvent,
+	TextInputContentSizeChangeEventData
 } from 'react-native'
 import type {EventName, State} from '../../components'
 
-export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
+export type StateEvent =
+	| GestureResponderEvent
+	| LayoutChangeEvent
+	| MouseEvent
+	| NativeSyntheticEvent<TargetedEvent>
+	| NativeSyntheticEvent<TextInputContentSizeChangeEventData>
+
 export interface UseHandleStateEventOptions extends Partial<PressableProps & InteractionHandlers> {
 	disabled?: boolean
 	onStateEventChange?: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void

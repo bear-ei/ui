@@ -2,7 +2,7 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {animateTouchableRipple} from './Touchable-ripple.handle'
+import {animateTouchableRipple} from './Touchable-ripple.handler'
 import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
 
 export const useTouchableRippleAnimated = ({

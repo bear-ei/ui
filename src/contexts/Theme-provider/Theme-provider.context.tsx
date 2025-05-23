@@ -8,7 +8,7 @@ import {DENSITY} from '../../components'
 import {useWindowSize} from '../../hooks'
 import {adaptWindow, createStableHandler} from '../../utils'
 import {ModalProvider} from '../Modal-provider'
-import {focusThemeProvider} from './Theme-provider.handle'
+import {focusThemeProvider} from './Theme-provider.handler'
 import type {ThemeProps} from './Theme-provider.interface'
 import {Container} from './Theme-provider.styles'
 
