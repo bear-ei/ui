@@ -34,7 +34,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 			[setState]
 		)
 
-		const onIconButtonStateEventChange = useCallback(
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleIconButtonStateChange({...options, state})(setState)(event),
 			[setState]
@@ -43,7 +43,7 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		const interactionHandlers = useInteractionStateEvent({
 			...renderIconButtonProps,
 			disabled: isDisabled,
-			onStateEventChange: onIconButtonStateEventChange
+			onStateEventChange
 		})
 
 		const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})

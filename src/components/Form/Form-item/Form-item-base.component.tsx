@@ -27,49 +27,42 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
 		const storeValue = getFieldsValue(name)
 		const value = storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue)
-		const onFormItemComponentUpdate = useMemo(
+		const onComponentUpdate = useMemo(
 			() => createStableHandlerWithState(triggerFormItemShouldUpdate)(setState)(),
 			[setState]
 		)
 
-		const onFormItemValueChange = useMemo(
+		const onValueChange = useMemo(
 			() => createStableHandler(updateFormFieldValueIfChanged({setFieldsValue, storeValue})(name))(),
 			[name, setFieldsValue, storeValue]
 		)
 
-		const onFormItemBlur = useMemo(
+		const onBlur = useMemo(
 			() => createStableHandler(validateFormFieldOnBlur(validateFields)(name))(),
 			[name, validateFields]
 		)
 
-		const runFormItemStatusInitToDraft = useMemo(
+		const runApplyFormItemStatusInitToDraft = useMemo(
 			() =>
 				createStableHandlerWithState(
 					applyFormItemStatusInitToDraft({
-						onComponentUpdate: onFormItemComponentUpdate,
+						onComponentUpdate,
 						rule,
 						signInField,
 						validatorOptions
 					})
 				)(setState)(),
-			[onFormItemComponentUpdate, rule, setState, signInField, validatorOptions]
+			[onComponentUpdate, rule, setState, signInField, validatorOptions]
 		)
 
 		const controlElement = useMemo(
-			() =>
-				renderControl?.({
-					errorMessage,
-					labelText,
-					onBlur: onFormItemBlur,
-					onValueChange: onFormItemValueChange,
-					value
-				}),
-			[errorMessage, labelText, onFormItemBlur, onFormItemValueChange, renderControl, value]
+			() => renderControl?.({errorMessage, labelText, onBlur, onValueChange, value}),
+			[errorMessage, labelText, onBlur, onValueChange, renderControl, value]
 		)
 
 		useEffect(() => {
-			runFormItemStatusInitToDraft(name)
-		}, [runFormItemStatusInitToDraft, name])
+			runApplyFormItemStatusInitToDraft(name)
+		}, [runApplyFormItemStatusInitToDraft, name])
 
 		useEffect(() => () => signOut?.(), [signOut])
 

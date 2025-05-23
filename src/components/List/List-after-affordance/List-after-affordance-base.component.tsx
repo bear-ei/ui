@@ -13,7 +13,14 @@ import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animat
 
 export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseProps>(
 	(
-		{indexKey, onCancel, onConfirm, renderListAfterAffordance, visible, ...renderListAfterAffordanceProps},
+		{
+			indexKey,
+			onCancel: rawOnCancel,
+			onConfirm: rawOnConfirm,
+			renderListAfterAffordance,
+			visible,
+			...renderListAfterAffordanceProps
+		},
 		ref
 	) => {
 		const [{doubleConfirmed: isDoubleConfirmed, nextCancelEvent}, setState] =
@@ -21,28 +28,28 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 
 		const theme = useTheme()
 		const id = useId()
-		const onListAfterAffordanceConfirm = useMemo(
+		const onConfirm = useMemo(
 			() =>
 				createStableHandler(
 					triggerListAfterAffordanceConfirm({
 						doubleConfirmed: isDoubleConfirmed,
 						indexKey,
-						onConfirm
+						onConfirm: rawOnConfirm
 					})
 				)(),
-			[indexKey, isDoubleConfirmed, onConfirm]
+			[indexKey, isDoubleConfirmed, rawOnConfirm]
 		)
 
-		const onListAfterAffordanceCancel = useMemo(
+		const onCancel = useMemo(
 			() =>
 				createStableHandlerWithState(
 					updateListAffordanceCancelState({
 						doubleConfirmed: isDoubleConfirmed,
 						indexKey,
-						onCancel
+						onCancel: rawOnCancel
 					})
 				)(setState)(),
-			[indexKey, isDoubleConfirmed, onCancel, setState]
+			[indexKey, isDoubleConfirmed, rawOnCancel, setState]
 		)
 
 		const runResetAffordanceConfirmationOnHide = useMemo(
@@ -64,8 +71,8 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 			dangerAnimatedStyle,
 			doubleConfirmed: isDoubleConfirmed,
 			id,
-			onCancel: onListAfterAffordanceCancel,
-			onConfirm: onListAfterAffordanceConfirm,
+			onCancel,
+			onConfirm,
 			ref,
 			theme,
 			visible

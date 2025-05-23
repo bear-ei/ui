@@ -48,7 +48,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			[indeterminate, setState]
 		)
 
-		const onCheckboxStateEventChange = useCallback(
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleCheckboxStateChange({
 					...options,
@@ -63,7 +63,7 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 		const interactionHandlers = useInteractionStateEvent({
 			...renderCheckboxProps,
 			disabled,
-			onStateEventChange: onCheckboxStateEventChange
+			onStateEventChange
 		})
 
 		useEffect(() => {

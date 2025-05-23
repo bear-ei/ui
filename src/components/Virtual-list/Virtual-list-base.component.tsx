@@ -29,10 +29,10 @@ export const VirtualListBaseInner = <T,>(
 		focusedIndex,
 		gap = 0,
 		itemSize = 0,
-		onClose,
-		onLoadEnd,
-		onMomentumScrollEnd,
-		onScroll,
+		onClose: rawOnClose,
+		onLoadEnd: rawOnLoadEnd,
+		onMomentumScrollEnd: rawOnMomentumScrollEnd,
+		onScroll: rawOnScroll,
 		renderItem,
 		renderVirtualList,
 		...renderVirtualListProps
@@ -60,39 +60,38 @@ export const VirtualListBaseInner = <T,>(
 		[itemSize, setState]
 	)
 
-	const onVirtualListScroll = useMemo(
-		() => createStableHandlerWithState(updateVirtualListOnScroll({onScroll, itemSize}))(setState)(),
-		[itemSize, onScroll, setState]
+	const onScroll = useMemo(
+		() =>
+			createStableHandlerWithState(updateVirtualListOnScroll({onScroll: rawOnScroll, itemSize}))(
+				setState
+			)(),
+		[itemSize, rawOnScroll, setState]
 	)
 
-	const onVirtualListMomentumScrollEnd = useMemo(
-		() => createStableHandler(triggerVirtualListMomentumScrollEnd(onMomentumScrollEnd))(),
-		[onMomentumScrollEnd]
+	const onMomentumScrollEnd = useMemo(
+		() => createStableHandler(triggerVirtualListMomentumScrollEnd(rawOnMomentumScrollEnd))(),
+		[rawOnMomentumScrollEnd]
 	)
 
 	const runUpdateVirtualListData = useMemo(
 		() => createStableHandlerWithState(updateVirtualListData)(setState)(),
 		[setState]
 	)
-	const onVirtualListLoadEnd = useMemo(
-		() => createStableHandlerWithState(checkVirtualListLoadEnd(onLoadEnd))(setState)(),
-		[onLoadEnd, setState]
+	const onLoadEnd = useMemo(
+		() => createStableHandlerWithState(checkVirtualListLoadEnd(rawOnLoadEnd))(setState)(),
+		[rawOnLoadEnd, setState]
 	)
 
-	const scrollEvent = useDesktopScrollEvent({
-		onMomentumScrollEnd: onVirtualListMomentumScrollEnd,
-		onScroll: onVirtualListScroll
-	})
-
-	const onVirtualListUnmount = useMemo(
+	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
+	const onUnmount = useMemo(
 		() =>
-			createStableHandlerWithState(unmountVirtualList({itemSize, enableAutoSelect, onClose}))(
-				setState
-			)(),
-		[enableAutoSelect, itemSize, onClose, setState]
+			createStableHandlerWithState(
+				unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose})
+			)(setState)(),
+		[enableAutoSelect, itemSize, rawOnClose, setState]
 	)
 
-	const onVirtualListLayoutChange = useMemo(
+	const onLayoutChange = useMemo(
 		() =>
 			createStableHandlerWithState(updateVirtualListLayout(itemSize))(setState)({
 				debounceMillisecond: 50
@@ -100,16 +99,16 @@ export const VirtualListBaseInner = <T,>(
 		[itemSize, setState]
 	)
 
-	const onVirtualListStateEventChange = useCallback(
+	const onStateEventChange = useCallback(
 		(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-			handleVirtualListStateChange({...options, state})(onVirtualListLayoutChange)(event),
-		[onVirtualListLayoutChange]
+			handleVirtualListStateChange({...options, state})(onLayoutChange)(event),
+		[onLayoutChange]
 	)
 
 	const interactionHandlers = useInteractionStateEvent({
 		...renderVirtualListProps,
 		disabled: false,
-		onStateEventChange: onVirtualListStateEventChange
+		onStateEventChange
 	})
 
 	const {animatedRef, contentAnimatedStyle} = useVirtualListAnimated({focusedIndex, itemSize, contentSize})
@@ -119,22 +118,12 @@ export const VirtualListBaseInner = <T,>(
 				extraData,
 				id,
 				itemSize: itemSize + gap,
-				onLoadEnd: onVirtualListLoadEnd,
-				onUnmount: onVirtualListUnmount,
+				onLoadEnd,
+				onUnmount,
 				renderItem,
 				startIndex
 			})(visibleRangeData),
-		[
-			extraData,
-			gap,
-			id,
-			itemSize,
-			onVirtualListLoadEnd,
-			onVirtualListUnmount,
-			renderItem,
-			startIndex,
-			visibleRangeData
-		]
+		[extraData, gap, id, itemSize, onLoadEnd, onUnmount, renderItem, startIndex, visibleRangeData]
 	)
 
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as Animated.ScrollView, [animatedRef])

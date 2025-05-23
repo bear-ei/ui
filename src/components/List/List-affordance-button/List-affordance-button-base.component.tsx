@@ -22,7 +22,7 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
 		const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({})
 		const theme = useTheme()
 		const id = useId()
-		const onListAffordanceButtonStateEventChange = useCallback(
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleListAffordanceButtonStateChange({...options, state, visible})(setState)(event),
 			[setState, visible]
@@ -31,7 +31,7 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
 		const interactionHandlers = useInteractionStateEvent({
 			...renderListAffordanceButtonProps,
 			disabled,
-			onStateEventChange: onListAffordanceButtonStateEventChange
+			onStateEventChange
 		})
 
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({

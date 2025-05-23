@@ -65,7 +65,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[delay, onVisible, setState]
 		)
 
-		const onLayoutAnimatedVisibilityChange = useMemo(
+		const onAnimationFinished = useMemo(
 			() =>
 				createStableHandlerWithState(
 					finalizeLayoutAnimatedVisibilityChange({onUnmount, unmount})
@@ -73,7 +73,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[onUnmount, setState, unmount]
 		)
 
-		const onLayoutAnimatedSize = useMemo(
+		const onLayoutChange = useMemo(
 			() =>
 				createStableHandlerWithState(updateLayoutAnimatedSize)(setState)({
 					debounceMillisecond: 50
@@ -81,19 +81,15 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[setState]
 		)
 
-		const onLayoutAnimatedStateEventChange = useCallback(
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleLayoutAnimatedStateChange({
-					...options,
-					onLayoutChange: onLayoutAnimatedSize,
-					state
-				})(event),
-			[onLayoutAnimatedSize]
+				handleLayoutAnimatedStateChange({...options, onLayoutChange, state})(event),
+			[onLayoutChange]
 		)
 
 		const interactionHandlers = useInteractionStateEvent({
 			...renderLayoutAnimatedProps,
-			onStateEventChange: onLayoutAnimatedStateEventChange
+			onStateEventChange
 		})
 
 		const {containerAnimatedStyle} = useLayoutAnimated({
@@ -101,7 +97,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			entry,
 			exit,
 			height: layout.height ?? contentSize?.height ?? contentSize?.minHeight,
-			onAnimationFinished: onLayoutAnimatedVisibilityChange,
+			onAnimationFinished,
 			opacity,
 			scale,
 			visible: isVisible ?? isLayoutVisible,

@@ -31,7 +31,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 		const pressableRef = useRef<View>(null)
 		const isActive = activeKey === indexKey
 		const theme = useTheme()
-		const onNavigationRailItemStateEventChange = useCallback(
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleNavigationRailItemStateChange({
 					...options,
@@ -46,7 +46,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 		const interactionHandlers = useInteractionStateEvent({
 			...renderNavigationRailItemProps,
 			disabled: false,
-			onStateEventChange: onNavigationRailItemStateEventChange
+			onStateEventChange
 		})
 
 		const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active: isActive, type})

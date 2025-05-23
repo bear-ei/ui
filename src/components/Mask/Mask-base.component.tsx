@@ -8,16 +8,13 @@ import type {MaskBaseProps} from './Mask.interface'
 export const MaskBase = forwardRef<View, MaskBaseProps>(({renderMask, ...renderMaskProps}, ref) => {
 	const id = useId()
 	const pressableRef = useRef<View>(null)
-	const onMaskStateEventChange = useCallback(
+	const onStateEventChange = useCallback(
 		(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 			handleMaskStateChange({...options, state, ref: pressableRef})(event),
 		[]
 	)
 
-	const interactionHandlers = useInteractionStateEvent({
-		...renderMaskProps,
-		onStateEventChange: onMaskStateEventChange
-	})
+	const interactionHandlers = useInteractionStateEvent({...renderMaskProps, onStateEventChange})
 
 	useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 

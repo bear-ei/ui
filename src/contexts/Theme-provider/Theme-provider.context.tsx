@@ -79,13 +79,13 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density 
 
 export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
 	const themeProviderRef = useRef<View>(null)
-	const onThemeProviderFocus = useMemo(() => createStableHandler(focusThemeProvider(themeProviderRef))(), [])
+	const onPressIn = useMemo(() => createStableHandler(focusThemeProvider(themeProviderRef))(), [])
 	const id = useId()
 
 	return (
 		<Container
 			enableFocusRing={false}
-			onPressIn={onThemeProviderFocus}
+			onPressIn={onPressIn}
 			ref={themeProviderRef}
 			story={story}
 			testID={`bearei__material--${id}`}

@@ -35,10 +35,10 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			itemSize: rawItemSize,
 			loading,
 			loadingElement,
-			onActive,
+			onActive: rawOnActive,
 			onActives,
 			onCancel,
-			onClose,
+			onClose: rawOnClose,
 			onConfirm,
 			onItemStateEvent,
 			renderItem,
@@ -71,25 +71,25 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		const id = useId()
 		const theme = useTheme()
 		const itemSize = createListItemSize({density, type})(theme)(rawItemSize)
-		const onListActiveState = useMemo(
+		const onActive = useMemo(
 			() =>
 				createStableHandlerWithState(
-					updateListActiveState({onActive, selectType, onActives, deselect})
+					updateListActiveState({onActive: rawOnActive, selectType, onActives, deselect})
 				)(setState)(),
-			[deselect, onActive, onActives, selectType, setState]
+			[deselect, onActives, rawOnActive, selectType, setState]
 		)
 
-		const onListAffordanceActiveState = useMemo(
+		const onActiveAfterAffordance = useMemo(
 			() =>
-				createStableHandlerWithState(updateListAffordanceActiveState({onActive, selectType}))(
-					setState
-				)(),
-			[onActive, selectType, setState]
+				createStableHandlerWithState(
+					updateListAffordanceActiveState({onActive: rawOnActive, selectType})
+				)(setState)(),
+			[rawOnActive, selectType, setState]
 		)
 
-		const onListClose = useMemo(
-			() => createStableHandlerWithState(triggerListClose(onClose))(setState)(),
-			[onClose, setState]
+		const onClose = useMemo(
+			() => createStableHandlerWithState(triggerListClose(rawOnClose))(setState)(),
+			[rawOnClose, setState]
 		)
 
 		const runUpdateListActiveState = useMemo(
@@ -116,8 +116,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 					enableUnderlayActive,
 					focusedIndex,
 					id,
-					onActive: onListActiveState,
-					onActiveAfterAffordance: onListAffordanceActiveState,
+					onActive,
+					onActiveAfterAffordance,
 					onCancel,
 					onConfirm,
 					renderItem,
@@ -149,11 +149,11 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 				id,
 				loading,
 				loadingElement,
+				onActive,
+				onActiveAfterAffordance,
 				onCancel,
 				onConfirm,
 				onItemStateEvent,
-				onListActiveState,
-				onListAffordanceActiveState,
 				renderItem,
 				selectType,
 				shape,
@@ -197,7 +197,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			itemSize,
 			loading,
 			loadingElement,
-			onClose: onListClose,
+			onClose,
 			ref: listRef as ForwardedRef<Animated.ScrollView>,
 			renderItem: renderListItem
 		})

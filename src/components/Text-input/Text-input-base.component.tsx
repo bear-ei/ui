@@ -35,8 +35,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			labelText = 'Label',
 			leading,
 			multiline,
-			onChangeText,
-			onContentSizeChange,
+			onChangeText: rawOnChangeText,
+			onContentSizeChange: rawOnContentSizeChange,
 			onSupportingTextVisible,
 			placeholder,
 			renderTextInput,
@@ -79,9 +79,12 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 				hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
 			:	theme.token.scheme.onSurfaceVariant
 
-		const onTextInputContentSize = useMemo(
-			() => createStableHandlerWithState(updateTextInputContentSize(onContentSizeChange))(setState)(),
-			[onContentSizeChange, setState]
+		const onContentSizeChange = useMemo(
+			() =>
+				createStableHandlerWithState(updateTextInputContentSize(rawOnContentSizeChange))(
+					setState
+				)(),
+			[rawOnContentSizeChange, setState]
 		)
 
 		const onTextInputSupportingTextClose = useMemo(
@@ -108,9 +111,12 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[textInputRef]
 		)
 
-		const onTextInputValueWithCallback = useMemo(
-			() => createStableHandlerWithState(updateTextInputValueWithCallback(onChangeText))(setState)(),
-			[onChangeText, setState]
+		const onChangeText = useMemo(
+			() =>
+				createStableHandlerWithState(updateTextInputValueWithCallback(rawOnChangeText))(
+					setState
+				)(),
+			[rawOnChangeText, setState]
 		)
 
 		const runUpdateTextInputValue = useMemo(
@@ -126,8 +132,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[onSupportingTextVisible, setState]
 		)
 
-		const onFocusTextInput = useMemo(() => createStableHandler(focusTextInput(textInputRef))(), [])
-		const onTextInputStateEventChange = useCallback(
+		const onHeaderFocus = useMemo(() => createStableHandler(focusTextInput(textInputRef))(), [])
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
 				handleTextInputStateChange({
 					...options,
@@ -141,7 +147,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		const interactionHandlers = useInteractionStateEvent({
 			...renderTextInputProps,
 			disabled: disabled ?? (typeof editable === 'boolean' ? !editable : undefined),
-			onStateEventChange: onTextInputStateEventChange
+			onStateEventChange
 		})
 
 		const {
@@ -211,9 +217,9 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			labelTextAnimatedStyle,
 			leading,
 			multiline,
-			onChangeText: onTextInputValueWithCallback,
-			onContentSizeChange: onTextInputContentSize,
-			onHeaderFocus: onFocusTextInput,
+			onChangeText,
+			onContentSizeChange,
+			onHeaderFocus,
 			onSupportingTextVisible: onTextInputSupportingTextVisibility,
 			placeholderTextColor,
 			ref: textInputRef,

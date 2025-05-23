@@ -18,8 +18,8 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		{
 			defaultVisible,
 			disabledClose,
-			onBack,
-			onClose,
+			onBack: rawOnBack,
+			onClose: rawOnClose,
 			onVisible,
 			renderSideSheet,
 			type = SIDE_SHEET_TYPE.MODAL,
@@ -36,17 +36,17 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		const emitId = useMemo(() => nanoid(), [])
 		const id = useId()
 		const sideSheetTypes = useMemo(() => [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const, [])
-		const onSideSheetBack = useMemo(
+		const onBack = useMemo(
 			() =>
 				createStableHandlerWithState(
-					updateSideSheetBackWithEvent({onBack, disabledClose, type})
+					updateSideSheetBackWithEvent({onBack: rawOnBack, disabledClose, type})
 				)(setState)(),
-			[disabledClose, onBack, setState, type]
+			[disabledClose, rawOnBack, setState, type]
 		)
 
-		const onSideSheetClose = useMemo(
-			() => createStableHandlerWithState(updateSideSheetClose(onClose))(setState)(),
-			[onClose, setState]
+		const onClose = useMemo(
+			() => createStableHandlerWithState(updateSideSheetClose(rawOnClose))(setState)(),
+			[rawOnClose, setState]
 		)
 
 		const runSetSideSheetVisibility = useMemo(
@@ -64,8 +64,8 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 				...renderSideSheetProps,
 				disabledClose,
 				id,
-				onBack: onSideSheetBack,
-				onClose: onSideSheetClose,
+				onBack,
+				onClose,
 				onVisible,
 				ref,
 				type,
@@ -75,8 +75,8 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 				disabledClose,
 				id,
 				isSideSheetVisible,
-				onSideSheetBack,
-				onSideSheetClose,
+				onBack,
+				onClose,
 				onVisible,
 				ref,
 				renderSideSheetProps,

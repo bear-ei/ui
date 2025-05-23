@@ -29,7 +29,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			defaultValue,
 			leading,
 			listProps,
-			onChangeText,
+			onChangeText: rawOnChangeText,
 			placeholder,
 			renderSearch,
 			value: rawValue,
@@ -64,9 +64,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			[setState]
 		)
 
-		const onSearchTextWithMatch = useMemo(
-			() => createStableHandlerWithState(updateSearchTextWithMatch({data, onChangeText}))(setState)(),
-			[data, onChangeText, setState]
+		const onChangeText = useMemo(
+			() =>
+				createStableHandlerWithState(
+					updateSearchTextWithMatch({data, onChangeText: rawOnChangeText})
+				)(setState)(),
+			[data, rawOnChangeText, setState]
 		)
 
 		const runUpdateSearchInputValue = useMemo(
@@ -82,16 +85,13 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			[setState]
 		)
 
-		const onSearchInputStateEventChange = useCallback(
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleSearchInputStateChange({...options, ref: inputRef, state})(setState)(event),
 			[setState]
 		)
 
-		const interactionHandlers = useInteractionStateEvent({
-			...renderSearchProps,
-			onStateEventChange: onSearchInputStateEventChange
-		})
+		const interactionHandlers = useInteractionStateEvent({...renderSearchProps, onStateEventChange})
 
 		useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
 
@@ -133,7 +133,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			leading,
 			listProps,
 			listVisible: isListVisible,
-			onChangeText: onSearchTextWithMatch,
+			onChangeText,
 			placeholder,
 			ref: inputRef,
 			theme,

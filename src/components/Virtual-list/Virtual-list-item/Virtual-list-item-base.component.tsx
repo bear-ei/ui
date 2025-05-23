@@ -18,7 +18,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			item,
 			itemSize = 0,
 			onLoadEnd,
-			onUnmount,
+			onUnmount: rawOnUnmount,
 			renderItem,
 			renderVirtualListItem,
 			startIndex = 0,
@@ -39,14 +39,17 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			[setState]
 		)
 
-		const onVirtualListItemClose = useMemo(
+		const onClose = useMemo(
 			() => createStableHandlerWithState(triggerVirtualListItemClose)(setState)(),
 			[setState]
 		)
 
-		const onVirtualListItemUnmount = useMemo(
-			() => createStableHandler(triggerVirtualListItemUnmount(onUnmount)(item?.indexKey as string))(),
-			[item?.indexKey, onUnmount]
+		const onUnmount = useMemo(
+			() =>
+				createStableHandler(
+					triggerVirtualListItemUnmount(rawOnUnmount)(item?.indexKey as string)
+				)(),
+			[item?.indexKey, rawOnUnmount]
 		)
 
 		const {containerAnimatedStyle} = useVirtualListItemAnimated({offsetY})
@@ -56,9 +59,9 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 					<></>
 				:	renderItem?.({
 						index: renderIndex,
-						item: {...item, onClose: onVirtualListItemClose, onLoadEnd}
+						item: {...item, onClose, onLoadEnd}
 					}),
-			[item, onLoadEnd, onVirtualListItemClose, renderIndex, renderItem]
+			[item, onClose, onLoadEnd, renderIndex, renderItem]
 		)
 
 		useEffect(() => {
@@ -76,7 +79,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			index,
 			itemElement,
 			itemSize,
-			onUnmount: onVirtualListItemUnmount,
+			onUnmount,
 			ref,
 			visible: isVisible
 		})

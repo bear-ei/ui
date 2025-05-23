@@ -13,23 +13,18 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(
 	({renderProgress, type = PROGRESS_TYPE.LINEAR, ...renderProgressProps}, ref) => {
 		const [{layout}, setState] = useImmer<ProgressState>({layout: {} as LayoutRectangle})
 		const id = useId()
-		const onProgressLayoutSize = useMemo(
+		const onLayoutChange = useMemo(
 			() => createStableHandlerWithState(updateProgressLayoutSize(type))(setState)(),
 			[setState, type]
 		)
 
-		const onProgressStateEventChange = useCallback(
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleProgressStateChange({...options, state, onLayoutChange: onProgressLayoutSize})(
-					event
-				),
-			[onProgressLayoutSize]
+				handleProgressStateChange({...options, state, onLayoutChange})(event),
+			[onLayoutChange]
 		)
 
-		const interactionHandlers = useInteractionStateEvent({
-			...renderProgressProps,
-			onStateEventChange: onProgressStateEventChange
-		})
+		const interactionHandlers = useInteractionStateEvent({...renderProgressProps, onStateEventChange})
 
 		return renderProgress({...renderProgressProps, layout, interactionHandlers, ref, type, id})
 	}

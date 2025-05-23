@@ -18,7 +18,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			destinationPosition = NAVIGATION_DESTINATION_POSITION.TOP,
 			fab,
 			menu,
-			onActive,
+			onActive: rawOnActive,
 			renderNavigationRail,
 			type,
 			...renderNavigationRailProps
@@ -30,9 +30,9 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		})
 
 		const id = useId()
-		const onNavigationRailActiveKey = useMemo(
-			() => createStableHandlerWithState(updateNavigationRailActiveKey(onActive))(setState)(),
-			[onActive, setState]
+		const onActive = useMemo(
+			() => createStableHandlerWithState(updateNavigationRailActiveKey(rawOnActive))(setState)(),
+			[rawOnActive, setState]
 		)
 
 		const runUpdateNavigationRailData = useMemo(
@@ -51,10 +51,10 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 					activeKey: activeKey ?? defaultActiveKey,
 					animatedType,
 					id,
-					onActive: onNavigationRailActiveKey,
+					onActive,
 					type
 				})(data),
-			[activeKey, animatedType, data, defaultActiveKey, id, onNavigationRailActiveKey, type]
+			[activeKey, animatedType, data, defaultActiveKey, id, onActive, type]
 		)
 
 		const fabElement = useMemo(() => renderNavigationRailFAB(id)(fab), [fab, id])

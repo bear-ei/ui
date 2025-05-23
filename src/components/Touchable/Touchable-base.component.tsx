@@ -28,12 +28,12 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 
 		const id = useId()
 		const pressableRef = useRef<View>(null)
-		const onDeleteTouchableRippleByIndex = useMemo(
+		const onAnimateFinished = useMemo(
 			() => createStableHandlerWithState(deleteTouchableRippleByIndex)(setState)(),
 			[setState]
 		)
 
-		const onTouchableStateEventChange = useCallback(
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleTouchableStateChange({
 					...options,
@@ -47,7 +47,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 		const interactionHandlers = useInteractionStateEvent({
 			...renderTouchableProps,
 			disabled,
-			onStateEventChange: onTouchableStateEventChange
+			onStateEventChange
 		})
 
 		const rippleElements = useMemo(
@@ -56,10 +56,10 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 					centered,
 					containerLayout: contentLayout,
 					id,
-					onAnimateFinished: onDeleteTouchableRippleByIndex,
+					onAnimateFinished,
 					underlayColor
 				})(rippleSequence),
-			[centered, contentLayout, id, onDeleteTouchableRippleByIndex, rippleSequence, underlayColor]
+			[centered, contentLayout, id, onAnimateFinished, rippleSequence, underlayColor]
 		)
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])

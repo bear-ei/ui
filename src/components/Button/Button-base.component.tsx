@@ -48,7 +48,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			[setState, type]
 		)
 
-		const onButtonStateEventChange = useCallback(
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleButtonStateChange({...options, state, type})(setState)(event),
 			[setState, type]
@@ -57,7 +57,7 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		const interactionHandlers = useInteractionStateEvent({
 			...renderButtonProps,
 			disabled: isDisabled,
-			onStateEventChange: onButtonStateEventChange
+			onStateEventChange
 		})
 
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({

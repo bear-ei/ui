@@ -39,8 +39,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			leading,
 			onActive,
 			onActiveAfterAffordance,
-			onClose,
-			onConfirm,
+			onClose: rawOnClose,
+			onConfirm: rawOnConfirm,
 			onLoadEnd,
 			renderListItem,
 			selectType,
@@ -100,48 +100,48 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			[itemIndex, setState]
 		)
 
-		const runListItemClose = useMemo(
-			() => createStableHandler(maybeTriggerListItemClose(onClose)(indexKey))(),
-			[indexKey, onClose]
+		const runMaybeTriggerListItemClose = useMemo(
+			() => createStableHandler(maybeTriggerListItemClose(rawOnClose)(indexKey))(),
+			[indexKey, rawOnClose]
 		)
 
-		const onListItemClose = runListItemClose
-		const onListItemAffordanceAction = useMemo(
+		const onItemClose = runMaybeTriggerListItemClose
+		const onConfirm = useMemo(
 			() =>
 				createStableHandler(
 					confirmListItemAffordanceAction({
 						onActiveAfterAffordance,
-						onConfirm,
-						onItemClose: onListItemClose
+						onConfirm: rawOnConfirm,
+						onItemClose
 					})
 				)(),
-			[onListItemClose, onActiveAfterAffordance, onConfirm]
+			[onActiveAfterAffordance, onItemClose, rawOnConfirm]
 		)
 
-		const onListItemTrailingActions = useMemo(
+		const onTrailingPressOut = useMemo(
 			() =>
 				createStableHandler(
 					triggerListItemTrailingActions({
 						afterAffordance,
 						closeTrailing,
 						onActiveAfterAffordance,
-						onItemClose: runListItemClose
+						onItemClose
 					})(indexKey)
 				)(),
-			[afterAffordance, runListItemClose, closeTrailing, indexKey, onActiveAfterAffordance]
+			[afterAffordance, closeTrailing, indexKey, onActiveAfterAffordance, onItemClose]
 		)
 
-		const onShowListItemTrailingAffordance = useMemo(
+		const onTrailingPressIn = useMemo(
 			() => createStableHandlerWithState(showListItemTrailingAffordance)(setState)(),
 			[setState]
 		)
 
-		const onListItemAffordanceClosed = useMemo(
+		const onAfterAffordanceVisibilityFinished = useMemo(
 			() => createStableHandlerWithState(setListItemAffordanceClosed)(setState)(),
 			[setState]
 		)
 
-		const onListItemStateEventChange = useCallback(
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleListItemStateChange({
 					...options,
@@ -171,13 +171,13 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		const interactionHandlers = useInteractionStateEvent({
 			...renderListItemProps,
 			disabled,
-			onStateEventChange: onListItemStateEventChange
+			onStateEventChange
 		})
 
 		const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
 			active: isActive,
 			afterAffordanceVisible: isAfterAffordanceVisible,
-			onAfterAffordanceVisibilityFinished: onListItemAffordanceClosed
+			onAfterAffordanceVisibilityFinished
 		})
 
 		const trailingElement = useMemo(
@@ -188,8 +188,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 					disabled,
 					id,
 					interactionHandlers: {
-						onPressIn: onShowListItemTrailingAffordance,
-						onPressOut: onListItemTrailingActions
+						onPressIn: onTrailingPressIn,
+						onPressOut: onTrailingPressOut
 					},
 					theme,
 					trailing,
@@ -200,8 +200,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 				closeTrailing,
 				disabled,
 				id,
-				onShowListItemTrailingAffordance,
-				onListItemTrailingActions,
+				onTrailingPressIn,
+				onTrailingPressOut,
 				theme,
 				trailing,
 				trailingProps
@@ -215,8 +215,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		}, [runUpdateListItemFocusState, focusedIndex])
 
 		useEffect(() => {
-			runListItemClose(close)
-		}, [close, runListItemClose])
+			runMaybeTriggerListItemClose(close)
+		}, [close, runMaybeTriggerListItemClose])
 
 		useEffect(() => {
 			runAfterInteractions(nextPressInEvent)()
@@ -248,7 +248,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			indexKey,
 			interactionHandlers,
 			leadingElement: leading,
-			onConfirm: onListItemAffordanceAction,
+			onConfirm,
 			ref: pressableRef,
 			selectType,
 			shape,
