@@ -3,7 +3,6 @@ import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useInteractionStateEvent} from '../../hooks'
-import {createStableHandlerWithState} from '../../utils'
 import type {State} from '../Common'
 import {PROGRESS_TYPE} from './Progress.enum'
 import {handleProgressStateChange, updateProgressLayoutSize} from './Progress.handler'
@@ -13,11 +12,7 @@ export const ProgressBase = forwardRef<View, ProgressBaseProps>(
 	({renderProgress, type = PROGRESS_TYPE.LINEAR, ...renderProgressProps}, ref) => {
 		const [{layout}, setState] = useImmer<ProgressState>({layout: {} as LayoutRectangle})
 		const id = useId()
-		const onLayoutChange = useMemo(
-			() => createStableHandlerWithState(updateProgressLayoutSize(type))(setState)(),
-			[setState, type]
-		)
-
+		const onLayoutChange = useMemo(() => updateProgressLayoutSize(type)(setState), [setState, type])
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleProgressStateChange({...options, state, onLayoutChange})(event),

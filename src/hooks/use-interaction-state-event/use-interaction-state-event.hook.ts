@@ -63,11 +63,6 @@ export const useInteractionStateEvent = ({
 		[interactionHandlers, rawOnHoverOut]
 	)
 
-	const onLayout = useMemo(
-		() => createStableEventHandler(handleLayoutEvent({interactionHandlers})(rawOnLayout)),
-		[interactionHandlers, rawOnLayout]
-	)
-
 	const onLongPress = useMemo(
 		() => createStableEventHandler(handleLongPressEvent({interactionHandlers})(rawOnLongPress)),
 		[interactionHandlers, rawOnLongPress]
@@ -92,6 +87,11 @@ export const useInteractionStateEvent = ({
 				handlePressOutEvent({interactionHandlers, mobileDevice: isMobileDevice})(rawOnPressOut)
 			),
 		[interactionHandlers, isMobileDevice, rawOnPressOut]
+	)
+
+	const onLayout = useMemo(
+		() => handleLayoutEvent({interactionHandlers})(rawOnLayout),
+		[interactionHandlers, rawOnLayout]
 	)
 
 	return {

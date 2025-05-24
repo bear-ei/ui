@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../../utils'
+import {runAfterInteractions} from '../../../utils'
 import {
 	resetAffordanceConfirmationOnHide,
 	triggerListAfterAffordanceConfirm,
@@ -30,32 +30,29 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 		const id = useId()
 		const onConfirm = useMemo(
 			() =>
-				createStableHandler(
-					triggerListAfterAffordanceConfirm({
-						doubleConfirmed: isDoubleConfirmed,
-						indexKey,
-						onConfirm: rawOnConfirm
-					})
-				)(),
+				triggerListAfterAffordanceConfirm({
+					doubleConfirmed: isDoubleConfirmed,
+					indexKey,
+					onConfirm: rawOnConfirm
+				}),
 			[indexKey, isDoubleConfirmed, rawOnConfirm]
 		)
 
 		const onCancel = useMemo(
 			() =>
-				createStableHandlerWithState(
-					updateListAffordanceCancelState({
-						doubleConfirmed: isDoubleConfirmed,
-						indexKey,
-						onCancel: rawOnCancel
-					})
-				)(setState)(),
+				updateListAffordanceCancelState({
+					doubleConfirmed: isDoubleConfirmed,
+					indexKey,
+					onCancel: rawOnCancel
+				})(setState),
 			[indexKey, isDoubleConfirmed, rawOnCancel, setState]
 		)
 
 		const runResetAffordanceConfirmationOnHide = useMemo(
-			() => createStableHandlerWithState(resetAffordanceConfirmationOnHide)(setState)(),
+			() => resetAffordanceConfirmationOnHide(setState),
 			[setState]
 		)
+
 		const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed})
 
 		useEffect(() => {

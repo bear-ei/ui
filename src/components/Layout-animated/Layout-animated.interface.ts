@@ -60,7 +60,7 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 
 export type FinalizeLayoutAnimatedVisibilityChangeOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
 export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEventChangeOptions {
-	onLayoutChange: (layout: LayoutRectangle) => void
+	onLayoutChange: (layout: LayoutRectangle) => Promise<void>
 }
 
 export interface UseLayoutAnimatedOptions

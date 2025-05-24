@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../utils'
+import {debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -56,46 +56,30 @@ export const VirtualListBaseInner = <T,>(
 	const id = useId()
 	const contentSize = (virtualListData ?? data ?? []).length * (itemSize + gap) - gap
 	const runUpdateVirtualListVisibilityRangeData = useMemo(
-		() => createStableHandlerWithState(updateVirtualListVisibilityRangeData(itemSize))(setState)(),
+		() => updateVirtualListVisibilityRangeData(itemSize)(setState),
 		[itemSize, setState]
 	)
 
 	const onScroll = useMemo(
-		() =>
-			createStableHandlerWithState(updateVirtualListOnScroll({onScroll: rawOnScroll, itemSize}))(
-				setState
-			)(),
+		() => updateVirtualListOnScroll({onScroll: rawOnScroll, itemSize})(setState),
 		[itemSize, rawOnScroll, setState]
 	)
 
 	const onMomentumScrollEnd = useMemo(
-		() => createStableHandler(triggerVirtualListMomentumScrollEnd(rawOnMomentumScrollEnd))(),
+		() => triggerVirtualListMomentumScrollEnd(rawOnMomentumScrollEnd),
 		[rawOnMomentumScrollEnd]
 	)
 
-	const runUpdateVirtualListData = useMemo(
-		() => createStableHandlerWithState(updateVirtualListData)(setState)(),
-		[setState]
-	)
-	const onLoadEnd = useMemo(
-		() => createStableHandlerWithState(checkVirtualListLoadEnd(rawOnLoadEnd))(setState)(),
-		[rawOnLoadEnd, setState]
-	)
-
+	const runUpdateVirtualListData = useMemo(() => updateVirtualListData(setState), [setState])
+	const onLoadEnd = useMemo(() => checkVirtualListLoadEnd(rawOnLoadEnd)(setState), [rawOnLoadEnd, setState])
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
 	const onUnmount = useMemo(
-		() =>
-			createStableHandlerWithState(
-				unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose})
-			)(setState)(),
+		() => unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose})(setState),
 		[enableAutoSelect, itemSize, rawOnClose, setState]
 	)
 
 	const onLayoutChange = useMemo(
-		() =>
-			createStableHandlerWithState(updateVirtualListLayout(itemSize))(setState)({
-				debounceMillisecond: 50
-			}),
+		() => debounce(updateVirtualListLayout(itemSize)(setState))(50),
 		[itemSize, setState]
 	)
 

@@ -3,7 +3,6 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createStableHandlerWithState} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {BUTTON_TYPE} from './Button.enum'
 import {
@@ -39,12 +38,12 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		const theme = useTheme()
 		const underlayColor = getButtonUnderlayColor(theme)(type)
 		const runUpdateButtonStatus = useMemo(
-			() => createStableHandlerWithState(updateButtonStatus(rawDisabled))(setState)(),
+			() => updateButtonStatus(rawDisabled)(setState),
 			[rawDisabled, setState]
 		)
 
 		const runUpdateButtonDisabledState = useMemo(
-			() => createStableHandlerWithState(updateButtonDisabledState(type))(setState)(),
+			() => updateButtonDisabledState(type)(setState),
 			[setState, type]
 		)
 

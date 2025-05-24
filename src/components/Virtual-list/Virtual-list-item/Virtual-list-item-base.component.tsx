@@ -1,7 +1,6 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createStableHandler, createStableHandlerWithState} from '../../../utils'
 import {COMPONENT_STATUS} from '../../Common'
 import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
 import {
@@ -34,21 +33,10 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		const id = useId()
 		const renderIndex = index + startIndex
 		const offsetY = itemSize * renderIndex
-		const runUpdateVirtualListItemStatus = useMemo(
-			() => createStableHandlerWithState(updateVirtualListItemStatus)(setState)(),
-			[setState]
-		)
-
-		const onClose = useMemo(
-			() => createStableHandlerWithState(triggerVirtualListItemClose)(setState)(),
-			[setState]
-		)
-
+		const runUpdateVirtualListItemStatus = useMemo(() => updateVirtualListItemStatus(setState), [setState])
+		const onClose = useMemo(() => triggerVirtualListItemClose(setState), [setState])
 		const onUnmount = useMemo(
-			() =>
-				createStableHandler(
-					triggerVirtualListItemUnmount(rawOnUnmount)(item?.indexKey as string)
-				)(),
+			() => triggerVirtualListItemUnmount(rawOnUnmount)(item?.indexKey as string),
 			[item?.indexKey, rawOnUnmount]
 		)
 

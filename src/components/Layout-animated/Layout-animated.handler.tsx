@@ -34,7 +34,7 @@ export const handleLayoutAnimatedStateChange =
 	(event: StateEvent) => {
 		const nextEvent = {
 			[EVENT_NAME.LAYOUT]: () => onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
-		} as Record<EventName, () => void>
+		} as Record<EventName, () => void | Promise<void>>
 
 		if (!eventName) {
 			return

@@ -2,7 +2,7 @@ import {nanoid} from 'nanoid'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../utils'
+import {runAfterInteractions} from '../../utils'
 import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
 import {
 	emitSideSheetModal,
@@ -37,28 +37,13 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		const id = useId()
 		const sideSheetTypes = useMemo(() => [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const, [])
 		const onBack = useMemo(
-			() =>
-				createStableHandlerWithState(
-					updateSideSheetBackWithEvent({onBack: rawOnBack, disabledClose, type})
-				)(setState)(),
+			() => updateSideSheetBackWithEvent({onBack: rawOnBack, disabledClose, type})(setState),
 			[disabledClose, rawOnBack, setState, type]
 		)
 
-		const onClose = useMemo(
-			() => createStableHandlerWithState(updateSideSheetClose(rawOnClose))(setState)(),
-			[rawOnClose, setState]
-		)
-
-		const runSetSideSheetVisibility = useMemo(
-			() => createStableHandlerWithState(setSideSheetVisibility)(setState)(),
-			[setState]
-		)
-
-		const runEmitSideSheetModalUnmount = useMemo(
-			() => createStableHandler(emitSideSheetModalUnmount(emitId))(),
-			[emitId]
-		)
-
+		const onClose = useMemo(() => updateSideSheetClose(rawOnClose)(setState), [rawOnClose, setState])
+		const runSetSideSheetVisibility = useMemo(() => setSideSheetVisibility(setState), [setState])
+		const runEmitSideSheetModalUnmount = useMemo(() => emitSideSheetModalUnmount(emitId), [emitId])
 		const renderSheetProps = useMemo(
 			() => ({
 				...renderSideSheetProps,
@@ -85,7 +70,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		)
 
 		const runEmitSideSheetModal = useMemo(
-			() => createStableHandler(emitSideSheetModal({id: emitId, type})(renderSheetProps))(),
+			() => emitSideSheetModal({id: emitId, type})(renderSheetProps),
 			[emitId, renderSheetProps, type]
 		)
 

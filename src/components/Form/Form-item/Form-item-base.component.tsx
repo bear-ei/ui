@@ -1,7 +1,6 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createStableHandler, createStableHandlerWithState} from '../../../utils'
 import {COMPONENT_STATUS} from '../../Common'
 import {useFormContext} from '../use-form-context.hook'
 import {
@@ -27,31 +26,21 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
 		const storeValue = getFieldsValue(name)
 		const value = storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue)
-		const onComponentUpdate = useMemo(
-			() => createStableHandlerWithState(triggerFormItemShouldUpdate)(setState)(),
-			[setState]
-		)
-
+		const onComponentUpdate = useMemo(() => triggerFormItemShouldUpdate(setState), [setState])
 		const onValueChange = useMemo(
-			() => createStableHandler(updateFormFieldValueIfChanged({setFieldsValue, storeValue})(name))(),
+			() => updateFormFieldValueIfChanged({setFieldsValue, storeValue})(name),
 			[name, setFieldsValue, storeValue]
 		)
 
-		const onBlur = useMemo(
-			() => createStableHandler(validateFormFieldOnBlur(validateFields)(name))(),
-			[name, validateFields]
-		)
-
+		const onBlur = useMemo(() => validateFormFieldOnBlur(validateFields)(name), [name, validateFields])
 		const runApplyFormItemStatusInitToDraft = useMemo(
 			() =>
-				createStableHandlerWithState(
-					applyFormItemStatusInitToDraft({
-						onComponentUpdate,
-						rule,
-						signInField,
-						validatorOptions
-					})
-				)(setState)(),
+				applyFormItemStatusInitToDraft({
+					onComponentUpdate,
+					rule,
+					signInField,
+					validatorOptions
+				})(setState),
 			[onComponentUpdate, rule, setState, signInField, validatorOptions]
 		)
 

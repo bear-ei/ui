@@ -4,8 +4,8 @@ import type {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {createStableEventHandler, useInteractionStateEvent} from '../../hooks'
-import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../utils'
+import {useInteractionStateEvent} from '../../hooks'
+import {debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
@@ -37,7 +37,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			multiline,
 			onChangeText: rawOnChangeText,
 			onContentSizeChange: rawOnContentSizeChange,
-			onSupportingTextVisible,
+			onSupportingTextVisible: rawOnSupportingTextVisible,
 			placeholder,
 			renderTextInput,
 			supportingText: rawSupportingText,
@@ -80,56 +80,36 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			:	theme.token.scheme.onSurfaceVariant
 
 		const onContentSizeChange = useMemo(
-			() =>
-				createStableEventHandler(
-					createUpdateTextInputContentSize(rawOnContentSizeChange)(setState)
-				),
+			() => createUpdateTextInputContentSize(rawOnContentSizeChange)(setState),
 			[rawOnContentSizeChange, setState]
 		)
 
 		const onTextInputSupportingTextClose = useMemo(
-			() =>
-				createStableHandlerWithState(updateTextInputSupportingTextClose)(setState)({
-					debounceMillisecond: supportingTextDelay ?? 0
-				}),
+			() => debounce(updateTextInputSupportingTextClose(setState))(supportingTextDelay ?? 0),
 			[setState, supportingTextDelay]
 		)
 
 		const runUpdateTextInputSupportingText = useMemo(
 			() =>
-				createStableHandlerWithState(
-					updateTextInputSupportingText({
-						onTextInputSupportingTextClose,
-						supportingTextDelay
-					})
-				)(setState)(),
+				updateTextInputSupportingText({onTextInputSupportingTextClose, supportingTextDelay})(
+					setState
+				),
 			[onTextInputSupportingTextClose, setState, supportingTextDelay]
 		)
 
-		const runBlurTextInputIfEditable = useMemo(
-			() => createStableHandler(blurTextInputIfEditable(textInputRef))(),
-			[textInputRef]
-		)
-
+		const runBlurTextInputIfEditable = useMemo(() => blurTextInputIfEditable(textInputRef), [textInputRef])
 		const onChangeText = useMemo(
 			() => updateTextInputValueWithCallback(rawOnChangeText)(setState),
 			[rawOnChangeText, setState]
 		)
 
-		const runUpdateTextInputValue = useMemo(
-			() => createStableHandlerWithState(updateTextInputValue)(setState)(),
-			[setState]
+		const runUpdateTextInputValue = useMemo(() => updateTextInputValue(setState), [setState])
+		const onSupportingTextVisible = useMemo(
+			() => updateTextInputSupportingTextVisibility(rawOnSupportingTextVisible)(setState),
+			[rawOnSupportingTextVisible, setState]
 		)
 
-		const onTextInputSupportingTextVisibility = useMemo(
-			() =>
-				createStableHandlerWithState(
-					updateTextInputSupportingTextVisibility(onSupportingTextVisible)
-				)(setState)(),
-			[onSupportingTextVisible, setState]
-		)
-
-		const onHeaderFocus = useMemo(() => createStableHandler(focusTextInput(textInputRef))(), [])
+		const onHeaderFocus = useMemo(() => focusTextInput(textInputRef), [])
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
 				handleTextInputStateChange({
@@ -217,7 +197,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			onChangeText,
 			onContentSizeChange,
 			onHeaderFocus,
-			onSupportingTextVisible: onTextInputSupportingTextVisibility,
+			onSupportingTextVisible,
 			placeholderTextColor,
 			ref: textInputRef,
 			supportingText,

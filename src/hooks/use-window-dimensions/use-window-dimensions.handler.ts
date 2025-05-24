@@ -14,5 +14,5 @@ export const updateWindowScaledSize =
 		})
 	}
 
-export const createDimensionsChangeListener = (onWindowScaledSize: ({window}: {window: ScaledSize}) => void) =>
+export const createDimensionsChangeListener = (onWindowScaledSize: ({window}: {window: ScaledSize}) => Promise<void>) =>
 	Dimensions.addEventListener('change', onWindowScaledSize)

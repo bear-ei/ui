@@ -92,7 +92,7 @@ export interface CreateTextInputEnabledStateOptions extends Pick<UseTextInputAni
 }
 
 export interface UpdateTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelay'> {
-	onTextInputSupportingTextClose: () => void
+	onTextInputSupportingTextClose: () => Promise<void>
 }
 
 export interface CreateTextInputEnabledSharedValues {

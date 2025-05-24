@@ -2,7 +2,6 @@ import type {ForwardedRef} from 'react'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createStableHandler, createStableHandlerWithState} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
 import {extractAndSetFormFieldKeys, initializeFormStateWithValues, registerFormCallbacks} from './Form.handler'
 import type {FormBaseProps, FormState} from './Form.interface'
@@ -27,37 +26,29 @@ const FormBaseInner = <T,>(
 	const id = useId()
 	const formStore = useForm(form)
 	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
-	const runInitializeFormStateWithValuesEffect = useMemo(
-		() => createStableHandlerWithState(initializeFormStateWithValues<T>(setInitialValues))(setState)(),
+	const runInitializeFormStateWithValues = useMemo(
+		() => initializeFormStateWithValues<T>(setInitialValues)(setState),
 		[setInitialValues, setState]
 	)
 
-	const runRegisterFormCallbacksEffect = useMemo(
-		() => createStableHandler(registerFormCallbacks<T>(setCallbacks))(),
-		[setCallbacks]
-	)
-
-	const runExtractAndSetFormFieldKeysEffect = useMemo(
-		() => createStableHandler(extractAndSetFormFieldKeys<T>(setFieldKeys))(),
-		[setFieldKeys]
-	)
-
-	const formItemElements = useMemo(
+	const runRegisterFormCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
+	const runExtractAndSetFormFieldKeys = useMemo(() => extractAndSetFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
+	const itemElements = useMemo(
 		() => renderFormItems({validatorOptions, id})(status)(items),
 		[id, items, status, validatorOptions]
 	)
 
 	useEffect(() => {
-		runRegisterFormCallbacksEffect({onFinish, onFinishFailed, onValuesChange})
-	}, [runRegisterFormCallbacksEffect, onFinish, onFinishFailed, onValuesChange])
+		runRegisterFormCallbacks({onFinish, onFinishFailed, onValuesChange})
+	}, [runRegisterFormCallbacks, onFinish, onFinishFailed, onValuesChange])
 
 	useEffect(() => {
-		runExtractAndSetFormFieldKeysEffect(items)
-	}, [runExtractAndSetFormFieldKeysEffect, items])
+		runExtractAndSetFormFieldKeys(items)
+	}, [runExtractAndSetFormFieldKeys, items])
 
 	useEffect(() => {
-		runInitializeFormStateWithValuesEffect(initialValues)
-	}, [runInitializeFormStateWithValuesEffect, initialValues])
+		runInitializeFormStateWithValues(initialValues)
+	}, [runInitializeFormStateWithValues, initialValues])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>
@@ -67,7 +58,7 @@ const FormBaseInner = <T,>(
 		...renderFormProps,
 		form: formStore,
 		id,
-		itemElements: formItemElements,
+		itemElements,
 		ref
 	})
 }

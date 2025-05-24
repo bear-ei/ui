@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
+import {debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
@@ -52,35 +52,21 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		const id = useId()
 		const isLayoutVisible = rawVisible ?? defaultVisible
 		const runUpdateLayoutAnimatedStatus = useMemo(
-			() => createStableHandlerWithState(updateLayoutAnimatedStatus({unmount, lazy}))(setState)(),
+			() => updateLayoutAnimatedStatus({unmount, lazy})(setState),
 			[lazy, setState, unmount]
 		)
 
 		const runUpdateLayoutAnimatedVisibility = useMemo(
-			() =>
-				createStableHandlerWithState(updateLayoutAnimatedVisibility(onVisible))(setState)({
-					debounceMillisecond: delay
-				}),
-
+			() => debounce(updateLayoutAnimatedVisibility(onVisible)(setState))(delay),
 			[delay, onVisible, setState]
 		)
 
 		const onAnimationFinished = useMemo(
-			() =>
-				createStableHandlerWithState(
-					finalizeLayoutAnimatedVisibilityChange({onUnmount, unmount})
-				)(setState)(),
+			() => finalizeLayoutAnimatedVisibilityChange({onUnmount, unmount})(setState),
 			[onUnmount, setState, unmount]
 		)
 
-		const onLayoutChange = useMemo(
-			() =>
-				createStableHandlerWithState(updateLayoutAnimatedSize)(setState)({
-					debounceMillisecond: 50
-				}),
-			[setState]
-		)
-
+		const onLayoutChange = useMemo(() => debounce(updateLayoutAnimatedSize(setState))(50), [setState])
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleLayoutAnimatedStateChange({...options, onLayoutChange, state})(event),

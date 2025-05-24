@@ -3,7 +3,7 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
-import {createStableHandler, createStableHandlerWithState, runAfterInteractions} from '../../../utils'
+import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
@@ -96,48 +96,40 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		// ).current
 
 		const runUpdateListItemFocusState = useMemo(
-			() => createStableHandlerWithState(updateListItemFocusState(itemIndex))(setState)(),
+			() => updateListItemFocusState(itemIndex)(setState),
 			[itemIndex, setState]
 		)
 
 		const runMaybeTriggerListItemClose = useMemo(
-			() => createStableHandler(maybeTriggerListItemClose(rawOnClose)(indexKey))(),
+			() => maybeTriggerListItemClose(rawOnClose)(indexKey),
 			[indexKey, rawOnClose]
 		)
 
 		const onItemClose = runMaybeTriggerListItemClose
 		const onConfirm = useMemo(
 			() =>
-				createStableHandler(
-					confirmListItemAffordanceAction({
-						onActiveAfterAffordance,
-						onConfirm: rawOnConfirm,
-						onItemClose
-					})
-				)(),
+				confirmListItemAffordanceAction({
+					onActiveAfterAffordance,
+					onConfirm: rawOnConfirm,
+					onItemClose
+				}),
 			[onActiveAfterAffordance, onItemClose, rawOnConfirm]
 		)
 
 		const onTrailingPressOut = useMemo(
 			() =>
-				createStableHandler(
-					triggerListItemTrailingActions({
-						afterAffordance,
-						closeTrailing,
-						onActiveAfterAffordance,
-						onItemClose
-					})(indexKey)
-				)(),
+				triggerListItemTrailingActions({
+					afterAffordance,
+					closeTrailing,
+					onActiveAfterAffordance,
+					onItemClose
+				})(indexKey),
 			[afterAffordance, closeTrailing, indexKey, onActiveAfterAffordance, onItemClose]
 		)
 
-		const onTrailingPressIn = useMemo(
-			() => createStableHandlerWithState(showListItemTrailingAffordance)(setState)(),
-			[setState]
-		)
-
+		const onTrailingPressIn = useMemo(() => showListItemTrailingAffordance(setState), [setState])
 		const onAfterAffordanceVisibilityFinished = useMemo(
-			() => createStableHandlerWithState(setListItemAffordanceClosed)(setState)(),
+			() => setListItemAffordanceClosed(setState),
 			[setState]
 		)
 

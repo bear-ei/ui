@@ -3,7 +3,7 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createStableHandlerWithState, runAfterInteractions} from '../../utils'
+import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import {
@@ -33,18 +33,10 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 
 		const id = useId()
 		const theme = useTheme()
-		const runUpdateCheckboxStatus = useMemo(
-			() => createStableHandlerWithState(updateCheckboxStatus)(setState)(),
-			[setState]
-		)
-
-		const runUpdateCheckboxIndeterminate = useMemo(
-			() => createStableHandlerWithState(updateCheckboxIndeterminate)(setState)(),
-			[setState]
-		)
-
+		const runUpdateCheckboxStatus = useMemo(() => updateCheckboxStatus(setState), [setState])
+		const runUpdateCheckboxIndeterminate = useMemo(() => updateCheckboxIndeterminate(setState), [setState])
 		const runUpdateCheckboxActive = useMemo(
-			() => createStableHandlerWithState(updateCheckboxActive({indeterminate}))(setState)(),
+			() => updateCheckboxActive({indeterminate})(setState),
 			[indeterminate, setState]
 		)
 
