@@ -61,11 +61,11 @@ export const renderTextInput = ({
 	trailing,
 	...inputProps
 }: RenderTextInputProps) => {
-	const shape = SHAPE.EXTRA_SMALL_TOP
+	const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
 	const isLeadingShow = !!leading
+	const shape = SHAPE.EXTRA_SMALL_TOP
 	const underlayColor = theme.token.scheme.onSurface
 	const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
-	const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
 
 	return (
 		<Container

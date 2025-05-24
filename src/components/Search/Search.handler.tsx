@@ -49,8 +49,8 @@ export const updateSearchTextWithMatch =
 	({data = [], onChangeText}: UpdateSearchTextWithMatchOptions = {}) =>
 	(setState: Updater<SearchState>) =>
 	(value?: string) => {
-		const nextChangeTextEvent = () => value && onChangeText?.(value)
 		const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
+		const nextChangeTextEvent = () => value && onChangeText?.(value)
 
 		setState(draft => {
 			const prevValue = draft.value

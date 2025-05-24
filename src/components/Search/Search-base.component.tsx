@@ -54,9 +54,9 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			status: COMPONENT_STATUS.IDLE
 		})
 
-		const id = useId()
-		const containerRef = useRef<View>(null)
 		const {data} = listProps ?? {}
+		const containerRef = useRef<View>(null)
+		const id = useId()
 		const inputRef = useRef<TextInput>(null)
 		const theme = useTheme()
 		const runUpdateSearchListVisibility = useMemo(
@@ -65,10 +65,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		)
 
 		const onChangeText = useMemo(
-			() =>
-				createStableHandlerWithState(
-					updateSearchTextWithMatch({data, onChangeText: rawOnChangeText})
-				)(setState)(),
+			() => updateSearchTextWithMatch({data, onChangeText: rawOnChangeText})(setState),
 			[data, rawOnChangeText, setState]
 		)
 

@@ -99,8 +99,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			() =>
 				createStableHandlerWithState(
 					updateTextInputSupportingText({
-						supportingTextDelay,
-						onTextInputSupportingTextClose
+						onTextInputSupportingTextClose,
+						supportingTextDelay
 					})
 				)(setState)(),
 			[onTextInputSupportingTextClose, setState, supportingTextDelay]
@@ -112,10 +112,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		)
 
 		const onChangeText = useMemo(
-			() =>
-				createStableHandlerWithState(updateTextInputValueWithCallback(rawOnChangeText))(
-					setState
-				)(),
+			() => updateTextInputValueWithCallback(rawOnChangeText)(setState),
 			[rawOnChangeText, setState]
 		)
 
