@@ -24,11 +24,11 @@ const applyCheckboxActiveStateToDraft =
 	(draft: WritableDraft<CheckboxState>) =>
 	({indeterminate, onActive}: UpdateCheckboxActiveOptions) =>
 	(active?: boolean) => {
-		const nextActiveEvent = () => onActive?.(active)
-
 		if (typeof active !== 'boolean') {
 			return
 		}
+
+		const nextActiveEvent = () => onActive?.(active)
 
 		const activeValue = indeterminate ? CHECKBOX_VALUE.INDETERMINATE : CHECKBOX_VALUE.SELECTED
 		const nextValue = active ? activeValue : CHECKBOX_VALUE.UNSELECTED

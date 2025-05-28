@@ -19,13 +19,13 @@ export const handleTextInputStateChange =
 	({content, eventName, ref, state}: HandleTextInputStateChangeOptions) =>
 	(setState: Updater<TextInputState>) =>
 	(_event: StateEvent) => {
-		const nextEvent = {
-			[EVENT_NAME.PRESS_OUT]: () => ref?.current?.focus()
-		} as Record<EventName, () => void>
-
 		if (eventName === EVENT_NAME.LAYOUT) {
 			return
 		}
+
+		const nextEvent = {
+			[EVENT_NAME.PRESS_OUT]: () => ref?.current?.focus()
+		} as Record<EventName, () => void>
 
 		setState(draft => {
 			if ((draft.state === STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) || content) {
@@ -50,8 +50,8 @@ export const createUpdateTextInputContentSize =
 	(onContentSizeChange?: (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => void) =>
 	(setState: Updater<TextInputState>) =>
 	(event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
-		const nextContentSizeChangeEvent = () => onContentSizeChange?.(event)
 		const contentSize = event.nativeEvent.contentSize
+		const nextContentSizeChangeEvent = () => onContentSizeChange?.(event)
 
 		setState(draft => {
 			draft.contentSize.height = contentSize.height
@@ -87,11 +87,11 @@ export const updateTextInputSupportingTextVisibility =
 	(onSupportingTextVisible?: (visible?: boolean) => void) =>
 	(setState: Updater<TextInputState>) =>
 	(visible?: boolean) => {
-		const nextSupportingTextVisibilityEvent = () => onSupportingTextVisible?.(visible)
-
 		if (typeof visible !== 'boolean') {
 			return
 		}
+
+		const nextSupportingTextVisibilityEvent = () => onSupportingTextVisible?.(visible)
 
 		setState(draft => {
 			draft.nextSupportingTextVisibilityEvent = nextSupportingTextVisibilityEvent

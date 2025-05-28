@@ -25,15 +25,15 @@ export const handleNavigationRailItemStateChange =
 	({eventName, indexKey, onActive, ref}: HandleNavigationRailItemStateChangeOptions) =>
 	(setState: Updater<NavigationRailItemState>) =>
 	(_event: StateEvent) => {
+		if (eventName === EVENT_NAME.LAYOUT) {
+			return
+		}
+
 		const triggerNavigationRailItemPressOut = (activeKey?: string) => activeKey && onActive?.(activeKey)
 		const nextEvent = {
 			[EVENT_NAME.PRESS_IN]: () => ref.current?.focus(),
 			[EVENT_NAME.PRESS_OUT]: () => triggerNavigationRailItemPressOut(indexKey)
 		} as Record<EventName, () => void>
-
-		if (eventName === EVENT_NAME.LAYOUT) {
-			return
-		}
 
 		setState(draft => {
 			const prevEventName = draft.eventName

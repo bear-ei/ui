@@ -64,11 +64,13 @@ export const finalizeLayoutAnimatedVisibilityChange =
 	({onUnmount, unmount}: FinalizeLayoutAnimatedVisibilityChangeOptions) =>
 	(setState: Updater<LayoutAnimatedState>) =>
 	(visible?: boolean) => {
+		const nextUnmountEvent = () => onUnmount?.()
+
 		setState(draft => {
 			draft.invisible = !visible
 
 			if (unmount && !visible) {
-				draft.nextUnmountEvent = onUnmount
+				draft.nextUnmountEvent = nextUnmountEvent
 				draft.status = COMPONENT_STATUS.IDLE
 				draft.unmountLayout = true
 			}

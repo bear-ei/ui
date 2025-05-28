@@ -9,22 +9,27 @@ import type {
 	UpdateSideSheetBackWithEventOptions
 } from './Side-sheet.interface'
 
-export const updateSideSheetClose = (onClose?: () => void) => (setState: Updater<SideSheetState>) => () =>
+export const updateSideSheetClose = (onClose?: () => void) => (setState: Updater<SideSheetState>) => () => {
+	const nextOnClose = () => onClose?.()
+
 	setState(draft => {
-		draft.nextCloseEvent = onClose
+		draft.nextCloseEvent = nextOnClose
 		draft.sideSheetVisible = false
 	})
+}
 
 export const updateSideSheetBackWithEvent =
 	({type, disabledClose, onBack}: UpdateSideSheetBackWithEventOptions) =>
 	(setState: Updater<SideSheetState>) =>
 	() => {
+		const nextBackEvent = () => onBack?.()
+
 		setState(draft => {
 			if (type !== SIDE_SHEET_TYPE.SIDEBAR || !disabledClose) {
 				draft.sideSheetVisible = false
 			}
 
-			draft.nextBackEvent = onBack
+			draft.nextBackEvent = nextBackEvent
 		})
 	}
 

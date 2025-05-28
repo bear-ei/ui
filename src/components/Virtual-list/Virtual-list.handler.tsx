@@ -108,6 +108,7 @@ export const triggerVirtualListClose =
 	(indexKey?: string) => {
 		if (!enableAutoSelect) {
 			const nextCloseEvent = () => onClose?.({indexKey})
+
 			draft.nextCloseEvent = nextCloseEvent
 
 			return
