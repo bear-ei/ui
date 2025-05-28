@@ -3,7 +3,7 @@ import {LAYOUT} from '../Common'
 import type {RenderSkeletonProps} from './Skeleton.interface'
 import {ContentItemLayout, SkeletonContainer} from './Skeleton.styles'
 
-const AnimatedSkeletonLayout = Animated.createAnimatedComponent(SkeletonContainer)
+const AnimatedSkeletonContainer = Animated.createAnimatedComponent(SkeletonContainer)
 export const renderSkeleton = ({
 	children,
 	containerAnimatedStyle,
@@ -27,15 +27,16 @@ export const renderSkeleton = ({
 					testID={`skeleton__contentItemLayoutVisible--${id}`}
 					unmount={true}
 					visible={isSkeletonVisible}
+					animatedType='STANDARD'
 				>
-					<AnimatedSkeletonLayout
+					<AnimatedSkeletonContainer
 						{...containerProps}
 						layoutType={layout}
 						style={[style, containerAnimatedStyle]}
 						testID={`skeleton__animatedSkeletonLayout--${id}`}
 					>
 						{skeleton}
-					</AnimatedSkeletonLayout>
+					</AnimatedSkeletonContainer>
 				</ContentItemLayout>
 			)}
 
@@ -44,6 +45,7 @@ export const renderSkeleton = ({
 				contentStyle={contentStyle}
 				testID={`skeleton__contentItemLayoutNotVisible--${id}`}
 				visible={!isSkeletonVisible}
+				animatedType='STANDARD'
 			>
 				{children}
 			</ContentItemLayout>

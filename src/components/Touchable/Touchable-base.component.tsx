@@ -3,7 +3,7 @@ import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useInteractionStateEvent} from '../../hooks'
-import {createStableHandlerWithState} from '../../utils'
+import {createDeferredHandlerWithState} from '../../utils'
 import type {State} from '../Common'
 import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handler'
 import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
@@ -29,7 +29,7 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 		const id = useId()
 		const pressableRef = useRef<View>(null)
 		const onAnimateFinished = useMemo(
-			() => createStableHandlerWithState(deleteTouchableRippleByIndex)(setState)(),
+			() => createDeferredHandlerWithState(deleteTouchableRippleByIndex)(setState)(),
 			[setState]
 		)
 

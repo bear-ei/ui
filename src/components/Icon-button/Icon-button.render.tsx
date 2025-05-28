@@ -87,7 +87,6 @@ export const renderIconButton = ({
 			testID={testID ?? `iconButton--${id}`}
 		>
 			<ContentItemLayout
-				lazy={true}
 				testID={`iconButton__contentItemLayout--${id}`}
 				visible={loading}
 			>

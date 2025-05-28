@@ -23,7 +23,7 @@ export interface SkeletonBaseProps extends SkeletonProps {
 }
 
 export interface SkeletonState {
-	nextSkeletonVisibilityEvent?: () => void
+	nextSkeletonVisibilityEvent?: () => Promise<void>
 	visible: boolean
 }
 

@@ -251,7 +251,6 @@ export const renderListItem = ({
 									testID={`listItem__trailingLayoutAnimated--${id}`}
 									trailingShow={isTrailingShow}
 									type={type}
-									unmount={true}
 									visible={trailingVisible}
 								>
 									{trailingElement}

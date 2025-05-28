@@ -73,6 +73,8 @@ export const renderVirtualList = <T,>({
 		justifyContent: 'center'
 	} as ViewStyle
 
+	const layoutAnimatedContentSize = {height: layout.height, width: layout.width}
+
 	return (
 		<Container
 			testID={testID ?? `virtualList--${id}`}
@@ -90,7 +92,9 @@ export const renderVirtualList = <T,>({
 						testID={`virtualList__animatedContent--${id}`}
 					>
 						<ContentLayout
+							contentSize={layoutAnimatedContentSize}
 							contentStyle={contentLayoutAnimatedStyle}
+							lazy={true}
 							testID={`virtualList__contentLayout--${id}`}
 							visible={isContentVisible}
 						>
@@ -98,6 +102,7 @@ export const renderVirtualList = <T,>({
 						</ContentLayout>
 
 						<EmptyContentLayout
+							contentSize={layoutAnimatedContentSize}
 							contentStyle={emptyContentLayoutAnimatedStyle}
 							lazy={true}
 							testID={`virtualList__emptyContentLayout--${id}`}
@@ -116,6 +121,7 @@ export const renderVirtualList = <T,>({
 						</EmptyContentLayout>
 
 						<LoadingContentLayout
+							contentSize={layoutAnimatedContentSize}
 							contentStyle={emptyContentLayoutAnimatedStyle}
 							lazy={true}
 							testID={`virtualList__loadingContentLayout--${id}`}

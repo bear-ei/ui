@@ -5,6 +5,7 @@ import type {SkeletonContainerProps} from './Skeleton.interface'
 
 export const SkeletonContainer = styled.View<SkeletonContainerProps>`
 	display: flex;
+	flex: 1;
 
 	${({theme}) => css`
 		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
@@ -14,8 +15,8 @@ export const SkeletonContainer = styled.View<SkeletonContainerProps>`
 	${({layoutType = LAYOUT.HORIZONTAL}) =>
 		layoutType === LAYOUT.HORIZONTAL ?
 			css`
-				flex-direction: row;
 				align-items: center;
+				flex-direction: row;
 			`
 		:	css`
 				flex-direction: column;

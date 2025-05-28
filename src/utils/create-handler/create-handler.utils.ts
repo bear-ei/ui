@@ -2,7 +2,7 @@ import {debounce} from '../debounce'
 import {runAfterInteractions} from '../run-afterInteractions'
 import type {CreateHandlerOptions} from './create-handler.interface'
 
-export const createStableHandlerWithState =
+export const createDeferredHandlerWithState =
 	<T extends (...args: any[]) => unknown, S = undefined>(handlerFactory: T | ((setState: S) => T)) =>
 	(setState?: S) =>
 	(options = {} as CreateHandlerOptions) => {
@@ -12,7 +12,7 @@ export const createStableHandlerWithState =
 		return (debounceMillisecond ? debounce(func)(debounceMillisecond) : func) as T
 	}
 
-export const createStableHandler =
+export const createDeferredHandler =
 	<T extends (...args: any[]) => unknown>(handlerFactory: T) =>
 	(options = {} as CreateHandlerOptions) =>
-		createStableHandlerWithState(handlerFactory)()(options) as T
+		createDeferredHandlerWithState(handlerFactory)()(options) as T
