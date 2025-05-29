@@ -13,7 +13,7 @@ import {
 	Label,
 	LabelLayout,
 	LabelText,
-	TouchableContent
+	Touchable
 } from './Navigation-rail-item.styles'
 
 export const renderNavigationRailItemIcon = (id: string) => (icon?: React.JSX.Element) => (active?: boolean) =>
@@ -63,11 +63,11 @@ export const renderNavigationRailItem = ({
 			accessible={true}
 			testID={testID ?? `navigationRailItem--${id}`}
 		>
-			<TouchableContent
+			<Touchable
 				{...interactionHandlers}
 				enableFocusRing={false}
 				ref={ref}
-				testID={`navigationRailItem__touchableContent--${id}`}
+				testID={`navigationRailItem__touchable--${id}`}
 			>
 				<Header
 					pointerEvents='none'
@@ -113,7 +113,7 @@ export const renderNavigationRailItem = ({
 						</Label>
 					</LabelLayout>
 				)}
-			</TouchableContent>
+			</Touchable>
 		</Container>
 	)
 }

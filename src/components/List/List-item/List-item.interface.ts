@@ -142,10 +142,10 @@ export interface TriggerListItemTrailingActionsOptions
 }
 
 export type HandleListItemPanResponderReleaseOptions = Pick<ListItemProps, 'onActiveAfterAffordance' | 'disabled'>
-export type ListItemContainerProps = Pick<RenderListItemProps, 'type'>
+export type ListItemContentProps = Pick<RenderListItemProps, 'type'>
 export interface ListItemMainProps
 	extends Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'density'>,
-		ListItemContainerProps {
+		ListItemContentProps {
 	supportingTextShow?: boolean
 }
 
@@ -157,4 +157,8 @@ export interface ListItemMainInnerProps extends Pick<ListItemMainProps, 'support
 export type ListItemLeadingProps = Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'type'>
 export interface ListItemTrailingProps extends ListItemLeadingProps {
 	trailingShow?: boolean
+}
+
+export interface ListItemItemTouchableProps {
+	enableFocusRing?: boolean
 }

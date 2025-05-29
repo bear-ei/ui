@@ -3,7 +3,7 @@ import type Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
-import {ACTIVE_TRIGGER_EVEN_NAME} from './List.enum'
+import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from './List.enum'
 import {
 	createListItemRenderer,
 	createListItemSize,
@@ -49,7 +49,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			skeletonElement,
 			supportingTextNumberOfLines,
 			trailingTriggerEvenName,
-			type,
+			type = LIST_TYPE.STANDARD,
 			...renderListProps
 		},
 		ref

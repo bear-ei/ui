@@ -17,16 +17,16 @@ export const debounce = <T extends (...args: any[]) => unknown>(func?: T) => {
 
 	return (delay: number) => {
 		let timeoutId: NodeJS.Timeout
-		let lastReject: (reason?: unknown) => void
+		let lastResolve: (value?: Awaited<ReturnType<T>>) => void
 
 		return (...args: Parameters<T>) => {
 			if (timeoutId) {
 				clearTimeout(timeoutId)
-				lastReject?.(new Error('Debounced call cancelled'))
+				lastResolve(undefined)
 			}
 
-			return new Promise<Awaited<ReturnType<T>>>((resolve, reject) => {
-				lastReject = reject
+			return new Promise<Awaited<ReturnType<T>> | undefined>((resolve, reject) => {
+				lastResolve = resolve
 				timeoutId = setTimeout(createDebouncedExecutor(resolve, reject)(...args), delay)
 			})
 		}

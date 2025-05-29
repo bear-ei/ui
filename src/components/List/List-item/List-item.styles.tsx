@@ -5,14 +5,15 @@ import {LayoutAnimated} from '../../Layout-animated'
 import {LIST_TYPE} from '../List.enum'
 import type {ListType} from '../List.interface'
 import type {
-	ListItemContainerProps,
+	ListItemContentProps,
+	ListItemItemTouchableProps,
 	ListItemLeadingProps,
 	ListItemMainInnerProps,
 	ListItemMainProps,
 	ListItemTrailingProps
 } from './List-item.interface'
 
-export const Container = styled(Shape)<ListItemContainerProps>`
+export const Container = styled(Shape)`
 	align-self: stretch;
 	display: flex;
 	flex-direction: column;
@@ -25,7 +26,7 @@ export const Container = styled(Shape)<ListItemContainerProps>`
 	`}
 `
 
-export const Content = styled.View<ListItemContainerProps>`
+export const Content = styled.View<ListItemContentProps>`
 	position: absolute;
 	width: 100%;
 	z-index: 4;
@@ -48,6 +49,14 @@ export const Content = styled.View<ListItemContainerProps>`
 
 		return contentType[type]
 	}}
+`
+
+export const Touchable = styled.Pressable<ListItemItemTouchableProps>`
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	outline-style: none;
 `
 
 export const Main = styled(Shape)<ListItemMainProps>`

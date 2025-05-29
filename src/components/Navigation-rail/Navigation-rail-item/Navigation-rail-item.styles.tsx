@@ -5,11 +5,11 @@ import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {
 	NavigationRailItemHeaderProps,
 	NavigationRailItemLabelTextProps,
-	NavigationTouchableContentProps
+	NavigationRailItemTouchableProps
 } from './Navigation-rail-item.interface'
 
 export const Container = styled.View``
-export const TouchableContent = styled.Pressable<NavigationTouchableContentProps>`
+export const Touchable = styled.Pressable<NavigationRailItemTouchableProps>`
 	align-items: center;
 	display: flex;
 	flex-direction: column;

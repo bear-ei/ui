@@ -1,13 +1,12 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {cloneElement, isValidElement} from 'react'
-import type {ViewProps} from 'react-native'
+import {type ViewProps} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {LAYOUT} from '../../Common'
 import {Divider} from '../../Divider'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {Skeleton} from '../../Skeleton'
-import {Touchable} from '../../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
@@ -23,6 +22,7 @@ import {
 	Main,
 	MainInner,
 	SupportingText,
+	Touchable,
 	TrailingLayoutAnimated
 } from './List-item.styles'
 
@@ -135,7 +135,7 @@ export const renderListItem = ({
 		[LIST_SELECT_TYPE.SINGLE, LIST_SELECT_TYPE.MULTIPLE].includes(selectType) &&
 		enableUnderlayActive && {
 			active,
-			activeAnimatedType: ACTIVE_ANIMATED.FADE,
+			activeAnimatedType: ACTIVE_ANIMATED.SCALE_X,
 			activeColor
 		}
 
@@ -148,7 +148,6 @@ export const renderListItem = ({
 			accessibilityRole='list'
 			shape={shape}
 			testID={testID ?? `listItem--${id}`}
-			type={type}
 		>
 			<Skeleton
 				duration={skeletonDuration}
@@ -170,10 +169,9 @@ export const renderListItem = ({
 					<Touchable
 						{...interactionHandlers}
 						disabled={disabled}
-						enableTouchableRipple={true}
+						enableFocusRing={false}
 						ref={ref}
 						testID={`listItem__touchable--${id}`}
-						underlayColor={underlayColor}
 					>
 						<Main
 							{...mainProps}
