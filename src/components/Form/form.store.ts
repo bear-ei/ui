@@ -88,10 +88,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 				getFieldEntitiesName()(names).reduce(
 					(accumulator, entityName) =>
 						entityName ?
-							{
-								...accumulator,
-								[entityName]: initialValues[entityName]
-							}
+							{...accumulator, [entityName]: initialValues[entityName]}
 						:	accumulator,
 					{} as T
 				)
@@ -150,27 +147,21 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 				return
 			}
 
+			const createNextValidator = (entity: FormFieldEntity<T>) =>
+				debounce(
+					createFormFieldValidator<T>({
+						rule: validateRule[entity.name],
+						validatorOptions: {...restValidatorOptions, ...validatorOptions}
+					})(entity.name)
+				)(delay)
+
 			const entities = getFieldEntities()
 			const ruleKeysSet = new Set(Object.keys(validateRule) as (keyof T)[])
 
 			fieldEntities = entities.reduce(
 				(accumulator, entity) =>
 					entity.name && ruleKeysSet.has(entity.name) ?
-						[
-							...accumulator,
-							{
-								...entity,
-								validate: debounce(
-									createFormFieldValidator<T>({
-										rule: validateRule[entity.name],
-										validatorOptions: {
-											...restValidatorOptions,
-											...validatorOptions
-										}
-									})(entity.name)
-								)(delay)
-							}
-						]
+						[...accumulator, {...entity, validate: createNextValidator(entity)}]
 					:	accumulator,
 				[] as FormFieldEntity<T>[]
 			)
@@ -284,12 +275,13 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		setFieldsError()({[name]: undefined} as FormError<T>)
 		setFieldsValue({componentUpdate: false, enableValidate: false})({[name]: initialValues[name]} as T)
 
-		const fieldKeySting = fieldKeys?.toSorted((a, b) => (a as string).localeCompare(b as string)).join(',')
-		const fieldEntitySting = Object.keys(fieldEntities)
-			.toSorted((a, b) => a.localeCompare(b))
+		const fieldKeySting = [...fieldKeys]?.sort((a, b) => (a as string).localeCompare(b as string)).join(',')
+		const fieldEntityNameSting = fieldEntities
+			.map(entity => entity.name)
+			.sort((a, b) => (a as string)?.localeCompare(b as string))
 			.join(',')
 
-		if (fieldKeySting === fieldEntitySting) {
+		if (fieldKeySting === fieldEntityNameSting) {
 			isSignInFieldCompleted = true
 		}
 

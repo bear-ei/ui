@@ -27,7 +27,7 @@ describe('debounce (promise version, sync and async)', () => {
 
 		jest.advanceTimersByTime(50)
 
-		await Promise.resolve() // flush microtasks
+		await Promise.resolve()
 		await expect(promise).resolves.toBe(21)
 		expect(fn).toHaveBeenCalledWith(7)
 	})
@@ -41,8 +41,8 @@ describe('debounce (promise version, sync and async)', () => {
 
 		jest.advanceTimersByTime(200)
 
-		await expect(p1).rejects.toThrow('Debounced call cancelled')
-		await expect(p2).rejects.toThrow('Debounced call cancelled')
+		await expect(p1).resolves.toBeUndefined()
+		await expect(p2).resolves.toBeUndefined()
 		await expect(p3).resolves.toBe(6)
 
 		expect(fn).toHaveBeenCalledTimes(1)

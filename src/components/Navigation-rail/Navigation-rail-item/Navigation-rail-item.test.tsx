@@ -35,7 +35,7 @@ describe('NavigationRailItem Component', () => {
 			/>
 		)
 
-		const touchable = await waitFor(() => getByTestId('navigationRailItem__touchableContent--test-id'))
+		const touchable = await waitFor(() => getByTestId('navigationRailItem__touchable--test-id'))
 
 		await act(async () => fireEvent(touchable, 'onPressOut'))
 		await waitFor(() => expect(onActive).toHaveBeenCalledWith('home'))
@@ -52,7 +52,7 @@ describe('NavigationRailItem Component', () => {
 			/>
 		)
 
-		const touchable = await waitFor(() => getByTestId('navigationRailItem__touchableContent--test-id'))
+		const touchable = await waitFor(() => getByTestId('navigationRailItem__touchable--test-id'))
 
 		await act(async () => fireEvent(touchable, 'onPressOut'))
 		await waitFor(() => expect(onActive).toHaveBeenCalled())
