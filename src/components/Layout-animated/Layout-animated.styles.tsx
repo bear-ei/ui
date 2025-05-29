@@ -35,6 +35,20 @@ export const ContentLayout = styled.View<ContentLayoutProps>`
 		right: ${theme.adaptSize(theme.token.spacing.none)}px;
 		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`};
+
+	${({layout, visible}) =>
+		typeof layout?.height === 'number' &&
+		!visible &&
+		css`
+			min-height: ${layout.height}px;
+		`}
+
+	${({layout, visible}) =>
+		typeof layout?.height === 'number' &&
+		!visible &&
+		css`
+			min-width: ${layout.width}px;
+		`}
 `
 
 export const Content = styled.View`

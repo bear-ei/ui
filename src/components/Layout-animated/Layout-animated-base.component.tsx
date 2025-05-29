@@ -19,7 +19,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 	(
 		{
 			animatedType = LAYOUT_ANIMATED.FADE,
-			contentSize,
 			defaultVisible,
 			delay = 0,
 			entry,
@@ -82,12 +81,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			animatedType,
 			entry,
 			exit,
-			height: layout.height ?? contentSize?.height ?? contentSize?.minHeight,
+			height: layout.height,
 			onAnimationFinished,
 			opacity,
 			scale,
 			visible: isVisible ?? isLayoutVisible,
-			width: layout.width ?? contentSize?.width ?? contentSize?.minWidth
+			width: layout.width
 		})
 
 		useEffect(() => {
@@ -118,7 +117,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					...renderLayoutAnimatedProps,
 					animatedType,
 					containerAnimatedStyle,
-					contentSize,
 					id,
 					interactionHandlers,
 					layout,
