@@ -15,7 +15,6 @@ import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
 	animatedType?: LayoutAnimatedType
-	contentSize?: {width?: number; height?: number; minHeight?: number; minWidth?: number}
 	contentStyle?: ViewStyle
 	defaultVisible?: boolean
 	delay?: number
@@ -39,7 +38,6 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 
 export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
 	containerAnimatedStyle?: AnimatedStyle<ViewStyle>
-	layout: LayoutRectangle
 	interactionHandlers: InteractionHandlers
 	visible?: boolean
 }
@@ -93,4 +91,4 @@ export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 
 	collapse?: boolean
 }
 
-export type ContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'contentSize' | 'visible'>
+export type ContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'visible'>

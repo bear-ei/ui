@@ -93,7 +93,6 @@ export const renderNavigationRailItem = ({
 				{type === NAVIGATION_RAIL_TYPE.SEGMENT && (
 					<LabelLayout
 						animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
-						contentSize={{height: theme.adaptSize(theme.token.spacing.large)}}
 						pointerEvents='none'
 						scale={false}
 						testID={`navigationRailItem__labelLayoutAnimated--${id}`}

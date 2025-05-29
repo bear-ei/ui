@@ -7,11 +7,9 @@ export const renderLayoutAnimated = ({
 	animatedType,
 	children,
 	containerAnimatedStyle,
-	contentSize,
 	contentStyle,
 	id,
 	interactionHandlers,
-	layout,
 	style,
 	testID,
 	visible,
@@ -29,12 +27,11 @@ export const renderLayoutAnimated = ({
 			visible={visible}
 		>
 			<ContentLayout
-				contentSize={contentSize ?? layout}
 				testID={`layoutAnimated__contentSize--${id}`}
 				visible={visible}
 			>
 				<Content
-					{...(!contentSize && {onLayout})}
+					onLayout={onLayout}
 					style={[contentStyle]}
 					testID={`layoutAnimated__content--${id}`}
 				>

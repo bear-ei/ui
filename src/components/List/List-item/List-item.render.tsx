@@ -2,7 +2,7 @@ import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {cloneElement, isValidElement} from 'react'
 import type {ViewProps} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {DENSITY_SCALE, LAYOUT} from '../../Common'
+import {LAYOUT} from '../../Common'
 import {Divider} from '../../Divider'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
@@ -128,7 +128,6 @@ export const renderListItem = ({
 	...mainProps
 }: RenderListItemProps) => {
 	const activeColor = theme.token.scheme.secondaryContainer
-	const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
 	const isSupportingTextShow = !!supporting
 	const isTrailingShow = !!trailingElement
 	const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
@@ -139,11 +138,6 @@ export const renderListItem = ({
 			activeAnimatedType: ACTIVE_ANIMATED.FADE,
 			activeColor
 		}
-
-	const contentSize = {
-		[LIST_TYPE.MENU]: {height: theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)},
-		[LIST_TYPE.STANDARD]: {height: theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}
-	}
 
 	return (
 		<Container
@@ -157,7 +151,6 @@ export const renderListItem = ({
 			type={type}
 		>
 			<Skeleton
-				contentSize={contentSize[type]}
 				duration={skeletonDuration}
 				layout={LAYOUT.HORIZONTAL}
 				skeleton={skeletonDuration ? skeletonElement : undefined}

@@ -7,7 +7,6 @@ const AnimatedSkeletonContainer = Animated.createAnimatedComponent(SkeletonConta
 export const renderSkeleton = ({
 	children,
 	containerAnimatedStyle,
-	contentSize,
 	contentStyle,
 	id,
 	layout = LAYOUT.HORIZONTAL,
@@ -22,7 +21,6 @@ export const renderSkeleton = ({
 		<>
 			{skeleton && (
 				<ContentItemLayout
-					contentSize={contentSize}
 					contentStyle={contentStyle}
 					testID={`skeleton__contentItemLayoutVisible--${id}`}
 					unmount={true}
@@ -41,7 +39,6 @@ export const renderSkeleton = ({
 			)}
 
 			<ContentItemLayout
-				contentSize={contentSize}
 				contentStyle={contentStyle}
 				testID={`skeleton__contentItemLayoutNotVisible--${id}`}
 				visible={!isSkeletonVisible}
