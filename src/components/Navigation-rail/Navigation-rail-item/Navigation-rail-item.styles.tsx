@@ -59,10 +59,6 @@ export const LabelLayout = styled(LayoutAnimated)`
 export const Label = styled.View`
 	align-self: stretch;
 	position: relative;
-
-	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.large)}px;
-	`}
 `
 
 export const LabelText = styled(Typography)<NavigationRailItemLabelTextProps>`
