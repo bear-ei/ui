@@ -99,6 +99,7 @@ export const renderVirtualList = <T,>({
 
 						<EmptyContentLayout
 							contentStyle={emptyContentLayoutAnimatedStyle}
+							lazy={true}
 							testID={`virtualList__emptyContentLayout--${id}`}
 							visible={isEmptyContentVisible}
 						>
@@ -115,6 +116,7 @@ export const renderVirtualList = <T,>({
 
 						<LoadingContentLayout
 							contentStyle={emptyContentLayoutAnimatedStyle}
+							lazy={true}
 							testID={`virtualList__loadingContentLayout--${id}`}
 							visible={isLoadingVisible}
 						>
