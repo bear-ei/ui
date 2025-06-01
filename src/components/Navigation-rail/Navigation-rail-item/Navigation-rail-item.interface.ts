@@ -46,8 +46,8 @@ export interface AnimateNavigationRailItemLabelOptions extends UseNavigationRail
 	animatedTiming: AnimatedTiming
 }
 
-export type NavigationRailItemLabelTextProps = Pick<RenderNavigationRailItemProps, 'active'> & TypographyProps
 export type NavigationRailItemHeaderProps = Pick<RenderNavigationRailItemProps, 'type'>
+export type NavigationRailItemLabelTextProps = Pick<RenderNavigationRailItemProps, 'active'> & TypographyProps
 export interface NavigationRailItemTouchableProps {
 	enableFocusRing?: boolean
 }
