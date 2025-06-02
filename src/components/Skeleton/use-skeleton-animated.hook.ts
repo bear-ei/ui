@@ -2,7 +2,6 @@ import {useEffect, useMemo} from 'react'
 import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {createDeferredHandler} from '../../utils'
 import {animateSkeleton} from './Skeleton.handler'
 import type {UseSkeletonAnimatedOptions} from './Skeleton.interface'
 
@@ -19,7 +18,7 @@ export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimat
 	}))
 
 	const runAnimateSkeleton = useMemo(
-		() => createDeferredHandler(animateSkeleton({animatedTiming, enableAnimated})(opacitySharedValue))(),
+		() => animateSkeleton({animatedTiming, enableAnimated})(opacitySharedValue),
 		[animatedTiming, enableAnimated, opacitySharedValue]
 	)
 
