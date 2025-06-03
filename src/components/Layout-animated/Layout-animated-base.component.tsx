@@ -121,6 +121,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					interactionHandlers,
 					layout,
 					ref,
+					status,
 					visible: typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible
 				})
 	}

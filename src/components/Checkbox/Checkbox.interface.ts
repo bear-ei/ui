@@ -22,6 +22,7 @@ export interface CheckboxProps extends TouchableProps, CommonProps {
 }
 
 export interface RenderCheckboxProps extends CheckboxProps {
+	animatedOptions: CheckboxIconAnimatedOptions
 	eventName?: EventName
 	interactionHandlers: InteractionHandlers
 	theme: DefaultTheme

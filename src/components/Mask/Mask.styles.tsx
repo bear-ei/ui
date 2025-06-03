@@ -15,6 +15,13 @@ export const ContainerLayout = styled(LayoutAnimated)<MaskContainerProps>`
 		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 		z-index: 4096;
 	`};
+
+	${({visible}) =>
+		!visible &&
+		css`
+			overflow: hidden;
+			z-index: -4096;
+		`}
 `
 
 export const Content = styled.Pressable`

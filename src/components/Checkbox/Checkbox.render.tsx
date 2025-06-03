@@ -1,13 +1,14 @@
-import {DURATION, SHAPE} from '@bearei/material-token'
+import {SHAPE} from '@bearei/material-token'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
 import {LAYOUT_ANIMATED} from '../Layout-animated'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
-import type {CheckboxIconAnimatedOptions, RenderCheckboxProps} from './Checkbox.interface'
+import type {RenderCheckboxProps} from './Checkbox.interface'
 import {Container, Content, IconLayout, Main} from './Checkbox.styles'
 
 export const renderCheckbox = ({
+	animatedOptions,
 	density,
 	disabled,
 	error,
@@ -34,12 +35,6 @@ export const renderCheckbox = ({
 		minHeight: theme.adaptSize(theme.token.spacing.large),
 		minWidth: theme.adaptSize(theme.token.spacing.large)
 	}
-
-	const animatedOptions = {
-		animatedType: LAYOUT_ANIMATED.SCALE,
-		entry: {duration: DURATION.SHORT_2},
-		exit: {duration: DURATION.SHORT_1}
-	} as CheckboxIconAnimatedOptions
 
 	return (
 		<Container
@@ -87,6 +82,7 @@ export const renderCheckbox = ({
 
 						<IconLayout
 							{...animatedOptions}
+							lazy={true}
 							testID={`checkbox__iconLayout--selected--${id}`}
 							visible={value === CHECKBOX_VALUE.SELECTED}
 						>
@@ -104,6 +100,7 @@ export const renderCheckbox = ({
 
 						<IconLayout
 							{...animatedOptions}
+							lazy={true}
 							testID={`checkbox__iconLayout--indeterminate--${id}`}
 							visible={value === CHECKBOX_VALUE.INDETERMINATE}
 						>

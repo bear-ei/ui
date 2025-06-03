@@ -1,26 +1,35 @@
 import styled, {css} from 'styled-components/native'
-import {Shape} from '../Common'
+import {COMPONENT_STATUS, Shape} from '../Common'
+import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import type {ContentLayoutProps, LayoutAnimatedContainerProps} from './Layout-animated.interface'
 
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 	position: relative;
 
-	${({visible, theme, collapse}) =>
+	${({visible, theme, collapse, status}) =>
 		!visible &&
 		!collapse &&
+		status === COMPONENT_STATUS.SUCCEEDED &&
 		css`
-			height: ${theme.adaptSize(theme.token.spacing.none)}px;
-			z-index: -1024;
+			max-height: ${theme.adaptSize(theme.token.spacing.none)}px;
 		`}
 
 	${({visible}) =>
 		!visible &&
 		css`
-			overflow: hidden;
+			z-index: -4096;
 		`}
 
         ${({collapse}) =>
 		collapse &&
+		css`
+			overflow: hidden;
+		`}
+
+
+	${({animatedType, visible}) =>
+		animatedType !== LAYOUT_ANIMATED.STANDARD &&
+		!visible &&
 		css`
 			overflow: hidden;
 		`}

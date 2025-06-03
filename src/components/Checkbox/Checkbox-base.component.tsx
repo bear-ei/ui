@@ -1,3 +1,4 @@
+import {DURATION} from '@bearei/material-token'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
@@ -5,6 +6,7 @@ import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
+import {LAYOUT_ANIMATED} from '../Layout-animated'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import {
 	handleCheckboxStateChange,
@@ -12,7 +14,7 @@ import {
 	updateCheckboxIndeterminate,
 	updateCheckboxStatus
 } from './Checkbox.handler'
-import type {CheckboxBaseProps, CheckboxState} from './Checkbox.interface'
+import type {CheckboxBaseProps, CheckboxIconAnimatedOptions, CheckboxState} from './Checkbox.interface'
 
 export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 	(
@@ -33,6 +35,16 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 
 		const id = useId()
 		const theme = useTheme()
+		const animatedOptions = useMemo(
+			() =>
+				({
+					animatedType: LAYOUT_ANIMATED.SCALE,
+					entry: {duration: DURATION.SHORT_2},
+					exit: {duration: DURATION.SHORT_1}
+				}) as CheckboxIconAnimatedOptions,
+			[]
+		)
+
 		const runUpdateCheckboxStatus = useMemo(() => updateCheckboxStatus(setState), [setState])
 		const runUpdateCheckboxIndeterminate = useMemo(() => updateCheckboxIndeterminate(setState), [setState])
 		const runUpdateCheckboxActive = useMemo(
@@ -84,7 +96,8 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			interactionHandlers,
 			ref,
 			theme,
-			value
+			value,
+			animatedOptions
 		})
 	}
 )

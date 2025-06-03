@@ -22,10 +22,10 @@ export const renderSkeleton = ({
 			{skeleton && (
 				<ContentItemLayout
 					contentStyle={contentStyle}
+					lazy={true}
 					testID={`skeleton__contentItemLayoutVisible--${id}`}
 					unmount={true}
 					visible={isSkeletonVisible}
-					animatedType='STANDARD'
 				>
 					<AnimatedSkeletonContainer
 						{...containerProps}
@@ -40,9 +40,9 @@ export const renderSkeleton = ({
 
 			<ContentItemLayout
 				contentStyle={contentStyle}
+				lazy={true}
 				testID={`skeleton__contentItemLayoutNotVisible--${id}`}
 				visible={!isSkeletonVisible}
-				animatedType='STANDARD'
 			>
 				{children}
 			</ContentItemLayout>

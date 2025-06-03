@@ -40,6 +40,7 @@ export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
 	containerAnimatedStyle?: AnimatedStyle<ViewStyle>
 	interactionHandlers: InteractionHandlers
 	layout: LayoutRectangle
+	status: ComponentStatus
 	visible?: boolean
 }
 
@@ -88,8 +89,9 @@ export interface HandleLayoutAnimatedLayoutVisibilityOptions extends Pick<Layout
 	setState: Updater<LayoutAnimatedState>
 }
 
-export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 'visible'> {
+export interface LayoutAnimatedContainerProps extends Pick<LayoutAnimatedProps, 'visible' | 'animatedType'> {
 	collapse?: boolean
+	status: ComponentStatus
 }
 
 export type ContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'visible' | 'layout'>

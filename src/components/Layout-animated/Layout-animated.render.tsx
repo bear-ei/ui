@@ -14,6 +14,7 @@ export const renderLayoutAnimated = ({
 	style,
 	testID,
 	visible,
+	status,
 	...containerProps
 }: RenderLayoutAnimatedProps) => {
 	const {onLayout} = interactionHandlers
@@ -22,7 +23,9 @@ export const renderLayoutAnimated = ({
 	return (
 		<AnimatedContainer
 			{...containerProps}
+			animatedType={animatedType}
 			collapse={isCollapse}
+			status={status}
 			style={[style, containerAnimatedStyle]}
 			testID={testID ?? `layoutAnimated--${id}`}
 			visible={visible}
