@@ -90,7 +90,7 @@ export const useInteractionStateEvent = ({
 	)
 
 	const onLayout = useMemo(
-		() => handleLayoutEvent({interactionHandlers})(rawOnLayout),
+		() => createStableEventHandler(handleLayoutEvent({interactionHandlers})(rawOnLayout)),
 		[interactionHandlers, rawOnLayout]
 	)
 

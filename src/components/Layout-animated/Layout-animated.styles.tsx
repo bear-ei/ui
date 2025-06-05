@@ -6,9 +6,8 @@ import type {ContentLayoutProps, LayoutAnimatedContainerProps} from './Layout-an
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 	position: relative;
 
-	${({visible, theme, collapse, status}) =>
-		!visible &&
-		!collapse &&
+	${({visible, theme, collapse, status, unmount}) =>
+		![visible, collapse, unmount].some(Boolean) &&
 		status === COMPONENT_STATUS.SUCCEEDED &&
 		css`
 			max-height: ${theme.adaptSize(theme.token.spacing.none)}px;
@@ -50,13 +49,6 @@ export const ContentLayout = styled.View<ContentLayoutProps>`
 		!visible &&
 		css`
 			min-height: ${layout.height}px;
-		`}
-
-	${({layout, visible}) =>
-		typeof layout?.height === 'number' &&
-		!visible &&
-		css`
-			min-width: ${layout.width}px;
 		`}
 `
 

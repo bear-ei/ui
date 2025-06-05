@@ -126,11 +126,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					...renderLayoutAnimatedProps,
 					animatedType,
 					containerAnimatedStyle,
+					contentSize,
 					id,
 					interactionHandlers,
 					layout,
 					ref,
 					status,
+					unmount,
 					visible: typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible
 				})
 	}
