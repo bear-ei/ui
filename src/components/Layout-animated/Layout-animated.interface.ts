@@ -12,11 +12,11 @@ import type {
 import type {ComponentStatus, ShapeProps} from '../Common'
 import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
-export type ContentSize = {width?: number; height?: number} | number
+export type ContentSize = {width?: number; height?: number}
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
 	animatedType?: LayoutAnimatedType
-	contentSize?: ContentSize
+	contentSize?: ContentSize | number
 	contentStyle?: ViewStyle
 	defaultVisible?: boolean
 	delay?: number
@@ -38,12 +38,13 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 	visible?: boolean
 }
 
-export interface RenderLayoutAnimatedProps extends LayoutAnimatedProps {
+export interface RenderLayoutAnimatedProps extends Omit<LayoutAnimatedProps, 'contentSize'> {
 	containerAnimatedStyle?: AnimatedStyle<ViewStyle>
 	interactionHandlers: InteractionHandlers
 	layout: LayoutRectangle
 	status: ComponentStatus
 	visible?: boolean
+	contentSize?: ContentSize
 }
 
 export interface LayoutAnimatedState {
@@ -97,4 +98,6 @@ export interface LayoutAnimatedContainerProps
 	status: ComponentStatus
 }
 
-export type ContentLayoutProps = Pick<RenderLayoutAnimatedProps, 'visible' | 'layout'>
+export interface ContentLayoutProps extends Pick<RenderLayoutAnimatedProps, 'visible' | 'layout'> {
+	collapse?: boolean
+}

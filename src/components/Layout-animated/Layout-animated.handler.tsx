@@ -12,22 +12,27 @@ import type {
 	UpdateLayoutAnimatedStatusOptions
 } from './Layout-animated.interface'
 
-export const updateLayoutAnimatedSize = (setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
-	const {height, width} = layout
+export const updateLayoutAnimatedSize =
+	(shouldUpdateLayout?: boolean) => (setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
+		const {height, width} = layout
 
-	setState(draft => {
-		const {width: prevWidth, height: prevHeight} = draft.layout
+		setState(draft => {
+			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
+			}
 
-		if (prevHeight !== height || prevWidth !== width) {
-			draft.layout.height = height
-			draft.layout.width = width
-		}
+			if (!shouldUpdateLayout) {
+				return
+			}
 
-		if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-			draft.status = COMPONENT_STATUS.SUCCEEDED
-		}
-	})
-}
+			const {width: prevWidth, height: prevHeight} = draft.layout
+
+			if (prevHeight !== height || prevWidth !== width) {
+				draft.layout.height = height
+				draft.layout.width = width
+			}
+		})
+	}
 
 export const handleLayoutAnimatedStateChange =
 	({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>

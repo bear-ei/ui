@@ -10,7 +10,7 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 		![visible, collapse, unmount].some(Boolean) &&
 		status === COMPONENT_STATUS.SUCCEEDED &&
 		css`
-			max-height: ${theme.adaptSize(theme.token.spacing.none)}px;
+			height: ${theme.adaptSize(theme.token.spacing.none)}px;
 		`}
 
 	${({visible}) =>
@@ -44,11 +44,27 @@ export const ContentLayout = styled.View<ContentLayoutProps>`
 		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`};
 
-	${({layout, visible}) =>
+	${({layout, visible, collapse}) =>
 		typeof layout?.height === 'number' &&
 		!visible &&
+		!collapse &&
 		css`
 			min-height: ${layout.height}px;
+		`}
+
+	${({layout, collapse}) =>
+		typeof layout?.height === 'number' &&
+		collapse &&
+		css`
+			min-height: ${layout.height}px;
+		`}
+
+
+	${({layout, collapse}) =>
+		typeof layout?.width === 'number' &&
+		collapse &&
+		css`
+			min-width: ${layout.width}px;
 		`}
 `
 

@@ -205,13 +205,12 @@ export const SupportingText = styled(Typography)`
 
 export const ActiveIndicator = styled.View`
 	position: absolute;
-	transform-origin: 'bottom';
 	z-index: 8;
 
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-		height: ${theme.adaptSize(theme.token.spacing.extraSmall - 1)}px;
 		left: ${theme.adaptSize(theme.token.spacing.none)}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
 		right: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`};
 `

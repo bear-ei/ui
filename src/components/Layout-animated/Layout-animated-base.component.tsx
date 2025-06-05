@@ -59,12 +59,17 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[rawContentSize]
 		)
 
+		const isShouldUpdateLayout = !(contentSize || unmount)
 		const onAnimationFinished = useMemo(
 			() => finalizeLayoutAnimatedVisibilityChange({onUnmount, unmount})(setState),
 			[onUnmount, setState, unmount]
 		)
 
-		const onLayoutChange = useMemo(() => debounce(updateLayoutAnimatedSize(setState))(50), [setState])
+		const onLayoutChange = useMemo(
+			() => debounce(updateLayoutAnimatedSize(isShouldUpdateLayout)(setState))(50),
+			[setState, isShouldUpdateLayout]
+		)
+
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleLayoutAnimatedStateChange({...options, onLayoutChange, state})(event),
@@ -126,14 +131,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					...renderLayoutAnimatedProps,
 					animatedType,
 					containerAnimatedStyle,
-					contentSize,
 					id,
 					interactionHandlers,
 					layout,
 					ref,
 					status,
-					unmount,
-					visible: typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible
+					visible: typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible,
+					contentSize
 				})
 	}
 )

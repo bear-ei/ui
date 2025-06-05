@@ -1,3 +1,4 @@
+import type {LayoutRectangle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import type {RenderLayoutAnimatedProps} from './Layout-animated.interface'
 import {Container, Content, ContentLayout} from './Layout-animated.styles'
@@ -7,7 +8,6 @@ export const renderLayoutAnimated = ({
 	animatedType,
 	children,
 	containerAnimatedStyle,
-	contentSize,
 	contentStyle,
 	id,
 	interactionHandlers,
@@ -15,8 +15,8 @@ export const renderLayoutAnimated = ({
 	status,
 	style,
 	testID,
-	unmount,
 	visible,
+	contentSize,
 	...containerProps
 }: RenderLayoutAnimatedProps) => {
 	const {onLayout} = interactionHandlers
@@ -33,12 +33,13 @@ export const renderLayoutAnimated = ({
 			visible={visible}
 		>
 			<ContentLayout
-				layout={layout}
+				collapse={isCollapse}
+				layout={(contentSize ?? layout) as LayoutRectangle}
 				testID={`layoutAnimated__contentSize--${id}`}
 				visible={visible}
 			>
 				<Content
-					{...(!(contentSize || unmount) && {onLayout})}
+					onLayout={onLayout}
 					style={[contentStyle]}
 					testID={`layoutAnimated__content--${id}`}
 				>

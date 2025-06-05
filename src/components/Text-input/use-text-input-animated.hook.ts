@@ -173,7 +173,14 @@ export const useTextInputAnimated = ({
 			[0, 1, 2, 3],
 			activeIndicatorBackgroundColorOutputRanges
 		),
-		transform: [{scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.3333, 1])}]
+		height: interpolate(
+			activeIndicatorScaleYSharedValue.value,
+			[0, 1],
+			[
+				theme.adaptSize(theme.token.spacing.extraSmall / 4),
+				theme.adaptSize(theme.token.spacing.extraSmall - 1)
+			]
+		)
 	}))
 
 	const supportingTextSharedValueValueColorOutputRanges = useMemo(

@@ -11,4 +11,10 @@ export const ContainerLayout = styled(LayoutAnimated)<LayoutAnimatedProps>`
 	${({theme}) => css`
 		background-color: ${theme.token.scheme.surface};
 	`}
+
+	${({visible}) =>
+		!visible &&
+		css`
+			flex: none;
+		`}
 `
