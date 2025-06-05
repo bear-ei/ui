@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {debounce, runAfterInteractions} from '../../utils'
+import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -78,11 +78,7 @@ export const VirtualListBaseInner = <T,>(
 		[enableAutoSelect, itemSize, rawOnClose, setState]
 	)
 
-	const onLayoutChange = useMemo(
-		() => debounce(updateVirtualListLayout(itemSize)(setState))(50),
-		[itemSize, setState]
-	)
-
+	const onLayoutChange = useMemo(() => updateVirtualListLayout(itemSize)(setState), [itemSize, setState])
 	const onStateEventChange = useCallback(
 		(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 			handleVirtualListStateChange({...options, state})(onLayoutChange)(event),

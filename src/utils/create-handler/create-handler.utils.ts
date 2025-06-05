@@ -6,8 +6,9 @@ export const createDeferredHandlerWithState =
 	<T extends (...args: any[]) => unknown, S = undefined>(handlerFactory: T | ((setState: S) => T)) =>
 	(setState?: S) =>
 	(options = {} as CreateHandlerOptions) => {
-		const {debounceMillisecond} = options
-		const func = runAfterInteractions<T>((setState ? handlerFactory(setState) : handlerFactory) as T)
+		const {debounceMillisecond, enableInteractionManager: isEnableInteractionManager = true} = options
+		const handler = setState ? handlerFactory(setState) : handlerFactory
+		const func = isEnableInteractionManager ? runAfterInteractions<T>(handler as T) : (handler as T)
 
 		return (debounceMillisecond ? debounce(func)(debounceMillisecond) : func) as T
 	}

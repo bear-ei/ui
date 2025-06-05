@@ -6,24 +6,26 @@ import type {
 	TargetedEvent
 } from 'react-native'
 import {EVENT_NAME, STATE, type State} from '../../components'
-import {createDeferredHandler} from '../../utils'
+import {createDeferredHandler, type CreateHandlerOptions} from '../../utils'
 import type {
 	HandleStateEventChangeOptions,
 	HandleStateEventOptions,
 	StateEvent
 } from './use-interaction-state-event.interface'
 
-export const createStableEventHandler = <T extends StateEvent>(handler: (event: T) => void) => {
-	const eventHandler = createDeferredHandler(handler)()
+export const createStableEventHandler =
+	<T extends StateEvent>(handler: (event: T) => void) =>
+	(options?: CreateHandlerOptions) => {
+		const eventHandler = createDeferredHandler(handler)(options)
 
-	return (event: T) => {
-		if (event && typeof event.persist === 'function') {
-			event.persist()
+		return (event: T) => {
+			if (event && typeof event.persist === 'function') {
+				event.persist()
+			}
+
+			return eventHandler(event)
 		}
-
-		return eventHandler(event)
 	}
-}
 
 export const handleStateEventChange =
 	({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>

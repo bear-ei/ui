@@ -19,7 +19,6 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 	contentSize?: ContentSize | number
 	contentStyle?: ViewStyle
 	defaultVisible?: boolean
-	delay?: number
 	duration?: Duration
 	easing?: Easing
 	entry?: AnimatedTimingOptions
@@ -63,7 +62,7 @@ export interface LayoutAnimatedBaseProps extends LayoutAnimatedProps {
 
 export type FinalizeLayoutAnimatedVisibilityChangeOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
 export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEventChangeOptions {
-	onLayoutChange: (layout: LayoutRectangle) => Promise<void>
+	onLayoutChange: (layout: LayoutRectangle) => void
 }
 
 export interface UseLayoutAnimatedOptions

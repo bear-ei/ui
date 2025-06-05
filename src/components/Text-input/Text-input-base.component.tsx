@@ -5,7 +5,7 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useInteractionStateEvent} from '../../hooks'
-import {debounce, runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
@@ -85,7 +85,10 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		)
 
 		const onTextInputSupportingTextClose = useMemo(
-			() => debounce(updateTextInputSupportingTextClose(setState))(supportingTextDelay ?? 0),
+			() =>
+				createDeferredHandlerWithState(updateTextInputSupportingTextClose)(setState)({
+					debounceMillisecond: supportingTextDelay ?? 0
+				}),
 			[setState, supportingTextDelay]
 		)
 
