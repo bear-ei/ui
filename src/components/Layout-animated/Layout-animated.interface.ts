@@ -15,6 +15,7 @@ import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
 export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps, 'style'>, ShapeProps {
 	animatedType?: LayoutAnimatedType
+	contentSize?: {width?: number; height?: number} | number
 	contentStyle?: ViewStyle
 	defaultVisible?: boolean
 	delay?: number

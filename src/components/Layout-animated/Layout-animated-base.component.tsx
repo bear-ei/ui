@@ -31,6 +31,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			scale = false,
 			unmount,
 			visible: rawVisible,
+			contentSize: rawContentSize,
 			...renderLayoutAnimatedProps
 		},
 		ref
@@ -50,14 +51,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
 		const id = useId()
 		const isLayoutVisible = rawVisible ?? defaultVisible
-		const runUpdateLayoutAnimatedStatus = useMemo(
-			() => updateLayoutAnimatedStatus({unmount, lazy})(setState),
-			[lazy, setState, unmount]
-		)
-
-		const runUpdateLayoutAnimatedVisibility = useMemo(
-			() => debounce(updateLayoutAnimatedVisibility(onVisible)(setState))(delay),
-			[delay, onVisible, setState]
+		const contentSize = useMemo(
+			() =>
+				typeof rawContentSize === 'number' ?
+					{width: rawContentSize, height: rawContentSize}
+				:	rawContentSize,
+			[rawContentSize]
 		)
 
 		const onAnimationFinished = useMemo(
@@ -81,13 +80,23 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			animatedType,
 			entry,
 			exit,
-			height: layout.height,
+			height: layout.height ?? contentSize?.height,
 			onAnimationFinished,
 			opacity,
 			scale,
 			visible: isVisible ?? isLayoutVisible,
-			width: layout.width
+			width: layout.width ?? contentSize?.width
 		})
+
+		const runUpdateLayoutAnimatedStatus = useMemo(
+			() => updateLayoutAnimatedStatus({unmount, lazy})(setState),
+			[lazy, setState, unmount]
+		)
+
+		const runUpdateLayoutAnimatedVisibility = useMemo(
+			() => debounce(updateLayoutAnimatedVisibility(onVisible)(setState))(delay),
+			[delay, onVisible, setState]
+		)
 
 		useEffect(() => {
 			runUpdateLayoutAnimatedStatus(isLayoutVisible)
