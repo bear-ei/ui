@@ -4,29 +4,29 @@ import {COMPONENT_STATUS} from '../Common'
 import type {FormItemProps} from './Form-item'
 import type {
 	CreateFormFieldValidatorOptions,
-	FormCallback,
+	FormCallbacks,
 	FormState,
 	RegisterFormCallbacksOptions
 } from './Form.interface'
 
 export const initializeFormStateWithValues =
-	<T,>(setInitialValues: (initialized?: boolean) => (value?: T) => void) =>
+	<T,>(setInitialValues: (initialized?: boolean) => (values?: T) => void) =>
 	(setState: Updater<FormState>) =>
-	(value?: T) =>
+	(values?: T) =>
 		setState(draft => {
 			if (draft.status !== COMPONENT_STATUS.IDLE) {
 				return
 			}
 
-			if (value) {
-				setInitialValues()(value)
+			if (values) {
+				setInitialValues()(values)
 			}
 
 			draft.status = COMPONENT_STATUS.SUCCEEDED
 		})
 
 export const registerFormCallbacks =
-	<T,>(setCallbacks: (callback: FormCallback<T>) => void) =>
+	<T,>(setCallbacks: (callbacks: FormCallbacks<T>) => void) =>
 	({onFinish, onFinishFailed, onValuesChange}: RegisterFormCallbacksOptions<T>) =>
 		setCallbacks({onFinish, onFinishFailed, onValuesChange})
 

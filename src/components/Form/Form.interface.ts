@@ -5,18 +5,18 @@ import type {NamePath} from '../../utils'
 import type {ComponentStatus, LayoutType} from '../Common'
 import type {FormItemProps} from './Form-item'
 
-export type FormError<T> = Partial<Record<keyof T, ValidationError[] | undefined>>
+export type FormErrors<T> = Partial<Record<keyof T, ValidationError[] | undefined>>
 export type FormValidateRule<T> = Partial<Record<keyof T, ValidationRule | undefined>>
 export type FormValidatorOptions = ValidatorOptions & {delay?: number}
 export type ValidationRule = new (...args: any[]) => object
 export interface OnValuesChangeOptions<T> {
-	changedValue: T
-	value: T
+	changedValues: T
+	values: T
 }
 
-export interface FormCallback<T = Record<string, unknown>> {
-	onFinish?: (value: T) => void
-	onFinishFailed?: (error: FormError<T>) => void
+export interface FormCallbacks<T = Record<string, unknown>> {
+	onFinish?: (values: T) => void
+	onFinishFailed?: (errors: FormErrors<T>) => void
 	onValuesChange?: (options: OnValuesChangeOptions<T>) => void
 }
 
@@ -30,7 +30,6 @@ export interface FormFieldEntity<T = Record<string, unknown>> {
 }
 
 export type SignInFieldOptions<T> = Omit<FormFieldEntity<T>, 'validate'>
-
 export interface SetFieldsValueOptions {
 	componentUpdate?: boolean
 	enableValidate?: boolean
@@ -44,9 +43,9 @@ export interface FormStore<T = Record<string, unknown>> {
 	getFieldEntities: (signOut?: boolean) => FormFieldEntity<T>[]
 	getFieldEntitiesName: (signOut?: boolean) => (namePaths?: (keyof T)[]) => (keyof T | undefined)[]
 	getFieldsError: {
-		(): FormError<T>
-		(namePaths?: (keyof T)[]): FormError<T>
-		(name?: keyof T): FormError<T>[keyof T]
+		(): FormErrors<T>
+		(namePaths?: (keyof T)[]): FormErrors<T>
+		(name?: keyof T): FormErrors<T>[keyof T]
 	}
 
 	getFieldsValue: {
@@ -63,24 +62,24 @@ export interface FormStore<T = Record<string, unknown>> {
 
 	isFieldsTouched: (namePaths?: NamePath) => boolean
 	resetFields: (namePaths?: NamePath) => void
-	setCallbacks: (formCallback: FormCallback<T>) => void
+	setCallbacks: (formCallbacks: FormCallbacks<T>) => void
 	setFieldKeys: (fieldKeys?: (keyof T)[]) => void
-	setFieldsError: (componentUpdate?: boolean) => (error: FormError<T>) => void
+	setFieldsError: (componentUpdate?: boolean) => (errors: FormErrors<T>) => void
 	setFieldsTouched: (touched?: boolean) => (name?: keyof T) => void
 	setFieldsValidate: (options?: FormValidatorOptions) => (rule: FormValidateRule<T>) => void
 	setFieldsValue: (options?: SetFieldsValueOptions) => (value?: T) => void
-	setInitialValues: (initialized?: boolean) => (value?: T) => void
+	setInitialValues: (initialized?: boolean) => (values?: T) => void
 	signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
 	signOutFields: (namePaths?: NamePath) => void
 	submit: (enableValidate?: boolean) => void
 	validateFields: {
-		(): Promise<FormError<T>>
-		(namePaths?: (keyof T)[]): Promise<FormError<T>>
-		(name?: keyof T): Promise<FormError<T>[keyof T]>
+		(): Promise<FormErrors<T>>
+		(namePaths?: (keyof T)[]): Promise<FormErrors<T>>
+		(name?: keyof T): Promise<FormErrors<T>[keyof T]>
 	}
 }
 
-export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormCallback<T>, RefAttributes<View> {
+export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormCallbacks<T>, RefAttributes<View> {
 	form?: FormStore<T>
 	initialValues?: T
 	items?: FormItemProps[]

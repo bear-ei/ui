@@ -1,7 +1,7 @@
 import type {NativeSyntheticEvent, TargetedEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS} from '../../Common'
-import type {FormError} from '../Form.interface'
+import type {FormErrors} from '../Form.interface'
 import type {
 	ApplyFormItemStatusInitToDraftOptions,
 	FormItemState,
@@ -36,7 +36,7 @@ export const triggerFormItemShouldUpdate = (setState: Updater<FormItemState>) =>
 	})
 
 export const validateFormFieldOnBlur =
-	(validateFields: (name?: string) => Promise<FormError<unknown>>) =>
+	(validateFields: (name?: string) => Promise<FormErrors<unknown>>) =>
 	(name?: string) =>
 	(_event: NativeSyntheticEvent<TargetedEvent>) => {
 		if (name) {
