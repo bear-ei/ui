@@ -167,20 +167,21 @@ export const useTextInputAnimated = ({
 		[disabledColor, opacity.level10, scheme.error, scheme.onSurfaceVariant, scheme.primary]
 	)
 
+	const activeIndicatorHeightOutputRanges = useMemo(
+		() => [
+			theme.adaptSize(theme.token.spacing.extraSmall / 4),
+			theme.adaptSize(theme.token.spacing.extraSmall - 1)
+		],
+		[theme]
+	)
+
 	const activeIndicatorAnimatedStyle = useAnimatedStyle(() => ({
 		backgroundColor: interpolateColor(
 			colorSharedValue.value,
 			[0, 1, 2, 3],
 			activeIndicatorBackgroundColorOutputRanges
 		),
-		height: interpolate(
-			activeIndicatorScaleYSharedValue.value,
-			[0, 1],
-			[
-				theme.adaptSize(theme.token.spacing.extraSmall / 4),
-				theme.adaptSize(theme.token.spacing.extraSmall - 1)
-			]
-		)
+		height: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], activeIndicatorHeightOutputRanges)
 	}))
 
 	const supportingTextSharedValueValueColorOutputRanges = useMemo(
