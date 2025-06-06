@@ -1,6 +1,5 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {cloneElement} from 'react'
-import type {ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE, type IconProps} from '../../Icon'
 import {LAYOUT_ANIMATED} from '../../Layout-animated'
@@ -52,7 +51,7 @@ export const renderNavigationRailItem = ({
 }: RenderNavigationRailItemProps) => {
 	const activeAnimatedType = type === NAVIGATION_RAIL_TYPE.BLOCK ? ACTIVE_ANIMATED.SCALE : ACTIVE_ANIMATED.SCALE_X
 	const activeColor = theme.token.scheme.secondaryContainer
-	const contentStyle = {minHeight: theme.adaptSize(theme.token.spacing.large)} as ViewStyle
+	const contentSize = {height: theme.adaptSize(theme.token.spacing.large)}
 	const isLabelVisible = animatedType === NAVIGATION_RAIL_ANIMATED.COLLAPSE ? active : true
 	const shape = type === NAVIGATION_RAIL_TYPE.BLOCK ? SHAPE.FULL : SHAPE.LARGE
 	const underlayColor = theme.token.scheme.onSurface
@@ -95,9 +94,8 @@ export const renderNavigationRailItem = ({
 				{type === NAVIGATION_RAIL_TYPE.SEGMENT && (
 					<LabelLayout
 						animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
-						contentStyle={contentStyle}
+						contentSize={contentSize}
 						pointerEvents='none'
-						scale={false}
 						testID={`navigationRailItem__labelLayoutAnimated--${id}`}
 						visible={isLabelVisible}
 					>
