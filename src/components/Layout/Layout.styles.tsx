@@ -11,12 +11,6 @@ export const ContainerLayout = styled(LayoutAnimated)<LayoutAnimatedProps>`
 	${({theme}) => css`
 		background-color: ${theme.token.scheme.surfaceContainer};
 	`}
-
-	${({visible}) =>
-		!visible &&
-		css`
-			flex: none;
-		`}
 `
 
 export const Content = styled.View`
