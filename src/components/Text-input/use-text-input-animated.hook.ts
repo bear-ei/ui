@@ -283,28 +283,28 @@ export const useTextInputAnimated = ({
 		]
 	)
 
-	const runAnimateTextInputState = useMemo(() => animateTextInputStateTiming(stateAnimated), [stateAnimated])
-	const runAnimateTextInputNonErrorStateTiming = useMemo(
+	const runAnimateState = useMemo(() => animateTextInputStateTiming(stateAnimated), [stateAnimated])
+	const runAnimateNonErrorStateTiming = useMemo(
 		() => animateTextInputNonErrorStateTiming({disabled, error})(stateAnimated),
 		[disabled, error, stateAnimated]
 	)
 
-	const runAnimateTextInputDisabledStateTiming = useMemo(
+	const runAnimateDisabledStateTiming = useMemo(
 		() => animateTextInputDisabledStateTiming(stateAnimated)(state),
 		[state, stateAnimated]
 	)
 
 	useEffect(() => {
-		runAnimateTextInputState(state)
-	}, [runAnimateTextInputState, state])
+		runAnimateState(state)
+	}, [runAnimateState, state])
 
 	useEffect(() => {
-		runAnimateTextInputNonErrorStateTiming(state)
-	}, [runAnimateTextInputNonErrorStateTiming, state])
+		runAnimateNonErrorStateTiming(state)
+	}, [runAnimateNonErrorStateTiming, state])
 
 	useEffect(() => {
-		runAnimateTextInputDisabledStateTiming(disabled)
-	}, [runAnimateTextInputDisabledStateTiming, disabled])
+		runAnimateDisabledStateTiming(disabled)
+	}, [runAnimateDisabledStateTiming, disabled])
 
 	return {
 		activeIndicatorAnimatedStyle,

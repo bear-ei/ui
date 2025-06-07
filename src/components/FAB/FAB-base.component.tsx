@@ -32,16 +32,6 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		const theme = useTheme()
 		const isDisabled = loading || rawDisabled
 		const underlayColor = getFABUnderlayColor(theme)(type)
-		const runUpdateFABStatus = useMemo(
-			() => updateFABStatus(rawDisabled)(setState),
-			[rawDisabled, setState]
-		)
-
-		const runUpdateFABDisabledState = useMemo(
-			() => updateFABDisabledState(elevated)(setState),
-			[elevated, setState]
-		)
-
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleFABStateChange({...options, state, elevated})(setState)(event),
@@ -59,15 +49,21 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			type
 		})
 
+		const runUpdateStatus = useMemo(() => updateFABStatus(rawDisabled)(setState), [rawDisabled, setState])
+		const runUpdateDisabledState = useMemo(
+			() => updateFABDisabledState(elevated)(setState),
+			[elevated, setState]
+		)
+
 		const iconElement = renderFABIcon({type, disabled: rawDisabled, size, id})(theme)(icon)
 
 		useEffect(() => {
-			runUpdateFABStatus(isDisabled)
-		}, [runUpdateFABStatus, isDisabled])
+			runUpdateStatus(isDisabled)
+		}, [runUpdateStatus, isDisabled])
 
 		useEffect(() => {
-			runUpdateFABDisabledState(elevated)
-		}, [runUpdateFABDisabledState, elevated])
+			runUpdateDisabledState(elevated)
+		}, [runUpdateDisabledState, elevated])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

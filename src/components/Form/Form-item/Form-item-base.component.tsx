@@ -33,7 +33,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		)
 
 		const onBlur = useMemo(() => validateFormFieldOnBlur(validateFields)(name), [name, validateFields])
-		const runApplyFormItemStatusInitToDraft = useMemo(
+		const runApplyStatusInitToDraft = useMemo(
 			() =>
 				applyFormItemStatusInitToDraft({
 					onComponentUpdate,
@@ -47,8 +47,8 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		const controlElement = renderControl?.({errorMessage, labelText, onBlur, onValueChange, value})
 
 		useEffect(() => {
-			runApplyFormItemStatusInitToDraft(name)
-		}, [runApplyFormItemStatusInitToDraft, name])
+			runApplyStatusInitToDraft(name)
+		}, [runApplyStatusInitToDraft, name])
 
 		useEffect(() => () => signOut?.(), [signOut])
 

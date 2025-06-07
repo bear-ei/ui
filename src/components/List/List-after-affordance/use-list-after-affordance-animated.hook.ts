@@ -27,14 +27,14 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
 		]
 	}))
 
-	const runAnimateListAfterAffordance = useMemo(
+	const runAnimate = useMemo(
 		() => animateListAfterAffordance(animatedTiming)(translateXSharedValue),
 		[animatedTiming, translateXSharedValue]
 	)
 
 	useEffect(() => {
-		runAnimateListAfterAffordance(doubleConfirmed)
-	}, [runAnimateListAfterAffordance, doubleConfirmed])
+		runAnimate(doubleConfirmed)
+	}, [runAnimate, doubleConfirmed])
 
 	return {dangerAnimatedStyle}
 }

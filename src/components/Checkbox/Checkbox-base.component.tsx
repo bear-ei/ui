@@ -45,13 +45,6 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			[]
 		)
 
-		const runUpdateCheckboxStatus = useMemo(() => updateCheckboxStatus(setState), [setState])
-		const runUpdateCheckboxIndeterminate = useMemo(() => updateCheckboxIndeterminate(setState), [setState])
-		const runUpdateCheckboxActive = useMemo(
-			() => updateCheckboxActive({indeterminate})(setState),
-			[indeterminate, setState]
-		)
-
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleCheckboxStateChange({
@@ -70,14 +63,21 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			onStateEventChange
 		})
 
-		useEffect(() => {
-			runUpdateCheckboxStatus(indeterminate)
-			runUpdateCheckboxIndeterminate(indeterminate)
-		}, [runUpdateCheckboxIndeterminate, runUpdateCheckboxStatus, indeterminate])
+		const runUpdateStatus = useMemo(() => updateCheckboxStatus(setState), [setState])
+		const runUpdateIndeterminate = useMemo(() => updateCheckboxIndeterminate(setState), [setState])
+		const runUpdateActive = useMemo(
+			() => updateCheckboxActive({indeterminate})(setState),
+			[indeterminate, setState]
+		)
 
 		useEffect(() => {
-			runUpdateCheckboxActive(rawActive ?? defaultActive)
-		}, [runUpdateCheckboxActive, defaultActive, rawActive])
+			runUpdateStatus(indeterminate)
+			runUpdateIndeterminate(indeterminate)
+		}, [indeterminate, runUpdateIndeterminate, runUpdateStatus])
+
+		useEffect(() => {
+			runUpdateActive(rawActive ?? defaultActive)
+		}, [runUpdateActive, defaultActive, rawActive])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()

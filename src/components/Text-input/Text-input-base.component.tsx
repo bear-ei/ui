@@ -92,21 +92,11 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[setState, supportingTextDelay]
 		)
 
-		const runUpdateTextInputSupportingText = useMemo(
-			() =>
-				updateTextInputSupportingText({onTextInputSupportingTextClose, supportingTextDelay})(
-					setState
-				),
-			[onTextInputSupportingTextClose, setState, supportingTextDelay]
-		)
-
-		const runBlurTextInputIfEditable = useMemo(() => blurTextInputIfEditable(textInputRef), [textInputRef])
 		const onChangeText = useMemo(
 			() => updateTextInputValueWithCallback(rawOnChangeText)(setState),
 			[rawOnChangeText, setState]
 		)
 
-		const runUpdateTextInputValue = useMemo(() => updateTextInputValue(setState), [setState])
 		const onSupportingTextVisible = useMemo(
 			() => updateTextInputSupportingTextVisibility(rawOnSupportingTextVisible)(setState),
 			[rawOnSupportingTextVisible, setState]
@@ -148,17 +138,28 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 
 		useImperativeHandle(ref, () => (textInputRef?.current ?? {}) as TextInput, [textInputRef])
 
-		useEffect(() => {
-			runBlurTextInputIfEditable(editable)
-		}, [runBlurTextInputIfEditable, editable])
+		const runUpdateSupportingText = useMemo(
+			() =>
+				updateTextInputSupportingText({onTextInputSupportingTextClose, supportingTextDelay})(
+					setState
+				),
+			[onTextInputSupportingTextClose, setState, supportingTextDelay]
+		)
+
+		const runBlurIfEditable = useMemo(() => blurTextInputIfEditable(textInputRef), [textInputRef])
+		const runUpdateValue = useMemo(() => updateTextInputValue(setState), [setState])
 
 		useEffect(() => {
-			runUpdateTextInputSupportingText(rawSupportingText)
-		}, [runUpdateTextInputSupportingText, rawSupportingText])
+			runBlurIfEditable(editable)
+		}, [runBlurIfEditable, editable])
 
 		useEffect(() => {
-			runUpdateTextInputValue(rawValue ?? defaultValue)
-		}, [runUpdateTextInputValue, defaultValue, rawValue])
+			runUpdateSupportingText(rawSupportingText)
+		}, [runUpdateSupportingText, rawSupportingText])
+
+		useEffect(() => {
+			runUpdateValue(rawValue ?? defaultValue)
+		}, [runUpdateValue, defaultValue, rawValue])
 
 		useEffect(() => {
 			runAfterInteractions(nextChangeTextEvent)()

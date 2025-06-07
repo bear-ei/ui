@@ -95,17 +95,11 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		//         })
 		// ).current
 
-		const runUpdateListItemFocusState = useMemo(
-			() => updateListItemFocusState(itemIndex)(setState),
-			[itemIndex, setState]
-		)
-
-		const runMaybeTriggerListItemClose = useMemo(
+		const onItemClose = useMemo(
 			() => maybeTriggerListItemClose(rawOnClose)(indexKey),
 			[indexKey, rawOnClose]
 		)
 
-		const onItemClose = runMaybeTriggerListItemClose
 		const onConfirm = useMemo(
 			() =>
 				confirmListItemAffordanceAction({
@@ -172,6 +166,16 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			onAfterAffordanceVisibilityFinished
 		})
 
+		const runUpdateFocusState = useMemo(
+			() => updateListItemFocusState(itemIndex)(setState),
+			[itemIndex, setState]
+		)
+
+		const runMaybeTriggerClose = useMemo(
+			() => maybeTriggerListItemClose(rawOnClose)(indexKey),
+			[indexKey, rawOnClose]
+		)
+
 		const trailingElement = renderListItemTrailing({
 			afterAffordance,
 			closeTrailing,
@@ -186,12 +190,12 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 
 		useEffect(() => {
-			runUpdateListItemFocusState(focusedIndex)
-		}, [runUpdateListItemFocusState, focusedIndex])
+			runUpdateFocusState(focusedIndex)
+		}, [runUpdateFocusState, focusedIndex])
 
 		useEffect(() => {
-			runMaybeTriggerListItemClose(close)
-		}, [close, runMaybeTriggerListItemClose])
+			runMaybeTriggerClose(close)
+		}, [close, runMaybeTriggerClose])
 
 		useEffect(() => {
 			runAfterInteractions(nextPressInEvent)()

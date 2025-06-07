@@ -27,14 +27,14 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 		width: interpolate(widthSharedValue.value, inputRanges, outputRanges)
 	}))
 
-	const runAnimateProgressActiveIndicatorLinear = useMemo(
+	const runAnimate = useMemo(
 		() => animateProgressActiveIndicatorLinear(animatedTiming)(widthSharedValue),
 		[animatedTiming, widthSharedValue]
 	)
 
 	useEffect(() => {
-		runAnimateProgressActiveIndicatorLinear(value)
-	}, [runAnimateProgressActiveIndicatorLinear, value])
+		runAnimate(value)
+	}, [runAnimate, value])
 
 	return {contentAnimatedStyle}
 }

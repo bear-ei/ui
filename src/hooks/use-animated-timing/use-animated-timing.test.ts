@@ -16,7 +16,7 @@ describe('useAnimatedTiming', () => {
 		const toValue = 1
 		const callback = jest.fn()
 		const animatedTiming = createAnimatedTiming({
-			token: mockToken,
+			bezier: {x0: 0.4, y0: 0.0, x1: 0.2, y1: 1.0},
 			duration: 500,
 			easing: 'EMPHASIZED'
 		})
@@ -28,7 +28,8 @@ describe('useAnimatedTiming', () => {
 
 	it('supports repeat', () => {
 		const animatedTiming = createAnimatedTiming({
-			token: mockToken,
+			bezier: {x0: 0.4, y0: 0.0, x1: 0.2, y1: 1.0},
+			duration: 500,
 			repeat: 3
 		})
 

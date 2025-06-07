@@ -26,26 +26,26 @@ const FormBaseInner = <T,>(
 	const id = useId()
 	const formStore = useForm(form)
 	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
-	const runInitializeFormStateWithValues = useMemo(
+	const runInitializeStateWithValues = useMemo(
 		() => initializeFormStateWithValues<T>(setInitialValues)(setState),
 		[setInitialValues, setState]
 	)
 
-	const runRegisterFormCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
-	const runExtractAndSetFormFieldKeys = useMemo(() => extractAndSetFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
+	const runRegisterCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
+	const runExtractAndSetFieldKeys = useMemo(() => extractAndSetFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
 	const itemElements = renderFormItems({validatorOptions, id})(status)(items)
 
 	useEffect(() => {
-		runRegisterFormCallbacks({onFinish, onFinishFailed, onValuesChange})
-	}, [runRegisterFormCallbacks, onFinish, onFinishFailed, onValuesChange])
+		runRegisterCallbacks({onFinish, onFinishFailed, onValuesChange})
+	}, [runRegisterCallbacks, onFinish, onFinishFailed, onValuesChange])
 
 	useEffect(() => {
-		runExtractAndSetFormFieldKeys(items)
-	}, [runExtractAndSetFormFieldKeys, items])
+		runExtractAndSetFieldKeys(items)
+	}, [runExtractAndSetFieldKeys, items])
 
 	useEffect(() => {
-		runInitializeFormStateWithValues(initialValues)
-	}, [runInitializeFormStateWithValues, initialValues])
+		runInitializeStateWithValues(initialValues)
+	}, [runInitializeStateWithValues, initialValues])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

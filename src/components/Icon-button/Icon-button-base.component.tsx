@@ -28,11 +28,6 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
 		const underlayColor = getButtonUnderlayColor(theme)(type)
-		const runUpdateIconButtonDisabledState = useMemo(
-			() => updateIconButtonDisabledState(setState),
-			[setState]
-		)
-
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleIconButtonStateChange({...options, state})(setState)(event),
@@ -46,13 +41,14 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		})
 
 		const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})
+		const runUpdateDisabledState = useMemo(() => updateIconButtonDisabledState(setState), [setState])
 		const iconElement = renderIconButtonIcon({disabled: isDisabled, eventName, fill, loading, type, id})(
 			theme
 		)(icon)
 
 		useEffect(() => {
-			runUpdateIconButtonDisabledState(isDisabled)
-		}, [runUpdateIconButtonDisabledState, isDisabled])
+			runUpdateDisabledState(isDisabled)
+		}, [runUpdateDisabledState, isDisabled])
 
 		return renderIconButton({
 			...renderIconButtonProps,

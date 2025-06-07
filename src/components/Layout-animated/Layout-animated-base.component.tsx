@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
@@ -87,25 +87,28 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			width: layout.width ?? contentSize?.width
 		})
 
-		const runUpdateLayoutAnimatedStatus = useMemo(
+		const runUpdateStatus = useMemo(
 			() => updateLayoutAnimatedStatus({unmount, lazy})(setState),
 			[lazy, setState, unmount]
 		)
 
-		const runUpdateLayoutAnimatedVisibility = useMemo(
-			() => updateLayoutAnimatedVisibility(onVisible)(setState),
+		const runUpdateVisibility = useMemo(
+			() =>
+				createDeferredHandlerWithState(updateLayoutAnimatedVisibility(onVisible))(setState)({
+					debounceMillisecond: 50
+				}),
 			[onVisible, setState]
 		)
 
 		useEffect(() => {
-			runUpdateLayoutAnimatedStatus(isLayoutVisible)
-		}, [runUpdateLayoutAnimatedStatus, isLayoutVisible])
+			runUpdateStatus(isLayoutVisible)
+		}, [runUpdateStatus, isLayoutVisible])
 
 		useEffect(() => {
 			if (status === COMPONENT_STATUS.SUCCEEDED) {
-				runUpdateLayoutAnimatedVisibility(isLayoutVisible)
+				runUpdateVisibility(isLayoutVisible)
 			}
-		}, [runUpdateLayoutAnimatedVisibility, isLayoutVisible, status])
+		}, [runUpdateVisibility, isLayoutVisible, status])
 
 		useEffect(() => {
 			runAfterInteractions(nextUnmountEvent)()

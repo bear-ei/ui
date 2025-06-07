@@ -82,7 +82,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		)
 
 		const onClose = useMemo(() => triggerListClose(rawOnClose)(setState), [rawOnClose, setState])
-		const runUpdateListActiveState = useMemo(
+		const runUpdateActiveState = useMemo(
 			() => updateListActiveState({selectType})(setState),
 			[selectType, setState]
 		)
@@ -158,8 +158,8 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 		useImperativeHandle(ref, () => (listRef?.current ?? {}) as VirtualListComponent<ListData>, [listRef])
 
 		useEffect(() => {
-			runUpdateListActiveState(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
-		}, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateListActiveState])
+			runUpdateActiveState(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
+		}, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActiveState])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()

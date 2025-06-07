@@ -13,15 +13,16 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 		})
 
 		const id = useId()
-		const runUpdateSkeletonDuration = useMemo(() => updateSkeletonDuration(setState), [setState])
 		const {containerAnimatedStyle} = useSkeletonAnimated({
 			enableAnimated,
 			visible: typeof duration === 'number' && duration ? isVisible : false
 		})
 
+		const runUpdateDuration = useMemo(() => updateSkeletonDuration(setState), [setState])
+
 		useEffect(() => {
-			runUpdateSkeletonDuration(duration)
-		}, [duration, runUpdateSkeletonDuration])
+			runUpdateDuration(duration)
+		}, [duration, runUpdateDuration])
 
 		useEffect(() => {
 			runAfterInteractions(nextSkeletonVisibilityEvent)()

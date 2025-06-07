@@ -33,7 +33,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		const id = useId()
 		const renderIndex = index + startIndex
 		const offsetY = itemSize * renderIndex
-		const runUpdateVirtualListItemStatus = useMemo(() => updateVirtualListItemStatus(setState), [setState])
+
 		const onClose = useMemo(() => triggerVirtualListItemClose(setState), [setState])
 		const onUnmount = useMemo(
 			() => triggerVirtualListItemUnmount(rawOnUnmount)(item?.indexKey as string),
@@ -41,6 +41,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		)
 
 		const {containerAnimatedStyle} = useVirtualListItemAnimated({offsetY})
+		const runUpdateStatus = useMemo(() => updateVirtualListItemStatus(setState), [setState])
 		const itemElement =
 			!item ?
 				<></>
@@ -50,8 +51,8 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 				})
 
 		useEffect(() => {
-			runUpdateVirtualListItemStatus()
-		}, [runUpdateVirtualListItemStatus])
+			runUpdateStatus()
+		}, [runUpdateStatus])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
