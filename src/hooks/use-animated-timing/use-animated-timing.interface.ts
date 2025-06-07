@@ -1,4 +1,4 @@
-import type {Duration, Easing, Token} from '@bearei/material-token'
+import type {Bezier, Duration, Easing, Token} from '@bearei/material-token'
 import type {AnimationCallback, SharedValue, WithTimingConfig} from 'react-native-reanimated'
 
 export interface UseAnimatedTimingOptions {
@@ -6,8 +6,10 @@ export interface UseAnimatedTimingOptions {
 	token: Token
 }
 
-export interface CreateAnimatedTimingOptions extends Omit<AnimatedTimingOptions, 'sharedValue' | 'callback'> {
-	token: Token
+export interface CreateAnimatedTimingOptions
+	extends Omit<AnimatedTimingOptions, 'sharedValue' | 'callback' | 'duration'> {
+	bezier: Bezier
+	duration: number
 }
 
 export interface AnimatedTimingOptions extends Omit<WithTimingConfig, 'duration' | 'easing'> {

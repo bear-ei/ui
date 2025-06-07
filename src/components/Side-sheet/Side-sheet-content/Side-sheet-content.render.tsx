@@ -109,7 +109,7 @@ export const renderSideSheetContent = ({
 	type,
 	...contentProps
 }: RenderSideSheetContentProps) => {
-	const footerLayoutContainerContentStyle = {minHeight: theme.adaptFontSize(theme.token.spacing.extraSmall * 20)}
+	const footerLayoutContainerContentSize = {height: theme.adaptFontSize(theme.token.spacing.extraSmall * 20)}
 	const sheetShape =
 		shape ?? (position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.LARGE_END : SHAPE.LARGE_START)
 
@@ -161,7 +161,7 @@ export const renderSideSheetContent = ({
 				<Main testID={`sideSheetContent__main--${id}`}>{content}</Main>
 				<FooterLayoutContainer
 					animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
-					contentStyle={footerLayoutContainerContentStyle}
+					contentSize={footerLayoutContainerContentSize}
 					entry={{duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE}}
 					exit={{duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}}
 					testID={`sideSheetContent__footerLayoutContainer--${id}`}
