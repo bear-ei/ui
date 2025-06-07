@@ -1,7 +1,8 @@
 import styled, {css} from 'styled-components/native'
+import {LayoutAnimated, type LayoutAnimatedProps} from '../../Layout-animated'
 import type {ListAfterAffordanceDangerProps} from './List-after-affordance.interface'
 
-export const Container = styled.View`
+export const Container = styled(LayoutAnimated)<LayoutAnimatedProps>`
 	display: flex;
 	flex-direction: row;
 	position: relative;

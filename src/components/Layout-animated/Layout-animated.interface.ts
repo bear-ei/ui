@@ -28,10 +28,11 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 	onVisible?: (visible?: boolean) => void
 	opacity?: number
 
-	/**
-	 * Whether or not to enable scale effects in collapse type animations
-	 */
+	// [ These parameters are only effective when the animation type is Collapse.
 	scale?: boolean
+	translate?: boolean
+	// ]
+
 	style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> & StyleProp<ViewStyle>
 	unmount?: boolean
 	visible?: boolean
@@ -68,7 +69,7 @@ export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEvent
 export interface UseLayoutAnimatedOptions
 	extends Pick<
 		LayoutAnimatedProps,
-		'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible'
+		'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible' | 'translate'
 	> {
 	onAnimationFinished: (visible?: boolean) => void
 	height?: number

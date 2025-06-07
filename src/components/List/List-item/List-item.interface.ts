@@ -1,7 +1,7 @@
 import type {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
-import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {ComponentStatus, EventName, State} from '../../Common'
 import type {IconButtonProps} from '../../Icon-button'
 import type {TouchableProps} from '../../Touchable'
@@ -85,8 +85,6 @@ export interface ListItemBaseProps extends ListItemProps {
 }
 
 export interface ListItemState {
-	afterAffordanceClosed?: boolean
-	affordanceVisible?: boolean
 	eventName?: EventName
 	listItemState?: State
 	nextLayoutEvent?: () => void
@@ -128,12 +126,7 @@ export interface RenderListItemTrailingOptions
 export interface UseListItemAnimatedOptions {
 	active?: boolean
 	afterAffordanceVisible?: boolean
-	onAfterAffordanceVisibilityFinished?: (visible?: boolean) => false | void
-}
-
-export interface AnimateListItemAffordanceVisibilityOptions
-	extends Pick<UseListItemAnimatedOptions, 'onAfterAffordanceVisibilityFinished'> {
-	animatedTiming: AnimatedTiming
+	onVisibilityFinished?: (visible?: boolean) => false | void
 }
 
 export interface TriggerListItemTrailingActionsOptions

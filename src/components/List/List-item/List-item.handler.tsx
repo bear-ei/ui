@@ -6,7 +6,6 @@ import type {ListItemAfterAffordancePressOutOptions} from '../List-after-afforda
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
 import type {
-	AnimateListItemAffordanceVisibilityOptions,
 	ConfirmListItemAffordanceActionOptions,
 	HandleListItemStateChangeOptions,
 	ListItemProps,
@@ -181,17 +180,6 @@ export const triggerListItemTrailingActions =
 		}
 	}
 
-export const showListItemTrailingAffordance = (setState: Updater<ListItemState>) => () => {
-	setState(draft => {
-		draft.affordanceVisible = true
-	})
-}
-
-export const setListItemAffordanceClosed = (setState: Updater<ListItemState>) => (visible?: boolean) =>
-	setState(draft => {
-		draft.afterAffordanceClosed = !visible
-	})
-
 export const confirmListItemAffordanceAction =
 	({onActiveAfterAffordance, onItemClose, onConfirm}: ConfirmListItemAffordanceActionOptions) =>
 	({indexKey, ...options}: ListItemAfterAffordancePressOutOptions) => {
@@ -226,33 +214,9 @@ export const maybeTriggerListItemClose =
 		onClose?.(indexKey)
 	}
 
-/**
- * TODO:
- */
-// export const handleListItemPanResponderRelease =
-// 	({onActiveAfterAffordance, disabled}: HandleListItemPanResponderReleaseOptions) =>
-// 	(indexKey: string) =>
-// 	(_event: GestureResponderEvent, gestureState: PanResponderGestureState) => {
-// 		if (disabled) {
-// 			return
-// 		}
-
-// 		if (gestureState.dx < -50) {
-// 			onActiveAfterAffordance?.({activeKey: indexKey})
-// 		}
-
-// 		if (gestureState.dx > 50) {
-// 			onActiveAfterAffordance?.()
-// 		}
-// 	}
-
 export const animateListItemAffordanceVisibility =
-	({animatedTiming, onAfterAffordanceVisibilityFinished}: AnimateListItemAffordanceVisibilityOptions) =>
-	(contentLeftSharedValue: SharedValue<number>) =>
-	(visible?: boolean) =>
-		animatedTiming({
-			callback: (finished?: boolean) => finished && onAfterAffordanceVisibilityFinished?.(visible)
-		})(contentLeftSharedValue)(visible ? 1 : 0)
+	(animatedTiming: AnimatedTiming) => (contentLeftSharedValue: SharedValue<number>) => (visible?: boolean) =>
+		animatedTiming()(contentLeftSharedValue)(visible ? 1 : 0)
 
 export const animateListItemActiveState =
 	(animatedTiming: AnimatedTiming) => (headlineTextSharedValue: SharedValue<number>) => (active?: boolean) =>

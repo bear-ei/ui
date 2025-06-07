@@ -10,8 +10,6 @@ import {
 	confirmListItemAffordanceAction,
 	handleListItemStateChange,
 	maybeTriggerListItemClose,
-	setListItemAffordanceClosed,
-	showListItemTrailingAffordance,
 	triggerListItemTrailingActions,
 	updateListItemFocusState
 } from './List-item.handler'
@@ -56,8 +54,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 	) => {
 		const [
 			{
-				affordanceVisible: isAffordanceVisible,
-				afterAffordanceClosed: isAfterAffordanceClosed,
 				eventName,
 				listItemState,
 				nextLayoutEvent,
@@ -75,25 +71,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		const isActive = !!(selectType === LIST_SELECT_TYPE.SINGLE ?
 			activeKey === indexKey
 		:	indexKey && activeKeys?.includes(indexKey))
-
-		/**
-		 * TODO: Support mobile touch swipe.
-		 */
-		// const onListItemPanResponderRelease = handleListItemPanResponderRelease({
-		//         onActiveAfterAffordance,
-		//         disabled
-		// })(indexKey)
-
-		// const panResponder = useRef(
-		//         PanResponder.create({
-		//                 onMoveShouldSetPanResponder: (_event, gestureState) =>
-		//                         Math.abs(gestureState.dx) > Math.abs(gestureState.dy),
-
-		//                 onPanResponderGrant: (_event, _gestureState) => {},
-		//                 onPanResponderMove: (_event, _gestureState) => {},
-		//                 onPanResponderRelease: onListItemPanResponderRelease
-		//         })
-		// ).current
 
 		const onItemClose = useMemo(
 			() => maybeTriggerListItemClose(rawOnClose)(indexKey),
@@ -121,12 +98,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			[afterAffordance, closeTrailing, indexKey, onActiveAfterAffordance, onItemClose]
 		)
 
-		const onTrailingPressIn = useMemo(() => showListItemTrailingAffordance(setState), [setState])
-		const onAfterAffordanceVisibilityFinished = useMemo(
-			() => setListItemAffordanceClosed(setState),
-			[setState]
-		)
-
+		// const onTrailingPressIn = useMemo(() => showListItemTrailingAffordance(setState), [setState])
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleListItemStateChange({
@@ -162,8 +134,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
 		const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
 			active: isActive,
-			afterAffordanceVisible: isAfterAffordanceVisible,
-			onAfterAffordanceVisibilityFinished
+			afterAffordanceVisible: isAfterAffordanceVisible
 		})
 
 		const runUpdateFocusState = useMemo(
@@ -181,7 +152,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			closeTrailing,
 			disabled,
 			id,
-			interactionHandlers: {onPressIn: onTrailingPressIn, onPressOut: onTrailingPressOut},
+			interactionHandlers: {onPressOut: onTrailingPressOut},
 			theme,
 			trailing,
 			trailingProps
@@ -211,11 +182,9 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
 		return renderListItem({
 			...renderListItemProps,
-			// panResponder: [afterAffordance, beforeAffordance].some(Boolean) ? panResponder : undefined,
 			active: isActive,
-			affordanceVisible: isAffordanceVisible,
 			afterAffordance,
-			afterAffordanceVisible: !isAfterAffordanceClosed,
+			afterAffordanceVisible: isAfterAffordanceVisible,
 			beforeAffordance,
 			contentAnimatedStyle,
 			disabled,

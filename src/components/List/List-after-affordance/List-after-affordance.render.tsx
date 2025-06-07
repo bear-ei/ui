@@ -1,5 +1,6 @@
 import Animated from 'react-native-reanimated'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
+import {LAYOUT_ANIMATED} from '../../Layout-animated'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 import {Container, Danger} from './List-after-affordance.styles'
@@ -42,8 +43,10 @@ export const renderListAfterAffordance = ({
 	return (
 		<Container
 			{...containerProps}
-			pointerEvents={visible ? 'auto' : 'none'}
+			animatedType={LAYOUT_ANIMATED.STANDARD}
+			lazy={true}
 			testID={testID ?? `listAfterAffordance--${id}`}
+			visible={visible}
 		>
 			<ListAffordanceButton
 				{...(doubleConfirmed && {icon: checkIconElement})}

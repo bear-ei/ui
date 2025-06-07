@@ -16,7 +16,8 @@ export const useLayoutAnimated = ({
 	opacity: rawOpacity,
 	scale,
 	visible,
-	width
+	width,
+	translate
 }: UseLayoutAnimatedOptions) => {
 	const containerSharedValue = useSharedValue(visible ? 1 : 0)
 	const theme = useTheme()
@@ -36,9 +37,19 @@ export const useLayoutAnimated = ({
 		[theme, width]
 	)
 
+	const transformXOutputRanges = useMemo(
+		() => [width ?? theme.adaptSize(theme.token.spacing.none), theme.adaptSize(theme.token.spacing.none)],
+		[theme, width]
+	)
+
 	const collapseXAnimatedStyle = useAnimatedStyle(() => ({
-		width: interpolate(containerSharedValue.value, [0, 1], widthOutputRanges),
-		...(scale && {transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]})
+		width: translate ? width : interpolate(containerSharedValue.value, [0, 1], widthOutputRanges),
+		...(scale && {transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]}),
+		...(translate && {
+			transform: [
+				{translateX: interpolate(containerSharedValue.value, [0, 1], transformXOutputRanges)}
+			]
+		})
 	}))
 
 	const heightOutputRanges = useMemo(
@@ -46,9 +57,19 @@ export const useLayoutAnimated = ({
 		[height, theme]
 	)
 
+	const transformYOutputRanges = useMemo(
+		() => [height ?? theme.adaptSize(theme.token.spacing.none), theme.adaptSize(theme.token.spacing.none)],
+		[height, theme]
+	)
+
 	const collapseYAnimatedStyle = useAnimatedStyle(() => ({
-		height: interpolate(containerSharedValue.value, [0, 1], heightOutputRanges),
-		...(scale && {transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]})
+		height: translate ? height : interpolate(containerSharedValue.value, [0, 1], heightOutputRanges),
+		...(scale && {transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]}),
+		...(translate && {
+			transform: [
+				{translateY: interpolate(containerSharedValue.value, [0, 1], transformYOutputRanges)}
+			]
+		})
 	}))
 
 	const scaleAnimatedStyle = useAnimatedStyle(() => ({

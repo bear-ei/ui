@@ -6,15 +6,11 @@ import {useAnimatedTiming} from '../../../hooks'
 import {animateListItemActiveState, animateListItemAffordanceVisibility} from './List-item.handler'
 import type {UseListItemAnimatedOptions} from './List-item.interface'
 
-export const useListItemAnimated = ({
-	active,
-	afterAffordanceVisible,
-	onAfterAffordanceVisibilityFinished
-}: UseListItemAnimatedOptions) => {
+export const useListItemAnimated = ({active, afterAffordanceVisible}: UseListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const {spacing, scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const contentLeftSharedValue = useSharedValue(0)
+	const contentTransformSharedValue = useSharedValue(0)
 	const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
 	const contentLeftOutputRanges = useMemo(
 		() => [theme.adaptSize(spacing.none), -theme.adaptSize(spacing.extraSmall * 34)],
@@ -22,7 +18,9 @@ export const useListItemAnimated = ({
 	)
 
 	const contentAnimatedStyle = useAnimatedStyle(() => ({
-		left: interpolate(contentLeftSharedValue.value, [0, 1], contentLeftOutputRanges)
+		transform: [
+			{translateX: interpolate(contentTransformSharedValue.value, [0, 1], contentLeftOutputRanges)}
+		]
 	}))
 
 	const headlineTextColorOutputRanges = useMemo(
@@ -38,11 +36,8 @@ export const useListItemAnimated = ({
 	}))
 
 	const runAnimateVisibility = useMemo(
-		() =>
-			animateListItemAffordanceVisibility({animatedTiming, onAfterAffordanceVisibilityFinished})(
-				contentLeftSharedValue
-			),
-		[animatedTiming, contentLeftSharedValue, onAfterAffordanceVisibilityFinished]
+		() => animateListItemAffordanceVisibility(animatedTiming)(contentTransformSharedValue),
+		[animatedTiming, contentTransformSharedValue]
 	)
 
 	const runAnimateActiveState = useMemo(

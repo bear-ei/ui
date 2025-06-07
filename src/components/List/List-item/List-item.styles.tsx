@@ -1,3 +1,4 @@
+import Animated from 'react-native-reanimated'
 import type {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {DENSITY_SCALE, Shape, Typography} from '../../Common'
@@ -26,7 +27,7 @@ export const Container = styled(Shape)`
 	`}
 `
 
-export const Content = styled.View<ListItemContentProps>`
+export const AnimatedContent = styled(Animated.View)<ListItemContentProps>`
 	position: absolute;
 	width: 100%;
 	z-index: 4;
@@ -219,6 +220,7 @@ export const BeforeAffordanceLayout = styled.View`
 
 export const AfterAffordanceLayout = styled(BeforeAffordanceLayout)`
 	align-self: flex-end;
+	background-color: red;
 `
 
 export const DividerLayout = styled.View`

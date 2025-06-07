@@ -13,9 +13,10 @@ import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import type {RenderListItemProps, RenderListItemTrailingOptions} from './List-item.interface'
 import {
 	AfterAffordanceLayout,
+	AnimatedContent,
 	BeforeAffordanceLayout,
 	Container,
-	Content,
+	// Content,
 	DividerLayout,
 	HeadlineText,
 	Leading,
@@ -84,12 +85,12 @@ export const renderListItemTrailing = ({
 	return trailingElement[trailingType]
 }
 
-const AnimatedContent = Animated.createAnimatedComponent(Content)
+// const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 export const renderListItem = ({
 	accessibilityLabel,
 	active,
-	affordanceVisible,
+	// affordanceVisible,
 	afterAffordance,
 	afterAffordancePrimaryButtonProps,
 	afterAffordanceSecondaryButtonProps,
@@ -242,7 +243,11 @@ export const renderListItem = ({
 									testID={`listItem__trailingLayoutAnimated--${id}`}
 									trailingShow={isTrailingShow}
 									type={type}
-									visible={trailingVisible}
+									visible={
+										afterAffordance ?
+											!afterAffordanceVisible
+										:	trailingVisible
+									}
 								>
 									{trailingElement}
 								</TrailingLayoutAnimated>
@@ -260,7 +265,7 @@ export const renderListItem = ({
 					)}
 				</AnimatedContent>
 
-				{afterAffordance && affordanceVisible && (
+				{afterAffordance && (
 					<AfterAffordanceLayout testID={`listItem__afterAffordanceLayout--${id}`}>
 						{typeof afterAffordance === 'boolean' ?
 							<ListAfterAffordance

@@ -31,6 +31,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			unmount,
 			visible: rawVisible,
 			contentSize: rawContentSize,
+			translate,
 			...renderLayoutAnimatedProps
 		},
 		ref
@@ -84,7 +85,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			opacity,
 			scale,
 			visible: isVisible ?? isLayoutVisible,
-			width: layout.width ?? contentSize?.width
+			width: layout.width ?? contentSize?.width,
+			translate
 		})
 
 		const runUpdateStatus = useMemo(
