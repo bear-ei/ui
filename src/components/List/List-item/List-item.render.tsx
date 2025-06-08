@@ -90,6 +90,7 @@ export const renderListItem = ({
 	accessibilityLabel,
 	active,
 	afterAffordance,
+	afterAffordanceExpanded,
 	afterAffordancePrimaryButtonProps,
 	afterAffordanceSecondaryButtonProps,
 	afterAffordanceVisible,
@@ -264,7 +265,10 @@ export const renderListItem = ({
 				</AnimatedContent>
 
 				{afterAffordance && (
-					<AfterAffordanceLayout testID={`listItem__afterAffordanceLayout--${id}`}>
+					<AfterAffordanceLayout
+						afterAffordanceExpanded={afterAffordanceExpanded}
+						testID={`listItem__afterAffordanceLayout--${id}`}
+					>
 						{typeof afterAffordance === 'boolean' ?
 							<ListAfterAffordance
 								indexKey={indexKey}

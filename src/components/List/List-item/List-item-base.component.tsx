@@ -3,7 +3,7 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
-import {runAfterInteractions} from '../../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
@@ -11,6 +11,7 @@ import {
 	handleListItemStateChange,
 	maybeTriggerListItemClose,
 	triggerListItemTrailingActions,
+	updateListItemAfterAffordanceExpanded,
 	updateListItemFocusState
 } from './List-item.handler'
 import type {ListItemBaseProps, ListItemState} from './List-item.interface'
@@ -54,6 +55,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 	) => {
 		const [
 			{
+				afterAffordanceExpanded: isAfterAffordanceExpanded,
 				eventName,
 				nextLayoutEvent,
 				nextPressInEvent,
@@ -61,7 +63,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 				trailingVisible: isTrailingVisible
 			},
 			setState
-		] = useImmer<ListItemState>({status: COMPONENT_STATUS.IDLE})
+		] = useImmer<ListItemState>({status: COMPONENT_STATUS.IDLE, afterAffordanceExpanded: false})
 
 		const id = useId()
 		const theme = useTheme()
@@ -97,7 +99,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			[afterAffordance, closeTrailing, indexKey, onActiveAfterAffordance, onItemClose]
 		)
 
-		// const onTrailingPressIn = useMemo(() => showListItemTrailingAffordance(setState), [setState])
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleListItemStateChange({
@@ -146,6 +147,19 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			[indexKey, rawOnClose]
 		)
 
+		const runUpdateAfterAffordanceVisible = useMemo(
+			() =>
+				createDeferredHandlerWithState(updateListItemAfterAffordanceExpanded)(setState)({
+					debounceMillisecond: 400
+				}),
+			[setState]
+		)
+
+		const runUpdateAfterAffordanceNotVisible = useMemo(
+			() => updateListItemAfterAffordanceExpanded(setState),
+			[setState]
+		)
+
 		const trailingElement = renderListItemTrailing({
 			afterAffordance,
 			closeTrailing,
@@ -158,6 +172,16 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		})
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
+
+		useEffect(() => {
+			if (isAfterAffordanceVisible) {
+				runUpdateAfterAffordanceVisible(isAfterAffordanceVisible)
+
+				return
+			}
+
+			runUpdateAfterAffordanceNotVisible(isAfterAffordanceVisible)
+		}, [isAfterAffordanceVisible, runUpdateAfterAffordanceNotVisible, runUpdateAfterAffordanceVisible])
 
 		useEffect(() => {
 			runUpdateFocusState(focusedIndex)
@@ -204,7 +228,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			trailingElement,
 			trailingTriggerEvenName,
 			trailingVisible: isTrailingVisible,
-			type
+			type,
+			afterAffordanceExpanded: isAfterAffordanceExpanded
 		})
 	}
 )

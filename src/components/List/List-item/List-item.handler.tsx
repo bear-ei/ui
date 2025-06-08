@@ -213,6 +213,15 @@ export const maybeTriggerListItemClose =
 		onClose?.(indexKey)
 	}
 
+export const updateListItemAfterAffordanceExpanded = (setState: Updater<ListItemState>) => (visible?: boolean) =>
+	setState(draft => {
+		if (draft.afterAffordanceExpanded === visible) {
+			return
+		}
+
+		draft.afterAffordanceExpanded = visible
+	})
+
 export const animateListItemAffordanceVisibility =
 	(animatedTiming: AnimatedTiming) => (contentLeftSharedValue: SharedValue<number>) => (visible?: boolean) =>
 		animatedTiming()(contentLeftSharedValue)(visible ? 1 : 0)

@@ -56,7 +56,6 @@ export const renderListAfterAffordance = ({
 				{...{labelText: 'Confirm', ...primaryButtonProps}}
 				onPressOut={onConfirm}
 				testID={`listAfterAffordance__listAffordanceButton--confirmed--${id}`}
-				visible={visible}
 			/>
 
 			<ListAffordanceButton
@@ -64,7 +63,6 @@ export const renderListAfterAffordance = ({
 				{...{labelText: 'Cancel', ...secondaryButtonProps}}
 				onPressOut={onCancel}
 				testID={`listAfterAffordance__listAffordanceButton--close--${id}`}
-				visible={visible}
 			/>
 
 			<AnimatedDanger

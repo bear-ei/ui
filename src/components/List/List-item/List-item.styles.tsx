@@ -5,6 +5,7 @@ import {LayoutAnimated} from '../../Layout-animated'
 import {LIST_TYPE} from '../List.enum'
 import type {ListType} from '../List.interface'
 import type {
+	AffordanceLayoutProps,
 	ListItemContentProps,
 	ListItemItemTouchableProps,
 	ListItemLeadingProps,
@@ -210,7 +211,7 @@ export const SupportingText = styled(Typography)`
 	`}
 `
 
-export const BeforeAffordanceLayout = styled.View`
+export const BeforeAffordanceLayout = styled.View<AffordanceLayoutProps>`
 	align-items: center;
 	display: flex;
 	flex-direction: row;
@@ -219,7 +220,12 @@ export const BeforeAffordanceLayout = styled.View`
 
 export const AfterAffordanceLayout = styled(BeforeAffordanceLayout)`
 	align-self: flex-end;
-	background-color: red;
+
+	${({afterAffordanceExpanded}) =>
+		afterAffordanceExpanded &&
+		css`
+			z-index: 8;
+		`};
 `
 
 export const DividerLayout = styled.View`

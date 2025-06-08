@@ -10,7 +10,6 @@ export interface ListAffordanceButtonProps extends TouchableProps {
 	labelText?: string
 	loading?: boolean
 	underlayColor?: string
-	visible?: boolean
 }
 
 export interface RenderListAffordanceButtonProps extends ListAffordanceButtonProps {
@@ -30,7 +29,5 @@ export interface ListAffordanceButtonState {
 }
 
 export type UseListAffordanceButtonAnimatedOptions = Pick<RenderListAffordanceButtonProps, 'disabled'>
-export type HandleListAffordanceButtonStateChangeOptions = HandleStateEventChangeOptions &
-	Pick<RenderListAffordanceButtonProps, 'visible'>
-
+export type HandleListAffordanceButtonStateChangeOptions = HandleStateEventChangeOptions
 export type ListAffordanceButtonContainerProps = Pick<RenderListAffordanceButtonProps, 'disabled'>

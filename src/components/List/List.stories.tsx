@@ -94,7 +94,7 @@ export const Select = () => {
 	const style = {height: 800, width: '100%'} as ViewStyle
 	const data = useMemo(
 		() =>
-			Array.from({length: 1255}, (_, index) => ({
+			Array.from({length: 2}, (_, index) => ({
 				indexKey: `Title${index + 1}`,
 				headline: `Title${index + 1}`,
 				leading: <Icon />,

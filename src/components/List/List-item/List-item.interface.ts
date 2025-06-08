@@ -66,6 +66,7 @@ export interface ListItemProps
 export interface RenderListItemProps extends ListItemProps {
 	active?: boolean
 	affordanceVisible?: boolean
+	afterAffordanceExpanded?: boolean
 	afterAffordanceVisible?: boolean
 	contentAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
@@ -85,6 +86,7 @@ export interface ListItemBaseProps extends ListItemProps {
 }
 
 export interface ListItemState {
+	afterAffordanceExpanded?: boolean
 	eventName?: EventName
 	nextLayoutEvent?: () => void
 	nextPressInEvent?: () => void
@@ -107,7 +109,6 @@ export interface HandleListItemStateChangeOptions
 			| 'type'
 		> {}
 
-export type HandleListItemTrailingEventOptions = {callback?: () => void}
 export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
 	onConfirm?: ListItemProps['onConfirm']
 	onItemClose: (indexKey?: boolean) => void
@@ -133,7 +134,6 @@ export interface TriggerListItemTrailingActionsOptions
 	onItemClose: (close?: boolean) => void
 }
 
-export type HandleListItemPanResponderReleaseOptions = Pick<ListItemProps, 'onActiveAfterAffordance' | 'disabled'>
 export type ListItemContentProps = Pick<RenderListItemProps, 'type'>
 export interface ListItemMainProps
 	extends Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'density'>,
@@ -154,3 +154,5 @@ export interface ListItemTrailingProps extends ListItemLeadingProps {
 export interface ListItemItemTouchableProps {
 	enableFocusRing?: boolean
 }
+
+export type AffordanceLayoutProps = Pick<RenderListItemProps, 'afterAffordanceExpanded'>

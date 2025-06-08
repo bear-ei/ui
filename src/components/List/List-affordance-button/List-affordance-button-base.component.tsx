@@ -9,23 +9,14 @@ import type {ListAffordanceButtonBaseProps, ListAffordanceButtonState} from './L
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
 export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBaseProps>(
-	(
-		{
-			disabled,
-			labelText = 'Label',
-			renderListAffordanceButton,
-			visible,
-			...renderListAffordanceButtonProps
-		},
-		ref
-	) => {
+	({disabled, labelText = 'Label', renderListAffordanceButton, ...renderListAffordanceButtonProps}, ref) => {
 		const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({})
 		const theme = useTheme()
 		const id = useId()
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleListAffordanceButtonStateChange({...options, state, visible})(setState)(event),
-			[setState, visible]
+				handleListAffordanceButtonStateChange({...options, state})(setState)(event),
+			[setState]
 		)
 
 		const interactionHandlers = useInteractionStateEvent({
