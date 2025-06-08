@@ -115,7 +115,7 @@ export const renderListItem = ({
 	ref,
 	selectType,
 	shape,
-	skeletonDuration = 150,
+	skeletonDuration = 300,
 	skeletonElement,
 	supporting,
 	supportingTextNumberOfLines,
@@ -278,8 +278,8 @@ export const renderListItem = ({
 								secondaryButtonProps={
 									afterAffordanceSecondaryButtonProps
 								}
-								visible={afterAffordanceVisible}
 								testID={`listItem__listAfterAffordance--${id}`}
+								visible={afterAffordanceVisible}
 							/>
 						:	afterAffordance}
 					</AfterAffordanceLayout>

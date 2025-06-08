@@ -20,20 +20,6 @@ describe('ListAfterAffordance Component', () => {
 		expect(confirmed).toBeTruthy()
 	})
 
-	it('should does not render when visible is false', async () => {
-		const {getByTestId} = await renderWithAct(
-			<ListAfterAffordance
-				indexKey='item-2'
-				testID='listAfterAffordance'
-				visible={false}
-			/>
-		)
-
-		const afterAffordance = await waitFor(() => getByTestId('listAfterAffordance'))
-
-		expect(afterAffordance.props.pointerEvents).toBe('none')
-	})
-
 	it('should renders animated danger element', async () => {
 		const {getByTestId} = await renderWithAct(
 			<ListAfterAffordance

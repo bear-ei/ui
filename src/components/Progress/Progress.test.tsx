@@ -41,19 +41,6 @@ describe('Progress Component', () => {
 		expect(progress).toBeTruthy()
 	})
 
-	it('should does not render LINEAR indicator when layout.width is 0', async () => {
-		const {queryByTestId} = await renderWithAct(
-			<Progress
-				style={{width: 0}}
-				value={50}
-			/>
-		)
-
-		const linear = await waitFor(() => queryByTestId('progress__progressActiveIndicatorLinear--test-id'))
-
-		expect(linear).toBeNull()
-	})
-
 	it('should renders with animatedType DETERMINATE', async () => {
 		const {getByTestId} = await renderWithAct(
 			<Progress

@@ -1,5 +1,4 @@
 jest.setTimeout(20000)
-
 jest.mock('nanoid')
 jest.mock('react', () => {
 	const actualReact = jest.requireActual('react')

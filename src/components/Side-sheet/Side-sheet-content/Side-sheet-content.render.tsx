@@ -164,6 +164,7 @@ export const renderSideSheetContent = ({
 					entry={{duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE}}
 					exit={{duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}}
 					testID={`sideSheetContent__footerLayoutContainer--${id}`}
+					translate={true}
 					visible={footerVisible}
 				>
 					<FooterLayout testID={`sideSheetContent__footerLayout--${id}`}>
