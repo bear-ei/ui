@@ -10,7 +10,7 @@ export interface ProgressActiveIndicatorCircularProps
 	extends ViewProps,
 		RefAttributes<View>,
 		ShapeProps,
-		Pick<ProgressProps, 'animatedType' | 'value' | 'increment' | 'defaultValue' | 'strokeWidth' | 'size'> {
+		Pick<ProgressProps, 'animatedType' | 'value' | 'defaultValue' | 'strokeWidth' | 'size'> {
 	content?: React.JSX.Element
 }
 

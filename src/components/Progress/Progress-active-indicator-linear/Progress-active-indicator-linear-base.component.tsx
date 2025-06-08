@@ -5,23 +5,11 @@ import {useProgressActiveIndicatorLinearAnimated} from './use-progress-active-in
 
 export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActiveIndicatorLinearBaseProps>(
 	(
-		{
-			containerLayout,
-			defaultValue,
-			increment,
-			renderProgressActiveIndicatorLinear,
-			value,
-			...renderProgressActiveIndicatorLinearProps
-		},
+		{defaultValue, renderProgressActiveIndicatorLinear, value, ...renderProgressActiveIndicatorLinearProps},
 		ref
 	) => {
 		const id = useId()
-		const {contentAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({
-			containerLayout,
-			defaultValue,
-			increment,
-			value
-		})
+		const {contentAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({defaultValue, value})
 
 		return renderProgressActiveIndicatorLinear({
 			...renderProgressActiveIndicatorLinearProps,

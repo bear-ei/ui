@@ -9,9 +9,6 @@ export const renderProgress = ({
 	content,
 	defaultValue,
 	id,
-	increment,
-	interactionHandlers,
-	layout,
 	size,
 	strokeWidth,
 	testID,
@@ -21,7 +18,6 @@ export const renderProgress = ({
 }: RenderProgressProps) => (
 	<Container
 		{...containerProps}
-		{...interactionHandlers}
 		accessibilityRole='progressbar'
 		pointerEvents='none'
 		progressing={!!(value && value > 0)}
@@ -38,12 +34,10 @@ export const renderProgress = ({
 			/>
 		)}
 
-		{type === PROGRESS_TYPE.LINEAR && typeof layout.width === 'number' && layout.width !== 0 && (
+		{type === PROGRESS_TYPE.LINEAR && (
 			<ProgressActiveIndicatorLinear
 				animatedType={animatedType}
-				containerLayout={layout}
 				defaultValue={defaultValue}
-				increment={increment}
 				testID={`progress__progressActiveIndicatorLinear--${id}`}
 				value={value}
 			/>

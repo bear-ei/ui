@@ -8,16 +8,18 @@ export const Container = styled(Shape)`
 	flex: 1;
 	overflow: hidden;
 	position: relative;
-
-	${({theme}) => css`
-		gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-	`};
 `
 
 export const Content = styled(Shape)`
+	position: absolute;
+	z-index: 4;
+
 	${({theme}) => css`
 		background-color: ${theme.token.scheme.primary};
-		height: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+		left: ${theme.adaptSize(theme.token.spacing.none)}px;
+		right: ${theme.adaptSize(theme.token.spacing.none)}px;
+		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 		transform-origin: left;
 	`};
 `

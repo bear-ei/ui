@@ -3,14 +3,4 @@ import type {AnimatedTiming} from '../../../hooks'
 
 export const animateProgressActiveIndicatorLinear =
 	(animatedTiming: AnimatedTiming) => (widthSharedValue: SharedValue<number>) => (value?: number) =>
-		typeof value === 'number' && animatedTiming()(widthSharedValue)(Math.ceil(value))
-
-export const generateStepPositions =
-	(width = 0) =>
-	(increment: number) => {
-		const actualIncrement = width * (increment / 100)
-
-		return Array.from({length: Math.ceil(width / actualIncrement) + 1}, (_, index) =>
-			Math.ceil(index * actualIncrement)
-		)
-	}
+		typeof value === 'number' && animatedTiming()(widthSharedValue)(value)
