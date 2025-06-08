@@ -16,7 +16,7 @@ import {
 	LabelText,
 	Leading,
 	Main,
-	SupportingLayoutAnimated,
+	SupportingLayout,
 	SupportingText,
 	TouchableHeader,
 	Trailing
@@ -31,9 +31,6 @@ const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.Funct
 	AnimatedProps<FastOmit<InputProps, never>>
 >
 
-/**
- * FIXME: Multiline text [macos]
- */
 export const renderTextInput = ({
 	accessibilityLabel,
 	activeIndicatorAnimatedStyle,
@@ -165,7 +162,7 @@ export const renderTextInput = ({
 					</AnimatedHeader>
 				</TouchableHeader>
 
-				<SupportingLayoutAnimated
+				<SupportingLayout
 					onVisible={onSupportingTextVisible}
 					testID={`textInput__supportingLayoutAnimated--${id}`}
 					visible={supportingTextVisible}
@@ -178,7 +175,7 @@ export const renderTextInput = ({
 					>
 						{supportingText}
 					</AnimatedSupportingText>
-				</SupportingLayoutAnimated>
+				</SupportingLayout>
 			</Content>
 		</Container>
 	)

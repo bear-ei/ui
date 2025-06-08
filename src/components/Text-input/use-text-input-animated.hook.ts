@@ -1,4 +1,4 @@
-import {hexToRGBA, SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {hexToRGBA} from '@bearei/material-token'
 import {useCallback, useEffect, useMemo} from 'react'
 import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -25,7 +25,7 @@ export const useTextInputAnimated = ({
 	type = TEXT_INPUT_TYPE.FILLED
 }: UseTextInputAnimatedOptions) => {
 	const theme = useTheme()
-	const {scheme, typography, opacity} = theme.token
+	const {scheme, opacity} = theme.token
 	const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
 	const disabledAnimatedValue = disabled ? 0 : 1
 	const defaultAnimatedValue = useMemo(
@@ -105,39 +105,15 @@ export const useTextInputAnimated = ({
 
 	const labelTopOutputRanges = useMemo(
 		() => [
-			theme.adaptSize(theme.token.spacing.small + densityScale / 2),
-			theme.adaptSize(theme.token.spacing.medium + densityScale / 2)
+			-theme.adaptSize(theme.token.spacing.small + densityScale / 2),
+			theme.adaptSize(theme.token.spacing.none)
 		],
 		[densityScale, theme]
 	)
 
 	const labelAnimatedStyle = useAnimatedStyle(() => ({
-		top: interpolate(labelTextSharedValue.value, [0, 1], labelTopOutputRanges)
+		transform: [{translateY: interpolate(labelTextSharedValue.value, [0, 1], labelTopOutputRanges)}]
 	}))
-
-	const labelTextFontSizeOutputRanges = useMemo(
-		() => [
-			theme.adaptFontSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].size),
-			theme.adaptFontSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)
-		],
-		[theme, typography]
-	)
-
-	const labelTextLetterSpacingOutputRanges = useMemo(
-		() => [
-			theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].letterSpacing),
-			theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing)
-		],
-		[theme, typography]
-	)
-
-	const labelTextHeightOutputRanges = useMemo(
-		() => [
-			theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.SMALL].lineHeight),
-			theme.adaptSize(typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)
-		],
-		[theme, typography]
-	)
 
 	const labelTextColorOutputRanges = useMemo(
 		() => [
@@ -151,10 +127,7 @@ export const useTextInputAnimated = ({
 
 	const labelTextAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(colorSharedValue.value, [0, 1, 2, 3], labelTextColorOutputRanges),
-		fontSize: interpolate(labelTextSharedValue.value, [0, 1], labelTextFontSizeOutputRanges),
-		height: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRanges),
-		letterSpacing: interpolate(labelTextSharedValue.value, [0, 1], labelTextLetterSpacingOutputRanges),
-		lineHeight: interpolate(labelTextSharedValue.value, [0, 1], labelTextHeightOutputRanges)
+		transform: [{scale: interpolate(labelTextSharedValue.value, [0, 1], [0.75, 1])}]
 	}))
 
 	const activeIndicatorBackgroundColorOutputRanges = useMemo(
@@ -167,21 +140,13 @@ export const useTextInputAnimated = ({
 		[disabledColor, opacity.level10, scheme.error, scheme.onSurfaceVariant, scheme.primary]
 	)
 
-	const activeIndicatorHeightOutputRanges = useMemo(
-		() => [
-			theme.adaptSize(theme.token.spacing.extraSmall / 4),
-			theme.adaptSize(theme.token.spacing.extraSmall - 1)
-		],
-		[theme]
-	)
-
 	const activeIndicatorAnimatedStyle = useAnimatedStyle(() => ({
 		backgroundColor: interpolateColor(
 			colorSharedValue.value,
 			[0, 1, 2, 3],
 			activeIndicatorBackgroundColorOutputRanges
 		),
-		height: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], activeIndicatorHeightOutputRanges)
+		transform: [{scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.3333, 1])}]
 	}))
 
 	const supportingTextSharedValueValueColorOutputRanges = useMemo(

@@ -64,9 +64,14 @@ export const Label = styled.View<TextInputLabelProps>`
 	position: absolute;
 	z-index: 8;
 
-	${({theme}) => css`
-		left: ${theme.adaptSize(theme.token.spacing.medium)}px;
-	`}
+	${({theme, density}) => {
+		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+
+		return css`
+			top: ${theme.adaptSize(theme.token.spacing.medium + densityScale / 2)}px;
+			left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+		`
+	}}
 
 	${({theme, leadingShow}) =>
 		leadingShow &&
@@ -78,7 +83,7 @@ export const Label = styled.View<TextInputLabelProps>`
 `
 
 export const LabelText = styled(Typography)`
-	min-height: auto;
+	transform-origin: left;
 `
 
 export const Leading = styled.View`
@@ -190,7 +195,7 @@ export const Input = styled.TextInput`
 		`};
 `
 
-export const SupportingLayoutAnimated = styled(LayoutAnimated)`
+export const SupportingLayout = styled(LayoutAnimated)`
 	${({theme}) => css`
 		height: ${theme.adaptSize(theme.token.spacing.medium)}px;
 		min-height: ${theme.adaptSize(theme.token.spacing.medium)}px;
@@ -209,8 +214,9 @@ export const ActiveIndicator = styled.View`
 
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+		height: ${theme.adaptSize(theme.token.spacing.extraSmall - 1)}px;
 		left: ${theme.adaptSize(theme.token.spacing.none)}px;
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
 		right: ${theme.adaptSize(theme.token.spacing.none)}px;
+		transform-origin: bottom;
 	`};
 `
