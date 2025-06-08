@@ -1,3 +1,4 @@
+import type {ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {LAYOUT_ANIMATED} from '../../Layout-animated'
@@ -20,6 +21,7 @@ export const renderListAfterAffordance = ({
 	...containerProps
 }: RenderListAfterAffordanceProps) => {
 	const fill = theme.token.scheme.onPrimary
+	const contentStyle = {display: 'flex', flexDirection: 'row', position: 'relative'} as ViewStyle
 	const checkIconElement = (
 		<Icon
 			fill={fill}
@@ -44,6 +46,7 @@ export const renderListAfterAffordance = ({
 		<Container
 			{...containerProps}
 			animatedType={LAYOUT_ANIMATED.STANDARD}
+			contentStyle={contentStyle}
 			lazy={true}
 			testID={testID ?? `listAfterAffordance--${id}`}
 			visible={visible}

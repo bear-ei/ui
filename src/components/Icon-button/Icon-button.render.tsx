@@ -10,6 +10,7 @@ import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {RenderIconButtonIconOptions, RenderIconButtonProps} from './Icon-button.interface'
 import {BackgroundUnderlay, Container, Content, ContentItemLayout, Main} from './Icon-button.styles'
 
+const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 export const renderIconButtonIcon =
 	({disabled, type, fill: rawFill, loading, id}: RenderIconButtonIconOptions) =>
 	(theme: DefaultTheme) => {
@@ -41,7 +42,6 @@ export const renderIconButtonIcon =
 			)
 	}
 
-const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 export const renderIconButton = ({
 	accessibilityLabel,
 	active,

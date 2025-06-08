@@ -55,7 +55,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		const [
 			{
 				eventName,
-				listItemState,
 				nextLayoutEvent,
 				nextPressInEvent,
 				nextPressOutEvent,
@@ -200,7 +199,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			ref: pressableRef,
 			selectType,
 			shape,
-			state: listItemState,
 			supporting,
 			theme,
 			trailingElement,

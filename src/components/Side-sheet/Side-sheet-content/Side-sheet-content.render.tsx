@@ -27,6 +27,7 @@ import {
 	Trailing
 } from './Side-sheet-content.styles'
 
+const AnimatedContainer = Animated.createAnimatedComponent(Container)
 export const renderSideSheetContentLeading =
 	({headlineLeading, back, position, id}: RenderSideSheetContentLeadingOptions) =>
 	(onBack?: () => void) => {
@@ -81,8 +82,6 @@ export const renderSideSheetContentTrailing =
 			:	undefined)
 		)
 	}
-
-const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
 /**
  * TODO: Add visible animation for modal layer types.

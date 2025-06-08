@@ -13,10 +13,9 @@ import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import type {RenderListItemProps, RenderListItemTrailingOptions} from './List-item.interface'
 import {
 	AfterAffordanceLayout,
-	AnimatedContent,
 	BeforeAffordanceLayout,
 	Container,
-	// Content,
+	Content,
 	DividerLayout,
 	HeadlineText,
 	Leading,
@@ -27,6 +26,8 @@ import {
 	TrailingLayoutAnimated
 } from './List-item.styles'
 
+const AnimatedContent = Animated.createAnimatedComponent(Content)
+const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 export const renderListItemTrailing = ({
 	afterAffordance,
 	closeTrailing,
@@ -85,12 +86,9 @@ export const renderListItemTrailing = ({
 	return trailingElement[trailingType]
 }
 
-// const AnimatedContent = Animated.createAnimatedComponent(Content)
-const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 export const renderListItem = ({
 	accessibilityLabel,
 	active,
-	// affordanceVisible,
 	afterAffordance,
 	afterAffordancePrimaryButtonProps,
 	afterAffordanceSecondaryButtonProps,

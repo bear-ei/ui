@@ -1,4 +1,3 @@
-import Animated from 'react-native-reanimated'
 import type {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {DENSITY_SCALE, Shape, Typography} from '../../Common'
@@ -27,7 +26,7 @@ export const Container = styled(Shape)`
 	`}
 `
 
-export const AnimatedContent = styled(Animated.View)<ListItemContentProps>`
+export const Content = styled.View<ListItemContentProps>`
 	position: absolute;
 	width: 100%;
 	z-index: 4;

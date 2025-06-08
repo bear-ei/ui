@@ -113,7 +113,6 @@ export const handleListItemStateChange =
 
 			if (eventName && draft.status === COMPONENT_STATUS.SUCCEEDED) {
 				draft.eventName = eventName
-				draft.listItemState = state
 			}
 
 			if (trailingTriggerEvenName) {

@@ -10,6 +10,8 @@ import {FAB_TYPE} from './FAB.enum'
 import type {FABType, RenderFABIconOptions, RenderFABProps} from './FAB.interface'
 import {BackgroundUnderlay, Container, Content, IconLayout, LabelText, Main} from './FAB.styles'
 
+const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
+const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 export const renderFABIcon =
 	({disabled, size, type = FAB_TYPE.PRIMARY, id}: RenderFABIconOptions) =>
 	(theme: DefaultTheme) => {
@@ -36,8 +38,6 @@ export const renderFABIcon =
 		}
 	}
 
-const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
-const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 export const renderFAB = ({
 	accessibilityLabel,
 	backgroundUnderlayAnimatedStyle,

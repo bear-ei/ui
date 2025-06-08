@@ -14,6 +14,8 @@ import {
 	SupportingText
 } from './Virtual-list.styles'
 
+const AnimatedContent = Animated.createAnimatedComponent(Content)
+const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 export const renderVirtualListItem =
 	<T,>({onLoadEnd, renderItem, startIndex = 0, id, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>
 	(data?: VirtualListData[]) => {
@@ -41,8 +43,6 @@ export const renderVirtualListItem =
 		))
 	}
 
-const AnimatedContent = Animated.createAnimatedComponent(Content)
-const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 export const renderVirtualList = <T,>({
 	contentAnimatedStyle,
 	contentSize,

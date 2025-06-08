@@ -86,7 +86,6 @@ export interface ListItemBaseProps extends ListItemProps {
 
 export interface ListItemState {
 	eventName?: EventName
-	listItemState?: State
 	nextLayoutEvent?: () => void
 	nextPressInEvent?: () => void
 	nextPressOutEvent?: () => void

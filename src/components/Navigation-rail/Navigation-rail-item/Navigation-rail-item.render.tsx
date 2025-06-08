@@ -16,6 +16,7 @@ import {
 	Touchable
 } from './Navigation-rail-item.styles'
 
+const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 export const renderNavigationRailItemIcon = (id: string) => (icon?: React.JSX.Element) => (active?: boolean) =>
 	cloneElement<IconProps>(
 		icon ?? (
@@ -32,7 +33,6 @@ export const renderNavigationRailItemIcon = (id: string) => (icon?: React.JSX.El
 		}
 	)
 
-const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 export const renderNavigationRailItem = ({
 	accessibilityLabel,
 	active,

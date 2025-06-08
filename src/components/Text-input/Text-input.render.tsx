@@ -22,9 +22,6 @@ import {
 	Trailing
 } from './Text-input.styles'
 
-/**
- * FIXME: Multiline text [macos]
- */
 const AnimatedActiveIndicator = Animated.createAnimatedComponent(ActiveIndicator)
 const AnimatedHeader = Animated.createAnimatedComponent(Header)
 const AnimatedLabel = Animated.createAnimatedComponent(Label)
@@ -34,6 +31,9 @@ const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.Funct
 	AnimatedProps<FastOmit<InputProps, never>>
 >
 
+/**
+ * FIXME: Multiline text [macos]
+ */
 export const renderTextInput = ({
 	accessibilityLabel,
 	activeIndicatorAnimatedStyle,

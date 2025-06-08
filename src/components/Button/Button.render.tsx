@@ -19,6 +19,8 @@ import {
 	Main
 } from './Button.styles'
 
+const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
+const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 export const renderButtonIcon =
 	({disabled, type = BUTTON_TYPE.FILLED, id}: RenderButtonIconOptions) =>
 	(theme: DefaultTheme) => {
@@ -46,8 +48,6 @@ export const renderButtonIcon =
 		}
 	}
 
-const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
-const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 export const renderButton = ({
 	accessibilityLabel,
 	backgroundUnderlayAnimatedStyle,
