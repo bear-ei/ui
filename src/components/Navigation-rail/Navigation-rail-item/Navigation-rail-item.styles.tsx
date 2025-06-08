@@ -1,6 +1,5 @@
 import styled, {css} from 'styled-components/native'
 import {Typography} from '../../Common'
-import {LayoutAnimated} from '../../Layout-animated'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {
 	NavigationRailItemHeaderProps,
@@ -8,7 +7,10 @@ import type {
 	NavigationRailItemTouchableProps
 } from './Navigation-rail-item.interface'
 
-export const Container = styled.View``
+export const Container = styled.View`
+	overflow: hidden;
+`
+
 export const Touchable = styled.Pressable<NavigationRailItemTouchableProps>`
 	align-items: center;
 	display: flex;
@@ -22,6 +24,7 @@ export const Touchable = styled.Pressable<NavigationRailItemTouchableProps>`
 	`}
 `
 
+export const Content = styled.View``
 export const Header = styled.View<NavigationRailItemHeaderProps>`
 	align-items: center;
 	display: flex;
@@ -42,7 +45,7 @@ export const Header = styled.View<NavigationRailItemHeaderProps>`
 		`};
 `
 
-export const IconLayoutContainer = styled.View`
+export const IconLayout = styled.View`
 	overflow: hidden;
 
 	${({theme}) => css`
@@ -51,28 +54,22 @@ export const IconLayoutContainer = styled.View`
 	`}
 `
 
-export const LabelLayout = styled(LayoutAnimated)`
-	align-self: stretch;
-	transform-origin: bottom;
-`
-
 export const Label = styled.View`
 	align-self: stretch;
-	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	${({theme}) => css`
+		height: ${theme.adaptSize(theme.token.spacing.large)}px;
+	`}
 `
 
 export const LabelText = styled(Typography)<NavigationRailItemLabelTextProps>`
-	position: absolute;
 	user-select: none;
 
 	${({theme, active}) => css`
-		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
 		font-weight: ${active ? theme.token.font.weight.bold : theme.token.font.weight.medium};
-		left: ${theme.adaptSize(theme.token.spacing.none)}px;
-		right: ${theme.adaptSize(theme.token.spacing.none)}px;
 		text-align: center;
-		top: ${theme.adaptSize(theme.token.spacing.none)}px;
-		margin: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
-			${theme.adaptSize(theme.token.spacing.none)}px;
 	`}
 `

@@ -49,7 +49,11 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			onStateEventChange
 		})
 
-		const {labelTextAnimatedStyle} = useNavigationRailItemAnimated({active: isActive, type})
+		const {labelTextAnimatedStyle, contentAnimatedStyle} = useNavigationRailItemAnimated({
+			active: isActive,
+			type
+		})
+
 		const iconElement = renderNavigationRailItemIcon(id)(icon)(isActive)
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
@@ -62,6 +66,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			...renderNavigationRailItemProps,
 			active: isActive,
 			animatedType,
+			contentAnimatedStyle,
 			eventName,
 			iconElement,
 			id,

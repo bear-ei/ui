@@ -1,10 +1,10 @@
-import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../../hooks'
 import {EVENT_NAME, type EventName} from '../../Common'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {
-	AnimateNavigationRailItemLabelOptions,
+	AnimateNavigationRailItemOptions,
+	AnimateNavigationRailItemSharedValues,
 	HandleNavigationRailItemStateChangeOptions,
 	NavigationRailItemProps,
 	NavigationRailItemState
@@ -52,9 +52,9 @@ export const handleNavigationRailItemStateChange =
 		})
 	}
 
-export const animateNavigationRailItemLabel =
-	({animatedTiming, type}: AnimateNavigationRailItemLabelOptions) =>
-	(labelTextColorSharedValue: SharedValue<number>) =>
+export const animateNavigationRailItem =
+	({animatedTiming, type}: AnimateNavigationRailItemOptions) =>
+	({labelTextSharedValue, contentTranslateYSharedValue}: AnimateNavigationRailItemSharedValues) =>
 	(active?: boolean) => {
 		if (!(type === NAVIGATION_RAIL_TYPE.SEGMENT && typeof active === 'boolean')) {
 			return
@@ -62,5 +62,6 @@ export const animateNavigationRailItemLabel =
 
 		const toValue = active ? 1 : 0
 
-		animatedTiming()(labelTextColorSharedValue)(toValue)
+		animatedTiming()(contentTranslateYSharedValue)(toValue)
+		animatedTiming()(labelTextSharedValue)(toValue)
 	}

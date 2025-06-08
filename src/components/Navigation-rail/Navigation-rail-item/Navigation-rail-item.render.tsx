@@ -2,20 +2,12 @@ import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {cloneElement} from 'react'
 import Animated from 'react-native-reanimated'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE, type IconProps} from '../../Icon'
-import {LAYOUT_ANIMATED} from '../../Layout-animated'
 import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
-import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
+import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
-import {
-	Container,
-	Header,
-	IconLayoutContainer,
-	Label,
-	LabelLayout,
-	LabelText,
-	Touchable
-} from './Navigation-rail-item.styles'
+import {Container, Content, Header, IconLayout, Label, LabelText, Touchable} from './Navigation-rail-item.styles'
 
+const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 export const renderNavigationRailItemIcon = (id: string) => (icon?: React.JSX.Element) => (active?: boolean) =>
 	cloneElement<IconProps>(
@@ -36,7 +28,7 @@ export const renderNavigationRailItemIcon = (id: string) => (icon?: React.JSX.El
 export const renderNavigationRailItem = ({
 	accessibilityLabel,
 	active,
-	animatedType,
+	contentAnimatedStyle,
 	eventName,
 	iconElement,
 	id,
@@ -51,8 +43,6 @@ export const renderNavigationRailItem = ({
 }: RenderNavigationRailItemProps) => {
 	const activeAnimatedType = type === NAVIGATION_RAIL_TYPE.BLOCK ? ACTIVE_ANIMATED.SCALE : ACTIVE_ANIMATED.SCALE_X
 	const activeColor = theme.token.scheme.secondaryContainer
-	const contentSize = {height: theme.adaptSize(theme.token.spacing.large)}
-	const isLabelVisible = animatedType === NAVIGATION_RAIL_ANIMATED.COLLAPSE ? active : true
 	const shape = type === NAVIGATION_RAIL_TYPE.BLOCK ? SHAPE.FULL : SHAPE.LARGE
 	const underlayColor = theme.token.scheme.onSurface
 
@@ -70,35 +60,32 @@ export const renderNavigationRailItem = ({
 				ref={ref}
 				testID={`navigationRailItem__touchable--${id}`}
 			>
-				<Header
-					pointerEvents='none'
-					testID={`navigationRailItem__header--${id}`}
-					type={type}
+				<AnimatedContent
+					{...(type !== NAVIGATION_RAIL_TYPE.BLOCK && {style: [contentAnimatedStyle]})}
+					testID={`navigationRailItem__content--${id}`}
 				>
-					<IconLayoutContainer testID={`navigationRailItem__iconLayout--${id}`}>
-						{iconElement}
-					</IconLayoutContainer>
-
-					<Underlay
-						active={active}
-						activeAnimatedType={activeAnimatedType}
-						activeColor={activeColor}
-						activeShape={SHAPE.FULL}
-						eventName={eventName}
-						shape={shape}
-						testID={`navigationRailItem__underlay--${id}`}
-						underlayColor={underlayColor}
-					/>
-				</Header>
-
-				{type === NAVIGATION_RAIL_TYPE.SEGMENT && (
-					<LabelLayout
-						animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
-						contentSize={contentSize}
+					<Header
 						pointerEvents='none'
-						testID={`navigationRailItem__labelLayoutAnimated--${id}`}
-						visible={isLabelVisible}
+						testID={`navigationRailItem__header--${id}`}
+						type={type}
 					>
+						<IconLayout testID={`navigationRailItem__iconLayout--${id}`}>
+							{iconElement}
+						</IconLayout>
+
+						<Underlay
+							active={active}
+							activeAnimatedType={activeAnimatedType}
+							activeColor={activeColor}
+							activeShape={SHAPE.FULL}
+							eventName={eventName}
+							shape={shape}
+							testID={`navigationRailItem__underlay--${id}`}
+							underlayColor={underlayColor}
+						/>
+					</Header>
+
+					{type === NAVIGATION_RAIL_TYPE.SEGMENT && (
 						<Label testID={`navigationRailItem__label--${id}`}>
 							<AnimatedLabelText
 								active={active}
@@ -112,8 +99,8 @@ export const renderNavigationRailItem = ({
 								{labelText}
 							</AnimatedLabelText>
 						</Label>
-					</LabelLayout>
-				)}
+					)}
+				</AnimatedContent>
 			</Touchable>
 		</Container>
 	)

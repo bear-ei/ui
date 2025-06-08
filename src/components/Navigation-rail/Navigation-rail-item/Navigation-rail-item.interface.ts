@@ -1,6 +1,6 @@
 import type {RefAttributes} from 'react'
-import type {PressableProps, TextStyle, View, ViewProps} from 'react-native'
-import type {AnimatedStyle} from 'react-native-reanimated'
+import type {PressableProps, TextStyle, View, ViewProps, ViewStyle} from 'react-native'
+import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {EventName, TypographyProps} from '../../Common'
@@ -16,10 +16,11 @@ export interface NavigationRailItemProps
 
 export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'indexKey'> {
 	active?: boolean
+	contentAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
 	iconElement: React.JSX.Element
-	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 	interactionHandlers: InteractionHandlers
+	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 	theme: DefaultTheme
 }
 
@@ -42,8 +43,13 @@ export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigat
 	defaultActive?: boolean
 }
 
-export interface AnimateNavigationRailItemLabelOptions extends UseNavigationRailItemAnimatedOptions {
+export interface AnimateNavigationRailItemOptions extends UseNavigationRailItemAnimatedOptions {
 	animatedTiming: AnimatedTiming
+}
+
+export interface AnimateNavigationRailItemSharedValues {
+	contentTranslateYSharedValue: SharedValue<number>
+	labelTextSharedValue: SharedValue<number>
 }
 
 export type NavigationRailItemHeaderProps = Pick<RenderNavigationRailItemProps, 'type'>
