@@ -33,7 +33,10 @@ const FormBaseInner = <T,>(
 
 	const runRegisterCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
 	const runExtractAndSetFieldKeys = useMemo(() => extractAndSetFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
-	const itemElements = renderFormItems({validatorOptions, id})(status)(items)
+	const itemElements = useMemo(
+		() => renderFormItems({validatorOptions, id})(status)(items),
+		[id, items, status, validatorOptions]
+	)
 
 	useEffect(() => {
 		runRegisterCallbacks({onFinish, onFinishFailed, onValuesChange})

@@ -55,7 +55,10 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			[elevated, setState]
 		)
 
-		const iconElement = renderFABIcon({type, disabled: rawDisabled, size, id})(theme)(icon)
+		const iconElement = useMemo(
+			() => renderFABIcon({type, disabled: rawDisabled, size, id})(theme)(icon),
+			[icon, id, rawDisabled, size, theme, type]
+		)
 
 		useEffect(() => {
 			runUpdateStatus(isDisabled)

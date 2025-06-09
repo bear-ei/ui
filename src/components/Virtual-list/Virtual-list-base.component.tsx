@@ -92,15 +92,19 @@ export const VirtualListBaseInner = <T,>(
 	)
 
 	const runUpdateData = useMemo(() => updateVirtualListData(setState), [setState])
-	const itemElements = renderVirtualListItem({
-		extraData,
-		id,
-		itemSize: itemSize + gap,
-		onLoadEnd,
-		onUnmount,
-		renderItem,
-		startIndex
-	})(visibleRangeData)
+	const itemElements = useMemo(
+		() =>
+			renderVirtualListItem({
+				extraData,
+				id,
+				itemSize: itemSize + gap,
+				onLoadEnd,
+				onUnmount,
+				renderItem,
+				startIndex
+			})(visibleRangeData),
+		[extraData, gap, id, itemSize, onLoadEnd, onUnmount, renderItem, startIndex, visibleRangeData]
+	)
 
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as Animated.ScrollView, [animatedRef])
 

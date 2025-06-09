@@ -1,6 +1,6 @@
 import {DURATION, EASING} from '@bearei/material-token'
 import {useCallback} from 'react'
-import {type SharedValue} from 'react-native-reanimated'
+import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 import {createAnimatedTiming} from './use-animated-timing.handler'
 import type {AnimatedTimingOptions, UseAnimatedTimingOptions} from './use-animated-timing.interface'
 
@@ -26,6 +26,7 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 						return
 					}
 
+					cancelAnimation(sharedValue)
 					sharedValue.value = animate(toValue)
 				}
 			}

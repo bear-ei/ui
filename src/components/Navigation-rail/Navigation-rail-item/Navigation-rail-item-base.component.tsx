@@ -1,4 +1,4 @@
-import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -54,7 +54,10 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			type
 		})
 
-		const iconElement = renderNavigationRailItemIcon(id)(icon)(isActive)
+		const iconElement = useMemo(
+			() => renderNavigationRailItemIcon(id)(icon)(isActive),
+			[icon, id, isActive]
+		)
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
 
