@@ -1,6 +1,6 @@
 import {hexToRGBA} from '@bearei/material-token'
 import {useCallback, useEffect, useMemo} from 'react'
-import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {DENSITY_SCALE, STATE} from '../Common'
@@ -270,6 +270,25 @@ export const useTextInputAnimated = ({
 	useEffect(() => {
 		runAnimateDisabledStateTiming(disabled)
 	}, [runAnimateDisabledStateTiming, disabled])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(activeIndicatorScaleYSharedValue)
+			cancelAnimation(colorSharedValue)
+			cancelAnimation(headerInnerBackgroundColorSharedValue)
+			cancelAnimation(inputColorSharedValue)
+			cancelAnimation(labelTextSharedValue)
+			cancelAnimation(supportingTextSharedValue)
+		},
+		[
+			activeIndicatorScaleYSharedValue,
+			colorSharedValue,
+			headerInnerBackgroundColorSharedValue,
+			inputColorSharedValue,
+			labelTextSharedValue,
+			supportingTextSharedValue
+		]
+	)
 
 	return {
 		activeIndicatorAnimatedStyle,

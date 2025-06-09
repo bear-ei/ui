@@ -1,6 +1,6 @@
 import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
-import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
@@ -79,6 +79,14 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
 	useEffect(() => {
 		runAnimate(disabled)
 	}, [runAnimate, disabled])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(borderSharedValue)
+			cancelAnimation(colorSharedValue)
+		},
+		[borderSharedValue, colorSharedValue]
+	)
 
 	return {backgroundUnderlayAnimatedStyle}
 }

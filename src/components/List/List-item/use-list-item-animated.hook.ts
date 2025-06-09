@@ -1,6 +1,6 @@
 import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
-import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {animateListItemActiveState, animateListItemAffordanceVisibility} from './List-item.handler'
@@ -52,6 +52,14 @@ export const useListItemAnimated = ({active, afterAffordanceVisible}: UseListIte
 	useEffect(() => {
 		runAnimateActiveState(active)
 	}, [active, runAnimateActiveState])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(contentTransformSharedValue)
+			cancelAnimation(headlineTextSharedValue)
+		},
+		[contentTransformSharedValue, headlineTextSharedValue]
+	)
 
 	return {contentAnimatedStyle, headlineTextAnimatedStyle}
 }

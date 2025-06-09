@@ -1,7 +1,7 @@
 import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {Platform} from 'react-native'
-import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import type {DefaultStyle} from 'react-native-reanimated/lib/typescript/hook/commonTypes'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
@@ -148,6 +148,13 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
 	useEffect(() => {
 		runAnimate(level)
 	}, [runAnimate, level])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(shadowSharedValue)
+		},
+		[shadowSharedValue]
+	)
 
 	return {shadowAnimatedStyle}
 }

@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {animateListAfterAffordance} from './List-after-affordance.handler'
@@ -35,6 +35,13 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
 	useEffect(() => {
 		runAnimate(doubleConfirmed)
 	}, [runAnimate, doubleConfirmed])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(translateXSharedValue)
+		},
+		[translateXSharedValue]
+	)
 
 	return {dangerAnimatedStyle}
 }

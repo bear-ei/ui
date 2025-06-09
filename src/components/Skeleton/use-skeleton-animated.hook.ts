@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {animateSkeleton} from './Skeleton.handler'
@@ -25,6 +25,13 @@ export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimat
 	useEffect(() => {
 		runAnimate(visible)
 	}, [runAnimate, visible])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(opacitySharedValue)
+		},
+		[opacitySharedValue]
+	)
 
 	return {containerAnimatedStyle}
 }

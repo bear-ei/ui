@@ -1,6 +1,6 @@
 import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
-import {interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {animateNavigationRailItem} from './Navigation-rail-item.handler'
@@ -50,6 +50,14 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
 	useEffect(() => {
 		runAnimate(active)
 	}, [active, runAnimate])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(contentTranslateYSharedValue)
+			cancelAnimation(labelTextSharedValue)
+		},
+		[contentTranslateYSharedValue, labelTextSharedValue]
+	)
 
 	return {labelTextAnimatedStyle, contentAnimatedStyle}
 }

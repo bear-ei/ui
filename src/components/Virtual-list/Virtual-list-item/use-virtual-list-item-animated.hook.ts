@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {animateVirtualListItem} from './Virtual-list-item.handler'
@@ -18,6 +18,13 @@ export const useVirtualListItemAnimated = ({offsetY = 0}: UseVirtualListItemAnim
 	useEffect(() => {
 		runAnimate(offsetY)
 	}, [runAnimate, offsetY])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(topSharedValue)
+		},
+		[topSharedValue]
+	)
 
 	return {containerAnimatedStyle}
 }

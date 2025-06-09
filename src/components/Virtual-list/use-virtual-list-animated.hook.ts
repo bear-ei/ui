@@ -1,5 +1,6 @@
 import {useEffect, useMemo} from 'react'
 import Animated, {
+	cancelAnimation,
 	scrollTo,
 	useAnimatedRef,
 	useAnimatedStyle,
@@ -20,18 +21,26 @@ export const useVirtualListAnimated = ({
 	const animatedRef = useAnimatedRef<Animated.ScrollView>()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const contentHeightSharedValue = useSharedValue(contentSize)
-	const scrollY = useSharedValue(0)
+	const scrollYSharedValue = useSharedValue(0)
 	const contentAnimatedStyle = useAnimatedStyle(() => ({minHeight: contentHeightSharedValue.value}))
 	const runAnimate = useMemo(
 		() => animateVirtualList(animatedTiming)(contentHeightSharedValue),
 		[animatedTiming, contentHeightSharedValue]
 	)
 
-	useDerivedValue(() => scrollTo(animatedRef, focusedIndex * itemSize, scrollY.value, true))
+	useDerivedValue(() => scrollTo(animatedRef, focusedIndex * itemSize, scrollYSharedValue.value, true))
 
 	useEffect(() => {
 		runAnimate(contentSize)
 	}, [runAnimate, contentSize])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(contentHeightSharedValue)
+			cancelAnimation(scrollYSharedValue)
+		},
+		[contentHeightSharedValue, scrollYSharedValue]
+	)
 
 	return {animatedRef, contentAnimatedStyle}
 }

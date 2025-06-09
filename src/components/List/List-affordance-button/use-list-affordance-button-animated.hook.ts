@@ -1,6 +1,6 @@
 import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
-import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {animateListAffordanceButton} from './List-affordance-button.handler'
@@ -40,6 +40,13 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
 	useEffect(() => {
 		runAnimate(disabled)
 	}, [runAnimate, disabled])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(colorSharedValue)
+		},
+		[colorSharedValue]
+	)
 
 	return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

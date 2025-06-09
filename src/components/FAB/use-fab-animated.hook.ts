@@ -1,6 +1,6 @@
 import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
-import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {FAB_TYPE} from './FAB.enum'
@@ -108,6 +108,13 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
 	useEffect(() => {
 		runAnimate(disabled)
 	}, [runAnimate, disabled])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(colorSharedValue)
+		},
+		[colorSharedValue]
+	)
 
 	return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

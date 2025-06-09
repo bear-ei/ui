@@ -1,6 +1,6 @@
 import {hexToRGBA} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
-import {interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {SIDE_SHEET_TYPE} from '../Side-sheet.enum'
@@ -42,6 +42,13 @@ export const useSideSheetContentAnimated = ({
 	useEffect(() => {
 		runAnimate(visible)
 	}, [runAnimate, visible])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(backgroundColorSharedValue)
+		},
+		[backgroundColorSharedValue]
+	)
 
 	return {containerAnimatedStyle}
 }

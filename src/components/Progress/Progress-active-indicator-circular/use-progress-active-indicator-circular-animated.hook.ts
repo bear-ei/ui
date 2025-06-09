@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {
@@ -40,6 +40,14 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 	useEffect(() => {
 		runAnimate(2)
 	}, [runAnimate])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(circleSharedValue)
+			cancelAnimation(containerSharedValue)
+		},
+		[circleSharedValue, containerSharedValue]
+	)
 
 	return {containerAnimatedStyle, circleAnimatedProps}
 }

@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react'
-import {interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import type {DefaultStyle} from 'react-native-reanimated/lib/typescript/hook/commonTypes'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
@@ -96,6 +96,13 @@ export const useLayoutAnimated = ({
 	useEffect(() => {
 		runAnimate(visible)
 	}, [runAnimate, visible])
+
+	useEffect(
+		() => () => {
+			cancelAnimation(containerSharedValue)
+		},
+		[containerSharedValue]
+	)
 
 	return {containerAnimatedStyle: containerAnimatedTypeStyle[animatedType]}
 }
