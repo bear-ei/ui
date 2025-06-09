@@ -53,7 +53,7 @@ export const handleNavigationRailItemStateChange =
 	}
 
 export const animateNavigationRailItem =
-	({createSharedValueAnimator, type}: AnimateNavigationRailItemOptions) =>
+	({animateSharedValueTo, type}: AnimateNavigationRailItemOptions) =>
 	({labelTextSharedValue, contentTranslateYSharedValue}: AnimateNavigationRailItemSharedValues) =>
 	(active?: boolean) => {
 		if (!(type === NAVIGATION_RAIL_TYPE.SEGMENT && typeof active === 'boolean')) {
@@ -62,6 +62,6 @@ export const animateNavigationRailItem =
 
 		const toValue = active ? 1 : 0
 
-		createSharedValueAnimator(contentTranslateYSharedValue)(toValue)
-		createSharedValueAnimator(labelTextSharedValue)(toValue)
+		animateSharedValueTo(contentTranslateYSharedValue)(toValue)
+		animateSharedValueTo(labelTextSharedValue)(toValue)
 	}

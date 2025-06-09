@@ -87,12 +87,14 @@ export const renderIconButton = ({
 			testID={testID ?? `iconButton--${id}`}
 		>
 			<ContentItemLayout
+				lazy={true}
 				testID={`iconButton__contentItemLayout--${id}`}
 				visible={loading}
 			>
 				<Progress
 					animatedType={PROGRESS_ANIMATED.INDETERMINATE}
 					content={progressIconElement}
+					enableAnimated={loading}
 					size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
 					testID={`iconButton__progress--${id}`}
 					type={PROGRESS_TYPE.CIRCULAR}

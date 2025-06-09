@@ -13,11 +13,11 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 	const scaleXSharedValue = useSharedValue(defaultValue)
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const contentAnimatedStyle = useAnimatedStyle(() => ({transform: [{scaleX: scaleXSharedValue.value}]}))
 	const runAnimate = useMemo(
-		() => debounce(animateProgressActiveIndicatorLinear(createSharedValueAnimator)(scaleXSharedValue))(50),
-		[createSharedValueAnimator, scaleXSharedValue]
+		() => debounce(animateProgressActiveIndicatorLinear(animateSharedValueTo)(scaleXSharedValue))(50),
+		[animateSharedValueTo, scaleXSharedValue]
 	)
 
 	useEffect(() => {

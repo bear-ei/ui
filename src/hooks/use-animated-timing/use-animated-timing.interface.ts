@@ -23,4 +23,4 @@ export type AnimatedTiming = (
 	options?: AnimatedTimingOptions
 ) => (sharedValue: SharedValue<number>) => (toValue: number) => void
 
-export type CreateSharedValueAnimator = (sharedValue: SharedValue<number>) => (toValue: number) => void
+export type AnimateSharedValueTo = (sharedValue: SharedValue<number>) => (toValue: number) => void

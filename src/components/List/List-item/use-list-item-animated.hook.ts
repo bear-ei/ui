@@ -10,7 +10,7 @@ export const useListItemAnimated = ({active, afterAffordanceVisible}: UseListIte
 	const theme = useTheme()
 	const {spacing, scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const contentTransformSharedValue = useSharedValue(0)
 	const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
 	const contentLeftOutputRanges = useMemo(
@@ -37,13 +37,13 @@ export const useListItemAnimated = ({active, afterAffordanceVisible}: UseListIte
 	}))
 
 	const runAnimateVisibility = useMemo(
-		() => animateListItemAffordanceVisibility(createSharedValueAnimator)(contentTransformSharedValue),
-		[createSharedValueAnimator, contentTransformSharedValue]
+		() => animateListItemAffordanceVisibility(animateSharedValueTo)(contentTransformSharedValue),
+		[animateSharedValueTo, contentTransformSharedValue]
 	)
 
 	const runAnimateActiveState = useMemo(
-		() => animateListItemActiveState(createSharedValueAnimator)(headlineTextSharedValue),
-		[createSharedValueAnimator, headlineTextSharedValue]
+		() => animateListItemActiveState(animateSharedValueTo)(headlineTextSharedValue),
+		[animateSharedValueTo, headlineTextSharedValue]
 	)
 
 	useEffect(() => {

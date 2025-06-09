@@ -2,7 +2,11 @@ import {DURATION, EASING} from '@bearei/material-token'
 import {useCallback} from 'react'
 import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 import {createAnimatedTiming} from './use-animated-timing.handler'
-import type {AnimatedTimingOptions, UseAnimatedTimingOptions} from './use-animated-timing.interface'
+import type {
+	AnimatedTimingOptions,
+	AnimateSharedValueTo,
+	UseAnimatedTimingOptions
+} from './use-animated-timing.interface'
 
 export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 	const animatedTiming = useCallback(
@@ -13,9 +17,8 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 				easing = EASING.EMPHASIZED,
 				...options
 			} = {} as AnimatedTimingOptions
-		) => {
+		): AnimateSharedValueTo => {
 			const {bezier, duration} = token.animated(easing)(rawDuration)
-			const animate = createAnimatedTiming({...options, bezier, duration})(callback)
 
 			return (sharedValue: SharedValue<number>) => (toValue: number) => {
 				'worklet'
@@ -25,7 +28,9 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 				}
 
 				cancelAnimation(sharedValue)
-				sharedValue.value = animate(toValue)
+				sharedValue.value = createAnimatedTiming({...options, bezier, duration})(callback)(
+					toValue
+				)
 			}
 		},
 		[token]

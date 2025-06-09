@@ -56,7 +56,7 @@ export const useTextInputAnimated = ({
 	)
 
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
 	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
 	const filledToValue = filled ? 0 : 1
@@ -169,7 +169,7 @@ export const useTextInputAnimated = ({
 
 	const animateTextInputEnabledState = useCallback(
 		() =>
-			createAnimateTextInputEnabledState(createSharedValueAnimator)({
+			createAnimateTextInputEnabledState(animateSharedValueTo)({
 				activeIndicatorScaleYSharedValue,
 				colorSharedValue,
 				inputColorSharedValue,
@@ -178,7 +178,7 @@ export const useTextInputAnimated = ({
 			})({error, filledToValue}),
 		[
 			activeIndicatorScaleYSharedValue,
-			createSharedValueAnimator,
+			animateSharedValueTo,
 			colorSharedValue,
 			error,
 			filledToValue,
@@ -190,7 +190,7 @@ export const useTextInputAnimated = ({
 
 	const animateTextInputDisabledState = useCallback(
 		() =>
-			createAnimateTextInputDisabledState(createSharedValueAnimator)({
+			createAnimateTextInputDisabledState(animateSharedValueTo)({
 				activeIndicatorScaleYSharedValue,
 				headerInnerBackgroundColorSharedValue,
 				colorSharedValue,
@@ -199,7 +199,7 @@ export const useTextInputAnimated = ({
 			}),
 		[
 			activeIndicatorScaleYSharedValue,
-			createSharedValueAnimator,
+			animateSharedValueTo,
 			colorSharedValue,
 			headerInnerBackgroundColorSharedValue,
 			inputColorSharedValue,
@@ -209,7 +209,7 @@ export const useTextInputAnimated = ({
 
 	const animateTextInputErrorState = useCallback(
 		() =>
-			createAnimateTextInputErrorState(createSharedValueAnimator)({
+			createAnimateTextInputErrorState(animateSharedValueTo)({
 				activeIndicatorScaleYSharedValue,
 				colorSharedValue,
 				inputColorSharedValue,
@@ -217,7 +217,7 @@ export const useTextInputAnimated = ({
 			}),
 		[
 			activeIndicatorScaleYSharedValue,
-			createSharedValueAnimator,
+			animateSharedValueTo,
 			colorSharedValue,
 			inputColorSharedValue,
 			supportingTextSharedValue
@@ -226,18 +226,12 @@ export const useTextInputAnimated = ({
 
 	const animateTextInputFocusedState = useCallback(
 		() =>
-			createAnimateTextInputFocusedState(createSharedValueAnimator)({
+			createAnimateTextInputFocusedState(animateSharedValueTo)({
 				activeIndicatorScaleYSharedValue,
 				colorSharedValue,
 				labelTextSharedValue
 			})(error),
-		[
-			activeIndicatorScaleYSharedValue,
-			createSharedValueAnimator,
-			colorSharedValue,
-			error,
-			labelTextSharedValue
-		]
+		[activeIndicatorScaleYSharedValue, animateSharedValueTo, colorSharedValue, error, labelTextSharedValue]
 	)
 
 	const stateAnimated = useMemo(

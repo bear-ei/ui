@@ -12,6 +12,16 @@ export interface ProgressProps extends ViewProps, RefAttributes<View> {
 	strokeWidth?: number
 	type?: ProgressType
 	value?: number
+
+	/**
+	 * MacOS
+	 * In native iOS and macOS systems, animations that need to loop should be disabled by default for the
+	 * ProgressActiveIndicatorCircular component to prevent abnormally high CPU usage.
+	 * This is because the ProgressActiveIndicatorCircular component relies on SVG implementation,
+	 * which frequently re-renders the SVG during looped animations.
+	 * Animations should be explicitly enabled when needed and disabled when not in use.
+	 */
+	enableAnimated?: boolean
 }
 
 export type RenderProgressProps = ProgressProps

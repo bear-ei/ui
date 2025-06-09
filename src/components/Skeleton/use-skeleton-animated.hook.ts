@@ -10,7 +10,7 @@ export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimat
 	const opacitySharedValue = useSharedValue(0)
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(
+	const animateSharedValueTo = useMemo(
 		() => animatedTiming({repeat: 0, duration: 2000, easing: EASING.LINEAR}),
 		[animatedTiming]
 	)
@@ -24,8 +24,8 @@ export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimat
 	}))
 
 	const runAnimate = useMemo(
-		() => animateSkeleton({createSharedValueAnimator, enableAnimated})(opacitySharedValue),
-		[createSharedValueAnimator, enableAnimated, opacitySharedValue]
+		() => animateSkeleton({animateSharedValueTo, enableAnimated})(opacitySharedValue),
+		[animateSharedValueTo, enableAnimated, opacitySharedValue]
 	)
 
 	useEffect(() => {

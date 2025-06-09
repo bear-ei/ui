@@ -1,7 +1,7 @@
 import type {FC, ReactNode} from 'react'
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {CreateSharedValueAnimator, HandleStateEventChangeOptions} from '../../hooks'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions} from '../../hooks'
 import type {LayoutType} from '../Common'
 import type {LayoutAnimatedProps} from '../Layout-animated'
 import type {SkeletonElementProps} from './Skeleton-element'
@@ -30,7 +30,7 @@ export interface SkeletonState {
 export type HandleSkeletonStateChangeOptions = HandleStateEventChangeOptions & Pick<SkeletonProps, 'duration'>
 export type UseSkeletonAnimatedOptions = Pick<RenderSkeletonProps, 'enableAnimated'> & Pick<SkeletonState, 'visible'>
 export interface AnimateSkeletonOptions extends Pick<UseSkeletonAnimatedOptions, 'enableAnimated'> {
-	createSharedValueAnimator: CreateSharedValueAnimator
+	animateSharedValueTo: AnimateSharedValueTo
 }
 
 export interface SkeletonComponent extends FC<SkeletonProps> {

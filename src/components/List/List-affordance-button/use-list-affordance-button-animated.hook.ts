@@ -10,7 +10,7 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
 	const theme = useTheme()
 	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const animatedValue = disabled ? 0 : 1
 	const colorSharedValue = useSharedValue(animatedValue)
 	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
@@ -34,8 +34,8 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
 	}))
 
 	const runAnimate = useMemo(
-		() => animateListAffordanceButton(createSharedValueAnimator)(colorSharedValue),
-		[createSharedValueAnimator, colorSharedValue]
+		() => animateListAffordanceButton(animateSharedValueTo)(colorSharedValue),
+		[animateSharedValueTo, colorSharedValue]
 	)
 
 	useEffect(() => {

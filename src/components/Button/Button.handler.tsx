@@ -102,18 +102,13 @@ export const getButtonUnderlayColor = (theme: DefaultTheme) => {
 	return (type: ButtonType) => underlay[type]
 }
 
-export const animateButton = ({
-	createSharedValueAnimator,
-	borderColorInputRanges,
-	disabled,
-	type
-}: AnimateButtonOptions) => {
+export const animateButton = ({animateSharedValueTo, borderColorInputRanges, disabled, type}: AnimateButtonOptions) => {
 	const toValue = disabled ? 0 : 1
 	const animateOutlinedButton = (borderSharedValue: SharedValue<number>) => {
 		const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]
 
 		return (eventName?: EventName) =>
-			createSharedValueAnimator(borderSharedValue)(
+			animateSharedValueTo(borderSharedValue)(
 				eventName === EVENT_NAME.FOCUS ? borderColorInputRanges[2] : value
 			)
 	}
@@ -122,11 +117,11 @@ export const animateButton = ({
 		(eventName?: EventName) => {
 			if (type === BUTTON_TYPE.OUTLINED) {
 				animateOutlinedButton(borderSharedValue)(eventName)
-				createSharedValueAnimator(colorSharedValue)(toValue)
+				animateSharedValueTo(colorSharedValue)(toValue)
 
 				return
 			}
 
-			createSharedValueAnimator(colorSharedValue)(toValue)
+			animateSharedValueTo(colorSharedValue)(toValue)
 		}
 }

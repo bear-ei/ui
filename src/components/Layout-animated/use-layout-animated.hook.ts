@@ -110,9 +110,10 @@ export const useLayoutAnimated = ({
 		() =>
 			animateLayoutAnimated({
 				createEntrySharedValueAnimator,
-				createExitSharedValueAnimator
+				createExitSharedValueAnimator,
+				animatedType
 			})(containerSharedValue),
-		[containerSharedValue, createEntrySharedValueAnimator, createExitSharedValueAnimator]
+		[animatedType, containerSharedValue, createEntrySharedValueAnimator, createExitSharedValueAnimator]
 	)
 
 	useEffect(() => {

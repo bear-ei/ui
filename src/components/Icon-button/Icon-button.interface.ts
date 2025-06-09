@@ -1,7 +1,7 @@
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
-import type {CreateSharedValueAnimator, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {CommonProps, EventName} from '../Common'
 import type {TouchableProps} from '../Touchable'
 import type {ICON_BUTTON_TYPE} from './Icon-button.enum'
@@ -42,7 +42,7 @@ export interface RenderIconButtonIconOptions
 export type HandleIconButtonStateChangeOptions = HandleStateEventChangeOptions
 export type UseIconButtonAnimatedOptions = Pick<RenderIconButtonProps, 'disabled' | 'type'>
 export interface AnimateIconButtonOptions extends Pick<UseIconButtonAnimatedOptions, 'type'> {
-	createSharedValueAnimator: CreateSharedValueAnimator
+	animateSharedValueTo: AnimateSharedValueTo
 }
 
 export interface AnimateIconButtonSharedValues {

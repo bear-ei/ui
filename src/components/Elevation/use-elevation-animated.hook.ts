@@ -14,7 +14,7 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
 	const theme = useTheme()
 	const {elevation} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const inputRanges = useMemo(() => [0, 1, 2, 3, 4, 5], [])
 	const shadowOpacityOutputRanges = useMemo(
 		() => [
@@ -142,8 +142,8 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
 	})
 
 	const runAnimate = useMemo(
-		() => animateElevation(createSharedValueAnimator)(shadowSharedValue),
-		[createSharedValueAnimator, shadowSharedValue]
+		() => animateElevation(animateSharedValueTo)(shadowSharedValue),
+		[animateSharedValueTo, shadowSharedValue]
 	)
 
 	useEffect(() => {

@@ -4,6 +4,7 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
+import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import type {
 	AnimateLayoutAnimatedOptions,
 	FinalizeLayoutAnimatedVisibilityChangeOptions,
@@ -94,9 +95,17 @@ export const updateLayoutAnimatedStatus =
 		})
 
 export const animateLayoutAnimated =
-	({createEntrySharedValueAnimator, createExitSharedValueAnimator}: AnimateLayoutAnimatedOptions) =>
+	({createEntrySharedValueAnimator, createExitSharedValueAnimator, animatedType}: AnimateLayoutAnimatedOptions) =>
 	(containerSharedValue: SharedValue<number>) =>
-	(visible?: boolean) =>
-		typeof visible === 'boolean' && visible ?
+	(visible?: boolean) => {
+		if (animatedType === LAYOUT_ANIMATED.STANDARD) {
+			return
+		}
+
+		if (typeof visible === 'boolean' && visible) {
 			createEntrySharedValueAnimator(containerSharedValue)(1)
-		:	createExitSharedValueAnimator(containerSharedValue)(0)
+			return
+		}
+
+		createExitSharedValueAnimator(containerSharedValue)(0)
+	}

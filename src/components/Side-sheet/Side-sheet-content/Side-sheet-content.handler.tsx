@@ -1,8 +1,8 @@
 import type {SharedValue} from 'react-native-reanimated'
-import type {CreateSharedValueAnimator} from '../../../hooks'
+import type {AnimateSharedValueTo} from '../../../hooks'
 
 export const animateSideSheetContent =
-	(createSharedValueAnimator: CreateSharedValueAnimator) =>
+	(animateSharedValueTo: AnimateSharedValueTo) =>
 	(backgroundColorSharedValue: SharedValue<number>) =>
 	(visible?: boolean) => {
 		if (typeof visible !== 'boolean') {
@@ -11,5 +11,5 @@ export const animateSideSheetContent =
 
 		const toValue = visible ? 1 : 0
 
-		createSharedValueAnimator(backgroundColorSharedValue)(toValue)
+		animateSharedValueTo(backgroundColorSharedValue)(toValue)
 	}

@@ -21,13 +21,13 @@ export const useVirtualListAnimated = ({
 	const theme = useTheme()
 	const animatedRef = useAnimatedRef<Animated.ScrollView>()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming({duration: DURATION.SHORT_2}), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming({duration: DURATION.SHORT_2}), [animatedTiming])
 	const contentHeightSharedValue = useSharedValue(contentSize)
 	const scrollYSharedValue = useSharedValue(0)
 	const contentAnimatedStyle = useAnimatedStyle(() => ({minHeight: contentHeightSharedValue.value}))
 	const runAnimate = useMemo(
-		() => animateVirtualList(createSharedValueAnimator)(contentHeightSharedValue),
-		[contentHeightSharedValue, createSharedValueAnimator]
+		() => animateVirtualList(animateSharedValueTo)(contentHeightSharedValue),
+		[contentHeightSharedValue, animateSharedValueTo]
 	)
 
 	useDerivedValue(() => scrollTo(animatedRef, focusedIndex * itemSize, scrollYSharedValue.value, true))

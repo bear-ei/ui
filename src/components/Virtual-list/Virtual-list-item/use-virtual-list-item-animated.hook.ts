@@ -9,12 +9,12 @@ import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interf
 export const useVirtualListItemAnimated = ({offsetY = 0}: UseVirtualListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming({duration: DURATION.SHORT_2}), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming({duration: DURATION.SHORT_2}), [animatedTiming])
 	const topSharedValue = useSharedValue(offsetY)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({top: topSharedValue.value}))
 	const runAnimate = useMemo(
-		() => animateVirtualListItem(createSharedValueAnimator)(topSharedValue),
-		[createSharedValueAnimator, topSharedValue]
+		() => animateVirtualListItem(animateSharedValueTo)(topSharedValue),
+		[animateSharedValueTo, topSharedValue]
 	)
 
 	useEffect(() => {

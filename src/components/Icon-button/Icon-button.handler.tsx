@@ -43,17 +43,17 @@ export const getButtonUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const animateIconButton =
-	({createSharedValueAnimator, type}: AnimateIconButtonOptions) =>
+	({animateSharedValueTo, type}: AnimateIconButtonOptions) =>
 	({borderSharedValue, colorSharedValue}: AnimateIconButtonSharedValues) =>
 	(disabled?: boolean) => {
 		const toValue = disabled ? 0 : 1
 
 		if (type === ICON_BUTTON_TYPE.OUTLINED) {
-			createSharedValueAnimator(borderSharedValue)(toValue)
-			createSharedValueAnimator(colorSharedValue)(toValue)
+			animateSharedValueTo(borderSharedValue)(toValue)
+			animateSharedValueTo(colorSharedValue)(toValue)
 
 			return
 		}
 
-		createSharedValueAnimator(colorSharedValue)(toValue)
+		animateSharedValueTo(colorSharedValue)(toValue)
 	}

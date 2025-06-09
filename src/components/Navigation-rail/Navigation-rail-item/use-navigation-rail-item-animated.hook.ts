@@ -10,7 +10,7 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
 	const theme = useTheme()
 	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const contentTranslateYSharedValue = useSharedValue(active ? 1 : 0)
 	const labelTextSharedValue = useSharedValue(active ? 1 : 0)
 	const labelTextColorOutputRanges = useMemo(
@@ -41,11 +41,11 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
 
 	const runAnimate = useMemo(
 		() =>
-			animateNavigationRailItem({createSharedValueAnimator, type})({
+			animateNavigationRailItem({animateSharedValueTo, type})({
 				contentTranslateYSharedValue,
 				labelTextSharedValue
 			}),
-		[createSharedValueAnimator, contentTranslateYSharedValue, labelTextSharedValue, type]
+		[animateSharedValueTo, contentTranslateYSharedValue, labelTextSharedValue, type]
 	)
 
 	useEffect(() => {

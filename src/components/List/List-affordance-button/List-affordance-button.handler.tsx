@@ -1,6 +1,6 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {CreateSharedValueAnimator, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import {EVENT_NAME} from '../../Common'
 import type {ListAffordanceButtonState} from './List-affordance-button.interface'
 
@@ -18,7 +18,7 @@ export const handleListAffordanceButtonStateChange =
 	}
 
 export const animateListAffordanceButton =
-	(createSharedValueAnimator: CreateSharedValueAnimator) =>
+	(animateSharedValueTo: AnimateSharedValueTo) =>
 	(colorSharedValue: SharedValue<number>) =>
 	(disabled?: boolean) =>
-		createSharedValueAnimator(colorSharedValue)(disabled ? 0 : 1)
+		animateSharedValueTo(colorSharedValue)(disabled ? 0 : 1)

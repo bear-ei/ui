@@ -5,7 +5,7 @@ import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {
 	AnimatedTimingOptions,
-	CreateSharedValueAnimator,
+	AnimateSharedValueTo,
 	HandleStateEventChangeOptions,
 	InteractionHandlers
 } from '../../hooks'
@@ -77,9 +77,9 @@ export interface UseLayoutAnimatedOptions
 }
 
 export type UpdateLayoutAnimatedStatusOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>
-export interface AnimateLayoutAnimatedOptions {
-	createEntrySharedValueAnimator: CreateSharedValueAnimator
-	createExitSharedValueAnimator: CreateSharedValueAnimator
+export interface AnimateLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 'animatedType'> {
+	createEntrySharedValueAnimator: AnimateSharedValueTo
+	createExitSharedValueAnimator: AnimateSharedValueTo
 }
 
 export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>

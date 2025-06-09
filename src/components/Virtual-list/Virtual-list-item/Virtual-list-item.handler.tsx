@@ -1,6 +1,6 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {CreateSharedValueAnimator} from '../../../hooks'
+import type {AnimateSharedValueTo} from '../../../hooks'
 import {COMPONENT_STATUS} from '../../Common'
 import type {VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
 
@@ -27,10 +27,8 @@ export const triggerVirtualListItemUnmount = (onUnmount?: (indexKey?: string) =>
 	onUnmount?.(indexKey)
 
 export const animateVirtualListItem =
-	(createSharedValueAnimator: CreateSharedValueAnimator) =>
-	(topSharedValue: SharedValue<number>) =>
-	(offsetY: number) =>
-		createSharedValueAnimator(topSharedValue)(offsetY)
+	(animateSharedValueTo: AnimateSharedValueTo) => (topSharedValue: SharedValue<number>) => (offsetY: number) =>
+		animateSharedValueTo(topSharedValue)(offsetY)
 
 export const updateVirtualListItemStatus = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {

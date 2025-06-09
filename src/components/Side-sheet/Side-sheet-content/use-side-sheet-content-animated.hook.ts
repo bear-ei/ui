@@ -15,7 +15,7 @@ export const useSideSheetContentAnimated = ({
 	const theme = useTheme()
 	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const backgroundColorSharedValue = useSharedValue(animatedValue)
 	const sideSheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const
 	const isStandard = sideSheetTypes.includes(type as (typeof sideSheetTypes)[number])
@@ -36,8 +36,8 @@ export const useSideSheetContentAnimated = ({
 	}))
 
 	const runAnimate = useMemo(
-		() => animateSideSheetContent(createSharedValueAnimator)(backgroundColorSharedValue),
-		[backgroundColorSharedValue, createSharedValueAnimator]
+		() => animateSideSheetContent(animateSharedValueTo)(backgroundColorSharedValue),
+		[backgroundColorSharedValue, animateSharedValueTo]
 	)
 
 	useEffect(() => {

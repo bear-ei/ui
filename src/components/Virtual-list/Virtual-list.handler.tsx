@@ -3,7 +3,7 @@ import type {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSynthe
 import {Platform} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {CreateSharedValueAnimator, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import type {ListData} from '../List'
 import type {
@@ -189,7 +189,7 @@ export const updateVirtualListVisibilityRangeData =
 		})
 
 export const animateVirtualList =
-	(createSharedValueAnimator: CreateSharedValueAnimator) =>
+	(animateSharedValueTo: AnimateSharedValueTo) =>
 	(contentHeightSharedValue: SharedValue<number>) =>
 	(contentSize: number) =>
-		createSharedValueAnimator(contentHeightSharedValue)(contentSize)
+		animateSharedValueTo(contentHeightSharedValue)(contentSize)

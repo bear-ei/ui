@@ -16,7 +16,7 @@ export const useButtonAnimated = ({
 	const theme = useTheme()
 	const {scheme, spacing, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const animatedValue = disabled ? 0 : 1
 	const borderSharedValue = useSharedValue(animatedValue)
 	const colorSharedValue = useSharedValue(animatedValue)
@@ -197,11 +197,11 @@ export const useButtonAnimated = ({
 
 	const runAnimate = useMemo(
 		() =>
-			animateButton({createSharedValueAnimator, borderColorInputRanges, type, disabled})({
+			animateButton({animateSharedValueTo, borderColorInputRanges, type, disabled})({
 				borderSharedValue,
 				colorSharedValue
 			}),
-		[borderColorInputRanges, borderSharedValue, colorSharedValue, createSharedValueAnimator, disabled, type]
+		[borderColorInputRanges, borderSharedValue, colorSharedValue, animateSharedValueTo, disabled, type]
 	)
 
 	useEffect(() => {

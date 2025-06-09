@@ -10,6 +10,7 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
 			size: rawSize,
 			renderProgressActiveIndicatorCircular,
 			strokeWidth: rawStrokeWidth,
+			enableAnimated,
 			...renderProgressActiveIndicatorCircularProps
 		},
 		ref
@@ -21,7 +22,8 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
 		const radius = (size - strokeWidth) / 2
 		const circumference = 2 * Math.PI * radius
 		const {containerAnimatedStyle, circleAnimatedProps} = useProgressActiveIndicatorCircularAnimated({
-			circumference
+			circumference,
+			enableAnimated
 		})
 
 		return renderProgressActiveIndicatorCircular({

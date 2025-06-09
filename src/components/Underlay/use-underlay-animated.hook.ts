@@ -29,7 +29,7 @@ export const useUnderlayAnimated = ({
 	const hoverLayerSharedValue = useSharedValue(0)
 	const activeLayerSharedValue = useSharedValue(typeof active === 'boolean' ? defaultScaleValue : 0)
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const opacityInputRanges = useMemo(() => opacities.map((_value, index) => index), [opacities])
 	const hoverLayerAnimatedStyle = useAnimatedStyle(() => ({
 		opacity: interpolate(hoverLayerSharedValue.value, opacityInputRanges, opacities)
@@ -87,17 +87,15 @@ export const useUnderlayAnimated = ({
 
 	const runAnimateHoverState = useMemo(
 		() =>
-			debounce(
-				animateUnderlayHoverState({activeValue, createSharedValueAnimator})(
-					hoverLayerSharedValue
-				)
-			)(50),
-		[createSharedValueAnimator, activeValue, hoverLayerSharedValue]
+			debounce(animateUnderlayHoverState({activeValue, animateSharedValueTo})(hoverLayerSharedValue))(
+				50
+			),
+		[animateSharedValueTo, activeValue, hoverLayerSharedValue]
 	)
 
 	const runAnimateActiveState = useMemo(
-		() => animateUnderlayActiveState(createSharedValueAnimator)(activeLayerSharedValue),
-		[createSharedValueAnimator, activeLayerSharedValue]
+		() => animateUnderlayActiveState(animateSharedValueTo)(activeLayerSharedValue),
+		[animateSharedValueTo, activeLayerSharedValue]
 	)
 
 	useEffect(() => {

@@ -1,4 +1,5 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {cloneElement} from 'react'
 import type {ViewStyle} from 'react-native'
 import {ScrollView} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -120,15 +121,18 @@ export const renderVirtualList = <T,>({
 							testID={`virtualList__loadingContentLayout--${id}`}
 							visible={isLoadingVisible}
 						>
-							{loadingElement ?? (
-								<SupportingText
+							{loadingElement ?
+								cloneElement(loadingElement, {
+									loading: isLoadingVisible
+								})
+							:	<SupportingText
 									size={SIZE.MEDIUM}
 									testID={`virtualList__supportingText--${id}`}
 									type={TYPOGRAPHY.BODY}
 								>
 									Loading
 								</SupportingText>
-							)}
+							}
 						</LoadingContentLayout>
 					</AnimatedContent>
 				</AnimatedScrollView>

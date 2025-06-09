@@ -1,12 +1,9 @@
 import type {SharedValue} from 'react-native-reanimated'
-import type {CreateSharedValueAnimator} from '../../hooks'
+import type {AnimateSharedValueTo} from '../../hooks'
 import {EVENT_NAME, type EventName} from '../Common'
 import type {AnimateUnderlayHoverStateOptions} from './Underlay.interface'
 
-export const animateUnderlayHoverState = ({
-	createSharedValueAnimator,
-	activeValue
-}: AnimateUnderlayHoverStateOptions) => {
+export const animateUnderlayHoverState = ({animateSharedValueTo, activeValue}: AnimateUnderlayHoverStateOptions) => {
 	const event = {
 		[EVENT_NAME.BLUR]: 0,
 		[EVENT_NAME.FOCUS]: activeValue,
@@ -24,11 +21,11 @@ export const animateUnderlayHoverState = ({
 	return (hoverLayerSharedValue: SharedValue<number>) => (eventName?: EventName) =>
 		eventName &&
 		eventKeys.includes(eventName) &&
-		createSharedValueAnimator(hoverLayerSharedValue)(event[eventName])
+		animateSharedValueTo(hoverLayerSharedValue)(event[eventName])
 }
 
 export const animateUnderlayActiveState =
-	(createSharedValueAnimator: CreateSharedValueAnimator) =>
+	(animateSharedValueTo: AnimateSharedValueTo) =>
 	(activeLayerSharedValue: SharedValue<number>) =>
 	(active?: boolean) =>
-		typeof active === 'boolean' && createSharedValueAnimator(activeLayerSharedValue)(active ? 1 : 0)
+		typeof active === 'boolean' && animateSharedValueTo(activeLayerSharedValue)(active ? 1 : 0)

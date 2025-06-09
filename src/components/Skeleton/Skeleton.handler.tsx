@@ -1,4 +1,4 @@
-import type {SharedValue} from 'react-native-reanimated'
+import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import {debounce} from '../../utils'
 import type {AnimateSkeletonOptions, SkeletonState} from './Skeleton.interface'
@@ -30,7 +30,18 @@ export const updateSkeletonDuration = (setState: Updater<SkeletonState>) => (dur
 	updateSkeletonVisibility(setState)(duration)
 
 export const animateSkeleton =
-	({createSharedValueAnimator, enableAnimated}: AnimateSkeletonOptions) =>
+	({animateSharedValueTo, enableAnimated}: AnimateSkeletonOptions) =>
 	(opacitySharedValue: SharedValue<number>) =>
-	(visible?: boolean) =>
-		enableAnimated && visible && createSharedValueAnimator(opacitySharedValue)(2)
+	(visible?: boolean) => {
+		if (!enableAnimated) {
+			return
+		}
+
+		if (visible) {
+			animateSharedValueTo(opacitySharedValue)(2)
+
+			return
+		}
+
+		cancelAnimation(opacitySharedValue)
+	}

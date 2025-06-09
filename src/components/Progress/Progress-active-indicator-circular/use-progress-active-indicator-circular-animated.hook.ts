@@ -10,11 +10,12 @@ import {
 import type {UseProgressActiveIndicatorCircularAnimatedOptions} from './Progress-active-indicator-circular.interface'
 
 export const useProgressActiveIndicatorCircularAnimated = ({
-	circumference
+	circumference,
+	enableAnimated
 }: UseProgressActiveIndicatorCircularAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const createSharedValueAnimator = useMemo(
+	const animateSharedValueTo = useMemo(
 		() => animatedTiming({repeat: 0, duration: 2000, easing: EASING.LINEAR}),
 		[animatedTiming]
 	)
@@ -40,16 +41,16 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 
 	const runAnimate = useMemo(
 		() =>
-			animateProgressActiveIndicatorCircular(createSharedValueAnimator)({
+			animateProgressActiveIndicatorCircular(animateSharedValueTo)({
 				circleSharedValue,
 				containerSharedValue
 			}),
-		[createSharedValueAnimator, circleSharedValue, containerSharedValue]
+		[animateSharedValueTo, circleSharedValue, containerSharedValue]
 	)
 
 	useEffect(() => {
-		runAnimate(2)
-	}, [runAnimate])
+		runAnimate(enableAnimated)
+	}, [enableAnimated, runAnimate])
 
 	useEffect(
 		() => () => {

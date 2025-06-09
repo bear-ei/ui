@@ -1,8 +1,6 @@
 import type {SharedValue} from 'react-native-reanimated'
-import type {CreateSharedValueAnimator} from '../../../hooks'
+import type {AnimateSharedValueTo} from '../../../hooks'
 
 export const animateProgressActiveIndicatorLinear =
-	(createSharedValueAnimator: CreateSharedValueAnimator) =>
-	(widthSharedValue: SharedValue<number>) =>
-	(value?: number) =>
-		typeof value === 'number' && createSharedValueAnimator(widthSharedValue)(value)
+	(animateSharedValueTo: AnimateSharedValueTo) => (widthSharedValue: SharedValue<number>) => (value?: number) =>
+		typeof value === 'number' && animateSharedValueTo(widthSharedValue)(value)

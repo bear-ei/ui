@@ -2,7 +2,7 @@ import type {RefAttributes} from 'react'
 import type {PressableProps, TextStyle, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
-import type {CreateSharedValueAnimator, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {EventName, TypographyProps} from '../../Common'
 import type {NavigationRailProps} from '../Navigation-rail.interface'
 
@@ -44,7 +44,7 @@ export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigat
 }
 
 export interface AnimateNavigationRailItemOptions extends UseNavigationRailItemAnimatedOptions {
-	createSharedValueAnimator: CreateSharedValueAnimator
+	animateSharedValueTo: AnimateSharedValueTo
 }
 
 export interface AnimateNavigationRailItemSharedValues {
