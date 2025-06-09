@@ -2,7 +2,7 @@ import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {createDeferredHandler} from '../../utils'
+import {debounce} from '../../utils'
 import {ACTIVE_ANIMATED} from './Underlay.enum'
 import {animateUnderlayActiveState, animateUnderlayHoverState} from './Underlay.handler'
 import type {UseUnderlayAnimatedOptions} from './Underlay.interface'
@@ -29,6 +29,7 @@ export const useUnderlayAnimated = ({
 	const hoverLayerSharedValue = useSharedValue(0)
 	const activeLayerSharedValue = useSharedValue(typeof active === 'boolean' ? defaultScaleValue : 0)
 	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
 	const opacityInputRanges = useMemo(() => opacities.map((_value, index) => index), [opacities])
 	const hoverLayerAnimatedStyle = useAnimatedStyle(() => ({
 		opacity: interpolate(hoverLayerSharedValue.value, opacityInputRanges, opacities)
@@ -86,15 +87,17 @@ export const useUnderlayAnimated = ({
 
 	const runAnimateHoverState = useMemo(
 		() =>
-			createDeferredHandler(
-				animateUnderlayHoverState({activeValue, animatedTiming})(hoverLayerSharedValue)
-			)({debounceMillisecond: 50, enableInteractionManager: false}),
-		[animatedTiming, activeValue, hoverLayerSharedValue]
+			debounce(
+				animateUnderlayHoverState({activeValue, createSharedValueAnimator})(
+					hoverLayerSharedValue
+				)
+			)(50),
+		[createSharedValueAnimator, activeValue, hoverLayerSharedValue]
 	)
 
 	const runAnimateActiveState = useMemo(
-		() => animateUnderlayActiveState(animatedTiming)(activeLayerSharedValue),
-		[animatedTiming, activeLayerSharedValue]
+		() => animateUnderlayActiveState(createSharedValueAnimator)(activeLayerSharedValue),
+		[createSharedValueAnimator, activeLayerSharedValue]
 	)
 
 	useEffect(() => {

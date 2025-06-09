@@ -1,13 +1,12 @@
-import {EASING} from '@bearei/material-token'
-import type {AnimatedTiming} from '../../../hooks'
+import type {CreateSharedValueAnimator} from '../../../hooks'
 import type {AnimateProgressActiveIndicatorCircularSharedValues} from './Progress-active-indicator-circular.interface'
 
 export const animateProgressActiveIndicatorCircular =
-	(animatedTiming: AnimatedTiming) =>
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
 	({containerSharedValue, circleSharedValue}: AnimateProgressActiveIndicatorCircularSharedValues) =>
 	(value: number) => {
-		animatedTiming({repeat: 0, duration: 2000, easing: EASING.LINEAR})(circleSharedValue)(value)
-		animatedTiming({repeat: 0, duration: 2000, easing: EASING.LINEAR})(containerSharedValue)(value)
+		createSharedValueAnimator(circleSharedValue)(value)
+		createSharedValueAnimator(containerSharedValue)(value)
 	}
 
 export const computeProgressStrokeDashoffset = (circumference: number) => (value: number) => circumference * (1 - value)

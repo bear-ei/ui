@@ -15,14 +15,32 @@ export const useLayoutAnimated = ({
 	onAnimationFinished,
 	opacity: rawOpacity,
 	scale,
+	translate,
 	visible,
-	width,
-	translate
+	width
 }: UseLayoutAnimatedOptions) => {
 	const containerSharedValue = useSharedValue(visible ? 1 : 0)
 	const theme = useTheme()
 	const opacity = rawOpacity ?? theme.token.opacity.level10
 	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const createEntrySharedValueAnimator = useMemo(
+		() =>
+			animatedTiming({
+				...entry,
+				callback: (finished?: boolean) => finished && onAnimationFinished?.(true)
+			}),
+		[animatedTiming, entry, onAnimationFinished]
+	)
+
+	const createExitSharedValueAnimator = useMemo(
+		() =>
+			animatedTiming({
+				...exit,
+				callback: (finished?: boolean) => finished && onAnimationFinished?.(false)
+			}),
+		[animatedTiming, exit, onAnimationFinished]
+	)
+
 	const opacityOutputRanges = useMemo(
 		() => [theme.adaptSize(theme.token.spacing.none), opacity],
 		[opacity, theme]
@@ -89,8 +107,12 @@ export const useLayoutAnimated = ({
 	)
 
 	const runAnimate = useMemo(
-		() => animateLayoutAnimated({animatedTiming, entry, exit, onAnimationFinished})(containerSharedValue),
-		[animatedTiming, containerSharedValue, entry, exit, onAnimationFinished]
+		() =>
+			animateLayoutAnimated({
+				createEntrySharedValueAnimator,
+				createExitSharedValueAnimator
+			})(containerSharedValue),
+		[containerSharedValue, createEntrySharedValueAnimator, createExitSharedValueAnimator]
 	)
 
 	useEffect(() => {

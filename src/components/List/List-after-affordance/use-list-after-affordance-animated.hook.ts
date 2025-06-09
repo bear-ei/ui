@@ -10,6 +10,7 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
 	const theme = useTheme()
 	const {spacing} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
 	const dangerTranslateXOutputRanges = useMemo(
 		() => [theme.adaptSize(spacing.none), -(theme.adaptSize(spacing.extraSmall * 34) / 2)],
 		[spacing.extraSmall, spacing.none, theme]
@@ -28,8 +29,8 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed}: UseListAfterAf
 	}))
 
 	const runAnimate = useMemo(
-		() => animateListAfterAffordance(animatedTiming)(translateXSharedValue),
-		[animatedTiming, translateXSharedValue]
+		() => animateListAfterAffordance(createSharedValueAnimator)(translateXSharedValue),
+		[createSharedValueAnimator, translateXSharedValue]
 	)
 
 	useEffect(() => {

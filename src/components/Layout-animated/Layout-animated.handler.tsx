@@ -94,11 +94,9 @@ export const updateLayoutAnimatedStatus =
 		})
 
 export const animateLayoutAnimated =
-	({animatedTiming, onAnimationFinished, entry, exit}: AnimateLayoutAnimatedOptions) =>
+	({createEntrySharedValueAnimator, createExitSharedValueAnimator}: AnimateLayoutAnimatedOptions) =>
 	(containerSharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
-		typeof visible === 'boolean' &&
-		animatedTiming({
-			...(visible ? entry : exit),
-			callback: (finished?: boolean) => finished && onAnimationFinished?.(visible)
-		})(containerSharedValue)(visible ? 1 : 0)
+		typeof visible === 'boolean' && visible ?
+			createEntrySharedValueAnimator(containerSharedValue)(1)
+		:	createExitSharedValueAnimator(containerSharedValue)(0)

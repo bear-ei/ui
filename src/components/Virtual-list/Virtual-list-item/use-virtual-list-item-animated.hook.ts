@@ -1,3 +1,4 @@
+import {DURATION} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -8,11 +9,12 @@ import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interf
 export const useVirtualListItemAnimated = ({offsetY = 0}: UseVirtualListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const createSharedValueAnimator = useMemo(() => animatedTiming({duration: DURATION.SHORT_2}), [animatedTiming])
 	const topSharedValue = useSharedValue(offsetY)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({top: topSharedValue.value}))
 	const runAnimate = useMemo(
-		() => animateVirtualListItem(animatedTiming)(topSharedValue),
-		[animatedTiming, topSharedValue]
+		() => animateVirtualListItem(createSharedValueAnimator)(topSharedValue),
+		[createSharedValueAnimator, topSharedValue]
 	)
 
 	useEffect(() => {

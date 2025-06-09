@@ -2,7 +2,7 @@ import type {WritableDraft} from 'immer'
 import type {SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
-import type {AnimatedTiming, StateEvent} from '../../hooks'
+import type {CreateSharedValueAnimator, StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, STATE} from '../Common'
 import {ELEVATION, type ElevationLevel} from '../Elevation'
 import {FAB_TYPE} from './FAB.enum'
@@ -88,5 +88,7 @@ export const getFABUnderlayColor = (theme: DefaultTheme) => {
 }
 
 export const animateFAB =
-	(animatedTiming: AnimatedTiming) => (colorSharedValue: SharedValue<number>) => (disabled?: boolean) =>
-		animatedTiming()(colorSharedValue)(disabled ? 0 : 1)
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
+	(colorSharedValue: SharedValue<number>) =>
+	(disabled?: boolean) =>
+		createSharedValueAnimator(colorSharedValue)(disabled ? 0 : 1)

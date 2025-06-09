@@ -1,7 +1,6 @@
-import {DURATION} from '@bearei/material-token'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {AnimatedTiming} from '../../../hooks'
+import type {CreateSharedValueAnimator} from '../../../hooks'
 import {COMPONENT_STATUS} from '../../Common'
 import type {VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
 
@@ -28,8 +27,10 @@ export const triggerVirtualListItemUnmount = (onUnmount?: (indexKey?: string) =>
 	onUnmount?.(indexKey)
 
 export const animateVirtualListItem =
-	(animatedTiming: AnimatedTiming) => (topSharedValue: SharedValue<number>) => (offsetY: number) =>
-		animatedTiming({duration: DURATION.SHORT_2})(topSharedValue)(offsetY)
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
+	(topSharedValue: SharedValue<number>) =>
+	(offsetY: number) =>
+		createSharedValueAnimator(topSharedValue)(offsetY)
 
 export const updateVirtualListItemStatus = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {

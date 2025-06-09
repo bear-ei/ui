@@ -1,10 +1,9 @@
-import {DURATION} from '@bearei/material-token'
 import type {WritableDraft} from 'immer'
 import type {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
 import {Platform} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import type {CreateSharedValueAnimator, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import type {ListData} from '../List'
 import type {
@@ -190,5 +189,7 @@ export const updateVirtualListVisibilityRangeData =
 		})
 
 export const animateVirtualList =
-	(animatedTiming: AnimatedTiming) => (contentHeightSharedValue: SharedValue<number>) => (contentSize: number) =>
-		animatedTiming({duration: DURATION.SHORT_2})(contentHeightSharedValue)(contentSize)
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
+	(contentHeightSharedValue: SharedValue<number>) =>
+	(contentSize: number) =>
+		createSharedValueAnimator(contentHeightSharedValue)(contentSize)

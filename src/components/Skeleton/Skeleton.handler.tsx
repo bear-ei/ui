@@ -1,4 +1,3 @@
-import {EASING} from '@bearei/material-token'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import {debounce} from '../../utils'
@@ -31,9 +30,7 @@ export const updateSkeletonDuration = (setState: Updater<SkeletonState>) => (dur
 	updateSkeletonVisibility(setState)(duration)
 
 export const animateSkeleton =
-	({animatedTiming, enableAnimated}: AnimateSkeletonOptions) =>
+	({createSharedValueAnimator, enableAnimated}: AnimateSkeletonOptions) =>
 	(opacitySharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
-		enableAnimated &&
-		visible &&
-		animatedTiming({repeat: 0, duration: 2000, easing: EASING.LINEAR})(opacitySharedValue)(2)
+		enableAnimated && visible && createSharedValueAnimator(opacitySharedValue)(2)

@@ -4,8 +4,8 @@ import type {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {
-	AnimatedTiming,
 	AnimatedTimingOptions,
+	CreateSharedValueAnimator,
 	HandleStateEventChangeOptions,
 	InteractionHandlers
 } from '../../hooks'
@@ -77,9 +77,9 @@ export interface UseLayoutAnimatedOptions
 }
 
 export type UpdateLayoutAnimatedStatusOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>
-export interface AnimateLayoutAnimatedOptions
-	extends Pick<UseLayoutAnimatedOptions, 'onAnimationFinished' | 'entry' | 'exit'> {
-	animatedTiming: AnimatedTiming
+export interface AnimateLayoutAnimatedOptions {
+	createEntrySharedValueAnimator: CreateSharedValueAnimator
+	createExitSharedValueAnimator: CreateSharedValueAnimator
 }
 
 export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>

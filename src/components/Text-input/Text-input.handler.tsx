@@ -1,6 +1,6 @@
 import type {NativeSyntheticEvent, TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import type {Updater} from 'use-immer'
-import type {AnimatedTiming, StateEvent} from '../../hooks'
+import type {CreateSharedValueAnimator, StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName, type State} from '../Common'
 import type {
 	AnimateTextInputNonErrorStateTimingOptions,
@@ -130,7 +130,7 @@ export const blurTextInputIfEditable = (ref: React.RefObject<TextInput>) => (edi
 
 export const focusTextInput = (ref: React.RefObject<TextInput>) => () => ref?.current?.focus()
 export const createAnimateTextInputEnabledState =
-	(animatedTiming: AnimatedTiming) =>
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
 	({
 		activeIndicatorScaleYSharedValue,
 		colorSharedValue,
@@ -140,18 +140,18 @@ export const createAnimateTextInputEnabledState =
 	}: CreateTextInputEnabledSharedValues) =>
 	({filledToValue, error}: CreateTextInputEnabledStateOptions) => {
 		if (error) {
-			return animatedTiming()(labelTextSharedValue)(filledToValue)
+			return createSharedValueAnimator(labelTextSharedValue)(filledToValue)
 		}
 
-		animatedTiming()(activeIndicatorScaleYSharedValue)(0)
-		animatedTiming()(colorSharedValue)(1)
-		animatedTiming()(inputColorSharedValue)(1)
-		animatedTiming()(labelTextSharedValue)(filledToValue)
-		animatedTiming()(supportingTextSharedValue)(1)
+		createSharedValueAnimator(activeIndicatorScaleYSharedValue)(0)
+		createSharedValueAnimator(colorSharedValue)(1)
+		createSharedValueAnimator(inputColorSharedValue)(1)
+		createSharedValueAnimator(labelTextSharedValue)(filledToValue)
+		createSharedValueAnimator(supportingTextSharedValue)(1)
 	}
 
 export const createAnimateTextInputDisabledState =
-	(animatedTiming: AnimatedTiming) =>
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
 	({
 		activeIndicatorScaleYSharedValue,
 		colorSharedValue,
@@ -161,29 +161,29 @@ export const createAnimateTextInputDisabledState =
 	}: CreateTextInputDisabledSharedValues) => {
 		const toValue = 0
 
-		animatedTiming()(activeIndicatorScaleYSharedValue)(toValue)
-		animatedTiming()(colorSharedValue)(toValue)
-		animatedTiming()(headerInnerBackgroundColorSharedValue)(toValue)
-		animatedTiming()(inputColorSharedValue)(1)
-		animatedTiming()(supportingTextSharedValue)(1)
+		createSharedValueAnimator(activeIndicatorScaleYSharedValue)(toValue)
+		createSharedValueAnimator(colorSharedValue)(toValue)
+		createSharedValueAnimator(headerInnerBackgroundColorSharedValue)(toValue)
+		createSharedValueAnimator(inputColorSharedValue)(1)
+		createSharedValueAnimator(supportingTextSharedValue)(1)
 	}
 
 export const createAnimateTextInputErrorState =
-	(animatedTiming: AnimatedTiming) =>
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
 	({
 		activeIndicatorScaleYSharedValue,
 		colorSharedValue,
 		inputColorSharedValue,
 		supportingTextSharedValue
 	}: CreateTextInputErrorSharedValues) => {
-		animatedTiming()(activeIndicatorScaleYSharedValue)(1)
-		animatedTiming()(colorSharedValue)(3)
-		animatedTiming()(inputColorSharedValue)(1)
-		animatedTiming()(supportingTextSharedValue)(2)
+		createSharedValueAnimator(activeIndicatorScaleYSharedValue)(1)
+		createSharedValueAnimator(colorSharedValue)(3)
+		createSharedValueAnimator(inputColorSharedValue)(1)
+		createSharedValueAnimator(supportingTextSharedValue)(2)
 	}
 
 export const createAnimateTextInputFocusedState =
-	(animatedTiming: AnimatedTiming) =>
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
 	({
 		activeIndicatorScaleYSharedValue,
 		colorSharedValue,
@@ -191,12 +191,12 @@ export const createAnimateTextInputFocusedState =
 	}: CreateTextInputFocusedSharedValues) =>
 	(error?: boolean) => {
 		if (error) {
-			return animatedTiming()(labelTextSharedValue)(0)
+			return createSharedValueAnimator(labelTextSharedValue)(0)
 		}
 
-		animatedTiming()(activeIndicatorScaleYSharedValue)(1)
-		animatedTiming()(colorSharedValue)(2)
-		animatedTiming()(labelTextSharedValue)(0)
+		createSharedValueAnimator(activeIndicatorScaleYSharedValue)(1)
+		createSharedValueAnimator(colorSharedValue)(2)
+		createSharedValueAnimator(labelTextSharedValue)(0)
 	}
 
 export const animateTextInputStateTiming = (stateAnimated: TextInputStateAnimated) => (state: State) =>

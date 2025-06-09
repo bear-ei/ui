@@ -1,3 +1,4 @@
+import {DURATION} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import Animated, {
 	cancelAnimation,
@@ -20,12 +21,13 @@ export const useVirtualListAnimated = ({
 	const theme = useTheme()
 	const animatedRef = useAnimatedRef<Animated.ScrollView>()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const createSharedValueAnimator = useMemo(() => animatedTiming({duration: DURATION.SHORT_2}), [animatedTiming])
 	const contentHeightSharedValue = useSharedValue(contentSize)
 	const scrollYSharedValue = useSharedValue(0)
 	const contentAnimatedStyle = useAnimatedStyle(() => ({minHeight: contentHeightSharedValue.value}))
 	const runAnimate = useMemo(
-		() => animateVirtualList(animatedTiming)(contentHeightSharedValue),
-		[animatedTiming, contentHeightSharedValue]
+		() => animateVirtualList(createSharedValueAnimator)(contentHeightSharedValue),
+		[contentHeightSharedValue, createSharedValueAnimator]
 	)
 
 	useDerivedValue(() => scrollTo(animatedRef, focusedIndex * itemSize, scrollYSharedValue.value, true))

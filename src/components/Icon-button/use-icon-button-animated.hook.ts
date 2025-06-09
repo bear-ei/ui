@@ -14,6 +14,7 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
 	const theme = useTheme()
 	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
 	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
 	const backgroundColorType = useMemo(
 		() => ({
@@ -72,8 +73,8 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
 	}))
 
 	const runAnimate = useMemo(
-		() => animateIconButton({animatedTiming, type})({borderSharedValue, colorSharedValue}),
-		[animatedTiming, borderSharedValue, colorSharedValue, type]
+		() => animateIconButton({createSharedValueAnimator, type})({borderSharedValue, colorSharedValue}),
+		[createSharedValueAnimator, borderSharedValue, colorSharedValue, type]
 	)
 
 	useEffect(() => {

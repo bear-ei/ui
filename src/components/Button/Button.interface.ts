@@ -1,6 +1,6 @@
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {CreateSharedValueAnimator, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName} from '../Common'
 import type {ElevationLevel} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
@@ -38,7 +38,7 @@ export type HandleButtonStateChangeOptions = HandleStateEventChangeOptions & Pic
 export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'id'>
 export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName' | 'error'>
 export interface AnimateButtonOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
-	animatedTiming: AnimatedTiming
+	createSharedValueAnimator: CreateSharedValueAnimator
 	borderColorInputRanges: number[]
 }
 

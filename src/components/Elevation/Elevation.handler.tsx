@@ -1,6 +1,8 @@
 import type {SharedValue} from 'react-native-reanimated'
-import type {AnimatedTiming} from '../../hooks'
+import type {CreateSharedValueAnimator} from '../../hooks'
 
 export const animateElevation =
-	(animatedTiming: AnimatedTiming) => (shadowSharedValue: SharedValue<number>) => (level: number) =>
-		animatedTiming()(shadowSharedValue)(level)
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
+	(shadowSharedValue: SharedValue<number>) =>
+	(level: number) =>
+		createSharedValueAnimator(shadowSharedValue)(level)

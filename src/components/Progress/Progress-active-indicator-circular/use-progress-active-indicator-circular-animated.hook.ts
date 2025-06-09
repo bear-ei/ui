@@ -1,3 +1,4 @@
+import {EASING} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -13,6 +14,11 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 }: UseProgressActiveIndicatorCircularAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const createSharedValueAnimator = useMemo(
+		() => animatedTiming({repeat: 0, duration: 2000, easing: EASING.LINEAR}),
+		[animatedTiming]
+	)
+
 	const circleSharedValue = useSharedValue(0)
 	const containerSharedValue = useSharedValue(0)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
@@ -33,8 +39,12 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 	}))
 
 	const runAnimate = useMemo(
-		() => animateProgressActiveIndicatorCircular(animatedTiming)({circleSharedValue, containerSharedValue}),
-		[animatedTiming, circleSharedValue, containerSharedValue]
+		() =>
+			animateProgressActiveIndicatorCircular(createSharedValueAnimator)({
+				circleSharedValue,
+				containerSharedValue
+			}),
+		[createSharedValueAnimator, circleSharedValue, containerSharedValue]
 	)
 
 	useEffect(() => {

@@ -1,3 +1,4 @@
+import {EASING} from '@bearei/material-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -9,6 +10,11 @@ export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimat
 	const opacitySharedValue = useSharedValue(0)
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const createSharedValueAnimator = useMemo(
+		() => animatedTiming({repeat: 0, duration: 2000, easing: EASING.LINEAR}),
+		[animatedTiming]
+	)
+
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
 		opacity: interpolate(
 			opacitySharedValue.value,
@@ -18,8 +24,8 @@ export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimat
 	}))
 
 	const runAnimate = useMemo(
-		() => animateSkeleton({animatedTiming, enableAnimated})(opacitySharedValue),
-		[animatedTiming, enableAnimated, opacitySharedValue]
+		() => animateSkeleton({createSharedValueAnimator, enableAnimated})(opacitySharedValue),
+		[createSharedValueAnimator, enableAnimated, opacitySharedValue]
 	)
 
 	useEffect(() => {

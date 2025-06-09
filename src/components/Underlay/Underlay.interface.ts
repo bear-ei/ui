@@ -1,7 +1,7 @@
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {AnimatedTiming, HandleStateEventChangeOptions} from '../../hooks'
+import type {CreateSharedValueAnimator, HandleStateEventChangeOptions} from '../../hooks'
 import type {EventName, ShapeProps, ShapeType} from '../Common'
 import type {ACTIVE_ANIMATED} from './Underlay.enum'
 
@@ -46,7 +46,7 @@ export interface HandleUnderlayStateChangeOptions extends HandleStateEventChange
 
 export interface AnimateUnderlayHoverStateOptions {
 	activeValue: number
-	animatedTiming: AnimatedTiming
+	createSharedValueAnimator: CreateSharedValueAnimator
 }
 
 export type HoverLayerProps = Pick<RenderUnderlayProps, 'underlayColor'>

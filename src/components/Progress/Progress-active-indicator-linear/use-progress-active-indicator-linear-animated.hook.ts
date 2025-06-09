@@ -2,6 +2,7 @@ import {useEffect, useMemo} from 'react'
 import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
+import {debounce} from '../../../utils'
 import {animateProgressActiveIndicatorLinear} from './Progress-active-indicator-linear.handler'
 import type {UseProgressActiveIndicatorLinearAnimatedOptions} from './Progress-active-indicator-linear.interface'
 
@@ -12,10 +13,11 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 	const scaleXSharedValue = useSharedValue(defaultValue)
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
 	const contentAnimatedStyle = useAnimatedStyle(() => ({transform: [{scaleX: scaleXSharedValue.value}]}))
 	const runAnimate = useMemo(
-		() => animateProgressActiveIndicatorLinear(animatedTiming)(scaleXSharedValue),
-		[animatedTiming, scaleXSharedValue]
+		() => debounce(animateProgressActiveIndicatorLinear(createSharedValueAnimator)(scaleXSharedValue))(50),
+		[createSharedValueAnimator, scaleXSharedValue]
 	)
 
 	useEffect(() => {

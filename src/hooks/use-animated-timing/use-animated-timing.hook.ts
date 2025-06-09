@@ -15,20 +15,17 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 			} = {} as AnimatedTimingOptions
 		) => {
 			const {bezier, duration} = token.animated(easing)(rawDuration)
+			const animate = createAnimatedTiming({...options, bezier, duration})(callback)
 
-			return (sharedValue: SharedValue<number>) => {
-				const animate = createAnimatedTiming({...options, bezier, duration})(callback)
+			return (sharedValue: SharedValue<number>) => (toValue: number) => {
+				'worklet'
 
-				return (toValue: number) => {
-					'worklet'
-
-					if (sharedValue.value === toValue) {
-						return
-					}
-
-					cancelAnimation(sharedValue)
-					sharedValue.value = animate(toValue)
+				if (sharedValue.value === toValue) {
+					return
 				}
+
+				cancelAnimation(sharedValue)
+				sharedValue.value = animate(toValue)
 			}
 		},
 		[token]

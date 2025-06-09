@@ -22,3 +22,5 @@ export interface AnimatedTimingOptions extends Omit<WithTimingConfig, 'duration'
 export type AnimatedTiming = (
 	options?: AnimatedTimingOptions
 ) => (sharedValue: SharedValue<number>) => (toValue: number) => void
+
+export type CreateSharedValueAnimator = (sharedValue: SharedValue<number>) => (toValue: number) => void

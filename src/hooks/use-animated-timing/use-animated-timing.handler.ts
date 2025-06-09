@@ -7,11 +7,7 @@ export const createAnimatedTiming = ({duration, repeat, bezier, ...config}: Crea
 
 		const animation = withTiming(
 			toValue,
-			{
-				...config,
-				duration,
-				easing: Easing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1)
-			},
+			{...config, duration, easing: Easing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1)},
 			finished => {
 				'worklet'
 

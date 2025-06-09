@@ -1,6 +1,6 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {AnimatedTiming, StateEvent} from '../../../hooks'
+import type {CreateSharedValueAnimator, StateEvent} from '../../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../Common'
 import type {ListItemAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from '../List.enum'
@@ -223,9 +223,13 @@ export const updateListItemAfterAffordanceExpanded = (setState: Updater<ListItem
 	})
 
 export const animateListItemAffordanceVisibility =
-	(animatedTiming: AnimatedTiming) => (contentLeftSharedValue: SharedValue<number>) => (visible?: boolean) =>
-		animatedTiming()(contentLeftSharedValue)(visible ? 1 : 0)
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
+	(contentLeftSharedValue: SharedValue<number>) =>
+	(visible?: boolean) =>
+		createSharedValueAnimator(contentLeftSharedValue)(visible ? 1 : 0)
 
 export const animateListItemActiveState =
-	(animatedTiming: AnimatedTiming) => (headlineTextSharedValue: SharedValue<number>) => (active?: boolean) =>
-		animatedTiming()(headlineTextSharedValue)(active ? 1 : 0)
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
+	(headlineTextSharedValue: SharedValue<number>) =>
+	(active?: boolean) =>
+		createSharedValueAnimator(headlineTextSharedValue)(active ? 1 : 0)

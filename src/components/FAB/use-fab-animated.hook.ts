@@ -12,6 +12,7 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
 	const theme = useTheme()
 	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const createSharedValueAnimator = useMemo(() => animatedTiming(), [animatedTiming])
 	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
 	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
 	const backgroundColorType = useMemo(
@@ -101,8 +102,8 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
 	}))
 
 	const runAnimate = useMemo(
-		() => animateFAB(animatedTiming)(colorSharedValue),
-		[animatedTiming, colorSharedValue]
+		() => animateFAB(createSharedValueAnimator)(colorSharedValue),
+		[createSharedValueAnimator, colorSharedValue]
 	)
 
 	useEffect(() => {

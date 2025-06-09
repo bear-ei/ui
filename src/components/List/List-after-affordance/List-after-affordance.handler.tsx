@@ -1,7 +1,7 @@
 import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {AnimatedTiming} from '../../../hooks'
+import type {CreateSharedValueAnimator} from '../../../hooks'
 import type {
 	ListAfterAffordanceState,
 	TriggerListAfterAffordanceConfirmOptions,
@@ -32,7 +32,8 @@ export const resetAffordanceConfirmationOnHide = (setState: Updater<ListAfterAff
 	})
 
 export const animateListAfterAffordance =
-	(animatedTiming: AnimatedTiming) =>
+	(createSharedValueAnimator: CreateSharedValueAnimator) =>
 	(translateXSharedValue: SharedValue<number>) =>
 	(doubleConfirmed?: boolean) =>
-		typeof doubleConfirmed === 'boolean' && animatedTiming()(translateXSharedValue)(doubleConfirmed ? 1 : 0)
+		typeof doubleConfirmed === 'boolean' &&
+		createSharedValueAnimator(translateXSharedValue)(doubleConfirmed ? 1 : 0)
