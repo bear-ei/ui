@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
+import {debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
@@ -95,10 +95,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		)
 
 		const runUpdateVisibility = useMemo(
-			() =>
-				createDeferredHandlerWithState(updateLayoutAnimatedVisibility(onVisible))(setState)({
-					debounceMillisecond: 50
-				}),
+			() => debounce(updateLayoutAnimatedVisibility(onVisible)(setState))(50),
 			[onVisible, setState]
 		)
 

@@ -65,7 +65,6 @@ export const renderVirtualList = <T,>({
 	const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
 	const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
 	const isLayoutCompleted = typeof layout?.height === 'number' && layout.height > 0
-	const isLoadingVisible = loading
 	const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch', minHeight: contentSize} as ViewStyle
 	const emptyContentLayoutAnimatedStyle = {
 		alignItems: 'center',
@@ -119,12 +118,10 @@ export const renderVirtualList = <T,>({
 							contentStyle={emptyContentLayoutAnimatedStyle}
 							lazy={true}
 							testID={`virtualList__loadingContentLayout--${id}`}
-							visible={isLoadingVisible}
+							visible={loading}
 						>
 							{loadingElement ?
-								cloneElement(loadingElement, {
-									loading: isLoadingVisible
-								})
+								cloneElement(loadingElement, {loading})
 							:	<SupportingText
 									size={SIZE.MEDIUM}
 									testID={`virtualList__supportingText--${id}`}
