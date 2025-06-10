@@ -13,14 +13,20 @@ export const useListItemAnimated = ({active, afterAffordanceVisible}: UseListIte
 	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const contentTransformSharedValue = useSharedValue(0)
 	const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
-	const contentLeftOutputRanges = useMemo(
+	const contentTranslateXOutputRanges = useMemo(
 		() => [theme.adaptSize(spacing.none), -theme.adaptSize(spacing.extraSmall * 34)],
 		[spacing.extraSmall, spacing.none, theme]
 	)
 
 	const contentAnimatedStyle = useAnimatedStyle(() => ({
 		transform: [
-			{translateX: interpolate(contentTransformSharedValue.value, [0, 1], contentLeftOutputRanges)}
+			{
+				translateX: interpolate(
+					contentTransformSharedValue.value,
+					[0, 1],
+					contentTranslateXOutputRanges
+				)
+			}
 		]
 	}))
 

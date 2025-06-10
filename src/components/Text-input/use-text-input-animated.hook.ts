@@ -104,7 +104,7 @@ export const useTextInputAnimated = ({
 		color: interpolateColor(colorSharedValue.value, [0, 1], inputColorSharedValueOutputRanges)
 	}))
 
-	const labelTopOutputRanges = useMemo(
+	const labelTranslateYOutputRanges = useMemo(
 		() => [
 			-theme.adaptSize(theme.token.spacing.small + densityScale / 2),
 			theme.adaptSize(theme.token.spacing.none)
@@ -113,7 +113,7 @@ export const useTextInputAnimated = ({
 	)
 
 	const labelAnimatedStyle = useAnimatedStyle(() => ({
-		transform: [{translateY: interpolate(labelTextSharedValue.value, [0, 1], labelTopOutputRanges)}]
+		transform: [{translateY: interpolate(labelTextSharedValue.value, [0, 1], labelTranslateYOutputRanges)}]
 	}))
 
 	const labelTextColorOutputRanges = useMemo(
