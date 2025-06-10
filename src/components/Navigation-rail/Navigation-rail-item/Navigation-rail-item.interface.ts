@@ -18,7 +18,6 @@ export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemPr
 	active?: boolean
 	contentAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
-	iconElement: React.JSX.Element
 	interactionHandlers: InteractionHandlers
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 	theme: DefaultTheme

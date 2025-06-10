@@ -54,7 +54,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			status: COMPONENT_STATUS.IDLE
 		})
 
-		const {data} = listProps ?? {}
+		const {data} = useMemo(() => listProps ?? {}, [listProps])
 		const containerRef = useRef<View>(null)
 		const id = useId()
 		const inputRef = useRef<TextInput>(null)

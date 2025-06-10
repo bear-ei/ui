@@ -21,7 +21,14 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
 		[opacity.level10, scheme.onSurface, scheme.onSurfaceVariant]
 	)
 
-	const contentTranslateYOutputRanges = useMemo(() => [12, theme.adaptSize(theme.token.spacing.none)], [theme])
+	const contentTranslateYOutputRanges = useMemo(
+		() => [
+			theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall),
+			theme.adaptSize(theme.token.spacing.none)
+		],
+		[theme]
+	)
+
 	const labelTextAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(labelTextSharedValue.value, [0, 1], labelTextColorOutputRanges),
 		opacity: interpolate(labelTextSharedValue.value, [0, 1], [0, 1])

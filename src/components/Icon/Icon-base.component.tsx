@@ -24,11 +24,7 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 		const id = useId()
 		const theme = useTheme()
 		const disabledFill = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
-		const IconComponent = useMemo(
-			() => icon ?? iconStyleConfig[style]?.[type]?.[name],
-			[icon, name, style, type]
-		)
-
+		const IconComponent = icon ?? iconStyleConfig[style]?.[type]?.[name]
 		const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
 		const iconElement = useMemo(
 			() =>

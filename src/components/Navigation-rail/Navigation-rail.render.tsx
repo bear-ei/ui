@@ -22,31 +22,37 @@ export const renderNavigationRailItems =
 			/>
 		))
 
-export const renderNavigationRailFAB = (id: string) => (fab?: React.JSX.Element) =>
-	fab ?
-		cloneElement<FABProps>(fab, {elevated: false, size: SIZE.MEDIUM, testID: `navigationRail__fab--${id}`})
-	:	undefined
-
 export const renderNavigationRail = ({
 	destinationPosition,
-	fabElement,
+	fab,
 	id,
 	itemElements,
 	menuElement,
 	testID,
 	...containerProps
-}: RenderNavigationRailProps) => (
-	<Container
-		{...containerProps}
-		testID={testID ?? `navigationRail--${id}`}
-	>
-		{menuElement && <Menu testID={`navigationRail__menu--${id}`}>{menuElement}</Menu>}
-		{fabElement && <Fab testID={`navigationRail__fab--${id}`}>{fabElement}</Fab>}
-		<Destination
-			destinationPosition={destinationPosition}
-			testID={`navigationRail__destination--${id}`}
+}: RenderNavigationRailProps) => {
+	const fabElement =
+		fab ?
+			cloneElement<FABProps>(fab, {
+				elevated: false,
+				size: SIZE.MEDIUM,
+				testID: `navigationRail__fab--${id}`
+			})
+		:	undefined
+
+	return (
+		<Container
+			{...containerProps}
+			testID={testID ?? `navigationRail--${id}`}
 		>
-			{itemElements}
-		</Destination>
-	</Container>
-)
+			{menuElement && <Menu testID={`navigationRail__menu--${id}`}>{menuElement}</Menu>}
+			{fabElement && <Fab testID={`navigationRail__fab--${id}`}>{fabElement}</Fab>}
+			<Destination
+				destinationPosition={destinationPosition}
+				testID={`navigationRail__destination--${id}`}
+			>
+				{itemElements}
+			</Destination>
+		</Container>
+	)
+}

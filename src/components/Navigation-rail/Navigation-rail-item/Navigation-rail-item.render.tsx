@@ -30,7 +30,7 @@ export const renderNavigationRailItem = ({
 	active,
 	contentAnimatedStyle,
 	eventName,
-	iconElement,
+	icon,
 	id,
 	interactionHandlers,
 	labelText,
@@ -45,6 +45,20 @@ export const renderNavigationRailItem = ({
 	const activeColor = theme.token.scheme.secondaryContainer
 	const shape = type === NAVIGATION_RAIL_TYPE.BLOCK ? SHAPE.FULL : SHAPE.LARGE
 	const underlayColor = theme.token.scheme.onSurface
+	const iconElement = cloneElement<IconProps>(
+		icon ?? (
+			<Icon
+				iconStyle={ICON_STYLE.ROUNDED}
+				name={ICON_NAME.CIRCLE}
+				type={ICON_TYPE.OUTLINED}
+			/>
+		),
+		{
+			iconStyle: ICON_STYLE.ROUNDED,
+			testID: `navigationRailItem__icon--${id}`,
+			type: active ? ICON_TYPE.FILLED : ICON_TYPE.OUTLINED
+		}
+	)
 
 	return (
 		<Container

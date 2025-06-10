@@ -6,7 +6,7 @@ import {COMPONENT_STATUS} from '../Common'
 import type {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
 import {updateNavigationRailActiveKey, updateNavigationRailData} from './Navigation-rail.handler'
-import {renderNavigationRailFAB, renderNavigationRailItems} from './Navigation-rail.render'
+import {renderNavigationRailItems} from './Navigation-rail.render'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 	(
@@ -49,8 +49,6 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			[activeKey, animatedType, data, defaultActiveKey, id, onActive, type]
 		)
 
-		const fabElement = useMemo(() => renderNavigationRailFAB(id)(fab), [fab, id])
-
 		useEffect(() => {
 			runUpdateActiveKey(rawActiveKey ?? defaultActiveKey)
 		}, [defaultActiveKey, rawActiveKey, runUpdateActiveKey])
@@ -70,7 +68,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		return renderNavigationRail({
 			...renderNavigationRailProps,
 			destinationPosition,
-			fabElement,
+			fab,
 			id,
 			itemElements,
 			menuElement: menu,
