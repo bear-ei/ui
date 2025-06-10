@@ -34,5 +34,3 @@ export const ContentItemLayout = styled(LayoutAnimated)`
 		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`}
 `
-
-export const Content = styled.View``

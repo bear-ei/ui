@@ -101,7 +101,7 @@ export const triggerVirtualListMomentumScrollEnd =
 	(event: NativeSyntheticEvent<NativeScrollEvent>) =>
 		onMomentumScrollEnd?.(event)
 
-export const triggerVirtualListClose =
+const triggerVirtualListClose =
 	({enableAutoSelect, onClose}: TriggerVirtualListCloseOptions) =>
 	(draft: WritableDraft<VirtualListState>) =>
 	(indexKey?: string) => {

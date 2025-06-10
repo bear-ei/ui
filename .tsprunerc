@@ -1,0 +1,13 @@
+{
+	"entry": [
+		"src"
+	],
+	"exclude": [
+		"**/index.ts",
+		"**/index.tsx",
+		"**/*.test.ts",
+		"**/*.spec.ts",
+		"**/*.stories.tsx",
+		"**/App.tsx"
+	]
+}

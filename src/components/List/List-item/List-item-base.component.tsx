@@ -220,6 +220,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			...renderListItemProps,
 			active: isActive,
 			afterAffordance,
+			afterAffordanceExpanded: isAfterAffordanceExpanded,
 			afterAffordanceVisible: isAfterAffordanceVisible,
 			beforeAffordance,
 			contentAnimatedStyle,
@@ -241,8 +242,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			trailingElement,
 			trailingTriggerEvenName,
 			trailingVisible: isTrailingVisible,
-			type,
-			afterAffordanceExpanded: isAfterAffordanceExpanded
+			type
 		})
 	}
 )

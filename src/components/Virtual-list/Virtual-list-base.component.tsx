@@ -21,7 +21,7 @@ import {
 import type {VirtualListBaseProps, VirtualListState} from './Virtual-list.interface'
 import {renderVirtualListItem} from './Virtual-list.render'
 
-export const VirtualListBaseInner = <T,>(
+const VirtualListBaseInner = <T,>(
 	{
 		data,
 		enableAutoSelect,

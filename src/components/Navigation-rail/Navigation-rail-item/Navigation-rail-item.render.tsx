@@ -9,22 +9,6 @@ import {Container, Content, Header, IconLayout, Label, LabelText, Touchable} fro
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
-export const renderNavigationRailItemIcon = (id: string) => (icon?: React.JSX.Element) => (active?: boolean) =>
-	cloneElement<IconProps>(
-		icon ?? (
-			<Icon
-				iconStyle={ICON_STYLE.ROUNDED}
-				name={ICON_NAME.CIRCLE}
-				type={ICON_TYPE.OUTLINED}
-			/>
-		),
-		{
-			iconStyle: ICON_STYLE.ROUNDED,
-			testID: `navigationRailItem__icon--${id}`,
-			type: active ? ICON_TYPE.FILLED : ICON_TYPE.OUTLINED
-		}
-	)
-
 export const renderNavigationRailItem = ({
 	accessibilityLabel,
 	active,

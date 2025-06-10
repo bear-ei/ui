@@ -12,10 +12,3 @@ export const ContainerLayout = styled(LayoutAnimated)<LayoutAnimatedProps>`
 		background-color: ${theme.token.scheme.surfaceContainer};
 	`}
 `
-
-export const Content = styled.View`
-	display: flex;
-	flex-direction: column;
-	align-self: stretch;
-	flex: 1;
-`
