@@ -21,11 +21,12 @@ export const animateUnderlayHoverState = ({animateSharedValueTo, activeValue}: A
 	return (hoverLayerSharedValue: SharedValue<number>) => (eventName?: EventName) =>
 		eventName &&
 		eventKeys.includes(eventName) &&
-		animateSharedValueTo(hoverLayerSharedValue)(event[eventName])
+		animateSharedValueTo({sharedValue: hoverLayerSharedValue})(event[eventName])
 }
 
 export const animateUnderlayActiveState =
 	(animateSharedValueTo: AnimateSharedValueTo) =>
 	(activeLayerSharedValue: SharedValue<number>) =>
 	(active?: boolean) =>
-		typeof active === 'boolean' && animateSharedValueTo(activeLayerSharedValue)(active ? 1 : 0)
+		typeof active === 'boolean' &&
+		animateSharedValueTo({sharedValue: activeLayerSharedValue})(active ? 1 : 0)

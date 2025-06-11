@@ -36,4 +36,4 @@ export const animateListAfterAffordance =
 	(translateXSharedValue: SharedValue<number>) =>
 	(doubleConfirmed?: boolean) =>
 		typeof doubleConfirmed === 'boolean' &&
-		animateSharedValueTo(translateXSharedValue)(doubleConfirmed ? 1 : 0)
+		animateSharedValueTo({sharedValue: translateXSharedValue})(doubleConfirmed ? 1 : 0)

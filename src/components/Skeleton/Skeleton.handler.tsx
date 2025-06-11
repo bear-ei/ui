@@ -38,7 +38,7 @@ export const animateSkeleton =
 		}
 
 		if (visible) {
-			animateSharedValueTo(opacitySharedValue)(2)
+			animateSharedValueTo({sharedValue: opacitySharedValue})(2)
 
 			return
 		}

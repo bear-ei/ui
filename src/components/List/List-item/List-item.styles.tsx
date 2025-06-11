@@ -177,7 +177,7 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 	}}
 `
 
-export const TrailingLayoutAnimated = styled(LayoutAnimated)<ListItemTrailingProps>`
+export const TrailingLayout = styled(LayoutAnimated)<ListItemTrailingProps>`
 	display: flex;
 	flex-direction: column;
 

@@ -7,8 +7,8 @@ export const animateProgressActiveIndicatorCircular =
 	({containerSharedValue, circleSharedValue}: AnimateProgressActiveIndicatorCircularSharedValues) =>
 	(enableAnimated?: boolean) => {
 		if (enableAnimated) {
-			animateSharedValueTo(circleSharedValue)(2)
-			animateSharedValueTo(containerSharedValue)(2)
+			animateSharedValueTo({sharedValue: circleSharedValue})(2)
+			animateSharedValueTo({sharedValue: containerSharedValue})(2)
 
 			return
 		}

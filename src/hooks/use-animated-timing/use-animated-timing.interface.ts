@@ -17,10 +17,16 @@ export interface AnimatedTimingOptions extends Omit<WithTimingConfig, 'duration'
 	duration?: Duration | number
 	easing?: Easing
 	repeat?: number
+	immediate?: boolean
 }
 
 export type AnimatedTiming = (
 	options?: AnimatedTimingOptions
 ) => (sharedValue: SharedValue<number>) => (toValue: number) => void
 
-export type AnimateSharedValueTo = (sharedValue: SharedValue<number>) => (toValue: number) => void
+export interface AnimateSharedValueToOptions {
+	sharedValue: SharedValue<number>
+	immediate?: boolean
+}
+
+export type AnimateSharedValueTo = (options: AnimateSharedValueToOptions) => (toValue: number) => void

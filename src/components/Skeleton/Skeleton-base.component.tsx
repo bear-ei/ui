@@ -28,6 +28,12 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 			runAfterInteractions(nextSkeletonVisibilityEvent)()
 		}, [nextSkeletonVisibilityEvent])
 
-		return renderSkeleton({...renderSkeletonProps, containerAnimatedStyle, ref, visible: isVisible, id})
+		return renderSkeleton({
+			...renderSkeletonProps,
+			containerAnimatedStyle,
+			id,
+			ref,
+			visible: isVisible
+		})
 	}
 )

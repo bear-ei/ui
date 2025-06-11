@@ -91,4 +91,4 @@ export const animateFAB =
 	(animateSharedValueTo: AnimateSharedValueTo) =>
 	(colorSharedValue: SharedValue<number>) =>
 	(disabled?: boolean) =>
-		animateSharedValueTo(colorSharedValue)(disabled ? 0 : 1)
+		animateSharedValueTo({sharedValue: colorSharedValue})(disabled ? 0 : 1)

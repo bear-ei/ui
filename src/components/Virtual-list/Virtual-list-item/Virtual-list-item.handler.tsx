@@ -28,7 +28,7 @@ export const triggerVirtualListItemUnmount = (onUnmount?: (indexKey?: string) =>
 
 export const animateVirtualListItem =
 	(animateSharedValueTo: AnimateSharedValueTo) => (topSharedValue: SharedValue<number>) => (offsetY: number) =>
-		animateSharedValueTo(topSharedValue)(offsetY)
+		animateSharedValueTo({sharedValue: topSharedValue})(offsetY)
 
 export const updateVirtualListItemStatus = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {

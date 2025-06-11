@@ -192,4 +192,4 @@ export const animateVirtualList =
 	(animateSharedValueTo: AnimateSharedValueTo) =>
 	(contentHeightSharedValue: SharedValue<number>) =>
 	(contentSize: number) =>
-		animateSharedValueTo(contentHeightSharedValue)(contentSize)
+		animateSharedValueTo({sharedValue: contentHeightSharedValue})(contentSize)

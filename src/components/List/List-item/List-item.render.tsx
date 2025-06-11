@@ -2,7 +2,7 @@ import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {cloneElement, isValidElement} from 'react'
 import {type ViewProps} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {LAYOUT} from '../../Common'
+import {EVENT_NAME, LAYOUT} from '../../Common'
 import {Divider} from '../../Divider'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
@@ -23,7 +23,7 @@ import {
 	MainInner,
 	SupportingText,
 	Touchable,
-	TrailingLayoutAnimated
+	TrailingLayout
 } from './List-item.styles'
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
@@ -234,14 +234,19 @@ export const renderListItem = ({
 							</MainInner>
 
 							{trailingElement && (
-								<TrailingLayoutAnimated
+								<TrailingLayout
 									defaultVisible={!trailingTriggerEvenName}
+									lazy={true}
 									supportingTextNumberOfLines={
 										supportingTextNumberOfLines
 									}
-									testID={`listItem__trailingLayoutAnimated--${id}`}
+									testID={`listItem__TrailingLayout--${id}`}
 									trailingShow={isTrailingShow}
 									type={type}
+									unmount={
+										trailingTriggerEvenName ===
+										EVENT_NAME.HOVER_IN
+									}
 									visible={
 										afterAffordance ?
 											!afterAffordanceVisible
@@ -249,7 +254,7 @@ export const renderListItem = ({
 									}
 								>
 									{trailingElement}
-								</TrailingLayoutAnimated>
+								</TrailingLayout>
 							)}
 						</Main>
 					</Touchable>

@@ -11,5 +11,5 @@ export const animateSideSheetContent =
 
 		const toValue = visible ? 1 : 0
 
-		animateSharedValueTo(backgroundColorSharedValue)(toValue)
+		animateSharedValueTo({sharedValue: backgroundColorSharedValue})(toValue)
 	}

@@ -62,6 +62,6 @@ export const animateNavigationRailItem =
 
 		const toValue = active ? 1 : 0
 
-		animateSharedValueTo(contentTranslateYSharedValue)(toValue)
-		animateSharedValueTo(labelTextSharedValue)(toValue)
+		animateSharedValueTo({sharedValue: contentTranslateYSharedValue})(toValue)
+		animateSharedValueTo({sharedValue: labelTextSharedValue})(toValue)
 	}

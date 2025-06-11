@@ -226,10 +226,10 @@ export const animateListItemAffordanceVisibility =
 	(animateSharedValueTo: AnimateSharedValueTo) =>
 	(contentLeftSharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
-		animateSharedValueTo(contentLeftSharedValue)(visible ? 1 : 0)
+		animateSharedValueTo({sharedValue: contentLeftSharedValue})(visible ? 1 : 0)
 
 export const animateListItemActiveState =
 	(animateSharedValueTo: AnimateSharedValueTo) =>
 	(headlineTextSharedValue: SharedValue<number>) =>
 	(active?: boolean) =>
-		animateSharedValueTo(headlineTextSharedValue)(active ? 1 : 0)
+		animateSharedValueTo({sharedValue: headlineTextSharedValue})(active ? 1 : 0)

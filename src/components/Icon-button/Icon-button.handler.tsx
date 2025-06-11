@@ -49,11 +49,11 @@ export const animateIconButton =
 		const toValue = disabled ? 0 : 1
 
 		if (type === ICON_BUTTON_TYPE.OUTLINED) {
-			animateSharedValueTo(borderSharedValue)(toValue)
-			animateSharedValueTo(colorSharedValue)(toValue)
+			animateSharedValueTo({sharedValue: borderSharedValue})(toValue)
+			animateSharedValueTo({sharedValue: colorSharedValue})(toValue)
 
 			return
 		}
 
-		animateSharedValueTo(colorSharedValue)(toValue)
+		animateSharedValueTo({sharedValue: colorSharedValue})(toValue)
 	}
