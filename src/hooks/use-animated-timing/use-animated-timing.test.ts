@@ -41,7 +41,7 @@ describe('useAnimatedTiming', () => {
 		const {result} = renderHook(() => useAnimatedTiming({token: mockToken as any}))
 		const sharedValue = {value: 0} as SharedValue<number>
 
-		result.current()(sharedValue)(1)
+		result.current()({sharedValue})(1)
 		expect(sharedValue.value).toBeDefined()
 	})
 })

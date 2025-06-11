@@ -103,9 +103,10 @@ export const animateLayoutAnimated =
 		}
 
 		if (typeof visible === 'boolean' && visible) {
-			createEntrySharedValueAnimator(containerSharedValue)(1)
+			createEntrySharedValueAnimator({sharedValue: containerSharedValue})(1)
+
 			return
 		}
 
-		createExitSharedValueAnimator(containerSharedValue)(0)
+		createExitSharedValueAnimator({sharedValue: containerSharedValue})(0)
 	}

@@ -20,9 +20,9 @@ export const animateTouchableRipple = ({animatedTiming, onAnimateFinished}: Anim
 		({opacitySharedValue, scaleSharedValue}: AnimateTouchableRippleSharedValues) =>
 		(toValue: number) =>
 		(callback?: () => void) =>
-			animatedTiming({callback: createAnimatedTimingCallback(callback)})(
-				toValue === 1 ? scaleSharedValue : opacitySharedValue
-			)(toValue)
+			animatedTiming({callback: createAnimatedTimingCallback(callback)})({
+				sharedValue: toValue === 1 ? scaleSharedValue : opacitySharedValue
+			})(toValue)
 
 	return (sharedValues: AnimateTouchableRippleSharedValues) => (index?: string) => {
 		const entryAnimatedTiming = createRippleAnimatedTiming(sharedValues)(1)
