@@ -113,7 +113,10 @@ export const useTextInputAnimated = ({
 	)
 
 	const labelAnimatedStyle = useAnimatedStyle(() => ({
-		transform: [{translateY: interpolate(labelTextSharedValue.value, [0, 1], labelTranslateYOutputRanges)}]
+		transform: [
+			{translateY: interpolate(labelTextSharedValue.value, [0, 1], labelTranslateYOutputRanges)},
+			{scale: interpolate(labelTextSharedValue.value, [0, 1], [0.6666, 1])}
+		]
 	}))
 
 	const labelTextColorOutputRanges = useMemo(
@@ -127,8 +130,7 @@ export const useTextInputAnimated = ({
 	)
 
 	const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-		color: interpolateColor(colorSharedValue.value, [0, 1, 2, 3], labelTextColorOutputRanges),
-		transform: [{scale: interpolate(labelTextSharedValue.value, [0, 1], [0.75, 1])}]
+		color: interpolateColor(colorSharedValue.value, [0, 1, 2, 3], labelTextColorOutputRanges)
 	}))
 
 	const activeIndicatorBackgroundColorOutputRanges = useMemo(
@@ -192,8 +194,8 @@ export const useTextInputAnimated = ({
 		() =>
 			createAnimateTextInputDisabledState(animateSharedValueTo)({
 				activeIndicatorScaleYSharedValue,
-				headerInnerBackgroundColorSharedValue,
 				colorSharedValue,
+				headerInnerBackgroundColorSharedValue,
 				inputColorSharedValue,
 				supportingTextSharedValue
 			}),

@@ -140,13 +140,13 @@ export const createAnimateTextInputEnabledState =
 	}: CreateTextInputEnabledSharedValues) =>
 	({filledToValue, error}: CreateTextInputEnabledStateOptions) => {
 		if (error) {
-			return animateSharedValueTo({sharedValue: labelTextSharedValue, immediate: true})(filledToValue)
+			return animateSharedValueTo({sharedValue: labelTextSharedValue})(filledToValue)
 		}
 
 		animateSharedValueTo({sharedValue: activeIndicatorScaleYSharedValue})(0)
 		animateSharedValueTo({sharedValue: colorSharedValue})(1)
 		animateSharedValueTo({sharedValue: inputColorSharedValue})(1)
-		animateSharedValueTo({sharedValue: labelTextSharedValue, immediate: true})(filledToValue)
+		animateSharedValueTo({sharedValue: labelTextSharedValue})(filledToValue)
 		animateSharedValueTo({sharedValue: supportingTextSharedValue})(1)
 	}
 

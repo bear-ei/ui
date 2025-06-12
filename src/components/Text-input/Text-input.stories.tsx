@@ -6,14 +6,15 @@ import type {TextInputProps} from './Text-input.interface'
 
 export const Filled: StoryObj<TextInputProps> = {
 	args: {
-		labelText: 'name',
-		supportingText: 'supportingText'
+		labelText: 'Name',
+		supportingText: 'supportingText',
+		filled: true
 	}
 }
 
 export const IconTextInput: StoryObj<TextInputProps> = {
 	args: {
-		labelText: 'name',
+		labelText: 'Name',
 		supportingText: 'supportingText',
 		leading: <Icon />
 	}
@@ -21,7 +22,7 @@ export const IconTextInput: StoryObj<TextInputProps> = {
 
 export const DensityScale: StoryObj<TextInputProps> = {
 	args: {
-		labelText: 'name',
+		labelText: 'Name',
 		supportingText: 'supportingText',
 		density: DENSITY.COMPACT
 	}

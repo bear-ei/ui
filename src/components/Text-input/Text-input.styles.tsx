@@ -63,6 +63,7 @@ export const Label = styled.View<TextInputLabelProps>`
 	flex-direction: column;
 	position: absolute;
 	z-index: 8;
+	transform-origin: top left;
 
 	${({theme, density}) => {
 		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
@@ -82,10 +83,7 @@ export const Label = styled.View<TextInputLabelProps>`
 		`}
 `
 
-export const LabelText = styled(Typography)`
-	transform-origin: left;
-`
-
+export const LabelText = styled(Typography)``
 export const Leading = styled.View`
 	align-items: center;
 	display: flex;
@@ -110,7 +108,9 @@ export const Main = styled.View<TextInputMainProps>`
 		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
 
 		return css`
-			padding: ${theme.adaptSize(theme.token.spacing.large + densityScale)}px
+			padding: ${theme.adaptSize(
+					theme.token.spacing.large + -1 * theme.token.spacing.extraSmall + densityScale
+				)}px
 				${theme.adaptSize(theme.token.spacing.none)}px
 				${theme.adaptSize(theme.token.spacing.extraSmall + densityScale)}px;
 		`
@@ -146,7 +146,6 @@ export const Control = styled.View<TextInputControlProps>`
 	${({theme}) => css`
 		min-height: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
-		padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 	`};
 
 	${({multiline, size = 0}) =>
@@ -174,24 +173,13 @@ export const Input = styled.TextInput`
 			font-size: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)}px;
 			font-style: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].style};
 			font-weight: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].weight};
+			height: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight};
 			text-align: left;
-			height: ${theme.adaptFontSize(
-				theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight
-			)}px;
-
 			letter-spacing: ${theme.adaptSize(
 				theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing
 			)}px;
 
 			padding: ${theme.adaptSize(theme.token.spacing.none)}px;
-		`};
-
-	${({theme}) =>
-		theme.OS === 'macos' &&
-		css`
-			margin-left: ${-theme.adaptSize(
-				theme.token.spacing.extraSmall + -0.5 * theme.token.spacing.extraSmall
-			)}px;
 		`};
 `
 
