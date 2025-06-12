@@ -12,6 +12,7 @@ export const LinearDeterminate: StoryObj<ProgressProps> = {
 
 export const CircularDeterminate: StoryObj<ProgressProps> = {
 	args: {
+		enableAnimated: true,
 		type: PROGRESS_TYPE.CIRCULAR,
 		value: 0
 	}

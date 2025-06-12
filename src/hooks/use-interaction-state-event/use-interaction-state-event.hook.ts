@@ -23,6 +23,7 @@ import type {
 
 export const useInteractionStateEvent = ({
 	disabled,
+	layoutEventDelay = 150,
 	onBlur: rawOnBlur,
 	onFocus: rawOnFocus,
 	onHoverIn: rawOnHoverIn,
@@ -92,10 +93,10 @@ export const useInteractionStateEvent = ({
 	const onLayout = useMemo(
 		() =>
 			createStableEventHandler(handleLayoutEvent({interactionHandlers})(rawOnLayout))({
-				debounceMillisecond: 150,
+				debounceMillisecond: layoutEventDelay,
 				enableInteractionManager: false
 			}),
-		[interactionHandlers, rawOnLayout]
+		[interactionHandlers, layoutEventDelay, rawOnLayout]
 	)
 
 	return {

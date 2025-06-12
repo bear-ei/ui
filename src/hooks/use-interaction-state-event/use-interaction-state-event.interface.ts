@@ -18,6 +18,7 @@ export type StateEvent =
 
 export interface UseHandleStateEventOptions extends Partial<PressableProps & InteractionHandlers> {
 	disabled?: boolean
+	layoutEventDelay?: number
 	onStateEventChange?: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 

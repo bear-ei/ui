@@ -8,6 +8,7 @@ export const renderProgress = ({
 	animatedType = PROGRESS_ANIMATED.INDETERMINATE,
 	content,
 	defaultValue,
+	enableAnimated,
 	id,
 	size,
 	strokeWidth,
@@ -28,6 +29,7 @@ export const renderProgress = ({
 			<ProgressActiveIndicatorCircular
 				animatedType={animatedType}
 				content={content}
+				enableAnimated={enableAnimated}
 				size={size}
 				strokeWidth={strokeWidth}
 				testID={`progress__progressActiveIndicatorCircular--${id}`}
