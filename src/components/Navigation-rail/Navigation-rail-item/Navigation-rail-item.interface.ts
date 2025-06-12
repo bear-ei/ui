@@ -3,7 +3,7 @@ import type {PressableProps, TextStyle, View, ViewProps, ViewStyle} from 'react-
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
-import type {EventName, TypographyProps} from '../../Common'
+import type {ComponentStatus, EventName, TypographyProps} from '../../Common'
 import type {NavigationRailProps} from '../Navigation-rail.interface'
 
 export interface NavigationRailItemProps
@@ -30,6 +30,7 @@ export interface NavigationRailItemBaseProps extends NavigationRailItemProps {
 export interface NavigationRailItemState {
 	eventName?: EventName
 	nextPressOutEvent?: () => void
+	status: ComponentStatus
 }
 
 export interface HandleNavigationRailItemStateChangeOptions
@@ -40,6 +41,7 @@ export interface HandleNavigationRailItemStateChangeOptions
 
 export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigationRailItemProps, 'active' | 'type'> {
 	defaultActive?: boolean
+	status?: ComponentStatus
 }
 
 export interface AnimateNavigationRailItemOptions extends UseNavigationRailItemAnimatedOptions {

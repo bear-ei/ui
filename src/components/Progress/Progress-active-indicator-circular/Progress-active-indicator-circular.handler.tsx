@@ -1,6 +1,11 @@
 import {cancelAnimation} from 'react-native-reanimated'
-import type {AnimateSharedValueTo} from '../../../hooks'
-import type {AnimateProgressActiveIndicatorCircularSharedValues} from './Progress-active-indicator-circular.interface'
+import type {Updater} from 'use-immer'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import {COMPONENT_STATUS, EVENT_NAME} from '../../Common'
+import type {
+	AnimateProgressActiveIndicatorCircularSharedValues,
+	ProgressActiveIndicatorCircularState
+} from './Progress-active-indicator-circular.interface'
 
 export const animateProgressActiveIndicatorCircular =
 	(animateSharedValueTo: AnimateSharedValueTo) =>
@@ -18,3 +23,12 @@ export const animateProgressActiveIndicatorCircular =
 	}
 
 export const computeProgressStrokeDashoffset = (circumference: number) => (value: number) => circumference * (1 - value)
+export const handleProgressStateChange =
+	({eventName}: HandleStateEventChangeOptions) =>
+	(setState: Updater<ProgressActiveIndicatorCircularState>) =>
+	(_event: StateEvent) =>
+		setState(draft => {
+			if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
+			}
+		})

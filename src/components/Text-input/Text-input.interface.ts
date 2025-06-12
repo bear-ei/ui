@@ -85,6 +85,7 @@ export interface UseTextInputAnimatedOptions
 	extends Pick<RenderTextInputProps, 'type' | 'error' | 'disabled' | 'density'> {
 	filled: boolean
 	state: State
+	status: ComponentStatus
 }
 
 export interface CreateTextInputEnabledStateOptions extends Pick<UseTextInputAnimatedOptions, 'error'> {

@@ -1,7 +1,8 @@
 import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {AnimateSharedValueTo} from '../../../hooks'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import {COMPONENT_STATUS, EVENT_NAME} from '../../Common'
 import type {
 	ListAfterAffordanceState,
 	TriggerListAfterAffordanceConfirmOptions,
@@ -37,3 +38,14 @@ export const animateListAfterAffordance =
 	(doubleConfirmed?: boolean) =>
 		typeof doubleConfirmed === 'boolean' &&
 		animateSharedValueTo({sharedValue: translateXSharedValue})(doubleConfirmed ? 1 : 0)
+
+export const handleAffordanceStateChange =
+	({eventName}: HandleStateEventChangeOptions) =>
+	(setState: Updater<ListAfterAffordanceState>) =>
+	(_event: StateEvent) =>
+		eventName === EVENT_NAME.LAYOUT &&
+		setState(draft => {
+			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
+			}
+		})

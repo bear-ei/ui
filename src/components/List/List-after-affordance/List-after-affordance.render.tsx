@@ -11,6 +11,7 @@ export const renderListAfterAffordance = ({
 	dangerAnimatedStyle,
 	doubleConfirmed,
 	id,
+	interactionHandlers,
 	onCancel,
 	onConfirm,
 	primaryButtonProps,
@@ -45,6 +46,7 @@ export const renderListAfterAffordance = ({
 	return (
 		<Container
 			{...containerProps}
+			{...interactionHandlers}
 			animatedType={LAYOUT_ANIMATED.STANDARD}
 			contentStyle={contentStyle}
 			lazy={true}

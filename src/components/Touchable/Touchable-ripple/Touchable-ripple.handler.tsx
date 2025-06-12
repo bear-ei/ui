@@ -1,7 +1,11 @@
+import type {Updater} from 'use-immer'
+import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import {COMPONENT_STATUS, EVENT_NAME} from '../../Common'
 import type {
 	AnimateTouchableRippleOptions,
 	AnimateTouchableRippleSharedValues,
-	TouchableRippleProps
+	TouchableRippleProps,
+	TouchableRippleState
 } from './Touchable-ripple.interface'
 
 export const compareTouchableRippleProps = (prevProps: TouchableRippleProps) => {
@@ -13,6 +17,16 @@ export const compareTouchableRippleProps = (prevProps: TouchableRippleProps) => 
 		return ![prevIndexKey !== nextIndexKey].some(Boolean)
 	}
 }
+
+export const handleTouchableRippleStateChange =
+	({eventName}: HandleStateEventChangeOptions) =>
+	(setState: Updater<TouchableRippleState>) =>
+	(_event: StateEvent) =>
+		setState(draft => {
+			if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
+			}
+		})
 
 export const animateTouchableRipple = ({animatedTiming, onAnimateFinished}: AnimateTouchableRippleOptions) => {
 	const createAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()

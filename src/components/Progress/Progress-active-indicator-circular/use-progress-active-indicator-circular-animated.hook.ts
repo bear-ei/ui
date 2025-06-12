@@ -3,6 +3,7 @@ import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
+import {COMPONENT_STATUS} from '../../Common'
 import {
 	animateProgressActiveIndicatorCircular,
 	computeProgressStrokeDashoffset
@@ -11,7 +12,8 @@ import type {UseProgressActiveIndicatorCircularAnimatedOptions} from './Progress
 
 export const useProgressActiveIndicatorCircularAnimated = ({
 	circumference,
-	enableAnimated
+	enableAnimated,
+	status
 }: UseProgressActiveIndicatorCircularAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
@@ -49,8 +51,10 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 	)
 
 	useEffect(() => {
-		runAnimate(enableAnimated)
-	}, [enableAnimated, runAnimate])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimate(enableAnimated)
+		}
+	}, [enableAnimated, runAnimate, status])
 
 	useEffect(
 		() => () => {

@@ -1,6 +1,13 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef, useCallback, useId} from 'react'
 import type {View} from 'react-native'
-import type {ProgressActiveIndicatorLinearBaseProps} from './Progress-active-indicator-linear.interface'
+import {useImmer} from 'use-immer'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
+import {COMPONENT_STATUS, type State} from '../../Common'
+import {handleProgressStateChange} from './Progress-active-indicator-linear.handler'
+import type {
+	ProgressActiveIndicatorLinearBaseProps,
+	ProgressActiveIndicatorLinearState
+} from './Progress-active-indicator-linear.interface'
 import {useProgressActiveIndicatorLinearAnimated} from './use-progress-active-indicator-linear-animated.hook'
 
 export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActiveIndicatorLinearBaseProps>(
@@ -8,14 +15,30 @@ export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActive
 		{defaultValue, renderProgressActiveIndicatorLinear, value, ...renderProgressActiveIndicatorLinearProps},
 		ref
 	) => {
+		const [{status}, setState] = useImmer<ProgressActiveIndicatorLinearState>({
+			status: COMPONENT_STATUS.IDLE
+		})
+
 		const id = useId()
-		const {contentAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({defaultValue, value})
+		const onStateEventChange = useCallback(
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleProgressStateChange({...options, state})(setState)(event),
+			[setState]
+		)
+
+		const interactionHandlers = useInteractionStateEvent({
+			...renderProgressActiveIndicatorLinearProps,
+			onStateEventChange
+		})
+
+		const {contentAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({defaultValue, value, status})
 
 		return renderProgressActiveIndicatorLinear({
 			...renderProgressActiveIndicatorLinearProps,
 			ref,
 			contentAnimatedStyle,
-			id
+			id,
+			interactionHandlers
 		})
 	}
 )

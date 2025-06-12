@@ -134,7 +134,11 @@ export const handleListItemStateChange =
 			switch (eventName) {
 				case EVENT_NAME.LAYOUT:
 					draft.nextLayoutEvent = nextEvent[eventName]
-					draft.status = COMPONENT_STATUS.SUCCEEDED
+
+					if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+						draft.status = COMPONENT_STATUS.SUCCEEDED
+					}
+
 					break
 
 				case EVENT_NAME.PRESS_IN:

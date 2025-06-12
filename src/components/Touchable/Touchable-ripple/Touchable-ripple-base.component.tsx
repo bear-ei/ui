@@ -1,6 +1,10 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef, useCallback, useId} from 'react'
 import type {NativeTouchEvent, View} from 'react-native'
-import type {TouchableRippleBaseProps} from './Touchable-ripple.interface'
+import {useImmer} from 'use-immer'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
+import {COMPONENT_STATUS, type State} from '../../Common'
+import {handleTouchableRippleStateChange} from './Touchable-ripple.handler'
+import type {TouchableRippleBaseProps, TouchableRippleState} from './Touchable-ripple.interface'
 import {useTouchableRippleAnimated} from './use-touchable-ripple-animated.hook'
 
 export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
@@ -11,13 +15,16 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
 			indexKey,
 			onAnimateFinished,
 			renderTouchableRipple,
-			testID,
 			touchableLocation = {} as Pick<NativeTouchEvent, 'locationX' | 'locationY'>,
 			underlayColor,
 			...renderTouchableRippleProps
 		},
 		ref
 	) => {
+		const [{status}, setState] = useImmer<TouchableRippleState>({
+			status: COMPONENT_STATUS.IDLE
+		})
+
 		const id = useId()
 		const {width = 0, height = 0} = containerLayout ?? {}
 		const centerX = width / 2
@@ -29,16 +36,33 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
 		const offsetY = Math.abs(centerY - locationY)
 		const radius = Math.sqrt(Math.pow(centerX + offsetX, 2) + Math.pow(centerY + offsetY, 2))
 		const diameter = radius * 2
-		const {containerAnimatedStyle} = useTouchableRippleAnimated({indexKey, onAnimateFinished, radius})
+		const onStateEventChange = useCallback(
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleTouchableRippleStateChange({...options, state})(setState)(event),
+			[setState]
+		)
+
+		const interactionHandlers = useInteractionStateEvent({
+			...renderTouchableRippleProps,
+			onStateEventChange
+		})
+
+		const {containerAnimatedStyle} = useTouchableRippleAnimated({
+			indexKey,
+			onAnimateFinished,
+			radius,
+			status
+		})
 
 		return renderTouchableRipple({
 			...renderTouchableRippleProps,
 			containerAnimatedStyle,
+			id,
+			interactionHandlers,
 			locationX,
 			locationY,
 			ref,
 			size: diameter,
-			testID: testID ?? id,
 			underlayColor
 		})
 	}

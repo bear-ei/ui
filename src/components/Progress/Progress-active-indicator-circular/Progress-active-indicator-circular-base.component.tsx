@@ -1,7 +1,14 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef, useCallback, useId} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
-import type {ProgressActiveIndicatorCircularBaseProps} from './Progress-active-indicator-circular.interface'
+import {useImmer} from 'use-immer'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
+import {COMPONENT_STATUS, type State} from '../../Common'
+import {handleProgressStateChange} from './Progress-active-indicator-circular.handler'
+import type {
+	ProgressActiveIndicatorCircularBaseProps,
+	ProgressActiveIndicatorCircularState
+} from './Progress-active-indicator-circular.interface'
 import {useProgressActiveIndicatorCircularAnimated} from './use-progress-active-indicator-circular-animated.hook'
 
 export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActiveIndicatorCircularBaseProps>(
@@ -15,15 +22,31 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
 		},
 		ref
 	) => {
+		const [{status}, setState] = useImmer<ProgressActiveIndicatorCircularState>({
+			status: COMPONENT_STATUS.IDLE
+		})
+
 		const theme = useTheme()
 		const id = useId()
 		const strokeWidth = rawStrokeWidth ?? theme.adaptSize(theme.token.spacing.extraSmall)
 		const size = rawSize ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)
 		const radius = (size - strokeWidth) / 2
 		const circumference = 2 * Math.PI * radius
+		const onStateEventChange = useCallback(
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleProgressStateChange({...options, state})(setState)(event),
+			[setState]
+		)
+
+		const interactionHandlers = useInteractionStateEvent({
+			...renderProgressActiveIndicatorCircularProps,
+			onStateEventChange
+		})
+
 		const {containerAnimatedStyle, circleAnimatedProps} = useProgressActiveIndicatorCircularAnimated({
 			circumference,
-			enableAnimated
+			enableAnimated,
+			status
 		})
 
 		return renderProgressActiveIndicatorCircular({
@@ -32,6 +55,7 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
 			circumference,
 			containerAnimatedStyle,
 			id,
+			interactionHandlers,
 			radius,
 			ref,
 			size,

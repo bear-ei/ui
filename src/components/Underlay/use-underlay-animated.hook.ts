@@ -3,6 +3,7 @@ import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 're
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {debounce} from '../../utils'
+import {COMPONENT_STATUS} from '../Common'
 import {ACTIVE_ANIMATED} from './Underlay.enum'
 import {animateUnderlayActiveState, animateUnderlayHoverState} from './Underlay.handler'
 import type {UseUnderlayAnimatedOptions} from './Underlay.interface'
@@ -12,7 +13,8 @@ export const useUnderlayAnimated = ({
 	activeAnimatedType = ACTIVE_ANIMATED.SCALE,
 	activeScale,
 	eventName,
-	opacities: rawOpacities
+	opacities: rawOpacities,
+	status
 }: UseUnderlayAnimatedOptions) => {
 	const theme = useTheme()
 	const opacities = useMemo(
@@ -99,12 +101,16 @@ export const useUnderlayAnimated = ({
 	)
 
 	useEffect(() => {
-		runAnimateHoverState(eventName)
-	}, [eventName, runAnimateHoverState])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimateHoverState(eventName)
+		}
+	}, [eventName, runAnimateHoverState, status])
 
 	useEffect(() => {
-		runAnimateActiveState(active)
-	}, [active, runAnimateActiveState])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimateActiveState(active)
+		}
+	}, [active, runAnimateActiveState, status])
 
 	useEffect(
 		() => () => {

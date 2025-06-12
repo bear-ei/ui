@@ -133,6 +133,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			error,
 			filled: [rawValue, defaultValue, placeholder, value, content, filled].some(Boolean),
 			state,
+			status,
 			type
 		})
 

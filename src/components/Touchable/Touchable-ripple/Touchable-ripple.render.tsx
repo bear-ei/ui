@@ -7,6 +7,7 @@ const AnimatedContainer = Animated.createAnimatedComponent(Container)
 export const renderTouchableRipple = ({
 	containerAnimatedStyle,
 	id,
+	interactionHandlers,
 	locationX,
 	locationY,
 	size,
@@ -16,6 +17,7 @@ export const renderTouchableRipple = ({
 }: RenderTouchableRippleProps) => (
 	<AnimatedContainer
 		{...containerProps}
+		{...interactionHandlers}
 		locationX={locationX}
 		locationY={locationY}
 		pointerEvents='none'

@@ -3,7 +3,7 @@ import {useCallback, useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {DENSITY_SCALE, STATE} from '../Common'
+import {COMPONENT_STATUS, DENSITY_SCALE, STATE} from '../Common'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
 	animateTextInputDisabledStateTiming,
@@ -22,6 +22,7 @@ export const useTextInputAnimated = ({
 	error,
 	filled,
 	state,
+	status,
 	type = TEXT_INPUT_TYPE.FILLED
 }: UseTextInputAnimatedOptions) => {
 	const theme = useTheme()
@@ -263,16 +264,22 @@ export const useTextInputAnimated = ({
 	)
 
 	useEffect(() => {
-		runAnimateState(state)
-	}, [runAnimateState, state])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimateState(state)
+		}
+	}, [runAnimateState, state, status])
 
 	useEffect(() => {
-		runAnimateNonErrorStateTiming(state)
-	}, [runAnimateNonErrorStateTiming, state])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimateNonErrorStateTiming(state)
+		}
+	}, [runAnimateNonErrorStateTiming, state, status])
 
 	useEffect(() => {
-		runAnimateDisabledStateTiming(disabled)
-	}, [runAnimateDisabledStateTiming, disabled])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimateDisabledStateTiming(disabled)
+		}
+	}, [runAnimateDisabledStateTiming, disabled, status])
 
 	useEffect(
 		() => () => {

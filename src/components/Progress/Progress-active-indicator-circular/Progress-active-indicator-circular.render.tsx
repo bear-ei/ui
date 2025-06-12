@@ -13,6 +13,7 @@ export const renderProgressActiveIndicatorCircular = ({
 	containerAnimatedStyle,
 	content,
 	id,
+	interactionHandlers,
 	radius,
 	size = 48,
 	strokeWidth,
@@ -28,6 +29,7 @@ export const renderProgressActiveIndicatorCircular = ({
 	return (
 		<Container
 			{...containerProps}
+			{...interactionHandlers}
 			pointerEvents='none'
 			testID={testID ?? `progressActiveIndicatorCircular--${id}`}
 		>

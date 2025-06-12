@@ -84,9 +84,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			onAnimationFinished,
 			opacity,
 			scale,
+			status,
+			translate,
 			visible: isVisible ?? isLayoutVisible,
-			width: layout.width ?? contentSize?.width,
-			translate
+			width: layout.width ?? contentSize?.width
 		})
 
 		const runUpdateStatus = useMemo(
@@ -104,10 +105,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		}, [runUpdateStatus, isLayoutVisible])
 
 		useEffect(() => {
-			if (status === COMPONENT_STATUS.SUCCEEDED) {
-				runUpdateVisibility(isLayoutVisible)
-			}
-		}, [runUpdateVisibility, isLayoutVisible, status])
+			runUpdateVisibility(isLayoutVisible)
+		}, [isLayoutVisible, runUpdateVisibility])
 
 		useEffect(() => {
 			runAfterInteractions(nextUnmountEvent)()
@@ -127,13 +126,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					...renderLayoutAnimatedProps,
 					animatedType,
 					containerAnimatedStyle,
+					contentSize,
 					id,
 					interactionHandlers,
 					layout,
 					ref,
 					status,
-					visible: typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible,
-					contentSize
+					visible: typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible
 				})
 	}
 )

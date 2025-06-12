@@ -1,7 +1,18 @@
 import type {SharedValue} from 'react-native-reanimated'
-import type {AnimateSharedValueTo} from '../../hooks'
-import {EVENT_NAME, type EventName} from '../Common'
-import type {AnimateUnderlayHoverStateOptions} from './Underlay.interface'
+import type {Updater} from 'use-immer'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
+import type {AnimateUnderlayHoverStateOptions, UnderlayState} from './Underlay.interface'
+
+export const handleUnderlayStateChange =
+	({eventName}: HandleStateEventChangeOptions) =>
+	(setState: Updater<UnderlayState>) =>
+	(_event: StateEvent) =>
+		setState(draft => {
+			if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
+			}
+		})
 
 export const animateUnderlayHoverState = ({animateSharedValueTo, activeValue}: AnimateUnderlayHoverStateOptions) => {
 	const event = {

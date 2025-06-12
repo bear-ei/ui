@@ -11,6 +11,7 @@ export const renderUnderlay = ({
 	activeShape,
 	hoverLayerAnimatedStyle,
 	id,
+	interactionHandlers,
 	shape,
 	style,
 	testID,
@@ -19,6 +20,7 @@ export const renderUnderlay = ({
 }: RenderUnderlayProps) => (
 	<Container
 		{...containerProps}
+		{...interactionHandlers}
 		pointerEvents='none'
 		shape={shape}
 		style={[style]}

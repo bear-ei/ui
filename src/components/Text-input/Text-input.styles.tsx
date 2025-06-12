@@ -146,6 +146,8 @@ export const Control = styled.View<TextInputControlProps>`
 	${({theme}) => css`
 		min-height: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
+		padding: ${theme.adaptSize(theme.token.spacing.extraSmall + -0.5 * theme.token.spacing.extraSmall)}px
+			${theme.adaptSize(theme.token.spacing.none)}px;
 	`};
 
 	${({multiline, size = 0}) =>
@@ -173,7 +175,6 @@ export const Input = styled.TextInput`
 			font-size: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)}px;
 			font-style: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].style};
 			font-weight: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].weight};
-			height: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight};
 			text-align: left;
 			letter-spacing: ${theme.adaptSize(
 				theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing

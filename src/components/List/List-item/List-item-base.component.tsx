@@ -60,6 +60,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 				nextLayoutEvent,
 				nextPressInEvent,
 				nextPressOutEvent,
+				status,
 				trailingVisible: isTrailingVisible
 			},
 			setState
@@ -134,7 +135,8 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 
 		const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
 			active: isActive,
-			afterAffordanceVisible: isAfterAffordanceVisible
+			afterAffordanceVisible: isAfterAffordanceVisible,
+			status
 		})
 
 		const runUpdateFocusState = useMemo(

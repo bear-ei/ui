@@ -1,9 +1,12 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
+import {COMPONENT_STATUS, type State} from '../../Common'
 import {
+	handleAffordanceStateChange,
 	resetAffordanceConfirmationOnHide,
 	triggerListAfterAffordanceConfirm,
 	updateListAffordanceCancelState
@@ -23,11 +26,22 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 		},
 		ref
 	) => {
-		const [{doubleConfirmed: isDoubleConfirmed, nextCancelEvent}, setState] =
-			useImmer<ListAfterAffordanceState>({})
+		const [{doubleConfirmed: isDoubleConfirmed, nextCancelEvent, status}, setState] =
+			useImmer<ListAfterAffordanceState>({status: COMPONENT_STATUS.IDLE})
 
 		const theme = useTheme()
 		const id = useId()
+		const onStateEventChange = useCallback(
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleAffordanceStateChange({...options, state})(setState)(event),
+			[setState]
+		)
+
+		const interactionHandlers = useInteractionStateEvent({
+			...renderListAfterAffordanceProps,
+			onStateEventChange
+		})
+
 		const onConfirm = useMemo(
 			() =>
 				triggerListAfterAffordanceConfirm({
@@ -48,7 +62,11 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 			[indexKey, isDoubleConfirmed, rawOnCancel, setState]
 		)
 
-		const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed})
+		const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({
+			doubleConfirmed: isDoubleConfirmed,
+			status
+		})
+
 		const runResetConfirmationOnHide = useMemo(
 			() => resetAffordanceConfirmationOnHide(setState),
 			[setState]
@@ -67,6 +85,7 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 			dangerAnimatedStyle,
 			doubleConfirmed: isDoubleConfirmed,
 			id,
+			interactionHandlers,
 			onCancel,
 			onConfirm,
 			ref,

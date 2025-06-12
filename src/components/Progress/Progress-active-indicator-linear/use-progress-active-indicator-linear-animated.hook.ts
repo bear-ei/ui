@@ -3,11 +3,13 @@ import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-re
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {debounce} from '../../../utils'
+import {COMPONENT_STATUS} from '../../Common'
 import {animateProgressActiveIndicatorLinear} from './Progress-active-indicator-linear.handler'
 import type {UseProgressActiveIndicatorLinearAnimatedOptions} from './Progress-active-indicator-linear.interface'
 
 export const useProgressActiveIndicatorLinearAnimated = ({
 	defaultValue = 0,
+	status,
 	value
 }: UseProgressActiveIndicatorLinearAnimatedOptions) => {
 	const scaleXSharedValue = useSharedValue(defaultValue)
@@ -21,8 +23,10 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 	)
 
 	useEffect(() => {
-		runAnimate(value)
-	}, [runAnimate, value])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimate(value)
+		}
+	}, [runAnimate, status, value])
 
 	useEffect(
 		() => () => {

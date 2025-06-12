@@ -3,6 +3,7 @@ import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 're
 import type {DefaultStyle} from 'react-native-reanimated/lib/typescript/hook/commonTypes'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
+import {COMPONENT_STATUS} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {animateLayoutAnimated} from './Layout-animated.handler'
 import type {LayoutAnimatedType, UseLayoutAnimatedOptions} from './Layout-animated.interface'
@@ -15,6 +16,7 @@ export const useLayoutAnimated = ({
 	onAnimationFinished,
 	opacity: rawOpacity,
 	scale,
+	status,
 	translate,
 	visible,
 	width
@@ -117,8 +119,10 @@ export const useLayoutAnimated = ({
 	)
 
 	useEffect(() => {
-		runAnimate(visible)
-	}, [runAnimate, visible])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimate(visible)
+		}
+	}, [runAnimate, status, visible])
 
 	useEffect(
 		() => () => {

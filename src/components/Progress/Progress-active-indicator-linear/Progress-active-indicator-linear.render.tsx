@@ -9,6 +9,7 @@ export const renderProgressActiveIndicatorLinear = ({
 	animatedType,
 	contentAnimatedStyle,
 	id,
+	interactionHandlers,
 	testID,
 	...containerProps
 }: RenderProgressActiveIndicatorLinearProps) => {
@@ -16,6 +17,7 @@ export const renderProgressActiveIndicatorLinear = ({
 
 	return (
 		<Container
+			{...interactionHandlers}
 			shape={shape}
 			testID={testID ?? `progressActiveIndicatorLinear--${id}`}
 		>

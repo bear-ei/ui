@@ -5,7 +5,7 @@ import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import {useInteractionStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
-import type {State} from '../../Common'
+import {COMPONENT_STATUS, type State} from '../../Common'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
 import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
@@ -25,7 +25,9 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 		},
 		ref
 	) => {
-		const [{eventName, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({})
+		const [{eventName, status, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({
+			status: COMPONENT_STATUS.IDLE
+		})
 		const id = useId()
 		const pressableRef = useRef<View>(null)
 		const isActive = activeKey === indexKey
@@ -50,6 +52,7 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 
 		const {labelTextAnimatedStyle, contentAnimatedStyle} = useNavigationRailItemAnimated({
 			active: isActive,
+			status,
 			type
 		})
 

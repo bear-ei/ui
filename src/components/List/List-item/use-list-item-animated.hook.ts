@@ -3,10 +3,11 @@ import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
+import {COMPONENT_STATUS} from '../../Common'
 import {animateListItemActiveState, animateListItemAffordanceVisibility} from './List-item.handler'
 import type {UseListItemAnimatedOptions} from './List-item.interface'
 
-export const useListItemAnimated = ({active, afterAffordanceVisible}: UseListItemAnimatedOptions) => {
+export const useListItemAnimated = ({active, afterAffordanceVisible, status}: UseListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const {spacing, scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
@@ -53,12 +54,16 @@ export const useListItemAnimated = ({active, afterAffordanceVisible}: UseListIte
 	)
 
 	useEffect(() => {
-		runAnimateVisibility(afterAffordanceVisible)
-	}, [afterAffordanceVisible, runAnimateVisibility])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimateVisibility(afterAffordanceVisible)
+		}
+	}, [afterAffordanceVisible, runAnimateVisibility, status])
 
 	useEffect(() => {
-		runAnimateActiveState(active)
-	}, [active, runAnimateActiveState])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimateActiveState(active)
+		}
+	}, [active, runAnimateActiveState, status])
 
 	useEffect(
 		() => () => {

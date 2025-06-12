@@ -19,15 +19,19 @@ export const handleTextInputStateChange =
 	({content, eventName, ref, state}: HandleTextInputStateChangeOptions) =>
 	(setState: Updater<TextInputState>) =>
 	(_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
-			return
-		}
-
 		const nextEvent = {
 			[EVENT_NAME.PRESS_OUT]: () => ref?.current?.focus()
 		} as Record<EventName, () => void>
 
 		setState(draft => {
+			if (eventName === EVENT_NAME.LAYOUT) {
+				if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+					draft.status = COMPONENT_STATUS.SUCCEEDED
+				}
+
+				return
+			}
+
 			if ((draft.state === STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) || content) {
 				return
 			}
@@ -121,7 +125,7 @@ export const updateTextInputValue = (setState: Updater<TextInputState>) => (valu
 		}
 
 		if (draft.status === COMPONENT_STATUS.IDLE) {
-			draft.status = COMPONENT_STATUS.SUCCEEDED
+			draft.status = COMPONENT_STATUS.LOADING
 		}
 	})
 
@@ -139,14 +143,19 @@ export const createAnimateTextInputEnabledState =
 		supportingTextSharedValue
 	}: CreateTextInputEnabledSharedValues) =>
 	({filledToValue, error}: CreateTextInputEnabledStateOptions) => {
+		const isFilledImmediate = filledToValue === 0
+
 		if (error) {
-			return animateSharedValueTo({sharedValue: labelTextSharedValue})(filledToValue)
+			return animateSharedValueTo({
+				sharedValue: labelTextSharedValue,
+				immediate: isFilledImmediate
+			})(filledToValue)
 		}
 
 		animateSharedValueTo({sharedValue: activeIndicatorScaleYSharedValue})(0)
 		animateSharedValueTo({sharedValue: colorSharedValue})(1)
 		animateSharedValueTo({sharedValue: inputColorSharedValue})(1)
-		animateSharedValueTo({sharedValue: labelTextSharedValue})(filledToValue)
+		animateSharedValueTo({sharedValue: labelTextSharedValue, immediate: isFilledImmediate})(filledToValue)
 		animateSharedValueTo({sharedValue: supportingTextSharedValue})(1)
 	}
 

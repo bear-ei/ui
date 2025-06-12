@@ -1,6 +1,10 @@
-import {forwardRef, useId} from 'react'
+import {forwardRef, useCallback, useId} from 'react'
 import type {View} from 'react-native'
-import type {UnderlayBaseProps} from './Underlay.interface'
+import {useImmer} from 'use-immer'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {COMPONENT_STATUS, type State} from '../Common'
+import {handleUnderlayStateChange} from './Underlay.handler'
+import type {UnderlayBaseProps, UnderlayState} from './Underlay.interface'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
 
 export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
@@ -17,14 +21,30 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 		},
 		ref
 	) => {
+		const [{status}, setState] = useImmer<UnderlayState>({
+			status: COMPONENT_STATUS.IDLE
+		})
+
 		const id = useId()
 		const isActive = rawActive ?? defaultActive
+		const onStateEventChange = useCallback(
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleUnderlayStateChange({...options, state})(setState)(event),
+			[setState]
+		)
+
+		const interactionHandlers = useInteractionStateEvent({
+			...renderUnderlayProps,
+			onStateEventChange
+		})
+
 		const {hoverLayerAnimatedStyle, activeLayerAnimatedStyle} = useUnderlayAnimated({
 			active: isActive,
 			activeAnimatedType,
 			activeScale,
 			eventName,
-			opacities
+			opacities,
+			status
 		})
 
 		return renderUnderlay({
@@ -33,6 +53,7 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 			activeLayerAnimatedStyle,
 			hoverLayerAnimatedStyle,
 			id,
+			interactionHandlers,
 			ref
 		})
 	}

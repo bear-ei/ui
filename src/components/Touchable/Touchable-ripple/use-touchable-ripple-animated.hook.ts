@@ -2,13 +2,15 @@ import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
+import {COMPONENT_STATUS} from '../../Common'
 import {animateTouchableRipple} from './Touchable-ripple.handler'
 import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
 
 export const useTouchableRippleAnimated = ({
 	indexKey,
 	onAnimateFinished,
-	radius
+	radius,
+	status
 }: UseTouchableRippleAnimatedOptions) => {
 	const opacitySharedValue = useSharedValue(1)
 	const scaleSharedValue = useSharedValue(0)
@@ -37,8 +39,10 @@ export const useTouchableRippleAnimated = ({
 	)
 
 	useEffect(() => {
-		runAnimate(indexKey)
-	}, [runAnimate, indexKey])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimate(indexKey)
+		}
+	}, [runAnimate, indexKey, status])
 
 	useEffect(
 		() => () => {

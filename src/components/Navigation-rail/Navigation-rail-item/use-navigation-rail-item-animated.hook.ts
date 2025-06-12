@@ -3,10 +3,11 @@ import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
+import {COMPONENT_STATUS} from '../../Common'
 import {animateNavigationRailItem} from './Navigation-rail-item.handler'
 import type {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.interface'
 
-export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailItemAnimatedOptions) => {
+export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigationRailItemAnimatedOptions) => {
 	const theme = useTheme()
 	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
@@ -56,8 +57,10 @@ export const useNavigationRailItemAnimated = ({active, type}: UseNavigationRailI
 	)
 
 	useEffect(() => {
-		runAnimate(active)
-	}, [active, runAnimate])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimate(active)
+		}
+	}, [active, runAnimate, status])
 
 	useEffect(
 		() => () => {

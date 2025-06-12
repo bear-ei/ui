@@ -127,6 +127,7 @@ export interface UseListItemAnimatedOptions {
 	active?: boolean
 	afterAffordanceVisible?: boolean
 	onVisibilityFinished?: (visible?: boolean) => false | void
+	status: ComponentStatus
 }
 
 export interface TriggerListItemTrailingActionsOptions

@@ -73,6 +73,7 @@ export interface UseLayoutAnimatedOptions
 	> {
 	onAnimationFinished: (visible?: boolean) => void
 	height?: number
+	status: ComponentStatus
 	width?: number
 }
 
