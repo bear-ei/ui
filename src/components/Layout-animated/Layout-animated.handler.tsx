@@ -7,28 +7,34 @@ import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import type {
 	AnimateLayoutAnimatedOptions,
+	ContentSize,
 	FinalizeLayoutAnimatedVisibilityChangeOptions,
 	HandleLayoutAnimatedStateChangeOptions,
 	LayoutAnimatedState,
 	UpdateLayoutAnimatedStatusOptions
 } from './Layout-animated.interface'
 
-export const updateLayoutAnimatedSize = (setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
-	const {height, width} = layout
+export const updateLayoutAnimatedSize =
+	(contentSize?: ContentSize) => (setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
+		const {height, width} = layout
 
-	setState(draft => {
-		if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-			draft.status = COMPONENT_STATUS.SUCCEEDED
-		}
+		setState(draft => {
+			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
+			}
 
-		const {width: prevWidth, height: prevHeight} = draft.layout
+			if (contentSize) {
+				return
+			}
 
-		if (prevHeight !== height || prevWidth !== width) {
-			draft.layout.height = height
-			draft.layout.width = width
-		}
-	})
-}
+			const {width: prevWidth, height: prevHeight} = draft.layout
+
+			if (prevHeight !== height || prevWidth !== width) {
+				draft.layout.height = height
+				draft.layout.width = width
+			}
+		})
+	}
 
 export const handleLayoutAnimatedStateChange =
 	({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>

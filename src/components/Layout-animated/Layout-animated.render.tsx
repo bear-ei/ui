@@ -39,7 +39,7 @@ export const renderLayoutAnimated = ({
 				visible={visible}
 			>
 				<Content
-					{...(!contentSize && {onLayout})}
+					onLayout={onLayout}
 					style={[contentStyle]}
 					testID={`layoutAnimated__content--${id}`}
 				>
