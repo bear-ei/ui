@@ -42,7 +42,6 @@ export const renderLayoutAnimated = ({
 			>
 				<Content
 					onLayout={onLayout}
-					pointerEvents={visible ? 'auto' : 'none'}
 					style={[contentStyle]}
 					testID={`layoutAnimated__content--${id}`}
 				>

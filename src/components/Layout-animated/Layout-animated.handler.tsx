@@ -11,7 +11,8 @@ import type {
 	FinalizeLayoutAnimatedVisibilityChangeOptions,
 	HandleLayoutAnimatedStateChangeOptions,
 	LayoutAnimatedState,
-	UpdateLayoutAnimatedStatusOptions
+	UpdateLayoutAnimatedStatusOptions,
+	UpdateLayoutAnimatedVisibilityOptions
 } from './Layout-animated.interface'
 
 export const updateLayoutAnimatedSize =
@@ -51,7 +52,8 @@ export const handleLayoutAnimatedStateChange =
 	}
 
 export const updateLayoutAnimatedVisibility =
-	(onVisible?: (visible?: boolean) => void) => (setState: Updater<LayoutAnimatedState>) => {
+	({onVisible, animatedType}: UpdateLayoutAnimatedVisibilityOptions) =>
+	(setState: Updater<LayoutAnimatedState>) => {
 		const createNextVisibilityEvent = (visible?: boolean) => () => onVisible?.(visible)
 		const applyLayoutVisibilityToDraft =
 			(visible?: boolean) => (draft: WritableDraft<LayoutAnimatedState>) => {
@@ -59,12 +61,18 @@ export const updateLayoutAnimatedVisibility =
 					return
 				}
 
+				draft.nextVisibilityEvent = createNextVisibilityEvent(visible)
+				draft.visible = visible
+
+				if (animatedType === LAYOUT_ANIMATED.STANDARD) {
+					draft.invisible = !visible
+
+					return
+				}
+
 				if (visible) {
 					draft.invisible = false
 				}
-
-				draft.nextVisibilityEvent = createNextVisibilityEvent(visible)
-				draft.visible = visible
 			}
 
 		return (visible?: boolean) => setState(applyLayoutVisibilityToDraft(visible))

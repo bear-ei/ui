@@ -1,8 +1,7 @@
 import type {Duration, Easing} from '@bearei/material-token'
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
-import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import type {Updater} from 'use-immer'
+import type {AnimatedStyle} from 'react-native-reanimated'
 import type {
 	AnimatedTimingOptions,
 	AnimateSharedValueTo,
@@ -83,16 +82,8 @@ export interface AnimateLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 
 	createExitSharedValueAnimator: AnimateSharedValueTo
 }
 
+export type UpdateLayoutAnimatedVisibilityOptions = Pick<LayoutAnimatedProps, 'onVisible' | 'animatedType'>
 export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>
-export interface HandleLayoutAnimatedTimingSharedValue {
-	collapseSharedValue: SharedValue<number>
-	fadeSharedValue: SharedValue<number>
-}
-
-export interface HandleLayoutAnimatedLayoutVisibilityOptions extends Pick<LayoutAnimatedProps, 'onVisible'> {
-	setState: Updater<LayoutAnimatedState>
-}
-
 export interface LayoutAnimatedContainerProps
 	extends Pick<LayoutAnimatedProps, 'visible' | 'animatedType' | 'translate'> {
 	collapse?: boolean
