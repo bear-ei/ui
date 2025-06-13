@@ -6,12 +6,18 @@ import type {ContentLayoutProps, LayoutAnimatedContainerProps} from './Layout-an
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 	position: relative;
 
-	${({visible, theme, collapse, status, unmount}) =>
-		![visible, collapse, unmount].some(Boolean) &&
-		status === COMPONENT_STATUS.SUCCEEDED &&
-		css`
-			height: ${theme.adaptSize(theme.token.spacing.none)}px;
-		`}
+	${({visible, theme, collapse, status, translate}) => {
+		const isCollapse = translate ? !translate : collapse
+
+		return (
+			!visible &&
+			!isCollapse &&
+			status === COMPONENT_STATUS.SUCCEEDED &&
+			css`
+				max-height: ${theme.adaptSize(theme.token.spacing.none)}px;
+			`
+		)
+	}}
 
 	${({visible}) =>
 		!visible &&

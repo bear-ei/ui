@@ -119,10 +119,16 @@ export const useLayoutAnimated = ({
 	)
 
 	useEffect(() => {
+		if (animatedType === LAYOUT_ANIMATED.FADE) {
+			runAnimate(visible)
+
+			return
+		}
+
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
 			runAnimate(visible)
 		}
-	}, [runAnimate, status, visible])
+	}, [animatedType, runAnimate, status, visible])
 
 	useEffect(
 		() => () => {

@@ -59,7 +59,10 @@ export const updateLayoutAnimatedVisibility =
 					return
 				}
 
-				draft.invisible = !visible
+				if (visible) {
+					draft.invisible = false
+				}
+
 				draft.nextVisibilityEvent = createNextVisibilityEvent(visible)
 				draft.visible = visible
 			}

@@ -19,6 +19,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 	(
 		{
 			animatedType = LAYOUT_ANIMATED.FADE,
+			contentSize: rawContentSize,
 			defaultVisible,
 			entry,
 			exit,
@@ -28,10 +29,9 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			opacity,
 			renderLayoutAnimated,
 			scale = false,
+			translate,
 			unmount,
 			visible: rawVisible,
-			contentSize: rawContentSize,
-			translate,
 			...renderLayoutAnimatedProps
 		},
 		ref
@@ -136,6 +136,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 					layout,
 					ref,
 					status,
+					translate,
 					visible: typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible
 				})
 	}

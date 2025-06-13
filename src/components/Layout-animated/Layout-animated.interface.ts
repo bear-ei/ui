@@ -94,7 +94,7 @@ export interface HandleLayoutAnimatedLayoutVisibilityOptions extends Pick<Layout
 }
 
 export interface LayoutAnimatedContainerProps
-	extends Pick<LayoutAnimatedProps, 'visible' | 'animatedType' | 'unmount'> {
+	extends Pick<LayoutAnimatedProps, 'visible' | 'animatedType' | 'translate'> {
 	collapse?: boolean
 	status: ComponentStatus
 }

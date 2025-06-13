@@ -17,6 +17,7 @@ export const renderLayoutAnimated = ({
 	testID,
 	visible,
 	contentSize,
+	translate,
 	...containerProps
 }: RenderLayoutAnimatedProps) => {
 	const {onLayout} = interactionHandlers
@@ -30,6 +31,7 @@ export const renderLayoutAnimated = ({
 			status={status}
 			style={[style, containerAnimatedStyle]}
 			testID={testID ?? `layoutAnimated--${id}`}
+			translate={translate}
 			visible={visible}
 		>
 			<ContentLayout
@@ -40,6 +42,7 @@ export const renderLayoutAnimated = ({
 			>
 				<Content
 					onLayout={onLayout}
+					pointerEvents={visible ? 'auto' : 'none'}
 					style={[contentStyle]}
 					testID={`layoutAnimated__content--${id}`}
 				>
