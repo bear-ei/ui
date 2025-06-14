@@ -130,7 +130,10 @@ export const triggerListClose = (onClose?: (options: OnVirtualListCloseOptions) 
 	return (setState: Updater<ListState>) =>
 		({activeKey, indexKey}: OnVirtualListCloseOptions) => {
 			setState(draft => {
-				draft.activeKey = activeKey
+				if (activeKey) {
+					draft.activeKey = activeKey
+				}
+
 				draft.nextCloseEvent = createNextCloseEvent({indexKey, activeKey})
 			})
 		}

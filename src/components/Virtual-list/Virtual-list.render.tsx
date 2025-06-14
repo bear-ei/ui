@@ -116,6 +116,7 @@ export const renderVirtualList = <T,>({
 
 						<LoadingContentLayout
 							contentStyle={emptyContentLayoutAnimatedStyle}
+							defaultVisible={true}
 							lazy={true}
 							testID={`virtualList__loadingContentLayout--${id}`}
 							visible={loading}

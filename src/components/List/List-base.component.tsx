@@ -41,7 +41,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			onClose: rawOnClose,
 			onConfirm,
 			onItemStateEvent,
-			renderItem,
+			renderItem: rawRenderItem,
 			renderList,
 			selectType,
 			shape,
@@ -87,7 +87,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			[selectType, setState]
 		)
 
-		const renderListItem = useMemo(
+		const renderItem = useMemo(
 			() =>
 				createListItemRenderer({
 					...onItemStateEvent,
@@ -110,7 +110,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 					onActiveAfterAffordance,
 					onCancel,
 					onConfirm,
-					renderItem,
+					renderItem: rawRenderItem,
 					selectType,
 					shape,
 					skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
@@ -144,7 +144,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 				onCancel,
 				onConfirm,
 				onItemStateEvent,
-				renderItem,
+				rawRenderItem,
 				selectType,
 				shape,
 				skeletonDuration,
@@ -189,7 +189,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			loadingElement,
 			onClose,
 			ref: listRef as ForwardedRef<Animated.ScrollView>,
-			renderItem: renderListItem
+			renderItem
 		})
 	}
 )

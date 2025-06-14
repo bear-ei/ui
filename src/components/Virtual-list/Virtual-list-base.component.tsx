@@ -35,6 +35,7 @@ const VirtualListBaseInner = <T,>(
 		onScroll: rawOnScroll,
 		renderItem,
 		renderVirtualList,
+		activeKey,
 		...renderVirtualListProps
 	}: VirtualListBaseProps<T>,
 	ref: ForwardedRef<Animated.ScrollView>
@@ -68,8 +69,8 @@ const VirtualListBaseInner = <T,>(
 	const onLoadEnd = useMemo(() => checkVirtualListLoadEnd(rawOnLoadEnd)(setState), [rawOnLoadEnd, setState])
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
 	const onUnmount = useMemo(
-		() => unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose})(setState),
-		[enableAutoSelect, itemSize, rawOnClose, setState]
+		() => unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose, activeKey})(setState),
+		[activeKey, enableAutoSelect, itemSize, rawOnClose, setState]
 	)
 
 	const onLayoutChange = useMemo(() => updateVirtualListLayout(itemSize)(setState), [itemSize, setState])

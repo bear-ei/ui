@@ -16,6 +16,7 @@ export interface OnVirtualListCloseOptions {
 }
 
 export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Animated.ScrollView> {
+	activeKey?: string
 	data?: VirtualListData<T>[]
 	emptyElement?: React.JSX.Element
 	enableAutoSelect?: boolean
@@ -62,10 +63,10 @@ export interface HandleVirtualListLayoutChangeOptions {
 	layout: LayoutRectangle
 }
 
-export type TriggerVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose'>
+export type TriggerVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose' | 'activeKey'>
 export interface UnmountVirtualListOptions
 	extends TriggerVirtualListCloseOptions,
-		Pick<RenderVirtualListProps, 'itemSize'> {}
+		Pick<RenderVirtualListProps, 'itemSize' | 'activeKey'> {}
 
 export interface HandleVirtualListContentVisibilityOptions {
 	loading?: boolean

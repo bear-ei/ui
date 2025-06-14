@@ -102,26 +102,25 @@ export const triggerVirtualListMomentumScrollEnd =
 		onMomentumScrollEnd?.(event)
 
 const triggerVirtualListClose =
-	({enableAutoSelect, onClose}: TriggerVirtualListCloseOptions) =>
+	({enableAutoSelect, onClose, activeKey}: TriggerVirtualListCloseOptions) =>
 	(draft: WritableDraft<VirtualListState>) =>
 	(indexKey?: string) => {
-		if (!enableAutoSelect) {
-			const nextCloseEvent = () => onClose?.({indexKey})
+		if (enableAutoSelect && indexKey === activeKey) {
+			const data = (draft.virtualListData ?? []) as ListData[]
+			const datumIndex = data.findIndex((datum: ListData) => datum.indexKey === indexKey)
+			const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
+			const nextAutoSelectCloseEvent = () => onClose?.({activeKey: nextActiveKey, indexKey})
 
-			draft.nextCloseEvent = nextCloseEvent
+			draft.nextCloseEvent = nextAutoSelectCloseEvent
 
 			return
 		}
 
-		const data = (draft.virtualListData ?? []) as ListData[]
-		const datumIndex = data.findIndex((datum: ListData) => datum.indexKey === indexKey)
-		const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
-		const nextAutoSelectCloseEvent = () => onClose?.({activeKey: nextActiveKey, indexKey})
-
-		draft.nextCloseEvent = nextAutoSelectCloseEvent
+		const nextCloseEvent = () => onClose?.({indexKey})
+		draft.nextCloseEvent = nextCloseEvent
 	}
 
-export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose}: UnmountVirtualListOptions) => {
+export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose, activeKey}: UnmountVirtualListOptions) => {
 	const filterVirtualListData =
 		(key: string) =>
 		({indexKey}: VirtualListData) =>
@@ -133,7 +132,7 @@ export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose}: Un
 		}
 
 		setState(draft => {
-			triggerVirtualListClose({enableAutoSelect, onClose})(draft)(indexKey)
+			triggerVirtualListClose({enableAutoSelect, onClose, activeKey})(draft)(indexKey)
 
 			draft.virtualListData = draft.virtualListData?.filter(filterVirtualListData(indexKey))
 
