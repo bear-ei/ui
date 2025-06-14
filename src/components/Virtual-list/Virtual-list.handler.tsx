@@ -76,7 +76,7 @@ export const handleVirtualListStateChange =
 		nextEvent[eventName]?.()
 	}
 
-export const updateVirtualListOnScroll = ({onScroll, itemSize}: UpdateVirtualListOnScrollOptions) => {
+export const updateVirtualListOnScroll = ({onScroll, itemSize, onEndReached}: UpdateVirtualListOnScrollOptions) => {
 	const createNextScrollEvent = (event: NativeSyntheticEvent<NativeScrollEvent>) => () => onScroll?.(event)
 
 	return (setState: Updater<VirtualListState>) => (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -85,6 +85,8 @@ export const updateVirtualListOnScroll = ({onScroll, itemSize}: UpdateVirtualLis
 		const scrollOffset = event.nativeEvent.contentOffset.y
 
 		if (isHitBottom || contentOffset.y <= 0) {
+			onEndReached?.()
+
 			return
 		}
 

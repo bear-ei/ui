@@ -27,6 +27,7 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Anim
 	loading?: boolean
 	loadingElement?: React.JSX.Element
 	onClose?: (options: OnVirtualListCloseOptions) => void
+	onEndReached?: () => void
 	onLoadEnd?: (indexKey?: string) => void
 	renderItem?: (options: RenderVirtualListItemInfo<T>) => React.JSX.Element
 }
@@ -35,9 +36,9 @@ export interface RenderVirtualListProps<T = Record<string, unknown>> extends Vir
 	contentAnimatedStyle?: AnimatedStyle<ViewStyle>
 	contentSize?: number
 	emptyList?: boolean
+	interactionHandlers: InteractionHandlers
 	itemElements?: React.JSX.Element[]
 	layout: LayoutRectangle
-	interactionHandlers: InteractionHandlers
 	status: ComponentStatus
 }
 
@@ -59,7 +60,10 @@ export interface VirtualListState {
 	visibleRangeData?: VirtualListData[]
 }
 
-export type UpdateVirtualListOnScrollOptions = Pick<RenderVirtualListProps, 'onScroll' | 'itemSize'>
+export interface UpdateVirtualListOnScrollOptions extends Pick<RenderVirtualListProps, 'onScroll' | 'itemSize'> {
+	onEndReached: () => Promise<void | undefined>
+}
+
 export interface HandleVirtualListLayoutChangeOptions {
 	layout: LayoutRectangle
 }

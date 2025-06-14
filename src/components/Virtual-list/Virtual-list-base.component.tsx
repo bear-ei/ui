@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -33,6 +33,7 @@ const VirtualListBaseInner = <T,>(
 		itemSize = 0,
 		loading: rawLoading,
 		onClose: rawOnClose,
+		onEndReached: rawOnEndReached,
 		onLoadEnd: rawOnLoadEnd,
 		onMomentumScrollEnd: rawOnMomentumScrollEnd,
 		onScroll: rawOnScroll,
@@ -59,9 +60,10 @@ const VirtualListBaseInner = <T,>(
 
 	const id = useId()
 	const contentSize = (virtualListData ?? data ?? []).length * (itemSize + gap) - gap
+	const onEndReached = useMemo(() => debounce(rawOnEndReached)(150), [rawOnEndReached])
 	const onScroll = useMemo(
-		() => updateVirtualListOnScroll({onScroll: rawOnScroll, itemSize})(setState),
-		[itemSize, rawOnScroll, setState]
+		() => updateVirtualListOnScroll({onScroll: rawOnScroll, itemSize, onEndReached})(setState),
+		[itemSize, onEndReached, rawOnScroll, setState]
 	)
 
 	const onMomentumScrollEnd = useMemo(

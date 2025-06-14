@@ -13,7 +13,7 @@ export const BigVirtualList = () => {
 		justifyContent: 'center'
 	} as ViewStyle
 
-	const data = Array.from({length: 5000}, (_, index) => ({
+	const data = Array.from({length: 200}, (_, index) => ({
 		indexKey: `Item${index + 1}`,
 		headline: `Item${index + 1}`,
 		afterAffordance: true,
@@ -25,6 +25,9 @@ export const BigVirtualList = () => {
 			<VirtualList
 				data={data}
 				itemSize={56}
+				onEndReached={() => {
+					console.info(123)
+				}}
 				renderItem={({item}) => (
 					<View
 						key={item.indexKey}
