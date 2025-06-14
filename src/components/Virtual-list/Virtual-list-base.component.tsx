@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -15,6 +15,7 @@ import {
 	unmountVirtualList,
 	updateVirtualListData,
 	updateVirtualListLayout,
+	updateVirtualListLoading,
 	updateVirtualListOnScroll,
 	updateVirtualListVisibilityRangeData
 } from './Virtual-list.handler'
@@ -23,19 +24,20 @@ import {renderVirtualListItem} from './Virtual-list.render'
 
 const VirtualListBaseInner = <T,>(
 	{
+		activeKey,
 		data,
 		enableAutoSelect,
 		extraData,
 		focusedIndex,
 		gap = 0,
 		itemSize = 0,
+		loading: rawLoading,
 		onClose: rawOnClose,
 		onLoadEnd: rawOnLoadEnd,
 		onMomentumScrollEnd: rawOnMomentumScrollEnd,
 		onScroll: rawOnScroll,
 		renderItem,
 		renderVirtualList,
-		activeKey,
 		...renderVirtualListProps
 	}: VirtualListBaseProps<T>,
 	ref: ForwardedRef<Animated.ScrollView>
@@ -44,6 +46,7 @@ const VirtualListBaseInner = <T,>(
 		{
 			emptyList: isEmptyList,
 			layout,
+			loading: isLoading,
 			nextCloseEvent,
 			nextScrollEvent,
 			startIndex,
@@ -67,6 +70,7 @@ const VirtualListBaseInner = <T,>(
 	)
 
 	const onLoadEnd = useMemo(() => checkVirtualListLoadEnd(rawOnLoadEnd)(setState), [rawOnLoadEnd, setState])
+
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
 	const onUnmount = useMemo(
 		() => unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose, activeKey})(setState),
@@ -93,6 +97,11 @@ const VirtualListBaseInner = <T,>(
 	)
 
 	const runUpdateData = useMemo(() => updateVirtualListData(setState), [setState])
+	const runUpdateLoading = useMemo(
+		() => createDeferredHandlerWithState(updateVirtualListLoading)(setState)({debounceMillisecond: 150}),
+		[setState]
+	)
+
 	const itemElements = useMemo(
 		() =>
 			renderVirtualListItem({
@@ -112,6 +121,10 @@ const VirtualListBaseInner = <T,>(
 	useEffect(() => {
 		runUpdateData(data)
 	}, [runUpdateData, data])
+
+	useEffect(() => {
+		runUpdateLoading(rawLoading)
+	}, [runUpdateLoading, rawLoading])
 
 	useEffect(() => {
 		runUpdateVisibilityRangeData(virtualListData)
@@ -140,6 +153,7 @@ const VirtualListBaseInner = <T,>(
 		itemElements,
 		itemSize,
 		layout,
+		loading: isLoading,
 		ref: animatedRef,
 		status
 	})

@@ -26,22 +26,21 @@ export const renderLayoutAnimated = ({
 	return (
 		<AnimatedContainer
 			{...containerProps}
-			animatedType={animatedType}
-			collapse={isCollapse}
-			status={status}
+			onLayout={onLayout}
 			style={[style, containerAnimatedStyle]}
 			testID={testID ?? `layoutAnimated--${id}`}
-			translate={translate}
 			visible={visible}
 		>
 			<ContentLayout
+				translate={translate}
+				status={status}
 				collapse={isCollapse}
-				layout={(contentSize ?? layout) as LayoutRectangle}
+				animatedType={animatedType}
 				testID={`layoutAnimated__contentSize--${id}`}
 				visible={visible}
 			>
 				<Content
-					onLayout={onLayout}
+					layout={(contentSize ?? layout) as LayoutRectangle}
 					style={[contentStyle]}
 					testID={`layoutAnimated__content--${id}`}
 				>

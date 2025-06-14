@@ -1,6 +1,6 @@
 {
 	"name": "@bearei/material",
-	"version": "0.0.219",
+	"version": "0.0.220",
 	"main": "./dist/index.umd.cjs",
 	"module": "./dist/index.js",
 	"react-native": "./src/index.ts",

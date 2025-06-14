@@ -1,10 +1,27 @@
 import styled, {css} from 'styled-components/native'
 import {COMPONENT_STATUS, Shape} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
-import type {ContentLayoutProps, LayoutAnimatedContainerProps} from './Layout-animated.interface'
+import type {ContentLayoutProps, ContentProps, LayoutAnimatedContainerProps} from './Layout-animated.interface'
 
 export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 	position: relative;
+
+	${({visible}) =>
+		!visible &&
+		css`
+			z-index: -4096;
+		`}
+`
+
+export const ContentLayout = styled.View<ContentLayoutProps>`
+	position: absolute;
+
+	${({theme}) => css`
+		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+		left: ${theme.adaptSize(theme.token.spacing.none)}px;
+		right: ${theme.adaptSize(theme.token.spacing.none)}px;
+		top: ${theme.adaptSize(theme.token.spacing.none)}px;
+	`};
 
 	${({visible, theme, collapse, status, translate}) => {
 		const isCollapse = translate ? !translate : collapse
@@ -19,13 +36,7 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 		)
 	}}
 
-	${({visible}) =>
-		!visible &&
-		css`
-			z-index: -4096;
-		`}
-
-        ${({collapse}) =>
+	${({collapse}) =>
 		collapse &&
 		css`
 			overflow: hidden;
@@ -40,15 +51,10 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 		`}
 `
 
-export const ContentLayout = styled.View<ContentLayoutProps>`
-	position: absolute;
-
-	${({theme}) => css`
-		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-		left: ${theme.adaptSize(theme.token.spacing.none)}px;
-		right: ${theme.adaptSize(theme.token.spacing.none)}px;
-		top: ${theme.adaptSize(theme.token.spacing.none)}px;
-	`};
+export const Content = styled.View<ContentProps>`
+	display: flex;
+	align-self: stretch;
+	flex: 1;
 
 	${({layout, visible, collapse}) =>
 		typeof layout?.height === 'number' &&
@@ -72,10 +78,4 @@ export const ContentLayout = styled.View<ContentLayoutProps>`
 		css`
 			min-width: ${layout.width}px;
 		`}
-`
-
-export const Content = styled.View`
-	display: flex;
-	align-self: stretch;
-	flex: 1;
 `

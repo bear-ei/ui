@@ -35,6 +35,7 @@ export interface LayoutAnimatedProps extends RefAttributes<View>, Omit<ViewProps
 	style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> & StyleProp<ViewStyle>
 	unmount?: boolean
 	visible?: boolean
+	delay?: number
 }
 
 export interface RenderLayoutAnimatedProps extends Omit<LayoutAnimatedProps, 'contentSize'> {
@@ -84,12 +85,12 @@ export interface AnimateLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 
 
 export type UpdateLayoutAnimatedVisibilityOptions = Pick<LayoutAnimatedProps, 'onVisible' | 'animatedType'>
 export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>
-export interface LayoutAnimatedContainerProps
-	extends Pick<LayoutAnimatedProps, 'visible' | 'animatedType' | 'translate'> {
+export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible'>
+export interface ContentLayoutProps extends Pick<RenderLayoutAnimatedProps, 'visible' | 'animatedType' | 'translate'> {
 	collapse?: boolean
 	status: ComponentStatus
 }
 
-export interface ContentLayoutProps extends Pick<RenderLayoutAnimatedProps, 'visible' | 'layout'> {
-	collapse?: boolean
+export interface ContentProps extends Pick<ContentLayoutProps, 'visible' | 'collapse'> {
+	layout?: LayoutRectangle
 }

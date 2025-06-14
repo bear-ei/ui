@@ -21,6 +21,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			animatedType = LAYOUT_ANIMATED.FADE,
 			contentSize: rawContentSize,
 			defaultVisible,
+			delay = 50,
 			entry,
 			exit,
 			lazy = false,
@@ -100,8 +101,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		)
 
 		const runUpdateVisibility = useMemo(
-			() => debounce(updateLayoutAnimatedVisibility({onVisible, animatedType})(setState))(50),
-			[animatedType, onVisible, setState]
+			() => debounce(updateLayoutAnimatedVisibility({onVisible, animatedType})(setState))(delay),
+			[animatedType, delay, onVisible, setState]
 		)
 
 		useEffect(() => {

@@ -49,6 +49,7 @@ export interface VirtualListState {
 	emptyList?: boolean
 	endIndex?: number
 	layout: LayoutRectangle
+	loading?: boolean
 	nextCloseEvent?: () => void
 	nextScrollEvent?: () => void
 	scrollOffset?: number

@@ -192,3 +192,11 @@ export const animateVirtualList =
 	(contentHeightSharedValue: SharedValue<number>) =>
 	(contentSize: number) =>
 		animateSharedValueTo({sharedValue: contentHeightSharedValue})(contentSize)
+
+export const updateVirtualListLoading = (setState: Updater<VirtualListState>) => (loading?: boolean) =>
+	typeof loading === 'boolean' &&
+	setState(draft => {
+		if (draft.loading !== loading) {
+			draft.loading = loading
+		}
+	})
