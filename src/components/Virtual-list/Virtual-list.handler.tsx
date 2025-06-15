@@ -27,9 +27,14 @@ const calculateVirtualListVisibilityRange =
 		const dataSize = draft.virtualListData?.length ?? 0
 		const windowSize = Math.max(draft.layout.height, 0)
 		const visibleItemCount = Math.ceil(windowSize / itemSize)
-		const extraItem = 32
-		const endIndex = Math.min(dataSize, baseStartIndex + visibleItemCount + extraItem)
-		const startIndex = Math.max(0, baseStartIndex - extraItem)
+		const bufferItemCount = Math.max(5, Math.floor(visibleItemCount / 2))
+		const endIndex = Math.min(dataSize, baseStartIndex + visibleItemCount + bufferItemCount)
+		const startIndex = Math.max(0, baseStartIndex - bufferItemCount)
+
+		if (draft.startIndex === startIndex && draft.endIndex === endIndex) {
+			return
+		}
+
 		const nextVisibleRangeData = (draft.virtualListData ?? []).slice(startIndex, endIndex)
 
 		draft.emptyList = !draft.virtualListData?.length
@@ -76,15 +81,22 @@ export const handleVirtualListStateChange =
 		nextEvent[eventName]?.()
 	}
 
-export const updateVirtualListOnScroll = ({onScroll, itemSize, onEndReached}: UpdateVirtualListOnScrollOptions) => {
+export const updateVirtualListOnScroll = ({
+	onScroll,
+	itemSize,
+	onEndReached,
+	onEndReachedThreshold = 0.1
+}: UpdateVirtualListOnScrollOptions) => {
 	const createNextScrollEvent = (event: NativeSyntheticEvent<NativeScrollEvent>) => () => onScroll?.(event)
 
 	return (setState: Updater<VirtualListState>) => (event: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
-		const isHitBottom = contentSize.height - layoutMeasurement.height - contentOffset.y < 1
-		const scrollOffset = event.nativeEvent.contentOffset.y
+		const scrollOffset = contentOffset.y
+		const distanceFromEnd = contentSize.height - layoutMeasurement.height - scrollOffset
+		const thresholdDistance = layoutMeasurement.height * onEndReachedThreshold
+		const isHitBottom = distanceFromEnd <= thresholdDistance
 
-		if (isHitBottom || contentOffset.y <= 0) {
+		if (isHitBottom || scrollOffset <= 0) {
 			onEndReached?.()
 
 			return

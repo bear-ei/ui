@@ -18,7 +18,8 @@ const config = defineConfig({
 		lib: {
 			entry: resolve(__dirname, './src/index.ts'),
 			fileName: 'index',
-			name: 'Material'
+			name: 'Material',
+			formats: ['es', 'cjs']
 		},
 		rollupOptions: {
 			external: [
@@ -26,12 +27,14 @@ const config = defineConfig({
 				'react-dom',
 				'react-native',
 				'react-native-macos',
+				'react/jsx-runtime',
 				/\.(stories)\..+$/,
 				/App\.(style|tsx)$/
 			],
 			output: {
 				globals: {
 					react: 'React',
+					'react-dom': 'ReactDOM',
 					'react-native': 'ReactNative'
 				}
 			}

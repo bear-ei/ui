@@ -28,6 +28,7 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Anim
 	loadingElement?: React.JSX.Element
 	onClose?: (options: OnVirtualListCloseOptions) => void
 	onEndReached?: () => void
+	onEndReachedThreshold?: number
 	onLoadEnd?: (indexKey?: string) => void
 	renderItem?: (options: RenderVirtualListItemInfo<T>) => React.JSX.Element
 }
@@ -60,7 +61,8 @@ export interface VirtualListState {
 	visibleRangeData?: VirtualListData[]
 }
 
-export interface UpdateVirtualListOnScrollOptions extends Pick<RenderVirtualListProps, 'onScroll' | 'itemSize'> {
+export interface UpdateVirtualListOnScrollOptions
+	extends Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'onEndReachedThreshold'> {
 	onEndReached: () => Promise<void | undefined>
 }
 

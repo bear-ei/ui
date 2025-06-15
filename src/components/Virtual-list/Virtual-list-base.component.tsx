@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {createDeferredHandlerWithState, debounce, runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, debounce, runAfterInteractions, throttle} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -34,6 +34,7 @@ const VirtualListBaseInner = <T,>(
 		loading: rawLoading,
 		onClose: rawOnClose,
 		onEndReached: rawOnEndReached,
+		onEndReachedThreshold = 0.1,
 		onLoadEnd: rawOnLoadEnd,
 		onMomentumScrollEnd: rawOnMomentumScrollEnd,
 		onScroll: rawOnScroll,
@@ -62,8 +63,16 @@ const VirtualListBaseInner = <T,>(
 	const contentSize = (virtualListData ?? data ?? []).length * (itemSize + gap) - gap
 	const onEndReached = useMemo(() => debounce(rawOnEndReached)(150), [rawOnEndReached])
 	const onScroll = useMemo(
-		() => updateVirtualListOnScroll({onScroll: rawOnScroll, itemSize, onEndReached})(setState),
-		[itemSize, onEndReached, rawOnScroll, setState]
+		() =>
+			throttle(
+				updateVirtualListOnScroll({
+					itemSize,
+					onEndReached,
+					onEndReachedThreshold,
+					onScroll: rawOnScroll
+				})(setState)
+			)(50),
+		[itemSize, onEndReached, onEndReachedThreshold, rawOnScroll, setState]
 	)
 
 	const onMomentumScrollEnd = useMemo(
@@ -72,7 +81,6 @@ const VirtualListBaseInner = <T,>(
 	)
 
 	const onLoadEnd = useMemo(() => checkVirtualListLoadEnd(rawOnLoadEnd)(setState), [rawOnLoadEnd, setState])
-
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
 	const onUnmount = useMemo(
 		() => unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose, activeKey})(setState),
