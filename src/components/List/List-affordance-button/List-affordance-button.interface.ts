@@ -1,6 +1,6 @@
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {DefaultTheme} from 'styled-components'
+import type {DefaultTheme} from 'styled-components/native'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {EventName} from '../../Common'
 import type {TouchableProps} from '../../Touchable'

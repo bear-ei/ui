@@ -4,7 +4,7 @@ import {ThemeProvider} from '../src/contexts'
 const preview: Preview = {
 	decorators: [
 		Story => (
-			<ThemeProvider story={true}>
+			<ThemeProvider>
 				<Story />
 			</ThemeProvider>
 		)

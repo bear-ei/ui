@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react'
 import {resolve} from 'node:path'
+import {visualizer} from 'rollup-plugin-visualizer'
 import {defineConfig} from 'vite'
 import dts from 'vite-plugin-dts'
 import reactNativeWeb from 'vite-plugin-react-native-web'
@@ -13,6 +14,7 @@ const babelPlugins = [
 	'react-native-reanimated/plugin'
 ]
 
+const externals = ['react', 'react-dom', 'react-native', 'react/jsx-runtime']
 const config = defineConfig({
 	build: {
 		lib: {
@@ -22,22 +24,7 @@ const config = defineConfig({
 			formats: ['es', 'cjs']
 		},
 		rollupOptions: {
-			external: [
-				'react',
-				'react-dom',
-				'react-native',
-				'react-native-macos',
-				'react/jsx-runtime',
-				/\.(stories)\..+$/,
-				/App\.(style|tsx)$/
-			],
-			output: {
-				globals: {
-					react: 'React',
-					'react-dom': 'ReactDOM',
-					'react-native': 'ReactNative'
-				}
-			}
+			external: id => externals.includes(id) || externals.some(pkg => id.startsWith(pkg + '/'))
 		}
 	},
 	plugins: [
@@ -49,13 +36,9 @@ const config = defineConfig({
 		reactNativeWeb({babelPlugins}),
 		svgr({
 			include: '**/*.svg',
-			svgrOptions: {
-				exportType: 'default',
-				ref: true,
-				svgo: false,
-				titleProp: true
-			}
-		})
+			svgrOptions: {exportType: 'default', ref: true, svgo: false, titleProp: true}
+		}),
+		visualizer({open: true})
 	]
 })
 

@@ -1,16 +1,15 @@
 import type {Platform, Scheme} from '@bearei/material-token'
 import {CONTRAST, createToken, PALETTE, SCHEME, WINDOW_SIZE} from '@bearei/material-token'
 import type {FC} from 'react'
-import {useId, useMemo, useRef} from 'react'
-import {Platform as RNPlatform, useColorScheme, View} from 'react-native'
+import {useMemo} from 'react'
+import {Platform as RNPlatform, useColorScheme} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
 import {DENSITY} from '../../components'
+import {GlobalStyle} from '../../global.styles.ts'
 import {useWindowSize} from '../../hooks'
 import {adaptWindow} from '../../utils'
 import {ModalProvider} from '../Modal-provider'
-import {focusThemeProvider} from './Theme-provider.handler'
 import type {ThemeProps} from './Theme-provider.interface'
-import {Container} from './Theme-provider.styles'
 
 const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeToken, density = DENSITY.STANDARD}) => {
 	const {windowSize, width, height} = useWindowSize()
@@ -48,6 +47,7 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeT
 		<StyledComponentThemeProvider
 			theme={{adaptFontSize, adaptSize, colorScheme, density, OS: RNPlatform.OS, token: themeToken}}
 		>
+			{RNPlatform.OS === 'web' && <GlobalStyle />}
 			{children}
 			<ModalProvider />
 		</StyledComponentThemeProvider>
@@ -71,28 +71,12 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density 
 		<StyledComponentThemeProvider
 			theme={{adaptFontSize, adaptSize, colorScheme, density, OS: RNPlatform.OS, token: themeToken}}
 		>
+			{RNPlatform.OS === 'web' && <GlobalStyle />}
 			{children}
 			<ModalProvider />
 		</StyledComponentThemeProvider>
 	)
 }
 
-export const ThemeProvider: FC<ThemeProps> = ({story, ...props}) => {
-	const themeProviderRef = useRef<View>(null)
-	const onPressIn = useMemo(() => focusThemeProvider(themeProviderRef), [])
-	const id = useId()
-
-	return (
-		<Container
-			enableFocusRing={false}
-			onPressIn={onPressIn}
-			ref={themeProviderRef}
-			story={story}
-			testID={`bearei__material--${id}`}
-		>
-			{['macos', 'windows', 'web'].includes(RNPlatform.OS) ?
-				<DesktopDevice {...props} />
-			:	<MobileDevice {...props} />}
-		</Container>
-	)
-}
+export const ThemeProvider: FC<ThemeProps> = props =>
+	['macos', 'windows', 'web'].includes(RNPlatform.OS) ? <DesktopDevice {...props} /> : <MobileDevice {...props} />
