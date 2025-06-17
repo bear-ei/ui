@@ -1,4 +1,7 @@
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {LAYOUT_ANIMATED} from '../../Layout-animated'
 import {ListAffordanceButton} from '../List-affordance-button'
@@ -6,69 +9,75 @@ import type {RenderListAfterAffordanceProps} from './List-after-affordance.inter
 import {Container, Danger} from './List-after-affordance.styles'
 
 const AnimatedDanger = Animated.createAnimatedComponent(Danger)
-export const renderListAfterAffordance = ({
-	dangerAnimatedStyle,
-	doubleConfirmed,
-	id,
-	interactionHandlers,
-	onCancel,
-	onConfirm,
-	primaryButtonProps,
-	secondaryButtonProps,
-	testID,
-	theme,
-	visible,
-	...containerProps
-}: RenderListAfterAffordanceProps) => {
-	const fill = theme.token.scheme.onPrimary
-	const checkIconElement = (
-		<Icon
-			fill={fill}
-			iconStyle={ICON_STYLE.SHARP}
-			name={ICON_NAME.CHECK}
-			testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`}
-			type={ICON_TYPE.OUTLINED}
-		/>
-	)
-
-	const closeIconElement = (
-		<Icon
-			fill={fill}
-			iconStyle={ICON_STYLE.SHARP}
-			name={ICON_NAME.CLOSE}
-			testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`}
-			type={ICON_TYPE.OUTLINED}
-		/>
-	)
-
-	return (
-		<Container
-			{...containerProps}
-			{...interactionHandlers}
-			animatedType={LAYOUT_ANIMATED.STANDARD}
-			lazy={true}
-			testID={testID ?? `listAfterAffordance--${id}`}
-			visible={visible}
-		>
-			<ListAffordanceButton
-				{...(doubleConfirmed && {icon: checkIconElement})}
-				{...{labelText: 'Confirm', ...primaryButtonProps}}
-				onPressOut={onConfirm}
-				testID={`listAfterAffordance__listAffordanceButton--confirmed--${id}`}
+export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAffordanceProps>(
+	(
+		{
+			dangerAnimatedStyle,
+			doubleConfirmed,
+			id,
+			interactionHandlers,
+			onCancel,
+			onConfirm,
+			primaryButtonProps,
+			secondaryButtonProps,
+			testID,
+			visible,
+			...containerProps
+		}: RenderListAfterAffordanceProps,
+		ref
+	) => {
+		const theme = useTheme()
+		const fill = theme.token.scheme.onPrimary
+		const checkIconElement = (
+			<Icon
+				fill={fill}
+				iconStyle={ICON_STYLE.SHARP}
+				name={ICON_NAME.CHECK}
+				testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`}
+				type={ICON_TYPE.OUTLINED}
 			/>
+		)
 
-			<ListAffordanceButton
-				{...(doubleConfirmed && {icon: closeIconElement})}
-				{...{labelText: 'Cancel', ...secondaryButtonProps}}
-				onPressOut={onCancel}
-				testID={`listAfterAffordance__listAffordanceButton--close--${id}`}
+		const closeIconElement = (
+			<Icon
+				fill={fill}
+				iconStyle={ICON_STYLE.SHARP}
+				name={ICON_NAME.CLOSE}
+				testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`}
+				type={ICON_TYPE.OUTLINED}
 			/>
+		)
 
-			<AnimatedDanger
-				pointerEvents='none'
-				style={[dangerAnimatedStyle]}
-				testID={`listAfterAffordance__animatedDanger--${id}`}
-			/>
-		</Container>
-	)
-}
+		return (
+			<Container
+				{...containerProps}
+				{...interactionHandlers}
+				animatedType={LAYOUT_ANIMATED.STANDARD}
+				lazy={true}
+				testID={testID ?? `listAfterAffordance--${id}`}
+				visible={visible}
+				ref={ref}
+			>
+				<ListAffordanceButton
+					{...(doubleConfirmed && {icon: checkIconElement})}
+					{...{labelText: 'Confirm', ...primaryButtonProps}}
+					onPressOut={onConfirm}
+					testID={`listAfterAffordance__listAffordanceButton--confirmed--${id}`}
+				/>
+
+				<ListAffordanceButton
+					{...(doubleConfirmed && {icon: closeIconElement})}
+					{...{labelText: 'Cancel', ...secondaryButtonProps}}
+					onPressOut={onCancel}
+					testID={`listAfterAffordance__listAffordanceButton--close--${id}`}
+				/>
+
+				<AnimatedDanger
+					pointerEvents='none'
+					style={[dangerAnimatedStyle]}
+					testID={`listAfterAffordance__animatedDanger--${id}`}
+				/>
+			</Container>
+		)
+	}
+)

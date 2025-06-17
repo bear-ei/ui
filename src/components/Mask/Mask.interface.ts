@@ -12,10 +12,7 @@ export interface RenderMaskProps extends MaskProps {
 	interactionHandlers: InteractionHandlers
 }
 
-export interface MaskBaseProps extends MaskProps {
-	renderMask: (props: RenderMaskProps) => React.JSX.Element
-}
-
+export type MaskBaseProps = MaskProps
 export type MaskContainerProps = Pick<MaskProps, 'backgroundColor' | 'visible'>
 export interface HandleMaskStateChangeOptions extends HandleStateEventChangeOptions {
 	ref: React.RefObject<View>

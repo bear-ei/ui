@@ -123,9 +123,6 @@ export type CreateRenderListItemOptions = Pick<
 	| 'type'
 >
 
-export interface ListBaseProps extends ListProps {
-	renderList: (props: RenderListProps) => React.JSX.Element
-}
-
+export type ListBaseProps = ListProps
 export type UpdateListActiveStateOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
 export type CreateListItemSizeOptions = Pick<RenderListProps, 'density' | 'type'>

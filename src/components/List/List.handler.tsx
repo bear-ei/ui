@@ -12,7 +12,7 @@ import type {
 	UpdateListActiveStateOptions,
 	UpdateListAffordanceActiveStateOptions
 } from './List.interface'
-import {renderDefaultListItem} from './List.render'
+import {RenderDefaultListItem} from './List.render'
 
 export const updateListActiveState = ({
 	deselect,
@@ -142,4 +142,9 @@ export const triggerListClose = (onClose?: (options: OnVirtualListCloseOptions) 
 export const createListItemRenderer =
 	({renderItem, ...options}: CreateRenderListItemOptions) =>
 	(props: RenderVirtualListItemInfo<ListData>) =>
-		renderItem ? renderItem({...options, ...props}) : renderDefaultListItem({...options, ...props})
+		renderItem ?
+			renderItem({...options, ...props})
+		:	<RenderDefaultListItem
+				{...options}
+				{...props}
+			/>

@@ -1,6 +1,5 @@
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {DefaultTheme} from 'styled-components/native'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {EventName} from '../../Common'
 import type {TouchableProps} from '../../Touchable'
@@ -17,13 +16,9 @@ export interface RenderListAffordanceButtonProps extends ListAffordanceButtonPro
 	eventName?: EventName
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 	interactionHandlers: InteractionHandlers
-	theme: DefaultTheme
 }
 
-export interface ListAffordanceButtonBaseProps extends ListAffordanceButtonProps {
-	renderListAffordanceButton: (props: RenderListAffordanceButtonProps) => React.JSX.Element
-}
-
+export type ListAffordanceButtonBaseProps = ListAffordanceButtonProps
 export interface ListAffordanceButtonState {
 	eventName?: EventName
 }

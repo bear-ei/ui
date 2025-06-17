@@ -1,17 +1,21 @@
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
 import type {RenderMaskProps} from './Mask.interface'
 import {ContainerLayout, Content} from './Mask.styles'
 
-export const renderMask = ({ref, interactionHandlers, id, testID, ...containerProps}: RenderMaskProps) => (
-	<ContainerLayout
-		{...containerProps}
-		accessibilityRole='alert'
-		accessible={true}
-		testID={testID ?? `mask--${id}`}
-	>
-		<Content
-			{...interactionHandlers}
+export const RenderMask = forwardRef<View, RenderMaskProps>(
+	({interactionHandlers, id, testID, ...containerProps}, ref) => (
+		<ContainerLayout
+			{...containerProps}
+			accessibilityRole='alert'
+			accessible={true}
 			ref={ref}
-			testID={`mask__content--${id}`}
-		/>
-	</ContainerLayout>
+			testID={testID ?? `mask--${id}`}
+		>
+			<Content
+				{...interactionHandlers}
+				testID={`mask__content--${id}`}
+			/>
+		</ContainerLayout>
+	)
 )

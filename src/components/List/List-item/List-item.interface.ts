@@ -1,6 +1,6 @@
-import type {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
+import type {RefAttributes} from 'react'
+import type {PanResponderInstance, Pressable, StyleProp, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {DefaultTheme} from 'styled-components/native'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {ComponentStatus, EventName, State} from '../../Common'
 import type {IconButtonProps} from '../../Icon-button'
@@ -76,15 +76,11 @@ export interface RenderListItemProps extends ListItemProps {
 	panResponder?: PanResponderInstance
 	skeletonVisible?: boolean
 	state?: State
-	theme: DefaultTheme
 	trailingElement?: React.JSX.Element
 	trailingVisible?: boolean
 }
 
-export interface ListItemBaseProps extends ListItemProps {
-	renderListItem: (props: RenderListItemProps) => React.JSX.Element
-}
-
+export type ListItemBaseProps = ListItemProps
 export interface ListItemState {
 	afterAffordanceExpanded?: boolean
 	eventName?: EventName
@@ -114,13 +110,12 @@ export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListI
 	onItemClose: (indexKey?: boolean) => void
 }
 
-export interface RenderListItemTrailingOptions
+export interface RenderListItemTrailingProps
 	extends Pick<
 		RenderListItemProps,
 		'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps' | 'id'
 	> {
 	interactionHandlers: InteractionHandlers
-	theme: DefaultTheme
 }
 
 export interface UseListItemAnimatedOptions {
@@ -152,7 +147,7 @@ export interface ListItemTrailingProps extends ListItemLeadingProps {
 	trailingShow?: boolean
 }
 
-export interface ListItemItemTouchableProps {
+export interface ListItemItemTouchableProps extends RefAttributes<typeof Pressable> {
 	enableFocusRing?: boolean
 }
 

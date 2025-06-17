@@ -13,6 +13,7 @@ import {
 	updateLayoutAnimatedVisibility
 } from './Layout-animated.handler'
 import type {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
+import {RenderLayoutAnimated} from './Layout-animated.render'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
 export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
@@ -28,7 +29,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			onUnmount,
 			onVisible,
 			opacity,
-			renderLayoutAnimated,
 			scale = false,
 			translate,
 			unmount,
@@ -127,14 +127,14 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
 		return isUnmountLayout ?
 				<></>
-			:	renderLayoutAnimated({
-					...renderLayoutAnimatedProps,
-					animatedType,
-					containerAnimatedStyle,
-					id,
-					interactionHandlers,
-					ref,
-					visible: typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible
-				})
+			:	<RenderLayoutAnimated
+					{...renderLayoutAnimatedProps}
+					animatedType={animatedType}
+					containerAnimatedStyle={containerAnimatedStyle}
+					id={id}
+					interactionHandlers={interactionHandlers}
+					ref={ref}
+					visible={typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible}
+				/>
 	}
 )

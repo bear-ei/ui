@@ -1,17 +1,16 @@
 import {forwardRef, useCallback, useId} from 'react'
-import type {View} from 'react-native'
-import {useTheme} from 'styled-components/native'
+import type {Pressable} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import type {State} from '../../Common'
 import {handleListAffordanceButtonStateChange} from './List-affordance-button.handler'
 import type {ListAffordanceButtonBaseProps, ListAffordanceButtonState} from './List-affordance-button.interface'
+import {RenderListAffordanceButton} from './List-affordance-button.render'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
-export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBaseProps>(
-	({disabled, labelText = 'Label', renderListAffordanceButton, ...renderListAffordanceButtonProps}, ref) => {
+export const ListAffordanceButtonBase = forwardRef<typeof Pressable, ListAffordanceButtonBaseProps>(
+	({disabled, labelText = 'Label', ...renderListAffordanceButtonProps}, ref) => {
 		const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({})
-		const theme = useTheme()
 		const id = useId()
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -29,17 +28,18 @@ export const ListAffordanceButtonBase = forwardRef<View, ListAffordanceButtonBas
 			disabled
 		})
 
-		return renderListAffordanceButton({
-			...renderListAffordanceButtonProps,
-			backgroundUnderlayAnimatedStyle,
-			disabled,
-			eventName,
-			id,
-			interactionHandlers,
-			labelText,
-			labelTextAnimatedStyle,
-			ref,
-			theme
-		})
+		return (
+			<RenderListAffordanceButton
+				{...renderListAffordanceButtonProps}
+				backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
+				disabled={disabled}
+				eventName={eventName}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				labelText={labelText}
+				labelTextAnimatedStyle={labelTextAnimatedStyle}
+				ref={ref}
+			/>
+		)
 	}
 )

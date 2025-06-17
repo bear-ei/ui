@@ -1,5 +1,4 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef, type ForwardedRef} from 'react'
-import type Animated from 'react-native-reanimated'
+import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
@@ -12,6 +11,7 @@ import {
 	updateListAffordanceActiveState
 } from './List.handler'
 import type {ListBaseProps, ListData, ListState, VirtualListComponent} from './List.interface'
+import {RenderList} from './List.render'
 
 export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps>(
 	(
@@ -42,7 +42,6 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			onConfirm,
 			onItemStateEvent,
 			renderItem: rawRenderItem,
-			renderList,
 			selectType,
 			shape,
 			skeletonDuration = 0,
@@ -67,7 +66,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			setState
 		] = useImmer<ListState>({})
 
-		const listRef = useRef<ForwardedRef<Animated.ScrollView>>(null)
+		const listRef = useRef<VirtualListComponent<ListData>>(null)
 		const id = useId()
 		const theme = useTheme()
 		const itemSize = createListItemSize({density, type})(theme)(rawItemSize)
@@ -177,19 +176,21 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			runAfterInteractions(nextAfterAffordanceEvent)()
 		}, [nextAfterAffordanceEvent])
 
-		return renderList({
-			...renderListProps,
-			activeKey,
-			activeKeys,
-			afterAffordanceActiveKey,
-			focusedIndex,
-			id,
-			itemSize,
-			loading,
-			loadingElement,
-			onClose,
-			ref: listRef as ForwardedRef<Animated.ScrollView>,
-			renderItem
-		})
+		return (
+			<RenderList
+				{...renderListProps}
+				activeKey={activeKey}
+				activeKeys={activeKeys}
+				afterAffordanceActiveKey={afterAffordanceActiveKey}
+				focusedIndex={focusedIndex}
+				id={id}
+				itemSize={itemSize}
+				loading={loading}
+				loadingElement={loadingElement}
+				onClose={onClose}
+				ref={listRef}
+				renderItem={renderItem}
+			/>
+		)
 	}
 )

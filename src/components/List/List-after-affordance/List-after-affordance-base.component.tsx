@@ -1,6 +1,5 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
-import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
@@ -12,6 +11,7 @@ import {
 	updateListAffordanceCancelState
 } from './List-after-affordance.handler'
 import type {ListAfterAffordanceBaseProps, ListAfterAffordanceState} from './List-after-affordance.interface'
+import {RenderListAfterAffordance} from './List-after-affordance.render'
 import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animated.hook'
 
 export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseProps>(
@@ -20,7 +20,7 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 			indexKey,
 			onCancel: rawOnCancel,
 			onConfirm: rawOnConfirm,
-			renderListAfterAffordance,
+
 			visible,
 			...renderListAfterAffordanceProps
 		},
@@ -29,7 +29,6 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 		const [{doubleConfirmed: isDoubleConfirmed, nextCancelEvent, status}, setState] =
 			useImmer<ListAfterAffordanceState>({status: COMPONENT_STATUS.IDLE})
 
-		const theme = useTheme()
 		const id = useId()
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -80,17 +79,18 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 			runAfterInteractions(nextCancelEvent)()
 		}, [nextCancelEvent])
 
-		return renderListAfterAffordance({
-			...renderListAfterAffordanceProps,
-			dangerAnimatedStyle,
-			doubleConfirmed: isDoubleConfirmed,
-			id,
-			interactionHandlers,
-			onCancel,
-			onConfirm,
-			ref,
-			theme,
-			visible
-		})
+		return (
+			<RenderListAfterAffordance
+				{...renderListAfterAffordanceProps}
+				dangerAnimatedStyle={dangerAnimatedStyle}
+				doubleConfirmed={isDoubleConfirmed}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				onCancel={onCancel}
+				onConfirm={onConfirm}
+				ref={ref}
+				visible={visible}
+			/>
+		)
 	}
 )

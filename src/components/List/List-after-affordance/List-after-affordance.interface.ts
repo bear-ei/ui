@@ -1,7 +1,6 @@
 import type {RefAttributes} from 'react'
 import type {GestureResponderEvent, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {DefaultTheme} from 'styled-components/native'
 import type {InteractionHandlers} from '../../../hooks'
 import type {ComponentStatus} from '../../Common'
 import type {ListItemProps} from '../List-item'
@@ -28,13 +27,9 @@ export interface RenderListAfterAffordanceProps
 	interactionHandlers: InteractionHandlers
 	onCancel: (event: GestureResponderEvent) => void
 	onConfirm: (event: GestureResponderEvent) => void
-	theme: DefaultTheme
 }
 
-export interface ListAfterAffordanceBaseProps extends ListAfterAffordanceProps {
-	renderListAfterAffordance: (props: RenderListAfterAffordanceProps) => React.JSX.Element
-}
-
+export type ListAfterAffordanceBaseProps = ListAfterAffordanceProps
 export interface ListAfterAffordanceState {
 	doubleConfirmed?: boolean
 	nextCancelEvent?: () => void

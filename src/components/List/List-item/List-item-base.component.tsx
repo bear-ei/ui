@@ -1,6 +1,5 @@
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import type {View} from 'react-native'
-import {useTheme} from 'styled-components/native'
+import type {Pressable} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
@@ -15,10 +14,10 @@ import {
 	updateListItemFocusState
 } from './List-item.handler'
 import type {ListItemBaseProps, ListItemState} from './List-item.interface'
-import {renderListItemTrailing} from './List-item.render'
+import {RenderListItem, RenderListItemTrailing} from './List-item.render'
 import {useListItemAnimated} from './use-list-item-animated.hook'
 
-export const ListItemBase = forwardRef<View, ListItemBaseProps>(
+export const ListItemBase = forwardRef<typeof Pressable, ListItemBaseProps>(
 	(
 		{
 			activeKey,
@@ -41,7 +40,6 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			onClose: rawOnClose,
 			onConfirm: rawOnConfirm,
 			onLoadEnd,
-			renderListItem,
 			selectType,
 			shape,
 			supporting,
@@ -67,8 +65,7 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		] = useImmer<ListItemState>({status: COMPONENT_STATUS.IDLE, afterAffordanceExpanded: false})
 
 		const id = useId()
-		const theme = useTheme()
-		const pressableRef = useRef<View>(null)
+		const pressableRef = useRef<typeof Pressable>(null)
 		const isAfterAffordanceVisible = afterAffordanceActiveKey === indexKey
 		const isActive = !!(selectType === LIST_SELECT_TYPE.SINGLE ?
 			activeKey === indexKey
@@ -163,30 +160,21 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 		)
 
 		const trailingElement = useMemo(
-			() =>
-				renderListItemTrailing({
-					afterAffordance,
-					closeTrailing,
-					disabled,
-					id,
-					interactionHandlers: {onPressOut: onTrailingPressOut},
-					theme,
-					trailing,
-					trailingProps
-				}),
-			[
-				afterAffordance,
-				closeTrailing,
-				disabled,
-				id,
-				onTrailingPressOut,
-				theme,
-				trailing,
-				trailingProps
-			]
+			() => (
+				<RenderListItemTrailing
+					afterAffordance={afterAffordance}
+					closeTrailing={closeTrailing}
+					disabled={disabled}
+					id={id}
+					interactionHandlers={{onPressOut: onTrailingPressOut}}
+					trailing={trailing}
+					trailingProps={trailingProps}
+				/>
+			),
+			[afterAffordance, closeTrailing, disabled, id, onTrailingPressOut, trailing, trailingProps]
 		)
 
-		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
+		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as typeof Pressable, [pressableRef])
 
 		useEffect(() => {
 			if (isAfterAffordanceVisible) {
@@ -218,33 +206,33 @@ export const ListItemBase = forwardRef<View, ListItemBaseProps>(
 			runAfterInteractions(nextLayoutEvent)()
 		}, [nextLayoutEvent])
 
-		return renderListItem({
-			...renderListItemProps,
-			active: isActive,
-			afterAffordance,
-			afterAffordanceExpanded: isAfterAffordanceExpanded,
-			afterAffordanceVisible: isAfterAffordanceVisible,
-			beforeAffordance,
-			contentAnimatedStyle,
-			disabled,
-			enableUnderlay,
-			enableUnderlayActive,
-			eventName,
-			headlineTextAnimatedStyle,
-			id,
-			indexKey,
-			interactionHandlers,
-			leadingElement: leading,
-			onConfirm,
-			ref: pressableRef,
-			selectType,
-			shape,
-			supporting,
-			theme,
-			trailingElement,
-			trailingTriggerEvenName,
-			trailingVisible: isTrailingVisible,
-			type
-		})
+		return (
+			<RenderListItem
+				{...renderListItemProps}
+				active={isActive}
+				afterAffordance={afterAffordance}
+				afterAffordanceExpanded={isAfterAffordanceExpanded}
+				afterAffordanceVisible={isAfterAffordanceVisible}
+				beforeAffordance={beforeAffordance}
+				contentAnimatedStyle={contentAnimatedStyle}
+				disabled={disabled}
+				enableUnderlay={enableUnderlay}
+				enableUnderlayActive={enableUnderlayActive}
+				eventName={eventName}
+				headlineTextAnimatedStyle={headlineTextAnimatedStyle}
+				id={id}
+				indexKey={indexKey}
+				interactionHandlers={interactionHandlers}
+				leadingElement={leading}
+				onConfirm={onConfirm}
+				ref={pressableRef}
+				selectType={selectType}
+				shape={shape}
+				supporting={supporting}
+				trailingElement={trailingElement}
+				trailingVisible={isTrailingVisible}
+				type={type}
+			/>
+		)
 	}
 )
