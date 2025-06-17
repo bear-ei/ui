@@ -1,11 +1,16 @@
 import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
 import type {LayoutPaneBaseProps} from './Layout-pane.interface'
+import {RenderLayoutPane} from './Layout-pane.render'
 
-export const LayoutPaneBase = forwardRef<View, LayoutPaneBaseProps>(
-	({renderLayoutPane, ...renderLayoutPaneProps}, ref) => {
-		const id = useId()
+export const LayoutPaneBase = forwardRef<View, LayoutPaneBaseProps>((props, ref) => {
+	const id = useId()
 
-		return renderLayoutPane({...renderLayoutPaneProps, ref, id})
-	}
-)
+	return (
+		<RenderLayoutPane
+			{...props}
+			id={id}
+			ref={ref}
+		/>
+	)
+})
