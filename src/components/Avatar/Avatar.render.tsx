@@ -1,54 +1,61 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import type {FC} from 'react'
-import type {RenderAvatarProps} from './Avatar.interface'
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
+import type {AvatarProps} from './Avatar.interface'
 import {Container, Content, Image, LabelText} from './Avatar.styles'
 
-export const RenderAvatar: FC<RenderAvatarProps> = ({
-	accessibilityLabel,
-	backgroundColor,
-	defaultSource,
-	density,
-	id,
-	labelText,
-	shape = SHAPE.FULL,
-	size,
-	source,
-	testID,
-	...containerProps
-}) => (
-	<Container
-		{...containerProps}
-		accessibilityLabel={accessibilityLabel ?? labelText}
-		accessibilityRole='image'
-		accessible={true}
-		pointerEvents='none'
-		shape={shape}
-		testID={testID ?? `avatar--${testID}`}
-	>
-		<Content
-			backgroundColor={backgroundColor}
-			density={density}
+export const RenderAvatar = forwardRef<View, AvatarProps>(
+	(
+		{
+			accessibilityLabel,
+			backgroundColor,
+			defaultSource,
+			density,
+			id,
+			labelText,
+			shape = SHAPE.FULL,
+			size,
+			source,
+			testID,
+			...containerProps
+		},
+		ref
+	) => (
+		<Container
+			{...containerProps}
+			accessibilityLabel={accessibilityLabel ?? labelText}
+			accessibilityRole='image'
+			accessible={true}
+			pointerEvents='none'
+			ref={ref}
 			shape={shape}
-			size={size}
-			testID={`avatar__content--${id}`}
+			testID={testID ?? `avatar--${testID}`}
 		>
-			{source || defaultSource ?
-				<Image
-					defaultSource={defaultSource ?? {}}
-					resizeMode='cover'
-					source={source ?? {}}
-					testID={`avatar__image--${id}`}
-				/>
-			:	<LabelText
-					ellipsizeMode='tail'
-					numberOfLines={1}
-					size={SIZE.MEDIUM}
-					testID={`avatar__labelText--${id}`}
-					type={TYPOGRAPHY.TITLE}
-				>
-					{labelText}
-				</LabelText>
-			}
-		</Content>
-	</Container>
+			<Content
+				backgroundColor={backgroundColor}
+				density={density}
+				shape={shape}
+				size={size}
+				testID={`avatar__content--${id}`}
+			>
+				{source || defaultSource ?
+					<Image
+						defaultSource={defaultSource ?? {}}
+						resizeMode='cover'
+						source={source ?? {}}
+						testID={`avatar__image--${id}`}
+					/>
+				:	<LabelText
+						ellipsizeMode='tail'
+						numberOfLines={1}
+						size={SIZE.MEDIUM}
+						testID={`avatar__labelText--${id}`}
+						type={TYPOGRAPHY.TITLE}
+					>
+						{labelText}
+					</LabelText>
+				}
+			</Content>
+		</Container>
+	)
 )

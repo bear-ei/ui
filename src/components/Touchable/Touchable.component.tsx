@@ -1,15 +1,13 @@
 import {forwardRef} from 'react'
-import type {View} from 'react-native'
+import type {Pressable} from 'react-native'
 import {typedMemo} from '../../utils'
 import {TouchableBase} from './Touchable-base.component'
 import type {TouchableProps} from './Touchable.interface'
-import {renderTouchable} from './Touchable.render'
 
-const TouchableWithRef = forwardRef<View, TouchableProps>((props, ref) => (
+const TouchableWithRef = forwardRef<typeof Pressable, TouchableProps>((props, ref) => (
 	<TouchableBase
 		{...props}
 		ref={ref}
-		renderTouchable={renderTouchable}
 	/>
 ))
 

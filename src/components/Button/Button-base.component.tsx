@@ -1,5 +1,5 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import type {View} from 'react-native'
+import type {Pressable} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
@@ -12,10 +12,10 @@ import {
 	updateButtonStatus
 } from './Button.handler'
 import type {ButtonBaseProps, ButtonState} from './Button.interface'
-import {renderButtonIcon} from './Button.render'
+import {RenderButton, RenderButtonIcon} from './Button.render'
 import {useButtonAnimated} from './use-button-animated.hook'
 
-export const ButtonBase = forwardRef<View, ButtonBaseProps>(
+export const ButtonBase = forwardRef<typeof Pressable, ButtonBaseProps>(
 	(
 		{
 			disabled: rawDisabled,
@@ -23,7 +23,6 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			icon,
 			labelText = 'Label',
 			loading,
-			renderButton,
 			type = BUTTON_TYPE.FILLED,
 			...renderButtonProps
 		},
@@ -67,8 +66,15 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 		)
 
 		const iconElement = useMemo(
-			() => renderButtonIcon({type, disabled: rawDisabled, id})(theme)(icon),
-			[icon, id, rawDisabled, theme, type]
+			() => (
+				<RenderButtonIcon
+					disabled={rawDisabled}
+					icon={icon}
+					id={id}
+					type={type}
+				/>
+			),
+			[icon, id, rawDisabled, type]
 		)
 
 		useEffect(() => {
@@ -83,21 +89,23 @@ export const ButtonBase = forwardRef<View, ButtonBaseProps>(
 			return <></>
 		}
 
-		return renderButton({
-			...renderButtonProps,
-			backgroundUnderlayAnimatedStyle,
-			disabled: isDisabled,
-			elevation,
-			eventName,
-			iconElement,
-			id,
-			interactionHandlers,
-			labelText,
-			labelTextAnimatedStyle,
-			loading,
-			ref,
-			type,
-			underlayColor
-		})
+		return (
+			<RenderButton
+				{...renderButtonProps}
+				backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
+				disabled={isDisabled}
+				elevation={elevation}
+				eventName={eventName}
+				iconElement={iconElement}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				labelText={labelText}
+				labelTextAnimatedStyle={labelTextAnimatedStyle}
+				loading={loading}
+				ref={ref}
+				type={type}
+				underlayColor={underlayColor}
+			/>
+		)
 	}
 )

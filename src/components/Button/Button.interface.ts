@@ -24,10 +24,7 @@ export interface RenderButtonProps extends ButtonProps {
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 }
 
-export interface ButtonBaseProps extends ButtonProps {
-	renderButton: (props: RenderButtonProps) => React.JSX.Element
-}
-
+export type ButtonBaseProps = ButtonProps
 export interface ButtonState {
 	elevation?: ElevationLevel
 	eventName?: EventName
@@ -35,7 +32,7 @@ export interface ButtonState {
 }
 
 export type HandleButtonStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderButtonProps, 'type'>
-export type RenderButtonIconOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'id'>
+export type RenderButtonIconProps = Pick<RenderButtonProps, 'disabled' | 'type' | 'id' | 'icon'>
 export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName' | 'error'>
 export interface AnimateButtonOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
 	animateSharedValueTo: AnimateSharedValueTo

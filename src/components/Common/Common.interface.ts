@@ -10,6 +10,8 @@ import type {
 	Spacing,
 	Typography
 } from '@bearei/material-token'
+import type {RefAttributes} from 'react'
+import type {View, ViewProps} from 'react-native'
 import type {COMPONENT_STATUS, DENSITY, DENSITY_SCALE, EVENT_NAME, LAYOUT, STATE, TRIGGER_EVENT} from './Common.enum'
 
 export type BezierType = keyof Bezier
@@ -28,7 +30,7 @@ export type SpacingType = keyof Spacing
 export type State = (typeof STATE)[keyof typeof STATE]
 export type TriggerEvent = (typeof TRIGGER_EVENT)[keyof typeof TRIGGER_EVENT]
 export type TypographyType = keyof Typography
-export interface ShapeProps {
+export interface ShapeProps extends ViewProps, RefAttributes<View> {
 	shape?: ShapeType
 }
 

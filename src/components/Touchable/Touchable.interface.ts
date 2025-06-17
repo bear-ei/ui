@@ -1,12 +1,12 @@
 import type {RefAttributes} from 'react'
-import type {LayoutRectangle, NativeTouchEvent, PressableProps, View, ViewProps, ViewStyle} from 'react-native'
+import type {LayoutRectangle, NativeTouchEvent, Pressable, PressableProps, ViewStyle} from 'react-native'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {ShapeProps} from '../Common'
 import type {TouchableRippleProps} from './Touchable-ripple'
 
 export interface TouchableProps
 	extends Omit<
-		PressableProps & Pick<ShapeProps, 'shape'> & RefAttributes<View> & ViewProps & InteractionHandlers,
+		PressableProps & Pick<ShapeProps, 'shape'> & RefAttributes<typeof Pressable> & InteractionHandlers,
 		'children' | 'disabled' | 'hitSlop'
 	> {
 	backgroundUnderlay?: React.JSX.Element
@@ -32,10 +32,7 @@ export interface RenderTouchableProps extends TouchableProps {
 	rippleElements?: React.JSX.Element[]
 }
 
-export interface TouchableBaseProps extends TouchableProps {
-	renderTouchable: (props: RenderTouchableProps) => React.JSX.Element
-}
-
+export type TouchableBaseProps = TouchableProps
 export type TouchableRipple = TouchableRippleProps['touchableLocation']
 export type TouchableRippleSequence = Record<string, TouchableRipple>
 export interface TouchableState {
@@ -48,10 +45,12 @@ export interface HandleTouchableStateChangeOptions
 	extends Pick<TouchableRippleProps, 'touchableLocation'>,
 		HandleStateEventChangeOptions,
 		Pick<TouchableProps, 'enableTouchableRipple'> {
-	ref: React.RefObject<View>
+	ref: React.RefObject<typeof Pressable>
 }
 
-export type TouchableContentProps = Pick<RenderTouchableProps, 'hotZone' | 'enableFocusRing'>
+export type TouchableContentProps = Pick<RenderTouchableProps, 'hotZone' | 'enableFocusRing'> &
+	RefAttributes<typeof Pressable>
+
 export interface TouchableMainProps {
 	alignSelf?: ViewStyle['alignSelf']
 }

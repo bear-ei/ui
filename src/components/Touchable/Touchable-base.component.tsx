@@ -1,32 +1,22 @@
 import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import type {LayoutRectangle, View} from 'react-native'
+import type {LayoutRectangle, Pressable} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useInteractionStateEvent} from '../../hooks'
 import type {State} from '../Common'
 import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handler'
 import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
-import {renderTouchableRipple} from './Touchable.render'
+import {RenderTouchable, renderTouchableRipple} from './Touchable.render'
 
-export const TouchableBase = forwardRef<View, TouchableBaseProps>(
-	(
-		{
-			centered,
-			disabled,
-			enableTouchableRipple = true,
-			renderTouchable,
-			underlayColor,
-			...renderTouchableProps
-		},
-		ref
-	) => {
+export const TouchableBase = forwardRef<typeof Pressable, TouchableBaseProps>(
+	({centered, disabled, enableTouchableRipple = true, underlayColor, ...renderTouchableProps}, ref) => {
 		const [{rippleSequence, contentLayout}, setState] = useImmer<TouchableState>({
 			contentLayout: {} as LayoutRectangle,
 			rippleSequence: {} as TouchableRippleSequence
 		})
 
 		const id = useId()
-		const pressableRef = useRef<View>(null)
+		const pressableRef = useRef<typeof Pressable>(null)
 		const onAnimateFinished = useMemo(() => deleteTouchableRippleByIndex(setState), [setState])
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -57,14 +47,16 @@ export const TouchableBase = forwardRef<View, TouchableBaseProps>(
 			[centered, contentLayout, id, onAnimateFinished, rippleSequence, underlayColor]
 		)
 
-		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
+		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as typeof Pressable, [pressableRef])
 
-		return renderTouchable({
-			...renderTouchableProps,
-			id,
-			interactionHandlers,
-			ref: pressableRef,
-			rippleElements
-		})
+		return (
+			<RenderTouchable
+				{...renderTouchableProps}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				ref={pressableRef}
+				rippleElements={rippleElements}
+			/>
+		)
 	}
 )
