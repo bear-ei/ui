@@ -5,6 +5,7 @@ import {useTheme} from 'styled-components/native'
 import {iconStyleConfig} from './Icon-style'
 import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'
 import type {IconBaseProps} from './Icon.interface'
+import {RenderIcon} from './Icon.render'
 
 export const IconBase = forwardRef<View, IconBaseProps>(
 	(
@@ -14,7 +15,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			icon,
 			iconStyle: style = ICON_STYLE.ROUNDED,
 			name = ICON_NAME.CIRCLE,
-			renderIcon,
 			svgStyle,
 			type = ICON_TYPE.OUTLINED,
 			...renderIconProps
@@ -39,6 +39,14 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			[IconComponent, iconFill, svgStyle]
 		)
 
-		return renderIcon({...renderIconProps, iconElement, id, name, ref})
+		return (
+			<RenderIcon
+				{...renderIconProps}
+				iconElement={iconElement}
+				id={id}
+				name={name}
+				ref={ref}
+			/>
+		)
 	}
 )
