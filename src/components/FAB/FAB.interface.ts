@@ -28,10 +28,7 @@ export interface RenderFABProps extends FABProps {
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 }
 
-export interface FABBaseProps extends FABProps {
-	renderFAB: (props: RenderFABProps) => React.JSX.Element
-}
-
+export type FABBaseProps = FABProps
 export interface FABState {
 	elevation?: ElevationLevel
 	eventName?: EventName
@@ -42,5 +39,5 @@ export type FABContainerProps = Pick<RenderFABProps, 'size' | 'type' | 'extended
 export type FABContentProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB' | 'density'>
 export type FABMainProps = Pick<RenderFABProps, 'size' | 'type' | 'extendedFAB'>
 export type HandleFABStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
-export type RenderFABIconOptions = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'id'>
+export type RenderFABIconProps = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'id' | 'icon'>
 export type UseFABAnimatedOptions = Pick<RenderFABProps, 'disabled' | 'type'>

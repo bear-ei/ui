@@ -1,6 +1,6 @@
 import {SIZE} from '@bearei/material-token'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import type {View} from 'react-native'
+import type {Pressable} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
@@ -8,10 +8,10 @@ import {COMPONENT_STATUS, type State} from '../Common'
 import {FAB_TYPE} from './FAB.enum'
 import {getFABUnderlayColor, handleFABStateChange, updateFABDisabledState, updateFABStatus} from './FAB.handler'
 import type {FABBaseProps, FABState} from './FAB.interface'
-import {renderFABIcon} from './FAB.render'
+import {RenderFAB, RenderFABIcon} from './FAB.render'
 import {useFABAnimated} from './use-fab-animated.hook'
 
-export const FABBase = forwardRef<View, FABBaseProps>(
+export const FABBase = forwardRef<typeof Pressable, FABBaseProps>(
 	(
 		{
 			disabled: rawDisabled,
@@ -20,7 +20,6 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			icon,
 			labelText,
 			loading,
-			renderFAB,
 			size = SIZE.MEDIUM,
 			type = FAB_TYPE.PRIMARY,
 			...renderFABProps
@@ -56,8 +55,16 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 		)
 
 		const iconElement = useMemo(
-			() => renderFABIcon({type, disabled: rawDisabled, size, id})(theme)(icon),
-			[icon, id, rawDisabled, size, theme, type]
+			() => (
+				<RenderFABIcon
+					disabled={rawDisabled}
+					icon={icon}
+					id={id}
+					size={size}
+					type={type}
+				/>
+			),
+			[icon, id, rawDisabled, size, type]
 		)
 
 		useEffect(() => {
@@ -72,23 +79,25 @@ export const FABBase = forwardRef<View, FABBaseProps>(
 			return <></>
 		}
 
-		return renderFAB({
-			...renderFABProps,
-			backgroundUnderlayAnimatedStyle,
-			disabled: isDisabled,
-			elevation,
-			eventName,
-			extendedFAB: extendedFAB ?? !!labelText,
-			iconElement,
-			id,
-			interactionHandlers,
-			labelText,
-			labelTextAnimatedStyle,
-			loading,
-			ref,
-			size,
-			type,
-			underlayColor
-		})
+		return (
+			<RenderFAB
+				{...renderFABProps}
+				backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
+				disabled={isDisabled}
+				elevation={elevation}
+				eventName={eventName}
+				extendedFAB={extendedFAB ?? !!labelText}
+				iconElement={iconElement}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				labelText={labelText}
+				labelTextAnimatedStyle={labelTextAnimatedStyle}
+				loading={loading}
+				ref={ref}
+				size={size}
+				type={type}
+				underlayColor={underlayColor}
+			/>
+		)
 	}
 )

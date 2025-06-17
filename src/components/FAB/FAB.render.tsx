@@ -1,144 +1,155 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import {cloneElement} from 'react'
+import {cloneElement, forwardRef, useMemo} from 'react'
+import type {Pressable} from 'react-native'
 import Animated from 'react-native-reanimated'
-import type {DefaultTheme} from 'styled-components/native'
+import {useTheme} from 'styled-components/native'
 import {Elevation} from '../Elevation'
 import type {IconProps} from '../Icon'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {FAB_TYPE} from './FAB.enum'
-import type {FABType, RenderFABIconOptions, RenderFABProps} from './FAB.interface'
+import type {FABType, RenderFABIconProps, RenderFABProps} from './FAB.interface'
 import {BackgroundUnderlay, Container, Content, IconLayout, LabelText, Main} from './FAB.styles'
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
-export const renderFABIcon =
-	({disabled, size, type = FAB_TYPE.PRIMARY, id}: RenderFABIconOptions) =>
-	(theme: DefaultTheme) => {
-		const fillType = {
-			[FAB_TYPE.PRIMARY]: theme.token.scheme.onPrimaryContainer,
-			[FAB_TYPE.SECONDARY]: theme.token.scheme.onSecondaryContainer,
-			[FAB_TYPE.SURFACE]: theme.token.scheme.primary,
-			[FAB_TYPE.TERTIARY]: theme.token.scheme.onTertiaryContainer
-		} as Record<FABType, string>
+export const RenderFABIcon = ({disabled, size, type = FAB_TYPE.PRIMARY, id, icon}: RenderFABIconProps) => {
+	const theme = useTheme()
+	const fillType = useMemo(
+		() =>
+			({
+				[FAB_TYPE.PRIMARY]: theme.token.scheme.onPrimaryContainer,
+				[FAB_TYPE.SECONDARY]: theme.token.scheme.onSecondaryContainer,
+				[FAB_TYPE.SURFACE]: theme.token.scheme.primary,
+				[FAB_TYPE.TERTIARY]: theme.token.scheme.onTertiaryContainer
+			}) as Record<FABType, string>,
+		[
+			theme.token.scheme.onPrimaryContainer,
+			theme.token.scheme.onSecondaryContainer,
+			theme.token.scheme.onTertiaryContainer,
+			theme.token.scheme.primary
+		]
+	)
 
-		return (icon?: React.JSX.Element) => {
-			if (!icon) {
-				return icon
-			}
+	const iconSize = theme.adaptSize(theme.token.spacing.large + 3 * theme.token.spacing.extraSmall)
 
-			const iconSize = theme.adaptSize(theme.token.spacing.large + 3 * theme.token.spacing.extraSmall)
-
-			return cloneElement<IconProps>(icon, {
-				...(size === SIZE.LARGE && {width: iconSize, height: iconSize}),
-				disabled,
-				fill: fillType[type],
-				testID: `fab__icon--${id}`
-			})
-		}
+	if (!icon) {
+		return icon
 	}
 
-export const renderFAB = ({
-	accessibilityLabel,
-	backgroundUnderlayAnimatedStyle,
-	density,
-	disabled,
-	elevation,
-	eventName,
-	extendedFAB,
-	iconElement,
-	id,
-	interactionHandlers,
-	labelText,
-	labelTextAnimatedStyle,
-	ref,
-	size,
-	testID,
-	type,
-	underlayColor,
-	...contentProps
-}: RenderFABProps) => {
-	const sizeShape = size === SIZE.MEDIUM ? SHAPE.LARGE : SHAPE.MEDIUM
-	const shape = size === SIZE.LARGE ? SHAPE.EXTRA_LARGE : sizeShape
-	const backgroundUnderlayElement = (
-		<AnimatedBackgroundUnderlay
-			pointerEvents='none'
-			shape={shape}
-			style={[backgroundUnderlayAnimatedStyle]}
-			testID={`fab__backgroundUnderlay--${id}`}
-		/>
-	)
+	return cloneElement<IconProps>(icon, {
+		...(size === SIZE.LARGE && {width: iconSize, height: iconSize}),
+		disabled,
+		fill: fillType[type],
+		testID: `fab__icon--${id}`
+	})
+}
 
-	const elevationUnderlayElement = (
-		<Elevation
-			level={elevation}
-			shape={shape}
-			testID={`fab__elevation--${id}`}
-		/>
-	)
-
-	return (
-		<Container
-			accessibilityLabel={accessibilityLabel ?? labelText}
-			accessibilityRole='button'
-			accessibilityState={{disabled}}
-			density={density}
-			extendedFAB={extendedFAB}
-			size={size}
-			testID={testID ?? `fab--${id}`}
-		>
-			<Touchable
-				{...interactionHandlers}
-				backgroundUnderlay={backgroundUnderlayElement}
-				disabled={disabled}
-				elevationUnderlay={elevationUnderlayElement}
-				mainAlignSelf={size === SIZE.SMALL ? 'center' : 'stretch'}
-				ref={ref}
+export const RenderFAB = forwardRef<typeof Pressable, RenderFABProps>(
+	(
+		{
+			accessibilityLabel,
+			backgroundUnderlayAnimatedStyle,
+			density,
+			disabled,
+			elevation,
+			eventName,
+			extendedFAB,
+			iconElement,
+			id,
+			interactionHandlers,
+			labelText,
+			labelTextAnimatedStyle,
+			size,
+			testID,
+			type,
+			underlayColor,
+			...touchableProps
+		}: RenderFABProps,
+		ref
+	) => {
+		const sizeShape = size === SIZE.MEDIUM ? SHAPE.LARGE : SHAPE.MEDIUM
+		const shape = size === SIZE.LARGE ? SHAPE.EXTRA_LARGE : sizeShape
+		const backgroundUnderlayElement = (
+			<AnimatedBackgroundUnderlay
+				pointerEvents='none'
 				shape={shape}
-				testID={`fab__touchable--${id}`}
-				underlayColor={underlayColor}
+				style={[backgroundUnderlayAnimatedStyle]}
+				testID={`fab__backgroundUnderlay--${id}`}
+			/>
+		)
+
+		const elevationUnderlayElement = (
+			<Elevation
+				level={elevation}
+				shape={shape}
+				testID={`fab__elevation--${id}`}
+			/>
+		)
+
+		return (
+			<Container
+				accessibilityLabel={accessibilityLabel ?? labelText}
+				accessibilityRole='button'
+				accessibilityState={{disabled}}
+				density={density}
+				extendedFAB={extendedFAB}
+				size={size}
+				testID={testID ?? `fab--${id}`}
 			>
-				<Content
-					{...contentProps}
-					density={density}
-					extendedFAB={extendedFAB}
-					pointerEvents='none'
-					size={size}
-					testID={`fab__content--${id}`}
-					type={type}
+				<Touchable
+					{...interactionHandlers}
+					{...touchableProps}
+					backgroundUnderlay={backgroundUnderlayElement}
+					disabled={disabled}
+					elevationUnderlay={elevationUnderlayElement}
+					mainAlignSelf={size === SIZE.SMALL ? 'center' : 'stretch'}
+					ref={ref}
+					shape={shape}
+					testID={`fab__touchable--${id}`}
+					underlayColor={underlayColor}
 				>
-					<Main
+					<Content
+						density={density}
 						extendedFAB={extendedFAB}
+						pointerEvents='none'
 						size={size}
-						testID={`fab__main--${id}`}
+						testID={`fab__content--${id}`}
 						type={type}
 					>
-						{iconElement && (
-							<IconLayout testID={`fab__iconLayout--${id}`}>
-								{iconElement}
-							</IconLayout>
-						)}
+						<Main
+							extendedFAB={extendedFAB}
+							size={size}
+							testID={`fab__main--${id}`}
+							type={type}
+						>
+							{iconElement && (
+								<IconLayout testID={`fab__iconLayout--${id}`}>
+									{iconElement}
+								</IconLayout>
+							)}
 
-						{extendedFAB && labelText && (
-							<AnimatedLabelText
-								size={SIZE.LARGE}
-								style={[labelTextAnimatedStyle]}
-								testID={`fab__animatedLabelText--${id}`}
-								type={TYPOGRAPHY.LABEL}
-							>
-								{labelText}
-							</AnimatedLabelText>
-						)}
-					</Main>
+							{extendedFAB && labelText && (
+								<AnimatedLabelText
+									size={SIZE.LARGE}
+									style={[labelTextAnimatedStyle]}
+									testID={`fab__animatedLabelText--${id}`}
+									type={TYPOGRAPHY.LABEL}
+								>
+									{labelText}
+								</AnimatedLabelText>
+							)}
+						</Main>
 
-					<Underlay
-						eventName={eventName}
-						shape={shape}
-						testID={`fab__underlay--${id}`}
-						underlayColor={underlayColor}
-					/>
-				</Content>
-			</Touchable>
-		</Container>
-	)
-}
+						<Underlay
+							eventName={eventName}
+							shape={shape}
+							testID={`fab__underlay--${id}`}
+							underlayColor={underlayColor}
+						/>
+					</Content>
+				</Touchable>
+			</Container>
+		)
+	}
+)
