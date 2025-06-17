@@ -44,10 +44,7 @@ export interface RenderSideSheetProps extends SideSheetProps {
 	onVisibleSource?: () => void
 }
 
-export interface SideSheetBaseProps extends SideSheetProps {
-	renderSideSheet: (props: RenderSideSheetProps) => React.JSX.Element
-}
-
+export type SideSheetBaseProps = SideSheetProps
 export interface SideSheetState {
 	nextBackEvent?: () => void
 	nextCancelEvent?: () => void

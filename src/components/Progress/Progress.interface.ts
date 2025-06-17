@@ -25,10 +25,7 @@ export interface ProgressProps extends ViewProps, RefAttributes<View> {
 }
 
 export type RenderProgressProps = ProgressProps
-export interface ProgressBaseProps extends ProgressProps {
-	renderProgress: (props: RenderProgressProps) => React.JSX.Element
-}
-
+export type ProgressBaseProps = ProgressProps
 export interface ProgressState {
 	layout: LayoutRectangle
 }

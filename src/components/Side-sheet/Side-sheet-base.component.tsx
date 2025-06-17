@@ -12,6 +12,7 @@ import {
 	updateSideSheetClose
 } from './Side-sheet.handler'
 import type {SideSheetBaseProps, SideSheetState} from './Side-sheet.interface'
+import {RenderSideSheet} from './Side-sheet.render'
 
 export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 	(
@@ -21,7 +22,6 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 			onBack: rawOnBack,
 			onClose: rawOnClose,
 			onVisible,
-			renderSideSheet,
 			type = SIDE_SHEET_TYPE.MODAL,
 			visible,
 			...renderSideSheetProps
@@ -102,7 +102,7 @@ export const SideSheetBase = forwardRef<View, SideSheetBaseProps>(
 		}, [nextCancelEvent])
 
 		return sideSheetTypes.includes(type as (typeof sideSheetTypes)[number]) ?
-				renderSideSheet(renderSheetProps)
+				<RenderSideSheet {...renderSheetProps} />
 			:	<></>
 	}
 )

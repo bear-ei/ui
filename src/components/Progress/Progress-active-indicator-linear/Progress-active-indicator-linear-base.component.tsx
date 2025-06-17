@@ -8,13 +8,11 @@ import type {
 	ProgressActiveIndicatorLinearBaseProps,
 	ProgressActiveIndicatorLinearState
 } from './Progress-active-indicator-linear.interface'
+import {RenderProgressActiveIndicatorLinear} from './Progress-active-indicator-linear.render'
 import {useProgressActiveIndicatorLinearAnimated} from './use-progress-active-indicator-linear-animated.hook'
 
 export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActiveIndicatorLinearBaseProps>(
-	(
-		{defaultValue, renderProgressActiveIndicatorLinear, value, ...renderProgressActiveIndicatorLinearProps},
-		ref
-	) => {
+	({defaultValue, value, ...renderProgressActiveIndicatorLinearProps}, ref) => {
 		const [{status}, setState] = useImmer<ProgressActiveIndicatorLinearState>({
 			status: COMPONENT_STATUS.IDLE
 		})
@@ -33,12 +31,14 @@ export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActive
 
 		const {contentAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({defaultValue, value, status})
 
-		return renderProgressActiveIndicatorLinear({
-			...renderProgressActiveIndicatorLinearProps,
-			ref,
-			contentAnimatedStyle,
-			id,
-			interactionHandlers
-		})
+		return (
+			<RenderProgressActiveIndicatorLinear
+				{...renderProgressActiveIndicatorLinearProps}
+				contentAnimatedStyle={contentAnimatedStyle}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				ref={ref}
+			/>
+		)
 	}
 )

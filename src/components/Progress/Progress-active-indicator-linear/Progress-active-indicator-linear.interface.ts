@@ -19,10 +19,7 @@ export interface ProgressActiveIndicatorLinearState {
 	status: ComponentStatus
 }
 
-export interface ProgressActiveIndicatorLinearBaseProps extends ProgressActiveIndicatorLinearProps {
-	renderProgressActiveIndicatorLinear: (props: RenderProgressActiveIndicatorLinearProps) => React.JSX.Element
-}
-
+export type ProgressActiveIndicatorLinearBaseProps = ProgressActiveIndicatorLinearProps
 export interface UseProgressActiveIndicatorLinearAnimatedOptions
 	extends Pick<ProgressActiveIndicatorLinearProps, 'defaultValue' | 'value'> {
 	status: ComponentStatus

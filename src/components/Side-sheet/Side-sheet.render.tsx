@@ -1,31 +1,30 @@
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
 import {SideSheetContent} from './Side-sheet-content'
 import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
 import type {RenderSideSheetProps} from './Side-sheet.interface'
 import {Container} from './Side-sheet.styles'
 
-export const renderSideSheet = ({
-	id,
-	testID,
-	type = SIDE_SHEET_TYPE.STANDARD,
-	visible,
-	...sheetProps
-}: RenderSideSheetProps) => {
-	const sideSheetContentElement = typeof visible === 'boolean' && (
-		<SideSheetContent
-			{...sheetProps}
-			testID={`sideSheet__sideSheetContent--${id}`}
-			type={type}
-			visible={visible}
-		/>
-	)
+export const RenderSideSheet = forwardRef<View, RenderSideSheetProps>(
+	({id, testID, type = SIDE_SHEET_TYPE.STANDARD, visible, ...sheetProps}, ref) => {
+		const sideSheetContentElement = typeof visible === 'boolean' && (
+			<SideSheetContent
+				{...sheetProps}
+				ref={ref}
+				testID={`sideSheet__sideSheetContent--${id}`}
+				type={type}
+				visible={visible}
+			/>
+		)
 
-	const sideSheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const
+		const sideSheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const
 
-	return (
-		<>
-			{sideSheetTypes.includes(type as (typeof sideSheetTypes)[number]) ?
-				sideSheetContentElement
-			:	<Container testID={testID ?? `sideSheet--${id}`}>{sideSheetContentElement}</Container>}
-		</>
-	)
-}
+		return (
+			<>
+				{sideSheetTypes.includes(type as (typeof sideSheetTypes)[number]) ?
+					sideSheetContentElement
+				:	<Container testID={testID ?? `sideSheet--${id}`}>{sideSheetContentElement}</Container>}
+			</>
+		)
+	}
+)

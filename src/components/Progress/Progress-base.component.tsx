@@ -2,11 +2,19 @@ import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
 import {PROGRESS_TYPE} from './Progress.enum'
 import type {ProgressBaseProps} from './Progress.interface'
+import {RenderProgress} from './Progress.render'
 
 export const ProgressBase = forwardRef<View, ProgressBaseProps>(
-	({renderProgress, type = PROGRESS_TYPE.LINEAR, ...renderProgressProps}, ref) => {
+	({type = PROGRESS_TYPE.LINEAR, ...renderProgressProps}, ref) => {
 		const id = useId()
 
-		return renderProgress({...renderProgressProps, ref, type, id})
+		return (
+			<RenderProgress
+				{...renderProgressProps}
+				id={id}
+				ref={ref}
+				type={type}
+			/>
+		)
 	}
 )

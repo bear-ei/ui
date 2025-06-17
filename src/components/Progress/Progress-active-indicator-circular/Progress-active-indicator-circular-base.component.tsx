@@ -9,15 +9,15 @@ import type {
 	ProgressActiveIndicatorCircularBaseProps,
 	ProgressActiveIndicatorCircularState
 } from './Progress-active-indicator-circular.interface'
+import {RenderProgressActiveIndicatorCircular} from './Progress-active-indicator-circular.render'
 import {useProgressActiveIndicatorCircularAnimated} from './use-progress-active-indicator-circular-animated.hook'
 
 export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActiveIndicatorCircularBaseProps>(
 	(
 		{
-			size: rawSize,
-			renderProgressActiveIndicatorCircular,
-			strokeWidth: rawStrokeWidth,
 			enableAnimated,
+			size: rawSize,
+			strokeWidth: rawStrokeWidth,
 			...renderProgressActiveIndicatorCircularProps
 		},
 		ref
@@ -49,18 +49,19 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
 			status
 		})
 
-		return renderProgressActiveIndicatorCircular({
-			...renderProgressActiveIndicatorCircularProps,
-			circleAnimatedProps,
-			circumference,
-			containerAnimatedStyle,
-			id,
-			interactionHandlers,
-			radius,
-			ref,
-			size,
-			strokeWidth,
-			theme
-		})
+		return (
+			<RenderProgressActiveIndicatorCircular
+				{...renderProgressActiveIndicatorCircularProps}
+				circleAnimatedProps={circleAnimatedProps}
+				circumference={circumference}
+				containerAnimatedStyle={containerAnimatedStyle}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				radius={radius}
+				ref={ref}
+				size={size}
+				strokeWidth={strokeWidth}
+			/>
+		)
 	}
 )

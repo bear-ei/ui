@@ -1,9 +1,12 @@
 import {forwardRef, useId, useMemo} from 'react'
 import type {View} from 'react-native'
-import {useTheme} from 'styled-components/native'
 import {SIDE_SHEET_POSITION} from '../Side-sheet.enum'
 import type {SideSheetContentBaseProps} from './Side-sheet-content.interface'
-import {renderSideSheetContentLeading, renderSideSheetContentTrailing} from './Side-sheet-content.render'
+import {
+	RenderSideSheetContent,
+	RenderSideSheetContentLeading,
+	RenderSideSheetContentTrailing
+} from './Side-sheet-content.render'
 import {useSideSheetContentAnimated} from './use-side-sheet-content-animated.hook'
 
 export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
@@ -18,7 +21,6 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 			onBack,
 			onClose,
 			position = SIDE_SHEET_POSITION.HORIZONTAL_END,
-			renderSideSheetContent,
 			type,
 			visible,
 			...renderSideSheetContentProps
@@ -26,30 +28,45 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 		ref
 	) => {
 		const id = useId()
-		const theme = useTheme()
 		const {containerAnimatedStyle} = useSideSheetContentAnimated({type, visible})
 		const leadingElement = useMemo(
-			() => renderSideSheetContentLeading({headlineLeading, back, position, id})(onBack),
+			() => (
+				<RenderSideSheetContentLeading
+					back={back}
+					headlineLeading={headlineLeading}
+					id={id}
+					onBack={onBack}
+					position={position}
+				/>
+			),
 			[back, headlineLeading, id, onBack, position]
 		)
 
 		const trailingElement = useMemo(
-			() => renderSideSheetContentTrailing({headlineTrailing, close, id})(onClose),
+			() => (
+				<RenderSideSheetContentTrailing
+					headlineTrailing={headlineTrailing}
+					close={close}
+					id={id}
+					onClose={onClose}
+				/>
+			),
 			[close, headlineTrailing, id, onClose]
 		)
 
-		return renderSideSheetContent({
-			...renderSideSheetContentProps,
-			containerAnimatedStyle,
-			footerVisible,
-			headlineText,
-			id,
-			leadingElement,
-			position,
-			ref,
-			theme,
-			trailingElement,
-			type
-		})
+		return (
+			<RenderSideSheetContent
+				{...renderSideSheetContentProps}
+				containerAnimatedStyle={containerAnimatedStyle}
+				footerVisible={footerVisible}
+				headlineText={headlineText}
+				id={id}
+				leadingElement={leadingElement}
+				position={position}
+				ref={ref}
+				trailingElement={trailingElement}
+				type={type}
+			/>
+		)
 	}
 )
