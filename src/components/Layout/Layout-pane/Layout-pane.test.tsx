@@ -47,7 +47,7 @@ describe('LayoutPane Component', () => {
 	it('should merges contentStyle correctly', async () => {
 		const {getByTestId} = await renderWithAct(
 			<LayoutPane
-				contentStyle={{padding: 12}}
+				style={{padding: 12}}
 				testID='pane-style'
 			>
 				<Text>Styled</Text>

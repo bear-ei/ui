@@ -61,17 +61,10 @@ export const renderVirtualList = <T,>({
 	...containerProps
 }: RenderVirtualListProps<T>) => {
 	const {onLayout} = interactionHandlers
-	const contentLayoutAnimatedStyle = {position: 'relative'} as ViewStyle
 	const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
 	const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
 	const isLayoutCompleted = typeof layout?.height === 'number' && layout.height > 0
 	const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch', minHeight: contentSize} as ViewStyle
-	const emptyContentLayoutAnimatedStyle = {
-		alignItems: 'center',
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'center'
-	} as ViewStyle
 
 	return (
 		<Container
@@ -90,7 +83,6 @@ export const renderVirtualList = <T,>({
 						testID={`virtualList__animatedContent--${id}`}
 					>
 						<ContentLayout
-							contentStyle={contentLayoutAnimatedStyle}
 							testID={`virtualList__contentLayout--${id}`}
 							visible={isContentVisible}
 						>
@@ -98,7 +90,6 @@ export const renderVirtualList = <T,>({
 						</ContentLayout>
 
 						<EmptyContentLayout
-							contentStyle={emptyContentLayoutAnimatedStyle}
 							lazy={true}
 							testID={`virtualList__emptyContentLayout--${id}`}
 							visible={isEmptyContentVisible}
@@ -115,7 +106,6 @@ export const renderVirtualList = <T,>({
 						</EmptyContentLayout>
 
 						<LoadingContentLayout
-							contentStyle={emptyContentLayoutAnimatedStyle}
 							lazy={true}
 							testID={`virtualList__loadingContentLayout--${id}`}
 							visible={loading}

@@ -47,7 +47,7 @@ describe('Layout Component', () => {
 	it('should merges contentStyle correctly', async () => {
 		const {getByTestId} = await renderWithAct(
 			<Layout
-				contentStyle={{margin: 8}}
+				style={{margin: 8}}
 				testID='layout-style'
 			>
 				<Text>Styled Layout</Text>

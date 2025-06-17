@@ -6,22 +6,21 @@ import {ContainerLayout} from './Layout-pane.styles'
 
 export const renderLayoutPane = ({
 	children,
-	contentStyle: rawContentStyle,
+	style: rawStyle,
 	defaultVisible = true,
 	id,
 	layout = LAYOUT.HORIZONTAL,
 	testID,
 	...containerProps
 }: RenderLayoutPaneProps) => {
-	const contentStyle = {
-		...rawContentStyle,
+	const style = {
 		flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'
 	} as ViewStyle
 
 	return (
 		<ContainerLayout
 			{...containerProps}
-			contentStyle={contentStyle}
+			style={[rawStyle, style]}
 			defaultVisible={defaultVisible}
 			entry={{duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE}}
 			exit={{duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}}

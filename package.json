@@ -1,6 +1,6 @@
 {
 	"name": "@bearei/material",
-	"version": "0.0.234",
+	"version": "0.0.240",
 	"main": "./dist/index.cjs.js",
 	"module": "./dist/index.es.js",
 	"react-native": "./src/index.ts",
@@ -33,15 +33,13 @@
 		"!**/test.*"
 	],
 	"dependencies": {
-		"@bearei/material-token": "^0.0.39",
+		"@bearei/material-token": "^0.0.40",
 		"@material-symbols/svg-400": "^0.27.1",
 		"class-validator": "^0.14.1",
 		"immer": "^10.1.1",
 		"mitt": "^3.0.1",
 		"nanoid": "^3.3.7",
-		"react-native-reanimated": "^3.18.0",
 		"react-native-svg": "^15.12.0",
-		"styled-components": "^6.1.19",
 		"use-immer": "^0.10.0"
 	},
 	"devDependencies": {
@@ -109,6 +107,7 @@
 		"rollup-plugin-visualizer": "^6.0.3",
 		"shx": "^0.3.4",
 		"storybook": "^8.3.4",
+		"styled-components": "^6.1.19",
 		"ts-jest": "^29.3.2",
 		"ts-node": "^10.9.2",
 		"ts-prune": "^0.10.3",
@@ -119,17 +118,11 @@
 		"vite-plugin-svgr": "^4.2.0"
 	},
 	"peerDependencies": {
-		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"react-native": "^0.75.0"
-	},
-	"peerDependenciesMeta": {
-		"react-native-reanimated": {
-			"optional": true
-		},
-		"styled-components": {
-			"optional": true
-		}
+		"react-native-reanimated": "^3.18.0",
+		"react-native": "^0.75.0",
+		"react": "^18.2.0",
+		"styled-components": "^6.1.19"
 	},
 	"engines": {
 		"node": ">=18"

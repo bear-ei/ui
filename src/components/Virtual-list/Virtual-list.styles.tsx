@@ -18,6 +18,7 @@ export const Content = styled.View`
 
 export const ContentLayout = styled(LayoutAnimated)`
 	flex: 1;
+	position: relative;
 `
 
 export const EmptyContentLayout = styled(LayoutAnimated)`

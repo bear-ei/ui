@@ -33,7 +33,7 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeT
 		[defaultDesignOptions, designOptions, height, width, windowSize]
 	)
 
-	const themeToken = useMemo(
+	const token = useMemo(
 		() =>
 			rawThemeToken ??
 			createToken()({
@@ -45,7 +45,7 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeT
 
 	return (
 		<StyledComponentThemeProvider
-			theme={{adaptFontSize, adaptSize, colorScheme, density, OS: RNPlatform.OS, token: themeToken}}
+			theme={{adaptFontSize, adaptSize, colorScheme, density, OS: RNPlatform.OS, token}}
 		>
 			{RNPlatform.OS === 'web' && <GlobalStyle />}
 			{children}
@@ -57,7 +57,7 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeT
 const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density = DENSITY.STANDARD}) => {
 	const {adaptFontSize, adaptSize} = useMemo(() => adaptWindow()()(true), [])
 	const colorScheme = useColorScheme()
-	const themeToken = useMemo(
+	const token = useMemo(
 		() =>
 			rawThemeToken ??
 			createToken({platform: RNPlatform.OS.toUpperCase() as Platform})({
@@ -69,7 +69,7 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density 
 
 	return (
 		<StyledComponentThemeProvider
-			theme={{adaptFontSize, adaptSize, colorScheme, density, OS: RNPlatform.OS, token: themeToken}}
+			theme={{adaptFontSize, adaptSize, colorScheme, density, OS: RNPlatform.OS, token}}
 		>
 			{RNPlatform.OS === 'web' && <GlobalStyle />}
 			{children}

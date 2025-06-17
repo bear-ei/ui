@@ -14,12 +14,12 @@ const babelPlugins = [
 	'react-native-reanimated/plugin'
 ]
 
-const externals = ['react', 'react-dom', 'react-native', 'react/jsx-runtime']
+const externals = ['react', 'react-dom', 'react-native', 'styled-components', 'react-native-reanimated']
 const config = defineConfig({
 	build: {
 		lib: {
 			entry: resolve(__dirname, './src/index.ts'),
-			fileName: 'index',
+			fileName: format => `index.${format}.js`,
 			name: 'Material',
 			formats: ['es', 'cjs']
 		},
@@ -29,6 +29,8 @@ const config = defineConfig({
 	},
 	plugins: [
 		dts({
+			insertTypesEntry: true,
+			outDir: 'dist',
 			include: ['src'],
 			exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx']
 		}),

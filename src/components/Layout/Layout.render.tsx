@@ -5,22 +5,21 @@ import {ContainerLayout} from './Layout.styles'
 
 export const renderLayout = ({
 	children,
-	contentStyle: rawContentStyle,
+	style: rawStyle,
 	defaultVisible = true,
 	id,
 	layout = LAYOUT.HORIZONTAL,
 	testID,
 	...containerProps
 }: RenderLayoutProps) => {
-	const contentStyle = {
-		...rawContentStyle,
+	const style = {
 		flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'
 	} as ViewStyle
 
 	return (
 		<ContainerLayout
 			{...containerProps}
-			contentStyle={contentStyle}
+			style={[rawStyle, style]}
 			defaultVisible={defaultVisible}
 			testID={testID ?? `layout--${id}`}
 		>
