@@ -1,5 +1,5 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import type {View} from 'react-native'
+import type {Pressable} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
@@ -7,17 +7,16 @@ import type {State} from '../Common'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import {getButtonUnderlayColor, handleIconButtonStateChange, updateIconButtonDisabledState} from './Icon-button.handler'
 import type {IconButtonBaseProps, IconButtonState} from './Icon-button.interface'
-import {renderIconButtonIcon} from './Icon-button.render'
+import {RenderIconButton, RenderIconButtonIcon} from './Icon-button.render'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
 
-export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
+export const IconButtonBase = forwardRef<typeof Pressable, IconButtonBaseProps>(
 	(
 		{
 			disabled: rawDisabled = false,
 			fill,
 			icon,
 			loading,
-			renderIconButton,
 			type = ICON_BUTTON_TYPE.FILLED,
 			...renderIconButtonProps
 		},
@@ -43,30 +42,38 @@ export const IconButtonBase = forwardRef<View, IconButtonBaseProps>(
 		const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})
 		const runUpdateDisabledState = useMemo(() => updateIconButtonDisabledState(setState), [setState])
 		const iconElement = useMemo(
-			() =>
-				renderIconButtonIcon({disabled: isDisabled, eventName, fill, loading, type, id})(theme)(
-					icon
-				),
-			[eventName, fill, icon, id, isDisabled, loading, theme, type]
+			() => (
+				<RenderIconButtonIcon
+					disabled={isDisabled}
+					eventName={eventName}
+					fill={fill}
+					id={id}
+					loading={loading}
+					type={type}
+					icon={icon}
+				/>
+			),
+			[eventName, fill, icon, id, isDisabled, loading, type]
 		)
 
 		useEffect(() => {
 			runUpdateDisabledState(isDisabled)
 		}, [runUpdateDisabledState, isDisabled])
 
-		return renderIconButton({
-			...renderIconButtonProps,
-			backgroundUnderlayAnimatedStyle,
-			disabled: isDisabled,
-			eventName,
-			iconElement,
-			id,
-			interactionHandlers,
-			loading,
-			ref,
-			theme,
-			type,
-			underlayColor
-		})
+		return (
+			<RenderIconButton
+				{...renderIconButtonProps}
+				backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
+				disabled={isDisabled}
+				eventName={eventName}
+				iconElement={iconElement}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				loading={loading}
+				ref={ref}
+				type={type}
+				underlayColor={underlayColor}
+			/>
+		)
 	}
 )

@@ -1,6 +1,5 @@
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import type {DefaultTheme} from 'styled-components/native'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {CommonProps, EventName} from '../Common'
 import type {TouchableProps} from '../Touchable'
@@ -23,19 +22,15 @@ export interface RenderIconButtonProps extends IconButtonProps {
 	eventName?: EventName
 	iconElement?: React.JSX.Element
 	interactionHandlers: InteractionHandlers
-	theme: DefaultTheme
 }
 
-export interface IconButtonBaseProps extends IconButtonProps {
-	renderIconButton: (props: RenderIconButtonProps) => React.JSX.Element
-}
-
+export type IconButtonBaseProps = IconButtonProps
 export interface IconButtonState {
 	eventName?: EventName
 }
 
-export interface RenderIconButtonIconOptions
-	extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading' | 'id'> {
+export interface RenderIconButtonIconProps
+	extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading' | 'id' | 'icon'> {
 	eventName?: EventName
 }
 

@@ -122,8 +122,8 @@ export const RenderButton = forwardRef<typeof Pressable, RenderButtonProps>(
 				type={type}
 			>
 				<Touchable
-					{...interactionHandlers}
 					{...touchableProps}
+					{...interactionHandlers}
 					backgroundUnderlay={backgroundUnderlayElement}
 					disabled={disabled}
 					elevationUnderlay={elevationUnderlayElement}
