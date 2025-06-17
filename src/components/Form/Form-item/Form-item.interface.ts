@@ -27,10 +27,7 @@ export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {
 	controlElement?: React.JSX.Element
 }
 
-export interface FormItemBaseProps extends FormItemProps {
-	renderFormItem: (props: RenderFormItemProps) => React.JSX.Element
-}
-
+export type FormItemBaseProps = FormItemProps
 export interface FormItemState {
 	shouldUpdate: Record<string, unknown>
 	signOut?: () => void

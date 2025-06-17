@@ -101,7 +101,10 @@ export interface FormState {
 }
 
 export type RegisterFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
-export type RenderFormItemsOptions = Pick<FormProps, 'validatorOptions' | 'id'>
+export interface RenderFormItemsProps extends Pick<FormProps, 'validatorOptions' | 'id' | 'items'> {
+	status: ComponentStatus
+}
+
 export interface CreateFormFieldValidatorOptions {
 	rule?: ValidationRule
 	validatorOptions?: ValidatorOptions
@@ -111,4 +114,4 @@ export interface UseFormOptions<T> {
 	form?: FormStore<T>
 }
 
-export type FormContainerProps = Pick<RenderFormProps, 'layout'>
+export type FormContainerProps = Pick<RenderFormProps, 'layout'> & RefAttributes<View>

@@ -5,7 +5,7 @@ import {useImmer} from 'use-immer'
 import {COMPONENT_STATUS} from '../Common'
 import {extractAndSetFormFieldKeys, initializeFormStateWithValues, registerFormCallbacks} from './Form.handler'
 import type {FormBaseProps, FormState} from './Form.interface'
-import {renderFormItems} from './Form.render'
+import {RenderForm, RenderFormItems} from './Form.render'
 import {useForm} from './use-form.hook'
 
 const FormBaseInner = <T,>(
@@ -16,7 +16,6 @@ const FormBaseInner = <T,>(
 		onFinish,
 		onFinishFailed,
 		onValuesChange,
-		renderForm,
 		validatorOptions,
 		...renderFormProps
 	}: FormBaseProps<T>,
@@ -34,7 +33,14 @@ const FormBaseInner = <T,>(
 	const runRegisterCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
 	const runExtractAndSetFieldKeys = useMemo(() => extractAndSetFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
 	const itemElements = useMemo(
-		() => renderFormItems({validatorOptions, id})(status)(items),
+		() => (
+			<RenderFormItems
+				id={id}
+				items={items}
+				status={status}
+				validatorOptions={validatorOptions}
+			/>
+		),
 		[id, items, status, validatorOptions]
 	)
 
@@ -54,13 +60,15 @@ const FormBaseInner = <T,>(
 		return <></>
 	}
 
-	return renderForm({
-		...renderFormProps,
-		form: formStore,
-		id,
-		itemElements,
-		ref
-	})
+	return (
+		<RenderForm
+			{...renderFormProps}
+			form={formStore}
+			id={id}
+			itemElements={itemElements}
+			ref={ref}
+		/>
+	)
 }
 
 export const FormBase = forwardRef(FormBaseInner) as <T>(

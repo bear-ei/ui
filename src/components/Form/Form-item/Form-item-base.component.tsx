@@ -10,9 +10,10 @@ import {
 	validateFormFieldOnBlur
 } from './Form-item.handler'
 import type {FormItemBaseProps, FormItemState} from './Form-item.interface'
+import {RenderFormItem} from './Form-item.render'
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-	({labelText, name, renderControl, renderFormItem, rule, validatorOptions, ...renderFormItemProps}, ref) => {
+	({labelText, name, renderControl, rule, validatorOptions, ...renderFormItemProps}, ref) => {
 		const [{signOut, status}, setState] = useImmer<FormItemState>({
 			shouldUpdate: {},
 			status: COMPONENT_STATUS.IDLE
@@ -59,6 +60,13 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			return <></>
 		}
 
-		return renderFormItem({...renderFormItemProps, controlElement, ref, id})
+		return (
+			<RenderFormItem
+				{...renderFormItemProps}
+				controlElement={controlElement}
+				id={id}
+				ref={ref}
+			/>
+		)
 	}
 )

@@ -1,6 +1,7 @@
+import {View} from 'react-native'
 import styled, {css} from 'styled-components/native'
 
-export const Container = styled.View`
+export const Container = styled(View)`
 	align-self: stretch;
 
 	${({theme}) => css`
