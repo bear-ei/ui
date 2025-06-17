@@ -1,17 +1,18 @@
-import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef} from 'react'
-import type {View} from 'react-native'
-import {useTheme} from 'styled-components/native'
+import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import type {Pressable} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import {useInteractionStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
+import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE, type IconProps} from '../../Icon'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
 import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
+import {RenderNavigationRailItem} from './Navigation-rail-item.render'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
 
-export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBaseProps>(
+export const NavigationRailItemBase = forwardRef<typeof Pressable, NavigationRailItemBaseProps>(
 	(
 		{
 			activeKey,
@@ -19,7 +20,6 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			icon,
 			indexKey,
 			onActive,
-			renderNavigationRailItem,
 			type = NAVIGATION_RAIL_TYPE.SEGMENT,
 			...renderNavigationRailItemProps
 		},
@@ -29,9 +29,8 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			status: COMPONENT_STATUS.IDLE
 		})
 		const id = useId()
-		const pressableRef = useRef<View>(null)
+		const pressableRef = useRef<typeof Pressable>(null)
 		const isActive = activeKey === indexKey
-		const theme = useTheme()
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleNavigationRailItemStateChange({
@@ -56,25 +55,45 @@ export const NavigationRailItemBase = forwardRef<View, NavigationRailItemBasePro
 			type
 		})
 
-		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as View, [pressableRef])
+		const iconElement = useMemo(
+			() =>
+				cloneElement<IconProps>(
+					icon ?? (
+						<Icon
+							iconStyle={ICON_STYLE.ROUNDED}
+							name={ICON_NAME.CIRCLE}
+							type={ICON_TYPE.OUTLINED}
+						/>
+					),
+					{
+						iconStyle: ICON_STYLE.ROUNDED,
+						testID: `navigationRailItem__icon--${id}`,
+						type: isActive ? ICON_TYPE.FILLED : ICON_TYPE.OUTLINED
+					}
+				),
+			[icon, id, isActive]
+		)
+
+		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as typeof Pressable, [pressableRef])
 
 		useEffect(() => {
 			runAfterInteractions(nextPressOutEvent)()
 		}, [nextPressOutEvent])
 
-		return renderNavigationRailItem({
-			...renderNavigationRailItemProps,
-			active: isActive,
-			animatedType,
-			contentAnimatedStyle,
-			eventName,
-			icon,
-			id,
-			interactionHandlers,
-			labelTextAnimatedStyle,
-			ref: pressableRef,
-			theme,
-			type
-		})
+		return (
+			<RenderNavigationRailItem
+				{...renderNavigationRailItemProps}
+				active={isActive}
+				animatedType={animatedType}
+				contentAnimatedStyle={contentAnimatedStyle}
+				eventName={eventName}
+				iconElement={iconElement}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				labelTextAnimatedStyle={labelTextAnimatedStyle}
+				ref={pressableRef}
+				type={type}
+			/>
+		)
 	}
 )

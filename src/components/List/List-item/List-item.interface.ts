@@ -9,7 +9,7 @@ import type {ListAffordanceButtonProps} from '../List-affordance-button'
 import type {ListProps} from '../List.interface'
 
 export interface ListItemProps
-	extends Partial<TouchableProps>,
+	extends TouchableProps,
 		Pick<
 			ListProps,
 			| 'activeKey'

@@ -1,12 +1,14 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {SIZE} from '@bearei/material-token'
+import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
+import type {FABProps} from '../FAB'
 import type {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
 import {updateNavigationRailActiveKey, updateNavigationRailData} from './Navigation-rail.handler'
-import {renderNavigationRailItems} from './Navigation-rail.render'
+import {RenderNavigationRail, RenderNavigationRailItems} from './Navigation-rail.render'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 	(
@@ -19,7 +21,6 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			fab,
 			menu,
 			onActive: rawOnActive,
-			renderNavigationRail,
 			type,
 			...renderNavigationRailProps
 		},
@@ -38,15 +39,29 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		const runUpdateData = useMemo(() => updateNavigationRailData(setState), [setState])
 		const runUpdateActiveKey = useMemo(() => updateNavigationRailActiveKey()(setState), [setState])
 		const itemElements = useMemo(
-			() =>
-				renderNavigationRailItems({
-					activeKey: activeKey ?? defaultActiveKey,
-					animatedType,
-					id,
-					onActive,
-					type
-				})(data),
+			() => (
+				<RenderNavigationRailItems
+					activeKey={activeKey ?? defaultActiveKey}
+					animatedType={animatedType}
+					data={data}
+					id={id}
+					onActive={onActive}
+					type={type}
+				/>
+			),
 			[activeKey, animatedType, data, defaultActiveKey, id, onActive, type]
+		)
+
+		const fabElement = useMemo(
+			() =>
+				fab ?
+					cloneElement<FABProps>(fab, {
+						elevated: false,
+						size: SIZE.MEDIUM,
+						testID: `navigationRail__fab--${id}`
+					})
+				:	undefined,
+			[fab, id]
 		)
 
 		useEffect(() => {
@@ -65,14 +80,16 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			return <></>
 		}
 
-		return renderNavigationRail({
-			...renderNavigationRailProps,
-			destinationPosition,
-			fab,
-			id,
-			itemElements,
-			menuElement: menu,
-			ref
-		})
+		return (
+			<RenderNavigationRail
+				{...renderNavigationRailProps}
+				destinationPosition={destinationPosition}
+				fabElement={fabElement}
+				id={id}
+				itemElements={itemElements}
+				menuElement={menu}
+				ref={ref}
+			/>
+		)
 	}
 )

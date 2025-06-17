@@ -1,8 +1,9 @@
+import {View} from 'react-native'
 import styled, {css} from 'styled-components/native'
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
 import type {DestinationProps} from './Navigation-rail.interface'
 
-export const Container = styled.View`
+export const Container = styled(View)`
 	align-items: center;
 	align-self: stretch;
 	display: flex;

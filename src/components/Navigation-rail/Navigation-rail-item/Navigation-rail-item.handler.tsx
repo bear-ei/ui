@@ -22,14 +22,14 @@ export const compareNavigationRailItemProps =
 	}
 
 export const handleNavigationRailItemStateChange =
-	({eventName, indexKey, onActive, ref}: HandleNavigationRailItemStateChangeOptions) =>
+	({eventName, indexKey, onActive, ref: _}: HandleNavigationRailItemStateChangeOptions) =>
 	(setState: Updater<NavigationRailItemState>) =>
 	(_event: StateEvent) => {
 		const triggerNavigationRailItemPressOut = (activeKey?: string) => activeKey && onActive?.(activeKey)
 		const nextEvent = {
-			[EVENT_NAME.PRESS_IN]: () => ref.current?.focus(),
+			// [EVENT_NAME.PRESS_IN]: () => (ref as unknown as React.RefObject<View>).current?.focus(),
 			[EVENT_NAME.PRESS_OUT]: () => triggerNavigationRailItemPressOut(indexKey)
-		} as Record<EventName, () => void>
+		} as unknown as Record<EventName, () => void>
 
 		setState(draft => {
 			if (eventName === EVENT_NAME.LAYOUT) {

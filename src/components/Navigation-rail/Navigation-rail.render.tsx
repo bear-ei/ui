@@ -1,48 +1,32 @@
-import {SIZE} from '@bearei/material-token'
-import {cloneElement} from 'react'
-import type {FABProps} from '../FAB'
+import {forwardRef, type FC} from 'react'
+import type {View} from 'react-native'
 import {NavigationRailItem} from './Navigation-rail-item'
-import type {
-	NavigationRailData,
-	RenderNavigationRailItemOptions,
-	RenderNavigationRailProps
-} from './Navigation-rail.interface'
+import type {RenderNavigationRailItemOptions, RenderNavigationRailProps} from './Navigation-rail.interface'
 import {Container, Destination, Fab, Menu} from './Navigation-rail.styles'
 
-export const renderNavigationRailItems =
-	({id, ...renderNavigationRailItemOptions}: RenderNavigationRailItemOptions) =>
-	(data?: NavigationRailData[]) =>
-		data?.map(({indexKey, ...props}, index) => (
+export const RenderNavigationRailItems: FC<RenderNavigationRailItemOptions> = ({
+	id,
+	data,
+	...renderNavigationRailItemProps
+}) => (
+	<>
+		{data?.map(({indexKey, ...props}, index) => (
 			<NavigationRailItem
 				{...props}
-				{...renderNavigationRailItemOptions}
+				{...renderNavigationRailItemProps}
 				indexKey={indexKey ?? index.toString()}
 				key={indexKey}
 				testID={`navigationRail__navigationRailItem--${id}`}
 			/>
-		))
+		))}
+	</>
+)
 
-export const renderNavigationRail = ({
-	destinationPosition,
-	fab,
-	id,
-	itemElements,
-	menuElement,
-	testID,
-	...containerProps
-}: RenderNavigationRailProps) => {
-	const fabElement =
-		fab ?
-			cloneElement<FABProps>(fab, {
-				elevated: false,
-				size: SIZE.MEDIUM,
-				testID: `navigationRail__fab--${id}`
-			})
-		:	undefined
-
-	return (
+export const RenderNavigationRail = forwardRef<View, RenderNavigationRailProps>(
+	({destinationPosition, id, itemElements, menuElement, testID, fabElement, ...containerProps}, ref) => (
 		<Container
 			{...containerProps}
+			ref={ref}
 			testID={testID ?? `navigationRail--${id}`}
 		>
 			{menuElement && <Menu testID={`navigationRail__menu--${id}`}>{menuElement}</Menu>}
@@ -55,4 +39,4 @@ export const renderNavigationRail = ({
 			</Destination>
 		</Container>
 	)
-}
+)

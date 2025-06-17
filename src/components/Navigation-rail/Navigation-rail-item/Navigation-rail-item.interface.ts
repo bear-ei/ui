@@ -1,13 +1,13 @@
 import type {RefAttributes} from 'react'
-import type {PressableProps, TextStyle, View, ViewProps, ViewStyle} from 'react-native'
+import type {Pressable, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import type {DefaultTheme} from 'styled-components/native'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {ComponentStatus, EventName, TypographyProps} from '../../Common'
+import type {TouchableProps} from '../../Touchable'
 import type {NavigationRailProps} from '../Navigation-rail.interface'
 
 export interface NavigationRailItemProps
-	extends Partial<ViewProps & RefAttributes<View> & PressableProps & InteractionHandlers>,
+	extends TouchableProps,
 		Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {
 	icon?: React.JSX.Element
 	indexKey?: string
@@ -18,15 +18,12 @@ export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemPr
 	active?: boolean
 	contentAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
+	iconElement?: React.JSX.Element
 	interactionHandlers: InteractionHandlers
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-	theme: DefaultTheme
 }
 
-export interface NavigationRailItemBaseProps extends NavigationRailItemProps {
-	renderNavigationRailItem: (props: RenderNavigationRailItemProps) => React.JSX.Element
-}
-
+export type NavigationRailItemBaseProps = NavigationRailItemProps
 export interface NavigationRailItemState {
 	eventName?: EventName
 	nextPressOutEvent?: () => void
@@ -36,7 +33,7 @@ export interface NavigationRailItemState {
 export interface HandleNavigationRailItemStateChangeOptions
 	extends HandleStateEventChangeOptions,
 		Pick<NavigationRailItemProps, 'indexKey' | 'onActive'> {
-	ref: React.RefObject<View>
+	ref: React.RefObject<typeof Pressable>
 }
 
 export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigationRailItemProps, 'active' | 'type'> {
@@ -55,6 +52,6 @@ export interface AnimateNavigationRailItemSharedValues {
 
 export type NavigationRailItemHeaderProps = Pick<RenderNavigationRailItemProps, 'type'>
 export type NavigationRailItemLabelTextProps = Pick<RenderNavigationRailItemProps, 'active'> & TypographyProps
-export interface NavigationRailItemTouchableProps {
+export interface NavigationRailItemTouchableProps extends RefAttributes<typeof Pressable> {
 	enableFocusRing?: boolean
 }
