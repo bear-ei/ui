@@ -1,11 +1,11 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import {cloneElement} from 'react'
+import {cloneElement, forwardRef, type ForwardedRef} from 'react'
 import type {ViewStyle} from 'react-native'
 import {ScrollView} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {COMPONENT_STATUS} from '../Common'
 import {VirtualListItem, type RenderVirtualListItemInfo} from './Virtual-list-item'
-import type {RenderVirtualListItemOptions, RenderVirtualListProps, VirtualListData} from './Virtual-list.interface'
+import type {RenderVirtualListItemOptions, RenderVirtualListProps} from './Virtual-list.interface'
 import {
 	Container,
 	Content,
@@ -17,49 +17,61 @@ import {
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
-export const renderVirtualListItem =
-	<T,>({onLoadEnd, renderItem, startIndex = 0, id, ...virtualListItemProps}: RenderVirtualListItemOptions<T>) =>
-	(data?: VirtualListData[]) => {
-		if (data?.length === 0) {
-			onLoadEnd?.()
+export const RenderVirtualListItem = <T,>({
+	data,
+	id,
+	onLoadEnd,
+	renderItem,
+	startIndex = 0,
+	...virtualListItemProps
+}: RenderVirtualListItemOptions<T>) => {
+	if (data?.length === 0) {
+		onLoadEnd?.()
 
-			return
-		}
-
-		return data?.map((item, index) => (
-			<VirtualListItem
-				{...virtualListItemProps}
-				index={index}
-				item={item as Record<string, unknown>}
-				key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
-				onLoadEnd={onLoadEnd}
-				startIndex={startIndex}
-				testID={`virtualList__virtualListItem--${id}`}
-				renderItem={
-					renderItem as (
-						options: RenderVirtualListItemInfo<Record<string, unknown>>
-					) => React.JSX.Element
-				}
-			/>
-		))
+		return
 	}
 
-export const renderVirtualList = <T,>({
-	contentAnimatedStyle,
-	contentSize,
-	emptyElement,
-	emptyList,
-	id,
-	interactionHandlers,
-	itemElements,
-	layout,
-	loading,
-	loadingElement,
-	scrollEventThrottle = 50,
-	status,
-	testID,
-	...containerProps
-}: RenderVirtualListProps<T>) => {
+	return (
+		<>
+			{data?.map((item, index) => (
+				<VirtualListItem
+					{...virtualListItemProps}
+					index={index}
+					item={item as Record<string, unknown>}
+					key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
+					onLoadEnd={onLoadEnd}
+					startIndex={startIndex}
+					testID={`virtualList__virtualListItem--${id}`}
+					renderItem={
+						renderItem as (
+							options: RenderVirtualListItemInfo<Record<string, unknown>>
+						) => React.JSX.Element
+					}
+				/>
+			))}
+		</>
+	)
+}
+
+export const RenderVirtualListInner = <T,>(
+	{
+		contentAnimatedStyle,
+		contentSize,
+		emptyElement,
+		emptyList,
+		id,
+		interactionHandlers,
+		itemElements,
+		layout,
+		loading,
+		loadingElement,
+		scrollEventThrottle = 50,
+		status,
+		testID,
+		...containerProps
+	}: RenderVirtualListProps<T>,
+	ref: React.ForwardedRef<ScrollView>
+) => {
 	const {onLayout} = interactionHandlers
 	const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
 	const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
@@ -75,6 +87,7 @@ export const renderVirtualList = <T,>({
 				<AnimatedScrollView
 					{...containerProps}
 					contentContainerStyle={scrollViewContentStyle}
+					ref={ref}
 					scrollEventThrottle={scrollEventThrottle}
 					testID={`virtualList__animatedScrollView--${id}`}
 				>
@@ -127,3 +140,7 @@ export const renderVirtualList = <T,>({
 		</Container>
 	)
 }
+
+export const RenderVirtualList = forwardRef(RenderVirtualListInner) as <T>(
+	props: RenderVirtualListProps<T> & {ref?: ForwardedRef<ScrollView>}
+) => ReturnType<typeof RenderVirtualListInner>

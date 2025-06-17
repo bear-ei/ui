@@ -1,4 +1,5 @@
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import type {ScrollView} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
@@ -10,10 +11,10 @@ import {
 	updateListActiveState,
 	updateListAffordanceActiveState
 } from './List.handler'
-import type {ListBaseProps, ListData, ListState, VirtualListComponent} from './List.interface'
+import type {ListBaseProps, ListState} from './List.interface'
 import {RenderList} from './List.render'
 
-export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps>(
+export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 	(
 		{
 			activeKey: rawActiveKey,
@@ -66,7 +67,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			setState
 		] = useImmer<ListState>({})
 
-		const listRef = useRef<VirtualListComponent<ListData>>(null)
+		const listRef = useRef<ScrollView>(null)
 		const id = useId()
 		const theme = useTheme()
 		const itemSize = createListItemSize({density, type})(theme)(rawItemSize)
@@ -154,7 +155,7 @@ export const ListBase = forwardRef<VirtualListComponent<ListData>, ListBaseProps
 			]
 		)
 
-		useImperativeHandle(ref, () => (listRef?.current ?? {}) as VirtualListComponent<ListData>, [listRef])
+		useImperativeHandle(ref, () => (listRef?.current ?? {}) as ScrollView, [listRef])
 
 		useEffect(() => {
 			runUpdateActiveState(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)

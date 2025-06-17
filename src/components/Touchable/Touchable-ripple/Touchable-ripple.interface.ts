@@ -27,10 +27,7 @@ export interface TouchableRippleState {
 	status: ComponentStatus
 }
 
-export interface TouchableRippleBaseProps extends TouchableRippleProps {
-	renderTouchableRipple: (props: RenderTouchableRippleProps) => React.JSX.Element
-}
-
+export type TouchableRippleBaseProps = TouchableRippleProps
 export interface UseTouchableRippleAnimatedOptions
 	extends Pick<RenderTouchableRippleProps, 'onAnimateFinished'>,
 		Pick<TouchableRippleProps, 'indexKey'> {

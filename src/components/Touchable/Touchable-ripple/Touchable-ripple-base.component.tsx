@@ -5,6 +5,7 @@ import {useInteractionStateEvent, type HandleStateEventChangeOptions, type State
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {handleTouchableRippleStateChange} from './Touchable-ripple.handler'
 import type {TouchableRippleBaseProps, TouchableRippleState} from './Touchable-ripple.interface'
+import {RenderTouchableRipple} from './Touchable-ripple.render'
 import {useTouchableRippleAnimated} from './use-touchable-ripple-animated.hook'
 
 export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
@@ -14,17 +15,13 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
 			containerLayout,
 			indexKey,
 			onAnimateFinished,
-			renderTouchableRipple,
 			touchableLocation = {} as Pick<NativeTouchEvent, 'locationX' | 'locationY'>,
 			underlayColor,
 			...renderTouchableRippleProps
 		},
 		ref
 	) => {
-		const [{status}, setState] = useImmer<TouchableRippleState>({
-			status: COMPONENT_STATUS.IDLE
-		})
-
+		const [{status}, setState] = useImmer<TouchableRippleState>({status: COMPONENT_STATUS.IDLE})
 		const id = useId()
 		const {width = 0, height = 0} = containerLayout ?? {}
 		const centerX = width / 2
@@ -55,16 +52,18 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
 			status
 		})
 
-		return renderTouchableRipple({
-			...renderTouchableRippleProps,
-			containerAnimatedStyle,
-			id,
-			interactionHandlers,
-			locationX,
-			locationY,
-			ref,
-			size: diameter,
-			underlayColor
-		})
+		return (
+			<RenderTouchableRipple
+				{...renderTouchableRippleProps}
+				containerAnimatedStyle={containerAnimatedStyle}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				locationX={locationX}
+				locationY={locationY}
+				ref={ref}
+				size={diameter}
+				underlayColor={underlayColor}
+			/>
+		)
 	}
 )

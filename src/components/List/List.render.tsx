@@ -1,7 +1,8 @@
 import {forwardRef, type FC} from 'react'
+import type {ScrollView} from 'react-native'
 import {VirtualList} from '../Virtual-list'
 import {ListItem} from './List-item'
-import type {ListData, RenderListItemOptions, RenderListProps, VirtualListComponent} from './List.interface'
+import type {RenderListItemOptions, RenderListProps} from './List.interface'
 import {Container} from './List.styles'
 
 export const RenderDefaultListItem: FC<RenderListItemOptions> = ({
@@ -21,7 +22,7 @@ export const RenderDefaultListItem: FC<RenderListItemOptions> = ({
 	/>
 )
 
-export const RenderList = forwardRef<VirtualListComponent<ListData>, RenderListProps>(
+export const RenderList = forwardRef<ScrollView, RenderListProps>(
 	(
 		{
 			activeKey,

@@ -1,6 +1,5 @@
 import type {RefAttributes} from 'react'
-import type {LayoutRectangle, ScrollViewProps, ViewStyle} from 'react-native'
-import type Animated from 'react-native-reanimated'
+import type {LayoutRectangle, ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {InteractionHandlers} from '../../hooks'
 import type {ComponentStatus} from '../Common'
@@ -15,7 +14,7 @@ export interface OnVirtualListCloseOptions {
 	indexKey?: string
 }
 
-export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Animated.ScrollView> {
+export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<ScrollView> {
 	activeKey?: string
 	data?: VirtualListData<T>[]
 	emptyElement?: React.JSX.Element
@@ -38,15 +37,12 @@ export interface RenderVirtualListProps<T = Record<string, unknown>> extends Vir
 	contentSize?: number
 	emptyList?: boolean
 	interactionHandlers: InteractionHandlers
-	itemElements?: React.JSX.Element[]
+	itemElements?: React.JSX.Element
 	layout: LayoutRectangle
 	status: ComponentStatus
 }
 
-export interface VirtualListBaseProps<T> extends VirtualListProps<T> {
-	renderVirtualList: (props: RenderVirtualListProps<T>) => React.JSX.Element
-}
-
+export type VirtualListBaseProps<T> = VirtualListProps<T>
 export interface VirtualListState {
 	emptyList?: boolean
 	endIndex?: number
@@ -85,7 +81,10 @@ export interface UseVirtualListScrollAnimatedOptions extends Pick<RenderVirtualL
 }
 
 export interface RenderVirtualListItemOptions<T>
-	extends Pick<RenderVirtualListProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'id'> {
+	extends Pick<
+		RenderVirtualListProps<T>,
+		'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'id' | 'data'
+	> {
 	onUnmount?: (indexKey?: string) => void
 	startIndex?: number
 }

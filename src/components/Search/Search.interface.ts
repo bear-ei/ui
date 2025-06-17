@@ -1,7 +1,6 @@
 import type {Size} from '@bearei/material-token'
 import type {RefAttributes, RefObject} from 'react'
 import type {LayoutRectangle, PressableProps, TextInput, TextInputProps, View} from 'react-native'
-import type {DefaultTheme} from 'styled-components/native'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName, State} from '../Common'
 import type {ListData, ListProps} from '../List'
@@ -24,13 +23,9 @@ export interface RenderSearchProps extends SearchProps {
 	layout: LayoutRectangle & {pageX?: number; pageY?: number}
 	listVisible?: boolean
 	interactionHandlers: InteractionHandlers
-	theme: DefaultTheme
 }
 
-export interface SearchBaseProps extends SearchProps {
-	renderSearch: (props: RenderSearchProps) => React.JSX.Element
-}
-
+export type SearchBaseProps = SearchProps
 export interface SearchState {
 	data?: ListData[]
 	eventName?: EventName

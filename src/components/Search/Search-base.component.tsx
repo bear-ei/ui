@@ -1,6 +1,5 @@
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {TextInput, View} from 'react-native'
-import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useInteractionStateEvent} from '../../hooks'
@@ -14,6 +13,7 @@ import {
 	updateSearchTextWithMatch
 } from './Search.handler'
 import type {SearchBaseProps, SearchState} from './Search.interface'
+import {RenderSearch} from './Search.render'
 
 /**
  * TODO:
@@ -31,7 +31,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			listProps,
 			onChangeText: rawOnChangeText,
 			placeholder,
-			renderSearch,
 			value: rawValue,
 			...renderSearchProps
 		},
@@ -58,7 +57,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		const containerRef = useRef<View>(null)
 		const id = useId()
 		const inputRef = useRef<TextInput>(null)
-		const theme = useTheme()
 		const onChangeText = useMemo(
 			() => updateSearchTextWithMatch({data, onChangeText: rawOnChangeText})(setState),
 			[data, rawOnChangeText, setState]
@@ -109,21 +107,22 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			return
 		}
 
-		return renderSearch({
-			...renderSearchProps,
-			containerRef,
-			eventName,
-			id,
-			interactionHandlers,
-			layout,
-			leading,
-			listProps,
-			listVisible: isListVisible,
-			onChangeText,
-			placeholder,
-			ref: inputRef,
-			theme,
-			value
-		})
+		return (
+			<RenderSearch
+				{...renderSearchProps}
+				containerRef={containerRef}
+				eventName={eventName}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				layout={layout}
+				leading={leading}
+				listProps={listProps}
+				listVisible={isListVisible}
+				onChangeText={onChangeText}
+				placeholder={placeholder}
+				ref={inputRef}
+				value={value}
+			/>
+		)
 	}
 )

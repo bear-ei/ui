@@ -1,21 +1,19 @@
 import type {ForwardedRef} from 'react'
 import {forwardRef} from 'react'
-import Animated from 'react-native-reanimated'
+import type {ScrollView} from 'react-native'
 import {typedMemo} from '../../utils'
 import {VirtualListBase} from './Virtual-list-base.component'
 import type {VirtualListProps} from './Virtual-list.interface'
-import {renderVirtualList} from './Virtual-list.render'
 
-const VirtualListInner = <T,>(props: VirtualListProps<T>, ref: ForwardedRef<Animated.ScrollView>) => (
+const VirtualListInner = <T,>(props: VirtualListProps<T>, ref: ForwardedRef<ScrollView>) => (
 	<VirtualListBase
 		{...props}
 		ref={ref}
-		renderVirtualList={renderVirtualList}
 	/>
 )
 
 const VirtualListWithRef = forwardRef(VirtualListInner)
 
 export const VirtualList = typedMemo(VirtualListWithRef)() as <T>(
-	props: VirtualListProps<T> & {ref?: ForwardedRef<Animated.ScrollView>}
+	props: VirtualListProps<T> & {ref?: ForwardedRef<ScrollView>}
 ) => ReturnType<typeof VirtualListInner>

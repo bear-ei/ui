@@ -9,6 +9,7 @@ import {
 	updateVirtualListItemStatus
 } from './Virtual-list-item.handler'
 import type {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
+import {RenderVirtualListItem} from './Virtual-list-item.render'
 
 export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 	(
@@ -19,7 +20,6 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			onLoadEnd,
 			onUnmount: rawOnUnmount,
 			renderItem,
-			renderVirtualListItem,
 			startIndex = 0,
 			...renderVirtualListItemProps
 		},
@@ -57,16 +57,18 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			return <></>
 		}
 
-		return renderVirtualListItem({
-			...renderVirtualListItemProps,
-			containerAnimatedStyle,
-			id,
-			index,
-			itemElement,
-			itemSize,
-			onUnmount,
-			ref,
-			visible: isVisible
-		})
+		return (
+			<RenderVirtualListItem
+				{...renderVirtualListItemProps}
+				containerAnimatedStyle={containerAnimatedStyle}
+				id={id}
+				index={index}
+				itemElement={itemElement}
+				itemSize={itemSize}
+				onUnmount={onUnmount}
+				ref={ref}
+				visible={isVisible}
+			/>
+		)
 	}
 )
