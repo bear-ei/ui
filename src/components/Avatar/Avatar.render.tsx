@@ -1,8 +1,9 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import type {FC} from 'react'
 import type {RenderAvatarProps} from './Avatar.interface'
 import {Container, Content, Image, LabelText} from './Avatar.styles'
 
-export const renderAvatar = ({
+export const RenderAvatar: FC<RenderAvatarProps> = ({
 	accessibilityLabel,
 	backgroundColor,
 	defaultSource,
@@ -14,7 +15,7 @@ export const renderAvatar = ({
 	source,
 	testID,
 	...containerProps
-}: RenderAvatarProps) => (
+}) => (
 	<Container
 		{...containerProps}
 		accessibilityLabel={accessibilityLabel ?? labelText}

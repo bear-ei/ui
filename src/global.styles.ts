@@ -23,24 +23,24 @@ export const GlobalStyle = createGlobalStyle`
 	}
 
 	body {
+		background-color: #ffffff;
+		color: #1a1a1a;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 		font-size: 16px;
 		line-height: 1.5;
-		color: #1a1a1a;
-		background-color: #ffffff;
 	}
 
 	input,
 	button,
 	textarea,
 	select {
+		background: none;
+		border: none;
+		color: inherit;
 		font: inherit;
 		margin: 0;
-		padding: 0;
-		border: none;
-		background: none;
 		outline: none;
-		color: inherit;
+		padding: 0;
 	}
 
 	button {
@@ -53,14 +53,14 @@ export const GlobalStyle = createGlobalStyle`
 	}
 
 	img {
-		max-width: 100%;
-		height: auto;
 		display: block;
+		height: auto;
+		max-width: 100%;
 	}
 
 	::-webkit-scrollbar {
-		width: 8px;
 		height: 8px;
+		width: 8px;
 	}
 
 	::-webkit-scrollbar-track {

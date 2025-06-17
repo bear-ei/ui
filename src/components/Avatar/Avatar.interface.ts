@@ -11,8 +11,5 @@ export interface AvatarProps extends ViewProps, RefAttributes<View>, CommonProps
 }
 
 export type RenderAvatarProps = AvatarProps
-export interface AvatarBaseProps extends AvatarProps {
-	renderAvatar: (props: RenderAvatarProps) => React.JSX.Element
-}
-
+export type AvatarBaseProps = AvatarProps
 export type AvatarContentProps = Pick<RenderAvatarProps, 'size' | 'density' | 'backgroundColor'>
