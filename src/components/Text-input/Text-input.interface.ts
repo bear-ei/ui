@@ -8,16 +8,12 @@ import type {
 	ViewStyle
 } from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import type {DefaultTheme} from 'styled-components/native'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName, ShapeProps, State, TypographyProps} from '../Common'
 import type {TEXT_INPUT_TYPE} from './Text-input.enum'
 
 export type TextInputType = (typeof TEXT_INPUT_TYPE)[keyof typeof TEXT_INPUT_TYPE]
-export interface InputProps extends RNTextInputProps, RefAttributes<TextInput> {
-	enableFocusRing?: boolean
-}
-
+export interface InputProps extends RNTextInputProps, RefAttributes<TextInput> {}
 export interface TextInputProps
 	extends Partial<
 			RNTextInputProps &
@@ -29,7 +25,6 @@ export interface TextInputProps
 		CommonProps {
 	content?: React.ReactNode
 	disabled?: boolean
-	enableFocusRing?: boolean
 	error?: boolean
 	filled?: boolean
 	labelText?: string
@@ -54,13 +49,9 @@ export interface RenderTextInputProps extends TextInputProps {
 	onSupportingTextVisible?: (visible?: boolean) => void
 	supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
 	supportingTextVisible?: boolean
-	theme: DefaultTheme
 }
 
-export interface TextInputBaseProps extends TextInputProps {
-	renderTextInput: (props: RenderTextInputProps) => React.JSX.Element
-}
-
+export type TextInputBaseProps = TextInputProps
 export interface TextInputState {
 	contentSize: TextInputContentSizeChangeEventData['contentSize']
 	eventName?: EventName
@@ -145,6 +136,4 @@ export interface TextInputMainProps extends Pick<RenderTextInputProps, 'density'
 	contentShow?: boolean
 }
 
-export interface TextInputTouchableHeaderProps {
-	enableFocusRing?: boolean
-}
+export type TextInputTouchableHeaderProps = Record<string, unknown>

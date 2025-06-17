@@ -6,9 +6,9 @@ import type {SkeletonElementContainerProps} from './Skeleton-element.interface'
 export const Container = styled(Shape)<SkeletonElementContainerProps>`
 	display: flex;
 
-	${({theme, showChildren}) => css`
+	${({theme, visible}) => css`
 		background-color: ${hexToRGBA(theme.token.scheme.onSurface)(
-			showChildren ? theme.token.opacity.level0 : theme.token.opacity.level2
+			visible ? theme.token.opacity.level0 : theme.token.opacity.level2
 		)};
 
 		gap: ${theme.adaptSize(theme.token.spacing.small)}px;

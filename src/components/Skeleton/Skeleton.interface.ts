@@ -18,10 +18,7 @@ export interface RenderSkeletonProps extends SkeletonProps {
 	visible?: boolean
 }
 
-export interface SkeletonBaseProps extends SkeletonProps {
-	renderSkeleton: (props: RenderSkeletonProps) => React.JSX.Element
-}
-
+export type SkeletonBaseProps = SkeletonProps
 export interface SkeletonState {
 	nextSkeletonVisibilityEvent?: () => Promise<void>
 	visible: boolean

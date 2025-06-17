@@ -5,6 +5,7 @@ import {useInteractionStateEvent, type HandleStateEventChangeOptions, type State
 import {COMPONENT_STATUS, type State} from '../Common'
 import {handleUnderlayStateChange} from './Underlay.handler'
 import type {UnderlayBaseProps, UnderlayState} from './Underlay.interface'
+import {RenderUnderlay} from './Underlay.render'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
 
 export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
@@ -16,7 +17,6 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 			defaultActive,
 			eventName,
 			opacities,
-			renderUnderlay,
 			...renderUnderlayProps
 		},
 		ref
@@ -47,14 +47,16 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 			status
 		})
 
-		return renderUnderlay({
-			...renderUnderlayProps,
-			active: isActive,
-			activeLayerAnimatedStyle,
-			hoverLayerAnimatedStyle,
-			id,
-			interactionHandlers,
-			ref
-		})
+		return (
+			<RenderUnderlay
+				{...renderUnderlayProps}
+				active={isActive}
+				activeLayerAnimatedStyle={activeLayerAnimatedStyle}
+				hoverLayerAnimatedStyle={hoverLayerAnimatedStyle}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				ref={ref}
+			/>
+		)
 	}
 )

@@ -4,10 +4,11 @@ import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
 import {updateSkeletonDuration} from './Skeleton.handler'
 import type {SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
+import {RenderSkeleton} from './Skeleton.render'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
 export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
-	({renderSkeleton, enableAnimated = true, duration, ...renderSkeletonProps}, ref) => {
+	({enableAnimated = true, duration, ...renderSkeletonProps}, ref) => {
 		const [{visible: isVisible, nextSkeletonVisibilityEvent}, setState] = useImmer<SkeletonState>({
 			visible: true
 		})
@@ -28,12 +29,14 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 			runAfterInteractions(nextSkeletonVisibilityEvent)()
 		}, [nextSkeletonVisibilityEvent])
 
-		return renderSkeleton({
-			...renderSkeletonProps,
-			containerAnimatedStyle,
-			id,
-			ref,
-			visible: isVisible
-		})
+		return (
+			<RenderSkeleton
+				{...renderSkeletonProps}
+				containerAnimatedStyle={containerAnimatedStyle}
+				id={id}
+				ref={ref}
+				visible={isVisible}
+			/>
+		)
 	}
 )

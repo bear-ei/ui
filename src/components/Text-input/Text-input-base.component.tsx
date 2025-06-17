@@ -20,6 +20,7 @@ import {
 	updateTextInputValueWithCallback
 } from './Text-input.handler'
 import type {TextInputBaseProps, TextInputState} from './Text-input.interface'
+import {RenderTextInput} from './Text-input.render'
 import {useTextInputAnimated} from './use-text-input-animated.hook'
 
 export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
@@ -39,7 +40,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			onContentSizeChange: rawOnContentSizeChange,
 			onSupportingTextVisible: rawOnSupportingTextVisible,
 			placeholder,
-			renderTextInput,
 			supportingText: rawSupportingText,
 			supportingTextDelay,
 			trailing,
@@ -182,35 +182,36 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			return <></>
 		}
 
-		return renderTextInput({
-			...renderTextInputProps,
-			activeIndicatorAnimatedStyle,
-			content,
-			contentSize,
-			density,
-			editable,
-			eventName,
-			headerAnimatedStyle,
-			id,
-			inputAnimatedStyle,
-			interactionHandlers,
-			labelAnimatedStyle,
-			labelText,
-			labelTextAnimatedStyle,
-			leading,
-			multiline,
-			onChangeText,
-			onContentSizeChange,
-			onHeaderFocus,
-			onSupportingTextVisible,
-			placeholderTextColor,
-			ref: textInputRef,
-			supportingText,
-			supportingTextAnimatedStyle,
-			supportingTextVisible: isSupportingTextVisible,
-			theme,
-			trailing,
-			value
-		})
+		return (
+			<RenderTextInput
+				{...renderTextInputProps}
+				activeIndicatorAnimatedStyle={activeIndicatorAnimatedStyle}
+				content={content}
+				contentSize={contentSize}
+				density={density}
+				editable={editable}
+				eventName={eventName}
+				headerAnimatedStyle={headerAnimatedStyle}
+				id={id}
+				inputAnimatedStyle={inputAnimatedStyle}
+				interactionHandlers={interactionHandlers}
+				labelAnimatedStyle={labelAnimatedStyle}
+				labelText={labelText}
+				labelTextAnimatedStyle={labelTextAnimatedStyle}
+				leading={leading}
+				multiline={multiline}
+				onChangeText={onChangeText}
+				onContentSizeChange={onContentSizeChange}
+				onHeaderFocus={onHeaderFocus}
+				onSupportingTextVisible={onSupportingTextVisible}
+				placeholderTextColor={placeholderTextColor}
+				ref={textInputRef}
+				supportingText={supportingText}
+				supportingTextAnimatedStyle={supportingTextAnimatedStyle}
+				supportingTextVisible={isSupportingTextVisible}
+				trailing={trailing}
+				value={value}
+			/>
+		)
 	}
 )

@@ -61,13 +61,6 @@ export const renderSearch = ({
 						<TextInputLayout testID={`search__textInputLayout--${id}`}>
 							<SearchTextInput
 								{...textInputProps}
-								/**
-								 * enableFocusRing is used to disable the focus style in macOS,
-								 * this parameter has been implemented and is available.
-								 * However, react-native-macos does not have an official typescript declaration for this parameter,
-								 * so using it directly in a typescript will result in an undefined parameter.
-								 */
-								enableFocusRing={false}
 								onBlur={onBlur}
 								onChangeText={onChangeText}
 								onFocus={onFocus}

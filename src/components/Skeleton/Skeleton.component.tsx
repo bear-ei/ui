@@ -7,13 +7,11 @@ import {SkeletonBase} from './Skeleton-base.component'
 import type {SkeletonElementProps} from './Skeleton-element'
 import {SkeletonElement} from './Skeleton-element'
 import type {SkeletonProps} from './Skeleton.interface'
-import {renderSkeleton} from './Skeleton.render'
 
 const SkeletonWithRef = forwardRef<View, SkeletonProps>((props, ref) => (
 	<SkeletonBase
 		{...props}
 		ref={ref}
-		renderSkeleton={renderSkeleton}
 	/>
 ))
 

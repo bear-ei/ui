@@ -14,13 +14,6 @@ export interface TouchableProps
 	children?: React.JSX.Element
 	disabled?: boolean
 	elevationUnderlay?: React.JSX.Element
-	/**
-	 * enableFocusRing is used to disable the focus style in macOS,
-	 * this parameter has been implemented and is available.
-	 * However, react-native-macos does not have an official typescript declaration for this parameter,
-	 * so using it directly in a typescript will result in an undefined parameter.
-	 */
-	enableFocusRing?: boolean
 	enableTouchableRipple?: boolean
 	hotZone?: boolean
 	mainAlignSelf?: ViewStyle['alignSelf']
@@ -29,7 +22,7 @@ export interface TouchableProps
 
 export interface RenderTouchableProps extends TouchableProps {
 	interactionHandlers: InteractionHandlers
-	rippleElements?: React.JSX.Element[]
+	rippleElements?: React.JSX.Element
 }
 
 export type TouchableBaseProps = TouchableProps
@@ -40,7 +33,10 @@ export interface TouchableState {
 	rippleSequence: TouchableRippleSequence
 }
 
-export type RenderTouchableRippleOptions = Omit<TouchableRippleProps, 'indexKey'>
+export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, 'indexKey'> {
+	rippleSequence: TouchableRippleSequence
+}
+
 export interface HandleTouchableStateChangeOptions
 	extends Pick<TouchableRippleProps, 'touchableLocation'>,
 		HandleStateEventChangeOptions,
@@ -48,9 +44,7 @@ export interface HandleTouchableStateChangeOptions
 	ref: React.RefObject<typeof Pressable>
 }
 
-export type TouchableContentProps = Pick<RenderTouchableProps, 'hotZone' | 'enableFocusRing'> &
-	RefAttributes<typeof Pressable>
-
+export type TouchableContentProps = Pick<RenderTouchableProps, 'hotZone'> & RefAttributes<typeof Pressable>
 export interface TouchableMainProps {
 	alignSelf?: ViewStyle['alignSelf']
 }

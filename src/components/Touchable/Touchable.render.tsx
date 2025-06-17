@@ -1,13 +1,18 @@
 import {forwardRef} from 'react'
 import type {Pressable} from 'react-native'
 import {TouchableRipple} from './Touchable-ripple'
-import type {RenderTouchableProps, RenderTouchableRippleOptions, TouchableRippleSequence} from './Touchable.interface'
+import type {RenderTouchableProps, RenderTouchableRippleProps} from './Touchable.interface'
 import {Container, Main, RippleLayout, TouchableContent} from './Touchable.styles'
 
-export const renderTouchableRipple =
-	({centered, containerLayout, id, ...props}: RenderTouchableRippleOptions) =>
-	(rippleSequence: TouchableRippleSequence) =>
-		Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
+export const RenderTouchableRipples = ({
+	centered,
+	containerLayout,
+	id,
+	rippleSequence,
+	...props
+}: RenderTouchableRippleProps) => (
+	<>
+		{Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
 			const isEnteredTouchableRipple =
 				typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
 
@@ -22,7 +27,9 @@ export const renderTouchableRipple =
 					touchableLocation={touchableLocation}
 				/>
 			)
-		})
+		})}
+	</>
+)
 
 export const RenderTouchable = forwardRef<typeof Pressable, RenderTouchableProps>(
 	(
@@ -36,15 +43,14 @@ export const RenderTouchable = forwardRef<typeof Pressable, RenderTouchableProps
 			rippleElements,
 			shape,
 			testID,
-			...contentProps
+			...touchableProps
 		}: RenderTouchableProps,
 		ref
 	) => (
 		<Container testID={testID ?? `touchable--${id}`}>
 			<TouchableContent
-				{...contentProps}
+				{...touchableProps}
 				{...interactionHandlers}
-				enableFocusRing={false}
 				ref={ref}
 				testID={`touchable__touchableContent--${id}`}
 			>

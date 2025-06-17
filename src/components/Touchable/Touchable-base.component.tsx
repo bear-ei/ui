@@ -6,7 +6,7 @@ import {useInteractionStateEvent} from '../../hooks'
 import type {State} from '../Common'
 import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handler'
 import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
-import {RenderTouchable, renderTouchableRipple} from './Touchable.render'
+import {RenderTouchable, RenderTouchableRipples} from './Touchable.render'
 
 export const TouchableBase = forwardRef<typeof Pressable, TouchableBaseProps>(
 	({centered, disabled, enableTouchableRipple = true, underlayColor, ...renderTouchableProps}, ref) => {
@@ -36,14 +36,16 @@ export const TouchableBase = forwardRef<typeof Pressable, TouchableBaseProps>(
 		})
 
 		const rippleElements = useMemo(
-			() =>
-				renderTouchableRipple({
-					centered,
-					containerLayout: contentLayout,
-					id,
-					onAnimateFinished,
-					underlayColor
-				})(rippleSequence),
+			() => (
+				<RenderTouchableRipples
+					centered={centered}
+					containerLayout={contentLayout}
+					id={id}
+					onAnimateFinished={onAnimateFinished}
+					rippleSequence={rippleSequence}
+					underlayColor={underlayColor}
+				/>
+			),
 			[centered, contentLayout, id, onAnimateFinished, rippleSequence, underlayColor]
 		)
 

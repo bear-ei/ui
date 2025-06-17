@@ -12,10 +12,7 @@ export interface SkeletonElementProps
 }
 
 export type RenderSkeletonElementProps = SkeletonElementProps
-export interface SkeletonElementBaseProps extends SkeletonElementProps {
-	renderSkeletonElement: (props: RenderSkeletonElementProps) => React.JSX.Element
-}
-
+export type SkeletonElementBaseProps = SkeletonElementProps
 export type SkeletonElementContainerProps = Pick<RenderSkeletonElementProps, 'layout'> & {
-	showChildren?: boolean
+	visible?: boolean
 }

@@ -46,7 +46,6 @@ export const RenderNavigationRailItem = forwardRef<typeof Pressable, RenderNavig
 				<Touchable
 					{...touchableProps}
 					{...interactionHandlers}
-					enableFocusRing={false}
 					ref={ref}
 					testID={`navigationRailItem__touchable--${id}`}
 				>

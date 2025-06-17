@@ -186,7 +186,6 @@ export const RenderListItem = forwardRef<typeof Pressable, RenderListItemProps>(
 							{...touchableProps}
 							{...interactionHandlers}
 							disabled={disabled}
-							enableFocusRing={false}
 							ref={ref}
 							testID={`listItem__touchable--${id}`}
 						>

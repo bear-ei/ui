@@ -1,8 +1,10 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import {cloneElement} from 'react'
+import {cloneElement, forwardRef} from 'react'
+import type {TextInput} from 'react-native'
 import type {AnimatedProps} from 'react-native-reanimated'
 import Animated from 'react-native-reanimated'
 import type {FastOmit} from 'styled-components'
+import {useTheme} from 'styled-components/native'
 import {Underlay} from '../Underlay'
 import type {InputProps, RenderTextInputProps} from './Text-input.interface'
 import {
@@ -31,152 +33,146 @@ const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.Funct
 	AnimatedProps<FastOmit<InputProps, never>>
 >
 
-export const renderTextInput = ({
-	accessibilityLabel,
-	activeIndicatorAnimatedStyle,
-	content,
-	contentSize,
-	density,
-	error,
-	eventName,
-	headerAnimatedStyle,
-	id,
-	inputAnimatedStyle,
-	interactionHandlers,
-	labelAnimatedStyle,
-	labelText,
-	labelTextAnimatedStyle,
-	leading,
-	multiline,
-	onHeaderFocus,
-	onSupportingTextVisible,
-	supportingText,
-	supportingTextAnimatedStyle,
-	supportingTextVisible,
-	testID,
-	theme,
-	trailing,
-	...inputProps
-}: RenderTextInputProps) => {
-	const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
-	const isLeadingShow = !!leading
-	const shape = SHAPE.EXTRA_SMALL_TOP
-	const underlayColor = theme.token.scheme.onSurface
-	const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
+export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
+	({
+		accessibilityLabel,
+		activeIndicatorAnimatedStyle,
+		content,
+		contentSize,
+		density,
+		error,
+		eventName,
+		headerAnimatedStyle,
+		id,
+		inputAnimatedStyle,
+		interactionHandlers,
+		labelAnimatedStyle,
+		labelText,
+		labelTextAnimatedStyle,
+		leading,
+		multiline,
+		onHeaderFocus,
+		onSupportingTextVisible,
+		supportingText,
+		supportingTextAnimatedStyle,
+		supportingTextVisible,
+		testID,
+		trailing,
+		...inputProps
+	}) => {
+		const theme = useTheme()
+		const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
+		const isLeadingShow = !!leading
+		const shape = SHAPE.EXTRA_SMALL_TOP
+		const underlayColor = theme.token.scheme.onSurface
+		const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
 
-	return (
-		<Container
-			{...(error && {
-				accessibilityLabel: accessibilityLabel ?? supportingText,
-				accessibilityRole: 'alert'
-			})}
-			testID={testID ?? `textInput--${id}`}
-		>
-			<Content testID={`textInput__content--${id}`}>
-				<TouchableHeader
-					{...onTouchableHeaderEvent}
-					{...(!error && {
-						accessibilityLabel: accessibilityLabel ?? labelText,
-						accessibilityRole: 'keyboardkey'
-					})}
-					enableFocusRing={false}
-					onFocus={onHeaderFocus}
-					testID={`textInput__touchableHeader--${id}`}
-				>
-					<AnimatedHeader
-						density={density}
-						leadingShow={isLeadingShow}
-						shape={shape}
-						style={[headerAnimatedStyle]}
-						testID={`textInput__animatedHeader--${id}`}
-						trailingShow={!!trailing}
+		return (
+			<Container
+				{...(error && {
+					accessibilityLabel: accessibilityLabel ?? supportingText,
+					accessibilityRole: 'alert'
+				})}
+				testID={testID ?? `textInput--${id}`}
+			>
+				<Content testID={`textInput__content--${id}`}>
+					<TouchableHeader
+						{...onTouchableHeaderEvent}
+						{...(!error && {
+							accessibilityLabel: accessibilityLabel ?? labelText,
+							accessibilityRole: 'keyboardkey'
+						})}
+						onFocus={onHeaderFocus}
+						testID={`textInput__touchableHeader--${id}`}
 					>
-						{leading && (
-							<Leading testID={`textInput__leading--${id}`}>
-								{cloneElement(leading, {disabledFocus: true})}
-							</Leading>
-						)}
-
-						<Main
-							contentShow={!!content}
-							density={density}
-							testID={`textInput__main--${id}`}
-						>
-							{content}
-							<Control
-								multiline={multiline}
-								size={contentSize?.height}
-								testID={`textInput__control--${id}`}
-							>
-								<AnimatedTextInput
-									{...inputProps}
-									/**
-									 * enableFocusRing is used to disable the focus style in macOS,
-									 * this parameter has been implemented and is available.
-									 * However, react-native-macos does not have an official typescript declaration for this parameter,
-									 * so using it directly in a typescript will result in an undefined parameter.
-									 */
-									enableFocusRing={false}
-									multiline={multiline}
-									onBlur={onBlur}
-									onFocus={onFocus}
-									style={[inputAnimatedStyle]}
-									testID={`textInput__animatedTextInput--${id}`}
-								/>
-							</Control>
-						</Main>
-
-						{trailing && (
-							<Trailing testID={`textInput__trailing--${id}`}>
-								{cloneElement(trailing, {disabledFocus: true})}
-							</Trailing>
-						)}
-
-						<AnimatedLabel
+						<AnimatedHeader
 							density={density}
 							leadingShow={isLeadingShow}
-							style={[labelAnimatedStyle]}
-							testID={`textInput__animatedLabel--${id}`}
+							shape={shape}
+							style={[headerAnimatedStyle]}
+							testID={`textInput__animatedHeader--${id}`}
+							trailingShow={!!trailing}
 						>
-							<AnimatedLabelText
-								size={SIZE.LARGE}
-								style={[labelTextAnimatedStyle]}
-								testID={`textInput__animatedLabelText--${id}`}
-								type={TYPOGRAPHY.BODY}
+							{leading && (
+								<Leading testID={`textInput__leading--${id}`}>
+									{cloneElement(leading, {disabledFocus: true})}
+								</Leading>
+							)}
+
+							<Main
+								contentShow={!!content}
+								density={density}
+								testID={`textInput__main--${id}`}
 							>
-								{labelText}
-							</AnimatedLabelText>
-						</AnimatedLabel>
+								{content}
+								<Control
+									multiline={multiline}
+									size={contentSize?.height}
+									testID={`textInput__control--${id}`}
+								>
+									<AnimatedTextInput
+										{...inputProps}
+										multiline={multiline}
+										onBlur={onBlur}
+										onFocus={onFocus}
+										style={[inputAnimatedStyle]}
+										testID={`textInput__animatedTextInput--${id}`}
+									/>
+								</Control>
+							</Main>
 
-						<AnimatedActiveIndicator
-							style={[activeIndicatorAnimatedStyle]}
-							testID={`textInput__animatedActiveIndicator--${id}`}
-						/>
+							{trailing && (
+								<Trailing testID={`textInput__trailing--${id}`}>
+									{cloneElement(trailing, {disabledFocus: true})}
+								</Trailing>
+							)}
 
-						<Underlay
-							eventName={eventName}
-							opacities={underlayOpacities}
-							testID={`textInput__underlay--${id}`}
-							underlayColor={underlayColor}
-						/>
-					</AnimatedHeader>
-				</TouchableHeader>
+							<AnimatedLabel
+								density={density}
+								leadingShow={isLeadingShow}
+								style={[labelAnimatedStyle]}
+								testID={`textInput__animatedLabel--${id}`}
+							>
+								<AnimatedLabelText
+									size={SIZE.LARGE}
+									style={[labelTextAnimatedStyle]}
+									testID={`textInput__animatedLabelText--${id}`}
+									type={TYPOGRAPHY.BODY}
+								>
+									{labelText}
+								</AnimatedLabelText>
+							</AnimatedLabel>
 
-				<SupportingLayout
-					onVisible={onSupportingTextVisible}
-					testID={`textInput__supportingLayoutAnimated--${id}`}
-					visible={supportingTextVisible}
-				>
-					<AnimatedSupportingText
-						size={SIZE.SMALL}
-						style={[supportingTextAnimatedStyle]}
-						testID={`textInput__animatedSupportingText--${id}`}
-						type={TYPOGRAPHY.BODY}
+							<AnimatedActiveIndicator
+								style={[activeIndicatorAnimatedStyle]}
+								testID={`textInput__animatedActiveIndicator--${id}`}
+							/>
+
+							<Underlay
+								eventName={eventName}
+								opacities={underlayOpacities}
+								testID={`textInput__underlay--${id}`}
+								underlayColor={underlayColor}
+							/>
+						</AnimatedHeader>
+					</TouchableHeader>
+
+					<SupportingLayout
+						onVisible={onSupportingTextVisible}
+						testID={`textInput__supportingLayoutAnimated--${id}`}
+						visible={supportingTextVisible}
 					>
-						{supportingText}
-					</AnimatedSupportingText>
-				</SupportingLayout>
-			</Content>
-		</Container>
-	)
-}
+						<AnimatedSupportingText
+							size={SIZE.SMALL}
+							style={[supportingTextAnimatedStyle]}
+							testID={`textInput__animatedSupportingText--${id}`}
+							type={TYPOGRAPHY.BODY}
+						>
+							{supportingText}
+						</AnimatedSupportingText>
+					</SupportingLayout>
+				</Content>
+			</Container>
+		)
+	}
+)

@@ -7,10 +7,7 @@ import type {CommonProps, ComponentStatus, EventName, State} from '../Common'
 import type {ListData, ListProps} from '../List'
 import type {SearchListProps} from './Search-list'
 
-export interface SearchTextInputProps extends TextInputProps, RefAttributes<TextInput> {
-	enableFocusRing?: boolean
-}
-
+export interface SearchTextInputProps extends TextInputProps, RefAttributes<TextInput> {}
 export interface SearchProps
 	extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers>,
 		CommonProps {

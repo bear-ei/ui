@@ -147,8 +147,5 @@ export interface ListItemTrailingProps extends ListItemLeadingProps {
 	trailingShow?: boolean
 }
 
-export interface ListItemItemTouchableProps extends RefAttributes<typeof Pressable> {
-	enableFocusRing?: boolean
-}
-
+export type ListItemItemTouchableProps = RefAttributes<typeof Pressable>
 export type AffordanceLayoutProps = Pick<RenderListItemProps, 'afterAffordanceExpanded'>
