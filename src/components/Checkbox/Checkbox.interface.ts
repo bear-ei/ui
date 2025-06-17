@@ -1,4 +1,3 @@
-import type {DefaultTheme} from 'styled-components/native'
 import type {
 	AnimatedTiming,
 	AnimatedTimingOptions,
@@ -25,13 +24,9 @@ export interface RenderCheckboxProps extends CheckboxProps {
 	animatedOptions: CheckboxIconAnimatedOptions
 	eventName?: EventName
 	interactionHandlers: InteractionHandlers
-	theme: DefaultTheme
 }
 
-export interface CheckboxBaseProps extends CheckboxProps {
-	renderCheckbox: (props: RenderCheckboxProps) => React.JSX.Element
-}
-
+export type CheckboxBaseProps = CheckboxProps
 export interface CheckboxState {
 	active?: boolean
 	eventName?: EventName

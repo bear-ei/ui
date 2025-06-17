@@ -1,7 +1,6 @@
 import {DURATION} from '@bearei/material-token'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import type {View} from 'react-native'
-import {useTheme} from 'styled-components/native'
+import type {Pressable} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {runAfterInteractions} from '../../utils'
@@ -15,26 +14,14 @@ import {
 	updateCheckboxStatus
 } from './Checkbox.handler'
 import type {CheckboxBaseProps, CheckboxIconAnimatedOptions, CheckboxState} from './Checkbox.interface'
+import {RenderCheckbox} from './Checkbox.render'
 
-export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
-	(
-		{
-			active: rawActive,
-			defaultActive,
-			disabled,
-			error,
-			indeterminate,
-			onActive,
-			renderCheckbox,
-			...renderCheckboxProps
-		},
-		ref
-	) => {
+export const CheckboxBase = forwardRef<typeof Pressable, CheckboxBaseProps>(
+	({active: rawActive, defaultActive, disabled, error, indeterminate, onActive, ...renderCheckboxProps}, ref) => {
 		const [{active: isActive, eventName, status, value, nextActiveEvent}, setState] =
 			useImmer<CheckboxState>({status: COMPONENT_STATUS.IDLE, value: CHECKBOX_VALUE.UNSELECTED})
 
 		const id = useId()
-		const theme = useTheme()
 		const animatedOptions = useMemo(
 			() =>
 				({
@@ -87,17 +74,18 @@ export const CheckboxBase = forwardRef<View, CheckboxBaseProps>(
 			return <></>
 		}
 
-		return renderCheckbox({
-			...renderCheckboxProps,
-			disabled,
-			error,
-			eventName,
-			id,
-			interactionHandlers,
-			ref,
-			theme,
-			value,
-			animatedOptions
-		})
+		return (
+			<RenderCheckbox
+				{...renderCheckboxProps}
+				animatedOptions={animatedOptions}
+				disabled={disabled}
+				error={error}
+				eventName={eventName}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				ref={ref}
+				value={value}
+			/>
+		)
 	}
 )

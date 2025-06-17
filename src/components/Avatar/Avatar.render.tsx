@@ -1,10 +1,10 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import type {AvatarProps} from './Avatar.interface'
+import type {RenderAvatarProps} from './Avatar.interface'
 import {Container, Content, Image, LabelText} from './Avatar.styles'
 
-export const RenderAvatar = forwardRef<View, AvatarProps>(
+export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 	(
 		{
 			accessibilityLabel,
