@@ -1,8 +1,9 @@
+import {View} from 'react-native'
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../Common'
 import type {ElevationShadowProps} from './Elevation.interface'
 
-export const Container = styled.View`
+export const Container = styled(View)`
 	align-items: center;
 	display: flex;
 	flex-direction: column;

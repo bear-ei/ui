@@ -14,9 +14,6 @@ export interface RenderElevationProps extends Omit<ElevationProps, 'renderStyle'
 	shadowAnimatedStyle?: AnimatedStyle<ViewStyle>
 }
 
-export interface ElevationBaseProps extends ElevationProps {
-	renderElevation: (props: RenderElevationProps) => React.JSX.Element
-}
-
+export type ElevationBaseProps = ElevationProps
 export type UseElevationAnimatedOptions = Pick<RenderElevationProps, 'level'>
 export type ElevationShadowProps = Pick<RenderElevationProps, 'level'>
