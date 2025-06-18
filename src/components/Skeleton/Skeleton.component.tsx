@@ -1,4 +1,4 @@
-import {SHAPE} from '@bearei/material-token'
+import {SHAPE} from '@bearei/element-token'
 import {forwardRef, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'

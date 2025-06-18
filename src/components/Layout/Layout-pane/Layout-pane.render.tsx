@@ -1,4 +1,4 @@
-import {DURATION, EASING} from '@bearei/material-token'
+import {DURATION, EASING} from '@bearei/element-token'
 import {forwardRef, useMemo} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {LAYOUT} from '../../Common'

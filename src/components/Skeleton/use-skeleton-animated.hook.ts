@@ -1,4 +1,4 @@
-import {EASING} from '@bearei/material-token'
+import {EASING} from '@bearei/element-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'

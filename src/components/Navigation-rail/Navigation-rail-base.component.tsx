@@ -1,4 +1,4 @@
-import {SIZE} from '@bearei/material-token'
+import {SIZE} from '@bearei/element-token'
 import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'

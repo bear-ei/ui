@@ -1,4 +1,4 @@
-import {WINDOW_SIZE, type WindowSize} from '@bearei/material-token'
+import {WINDOW_SIZE, type WindowSize} from '@bearei/element-token'
 import {useWindowDimensions} from '../use-window-dimensions'
 
 export const useWindowSize = () => {

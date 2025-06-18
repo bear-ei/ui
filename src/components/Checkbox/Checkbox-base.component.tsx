@@ -1,4 +1,4 @@
-import {DURATION} from '@bearei/material-token'
+import {DURATION} from '@bearei/element-token'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'

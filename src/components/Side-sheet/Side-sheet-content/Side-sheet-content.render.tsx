@@ -1,4 +1,4 @@
-import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {forwardRef, useMemo, type FC} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'

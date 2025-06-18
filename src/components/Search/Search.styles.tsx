@@ -1,4 +1,4 @@
-import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {css} from 'styled-components'
 import styled from 'styled-components/native'
 import {DENSITY_SCALE, Shape} from '../Common'

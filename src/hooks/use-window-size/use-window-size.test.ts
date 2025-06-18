@@ -1,4 +1,4 @@
-import {WINDOW_SIZE} from '@bearei/material-token'
+import {WINDOW_SIZE} from '@bearei/element-token'
 import {renderHook} from '@testing-library/react-hooks'
 import {useWindowDimensions} from '../use-window-dimensions'
 import {useWindowSize} from './use-window-size.hook'

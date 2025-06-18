@@ -9,7 +9,7 @@ import type {
 	Size,
 	Spacing,
 	Typography
-} from '@bearei/material-token'
+} from '@bearei/element-token'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 import type {COMPONENT_STATUS, DENSITY, DENSITY_SCALE, EVENT_NAME, LAYOUT, STATE, TRIGGER_EVENT} from './Common.enum'

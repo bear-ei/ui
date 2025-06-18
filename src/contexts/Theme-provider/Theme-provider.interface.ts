@@ -1,4 +1,4 @@
-import type {Token} from '@bearei/material-token'
+import type {Token} from '@bearei/element-token'
 import type {ReactNode} from 'react'
 import type {Density} from '../../components'
 import type {AdaptDesignOptions} from '../../utils'

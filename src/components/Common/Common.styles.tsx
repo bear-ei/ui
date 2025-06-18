@@ -1,4 +1,4 @@
-import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import styled, {css} from 'styled-components/native'
 import type {ShapeProps, TypographyProps} from './Common.interface'
 

@@ -1,4 +1,4 @@
-import {SHAPE} from '@bearei/material-token'
+import {SHAPE} from '@bearei/element-token'
 import {forwardRef, useMemo, type FC} from 'react'
 import type {TextInput as RNTextInput} from 'react-native'
 import {useTheme} from 'styled-components/native'

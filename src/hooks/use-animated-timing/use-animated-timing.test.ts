@@ -1,4 +1,4 @@
-import type {Token} from '@bearei/material-token'
+import type {Token} from '@bearei/element-token'
 import {renderHook} from '@testing-library/react-native'
 import {SharedValue} from 'react-native-reanimated'
 import {createAnimatedTiming} from './use-animated-timing.handler'

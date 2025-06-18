@@ -1,4 +1,4 @@
-import type {Size} from '@bearei/material-token'
+import type {Size} from '@bearei/element-token'
 import type {RefAttributes, RefObject} from 'react'
 import type {LayoutRectangle, PressableProps, TextInput, TextInputProps, View} from 'react-native'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'

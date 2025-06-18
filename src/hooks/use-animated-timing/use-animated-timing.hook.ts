@@ -1,4 +1,4 @@
-import {DURATION, EASING} from '@bearei/material-token'
+import {DURATION, EASING} from '@bearei/element-token'
 import {useCallback} from 'react'
 import {runOnJS} from 'react-native-reanimated'
 import {createAnimatedTiming} from './use-animated-timing.handler'

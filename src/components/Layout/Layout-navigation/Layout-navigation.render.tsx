@@ -1,4 +1,4 @@
-import {DURATION, EASING} from '@bearei/material-token'
+import {DURATION, EASING} from '@bearei/element-token'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import type {RenderLayoutNavigationProps} from './Layout-navigation.interface'

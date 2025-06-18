@@ -1,4 +1,4 @@
-import {SIZE} from '@bearei/material-token'
+import {SIZE} from '@bearei/element-token'
 import type {Meta, StoryObj} from '@storybook/react'
 import {DENSITY} from '../Common'
 import {Icon} from '../Icon'

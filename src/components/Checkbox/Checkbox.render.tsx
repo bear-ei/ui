@@ -1,4 +1,4 @@
-import {SHAPE} from '@bearei/material-token'
+import {SHAPE} from '@bearei/element-token'
 import {forwardRef, useMemo} from 'react'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'

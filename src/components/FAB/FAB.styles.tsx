@@ -1,4 +1,4 @@
-import {SIZE} from '@bearei/material-token'
+import {SIZE} from '@bearei/element-token'
 import styled, {css} from 'styled-components/native'
 import {DENSITY_SCALE, Shape, Typography} from '../Common'
 import type {FABContainerProps, FABContentProps, FABMainProps} from './FAB.interface'

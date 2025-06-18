@@ -1,4 +1,4 @@
-import type {Size} from '@bearei/material-token'
+import type {Size} from '@bearei/element-token'
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'

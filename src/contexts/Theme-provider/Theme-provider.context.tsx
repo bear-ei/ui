@@ -1,5 +1,5 @@
-import type {Platform, Scheme} from '@bearei/material-token'
-import {CONTRAST, createToken, PALETTE, PLATFORM, SCHEME, WINDOW_SIZE} from '@bearei/material-token'
+import type {Platform, Scheme} from '@bearei/element-token'
+import {CONTRAST, createToken, PALETTE, PLATFORM, SCHEME, WINDOW_SIZE} from '@bearei/element-token'
 import type {FC} from 'react'
 import {useMemo} from 'react'
 import {Platform as RNPlatform, useColorScheme} from 'react-native'

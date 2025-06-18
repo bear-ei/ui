@@ -1,4 +1,4 @@
-import {hexToRGBA} from '@bearei/material-token'
+import {hexToRGBA} from '@bearei/element-token'
 import styled, {css} from 'styled-components/native'
 import {Shape} from '../../Common'
 import type {TouchableRippleLayoutProps} from './Touchable-ripple.interface'
