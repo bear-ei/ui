@@ -1,5 +1,5 @@
 import type {Platform, Scheme} from '@bearei/material-token'
-import {CONTRAST, createToken, PALETTE, SCHEME, WINDOW_SIZE} from '@bearei/material-token'
+import {CONTRAST, createToken, PALETTE, PLATFORM, SCHEME, WINDOW_SIZE} from '@bearei/material-token'
 import type {FC} from 'react'
 import {useMemo} from 'react'
 import {Platform as RNPlatform, useColorScheme} from 'react-native'
@@ -33,14 +33,15 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeT
 		[defaultDesignOptions, designOptions, height, width, windowSize]
 	)
 
+	const platform = PLATFORM[RNPlatform.OS.toUpperCase() as Platform]
 	const token = useMemo(
 		() =>
 			rawThemeToken ??
-			createToken()({
+			createToken({platform})({
 				contrast: CONTRAST.STANDARD,
 				scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
 			})(PALETTE.FROSTY_ICE),
-		[colorScheme, rawThemeToken]
+		[colorScheme, platform, rawThemeToken]
 	)
 
 	return (
@@ -57,14 +58,15 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeT
 const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density = DENSITY.STANDARD}) => {
 	const {adaptFontSize, adaptSize} = useMemo(() => adaptWindow()()(true), [])
 	const colorScheme = useColorScheme()
+	const platform = PLATFORM[RNPlatform.OS.toUpperCase() as Platform]
 	const token = useMemo(
 		() =>
 			rawThemeToken ??
-			createToken({platform: RNPlatform.OS.toUpperCase() as Platform})({
+			createToken({platform})({
 				contrast: CONTRAST.STANDARD,
 				scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
 			})(PALETTE.FROSTY_ICE),
-		[colorScheme, rawThemeToken]
+		[colorScheme, platform, rawThemeToken]
 	)
 
 	return (

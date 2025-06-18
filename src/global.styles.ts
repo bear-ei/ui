@@ -25,9 +25,11 @@ export const GlobalStyle = createGlobalStyle`
 	body {
 		background-color: #ffffff;
 		color: #1a1a1a;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 		font-size: 16px;
 		line-height: 1.5;
+		font-family:
+			-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+			'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 	}
 
 	input,
