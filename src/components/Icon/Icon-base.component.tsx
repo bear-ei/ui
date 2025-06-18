@@ -1,4 +1,4 @@
-import {hexToRGBA} from '@bearei/material-token'
+import {hexToRGBA} from '@bearei/element-token'
 import {forwardRef, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'

@@ -11,8 +11,8 @@ export {
 	SIZE,
 	TYPOGRAPHY,
 	WINDOW_SIZE
-} from '@bearei/material-token'
-export type {Token} from '@bearei/material-token'
+} from '@bearei/element-token'
+export type {Token} from '@bearei/element-token'
 export * from 'class-validator'
 export * from './components'
 export * from './contexts'

@@ -1,4 +1,4 @@
-import {SHAPE} from '@bearei/material-token'
+import {SHAPE} from '@bearei/element-token'
 import type {Meta, StoryObj} from '@storybook/react'
 import {useMemo, useState} from 'react'
 import type {ViewStyle} from 'react-native'

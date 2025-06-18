@@ -1,4 +1,4 @@
-import {SIZE} from '@bearei/material-token'
+import {SIZE} from '@bearei/element-token'
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithAct} from '../../../__test__'

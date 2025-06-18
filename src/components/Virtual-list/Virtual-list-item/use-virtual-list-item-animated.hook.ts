@@ -1,4 +1,4 @@
-import {DURATION} from '@bearei/material-token'
+import {DURATION} from '@bearei/element-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'

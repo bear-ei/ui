@@ -30,7 +30,7 @@ export default [
 			ecmaVersion: 6,
 			sourceType: 'module',
 			parserOptions: {
-				project: './tsconfig.json',
+				project: ['./tsconfig.app.json', './tsconfig.node.json'],
 				tsconfigRootDir: __dirname,
 				ecmaFeatures: {
 					jsx: true,
@@ -39,6 +39,7 @@ export default [
 			}
 		},
 		rules: {
+			'@typescript-eslint/no-empty-object-type': 'error',
 			'@typescript-eslint/explicit-function-return-type': 'off',
 			'@typescript-eslint/explicit-module-boundary-types': 'off',
 			'@typescript-eslint/interface-name-prefix': 'off',

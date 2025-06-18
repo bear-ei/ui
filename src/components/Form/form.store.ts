@@ -1,5 +1,5 @@
 import type {NamePath} from '../../utils'
-import {debounce, namePath} from '../../utils'
+import {debounceAsync, namePath} from '../../utils'
 import {createFormFieldValidator} from './Form.handler'
 import type {
 	FormCallbacks,
@@ -148,7 +148,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			}
 
 			const createNextValidator = (entity: FormFieldEntity<T>) =>
-				debounce(
+				debounceAsync(
 					createFormFieldValidator<T>({
 						rule: validateRule[entity.name],
 						validatorOptions: {...restValidatorOptions, ...validatorOptions}
@@ -264,7 +264,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			return
 		}
 
-		const debouncedValidate = debounce(
+		const debouncedValidate = debounceAsync(
 			createFormFieldValidator<T>({rule: rule, validatorOptions: restValidatorOptions})(
 				rawEntity.name
 			)
@@ -357,9 +357,17 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			return
 		}
 
-		validateFields().then(err =>
-			Object.entries(err).some(([, value]) => value) ? triggerOnFinishFailed(err) : triggerOnFinish()
-		)
+		validateFields().then(result => {
+			const err = result as FormErrors<T>
+
+			if (Object.entries(err).some(([, value]) => value)) {
+				triggerOnFinishFailed(err)
+
+				return
+			}
+
+			triggerOnFinish()
+		})
 	}
 
 	return {

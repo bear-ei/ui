@@ -1,4 +1,4 @@
-import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, useMemo} from 'react'
 import type {TextInput} from 'react-native'
 import type {AnimatedProps} from 'react-native-reanimated'

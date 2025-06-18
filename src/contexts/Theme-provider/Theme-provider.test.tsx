@@ -1,5 +1,5 @@
 import {render, waitFor} from '@testing-library/react-native'
-import {Platform as RNPlatform} from 'react-native'
+import {Platform as RNPlatform, View} from 'react-native'
 import {ThemeProvider} from '../Theme-provider'
 
 describe('ThemeProvider Context', () => {
@@ -15,7 +15,7 @@ describe('ThemeProvider Context', () => {
 		Object.defineProperty(RNPlatform, 'OS', {value: 'ios'})
 		const {getByTestId} = render(
 			<ThemeProvider>
-				<></>
+				<View testID='bearei__material--test-id' />
 			</ThemeProvider>
 		)
 
@@ -28,7 +28,7 @@ describe('ThemeProvider Context', () => {
 		Object.defineProperty(RNPlatform, 'OS', {value: 'web'})
 		const {getByTestId} = render(
 			<ThemeProvider>
-				<></>
+				<View testID='bearei__material--test-id' />
 			</ThemeProvider>
 		)
 

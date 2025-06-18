@@ -1,4 +1,4 @@
-export const debounce = <T extends (...args: any[]) => unknown>(func?: T) => {
+export const debounceAsync = <T extends (...args: any[]) => unknown>(func?: T) => {
 	const createDebouncedExecutor =
 		(
 			resolve: (value: Awaited<ReturnType<T>> | PromiseLike<Awaited<ReturnType<T>>>) => void,
@@ -22,7 +22,7 @@ export const debounce = <T extends (...args: any[]) => unknown>(func?: T) => {
 		return (...args: Parameters<T>) => {
 			if (timeoutId) {
 				clearTimeout(timeoutId)
-				lastResolve(undefined)
+				lastResolve?.(undefined)
 			}
 
 			return new Promise<Awaited<ReturnType<T>> | undefined>((resolve, reject) => {
@@ -32,3 +32,17 @@ export const debounce = <T extends (...args: any[]) => unknown>(func?: T) => {
 		}
 	}
 }
+
+export const debounce =
+	<T extends (...args: any[]) => unknown>(func?: T) =>
+	(delay: number) => {
+		let timeoutId: NodeJS.Timeout
+
+		return (...args: Parameters<T>) => {
+			if (timeoutId) {
+				clearTimeout(timeoutId)
+			}
+
+			timeoutId = setTimeout(() => func?.(...args), delay)
+		}
+	}

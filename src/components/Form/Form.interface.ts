@@ -42,24 +42,9 @@ export interface FormStoreOptions<T> {
 export interface FormStore<T = Record<string, unknown>> {
 	getFieldEntities: (signOut?: boolean) => FormFieldEntity<T>[]
 	getFieldEntitiesName: (signOut?: boolean) => (namePaths?: (keyof T)[]) => (keyof T | undefined)[]
-	getFieldsError: {
-		(): FormErrors<T>
-		(namePaths?: (keyof T)[]): FormErrors<T>
-		(name?: keyof T): FormErrors<T>[keyof T]
-	}
-
-	getFieldsValue: {
-		(): T
-		(namePaths?: (keyof T)[]): T
-		(name?: keyof T): T[keyof T]
-	}
-
-	getInitialValues: {
-		(): T
-		(namePaths?: (keyof T)[]): T
-		(name?: keyof T): T[keyof T]
-	}
-
+	getFieldsError(name?: keyof T | (keyof T)[]): FormErrors<T> | FormErrors<T>[keyof T]
+	getFieldsValue(name?: keyof T | (keyof T)[]): T | T[keyof T]
+	getInitialValues(name?: keyof T | (keyof T)[]): T | T[keyof T]
 	isFieldsTouched: (namePaths?: NamePath) => boolean
 	resetFields: (namePaths?: NamePath) => void
 	setCallbacks: (formCallbacks: FormCallbacks<T>) => void
@@ -72,11 +57,7 @@ export interface FormStore<T = Record<string, unknown>> {
 	signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
 	signOutFields: (namePaths?: NamePath) => void
 	submit: (enableValidate?: boolean) => void
-	validateFields: {
-		(): Promise<FormErrors<T>>
-		(namePaths?: (keyof T)[]): Promise<FormErrors<T>>
-		(name?: keyof T): Promise<FormErrors<T>[keyof T]>
-	}
+	validateFields(name?: keyof T | (keyof T)[]): Promise<FormErrors<T> | FormErrors<T>[keyof T]>
 }
 
 export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormCallbacks<T>, RefAttributes<View> {

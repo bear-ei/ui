@@ -1,27 +1,28 @@
 {
-	"name": "@bearei/material",
-	"version": "0.0.241",
-	"main": "./dist/index.cjs.js",
-	"module": "./dist/index.es.js",
+	"name": "@bearei/element",
+	"version": "0.0.298",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.mjs",
 	"react-native": "./src/index.ts",
 	"types": "./dist/index.d.ts",
 	"author": "bearei <bear_ei@outlook.com>",
-	"description": "Material Design for React Native (macOS)",
+	"description": "Bearei element for React Native",
 	"readmeFilename": "README.md",
 	"license": "UNLICENSED",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.cjs",
+			"default": "./dist/index.mjs"
 		}
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/bear-ei/material"
+		"url": "https://github.com/bear-ei/element"
 	},
 	"bugs": {
-		"url": "https://github.com/bear-ei/material/issues"
+		"url": "https://github.com/bear-ei/element/issues"
 	},
 	"files": [
 		"dist",
@@ -33,6 +34,7 @@
 		"!**/test.*"
 	],
 	"dependencies": {
+		"@bearei/element-token": "^0.0.15",
 		"@bearei/material-token": "^0.0.40",
 		"@material-symbols/svg-400": "^0.27.1",
 		"class-validator": "^0.14.1",
@@ -101,6 +103,7 @@
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-native": "^0.75.0",
+		"react-native-reanimated": "^3.18.0",
 		"react-native-svg-transformer": "^1.5.0",
 		"react-native-web": "^0.19.13",
 		"react-test-renderer": "^18.2.0",
@@ -111,17 +114,18 @@
 		"ts-jest": "^29.3.2",
 		"ts-node": "^10.9.2",
 		"ts-prune": "^0.10.3",
-		"typescript": "5.5.4",
+		"typescript": "^5.8.3",
+		"typescript-eslint": "^8.34.1",
 		"vite": "^5.4.8",
 		"vite-plugin-dts": "^4.2.3",
 		"vite-plugin-react-native-web": "^2.1.1",
 		"vite-plugin-svgr": "^4.2.0"
 	},
 	"peerDependencies": {
-		"react-dom": "^18.2.0",
-		"react-native-reanimated": "^3.18.0",
-		"react-native": "^0.75.0",
 		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-native": "^0.75.0",
+		"react-native-reanimated": "^3.18.0",
 		"styled-components": "^6.1.19"
 	},
 	"engines": {

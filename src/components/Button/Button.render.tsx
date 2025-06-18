@@ -1,4 +1,4 @@
-import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'

@@ -50,6 +50,6 @@ export const deleteTouchableRippleByIndex = (setState: Updater<TouchableState>) 
 	index &&
 	setState(draft => {
 		if (draft.rippleSequence[index]) {
-			delete draft.rippleSequence[index]
+			Reflect.deleteProperty(draft.rippleSequence, index)
 		}
 	})

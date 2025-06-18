@@ -1,4 +1,4 @@
-import {DURATION} from '@bearei/material-token'
+import {DURATION} from '@bearei/element-token'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import type {RenderVirtualListItemProps} from './Virtual-list-item.interface'

@@ -1,4 +1,4 @@
-import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, useMemo, type ForwardedRef} from 'react'
 import type {ViewStyle} from 'react-native'
 import {ScrollView} from 'react-native'

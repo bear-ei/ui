@@ -1,10 +1,10 @@
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
-import {NativeSyntheticEvent, TargetedEvent, Text} from 'react-native'
+import {type NativeSyntheticEvent, type TargetedEvent, Text} from 'react-native'
 import {renderWithAct} from '../../../../__test__'
-import {FormStore} from '../Form.interface'
+import type {FormStore} from '../Form.interface'
 import {FormContext} from '../use-form-context.hook'
 import {FormItem} from './Form-item.component'
-import {FormItemControlProps} from './Form-item.interface'
+import type {FormItemControlProps} from './Form-item.interface'
 
 describe('FormItem Component', () => {
 	const mockGetFieldsError = jest.fn(() => [{constraints: {required: 'This field is required.'}}])

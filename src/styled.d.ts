@@ -1,4 +1,4 @@
-import type {Token} from '@bearei/material-token'
+import type {Token} from '@bearei/element-token'
 import type {ColorSchemeName} from 'react-native'
 import 'styled-components/native'
 import type {Density} from './components'

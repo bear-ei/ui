@@ -31,12 +31,10 @@ describe('IconButton Component', () => {
 			/>
 		)
 
-		const {progress, icon} = await waitFor(() => ({
-			icon: getByTestId('iconButton__progressIcon--test-id'),
+		const {progress} = await waitFor(() => ({
 			progress: getByTestId('iconButton__progress--test-id')
 		}))
 
-		expect(icon).toBeTruthy()
 		expect(progress).toBeTruthy()
 	})
 

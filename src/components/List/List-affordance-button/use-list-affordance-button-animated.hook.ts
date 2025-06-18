@@ -1,4 +1,4 @@
-import {hexToRGBA} from '@bearei/material-token'
+import {hexToRGBA} from '@bearei/element-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'

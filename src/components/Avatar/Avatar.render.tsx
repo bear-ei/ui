@@ -1,4 +1,4 @@
-import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import type {RenderAvatarProps} from './Avatar.interface'

@@ -5,7 +5,7 @@
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
 		"jsx": "react-jsx",
-		"lib": ["ES2023"],
+		"lib": ["ES2020"],
 		"strict": true,
 		"strictPropertyInitialization": false,
 		"verbatimModuleSyntax": false

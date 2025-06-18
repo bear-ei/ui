@@ -121,7 +121,7 @@ export interface RenderListItemTrailingProps
 export interface UseListItemAnimatedOptions {
 	active?: boolean
 	afterAffordanceVisible?: boolean
-	onVisibilityFinished?: (visible?: boolean) => false | void
+	onVisibilityFinished?: (visible?: boolean) => false
 	status: ComponentStatus
 }
 

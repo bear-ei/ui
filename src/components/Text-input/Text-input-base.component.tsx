@@ -1,4 +1,4 @@
-import {hexToRGBA} from '@bearei/material-token'
+import {hexToRGBA} from '@bearei/element-token'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useTheme} from 'styled-components/native'

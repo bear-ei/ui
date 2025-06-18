@@ -1,4 +1,4 @@
-import {SHAPE} from '@bearei/material-token'
+import {SHAPE} from '@bearei/element-token'
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -78,10 +78,6 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 		const theme = useTheme()
 		const shape = SHAPE.FULL
 		const activeColor = theme.token.scheme.secondaryContainer
-		const progressIconElement = cloneElement(iconElement ?? <></>, {
-			testID: `iconButton__progressIcon--${id}`
-		})
-
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay
 				pointerEvents='none'
@@ -107,7 +103,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				>
 					<Progress
 						animatedType={PROGRESS_ANIMATED.INDETERMINATE}
-						content={progressIconElement}
+						content={iconElement}
 						enableAnimated={loading}
 						size={theme.adaptSize(theme.token.spacing.extraSmall * 10)}
 						testID={`iconButton__progress--${id}`}

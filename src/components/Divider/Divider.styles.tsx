@@ -1,5 +1,5 @@
-import type {Size} from '@bearei/material-token'
-import {SIZE} from '@bearei/material-token'
+import type {Size} from '@bearei/element-token'
+import {SIZE} from '@bearei/element-token'
 import type {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import type {LayoutType} from '../Common'

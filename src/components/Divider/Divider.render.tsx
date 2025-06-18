@@ -1,4 +1,4 @@
-import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {LAYOUT} from '../Common'

@@ -1,4 +1,4 @@
-import type {Size} from '@bearei/material-token'
+import type {Size} from '@bearei/element-token'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 import type {LayoutType} from '../Common'

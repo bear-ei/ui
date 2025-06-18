@@ -1,6 +1,6 @@
-import {debounce} from './debounce.utils'
+import {debounceAsync} from './debounce.utils'
 
-describe('debounce (promise version, sync and async)', () => {
+describe('debounceAsync (promise version, sync and async)', () => {
 	beforeEach(() => {
 		jest.useFakeTimers()
 	})
@@ -11,7 +11,7 @@ describe('debounce (promise version, sync and async)', () => {
 
 	it('should call the function after the delay and resolve result (sync)', async () => {
 		const fn = jest.fn((x: number) => x * 2)
-		const debounced = debounce(fn)(100)
+		const debounced = debounceAsync(fn)(100)
 		const promise = debounced(5)
 
 		jest.advanceTimersByTime(100)
@@ -22,7 +22,7 @@ describe('debounce (promise version, sync and async)', () => {
 
 	it('should call the function after the delay and resolve result (async)', async () => {
 		const fn = jest.fn(async (x: number) => x * 3)
-		const debounced = debounce(fn)(50)
+		const debounced = debounceAsync(fn)(50)
 		const promise = debounced(7)
 
 		jest.advanceTimersByTime(50)
@@ -34,7 +34,7 @@ describe('debounce (promise version, sync and async)', () => {
 
 	it('should only call the last invocation and previous promises reject', async () => {
 		const fn = jest.fn((x: number) => x * 2)
-		const debounced = debounce(fn)(200)
+		const debounced = debounceAsync(fn)(200)
 		const p1 = debounced(1)
 		const p2 = debounced(2)
 		const p3 = debounced(3)
@@ -53,7 +53,7 @@ describe('debounce (promise version, sync and async)', () => {
 		const fn = jest.fn(() => {
 			throw new Error('fail')
 		})
-		const debounced = debounce(fn)(100)
+		const debounced = debounceAsync(fn)(100)
 		const promise = debounced()
 
 		jest.advanceTimersByTime(100)
@@ -66,7 +66,7 @@ describe('debounce (promise version, sync and async)', () => {
 			throw new Error('async fail')
 		})
 
-		const debounced = debounce(fn)(100)
+		const debounced = debounceAsync(fn)(100)
 		const promise = debounced()
 
 		jest.advanceTimersByTime(100)
@@ -76,7 +76,7 @@ describe('debounce (promise version, sync and async)', () => {
 	})
 
 	it('should resolve undefined if no func is passed', async () => {
-		const debounced = debounce()(50)
+		const debounced = debounceAsync()(50)
 		const promise = debounced('x')
 
 		jest.advanceTimersByTime(50)

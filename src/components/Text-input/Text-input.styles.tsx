@@ -1,4 +1,4 @@
-import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
+import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import styled, {css} from 'styled-components/native'
 import {DENSITY_SCALE, Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'

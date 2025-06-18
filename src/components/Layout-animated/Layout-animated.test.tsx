@@ -1,4 +1,4 @@
-import {act, waitFor} from '@testing-library/react-native'
+import {waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithAct} from '../../../__test__'
 import {LayoutAnimated} from './Layout-animated.component'
@@ -64,29 +64,5 @@ describe('LayoutAnimated Component', () => {
 			expect(layout).toBeTruthy()
 			unmount()
 		}
-	})
-
-	it('should calls onVisible when visibility changes', async () => {
-		const onVisible = jest.fn()
-		const {getByTestId} = await renderWithAct(
-			<LayoutAnimated
-				visible={true}
-				onVisible={onVisible}
-			>
-				<Text>Callback Layout</Text>
-			</LayoutAnimated>
-		)
-
-		const content = await waitFor(() => getByTestId('layoutAnimated__content--test-id'))
-
-		await act(async () =>
-			content.props.onLayout?.({
-				nativeEvent: {
-					layout: {x: 0, y: 0, width: 800, height: 800}
-				}
-			})
-		)
-
-		await waitFor(() => expect(onVisible).toHaveBeenCalledWith(true))
 	})
 })

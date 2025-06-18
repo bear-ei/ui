@@ -1,4 +1,4 @@
-import {SIZE} from '@bearei/material-token'
+import {SIZE} from '@bearei/element-token'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'

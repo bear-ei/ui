@@ -19,8 +19,8 @@ const config = defineConfig({
 	build: {
 		lib: {
 			entry: resolve(__dirname, './src/index.ts'),
-			fileName: format => `index.${format}.js`,
-			name: 'Material',
+			fileName: format => (format === 'es' ? 'index.mjs' : 'index.cjs'),
+			name: 'BeareiElement',
 			formats: ['es', 'cjs']
 		},
 		rollupOptions: {
@@ -29,10 +29,11 @@ const config = defineConfig({
 	},
 	plugins: [
 		dts({
+			tsconfigPath: './tsconfig.app.json',
 			insertTypesEntry: true,
 			outDir: 'dist',
 			include: ['src'],
-			exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx']
+			exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx', '**/*.test.tsx', '**/*.test.ts']
 		}),
 		react({babel: {plugins: babelPlugins}}),
 		reactNativeWeb({babelPlugins}),
@@ -40,7 +41,7 @@ const config = defineConfig({
 			include: '**/*.svg',
 			svgrOptions: {exportType: 'default', ref: true, svgo: false, titleProp: true}
 		}),
-		visualizer({open: true})
+		visualizer({open: false})
 	]
 })
 

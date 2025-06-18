@@ -59,7 +59,7 @@ export interface VirtualListState {
 
 export interface UpdateVirtualListOnScrollOptions
 	extends Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'onEndReachedThreshold'> {
-	onEndReached: () => Promise<void | undefined>
+	onEndReached: () => void
 }
 
 export interface HandleVirtualListLayoutChangeOptions {

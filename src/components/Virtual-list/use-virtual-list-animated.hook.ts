@@ -1,4 +1,4 @@
-import {DURATION} from '@bearei/material-token'
+import {DURATION} from '@bearei/element-token'
 import {useEffect, useMemo} from 'react'
 import Animated, {
 	cancelAnimation,

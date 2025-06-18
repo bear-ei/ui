@@ -1,4 +1,4 @@
-import type {Duration, Easing} from '@bearei/material-token'
+import type {Duration, Easing} from '@bearei/element-token'
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'

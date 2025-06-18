@@ -1,7 +1,9 @@
+import type {ValidationError} from 'class-validator'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {COMPONENT_STATUS} from '../../Common'
+import type {FormErrors} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
 	applyFormItemStatusInitToDraft,
@@ -23,7 +25,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 		const {getFieldsError, getFieldsValue, getInitialValues, setFieldsValue, signInField, validateFields} =
 			useFormContext()
 
-		const errors = getFieldsError(name)
+		const errors = getFieldsError(name) as ValidationError[]
 		const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
 		const storeValue = getFieldsValue(name)
 		const value = storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue)
@@ -33,7 +35,13 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			[name, setFieldsValue, storeValue]
 		)
 
-		const onBlur = useMemo(() => validateFormFieldOnBlur(validateFields)(name), [name, validateFields])
+		const onBlur = useMemo(
+			() =>
+				validateFormFieldOnBlur(
+					validateFields as (name?: string) => Promise<FormErrors<unknown>>
+				)(name),
+			[name, validateFields]
+		)
 		const runApplyStatusInitToDraft = useMemo(
 			() =>
 				applyFormItemStatusInitToDraft({
