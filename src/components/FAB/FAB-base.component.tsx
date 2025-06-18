@@ -55,15 +55,16 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
 		)
 
 		const iconElement = useMemo(
-			() => (
-				<RenderFABIcon
-					disabled={rawDisabled}
-					icon={icon}
-					id={id}
-					size={size}
-					type={type}
-				/>
-			),
+			() =>
+				icon && (
+					<RenderFABIcon
+						disabled={rawDisabled}
+						icon={icon}
+						id={id}
+						size={size}
+						type={type}
+					/>
+				),
 			[icon, id, rawDisabled, size, type]
 		)
 

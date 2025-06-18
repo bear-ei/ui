@@ -38,7 +38,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, type = BU
 	const size = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
 
 	if (!icon) {
-		return icon
+		return <></>
 	}
 
 	return cloneElement<IconProps>(icon, {

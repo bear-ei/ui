@@ -33,7 +33,7 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({disabled, size, type = FA
 	const iconSize = theme.adaptSize(theme.token.spacing.large + 3 * theme.token.spacing.extraSmall)
 
 	if (!icon) {
-		return icon
+		return <></>
 	}
 
 	return cloneElement<IconProps>(icon, {

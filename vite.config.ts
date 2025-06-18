@@ -25,7 +25,8 @@ const config = defineConfig({
 		},
 		rollupOptions: {
 			external: id => externals.includes(id) || externals.some(pkg => id.startsWith(pkg + '/'))
-		}
+		},
+		commonjsOptions: {transformMixedEsModules: true}
 	},
 	plugins: [
 		dts({

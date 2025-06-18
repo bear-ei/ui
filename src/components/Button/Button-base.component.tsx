@@ -66,14 +66,15 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 		)
 
 		const iconElement = useMemo(
-			() => (
-				<RenderButtonIcon
-					disabled={rawDisabled}
-					icon={icon}
-					id={id}
-					type={type}
-				/>
-			),
+			() =>
+				icon && (
+					<RenderButtonIcon
+						disabled={rawDisabled}
+						icon={icon}
+						id={id}
+						type={type}
+					/>
+				),
 			[icon, id, rawDisabled, type]
 		)
 
