@@ -1,5 +1,5 @@
 import {SHAPE} from '@bearei/material-token'
-import {forwardRef, type FC} from 'react'
+import {forwardRef, useMemo, type FC} from 'react'
 import type {TextInput as RNTextInput} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
@@ -22,7 +22,6 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 			onChangeText,
 			placeholder,
 			testID,
-
 			trailing,
 			value,
 			...textInputProps
@@ -30,11 +29,14 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 		ref
 	) => {
 		const theme = useTheme()
-		const {onBlur, onFocus, ...onTouchableEvent} = interactionHandlers
+		const {onBlur, onFocus, ...touchableInteractionHandlers} = interactionHandlers
 		const placeholderTextColor = theme.token.scheme.onSurfaceVariant
 		const shape = SHAPE.EXTRA_LARGE
 		const underlayColor = theme.token.scheme.onSurface
-		const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
+		const underlayOpacities = useMemo(
+			() => [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number],
+			[theme.token.opacity.level0, theme.token.opacity.level1]
+		)
 
 		return (
 			<Container
@@ -42,7 +44,7 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 				testID={testID ?? `search--${id}`}
 			>
 				<Touchable
-					{...onTouchableEvent}
+					{...touchableInteractionHandlers}
 					testID={`search__touchable--${id}`}
 				>
 					<Content

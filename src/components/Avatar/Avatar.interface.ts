@@ -10,6 +10,6 @@ export interface AvatarProps extends ViewProps, RefAttributes<View>, CommonProps
 	source?: ImageSourcePropType
 }
 
-export type RenderAvatarProps = AvatarProps
 export type AvatarBaseProps = AvatarProps
 export type AvatarContentProps = Pick<RenderAvatarProps, 'size' | 'density' | 'backgroundColor'>
+export type RenderAvatarProps = AvatarProps

@@ -1,3 +1,4 @@
+import type {View} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../../hooks'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../../Common'
@@ -22,12 +23,12 @@ export const compareNavigationRailItemProps =
 	}
 
 export const handleNavigationRailItemStateChange =
-	({eventName, indexKey, onActive, ref: _}: HandleNavigationRailItemStateChangeOptions) =>
+	({eventName, indexKey, onActive, ref}: HandleNavigationRailItemStateChangeOptions) =>
 	(setState: Updater<NavigationRailItemState>) =>
 	(_event: StateEvent) => {
 		const triggerNavigationRailItemPressOut = (activeKey?: string) => activeKey && onActive?.(activeKey)
 		const nextEvent = {
-			// [EVENT_NAME.PRESS_IN]: () => (ref as unknown as React.RefObject<View>).current?.focus(),
+			[EVENT_NAME.PRESS_IN]: () => (ref as unknown as React.RefObject<View>).current?.focus(),
 			[EVENT_NAME.PRESS_OUT]: () => triggerNavigationRailItemPressOut(indexKey)
 		} as unknown as Record<EventName, () => void>
 

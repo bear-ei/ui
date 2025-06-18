@@ -7,16 +7,19 @@ import {ContentItemLayout, SkeletonContainer} from './Skeleton.styles'
 
 const AnimatedSkeletonContainer = Animated.createAnimatedComponent(SkeletonContainer)
 export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
-	({
-		children,
-		containerAnimatedStyle,
-		id,
-		layout = LAYOUT.HORIZONTAL,
-		skeleton,
-		style,
-		visible,
-		...containerProps
-	}) => {
+	(
+		{
+			children,
+			containerAnimatedStyle,
+			id,
+			layout = LAYOUT.HORIZONTAL,
+			skeleton,
+			style,
+			visible,
+			...containerProps
+		},
+		ref
+	) => {
 		const isSkeletonVisible = !!(skeleton && visible)
 
 		return (
@@ -41,6 +44,7 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
 
 				<ContentItemLayout
 					lazy={true}
+					ref={ref}
 					testID={`skeleton__contentItemLayoutNotVisible--${id}`}
 					visible={!isSkeletonVisible}
 				>

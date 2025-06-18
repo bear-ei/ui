@@ -1,4 +1,4 @@
-import {forwardRef, type ForwardedRef} from 'react'
+import {forwardRef, type FC, type ForwardedRef} from 'react'
 import type {View} from 'react-native'
 import {COMPONENT_STATUS} from '../Common'
 import {FormItem} from './Form-item'
@@ -6,16 +6,18 @@ import type {FormStore, RenderFormItemsProps, RenderFormProps} from './Form.inte
 import {Container} from './Form.styles'
 import {FormContext} from './use-form-context.hook'
 
-export const RenderFormItems = ({id, items, status, ...options}: RenderFormItemsProps) =>
+export const RenderFormItems: FC<RenderFormItemsProps> = ({id, items, status, ...options}) =>
 	status === COMPONENT_STATUS.SUCCEEDED ?
-		items?.map((item, index) => (
-			<FormItem
-				{...item}
-				{...options}
-				key={item.name ?? index}
-				testID={`form__formItem--${id}`}
-			/>
-		))
+		<>
+			{items?.map((item, index) => (
+				<FormItem
+					{...item}
+					{...options}
+					key={item.name ?? index}
+					testID={`form__formItem--${id}`}
+				/>
+			))}
+		</>
 	:	<></>
 
 const RenderFormInner = <T,>(

@@ -1,5 +1,5 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import {cloneElement, forwardRef, type ForwardedRef} from 'react'
+import {cloneElement, forwardRef, useMemo, type ForwardedRef} from 'react'
 import type {ViewStyle} from 'react-native'
 import {ScrollView} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -76,7 +76,10 @@ export const RenderVirtualListInner = <T,>(
 	const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
 	const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
 	const isLayoutCompleted = typeof layout?.height === 'number' && layout.height > 0
-	const scrollViewContentStyle = {flex: 1, alignSelf: 'stretch', minHeight: contentSize} as ViewStyle
+	const scrollViewContentStyle = useMemo(
+		() => ({flex: 1, alignSelf: 'stretch', minHeight: contentSize}) as ViewStyle,
+		[contentSize]
+	)
 
 	return (
 		<Container

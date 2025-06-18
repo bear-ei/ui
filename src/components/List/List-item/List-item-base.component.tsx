@@ -1,9 +1,9 @@
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import type {Pressable} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
+import type {PressableType} from '../../Touchable'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
 	confirmListItemAffordanceAction,
@@ -17,7 +17,7 @@ import type {ListItemBaseProps, ListItemState} from './List-item.interface'
 import {RenderListItem, RenderListItemTrailing} from './List-item.render'
 import {useListItemAnimated} from './use-list-item-animated.hook'
 
-export const ListItemBase = forwardRef<typeof Pressable, ListItemBaseProps>(
+export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 	(
 		{
 			activeKey,
@@ -65,7 +65,7 @@ export const ListItemBase = forwardRef<typeof Pressable, ListItemBaseProps>(
 		] = useImmer<ListItemState>({status: COMPONENT_STATUS.IDLE, afterAffordanceExpanded: false})
 
 		const id = useId()
-		const pressableRef = useRef<typeof Pressable>(null)
+		const pressableRef = useRef<PressableType>(null)
 		const isAfterAffordanceVisible = afterAffordanceActiveKey === indexKey
 		const isActive = !!(selectType === LIST_SELECT_TYPE.SINGLE ?
 			activeKey === indexKey
@@ -174,7 +174,7 @@ export const ListItemBase = forwardRef<typeof Pressable, ListItemBaseProps>(
 			[afterAffordance, closeTrailing, disabled, id, onTrailingPressOut, trailing, trailingProps]
 		)
 
-		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as typeof Pressable, [pressableRef])
+		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
 
 		useEffect(() => {
 			if (isAfterAffordanceVisible) {

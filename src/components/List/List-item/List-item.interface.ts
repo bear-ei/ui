@@ -1,10 +1,10 @@
 import type {RefAttributes} from 'react'
-import type {PanResponderInstance, Pressable, StyleProp, TextStyle, ViewStyle} from 'react-native'
+import type {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {ComponentStatus, EventName, State} from '../../Common'
 import type {IconButtonProps} from '../../Icon-button'
-import type {TouchableProps} from '../../Touchable'
+import type {PressableType, TouchableProps} from '../../Touchable'
 import type {ListAffordanceButtonProps} from '../List-affordance-button'
 import type {ListProps} from '../List.interface'
 
@@ -147,5 +147,5 @@ export interface ListItemTrailingProps extends ListItemLeadingProps {
 	trailingShow?: boolean
 }
 
-export type ListItemItemTouchableProps = RefAttributes<typeof Pressable>
+export type ListItemItemTouchableProps = RefAttributes<PressableType>
 export type AffordanceLayoutProps = Pick<RenderListItemProps, 'afterAffordanceExpanded'>

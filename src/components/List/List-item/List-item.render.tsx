@@ -1,6 +1,6 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {cloneElement, forwardRef, isValidElement, useMemo, type FC} from 'react'
-import {Pressable, type ViewProps} from 'react-native'
+import {type ViewProps} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {EVENT_NAME, LAYOUT} from '../../Common'
@@ -8,6 +8,7 @@ import {Divider} from '../../Divider'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {Skeleton} from '../../Skeleton'
+import type {PressableType} from '../../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
@@ -43,8 +44,8 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	const {disabled: isDisabled, ...restTrailingProps} = useMemo(() => rawTrailingProps ?? {}, [rawTrailingProps])
 	const trailingProps = useMemo(
 		() => ({
-			...interactionHandlers,
 			...restTrailingProps,
+			...interactionHandlers,
 			disabled: isDisabled ?? disabled,
 			pointerEvents: 'box-only' as ViewProps['pointerEvents'],
 			testID: `listItem__trailing--${id}`,
@@ -93,7 +94,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	return trailingElement[trailingType]
 }
 
-export const RenderListItem = forwardRef<typeof Pressable, RenderListItemProps>(
+export const RenderListItem = forwardRef<PressableType, RenderListItemProps>(
 	(
 		{
 			accessibilityLabel,

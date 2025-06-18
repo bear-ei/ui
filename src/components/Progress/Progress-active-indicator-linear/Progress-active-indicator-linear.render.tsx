@@ -8,12 +8,13 @@ import {Container, Content, Stop, Track} from './Progress-active-indicator-linea
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgressActiveIndicatorLinearProps>(
-	({animatedType, contentAnimatedStyle, id, interactionHandlers, testID, ...containerProps}) => {
+	({animatedType, contentAnimatedStyle, id, interactionHandlers, testID, ...containerProps}, ref) => {
 		const shape = SHAPE.SMALL
 
 		return (
 			<Container
 				{...interactionHandlers}
+				ref={ref}
 				shape={shape}
 				testID={testID ?? `progressActiveIndicatorLinear--${id}`}
 			>

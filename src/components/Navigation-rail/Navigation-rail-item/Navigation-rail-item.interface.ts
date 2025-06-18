@@ -1,9 +1,9 @@
 import type {RefAttributes} from 'react'
-import type {Pressable, TextStyle, ViewStyle} from 'react-native'
+import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {ComponentStatus, EventName, TypographyProps} from '../../Common'
-import type {TouchableProps} from '../../Touchable'
+import type {PressableType, TouchableProps} from '../../Touchable'
 import type {NavigationRailProps} from '../Navigation-rail.interface'
 
 export interface NavigationRailItemProps
@@ -33,7 +33,7 @@ export interface NavigationRailItemState {
 export interface HandleNavigationRailItemStateChangeOptions
 	extends HandleStateEventChangeOptions,
 		Pick<NavigationRailItemProps, 'indexKey' | 'onActive'> {
-	ref: React.RefObject<typeof Pressable>
+	ref: React.RefObject<PressableType>
 }
 
 export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigationRailItemProps, 'active' | 'type'> {
@@ -52,4 +52,4 @@ export interface AnimateNavigationRailItemSharedValues {
 
 export type NavigationRailItemHeaderProps = Pick<RenderNavigationRailItemProps, 'type'>
 export type NavigationRailItemLabelTextProps = Pick<RenderNavigationRailItemProps, 'active'> & TypographyProps
-export type NavigationRailItemTouchableProps = RefAttributes<typeof Pressable>
+export type NavigationRailItemTouchableProps = RefAttributes<PressableType>

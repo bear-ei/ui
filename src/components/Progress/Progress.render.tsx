@@ -7,24 +7,28 @@ import type {RenderProgressProps} from './Progress.interface'
 import {Container} from './Progress.styles'
 
 export const RenderProgress = forwardRef<View, RenderProgressProps>(
-	({
-		animatedType = PROGRESS_ANIMATED.INDETERMINATE,
-		content,
-		defaultValue,
-		enableAnimated,
-		id,
-		size,
-		strokeWidth,
-		testID,
-		type = PROGRESS_TYPE.LINEAR,
-		value,
-		...containerProps
-	}) => (
+	(
+		{
+			animatedType = PROGRESS_ANIMATED.INDETERMINATE,
+			content,
+			defaultValue,
+			enableAnimated,
+			id,
+			size,
+			strokeWidth,
+			testID,
+			type = PROGRESS_TYPE.LINEAR,
+			value,
+			...containerProps
+		},
+		ref
+	) => (
 		<Container
 			{...containerProps}
 			accessibilityRole='progressbar'
 			pointerEvents='none'
 			progressing={!!(value && value > 0)}
+			ref={ref}
 			testID={testID ?? `progress--${id}`}
 			type={type}
 		>

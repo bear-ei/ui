@@ -1,18 +1,18 @@
 import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import type {Pressable} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import {useInteractionStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE, type IconProps} from '../../Icon'
+import type {PressableType} from '../../Touchable'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
 import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
 import {RenderNavigationRailItem} from './Navigation-rail-item.render'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
 
-export const NavigationRailItemBase = forwardRef<typeof Pressable, NavigationRailItemBaseProps>(
+export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailItemBaseProps>(
 	(
 		{
 			activeKey,
@@ -29,7 +29,7 @@ export const NavigationRailItemBase = forwardRef<typeof Pressable, NavigationRai
 			status: COMPONENT_STATUS.IDLE
 		})
 		const id = useId()
-		const pressableRef = useRef<typeof Pressable>(null)
+		const pressableRef = useRef<PressableType>(null)
 		const isActive = activeKey === indexKey
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -74,7 +74,7 @@ export const NavigationRailItemBase = forwardRef<typeof Pressable, NavigationRai
 			[icon, id, isActive]
 		)
 
-		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as typeof Pressable, [pressableRef])
+		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
 
 		useEffect(() => {
 			runAfterInteractions(nextPressOutEvent)()

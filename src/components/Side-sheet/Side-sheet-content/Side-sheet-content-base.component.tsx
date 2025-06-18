@@ -45,8 +45,8 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 		const trailingElement = useMemo(
 			() => (
 				<RenderSideSheetContentTrailing
-					headlineTrailing={headlineTrailing}
 					close={close}
+					headlineTrailing={headlineTrailing}
 					id={id}
 					onClose={onClose}
 				/>

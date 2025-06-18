@@ -1,11 +1,10 @@
 import {SHAPE} from '@bearei/material-token'
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
-import type {Pressable} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_STYLE, ICON_TYPE, type IconProps} from '../Icon'
 import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
-import {Touchable} from '../Touchable'
+import {Touchable, type PressableType} from '../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../Underlay'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {RenderIconButtonIconProps, RenderIconButtonProps} from './Icon-button.interface'
@@ -54,7 +53,7 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 	)
 }
 
-export const RenderIconButton = forwardRef<typeof Pressable, RenderIconButtonProps>(
+export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>(
 	(
 		{
 			accessibilityLabel,
@@ -124,6 +123,7 @@ export const RenderIconButton = forwardRef<typeof Pressable, RenderIconButtonPro
 						{...touchableProps}
 						{...interactionHandlers}
 						backgroundUnderlay={backgroundUnderlayElement}
+						centered={true}
 						disabled={disabled}
 						enableTouchableRipple={type !== ICON_BUTTON_TYPE.ACTIVE}
 						mainAlignSelf='center'

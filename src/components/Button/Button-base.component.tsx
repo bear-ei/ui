@@ -1,9 +1,9 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import type {Pressable} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, type State} from '../Common'
+import type {PressableType} from '../Touchable'
 import {BUTTON_TYPE} from './Button.enum'
 import {
 	getButtonUnderlayColor,
@@ -15,7 +15,7 @@ import type {ButtonBaseProps, ButtonState} from './Button.interface'
 import {RenderButton, RenderButtonIcon} from './Button.render'
 import {useButtonAnimated} from './use-button-animated.hook'
 
-export const ButtonBase = forwardRef<typeof Pressable, ButtonBaseProps>(
+export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 	(
 		{
 			disabled: rawDisabled,

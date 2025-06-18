@@ -7,24 +7,28 @@ import {ActiveLayer, Container, HoverLayer} from './Underlay.styles'
 const AnimatedHoverLayer = Animated.createAnimatedComponent(HoverLayer)
 const AnimatedActiveLayer = Animated.createAnimatedComponent(ActiveLayer)
 export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
-	({
-		active,
-		activeColor,
-		activeLayerAnimatedStyle,
-		activeShape,
-		hoverLayerAnimatedStyle,
-		id,
-		interactionHandlers,
-		shape,
-		style,
-		testID,
-		underlayColor,
-		...containerProps
-	}) => (
+	(
+		{
+			active,
+			activeColor,
+			activeLayerAnimatedStyle,
+			activeShape,
+			hoverLayerAnimatedStyle,
+			id,
+			interactionHandlers,
+			shape,
+			style,
+			testID,
+			underlayColor,
+			...containerProps
+		},
+		ref
+	) => (
 		<Container
 			{...containerProps}
 			{...interactionHandlers}
 			pointerEvents='none'
+			ref={ref}
 			shape={shape}
 			style={[style]}
 			testID={testID ?? `underlay--${id}`}

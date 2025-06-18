@@ -1,12 +1,11 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
-import {Pressable} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {EVENT_NAME} from '../Common'
 import {Elevation} from '../Elevation'
 import type {IconProps} from '../Icon'
-import {Touchable} from '../Touchable'
+import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonType, RenderButtonIconProps, RenderButtonProps} from './Button.interface'
@@ -50,7 +49,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, type = BU
 	})
 }
 
-export const RenderButton = forwardRef<typeof Pressable, RenderButtonProps>(
+export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 	(
 		{
 			accessibilityLabel,

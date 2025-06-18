@@ -19,8 +19,5 @@ export interface RenderIconProps extends IconProps {
 	iconElement: React.JSX.Element
 }
 
-export interface IconBaseProps extends IconProps {
-	renderIcon: (props: RenderIconProps) => React.JSX.Element
-}
-
+export type IconBaseProps = IconProps
 export type IconLayoutProps = Pick<IconProps, 'size'> & RefAttributes<View>

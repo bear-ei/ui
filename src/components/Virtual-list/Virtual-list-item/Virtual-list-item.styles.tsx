@@ -12,5 +12,6 @@ export const ContainerLayout = styled(LayoutAnimated)<VirtualListItemContainerPr
 		height: ${itemSize}px;
 		left: ${theme.adaptSize(theme.token.spacing.none)}px;
 		right: ${theme.adaptSize(theme.token.spacing.none)}px;
+		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`}
 `

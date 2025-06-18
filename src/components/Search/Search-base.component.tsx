@@ -69,15 +69,14 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		)
 
 		const interactionHandlers = useInteractionStateEvent({...renderSearchProps, onStateEventChange})
-
-		useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
-
 		const runUpdateVisibility = useMemo(() => updateSearchListVisibility(setState), [setState])
 		const runUpdateValue = useMemo(() => updateSearchInputValue(data)(setState), [data, setState])
 		const runLayoutMeasureHandler = useMemo(
 			() => createSearchLayoutMeasureHandler(containerRef.current)(setState),
 			[setState]
 		)
+
+		useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
 
 		useEffect(() => {
 			runUpdateValue(rawValue ?? defaultValue)

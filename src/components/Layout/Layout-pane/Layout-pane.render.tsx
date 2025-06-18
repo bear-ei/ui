@@ -1,5 +1,5 @@
 import {DURATION, EASING} from '@bearei/material-token'
-import {forwardRef} from 'react'
+import {forwardRef, useMemo} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {LAYOUT} from '../../Common'
 import type {RenderLayoutPaneProps} from './Layout-pane.interface'
@@ -18,9 +18,13 @@ export const RenderLayoutPane = forwardRef<View, RenderLayoutPaneProps>(
 		},
 		ref
 	) => {
-		const style = {
-			flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'
-		} as ViewStyle
+		const style = useMemo(
+			() =>
+				({
+					flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'
+				}) as ViewStyle,
+			[layout]
+		)
 
 		return (
 			<ContainerLayout

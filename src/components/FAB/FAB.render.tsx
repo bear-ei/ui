@@ -1,11 +1,10 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import {cloneElement, forwardRef, useMemo} from 'react'
-import type {Pressable} from 'react-native'
+import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {Elevation} from '../Elevation'
 import type {IconProps} from '../Icon'
-import {Touchable} from '../Touchable'
+import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABType, RenderFABIconProps, RenderFABProps} from './FAB.interface'
@@ -13,7 +12,7 @@ import {BackgroundUnderlay, Container, Content, IconLayout, LabelText, Main} fro
 
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
-export const RenderFABIcon = ({disabled, size, type = FAB_TYPE.PRIMARY, id, icon}: RenderFABIconProps) => {
+export const RenderFABIcon: FC<RenderFABIconProps> = ({disabled, size, type = FAB_TYPE.PRIMARY, id, icon}) => {
 	const theme = useTheme()
 	const fillType = useMemo(
 		() =>
@@ -45,7 +44,7 @@ export const RenderFABIcon = ({disabled, size, type = FAB_TYPE.PRIMARY, id, icon
 	})
 }
 
-export const RenderFAB = forwardRef<typeof Pressable, RenderFABProps>(
+export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 	(
 		{
 			accessibilityLabel,

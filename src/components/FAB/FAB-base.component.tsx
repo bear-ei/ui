@@ -1,17 +1,17 @@
 import {SIZE} from '@bearei/material-token'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import type {Pressable} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {COMPONENT_STATUS, type State} from '../Common'
+import type {PressableType} from '../Touchable'
 import {FAB_TYPE} from './FAB.enum'
 import {getFABUnderlayColor, handleFABStateChange, updateFABDisabledState, updateFABStatus} from './FAB.handler'
 import type {FABBaseProps, FABState} from './FAB.interface'
 import {RenderFAB, RenderFABIcon} from './FAB.render'
 import {useFABAnimated} from './use-fab-animated.hook'
 
-export const FABBase = forwardRef<typeof Pressable, FABBaseProps>(
+export const FABBase = forwardRef<PressableType, FABBaseProps>(
 	(
 		{
 			disabled: rawDisabled,

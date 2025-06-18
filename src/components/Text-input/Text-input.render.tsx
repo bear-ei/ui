@@ -1,5 +1,5 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
-import {cloneElement, forwardRef} from 'react'
+import {cloneElement, forwardRef, useMemo} from 'react'
 import type {TextInput} from 'react-native'
 import type {AnimatedProps} from 'react-native-reanimated'
 import Animated from 'react-native-reanimated'
@@ -34,38 +34,44 @@ const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.Funct
 >
 
 export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
-	({
-		accessibilityLabel,
-		activeIndicatorAnimatedStyle,
-		content,
-		contentSize,
-		density,
-		error,
-		eventName,
-		headerAnimatedStyle,
-		id,
-		inputAnimatedStyle,
-		interactionHandlers,
-		labelAnimatedStyle,
-		labelText,
-		labelTextAnimatedStyle,
-		leading,
-		multiline,
-		onHeaderFocus,
-		onSupportingTextVisible,
-		supportingText,
-		supportingTextAnimatedStyle,
-		supportingTextVisible,
-		testID,
-		trailing,
-		...inputProps
-	}) => {
+	(
+		{
+			accessibilityLabel,
+			activeIndicatorAnimatedStyle,
+			content,
+			contentSize,
+			density,
+			error,
+			eventName,
+			headerAnimatedStyle,
+			id,
+			inputAnimatedStyle,
+			interactionHandlers,
+			labelAnimatedStyle,
+			labelText,
+			labelTextAnimatedStyle,
+			leading,
+			multiline,
+			onHeaderFocus,
+			onSupportingTextVisible,
+			supportingText,
+			supportingTextAnimatedStyle,
+			supportingTextVisible,
+			testID,
+			trailing,
+			...inputProps
+		},
+		ref
+	) => {
 		const theme = useTheme()
 		const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
 		const isLeadingShow = !!leading
 		const shape = SHAPE.EXTRA_SMALL_TOP
 		const underlayColor = theme.token.scheme.onSurface
-		const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
+		const underlayOpacities = useMemo(
+			() => [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number],
+			[theme.token.opacity.level0, theme.token.opacity.level1]
+		)
 
 		return (
 			<Container
@@ -115,6 +121,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 										multiline={multiline}
 										onBlur={onBlur}
 										onFocus={onFocus}
+										ref={ref}
 										style={[inputAnimatedStyle]}
 										testID={`textInput__animatedTextInput--${id}`}
 									/>

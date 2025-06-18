@@ -1,16 +1,15 @@
 import {SHAPE} from '@bearei/material-token'
 import {forwardRef, useMemo} from 'react'
-import type {Pressable} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
 import {LAYOUT_ANIMATED} from '../Layout-animated'
-import {Touchable} from '../Touchable'
+import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {RenderCheckboxProps} from './Checkbox.interface'
 import {Container, Content, IconLayout, Main} from './Checkbox.styles'
 
-export const RenderCheckbox = forwardRef<typeof Pressable, RenderCheckboxProps>(
+export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 	(
 		{
 			animatedOptions,
@@ -59,8 +58,9 @@ export const RenderCheckbox = forwardRef<typeof Pressable, RenderCheckboxProps>(
 				testID={testID ?? `checkbox--${id}`}
 			>
 				<Touchable
-					{...interactionHandlers}
 					{...touchableProps}
+					{...interactionHandlers}
+					centered={true}
 					disabled={disabled}
 					mainAlignSelf='center'
 					ref={ref}

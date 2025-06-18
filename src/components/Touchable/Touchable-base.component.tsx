@@ -1,14 +1,14 @@
 import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import type {LayoutRectangle, Pressable} from 'react-native'
+import type {LayoutRectangle} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useInteractionStateEvent} from '../../hooks'
 import type {State} from '../Common'
 import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handler'
-import type {TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
+import type {PressableType, TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
 import {RenderTouchable, RenderTouchableRipples} from './Touchable.render'
 
-export const TouchableBase = forwardRef<typeof Pressable, TouchableBaseProps>(
+export const TouchableBase = forwardRef<PressableType, TouchableBaseProps>(
 	({centered, disabled, enableTouchableRipple = true, underlayColor, ...renderTouchableProps}, ref) => {
 		const [{rippleSequence, contentLayout}, setState] = useImmer<TouchableState>({
 			contentLayout: {} as LayoutRectangle,
@@ -16,7 +16,7 @@ export const TouchableBase = forwardRef<typeof Pressable, TouchableBaseProps>(
 		})
 
 		const id = useId()
-		const pressableRef = useRef<typeof Pressable>(null)
+		const pressableRef = useRef<PressableType>(null)
 		const onAnimateFinished = useMemo(() => deleteTouchableRippleByIndex(setState), [setState])
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -49,7 +49,7 @@ export const TouchableBase = forwardRef<typeof Pressable, TouchableBaseProps>(
 			[centered, contentLayout, id, onAnimateFinished, rippleSequence, underlayColor]
 		)
 
-		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as typeof Pressable, [pressableRef])
+		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
 
 		return (
 			<RenderTouchable

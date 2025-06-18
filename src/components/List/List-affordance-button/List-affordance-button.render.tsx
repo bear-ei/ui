@@ -1,16 +1,15 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {forwardRef} from 'react'
-import type {Pressable} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {Touchable} from '../../Touchable'
+import {Touchable, type PressableType} from '../../Touchable'
 import {Underlay} from '../../Underlay'
 import type {RenderListAffordanceButtonProps} from './List-affordance-button.interface'
 import {BackgroundUnderlay, Container, Content, LabelText} from './List-affordance-button.styles'
 
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
-export const RenderListAffordanceButton = forwardRef<typeof Pressable, RenderListAffordanceButtonProps>(
+export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAffordanceButtonProps>(
 	(
 		{
 			accessibilityLabel,

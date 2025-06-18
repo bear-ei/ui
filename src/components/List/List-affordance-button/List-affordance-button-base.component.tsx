@@ -1,14 +1,14 @@
 import {forwardRef, useCallback, useId} from 'react'
-import type {Pressable} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import type {State} from '../../Common'
+import type {PressableType} from '../../Touchable'
 import {handleListAffordanceButtonStateChange} from './List-affordance-button.handler'
 import type {ListAffordanceButtonBaseProps, ListAffordanceButtonState} from './List-affordance-button.interface'
 import {RenderListAffordanceButton} from './List-affordance-button.render'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
-export const ListAffordanceButtonBase = forwardRef<typeof Pressable, ListAffordanceButtonBaseProps>(
+export const ListAffordanceButtonBase = forwardRef<PressableType, ListAffordanceButtonBaseProps>(
 	({disabled, labelText = 'Label', ...renderListAffordanceButtonProps}, ref) => {
 		const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({})
 		const id = useId()

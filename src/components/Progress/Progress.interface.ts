@@ -30,6 +30,6 @@ export interface ProgressState {
 	layout: LayoutRectangle
 }
 
-export interface ProgressContainerProps extends Pick<ProgressProps, 'type' | 'size'> {
+export interface ProgressContainerProps extends Pick<ProgressProps, 'type' | 'size'>, RefAttributes<View> {
 	progressing?: boolean
 }

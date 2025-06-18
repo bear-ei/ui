@@ -1,10 +1,10 @@
 import {forwardRef} from 'react'
-import type {Pressable} from 'react-native'
 import {typedMemo} from '../../utils'
+import type {PressableType} from '../Touchable'
 import {CheckboxBase} from './Checkbox-base.component'
 import type {CheckboxProps} from './Checkbox.interface'
 
-const CheckboxWithRef = forwardRef<typeof Pressable, CheckboxProps>((props, ref) => (
+const CheckboxWithRef = forwardRef<PressableType, CheckboxProps>((props, ref) => (
 	<CheckboxBase
 		{...props}
 		ref={ref}

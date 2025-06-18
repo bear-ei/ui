@@ -1,8 +1,8 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/material-token'
 import {forwardRef} from 'react'
-import type {Pressable} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
+import type {PressableType} from '../../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
@@ -10,7 +10,7 @@ import {Container, Content, Header, IconLayout, Label, LabelText, Touchable} fro
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
-export const RenderNavigationRailItem = forwardRef<typeof Pressable, RenderNavigationRailItemProps>(
+export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigationRailItemProps>(
 	(
 		{
 			accessibilityLabel,
