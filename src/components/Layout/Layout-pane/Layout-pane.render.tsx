@@ -3,21 +3,10 @@ import {forwardRef, useMemo} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {LAYOUT} from '../../Common'
 import type {RenderLayoutPaneProps} from './Layout-pane.interface'
-import {ContainerLayout} from './Layout-pane.styles'
+import {Container} from './Layout-pane.styles'
 
 export const RenderLayoutPane = forwardRef<View, RenderLayoutPaneProps>(
-	(
-		{
-			children,
-			defaultVisible = true,
-			id,
-			layout = LAYOUT.HORIZONTAL,
-			style: rawStyle,
-			testID,
-			...containerProps
-		},
-		ref
-	) => {
+	({children, id, layout, style: rawStyle, testID, ...containerProps}, ref) => {
 		const style = useMemo(
 			() =>
 				({
@@ -27,9 +16,8 @@ export const RenderLayoutPane = forwardRef<View, RenderLayoutPaneProps>(
 		)
 
 		return (
-			<ContainerLayout
+			<Container
 				{...containerProps}
-				defaultVisible={defaultVisible}
 				entry={{duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE}}
 				exit={{duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}}
 				ref={ref}
@@ -37,7 +25,7 @@ export const RenderLayoutPane = forwardRef<View, RenderLayoutPaneProps>(
 				testID={testID ?? `layoutPane--${id}`}
 			>
 				{children}
-			</ContainerLayout>
+			</Container>
 		)
 	}
 )

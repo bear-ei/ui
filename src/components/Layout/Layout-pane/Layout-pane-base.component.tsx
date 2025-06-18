@@ -1,16 +1,31 @@
 import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
+import {LAYOUT} from '../../Common'
+import {LAYOUT_ANIMATED} from '../../Layout-animated'
 import type {LayoutPaneBaseProps} from './Layout-pane.interface'
 import {RenderLayoutPane} from './Layout-pane.render'
 
-export const LayoutPaneBase = forwardRef<View, LayoutPaneBaseProps>((props, ref) => {
-	const id = useId()
+export const LayoutPaneBase = forwardRef<View, LayoutPaneBaseProps>(
+	(
+		{
+			animatedType = LAYOUT_ANIMATED.STANDARD,
+			defaultVisible = true,
+			layout = LAYOUT.HORIZONTAL,
+			...renderLayoutPaneProps
+		},
+		ref
+	) => {
+		const id = useId()
 
-	return (
-		<RenderLayoutPane
-			{...props}
-			id={id}
-			ref={ref}
-		/>
-	)
-})
+		return (
+			<RenderLayoutPane
+				{...renderLayoutPaneProps}
+				animatedType={animatedType}
+				defaultVisible={defaultVisible}
+				id={id}
+				layout={layout}
+				ref={ref}
+			/>
+		)
+	}
+)

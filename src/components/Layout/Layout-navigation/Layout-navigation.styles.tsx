@@ -2,7 +2,7 @@ import styled, {css} from 'styled-components/native'
 import type {LayoutAnimatedProps} from '../../Layout-animated'
 import {LayoutAnimated} from '../../Layout-animated'
 
-export const ContainerLayout = styled(LayoutAnimated)<LayoutAnimatedProps>`
+export const Container = styled(LayoutAnimated)<LayoutAnimatedProps>`
 	align-self: stretch;
 	display: flex;
 	flex-direction: column;
