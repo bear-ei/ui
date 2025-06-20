@@ -228,9 +228,9 @@ export const updateListItemAfterAffordanceExpanded = (setState: Updater<ListItem
 
 export const animateListItemAffordanceVisibility =
 	(animateSharedValueTo: AnimateSharedValueTo) =>
-	(contentLeftSharedValue: SharedValue<number>) =>
+	(contentTransformXSharedValue: SharedValue<number>) =>
 	(visible?: boolean) =>
-		animateSharedValueTo({sharedValue: contentLeftSharedValue})(visible ? 1 : 0)
+		animateSharedValueTo({sharedValue: contentTransformXSharedValue})(visible ? 1 : 0)
 
 export const animateListItemActiveState =
 	(animateSharedValueTo: AnimateSharedValueTo) =>

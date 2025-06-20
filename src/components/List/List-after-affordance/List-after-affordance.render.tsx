@@ -3,7 +3,6 @@ import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
-import {LAYOUT_ANIMATED} from '../../Layout-animated'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 import {Container, Danger} from './List-after-affordance.styles'
@@ -52,11 +51,11 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 			<Container
 				{...containerProps}
 				{...interactionHandlers}
-				animatedType={LAYOUT_ANIMATED.STANDARD}
+				entry={{duration: 0}}
 				lazy={true}
+				ref={ref}
 				testID={testID ?? `listAfterAffordance--${id}`}
 				visible={visible}
-				ref={ref}
 			>
 				<ListAffordanceButton
 					{...(doubleConfirmed && {icon: checkIconElement})}

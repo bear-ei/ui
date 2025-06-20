@@ -12,7 +12,7 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 	const {spacing, scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
-	const contentTransformSharedValue = useSharedValue(0)
+	const contentTransformXSharedValue = useSharedValue(0)
 	const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
 	const contentTranslateXOutputRanges = useMemo(
 		() => [theme.adaptSize(spacing.none), -theme.adaptSize(spacing.extraSmall * 34)],
@@ -23,7 +23,7 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 		transform: [
 			{
 				translateX: interpolate(
-					contentTransformSharedValue.value,
+					contentTransformXSharedValue.value,
 					[0, 1],
 					contentTranslateXOutputRanges
 				)
@@ -44,8 +44,8 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 	}))
 
 	const runAnimateVisibility = useMemo(
-		() => animateListItemAffordanceVisibility(animateSharedValueTo)(contentTransformSharedValue),
-		[animateSharedValueTo, contentTransformSharedValue]
+		() => animateListItemAffordanceVisibility(animateSharedValueTo)(contentTransformXSharedValue),
+		[animateSharedValueTo, contentTransformXSharedValue]
 	)
 
 	const runAnimateActiveState = useMemo(
@@ -67,10 +67,10 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 
 	useEffect(
 		() => () => {
-			cancelAnimation(contentTransformSharedValue)
+			cancelAnimation(contentTransformXSharedValue)
 			cancelAnimation(headlineTextSharedValue)
 		},
-		[contentTransformSharedValue, headlineTextSharedValue]
+		[contentTransformXSharedValue, headlineTextSharedValue]
 	)
 
 	return {contentAnimatedStyle, headlineTextAnimatedStyle}

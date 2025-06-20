@@ -16,14 +16,7 @@ import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animat
 
 export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseProps>(
 	(
-		{
-			indexKey,
-			onCancel: rawOnCancel,
-			onConfirm: rawOnConfirm,
-
-			visible,
-			...renderListAfterAffordanceProps
-		},
+		{indexKey, onCancel: rawOnCancel, onConfirm: rawOnConfirm, visible, ...renderListAfterAffordanceProps},
 		ref
 	) => {
 		const [{doubleConfirmed: isDoubleConfirmed, nextCancelEvent, status}, setState] =
