@@ -3,10 +3,11 @@ import {useEffect, useMemo} from 'react'
 import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
+import {COMPONENT_STATUS} from '../../Common'
 import {animateVirtualListItem} from './Virtual-list-item.handler'
 import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
-export const useVirtualListItemAnimated = ({offsetY = 0}: UseVirtualListItemAnimatedOptions) => {
+export const useVirtualListItemAnimated = ({offsetY = 0, status}: UseVirtualListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const animateSharedValueTo = useMemo(() => animatedTiming({duration: DURATION.SHORT_2}), [animatedTiming])
@@ -21,8 +22,10 @@ export const useVirtualListItemAnimated = ({offsetY = 0}: UseVirtualListItemAnim
 	)
 
 	useEffect(() => {
-		runAnimate(offsetY)
-	}, [runAnimate, offsetY])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimate(offsetY)
+		}
+	}, [runAnimate, offsetY, status])
 
 	useEffect(
 		() => () => {

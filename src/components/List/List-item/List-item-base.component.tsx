@@ -25,7 +25,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			activeTriggerEvenName = ACTIVE_TRIGGER_EVEN_NAME.PRESS_OUT,
 			afterAffordance,
 			afterAffordanceActiveKey,
-			beforeAffordance,
 			close,
 			closeTrailing,
 			disabled,
@@ -160,17 +159,18 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 		)
 
 		const trailingElement = useMemo(
-			() => (
-				<RenderListItemTrailing
-					afterAffordance={afterAffordance}
-					closeTrailing={closeTrailing}
-					disabled={disabled}
-					id={id}
-					interactionHandlers={{onPressOut: onTrailingPressOut}}
-					trailing={trailing}
-					trailingProps={trailingProps}
-				/>
-			),
+			() =>
+				closeTrailing || afterAffordance ?
+					<RenderListItemTrailing
+						afterAffordance={afterAffordance}
+						closeTrailing={closeTrailing}
+						disabled={disabled}
+						id={id}
+						interactionHandlers={{onPressOut: onTrailingPressOut}}
+						trailing={trailing}
+						trailingProps={trailingProps}
+					/>
+				:	undefined,
 			[afterAffordance, closeTrailing, disabled, id, onTrailingPressOut, trailing, trailingProps]
 		)
 
@@ -213,7 +213,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 				afterAffordance={afterAffordance}
 				afterAffordanceExpanded={isAfterAffordanceExpanded}
 				afterAffordanceVisible={isAfterAffordanceVisible}
-				beforeAffordance={beforeAffordance}
 				contentAnimatedStyle={contentAnimatedStyle}
 				disabled={disabled}
 				enableUnderlay={enableUnderlay}

@@ -161,21 +161,16 @@ export const Input = styled.TextInput`
 	outline-style: none;
 	text-align: left;
 
-	${({theme, secureTextEntry}) =>
-		!secureTextEntry &&
-		css`
-			align-self: stretch;
-			flex: 1;
-			font-size: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)}px;
-			font-style: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].style};
-			font-weight: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].weight};
-			text-align: left;
-			letter-spacing: ${theme.adaptSize(
-				theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing
-			)}px;
-
-			padding: ${theme.adaptSize(theme.token.spacing.none)}px;
-		`};
+	${({theme}) => css`
+		align-self: stretch;
+		flex: 1;
+		font-size: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)}px;
+		font-style: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].style};
+		font-weight: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].weight};
+		letter-spacing: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing)}px;
+		padding: ${theme.adaptSize(theme.token.spacing.none)}px;
+		text-align: left;
+	`};
 `
 
 export const SupportingLayout = styled(LayoutAnimated)`

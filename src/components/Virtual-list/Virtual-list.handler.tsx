@@ -30,8 +30,12 @@ const calculateVirtualListVisibilityRange =
 		const bufferItemCount = Math.max(5, Math.floor(visibleItemCount / 2))
 		const endIndex = Math.min(dataSize, baseStartIndex + visibleItemCount + bufferItemCount)
 		const startIndex = Math.max(0, baseStartIndex - bufferItemCount)
+		const isScrollOffsetRedundant =
+			typeof scrollOffset === 'number' &&
+			draft.startIndex === startIndex &&
+			draft.endIndex === endIndex
 
-		if (draft.startIndex === startIndex && draft.endIndex === endIndex) {
+		if (isScrollOffsetRedundant) {
 			return
 		}
 

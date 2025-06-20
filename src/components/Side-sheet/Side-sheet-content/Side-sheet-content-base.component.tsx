@@ -30,27 +30,29 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentBaseProps>(
 		const id = useId()
 		const {containerAnimatedStyle} = useSideSheetContentAnimated({type, visible})
 		const leadingElement = useMemo(
-			() => (
-				<RenderSideSheetContentLeading
-					back={back}
-					headlineLeading={headlineLeading}
-					id={id}
-					onBack={onBack}
-					position={position}
-				/>
-			),
+			() =>
+				back || headlineLeading ?
+					<RenderSideSheetContentLeading
+						back={back}
+						headlineLeading={headlineLeading}
+						id={id}
+						onBack={onBack}
+						position={position}
+					/>
+				:	undefined,
 			[back, headlineLeading, id, onBack, position]
 		)
 
 		const trailingElement = useMemo(
-			() => (
-				<RenderSideSheetContentTrailing
-					close={close}
-					headlineTrailing={headlineTrailing}
-					id={id}
-					onClose={onClose}
-				/>
-			),
+			() =>
+				close || headlineTrailing ?
+					<RenderSideSheetContentTrailing
+						close={close}
+						headlineTrailing={headlineTrailing}
+						id={id}
+						onClose={onClose}
+					/>
+				:	undefined,
 			[close, headlineTrailing, id, onClose]
 		)
 

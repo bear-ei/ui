@@ -129,7 +129,6 @@ export const Leading = styled.View<ListItemLeadingProps>`
 `
 
 export const MainInner = styled.View<ListItemMainInnerProps>`
-	align-items: flex-start;
 	display: flex;
 	flex-direction: column;
 	flex: 1;

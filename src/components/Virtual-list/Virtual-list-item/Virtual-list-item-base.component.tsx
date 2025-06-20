@@ -39,7 +39,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			[item?.indexKey, rawOnUnmount]
 		)
 
-		const {containerAnimatedStyle} = useVirtualListItemAnimated({offsetY})
+		const {containerAnimatedStyle} = useVirtualListItemAnimated({offsetY, status})
 		const runUpdateStatus = useMemo(() => updateVirtualListItemStatus(setState), [setState])
 		const itemElement =
 			!item ?

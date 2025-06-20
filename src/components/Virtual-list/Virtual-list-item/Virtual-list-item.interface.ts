@@ -41,6 +41,7 @@ export interface VirtualListItemState {
 
 export interface UseVirtualListItemAnimatedOptions {
 	offsetY?: number
+	status: ComponentStatus
 }
 
 export type VirtualListItemContainerProps = Pick<RenderVirtualListItemProps, 'itemSize'>
