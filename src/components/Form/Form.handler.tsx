@@ -12,18 +12,23 @@ import type {
 export const initializeFormStateWithValues =
 	<T,>(setInitialValues: (initialized?: boolean) => (values?: T) => void) =>
 	(setState: Updater<FormState>) =>
-	(values?: T) =>
+	(values?: T) => {
+		let isInitial = false
+
 		setState(draft => {
 			if (draft.status !== COMPONENT_STATUS.IDLE) {
 				return
 			}
 
-			if (values) {
-				setInitialValues()(values)
-			}
+			isInitial = true
 
 			draft.status = COMPONENT_STATUS.SUCCEEDED
 		})
+
+		if (isInitial && values) {
+			setInitialValues()(values)
+		}
+	}
 
 export const registerFormCallbacks =
 	<T,>(setCallbacks: (callbacks: FormCallbacks<T>) => void) =>

@@ -11,18 +11,18 @@ import type {
 export const applyFormItemStatusInitToDraft =
 	({rule, signInField, onComponentUpdate, validatorOptions}: ApplyFormItemStatusInitToDraftOptions) =>
 	(setState: Updater<FormItemState>) =>
-	(name?: string) =>
+	(name?: string) => {
+		const {signOut} = signInField({name, onComponentUpdate, rule, touched: false, validatorOptions}) ?? {}
+
 		setState(draft => {
 			if (draft.status !== COMPONENT_STATUS.IDLE) {
 				return
 			}
 
-			const {signOut} =
-				signInField({name, onComponentUpdate, rule, touched: false, validatorOptions}) ?? {}
-
 			draft.signOut = signOut
 			draft.status = COMPONENT_STATUS.SUCCEEDED
 		})
+	}
 
 export const updateFormFieldValueIfChanged =
 	({setFieldsValue, storeValue}: UpdateFormFieldValueIfChangedOptions) =>

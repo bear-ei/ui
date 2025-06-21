@@ -29,7 +29,6 @@ const applyCheckboxActiveStateToDraft =
 		}
 
 		const nextActiveEvent = () => onActive?.(active)
-
 		const activeValue = indeterminate ? CHECKBOX_VALUE.INDETERMINATE : CHECKBOX_VALUE.SELECTED
 		const nextValue = active ? activeValue : CHECKBOX_VALUE.UNSELECTED
 

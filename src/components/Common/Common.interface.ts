@@ -45,8 +45,8 @@ export interface CommonProps {
 }
 
 export interface LayoutRectangle extends RNLayoutRectangle {
-	left: number
+	left?: number
 	pageX?: number
 	pageY?: number
-	top: number
+	top?: number
 }
