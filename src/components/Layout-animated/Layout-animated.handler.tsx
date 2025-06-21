@@ -1,9 +1,9 @@
 import type {WritableDraft} from 'immer'
-import type {LayoutChangeEvent, LayoutRectangle} from 'react-native'
+import type {LayoutChangeEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
-import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName, type LayoutRectangle} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import type {
 	AnimateLayoutAnimatedOptions,
@@ -41,7 +41,8 @@ export const handleLayoutAnimatedStateChange =
 	({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
 	(event: StateEvent) => {
 		const nextEvent = {
-			[EVENT_NAME.LAYOUT]: () => onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
+			[EVENT_NAME.LAYOUT]: () =>
+				onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout as LayoutRectangle)
 		} as Record<EventName, () => void | Promise<void>>
 
 		if (!eventName) {

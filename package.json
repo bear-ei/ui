@@ -1,6 +1,6 @@
 {
 	"name": "@bearei/element",
-	"version": "0.0.308",
+	"version": "0.0.310",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.mjs",
 	"react-native": "./src/index.ts",

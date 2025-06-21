@@ -160,7 +160,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 
 		const trailingElement = useMemo(
 			() =>
-				closeTrailing || afterAffordance ?
+				[closeTrailing, afterAffordance, trailing].some(Boolean) ?
 					<RenderListItemTrailing
 						afterAffordance={afterAffordance}
 						closeTrailing={closeTrailing}

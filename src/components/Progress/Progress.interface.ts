@@ -1,5 +1,6 @@
 import type {RefAttributes} from 'react'
-import type {LayoutRectangle, View, ViewProps} from 'react-native'
+import type {View, ViewProps} from 'react-native'
+import type {LayoutRectangle} from '../Common'
 import type {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 
 export type ProgressType = (typeof PROGRESS_TYPE)[keyof typeof PROGRESS_TYPE]

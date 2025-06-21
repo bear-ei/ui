@@ -1,9 +1,9 @@
 import type {RefAttributes} from 'react'
-import type {LayoutRectangle, ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
+import type {ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {InteractionHandlers} from '../../hooks'
-import type {ComponentStatus} from '../Common'
-import type {RenderVirtualListItemInfo} from './Virtual-list-item/Virtual-list-item.interface'
+import type {ComponentStatus, LayoutRectangle} from '../Common'
+import type {RenderVirtualListItemInfo} from './Virtual-list-item'
 
 export type VirtualListData<T = Record<string, unknown>> = T & {
 	indexKey?: string

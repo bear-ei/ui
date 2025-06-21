@@ -1,8 +1,8 @@
 import type {RefAttributes} from 'react'
-import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
+import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
-import type {ComponentStatus, EventName, ShapeProps, ShapeType} from '../Common'
+import type {ComponentStatus, EventName, LayoutRectangle, ShapeProps, ShapeType} from '../Common'
 import type {ACTIVE_ANIMATED} from './Underlay.enum'
 
 export type ActiveAnimatedType = (typeof ACTIVE_ANIMATED)[keyof typeof ACTIVE_ANIMATED]

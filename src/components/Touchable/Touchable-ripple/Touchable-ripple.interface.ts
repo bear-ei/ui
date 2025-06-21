@@ -1,8 +1,8 @@
 import type {RefAttributes} from 'react'
-import type {LayoutRectangle, NativeTouchEvent, View, ViewProps, ViewStyle} from 'react-native'
+import type {NativeTouchEvent, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {AnimatedTiming, InteractionHandlers} from '../../../hooks'
-import type {ComponentStatus} from '../../Common'
+import type {ComponentStatus, LayoutRectangle} from '../../Common'
 import type {TouchableProps} from '../Touchable.interface'
 
 export interface TouchableRippleProps

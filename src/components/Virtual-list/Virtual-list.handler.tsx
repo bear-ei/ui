@@ -1,10 +1,10 @@
 import type {WritableDraft} from 'immer'
-import type {LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
+import type {LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
 import {Platform} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName, type LayoutRectangle} from '../Common'
 import type {ListData} from '../List'
 import type {
 	TriggerVirtualListCloseOptions,
@@ -75,7 +75,9 @@ export const handleVirtualListStateChange =
 	(event: StateEvent) => {
 		const nextEvent = {
 			[EVENT_NAME.LAYOUT]: () =>
-				onVirtualListLayoutChange((event as LayoutChangeEvent).nativeEvent.layout)
+				onVirtualListLayoutChange(
+					(event as LayoutChangeEvent).nativeEvent.layout as LayoutRectangle
+				)
 		} as Record<EventName, () => void>
 
 		if (!eventName) {

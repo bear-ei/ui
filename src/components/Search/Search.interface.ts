@@ -1,8 +1,8 @@
 import type {Size} from '@bearei/element-token'
 import type {RefAttributes, RefObject} from 'react'
-import type {LayoutRectangle, PressableProps, TextInput, TextInputProps, View} from 'react-native'
+import type {PressableProps, TextInput, TextInputProps, View} from 'react-native'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
-import type {CommonProps, ComponentStatus, EventName, State} from '../Common'
+import type {CommonProps, ComponentStatus, EventName, LayoutRectangle, State} from '../Common'
 import type {ListData, ListProps} from '../List'
 import type {SearchListProps} from './Search-list'
 
@@ -20,7 +20,7 @@ export interface SearchProps
 export interface RenderSearchProps extends SearchProps {
 	containerRef: RefObject<View>
 	eventName?: EventName
-	layout: LayoutRectangle & {pageX?: number; pageY?: number}
+	layout: LayoutRectangle
 	listVisible?: boolean
 	interactionHandlers: InteractionHandlers
 }
@@ -29,7 +29,7 @@ export type SearchBaseProps = SearchProps
 export interface SearchState {
 	data?: ListData[]
 	eventName?: EventName
-	layout: LayoutRectangle & {pageX?: number; pageY?: number}
+	layout: LayoutRectangle
 	listVisible?: boolean
 	nextChangeTextEvent?: () => void
 	nextPressOutEvent?: () => void

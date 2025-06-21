@@ -1,9 +1,9 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import type {LayoutRectangle, View} from 'react-native'
+import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {debounce, runAfterInteractions} from '../../utils'
-import {COMPONENT_STATUS, type State} from '../Common'
+import {COMPONENT_STATUS, type LayoutRectangle, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
 	finalizeLayoutAnimatedVisibilityChange,
