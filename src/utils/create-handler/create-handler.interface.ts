@@ -1,1 +1,5 @@
-export type CreateHandlerOptions = {debounceMillisecond?: number; enableInteractionManager?: boolean}
+export type CreateHandlerOptions = {
+	debounceMillisecond?: number
+	enableInteractionManager?: boolean
+	throttleMillisecond?: number
+}

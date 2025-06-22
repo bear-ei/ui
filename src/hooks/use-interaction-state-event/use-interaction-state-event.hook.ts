@@ -93,7 +93,7 @@ export const useInteractionStateEvent = ({
 	const onLayout = useMemo(
 		() =>
 			createStableEventHandler(handleLayoutEvent({interactionHandlers})(rawOnLayout))({
-				debounceMillisecond: layoutEventDelay,
+				throttleMillisecond: layoutEventDelay,
 				enableInteractionManager: false
 			}),
 		[interactionHandlers, layoutEventDelay, rawOnLayout]
