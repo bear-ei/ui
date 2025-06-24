@@ -1,6 +1,7 @@
 export * from './adapt-window'
 export * from './create-handler'
 export * from './debounce'
+export * from './density'
 export * from './name-path'
 export * from './run-afterInteractions'
 export * from './text-search'

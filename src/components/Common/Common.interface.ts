@@ -42,7 +42,7 @@ export interface TypographyProps {
 }
 
 export interface CommonProps {
-	density?: Density
+	density?: Density | number
 }
 
 export interface LayoutRectangle extends RNLayoutRectangle {

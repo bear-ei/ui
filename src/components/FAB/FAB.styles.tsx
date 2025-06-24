@@ -1,6 +1,7 @@
 import {SIZE} from '@bearei/element-token'
 import styled, {css} from 'styled-components/native'
-import {DENSITY_SCALE, Shape, Typography} from '../Common'
+import {getScaledSpacing} from '../../utils'
+import {Shape, Typography} from '../Common'
 import type {FABContainerProps, FABContentProps, FABMainProps} from './FAB.interface'
 
 export const Container = styled.View<FABContainerProps>`
@@ -8,7 +9,7 @@ export const Container = styled.View<FABContainerProps>`
 	cursor: pointer;
 
 	${({theme, size = SIZE.MEDIUM, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 		const contentSize = {
 			[SIZE.SMALL]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
@@ -49,7 +50,7 @@ export const Content = styled(Shape)<FABContentProps>`
 	z-index: 4;
 
 	${({theme, size = SIZE.MEDIUM, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 		const contentSize = {
 			[SIZE.SMALL]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
@@ -69,7 +70,7 @@ export const Content = styled(Shape)<FABContentProps>`
 	}}
 
 	${({theme, extendedFAB, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 
 		return (
 			extendedFAB &&

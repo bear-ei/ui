@@ -1,13 +1,15 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {css} from 'styled-components'
 import styled from 'styled-components/native'
-import {DENSITY_SCALE, Shape} from '../Common'
+import {getScaledSpacing} from '../../utils'
+import {Shape} from '../Common'
 import type {SearchContentProps} from './Search.interface'
 
 export const Container = styled.View`
 	align-self: stretch;
 	position: relative;
 	z-index: 4096;
+	justify-content: center;
 
 	${({theme}) => css`
 		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
@@ -29,7 +31,7 @@ export const Content = styled(Shape)<SearchContentProps>`
 	z-index: 4;
 
 	${({theme, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 
 		return css`
 			background-color: ${theme.token.scheme.surfaceContainerHigh};
@@ -68,10 +70,12 @@ export const Leading = styled.View`
 	`}
 `
 
-export const TextInputLayout = styled.View`
+export const Control = styled.View`
 	${({theme}) => css`
 		min-height: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)}px;
-		padding-top: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
+		padding: ${theme.adaptSize(theme.token.spacing.extraSmall + -0.5 * theme.token.spacing.extraSmall)}px
+			${theme.adaptSize(theme.token.spacing.none)}px;
 	`};
 `
 

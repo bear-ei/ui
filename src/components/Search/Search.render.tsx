@@ -5,7 +5,7 @@ import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
 import {Underlay} from '../Underlay'
 import type {RenderSearchProps, SearchTextInputProps} from './Search.interface'
-import {Container, Content, Leading, Main, TextInput, TextInputLayout, Touchable, Trailing} from './Search.styles'
+import {Container, Content, Control, Leading, Main, TextInput, Touchable, Trailing} from './Search.styles'
 
 const SearchTextInput = TextInput as FC<SearchTextInputProps>
 export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
@@ -67,7 +67,7 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 						</Leading>
 
 						<Main testID={`search__main--${id}`}>
-							<TextInputLayout testID={`search__textInputLayout--${id}`}>
+							<Control testID={`search__control--${id}`}>
 								<SearchTextInput
 									{...textInputProps}
 									onBlur={onBlur}
@@ -79,7 +79,7 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 									testID={`search__searchTextInput--${id}`}
 									value={value}
 								/>
-							</TextInputLayout>
+							</Control>
 						</Main>
 
 						{trailing && (

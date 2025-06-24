@@ -1,6 +1,7 @@
 import type {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
-import {DENSITY_SCALE, Shape, Typography} from '../Common'
+import {getScaledSpacing} from '../../utils'
+import {Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonContainerProps, ButtonContentProps, ButtonMainProps, ButtonType} from './Button.interface'
@@ -43,7 +44,7 @@ export const Content = styled(Shape)<ButtonContentProps>`
 	`}
 
 	${({theme, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 
 		return css`
 			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;

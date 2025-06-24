@@ -3,7 +3,8 @@ import {useCallback, useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
-import {COMPONENT_STATUS, DENSITY_SCALE, STATE} from '../Common'
+import {getScaledSpacing} from '../../utils'
+import {COMPONENT_STATUS, STATE} from '../Common'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
 	animateTextInputDisabledStateTiming,
@@ -27,7 +28,7 @@ export const useTextInputAnimated = ({
 }: UseTextInputAnimatedOptions) => {
 	const theme = useTheme()
 	const {scheme, opacity} = theme.token
-	const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+	const densityScale = getScaledSpacing(density)(theme)
 	const disabledAnimatedValue = disabled ? 0 : 1
 	const defaultAnimatedValue = useMemo(
 		() => ({

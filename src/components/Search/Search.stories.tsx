@@ -1,5 +1,4 @@
 import type {Meta, StoryObj} from '@storybook/react'
-import {DENSITY} from '../Common'
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
 import {Search} from './Search.component'
 import type {SearchProps} from './Search.interface'
@@ -43,7 +42,7 @@ export const DensityScale: StoryObj<SearchProps> = {
 	args: {
 		placeholder: 'Hinted search text',
 		trailing: <IconButton type={ICON_BUTTON_TYPE.STANDARD} />,
-		density: DENSITY.COMPACT,
+		density: -4,
 		listProps: {
 			data: [
 				{

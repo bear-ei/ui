@@ -1,6 +1,7 @@
 import type {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
-import {DENSITY_SCALE, Shape, Typography} from '../../Common'
+import {getScaledSpacing} from '../../../utils'
+import {Shape, Typography} from '../../Common'
 import {LayoutAnimated} from '../../Layout-animated'
 import {LIST_TYPE} from '../List.enum'
 import type {ListType} from '../List.interface'
@@ -71,7 +72,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
 	z-index: 4;
 
 	${({theme, type = LIST_TYPE.STANDARD, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 		const mainType = {
 			[LIST_TYPE.MENU]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;

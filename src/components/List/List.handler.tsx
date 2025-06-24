@@ -1,7 +1,7 @@
 import type {WritableDraft} from 'immer'
 import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
-import {DENSITY_SCALE} from '../Common'
+import {getScaledSpacing} from '../../utils'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
 import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 import type {
@@ -85,7 +85,7 @@ export const createListItemSize =
 		itemSize ??
 		theme.adaptSize(
 			theme.token.spacing.extraSmall * (type === LIST_TYPE.STANDARD ? 14 : 12) +
-				DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+				getScaledSpacing(density)(theme) * theme.token.spacing.extraSmall
 		)
 
 export const updateListAffordanceActiveState =

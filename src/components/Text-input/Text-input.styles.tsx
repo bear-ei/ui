@@ -1,6 +1,7 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import styled, {css} from 'styled-components/native'
-import {DENSITY_SCALE, Shape, Typography} from '../Common'
+import {getScaledSpacing} from '../../utils'
+import {Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import type {
 	TextInputControlProps,
@@ -33,7 +34,7 @@ export const Header = styled(Shape)<TextInputHeaderProps>`
 	z-index: 4;
 
 	${({theme, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 
 		return css`
 			min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
@@ -66,7 +67,7 @@ export const Label = styled.View<TextInputLabelProps>`
 	transform-origin: top left;
 
 	${({theme, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 
 		return css`
 			top: ${theme.adaptSize(theme.token.spacing.medium + densityScale / 2)}px;
@@ -105,7 +106,7 @@ export const Main = styled.View<TextInputMainProps>`
 	z-index: 4;
 
 	${({theme, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 
 		return css`
 			padding: ${theme.adaptSize(
@@ -117,7 +118,7 @@ export const Main = styled.View<TextInputMainProps>`
 	}};
 
 	${({theme, contentShow, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 
 		return (
 			contentShow &&

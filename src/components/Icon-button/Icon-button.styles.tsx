@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components/native'
-import {DENSITY_SCALE, Shape} from '../Common'
+import {getScaledSpacing} from '../../utils'
+import {Shape} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import type {IconButtonContentProps} from './Icon-button.interface'
 
@@ -37,7 +38,7 @@ export const Content = styled(Shape)<IconButtonContentProps>`
 	z-index: 4;
 
 	${({theme, size, density}) => {
-		const densityScale = DENSITY_SCALE[density ?? theme.density] * theme.token.spacing.extraSmall
+		const densityScale = getScaledSpacing(density)(theme)
 
 		return css`
 			height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
