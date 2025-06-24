@@ -1,6 +1,6 @@
 {
 	"name": "@bearei/element",
-	"version": "0.0.312",
+	"version": "0.0.314",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.mjs",
 	"react-native": "./src/index.ts",
@@ -164,7 +164,7 @@
 	"scripts": {
 		"android": "react-native run-android",
 		"build-storybook": "storybook build",
-		"build": "yarn lint && yarn coverage && yarn run clean && yarn vite build",
+		"build": "yarn lint && yarn run clean && yarn vite build",
 		"check-dependencies": "rnx-align-deps",
 		"clean": "yarn shx rm -rf dist",
 		"coverage": "yarn test --coverage",

@@ -20,10 +20,7 @@ jest.mock('react-native-reanimated', () => {
 })
 
 jest.mock('react-native/Libraries/Interaction/InteractionManager', () => ({
-	runAfterInteractions: (cb: any) => {
-		cb?.()
-		return {then: (fn: any) => fn?.()}
-	}
+	runAfterInteractions: (cb: any) => cb()
 }))
 
 beforeEach(() => {

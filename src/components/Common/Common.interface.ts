@@ -35,6 +35,7 @@ export interface ShapeProps extends ViewProps, RefAttributes<View> {
 }
 
 export interface TypographyProps {
+	line?: number
 	multiline?: boolean
 	size?: Size
 	type?: TypographyType

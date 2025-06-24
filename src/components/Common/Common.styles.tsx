@@ -12,7 +12,6 @@ export const Shape = styled.View<ShapeProps>`
 		border-width: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`}
 `
-
 export const Typography = styled.Text<TypographyProps>`
 	${({theme, type = TYPOGRAPHY.BODY, size = SIZE.MEDIUM}) => css`
 		color: ${theme.token.scheme.onSurfaceVariant};
@@ -26,10 +25,10 @@ export const Typography = styled.Text<TypographyProps>`
 		min-height: ${theme.adaptSize(theme.token.typography[type][size].lineHeight)}px;
 	`}
 
-	${({multiline}) =>
+	${({theme, multiline, type = TYPOGRAPHY.BODY, size = SIZE.MEDIUM, line = 1}) =>
 		multiline &&
 		css`
 			height: auto;
-			min-height: auto;
+			min-height: ${theme.adaptSize(theme.token.typography[type][size].lineHeight * line)}px;
 		`}
 `
