@@ -30,7 +30,7 @@ export interface IconButtonState {
 }
 
 export interface RenderIconButtonIconProps
-	extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading' | 'id' | 'icon'> {
+	extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'fill' | 'loading' | 'id' | 'icon' | 'density'> {
 	eventName?: EventName
 }
 
@@ -45,5 +45,5 @@ export interface AnimateIconButtonSharedValues {
 	colorSharedValue: SharedValue<number>
 }
 
-export type IconButtonContainerProps = Pick<IconButtonProps, 'loading'>
+export type IconButtonContainerProps = Pick<IconButtonProps, 'loading' | 'density'>
 export type IconButtonContentProps = Pick<IconButtonProps, 'size' | 'density'>

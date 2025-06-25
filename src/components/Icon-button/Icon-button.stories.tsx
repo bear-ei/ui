@@ -41,7 +41,7 @@ export const Loading: StoryObj<IconButtonProps> = {
 }
 
 export const DensityScale: StoryObj<IconButtonProps> = {
-	args: {density: DENSITY.COMPACT}
+	args: {density: DENSITY.COMPACT, type: ICON_BUTTON_TYPE.STANDARD}
 }
 
 export default {

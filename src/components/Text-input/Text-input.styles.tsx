@@ -7,6 +7,7 @@ import type {
 	TextInputControlProps,
 	TextInputHeaderProps,
 	TextInputLabelProps,
+	TextInputLeadingProps,
 	TextInputMainProps,
 	TextInputTouchableHeaderProps
 } from './Text-input.interface'
@@ -37,7 +38,7 @@ export const Header = styled(Shape)<TextInputHeaderProps>`
 		const densityScale = getScaledSpacing(density)(theme)
 
 		return css`
-			min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+			min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
 			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
 			padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
 				${theme.adaptSize(theme.token.spacing.none)}px;
@@ -85,16 +86,20 @@ export const Label = styled.View<TextInputLabelProps>`
 `
 
 export const LabelText = styled(Typography)``
-export const Leading = styled.View`
+export const Leading = styled.View<TextInputLeadingProps>`
 	align-items: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 
-	${({theme}) => css`
-		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-	`}
+	${({theme, density}) => {
+		const densityScale = getScaledSpacing(density)(theme)
+
+		return css`
+			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+			width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+		`
+	}}
 `
 
 export const Trailing = styled(Leading)``

@@ -116,6 +116,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 				accessibilityRole='button'
 				accessibilityState={{disabled}}
 				accessible={true}
+				density={density}
 				testID={testID ?? `button--${id}`}
 				type={type}
 			>
