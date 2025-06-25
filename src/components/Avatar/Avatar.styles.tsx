@@ -1,23 +1,19 @@
 import styled, {css} from 'styled-components/native'
 import {getScaledSpacing} from '../../utils'
 import {Shape, Typography} from '../Common'
-import type {AvatarContainerProps, AvatarContentProps} from './Avatar.interface'
+import type {AvatarContentProps} from './Avatar.interface'
 
-export const Container = styled(Shape)<AvatarContainerProps>`
+export const Container = styled(Shape)`
 	align-items: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	pointer-events: none;
 
-	${({theme, density}) => {
-		const densityScale = getScaledSpacing(density)(theme)
-
-		return css`
-			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
-			width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
-		`
-	}}
+	${({theme}) => css`
+		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+	`};
 `
 
 export const Content = styled(Shape)<AvatarContentProps>`

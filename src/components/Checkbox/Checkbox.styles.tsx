@@ -2,19 +2,15 @@ import styled, {css} from 'styled-components/native'
 import {getScaledSpacing} from '../../utils'
 import {Shape} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
-import type {CheckboxContainerProps, CheckboxContentProps, CheckboxIconLayoutProps} from './Checkbox.interface'
+import type {CheckboxContentProps, CheckboxIconLayoutProps} from './Checkbox.interface'
 
-export const Container = styled.View<CheckboxContainerProps>`
+export const Container = styled.View`
 	cursor: pointer;
 
-	${({theme, density}) => {
-		const densityScale = getScaledSpacing(density)(theme)
-
-		return css`
-			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
-			width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
-		`
-	}}
+	${({theme}) => css`
+		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+	`}
 `
 
 export const Content = styled(Shape)<CheckboxContentProps>`

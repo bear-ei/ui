@@ -137,5 +137,3 @@ export interface TextInputMainProps extends Pick<RenderTextInputProps, 'density'
 }
 
 export type TextInputTouchableHeaderProps = Record<string, unknown>
-
-export interface TextInputLeadingProps extends TypographyProps, Pick<RenderTextInputProps, 'density'> {}

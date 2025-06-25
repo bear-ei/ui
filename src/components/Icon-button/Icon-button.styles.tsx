@@ -8,14 +8,10 @@ export const Container = styled.View<IconButtonContainerProps>`
 	cursor: pointer;
 	position: relative;
 
-	${({theme, density}) => {
-		const densityScale = getScaledSpacing(density)(theme)
-
-		return css`
-			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
-			width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
-		`
-	}}
+	${({theme}) => css`
+		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+	`}
 
 	${({loading}) => css`
 		pointer-events: ${loading ? 'none' : 'auto'};

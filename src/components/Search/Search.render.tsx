@@ -1,5 +1,5 @@
 import {SHAPE} from '@bearei/element-token'
-import {cloneElement, forwardRef, useMemo, type FC} from 'react'
+import {forwardRef, useMemo, type FC} from 'react'
 import type {TextInput as RNTextInput} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
@@ -41,7 +41,6 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 		return (
 			<Container
 				{...(containerRef && {ref: containerRef})}
-				density={density}
 				testID={testID ?? `search--${id}`}
 			>
 				<Touchable
@@ -56,23 +55,15 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 						testID={`search__content--${id}`}
 						trailingShow={!!trailing}
 					>
-						<Leading
-							testID={`search__leading--${id}`}
-							density={density}
-						>
-							{leading ?
-								cloneElement(leading, {
-									disabledFocus: true,
-									density
-								})
-							:	<Icon
-									density={density}
+						<Leading testID={`search__leading--${id}`}>
+							{leading ?? (
+								<Icon
 									iconStyle={ICON_STYLE.ROUNDED}
 									name={ICON_NAME.SEARCH}
 									testID={`search__iconSearch--${id}`}
 									type={ICON_TYPE.FILLED}
 								/>
-							}
+							)}
 						</Leading>
 
 						<Main testID={`search__main--${id}`}>
@@ -92,17 +83,10 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 						</Main>
 
 						{trailing && (
-							<Trailing
-								density={density}
-								testID={`search__trailing--${id}`}
-							>
-								{cloneElement(trailing, {
-									disabledFocus: true,
-									density
-								})}
+							<Trailing testID={`search__trailing--${id}`}>
+								{trailing}
 							</Trailing>
 						)}
-
 						<Underlay
 							eventName={eventName}
 							opacities={underlayOpacities}

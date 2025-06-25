@@ -55,7 +55,6 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 				accessibilityRole='checkbox'
 				accessibilityState={{disabled}}
 				accessible={true}
-				density={density}
 				testID={testID ?? `checkbox--${id}`}
 			>
 				<Touchable

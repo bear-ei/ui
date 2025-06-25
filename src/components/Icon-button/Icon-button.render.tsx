@@ -12,13 +12,12 @@ import {BackgroundUnderlay, Container, Content, ContentItemLayout, Main} from '.
 
 const AnimatedBackgroundUnderlay = Animated.createAnimatedComponent(BackgroundUnderlay)
 export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
-	density,
 	disabled,
+	type,
 	fill: rawFill,
-	icon,
-	id,
 	loading,
-	type
+	id,
+	icon
 }) => {
 	const theme = useTheme()
 	const fillType = useMemo(
@@ -49,8 +48,7 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 		{
 			disabled,
 			fill,
-			testID: `iconButton__icon--${id}`,
-			density
+			testID: `iconButton__icon--${id}`
 		}
 	)
 }
@@ -73,7 +71,6 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 			testID,
 			type,
 			underlayColor,
-			density,
 			...touchableProps
 		},
 		ref
@@ -97,7 +94,6 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				accessible={true}
 				loading={loading}
 				testID={testID ?? `iconButton--${id}`}
-				density={density}
 			>
 				<ContentItemLayout
 					lazy={true}
@@ -132,7 +128,6 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 						underlayColor={underlayColor}
 					>
 						<Content
-							density={density}
 							shape={shape}
 							size={size}
 							testID={`iconButton__content--${id}`}

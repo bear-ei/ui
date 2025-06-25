@@ -7,7 +7,6 @@ import {LIST_TYPE} from '../List.enum'
 import type {ListType} from '../List.interface'
 import type {
 	AffordanceLayoutProps,
-	ListItemContainerProps,
 	ListItemContentProps,
 	ListItemItemTouchableProps,
 	ListItemLeadingProps,
@@ -16,7 +15,7 @@ import type {
 	ListItemTrailingProps
 } from './List-item.interface'
 
-export const Container = styled(Shape)<ListItemContainerProps>`
+export const Container = styled(Shape)`
 	align-self: stretch;
 	display: flex;
 	flex-direction: column;
@@ -24,13 +23,9 @@ export const Container = styled(Shape)<ListItemContainerProps>`
 	overflow: hidden;
 	position: relative;
 
-	${({theme, density}) => {
-		const densityScale = getScaledSpacing(density)(theme)
-
-		return css`
-			min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
-		`
-	}}
+	${({theme}) => css`
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+	`}
 `
 
 export const Content = styled.View<ListItemContentProps>`
