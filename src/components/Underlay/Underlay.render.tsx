@@ -27,6 +27,7 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
 		<Container
 			{...containerProps}
 			{...interactionHandlers}
+			pointerEvents='none'
 			ref={ref}
 			shape={shape}
 			style={[style]}

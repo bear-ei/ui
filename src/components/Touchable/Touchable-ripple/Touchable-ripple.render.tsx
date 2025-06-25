@@ -26,6 +26,7 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
 			{...interactionHandlers}
 			locationX={locationX}
 			locationY={locationY}
+			pointerEvents='none'
 			ref={ref}
 			shape={SHAPE.FULL}
 			size={size}

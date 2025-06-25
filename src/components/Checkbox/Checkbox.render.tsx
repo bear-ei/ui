@@ -71,6 +71,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 				>
 					<Content
 						density={density}
+						pointerEvents='none'
 						shape={shape}
 						testID={`checkbox__content--${id}`}
 					>

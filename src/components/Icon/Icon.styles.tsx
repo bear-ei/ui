@@ -8,7 +8,6 @@ export const Container = styled.View<IconLayoutProps>`
 	flex-direction: column;
 	justify-content: center;
 	overflow: hidden;
-	pointer-events: none;
 
 	${({theme, size, density}) => {
 		const densityScale = getScaledSpacing(density)(theme)

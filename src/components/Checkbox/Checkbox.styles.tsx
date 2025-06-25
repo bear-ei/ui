@@ -25,7 +25,6 @@ export const Content = styled(Shape)<CheckboxContentProps>`
 	justify-content: center;
 	position: relative;
 	z-index: 4;
-	pointer-events: none;
 
 	${({theme, density}) => {
 		const densityScale = getScaledSpacing(density)(theme)

@@ -16,7 +16,6 @@ export const Content = styled.View`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	pointer-events: none;
 	position: relative;
 
 	${({theme}) => css`
@@ -26,7 +25,6 @@ export const Content = styled.View`
 `
 
 export const BackgroundUnderlay = styled(Shape)`
-	pointer-events: none;
 	position: absolute;
 	z-index: -4;
 

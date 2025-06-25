@@ -72,6 +72,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 				/>
 
 				<AnimatedDanger
+					pointerEvents='none'
 					style={[dangerAnimatedStyle]}
 					testID={`listAfterAffordance__animatedDanger--${id}`}
 				/>

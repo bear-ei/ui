@@ -47,7 +47,6 @@ export const Content = styled(Shape)<FABContentProps>`
 	overflow: hidden;
 	position: relative;
 	z-index: 4;
-	pointer-events: none;
 
 	${({theme, size = SIZE.MEDIUM, density}) => {
 		const densityScale = getScaledSpacing(density)(theme)
@@ -85,7 +84,6 @@ export const Content = styled(Shape)<FABContentProps>`
 export const BackgroundUnderlay = styled(Shape)`
 	position: absolute;
 	z-index: -4;
-	pointer-events: none;
 
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;

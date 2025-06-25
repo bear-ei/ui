@@ -11,7 +11,6 @@ export const Container = styled(Shape)`
 `
 
 export const Content = styled(Shape)`
-	pointer-events: none;
 	position: absolute;
 	z-index: 4;
 

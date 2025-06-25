@@ -5,7 +5,6 @@ import type {TouchableRippleLayoutProps} from './Touchable-ripple.interface'
 
 export const Container = styled(Shape)<TouchableRippleLayoutProps>`
 	position: absolute;
-	pointer-events: none;
 
 	${({size = 0, locationX = 0, locationY = 0}) => css`
 		height: ${size}px;

@@ -45,5 +45,8 @@ export interface AnimateIconButtonSharedValues {
 	colorSharedValue: SharedValue<number>
 }
 
+<<<<<<< HEAD
 export type IconButtonContainerProps = Pick<IconButtonProps, 'loading' | 'density'>
+=======
+>>>>>>> parent of 6dc17cb (fix: fix pointerEvents)
 export type IconButtonContentProps = Pick<IconButtonProps, 'size' | 'density'>

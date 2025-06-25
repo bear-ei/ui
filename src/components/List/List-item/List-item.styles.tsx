@@ -139,7 +139,6 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 	flex-direction: column;
 	flex: 1;
 	justify-content: center;
-	pointer-events: none;
 
 	${({theme, supportingTextShow}) =>
 		supportingTextShow &&

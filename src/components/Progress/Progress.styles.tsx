@@ -7,7 +7,6 @@ export const Container = styled.View<ProgressContainerProps>`
 	align-self: stretch;
 	display: flex;
 	flex-direction: column;
-	pointer-events: none;
 
 	${({theme, type = PROGRESS_TYPE.LINEAR, size}) => {
 		const containerType = {

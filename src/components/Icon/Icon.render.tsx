@@ -12,6 +12,7 @@ export const RenderIcon = forwardRef<View, RenderIconProps>(
 			accessibilityLabel={accessibilityLabel ?? name}
 			accessibilityRole='image'
 			accessible={true}
+			pointerEvents='none'
 			ref={ref}
 			style={[style]}
 			testID={testID ?? `icon--${id}`}

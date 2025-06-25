@@ -37,6 +37,7 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
 			<Container
 				{...containerProps}
 				{...interactionHandlers}
+				pointerEvents='none'
 				ref={ref}
 				testID={testID ?? `progressActiveIndicatorCircular--${id}`}
 			>

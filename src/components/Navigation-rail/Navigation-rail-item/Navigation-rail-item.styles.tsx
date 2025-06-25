@@ -30,7 +30,6 @@ export const Header = styled.View<NavigationRailItemHeaderProps>`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	pointer-events: none;
 	position: relative;
 	z-index: 4;
 

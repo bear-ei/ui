@@ -29,6 +29,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 		const underlayColor = theme.token.scheme.onPrimary
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay
+				pointerEvents='none'
 				style={[backgroundUnderlayAnimatedStyle]}
 				testID={`listAffordanceButton__backgroundUnderlay--${id}`}
 			/>
@@ -47,6 +48,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 					<Content
 						accessibilityLabel={accessibilityLabel ?? labelText}
 						accessibilityRole='button'
+						pointerEvents='none'
 						testID={`listAffordanceButton__content--${id}`}
 					>
 						{icon ?? (

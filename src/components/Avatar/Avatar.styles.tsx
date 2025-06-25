@@ -8,7 +8,6 @@ export const Container = styled(Shape)<AvatarContainerProps>`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	pointer-events: none;
 
 	${({theme, density}) => {
 		const densityScale = getScaledSpacing(density)(theme)

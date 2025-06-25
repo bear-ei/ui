@@ -83,6 +83,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 		const activeColor = theme.token.scheme.secondaryContainer
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay
+				pointerEvents='none'
 				shape={shape}
 				style={[backgroundUnderlayAnimatedStyle]}
 				testID={`iconButton__backgroundUnderlay--${id}`}
@@ -95,7 +96,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				accessibilityRole='button'
 				accessibilityState={{disabled}}
 				accessible={true}
-				loading={loading}
+				pointerEvents={loading ? 'none' : 'auto'}
 				testID={testID ?? `iconButton--${id}`}
 				density={density}
 			>
@@ -132,7 +133,11 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 						underlayColor={underlayColor}
 					>
 						<Content
+<<<<<<< HEAD
 							density={density}
+=======
+							pointerEvents='none'
+>>>>>>> parent of 6dc17cb (fix: fix pointerEvents)
 							shape={shape}
 							size={size}
 							testID={`iconButton__content--${id}`}

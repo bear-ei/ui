@@ -1,5 +1,6 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, isValidElement, useMemo, type FC} from 'react'
+import {type ViewProps} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {EVENT_NAME, LAYOUT} from '../../Common'
@@ -48,6 +49,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 			...interactionHandlers,
 			density,
 			disabled: isDisabled ?? disabled,
+			pointerEvents: 'box-only' as ViewProps['pointerEvents'],
 			testID: `listItem__trailing--${id}`,
 			type: ICON_BUTTON_TYPE.STANDARD
 		}),
@@ -214,6 +216,7 @@ export const RenderListItem = forwardRef<PressableType, RenderListItemProps>(
 
 								<MainInner
 									leadingShow={!!leadingElement}
+									pointerEvents='none'
 									supportingTextShow={isSupportingTextShow}
 									testID={`listItem__mainInner--${id}`}
 									trailingShow={isTrailingShow}
