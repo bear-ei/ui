@@ -47,6 +47,9 @@ export interface HandleSearchContainerLayoutOptions {
 	containerCurrent?: View | null
 }
 
+export type SearchContainerProps = Pick<SearchProps, 'density'>
 export interface SearchContentProps extends Pick<SearchProps, 'density'> {
 	trailingShow: boolean
 }
+
+export type SearchLeadingProps = Pick<SearchProps, 'density'>

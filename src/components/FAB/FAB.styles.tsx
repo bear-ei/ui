@@ -36,7 +36,6 @@ export const Container = styled.View<FABContainerProps>`
 		`}
 
         ${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 	`}
 `

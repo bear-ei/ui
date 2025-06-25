@@ -3,17 +3,21 @@ import {css} from 'styled-components'
 import styled from 'styled-components/native'
 import {getScaledSpacing} from '../../utils'
 import {Shape} from '../Common'
-import type {SearchContentProps} from './Search.interface'
+import type {SearchContainerProps, SearchContentProps, SearchLeadingProps} from './Search.interface'
 
-export const Container = styled.View`
+export const Container = styled.View<SearchContainerProps>`
 	align-self: stretch;
 	position: relative;
 	z-index: 4096;
 	justify-content: center;
 
-	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-	`};
+	${({theme, density}) => {
+		const densityScale = getScaledSpacing(density)(theme)
+
+		return css`
+			min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+		`
+	}};
 `
 
 export const Touchable = styled.Pressable`
@@ -58,16 +62,20 @@ export const Main = styled.View`
 	z-index: 4;
 `
 
-export const Leading = styled.View`
+export const Leading = styled.View<SearchLeadingProps>`
 	align-items: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 
-	${({theme}) => css`
-		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-	`}
+	${({theme, density}) => {
+		const densityScale = getScaledSpacing(density)(theme)
+
+		return css`
+			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+			width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+		`
+	}}
 `
 
 export const Control = styled.View`

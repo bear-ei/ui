@@ -9,10 +9,14 @@ import type {ButtonContainerProps, ButtonContentProps, ButtonMainProps, ButtonTy
 export const Container = styled.View<ButtonContainerProps>`
 	cursor: pointer;
 
-	${({theme}) => css`
-		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
-	`}
+	${({theme, density}) => {
+		const densityScale = getScaledSpacing(density)(theme)
+
+		return css`
+			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+			min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
+		`
+	}}
 
 	${({theme, type = BUTTON_TYPE.FILLED}) => {
 		const containerType = {
