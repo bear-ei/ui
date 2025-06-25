@@ -44,7 +44,7 @@ export interface AnimateButtonSharedValues {
 	colorSharedValue: SharedValue<number>
 }
 
-export type ButtonContainerProps = Pick<RenderButtonProps, 'type' | 'density'>
+export type ButtonContainerProps = Pick<RenderButtonProps, 'type'>
 export type ButtonContentProps = Pick<RenderButtonProps, 'type' | 'density'>
 export interface ButtonMainProps extends Pick<RenderButtonProps, 'type'> {
 	iconShow: boolean

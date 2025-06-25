@@ -1,6 +1,5 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, isValidElement, useMemo, type FC} from 'react'
-import {type ViewProps} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {EVENT_NAME, LAYOUT} from '../../Common'
@@ -33,7 +32,6 @@ const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	afterAffordance,
 	closeTrailing,
-	density,
 	disabled,
 	id,
 	interactionHandlers,
@@ -47,13 +45,11 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 		() => ({
 			...restTrailingProps,
 			...interactionHandlers,
-			density,
 			disabled: isDisabled ?? disabled,
-			pointerEvents: 'box-only' as ViewProps['pointerEvents'],
 			testID: `listItem__trailing--${id}`,
 			type: ICON_BUTTON_TYPE.STANDARD
 		}),
-		[density, disabled, id, interactionHandlers, isDisabled, restTrailingProps]
+		[disabled, id, interactionHandlers, isDisabled, restTrailingProps]
 	)
 
 	const trailingElement = useMemo(
@@ -163,7 +159,6 @@ export const RenderListItem = forwardRef<PressableType, RenderListItemProps>(
 					accessibilityLabel ?? (typeof headline === 'string' ? headline : 'headline')
 				}
 				accessibilityRole='list'
-				density={density}
 				shape={shape}
 				testID={testID ?? `listItem--${id}`}
 			>
@@ -216,7 +211,6 @@ export const RenderListItem = forwardRef<PressableType, RenderListItemProps>(
 
 								<MainInner
 									leadingShow={!!leadingElement}
-									pointerEvents='none'
 									supportingTextShow={isSupportingTextShow}
 									testID={`listItem__mainInner--${id}`}
 									trailingShow={isTrailingShow}

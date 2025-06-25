@@ -26,7 +26,6 @@ export const RenderProgress = forwardRef<View, RenderProgressProps>(
 		<Container
 			{...containerProps}
 			accessibilityRole='progressbar'
-			pointerEvents='none'
 			progressing={!!(value && value > 0)}
 			ref={ref}
 			testID={testID ?? `progress--${id}`}

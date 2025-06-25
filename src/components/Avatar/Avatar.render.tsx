@@ -26,7 +26,6 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 			accessibilityLabel={accessibilityLabel ?? labelText}
 			accessibilityRole='image'
 			accessible={true}
-			pointerEvents='none'
 			ref={ref}
 			shape={shape}
 			testID={testID ?? `avatar--${testID}`}

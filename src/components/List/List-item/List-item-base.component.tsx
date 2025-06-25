@@ -27,7 +27,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			afterAffordanceActiveKey,
 			close,
 			closeTrailing,
-			density,
 			disabled,
 			enableUnderlay = true,
 			enableUnderlayActive = true,
@@ -165,7 +164,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 					<RenderListItemTrailing
 						afterAffordance={afterAffordance}
 						closeTrailing={closeTrailing}
-						density={density}
 						disabled={disabled}
 						id={id}
 						interactionHandlers={{onPressOut: onTrailingPressOut}}
@@ -173,16 +171,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 						trailingProps={trailingProps}
 					/>
 				:	undefined,
-			[
-				afterAffordance,
-				closeTrailing,
-				density,
-				disabled,
-				id,
-				onTrailingPressOut,
-				trailing,
-				trailingProps
-			]
+			[afterAffordance, closeTrailing, disabled, id, onTrailingPressOut, trailing, trailingProps]
 		)
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
@@ -225,7 +214,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 				afterAffordanceExpanded={isAfterAffordanceExpanded}
 				afterAffordanceVisible={isAfterAffordanceVisible}
 				contentAnimatedStyle={contentAnimatedStyle}
-				density={density}
 				disabled={disabled}
 				enableUnderlay={enableUnderlay}
 				enableUnderlayActive={enableUnderlayActive}

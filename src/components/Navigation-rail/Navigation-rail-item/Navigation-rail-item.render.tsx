@@ -56,7 +56,6 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
 						testID={`navigationRailItem__content--${id}`}
 					>
 						<Header
-							pointerEvents='none'
 							testID={`navigationRailItem__header--${id}`}
 							type={type}
 						>

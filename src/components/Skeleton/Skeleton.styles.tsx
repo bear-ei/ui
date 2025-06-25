@@ -7,6 +7,11 @@ export const SkeletonContainer = styled.View<SkeletonContainerProps>`
 	display: flex;
 	flex: 1;
 
+	${({theme}) => css`
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+	`}
+
 	${({layoutType = LAYOUT.HORIZONTAL}) =>
 		layoutType === LAYOUT.HORIZONTAL ?
 			css`

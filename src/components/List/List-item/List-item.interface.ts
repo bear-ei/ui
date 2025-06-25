@@ -113,7 +113,7 @@ export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListI
 export interface RenderListItemTrailingProps
 	extends Pick<
 		RenderListItemProps,
-		'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps' | 'id' | 'density'
+		'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps' | 'id'
 	> {
 	interactionHandlers: InteractionHandlers
 }
@@ -131,8 +131,6 @@ export interface TriggerListItemTrailingActionsOptions
 }
 
 export type ListItemContentProps = Pick<RenderListItemProps, 'type'>
-
-export type ListItemContainerProps = Pick<RenderListItemProps, 'density'>
 export interface ListItemMainProps
 	extends Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'density'>,
 		ListItemContentProps {
