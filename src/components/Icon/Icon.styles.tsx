@@ -7,6 +7,7 @@ export const Container = styled.View<IconLayoutProps>`
 	flex-direction: column;
 	justify-content: center;
 	overflow: hidden;
+	pointer-events: none;
 
 	${({theme, size}) => css`
 		height: ${size ?? theme.adaptSize(theme.token.spacing.large)}px;

@@ -20,7 +20,6 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
 			>
 				<AnimatedContent
 					{...containerProps}
-					pointerEvents='none'
 					shape={shape}
 					style={[contentAnimatedStyle]}
 					testID={`progressActiveIndicatorLinear__animatedContent--${id}`}

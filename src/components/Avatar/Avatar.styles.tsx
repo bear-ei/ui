@@ -8,6 +8,7 @@ export const Container = styled(Shape)`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	pointer-events: none;
 
 	${({theme}) => css`
 		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;

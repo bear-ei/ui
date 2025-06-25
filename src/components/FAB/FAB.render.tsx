@@ -71,7 +71,6 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 		const shape = size === SIZE.LARGE ? SHAPE.EXTRA_LARGE : sizeShape
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay
-				pointerEvents='none'
 				shape={shape}
 				style={[backgroundUnderlayAnimatedStyle]}
 				testID={`fab__backgroundUnderlay--${id}`}
@@ -111,7 +110,6 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 					<Content
 						density={density}
 						extendedFAB={extendedFAB}
-						pointerEvents='none'
 						size={size}
 						testID={`fab__content--${id}`}
 						type={type}

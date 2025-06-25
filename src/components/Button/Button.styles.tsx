@@ -38,6 +38,7 @@ export const Content = styled(Shape)<ButtonContentProps>`
 	overflow: hidden;
 	position: relative;
 	z-index: 4;
+	pointer-events: none;
 
 	${({theme}) => css`
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
@@ -69,6 +70,7 @@ export const Content = styled(Shape)<ButtonContentProps>`
 export const BackgroundUnderlay = styled(Shape)`
 	position: absolute;
 	z-index: -4;
+	pointer-events: none;
 
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;

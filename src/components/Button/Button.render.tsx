@@ -95,7 +95,6 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 		const shape = isLink ? SHAPE.EXTRA_SMALL : SHAPE.FULL
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay
-				pointerEvents='none'
 				shape={shape}
 				style={[backgroundUnderlayAnimatedStyle]}
 				testID={`button__backgroundUnderlay--${id}`}
@@ -134,7 +133,6 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 				>
 					<Content
 						density={density}
-						pointerEvents='none'
 						shape={shape}
 						testID={`button__content--${id}`}
 						type={type}

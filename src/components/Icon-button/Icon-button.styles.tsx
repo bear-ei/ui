@@ -2,9 +2,9 @@ import styled, {css} from 'styled-components/native'
 import {getScaledSpacing} from '../../utils'
 import {Shape} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
-import type {IconButtonContentProps} from './Icon-button.interface'
+import type {IconButtonContainerProps, IconButtonContentProps} from './Icon-button.interface'
 
-export const Container = styled.View`
+export const Container = styled.View<IconButtonContainerProps>`
 	cursor: pointer;
 	position: relative;
 
@@ -12,6 +12,10 @@ export const Container = styled.View`
 		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 	`}
+
+	${({loading}) => css`
+		pointer-events: ${loading ? 'none' : 'auto'};
+	`};
 `
 
 export const ContentItemLayout = styled(LayoutAnimated)`
@@ -34,6 +38,7 @@ export const Content = styled(Shape)<IconButtonContentProps>`
 	flex-direction: column;
 	justify-content: center;
 	overflow: hidden;
+	pointer-events: none;
 	position: relative;
 	z-index: 4;
 
@@ -50,6 +55,7 @@ export const Content = styled(Shape)<IconButtonContentProps>`
 export const BackgroundUnderlay = styled(Shape)`
 	position: absolute;
 	z-index: -4;
+	pointer-events: none;
 
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;

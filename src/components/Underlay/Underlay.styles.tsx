@@ -8,9 +8,10 @@ export const Container = styled(Shape)`
 	flex-direction: column;
 	justify-content: center;
 	overflow: hidden;
+	overflow: hidden;
+	pointer-events: none;
 	position: absolute;
 	z-index: -4;
-	overflow: hidden;
 
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;

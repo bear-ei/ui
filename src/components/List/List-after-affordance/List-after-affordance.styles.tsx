@@ -15,6 +15,7 @@ export const Container = styled(LayoutAnimated)<LayoutAnimatedProps>`
 `
 
 export const Danger = styled.View<ListAfterAffordanceDangerProps>`
+	pointer-events: none;
 	position: absolute;
 	width: 50%;
 	z-index: -4;
