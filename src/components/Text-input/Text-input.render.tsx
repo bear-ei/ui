@@ -100,8 +100,14 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 							trailingShow={!!trailing}
 						>
 							{leading && (
-								<Leading testID={`textInput__leading--${id}`}>
-									{cloneElement(leading, {disabledFocus: true})}
+								<Leading
+									testID={`textInput__leading--${id}`}
+									density={density}
+								>
+									{cloneElement(leading, {
+										disabledFocus: true,
+										density
+									})}
 								</Leading>
 							)}
 
@@ -129,8 +135,14 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 							</Main>
 
 							{trailing && (
-								<Trailing testID={`textInput__trailing--${id}`}>
-									{cloneElement(trailing, {disabledFocus: true})}
+								<Trailing
+									testID={`textInput__trailing--${id}`}
+									density={density}
+								>
+									{cloneElement(trailing, {
+										disabledFocus: true,
+										density
+									})}
 								</Trailing>
 							)}
 

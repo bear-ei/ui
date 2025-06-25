@@ -32,6 +32,7 @@ const AnimatedHeadlineText = Animated.createAnimatedComponent(HeadlineText)
 export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	afterAffordance,
 	closeTrailing,
+	density,
 	disabled,
 	id,
 	interactionHandlers,
@@ -45,11 +46,12 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 		() => ({
 			...restTrailingProps,
 			...interactionHandlers,
+			density,
 			disabled: isDisabled ?? disabled,
 			testID: `listItem__trailing--${id}`,
 			type: ICON_BUTTON_TYPE.STANDARD
 		}),
-		[disabled, id, interactionHandlers, isDisabled, restTrailingProps]
+		[density, disabled, id, interactionHandlers, isDisabled, restTrailingProps]
 	)
 
 	const trailingElement = useMemo(
@@ -159,6 +161,7 @@ export const RenderListItem = forwardRef<PressableType, RenderListItemProps>(
 					accessibilityLabel ?? (typeof headline === 'string' ? headline : 'headline')
 				}
 				accessibilityRole='list'
+				density={density}
 				shape={shape}
 				testID={testID ?? `listItem--${id}`}
 			>
