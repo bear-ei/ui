@@ -9,7 +9,6 @@ export interface RenderSideSheetContentProps extends SideSheetContentProps {
 	trailingElement?: React.JSX.Element
 }
 
-export type SideSheetContentBaseProps = SideSheetContentProps
 export type HandleSheetWasVisibilityOptions = Pick<SideSheetContentProps, 'onVisible'>
 export type UseSideSheetContentAnimatedOptions = Pick<RenderSideSheetContentProps, 'visible' | 'type'>
 export interface RenderSideSheetContentLeadingProps
@@ -23,6 +22,9 @@ export interface RenderSideSheetContentTrailingProps
 }
 
 export type SheetContainerProps = Pick<RenderSideSheetContentProps, 'position' | 'type'>
-export type SheetHeaderProps = {leadingShow?: boolean; trailingShow?: boolean}
+export type SheetHeaderProps = {leadingShow?: boolean; trailingShow?: boolean} & Pick<
+	RenderSideSheetContentProps,
+	'type'
+>
 export type SheetViewContentProps = Pick<RenderSideSheetContentProps, 'type'>
 export type SheetFooterProps = Pick<RenderSideSheetContentProps, 'type'>

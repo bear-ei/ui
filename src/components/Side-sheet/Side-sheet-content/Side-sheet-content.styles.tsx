@@ -56,7 +56,7 @@ export const Content = styled(Shape)<SheetViewContentProps>`
 	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
 		const contentType = {
 			[SIDE_SHEET_TYPE.STANDARD]: css`
-				background-color: ${theme.token.scheme.surface};
+				background-color: ${theme.token.scheme.surfaceContainerLow};
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
 			`,
 			[SIDE_SHEET_TYPE.MODAL]: css`
@@ -85,18 +85,81 @@ export const Header = styled.View<SheetHeaderProps>`
 			${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 	`}
 
-	${({theme, leadingShow}) =>
-		!leadingShow &&
-		css`
-			padding-left: ${theme.adaptSize(theme.token.spacing.large)}px;
-		`}
+	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
+		const contentType = {
+			[SIDE_SHEET_TYPE.STANDARD]: css`
+				padding: ${theme.adaptSize(
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+					)}px
+					${theme.adaptSize(theme.token.spacing.extraSmall)}px
+					${theme.adaptSize(theme.token.spacing.medium)}px
+					${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+			`,
+			[SIDE_SHEET_TYPE.MODAL]: css`
+				padding: ${theme.adaptSize(
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+					)}px
+					${theme.adaptSize(theme.token.spacing.extraSmall)}px
+					${theme.adaptSize(theme.token.spacing.medium)}px
+					${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+			`,
+			[SIDE_SHEET_TYPE.SIDEBAR]: css`
+				padding: ${theme.adaptSize(
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+					)}px
+					${theme.adaptSize(theme.token.spacing.extraSmall)}px
+					${theme.adaptSize(theme.token.spacing.medium)}px
+					${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+			`
+		} as Record<SideSheetType, RuleSet<object> | undefined>
+
+		return contentType[type]
+	}}
+
+	${({theme, leadingShow, type = SIDE_SHEET_TYPE.STANDARD}) => {
+		const contentType = {
+			[SIDE_SHEET_TYPE.STANDARD]:
+				!leadingShow &&
+				css`
+					padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+				`,
+			[SIDE_SHEET_TYPE.MODAL]:
+				!leadingShow &&
+				css`
+					padding-left: ${theme.adaptSize(theme.token.spacing.large)}px;
+				`,
+			[SIDE_SHEET_TYPE.SIDEBAR]:
+				!leadingShow &&
+				css`
+					padding-left: ${theme.adaptSize(theme.token.spacing.large)}px;
+				`
+		} as Record<SideSheetType, RuleSet<object> | undefined>
+
+		return contentType[type]
+	}}
 
 
-        ${({theme, trailingShow}) =>
-		!trailingShow &&
-		css`
-			padding-right: ${theme.adaptSize(theme.token.spacing.large)}px;
-		`}
+	${({theme, trailingShow, type = SIDE_SHEET_TYPE.STANDARD}) => {
+		const contentType = {
+			[SIDE_SHEET_TYPE.STANDARD]:
+				!trailingShow &&
+				css`
+					padding-right: ${theme.adaptSize(theme.token.spacing.medium)}px;
+				`,
+			[SIDE_SHEET_TYPE.MODAL]:
+				!trailingShow &&
+				css`
+					padding-right: ${theme.adaptSize(theme.token.spacing.large)}px;
+				`,
+			[SIDE_SHEET_TYPE.SIDEBAR]:
+				!trailingShow &&
+				css`
+					padding-right: ${theme.adaptSize(theme.token.spacing.large)}px;
+				`
+		} as Record<SideSheetType, RuleSet<object> | undefined>
+
+		return contentType[type]
+	}}
 `
 
 export const HeadlineLayout = styled.View`
@@ -172,21 +235,39 @@ export const Footer = styled.View<SheetFooterProps>`
 
 	${({theme}) => css`
 		gap: ${theme.adaptSize(theme.token.spacing.small)}px;
-		padding: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px
-			${theme.adaptSize(theme.token.spacing.large)}px
-			${theme.adaptSize(theme.token.spacing.large + -1 * theme.token.spacing.extraSmall)}px;
 	`}
 
 	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
 		const footerType = {
 			[SIDE_SHEET_TYPE.STANDARD]: css`
-				background-color: ${theme.token.scheme.surface};
+				background-color: ${theme.token.scheme.surfaceContainerLow};
+				padding: ${theme.adaptSize(
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+					)}px
+					${theme.adaptSize(theme.token.spacing.medium)}px
+					${theme.adaptSize(
+						theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
+					)}px;
 			`,
 			[SIDE_SHEET_TYPE.MODAL]: css`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
+				padding: ${theme.adaptSize(
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+					)}px
+					${theme.adaptSize(theme.token.spacing.large)}px
+					${theme.adaptSize(
+						theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
+					)}px;
 			`,
 			[SIDE_SHEET_TYPE.SIDEBAR]: css`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
+				padding: ${theme.adaptSize(
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+					)}px
+					${theme.adaptSize(theme.token.spacing.large)}px
+					${theme.adaptSize(
+						theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
+					)}px;
 			`
 		} as Record<SideSheetType, RuleSet<object> | undefined>
 

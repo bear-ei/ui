@@ -11,6 +11,10 @@ export const Standard: StoryObj<SideSheetProps> = {
 	args: {footerVisible: false, visible: true, type: SIDE_SHEET_TYPE.STANDARD}
 }
 
+export const Sidebar: StoryObj<SideSheetProps> = {
+	args: {footerVisible: false, visible: true, type: SIDE_SHEET_TYPE.SIDEBAR}
+}
+
 export const Close: StoryObj<SideSheetProps> = {
 	args: {
 		back: true,

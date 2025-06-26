@@ -8,7 +8,7 @@ import {Divider} from '../../Divider'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {LAYOUT_ANIMATED} from '../../Layout-animated'
-import {SIDE_SHEET_POSITION} from '../Side-sheet.enum'
+import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Side-sheet.enum'
 import type {
 	RenderSideSheetContentLeadingProps,
 	RenderSideSheetContentProps,
@@ -127,9 +127,10 @@ export const RenderSideSheetContent = forwardRef<View, RenderSideSheetContentPro
 			[theme]
 		)
 
-		const sheetShape =
-			shape ??
-			(position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.LARGE_END : SHAPE.LARGE_START)
+		const positionShape =
+			position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.LARGE_END : SHAPE.LARGE_START
+
+		const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.STANDARD ? SHAPE.LARGE : positionShape)
 
 		return (
 			<AnimatedContainer
@@ -152,6 +153,7 @@ export const RenderSideSheetContent = forwardRef<View, RenderSideSheetContentPro
 						leadingShow={!!leadingElement}
 						testID={`sideSheetContent__header--${id}`}
 						trailingShow={!!trailingElement}
+						type={type}
 					>
 						{leadingElement && (
 							<Leading testID={`sideSheetContent__leading--${id}`}>
