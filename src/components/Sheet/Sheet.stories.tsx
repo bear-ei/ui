@@ -8,7 +8,7 @@ export const Footer: StoryObj<SheetProps> = {
 }
 
 export const Standard: StoryObj<SheetProps> = {
-	args: {footerVisible: false, visible: true, type: SIDE_SHEET_TYPE.STANDARD}
+	args: {footerVisible: false, visible: true, type: SIDE_SHEET_TYPE.STANDARD, close: true}
 }
 
 export const Sidebar: StoryObj<SheetProps> = {

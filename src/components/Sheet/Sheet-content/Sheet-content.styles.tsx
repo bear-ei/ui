@@ -88,7 +88,11 @@ export const Header = styled.View<SheetHeaderProps>`
 	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
 		const contentType = {
 			[SIDE_SHEET_TYPE.STANDARD]: css`
-				padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+				padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
+					${theme.adaptSize(
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+					)}px
+					${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 			`,
 			[SIDE_SHEET_TYPE.MODAL]: css`
 				padding: ${theme.adaptSize(
@@ -116,7 +120,7 @@ export const Header = styled.View<SheetHeaderProps>`
 			[SIDE_SHEET_TYPE.STANDARD]:
 				!leadingShow &&
 				css`
-					padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+					padding-left: ${theme.adaptSize(theme.token.spacing.large)}px;
 				`,
 			[SIDE_SHEET_TYPE.MODAL]:
 				!leadingShow &&
@@ -139,7 +143,7 @@ export const Header = styled.View<SheetHeaderProps>`
 			[SIDE_SHEET_TYPE.STANDARD]:
 				!trailingShow &&
 				css`
-					padding-right: ${theme.adaptSize(theme.token.spacing.medium)}px;
+					padding-right: ${theme.adaptSize(theme.token.spacing.large)}px;
 				`,
 			[SIDE_SHEET_TYPE.MODAL]:
 				!trailingShow &&
@@ -239,7 +243,7 @@ export const Footer = styled.View<SheetFooterProps>`
 				padding: ${theme.adaptSize(
 						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 					)}px
-					${theme.adaptSize(theme.token.spacing.medium)}px
+					${theme.adaptSize(theme.token.spacing.large)}px
 					${theme.adaptSize(
 						theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
 					)}px;
