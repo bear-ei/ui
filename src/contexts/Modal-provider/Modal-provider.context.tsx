@@ -3,13 +3,13 @@ import type {FC, RefAttributes} from 'react'
 import {useEffect, useMemo} from 'react'
 import type {View, ViewProps} from 'react-native'
 import {useImmer} from 'use-immer'
-import {SideSheet} from '../../components'
+import {Sheet} from '../../components'
 import {MODAL_TYPE} from './Modal-provider.enum'
 import {manageModalState} from './Modal-provider.handler'
 import type {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './Modal-provider.interface'
 
 const ModalItem: FC<ModalItemProps> = ({type, modalProps, testID}) => {
-	const component = {[MODAL_TYPE.TOOL_TIP]: <></>, [MODAL_TYPE.SIDE_SHEET]: SideSheet}
+	const component = {[MODAL_TYPE.TOOL_TIP]: <></>, [MODAL_TYPE.SIDE_SHEET]: Sheet}
 
 	if (!type) {
 		return <></>

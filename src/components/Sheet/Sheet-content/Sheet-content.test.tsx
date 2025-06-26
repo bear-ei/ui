@@ -1,16 +1,16 @@
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithAct} from '../../../../__test__'
-import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Side-sheet.enum'
-import {SideSheetContent} from './Side-sheet-content.component'
+import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
+import {SheetContent} from './Sheet-content.component'
 
-describe('SideSheetContent Component', () => {
+describe('SheetContent Component', () => {
 	it('should renders correctly with default props', async () => {
-		const {getByTestId} = await renderWithAct(<SideSheetContent visible />)
+		const {getByTestId} = await renderWithAct(<SheetContent visible />)
 		const {sheetContent, header, headerText} = await waitFor(() => ({
-			header: getByTestId('sideSheetContent__header--test-id'),
-			headerText: getByTestId('sideSheetContent__headerText--test-id'),
-			sheetContent: getByTestId('sideSheetContent--test-id')
+			header: getByTestId('sheetContent__header--test-id'),
+			headerText: getByTestId('sheetContent__headerText--test-id'),
+			sheetContent: getByTestId('sheetContent--test-id')
 		}))
 
 		expect(header).toBeTruthy()
@@ -20,20 +20,16 @@ describe('SideSheetContent Component', () => {
 
 	it('should renders leading and trailing elements when provided', async () => {
 		const {getByTestId} = await renderWithAct(
-			<SideSheetContent
-				headlineLeading={
-					<Text testID='sideSheetContent__leading--text'>{'customLeading'}</Text>
-				}
-				headlineTrailing={
-					<Text testID='sideSheetContent__trailing--text'>{'customTrailing'}</Text>
-				}
+			<SheetContent
+				headlineLeading={<Text testID='sheetContent__leading--text'>{'customLeading'}</Text>}
+				headlineTrailing={<Text testID='sheetContent__trailing--text'>{'customTrailing'}</Text>}
 				visible
 			/>
 		)
 
 		const {leading, trailing} = await waitFor(() => ({
-			leading: getByTestId('sideSheetContent__leading--test-id'),
-			trailing: getByTestId('sideSheetContent__trailing--test-id')
+			leading: getByTestId('sheetContent__leading--test-id'),
+			trailing: getByTestId('sheetContent__trailing--test-id')
 		}))
 
 		expect(leading).toHaveTextContent('customLeading')
@@ -44,7 +40,7 @@ describe('SideSheetContent Component', () => {
 		const mockBack = jest.fn()
 		const mockClose = jest.fn()
 		const {getByTestId} = await renderWithAct(
-			<SideSheetContent
+			<SheetContent
 				back
 				close
 				onBack={mockBack}
@@ -54,8 +50,8 @@ describe('SideSheetContent Component', () => {
 		)
 
 		const {backIconButton, closeIconButton} = await waitFor(() => ({
-			backIconButton: getByTestId('sideSheet__backIconButton--test-id'),
-			closeIconButton: getByTestId('sideSheet__closeIconButton--test-id')
+			backIconButton: getByTestId('sheet__backIconButton--test-id'),
+			closeIconButton: getByTestId('sheet__closeIconButton--test-id')
 		}))
 
 		await act(async () => {
@@ -73,7 +69,7 @@ describe('SideSheetContent Component', () => {
 		const mockCancel = jest.fn()
 		const mockConfirm = jest.fn()
 		const {getByTestId} = await renderWithAct(
-			<SideSheetContent
+			<SheetContent
 				footerVisible
 				onCancel={mockCancel}
 				onConfirm={mockConfirm}
@@ -82,8 +78,8 @@ describe('SideSheetContent Component', () => {
 		)
 
 		const {confirmButton, cancelButton} = await waitFor(() => ({
-			cancelButton: getByTestId('sideSheetContent__cancelButton--test-id'),
-			confirmButton: getByTestId('sideSheetContent__confirmButton--test-id')
+			cancelButton: getByTestId('sheetContent__cancelButton--test-id'),
+			confirmButton: getByTestId('sheetContent__confirmButton--test-id')
 		}))
 
 		await act(async () => {
@@ -99,14 +95,14 @@ describe('SideSheetContent Component', () => {
 
 	it('should applies correct styles for type and position', async () => {
 		const {getByTestId} = await renderWithAct(
-			<SideSheetContent
+			<SheetContent
 				position={SIDE_SHEET_POSITION.HORIZONTAL_START}
 				type={SIDE_SHEET_TYPE.MODAL}
 				visible
 			/>
 		)
 
-		const sheetContent = await waitFor(() => getByTestId(/^sideSheetContent--/))
+		const sheetContent = await waitFor(() => getByTestId(/^sheetContent--/))
 
 		expect(sheetContent).toBeTruthy()
 	})

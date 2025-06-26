@@ -1,15 +1,11 @@
 import {forwardRef, useId, useMemo} from 'react'
 import type {View} from 'react-native'
-import {SIDE_SHEET_POSITION} from '../Side-sheet.enum'
-import type {SideSheetContentProps} from './Side-sheet-content.interface'
-import {
-	RenderSideSheetContent,
-	RenderSideSheetContentLeading,
-	RenderSideSheetContentTrailing
-} from './Side-sheet-content.render'
-import {useSideSheetContentAnimated} from './use-side-sheet-content-animated.hook'
+import {SIDE_SHEET_POSITION} from '../Sheet.enum'
+import type {SheetContentProps} from './Sheet-content.interface'
+import {RenderSheetContent, RenderSheetContentLeading, RenderSheetContentTrailing} from './Sheet-content.render'
+import {useSheetContentAnimated} from './use-sheet-content-animated.hook'
 
-export const SideSheetContentBase = forwardRef<View, SideSheetContentProps>(
+export const SheetContentBase = forwardRef<View, SheetContentProps>(
 	(
 		{
 			back,
@@ -23,16 +19,16 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentProps>(
 			position = SIDE_SHEET_POSITION.HORIZONTAL_END,
 			type,
 			visible,
-			...renderSideSheetContentProps
+			...renderSheetContentProps
 		},
 		ref
 	) => {
 		const id = useId()
-		const {containerAnimatedStyle} = useSideSheetContentAnimated({type, visible})
+		const {containerAnimatedStyle} = useSheetContentAnimated({type, visible})
 		const leadingElement = useMemo(
 			() =>
 				back || headlineLeading ?
-					<RenderSideSheetContentLeading
+					<RenderSheetContentLeading
 						back={back}
 						headlineLeading={headlineLeading}
 						id={id}
@@ -46,7 +42,7 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentProps>(
 		const trailingElement = useMemo(
 			() =>
 				close || headlineTrailing ?
-					<RenderSideSheetContentTrailing
+					<RenderSheetContentTrailing
 						close={close}
 						headlineTrailing={headlineTrailing}
 						id={id}
@@ -57,8 +53,8 @@ export const SideSheetContentBase = forwardRef<View, SideSheetContentProps>(
 		)
 
 		return (
-			<RenderSideSheetContent
-				{...renderSideSheetContentProps}
+			<RenderSheetContent
+				{...renderSheetContentProps}
 				containerAnimatedStyle={containerAnimatedStyle}
 				footerVisible={footerVisible}
 				headlineText={headlineText}

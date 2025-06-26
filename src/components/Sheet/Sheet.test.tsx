@@ -1,9 +1,9 @@
 import {act, fireEvent, waitFor} from '@testing-library/react-native'
 import {renderWithAct} from '../../../__test__'
-import {SideSheet} from './Side-sheet.component'
-import {SIDE_SHEET_TYPE} from './Side-sheet.enum'
+import {Sheet} from './Sheet.component'
+import {SIDE_SHEET_TYPE} from './Sheet.enum'
 
-describe('SideSheet Component', () => {
+describe('Sheet Component', () => {
 	const mockOnBack = jest.fn()
 	const mockOnCancel = jest.fn()
 	const mockOnClose = jest.fn()
@@ -16,20 +16,20 @@ describe('SideSheet Component', () => {
 
 	it('should not render content when visible is false by default', async () => {
 		const {queryByTestId} = await renderWithAct(
-			<SideSheet
+			<Sheet
 				content={<></>}
 				testID='test-sheet'
 			/>
 		)
 
-		const sheetContent = await waitFor(() => queryByTestId('sideSheet__sideSheetContent--test-id'))
+		const sheetContent = await waitFor(() => queryByTestId('sheet__sheetContent--test-id'))
 
 		expect(sheetContent).toBeNull()
 	})
 
-	it('should render SideSheetContent when visible is true', async () => {
+	it('should render SheetContent when visible is true', async () => {
 		const {getByTestId} = await renderWithAct(
-			<SideSheet
+			<Sheet
 				content={<></>}
 				testID='test-sheet'
 				type={SIDE_SHEET_TYPE.SIDEBAR}
@@ -37,14 +37,14 @@ describe('SideSheet Component', () => {
 			/>
 		)
 
-		const sheetContent = await waitFor(() => getByTestId('sideSheet__sideSheetContent--test-id'))
+		const sheetContent = await waitFor(() => getByTestId('sheet__sheetContent--test-id'))
 
 		expect(sheetContent).toBeTruthy()
 	})
 
 	it('should trigger onClose and hide when close button is pressed', async () => {
 		const {getByTestId} = await renderWithAct(
-			<SideSheet
+			<Sheet
 				close
 				content={<></>}
 				onClose={mockOnClose}
@@ -53,7 +53,7 @@ describe('SideSheet Component', () => {
 			/>
 		)
 
-		const closeButton = await waitFor(() => getByTestId('sideSheet__closeIconButton--test-id'))
+		const closeButton = await waitFor(() => getByTestId('sheet__closeIconButton--test-id'))
 
 		await act(async () => fireEvent(closeButton, 'pressOut'))
 		await waitFor(() => expect(mockOnClose).toHaveBeenCalled())
@@ -61,7 +61,7 @@ describe('SideSheet Component', () => {
 
 	it('should trigger onBack if back button is pressed (not disabled)', async () => {
 		const {getByTestId} = await renderWithAct(
-			<SideSheet
+			<Sheet
 				back
 				content={<></>}
 				onBack={mockOnBack}
@@ -70,7 +70,7 @@ describe('SideSheet Component', () => {
 			/>
 		)
 
-		const backButton = await waitFor(() => getByTestId('sideSheet__backIconButton--test-id'))
+		const backButton = await waitFor(() => getByTestId('sheet__backIconButton--test-id'))
 
 		await act(async () => fireEvent(backButton, 'pressOut'))
 		await waitFor(() => expect(mockOnBack).toHaveBeenCalled())
@@ -78,7 +78,7 @@ describe('SideSheet Component', () => {
 
 	it('should not close if back is pressed but disabledClose is true (SIDEBAR)', async () => {
 		const {getByTestId} = await renderWithAct(
-			<SideSheet
+			<Sheet
 				content={<></>}
 				back
 				type={SIDE_SHEET_TYPE.SIDEBAR}
@@ -88,7 +88,7 @@ describe('SideSheet Component', () => {
 			/>
 		)
 
-		const backButton = await waitFor(() => getByTestId('sideSheet__backIconButton--test-id'))
+		const backButton = await waitFor(() => getByTestId('sheet__backIconButton--test-id'))
 
 		await act(async () => fireEvent(backButton, 'pressOut'))
 		await waitFor(() => expect(mockOnBack).toHaveBeenCalled())
@@ -96,7 +96,7 @@ describe('SideSheet Component', () => {
 
 	it('should call onCancel and onConfirm buttons if defined', async () => {
 		const {getByTestId} = await renderWithAct(
-			<SideSheet
+			<Sheet
 				content={<></>}
 				onCancel={mockOnCancel}
 				onConfirm={mockOnConfirm}
@@ -106,8 +106,8 @@ describe('SideSheet Component', () => {
 		)
 
 		const {confirmButton, cancelButton} = await waitFor(() => ({
-			cancelButton: getByTestId('sideSheetContent__cancelButton--test-id'),
-			confirmButton: getByTestId('sideSheetContent__confirmButton--test-id')
+			cancelButton: getByTestId('sheetContent__cancelButton--test-id'),
+			confirmButton: getByTestId('sheetContent__confirmButton--test-id')
 		}))
 
 		await act(async () => {
@@ -123,15 +123,15 @@ describe('SideSheet Component', () => {
 
 	it('should not render modal container for STANDARD and SIDEBAR types', async () => {
 		const {getByTestId} = await renderWithAct(
-			<SideSheet
+			<Sheet
 				content={<></>}
 				type={SIDE_SHEET_TYPE.STANDARD}
 				visible
 			/>
 		)
 
-		const sideSheetContent = await waitFor(() => getByTestId('sideSheet__sideSheetContent--test-id'))
+		const sheetContent = await waitFor(() => getByTestId('sheet__sheetContent--test-id'))
 
-		expect(sideSheetContent).toBeTruthy()
+		expect(sheetContent).toBeTruthy()
 	})
 })

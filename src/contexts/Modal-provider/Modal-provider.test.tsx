@@ -5,7 +5,7 @@ jest.mock('../../components', () => {
 	const {Text} = require('react-native')
 	return {
 		__esModule: true,
-		SideSheet: ({testID}: {testID?: string}) => <Text>{`SideSheet:${testID}`}</Text>
+		Sheet: ({testID}: {testID?: string}) => <Text>{`Sheet:${testID}`}</Text>
 	}
 })
 
@@ -28,7 +28,7 @@ describe('ModalProvider Context', () => {
 			})
 		})
 
-		const modal = await waitFor(() => getByText('SideSheet:modal--modal1'))
+		const modal = await waitFor(() => getByText('Sheet:modal--modal1'))
 
 		expect(modal).toBeTruthy()
 	})
@@ -44,7 +44,7 @@ describe('ModalProvider Context', () => {
 			})
 		})
 
-		const first = await waitFor(() => getByText('SideSheet:first'))
+		const first = await waitFor(() => getByText('Sheet:first'))
 
 		expect(first).toBeTruthy()
 
@@ -57,8 +57,8 @@ describe('ModalProvider Context', () => {
 		})
 
 		await waitFor(() => {
-			const first = queryByText('SideSheet:first')
-			const updated = getByText('SideSheet:updated')
+			const first = queryByText('Sheet:first')
+			const updated = getByText('Sheet:updated')
 
 			expect(first).toBeNull()
 			expect(updated).toBeTruthy()
@@ -76,7 +76,7 @@ describe('ModalProvider Context', () => {
 			})
 		})
 
-		const removable = await waitFor(() => queryByText('SideSheet:removable'))
+		const removable = await waitFor(() => queryByText('Sheet:removable'))
 
 		expect(removable).toBeTruthy()
 
@@ -88,7 +88,7 @@ describe('ModalProvider Context', () => {
 		})
 
 		await waitFor(() => {
-			const removable = queryByText('SideSheet:removable')
+			const removable = queryByText('Sheet:removable')
 
 			expect(removable).toBeNull()
 		})

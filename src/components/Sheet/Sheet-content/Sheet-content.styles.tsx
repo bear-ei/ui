@@ -2,14 +2,14 @@ import type {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {LayoutAnimated} from '../../Layout-animated'
-import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Side-sheet.enum'
-import type {SideSheetPosition, SideSheetType} from '../Side-sheet.interface'
+import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
+import type {SheetPosition, SheetType} from '../Sheet.interface'
 import type {
 	SheetContainerProps,
 	SheetFooterProps,
 	SheetHeaderProps,
 	SheetViewContentProps
-} from './Side-sheet-content.interface'
+} from './Sheet-content.interface'
 
 export const Container = styled.View<SheetContainerProps>`
 	align-self: stretch;
@@ -26,7 +26,7 @@ export const Container = styled.View<SheetContainerProps>`
 			[SIDE_SHEET_POSITION.HORIZONTAL_END]: css`
 				justify-content: flex-end;
 			`
-		} as Record<SideSheetPosition, RuleSet<object> | undefined>
+		} as Record<SheetPosition, RuleSet<object> | undefined>
 
 		return type === SIDE_SHEET_TYPE.MODAL && contentPosition[position]
 	}}
@@ -40,7 +40,7 @@ export const Container = styled.View<SheetContainerProps>`
 			[SIDE_SHEET_TYPE.SIDEBAR]: css`
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
 			`
-		} as Record<SideSheetType, RuleSet<object> | undefined>
+		} as Record<SheetType, RuleSet<object> | undefined>
 
 		return contentType[type]
 	}}
@@ -67,7 +67,7 @@ export const Content = styled(Shape)<SheetViewContentProps>`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
 			`
-		} as Record<SideSheetType, RuleSet<object> | undefined>
+		} as Record<SheetType, RuleSet<object> | undefined>
 
 		return contentType[type]
 	}}
@@ -111,7 +111,7 @@ export const Header = styled.View<SheetHeaderProps>`
 					${theme.adaptSize(theme.token.spacing.medium)}px
 					${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 			`
-		} as Record<SideSheetType, RuleSet<object> | undefined>
+		} as Record<SheetType, RuleSet<object> | undefined>
 
 		return contentType[type]
 	}}
@@ -133,7 +133,7 @@ export const Header = styled.View<SheetHeaderProps>`
 				css`
 					padding-left: ${theme.adaptSize(theme.token.spacing.large)}px;
 				`
-		} as Record<SideSheetType, RuleSet<object> | undefined>
+		} as Record<SheetType, RuleSet<object> | undefined>
 
 		return contentType[type]
 	}}
@@ -156,7 +156,7 @@ export const Header = styled.View<SheetHeaderProps>`
 				css`
 					padding-right: ${theme.adaptSize(theme.token.spacing.large)}px;
 				`
-		} as Record<SideSheetType, RuleSet<object> | undefined>
+		} as Record<SheetType, RuleSet<object> | undefined>
 
 		return contentType[type]
 	}}
@@ -269,7 +269,7 @@ export const Footer = styled.View<SheetFooterProps>`
 						theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
 					)}px;
 			`
-		} as Record<SideSheetType, RuleSet<object> | undefined>
+		} as Record<SheetType, RuleSet<object> | undefined>
 
 		return footerType[type]
 	}}

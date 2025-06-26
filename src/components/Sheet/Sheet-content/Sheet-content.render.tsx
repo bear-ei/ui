@@ -8,12 +8,12 @@ import {Divider} from '../../Divider'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {LAYOUT_ANIMATED} from '../../Layout-animated'
-import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Side-sheet.enum'
+import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
 import type {
-	RenderSideSheetContentLeadingProps,
-	RenderSideSheetContentProps,
-	RenderSideSheetContentTrailingProps
-} from './Side-sheet-content.interface'
+	RenderSheetContentLeadingProps,
+	RenderSheetContentProps,
+	RenderSheetContentTrailingProps
+} from './Sheet-content.interface'
 import {
 	Container,
 	Content,
@@ -28,10 +28,10 @@ import {
 	PrimaryButton,
 	SecondaryButton,
 	Trailing
-} from './Side-sheet-content.styles'
+} from './Sheet-content.styles'
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
-export const RenderSideSheetContentLeading: FC<RenderSideSheetContentLeadingProps> = ({
+export const RenderSheetContentLeading: FC<RenderSheetContentLeadingProps> = ({
 	back,
 	headlineLeading,
 	id,
@@ -45,7 +45,7 @@ export const RenderSideSheetContentLeading: FC<RenderSideSheetContentLeadingProp
 		<Icon
 			iconStyle={ICON_STYLE.ROUNDED}
 			name={iconName}
-			testID={`sideSheet__iconForward--${id}`}
+			testID={`sheet__iconForward--${id}`}
 			type={ICON_TYPE.FILLED}
 		/>
 	)
@@ -56,14 +56,14 @@ export const RenderSideSheetContentLeading: FC<RenderSideSheetContentLeadingProp
 			<IconButton
 				icon={iconElement}
 				onPressOut={onBack}
-				testID={`sideSheet__backIconButton--${id}`}
+				testID={`sheet__backIconButton--${id}`}
 				type={ICON_BUTTON_TYPE.STANDARD}
 			/>
 		:	undefined)
 	)
 }
 
-export const RenderSideSheetContentTrailing: FC<RenderSideSheetContentTrailingProps> = ({
+export const RenderSheetContentTrailing: FC<RenderSheetContentTrailingProps> = ({
 	close,
 	headlineTrailing,
 	id,
@@ -73,7 +73,7 @@ export const RenderSideSheetContentTrailing: FC<RenderSideSheetContentTrailingPr
 		<Icon
 			iconStyle={ICON_STYLE.ROUNDED}
 			name={ICON_NAME.CLOSE}
-			testID={`sideSheet__iconClose--${id}`}
+			testID={`sheet__iconClose--${id}`}
 			type={ICON_TYPE.FILLED}
 		/>
 	)
@@ -84,7 +84,7 @@ export const RenderSideSheetContentTrailing: FC<RenderSideSheetContentTrailingPr
 			<IconButton
 				icon={iconElement}
 				onPressOut={onClose}
-				testID={`sideSheet__closeIconButton--${id}`}
+				testID={`sheet__closeIconButton--${id}`}
 				type={ICON_BUTTON_TYPE.STANDARD}
 			/>
 		:	undefined)
@@ -94,7 +94,7 @@ export const RenderSideSheetContentTrailing: FC<RenderSideSheetContentTrailingPr
 /**
  * TODO: Add visible animation for modal layer types.
  */
-export const RenderSideSheetContent = forwardRef<View, RenderSideSheetContentProps>(
+export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 	(
 		{
 			containerAnimatedStyle,
@@ -138,7 +138,7 @@ export const RenderSideSheetContent = forwardRef<View, RenderSideSheetContentPro
 				accessible={true}
 				position={position}
 				style={[containerAnimatedStyle]}
-				testID={testID ?? `sideSheetContent--${id}`}
+				testID={testID ?? `sheetContent--${id}`}
 				type={type}
 			>
 				<Content
@@ -146,26 +146,26 @@ export const RenderSideSheetContent = forwardRef<View, RenderSideSheetContentPro
 					ref={ref}
 					shape={sheetShape}
 					style={[style]}
-					testID={`sideSheetContent__content--${id}`}
+					testID={`sheetContent__content--${id}`}
 					type={type}
 				>
 					<Header
 						leadingShow={!!leadingElement}
-						testID={`sideSheetContent__header--${id}`}
+						testID={`sheetContent__header--${id}`}
 						trailingShow={!!trailingElement}
 						type={type}
 					>
 						{leadingElement && (
-							<Leading testID={`sideSheetContent__leading--${id}`}>
+							<Leading testID={`sheetContent__leading--${id}`}>
 								{leadingElement}
 							</Leading>
 						)}
 
-						<HeadlineLayout testID={`sideSheetContent__headlineLayout--${id}`}>
+						<HeadlineLayout testID={`sheetContent__headlineLayout--${id}`}>
 							<HeaderText
 								numberOfLines={1}
 								size={SIZE.LARGE}
-								testID={`sideSheetContent__headerText--${id}`}
+								testID={`sheetContent__headerText--${id}`}
 								type={TYPOGRAPHY.TITLE}
 							>
 								{headlineText}
@@ -173,13 +173,13 @@ export const RenderSideSheetContent = forwardRef<View, RenderSideSheetContentPro
 						</HeadlineLayout>
 
 						{trailingElement && (
-							<Trailing testID={`sideSheetContent__trailing--${id}`}>
+							<Trailing testID={`sheetContent__trailing--${id}`}>
 								{trailingElement}
 							</Trailing>
 						)}
 					</Header>
 
-					<Main testID={`sideSheetContent__main--${id}`}>{content}</Main>
+					<Main testID={`sheetContent__main--${id}`}>{content}</Main>
 					<FooterLayoutContainer
 						animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
 						contentSize={footerLayoutContainerContentSize}
@@ -191,22 +191,22 @@ export const RenderSideSheetContent = forwardRef<View, RenderSideSheetContentPro
 							duration: DURATION.SHORT_3,
 							easing: EASING.EMPHASIZED_ACCELERATE
 						}}
-						testID={`sideSheetContent__footerLayoutContainer--${id}`}
+						testID={`sheetContent__footerLayoutContainer--${id}`}
 						translate={true}
 						visible={footerVisible}
 					>
-						<FooterLayout testID={`sideSheetContent__footerLayout--${id}`}>
+						<FooterLayout testID={`sheetContent__footerLayout--${id}`}>
 							<Divider
 								size={SIZE.LARGE}
-								testID={`sideSheetContent__divider--${id}`}
+								testID={`sheetContent__divider--${id}`}
 							/>
 
 							<Footer
 								type={type}
-								testID={`sideSheetContent__footer--${id}`}
+								testID={`sheetContent__footer--${id}`}
 							>
 								<PrimaryButton
-									testID={`sideSheetContent__primaryButton--${id}`}
+									testID={`sheetContent__primaryButton--${id}`}
 								>
 									{primaryButton ?? (
 										<Button
@@ -215,14 +215,14 @@ export const RenderSideSheetContent = forwardRef<View, RenderSideSheetContentPro
 												...primaryButtonProps
 											}}
 											onPressOut={onConfirm}
-											testID={`sideSheetContent__confirmButton--${id}`}
+											testID={`sheetContent__confirmButton--${id}`}
 											type={BUTTON_TYPE.FILLED}
 										/>
 									)}
 								</PrimaryButton>
 
 								<SecondaryButton
-									testID={`sideSheetContent__secondaryButton--${id}`}
+									testID={`sheetContent__secondaryButton--${id}`}
 								>
 									{secondaryButton ?? (
 										<Button
@@ -231,7 +231,7 @@ export const RenderSideSheetContent = forwardRef<View, RenderSideSheetContentPro
 												...secondaryButtonProps
 											}}
 											onPressOut={onCancel}
-											testID={`sideSheetContent__cancelButton--${id}`}
+											testID={`sheetContent__cancelButton--${id}`}
 											type={BUTTON_TYPE.OUTLINED}
 										/>
 									)}
