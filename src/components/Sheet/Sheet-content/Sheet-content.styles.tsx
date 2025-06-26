@@ -88,12 +88,7 @@ export const Header = styled.View<SheetHeaderProps>`
 	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
 		const contentType = {
 			[SIDE_SHEET_TYPE.STANDARD]: css`
-				padding: ${theme.adaptSize(
-						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
-					)}px
-					${theme.adaptSize(theme.token.spacing.extraSmall)}px
-					${theme.adaptSize(theme.token.spacing.medium)}px
-					${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+				padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 			`,
 			[SIDE_SHEET_TYPE.MODAL]: css`
 				padding: ${theme.adaptSize(

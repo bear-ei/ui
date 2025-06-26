@@ -113,9 +113,16 @@ export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListI
 export interface RenderListItemTrailingProps
 	extends Pick<
 		RenderListItemProps,
-		'afterAffordance' | 'closeTrailing' | 'trailing' | 'disabled' | 'trailingProps' | 'id'
+		| 'afterAffordance'
+		| 'closeTrailing'
+		| 'disabled'
+		| 'id'
+		| 'trailing'
+		| 'trailingProps'
+		| 'trailingTriggerEvenName'
 	> {
 	interactionHandlers: InteractionHandlers
+	onTrailingVisible?: (visible: boolean) => void
 }
 
 export interface UseListItemAnimatedOptions {

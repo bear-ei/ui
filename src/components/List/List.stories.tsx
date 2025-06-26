@@ -68,6 +68,7 @@ export const Menu: StoryObj<ListProps> = {
 		activeKey: 'TitleA',
 		type: LIST_TYPE.MENU,
 		closeTrailing: true,
+		trailingTriggerEvenName: 'HOVER_IN',
 		data: [
 			{
 				indexKey: 'TitleA',

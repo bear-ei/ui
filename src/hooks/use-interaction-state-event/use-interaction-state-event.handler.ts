@@ -21,6 +21,7 @@ export const createStableEventHandler =
 		return (event: T) => {
 			if (event && typeof event.persist === 'function') {
 				event.persist()
+				event.stopPropagation?.()
 			}
 
 			return eventHandler(event)

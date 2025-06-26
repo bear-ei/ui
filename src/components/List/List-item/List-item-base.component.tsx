@@ -11,7 +11,8 @@ import {
 	maybeTriggerListItemClose,
 	triggerListItemTrailingActions,
 	updateListItemAfterAffordanceExpanded,
-	updateListItemFocusState
+	updateListItemFocusState,
+	updateListItemTrailingVisible
 } from './List-item.handler'
 import type {ListItemBaseProps, ListItemState} from './List-item.interface'
 import {RenderListItem, RenderListItemTrailing} from './List-item.render'
@@ -75,6 +76,8 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			[indexKey, rawOnClose]
 		)
 
+		const onTrailingVisible = useMemo(() => updateListItemTrailingVisible(setState), [setState])
+
 		const onConfirm = useMemo(
 			() =>
 				confirmListItemAffordanceAction({
@@ -97,7 +100,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 		)
 
 		const onStateEventChange = useCallback(
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+			(options: HandleStateEventChangeOptions) => (_state: State) => (event: StateEvent) =>
 				handleListItemStateChange({
 					...options,
 					activeTriggerEvenName,
@@ -106,7 +109,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 					onActive,
 					onLoadEnd,
 					selectType,
-					state,
 					trailingTriggerEvenName,
 					type
 				})(setState)(event),
@@ -122,6 +124,8 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 				type
 			]
 		)
+
+		// console.info(trailingTriggerEvenName, 'trailingTriggerEvenName')
 
 		const interactionHandlers = useInteractionStateEvent({
 			...renderListItemProps,
@@ -167,11 +171,23 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 						disabled={disabled}
 						id={id}
 						interactionHandlers={{onPressOut: onTrailingPressOut}}
+						onTrailingVisible={onTrailingVisible}
+						trailingTriggerEvenName={trailingTriggerEvenName}
 						trailing={trailing}
 						trailingProps={trailingProps}
 					/>
 				:	undefined,
-			[afterAffordance, closeTrailing, disabled, id, onTrailingPressOut, trailing, trailingProps]
+			[
+				afterAffordance,
+				closeTrailing,
+				disabled,
+				id,
+				onTrailingPressOut,
+				onTrailingVisible,
+				trailing,
+				trailingProps,
+				trailingTriggerEvenName
+			]
 		)
 
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
@@ -229,7 +245,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 				shape={shape}
 				supporting={supporting}
 				trailingElement={trailingElement}
-				trailingVisible={isTrailingVisible}
+				trailingVisible={isTrailingVisible ?? !trailingTriggerEvenName}
 				type={type}
 			/>
 		)

@@ -1,7 +1,7 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimateSharedValueTo, StateEvent} from '../../../hooks'
-import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../Common'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../../Common'
 import type {ListItemAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
@@ -82,7 +82,6 @@ export const handleListItemStateChange =
 		onActive,
 		onLoadEnd,
 		selectType,
-		state,
 		trailingTriggerEvenName,
 		type
 	}: HandleListItemStateChangeOptions) =>
@@ -116,19 +115,7 @@ export const handleListItemStateChange =
 			}
 
 			if (trailingTriggerEvenName) {
-				const states = [
-					STATE.FOCUSED,
-					STATE.HOVERED,
-					STATE.LONG_PRESS_IN,
-					STATE.PRESS_IN
-				] as const
-
-				const isVisible =
-					trailingTriggerEvenName === EVENT_NAME.HOVER_IN ?
-						state && states.includes(state as (typeof states)[number])
-					:	trailingTriggerEvenName === state
-
-				draft.trailingVisible = isVisible
+				draft.trailingVisible = trailingTriggerEvenName === eventName
 			}
 
 			switch (eventName) {
@@ -237,3 +224,8 @@ export const animateListItemActiveState =
 	(headlineTextSharedValue: SharedValue<number>) =>
 	(active?: boolean) =>
 		animateSharedValueTo({sharedValue: headlineTextSharedValue})(active ? 1 : 0)
+
+export const updateListItemTrailingVisible = (setState: Updater<ListItemState>) => (visible: boolean) =>
+	setState(draft => {
+		draft.trailingVisible = visible
+	})

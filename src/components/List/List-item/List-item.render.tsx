@@ -36,7 +36,9 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	id,
 	interactionHandlers,
 	trailing,
-	trailingProps: rawTrailingProps
+	trailingProps: rawTrailingProps,
+	onTrailingVisible,
+	trailingTriggerEvenName
 }) => {
 	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
 	const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
@@ -45,11 +47,23 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 		() => ({
 			...restTrailingProps,
 			...interactionHandlers,
+			...(trailingTriggerEvenName === EVENT_NAME.HOVER_IN && {
+				onHoverOut: () => onTrailingVisible?.(false),
+				onHoverIn: () => onTrailingVisible?.(true)
+			}),
 			disabled: isDisabled ?? disabled,
 			testID: `listItem__trailing--${id}`,
 			type: ICON_BUTTON_TYPE.STANDARD
 		}),
-		[disabled, id, interactionHandlers, isDisabled, restTrailingProps]
+		[
+			disabled,
+			id,
+			interactionHandlers,
+			isDisabled,
+			onTrailingVisible,
+			restTrailingProps,
+			trailingTriggerEvenName
+		]
 	)
 
 	const trailingElement = useMemo(
