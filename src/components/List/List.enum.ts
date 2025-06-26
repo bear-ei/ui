@@ -5,7 +5,8 @@ export const LIST_SELECT_TYPE = {
 
 export const LIST_TYPE = {
 	MENU: 'MENU',
-	STANDARD: 'STANDARD'
+	STANDARD: 'STANDARD',
+	TAB: 'TAB'
 } as const
 
 export const ACTIVE_TRIGGER_EVEN_NAME = {

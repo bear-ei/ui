@@ -41,6 +41,9 @@ export const Content = styled.View<ListItemContentProps>`
 
 	${({theme, type = LIST_TYPE.STANDARD}) => {
 		const contentType = {
+			[LIST_TYPE.TAB]: css`
+				background-color: ${theme.token.scheme.surfaceContainer};
+			`,
 			[LIST_TYPE.MENU]: css`
 				background-color: ${theme.token.scheme.surfaceContainer};
 			`,
@@ -74,6 +77,11 @@ export const Main = styled(Shape)<ListItemMainProps>`
 	${({theme, type = LIST_TYPE.STANDARD, density}) => {
 		const densityScale = getScaledSpacing(density)(theme)
 		const mainType = {
+			[LIST_TYPE.TAB]: css`
+				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+				padding: ${theme.adaptSize(theme.token.spacing.none)}px
+					${theme.adaptSize(theme.token.spacing.small)}px;
+			`,
 			[LIST_TYPE.MENU]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
@@ -144,6 +152,9 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 
 	${({theme, type = LIST_TYPE.STANDARD, leadingShow}) => {
 		const mainInnerType = {
+			[LIST_TYPE.TAB]: css`
+				padding-left: ${theme.adaptSize(theme.token.spacing.small)}px;
+			`,
 			[LIST_TYPE.MENU]: css`
 				padding-left: ${theme.adaptSize(
 					theme.token.spacing.medium - theme.token.spacing.extraSmall
@@ -162,6 +173,9 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 
         ${({theme, type = LIST_TYPE.STANDARD, trailingShow}) => {
 		const mainInnerType = {
+			[LIST_TYPE.TAB]: css`
+				padding-right: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
+			`,
 			[LIST_TYPE.MENU]: css`
 				padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
 			`,
@@ -195,6 +209,15 @@ export const TrailingLayout = styled(LayoutAnimated)<ListItemTrailingProps>`
 			margin-right: ${-theme.adaptSize(
 				theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 			)}px;
+		`}
+
+
+
+		${({theme, trailingShow, type = LIST_TYPE.STANDARD}) =>
+		trailingShow &&
+		type === LIST_TYPE.TAB &&
+		css`
+			margin-right: ${-theme.adaptSize(theme.token.spacing.small)}px;
 		`}
                 
         ${({theme}) => css`

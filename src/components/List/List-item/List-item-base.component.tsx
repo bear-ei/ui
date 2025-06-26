@@ -77,7 +77,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 		)
 
 		const onTrailingVisible = useMemo(() => updateListItemTrailingVisible(setState), [setState])
-
 		const onConfirm = useMemo(
 			() =>
 				confirmListItemAffordanceAction({
@@ -125,8 +124,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			]
 		)
 
-		// console.info(trailingTriggerEvenName, 'trailingTriggerEvenName')
-
 		const interactionHandlers = useInteractionStateEvent({
 			...renderListItemProps,
 			disabled,
@@ -172,9 +169,9 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 						id={id}
 						interactionHandlers={{onPressOut: onTrailingPressOut}}
 						onTrailingVisible={onTrailingVisible}
-						trailingTriggerEvenName={trailingTriggerEvenName}
 						trailing={trailing}
 						trailingProps={trailingProps}
+						trailingTriggerEvenName={trailingTriggerEvenName}
 					/>
 				:	undefined,
 			[
@@ -245,6 +242,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 				shape={shape}
 				supporting={supporting}
 				trailingElement={trailingElement}
+				trailingTriggerEvenName={trailingTriggerEvenName}
 				trailingVisible={isTrailingVisible ?? !trailingTriggerEvenName}
 				type={type}
 			/>
