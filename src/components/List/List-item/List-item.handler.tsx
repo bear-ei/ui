@@ -99,10 +99,10 @@ export const handleListItemStateChange =
 			}
 
 			const prevEventName = draft.eventName
-			const eventNames = [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT] as const
+			const eventNames = [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT] as readonly EventName[]
 			const isMenuFocus =
 				eventName === EVENT_NAME.BLUR &&
-				eventNames.includes(eventName as (typeof eventNames)[number]) &&
+				eventNames.includes(eventName) &&
 				prevEventName === EVENT_NAME.FOCUS &&
 				type === LIST_TYPE.MENU
 

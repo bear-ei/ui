@@ -5,7 +5,7 @@ import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../hooks'
 import {BUTTON_TYPE} from './Button.enum'
 import {animateButton} from './Button.handler'
-import type {UseButtonAnimatedOptions} from './Button.interface'
+import type {ButtonType, UseButtonAnimatedOptions} from './Button.interface'
 
 export const useButtonAnimated = ({
 	disabled,
@@ -164,8 +164,7 @@ export const useButtonAnimated = ({
 		[disabledBackgroundColor, opacity.level10, scheme.outline, scheme.primary]
 	)
 
-	const notBackgroundColorTypes = [BUTTON_TYPE.TEXT, BUTTON_TYPE.LINK] as const
-	const isNotBackgroundColor = notBackgroundColorTypes.includes(type as (typeof notBackgroundColorTypes)[number])
+	const isNotBackgroundColor = ([BUTTON_TYPE.TEXT, BUTTON_TYPE.LINK] as readonly ButtonType[]).includes(type)
 	const isNotBorderColor = type !== BUTTON_TYPE.OUTLINED
 	const borderWidth = theme.adaptSize(spacing.extraSmall / 4)
 	const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({

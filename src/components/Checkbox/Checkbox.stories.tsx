@@ -4,9 +4,7 @@ import {Checkbox} from './Checkbox.component'
 import type {CheckboxProps} from './Checkbox.interface'
 
 export const Selected: StoryObj<CheckboxProps> = {
-	args: {
-		active: true
-	}
+	args: {active: true, indeterminate: false}
 }
 
 export const Indeterminate: StoryObj<CheckboxProps> = {

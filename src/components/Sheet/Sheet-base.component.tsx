@@ -11,7 +11,7 @@ import {
 	updateSheetBackWithEvent,
 	updateSheetClose
 } from './Sheet.handler'
-import type {SheetBaseProps, SheetState} from './Sheet.interface'
+import type {SheetBaseProps, SheetState, SheetType} from './Sheet.interface'
 import {RenderSheet} from './Sheet.render'
 
 export const SheetBase = forwardRef<View, SheetBaseProps>(
@@ -33,7 +33,6 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 
 		const emitId = useMemo(() => nanoid(), [])
 		const id = useId()
-		const sheetTypes = useMemo(() => [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const, [])
 		const onBack = useMemo(
 			() => updateSheetBackWithEvent({onBack: rawOnBack, disabledClose, type})(setState),
 			[disabledClose, rawOnBack, setState, type]
@@ -89,7 +88,7 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			runAfterInteractions(nextCancelEvent)()
 		}, [nextCancelEvent])
 
-		return sheetTypes.includes(type as (typeof sheetTypes)[number]) ?
+		return ([SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as readonly SheetType[]).includes(type) ?
 				<RenderSheet {...renderProps} />
 			:	<></>
 	}

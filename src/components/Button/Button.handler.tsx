@@ -28,8 +28,9 @@ export const updateButtonStatus = (disabled?: boolean) => (setState: Updater<But
 	})
 
 export const updateButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
-	const elevatedTypes = [BUTTON_TYPE.ELEVATED, BUTTON_TYPE.FILLED, BUTTON_TYPE.TONAL] as const
-	const isElevated = elevatedTypes.includes(type as (typeof elevatedTypes)[number])
+	const isElevated =
+		type &&
+		([BUTTON_TYPE.ELEVATED, BUTTON_TYPE.FILLED, BUTTON_TYPE.TONAL] as readonly ButtonType[]).includes(type)
 
 	if (!isElevated) {
 		return

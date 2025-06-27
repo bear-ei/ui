@@ -2,7 +2,7 @@ import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {SheetContent} from './Sheet-content'
 import {SIDE_SHEET_TYPE} from './Sheet.enum'
-import type {RenderSheetProps} from './Sheet.interface'
+import type {RenderSheetProps, SheetType} from './Sheet.interface'
 import {Container} from './Sheet.styles'
 
 export const RenderSheet = forwardRef<View, RenderSheetProps>(
@@ -17,11 +17,11 @@ export const RenderSheet = forwardRef<View, RenderSheetProps>(
 			/>
 		)
 
-		const sheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as const
+		const sheetTypes = [SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as readonly SheetType[]
 
 		return (
 			<>
-				{sheetTypes.includes(type as (typeof sheetTypes)[number]) ?
+				{sheetTypes.includes(type) ?
 					sheetContentElement
 				:	<Container testID={testID ?? `sheet--${id}`}>{sheetContentElement}</Container>}
 			</>

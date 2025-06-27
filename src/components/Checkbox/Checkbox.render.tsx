@@ -6,7 +6,7 @@ import {LAYOUT_ANIMATED} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
-import type {RenderCheckboxProps} from './Checkbox.interface'
+import type {CheckboxValue, RenderCheckboxProps} from './Checkbox.interface'
 import {Container, Content, IconLayout, Main} from './Checkbox.styles'
 
 export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
@@ -48,6 +48,12 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 			}),
 			[theme]
 		)
+
+		const isCheckBoxVisible =
+			value &&
+			([CHECKBOX_VALUE.SELECTED, CHECKBOX_VALUE.INDETERMINATE] as readonly CheckboxValue[]).includes(
+				value
+			)
 
 		return (
 			<Container
@@ -96,36 +102,21 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 
 							<IconLayout
 								{...animatedOptions}
-								lazy={true}
 								testID={`checkbox__iconLayout--selected--${id}`}
-								visible={value === CHECKBOX_VALUE.SELECTED}
+								visible={isCheckBoxVisible}
 							>
 								<Icon
 									disabled={disabled}
 									fill={activeFill}
 									iconStyle={ICON_STYLE.ROUNDED}
-									name={ICON_NAME.CHECK_BOX}
+									name={
+										value === CHECKBOX_VALUE.INDETERMINATE ?
+											ICON_NAME.INDETERMINATE_CHECK_BOX
+										:	ICON_NAME.CHECK_BOX
+									}
 									size={iconSize}
 									svgStyle={iconSvgStyle}
 									testID={`checkbox__icon--selected--${id}`}
-									type={ICON_TYPE.FILLED}
-								/>
-							</IconLayout>
-
-							<IconLayout
-								{...animatedOptions}
-								lazy={true}
-								testID={`checkbox__iconLayout--indeterminate--${id}`}
-								visible={value === CHECKBOX_VALUE.INDETERMINATE}
-							>
-								<Icon
-									disabled={disabled}
-									fill={activeFill}
-									iconStyle={ICON_STYLE.ROUNDED}
-									name={ICON_NAME.INDETERMINATE_CHECK_BOX}
-									size={iconSize}
-									svgStyle={iconSvgStyle}
-									testID={`checkbox__icon--indeterminate--${id}`}
 									type={ICON_TYPE.FILLED}
 								/>
 							</IconLayout>

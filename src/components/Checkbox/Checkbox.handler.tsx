@@ -78,5 +78,5 @@ export const updateCheckboxIndeterminate = (setState: Updater<CheckboxState>) =>
 			return
 		}
 
-		draft.value = draft.active ? CHECKBOX_VALUE.UNSELECTED : CHECKBOX_VALUE.SELECTED
+		draft.value = draft.active ? CHECKBOX_VALUE.SELECTED : CHECKBOX_VALUE.UNSELECTED
 	})

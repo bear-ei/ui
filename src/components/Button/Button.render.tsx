@@ -2,7 +2,7 @@ import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {EVENT_NAME} from '../Common'
+import {EVENT_NAME, type EventName} from '../Common'
 import {Elevation} from '../Elevation'
 import type {IconProps} from '../Icon'
 import {Touchable, type PressableType} from '../Touchable'
@@ -78,20 +78,14 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 			EVENT_NAME.PRESS_IN,
 			EVENT_NAME.PRESS_OUT,
 			EVENT_NAME.PRESS
-		] as const
+		] as readonly EventName[]
 
 		const isActiveIndicatorVisible =
-			type === BUTTON_TYPE.LINK &&
-			eventName &&
-			eventNames.includes(eventName as (typeof eventNames)[number])
+			type === BUTTON_TYPE.LINK && eventName && eventNames.includes(eventName)
 
 		const isLink = type === BUTTON_TYPE.LINK
-		const loadingTypes = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as const
-		const loadingEventName =
-			loadingTypes.includes(type as (typeof loadingTypes)[number]) ?
-				EVENT_NAME.NONE
-			:	EVENT_NAME.LONG_PRESS
-
+		const buttonTypes = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]
+		const loadingEventName = type && buttonTypes.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
 		const shape = isLink ? SHAPE.EXTRA_SMALL : SHAPE.FULL
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay
