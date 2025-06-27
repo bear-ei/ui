@@ -26,7 +26,7 @@ export const BigVirtualList = () => {
 				data={data}
 				itemSize={56}
 				onEndReached={() => {
-					console.info(123)
+					console.info('onEndReached')
 				}}
 				renderItem={({item}) => (
 					<View
