@@ -89,14 +89,14 @@ export const Main = styled(Shape)<ListItemMainProps>`
 		const densityScale = getScaledSpacing(density)(theme)
 		const mainType = {
 			[LIST_TYPE.MENU]: css`
-				min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(
 						theme.token.spacing.medium - theme.token.spacing.extraSmall
 					)}px;
 			`,
 			[LIST_TYPE.STANDARD]: css`
-				min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
+				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(theme.token.spacing.medium)}px;
 			`
