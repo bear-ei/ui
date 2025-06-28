@@ -90,34 +90,6 @@ export const Menu: StoryObj<ListProps> = {
 	}
 }
 
-export const Tab: StoryObj<ListProps> = {
-	args: {
-		defaultActiveKey: 'TitleB',
-		activeKey: 'TitleA',
-		type: LIST_TYPE.TAB,
-		closeTrailing: true,
-		trailingTriggerEvenName: 'HOVER_IN',
-		data: [
-			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
-			},
-			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
-			},
-			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
-			},
-			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
-			}
-		]
-	}
-}
-
 export const Select = () => {
 	const [activeKey, setActiveKey] = useState<string | undefined>(undefined)
 	const style = {height: 800, width: '100%'} as ViewStyle

@@ -66,7 +66,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 
 		const id = useId()
 		const pressableRef = useRef<PressableType>(null)
-		const isAfterAffordanceVisible = afterAffordanceActiveKey === indexKey
+		const isAfterAffordanceVisible = indexKey ? afterAffordanceActiveKey === indexKey : undefined
 		const isActive = !!(selectType === LIST_SELECT_TYPE.SINGLE ?
 			activeKey === indexKey
 		:	indexKey && activeKeys?.includes(indexKey))

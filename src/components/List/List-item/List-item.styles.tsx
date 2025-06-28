@@ -7,6 +7,7 @@ import {LIST_TYPE} from '../List.enum'
 import type {ListType} from '../List.interface'
 import type {
 	AffordanceLayoutProps,
+	ListItemContainerProps,
 	ListItemContentProps,
 	ListItemItemTouchableProps,
 	ListItemLeadingProps,
@@ -15,27 +16,40 @@ import type {
 	ListItemTrailingProps
 } from './List-item.interface'
 
-export const Container = styled(Shape)`
+export const Container = styled(Shape)<ListItemContainerProps>`
 	align-self: stretch;
 	display: flex;
 	flex-direction: column;
-	flex: 1;
 	overflow: hidden;
 	position: relative;
 
+	${({theme, type = LIST_TYPE.STANDARD, density}) => {
+		const densityScale = getScaledSpacing(density)(theme)
+		const containerType = {
+			[LIST_TYPE.MENU]: css`
+				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+			`,
+			[LIST_TYPE.STANDARD]: css`
+				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
+			`
+		} as Record<ListType, RuleSet<object> | undefined>
+
+		return containerType[type]
+	}}
+
 	${({theme}) => css`
 		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-	`}
+	`};
 `
 
 export const Content = styled.View<ListItemContentProps>`
 	position: absolute;
-	width: 100%;
 	z-index: 4;
 
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
 		left: ${theme.adaptSize(theme.token.spacing.none)}px;
+		right: ${theme.adaptSize(theme.token.spacing.none)}px;
 		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`};
 
@@ -75,7 +89,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
 		const densityScale = getScaledSpacing(density)(theme)
 		const mainType = {
 			[LIST_TYPE.MENU]: css`
-				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+				min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(
 						theme.token.spacing.medium - theme.token.spacing.extraSmall

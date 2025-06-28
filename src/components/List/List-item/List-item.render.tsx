@@ -172,9 +172,11 @@ export const RenderListItem = forwardRef<PressableType, RenderListItemProps>(
 				accessibilityLabel={
 					accessibilityLabel ?? (typeof headline === 'string' ? headline : 'headline')
 				}
-				accessibilityRole='list'
+				accessibilityRole='menuitem'
+				density={density}
 				shape={shape}
 				testID={testID ?? `listItem--${id}`}
+				type={type}
 			>
 				<Skeleton
 					duration={skeletonDuration}

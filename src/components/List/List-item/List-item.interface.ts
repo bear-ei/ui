@@ -137,6 +137,7 @@ export interface TriggerListItemTrailingActionsOptions
 	onItemClose: (close?: boolean) => void
 }
 
+export type ListItemContainerProps = Pick<RenderListItemProps, 'type' | 'density'>
 export type ListItemContentProps = Pick<RenderListItemProps, 'type'>
 export interface ListItemMainProps
 	extends Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'density'>,
