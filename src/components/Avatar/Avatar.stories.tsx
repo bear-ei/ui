@@ -1,3 +1,4 @@
+import Chat from '@material-symbols/svg-400/outlined/chat.svg'
 import type {Meta, StoryObj} from '@storybook/react'
 import {DENSITY} from '../Common'
 import {Avatar} from './Avatar.component'
@@ -9,6 +10,10 @@ export const NoneContentText: StoryObj<AvatarProps> = {
 
 export const ContentText: StoryObj<AvatarProps> = {
 	args: {labelText: 'Bearei'}
+}
+
+export const ContentSVG: StoryObj<AvatarProps> = {
+	args: {svgElement: <Chat />}
 }
 
 export const DensityScale: StoryObj<AvatarProps> = {

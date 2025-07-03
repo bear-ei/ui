@@ -1,8 +1,8 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
-import {forwardRef} from 'react'
+import {cloneElement, forwardRef} from 'react'
 import type {View} from 'react-native'
 import type {RenderAvatarProps} from './Avatar.interface'
-import {Container, Content, Image, LabelText} from './Avatar.styles'
+import {Container, ContentItem, Image, LabelText} from './Avatar.styles'
 
 export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 	(
@@ -16,6 +16,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 			shape = SHAPE.FULL,
 			size,
 			source,
+			svgElement,
 			testID,
 			...containerProps
 		},
@@ -26,16 +27,17 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 			accessibilityLabel={accessibilityLabel ?? labelText}
 			accessibilityRole='image'
 			accessible={true}
+			backgroundColor={backgroundColor}
+			density={density}
 			ref={ref}
 			shape={shape}
+			size={size}
 			testID={testID ?? `avatar--${testID}`}
 		>
-			<Content
-				backgroundColor={backgroundColor}
-				density={density}
+			<ContentItem
 				shape={shape}
-				size={size}
-				testID={`avatar__content--${id}`}
+				testID={`avatar__contentItem--img--${id}`}
+				visible={!svgElement}
 			>
 				{source || defaultSource ?
 					<Image
@@ -54,7 +56,15 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 						{labelText}
 					</LabelText>
 				}
-			</Content>
+			</ContentItem>
+
+			<ContentItem
+				shape={shape}
+				testID={`avatar__contentItem--svg--${id}`}
+				visible={!!svgElement}
+			>
+				{svgElement && cloneElement(svgElement, {height: '100%', width: '100%'})}
+			</ContentItem>
 		</Container>
 	)
 )
