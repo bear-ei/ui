@@ -50,7 +50,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		] = useImmer<SearchState>({
 			layout: {} as SearchState['layout'],
 			state: STATE.ENABLED,
-			status: COMPONENT_STATUS.IDLE
+			status: COMPONENT_STATUS.IDLE,
+			value: ''
 		})
 
 		const {data} = useMemo(() => listProps ?? {}, [listProps])
