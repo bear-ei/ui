@@ -11,7 +11,7 @@ import type {
 	Typography
 } from '@bearei/element-token'
 import type {RefAttributes} from 'react'
-import type {LayoutRectangle as RNLayoutRectangle, View, ViewProps} from 'react-native'
+import type {LayoutRectangle as RNLayoutRectangle, TextProps, View, ViewProps} from 'react-native'
 import type {COMPONENT_STATUS, DENSITY, DENSITY_SCALE, EVENT_NAME, LAYOUT, STATE, TRIGGER_EVENT} from './Common.enum'
 
 export type BezierType = keyof Bezier
@@ -34,7 +34,7 @@ export interface ShapeProps extends ViewProps, RefAttributes<View> {
 	shape?: ShapeType
 }
 
-export interface TypographyProps {
+export interface TypographyProps extends TextProps {
 	line?: number
 	multiline?: boolean
 	size?: Size

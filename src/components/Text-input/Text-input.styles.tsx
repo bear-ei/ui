@@ -178,15 +178,11 @@ export const SupportingLayout = styled(LayoutAnimated)`
 	${({theme}) => css`
 		height: ${theme.adaptSize(theme.token.spacing.medium)}px;
 		min-height: ${theme.adaptSize(theme.token.spacing.medium)}px;
-	`}
-`
-
-export const SupportingText = styled(Typography)`
-	${({theme}) => css`
 		padding: ${theme.adaptSize(theme.token.spacing.none)}px ${theme.adaptSize(theme.token.spacing.medium)}px;
 	`}
 `
 
+export const SupportingText = styled(Typography)``
 export const ActiveIndicator = styled.View`
 	position: absolute;
 	z-index: 8;

@@ -13,6 +13,10 @@ export const Shape = styled.View<ShapeProps>`
 	`}
 `
 export const Typography = styled.Text<TypographyProps>`
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+
 	${({theme, type = TYPOGRAPHY.BODY, size = SIZE.MEDIUM}) => css`
 		color: ${theme.token.scheme.onSurfaceVariant};
 		font-family: ${theme.token.font.family};
@@ -21,9 +25,17 @@ export const Typography = styled.Text<TypographyProps>`
 		font-weight: ${theme.token.typography[type][size].weight};
 		height: ${theme.adaptSize(theme.token.typography[type][size].lineHeight)}px;
 		letter-spacing: ${theme.adaptSize(theme.token.typography[type][size].letterSpacing)}px;
-		line-height: ${theme.adaptSize(theme.token.typography[type][size].lineHeight)}px;
 		min-height: ${theme.adaptSize(theme.token.typography[type][size].lineHeight)}px;
 	`}
+
+	${({theme, type = TYPOGRAPHY.BODY, size = SIZE.MEDIUM}) => css`
+		padding-top: ${theme.adaptFontSize(
+			theme.token.typography[type][size].size < 16 ?
+				theme.token.spacing.extraSmall + -0.5 * theme.token.spacing.extraSmall
+			:	theme.token.spacing.extraSmall
+		)}px;
+	`}
+
 
 	${({theme, multiline, type = TYPOGRAPHY.BODY, size = SIZE.MEDIUM, line = 1}) =>
 		multiline &&
