@@ -5,27 +5,14 @@ import {LayoutAnimated} from '../Layout-animated'
 export const Container = styled.View`
 	align-self: stretch;
 	flex: 1;
+	position: relative;
 
 	${({theme}) => css`
 		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 40)}px;
 	`}
 `
 
-export const Content = styled.View`
-	position: relative;
-	flex: 1;
-`
-
 export const ContentLayout = styled(LayoutAnimated)`
-	flex: 1;
-	position: relative;
-`
-
-export const EmptyContentLayout = styled(LayoutAnimated)`
-	align-items: center;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
 	position: absolute;
 
 	${({theme}) => css`
@@ -34,6 +21,18 @@ export const EmptyContentLayout = styled(LayoutAnimated)`
 		right: ${theme.adaptSize(theme.token.spacing.none)}px;
 		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`}
+`
+
+export const Content = styled.View`
+	flex: 1;
+	position: relative;
+`
+
+export const EmptyContentLayout = styled(ContentLayout)`
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 `
 
 export const LoadingContentLayout = styled(EmptyContentLayout)``

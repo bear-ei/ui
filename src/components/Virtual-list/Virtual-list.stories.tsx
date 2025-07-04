@@ -75,6 +75,19 @@ export const NotData = () => {
 	)
 }
 
+export const Loading = () => {
+	const style = {height: 800, width: '100%'} as ViewStyle
+
+	return (
+		<View style={[style]}>
+			<VirtualList
+				itemSize={56}
+				loading={true}
+			/>
+		</View>
+	)
+}
+
 export default {
 	title: 'components/VirtualList',
 	component: VirtualList

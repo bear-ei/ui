@@ -87,59 +87,59 @@ export const RenderVirtualListInner = <T,>(
 			onLayout={onLayout}
 		>
 			{isLayoutCompleted && (
-				<AnimatedScrollView
-					{...containerProps}
-					contentContainerStyle={scrollViewContentStyle}
-					ref={ref}
-					scrollEventThrottle={scrollEventThrottle}
-					testID={`virtualList__animatedScrollView--${id}`}
+				<ContentLayout
+					testID={`virtualList__contentLayout--${id}`}
+					visible={isContentVisible}
 				>
-					<AnimatedContent
-						style={contentAnimatedStyle}
-						testID={`virtualList__animatedContent--${id}`}
+					<AnimatedScrollView
+						{...containerProps}
+						contentContainerStyle={scrollViewContentStyle}
+						ref={ref}
+						scrollEventThrottle={scrollEventThrottle}
+						testID={`virtualList__animatedScrollView--${id}`}
 					>
-						<ContentLayout
-							testID={`virtualList__contentLayout--${id}`}
-							visible={isContentVisible}
+						<AnimatedContent
+							style={contentAnimatedStyle}
+							testID={`virtualList__animatedContent--${id}`}
 						>
 							{itemElements}
-						</ContentLayout>
-
-						<EmptyContentLayout
-							lazy={true}
-							testID={`virtualList__emptyContentLayout--${id}`}
-							visible={isEmptyContentVisible}
-						>
-							{emptyElement ?? (
-								<SupportingText
-									size={SIZE.MEDIUM}
-									testID={`virtualList__supportingText--${id}`}
-									type={TYPOGRAPHY.BODY}
-								>
-									No data
-								</SupportingText>
-							)}
-						</EmptyContentLayout>
-
-						<LoadingContentLayout
-							lazy={true}
-							testID={`virtualList__loadingContentLayout--${id}`}
-							visible={loading}
-						>
-							{loadingElement ?
-								cloneElement(loadingElement, {loading})
-							:	<SupportingText
-									size={SIZE.MEDIUM}
-									testID={`virtualList__supportingText--${id}`}
-									type={TYPOGRAPHY.BODY}
-								>
-									Loading
-								</SupportingText>
-							}
-						</LoadingContentLayout>
-					</AnimatedContent>
-				</AnimatedScrollView>
+						</AnimatedContent>
+					</AnimatedScrollView>
+				</ContentLayout>
 			)}
+
+			<EmptyContentLayout
+				lazy={true}
+				testID={`virtualList__emptyContentLayout--${id}`}
+				visible={isEmptyContentVisible}
+			>
+				{emptyElement ?? (
+					<SupportingText
+						size={SIZE.MEDIUM}
+						testID={`virtualList__supportingText--${id}`}
+						type={TYPOGRAPHY.BODY}
+					>
+						No data
+					</SupportingText>
+				)}
+			</EmptyContentLayout>
+
+			<LoadingContentLayout
+				lazy={true}
+				testID={`virtualList__loadingContentLayout--${id}`}
+				visible={loading}
+			>
+				{loadingElement ?
+					cloneElement(loadingElement, {loading})
+				:	<SupportingText
+						size={SIZE.MEDIUM}
+						testID={`virtualList__supportingText--${id}`}
+						type={TYPOGRAPHY.BODY}
+					>
+						Loading
+					</SupportingText>
+				}
+			</LoadingContentLayout>
 		</Container>
 	)
 }
