@@ -72,10 +72,8 @@ export const Leading = styled.View`
 
 export const Control = styled.View`
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)}px;
+		min-height: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].height)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 15)}px;
-		padding: ${theme.adaptSize(theme.token.spacing.extraSmall + -0.5 * theme.token.spacing.extraSmall)}px
-			${theme.adaptSize(theme.token.spacing.none)}px;
 	`};
 `
 
@@ -83,22 +81,21 @@ export const TextInput = styled.TextInput`
 	align-self: stretch;
 	flex: 1;
 	outline-style: none;
+	text-align: left;
+
+	${({theme}) => css`
+		font-size: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)}px;
+		font-style: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].style};
+		font-weight: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].weight};
+		height: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].height)}px;
+		letter-spacing: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing)}px;
+		line-height: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)}px;
+		padding: ${theme.adaptSize(theme.token.spacing.none)}px;
+	`}
 
 	${({theme}) => css`
 		color: ${theme.token.scheme.onSurface};
 	`};
-
-	${({theme}) => css`
-		align-self: stretch;
-		flex: 1;
-		font-size: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].size)}px;
-		font-style: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].style};
-		font-weight: ${theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].weight};
-		height: ${theme.adaptFontSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)}px;
-		letter-spacing: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].letterSpacing)}px;
-		padding: ${theme.adaptSize(theme.token.spacing.none)}px;
-		text-align: left;
-	`}
 `
 
 export const Trailing = styled(Leading)``

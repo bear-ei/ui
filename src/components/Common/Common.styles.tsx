@@ -13,34 +13,23 @@ export const Shape = styled.View<ShapeProps>`
 	`}
 `
 export const Typography = styled.Text<TypographyProps>`
-	justify-content: center;
-	display: flex;
-	flex-direction: column;
-
 	${({theme, type = TYPOGRAPHY.BODY, size = SIZE.MEDIUM}) => css`
+		code-family: ${theme.token.font.codeFontFamily};
 		color: ${theme.token.scheme.onSurfaceVariant};
-		font-family: ${theme.token.font.family};
+		font-family: ${theme.token.font.fontFamily};
 		font-size: ${theme.adaptFontSize(theme.token.typography[type][size].size)}px;
 		font-style: ${theme.token.typography[type][size].style};
 		font-weight: ${theme.token.typography[type][size].weight};
-		height: ${theme.adaptSize(theme.token.typography[type][size].lineHeight)}px;
+		height: ${theme.adaptSize(theme.token.typography[type][size].height)}px;
 		letter-spacing: ${theme.adaptSize(theme.token.typography[type][size].letterSpacing)}px;
-		min-height: ${theme.adaptSize(theme.token.typography[type][size].lineHeight)}px;
+		line-height: ${theme.adaptFontSize(theme.token.typography[type][size].lineHeight)}px;
+		min-height: ${theme.adaptSize(theme.token.typography[type][size].height)}px;
 	`}
-
-	${({theme, type = TYPOGRAPHY.BODY, size = SIZE.MEDIUM}) => css`
-		padding-top: ${theme.adaptFontSize(
-			theme.token.typography[type][size].size < 16 ?
-				theme.token.spacing.extraSmall + -0.5 * theme.token.spacing.extraSmall
-			:	theme.token.spacing.extraSmall
-		)}px;
-	`}
-
 
 	${({theme, multiline, type = TYPOGRAPHY.BODY, size = SIZE.MEDIUM, line = 1}) =>
 		multiline &&
 		css`
 			height: auto;
-			min-height: ${theme.adaptSize(theme.token.typography[type][size].lineHeight * line)}px;
+			min-height: ${theme.adaptSize(theme.token.typography[type][size].height * line)}px;
 		`}
 `
