@@ -4,24 +4,24 @@ import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} fro
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {SIDE_SHEET_TYPE} from '../Sheet.enum'
-import type {SheetType} from '../Sheet.interface'
 import {animateSheetContent} from './Sheet-content.handler'
 import type {UseSheetContentAnimatedOptions} from './Sheet-content.interface'
 
-export const useSheetContentAnimated = ({type = SIDE_SHEET_TYPE.STANDARD, visible}: UseSheetContentAnimatedOptions) => {
+export const useSheetContentAnimated = ({type = SIDE_SHEET_TYPE.SIDEBAR, visible}: UseSheetContentAnimatedOptions) => {
 	const animatedValue = visible ? 1 : 0
 	const theme = useTheme()
 	const {scheme, opacity} = theme.token
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const backgroundColorSharedValue = useSharedValue(animatedValue)
-	const isStandard = ([SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as readonly SheetType[]).includes(type)
 	const containerBackgroundColorOutputRanges = useMemo(
 		() => [
 			hexToRGBA(scheme.scrim)(opacity.level0),
-			isStandard ? hexToRGBA(scheme.scrim)(opacity.level0) : hexToRGBA(scheme.scrim)(opacity.level4)
+			type === SIDE_SHEET_TYPE.SIDEBAR ?
+				hexToRGBA(scheme.scrim)(opacity.level0)
+			:	hexToRGBA(scheme.scrim)(opacity.level4)
 		],
-		[isStandard, opacity.level0, opacity.level4, scheme.scrim]
+		[opacity.level0, opacity.level4, scheme.scrim, type]
 	)
 
 	const containerAnimatedStyle = useAnimatedStyle(() => ({

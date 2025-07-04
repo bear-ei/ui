@@ -11,7 +11,7 @@ import {
 	updateSheetBackWithEvent,
 	updateSheetClose
 } from './Sheet.handler'
-import type {SheetBaseProps, SheetState, SheetType} from './Sheet.interface'
+import type {SheetBaseProps, SheetState} from './Sheet.interface'
 import {RenderSheet} from './Sheet.render'
 
 export const SheetBase = forwardRef<View, SheetBaseProps>(
@@ -88,8 +88,6 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			runAfterInteractions(nextCancelEvent)()
 		}, [nextCancelEvent])
 
-		return ([SIDE_SHEET_TYPE.STANDARD, SIDE_SHEET_TYPE.SIDEBAR] as readonly SheetType[]).includes(type) ?
-				<RenderSheet {...renderProps} />
-			:	<></>
+		return type === SIDE_SHEET_TYPE.SIDEBAR ? <RenderSheet {...renderProps} /> : <></>
 	}
 )

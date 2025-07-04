@@ -1,5 +1,4 @@
 export const SIDE_SHEET_TYPE = {
-	STANDARD: 'STANDARD',
 	MODAL: 'MODAL',
 	SIDEBAR: 'SIDEBAR'
 } as const

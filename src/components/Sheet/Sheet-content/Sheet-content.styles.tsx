@@ -31,11 +31,8 @@ export const Container = styled.View<SheetContainerProps>`
 		return type === SIDE_SHEET_TYPE.MODAL && contentPosition[position]
 	}}
 
-	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
+	${({theme, type = SIDE_SHEET_TYPE.SIDEBAR}) => {
 		const contentType = {
-			[SIDE_SHEET_TYPE.STANDARD]: css`
-				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
-			`,
 			[SIDE_SHEET_TYPE.MODAL]: css``,
 			[SIDE_SHEET_TYPE.SIDEBAR]: css`
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
@@ -53,12 +50,8 @@ export const Content = styled(Shape)<SheetViewContentProps>`
 	overflow: hidden;
 	position: relative;
 
-	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
+	${({theme, type = SIDE_SHEET_TYPE.SIDEBAR}) => {
 		const contentType = {
-			[SIDE_SHEET_TYPE.STANDARD]: css`
-				background-color: ${theme.token.scheme.surfaceContainerLow};
-				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 64)}px;
-			`,
 			[SIDE_SHEET_TYPE.MODAL]: css`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 80)}px;
@@ -85,15 +78,8 @@ export const Header = styled.View<SheetHeaderProps>`
 			${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 	`}
 
-	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
+	${({theme, type = SIDE_SHEET_TYPE.SIDEBAR}) => {
 		const contentType = {
-			[SIDE_SHEET_TYPE.STANDARD]: css`
-				padding: ${theme.adaptSize(theme.token.spacing.extraSmall)}px
-					${theme.adaptSize(
-						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
-					)}px
-					${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-			`,
 			[SIDE_SHEET_TYPE.MODAL]: css`
 				padding: ${theme.adaptSize(
 						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
@@ -115,13 +101,8 @@ export const Header = styled.View<SheetHeaderProps>`
 		return contentType[type]
 	}}
 
-	${({theme, leadingShow, type = SIDE_SHEET_TYPE.STANDARD}) => {
+	${({theme, leadingShow, type = SIDE_SHEET_TYPE.SIDEBAR}) => {
 		const contentType = {
-			[SIDE_SHEET_TYPE.STANDARD]:
-				!leadingShow &&
-				css`
-					padding-left: ${theme.adaptSize(theme.token.spacing.large)}px;
-				`,
 			[SIDE_SHEET_TYPE.MODAL]:
 				!leadingShow &&
 				css`
@@ -138,13 +119,8 @@ export const Header = styled.View<SheetHeaderProps>`
 	}}
 
 
-	${({theme, trailingShow, type = SIDE_SHEET_TYPE.STANDARD}) => {
+	${({theme, trailingShow, type = SIDE_SHEET_TYPE.SIDEBAR}) => {
 		const contentType = {
-			[SIDE_SHEET_TYPE.STANDARD]:
-				!trailingShow &&
-				css`
-					padding-right: ${theme.adaptSize(theme.token.spacing.large)}px;
-				`,
 			[SIDE_SHEET_TYPE.MODAL]:
 				!trailingShow &&
 				css`
@@ -236,18 +212,8 @@ export const Footer = styled.View<SheetFooterProps>`
 		gap: ${theme.adaptSize(theme.token.spacing.small)}px;
 	`}
 
-	${({theme, type = SIDE_SHEET_TYPE.STANDARD}) => {
+	${({theme, type = SIDE_SHEET_TYPE.SIDEBAR}) => {
 		const footerType = {
-			[SIDE_SHEET_TYPE.STANDARD]: css`
-				background-color: ${theme.token.scheme.surfaceContainerLow};
-				padding: ${theme.adaptSize(
-						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
-					)}px
-					${theme.adaptSize(theme.token.spacing.large)}px
-					${theme.adaptSize(
-						theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
-					)}px;
-			`,
 			[SIDE_SHEET_TYPE.MODAL]: css`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
 				padding: ${theme.adaptSize(

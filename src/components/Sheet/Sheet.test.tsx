@@ -120,18 +120,4 @@ describe('Sheet Component', () => {
 			expect(mockOnConfirm).toHaveBeenCalled()
 		})
 	})
-
-	it('should not render modal container for STANDARD and SIDEBAR types', async () => {
-		const {getByTestId} = await renderWithAct(
-			<Sheet
-				content={<></>}
-				type={SIDE_SHEET_TYPE.STANDARD}
-				visible
-			/>
-		)
-
-		const sheetContent = await waitFor(() => getByTestId('sheet__sheetContent--test-id'))
-
-		expect(sheetContent).toBeTruthy()
-	})
 })

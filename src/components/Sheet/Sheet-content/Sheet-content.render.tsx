@@ -130,7 +130,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 		const positionShape =
 			position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.LARGE_END : SHAPE.LARGE_START
 
-		const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.STANDARD ? SHAPE.LARGE : positionShape)
+		const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.SIDEBAR ? SHAPE.LARGE : positionShape)
 
 		return (
 			<AnimatedContainer

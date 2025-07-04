@@ -4,11 +4,7 @@ import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import type {SheetProps} from './Sheet.interface'
 
 export const Footer: StoryObj<SheetProps> = {
-	args: {footerVisible: true, visible: true, type: SIDE_SHEET_TYPE.STANDARD}
-}
-
-export const Standard: StoryObj<SheetProps> = {
-	args: {footerVisible: false, visible: true, type: SIDE_SHEET_TYPE.STANDARD, close: true}
+	args: {footerVisible: true, visible: true, type: SIDE_SHEET_TYPE.SIDEBAR}
 }
 
 export const Sidebar: StoryObj<SheetProps> = {
@@ -20,7 +16,7 @@ export const Close: StoryObj<SheetProps> = {
 		back: true,
 		close: true,
 		footerVisible: true,
-		type: SIDE_SHEET_TYPE.STANDARD,
+		type: SIDE_SHEET_TYPE.SIDEBAR,
 		visible: true
 	}
 }
