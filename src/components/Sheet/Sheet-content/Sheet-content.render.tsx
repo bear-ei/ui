@@ -1,9 +1,9 @@
 import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {forwardRef, useMemo, type FC} from 'react'
-import type {View} from 'react-native'
+import type {View, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {Button, BUTTON_TYPE} from '../../Button'
+import {Button, BUTTON_TYPE, type ButtonProps} from '../../Button'
 import {Divider} from '../../Divider'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
@@ -131,6 +131,8 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 			position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.LARGE_END : SHAPE.LARGE_START
 
 		const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.SIDEBAR ? SHAPE.LARGE : positionShape)
+		const {style: primaryButtonStyle} = primaryButtonProps ?? ({} as ButtonProps)
+		const {style: secondaryButtonStyle} = secondaryButtonProps ?? ({} as ButtonProps)
 
 		return (
 			<AnimatedContainer
@@ -206,6 +208,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 								testID={`sheetContent__footer--${id}`}
 							>
 								<PrimaryButton
+									style={[primaryButtonStyle as ViewStyle]}
 									testID={`sheetContent__primaryButton--${id}`}
 								>
 									{primaryButton ?? (
@@ -222,6 +225,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 								</PrimaryButton>
 
 								<SecondaryButton
+									style={[secondaryButtonStyle as ViewStyle]}
 									testID={`sheetContent__secondaryButton--${id}`}
 								>
 									{secondaryButton ?? (

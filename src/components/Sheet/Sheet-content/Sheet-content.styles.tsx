@@ -183,7 +183,7 @@ export const PrimaryButton = styled.View`
 export const SecondaryButton = styled.View`
 	${({theme}) => css`
 		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 26)}px;
+		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 23)}px;
 	`}
 `
 
