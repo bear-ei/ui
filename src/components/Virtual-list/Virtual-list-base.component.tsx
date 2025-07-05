@@ -4,7 +4,7 @@ import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {createDeferredHandlerWithState, debounce, runAfterInteractions, throttle} from '../../utils'
+import {debounce, runAfterInteractions, throttle} from '../../utils'
 import {COMPONENT_STATUS, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -14,7 +14,6 @@ import {
 	unmountVirtualList,
 	updateVirtualListData,
 	updateVirtualListLayout,
-	updateVirtualListLoading,
 	updateVirtualListOnScroll,
 	updateVirtualListVisibilityRangeData
 } from './Virtual-list.handler'
@@ -30,7 +29,6 @@ const VirtualListBaseInner = <T,>(
 		focusedIndex,
 		gap = 0,
 		itemSize = 0,
-		loading: rawLoading,
 		onClose: rawOnClose,
 		onEndReached: rawOnEndReached,
 		onEndReachedThreshold = 0.1,
@@ -46,7 +44,6 @@ const VirtualListBaseInner = <T,>(
 		{
 			emptyList: isEmptyList,
 			layout,
-			loading: isLoading,
 			nextCloseEvent,
 			nextScrollEvent,
 			startIndex,
@@ -105,11 +102,6 @@ const VirtualListBaseInner = <T,>(
 	)
 
 	const runUpdateData = useMemo(() => updateVirtualListData(setState), [setState])
-	const runUpdateLoading = useMemo(
-		() => createDeferredHandlerWithState(updateVirtualListLoading)(setState)({debounceMillisecond: 150}),
-		[setState]
-	)
-
 	const itemElements = useMemo(
 		() => (
 			<RenderVirtualListItem
@@ -131,10 +123,6 @@ const VirtualListBaseInner = <T,>(
 	useEffect(() => {
 		runUpdateData(data)
 	}, [runUpdateData, data])
-
-	useEffect(() => {
-		runUpdateLoading(rawLoading)
-	}, [runUpdateLoading, rawLoading])
 
 	useEffect(() => {
 		runUpdateVisibilityRangeData(virtualListData)
@@ -164,7 +152,6 @@ const VirtualListBaseInner = <T,>(
 			itemElements={itemElements}
 			itemSize={itemSize}
 			layout={layout}
-			loading={isLoading}
 			ref={animatedRef}
 			status={status}
 		/>

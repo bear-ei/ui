@@ -39,14 +39,17 @@ const calculateVirtualListVisibilityRange =
 			return
 		}
 
-		const nextVisibleRangeData = (draft.virtualListData ?? []).slice(startIndex, endIndex)
+		const nextVisibleRangeData = draft.virtualListData?.slice(startIndex, endIndex)
 
 		draft.emptyList = !draft.virtualListData?.length
 		draft.endIndex = endIndex
 		draft.scrollOffset = nextScrollOffset
 		draft.startIndex = startIndex
-		draft.status = COMPONENT_STATUS.SUCCEEDED
 		draft.visibleRangeData = nextVisibleRangeData
+
+		if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+			draft.status = draft.virtualListData ? COMPONENT_STATUS.SUCCEEDED : COMPONENT_STATUS.LOADING
+		}
 	}
 
 export const updateVirtualListLayout =
@@ -212,11 +215,3 @@ export const animateVirtualList =
 	(contentHeightSharedValue: SharedValue<number>) =>
 	(contentSize: number) =>
 		animateSharedValueTo({sharedValue: contentHeightSharedValue})(contentSize)
-
-export const updateVirtualListLoading = (setState: Updater<VirtualListState>) => (loading?: boolean) =>
-	typeof loading === 'boolean' &&
-	setState(draft => {
-		if (draft.loading !== loading) {
-			draft.loading = loading
-		}
-	})
