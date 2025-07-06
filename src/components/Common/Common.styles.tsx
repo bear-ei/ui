@@ -15,7 +15,7 @@ export const Shape = styled.View<ShapeProps>`
 export const Typography = styled.Text<TypographyProps>`
 	${({theme, type = TYPOGRAPHY.BODY, size = SIZE.MEDIUM}) => css`
 		code-family: ${theme.token.font.codeFontFamily};
-		color: ${theme.token.scheme.onSurfaceVariant};
+		color: ${theme.token.scheme.onSurface};
 		font-family: ${theme.token.font.fontFamily};
 		font-size: ${theme.adaptFontSize(theme.token.typography[type][size].size)}px;
 		font-style: ${theme.token.typography[type][size].style};

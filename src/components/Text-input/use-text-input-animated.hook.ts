@@ -154,7 +154,7 @@ export const useTextInputAnimated = ({
 		transform: [{scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.3333, 1])}]
 	}))
 
-	const supportingTextSharedValueValueColorOutputRanges = useMemo(
+	const supportingTextSharedValueColorOutputRanges = useMemo(
 		() => [
 			disabledColor,
 			hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
@@ -167,7 +167,7 @@ export const useTextInputAnimated = ({
 		color: interpolateColor(
 			supportingTextSharedValue.value,
 			[0, 1, 2],
-			supportingTextSharedValueValueColorOutputRanges
+			supportingTextSharedValueColorOutputRanges
 		)
 	}))
 

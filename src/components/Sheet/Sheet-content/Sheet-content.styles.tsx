@@ -138,13 +138,13 @@ export const Header = styled.View<SheetHeaderProps>`
 `
 
 export const HeadlineLayout = styled.View`
+	align-items: center;
 	display: flex;
 	flex-direction: row;
 	flex: 1;
 
 	${({theme}) => css`
 		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		padding-top: ${theme.adaptSize(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall)}px;
 	`}
 `
 

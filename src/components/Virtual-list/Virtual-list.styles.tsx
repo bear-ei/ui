@@ -36,4 +36,8 @@ export const EmptyContentLayout = styled(ContentLayout)`
 `
 
 export const LoadingContentLayout = styled(EmptyContentLayout)``
-export const SupportingText = styled(Typography)``
+export const SupportingText = styled(Typography)`
+	${({theme}) => css`
+		color: ${theme.token.scheme.onSurfaceVariant};
+	`}
+`

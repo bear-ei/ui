@@ -19,6 +19,10 @@ export const DensityScale: StoryObj<CheckboxProps> = {
 	args: {density: DENSITY.COMPACT}
 }
 
+export const Disabled: StoryObj<CheckboxProps> = {
+	args: {disabled: true}
+}
+
 export default {
 	title: 'components/Checkbox',
 	argTypes: {onActive: {action: 'active'}},
