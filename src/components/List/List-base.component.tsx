@@ -3,6 +3,7 @@ import type {ScrollView} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
+import {LAYOUT} from '../Common'
 import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from './List.enum'
 import {
 	createListItemRenderer,
@@ -34,6 +35,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			enableUnderlayActive,
 			focusedIndex,
 			itemSize: rawItemSize,
+			layout = LAYOUT.VERTICAL,
 			loading,
 			loadingElement,
 			onActive: rawOnActive,
@@ -186,6 +188,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 				focusedIndex={focusedIndex}
 				id={id}
 				itemSize={itemSize}
+				layout={layout}
 				loading={loading}
 				loadingElement={loadingElement}
 				onClose={onClose}

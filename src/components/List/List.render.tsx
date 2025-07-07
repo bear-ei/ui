@@ -31,6 +31,7 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
 			extraData = [],
 			focusedIndex,
 			id,
+			layout,
 			loading,
 			style,
 			testID,
@@ -42,11 +43,13 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
 			accessibilityLabel='list'
 			accessibilityRole='list'
 			accessible={true}
+			layout={layout}
 			style={[style]}
 			testID={testID ?? `list--${id}`}
 		>
 			<VirtualList
 				{...virtualListProps}
+				layout={layout}
 				ref={ref}
 				testID={`list__virtualList--${id}`}
 				extraData={[

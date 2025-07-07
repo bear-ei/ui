@@ -8,7 +8,7 @@ export const Container = styled.View`
 	position: relative;
 
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 40)}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 	`}
 `
 
