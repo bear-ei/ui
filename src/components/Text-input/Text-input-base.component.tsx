@@ -38,7 +38,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			multiline,
 			onChangeText: rawOnChangeText,
 			onContentSizeChange: rawOnContentSizeChange,
-			onSupportingTextVisible: rawOnSupportingTextVisible,
+			onSupportingTextVisibility: rawOnSupportingTextVisibility,
 			placeholder,
 			supportingText: rawSupportingText,
 			supportingTextDelay,
@@ -97,9 +97,9 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[rawOnChangeText, setState]
 		)
 
-		const onSupportingTextVisible = useMemo(
-			() => updateTextInputSupportingTextVisibility(rawOnSupportingTextVisible)(setState),
-			[rawOnSupportingTextVisible, setState]
+		const onSupportingTextVisibility = useMemo(
+			() => updateTextInputSupportingTextVisibility(rawOnSupportingTextVisibility)(setState),
+			[rawOnSupportingTextVisibility, setState]
 		)
 
 		const onHeaderFocus = useMemo(() => focusTextInput(textInputRef), [])
@@ -203,7 +203,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 				onChangeText={onChangeText}
 				onContentSizeChange={onContentSizeChange}
 				onHeaderFocus={onHeaderFocus}
-				onSupportingTextVisible={onSupportingTextVisible}
+				onSupportingTextVisibility={onSupportingTextVisibility}
 				placeholderTextColor={placeholderTextColor}
 				ref={textInputRef}
 				supportingText={supportingText}

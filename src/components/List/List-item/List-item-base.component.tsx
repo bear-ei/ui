@@ -12,7 +12,7 @@ import {
 	triggerListItemTrailingActions,
 	updateListItemAfterAffordanceExpanded,
 	updateListItemFocusState,
-	updateListItemTrailingVisible
+	updateListItemTrailingVisibility
 } from './List-item.handler'
 import type {ListItemBaseProps, ListItemState} from './List-item.interface'
 import {RenderListItem, RenderListItemTrailing} from './List-item.render'
@@ -76,7 +76,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			[indexKey, rawOnClose]
 		)
 
-		const onTrailingVisible = useMemo(() => updateListItemTrailingVisible(setState), [setState])
+		const onTrailingVisibility = useMemo(() => updateListItemTrailingVisibility(setState), [setState])
 		const onConfirm = useMemo(
 			() =>
 				confirmListItemAffordanceAction({
@@ -146,7 +146,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			[indexKey, rawOnClose]
 		)
 
-		const runUpdateAfterAffordanceVisible = useMemo(
+		const runUpdateAfterAffordanceVisibility = useMemo(
 			() =>
 				createDeferredHandlerWithState(updateListItemAfterAffordanceExpanded)(setState)({
 					debounceMillisecond: 400
@@ -154,7 +154,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			[setState]
 		)
 
-		const runUpdateAfterAffordanceNotVisible = useMemo(
+		const runUpdateAfterAffordanceNotVisibility = useMemo(
 			() => updateListItemAfterAffordanceExpanded(setState),
 			[setState]
 		)
@@ -168,7 +168,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 						disabled={disabled}
 						id={id}
 						interactionHandlers={{onPressOut: onTrailingPressOut}}
-						onTrailingVisible={onTrailingVisible}
+						onTrailingVisibility={onTrailingVisibility}
 						trailing={trailing}
 						trailingProps={trailingProps}
 						trailingTriggerEvenName={trailingTriggerEvenName}
@@ -180,7 +180,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 				disabled,
 				id,
 				onTrailingPressOut,
-				onTrailingVisible,
+				onTrailingVisibility,
 				trailing,
 				trailingProps,
 				trailingTriggerEvenName
@@ -191,13 +191,17 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 
 		useEffect(() => {
 			if (isAfterAffordanceVisible) {
-				runUpdateAfterAffordanceVisible(isAfterAffordanceVisible)
+				runUpdateAfterAffordanceVisibility(isAfterAffordanceVisible)
 
 				return
 			}
 
-			runUpdateAfterAffordanceNotVisible(isAfterAffordanceVisible)
-		}, [isAfterAffordanceVisible, runUpdateAfterAffordanceNotVisible, runUpdateAfterAffordanceVisible])
+			runUpdateAfterAffordanceNotVisibility(isAfterAffordanceVisible)
+		}, [
+			isAfterAffordanceVisible,
+			runUpdateAfterAffordanceNotVisibility,
+			runUpdateAfterAffordanceVisibility
+		])
 
 		useEffect(() => {
 			runUpdateFocusState(focusedIndex)

@@ -27,7 +27,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			exit,
 			lazy = false,
 			onUnmount,
-			onVisible,
+			onVisibility,
 			opacity,
 			scale = false,
 			translate,
@@ -101,8 +101,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		)
 
 		const runUpdateVisibility = useMemo(
-			() => debounce(updateLayoutAnimatedVisibility({onVisible, animatedType})(setState))(delay),
-			[animatedType, delay, onVisible, setState]
+			() => debounce(updateLayoutAnimatedVisibility({onVisibility, animatedType})(setState))(delay),
+			[animatedType, delay, onVisibility, setState]
 		)
 
 		useEffect(() => {

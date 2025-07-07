@@ -37,7 +37,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	interactionHandlers,
 	trailing,
 	trailingProps: rawTrailingProps,
-	onTrailingVisible,
+	onTrailingVisibility,
 	trailingTriggerEvenName
 }) => {
 	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
@@ -48,8 +48,8 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 			...restTrailingProps,
 			...interactionHandlers,
 			...(trailingTriggerEvenName === EVENT_NAME.HOVER_IN && {
-				onHoverOut: () => onTrailingVisible?.(false),
-				onHoverIn: () => onTrailingVisible?.(true)
+				onHoverOut: () => onTrailingVisibility?.(false),
+				onHoverIn: () => onTrailingVisibility?.(true)
 			}),
 			disabled: isDisabled ?? disabled,
 			testID: `listItem__trailing--${id}`,
@@ -60,7 +60,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 			id,
 			interactionHandlers,
 			isDisabled,
-			onTrailingVisible,
+			onTrailingVisibility,
 			restTrailingProps,
 			trailingTriggerEvenName
 		]

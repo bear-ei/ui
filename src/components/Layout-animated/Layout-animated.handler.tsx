@@ -53,9 +53,9 @@ export const handleLayoutAnimatedStateChange =
 	}
 
 export const updateLayoutAnimatedVisibility =
-	({onVisible, animatedType}: UpdateLayoutAnimatedVisibilityOptions) =>
+	({onVisibility, animatedType}: UpdateLayoutAnimatedVisibilityOptions) =>
 	(setState: Updater<LayoutAnimatedState>) => {
-		const createNextVisibilityEvent = (visible?: boolean) => () => onVisible?.(visible)
+		const createNextVisibilityEvent = (visible?: boolean) => () => onVisibility?.(visible)
 		const applyLayoutVisibilityToDraft =
 			(visible?: boolean) => (draft: WritableDraft<LayoutAnimatedState>) => {
 				if (visible === draft.visible) {

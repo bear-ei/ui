@@ -122,7 +122,7 @@ export interface RenderListItemTrailingProps
 		| 'trailingTriggerEvenName'
 	> {
 	interactionHandlers: InteractionHandlers
-	onTrailingVisible?: (visible: boolean) => void
+	onTrailingVisibility?: (visible: boolean) => void
 }
 
 export interface UseListItemAnimatedOptions {

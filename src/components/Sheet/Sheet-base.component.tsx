@@ -21,7 +21,7 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			disabledClose,
 			onBack: rawOnBack,
 			onClose: rawOnClose,
-			onVisible,
+			onVisibility,
 			type = SIDE_SHEET_TYPE.MODAL,
 			visible,
 			...renderSheetProps
@@ -48,12 +48,12 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 				id,
 				onBack,
 				onClose,
-				onVisible,
+				onVisibility,
 				ref,
 				type,
 				visible: isSheetVisible
 			}),
-			[disabledClose, id, isSheetVisible, onBack, onClose, onVisible, ref, renderSheetProps, type]
+			[disabledClose, id, isSheetVisible, onBack, onClose, onVisibility, ref, renderSheetProps, type]
 		)
 
 		const runEmitSheetModal = useMemo(

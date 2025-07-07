@@ -23,7 +23,7 @@ export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View
 	exit?: AnimatedTimingOptions
 	lazy?: boolean
 	onUnmount?: () => void
-	onVisible?: (visible?: boolean) => void
+	onVisibility?: (visible?: boolean) => void
 	opacity?: number
 
 	// [ These parameters are only effective when the animation type is Collapse.
@@ -76,6 +76,6 @@ export interface AnimateLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 
 	createExitSharedValueAnimator: AnimateSharedValueTo
 }
 
-export type UpdateLayoutAnimatedVisibilityOptions = Pick<LayoutAnimatedProps, 'onVisible' | 'animatedType'>
+export type UpdateLayoutAnimatedVisibilityOptions = Pick<LayoutAnimatedProps, 'onVisibility' | 'animatedType'>
 export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>
 export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible'>

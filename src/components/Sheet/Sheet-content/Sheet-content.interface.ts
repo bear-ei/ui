@@ -9,7 +9,7 @@ export interface RenderSheetContentProps extends SheetContentProps {
 	trailingElement?: React.JSX.Element
 }
 
-export type HandleSheetWasVisibilityOptions = Pick<SheetContentProps, 'onVisible'>
+export type HandleSheetWasVisibilityOptions = Pick<SheetContentProps, 'onVisibility'>
 export type UseSheetContentAnimatedOptions = Pick<RenderSheetContentProps, 'visible' | 'type'>
 export interface RenderSheetContentLeadingProps
 	extends Pick<SheetContentProps, 'headlineLeading' | 'back' | 'position' | 'id'> {

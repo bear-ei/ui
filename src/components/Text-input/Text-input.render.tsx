@@ -53,7 +53,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 			leading,
 			multiline,
 			onHeaderFocus,
-			onSupportingTextVisible,
+			onSupportingTextVisibility,
 			supportingText,
 			supportingTextAnimatedStyle,
 			supportingTextVisible,
@@ -165,7 +165,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 					</TouchableHeader>
 
 					<SupportingLayout
-						onVisible={onSupportingTextVisible}
+						onVisibility={onSupportingTextVisibility}
 						testID={`textInput__supportingLayoutAnimated--${id}`}
 						visible={supportingTextVisible}
 					>

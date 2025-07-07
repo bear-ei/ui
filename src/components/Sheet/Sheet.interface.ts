@@ -24,7 +24,7 @@ export interface SheetProps extends ViewProps, RefAttributes<View>, Pick<ShapePr
 	/**
 	 * FIXME: Unable to trigger callbacks properly
 	 */
-	onVisible?: (visible?: boolean) => void
+	onVisibility?: (visible?: boolean) => void
 	primaryButton?: React.JSX.Element
 	primaryButtonProps?: ButtonProps
 	secondaryButton?: React.JSX.Element
@@ -41,7 +41,7 @@ export interface SheetProps extends ViewProps, RefAttributes<View>, Pick<ShapePr
 }
 
 export interface RenderSheetProps extends SheetProps {
-	onVisibleSource?: () => void
+	onVisibilitySource?: () => void
 }
 
 export type SheetBaseProps = SheetProps
