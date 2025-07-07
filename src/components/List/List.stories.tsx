@@ -136,7 +136,11 @@ export const Multiselect = () => {
 		[]
 	)
 
-	const onActiveKeys = (keys?: string[]) => setActiveKeys(keys)
+	const onActiveKeys = (keys?: string[]) => {
+		console.info(keys)
+		setActiveKeys(keys)
+	}
+
 	const skeleton = useMemo(() => renderListSkeleton(), [])
 
 	return (

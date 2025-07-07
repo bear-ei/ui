@@ -1,5 +1,5 @@
 import {DURATION, EASING} from '@bearei/element-token'
-import {forwardRef, useMemo} from 'react'
+import {forwardRef} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {LAYOUT} from '../../Common'
 import type {RenderLayoutPaneProps} from './Layout-pane.interface'
@@ -7,13 +7,7 @@ import {Container} from './Layout-pane.styles'
 
 export const RenderLayoutPane = forwardRef<View, RenderLayoutPaneProps>(
 	({children, id, layout, style: rawStyle, testID, ...containerProps}, ref) => {
-		const style = useMemo(
-			() =>
-				({
-					flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'
-				}) as ViewStyle,
-			[layout]
-		)
+		const style = [rawStyle, {flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'}] as ViewStyle
 
 		return (
 			<Container
@@ -21,7 +15,7 @@ export const RenderLayoutPane = forwardRef<View, RenderLayoutPaneProps>(
 				entry={{duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE}}
 				exit={{duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}}
 				ref={ref}
-				style={[rawStyle, style]}
+				style={style}
 				testID={testID ?? `layoutPane--${id}`}
 			>
 				{children}

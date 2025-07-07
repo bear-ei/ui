@@ -39,7 +39,8 @@ export const updateListActiveState = ({
 	const updateListActiveKeys = (draft: WritableDraft<ListState>) => (activeKeys: string | string[]) => {
 		const filterPrevActiveKeys = (key: string) => key !== activeKeys
 		const prevActiveKeys = draft.activeKeys
-		const nextActiveKeys = Array.isArray(activeKeys) ? activeKeys : [...(prevActiveKeys ?? []), activeKeys]
+		const nextActiveKeys =
+			typeof activeKeys === 'string' ? [...(prevActiveKeys ?? []), activeKeys] : activeKeys
 
 		if (prevActiveKeys?.join() === nextActiveKeys?.join()) {
 			return
@@ -69,10 +70,6 @@ export const updateListActiveState = ({
 				selectType === LIST_SELECT_TYPE.SINGLE ?
 					updateListActiveKey(draft)(activeKeys)
 				:	updateListActiveKeys(draft)(activeKeys ?? [])
-
-			if (!callbackValue) {
-				return
-			}
 
 			draft.nextActiveEvent = createNextActiveEvent(callbackValue)
 		})

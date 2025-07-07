@@ -1,4 +1,4 @@
-import {forwardRef, useMemo} from 'react'
+import {forwardRef} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {LAYOUT} from '../Common'
 import type {RenderLayoutProps} from './Layout.interface'
@@ -6,19 +6,13 @@ import {Container} from './Layout.styles'
 
 export const RenderLayout = forwardRef<View, RenderLayoutProps>(
 	({children, id, style: rawStyle, testID, layout, ...containerProps}, ref) => {
-		const style = useMemo(
-			() =>
-				({
-					flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'
-				}) as ViewStyle,
-			[layout]
-		)
+		const style = [rawStyle, {flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'}] as ViewStyle
 
 		return (
 			<Container
 				{...containerProps}
 				ref={ref}
-				style={[rawStyle, style]}
+				style={style}
 				testID={testID ?? `layout--${id}`}
 			>
 				{children}
