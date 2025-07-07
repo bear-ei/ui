@@ -127,19 +127,20 @@ export const Main = styled(Shape)<ListItemMainProps>`
 `
 
 export const Leading = styled.View<ListItemLeadingProps>`
+	align-items: center;
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 
 	${({theme}) => css`
+		min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
 		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		justify-content: center;
 	`};
 
-	${({supportingTextNumberOfLines = 0, theme}) =>
+	${({supportingTextNumberOfLines = 0}) =>
 		supportingTextNumberOfLines > 1 &&
 		css`
 			justify-content: flex-start;
-			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		`}
 `
 

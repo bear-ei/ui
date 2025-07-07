@@ -1,6 +1,6 @@
 import type {Duration, Easing} from '@bearei/element-token'
 import type {RefAttributes} from 'react'
-import type {TextStyle, View, ViewProps, ViewStyle} from 'react-native'
+import type {StyleProp, TextStyle, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {
 	AnimatedTimingOptions,
@@ -32,7 +32,7 @@ export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View
 	// ]
 
 	delay?: number
-	style?: AnimatedStyle<ViewStyle> | AnimatedStyle<TextStyle> | ViewStyle
+	style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> | StyleProp<AnimatedStyle<StyleProp<TextStyle>>>
 	unmount?: boolean
 	visible?: boolean
 }
