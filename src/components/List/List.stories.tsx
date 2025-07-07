@@ -3,6 +3,7 @@ import type {Meta, StoryObj} from '@storybook/react'
 import {useMemo, useState} from 'react'
 import type {ViewStyle} from 'react-native'
 import {View} from 'react-native'
+import {LAYOUT} from '../Common'
 import {Icon} from '../Icon'
 import {Skeleton} from '../Skeleton'
 import {List} from './List.component'
@@ -153,6 +154,43 @@ export const Multiselect = () => {
 				selectType={LIST_SELECT_TYPE.MULTIPLE}
 				shape={SHAPE.FULL}
 				skeletonElement={skeleton}
+			/>
+		</View>
+	)
+}
+
+export const Horizontal = () => {
+	const [activeKey, setActiveKey] = useState<string | undefined>(undefined)
+	const style = {height: 800, width: '100%'} as ViewStyle
+	const data = useMemo(
+		() =>
+			Array.from({length: 200}, (_, index) => ({
+				indexKey: `Title${index + 1}`,
+				headline: `Title${index + 1}`,
+				leading: <Icon />,
+				extraData: []
+			})),
+		[]
+	)
+
+	const onActiveKey = (key?: string) => setActiveKey(key)
+
+	return (
+		<View style={[style]}>
+			<List
+				activeKey={activeKey}
+				afterAffordance={true}
+				data={data}
+				enableAutoSelect={true}
+				itemSize={320}
+				layout={LAYOUT.HORIZONTAL}
+				onActive={onActiveKey}
+				selectType={LIST_SELECT_TYPE.SINGLE}
+				shape={SHAPE.LARGE}
+				endReachedThreshold={0.5}
+				onEndReached={() => {
+					console.info('onEndReached')
+				}}
 			/>
 		</View>
 	)

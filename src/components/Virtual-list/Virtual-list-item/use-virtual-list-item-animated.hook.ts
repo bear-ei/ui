@@ -3,36 +3,43 @@ import {useEffect, useMemo} from 'react'
 import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
-import {COMPONENT_STATUS} from '../../Common'
+import {COMPONENT_STATUS, LAYOUT} from '../../Common'
 import {animateVirtualListItem} from './Virtual-list-item.handler'
 import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
-export const useVirtualListItemAnimated = ({offsetY = 0, status}: UseVirtualListItemAnimatedOptions) => {
+export const useVirtualListItemAnimated = ({offset = 0, status, layout}: UseVirtualListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const animateSharedValueTo = useMemo(() => animatedTiming({duration: DURATION.SHORT_2}), [animatedTiming])
-	const translateYSharedValue = useSharedValue(offsetY)
+	const translateSharedValue = useSharedValue(offset)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
-		transform: [{translateY: translateYSharedValue.value}]
+		...(layout === LAYOUT.VERTICAL && {
+			transform: [{translateY: translateSharedValue.value}]
+		}),
+		...(layout === LAYOUT.HORIZONTAL && {
+			transform: [{translateX: translateSharedValue.value}]
+		})
 	}))
 
 	const runAnimate = useMemo(
-		() => animateVirtualListItem(animateSharedValueTo)(translateYSharedValue),
-		[animateSharedValueTo, translateYSharedValue]
+		() => animateVirtualListItem(animateSharedValueTo)(translateSharedValue),
+		[animateSharedValueTo, translateSharedValue]
 	)
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
-			runAnimate(offsetY)
+			runAnimate(offset)
 		}
-	}, [runAnimate, offsetY, status])
+	}, [runAnimate, offset, status])
 
 	useEffect(
 		() => () => {
-			cancelAnimation(translateYSharedValue)
+			cancelAnimation(translateSharedValue)
 		},
-		[translateYSharedValue]
+		[translateSharedValue]
 	)
 
-	return {containerAnimatedStyle}
+	return {
+		containerAnimatedStyle
+	}
 }

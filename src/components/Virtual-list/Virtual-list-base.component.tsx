@@ -5,7 +5,7 @@ import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
 import {debounce, runAfterInteractions, throttle} from '../../utils'
-import {COMPONENT_STATUS, type LayoutRectangle, type State} from '../Common'
+import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
 	checkVirtualListLoadEnd,
@@ -25,13 +25,14 @@ const VirtualListBaseInner = <T,>(
 		activeKey,
 		data,
 		enableAutoSelect,
+		endReachedThreshold = 0.1,
 		extraData,
 		focusedIndex,
 		gap = 0,
 		itemSize = 0,
+		layout = LAYOUT.VERTICAL,
 		onClose: rawOnClose,
 		onEndReached: rawOnEndReached,
-		onEndReachedThreshold = 0.1,
 		onLoadEnd: rawOnLoadEnd,
 		onMomentumScrollEnd: rawOnMomentumScrollEnd,
 		onScroll: rawOnScroll,
@@ -43,7 +44,7 @@ const VirtualListBaseInner = <T,>(
 	const [
 		{
 			emptyList: isEmptyList,
-			layout,
+			layout: containerLayout,
 			nextCloseEvent,
 			nextScrollEvent,
 			startIndex,
@@ -61,13 +62,14 @@ const VirtualListBaseInner = <T,>(
 		() =>
 			throttle(
 				updateVirtualListOnScroll({
+					endReachedThreshold,
 					itemSize,
+					layout,
 					onEndReached,
-					onEndReachedThreshold,
 					onScroll: rawOnScroll
 				})(setState)
 			)(50),
-		[itemSize, onEndReached, onEndReachedThreshold, rawOnScroll, setState]
+		[itemSize, layout, onEndReached, endReachedThreshold, rawOnScroll, setState]
 	)
 
 	const onMomentumScrollEnd = useMemo(
@@ -78,11 +80,18 @@ const VirtualListBaseInner = <T,>(
 	const onLoadEnd = useMemo(() => checkVirtualListLoadEnd(rawOnLoadEnd)(setState), [rawOnLoadEnd, setState])
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
 	const onUnmount = useMemo(
-		() => unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose, activeKey})(setState),
-		[activeKey, enableAutoSelect, itemSize, rawOnClose, setState]
+		() =>
+			unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose, activeKey, layout})(
+				setState
+			),
+		[activeKey, enableAutoSelect, itemSize, layout, rawOnClose, setState]
 	)
 
-	const onLayoutChange = useMemo(() => updateVirtualListLayout(itemSize)(setState), [itemSize, setState])
+	const onLayoutChange = useMemo(
+		() => updateVirtualListLayout({itemSize, layout})(setState),
+		[itemSize, layout, setState]
+	)
+
 	const onStateEventChange = useCallback(
 		(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 			handleVirtualListStateChange({...options, state})(onLayoutChange)(event),
@@ -95,10 +104,16 @@ const VirtualListBaseInner = <T,>(
 		onStateEventChange
 	})
 
-	const {animatedRef, contentAnimatedStyle} = useVirtualListAnimated({focusedIndex, itemSize, contentSize})
+	const {animatedRef, contentAnimatedStyle} = useVirtualListAnimated({
+		focusedIndex,
+		itemSize,
+		contentSize,
+		layout
+	})
+
 	const runUpdateVisibilityRangeData = useMemo(
-		() => updateVirtualListVisibilityRangeData(itemSize)(setState),
-		[itemSize, setState]
+		() => updateVirtualListVisibilityRangeData({itemSize, layout})(setState),
+		[itemSize, layout, setState]
 	)
 
 	const runUpdateData = useMemo(() => updateVirtualListData(setState), [setState])
@@ -109,13 +124,14 @@ const VirtualListBaseInner = <T,>(
 				extraData={extraData}
 				id={id}
 				itemSize={itemSize + gap}
+				layout={layout}
 				onLoadEnd={onLoadEnd}
 				onUnmount={onUnmount}
 				renderItem={renderItem}
 				startIndex={startIndex}
 			/>
 		),
-		[extraData, gap, id, itemSize, onLoadEnd, onUnmount, renderItem, startIndex, visibleRangeData]
+		[extraData, gap, id, itemSize, layout, onLoadEnd, onUnmount, renderItem, startIndex, visibleRangeData]
 	)
 
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as ScrollView, [animatedRef])
@@ -144,6 +160,7 @@ const VirtualListBaseInner = <T,>(
 		<RenderVirtualList
 			{...renderVirtualListProps}
 			{...scrollEvent}
+			containerLayout={containerLayout}
 			contentAnimatedStyle={contentAnimatedStyle}
 			contentSize={contentSize}
 			emptyList={isEmptyList}

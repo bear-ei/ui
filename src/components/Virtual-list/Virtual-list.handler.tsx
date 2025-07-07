@@ -4,28 +4,29 @@ import {Platform} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {COMPONENT_STATUS, EVENT_NAME, type EventName, type LayoutRectangle} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type EventName, type LayoutRectangle} from '../Common'
 import type {ListData} from '../List'
 import type {
 	TriggerVirtualListCloseOptions,
 	UnmountVirtualListOptions,
+	UpdateVirtualListLayoutOptions,
 	UpdateVirtualListOnScrollOptions,
 	VirtualListData,
 	VirtualListState
 } from './Virtual-list.interface'
 
 const calculateVirtualListVisibilityRange =
-	(itemSize = 0) =>
+	({itemSize = 0, layout}: UpdateVirtualListLayoutOptions) =>
 	(draft: WritableDraft<VirtualListState>) =>
 	(scrollOffset?: number) => {
-		if (!draft.layout.height) {
+		if (!(draft.layout.height || draft.layout.width)) {
 			return
 		}
 
 		const nextScrollOffset = scrollOffset ?? draft.scrollOffset ?? 0
 		const baseStartIndex = Math.max(0, Math.floor((nextScrollOffset ?? 0) / itemSize))
 		const dataSize = draft.virtualListData?.length ?? 0
-		const windowSize = Math.max(draft.layout.height, 0)
+		const windowSize = Math.max(layout === LAYOUT.VERTICAL ? draft.layout.height : draft.layout.width, 0)
 		const visibleItemCount = Math.ceil(windowSize / itemSize)
 		const bufferItemCount = Math.max(5, Math.floor(visibleItemCount / 2))
 		const endIndex = Math.min(dataSize, baseStartIndex + visibleItemCount + bufferItemCount)
@@ -53,7 +54,7 @@ const calculateVirtualListVisibilityRange =
 	}
 
 export const updateVirtualListLayout =
-	(itemSize = 0) =>
+	({itemSize, layout}: UpdateVirtualListLayoutOptions) =>
 	(setState: Updater<VirtualListState>) =>
 	({width, height}: LayoutRectangle) => {
 		setState(draft => {
@@ -68,7 +69,7 @@ export const updateVirtualListLayout =
 				draft.layout.width = width
 			}
 
-			calculateVirtualListVisibilityRange(itemSize)(draft)()
+			calculateVirtualListVisibilityRange({itemSize, layout})(draft)()
 		})
 	}
 
@@ -91,18 +92,27 @@ export const handleVirtualListStateChange =
 	}
 
 export const updateVirtualListOnScroll = ({
-	onScroll,
+	endReachedThreshold = 0.1,
 	itemSize,
+	layout,
 	onEndReached,
-	onEndReachedThreshold = 0.1
+	onScroll
 }: UpdateVirtualListOnScrollOptions) => {
 	const createNextScrollEvent = (event: NativeSyntheticEvent<NativeScrollEvent>) => () => onScroll?.(event)
 
 	return (setState: Updater<VirtualListState>) => (event: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
-		const scrollOffset = contentOffset.y
-		const distanceFromEnd = contentSize.height - layoutMeasurement.height - scrollOffset
-		const thresholdDistance = layoutMeasurement.height * onEndReachedThreshold
+		const scrollOffset = layout === LAYOUT.VERTICAL ? contentOffset.y : contentOffset.x
+		const distanceFromEnd =
+			layout === LAYOUT.VERTICAL ?
+				contentSize.height - layoutMeasurement.height - scrollOffset
+			:	contentSize.width - layoutMeasurement.width - scrollOffset
+
+		const thresholdDistance =
+			layout === LAYOUT.VERTICAL ?
+				layoutMeasurement.height * endReachedThreshold
+			:	layoutMeasurement.width * endReachedThreshold
+
 		const isHitBottom = distanceFromEnd <= thresholdDistance
 
 		if (isHitBottom || scrollOffset <= 0) {
@@ -114,7 +124,7 @@ export const updateVirtualListOnScroll = ({
 		setState(draft => {
 			draft.nextScrollEvent = createNextScrollEvent(event)
 
-			calculateVirtualListVisibilityRange(itemSize)(draft)(scrollOffset)
+			calculateVirtualListVisibilityRange({itemSize, layout})(draft)(scrollOffset)
 		})
 	}
 }
@@ -143,7 +153,13 @@ const triggerVirtualListClose =
 		draft.nextCloseEvent = nextCloseEvent
 	}
 
-export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose, activeKey}: UnmountVirtualListOptions) => {
+export const unmountVirtualList = ({
+	activeKey,
+	enableAutoSelect,
+	itemSize = 0,
+	layout,
+	onClose
+}: UnmountVirtualListOptions) => {
 	const filterVirtualListData =
 		(key: string) =>
 		({indexKey}: VirtualListData) =>
@@ -159,7 +175,7 @@ export const unmountVirtualList = ({enableAutoSelect, itemSize = 0, onClose, act
 
 			draft.virtualListData = draft.virtualListData?.filter(filterVirtualListData(indexKey))
 
-			calculateVirtualListVisibilityRange(itemSize)(draft)()
+			calculateVirtualListVisibilityRange({itemSize, layout})(draft)()
 		})
 	}
 }
@@ -200,18 +216,18 @@ export const checkVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void)
 }
 
 export const updateVirtualListVisibilityRangeData =
-	(itemSize = 0) =>
+	({itemSize, layout}: UpdateVirtualListLayoutOptions) =>
 	(setState: Updater<VirtualListState>) =>
 	(virtualListData?: VirtualListData[]) =>
 		virtualListData &&
 		setState(draft => {
-			if (draft.layout.height) {
-				calculateVirtualListVisibilityRange(itemSize)(draft)()
+			if (draft.layout.height || draft.layout.width) {
+				calculateVirtualListVisibilityRange({itemSize, layout})(draft)()
 			}
 		})
 
 export const animateVirtualList =
 	(animateSharedValueTo: AnimateSharedValueTo) =>
-	(contentHeightSharedValue: SharedValue<number>) =>
+	(contentSharedValue: SharedValue<number>) =>
 	(contentSize: number) =>
-		animateSharedValueTo({sharedValue: contentHeightSharedValue})(contentSize)
+		animateSharedValueTo({sharedValue: contentSharedValue})(contentSize)

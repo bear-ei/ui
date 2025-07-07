@@ -2,7 +2,7 @@ import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ComponentStatus} from '../../Common'
-import type {VirtualListProps} from '../Virtual-list.interface'
+import type {RenderVirtualListProps} from '../Virtual-list.interface'
 
 export interface Item {
 	extraData?: string[]
@@ -16,7 +16,10 @@ export interface RenderVirtualListItemInfo<T> {
 export interface VirtualListItemProps<T = Record<string, unknown>>
 	extends ViewProps,
 		RefAttributes<View>,
-		Pick<VirtualListProps<T>, 'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap'> {
+		Pick<
+			RenderVirtualListProps<T>,
+			'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'layout'
+		> {
 	index?: number
 	item?: T & Item
 	loading?: boolean
@@ -39,9 +42,9 @@ export interface VirtualListItemState {
 	status: ComponentStatus
 }
 
-export interface UseVirtualListItemAnimatedOptions {
-	offsetY?: number
+export interface UseVirtualListItemAnimatedOptions extends Pick<VirtualListItemProps, 'layout'> {
+	offset?: number
 	status: ComponentStatus
 }
 
-export type VirtualListItemContainerProps = Pick<RenderVirtualListItemProps, 'itemSize'>
+export type VirtualListItemContainerProps = Pick<RenderVirtualListItemProps, 'itemSize' | 'layout'>

@@ -2,7 +2,7 @@ import type {RefAttributes} from 'react'
 import type {ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {InteractionHandlers} from '../../hooks'
-import type {ComponentStatus, LayoutRectangle} from '../Common'
+import type {ComponentStatus, LayoutRectangle, LayoutType} from '../Common'
 import type {RenderVirtualListItemInfo} from './Virtual-list-item'
 
 export type VirtualListData<T = Record<string, unknown>> = T & {
@@ -19,26 +19,27 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Scro
 	data?: VirtualListData<T>[]
 	emptyElement?: React.JSX.Element
 	enableAutoSelect?: boolean
+	endReachedThreshold?: number
 	extraData?: string[]
 	focusedIndex?: number
 	gap?: number
 	itemSize?: number
+	layout?: LayoutType
 	loading?: boolean
 	loadingElement?: React.JSX.Element
 	onClose?: (options: OnVirtualListCloseOptions) => void
 	onEndReached?: () => void
-	onEndReachedThreshold?: number
 	onLoadEnd?: (indexKey?: string) => void
 	renderItem?: (options: RenderVirtualListItemInfo<T>) => React.JSX.Element
 }
 
 export interface RenderVirtualListProps<T = Record<string, unknown>> extends VirtualListProps<T> {
+	containerLayout: LayoutRectangle
 	contentAnimatedStyle?: AnimatedStyle<ViewStyle>
 	contentSize?: number
 	emptyList?: boolean
 	interactionHandlers: InteractionHandlers
 	itemElements?: React.JSX.Element
-	layout: LayoutRectangle
 	status: ComponentStatus
 }
 
@@ -58,7 +59,8 @@ export interface VirtualListState {
 }
 
 export interface UpdateVirtualListOnScrollOptions
-	extends Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'onEndReachedThreshold'> {
+	extends Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'endReachedThreshold'>,
+		Pick<VirtualListProps<unknown>, 'layout'> {
 	onEndReached: () => void
 }
 
@@ -69,22 +71,25 @@ export interface HandleVirtualListLayoutChangeOptions {
 export type TriggerVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose' | 'activeKey'>
 export interface UnmountVirtualListOptions
 	extends TriggerVirtualListCloseOptions,
-		Pick<RenderVirtualListProps, 'itemSize' | 'activeKey'> {}
+		Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layout'> {}
 
 export interface HandleVirtualListContentVisibilityOptions {
 	loading?: boolean
 	emptyList?: boolean
 }
 
-export interface UseVirtualListScrollAnimatedOptions extends Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize'> {
+export interface UseVirtualListScrollAnimatedOptions
+	extends Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize' | 'layout'> {
 	contentSize?: number
 }
 
 export interface RenderVirtualListItemOptions<T>
 	extends Pick<
 		RenderVirtualListProps<T>,
-		'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'id' | 'data'
+		'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'id' | 'data' | 'layout'
 	> {
 	onUnmount?: (indexKey?: string) => void
 	startIndex?: number
 }
+
+export type UpdateVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layout'>

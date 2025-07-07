@@ -3,7 +3,7 @@ import {cloneElement, forwardRef, useMemo, type ForwardedRef} from 'react'
 import type {ViewStyle} from 'react-native'
 import {ScrollView} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {COMPONENT_STATUS} from '../Common'
+import {COMPONENT_STATUS, LAYOUT} from '../Common'
 import {VirtualListItem, type RenderVirtualListItemInfo} from './Virtual-list-item'
 import type {RenderVirtualListItemOptions, RenderVirtualListProps} from './Virtual-list.interface'
 import {
@@ -62,12 +62,13 @@ export const RenderVirtualListInner = <T,>(
 		id,
 		interactionHandlers,
 		itemElements,
-		layout,
+		containerLayout,
 		loading,
 		loadingElement,
 		scrollEventThrottle = 50,
 		status,
 		testID,
+		layout,
 		...containerProps
 	}: RenderVirtualListProps<T>,
 	ref: React.ForwardedRef<ScrollView>
@@ -75,10 +76,18 @@ export const RenderVirtualListInner = <T,>(
 	const {onLayout} = interactionHandlers
 	const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
 	const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
-	const isLayoutCompleted = typeof layout?.height === 'number' && layout.height > 0
+	const isLayoutCompleted =
+		typeof containerLayout?.height === 'number' && (containerLayout.height > 0 || containerLayout.width > 0)
+
 	const scrollViewContentStyle = useMemo(
-		() => ({flex: 1, alignSelf: 'stretch', minHeight: contentSize}) as ViewStyle,
-		[contentSize]
+		() =>
+			({
+				...(layout === LAYOUT.VERTICAL && {minHeight: contentSize}),
+				...(layout === LAYOUT.HORIZONTAL && {minWidth: contentSize}),
+				alignSelf: 'stretch',
+				flex: 1
+			}) as ViewStyle,
+		[contentSize, layout]
 	)
 
 	return (
@@ -94,6 +103,7 @@ export const RenderVirtualListInner = <T,>(
 					<AnimatedScrollView
 						{...containerProps}
 						contentContainerStyle={scrollViewContentStyle}
+						horizontal={layout === LAYOUT.HORIZONTAL}
 						ref={ref}
 						scrollEventThrottle={scrollEventThrottle}
 						testID={`virtualList__animatedScrollView--${id}`}

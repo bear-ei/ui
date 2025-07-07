@@ -28,9 +28,11 @@ export const Container = styled(Shape)<ListItemContainerProps>`
 		const containerType = {
 			[LIST_TYPE.MENU]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
 			`,
 			[LIST_TYPE.STANDARD]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
+				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
 			`
 		} as Record<ListType, RuleSet<object> | undefined>
 
@@ -39,6 +41,7 @@ export const Container = styled(Shape)<ListItemContainerProps>`
 
 	${({theme}) => css`
 		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 	`};
 `
 
@@ -90,6 +93,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
 		const mainType = {
 			[LIST_TYPE.MENU]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(
 						theme.token.spacing.medium - theme.token.spacing.extraSmall
@@ -97,6 +101,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
 			`,
 			[LIST_TYPE.STANDARD]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
+				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(theme.token.spacing.medium)}px;
 			`
