@@ -40,7 +40,6 @@ export const ContentItem = styled(LayoutAnimated)`
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
 		left: ${theme.adaptSize(theme.token.spacing.none)}px;
-		padding: ${theme.adaptSize(theme.token.spacing.small)}px;
 		right: ${theme.adaptSize(theme.token.spacing.none)}px;
 		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`};
