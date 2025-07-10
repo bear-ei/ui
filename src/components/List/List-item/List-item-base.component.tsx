@@ -44,7 +44,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			shape,
 			supporting,
 			trailing,
-			trailingProps,
+			trailingProps: rawTrailingProps,
 			trailingTriggerEvenName,
 			type = LIST_TYPE.STANDARD,
 			...renderListItemProps
@@ -71,6 +71,11 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			activeKey === indexKey
 		:	indexKey && activeKeys?.includes(indexKey))
 
+		const {onPressOut: rawOnTrailingPressOut, ...trailingProps} = useMemo(
+			() => rawTrailingProps ?? {},
+			[rawTrailingProps]
+		)
+
 		const onItemClose = useMemo(
 			() => maybeTriggerListItemClose(rawOnClose)(indexKey),
 			[indexKey, rawOnClose]
@@ -93,9 +98,17 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 					afterAffordance,
 					closeTrailing,
 					onActiveAfterAffordance,
-					onItemClose
+					onItemClose,
+					onPressOut: rawOnTrailingPressOut
 				})(indexKey),
-			[afterAffordance, closeTrailing, indexKey, onActiveAfterAffordance, onItemClose]
+			[
+				afterAffordance,
+				closeTrailing,
+				indexKey,
+				onActiveAfterAffordance,
+				onItemClose,
+				rawOnTrailingPressOut
+			]
 		)
 
 		const onStateEventChange = useCallback(

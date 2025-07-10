@@ -49,6 +49,7 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
 		>
 			<VirtualList
 				{...virtualListProps}
+				activeKey={activeKey}
 				layout={layout}
 				ref={ref}
 				testID={`list__virtualList--${id}`}

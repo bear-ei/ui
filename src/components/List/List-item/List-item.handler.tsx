@@ -1,3 +1,4 @@
+import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimateSharedValueTo, StateEvent} from '../../../hooks'
@@ -152,10 +153,17 @@ export const triggerListItemTrailingActions =
 		afterAffordance,
 		closeTrailing,
 		onActiveAfterAffordance,
-		onItemClose
+		onItemClose,
+		onPressOut
 	}: TriggerListItemTrailingActionsOptions) =>
 	(indexKey?: string) =>
-	() => {
+	(event: GestureResponderEvent) => {
+		if (onPressOut) {
+			onPressOut?.(event)
+
+			return
+		}
+
 		const nextEvent = {
 			afterAffordance: () => onActiveAfterAffordance?.({activeKey: indexKey}),
 			closeTrailing: () => onItemClose(true)

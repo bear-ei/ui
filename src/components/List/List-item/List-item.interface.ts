@@ -133,7 +133,7 @@ export interface UseListItemAnimatedOptions {
 }
 
 export interface TriggerListItemTrailingActionsOptions
-	extends Pick<ListItemProps, 'closeTrailing' | 'afterAffordance' | 'onActiveAfterAffordance'> {
+	extends Pick<ListItemProps, 'closeTrailing' | 'afterAffordance' | 'onActiveAfterAffordance' | 'onPressOut'> {
 	onItemClose: (close?: boolean) => void
 }
 
