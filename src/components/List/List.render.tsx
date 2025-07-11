@@ -28,7 +28,7 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
 			activeKey,
 			activeKeys,
 			afterAffordanceActiveKey,
-			extraData = [],
+			dependencies = [],
 			focusedIndex,
 			id,
 			layout,
@@ -53,8 +53,8 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
 				layout={layout}
 				ref={ref}
 				testID={`list__virtualList--${id}`}
-				extraData={[
-					...extraData,
+				dependencies={[
+					...dependencies,
 					`${activeKey}`,
 					`${activeKeys?.join()} `,
 					`${afterAffordanceActiveKey}`,

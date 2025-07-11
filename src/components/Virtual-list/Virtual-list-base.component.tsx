@@ -24,9 +24,9 @@ const VirtualListBaseInner = <T,>(
 	{
 		activeKey,
 		data,
+		dependencies,
 		enableAutoSelect,
 		endReachedThreshold = 0.1,
-		extraData,
 		focusedIndex,
 		gap = 0,
 		itemSize = 0,
@@ -121,7 +121,7 @@ const VirtualListBaseInner = <T,>(
 		() => (
 			<RenderVirtualListItem
 				data={visibleRangeData as VirtualListData<T>[]}
-				extraData={extraData}
+				dependencies={dependencies}
 				id={id}
 				itemSize={itemSize + gap}
 				layout={layout}
@@ -131,7 +131,18 @@ const VirtualListBaseInner = <T,>(
 				startIndex={startIndex}
 			/>
 		),
-		[extraData, gap, id, itemSize, layout, onLoadEnd, onUnmount, renderItem, startIndex, visibleRangeData]
+		[
+			dependencies,
+			gap,
+			id,
+			itemSize,
+			layout,
+			onLoadEnd,
+			onUnmount,
+			renderItem,
+			startIndex,
+			visibleRangeData
+		]
 	)
 
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as ScrollView, [animatedRef])

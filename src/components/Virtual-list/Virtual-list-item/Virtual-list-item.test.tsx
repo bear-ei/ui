@@ -3,7 +3,7 @@ import {renderWithAct} from '../../../../__test__'
 import {VirtualListItem} from '../Virtual-list-item'
 
 describe('VirtualListItem Component', () => {
-	const mockItem = {indexKey: 'test-1', extraData: ['a']} as any
+	const mockItem = {indexKey: 'test-1', dependencies: ['a']} as any
 	const mockRenderItem = jest.fn(({item}) => <>{item.indexKey}</>)
 	const mockOnUnmount = jest.fn()
 	const mockOnLoadEnd = jest.fn()

@@ -5,15 +5,15 @@ import {COMPONENT_STATUS} from '../../Common'
 import type {VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
 
 export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => {
-	const {extraData: prevExtraData, index: prevIndex, item: prevItem} = prevProps
+	const {dependencies: prevDependencies, index: prevIndex, item: prevItem} = prevProps
 
 	return (nextProps: VirtualListItemProps) => {
-		const {extraData: nextExtraData, index: nextIndex, item: nextItem} = nextProps
+		const {dependencies: nextDependencies, index: nextIndex, item: nextItem} = nextProps
 
 		return ![
-			prevExtraData?.join() !== nextExtraData?.join(),
+			prevDependencies?.join() !== nextDependencies?.join(),
 			prevIndex !== nextIndex,
-			prevItem?.extraData?.join() !== nextItem?.extraData?.join()
+			prevItem?.dependencies?.join() !== nextItem?.dependencies?.join()
 		].some(Boolean)
 	}
 }

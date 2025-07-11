@@ -18,7 +18,7 @@ export interface ListData
 	extends Pick<
 		ListItemProps,
 		| 'contentStyle'
-		| 'extraData'
+		| 'dependencies'
 		| 'headline'
 		| 'leading'
 		| 'supporting'
@@ -102,10 +102,10 @@ export type CreateRenderListItemOptions = Pick<
 	| 'closeTrailing'
 	| 'defaultActiveKey'
 	| 'density'
+	| 'dependencies'
 	| 'divider'
 	| 'enableUnderlay'
 	| 'enableUnderlayActive'
-	| 'extraData'
 	| 'focusedIndex'
 	| 'id'
 	| 'onActive'

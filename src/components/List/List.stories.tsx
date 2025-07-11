@@ -100,7 +100,7 @@ export const Select = () => {
 				indexKey: `Title${index + 1}`,
 				headline: `Title${index + 1}`,
 				leading: <Icon />,
-				extraData: []
+				dependencies: []
 			})),
 		[]
 	)
@@ -132,7 +132,7 @@ export const Multiselect = () => {
 				indexKey: `Title${index + 1}`,
 				headline: `Title${index + 1}`,
 				leading: <Icon />,
-				extraData: []
+				dependencies: []
 			})),
 		[]
 	)
@@ -168,7 +168,7 @@ export const Horizontal = () => {
 				indexKey: `Title${index + 1}`,
 				headline: `Title${index + 1}`,
 				leading: <Icon />,
-				extraData: []
+				dependencies: []
 			})),
 		[]
 	)

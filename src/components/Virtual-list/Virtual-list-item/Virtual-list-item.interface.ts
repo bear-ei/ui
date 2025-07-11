@@ -5,7 +5,7 @@ import type {ComponentStatus} from '../../Common'
 import type {RenderVirtualListProps} from '../Virtual-list.interface'
 
 export interface Item {
-	extraData?: string[]
+	dependencies?: string[]
 }
 
 export interface RenderVirtualListItemInfo<T> {
@@ -18,7 +18,7 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
 		RefAttributes<View>,
 		Pick<
 			RenderVirtualListProps<T>,
-			'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'layout'
+			'itemSize' | 'renderItem' | 'dependencies' | 'onLoadEnd' | 'gap' | 'layout'
 		> {
 	index?: number
 	item?: T & Item

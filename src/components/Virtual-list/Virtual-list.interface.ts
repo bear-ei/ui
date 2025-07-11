@@ -17,10 +17,10 @@ export interface OnVirtualListCloseOptions {
 export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<ScrollView> {
 	activeKey?: string
 	data?: VirtualListData<T>[]
+	dependencies?: string[]
 	emptyElement?: React.JSX.Element
 	enableAutoSelect?: boolean
 	endReachedThreshold?: number
-	extraData?: string[]
 	focusedIndex?: number
 	gap?: number
 	itemSize?: number
@@ -86,7 +86,7 @@ export interface UseVirtualListScrollAnimatedOptions
 export interface RenderVirtualListItemOptions<T>
 	extends Pick<
 		RenderVirtualListProps<T>,
-		'itemSize' | 'renderItem' | 'extraData' | 'onLoadEnd' | 'gap' | 'id' | 'data' | 'layout'
+		'itemSize' | 'renderItem' | 'dependencies' | 'onLoadEnd' | 'gap' | 'id' | 'data' | 'layout'
 	> {
 	onUnmount?: (indexKey?: string) => void
 	startIndex?: number

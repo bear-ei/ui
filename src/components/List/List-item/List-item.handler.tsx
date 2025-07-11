@@ -19,8 +19,8 @@ export const compareListItemProps = (prevProps: ListItemProps) => {
 		activeKey: prevActiveKey,
 		activeKeys: prevActiveKeys,
 		afterAffordanceActiveKey: prevAfterAffordanceActiveKey,
+		dependencies: prevDependencies,
 		disabled: isPrevDisabled,
-		extraData: prevExtraData,
 		focusedIndex: prevFocusedIndex,
 		indexKey: prevIndexKey,
 		itemIndex: prevItemIndex,
@@ -32,8 +32,8 @@ export const compareListItemProps = (prevProps: ListItemProps) => {
 			activeKey: nextActiveKey,
 			activeKeys: nextActiveKeys,
 			afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
+			dependencies: nextDependencies,
 			disabled: isNextDisabled,
-			extraData: nextExtraData,
 			focusedIndex: nextFocusedIndex,
 			indexKey: nextIndexKey,
 			itemIndex: nextItemIndex,
@@ -64,7 +64,7 @@ export const compareListItemProps = (prevProps: ListItemProps) => {
 			isAfterAffordanceActiveChange,
 			isFocusedIndexChange,
 			isPrevDisabled !== isNextDisabled,
-			prevExtraData?.join() !== nextExtraData?.join(),
+			prevDependencies?.join() !== nextDependencies?.join(),
 			prevSkeletonMinDuration !== nextSkeletonMinDuration
 		].some(Boolean)
 	}

@@ -33,12 +33,12 @@ describe('List Component', () => {
 		expect(item3).toBeTruthy()
 	})
 
-	it('should applies extraData correctly and rerenders items', async () => {
-		const extraData = ['foo']
+	it('should applies dependencies correctly and rerenders items', async () => {
+		const dependencies = ['foo']
 		const {getByTestId} = await renderWithAct(
 			<List
 				data={mockData}
-				extraData={extraData}
+				dependencies={dependencies}
 			/>
 		)
 
