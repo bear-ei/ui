@@ -10,5 +10,6 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 		!visible &&
 		css`
 			z-index: -4096;
+			pointer-events: none;
 		`}
 `

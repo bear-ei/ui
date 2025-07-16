@@ -15,6 +15,7 @@ export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
 		return (
 			<AnimatedContainer
 				{...containerProps}
+				aria-hidden={!visible}
 				onLayout={onLayout}
 				ref={ref}
 				style={[style, containerAnimatedStyle]}

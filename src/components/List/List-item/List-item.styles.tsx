@@ -83,7 +83,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
 	align-self: stretch;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: flex-start;
 	overflow: hidden;
 	position: relative;
 	z-index: 4;

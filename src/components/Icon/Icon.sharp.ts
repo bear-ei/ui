@@ -14,6 +14,8 @@ import ArrowForwardIOSFill from '@material-symbols/svg-400/sharp/arrow_forward_i
 import ArrowForwardIOS from '@material-symbols/svg-400/sharp/arrow_forward_ios.svg'
 import BackspaceFill from '@material-symbols/svg-400/sharp/backspace-fill.svg'
 import Backspace from '@material-symbols/svg-400/sharp/backspace.svg'
+import BookFill from '@material-symbols/svg-400/sharp/book-fill.svg'
+import Book from '@material-symbols/svg-400/sharp/book.svg'
 import BookmarkFill from '@material-symbols/svg-400/sharp/bookmark-fill.svg'
 import Bookmark from '@material-symbols/svg-400/sharp/bookmark.svg'
 import BookmarkAddFill from '@material-symbols/svg-400/sharp/bookmark_add-fill.svg'
@@ -188,6 +190,7 @@ import {ICON_NAME, ICON_TYPE} from './Icon.enum'
 
 export const sharp = {
 	[ICON_TYPE.FILLED]: {
+		[ICON_NAME.BOOK]: BookFill,
 		[ICON_NAME.ADD]: AddFill,
 		[ICON_NAME.ADD_HOME]: AddHomeFill,
 		[ICON_NAME.ALARM_ON]: AlarmOnFill,
@@ -283,22 +286,23 @@ export const sharp = {
 		[ICON_NAME.WORK]: WorkFill
 	},
 	[ICON_TYPE.OUTLINED]: {
-		[ICON_NAME.ADD]: Add,
 		[ICON_NAME.ADD_HOME]: AddHome,
+		[ICON_NAME.ADD]: Add,
 		[ICON_NAME.ALARM_ON]: AlarmOn,
-		[ICON_NAME.ARROW_BACK]: ArrowBack,
 		[ICON_NAME.ARROW_BACK_IOS]: ArrowBackIOS,
-		[ICON_NAME.ARROW_FORWARD]: ArrowForward,
+		[ICON_NAME.ARROW_BACK]: ArrowBack,
 		[ICON_NAME.ARROW_FORWARD_IOS]: ArrowForwardIOS,
+		[ICON_NAME.ARROW_FORWARD]: ArrowForward,
 		[ICON_NAME.BACKSPACE]: Backspace,
-		[ICON_NAME.BOOKMARK]: Bookmark,
+		[ICON_NAME.BOOK]: Book,
 		[ICON_NAME.BOOKMARK_ADD]: BookmarkAdd,
+		[ICON_NAME.BOOKMARK]: Bookmark,
 		[ICON_NAME.BOX]: Box,
 		[ICON_NAME.BUILD_CIRCLE]: BuildCircle,
 		[ICON_NAME.CHAT]: Chat,
-		[ICON_NAME.CHECK]: Check,
-		[ICON_NAME.CHECK_BOX]: CheckBox,
 		[ICON_NAME.CHECK_BOX_OUTLINE_BLANK]: CheckBoxOutlineBlank,
+		[ICON_NAME.CHECK_BOX]: CheckBox,
+		[ICON_NAME.CHECK]: Check,
 		[ICON_NAME.CIRCLE]: Circle,
 		[ICON_NAME.CLOSE]: Close,
 		[ICON_NAME.COFFEE]: Coffee,
@@ -313,8 +317,8 @@ export const sharp = {
 		[ICON_NAME.FAVORITE]: Favorite,
 		[ICON_NAME.FILTER_LIST]: FilterList,
 		[ICON_NAME.FOLDER_SPECIAL]: FolderSpecial,
-		[ICON_NAME.FULLSCREEN]: Fullscreen,
 		[ICON_NAME.FULLSCREEN_EXIT]: FullscreenExit,
+		[ICON_NAME.FULLSCREEN]: Fullscreen,
 		[ICON_NAME.GENRES]: Genres,
 		[ICON_NAME.GLOBE]: Globe,
 		[ICON_NAME.GROUP]: Group,
@@ -330,20 +334,20 @@ export const sharp = {
 		[ICON_NAME.LINK]: Link,
 		[ICON_NAME.LOGOUT]: Logout,
 		[ICON_NAME.MAIL]: Mail,
-		[ICON_NAME.MENU]: Menu,
 		[ICON_NAME.MENU_BOOK]: MenuBook,
 		[ICON_NAME.MENU_OPEN]: MenuOpen,
-		[ICON_NAME.MORE]: More,
+		[ICON_NAME.MENU]: Menu,
 		[ICON_NAME.MORE_HORIZ]: MoreHoriz,
 		[ICON_NAME.MORE_VERT]: MoreVert,
+		[ICON_NAME.MORE]: More,
 		[ICON_NAME.NEW_LABEL]: NewLabel,
 		[ICON_NAME.OPEN_IN_BROWSER]: OpenInBrowser,
 		[ICON_NAME.OTHER_HOUSES]: OtherHouses,
 		[ICON_NAME.PAID]: Paid,
 		[ICON_NAME.PALETTE]: Palette,
 		[ICON_NAME.PARTLY_CLOUDY_DAY]: PartlyCloudyDay,
-		[ICON_NAME.PERSON]: Person,
 		[ICON_NAME.PERSON_REMOVE]: PersonRemove,
+		[ICON_NAME.PERSON]: Person,
 		[ICON_NAME.PET_SUPPLIES]: PetSupplies,
 		[ICON_NAME.PHOTO_CAMERA]: PhotoCamera,
 		[ICON_NAME.PILL]: Pill,
@@ -372,8 +376,8 @@ export const sharp = {
 		[ICON_NAME.SYNC_ALT]: SyncAlt,
 		[ICON_NAME.TAG]: Tag,
 		[ICON_NAME.TRAVEL_EXPLORE]: TravelExplore,
-		[ICON_NAME.VISIBILITY]: Visibility,
 		[ICON_NAME.VISIBILITY_OFF]: VisibilityOff,
+		[ICON_NAME.VISIBILITY]: Visibility,
 		[ICON_NAME.WINDOW]: Window,
 		[ICON_NAME.WORK]: Work
 	}

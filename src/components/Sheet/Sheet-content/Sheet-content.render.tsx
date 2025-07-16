@@ -19,7 +19,7 @@ import {
 	Content,
 	Footer,
 	FooterLayout,
-	FooterLayoutContainer,
+	FooterLayoutAnimated,
 	Header,
 	HeaderText,
 	HeadlineLayout,
@@ -120,7 +120,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 		ref
 	) => {
 		const theme = useTheme()
-		const footerLayoutContainerContentSize = useMemo(
+		const footerLayoutAnimatedContentSize = useMemo(
 			() => ({
 				height: theme.adaptFontSize(theme.token.spacing.extraSmall * 20)
 			}),
@@ -182,9 +182,9 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 					</Header>
 
 					<Main testID={`sheetContent__main--${id}`}>{content}</Main>
-					<FooterLayoutContainer
+					<FooterLayoutAnimated
 						animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
-						contentSize={footerLayoutContainerContentSize}
+						contentSize={footerLayoutAnimatedContentSize}
 						entry={{
 							duration: DURATION.MEDIUM_3,
 							easing: EASING.EMPHASIZED_DECELERATE
@@ -193,7 +193,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 							duration: DURATION.SHORT_3,
 							easing: EASING.EMPHASIZED_ACCELERATE
 						}}
-						testID={`sheetContent__footerLayoutContainer--${id}`}
+						testID={`sheetContent__footerLayout--${id}`}
 						translate={true}
 						visible={footerVisible}
 					>
@@ -242,7 +242,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 								</SecondaryButton>
 							</Footer>
 						</FooterLayout>
-					</FooterLayoutContainer>
+					</FooterLayoutAnimated>
 				</Content>
 			</AnimatedContainer>
 		)
