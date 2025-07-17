@@ -48,7 +48,7 @@ export interface ListItemProps
 	 * color when ripples are enabled.
 	 */
 	contentStyle?: StyleProp<ViewStyle>
-	dependencies?: string[]
+	dependencies?: unknown[]
 	headline?: React.ReactNode
 	indexKey?: string
 	itemIndex?: number

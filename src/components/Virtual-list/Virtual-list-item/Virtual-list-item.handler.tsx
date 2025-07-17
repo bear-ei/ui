@@ -9,12 +9,17 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => 
 
 	return (nextProps: VirtualListItemProps) => {
 		const {dependencies: nextDependencies, index: nextIndex, item: nextItem} = nextProps
+		const isDependenciesChanged =
+			prevDependencies?.length !== nextDependencies?.length ||
+			prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
 
-		return ![
-			prevDependencies?.join() !== nextDependencies?.join(),
-			prevIndex !== nextIndex,
-			prevItem?.dependencies?.join() !== nextItem?.dependencies?.join()
-		].some(Boolean)
+		const isItemDependenciesChanged =
+			prevItem?.dependencies?.length !== nextItem?.dependencies?.length ||
+			prevItem?.dependencies?.some(
+				(dependence, index) => dependence !== nextItem?.dependencies?.[index]
+			)
+
+		return ![isDependenciesChanged, prevIndex !== nextIndex, isItemDependenciesChanged].some(Boolean)
 	}
 }
 

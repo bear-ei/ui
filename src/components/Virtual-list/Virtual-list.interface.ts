@@ -17,7 +17,7 @@ export interface OnVirtualListCloseOptions {
 export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<ScrollView> {
 	activeKey?: string
 	data?: VirtualListData<T>[]
-	dependencies?: string[]
+	dependencies?: unknown[]
 	emptyElement?: React.JSX.Element
 	enableAutoSelect?: boolean
 	endReachedThreshold?: number

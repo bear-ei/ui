@@ -58,13 +58,17 @@ export const compareListItemProps = (prevProps: ListItemProps) => {
 			nextFocusedIndex !== prevFocusedIndex &&
 			(nextFocusedIndex === nextItemIndex || prevFocusedIndex === prevItemIndex)
 
+		const isDependenciesChanged =
+			prevDependencies?.length !== nextDependencies?.length ||
+			prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
+
 		return ![
 			isActiveKeyChange,
 			isActiveKeysChange,
 			isAfterAffordanceActiveChange,
 			isFocusedIndexChange,
 			isPrevDisabled !== isNextDisabled,
-			prevDependencies?.join() !== nextDependencies?.join(),
+			isDependenciesChanged,
 			prevSkeletonMinDuration !== nextSkeletonMinDuration
 		].some(Boolean)
 	}
