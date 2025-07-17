@@ -21,7 +21,8 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 			interactionHandlers,
 			labelText,
 			labelTextAnimatedStyle,
-			testID
+			testID,
+			...touchableProps
 		},
 		ref
 	) => {
@@ -35,8 +36,14 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 		)
 
 		return (
-			<Container testID={testID ?? `listAffordanceButton--${id}`}>
+			<Container
+				testID={testID ?? `listAffordanceButton--${id}`}
+				accessibilityLabel={accessibilityLabel ?? labelText}
+				accessibilityRole='button'
+				tabIndex={-1}
+			>
 				<Touchable
+					{...touchableProps}
 					{...interactionHandlers}
 					backgroundUnderlay={backgroundUnderlayElement}
 					disabled={disabled}
@@ -44,11 +51,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 					testID={`listAffordanceButton__touchable--${id}`}
 					underlayColor={underlayColor}
 				>
-					<Content
-						accessibilityLabel={accessibilityLabel ?? labelText}
-						accessibilityRole='button'
-						testID={`listAffordanceButton__content--${id}`}
-					>
+					<Content testID={`listAffordanceButton__content--${id}`}>
 						{icon ?? (
 							<AnimatedLabelText
 								ellipsizeMode='tail'

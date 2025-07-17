@@ -46,6 +46,7 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 				<Touchable
 					{...touchableInteractionHandlers}
 					testID={`search__touchable--${id}`}
+					tabIndex={-1}
 				>
 					<Content
 						accessibilityLabel={accessibilityLabel ?? placeholder}

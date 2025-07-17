@@ -93,6 +93,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				accessibilityState={{disabled}}
 				accessible={true}
 				loading={loading}
+				tabIndex={-1}
 				testID={testID ?? `iconButton--${id}`}
 			>
 				<ContentItemLayout

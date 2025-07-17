@@ -93,6 +93,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 				density={density}
 				extendedFAB={extendedFAB}
 				size={size}
+				tabIndex={-1}
 				testID={testID ?? `fab--${id}`}
 			>
 				<Touchable

@@ -41,6 +41,7 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
 				accessibilityLabel={accessibilityLabel ?? labelText}
 				accessibilityRole='tab'
 				accessible={true}
+				tabIndex={-1}
 				testID={testID ?? `navigationRailItem--${id}`}
 			>
 				<Touchable

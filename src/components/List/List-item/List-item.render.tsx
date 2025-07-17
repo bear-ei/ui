@@ -175,6 +175,7 @@ export const RenderListItem = forwardRef<PressableType, RenderListItemProps>(
 				accessibilityRole='menuitem'
 				density={density}
 				shape={shape}
+				tabIndex={-1}
 				testID={testID ?? `listItem--${id}`}
 				type={type}
 			>

@@ -27,6 +27,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 	) => {
 		const theme = useTheme()
 		const fill = theme.token.scheme.onPrimary
+		const buttonTabIndex = visible ? 0 : -1
 		const checkIconElement = (
 			<Icon
 				fill={fill}
@@ -61,6 +62,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 					{...(doubleConfirmed && {icon: checkIconElement})}
 					{...{labelText: 'Confirm', ...primaryButtonProps}}
 					onPressOut={onConfirm}
+					tabIndex={buttonTabIndex}
 					testID={`listAfterAffordance__listAffordanceButton--confirmed--${id}`}
 				/>
 
@@ -68,6 +70,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 					{...(doubleConfirmed && {icon: closeIconElement})}
 					{...{labelText: 'Cancel', ...secondaryButtonProps}}
 					onPressOut={onCancel}
+					tabIndex={buttonTabIndex}
 					testID={`listAfterAffordance__listAffordanceButton--close--${id}`}
 				/>
 

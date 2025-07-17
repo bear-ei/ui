@@ -133,6 +133,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 		const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.SIDEBAR ? SHAPE.LARGE : positionShape)
 		const {style: primaryButtonStyle} = primaryButtonProps ?? ({} as ButtonProps)
 		const {style: secondaryButtonStyle} = secondaryButtonProps ?? ({} as ButtonProps)
+		const buttonTabIndex = footerVisible ? 0 : -1
 
 		return (
 			<AnimatedContainer
@@ -218,6 +219,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 												...primaryButtonProps
 											}}
 											onPressOut={onConfirm}
+											tabIndex={buttonTabIndex}
 											testID={`sheetContent__confirmButton--${id}`}
 											type={BUTTON_TYPE.FILLED}
 										/>
@@ -235,6 +237,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 												...secondaryButtonProps
 											}}
 											onPressOut={onCancel}
+											tabIndex={buttonTabIndex}
 											testID={`sheetContent__cancelButton--${id}`}
 											type={BUTTON_TYPE.OUTLINED}
 										/>

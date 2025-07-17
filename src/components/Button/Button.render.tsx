@@ -110,6 +110,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 				accessibilityRole='button'
 				accessibilityState={{disabled}}
 				accessible={true}
+				tabIndex={-1}
 				testID={testID ?? `button--${id}`}
 				type={type}
 			>

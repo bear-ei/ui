@@ -89,6 +89,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 							accessibilityRole: 'keyboardkey'
 						})}
 						onFocus={onHeaderFocus}
+						tabIndex={-1}
 						testID={`textInput__touchableHeader--${id}`}
 					>
 						<AnimatedHeader
