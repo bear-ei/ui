@@ -110,6 +110,8 @@ import NewLabelFill from '@material-symbols/svg-400/rounded/new_label-fill.svg'
 import NewLabel from '@material-symbols/svg-400/rounded/new_label.svg'
 import OpenInBrowserFill from '@material-symbols/svg-400/rounded/open_in_browser-fill.svg'
 import OpenInBrowser from '@material-symbols/svg-400/rounded/open_in_browser.svg'
+import OpenInNewFill from '@material-symbols/svg-400/rounded/open_in_new-fill.svg'
+import OpenInNew from '@material-symbols/svg-400/rounded/open_in_new.svg'
 import OtherHousesFill from '@material-symbols/svg-400/rounded/other_houses-fill.svg'
 import OtherHouses from '@material-symbols/svg-400/rounded/other_houses.svg'
 import PaidFill from '@material-symbols/svg-400/rounded/paid-fill.svg'
@@ -190,23 +192,23 @@ import {ICON_NAME, ICON_TYPE} from './Icon.enum'
 
 export const rounded = {
 	[ICON_TYPE.FILLED]: {
-		[ICON_NAME.BOOK]: BookFill,
-		[ICON_NAME.ADD]: AddFill,
 		[ICON_NAME.ADD_HOME]: AddHomeFill,
+		[ICON_NAME.ADD]: AddFill,
 		[ICON_NAME.ALARM_ON]: AlarmOnFill,
-		[ICON_NAME.ARROW_BACK]: ArrowBackFill,
 		[ICON_NAME.ARROW_BACK_IOS]: ArrowBackIOSFill,
-		[ICON_NAME.ARROW_FORWARD]: ArrowForwardFill,
+		[ICON_NAME.ARROW_BACK]: ArrowBackFill,
 		[ICON_NAME.ARROW_FORWARD_IOS]: ArrowForwardIOSFill,
+		[ICON_NAME.ARROW_FORWARD]: ArrowForwardFill,
 		[ICON_NAME.BACKSPACE]: BackspaceFill,
-		[ICON_NAME.BOOKMARK]: BookmarkFill,
+		[ICON_NAME.BOOK]: BookFill,
 		[ICON_NAME.BOOKMARK_ADD]: BookmarkAddFill,
+		[ICON_NAME.BOOKMARK]: BookmarkFill,
 		[ICON_NAME.BOX]: BoxFill,
 		[ICON_NAME.BUILD_CIRCLE]: BuildCircleFill,
 		[ICON_NAME.CHAT]: ChatFill,
-		[ICON_NAME.CHECK]: CheckFill,
-		[ICON_NAME.CHECK_BOX]: CheckBoxFill,
 		[ICON_NAME.CHECK_BOX_OUTLINE_BLANK]: CheckBoxOutlineBlankFill,
+		[ICON_NAME.CHECK_BOX]: CheckBoxFill,
+		[ICON_NAME.CHECK]: CheckFill,
 		[ICON_NAME.CIRCLE]: CircleFill,
 		[ICON_NAME.CLOSE]: CloseFill,
 		[ICON_NAME.COFFEE]: CoffeeFill,
@@ -221,8 +223,8 @@ export const rounded = {
 		[ICON_NAME.FAVORITE]: FavoriteFill,
 		[ICON_NAME.FILTER_LIST]: FilterListFill,
 		[ICON_NAME.FOLDER_SPECIAL]: FolderSpecialFill,
-		[ICON_NAME.FULLSCREEN]: FullscreenFill,
 		[ICON_NAME.FULLSCREEN_EXIT]: FullscreenExitFill,
+		[ICON_NAME.FULLSCREEN]: FullscreenFill,
 		[ICON_NAME.GENRES]: GenresFill,
 		[ICON_NAME.GLOBE]: GlobeFill,
 		[ICON_NAME.GROUP]: GroupFill,
@@ -238,20 +240,21 @@ export const rounded = {
 		[ICON_NAME.LINK]: LinkFill,
 		[ICON_NAME.LOGOUT]: LogoutFill,
 		[ICON_NAME.MAIL]: MailFill,
-		[ICON_NAME.MENU]: MenuFill,
 		[ICON_NAME.MENU_BOOK]: MenuBookFill,
 		[ICON_NAME.MENU_OPEN]: MenuOpenFill,
-		[ICON_NAME.MORE]: MoreFill,
+		[ICON_NAME.MENU]: MenuFill,
 		[ICON_NAME.MORE_HORIZ]: MoreHorizFill,
 		[ICON_NAME.MORE_VERT]: MoreVertFill,
+		[ICON_NAME.MORE]: MoreFill,
 		[ICON_NAME.NEW_LABEL]: NewLabelFill,
 		[ICON_NAME.OPEN_IN_BROWSER]: OpenInBrowserFill,
+		[ICON_NAME.OPEN_IN_NEW]: OpenInNewFill,
 		[ICON_NAME.OTHER_HOUSES]: OtherHousesFill,
 		[ICON_NAME.PAID]: PaidFill,
 		[ICON_NAME.PALETTE]: PaletteFill,
 		[ICON_NAME.PARTLY_CLOUDY_DAY]: PartlyCloudyDayFill,
-		[ICON_NAME.PERSON]: PersonFill,
 		[ICON_NAME.PERSON_REMOVE]: PersonRemoveFill,
+		[ICON_NAME.PERSON]: PersonFill,
 		[ICON_NAME.PET_SUPPLIES]: PetSuppliesFill,
 		[ICON_NAME.PHOTO_CAMERA]: PhotoCameraFill,
 		[ICON_NAME.PILL]: PillFill,
@@ -280,8 +283,8 @@ export const rounded = {
 		[ICON_NAME.SYNC_ALT]: SyncAltFill,
 		[ICON_NAME.TAG]: TagFill,
 		[ICON_NAME.TRAVEL_EXPLORE]: TravelExploreFill,
-		[ICON_NAME.VISIBILITY]: VisibilityFill,
 		[ICON_NAME.VISIBILITY_OFF]: VisibilityOffFill,
+		[ICON_NAME.VISIBILITY]: VisibilityFill,
 		[ICON_NAME.WINDOW]: WindowFill,
 		[ICON_NAME.WORK]: WorkFill
 	},
@@ -342,6 +345,7 @@ export const rounded = {
 		[ICON_NAME.MORE]: More,
 		[ICON_NAME.NEW_LABEL]: NewLabel,
 		[ICON_NAME.OPEN_IN_BROWSER]: OpenInBrowser,
+		[ICON_NAME.OPEN_IN_NEW]: OpenInNew,
 		[ICON_NAME.OTHER_HOUSES]: OtherHouses,
 		[ICON_NAME.PAID]: Paid,
 		[ICON_NAME.PALETTE]: Palette,

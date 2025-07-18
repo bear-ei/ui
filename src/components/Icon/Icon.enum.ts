@@ -10,6 +10,7 @@ export const ICON_TYPE = {
 } as const
 
 export const ICON_NAME = {
+	OPEN_IN_NEW: 'OPEN_IN_NEW',
 	ADD_HOME: 'ADD_HOME',
 	ADD: 'ADD',
 	ALARM_ON: 'ALARM_ON',
