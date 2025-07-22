@@ -8,7 +8,7 @@ import {
 	emitTooltipSupporting,
 	handleTooltipStateChange,
 	unmountTooltipSupporting,
-	updateTooltipVisible
+	updateTooltipVisibility
 } from './Tooltip.handler'
 import type {TooltipBaseProps, TooltipState} from './Tooltip.interface'
 import {RenderTooltip} from './Tooltip.render'
@@ -35,7 +35,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		const id = useId()
 		const onTooltipVisible = useMemo(
 			() =>
-				createDeferredHandlerWithState(updateTooltipVisible(onVisible))(setState)({
+				createDeferredHandlerWithState(updateTooltipVisibility(onVisible))(setState)({
 					debounceMillisecond: 300
 				}),
 			[onVisible, setState]
@@ -56,19 +56,19 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			onStateEventChange
 		})
 
+		console.info(containerRef.current, 'containerCurrent')
 		const runEmitTooltipSupporting = useMemo(
 			() =>
 				emitTooltipSupporting(id)({
-					containerCurrent: containerRef.current,
+					// containerCurrent: containerRef.current,
 					elevation,
 					onVisible: onTooltipVisible,
 					shape,
 					supporting,
 					supportingPosition,
-					type,
-					visible: isTooltipVisible
+					type
 				}),
-			[elevation, id, isTooltipVisible, onTooltipVisible, shape, supporting, supportingPosition, type]
+			[elevation, id, onTooltipVisible, shape, supporting, supportingPosition, type]
 		)
 
 		const runUnmountTooltipSupporting = useMemo(() => unmountTooltipSupporting(id), [id])
@@ -76,10 +76,10 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
 		useEffect(() => {
-			runEmitTooltipSupporting()
+			runEmitTooltipSupporting(isTooltipVisible)
 
 			return () => runUnmountTooltipSupporting()
-		}, [runEmitTooltipSupporting, runUnmountTooltipSupporting])
+		}, [isTooltipVisible, runEmitTooltipSupporting, runUnmountTooltipSupporting])
 
 		useEffect(() => {
 			onTooltipVisible(visible ?? defaultVisible)
@@ -94,6 +94,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 				{...renderTooltipProps}
 				id={id}
 				interactionHandlers={interactionHandlers}
+				ref={containerRef}
 			/>
 		)
 	}

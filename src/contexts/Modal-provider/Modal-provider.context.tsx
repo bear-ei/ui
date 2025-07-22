@@ -1,15 +1,17 @@
 import mitt from 'mitt'
 import type {FC, RefAttributes} from 'react'
 import {useEffect, useMemo} from 'react'
-import type {View, ViewProps} from 'react-native'
+import {View, type ViewProps} from 'react-native'
 import {useImmer} from 'use-immer'
-import {Sheet} from '../../components'
+import {Sheet, TooltipSupporting} from '../../components'
 import {MODAL_TYPE} from './Modal-provider.enum'
 import {manageModalState} from './Modal-provider.handler'
 import type {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './Modal-provider.interface'
 
 const ModalItem: FC<ModalItemProps> = ({type, modalProps, testID}) => {
-	const component = {[MODAL_TYPE.TOOL_TIP]: <></>, [MODAL_TYPE.SIDE_SHEET]: Sheet}
+	const component = {[MODAL_TYPE.TOOL_TIP]: TooltipSupporting, [MODAL_TYPE.SIDE_SHEET]: Sheet}
+
+	console.info('modal', type)
 
 	if (!type) {
 		return <></>
@@ -36,8 +38,18 @@ export const ModalProvider: FC<ModalProps> = () => {
 		return () => emitter.all.clear()
 	}, [onModal])
 
+	console.info(modals, 'modalsmodalsmodals')
+
 	return (
 		<>
+			<View
+				style={{
+					width: 400,
+					height: 400,
+					backgroundColor: 'red'
+				}}
+			/>
+
 			{modals.map(({type, props, id}) => (
 				<ModalItem
 					key={`${id}`}

@@ -5,7 +5,7 @@ import {EVENT_NAME, TRIGGER_EVENT} from '../Common'
 import type {TooltipSupportingProps} from './Tooltip-supporting'
 import type {HandleTooltipStateEventChangeOptions, TooltipState} from './Tooltip.interface'
 
-export const updateTooltipVisible =
+export const updateTooltipVisibility =
 	(onVisible?: (value?: boolean) => void) => (setState: Updater<TooltipState>) => (value?: boolean) => {
 		const nextActiveEvent = () => onVisible?.(value)
 
@@ -43,8 +43,8 @@ export const handleTooltipStateChange = ({
 
 export const emitTooltipSupporting =
 	(id: string) =>
-	({visible, supporting, ...props}: TooltipSupportingProps) =>
-	() =>
+	({supporting, ...props}: TooltipSupportingProps) =>
+	(visible?: boolean) =>
 		typeof visible === 'boolean' &&
 		supporting &&
 		emitter.emit('modal', {

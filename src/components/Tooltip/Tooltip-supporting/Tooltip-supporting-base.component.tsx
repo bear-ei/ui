@@ -25,7 +25,17 @@ import {useTooltipSupportingAnimated} from './use-tooltip-supporting-animated.ho
  * TODO: ADD Layout delay
  */
 export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps>(
-	({containerCurrent, onVisible, supportingPosition, type, visible, ...renderTooltipSupportingProps}, ref) => {
+	(
+		{
+			containerCurrent,
+			onVisible,
+			supportingPosition,
+			type,
+			visible: isVisible,
+			...renderTooltipSupportingProps
+		},
+		ref
+	) => {
 		const [{containerLayout, layout, status, closed: isClosed, invert: isInvert}, setState] =
 			useImmer<TooltipSupportingState>({
 				containerLayout: {} as TooltipSupportingState['containerLayout'],
@@ -48,7 +58,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			height: layout.height,
 			onClose: onTooltipSupportingClosed,
 			type,
-			visible
+			visible: isVisible
 		})
 
 		const onStateEventChange =
@@ -73,8 +83,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		)
 
 		useEffect(() => {
-			runTooltipSupportingContainerLayout(visible)
-		}, [runTooltipSupportingContainerLayout, visible])
+			runTooltipSupportingContainerLayout(isVisible)
+		}, [runTooltipSupportingContainerLayout, isVisible])
 
 		useEffect(() => {
 			runTooltipSupportingPositionInvert({height: windowHeight, width: windowWidth})

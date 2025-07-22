@@ -45,7 +45,7 @@ export interface TooltipSupportingState {
 export type HandleTooltipSupportingStateEventChangeOptions = HandleStateEventChangeOptions &
 	Pick<TooltipSupportingProps, 'onVisible'>
 
-export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'visible' | 'type'> {
+export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'type' | 'visible'> {
 	height?: number
 	onClose?: (value?: boolean) => void
 }
