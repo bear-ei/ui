@@ -1,15 +1,9 @@
 import {View} from 'react-native'
-import type {RuleSet} from 'styled-components'
 import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
-import type {TooltipType} from '../Tooltip.interface'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
-import type {
-	SupportingPosition,
-	TooltipSupportingContentProps,
-	TooltipSupportingMainProps
-} from './Tooltip-supporting.interface'
+import type {TooltipSupportingContentProps, TooltipSupportingMainProps} from './Tooltip-supporting.interface'
 
 export const Container = styled(View)<TooltipSupportingContentProps>`
 	${({width = 0, height = 0, theme}) => css`
@@ -25,7 +19,8 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 		supportingPosition: position = SUPPORTING_POSITION.VERTICAL_START,
 		theme,
 		type = TOOLTIP_TYPE.PLAIN,
-		width = 0
+		width = 0,
+		menuPosition
 	}) => {
 		const {
 			height: containerHeight = 0,
@@ -35,57 +30,41 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 		} = containerLayout ?? {}
 
 		const supportingPosition = {
-			[TOOLTIP_TYPE.PLAIN]: {
-				[SUPPORTING_POSITION.VERTICAL_START]: css`
-					left: ${containerPageX - (width - containerWidth) / 2}px;
-					top: ${containerPageY -
-					height -
-					theme.adaptSize(theme.token.spacing.extraSmall)}px;
+			[SUPPORTING_POSITION.VERTICAL_START]: css`
+				left: ${containerPageX - (width - containerWidth) / 2}px;
+				top: ${containerPageY - height - theme.adaptSize(theme.token.spacing.extraSmall)}px;
 
-					transform-origin: bottom;
-				`,
-				[SUPPORTING_POSITION.VERTICAL_END]: css`
-					left: ${containerPageX - (width - containerWidth) / 2}px;
-					top: ${containerPageY +
-					containerHeight +
-					theme.adaptSize(theme.token.spacing.extraSmall)}px;
+				transform-origin: bottom;
+			`,
+			[SUPPORTING_POSITION.VERTICAL_END]: css`
+				left: ${containerPageX - (width - containerWidth) / 2}px;
+				top: ${containerPageY +
+				containerHeight +
+				theme.adaptSize(theme.token.spacing.extraSmall)}px;
 
-					transform-origin: top;
-				`,
-				[SUPPORTING_POSITION.HORIZONTAL_START]: css`
-					left: ${containerPageX -
-					width -
-					theme.adaptSize(theme.token.spacing.extraSmall)}px;
+				transform-origin: top;
+			`,
+			[SUPPORTING_POSITION.HORIZONTAL_START]: css`
+				left: ${containerPageX - width - theme.adaptSize(theme.token.spacing.extraSmall)}px;
+				top: ${containerPageY - (height - containerHeight) / 2}px;
+				transform-origin: right;
+			`,
+			[SUPPORTING_POSITION.HORIZONTAL_END]: css`
+				left: ${containerPageX +
+				containerWidth +
+				theme.adaptSize(theme.token.spacing.extraSmall)}px;
 
-					top: ${containerPageY - (height - containerHeight) / 2}px;
-					transform-origin: right;
-				`,
-				[SUPPORTING_POSITION.HORIZONTAL_END]: css`
-					left: ${containerPageX +
-					containerWidth +
-					theme.adaptSize(theme.token.spacing.extraSmall)}px;
+				top: ${containerPageY - (height - containerHeight) / 2}px;
+				transform-origin: left;
+			`
+		}
 
-					top: ${containerPageY - (height - containerHeight) / 2}px;
-					transform-origin: left;
+		return type === TOOLTIP_TYPE.PLAIN ?
+				supportingPosition[position]
+			:	css`
+					left: ${menuPosition.left ?? 0}px;
+					top: ${menuPosition.top ?? 0}px;
 				`
-			},
-			[TOOLTIP_TYPE.MENU]: {
-				[SUPPORTING_POSITION.VERTICAL_START]: css``,
-				[SUPPORTING_POSITION.VERTICAL_END]: css``,
-				[SUPPORTING_POSITION.HORIZONTAL_START]: css``,
-				[SUPPORTING_POSITION.HORIZONTAL_END]: css`
-					left: ${containerPageX +
-					containerWidth +
-					theme.adaptSize(theme.token.spacing.extraSmall)}px;
-
-					top: ${containerPageY +
-					containerHeight +
-					theme.adaptSize(theme.token.spacing.extraSmall)}px;
-				`
-			}
-		} as Record<TooltipType, Record<SupportingPosition, RuleSet<object> | undefined>>
-
-		return supportingPosition[type]?.[position]
 	}}
     
     ${({theme}) => {
@@ -109,6 +88,13 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 
 		return containerOS[theme.OS]
 	}}
+
+
+   ${({visible}) =>
+		!visible &&
+		css`
+			z-index: -16384;
+		`}
 `
 
 export const TouchableContent = styled.Pressable`

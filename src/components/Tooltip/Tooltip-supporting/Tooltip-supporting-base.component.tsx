@@ -11,7 +11,7 @@ import {
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {
-	handleTooltipSupportingPositionInvert,
+	handleTooltipSupportingPosition,
 	handleTooltipSupportingStateChange,
 	updateTooltipSupportingClosed,
 	updateTooltipSupportingContainerLayout,
@@ -34,8 +34,9 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		},
 		ref
 	) => {
-		const [{layout, status, invert: isInvert}, setState] = useImmer<TooltipSupportingState>({
+		const [{layout, status, invert: isInvert, menuPosition}, setState] = useImmer<TooltipSupportingState>({
 			layout: {} as LayoutRectangle,
+			menuPosition: {},
 			status: COMPONENT_STATUS.IDLE
 		})
 
@@ -79,8 +80,15 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		)
 
 		const runPositionInvert = useMemo(
-			() => handleTooltipSupportingPositionInvert({setState, supportingPosition})(containerRef),
-			[setState, supportingPosition]
+			() =>
+				handleTooltipSupportingPosition({
+					containerLayout,
+					setState,
+					supportingPosition,
+					theme,
+					type
+				})(containerRef),
+			[containerLayout, setState, supportingPosition, theme, type]
 		)
 
 		useEffect(() => {
@@ -89,11 +97,12 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 
 		useEffect(() => {
 			runPositionInvert({
-				height: windowHeight,
 				visible: isVisible,
-				width: windowWidth
+				windowHeight,
+				windowWidth,
+				layout
 			})
-		}, [isVisible, runPositionInvert, windowHeight, windowWidth])
+		}, [isVisible, layout, runPositionInvert, windowHeight, windowWidth])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
@@ -107,6 +116,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 				height={layout.height}
 				id={id}
 				interactionHandlers={interactionHandlers}
+				menuPosition={menuPosition}
 				ref={containerRef as React.LegacyRef<View>}
 				supportingPosition={position}
 				theme={theme}

@@ -8,7 +8,14 @@ import {Menu} from './Menu.component'
 
 export const Select = () => {
 	const [activeKey, setActiveKey] = useState<string | undefined>(undefined)
-	const style = {height: 800, width: '100%'} as StyleProp<ViewStyle>
+	const style = {
+		height: 800,
+		width: 800,
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center'
+	} as StyleProp<ViewStyle>
+
 	const containerStyle = {width: 48, height: 48} as StyleProp<ViewStyle>
 	const data = useMemo(
 		() =>

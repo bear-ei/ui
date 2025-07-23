@@ -33,6 +33,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 			type,
 			width = 0,
 			visible,
+			menuPosition,
 			...containerProps
 		},
 		ref
@@ -77,12 +78,14 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 			<AnimateContainer
 				{...containerProps}
 				containerLayout={containerLayout}
+				menuPosition={menuPosition}
 				height={height}
 				ref={ref}
 				style={[contentAnimatedStyle]}
 				supportingPosition={supportingPosition}
 				testID={testID ?? `tooltipSupporting__supporting--${id}`}
 				type={type}
+				visible={visible}
 				width={width}
 			>
 				{type === TOOLTIP_TYPE.MENU ?

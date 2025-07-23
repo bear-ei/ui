@@ -8,8 +8,9 @@ import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 import type {
 	AnimateTooltipSupportingOptions,
 	AnimateTooltipSupportingSharedValues,
-	HandleTooltipSupportingPositionInvertOptions,
-	HandleTooltipSupportingPositionInvertWindowOptions,
+	GetSafeMenuPositionOptions,
+	HandleTooltipSupportingPositionOptions,
+	HandleTooltipSupportingPositionWindowOptions,
 	HandleTooltipSupportingStateEventChangeOptions,
 	SupportingPosition,
 	TooltipSupportingState,
@@ -80,9 +81,40 @@ export const updateTooltipSupportingContainerLayout = ({
 		windowWidth && visible && updateTooltipSupportingLayout(containerLayout)
 }
 
-export const handleTooltipSupportingPositionInvert =
-	({supportingPosition, setState}: HandleTooltipSupportingPositionInvertOptions) =>
+export const handleTooltipSupportingPosition =
+	({supportingPosition, setState, type, containerLayout, theme}: HandleTooltipSupportingPositionOptions) =>
 	(ref: React.MutableRefObject<View | undefined>) => {
+		const getSafeMenuPosition = ({
+			height,
+			margin = 8,
+			width,
+			windowHeight,
+			windowWidth,
+			x = 0,
+			y = 0
+		}: GetSafeMenuPositionOptions) => {
+			let left = x
+			let top = y
+
+			if (left < margin) {
+				left = margin
+			}
+
+			if (left + width + margin > windowWidth) {
+				left = Math.max(windowWidth - width - margin, margin)
+			}
+
+			if (top < margin) {
+				top = margin
+			}
+
+			if (top + height + margin > windowHeight) {
+				top = Math.max(windowHeight - height - margin, margin)
+			}
+
+			return {left, top}
+		}
+
 		const updateTooltipSupportingInvert =
 			({
 				height,
@@ -99,12 +131,29 @@ export const handleTooltipSupportingPositionInvert =
 					:	height + pageY >= windowHeight && pageY > height
 			}
 
-		return ({
-			height: windowHeight,
-			visible,
-			width: windowWidth
-		}: HandleTooltipSupportingPositionInvertWindowOptions) =>
-			visible &&
+		return ({windowHeight, visible, windowWidth, layout}: HandleTooltipSupportingPositionWindowOptions) => {
+			if (!visible) {
+				return
+			}
+
+			if (type === TOOLTIP_TYPE.MENU) {
+				setState(draft => {
+					const {left, top} = getSafeMenuPosition({
+						height: layout.height,
+						margin: theme.adaptSize(theme.token.spacing.medium),
+						width: layout.width,
+						windowHeight,
+						windowWidth,
+						x: containerLayout?.pageX,
+						y: containerLayout?.pageY
+					})
+
+					draft.menuPosition = {left, top}
+				})
+
+				return
+			}
+
 			ref?.current?.measure((_x, _y, width, height, pageX, pageY) =>
 				setState(
 					updateTooltipSupportingInvert({
@@ -117,6 +166,7 @@ export const handleTooltipSupportingPositionInvert =
 					})
 				)
 			)
+		}
 	}
 
 export const updateTooltipSupportingPosition = (supportingPosition?: SupportingPosition) => (invert?: boolean) => {

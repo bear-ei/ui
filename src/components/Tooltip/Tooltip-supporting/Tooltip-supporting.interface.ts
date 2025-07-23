@@ -26,6 +26,7 @@ export interface RenderTooltipSupportingProps extends TooltipSupportingProps {
 	contentAnimatedStyle?: AnimatedStyle<ViewStyle>
 	height?: number
 	interactionHandlers: InteractionHandlers
+	menuPosition: {top?: number; left?: number}
 	theme: DefaultTheme
 	width?: number
 }
@@ -33,8 +34,8 @@ export interface RenderTooltipSupportingProps extends TooltipSupportingProps {
 export type TooltipSupportingBaseProps = TooltipSupportingProps
 export interface TooltipSupportingState {
 	invert?: boolean
-	invertY?: boolean
 	layout: LayoutRectangle
+	menuPosition: {top?: number; left?: number}
 	status: ComponentStatus
 	visible?: boolean
 }
@@ -73,19 +74,35 @@ export interface UpdateTooltipSupportingInvertOptions {
 	windowWidth: number
 }
 
-export interface HandleTooltipSupportingPositionInvertOptions
-	extends Pick<TooltipSupportingProps, 'supportingPosition'> {
+export interface HandleTooltipSupportingPositionOptions
+	extends Pick<TooltipSupportingProps, 'supportingPosition' | 'type' | 'containerLayout'> {
 	setState: Updater<TooltipSupportingState>
+	theme: DefaultTheme
 }
 
-export interface HandleTooltipSupportingPositionInvertWindowOptions
-	extends Pick<UpdateTooltipSupportingInvertOptions, 'width' | 'height'> {
+export interface HandleTooltipSupportingPositionWindowOptions {
+	layout: LayoutRectangle
 	visible?: boolean
+	windowHeight: number
+	windowWidth: number
 }
 
-export type TooltipSupportingContentProps = Pick<
-	RenderTooltipSupportingProps,
-	'type' | 'supportingPosition' | 'width' | 'height' | 'containerLayout'
->
+export interface TooltipSupportingContentProps
+	extends Pick<
+		RenderTooltipSupportingProps,
+		'type' | 'supportingPosition' | 'width' | 'height' | 'containerLayout' | 'visible'
+	> {
+	menuPosition: {top?: number; left?: number}
+}
 
 export type TooltipSupportingMainProps = Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition'>
+
+export interface GetSafeMenuPositionOptions {
+	height: number
+	margin?: number
+	width: number
+	windowHeight: number
+	windowWidth: number
+	x?: number
+	y?: number
+}
