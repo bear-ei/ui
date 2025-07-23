@@ -1,9 +1,13 @@
 import type {Updater} from 'use-immer'
 import {emitter, MODAL_TYPE} from '../../contexts'
 import type {StateEvent} from '../../hooks'
-import {EVENT_NAME, TRIGGER_EVENT} from '../Common'
+import {EVENT_NAME, TRIGGER_EVENT, type EventName, type TriggerEvent} from '../Common'
 import type {TooltipSupportingProps} from './Tooltip-supporting'
-import type {HandleTooltipStateEventChangeOptions, TooltipState} from './Tooltip.interface'
+import type {
+	EmitTooltipSupportingOptions,
+	HandleTooltipStateEventChangeOptions,
+	TooltipState
+} from './Tooltip.interface'
 
 export const updateTooltipVisibility =
 	(onVisible?: (value?: boolean) => void) => (setState: Updater<TooltipState>) => (value?: boolean) => {
@@ -11,6 +15,10 @@ export const updateTooltipVisibility =
 
 		if (typeof value === 'boolean') {
 			setState(draft => {
+				if (draft.tooltipVisible === value) {
+					return
+				}
+
 				draft.nextActiveEvent = nextActiveEvent
 				draft.tooltipVisible = value
 			})
@@ -23,10 +31,10 @@ export const handleTooltipStateChange = ({
 	triggerEvent = TRIGGER_EVENT.HOVER
 }: HandleTooltipStateEventChangeOptions) => {
 	const trigger = {
-		[TRIGGER_EVENT.FOCUS]: ['focus', 'blur'],
-		[TRIGGER_EVENT.HOVER]: ['hoverIn', 'hoverOut'],
-		[TRIGGER_EVENT.PRESS]: ['pressIn']
-	}
+		[TRIGGER_EVENT.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
+		[TRIGGER_EVENT.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
+		[TRIGGER_EVENT.PRESS]: [EVENT_NAME.PRESS_IN]
+	} as Record<TriggerEvent, readonly EventName[]>
 
 	return (_event: StateEvent) => {
 		if (eventName === EVENT_NAME.LAYOUT) {
@@ -44,12 +52,12 @@ export const handleTooltipStateChange = ({
 export const emitTooltipSupporting =
 	(id: string) =>
 	({supporting, ...props}: TooltipSupportingProps) =>
-	(visible?: boolean) =>
+	({visible, containerLayout}: EmitTooltipSupportingOptions) =>
 		typeof visible === 'boolean' &&
 		supporting &&
 		emitter.emit('modal', {
 			id: `tooltip__supporting--${id}`,
-			props: {...props, visible, supporting},
+			props: {...props, containerLayout, visible, supporting},
 			type: MODAL_TYPE.TOOL_TIP
 		})
 

@@ -36,19 +36,14 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		const onTooltipVisible = useMemo(
 			() =>
 				createDeferredHandlerWithState(updateTooltipVisibility(onVisible))(setState)({
-					debounceMillisecond: 300
+					debounceMillisecond: 100
 				}),
 			[onVisible, setState]
 		)
 
 		const onStateEventChange =
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleTooltipStateChange({
-					...options,
-					onTooltipVisible,
-					state,
-					triggerEvent
-				})(event)
+				handleTooltipStateChange({...options, onTooltipVisible, state, triggerEvent})(event)
 
 		const interactionHandlers = useInteractionStateEvent({
 			...renderTooltipProps,
@@ -56,38 +51,51 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			onStateEventChange
 		})
 
-		console.info(containerRef.current, 'containerCurrent')
 		const runEmitTooltipSupporting = useMemo(
 			() =>
 				emitTooltipSupporting(id)({
-					// containerCurrent: containerRef.current,
 					elevation,
 					onVisible: onTooltipVisible,
 					shape,
 					supporting,
 					supportingPosition,
+					triggerEvent,
 					type
 				}),
-			[elevation, id, onTooltipVisible, shape, supporting, supportingPosition, type]
+			[elevation, id, onTooltipVisible, shape, supporting, supportingPosition, triggerEvent, type]
 		)
 
 		const runUnmountTooltipSupporting = useMemo(() => unmountTooltipSupporting(id), [id])
+		const runTooltipVisible = useMemo(
+			() =>
+				createDeferredHandlerWithState(updateTooltipVisibility(onVisible))(setState)({
+					debounceMillisecond: 100
+				}),
+			[onVisible, setState]
+		)
 
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
 		useEffect(() => {
-			runEmitTooltipSupporting(isTooltipVisible)
-
-			return () => runUnmountTooltipSupporting()
+			containerRef.current?.measure((x, y, width, height, pageX, pageY) =>
+				runEmitTooltipSupporting({
+					containerLayout: {x, y, width, height, pageX, pageY},
+					visible: isTooltipVisible
+				})
+			)
 		}, [isTooltipVisible, runEmitTooltipSupporting, runUnmountTooltipSupporting])
 
 		useEffect(() => {
-			onTooltipVisible(visible ?? defaultVisible)
-		}, [onTooltipVisible, visible, defaultVisible])
+			runTooltipVisible(visible ?? defaultVisible)
+		}, [runTooltipVisible, visible, defaultVisible])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()
 		}, [nextActiveEvent])
+
+		useEffect(() => {
+			return () => runUnmountTooltipSupporting()
+		}, [runUnmountTooltipSupporting])
 
 		return (
 			<RenderTooltip

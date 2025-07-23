@@ -4,26 +4,25 @@ import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
-import type {ComponentStatus, ShapeType} from '../../Common'
+import type {ComponentStatus, ShapeType, TriggerEvent} from '../../Common'
 import type {ElevationLevel} from '../../Elevation'
 import type {TooltipType} from '../Tooltip.interface'
 import type {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 
 export type SupportingPosition = (typeof SUPPORTING_POSITION)[keyof typeof SUPPORTING_POSITION]
-export interface TooltipSupportingProps extends ViewProps, RefAttributes<View> {
-	containerCurrent?: View | null
+export interface TooltipSupportingProps extends ViewProps, RefAttributes<View>, InteractionHandlers {
+	containerLayout?: LayoutRectangle & {pageX: number; pageY: number}
 	elevation?: ElevationLevel
 	onVisible?: (value?: boolean) => void
 	shape?: ShapeType
 	supporting?: string | JSX.Element
 	supportingPosition?: SupportingPosition
+	triggerEvent?: TriggerEvent
 	type?: TooltipType
 	visible?: boolean
 }
 
-export interface RenderTooltipSupportingProps extends Omit<TooltipSupportingProps, 'containerCurrent'> {
-	closed?: boolean
-	containerLayout: LayoutRectangle & {pageX: number; pageY: number}
+export interface RenderTooltipSupportingProps extends TooltipSupportingProps {
 	contentAnimatedStyle?: AnimatedStyle<ViewStyle>
 	height?: number
 	interactionHandlers: InteractionHandlers
@@ -33,8 +32,6 @@ export interface RenderTooltipSupportingProps extends Omit<TooltipSupportingProp
 
 export type TooltipSupportingBaseProps = TooltipSupportingProps
 export interface TooltipSupportingState {
-	closed?: boolean
-	containerLayout: LayoutRectangle & {pageX: number; pageY: number}
 	invert?: boolean
 	invertY?: boolean
 	layout: LayoutRectangle
@@ -43,11 +40,12 @@ export interface TooltipSupportingState {
 }
 
 export type HandleTooltipSupportingStateEventChangeOptions = HandleStateEventChangeOptions &
-	Pick<TooltipSupportingProps, 'onVisible'>
+	Pick<TooltipSupportingProps, 'onVisible' | 'triggerEvent'>
 
 export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'type' | 'visible'> {
 	height?: number
 	onClose?: (value?: boolean) => void
+	status?: ComponentStatus
 }
 
 export interface UpdateTooltipSupportingContainerLayoutOptions {
@@ -56,8 +54,8 @@ export interface UpdateTooltipSupportingContainerLayoutOptions {
 }
 
 export interface AnimateTooltipSupportingOptions extends UseTooltipSupportingAnimatedOptions {
-	animateSharedValueTo: AnimateSharedValueTo
-	animateSharedValueToWithCallback: AnimateSharedValueTo
+	createEntrySharedValueAnimator: AnimateSharedValueTo
+	createExitSharedValueAnimator: AnimateSharedValueTo
 }
 
 export interface AnimateTooltipSupportingSharedValues {
@@ -80,22 +78,14 @@ export interface HandleTooltipSupportingPositionInvertOptions
 	setState: Updater<TooltipSupportingState>
 }
 
-export type HandleTooltipSupportingPositionInvertWindowOptions = Pick<
-	UpdateTooltipSupportingInvertOptions,
-	'width' | 'height'
+export interface HandleTooltipSupportingPositionInvertWindowOptions
+	extends Pick<UpdateTooltipSupportingInvertOptions, 'width' | 'height'> {
+	visible?: boolean
+}
+
+export type TooltipSupportingContentProps = Pick<
+	RenderTooltipSupportingProps,
+	'type' | 'supportingPosition' | 'width' | 'height' | 'containerLayout'
 >
-
-export interface TooltipSupportingContainerProps {
-	closed?: boolean
-}
-
-export interface TooltipSupportingContentProps
-	extends Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition' | 'width' | 'height'> {
-	closed?: boolean
-	containerHeight?: number
-	containerPageX?: number
-	containerPageY?: number
-	containerWidth?: number
-}
 
 export type TooltipSupportingMainProps = Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition'>

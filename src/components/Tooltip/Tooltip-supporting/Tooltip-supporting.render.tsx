@@ -19,7 +19,6 @@ const AnimateContainer = Animated.createAnimatedComponent(Container)
 export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingProps>(
 	(
 		{
-			closed,
 			containerLayout,
 			contentAnimatedStyle,
 			elevation,
@@ -36,21 +35,18 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 		},
 		ref
 	) => {
-		const {onLayout, ...mainStateEvent} = interactionHandlers
+		const {onLayout, ...mainInteractionHandlers} = interactionHandlers
 		const mainElement = (
 			<Main
+				onLayout={onLayout}
 				shape={shape ?? SHAPE.EXTRA_SMALL}
-				supportingPosition={supportingPosition}
-				testID={testID ?? `tooltipSupporting__main--${id}`}
+				testID={`tooltipSupporting__main--${id}`}
 				type={type}
 			>
 				{isValidElement(supporting) ?
-					<Supporting
-						onLayout={onLayout}
-						testID={`tooltipSupporting__supporting--${id}`}
-					>
+					<Supporting testID={`tooltipSupporting__supporting--${id}`}>
 						{type === TOOLTIP_TYPE.MENU ?
-							cloneElement(supporting, {...mainStateEvent})
+							cloneElement(supporting, {...mainInteractionHandlers})
 						:	supporting}
 					</Supporting>
 				:	<TooltipSupportingText
@@ -69,23 +65,19 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 		return (
 			<AnimateContainer
 				{...containerProps}
-				closed={closed}
-				containerHeight={containerLayout.height}
-				containerPageX={containerLayout.pageX}
-				containerPageY={containerLayout.pageY}
-				containerWidth={containerLayout.width}
+				containerLayout={containerLayout}
 				height={height}
 				ref={ref}
 				style={[contentAnimatedStyle]}
 				supportingPosition={supportingPosition}
-				testID={`tooltipSupporting__supporting--${id}`}
+				testID={testID ?? `tooltipSupporting__supporting--${id}`}
 				type={type}
 				width={width}
 			>
 				{type === TOOLTIP_TYPE.MENU ?
 					<Content testID={`tooltipSupporting_content--${id}`}>{mainElement}</Content>
 				:	<TouchableContent
-						{...mainStateEvent}
+						{...mainInteractionHandlers}
 						testID={`tooltipSupporting_content--${id}`}
 					>
 						{mainElement}
@@ -96,6 +88,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 					<Elevation
 						level={elevation}
 						shape={shape}
+						testID={`tooltipSupporting_elevation--${id}`}
 					/>
 				)}
 			</AnimateContainer>

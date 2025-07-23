@@ -1,8 +1,8 @@
 import type {WritableDraft} from 'immer'
-import type {LayoutChangeEvent, View} from 'react-native'
+import type {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../../hooks'
-import {COMPONENT_STATUS, EVENT_NAME} from '../../Common'
+import {COMPONENT_STATUS, EVENT_NAME, TRIGGER_EVENT, type EventName, type TriggerEvent} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 import type {
@@ -18,7 +18,7 @@ import type {
 } from './Tooltip-supporting.interface'
 
 export const handleTooltipSupportingStateChange =
-	({eventName, onVisible}: HandleTooltipSupportingStateEventChangeOptions) =>
+	({eventName, onVisible, triggerEvent = TRIGGER_EVENT.HOVER}: HandleTooltipSupportingStateEventChangeOptions) =>
 	(setState: Updater<TooltipSupportingState>) => {
 		const updateTooltipSupportingLayout = (event: LayoutChangeEvent) => {
 			const {height, width} = event.nativeEvent.layout
@@ -29,6 +29,7 @@ export const handleTooltipSupportingStateChange =
 				if (prevWidth !== width || prevHeight !== height) {
 					draft.layout.height = height
 					draft.layout.width = width
+					draft.status = COMPONENT_STATUS.SUCCEEDED
 				}
 			})
 		}
@@ -36,9 +37,17 @@ export const handleTooltipSupportingStateChange =
 		return (event: StateEvent) => {
 			if (eventName === EVENT_NAME.LAYOUT) {
 				updateTooltipSupportingLayout(event as LayoutChangeEvent)
+
+				return
 			}
 
-			const triggerEventNames = ['hoverIn', 'hoverOut']
+			const trigger = {
+				[TRIGGER_EVENT.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
+				[TRIGGER_EVENT.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
+				[TRIGGER_EVENT.PRESS]: [EVENT_NAME.PRESS_IN]
+			} as Record<TriggerEvent, readonly EventName[]>
+
+			const triggerEventNames = trigger[triggerEvent]
 
 			if (eventName && triggerEventNames?.includes(eventName)) {
 				onVisible?.(eventName === triggerEventNames[0])
@@ -50,32 +59,27 @@ export const updateTooltipSupportingClosed = (setState: Updater<TooltipSupportin
 	typeof value === 'boolean' &&
 	value &&
 	setState(draft => {
-		draft.closed = value
+		if (draft.invert) {
+			draft.invert = false
+		}
 	})
 
 export const updateTooltipSupportingContainerLayout = ({
 	setState,
 	windowWidth
 }: UpdateTooltipSupportingContainerLayoutOptions) => {
-	const updateTooltipSupportingLayout = (containerCurrent?: View | null) =>
-		containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
-			setState(draft => {
-				draft.closed = false
-				draft.containerLayout.height = height
-				draft.containerLayout.pageX = pageX
-				draft.containerLayout.pageY = pageY
-				draft.containerLayout.width = width
-				draft.containerLayout.x = x
-				draft.containerLayout.y = y
-				draft.status = COMPONENT_STATUS.SUCCEEDED
-			})
-		)
+	const updateTooltipSupportingLayout = (containerLayout?: LayoutRectangle) =>
+		containerLayout &&
+		setState(draft => {
+			if (draft.status === COMPONENT_STATUS.IDLE) {
+				draft.status = COMPONENT_STATUS.LOADING
+			}
+		})
 
-	return (containerCurrent?: View | null) => (visible?: boolean) =>
-		windowWidth && visible && updateTooltipSupportingLayout(containerCurrent)
+	return (containerLayout?: LayoutRectangle) => (visible?: boolean) =>
+		windowWidth && visible && updateTooltipSupportingLayout(containerLayout)
 }
 
-// TODO: Add more directional support.
 export const handleTooltipSupportingPositionInvert =
 	({supportingPosition, setState}: HandleTooltipSupportingPositionInvertOptions) =>
 	(ref: React.MutableRefObject<View | undefined>) => {
@@ -97,8 +101,10 @@ export const handleTooltipSupportingPositionInvert =
 
 		return ({
 			height: windowHeight,
+			visible,
 			width: windowWidth
 		}: HandleTooltipSupportingPositionInvertWindowOptions) =>
+			visible &&
 			ref?.current?.measure((_x, _y, width, height, pageX, pageY) =>
 				setState(
 					updateTooltipSupportingInvert({
@@ -135,18 +141,22 @@ export const updateTooltipSupportingPosition = (supportingPosition?: SupportingP
 }
 
 export const animateTooltipSupporting =
-	({animateSharedValueTo, type, animateSharedValueToWithCallback}: AnimateTooltipSupportingOptions) =>
+	({createEntrySharedValueAnimator, type, createExitSharedValueAnimator}: AnimateTooltipSupportingOptions) =>
 	({transformSharedValue, heightSharedValue, opacitySharedValue}: AnimateTooltipSupportingSharedValues) =>
 	(visible?: boolean) => {
-		const toValue = visible ? 1 : 0
-
 		if (typeof visible !== 'boolean') {
 			return
 		}
 
-		animateSharedValueTo({
-			sharedValue: type === TOOLTIP_TYPE.MENU ? heightSharedValue : transformSharedValue
-		})(toValue)
+		const sharedValue = type === TOOLTIP_TYPE.MENU ? heightSharedValue : transformSharedValue
 
-		animateSharedValueToWithCallback({sharedValue: opacitySharedValue})(toValue)
+		if (typeof visible === 'boolean' && visible) {
+			createEntrySharedValueAnimator({sharedValue: opacitySharedValue})(1)
+			createEntrySharedValueAnimator({sharedValue})(1)
+
+			return
+		}
+
+		createExitSharedValueAnimator({sharedValue: opacitySharedValue})(0)
+		createExitSharedValueAnimator({sharedValue})(0)
 	}

@@ -12,53 +12,60 @@ import type {
 } from './Tooltip-supporting.interface'
 
 export const Container = styled(View)<TooltipSupportingContentProps>`
-	${({width = 0}) => css`
+	${({width = 0, height = 0, theme}) => css`
+		height: ${height}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.large)}px;
 		width: ${width}px;
 	`}
 
-	${({closed, theme}) =>
-		closed &&
-		css`
-			height: ${theme.adaptSize(theme.token.spacing.none)}px;
-			overflow: hidden;
-		`}
-
-    ${({
-		containerHeight = 0,
-		containerPageX = 0,
-		containerPageY = 0,
-		containerWidth = 0,
+	${({
+		containerLayout,
 		height = 0,
 		supportingPosition: position = SUPPORTING_POSITION.VERTICAL_START,
 		theme,
 		type = TOOLTIP_TYPE.PLAIN,
 		width = 0
 	}) => {
+		const {
+			height: containerHeight = 0,
+			pageX: containerPageX = 0,
+			pageY: containerPageY = 0,
+			width: containerWidth = 0
+		} = containerLayout ?? {}
+
 		const supportingPosition = {
 			[TOOLTIP_TYPE.PLAIN]: {
 				[SUPPORTING_POSITION.VERTICAL_START]: css`
-					left: ${containerPageX + containerWidth / 2}px;
+					left: ${containerPageX - (width - containerWidth) / 2}px;
 					top: ${containerPageY -
 					height -
 					theme.adaptSize(theme.token.spacing.extraSmall)}px;
+
+					transform-origin: bottom;
 				`,
 				[SUPPORTING_POSITION.VERTICAL_END]: css`
-					left: ${containerPageX + containerWidth / 2}px;
+					left: ${containerPageX - (width - containerWidth) / 2}px;
 					top: ${containerPageY +
 					containerHeight +
 					theme.adaptSize(theme.token.spacing.extraSmall)}px;
+
+					transform-origin: top;
 				`,
 				[SUPPORTING_POSITION.HORIZONTAL_START]: css`
 					left: ${containerPageX -
 					width -
 					theme.adaptSize(theme.token.spacing.extraSmall)}px;
-					top: ${containerPageY + containerHeight / 2}px;
+
+					top: ${containerPageY - (height - containerHeight) / 2}px;
+					transform-origin: right;
 				`,
 				[SUPPORTING_POSITION.HORIZONTAL_END]: css`
 					left: ${containerPageX +
 					containerWidth +
 					theme.adaptSize(theme.token.spacing.extraSmall)}px;
-					top: ${containerPageY + containerHeight / 2}px;
+
+					top: ${containerPageY - (height - containerHeight) / 2}px;
+					transform-origin: left;
 				`
 			},
 			[TOOLTIP_TYPE.MENU]: {
@@ -101,14 +108,14 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 `
 
 export const TouchableContent = styled.Pressable`
-	flex: 1;
 	align-self: stretch;
+	flex: 1;
 	outline-style: none;
 `
 
 export const Content = styled.View`
-	flex: 1;
 	align-self: stretch;
+	flex: 1;
 `
 
 export const Main = styled(Shape)<TooltipSupportingMainProps>`
@@ -117,8 +124,6 @@ export const Main = styled(Shape)<TooltipSupportingMainProps>`
 
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
-		left: ${theme.adaptSize(theme.token.spacing.none)}px;
-		right: ${theme.adaptSize(theme.token.spacing.none)}px;
 		top: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`}
 
@@ -135,25 +140,6 @@ export const Main = styled(Shape)<TooltipSupportingMainProps>`
 		}
 
 		return contentType[type]
-	}}
-
-    ${({supportingPosition: position = SUPPORTING_POSITION.VERTICAL_START}) => {
-		const supportingPosition = {
-			[SUPPORTING_POSITION.VERTICAL_START]: css`
-				transform-origin: bottom;
-			`,
-			[SUPPORTING_POSITION.VERTICAL_END]: css`
-				transform-origin: top;
-			`,
-			[SUPPORTING_POSITION.HORIZONTAL_START]: css`
-				transform-origin: right;
-			`,
-			[SUPPORTING_POSITION.HORIZONTAL_END]: css`
-				transform-origin: left;
-			`
-		}
-
-		return supportingPosition[position]
 	}}
 `
 

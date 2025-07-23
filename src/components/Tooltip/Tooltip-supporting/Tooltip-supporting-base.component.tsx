@@ -21,33 +21,29 @@ import type {TooltipSupportingBaseProps, TooltipSupportingState} from './Tooltip
 import {RenderTooltipSupporting} from './Tooltip-supporting.render'
 import {useTooltipSupportingAnimated} from './use-tooltip-supporting-animated.hook'
 
-/**
- * TODO: ADD Layout delay
- */
 export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps>(
 	(
 		{
-			containerCurrent,
+			containerLayout,
 			onVisible,
 			supportingPosition,
+			triggerEvent,
 			type,
 			visible: isVisible,
 			...renderTooltipSupportingProps
 		},
 		ref
 	) => {
-		const [{containerLayout, layout, status, closed: isClosed, invert: isInvert}, setState] =
-			useImmer<TooltipSupportingState>({
-				containerLayout: {} as TooltipSupportingState['containerLayout'],
-				layout: {} as LayoutRectangle,
-				status: COMPONENT_STATUS.IDLE
-			})
+		const [{layout, status, invert: isInvert}, setState] = useImmer<TooltipSupportingState>({
+			layout: {} as LayoutRectangle,
+			status: COMPONENT_STATUS.IDLE
+		})
 
 		const {width: windowWidth, height: windowHeight} = useWindowDimensions()
 		const containerRef = useRef<View>()
 		const id = useId()
 		const theme = useTheme()
-		const tooltipSupportingWidth = type === TOOLTIP_TYPE.MENU ? containerLayout.width : layout.width
+		const tooltipSupportingWidth = type === TOOLTIP_TYPE.MENU ? containerLayout?.width : layout.width
 		const onTooltipSupportingClosed = useMemo(() => updateTooltipSupportingClosed(setState), [setState])
 		const position = useMemo(
 			() => updateTooltipSupportingPosition(supportingPosition)(isInvert),
@@ -57,13 +53,16 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		const {contentAnimatedStyle} = useTooltipSupportingAnimated({
 			height: layout.height,
 			onClose: onTooltipSupportingClosed,
+			status,
 			type,
 			visible: isVisible
 		})
 
 		const onStateEventChange =
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleTooltipSupportingStateChange({...options, state, onVisible})(setState)(event)
+				handleTooltipSupportingStateChange({...options, state, onVisible, triggerEvent})(
+					setState
+				)(event)
 
 		const interactionHandlers = useInteractionStateEvent({
 			...renderTooltipSupportingProps,
@@ -73,8 +72,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
 		const runTooltipSupportingContainerLayout = useMemo(
-			() => updateTooltipSupportingContainerLayout({setState, windowWidth})(containerCurrent),
-			[containerCurrent, setState, windowWidth]
+			() => updateTooltipSupportingContainerLayout({setState, windowWidth})(containerLayout),
+			[containerLayout, setState, windowWidth]
 		)
 
 		const runTooltipSupportingPositionInvert = useMemo(
@@ -87,8 +86,12 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		}, [runTooltipSupportingContainerLayout, isVisible])
 
 		useEffect(() => {
-			runTooltipSupportingPositionInvert({height: windowHeight, width: windowWidth})
-		}, [runTooltipSupportingPositionInvert, windowHeight, windowWidth])
+			runTooltipSupportingPositionInvert({
+				height: windowHeight,
+				visible: isVisible,
+				width: windowWidth
+			})
+		}, [isVisible, runTooltipSupportingPositionInvert, windowHeight, windowWidth])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
@@ -97,7 +100,6 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		return (
 			<RenderTooltipSupporting
 				{...renderTooltipSupportingProps}
-				closed={isClosed}
 				containerLayout={containerLayout}
 				contentAnimatedStyle={contentAnimatedStyle}
 				height={layout.height}

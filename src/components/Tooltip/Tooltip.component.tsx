@@ -4,9 +4,6 @@ import {typedMemo} from '../../utils'
 import {TooltipBase} from './Tooltip-base.component'
 import type {TooltipProps} from './Tooltip.interface'
 
-/**
- * TODO: "rich"
- */
 const TooltipWithRef = forwardRef<View, TooltipProps>((props, ref) => (
 	<TooltipBase
 		{...props}
