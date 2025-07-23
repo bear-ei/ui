@@ -126,6 +126,7 @@ export const Content = styled.View`
 
 export const Main = styled(Shape)<TooltipSupportingMainProps>`
 	position: absolute;
+	overflow: hidden;
 
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;

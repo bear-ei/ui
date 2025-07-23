@@ -1,6 +1,6 @@
 {
 	"name": "@bearei/element",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.mjs",
 	"react-native": "./src/index.ts",
@@ -34,7 +34,7 @@
 		"!**/test.*"
 	],
 	"dependencies": {
-		"@bearei/element-token": "^1.1.0",
+		"@bearei/element-token": "^1.1.4",
 		"@material-symbols/svg-400": "^0.27.1",
 		"class-validator": "^0.14.1",
 		"immer": "^10.1.1",

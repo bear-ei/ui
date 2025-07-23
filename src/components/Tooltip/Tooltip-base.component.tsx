@@ -27,7 +27,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			supporting,
 			supportingPosition,
 			triggerEvent,
-			type,
+			type = TOOLTIP_TYPE.PLAIN,
 			visible,
 			...renderTooltipProps
 		},

@@ -5,6 +5,7 @@ import type {ElevationShadowProps} from './Elevation.interface'
 
 export const Container = styled(View)`
 	align-items: center;
+	background-color: transparent;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

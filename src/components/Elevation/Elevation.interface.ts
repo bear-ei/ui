@@ -15,5 +15,12 @@ export interface RenderElevationProps extends Omit<ElevationProps, 'renderStyle'
 }
 
 export type ElevationBaseProps = ElevationProps
-export type UseElevationAnimatedOptions = Pick<RenderElevationProps, 'level'>
 export type ElevationShadowProps = Pick<RenderElevationProps, 'level'>
+export type UseElevationAnimatedOptions = Pick<RenderElevationProps, 'level'>
+export type GetWebBoxShadowOptions = {
+	color: string
+	offsetX: number
+	offsetY: number
+	opacity: number
+	radius: number
+}

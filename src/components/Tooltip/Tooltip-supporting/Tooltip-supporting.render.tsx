@@ -26,7 +26,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 			height = 0,
 			id,
 			interactionHandlers,
-			shape,
+			shape = SHAPE.EXTRA_SMALL,
 			supporting,
 			supportingPosition = SUPPORTING_POSITION.VERTICAL_START,
 			testID,
@@ -40,13 +40,16 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 		const {onLayout, ...mainInteractionHandlers} = interactionHandlers
 		const mainElement = (
 			<Main
-				onLayout={onLayout}
-				shape={shape ?? SHAPE.EXTRA_SMALL}
+				{...(type === TOOLTIP_TYPE.PLAIN && {onLayout})}
+				shape={shape}
 				testID={`tooltipSupporting__main--${id}`}
 				type={type}
 			>
 				{isValidElement(supporting) ?
-					<Supporting testID={`tooltipSupporting__supporting--${id}`}>
+					<Supporting
+						{...(type === TOOLTIP_TYPE.MENU && {onLayout})}
+						testID={`tooltipSupporting__supporting--${id}`}
+					>
 						{type === TOOLTIP_TYPE.MENU ?
 							cloneElement<MenuProps>(
 								supporting as React.ReactElement<

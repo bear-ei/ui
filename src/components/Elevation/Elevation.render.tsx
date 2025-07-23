@@ -9,8 +9,8 @@ export const RenderElevation = forwardRef<View, RenderElevationProps>(
 	({id, level, shadowAnimatedStyle, shape, testID, ...containerProps}, ref) => (
 		<Container
 			{...containerProps}
-			testID={testID ?? `elevation--${id}`}
 			ref={ref}
+			testID={testID ?? `elevation--${id}`}
 		>
 			<AnimatedShadow
 				level={level}

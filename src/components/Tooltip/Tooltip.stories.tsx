@@ -20,19 +20,33 @@ export const PlainVerticalEnd = () => {
 	} as ViewStyle
 
 	return (
-		<View style={[style]}>
-			<Tooltip
-				defaultVisible={true}
-				supporting='Supporting Text'
-				supportingPosition={SUPPORTING_POSITION.VERTICAL_END}
-				style={[tooltipStyle]}
-			>
-				<IconButton
-					icon={<Icon name={ICON_NAME.ADD_HOME} />}
-					type={ICON_BUTTON_TYPE.STANDARD}
-				/>
-			</Tooltip>
-		</View>
+		<>
+			<View style={[style]}>
+				<Tooltip
+					supporting='Supporting Text A'
+					supportingPosition={SUPPORTING_POSITION.VERTICAL_END}
+					style={[tooltipStyle]}
+				>
+					<IconButton
+						icon={<Icon name={ICON_NAME.ADD_HOME} />}
+						type={ICON_BUTTON_TYPE.STANDARD}
+					/>
+				</Tooltip>
+			</View>
+
+			<View style={[style]}>
+				<Tooltip
+					supporting='Supporting Text B'
+					supportingPosition={SUPPORTING_POSITION.VERTICAL_END}
+					style={[tooltipStyle]}
+				>
+					<IconButton
+						icon={<Icon name={ICON_NAME.ADD_HOME} />}
+						type={ICON_BUTTON_TYPE.STANDARD}
+					/>
+				</Tooltip>
+			</View>
+		</>
 	)
 }
 

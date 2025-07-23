@@ -3,7 +3,7 @@ import type {View} from 'react-native'
 import type {InteractionHandlers} from '../../../hooks'
 import {List, LIST_SELECT_TYPE, LIST_TYPE} from '../../List'
 import type {RenderMenuListProps} from './Menu-list.interface'
-import {Container, ListContainer} from './Menu-list.styles'
+import {Container} from './Menu-list.styles'
 
 export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
 	({data, id, multiple, onFocus, onKeyDown, shape, testID, theme, type, ...menuProps}, ref) => {
@@ -18,23 +18,17 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
 				tabIndex={-1}
 				testID={testID ?? `menu--${id}`}
 				type={type}
+				shape={shape}
 			>
-				<ListContainer
-					shape={shape}
-					testID={`menu-list--${id}`}
-				>
-					<List
-						{...menuProps}
-						data={data}
-						itemSize={theme.adaptSize(theme.token.spacing.extraSmall * 12)}
-						onItemStateEvent={{onFocus} as InteractionHandlers}
-						showsVerticalScrollIndicator={false}
-						selectType={
-							multiple ? LIST_SELECT_TYPE.MULTIPLE : LIST_SELECT_TYPE.SINGLE
-						}
-						type={LIST_TYPE.MENU}
-					/>
-				</ListContainer>
+				<List
+					{...menuProps}
+					data={data}
+					itemSize={theme.adaptSize(theme.token.spacing.extraSmall * 12)}
+					onItemStateEvent={{onFocus} as InteractionHandlers}
+					showsVerticalScrollIndicator={false}
+					selectType={multiple ? LIST_SELECT_TYPE.MULTIPLE : LIST_SELECT_TYPE.SINGLE}
+					type={LIST_TYPE.MENU}
+				/>
 			</Container>
 		)
 	}
