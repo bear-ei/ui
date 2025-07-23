@@ -28,13 +28,13 @@ const ModalItem: FC<ModalItemProps> = ({type, modalProps, testID}) => {
 export const emitter = mitt<EmitterEvent>()
 export const ModalProvider: FC<ModalProps> = () => {
 	const [{modals}, setState] = useImmer<ModalState>({modals: []})
-	const onModal = useMemo(() => manageModalState(setState), [setState])
+	const runManageModal = useMemo(() => manageModalState(setState), [setState])
 
 	useEffect(() => {
-		emitter.on('modal', modal => onModal(modal))
+		emitter.on('modal', modal => runManageModal(modal))
 
 		return () => emitter.all.clear()
-	}, [onModal])
+	}, [runManageModal])
 
 	return (
 		<>

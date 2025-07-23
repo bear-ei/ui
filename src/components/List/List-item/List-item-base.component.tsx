@@ -4,7 +4,7 @@ import {useInteractionStateEvent, type HandleStateEventChangeOptions, type State
 import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import type {PressableType} from '../../Touchable'
-import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
+import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
 	confirmListItemAffordanceAction,
 	handleListItemStateChange,
@@ -23,7 +23,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 		{
 			activeKey,
 			activeKeys,
-			activeTriggerEvenName = ACTIVE_TRIGGER_EVEN_NAME.PRESS_OUT,
 			afterAffordance,
 			afterAffordanceActiveKey,
 			close,
@@ -45,7 +44,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			supporting,
 			trailing,
 			trailingProps: rawTrailingProps,
-			trailingTriggerEvenName,
+			trailingTriggerEven,
 			type = LIST_TYPE.STANDARD,
 			...renderListItemProps
 		},
@@ -115,26 +114,15 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			(options: HandleStateEventChangeOptions) => (_state: State) => (event: StateEvent) =>
 				handleListItemStateChange({
 					...options,
-					activeTriggerEvenName,
 					indexKey,
 					itemIndex,
 					onActive,
 					onLoadEnd,
 					selectType,
-					trailingTriggerEvenName,
+					trailingTriggerEven,
 					type
 				})(setState)(event),
-			[
-				activeTriggerEvenName,
-				indexKey,
-				itemIndex,
-				onActive,
-				onLoadEnd,
-				selectType,
-				setState,
-				trailingTriggerEvenName,
-				type
-			]
+			[indexKey, itemIndex, onActive, onLoadEnd, selectType, setState, trailingTriggerEven, type]
 		)
 
 		const interactionHandlers = useInteractionStateEvent({
@@ -150,8 +138,8 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 		})
 
 		const runUpdateFocusState = useMemo(
-			() => updateListItemFocusState(itemIndex)(setState),
-			[itemIndex, setState]
+			() => updateListItemFocusState(itemIndex)(pressableRef),
+			[itemIndex]
 		)
 
 		const runMaybeTriggerClose = useMemo(
@@ -184,7 +172,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 						onTrailingVisibility={onTrailingVisibility}
 						trailing={trailing}
 						trailingProps={trailingProps}
-						trailingTriggerEvenName={trailingTriggerEvenName}
+						trailingTriggerEven={trailingTriggerEven}
 					/>
 				:	undefined,
 			[
@@ -196,7 +184,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 				onTrailingVisibility,
 				trailing,
 				trailingProps,
-				trailingTriggerEvenName
+				trailingTriggerEven
 			]
 		)
 
@@ -259,8 +247,8 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 				shape={shape}
 				supporting={supporting}
 				trailingElement={trailingElement}
-				trailingTriggerEvenName={trailingTriggerEvenName}
-				trailingVisible={isTrailingVisible ?? !trailingTriggerEvenName}
+				trailingTriggerEven={trailingTriggerEven}
+				trailingVisible={isTrailingVisible ?? !trailingTriggerEven}
 				type={type}
 			/>
 		)

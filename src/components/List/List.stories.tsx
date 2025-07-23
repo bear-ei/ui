@@ -44,7 +44,7 @@ export const Standard: StoryObj<ListProps> = {
 		activeKey: 'TitleA',
 		closeTrailing: true,
 		type: LIST_TYPE.MENU,
-		trailingTriggerEvenName: 'HOVER_IN',
+		trailingTriggerEven: 'HOVER',
 		data: [
 			{
 				indexKey: 'TitleA',
@@ -72,7 +72,7 @@ export const Menu: StoryObj<ListProps> = {
 		activeKey: 'TitleA',
 		type: LIST_TYPE.MENU,
 		closeTrailing: true,
-		trailingTriggerEvenName: 'HOVER_IN',
+		trailingTriggerEven: 'HOVER',
 		data: [
 			{
 				indexKey: 'TitleA',
@@ -141,7 +141,6 @@ export const Multiselect = () => {
 	)
 
 	const onActiveKeys = (keys?: string[]) => {
-		console.info(keys)
 		setActiveKeys(keys)
 	}
 

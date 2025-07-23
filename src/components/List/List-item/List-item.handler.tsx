@@ -2,9 +2,10 @@ import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimateSharedValueTo, StateEvent} from '../../../hooks'
-import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../../Common'
+import {COMPONENT_STATUS, EVENT_NAME, TRIGGER_EVENT, type EventName, type TriggerEvent} from '../../Common'
+import type {PressableType} from '../../Touchable'
 import type {ListItemAfterAffordancePressOutOptions} from '../List-after-affordance'
-import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from '../List.enum'
+import {LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
 import type {
 	ConfirmListItemAffordanceActionOptions,
@@ -81,20 +82,18 @@ const triggerListItemActive =
 const triggerListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
 export const handleListItemStateChange =
 	({
-		activeTriggerEvenName,
 		eventName,
 		indexKey,
 		onActive,
 		onLoadEnd,
 		selectType,
-		trailingTriggerEvenName,
+		trailingTriggerEven,
 		type
 	}: HandleListItemStateChangeOptions) =>
 	(setState: Updater<ListItemState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
 			[EVENT_NAME.LAYOUT]: () => triggerListItemLoadEnd?.(onLoadEnd)(indexKey),
-			[EVENT_NAME.PRESS_IN]: () => triggerListItemActive(selectType)(onActive)(indexKey),
 			[EVENT_NAME.PRESS_OUT]: () => triggerListItemActive(selectType)(onActive)(indexKey)
 		} as Record<EventName, () => void>
 
@@ -119,8 +118,18 @@ export const handleListItemStateChange =
 				draft.eventName = eventName
 			}
 
-			if (trailingTriggerEvenName) {
-				draft.trailingVisible = trailingTriggerEvenName === eventName
+			if (trailingTriggerEven) {
+				const trigger = {
+					[TRIGGER_EVENT.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
+					[TRIGGER_EVENT.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
+					[TRIGGER_EVENT.PRESS]: [EVENT_NAME.PRESS_IN]
+				} as Record<TriggerEvent, readonly EventName[]>
+
+				const triggerEventNames = trigger[trailingTriggerEven]
+
+				if (eventName && triggerEventNames?.includes(eventName)) {
+					draft.trailingVisible = eventName === EVENT_NAME.HOVER_IN
+				}
 			}
 
 			switch (eventName) {
@@ -133,17 +142,8 @@ export const handleListItemStateChange =
 
 					break
 
-				case EVENT_NAME.PRESS_IN:
-					if (activeTriggerEvenName === ACTIVE_TRIGGER_EVEN_NAME.PRESS_IN) {
-						draft.nextPressInEvent = nextEvent[eventName]
-					}
-
-					break
-
 				case EVENT_NAME.PRESS_OUT:
-					if (activeTriggerEvenName === ACTIVE_TRIGGER_EVEN_NAME.PRESS_OUT) {
-						draft.nextPressOutEvent = nextEvent[eventName]
-					}
+					draft.nextPressOutEvent = nextEvent[eventName]
 
 					break
 				default:
@@ -201,11 +201,8 @@ export const confirmListItemAffordanceAction =
  * Otherwise the Text-field-picker will lose focus.
  */
 export const updateListItemFocusState =
-	(itemIndex?: number) => (setState: Updater<ListItemState>) => (focusedIndex?: number) =>
-		typeof focusedIndex === 'number' &&
-		setState(draft => {
-			draft.eventName = itemIndex === focusedIndex ? EVENT_NAME.FOCUS : EVENT_NAME.BLUR
-		})
+	(itemIndex?: number) => (pressableRef: React.RefObject<PressableType>) => (focusedIndex?: number) =>
+		typeof focusedIndex === 'number' && itemIndex === focusedIndex && pressableRef.current?.focus()
 
 export const maybeTriggerListItemClose =
 	(onClose?: (indexKey?: string) => void) => (indexKey?: string) => (close?: boolean) => {

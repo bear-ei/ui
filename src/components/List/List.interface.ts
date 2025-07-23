@@ -1,15 +1,14 @@
 import type {ForwardedRef, RefAttributes} from 'react'
 import type Animated from 'react-native-reanimated'
 import type {InteractionHandlers} from '../../hooks'
-import type {CommonProps, EventName, ShapeType} from '../Common'
+import type {CommonProps, ShapeType, TriggerEvent} from '../Common'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualListProps} from '../Virtual-list'
 import type {ListAfterAffordanceProps, ListItemAfterAffordancePressOutOptions} from './List-after-affordance'
 import type {ListItemProps} from './List-item'
-import {ACTIVE_TRIGGER_EVEN_NAME, LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
+import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 
 export type ListSelectType = (typeof LIST_SELECT_TYPE)[keyof typeof LIST_SELECT_TYPE]
 export type ListType = (typeof LIST_TYPE)[keyof typeof LIST_TYPE]
-export type ActiveTriggerEvenName = (typeof ACTIVE_TRIGGER_EVEN_NAME)[keyof typeof ACTIVE_TRIGGER_EVEN_NAME]
 export type VirtualListComponent<T> = (
 	props: VirtualListProps<T> & {ref?: ForwardedRef<Animated.ScrollView>}
 ) => React.ReactElement | null
@@ -40,7 +39,6 @@ export interface ListProps
 		CommonProps {
 	activeKey?: string
 	activeKeys?: string[]
-	activeTriggerEvenName?: ActiveTriggerEvenName
 	afterAffordance?: React.JSX.Element | boolean
 	afterAffordanceActiveKey?: string
 	afterAffordancePrimaryButtonProps?: ListAfterAffordanceProps['primaryButtonProps']
@@ -70,7 +68,7 @@ export interface ListProps
 	skeletonElement?: React.JSX.Element
 	supportingTextNumberOfLines?: number
 	trailing?: React.JSX.Element
-	trailingTriggerEvenName?: EventName
+	trailingTriggerEven?: TriggerEvent
 	type?: ListType
 }
 
@@ -93,7 +91,6 @@ export type CreateRenderListItemOptions = Pick<
 	RenderListProps,
 	| 'activeKey'
 	| 'activeKeys'
-	| 'activeTriggerEvenName'
 	| 'afterAffordance'
 	| 'afterAffordanceActiveKey'
 	| 'afterAffordancePrimaryButtonProps'
@@ -119,7 +116,7 @@ export type CreateRenderListItemOptions = Pick<
 	| 'skeletonElement'
 	| 'supportingTextNumberOfLines'
 	| 'trailing'
-	| 'trailingTriggerEvenName'
+	| 'trailingTriggerEven'
 	| 'type'
 >
 

@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
 import {LAYOUT} from '../Common'
-import {ACTIVE_TRIGGER_EVEN_NAME, LIST_TYPE} from './List.enum'
+import {LIST_TYPE} from './List.enum'
 import {
 	createListItemRenderer,
 	createListItemSize,
@@ -20,7 +20,6 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		{
 			activeKey: rawActiveKey,
 			activeKeys: rawActiveKeys,
-			activeTriggerEvenName = ACTIVE_TRIGGER_EVEN_NAME.PRESS_OUT,
 			afterAffordance,
 			afterAffordancePrimaryButtonProps,
 			afterAffordanceSecondaryButtonProps,
@@ -50,7 +49,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			skeletonDuration = 0,
 			skeletonElement,
 			supportingTextNumberOfLines,
-			trailingTriggerEvenName,
+			trailingTriggerEven,
 			type = LIST_TYPE.STANDARD,
 			...renderListProps
 		},
@@ -95,7 +94,6 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 					...onItemStateEvent,
 					activeKey: activeKey ?? defaultActiveKey,
 					activeKeys: activeKeys ?? defaultActiveKeys,
-					activeTriggerEvenName,
 					afterAffordance,
 					afterAffordanceActiveKey,
 					afterAffordancePrimaryButtonProps,
@@ -118,13 +116,12 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 					skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
 					skeletonElement,
 					supportingTextNumberOfLines,
-					trailingTriggerEvenName,
+					trailingTriggerEven,
 					type
 				}),
 			[
 				activeKey,
 				activeKeys,
-				activeTriggerEvenName,
 				afterAffordance,
 				afterAffordanceActiveKey,
 				afterAffordancePrimaryButtonProps,
@@ -152,7 +149,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 				skeletonDuration,
 				skeletonElement,
 				supportingTextNumberOfLines,
-				trailingTriggerEvenName,
+				trailingTriggerEven,
 				type
 			]
 		)

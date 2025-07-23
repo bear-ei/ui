@@ -3,6 +3,7 @@ import {cloneElement, forwardRef, isValidElement} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Elevation} from '../../Elevation'
+import type {MenuProps} from '../../Menu'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 import type {RenderTooltipSupportingProps} from './Tooltip-supporting.interface'
@@ -31,6 +32,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 			testID,
 			type,
 			width = 0,
+			visible,
 			...containerProps
 		},
 		ref
@@ -46,7 +48,13 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 				{isValidElement(supporting) ?
 					<Supporting testID={`tooltipSupporting__supporting--${id}`}>
 						{type === TOOLTIP_TYPE.MENU ?
-							cloneElement(supporting, {...mainInteractionHandlers})
+							cloneElement<MenuProps>(
+								supporting as React.ReactElement<
+									MenuProps,
+									string | React.JSXElementConstructor<unknown>
+								>,
+								{...mainInteractionHandlers, visible}
+							)
 						:	supporting}
 					</Supporting>
 				:	<TooltipSupportingText

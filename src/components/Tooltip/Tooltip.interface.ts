@@ -1,5 +1,5 @@
 import type {RefAttributes} from 'react'
-import type {LayoutRectangle, View, ViewProps} from 'react-native'
+import type {LayoutRectangle, MouseEvent, View, ViewProps} from 'react-native'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {TooltipSupportingProps} from './Tooltip-supporting'
 import type {TOOLTIP_TYPE} from './Tooltip.enum'
@@ -28,21 +28,24 @@ export interface TooltipProps
 
 export interface RenderTooltipProps extends TooltipProps {
 	interactionHandlers: InteractionHandlers
+	onContextMenu: (event: MouseEvent) => void
+	onMaskPressOut: () => void
 }
 
 export type TooltipBaseProps = TooltipProps
 export interface TooltipState {
+	menuContainerLayout?: {pageX: number; pageY: number}
 	nextActiveEvent?: () => void
 	tooltipVisible?: boolean
 }
 
 export interface HandleTooltipStateEventChangeOptions
 	extends HandleStateEventChangeOptions,
-		Pick<TooltipProps, 'triggerEvent'> {
-	onTooltipVisible: (value?: boolean) => void
+		Pick<TooltipProps, 'triggerEvent' | 'type'> {
+	onVisible: (value?: boolean) => void
 }
 
 export interface EmitTooltipSupportingOptions {
-	containerLayout: LayoutRectangle & {pageX: number; pageY: number}
+	containerLayout?: Partial<LayoutRectangle & {pageX: number; pageY: number}>
 	visible?: boolean
 }

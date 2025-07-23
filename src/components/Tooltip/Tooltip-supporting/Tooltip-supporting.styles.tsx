@@ -16,6 +16,7 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 		height: ${height}px;
 		min-height: ${theme.adaptSize(theme.token.spacing.large)}px;
 		width: ${width}px;
+		z-index: 16384;
 	`}
 
 	${({
@@ -70,14 +71,17 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 			},
 			[TOOLTIP_TYPE.MENU]: {
 				[SUPPORTING_POSITION.VERTICAL_START]: css``,
-				[SUPPORTING_POSITION.VERTICAL_END]: css`
-					left: ${containerPageX}px;
+				[SUPPORTING_POSITION.VERTICAL_END]: css``,
+				[SUPPORTING_POSITION.HORIZONTAL_START]: css``,
+				[SUPPORTING_POSITION.HORIZONTAL_END]: css`
+					left: ${containerPageX +
+					containerWidth +
+					theme.adaptSize(theme.token.spacing.extraSmall)}px;
+
 					top: ${containerPageY +
 					containerHeight +
 					theme.adaptSize(theme.token.spacing.extraSmall)}px;
-				`,
-				[SUPPORTING_POSITION.HORIZONTAL_START]: css``,
-				[SUPPORTING_POSITION.HORIZONTAL_END]: css``
+				`
 			}
 		} as Record<TooltipType, Record<SupportingPosition, RuleSet<object> | undefined>>
 
@@ -111,15 +115,16 @@ export const TouchableContent = styled.Pressable`
 	align-self: stretch;
 	flex: 1;
 	outline-style: none;
+	position: relative;
 `
 
 export const Content = styled.View`
 	align-self: stretch;
 	flex: 1;
+	position: relative;
 `
 
 export const Main = styled(Shape)<TooltipSupportingMainProps>`
-	overflow: hidden;
 	position: absolute;
 
 	${({theme}) => css`

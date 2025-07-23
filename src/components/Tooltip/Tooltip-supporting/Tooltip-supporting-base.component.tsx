@@ -43,8 +43,10 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		const containerRef = useRef<View>()
 		const id = useId()
 		const theme = useTheme()
-		const tooltipSupportingWidth = type === TOOLTIP_TYPE.MENU ? containerLayout?.width : layout.width
-		const onTooltipSupportingClosed = useMemo(() => updateTooltipSupportingClosed(setState), [setState])
+		const tooltipSupportingWidth =
+			type === TOOLTIP_TYPE.MENU ? theme.adaptSize(theme.token.spacing.extraSmall * 45) : layout.width
+
+		const onClosed = useMemo(() => updateTooltipSupportingClosed(setState), [setState])
 		const position = useMemo(
 			() => updateTooltipSupportingPosition(supportingPosition)(isInvert),
 			[isInvert, supportingPosition]
@@ -52,7 +54,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 
 		const {contentAnimatedStyle} = useTooltipSupportingAnimated({
 			height: layout.height,
-			onClose: onTooltipSupportingClosed,
+			onClose: onClosed,
 			status,
 			type,
 			visible: isVisible
@@ -71,27 +73,27 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
-		const runTooltipSupportingContainerLayout = useMemo(
+		const runContainerLayout = useMemo(
 			() => updateTooltipSupportingContainerLayout({setState, windowWidth})(containerLayout),
 			[containerLayout, setState, windowWidth]
 		)
 
-		const runTooltipSupportingPositionInvert = useMemo(
+		const runPositionInvert = useMemo(
 			() => handleTooltipSupportingPositionInvert({setState, supportingPosition})(containerRef),
 			[setState, supportingPosition]
 		)
 
 		useEffect(() => {
-			runTooltipSupportingContainerLayout(isVisible)
-		}, [runTooltipSupportingContainerLayout, isVisible])
+			runContainerLayout(isVisible)
+		}, [runContainerLayout, isVisible])
 
 		useEffect(() => {
-			runTooltipSupportingPositionInvert({
+			runPositionInvert({
 				height: windowHeight,
 				visible: isVisible,
 				width: windowWidth
 			})
-		}, [isVisible, runTooltipSupportingPositionInvert, windowHeight, windowWidth])
+		}, [isVisible, runPositionInvert, windowHeight, windowWidth])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
@@ -109,6 +111,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 				supportingPosition={position}
 				theme={theme}
 				type={type}
+				visible={isVisible}
 				width={tooltipSupportingWidth}
 			/>
 		)

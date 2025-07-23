@@ -11,9 +11,9 @@ import type {UseTooltipSupportingAnimatedOptions} from './Tooltip-supporting.int
 export const useTooltipSupportingAnimated = ({
 	height = 0,
 	onClose,
+	status,
 	type = TOOLTIP_TYPE.PLAIN,
-	visible,
-	status
+	visible
 }: UseTooltipSupportingAnimatedOptions) => {
 	const isVisible = visible && status === COMPONENT_STATUS.SUCCEEDED
 	const heightSharedValue = useSharedValue(isVisible ? 1 : 0)

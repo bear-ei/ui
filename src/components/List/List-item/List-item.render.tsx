@@ -2,7 +2,7 @@ import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, isValidElement, useMemo, type FC} from 'react'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {EVENT_NAME, LAYOUT} from '../../Common'
+import {LAYOUT, TRIGGER_EVENT} from '../../Common'
 import {Divider} from '../../Divider'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
@@ -38,7 +38,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	trailing,
 	trailingProps: rawTrailingProps,
 	onTrailingVisibility,
-	trailingTriggerEvenName
+	trailingTriggerEven
 }) => {
 	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
 	const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
@@ -47,7 +47,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 		() => ({
 			...restTrailingProps,
 			...interactionHandlers,
-			...(trailingTriggerEvenName === EVENT_NAME.HOVER_IN && {
+			...(trailingTriggerEven === TRIGGER_EVENT.HOVER && {
 				onHoverIn: () => onTrailingVisibility?.(true),
 				onHoverOut: () => onTrailingVisibility?.(false)
 			}),
@@ -62,7 +62,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 			isDisabled,
 			onTrailingVisibility,
 			restTrailingProps,
-			trailingTriggerEvenName
+			trailingTriggerEven
 		]
 	)
 
@@ -142,7 +142,7 @@ export const RenderListItem = forwardRef<PressableType, RenderListItemProps>(
 			supportingTextNumberOfLines,
 			testID,
 			trailingElement,
-			trailingTriggerEvenName,
+			trailingTriggerEven,
 			trailingVisible,
 			type = LIST_TYPE.STANDARD,
 			...touchableProps
@@ -266,9 +266,7 @@ export const RenderListItem = forwardRef<PressableType, RenderListItemProps>(
 
 								{trailingElement && (
 									<TrailingLayout
-										defaultVisible={
-											!trailingTriggerEvenName
-										}
+										defaultVisible={!trailingTriggerEven}
 										lazy={true}
 										supportingTextNumberOfLines={
 											supportingTextNumberOfLines
@@ -277,8 +275,8 @@ export const RenderListItem = forwardRef<PressableType, RenderListItemProps>(
 										trailingShow={isTrailingShow}
 										type={type}
 										unmount={
-											trailingTriggerEvenName ===
-											EVENT_NAME.HOVER_IN
+											trailingTriggerEven ===
+											TRIGGER_EVENT.HOVER
 										}
 										visible={
 											afterAffordance ?

@@ -14,7 +14,6 @@ export interface ListItemProps
 			ListProps,
 			| 'activeKey'
 			| 'activeKeys'
-			| 'activeTriggerEvenName'
 			| 'afterAffordance'
 			| 'afterAffordanceActiveKey'
 			| 'afterAffordancePrimaryButtonProps'
@@ -37,7 +36,7 @@ export interface ListItemProps
 			| 'skeletonElement'
 			| 'supportingTextNumberOfLines'
 			| 'trailing'
-			| 'trailingTriggerEvenName'
+			| 'trailingTriggerEven'
 			| 'type'
 		> {
 	close?: boolean
@@ -95,13 +94,12 @@ export interface HandleListItemStateChangeOptions
 	extends HandleStateEventChangeOptions,
 		Pick<
 			RenderListItemProps,
-			| 'activeTriggerEvenName'
 			| 'itemIndex'
 			| 'indexKey'
 			| 'onActive'
 			| 'onLoadEnd'
 			| 'selectType'
-			| 'trailingTriggerEvenName'
+			| 'trailingTriggerEven'
 			| 'type'
 		> {}
 
@@ -119,7 +117,7 @@ export interface RenderListItemTrailingProps
 		| 'id'
 		| 'trailing'
 		| 'trailingProps'
-		| 'trailingTriggerEvenName'
+		| 'trailingTriggerEven'
 	> {
 	interactionHandlers: InteractionHandlers
 	onTrailingVisibility?: (visible: boolean) => void
