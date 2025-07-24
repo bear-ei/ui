@@ -56,14 +56,20 @@ export const handleTooltipSupportingStateChange =
 		}
 	}
 
-export const updateTooltipSupportingClosed = (setState: Updater<TooltipSupportingState>) => (value?: boolean) =>
-	typeof value === 'boolean' &&
-	value &&
-	setState(draft => {
-		if (draft.invert) {
-			draft.invert = false
+export const updateTooltipSupportingClosed =
+	(onClosed?: () => void) => (setState: Updater<TooltipSupportingState>) => (value?: boolean) => {
+		const nextClosedEvent = () => onClosed?.()
+
+		if (typeof value === 'boolean' && value) {
+			setState(draft => {
+				if (draft.invert) {
+					draft.invert = false
+				}
+
+				draft.nextClosedEvent = nextClosedEvent
+			})
 		}
-	})
+	}
 
 export const updateTooltipSupportingStatus =
 	({setState, windowWidth}: UpdateTooltipSupportingStatusOptions) =>
@@ -78,54 +84,47 @@ export const updateTooltipSupportingStatus =
 			}
 		})
 
+export const getSafeMenuPosition = ({
+	height,
+	margin = 8,
+	width,
+	windowHeight = 0,
+	windowWidth = 0,
+	x = 0,
+	y = 0
+}: GetSafeMenuPositionOptions) => {
+	let left = x
+	let top = y
+
+	if (left < margin) {
+		left = margin
+	}
+
+	if (left + width + margin > windowWidth) {
+		left = Math.max(windowWidth - width - margin, margin)
+	}
+
+	if (top < margin) {
+		top = margin
+	}
+
+	if (top + height + margin > windowHeight) {
+		top = Math.max(windowHeight - height - margin, margin)
+	}
+
+	return {left, top}
+}
+
 export const updateTooltipSupportingPosition =
 	({supportingPosition, setState, type, containerLayout, theme}: UpdateTooltipSupportingPositionOptions) =>
 	(ref: React.MutableRefObject<View | undefined>) => {
-		const getSafeMenuPosition = ({
-			height,
-			margin = 8,
-			width,
-			windowHeight,
-			windowWidth,
-			x = 0,
-			y = 0
-		}: GetSafeMenuPositionOptions) => {
-			let left = x
-			let top = y
-
-			if (left < margin) {
-				left = margin
-			}
-
-			if (left + width + margin > windowWidth) {
-				left = Math.max(windowWidth - width - margin, margin)
-			}
-
-			if (top < margin) {
-				top = margin
-			}
-
-			if (top + height + margin > windowHeight) {
-				top = Math.max(windowHeight - height - margin, margin)
-			}
-
-			return {left, top}
-		}
-
 		const updateTooltipSupportingInvert =
-			({
-				height,
-				pageX,
-				pageY,
-				width,
-				windowHeight,
-				windowWidth
-			}: UpdateTooltipSupportingInvertOptions) =>
+			({height, x, y, width, windowHeight, windowWidth}: UpdateTooltipSupportingInvertOptions) =>
 			(draft: WritableDraft<TooltipSupportingState>) => {
 				draft.invert =
 					supportingPosition?.startsWith('HORIZONTAL') ?
-						width + pageX >= windowWidth && pageX > width
-					:	height + pageY >= windowHeight && pageY > height
+						width + x >= windowWidth && x > width
+					:	height + y >= windowHeight && y > height
 			}
 
 		return ({windowHeight, visible, windowWidth, layout}: HandleTooltipSupportingPositionWindowOptions) => {
@@ -141,8 +140,8 @@ export const updateTooltipSupportingPosition =
 						width: layout.width,
 						windowHeight,
 						windowWidth,
-						x: containerLayout?.pageX,
-						y: containerLayout?.pageY
+						x: containerLayout?.x,
+						y: containerLayout?.y
 					})
 
 					draft.menuPosition = {left, top}
@@ -151,15 +150,15 @@ export const updateTooltipSupportingPosition =
 				return
 			}
 
-			ref?.current?.measure((_x, _y, width, height, pageX, pageY) =>
+			ref?.current?.measureInWindow((x, y, width, height) =>
 				setState(
 					updateTooltipSupportingInvert({
 						height,
-						pageX,
-						pageY,
 						width,
 						windowHeight,
-						windowWidth
+						windowWidth,
+						x,
+						y
 					})
 				)
 			)

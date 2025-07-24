@@ -3,6 +3,7 @@ import styled, {css} from 'styled-components/native'
 import {Shape, Typography} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
+import {getSafeMenuPosition} from './Tooltip-supporting.handler'
 import type {TooltipSupportingContentProps, TooltipSupportingMainProps} from './Tooltip-supporting.interface'
 
 export const Container = styled(View)<TooltipSupportingContentProps>`
@@ -16,50 +17,102 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 	${({
 		containerLayout,
 		height = 0,
+		menuPosition,
 		supportingPosition: position = SUPPORTING_POSITION.VERTICAL_START,
 		theme,
 		type = TOOLTIP_TYPE.PLAIN,
 		width = 0,
-		menuPosition
+		windowHeight = 0,
+		windowWidth = 0
 	}) => {
 		const {
 			height: containerHeight = 0,
-			pageX: containerPageX = 0,
-			pageY: containerPageY = 0,
+			x: containerX = 0,
+			y: containerY = 0,
 			width: containerWidth = 0
 		} = containerLayout ?? {}
 
 		const supportingPosition = {
-			[SUPPORTING_POSITION.VERTICAL_START]: css`
-				left: ${containerPageX - (width - containerWidth) / 2}px;
-				top: ${containerPageY - height - theme.adaptSize(theme.token.spacing.extraSmall)}px;
-				transform-origin: bottom;
-			`,
-			[SUPPORTING_POSITION.VERTICAL_END]: css`
-				left: ${containerPageX - (width - containerWidth) / 2}px;
-				top: ${containerPageY +
-				containerHeight +
-				theme.adaptSize(theme.token.spacing.extraSmall)}px;
+			[SUPPORTING_POSITION.VERTICAL_START]: () => {
+				const x = containerX - (width - containerWidth) / 2
+				const y = containerY - height - theme.adaptSize(theme.token.spacing.extraSmall)
+				const {left} = getSafeMenuPosition({
+					height,
+					margin: theme.adaptSize(theme.token.spacing.medium),
+					width,
+					windowHeight,
+					windowWidth,
+					x,
+					y
+				})
 
-				transform-origin: top;
-			`,
-			[SUPPORTING_POSITION.HORIZONTAL_START]: css`
-				left: ${containerPageX - width - theme.adaptSize(theme.token.spacing.extraSmall)}px;
-				top: ${containerPageY - (height - containerHeight) / 2}px;
-				transform-origin: right;
-			`,
-			[SUPPORTING_POSITION.HORIZONTAL_END]: css`
-				left: ${containerPageX +
-				containerWidth +
-				theme.adaptSize(theme.token.spacing.extraSmall)}px;
+				return css`
+					left: ${left}px;
+					top: ${y}px;
+					transform-origin: bottom;
+				`
+			},
+			[SUPPORTING_POSITION.VERTICAL_END]: () => {
+				const x = containerX - (width - containerWidth) / 2
+				const y = containerY + containerHeight + theme.adaptSize(theme.token.spacing.extraSmall)
+				const {left} = getSafeMenuPosition({
+					height,
+					margin: theme.adaptSize(theme.token.spacing.medium),
+					width,
+					windowHeight,
+					windowWidth,
+					x,
+					y
+				})
 
-				top: ${containerPageY - (height - containerHeight) / 2}px;
-				transform-origin: left;
-			`
+				return css`
+					left: ${left}px;
+					top: ${y}px;
+					transform-origin: top;
+				`
+			},
+			[SUPPORTING_POSITION.HORIZONTAL_START]: () => {
+				const x = containerX - width - theme.adaptSize(theme.token.spacing.extraSmall)
+				const y = containerY - (height - containerHeight) / 2
+				const {top} = getSafeMenuPosition({
+					height,
+					margin: theme.adaptSize(theme.token.spacing.medium),
+					width,
+					windowHeight,
+					windowWidth,
+					x,
+					y
+				})
+
+				return css`
+					left: ${x}px;
+					top: ${top}px;
+					transform-origin: right;
+				`
+			},
+			[SUPPORTING_POSITION.HORIZONTAL_END]: () => {
+				const x = containerX + containerWidth + theme.adaptSize(theme.token.spacing.extraSmall)
+				const y = containerY - (height - containerHeight) / 2
+				const {top} = getSafeMenuPosition({
+					height,
+					margin: theme.adaptSize(theme.token.spacing.medium),
+					width,
+					windowHeight,
+					windowWidth,
+					x,
+					y
+				})
+
+				return css`
+					left: ${x}px;
+					top: ${top}px;
+					transform-origin: left;
+				`
+			}
 		}
 
 		return type === TOOLTIP_TYPE.PLAIN ?
-				supportingPosition[position]
+				supportingPosition[position]()
 			:	css`
 					left: ${menuPosition.left ?? 0}px;
 					top: ${menuPosition.top ?? 0}px;

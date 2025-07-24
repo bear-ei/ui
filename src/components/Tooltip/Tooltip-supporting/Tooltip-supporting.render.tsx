@@ -26,14 +26,16 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 			height = 0,
 			id,
 			interactionHandlers,
+			menuPosition,
 			shape = SHAPE.EXTRA_SMALL,
 			supporting,
 			supportingPosition = SUPPORTING_POSITION.VERTICAL_START,
 			testID,
 			type,
-			width = 0,
 			visible,
-			menuPosition,
+			width = 0,
+			windowHeight,
+			windowWidth,
 			...containerProps
 		},
 		ref
@@ -78,8 +80,8 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 			<AnimateContainer
 				{...containerProps}
 				containerLayout={containerLayout}
-				menuPosition={menuPosition}
 				height={height}
+				menuPosition={menuPosition}
 				ref={ref}
 				style={[contentAnimatedStyle]}
 				supportingPosition={supportingPosition}
@@ -87,6 +89,8 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 				type={type}
 				visible={visible}
 				width={width}
+				windowHeight={windowHeight}
+				windowWidth={windowWidth}
 			>
 				{type === TOOLTIP_TYPE.MENU ?
 					<Content testID={`tooltipSupporting_content--${id}`}>{mainElement}</Content>

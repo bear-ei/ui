@@ -6,4 +6,7 @@ export const Container = styled(View)`
 	flex-direction: column;
 `
 
-export const Content = styled.View``
+export const Content = styled.View`
+	/* align-self: stretch;
+	flex: 1; */
+`

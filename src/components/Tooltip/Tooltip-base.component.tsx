@@ -46,6 +46,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			[rawOnVisible, setState]
 		)
 
+		const onClosed = useMemo(() => unmountTooltipSupporting(id), [id])
 		const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisible), [onVisible])
 		const onContextMenu = useMemo(
 			() => updateTooltipContextMenuLayout(setState)(onVisible),
@@ -64,18 +65,20 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 
 		const runEmit = useMemo(
 			() =>
-				emitTooltipSupporting(type)({
+				emitTooltipSupporting(id)({
 					elevation,
+					onClosed,
 					onVisible,
 					shape,
 					supporting,
 					supportingPosition,
-					triggerEvent
+					triggerEvent,
+					type
 				}),
-			[elevation, onVisible, shape, supporting, supportingPosition, triggerEvent, type]
+			[elevation, id, onClosed, onVisible, shape, supporting, supportingPosition, triggerEvent, type]
 		)
 
-		const runUnmount = useMemo(() => unmountTooltipSupporting(type), [type])
+		const runUnmount = useMemo(() => unmountTooltipSupporting(id), [id])
 		const runUpdateVisible = useMemo(
 			() =>
 				createDeferredHandlerWithState(updateTooltipVisibility(onVisible))(setState)({
@@ -93,9 +96,9 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 				return
 			}
 
-			containerRef.current?.measure((x, y, width, height, pageX, pageY) =>
+			containerRef.current?.measureInWindow((x, y, width, height) =>
 				runEmit({
-					containerLayout: {x, y, width, height, pageX, pageY},
+					containerLayout: {x, y, width, height},
 					visible: isTooltipVisible
 				})
 			)

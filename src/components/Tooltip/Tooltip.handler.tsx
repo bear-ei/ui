@@ -8,8 +8,7 @@ import {TOOLTIP_TYPE} from './Tooltip.enum'
 import type {
 	EmitTooltipSupportingOptions,
 	HandleTooltipStateEventChangeOptions,
-	TooltipState,
-	TooltipType
+	TooltipState
 } from './Tooltip.interface'
 
 export const updateTooltipVisibility =
@@ -31,10 +30,10 @@ export const updateTooltipVisibility =
 export const updateTooltipContextMenuLayout =
 	(setState: Updater<TooltipState>) => (onTooltipVisible: (value?: boolean) => void) => (event: MouseEvent) => {
 		event.preventDefault()
-		const {pageX, pageY} = event.nativeEvent
+		const {x, y} = event.nativeEvent
 
 		setState(draft => {
-			draft.menuContainerLayout = {pageX, pageY}
+			draft.menuContainerLayout = {x, y}
 		})
 
 		onTooltipVisible?.(true)
@@ -67,20 +66,20 @@ export const handleTooltipStateChange = ({
 }
 
 export const emitTooltipSupporting =
-	(type?: TooltipType) =>
+	(id: string) =>
 	({supporting, ...props}: TooltipSupportingProps) =>
 	({visible, containerLayout}: EmitTooltipSupportingOptions) =>
 		typeof visible === 'boolean' &&
 		supporting &&
 		emitter.emit('modal', {
-			id: `tooltip__supporting--${type}`,
-			props: {...props, containerLayout, visible, supporting, type},
+			id: `tooltip__supporting--${id}`,
+			props: {...props, containerLayout, visible, supporting},
 			type: MODAL_TYPE.TOOL_TIP
 		})
 
-export const unmountTooltipSupporting = (type?: TooltipType) => () => {
+export const unmountTooltipSupporting = (id?: string) => () => {
 	emitter.emit('modal', {
-		id: `tooltip__supporting--${type}`,
+		id: `tooltip__supporting--${id}`,
 		type: MODAL_TYPE.TOOL_TIP,
 		unmount: true
 	})

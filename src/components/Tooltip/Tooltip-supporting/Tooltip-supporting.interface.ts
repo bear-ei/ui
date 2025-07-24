@@ -11,8 +11,9 @@ import type {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 
 export type SupportingPosition = (typeof SUPPORTING_POSITION)[keyof typeof SUPPORTING_POSITION]
 export interface TooltipSupportingProps extends ViewProps, RefAttributes<View>, InteractionHandlers {
-	containerLayout?: LayoutRectangle & {pageX: number; pageY: number}
+	containerLayout?: LayoutRectangle
 	elevation?: ElevationLevel
+	onClosed?: () => void
 	onVisible?: (value?: boolean) => void
 	shape?: ShapeType
 	supporting?: string | JSX.Element
@@ -29,6 +30,8 @@ export interface RenderTooltipSupportingProps extends TooltipSupportingProps {
 	menuPosition: {top?: number; left?: number}
 	theme: DefaultTheme
 	width?: number
+	windowHeight?: number
+	windowWidth?: number
 }
 
 export type TooltipSupportingBaseProps = TooltipSupportingProps
@@ -36,6 +39,7 @@ export interface TooltipSupportingState {
 	invert?: boolean
 	layout: LayoutRectangle
 	menuPosition: {top?: number; left?: number}
+	nextClosedEvent?: () => void
 	status: ComponentStatus
 	visible?: boolean
 }
@@ -67,11 +71,11 @@ export interface AnimateTooltipSupportingSharedValues {
 
 export interface UpdateTooltipSupportingInvertOptions {
 	height: number
-	pageX: number
-	pageY: number
 	width: number
 	windowHeight: number
 	windowWidth: number
+	x: number
+	y: number
 }
 
 export interface UpdateTooltipSupportingPositionOptions
@@ -93,6 +97,8 @@ export interface TooltipSupportingContentProps
 		'type' | 'supportingPosition' | 'width' | 'height' | 'containerLayout' | 'visible'
 	> {
 	menuPosition: {top?: number; left?: number}
+	windowHeight?: number
+	windowWidth?: number
 }
 
 export type TooltipSupportingMainProps = Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition'>
@@ -100,8 +106,8 @@ export interface GetSafeMenuPositionOptions {
 	height: number
 	margin?: number
 	width: number
-	windowHeight: number
-	windowWidth: number
+	windowHeight?: number
+	windowWidth?: number
 	x?: number
 	y?: number
 }

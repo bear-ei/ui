@@ -34,7 +34,7 @@ export interface RenderTooltipProps extends TooltipProps {
 
 export type TooltipBaseProps = TooltipProps
 export interface TooltipState {
-	menuContainerLayout?: {pageX: number; pageY: number}
+	menuContainerLayout?: {x: number; y: number}
 	nextActiveEvent?: () => void
 	tooltipVisible?: boolean
 }
@@ -46,6 +46,6 @@ export interface HandleTooltipStateEventChangeOptions
 }
 
 export interface EmitTooltipSupportingOptions {
-	containerLayout?: Partial<LayoutRectangle & {pageX: number; pageY: number}>
+	containerLayout?: Partial<LayoutRectangle>
 	visible?: boolean
 }

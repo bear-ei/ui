@@ -8,6 +8,7 @@ import {
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../../hooks'
+import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {
@@ -25,6 +26,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 	(
 		{
 			containerLayout,
+			onClosed: rawOnClosed,
 			onVisible,
 			supportingPosition,
 			triggerEvent,
@@ -34,11 +36,12 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		},
 		ref
 	) => {
-		const [{layout, status, invert: isInvert, menuPosition}, setState] = useImmer<TooltipSupportingState>({
-			layout: {} as LayoutRectangle,
-			menuPosition: {},
-			status: COMPONENT_STATUS.IDLE
-		})
+		const [{layout, status, invert: isInvert, menuPosition, nextClosedEvent}, setState] =
+			useImmer<TooltipSupportingState>({
+				layout: {} as LayoutRectangle,
+				menuPosition: {},
+				status: COMPONENT_STATUS.IDLE
+			})
 
 		const {width: windowWidth, height: windowHeight} = useWindowDimensions()
 		const containerRef = useRef<View>()
@@ -47,7 +50,11 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		const tooltipSupportingWidth =
 			type === TOOLTIP_TYPE.MENU ? theme.adaptSize(theme.token.spacing.extraSmall * 45) : layout.width
 
-		const onClosed = useMemo(() => updateTooltipSupportingClosed(setState), [setState])
+		const onClosed = useMemo(
+			() => updateTooltipSupportingClosed(rawOnClosed)(setState),
+			[rawOnClosed, setState]
+		)
+
 		const position = getTooltipSupportingPosition(supportingPosition)(isInvert)
 		const {contentAnimatedStyle} = useTooltipSupportingAnimated({
 			height: layout.height,
@@ -100,6 +107,10 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			})
 		}, [isVisible, layout, runUpdatePosition, windowHeight, windowWidth])
 
+		useEffect(() => {
+			runAfterInteractions(nextClosedEvent)()
+		}, [nextClosedEvent])
+
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
 		}
@@ -119,6 +130,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 				type={type}
 				visible={isVisible}
 				width={tooltipSupportingWidth}
+				windowHeight={windowHeight}
+				windowWidth={windowWidth}
 			/>
 		)
 	}

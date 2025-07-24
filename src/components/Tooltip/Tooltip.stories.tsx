@@ -7,11 +7,12 @@ import {Tooltip} from './Tooltip.component'
 
 export const PlainVerticalEnd = () => {
 	const style = {
-		height: 800,
-		width: 800,
 		display: 'flex',
+		flexDirection: 'row',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		width: 48,
+		height: 48
 	} as ViewStyle
 
 	const tooltipStyle = {
