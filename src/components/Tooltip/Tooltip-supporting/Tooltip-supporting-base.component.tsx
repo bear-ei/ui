@@ -14,8 +14,8 @@ import {
 	handleTooltipSupportingPosition,
 	handleTooltipSupportingStateChange,
 	updateTooltipSupportingClosed,
-	updateTooltipSupportingContainerLayout,
-	updateTooltipSupportingPosition
+	updateTooltipSupportingPosition,
+	updateTooltipSupportingStatus
 } from './Tooltip-supporting.handler'
 import type {TooltipSupportingBaseProps, TooltipSupportingState} from './Tooltip-supporting.interface'
 import {RenderTooltipSupporting} from './Tooltip-supporting.render'
@@ -74,8 +74,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
-		const runContainerLayout = useMemo(
-			() => updateTooltipSupportingContainerLayout({setState, windowWidth})(containerLayout),
+		const runUpdateStatus = useMemo(
+			() => updateTooltipSupportingStatus({setState, windowWidth})(containerLayout),
 			[containerLayout, setState, windowWidth]
 		)
 
@@ -92,8 +92,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		)
 
 		useEffect(() => {
-			runContainerLayout(isVisible)
-		}, [runContainerLayout, isVisible])
+			runUpdateStatus(isVisible)
+		}, [runUpdateStatus, isVisible])
 
 		useEffect(() => {
 			runPositionInvert({

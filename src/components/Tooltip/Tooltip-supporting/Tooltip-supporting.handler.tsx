@@ -14,8 +14,8 @@ import type {
 	HandleTooltipSupportingStateEventChangeOptions,
 	SupportingPosition,
 	TooltipSupportingState,
-	UpdateTooltipSupportingContainerLayoutOptions,
-	UpdateTooltipSupportingInvertOptions
+	UpdateTooltipSupportingInvertOptions,
+	UpdateTooltipSupportingStatusOptions
 } from './Tooltip-supporting.interface'
 
 export const handleTooltipSupportingStateChange =
@@ -65,10 +65,7 @@ export const updateTooltipSupportingClosed = (setState: Updater<TooltipSupportin
 		}
 	})
 
-export const updateTooltipSupportingContainerLayout = ({
-	setState,
-	windowWidth
-}: UpdateTooltipSupportingContainerLayoutOptions) => {
+export const updateTooltipSupportingStatus = ({setState, windowWidth}: UpdateTooltipSupportingStatusOptions) => {
 	const updateTooltipSupportingLayout = (containerLayout?: LayoutRectangle) =>
 		containerLayout &&
 		setState(draft => {

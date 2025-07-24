@@ -49,7 +49,7 @@ export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipS
 	status?: ComponentStatus
 }
 
-export interface UpdateTooltipSupportingContainerLayoutOptions {
+export interface UpdateTooltipSupportingStatusOptions {
 	setState: Updater<TooltipSupportingState>
 	windowWidth: number
 }
