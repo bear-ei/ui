@@ -46,7 +46,11 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			[rawOnVisible, setState]
 		)
 
-		const onClosed = useMemo(() => unmountTooltipSupporting(id), [id])
+		const onClosed = useMemo(
+			() => createDeferredHandlerWithState(unmountTooltipSupporting)(id)({debounceMillisecond: 150}),
+			[id]
+		)
+
 		const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisible), [onVisible])
 		const onContextMenu = useMemo(
 			() => updateTooltipContextMenuLayout(setState)(onVisible),
