@@ -28,7 +28,7 @@ export const updateTooltipVisibility =
 		}
 	}
 
-export const handleTooltipContextMenu =
+export const updateTooltipContextMenuLayout =
 	(setState: Updater<TooltipState>) => (onTooltipVisible: (value?: boolean) => void) => (event: MouseEvent) => {
 		event.preventDefault()
 		const {pageX, pageY} = event.nativeEvent

@@ -9,12 +9,12 @@ import type {
 	AnimateTooltipSupportingOptions,
 	AnimateTooltipSupportingSharedValues,
 	GetSafeMenuPositionOptions,
-	HandleTooltipSupportingPositionOptions,
 	HandleTooltipSupportingPositionWindowOptions,
 	HandleTooltipSupportingStateEventChangeOptions,
 	SupportingPosition,
 	TooltipSupportingState,
 	UpdateTooltipSupportingInvertOptions,
+	UpdateTooltipSupportingPositionOptions,
 	UpdateTooltipSupportingStatusOptions
 } from './Tooltip-supporting.interface'
 
@@ -65,8 +65,12 @@ export const updateTooltipSupportingClosed = (setState: Updater<TooltipSupportin
 		}
 	})
 
-export const updateTooltipSupportingStatus = ({setState, windowWidth}: UpdateTooltipSupportingStatusOptions) => {
-	const updateTooltipSupportingLayout = (containerLayout?: LayoutRectangle) =>
+export const updateTooltipSupportingStatus =
+	({setState, windowWidth}: UpdateTooltipSupportingStatusOptions) =>
+	(containerLayout?: LayoutRectangle) =>
+	(visible?: boolean) =>
+		windowWidth &&
+		visible &&
 		containerLayout &&
 		setState(draft => {
 			if (draft.status === COMPONENT_STATUS.IDLE) {
@@ -74,12 +78,8 @@ export const updateTooltipSupportingStatus = ({setState, windowWidth}: UpdateToo
 			}
 		})
 
-	return (containerLayout?: LayoutRectangle) => (visible?: boolean) =>
-		windowWidth && visible && updateTooltipSupportingLayout(containerLayout)
-}
-
-export const handleTooltipSupportingPosition =
-	({supportingPosition, setState, type, containerLayout, theme}: HandleTooltipSupportingPositionOptions) =>
+export const updateTooltipSupportingPosition =
+	({supportingPosition, setState, type, containerLayout, theme}: UpdateTooltipSupportingPositionOptions) =>
 	(ref: React.MutableRefObject<View | undefined>) => {
 		const getSafeMenuPosition = ({
 			height,
@@ -166,7 +166,7 @@ export const handleTooltipSupportingPosition =
 		}
 	}
 
-export const updateTooltipSupportingPosition = (supportingPosition?: SupportingPosition) => (invert?: boolean) => {
+export const getTooltipSupportingPosition = (supportingPosition?: SupportingPosition) => (invert?: boolean) => {
 	const position = {
 		invertY:
 			supportingPosition === SUPPORTING_POSITION.VERTICAL_END ?

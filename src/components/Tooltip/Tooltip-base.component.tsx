@@ -8,9 +8,9 @@ import {TOOLTIP_TYPE} from './Tooltip.enum'
 import {
 	emitTooltipSupporting,
 	handleMaskPressOut,
-	handleTooltipContextMenu,
 	handleTooltipStateChange,
 	unmountTooltipSupporting,
+	updateTooltipContextMenuLayout,
 	updateTooltipVisibility
 } from './Tooltip.handler'
 import type {TooltipBaseProps, TooltipState} from './Tooltip.interface'
@@ -48,7 +48,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 
 		const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisible), [onVisible])
 		const onContextMenu = useMemo(
-			() => handleTooltipContextMenu(setState)(onVisible),
+			() => updateTooltipContextMenuLayout(setState)(onVisible),
 			[onVisible, setState]
 		)
 
@@ -62,7 +62,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			onStateEventChange
 		})
 
-		const runEmitTooltipSupporting = useMemo(
+		const runEmit = useMemo(
 			() =>
 				emitTooltipSupporting(type)({
 					elevation,
@@ -75,8 +75,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			[elevation, onVisible, shape, supporting, supportingPosition, triggerEvent, type]
 		)
 
-		const runUnmountTooltipSupporting = useMemo(() => unmountTooltipSupporting(type), [type])
-		const runTooltipVisible = useMemo(
+		const runUnmount = useMemo(() => unmountTooltipSupporting(type), [type])
+		const runUpdateVisible = useMemo(
 			() =>
 				createDeferredHandlerWithState(updateTooltipVisibility(onVisible))(setState)({
 					debounceMillisecond: 100
@@ -88,33 +88,30 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 
 		useEffect(() => {
 			if (type === TOOLTIP_TYPE.MENU) {
-				runEmitTooltipSupporting({
-					containerLayout: menuContainerLayout,
-					visible: isTooltipVisible
-				})
+				runEmit({containerLayout: menuContainerLayout, visible: isTooltipVisible})
 
 				return
 			}
 
 			containerRef.current?.measure((x, y, width, height, pageX, pageY) =>
-				runEmitTooltipSupporting({
+				runEmit({
 					containerLayout: {x, y, width, height, pageX, pageY},
 					visible: isTooltipVisible
 				})
 			)
-		}, [isTooltipVisible, menuContainerLayout, runEmitTooltipSupporting, type])
+		}, [isTooltipVisible, menuContainerLayout, runEmit, type])
 
 		useEffect(() => {
-			runTooltipVisible(visible ?? defaultVisible)
-		}, [runTooltipVisible, visible, defaultVisible])
+			runUpdateVisible(visible ?? defaultVisible)
+		}, [runUpdateVisible, visible, defaultVisible])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()
 		}, [nextActiveEvent])
 
 		useEffect(() => {
-			return () => runUnmountTooltipSupporting()
-		}, [runUnmountTooltipSupporting])
+			return () => runUnmount()
+		}, [runUnmount])
 
 		return (
 			<RenderTooltip

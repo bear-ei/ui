@@ -11,7 +11,7 @@ import {
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {
-	handleTooltipSupportingPosition,
+	getTooltipSupportingPosition,
 	handleTooltipSupportingStateChange,
 	updateTooltipSupportingClosed,
 	updateTooltipSupportingPosition,
@@ -48,11 +48,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			type === TOOLTIP_TYPE.MENU ? theme.adaptSize(theme.token.spacing.extraSmall * 45) : layout.width
 
 		const onClosed = useMemo(() => updateTooltipSupportingClosed(setState), [setState])
-		const position = useMemo(
-			() => updateTooltipSupportingPosition(supportingPosition)(isInvert),
-			[isInvert, supportingPosition]
-		)
-
+		const position = getTooltipSupportingPosition(supportingPosition)(isInvert)
 		const {contentAnimatedStyle} = useTooltipSupportingAnimated({
 			height: layout.height,
 			onClose: onClosed,
@@ -79,9 +75,9 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			[containerLayout, setState, windowWidth]
 		)
 
-		const runPositionInvert = useMemo(
+		const runUpdatePosition = useMemo(
 			() =>
-				handleTooltipSupportingPosition({
+				updateTooltipSupportingPosition({
 					containerLayout,
 					setState,
 					supportingPosition,
@@ -96,13 +92,13 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		}, [runUpdateStatus, isVisible])
 
 		useEffect(() => {
-			runPositionInvert({
+			runUpdatePosition({
 				visible: isVisible,
 				windowHeight,
 				windowWidth,
 				layout
 			})
-		}, [isVisible, layout, runPositionInvert, windowHeight, windowWidth])
+		}, [isVisible, layout, runUpdatePosition, windowHeight, windowWidth])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

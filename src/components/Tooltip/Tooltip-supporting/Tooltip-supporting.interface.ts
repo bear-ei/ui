@@ -74,7 +74,7 @@ export interface UpdateTooltipSupportingInvertOptions {
 	windowWidth: number
 }
 
-export interface HandleTooltipSupportingPositionOptions
+export interface UpdateTooltipSupportingPositionOptions
 	extends Pick<TooltipSupportingProps, 'supportingPosition' | 'type' | 'containerLayout'> {
 	setState: Updater<TooltipSupportingState>
 	theme: DefaultTheme
@@ -96,7 +96,6 @@ export interface TooltipSupportingContentProps
 }
 
 export type TooltipSupportingMainProps = Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition'>
-
 export interface GetSafeMenuPositionOptions {
 	height: number
 	margin?: number

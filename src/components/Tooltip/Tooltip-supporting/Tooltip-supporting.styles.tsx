@@ -33,7 +33,6 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 			[SUPPORTING_POSITION.VERTICAL_START]: css`
 				left: ${containerPageX - (width - containerWidth) / 2}px;
 				top: ${containerPageY - height - theme.adaptSize(theme.token.spacing.extraSmall)}px;
-
 				transform-origin: bottom;
 			`,
 			[SUPPORTING_POSITION.VERTICAL_END]: css`
