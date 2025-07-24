@@ -39,7 +39,6 @@ export const updateTooltipContextMenuLayout =
 		onTooltipVisible?.(true)
 	}
 
-export const handleMaskPressOut = (onTooltipVisible: (value?: boolean) => void) => () => onTooltipVisible?.(false)
 export const handleTooltipStateChange = ({
 	eventName,
 	onVisible,

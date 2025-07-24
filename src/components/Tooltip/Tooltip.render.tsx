@@ -1,30 +1,12 @@
-import {hexToRGBA} from '@bearei/element-token'
 import {cloneElement, forwardRef} from 'react'
-import type {View, ViewStyle} from 'react-native'
-import {useTheme} from 'styled-components/native'
-import {Mask} from '../Mask'
+import type {View} from 'react-native'
 import {TOOLTIP_TYPE} from './Tooltip.enum'
 import type {RenderTooltipProps} from './Tooltip.interface'
 import {Container, Content} from './Tooltip.styles'
 
 export const RenderTooltip = forwardRef<View, RenderTooltipProps>(
-	(
-		{
-			children,
-			id,
-			interactionHandlers,
-			onContextMenu,
-			onMaskPressOut,
-			testID,
-			type,
-			visible,
-			...containerProps
-		},
-		ref
-	) => {
+	({children, id, interactionHandlers, onContextMenu, testID, type, ...containerProps}, ref) => {
 		const {onFocus, onHoverIn, ...onChildrenInteractionHandlers} = interactionHandlers
-		const theme = useTheme()
-		const maskStyle = {position: 'fixed'} as unknown as ViewStyle
 
 		return (
 			<Container
@@ -40,16 +22,6 @@ export const RenderTooltip = forwardRef<View, RenderTooltipProps>(
 							...onChildrenInteractionHandlers,
 							...(type === TOOLTIP_TYPE.MENU && {onContextMenu})
 						})}
-
-					{type === TOOLTIP_TYPE.MENU && (
-						<Mask
-							backgroundColor={hexToRGBA(theme.token.scheme.scrim)(0)}
-							onPressOut={onMaskPressOut}
-							style={maskStyle}
-							testID={`tooltip__mask--${id}`}
-							visible={visible}
-						/>
-					)}
 				</Content>
 			</Container>
 		)

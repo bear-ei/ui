@@ -13,6 +13,7 @@ import {COMPONENT_STATUS, type State} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {
 	getTooltipSupportingPosition,
+	handleMaskPressOut,
 	handleTooltipSupportingStateChange,
 	updateTooltipSupportingClosed,
 	updateTooltipSupportingPosition,
@@ -55,6 +56,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			[rawOnClosed, setState]
 		)
 
+		const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisible), [onVisible])
 		const position = getTooltipSupportingPosition(supportingPosition)(isInvert)
 		const {contentAnimatedStyle} = useTooltipSupportingAnimated({
 			height: layout.height,
@@ -75,8 +77,6 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			onStateEventChange
 		})
 
-		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
-
 		const runUpdateStatus = useMemo(
 			() => updateTooltipSupportingStatus({setState, windowWidth})(containerLayout),
 			[containerLayout, setState, windowWidth]
@@ -93,6 +93,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 				})(containerRef),
 			[containerLayout, setState, supportingPosition, theme, type]
 		)
+
+		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
 		useEffect(() => {
 			runUpdateStatus(isVisible)
@@ -124,6 +126,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 				id={id}
 				interactionHandlers={interactionHandlers}
 				menuPosition={menuPosition}
+				onMaskPressOut={onMaskPressOut}
 				ref={containerRef as React.LegacyRef<View>}
 				supportingPosition={position}
 				theme={theme}

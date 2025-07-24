@@ -1,8 +1,10 @@
-import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, isValidElement} from 'react'
-import type {View} from 'react-native'
+import type {View, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {useTheme} from 'styled-components/native'
 import {Elevation} from '../../Elevation'
+import {Mask} from '../../Mask'
 import type {MenuProps} from '../../Menu'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
@@ -27,6 +29,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 			id,
 			interactionHandlers,
 			menuPosition,
+			onMaskPressOut,
 			shape = SHAPE.EXTRA_SMALL,
 			supporting,
 			supportingPosition = SUPPORTING_POSITION.VERTICAL_START,
@@ -40,7 +43,9 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 		},
 		ref
 	) => {
+		const maskStyle = {position: 'fixed'} as unknown as ViewStyle
 		const {onLayout, ...mainInteractionHandlers} = interactionHandlers
+		const theme = useTheme()
 		const mainElement = (
 			<Main
 				{...(type === TOOLTIP_TYPE.PLAIN && {onLayout})}
@@ -77,39 +82,53 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 		)
 
 		return (
-			<AnimateContainer
-				{...containerProps}
-				containerLayout={containerLayout}
-				height={height}
-				menuPosition={menuPosition}
-				ref={ref}
-				style={[contentAnimatedStyle]}
-				supportingPosition={supportingPosition}
-				testID={testID ?? `tooltipSupporting__supporting--${id}`}
-				type={type}
-				visible={visible}
-				width={width}
-				windowHeight={windowHeight}
-				windowWidth={windowWidth}
-			>
-				{type === TOOLTIP_TYPE.MENU ?
-					<Content testID={`tooltipSupporting_content--${id}`}>{mainElement}</Content>
-				:	<TouchableContent
-						{...mainInteractionHandlers}
-						testID={`tooltipSupporting_content--${id}`}
-					>
-						{mainElement}
-					</TouchableContent>
-				}
+			<>
+				<AnimateContainer
+					{...containerProps}
+					containerLayout={containerLayout}
+					height={height}
+					menuPosition={menuPosition}
+					ref={ref}
+					style={[contentAnimatedStyle]}
+					supportingPosition={supportingPosition}
+					testID={testID ?? `tooltipSupporting__supporting--${id}`}
+					type={type}
+					visible={visible}
+					width={width}
+					windowHeight={windowHeight}
+					windowWidth={windowWidth}
+				>
+					{type === TOOLTIP_TYPE.MENU ?
+						<Content testID={`tooltipSupporting_content--${id}`}>
+							{mainElement}
+						</Content>
+					:	<TouchableContent
+							{...mainInteractionHandlers}
+							testID={`tooltipSupporting_content--${id}`}
+						>
+							{mainElement}
+						</TouchableContent>
+					}
 
-				{elevation && (
-					<Elevation
-						level={elevation}
-						shape={shape}
-						testID={`tooltipSupporting_elevation--${id}`}
+					{elevation && (
+						<Elevation
+							level={elevation}
+							shape={shape}
+							testID={`tooltipSupporting_elevation--${id}`}
+						/>
+					)}
+				</AnimateContainer>
+
+				{type === TOOLTIP_TYPE.MENU && (
+					<Mask
+						backgroundColor={hexToRGBA(theme.token.scheme.scrim)(0)}
+						onPressOut={onMaskPressOut}
+						style={maskStyle}
+						testID={`tooltip__mask--${id}`}
+						visible={visible}
 					/>
 				)}
-			</AnimateContainer>
+			</>
 		)
 	}
 )

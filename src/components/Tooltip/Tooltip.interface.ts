@@ -29,7 +29,6 @@ export interface TooltipProps
 export interface RenderTooltipProps extends TooltipProps {
 	interactionHandlers: InteractionHandlers
 	onContextMenu: (event: MouseEvent) => void
-	onMaskPressOut: () => void
 }
 
 export type TooltipBaseProps = TooltipProps

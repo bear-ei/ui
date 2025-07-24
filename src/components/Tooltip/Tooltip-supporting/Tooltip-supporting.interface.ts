@@ -28,6 +28,7 @@ export interface RenderTooltipSupportingProps extends TooltipSupportingProps {
 	height?: number
 	interactionHandlers: InteractionHandlers
 	menuPosition: {top?: number; left?: number}
+	onMaskPressOut?: () => void
 	theme: DefaultTheme
 	width?: number
 	windowHeight?: number

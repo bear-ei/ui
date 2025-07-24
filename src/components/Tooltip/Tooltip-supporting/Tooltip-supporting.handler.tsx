@@ -186,6 +186,7 @@ export const getTooltipSupportingPosition = (supportingPosition?: SupportingPosi
 	return invert ? invertPosition : supportingPosition
 }
 
+export const handleMaskPressOut = (onTooltipVisible?: (value?: boolean) => void) => () => onTooltipVisible?.(false)
 export const animateTooltipSupporting =
 	({createEntrySharedValueAnimator, type, createExitSharedValueAnimator}: AnimateTooltipSupportingOptions) =>
 	({transformSharedValue, heightSharedValue, opacitySharedValue}: AnimateTooltipSupportingSharedValues) =>

@@ -7,7 +7,6 @@ import type {State} from '../Common'
 import {TOOLTIP_TYPE} from './Tooltip.enum'
 import {
 	emitTooltipSupporting,
-	handleMaskPressOut,
 	handleTooltipStateChange,
 	unmountTooltipSupporting,
 	updateTooltipContextMenuLayout,
@@ -51,7 +50,6 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			[id]
 		)
 
-		const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisible), [onVisible])
 		const onContextMenu = useMemo(
 			() => updateTooltipContextMenuLayout(setState)(onVisible),
 			[onVisible, setState]
@@ -101,10 +99,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			}
 
 			containerRef.current?.measureInWindow((x, y, width, height) =>
-				runEmit({
-					containerLayout: {x, y, width, height},
-					visible: isTooltipVisible
-				})
+				runEmit({containerLayout: {x, y, width, height}, visible: isTooltipVisible})
 			)
 		}, [isTooltipVisible, menuContainerLayout, runEmit, type])
 
@@ -126,10 +121,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 				id={id}
 				interactionHandlers={interactionHandlers}
 				onContextMenu={onContextMenu}
-				onMaskPressOut={onMaskPressOut}
 				ref={containerRef}
 				type={type}
-				visible={isTooltipVisible}
 			/>
 		)
 	}
