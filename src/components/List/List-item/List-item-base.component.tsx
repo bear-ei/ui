@@ -3,7 +3,6 @@ import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
 import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
-import type {PressableType} from '../../Touchable'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
 	confirmListItemAffordanceAction,
@@ -14,18 +13,17 @@ import {
 	updateListItemFocusState,
 	updateListItemTrailingVisibility
 } from './List-item.handler'
-import type {ListItemBaseProps, ListItemState} from './List-item.interface'
+import type {ListItemBaseProps, ListItemRef, ListItemState} from './List-item.interface'
 import {RenderListItem, RenderListItemTrailing} from './List-item.render'
 import {useListItemAnimated} from './use-list-item-animated.hook'
 
-export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
+export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 	(
 		{
 			activeKey,
 			activeKeys,
 			afterAffordance,
 			afterAffordanceActiveKey,
-			close,
 			closeTrailing,
 			disabled,
 			enableUnderlay = true,
@@ -64,7 +62,7 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 		] = useImmer<ListItemState>({status: COMPONENT_STATUS.IDLE, afterAffordanceExpanded: false})
 
 		const id = useId()
-		const pressableRef = useRef<PressableType>(null)
+		const pressableRef = useRef<ListItemRef>(null)
 		const isAfterAffordanceVisible = indexKey ? afterAffordanceActiveKey === indexKey : undefined
 		const isActive = !!(selectType === LIST_SELECT_TYPE.SINGLE ?
 			activeKey === indexKey
@@ -142,11 +140,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			[itemIndex]
 		)
 
-		const runMaybeTriggerClose = useMemo(
-			() => maybeTriggerListItemClose(rawOnClose)(indexKey),
-			[indexKey, rawOnClose]
-		)
-
 		const runUpdateAfterAffordanceVisibility = useMemo(
 			() =>
 				createDeferredHandlerWithState(updateListItemAfterAffordanceExpanded)(setState)({
@@ -188,7 +181,11 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 			]
 		)
 
-		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
+		useImperativeHandle(
+			ref,
+			() => ({...(pressableRef?.current ?? {}), onClose: onItemClose}) as ListItemRef,
+			[onItemClose]
+		)
 
 		useEffect(() => {
 			if (isAfterAffordanceVisible) {
@@ -207,10 +204,6 @@ export const ListItemBase = forwardRef<PressableType, ListItemBaseProps>(
 		useEffect(() => {
 			runUpdateFocusState(focusedIndex)
 		}, [runUpdateFocusState, focusedIndex])
-
-		useEffect(() => {
-			runMaybeTriggerClose(close)
-		}, [close, runMaybeTriggerClose])
 
 		useEffect(() => {
 			runAfterInteractions(nextPressInEvent)()

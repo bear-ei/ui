@@ -8,6 +8,10 @@ import type {PressableType, TouchableProps} from '../../Touchable'
 import type {ListAffordanceButtonProps} from '../List-affordance-button'
 import type {ListProps} from '../List.interface'
 
+export interface ListItemRef extends PressableType {
+	onClose: () => void
+}
+
 export interface ListItemProps
 	extends TouchableProps,
 		Pick<
@@ -39,8 +43,6 @@ export interface ListItemProps
 			| 'trailingTriggerEven'
 			| 'type'
 		> {
-	close?: boolean
-
 	/**
 	 * Enabling ripples while using style to specify the background color can cause the ripple to be obscured, as the
 	 * ripple is always one z-index level below the main container. This property is used to specify the background

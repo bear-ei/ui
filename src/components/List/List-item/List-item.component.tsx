@@ -1,11 +1,10 @@
 import {forwardRef} from 'react'
 import {typedMemo} from '../../../utils'
-import type {PressableType} from '../../Touchable'
 import {ListItemBase} from './List-item-base.component'
 import {compareListItemProps} from './List-item.handler'
-import type {ListItemProps} from './List-item.interface'
+import type {ListItemProps, ListItemRef} from './List-item.interface'
 
-const ListItemWithRef = forwardRef<PressableType, ListItemProps>((props, ref) => (
+const ListItemWithRef = forwardRef<ListItemRef, ListItemProps>((props, ref) => (
 	<ListItemBase
 		{...props}
 		ref={ref}

@@ -188,7 +188,7 @@ export const confirmListItemAffordanceAction =
 		const {doubleConfirmed: isDoubleConfirmed} = options
 
 		if (isDoubleConfirmed) {
-			onItemClose(isDoubleConfirmed)
+			onItemClose()
 
 			return
 		}
@@ -204,14 +204,13 @@ export const updateListItemFocusState =
 	(itemIndex?: number) => (pressableRef: React.RefObject<PressableType>) => (focusedIndex?: number) =>
 		typeof focusedIndex === 'number' && itemIndex === focusedIndex && pressableRef.current?.focus()
 
-export const maybeTriggerListItemClose =
-	(onClose?: (indexKey?: string) => void) => (indexKey?: string) => (close?: boolean) => {
-		if (!(close && indexKey)) {
-			return
-		}
-
-		onClose?.(indexKey)
+export const maybeTriggerListItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => () => {
+	if (!indexKey) {
+		return
 	}
+
+	onClose?.(indexKey)
+}
 
 export const updateListItemAfterAffordanceExpanded = (setState: Updater<ListItemState>) => (visible?: boolean) =>
 	setState(draft => {
