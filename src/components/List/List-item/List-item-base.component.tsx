@@ -73,20 +73,16 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			[rawTrailingProps]
 		)
 
-		const onItemClose = useMemo(
-			() => maybeTriggerListItemClose(rawOnClose)(indexKey),
-			[indexKey, rawOnClose]
-		)
-
+		const onClose = useMemo(() => maybeTriggerListItemClose(rawOnClose)(indexKey), [indexKey, rawOnClose])
 		const onTrailingVisibility = useMemo(() => updateListItemTrailingVisibility(setState), [setState])
 		const onConfirm = useMemo(
 			() =>
 				confirmListItemAffordanceAction({
 					onActiveAfterAffordance,
-					onConfirm: rawOnConfirm,
-					onItemClose
+					onClose,
+					onConfirm: rawOnConfirm
 				}),
-			[onActiveAfterAffordance, onItemClose, rawOnConfirm]
+			[onActiveAfterAffordance, onClose, rawOnConfirm]
 		)
 
 		const onTrailingPressOut = useMemo(
@@ -95,7 +91,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 					afterAffordance,
 					closeTrailing,
 					onActiveAfterAffordance,
-					onItemClose,
+					onClose,
 					onPressOut: rawOnTrailingPressOut
 				})(indexKey),
 			[
@@ -103,7 +99,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 				closeTrailing,
 				indexKey,
 				onActiveAfterAffordance,
-				onItemClose,
+				onClose,
 				rawOnTrailingPressOut
 			]
 		)
@@ -181,12 +177,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			]
 		)
 
-		useImperativeHandle(
-			ref,
-			() => ({...(pressableRef?.current ?? {}), onClose: onItemClose}) as ListItemRef,
-			[onItemClose]
-		)
-
+		useImperativeHandle(ref, () => ({...(pressableRef?.current ?? {}), onClose}) as ListItemRef, [onClose])
 		useEffect(() => {
 			if (isAfterAffordanceVisible) {
 				runUpdateAfterAffordanceVisibility(isAfterAffordanceVisible)

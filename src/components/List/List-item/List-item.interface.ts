@@ -107,7 +107,7 @@ export interface HandleListItemStateChangeOptions
 
 export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
 	onConfirm?: ListItemProps['onConfirm']
-	onItemClose: (indexKey?: boolean) => void
+	onClose: (indexKey?: boolean) => void
 }
 
 export interface RenderListItemTrailingProps
@@ -134,7 +134,7 @@ export interface UseListItemAnimatedOptions {
 
 export interface TriggerListItemTrailingActionsOptions
 	extends Pick<ListItemProps, 'closeTrailing' | 'afterAffordance' | 'onActiveAfterAffordance' | 'onPressOut'> {
-	onItemClose: (close?: boolean) => void
+	onClose: (close?: boolean) => void
 }
 
 export type ListItemContainerProps = Pick<RenderListItemProps, 'type' | 'density'>

@@ -157,7 +157,7 @@ export const triggerListItemTrailingActions =
 		afterAffordance,
 		closeTrailing,
 		onActiveAfterAffordance,
-		onItemClose,
+		onClose,
 		onPressOut
 	}: TriggerListItemTrailingActionsOptions) =>
 	(indexKey?: string) =>
@@ -170,7 +170,7 @@ export const triggerListItemTrailingActions =
 
 		const nextEvent = {
 			afterAffordance: () => onActiveAfterAffordance?.({activeKey: indexKey}),
-			closeTrailing: () => onItemClose(true)
+			closeTrailing: () => onClose()
 		}
 
 		if (afterAffordance) {
@@ -183,12 +183,12 @@ export const triggerListItemTrailingActions =
 	}
 
 export const confirmListItemAffordanceAction =
-	({onActiveAfterAffordance, onItemClose, onConfirm}: ConfirmListItemAffordanceActionOptions) =>
+	({onActiveAfterAffordance, onClose, onConfirm}: ConfirmListItemAffordanceActionOptions) =>
 	({indexKey, ...options}: ListItemAfterAffordancePressOutOptions) => {
 		const {doubleConfirmed: isDoubleConfirmed} = options
 
 		if (isDoubleConfirmed) {
-			onItemClose()
+			onClose()
 
 			return
 		}
