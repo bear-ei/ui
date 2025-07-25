@@ -142,8 +142,8 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 	}}
 
 
-   ${({visible}) =>
-		!visible &&
+   ${({closed}) =>
+		closed &&
 		css`
 			z-index: -16384;
 		`}

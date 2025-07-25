@@ -9,6 +9,7 @@ import {
 	handleListItemStateChange,
 	maybeTriggerListItemClose,
 	triggerListItemTrailingActions,
+	updateListItemActive,
 	updateListItemAfterAffordanceExpanded,
 	updateListItemFocusState,
 	updateListItemTrailingVisibility
@@ -32,7 +33,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			indexKey,
 			itemIndex,
 			leading,
-			onActive,
+			onActive: rawOnActive,
 			onActiveAfterAffordance,
 			onClose: rawOnClose,
 			onConfirm: rawOnConfirm,
@@ -104,6 +105,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			]
 		)
 
+		const onActive = useMemo(() => updateListItemActive(selectType)(rawOnActive), [rawOnActive, selectType])
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (_state: State) => (event: StateEvent) =>
 				handleListItemStateChange({
@@ -112,11 +114,10 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 					itemIndex,
 					onActive,
 					onLoadEnd,
-					selectType,
 					trailingTriggerEven,
 					type
 				})(setState)(event),
-			[indexKey, itemIndex, onActive, onLoadEnd, selectType, setState, trailingTriggerEven, type]
+			[indexKey, itemIndex, onActive, onLoadEnd, setState, trailingTriggerEven, type]
 		)
 
 		const interactionHandlers = useInteractionStateEvent({
@@ -177,7 +178,17 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			]
 		)
 
-		useImperativeHandle(ref, () => ({...(pressableRef?.current ?? {}), onClose}) as ListItemRef, [onClose])
+		useImperativeHandle(
+			ref,
+			() =>
+				({
+					...(pressableRef?.current ?? {}),
+					active: () => onActive?.(indexKey),
+					close: onClose
+				}) as ListItemRef,
+			[indexKey, onActive, onClose]
+		)
+
 		useEffect(() => {
 			if (isAfterAffordanceVisible) {
 				runUpdateAfterAffordanceVisibility(isAfterAffordanceVisible)

@@ -9,7 +9,8 @@ import type {ListAffordanceButtonProps} from '../List-affordance-button'
 import type {ListProps} from '../List.interface'
 
 export interface ListItemRef extends PressableType {
-	onClose: () => void
+	active: () => void
+	close: () => void
 }
 
 export interface ListItemProps
@@ -96,13 +97,7 @@ export interface HandleListItemStateChangeOptions
 	extends HandleStateEventChangeOptions,
 		Pick<
 			RenderListItemProps,
-			| 'itemIndex'
-			| 'indexKey'
-			| 'onActive'
-			| 'onLoadEnd'
-			| 'selectType'
-			| 'trailingTriggerEven'
-			| 'type'
+			'itemIndex' | 'indexKey' | 'onActive' | 'onLoadEnd' | 'trailingTriggerEven' | 'type'
 		> {}
 
 export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {

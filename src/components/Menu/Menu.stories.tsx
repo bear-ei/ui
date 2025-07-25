@@ -19,7 +19,7 @@ export const Select = () => {
 	const containerStyle = {width: 48, height: 48} as StyleProp<ViewStyle>
 	const data = useMemo(
 		() =>
-			Array.from({length: 5}, (_, index) => ({
+			Array.from({length: 2}, (_, index) => ({
 				indexKey: `Title${index + 1}`,
 				headline: `Title${index + 1}`,
 				leading: <Icon />,

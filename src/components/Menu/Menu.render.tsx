@@ -19,7 +19,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
 			onActives,
 			onKeyDown,
 			onVisible,
-			shape = SHAPE.EXTRA_SMALL,
+			shape = SHAPE.SMALL,
 			testID,
 			type,
 			visible,

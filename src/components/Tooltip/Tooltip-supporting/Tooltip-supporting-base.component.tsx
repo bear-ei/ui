@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
@@ -37,7 +37,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		},
 		ref
 	) => {
-		const [{layout, status, invert: isInvert, menuPosition, nextClosedEvent}, setState] =
+		const [{layout, status, invert: isInvert, menuPosition, nextClosedEvent, closed: isClosed}, setState] =
 			useImmer<TooltipSupportingState>({
 				layout: {} as LayoutRectangle,
 				menuPosition: {},
@@ -66,11 +66,13 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			visible: isVisible
 		})
 
-		const onStateEventChange =
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleTooltipSupportingStateChange({...options, state, onVisible, triggerEvent})(
 					setState
-				)(event)
+				)(event),
+			[onVisible, setState, triggerEvent]
+		)
 
 		const interactionHandlers = useInteractionStateEvent({
 			...renderTooltipSupportingProps,
@@ -101,12 +103,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		}, [runUpdateStatus, isVisible])
 
 		useEffect(() => {
-			runUpdatePosition({
-				visible: isVisible,
-				windowHeight,
-				windowWidth,
-				layout
-			})
+			runUpdatePosition({visible: isVisible, windowHeight, windowWidth, layout})
 		}, [isVisible, layout, runUpdatePosition, windowHeight, windowWidth])
 
 		useEffect(() => {
@@ -120,6 +117,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		return (
 			<RenderTooltipSupporting
 				{...renderTooltipSupportingProps}
+				closed={isClosed}
 				containerLayout={containerLayout}
 				contentAnimatedStyle={contentAnimatedStyle}
 				height={layout.height}

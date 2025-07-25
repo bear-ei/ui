@@ -66,6 +66,7 @@ export const updateTooltipSupportingClosed =
 					draft.invert = false
 				}
 
+				draft.closed = true
 				draft.nextClosedEvent = nextClosedEvent
 			})
 		}
@@ -87,12 +88,12 @@ export const updateTooltipSupportingStatus =
 export const getSafeMenuPosition = ({
 	height,
 	margin = 8,
+	offset = 0,
 	width,
 	windowHeight = 0,
 	windowWidth = 0,
 	x = 0,
-	y = 0,
-	offset = 0
+	y = 0
 }: GetSafeMenuPositionOptions) => {
 	let left = x + offset
 	let top = y + offset

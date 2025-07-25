@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
@@ -55,9 +55,11 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			[isDisabled, onVisible, setState]
 		)
 
-		const onStateEventChange =
+		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleTooltipStateChange({...options, onVisible, state, triggerEvent, type})(event)
+				handleTooltipStateChange({...options, onVisible, state, triggerEvent, type})(event),
+			[onVisible, triggerEvent, type]
+		)
 
 		const interactionHandlers = useInteractionStateEvent({
 			...renderTooltipProps,

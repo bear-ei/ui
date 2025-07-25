@@ -75,26 +75,18 @@ export const compareListItemProps = (prevProps: ListItemProps) => {
 	}
 }
 
-const triggerListItemActive =
-	(selectType?: ListSelectType) => (onActive?: (activeKey?: string) => void) => (activeKey?: string) =>
-		selectType && activeKey && onActive?.(activeKey)
+export const updateListItemActive =
+	(selectType?: ListSelectType) => (onActive?: (indexKey?: string) => void) => (indexKey?: string) =>
+		selectType && indexKey && onActive?.(indexKey)
 
 const triggerListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
 export const handleListItemStateChange =
-	({
-		eventName,
-		indexKey,
-		onActive,
-		onLoadEnd,
-		selectType,
-		trailingTriggerEven,
-		type
-	}: HandleListItemStateChangeOptions) =>
+	({eventName, indexKey, onActive, onLoadEnd, trailingTriggerEven, type}: HandleListItemStateChangeOptions) =>
 	(setState: Updater<ListItemState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
 			[EVENT_NAME.LAYOUT]: () => triggerListItemLoadEnd?.(onLoadEnd)(indexKey),
-			[EVENT_NAME.PRESS_OUT]: () => triggerListItemActive(selectType)(onActive)(indexKey)
+			[EVENT_NAME.PRESS_OUT]: () => onActive?.(indexKey)
 		} as Record<EventName, () => void>
 
 		setState(draft => {

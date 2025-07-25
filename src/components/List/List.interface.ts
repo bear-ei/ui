@@ -54,7 +54,7 @@ export interface ListProps
 	enableUnderlayActive?: boolean
 	focusedIndex?: number
 	gap?: number
-	onActive?: (activeKey?: string) => void
+	onActive?: (indexKey?: string) => void
 	onActiveAfterAffordance?: (options?: UpdateListAffordanceActiveStateOptions) => void
 	onActives?: (activeKeys?: string[]) => void
 	onCancel?: (options: ListItemAfterAffordancePressOutOptions) => void
