@@ -32,7 +32,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		},
 		ref
 	) => {
-		const [{tooltipVisible: isTooltipVisible, nextActiveEvent, menuContainerLayout}, setState] =
+		const [{tooltipVisible: isTooltipVisible, nextVisibleEvent, menuContainerLayout}, setState] =
 			useImmer<TooltipState>({})
 
 		const containerRef = useRef<View>(null)
@@ -51,8 +51,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		)
 
 		const onContextMenu = useMemo(
-			() => updateTooltipContextMenuLayout(setState)(onVisible),
-			[onVisible, setState]
+			() => updateTooltipContextMenuLayout(setState)({onVisible, disabled: isDisabled}),
+			[isDisabled, onVisible, setState]
 		)
 
 		const onStateEventChange =
@@ -108,8 +108,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		}, [runUpdateVisible, visible, defaultVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)()
-		}, [nextActiveEvent])
+			runAfterInteractions(nextVisibleEvent)()
+		}, [nextVisibleEvent])
 
 		useEffect(() => {
 			return () => runUnmount()

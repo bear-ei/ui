@@ -106,6 +106,7 @@ export type TooltipSupportingMainProps = Pick<RenderTooltipSupportingProps, 'typ
 export interface GetSafeMenuPositionOptions {
 	height: number
 	margin?: number
+	offset?: number
 	width: number
 	windowHeight?: number
 	windowWidth?: number

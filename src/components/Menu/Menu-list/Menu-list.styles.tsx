@@ -3,6 +3,7 @@ import {Shape} from '../../Common'
 import type {MenuListContainerProps} from './Menu-list.interface'
 
 export const Container = styled(Shape)<MenuListContainerProps>`
+	outline-style: none;
 	overflow: hidden;
 
 	${({theme, height}) => css`

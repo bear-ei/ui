@@ -91,10 +91,11 @@ export const getSafeMenuPosition = ({
 	windowHeight = 0,
 	windowWidth = 0,
 	x = 0,
-	y = 0
+	y = 0,
+	offset = 0
 }: GetSafeMenuPositionOptions) => {
-	let left = x
-	let top = y
+	let left = x + offset
+	let top = y + offset
 
 	if (left < margin) {
 		left = margin
@@ -137,6 +138,7 @@ export const updateTooltipSupportingPosition =
 					const {left, top} = getSafeMenuPosition({
 						height: layout.height,
 						margin: theme.adaptSize(theme.token.spacing.medium),
+						offset: theme.adaptSize(theme.token.spacing.small),
 						width: layout.width,
 						windowHeight,
 						windowWidth,

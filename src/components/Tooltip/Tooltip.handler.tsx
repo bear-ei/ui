@@ -8,12 +8,13 @@ import {TOOLTIP_TYPE} from './Tooltip.enum'
 import type {
 	EmitTooltipSupportingOptions,
 	HandleTooltipStateEventChangeOptions,
-	TooltipState
+	TooltipState,
+	UpdateTooltipContextMenuLayoutOptions
 } from './Tooltip.interface'
 
 export const updateTooltipVisibility =
 	(onVisible?: (value?: boolean) => void) => (setState: Updater<TooltipState>) => (value?: boolean) => {
-		const nextActiveEvent = () => onVisible?.(value)
+		const nextVisibleEvent = () => onVisible?.(value)
 
 		if (typeof value === 'boolean') {
 			setState(draft => {
@@ -21,22 +22,28 @@ export const updateTooltipVisibility =
 					return
 				}
 
-				draft.nextActiveEvent = nextActiveEvent
+				draft.nextVisibleEvent = nextVisibleEvent
 				draft.tooltipVisible = value
 			})
 		}
 	}
 
 export const updateTooltipContextMenuLayout =
-	(setState: Updater<TooltipState>) => (onTooltipVisible: (value?: boolean) => void) => (event: MouseEvent) => {
+	(setState: Updater<TooltipState>) =>
+	({disabled, onVisible}: UpdateTooltipContextMenuLayoutOptions) =>
+	(event: MouseEvent) => {
+		if (disabled) {
+			return
+		}
+
 		event.preventDefault()
+		const nextVisibleEvent = () => onVisible?.(true)
 		const {x, y} = event.nativeEvent
 
 		setState(draft => {
 			draft.menuContainerLayout = {x, y}
+			draft.nextVisibleEvent = nextVisibleEvent
 		})
-
-		onTooltipVisible?.(true)
 	}
 
 export const handleTooltipStateChange = ({

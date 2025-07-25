@@ -34,7 +34,7 @@ export interface RenderTooltipProps extends TooltipProps {
 export type TooltipBaseProps = TooltipProps
 export interface TooltipState {
 	menuContainerLayout?: {x: number; y: number}
-	nextActiveEvent?: () => void
+	nextVisibleEvent?: () => void
 	tooltipVisible?: boolean
 }
 
@@ -48,3 +48,5 @@ export interface EmitTooltipSupportingOptions {
 	containerLayout?: Partial<LayoutRectangle>
 	visible?: boolean
 }
+
+export type UpdateTooltipContextMenuLayoutOptions = Pick<RenderTooltipProps, 'disabled' | 'onVisible'>
