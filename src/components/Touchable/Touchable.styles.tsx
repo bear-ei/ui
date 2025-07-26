@@ -25,12 +25,9 @@ export const Touchable = styled.Pressable<TouchableContentProps>`
 `
 
 export const Main = styled(Shape)<TouchableMainProps>`
+	align-self: stretch;
 	position: relative;
 	z-index: 12;
-
-	${({alignSelf = 'stretch'}) => css`
-		align-self: ${alignSelf};
-	`}
 `
 
 export const RippleLayout = styled(Shape)`

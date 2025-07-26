@@ -37,7 +37,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		},
 		ref
 	) => {
-		const [{layout, status, invert: isInvert, menuPosition, nextClosedEvent, closed: isClosed}, setState] =
+		const [{layout, status, invert: isInvert, menuPosition, nextClosedEvent}, setState] =
 			useImmer<TooltipSupportingState>({
 				layout: {} as LayoutRectangle,
 				menuPosition: {},
@@ -117,7 +117,6 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		return (
 			<RenderTooltipSupporting
 				{...renderTooltipSupportingProps}
-				closed={isClosed}
 				containerLayout={containerLayout}
 				contentAnimatedStyle={contentAnimatedStyle}
 				height={layout.height}

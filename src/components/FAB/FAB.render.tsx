@@ -1,5 +1,6 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
+import type {StyleProp, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {Elevation} from '../Elevation'
@@ -69,6 +70,10 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 	) => {
 		const sizeShape = size === SIZE.MEDIUM ? SHAPE.LARGE : SHAPE.MEDIUM
 		const shape = size === SIZE.LARGE ? SHAPE.EXTRA_LARGE : sizeShape
+		const touchableContentStyle = {
+			alignSelf: size === SIZE.SMALL ? 'center' : 'stretch'
+		} as StyleProp<ViewStyle>
+
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay
 				shape={shape}
@@ -100,9 +105,9 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 					{...interactionHandlers}
 					{...touchableProps}
 					backgroundUnderlay={backgroundUnderlayElement}
+					contentStyle={touchableContentStyle}
 					disabled={disabled}
 					elevationUnderlay={elevationUnderlayElement}
-					mainAlignSelf={size === SIZE.SMALL ? 'center' : 'stretch'}
 					ref={ref}
 					shape={shape}
 					testID={`fab__touchable--${id}`}

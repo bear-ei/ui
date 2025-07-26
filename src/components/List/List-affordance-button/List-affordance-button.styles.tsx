@@ -3,10 +3,13 @@ import {Shape, Typography} from '../../Common'
 import type {ListAffordanceButtonContainerProps} from './List-affordance-button.interface'
 
 export const Container = styled.View<ListAffordanceButtonContainerProps>`
+	align-self: stretch;
 	cursor: pointer;
+	display: flex;
+	flex-direction: column;
 
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 17)}px;
 	`}
 `
@@ -15,12 +18,13 @@ export const Content = styled.View`
 	align-items: center;
 	display: flex;
 	flex-direction: column;
+	flex: 1;
 	justify-content: center;
 	pointer-events: none;
 	position: relative;
 
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 17)}px;
 	`}
 `

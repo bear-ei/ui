@@ -241,6 +241,7 @@ export const BeforeAffordanceLayout = styled.View<AffordanceLayoutProps>`
 
 export const AfterAffordanceLayout = styled(BeforeAffordanceLayout)`
 	align-self: flex-end;
+	flex: 1;
 
 	${({afterAffordanceExpanded}) =>
 		afterAffordanceExpanded &&

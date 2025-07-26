@@ -35,10 +35,10 @@ export const RenderTouchable = forwardRef<PressableType, RenderTouchableProps>(
 		{
 			backgroundUnderlay,
 			children,
+			contentStyle,
 			elevationUnderlay,
 			id,
 			interactionHandlers,
-			mainAlignSelf,
 			rippleElements,
 			shape,
 			testID,
@@ -54,9 +54,9 @@ export const RenderTouchable = forwardRef<PressableType, RenderTouchableProps>(
 				testID={`touchable__touchableContent--${id}`}
 			>
 				<Main
-					alignSelf={mainAlignSelf}
 					shape={shape}
 					testID={`touchable__main--${id}`}
+					style={[contentStyle]}
 				>
 					{children}
 					<RippleLayout

@@ -66,7 +66,6 @@ export const updateTooltipSupportingClosed =
 					draft.invert = false
 				}
 
-				draft.closed = true
 				draft.nextClosedEvent = nextClosedEvent
 			})
 		}

@@ -140,13 +140,6 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 
 		return containerOS[theme.OS]
 	}}
-
-
-   ${({closed}) =>
-		closed &&
-		css`
-			z-index: -16384;
-		`}
 `
 
 export const TouchableContent = styled.Pressable`

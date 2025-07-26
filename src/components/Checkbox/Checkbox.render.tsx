@@ -1,5 +1,6 @@
 import {SHAPE} from '@bearei/element-token'
 import {forwardRef, useMemo} from 'react'
+import type {StyleProp, ViewStyle} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
 import {LAYOUT_ANIMATED} from '../Layout-animated'
@@ -27,6 +28,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 	) => {
 		const theme = useTheme()
 		const activeFill = error ? theme.token.scheme.error : theme.token.scheme.primary
+		const touchableContentStyle = {alignSelf: 'center'} as StyleProp<ViewStyle>
 		const unselectedFill =
 			value === CHECKBOX_VALUE.UNSELECTED ?
 				theme.token.scheme.onSurfaceVariant
@@ -68,8 +70,8 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 					{...touchableProps}
 					{...interactionHandlers}
 					centered={true}
+					contentStyle={touchableContentStyle}
 					disabled={disabled}
-					mainAlignSelf='center'
 					ref={ref}
 					shape={shape}
 					testID={`checkbox__touchable--${id}`}

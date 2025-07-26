@@ -1,5 +1,6 @@
 import {SHAPE} from '@bearei/element-token'
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
+import type {StyleProp, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_STYLE, ICON_TYPE, type IconProps} from '../Icon'
@@ -78,6 +79,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 		const theme = useTheme()
 		const shape = SHAPE.FULL
 		const activeColor = theme.token.scheme.secondaryContainer
+		const touchableContentStyle = {alignSelf: 'center'} as StyleProp<ViewStyle>
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay
 				shape={shape}
@@ -120,9 +122,9 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 						{...interactionHandlers}
 						backgroundUnderlay={backgroundUnderlayElement}
 						centered={true}
+						contentStyle={touchableContentStyle}
 						disabled={disabled}
 						enableTouchableRipple={type !== ICON_BUTTON_TYPE.ACTIVE}
-						mainAlignSelf='center'
 						ref={ref}
 						shape={shape}
 						testID={`iconButton__touchable--${id}`}

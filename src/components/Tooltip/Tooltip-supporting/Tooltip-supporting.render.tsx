@@ -22,7 +22,6 @@ const AnimateContainer = Animated.createAnimatedComponent(Container)
 export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingProps>(
 	(
 		{
-			closed,
 			containerLayout,
 			contentAnimatedStyle,
 			elevation,
@@ -86,7 +85,6 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 			<>
 				<AnimateContainer
 					{...containerProps}
-					closed={closed}
 					containerLayout={containerLayout}
 					height={height}
 					menuPosition={menuPosition}

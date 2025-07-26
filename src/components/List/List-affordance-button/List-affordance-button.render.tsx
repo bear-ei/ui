@@ -1,5 +1,6 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {forwardRef} from 'react'
+import type {StyleProp, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {Touchable, type PressableType} from '../../Touchable'
@@ -27,6 +28,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 		ref
 	) => {
 		const theme = useTheme()
+		const touchableContentStyle = {flex: 1} as StyleProp<ViewStyle>
 		const underlayColor = theme.token.scheme.onPrimary
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay
@@ -37,15 +39,16 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 
 		return (
 			<Container
-				testID={testID ?? `listAffordanceButton--${id}`}
 				accessibilityLabel={accessibilityLabel ?? labelText}
 				accessibilityRole='button'
 				tabIndex={-1}
+				testID={testID ?? `listAffordanceButton--${id}`}
 			>
 				<Touchable
 					{...touchableProps}
 					{...interactionHandlers}
 					backgroundUnderlay={backgroundUnderlayElement}
+					contentStyle={touchableContentStyle}
 					disabled={disabled}
 					ref={ref}
 					testID={`listAffordanceButton__touchable--${id}`}

@@ -24,7 +24,6 @@ export interface TooltipSupportingProps extends ViewProps, RefAttributes<View>, 
 }
 
 export interface RenderTooltipSupportingProps extends TooltipSupportingProps {
-	closed?: boolean
 	contentAnimatedStyle?: AnimatedStyle<ViewStyle>
 	height?: number
 	interactionHandlers: InteractionHandlers
@@ -38,7 +37,6 @@ export interface RenderTooltipSupportingProps extends TooltipSupportingProps {
 
 export type TooltipSupportingBaseProps = TooltipSupportingProps
 export interface TooltipSupportingState {
-	closed?: boolean
 	invert?: boolean
 	layout: LayoutRectangle
 	menuPosition: {top?: number; left?: number}
@@ -96,7 +94,7 @@ export interface HandleTooltipSupportingPositionWindowOptions {
 export interface TooltipSupportingContentProps
 	extends Pick<
 		RenderTooltipSupportingProps,
-		'type' | 'supportingPosition' | 'width' | 'height' | 'containerLayout' | 'closed'
+		'type' | 'supportingPosition' | 'width' | 'height' | 'containerLayout'
 	> {
 	menuPosition: {top?: number; left?: number}
 	windowHeight?: number

@@ -3,13 +3,14 @@ import {LayoutAnimated, type LayoutAnimatedProps} from '../../Layout-animated'
 import type {ListAfterAffordanceDangerProps} from './List-after-affordance.interface'
 
 export const Container = styled(LayoutAnimated)<LayoutAnimatedProps>`
+	align-self: stretch;
 	display: flex;
 	flex-direction: row;
 	position: relative;
 
 	${({theme}) => css`
 		background-color: ${theme.token.scheme.primary};
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 34)}px;
 	`};
 `
