@@ -124,22 +124,18 @@ export const handleListItemStateChange =
 				}
 			}
 
-			switch (eventName) {
-				case EVENT_NAME.LAYOUT:
-					draft.nextLayoutEvent = nextEvent[eventName]
+			if (eventName === EVENT_NAME.LAYOUT) {
+				draft.nextLayoutEvent = nextEvent[eventName]
 
-					if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-						draft.status = COMPONENT_STATUS.SUCCEEDED
-					}
+				if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+					draft.status = COMPONENT_STATUS.SUCCEEDED
+				}
 
-					break
+				return
+			}
 
-				case EVENT_NAME.PRESS_OUT:
-					draft.nextPressOutEvent = nextEvent[eventName]
-
-					break
-				default:
-					break
+			if (eventName && nextEvent[eventName]) {
+				draft.nextPressOutEvent = nextEvent[eventName]
 			}
 		})
 	}

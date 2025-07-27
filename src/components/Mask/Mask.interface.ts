@@ -5,6 +5,7 @@ import type {TouchableProps} from '../Touchable'
 
 export interface MaskProps extends Omit<LayoutAnimatedProps & TouchableProps, 'ref'> {
 	backgroundColor?: string
+	opacity?: number
 	ref?: React.ForwardedRef<View>
 }
 
@@ -13,7 +14,7 @@ export interface RenderMaskProps extends MaskProps {
 }
 
 export type MaskBaseProps = MaskProps
-export type MaskContainerProps = Pick<MaskProps, 'backgroundColor' | 'visible'>
+export type MaskContainerProps = Pick<MaskProps, 'backgroundColor' | 'visible' | 'opacity'>
 export interface HandleMaskStateChangeOptions extends HandleStateEventChangeOptions {
 	ref: React.RefObject<View>
 }

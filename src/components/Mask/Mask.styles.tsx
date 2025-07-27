@@ -8,8 +8,11 @@ export const Container = styled(LayoutAnimated)<MaskContainerProps>`
 	position: absolute;
 	z-index: 4096;
 
-	${({theme, backgroundColor}) => css`
-		background-color: ${backgroundColor ?? hexToRGBA(theme.token.scheme.scrim)(theme.token.opacity.level4)};
+	${({theme, backgroundColor, opacity}) => css`
+		background-color: ${hexToRGBA(backgroundColor ?? theme.token.scheme.scrim)(
+			opacity ?? theme.token.opacity.level4
+		)};
+
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
 		left: ${theme.adaptSize(theme.token.spacing.none)}px;
 		right: ${theme.adaptSize(theme.token.spacing.none)}px;

@@ -69,7 +69,7 @@ export const PlainVerticalStart = () => {
 		<View style={[style]}>
 			<Tooltip
 				defaultVisible={true}
-				supporting='Supporting Text'
+				supporting='2222222'
 				supportingPosition={SUPPORTING_POSITION.VERTICAL_START}
 				style={[tooltipStyle]}
 			>

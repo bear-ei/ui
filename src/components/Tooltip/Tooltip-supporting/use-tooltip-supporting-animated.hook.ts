@@ -45,7 +45,20 @@ export const useTooltipSupportingAnimated = ({
 
 		...(type === TOOLTIP_TYPE.MENU ?
 			{height: interpolate(heightSharedValue.value, [0, 1], [0, height])}
-		:	{transform: [{scale: interpolate(transformSharedValue.value, [0, 1], [0.8, 1])}]})
+		:	{
+				transform: [
+					{
+						translateY: interpolate(
+							transformSharedValue.value,
+							[0, 1],
+							[
+								theme.adaptSize(theme.token.spacing.small),
+								theme.adaptSize(theme.token.spacing.none)
+							]
+						)
+					}
+				]
+			})
 	}))
 
 	const runAnimate = useMemo(

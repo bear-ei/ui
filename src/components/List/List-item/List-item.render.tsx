@@ -152,6 +152,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 		const activeColor = theme.token.scheme.secondaryContainer
 		const isSupportingTextShow = !!supporting
 		const isTrailingShow = !!trailingElement
+		const isUnmountTrailing = trailingTriggerEven === TRIGGER_EVENT.HOVER
 		const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
 		const underlayProps = useMemo(
 			() =>
@@ -270,18 +271,11 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 										supportingTextNumberOfLines={
 											supportingTextNumberOfLines
 										}
-										testID={`listItem__TrailingLayout--${id}`}
+										testID={`listItem__trailingLayout--${id}`}
 										trailingShow={isTrailingShow}
 										type={type}
-										unmount={
-											trailingTriggerEven ===
-											TRIGGER_EVENT.HOVER
-										}
-										visible={
-											afterAffordance ?
-												!afterAffordanceVisible
-											:	trailingVisible
-										}
+										unmount={isUnmountTrailing}
+										visible={trailingVisible}
 									>
 										{trailingElement}
 									</TrailingLayout>
