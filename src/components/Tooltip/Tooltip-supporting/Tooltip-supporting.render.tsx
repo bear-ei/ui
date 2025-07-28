@@ -1,4 +1,4 @@
-import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
+import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, isValidElement} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -120,8 +120,9 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 
 				{type === TOOLTIP_TYPE.MENU && (
 					<Mask
-						backgroundColor={hexToRGBA(theme.token.scheme.scrim)(0)}
+						backgroundColor={theme.token.scheme.scrim}
 						onPressOut={onMaskPressOut}
+						opacity={theme.token.opacity.level0}
 						style={maskStyle}
 						testID={`tooltip__mask--${id}`}
 						visible={visible}
