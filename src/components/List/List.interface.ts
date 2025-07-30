@@ -5,8 +5,9 @@ import type {CommonProps, ShapeType, TriggerEvent} from '../Common'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualListProps} from '../Virtual-list'
 import type {ListAfterAffordanceProps, ListItemAfterAffordancePressOutOptions} from './List-after-affordance'
 import type {ListItemProps} from './List-item'
-import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
+import {LIST_LEADING_TYPE, LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 
+export type ListLeadingType = (typeof LIST_LEADING_TYPE)[keyof typeof LIST_LEADING_TYPE]
 export type ListSelectType = (typeof LIST_SELECT_TYPE)[keyof typeof LIST_SELECT_TYPE]
 export type ListType = (typeof LIST_TYPE)[keyof typeof LIST_TYPE]
 export type VirtualListComponent<T> = (
@@ -54,6 +55,7 @@ export interface ListProps
 	enableUnderlayActive?: boolean
 	focusedIndex?: number
 	gap?: number
+	leadingType?: ListLeadingType
 	onActive?: (indexKey?: string) => void
 	onActiveAfterAffordance?: (options?: UpdateListAffordanceActiveStateOptions) => void
 	onActives?: (activeKeys?: string[]) => void
@@ -105,6 +107,7 @@ export type CreateRenderListItemOptions = Pick<
 	| 'enableUnderlayActive'
 	| 'focusedIndex'
 	| 'id'
+	| 'leadingType'
 	| 'onActive'
 	| 'onActiveAfterAffordance'
 	| 'onCancel'

@@ -9,7 +9,7 @@ import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {Skeleton} from '../../Skeleton'
 import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance'
-import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
+import {LIST_LEADING_TYPE, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import type {ListItemRef, RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
 import {
 	AfterAffordanceLayout,
@@ -130,6 +130,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			indexKey,
 			interactionHandlers,
 			leadingElement,
+			leadingType,
 			onCancel,
 			onConfirm,
 			panResponder,
@@ -222,7 +223,17 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 										type={type}
 										testID={`listItem__Leading--${id}`}
 									>
-										{leadingElement}
+										{(
+											leadingType ===
+											LIST_LEADING_TYPE.ICON
+										) ?
+											cloneElement(leadingElement, {
+												type:
+													active ?
+														ICON_TYPE.FILLED
+													:	ICON_TYPE.OUTLINED
+											})
+										:	leadingElement}
 									</Leading>
 								)}
 

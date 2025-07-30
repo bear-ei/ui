@@ -31,6 +31,7 @@ export interface ListItemProps
 			| 'enableUnderlayActive'
 			| 'focusedIndex'
 			| 'gap'
+			| 'leadingType'
 			| 'onActive'
 			| 'onActiveAfterAffordance'
 			| 'onCancel'

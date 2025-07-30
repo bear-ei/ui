@@ -51,6 +51,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			supportingTextNumberOfLines,
 			trailingTriggerEven,
 			type = LIST_TYPE.STANDARD,
+			leadingType,
 			...renderListProps
 		},
 		ref
@@ -106,6 +107,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 					enableUnderlayActive,
 					focusedIndex,
 					id,
+					leadingType,
 					onActive,
 					onActiveAfterAffordance,
 					onCancel,
@@ -136,6 +138,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 				enableUnderlayActive,
 				focusedIndex,
 				id,
+				leadingType,
 				loading,
 				loadingElement,
 				onActive,

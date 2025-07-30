@@ -7,7 +7,7 @@ import {LAYOUT} from '../Common'
 import {Icon} from '../Icon'
 import {Skeleton} from '../Skeleton'
 import {List} from './List.component'
-import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
+import {LIST_LEADING_TYPE, LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 import type {ListProps} from './List.interface'
 
 const renderListSkeleton = () => {
@@ -154,6 +154,7 @@ export const SelectMenu = () => {
 				selectType={LIST_SELECT_TYPE.SINGLE}
 				shape={SHAPE.LARGE}
 				type={LIST_TYPE.MENU}
+				leadingType={LIST_LEADING_TYPE.ICON}
 			/>
 		</View>
 	)
