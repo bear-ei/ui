@@ -200,12 +200,12 @@ export const animateTooltipSupporting =
 		const sharedValue = type === TOOLTIP_TYPE.MENU ? heightSharedValue : transformSharedValue
 
 		if (typeof visible === 'boolean' && visible) {
-			createEntrySharedValueAnimator({sharedValue: opacitySharedValue})(1)
 			createEntrySharedValueAnimator({sharedValue})(1)
+			createEntrySharedValueAnimator({sharedValue: opacitySharedValue})(1)
 
 			return
 		}
 
-		createExitSharedValueAnimator({sharedValue: opacitySharedValue})(0)
 		createExitSharedValueAnimator({sharedValue})(0)
+		createExitSharedValueAnimator({sharedValue: opacitySharedValue})(0)
 	}

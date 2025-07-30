@@ -40,7 +40,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		const onVisible = useMemo(
 			() =>
 				createDeferredHandlerWithState(updateTooltipVisibility(rawOnVisible))(setState)({
-					debounceMillisecond: 100
+					debounceMillisecond: 150
 				}),
 			[rawOnVisible, setState]
 		)
@@ -85,10 +85,10 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		const runUnmount = useMemo(() => unmountTooltipSupporting(id), [id])
 		const runUpdateVisible = useMemo(
 			() =>
-				createDeferredHandlerWithState(updateTooltipVisibility(onVisible))(setState)({
-					debounceMillisecond: 100
+				createDeferredHandlerWithState(updateTooltipVisibility(rawOnVisible))(setState)({
+					debounceMillisecond: 150
 				}),
-			[onVisible, setState]
+			[rawOnVisible, setState]
 		)
 
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])

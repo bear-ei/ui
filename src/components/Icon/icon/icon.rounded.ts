@@ -190,7 +190,7 @@ import WindowFill from '@material-symbols/svg-400/rounded/window-fill.svg'
 import Window from '@material-symbols/svg-400/rounded/window.svg'
 import WorkFill from '@material-symbols/svg-400/rounded/work-fill.svg'
 import Work from '@material-symbols/svg-400/rounded/work.svg'
-import {ICON_TYPE} from './Icon.enum'
+import {ICON_TYPE} from './icon.enum'
 
 export const rounded = {
 	[ICON_TYPE.FILLED]: {

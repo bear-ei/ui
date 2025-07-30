@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import {Icon} from './Icon.component'
-import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'
 import type {IconProps} from './Icon.interface'
+import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './icon'
 
 export const Filled: StoryObj<IconProps> = {
 	args: {

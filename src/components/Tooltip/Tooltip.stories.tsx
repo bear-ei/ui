@@ -103,6 +103,7 @@ export const PlainHorizontalStart = () => {
 				supporting='Supporting Text'
 				supportingPosition={SUPPORTING_POSITION.HORIZONTAL_START}
 				style={[tooltipStyle]}
+				delay={2000}
 			>
 				<IconButton
 					icon={<Icon name={ICON_NAME.ADD_HOME} />}

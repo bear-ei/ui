@@ -190,7 +190,7 @@ import WindowFill from '@material-symbols/svg-400/outlined/window-fill.svg'
 import Window from '@material-symbols/svg-400/outlined/window.svg'
 import WorkFill from '@material-symbols/svg-400/outlined/work-fill.svg'
 import Work from '@material-symbols/svg-400/outlined/work.svg'
-import {ICON_TYPE} from './Icon.enum'
+import {ICON_TYPE} from './icon.enum'
 
 export const outlined = {
 	[ICON_TYPE.FILLED]: {

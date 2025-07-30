@@ -50,6 +50,7 @@ export type HandleTooltipSupportingStateEventChangeOptions = HandleStateEventCha
 export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'type' | 'visible'> {
 	height?: number
 	onClose?: (value?: boolean) => void
+	position?: SupportingPosition
 	status?: ComponentStatus
 }
 

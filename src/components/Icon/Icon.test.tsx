@@ -2,7 +2,7 @@ import {waitFor} from '@testing-library/react-native'
 import {SvgMock} from '../../../__mocks__'
 import {renderWithAct} from '../../../__test__'
 import {Icon} from './Icon.component'
-import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './Icon.enum'
+import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './icon'
 
 describe('Icon Component', () => {
 	const CustomIcon = () => <SvgMock />

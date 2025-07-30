@@ -21,6 +21,7 @@ export interface TooltipProps
 		RefAttributes<View> {
 	children?: JSX.Element
 	defaultVisible?: boolean
+	delay?: number
 	disabled?: boolean
 	type?: TooltipType
 	visible?: boolean

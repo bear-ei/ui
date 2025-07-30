@@ -63,7 +63,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			onClose: onClosed,
 			status,
 			type,
-			visible: isVisible
+			visible: isVisible,
+			position
 		})
 
 		const onStateEventChange = useCallback(

@@ -5,12 +5,14 @@ import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {COMPONENT_STATUS} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
+import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 import {animateTooltipSupporting} from './Tooltip-supporting.handler'
 import type {UseTooltipSupportingAnimatedOptions} from './Tooltip-supporting.interface'
 
 export const useTooltipSupportingAnimated = ({
 	height = 0,
 	onClose,
+	position = SUPPORTING_POSITION.VERTICAL_START,
 	status,
 	type = TOOLTIP_TYPE.PLAIN,
 	visible
@@ -46,18 +48,62 @@ export const useTooltipSupportingAnimated = ({
 		...(type === TOOLTIP_TYPE.MENU ?
 			{height: interpolate(heightSharedValue.value, [0, 1], [0, height])}
 		:	{
-				transform: [
-					{
-						translateY: interpolate(
-							transformSharedValue.value,
-							[0, 1],
-							[
-								theme.adaptSize(theme.token.spacing.small),
-								theme.adaptSize(theme.token.spacing.none)
-							]
-						)
-					}
-				]
+				...(position === SUPPORTING_POSITION.VERTICAL_START && {
+					transform: [
+						{
+							translateY: interpolate(
+								transformSharedValue.value,
+								[0, 1],
+								[
+									theme.adaptSize(theme.token.spacing.small),
+									theme.adaptSize(theme.token.spacing.none)
+								]
+							)
+						}
+					]
+				}),
+				...(position === SUPPORTING_POSITION.VERTICAL_END && {
+					transform: [
+						{
+							translateY: interpolate(
+								transformSharedValue.value,
+								[0, 1],
+								[
+									-theme.adaptSize(theme.token.spacing.small),
+									theme.adaptSize(theme.token.spacing.none)
+								]
+							)
+						}
+					]
+				}),
+				...(position === SUPPORTING_POSITION.HORIZONTAL_START && {
+					transform: [
+						{
+							translateX: interpolate(
+								transformSharedValue.value,
+								[0, 1],
+								[
+									theme.adaptSize(theme.token.spacing.small),
+									theme.adaptSize(theme.token.spacing.none)
+								]
+							)
+						}
+					]
+				}),
+				...(position === SUPPORTING_POSITION.HORIZONTAL_END && {
+					transform: [
+						{
+							translateX: interpolate(
+								transformSharedValue.value,
+								[0, 1],
+								[
+									-theme.adaptSize(theme.token.spacing.small),
+									theme.adaptSize(theme.token.spacing.none)
+								]
+							)
+						}
+					]
+				})
 			})
 	}))
 

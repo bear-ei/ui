@@ -49,7 +49,6 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 				return css`
 					left: ${left}px;
 					top: ${y}px;
-					transform-origin: bottom;
 				`
 			},
 			[SUPPORTING_POSITION.VERTICAL_END]: () => {
@@ -68,7 +67,6 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 				return css`
 					left: ${left}px;
 					top: ${y}px;
-					transform-origin: top;
 				`
 			},
 			[SUPPORTING_POSITION.HORIZONTAL_START]: () => {
@@ -87,7 +85,6 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 				return css`
 					left: ${x}px;
 					top: ${top}px;
-					transform-origin: right;
 				`
 			},
 			[SUPPORTING_POSITION.HORIZONTAL_END]: () => {
@@ -106,7 +103,6 @@ export const Container = styled(View)<TooltipSupportingContentProps>`
 				return css`
 					left: ${x}px;
 					top: ${top}px;
-					transform-origin: left;
 				`
 			}
 		}
@@ -156,8 +152,9 @@ export const Content = styled.View`
 `
 
 export const Main = styled(Shape)<TooltipSupportingMainProps>`
-	position: absolute;
 	overflow: hidden;
+	pointer-events: none;
+	position: absolute;
 
 	${({theme}) => css`
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
