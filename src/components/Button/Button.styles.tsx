@@ -131,7 +131,6 @@ export const Main = styled.View<ButtonMainProps>`
 
 export const LabelText = styled(Typography)`
 	text-align: center;
-	user-select: none;
 `
 
 export const IconLayout = styled.View`
