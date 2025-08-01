@@ -153,7 +153,6 @@ export const Content = styled.View`
 
 export const Main = styled(Shape)<TooltipSupportingMainProps>`
 	overflow: hidden;
-	pointer-events: none;
 	position: absolute;
 
 	${({theme}) => css`
