@@ -63,6 +63,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 			interactionHandlers,
 			labelText,
 			labelTextAnimatedStyle,
+			linkColor,
 			loading,
 			testID,
 			type = BUTTON_TYPE.FILLED,
@@ -157,6 +158,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 
 						{type === BUTTON_TYPE.LINK && (
 							<ActiveIndicatorLayout
+								linkColor={linkColor}
 								testID={`button__activeIndicatorLayoutAnimated--${id}`}
 								visible={isActiveIndicatorVisible}
 							/>

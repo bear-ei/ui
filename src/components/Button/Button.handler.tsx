@@ -90,11 +90,11 @@ export const updateButtonDisabledState =
 			}
 		})
 
-export const getButtonUnderlayColor = (theme: DefaultTheme) => {
+export const getButtonUnderlayColor = (theme: DefaultTheme) => (linkColor?: string) => {
 	const underlay = {
 		[BUTTON_TYPE.ELEVATED]: theme.token.scheme.primary,
 		[BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,
-		[BUTTON_TYPE.LINK]: theme.token.scheme.primary,
+		[BUTTON_TYPE.LINK]: linkColor ?? theme.token.scheme.primary,
 		[BUTTON_TYPE.OUTLINED]: theme.token.scheme.primary,
 		[BUTTON_TYPE.TEXT]: theme.token.scheme.primary,
 		[BUTTON_TYPE.TONAL]: theme.token.scheme.onSecondaryContainer

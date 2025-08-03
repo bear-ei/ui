@@ -3,6 +3,7 @@ import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName} from '../Common'
 import type {ElevationLevel} from '../Elevation'
+import type {LayoutAnimatedProps} from '../Layout-animated'
 import type {TouchableProps} from '../Touchable'
 import type {BUTTON_TYPE} from './Button.enum'
 
@@ -54,3 +55,5 @@ export type ButtonContentProps = Pick<RenderButtonProps, 'type' | 'density'>
 export interface ButtonMainProps extends Pick<RenderButtonProps, 'type'> {
 	iconShow: boolean
 }
+
+export interface ActiveIndicatorLayoutProps extends LayoutAnimatedProps, Pick<ButtonProps, 'linkColor'> {}

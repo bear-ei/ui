@@ -23,6 +23,8 @@ export const useButtonAnimated = ({
 	const colorSharedValue = useSharedValue(animatedValue)
 	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
 	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
+
+	console.info(linkColor, 'linkColor')
 	const backgroundColorType = useMemo(
 		() => ({
 			[BUTTON_TYPE.ELEVATED]: {
@@ -58,8 +60,8 @@ export const useButtonAnimated = ({
 			[BUTTON_TYPE.LINK]: {
 				inputRanges: [0, 1],
 				outputRanges: [
-					hexToRGBA(linkColor ?? scheme.primary)(opacity.level0),
-					hexToRGBA(linkColor ?? scheme.primary)(opacity.level0)
+					hexToRGBA(scheme.primary)(opacity.level0),
+					hexToRGBA(scheme.primary)(opacity.level0)
 				]
 			},
 			[BUTTON_TYPE.TONAL]: {
@@ -75,7 +77,6 @@ export const useButtonAnimated = ({
 		[
 			disabledBackgroundColor,
 			error,
-			linkColor,
 			opacity.level0,
 			opacity.level10,
 			scheme.error,
@@ -130,7 +131,7 @@ export const useButtonAnimated = ({
 					disabledColor,
 					error ?
 						hexToRGBA(scheme.error)(opacity.level10)
-					:	hexToRGBA(scheme.primary)(opacity.level10)
+					:	hexToRGBA(linkColor ?? scheme.primary)(opacity.level10)
 				]
 			},
 			[BUTTON_TYPE.TONAL]: {
@@ -146,6 +147,7 @@ export const useButtonAnimated = ({
 		[
 			disabledColor,
 			error,
+			linkColor,
 			opacity.level10,
 			scheme.error,
 			scheme.onError,

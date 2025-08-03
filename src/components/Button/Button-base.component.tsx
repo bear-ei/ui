@@ -22,9 +22,9 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 			error,
 			icon,
 			labelText = 'Label',
+			linkColor,
 			loading,
 			type = BUTTON_TYPE.FILLED,
-			linkColor,
 			...renderButtonProps
 		},
 		ref
@@ -36,7 +36,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 		const id = useId()
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
-		const underlayColor = getButtonUnderlayColor(theme)(type)
+		const underlayColor = getButtonUnderlayColor(theme)(linkColor)(type)
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleButtonStateChange({...options, state, type})(setState)(event),
@@ -104,6 +104,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 				interactionHandlers={interactionHandlers}
 				labelText={labelText}
 				labelTextAnimatedStyle={labelTextAnimatedStyle}
+				linkColor={linkColor}
 				loading={loading}
 				ref={ref}
 				type={type}

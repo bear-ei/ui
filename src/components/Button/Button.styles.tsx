@@ -4,7 +4,13 @@ import {getScaledSpacing} from '../../utils'
 import {Shape, Typography} from '../Common'
 import {LayoutAnimated} from '../Layout-animated'
 import {BUTTON_TYPE} from './Button.enum'
-import type {ButtonContainerProps, ButtonContentProps, ButtonMainProps, ButtonType} from './Button.interface'
+import type {
+	ActiveIndicatorLayoutProps,
+	ButtonContainerProps,
+	ButtonContentProps,
+	ButtonMainProps,
+	ButtonType
+} from './Button.interface'
 
 export const Container = styled.View<ButtonContainerProps>`
 	cursor: pointer;
@@ -141,12 +147,12 @@ export const IconLayout = styled.View`
 	overflow: hidden;
 `
 
-export const ActiveIndicatorLayout = styled(LayoutAnimated)`
+export const ActiveIndicatorLayout = styled(LayoutAnimated)<ActiveIndicatorLayoutProps>`
 	position: absolute;
 	z-index: 8;
 
-	${({theme}) => css`
-		background-color: ${theme.token.scheme.primary};
+	${({theme, linkColor}) => css`
+		background-color: ${linkColor ?? theme.token.scheme.primary};
 		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
 		left: ${theme.adaptSize(theme.token.spacing.none)}px;
 		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
