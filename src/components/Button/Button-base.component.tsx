@@ -24,6 +24,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 			labelText = 'Label',
 			loading,
 			type = BUTTON_TYPE.FILLED,
+			linkColor,
 			...renderButtonProps
 		},
 		ref
@@ -52,7 +53,8 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 			disabled: rawDisabled,
 			error,
 			eventName,
-			type
+			type,
+			linkColor
 		})
 
 		const runUpdateStatus = useMemo(

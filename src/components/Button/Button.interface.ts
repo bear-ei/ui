@@ -11,6 +11,7 @@ export interface ButtonProps extends TouchableProps, CommonProps {
 	error?: boolean
 	icon?: React.JSX.Element
 	labelText?: string
+	linkColor?: string
 	loading?: boolean
 	type?: ButtonType
 }
@@ -33,7 +34,11 @@ export interface ButtonState {
 
 export type HandleButtonStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderButtonProps, 'type'>
 export type RenderButtonIconProps = Pick<RenderButtonProps, 'disabled' | 'type' | 'id' | 'icon'>
-export type UseButtonAnimatedOptions = Pick<RenderButtonProps, 'disabled' | 'type' | 'eventName' | 'error'>
+export type UseButtonAnimatedOptions = Pick<
+	RenderButtonProps,
+	'disabled' | 'type' | 'eventName' | 'error' | 'linkColor'
+>
+
 export interface AnimateButtonOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
 	animateSharedValueTo: AnimateSharedValueTo
 	borderColorInputRanges: number[]

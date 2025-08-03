@@ -9,9 +9,10 @@ import type {ButtonType, UseButtonAnimatedOptions} from './Button.interface'
 
 export const useButtonAnimated = ({
 	disabled,
+	error,
 	eventName,
-	type = BUTTON_TYPE.FILLED,
-	error
+	linkColor,
+	type = BUTTON_TYPE.FILLED
 }: UseButtonAnimatedOptions) => {
 	const theme = useTheme()
 	const {scheme, spacing, opacity} = theme.token
@@ -57,8 +58,8 @@ export const useButtonAnimated = ({
 			[BUTTON_TYPE.LINK]: {
 				inputRanges: [0, 1],
 				outputRanges: [
-					hexToRGBA(scheme.primary)(opacity.level0),
-					hexToRGBA(scheme.primary)(opacity.level0)
+					hexToRGBA(linkColor ?? scheme.primary)(opacity.level0),
+					hexToRGBA(linkColor ?? scheme.primary)(opacity.level0)
 				]
 			},
 			[BUTTON_TYPE.TONAL]: {
@@ -74,6 +75,7 @@ export const useButtonAnimated = ({
 		[
 			disabledBackgroundColor,
 			error,
+			linkColor,
 			opacity.level0,
 			opacity.level10,
 			scheme.error,
