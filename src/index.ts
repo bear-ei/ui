@@ -13,7 +13,6 @@ export {
 	WINDOW_SIZE
 } from '@bearei/element-token'
 export type {Platform, Token} from '@bearei/element-token'
-export * from 'class-validator'
 export * from './components'
 export * from './contexts'
 export * from './hooks'
