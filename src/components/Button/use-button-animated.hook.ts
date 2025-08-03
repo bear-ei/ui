@@ -23,8 +23,6 @@ export const useButtonAnimated = ({
 	const colorSharedValue = useSharedValue(animatedValue)
 	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
 	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
-
-	console.info(linkColor, 'linkColor')
 	const backgroundColorType = useMemo(
 		() => ({
 			[BUTTON_TYPE.ELEVATED]: {
