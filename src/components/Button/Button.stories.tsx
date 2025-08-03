@@ -59,14 +59,6 @@ export const Link: StoryObj<ButtonProps> = {
 	}
 }
 
-export const linkColor: StoryObj<ButtonProps> = {
-	args: {
-		labelText: 'Label',
-		type: BUTTON_TYPE.LINK,
-		linkColor: '#992222'
-	}
-}
-
 export const Icon: StoryObj<ButtonProps> = {
 	args: {
 		icon: <EIIcon />,

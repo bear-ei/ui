@@ -59,29 +59,4 @@ export const GlobalStyle = createGlobalStyle`
 		height: auto;
 		max-width: 100%;
 	}
-
-	::-webkit-scrollbar {
-		height: 8px;
-		width: 8px;
-	}
-
-	::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	::-webkit-scrollbar-thumb {
-		background-color: rgba(0, 0, 0, 0.2);
-		border-radius: 4px;
-	}
-
-	@media (prefers-color-scheme: dark) {
-		body {
-			background-color: #121212;
-			color: #f0f0f0;
-		}
-
-		::-webkit-scrollbar-thumb {
-			background-color: rgba(255, 255, 255, 0.3);
-		}
-	}
 `
