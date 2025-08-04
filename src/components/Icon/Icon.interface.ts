@@ -1,11 +1,10 @@
 import type {FC, RefAttributes} from 'react'
 import type {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import type {SvgProps} from 'react-native-svg'
-import type {IconName, IconStyle, IconType} from './icon'
+import type {IconName, IconType} from './icon'
 
 export interface IconProps extends Omit<SvgProps, 'hitSlop' | 'width' | 'height'>, RefAttributes<View>, ViewProps {
 	icon?: FC<SvgProps>
-	iconStyle?: IconStyle
 	name?: IconName
 	size?: number
 	svgStyle?: StyleProp<ViewStyle>
