@@ -21,10 +21,6 @@ export interface RenderMenuListProps extends Omit<MenuListProps, 'containerCurre
 }
 
 export type MenuListBaseProps = MenuListProps
-export interface MenuState {
-	visible?: boolean
-}
-
 export interface MenuListContainerProps extends Pick<MenuListProps, 'type'> {
 	height?: number
 	onKeyDown?: (event: React.KeyboardEvent) => void

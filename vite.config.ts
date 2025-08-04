@@ -14,27 +14,49 @@ const babelPlugins = [
 	'react-native-reanimated/plugin'
 ]
 
-const externals = ['react', 'react-dom', 'react-native', 'styled-components', 'react-native-reanimated']
+const externals = [
+	'react',
+	'react-dom',
+	'react-native',
+	'styled-components',
+	'react-native-reanimated',
+	'@bearei/element-token',
+	'@material-symbols/svg-400',
+	'class-validator',
+	'immer',
+	'mitt',
+	'nanoid',
+	'react-native-svg',
+	'use-immer'
+]
+
 const config = defineConfig({
 	build: {
 		lib: {
 			entry: resolve(__dirname, './src/index.ts'),
-			fileName: format => (format === 'es' ? 'index.mjs' : 'index.cjs'),
+			fileName: 'index.mjs',
 			name: 'BeareiElement',
-			formats: ['es', 'cjs']
+			formats: ['es']
 		},
 		rollupOptions: {
-			external: id => externals.includes(id) || externals.some(pkg => id.startsWith(pkg + '/'))
+			external: id => externals.includes(id) || externals.some(pkg => id.startsWith(pkg + '/')),
+			output: {
+				chunkFileNames: 'chunks/[name].[hash].mjs',
+				entryFileNames: '[name].mjs',
+				preserveModules: true,
+				preserveModulesRoot: resolve(__dirname, 'src')
+			}
 		},
 		commonjsOptions: {transformMixedEsModules: true}
 	},
 	plugins: [
 		dts({
-			tsconfigPath: './tsconfig.app.json',
+			exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx', '**/*.test.tsx', '**/*.test.ts'],
+			include: ['src'],
 			insertTypesEntry: true,
 			outDir: 'dist',
-			include: ['src'],
-			exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx', '**/*.test.tsx', '**/*.test.ts']
+			rollupTypes: true,
+			tsconfigPath: './tsconfig.app.json'
 		}),
 		react({babel: {plugins: babelPlugins}}),
 		reactNativeWeb({babelPlugins}),

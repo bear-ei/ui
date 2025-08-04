@@ -2,8 +2,6 @@ import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {typedMemo} from '../../utils'
 import {LayoutBase} from './Layout-base.component'
-import {LayoutNavigation} from './Layout-navigation'
-import {LayoutPane} from './Layout-pane'
 import type {LayoutProps} from './Layout.interface'
 
 const LayoutWithRef = forwardRef<View, LayoutProps>((props, ref) => (
@@ -13,7 +11,4 @@ const LayoutWithRef = forwardRef<View, LayoutProps>((props, ref) => (
 	/>
 ))
 
-export const Layout = Object.assign(typedMemo(LayoutWithRef)(), {
-	Pane: LayoutPane,
-	Navigation: LayoutNavigation
-})
+export const Layout = typedMemo(LayoutWithRef)()

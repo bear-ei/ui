@@ -15,7 +15,7 @@ const SkeletonWithRef = forwardRef<View, SkeletonProps>((props, ref) => (
 	/>
 ))
 
-const Circle = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => {
+export const Circle = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => {
 	const theme = useTheme()
 	const {shape = SHAPE.FULL, size, style, ...skeletonElementProps} = props
 	const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
@@ -32,7 +32,7 @@ const Circle = forwardRef<View, SkeletonElementProps>((props: SkeletonElementPro
 	)
 })
 
-const Square = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => {
+export const Square = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => {
 	const theme = useTheme()
 	const {shape = SHAPE.SMALL, size, style, ...skeletonElementProps} = props
 	const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
@@ -49,7 +49,7 @@ const Square = forwardRef<View, SkeletonElementProps>((props: SkeletonElementPro
 	)
 })
 
-const Rectangular = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => {
+export const Rectangular = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => {
 	const theme = useTheme()
 	const {shape = SHAPE.SMALL, style, size, ...skeletonElementProps} = props
 	const defaultSize = theme.adaptSize(theme.token.spacing.extraSmall * 10)
@@ -72,8 +72,4 @@ const Rectangular = forwardRef<View, SkeletonElementProps>((props: SkeletonEleme
 	)
 })
 
-export const Skeleton = Object.assign(typedMemo(SkeletonWithRef)(), {
-	Circle: typedMemo(Circle)(),
-	Rectangular: typedMemo(Rectangular)(),
-	Square: typedMemo(Square)()
-})
+export const Skeleton = typedMemo(SkeletonWithRef)()
