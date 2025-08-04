@@ -2,7 +2,7 @@ import {SHAPE} from '@bearei/element-token'
 import {forwardRef, useMemo, type FC} from 'react'
 import type {TextInput as RNTextInput} from 'react-native'
 import {useTheme} from 'styled-components/native'
-import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
+import {Icon, ICON_NAME, ICON_TYPE} from '../Icon'
 import {Underlay} from '../Underlay'
 import type {RenderSearchProps, SearchTextInputProps} from './Search.interface'
 import {Container, Content, Control, Leading, Main, TextInput, Touchable, Trailing} from './Search.styles'
@@ -59,7 +59,6 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 						<Leading testID={`search__leading--${id}`}>
 							{leading ?? (
 								<Icon
-									iconStyle={ICON_STYLE.ROUNDED}
 									name={ICON_NAME.SEARCH}
 									testID={`search__iconSearch--${id}`}
 									type={ICON_TYPE.FILLED}

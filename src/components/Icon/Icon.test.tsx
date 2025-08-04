@@ -2,7 +2,7 @@ import {waitFor} from '@testing-library/react-native'
 import {SvgMock} from '../../../__mocks__'
 import {renderWithAct} from '../../../__test__'
 import {Icon} from './Icon.component'
-import {ICON_NAME, ICON_STYLE, ICON_TYPE} from './icon'
+import {ICON_NAME, ICON_TYPE} from './icon'
 
 describe('Icon Component', () => {
 	const CustomIcon = () => <SvgMock />
@@ -30,7 +30,6 @@ describe('Icon Component', () => {
 	it('should apply different icon style and type', async () => {
 		const {getByTestId} = await renderWithAct(
 			<Icon
-				iconStyle={ICON_STYLE.SHARP}
 				name={ICON_NAME.ALARM_ON}
 				type={ICON_TYPE.FILLED}
 			/>

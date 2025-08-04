@@ -4,7 +4,7 @@ import type {View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import type {IconBaseProps} from './Icon.interface'
 import {RenderIcon} from './Icon.render'
-import {ICON_NAME, ICON_STYLE, ICON_TYPE, iconStyleConfig} from './icon'
+import {ICON_NAME, ICON_TYPE, rounded} from './icon'
 
 export const IconBase = forwardRef<View, IconBaseProps>(
 	(
@@ -12,7 +12,6 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 			disabled,
 			fill,
 			icon,
-			iconStyle: style = ICON_STYLE.ROUNDED,
 			name = ICON_NAME.CIRCLE,
 			svgStyle,
 			type = ICON_TYPE.OUTLINED,
@@ -23,7 +22,8 @@ export const IconBase = forwardRef<View, IconBaseProps>(
 		const id = useId()
 		const theme = useTheme()
 		const disabledFill = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
-		const IconComponent = icon ?? iconStyleConfig[style]?.[type]?.[name]
+		const IconComponent = icon ?? rounded[type]?.[name]
+
 		const iconFill = disabled ? disabledFill : (fill ?? theme.token.scheme.onSurfaceVariant)
 		const iconElement = useMemo(
 			() =>

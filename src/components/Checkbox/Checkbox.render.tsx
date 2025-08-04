@@ -2,7 +2,7 @@ import {SHAPE} from '@bearei/element-token'
 import {forwardRef, useMemo} from 'react'
 import type {StyleProp, ViewStyle} from 'react-native'
 import {useTheme} from 'styled-components/native'
-import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../Icon'
+import {Icon, ICON_NAME, ICON_TYPE} from '../Icon'
 import {LAYOUT_ANIMATED} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
@@ -94,7 +94,6 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 								<Icon
 									disabled={disabled}
 									fill={checkBoxOutlineFill}
-									iconStyle={ICON_STYLE.ROUNDED}
 									name={ICON_NAME.CHECK_BOX_OUTLINE_BLANK}
 									size={iconSize}
 									svgStyle={iconSvgStyle}
@@ -111,7 +110,6 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 								<Icon
 									disabled={disabled}
 									fill={activeFill}
-									iconStyle={ICON_STYLE.ROUNDED}
 									name={
 										value === CHECKBOX_VALUE.INDETERMINATE ?
 											ICON_NAME.INDETERMINATE_CHECK_BOX

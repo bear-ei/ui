@@ -3,7 +3,7 @@ import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import type {StyleProp, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {Icon, ICON_STYLE, ICON_TYPE, type IconProps} from '../Icon'
+import {Icon, ICON_TYPE, type IconProps} from '../Icon'
 import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
 import {Touchable, type PressableType} from '../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../Underlay'
@@ -39,19 +39,11 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 	const fill =
 		rawFill ?? (!loading ? fillType[type as keyof typeof fillType] : theme.token.scheme.onSurfaceVariant)
 
-	return cloneElement<IconProps>(
-		icon ?? (
-			<Icon
-				iconStyle={ICON_STYLE.ROUNDED}
-				type={ICON_TYPE.OUTLINED}
-			/>
-		),
-		{
-			disabled,
-			fill,
-			testID: `iconButton__icon--${id}`
-		}
-	)
+	return cloneElement<IconProps>(icon ?? <Icon type={ICON_TYPE.OUTLINED} />, {
+		disabled,
+		fill,
+		testID: `iconButton__icon--${id}`
+	})
 }
 
 export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>(

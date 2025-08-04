@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import {DENSITY} from '../Common'
-import {Icon as EIIcon, ICON_STYLE, ICON_TYPE} from '../Icon'
+import {Icon as EIIcon, ICON_TYPE} from '../Icon'
 import {Button} from './Button.component'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonProps} from './Button.interface'
@@ -27,12 +27,7 @@ export const Text: StoryObj<ButtonProps> = {
 
 export const TextIcon: StoryObj<ButtonProps> = {
 	args: {
-		icon: (
-			<EIIcon
-				type={ICON_TYPE.FILLED}
-				iconStyle={ICON_STYLE.ROUNDED}
-			/>
-		),
+		icon: <EIIcon type={ICON_TYPE.FILLED} />,
 		labelText: 'Label',
 		type: BUTTON_TYPE.TEXT
 	}

@@ -2,7 +2,7 @@ import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
+import {Icon, ICON_NAME, ICON_TYPE} from '../../Icon'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 import {Container, Danger} from './List-after-affordance.styles'
@@ -31,7 +31,6 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 		const checkIconElement = (
 			<Icon
 				fill={fill}
-				iconStyle={ICON_STYLE.SHARP}
 				name={ICON_NAME.CHECK}
 				testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`}
 				type={ICON_TYPE.OUTLINED}
@@ -41,7 +40,6 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 		const closeIconElement = (
 			<Icon
 				fill={fill}
-				iconStyle={ICON_STYLE.SHARP}
 				name={ICON_NAME.CLOSE}
 				testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`}
 				type={ICON_TYPE.OUTLINED}

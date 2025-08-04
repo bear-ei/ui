@@ -4,7 +4,7 @@ import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import {useInteractionStateEvent} from '../../../hooks'
 import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
-import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE, type IconProps} from '../../Icon'
+import {Icon, ICON_NAME, ICON_TYPE, type IconProps} from '../../Icon'
 import type {PressableType} from '../../Touchable'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
@@ -60,13 +60,11 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
 				cloneElement<IconProps>(
 					icon ?? (
 						<Icon
-							iconStyle={ICON_STYLE.ROUNDED}
 							name={ICON_NAME.CIRCLE}
 							type={ICON_TYPE.OUTLINED}
 						/>
 					),
 					{
-						iconStyle: ICON_STYLE.ROUNDED,
 						testID: `navigationRailItem__icon--${id}`,
 						type: isActive ? ICON_TYPE.FILLED : ICON_TYPE.OUTLINED
 					}

@@ -4,7 +4,7 @@ import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {LAYOUT, TRIGGER_EVENT} from '../../Common'
 import {Divider} from '../../Divider'
-import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
+import {Icon, ICON_NAME, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {Skeleton} from '../../Skeleton'
 import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
@@ -75,7 +75,6 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 						testID={`listItem__trailingIconButton--${id}`}
 						icon={
 							<Icon
-								iconStyle={ICON_STYLE.ROUNDED}
 								name={ICON_NAME.MORE_HORIZ}
 								testID={`listItem__trailingIconMoreHoriz--${id}`}
 								type={ICON_TYPE.OUTLINED}
@@ -90,7 +89,6 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 						testID={`listItem__trailingIconButton--${id}`}
 						icon={
 							<Icon
-								iconStyle={ICON_STYLE.ROUNDED}
 								name={ICON_NAME.CLOSE}
 								testID={`listItem__trailingIconClose--${id}`}
 								type={ICON_TYPE.OUTLINED}

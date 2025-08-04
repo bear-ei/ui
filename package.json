@@ -5,7 +5,7 @@
 	"react-native": "./src/index.ts",
 	"types": "./dist/index.d.ts",
 	"author": "bearei <bear_ei@outlook.com>",
-	"description": "Bearei element for React Native",
+	"description": "Bearei element for React Native and Web",
 	"readmeFilename": "README.md",
 	"license": "UNLICENSED",
 	"sideEffects": false,

@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {Button, BUTTON_TYPE, type ButtonProps} from '../../Button'
 import {Divider} from '../../Divider'
-import {Icon, ICON_NAME, ICON_STYLE, ICON_TYPE} from '../../Icon'
+import {Icon, ICON_NAME, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {LAYOUT_ANIMATED} from '../../Layout-animated'
 import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
@@ -43,7 +43,6 @@ export const RenderSheetContentLeading: FC<RenderSheetContentLeadingProps> = ({
 
 	const iconElement = (
 		<Icon
-			iconStyle={ICON_STYLE.ROUNDED}
 			name={iconName}
 			testID={`sheet__iconForward--${id}`}
 			type={ICON_TYPE.FILLED}
@@ -71,7 +70,6 @@ export const RenderSheetContentTrailing: FC<RenderSheetContentTrailingProps> = (
 }) => {
 	const iconElement = (
 		<Icon
-			iconStyle={ICON_STYLE.ROUNDED}
 			name={ICON_NAME.CLOSE}
 			testID={`sheet__iconClose--${id}`}
 			type={ICON_TYPE.FILLED}
