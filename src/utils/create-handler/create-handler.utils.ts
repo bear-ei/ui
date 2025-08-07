@@ -4,7 +4,7 @@ import {throttle} from '../throttle'
 import type {CreateHandlerOptions} from './create-handler.interface'
 
 export const createDeferredHandlerWithState =
-	<T extends (...args: any[]) => unknown, S = undefined>(handlerFactory: T | ((setState: S) => T)) =>
+	<T extends (...args: any[]) => unknown, S = undefined>(handlerFactory?: T | ((setState: S) => T)) =>
 	(setState?: S) =>
 	(options = {} as CreateHandlerOptions) => {
 		const {
@@ -12,7 +12,7 @@ export const createDeferredHandlerWithState =
 			enableInteractionManager: isEnableInteractionManager = true,
 			throttleMillisecond
 		} = options
-		const handler = setState ? handlerFactory(setState) : handlerFactory
+		const handler = setState ? handlerFactory?.(setState) : handlerFactory
 		const func = isEnableInteractionManager ? runAfterInteractions<T>(handler as T) : (handler as T)
 
 		if (debounceMillisecond) {
@@ -27,6 +27,6 @@ export const createDeferredHandlerWithState =
 	}
 
 export const createDeferredHandler =
-	<T extends (...args: any[]) => unknown>(handlerFactory: T) =>
+	<T extends (...args: any[]) => unknown>(handlerFactory?: T) =>
 	(options = {} as CreateHandlerOptions) =>
 		createDeferredHandlerWithState(handlerFactory)()(options) as T
