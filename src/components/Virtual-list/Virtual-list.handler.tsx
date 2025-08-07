@@ -194,21 +194,21 @@ export const checkVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void)
 
 	return (setState: Updater<VirtualListState>) => (indexKey?: string) => {
 		if (indexKey) {
-			let isAtEndOfVisibleRange: boolean | undefined
+			const nextLoadEndEvent = () => onLoadEnd?.(indexKey)
 
 			setState(draft => {
 				const visibleRangeDataMatchedIndex = draft.visibleRangeData?.findIndex(
 					createIndexKeyMatcher(indexKey)
 				)
 
-				isAtEndOfVisibleRange =
+				const isAtEndOfVisibleRange =
 					(draft.visibleRangeData?.length ?? 0) - 1 === visibleRangeDataMatchedIndex &&
 					visibleRangeDataMatchedIndex !== -1
-			})
 
-			if (isAtEndOfVisibleRange) {
-				onLoadEnd?.(indexKey)
-			}
+				if (isAtEndOfVisibleRange) {
+					draft.nextLoadEndEvent = nextLoadEndEvent
+				}
+			})
 
 			return
 		}

@@ -46,6 +46,7 @@ const VirtualListBaseInner = <T,>(
 			emptyList: isEmptyList,
 			layout: containerLayout,
 			nextCloseEvent,
+			nextLoadEndEvent,
 			nextScrollEvent,
 			startIndex,
 			status,
@@ -162,6 +163,10 @@ const VirtualListBaseInner = <T,>(
 	useEffect(() => {
 		runAfterInteractions(nextCloseEvent)()
 	}, [nextCloseEvent])
+
+	useEffect(() => {
+		runAfterInteractions(nextLoadEndEvent)()
+	}, [nextLoadEndEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

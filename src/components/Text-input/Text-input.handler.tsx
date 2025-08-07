@@ -70,9 +70,11 @@ export const updateTextInputSupportingTextClose = (setState: Updater<TextInputSt
 	})
 
 export const updateTextInputSupportingText =
-	({onTextInputSupportingTextClose, supportingTextDelay}: UpdateTextInputSupportingTextOptions) =>
+	({onSupportingTextClose, supportingTextDelay}: UpdateTextInputSupportingTextOptions) =>
 	(setState: Updater<TextInputState>) =>
 	(value?: string) => {
+		const nextSupportingTextCloseEvent = () => supportingTextDelay && value && onSupportingTextClose()
+
 		setState(draft => {
 			if (value === draft.supportingText) {
 				return
@@ -80,11 +82,8 @@ export const updateTextInputSupportingText =
 
 			draft.supportingText = value
 			draft.supportingTextVisible = !!value
+			draft.nextSupportingTextCloseEvent = nextSupportingTextCloseEvent
 		})
-
-		if (supportingTextDelay && value) {
-			onTextInputSupportingTextClose()
-		}
 	}
 
 export const updateTextInputSupportingTextVisibility =

@@ -51,6 +51,7 @@ export interface VirtualListState {
 	loading?: boolean
 	nextCloseEvent?: () => void
 	nextScrollEvent?: () => void
+	nextLoadEndEvent?: () => void
 	scrollOffset?: number
 	startIndex?: number
 	status: ComponentStatus

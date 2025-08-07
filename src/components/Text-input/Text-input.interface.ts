@@ -58,6 +58,7 @@ export interface TextInputState {
 	nextChangeTextEvent?: () => void
 	nextContentSizeChangeEvent?: () => void
 	nextPressOutEvent?: () => void
+	nextSupportingTextCloseEvent?: () => void
 	nextSupportingTextVisibilityEvent?: () => void
 	state: State
 	status: ComponentStatus
@@ -84,7 +85,7 @@ export interface CreateTextInputEnabledStateOptions extends Pick<UseTextInputAni
 }
 
 export interface UpdateTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelay'> {
-	onTextInputSupportingTextClose: () => void
+	onSupportingTextClose: () => void
 }
 
 export interface CreateTextInputEnabledSharedValues {

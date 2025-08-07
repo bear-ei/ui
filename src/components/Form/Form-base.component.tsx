@@ -2,6 +2,7 @@ import type {ForwardedRef} from 'react'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
 import {extractAndSetFormFieldKeys, initializeFormStateWithValues, registerFormCallbacks} from './Form.handler'
 import type {FormBaseProps, FormState} from './Form.interface'
@@ -21,7 +22,7 @@ const FormBaseInner = <T,>(
 	}: FormBaseProps<T>,
 	ref: ForwardedRef<View>
 ) => {
-	const [{status}, setState] = useImmer<FormState>({status: COMPONENT_STATUS.IDLE})
+	const [{status, nextInitialValuesEvent}, setState] = useImmer<FormState>({status: COMPONENT_STATUS.IDLE})
 	const id = useId()
 	const formStore = useForm(form)
 	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
@@ -55,6 +56,10 @@ const FormBaseInner = <T,>(
 	useEffect(() => {
 		runInitializeStateWithValues(initialValues)
 	}, [runInitializeStateWithValues, initialValues])
+
+	useEffect(() => {
+		runAfterInteractions(nextInitialValuesEvent)()
+	}, [nextInitialValuesEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

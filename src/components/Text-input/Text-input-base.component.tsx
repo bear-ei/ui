@@ -56,6 +56,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 				nextChangeTextEvent,
 				nextContentSizeChangeEvent,
 				nextPressOutEvent,
+				nextSupportingTextCloseEvent,
 				nextSupportingTextVisibilityEvent,
 				state,
 				status,
@@ -84,7 +85,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			[rawOnContentSizeChange, setState]
 		)
 
-		const onTextInputSupportingTextClose = useMemo(
+		const onSupportingTextClose = useMemo(
 			() =>
 				createDeferredHandlerWithState(updateTextInputSupportingTextClose)(setState)({
 					debounceMillisecond: supportingTextDelay ?? 0
@@ -140,11 +141,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		useImperativeHandle(ref, () => (textInputRef?.current ?? {}) as TextInput, [textInputRef])
 
 		const runUpdateSupportingText = useMemo(
-			() =>
-				updateTextInputSupportingText({onTextInputSupportingTextClose, supportingTextDelay})(
-					setState
-				),
-			[onTextInputSupportingTextClose, setState, supportingTextDelay]
+			() => updateTextInputSupportingText({onSupportingTextClose, supportingTextDelay})(setState),
+			[onSupportingTextClose, setState, supportingTextDelay]
 		)
 
 		const runBlurIfEditable = useMemo(() => blurTextInputIfEditable(textInputRef), [textInputRef])
@@ -177,6 +175,10 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextPressOutEvent)()
 		}, [nextPressOutEvent])
+
+		useEffect(() => {
+			runAfterInteractions(nextSupportingTextCloseEvent)()
+		}, [nextSupportingTextCloseEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

@@ -76,6 +76,7 @@ export interface RenderFormProps<T = Record<string, unknown>> extends FormProps<
 export type FormBaseProps<T = Record<string, unknown>> = FormProps<T>
 export interface FormState {
 	status: ComponentStatus
+	nextInitialValuesEvent?: () => void
 }
 
 export type RegisterFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
