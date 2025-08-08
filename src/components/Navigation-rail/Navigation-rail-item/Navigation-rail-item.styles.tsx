@@ -24,7 +24,13 @@ export const Touchable = styled.Pressable<NavigationRailItemTouchableProps>`
 	`}
 `
 
-export const Content = styled.View``
+export const Content = styled.View`
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+`
+
 export const Header = styled.View<NavigationRailItemHeaderProps>`
 	align-items: center;
 	display: flex;

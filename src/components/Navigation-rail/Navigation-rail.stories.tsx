@@ -19,7 +19,7 @@ export const Standard: StoryObj<NavigationRailProps> = {
 		animatedType: NAVIGATION_RAIL_ANIMATED.COLLAPSE,
 		data: [
 			{
-				labelText: 'Label1',
+				labelText: 'Bookmark',
 				indexKey: 'A'
 			},
 			{
