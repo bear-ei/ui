@@ -51,11 +51,11 @@ const config = defineConfig({
 	},
 	plugins: [
 		dts({
+			copyDtsFiles: true,
+			entryRoot: resolve(__dirname, 'src'),
 			exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx', '**/*.test.tsx', '**/*.test.ts'],
-			include: ['src'],
 			insertTypesEntry: true,
-			outDir: 'dist',
-			rollupTypes: true,
+			outDir: resolve(__dirname, 'dist'),
 			tsconfigPath: './tsconfig.app.json'
 		}),
 		react({babel: {plugins: babelPlugins}}),

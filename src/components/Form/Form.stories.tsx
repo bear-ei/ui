@@ -52,6 +52,7 @@ const RenderForm = (props: FormProps<Record<string, unknown>>) => {
 	]
 
 	const form = Form.useForm<Record<string, unknown>>()
+
 	const handleFinish = (value: unknown) => {
 		console.info(value)
 	}
