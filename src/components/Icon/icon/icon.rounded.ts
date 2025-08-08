@@ -180,6 +180,8 @@ import SyncAltFill from '@material-symbols/svg-400/rounded/sync_alt-fill.svg'
 import SyncAlt from '@material-symbols/svg-400/rounded/sync_alt.svg'
 import TagFill from '@material-symbols/svg-400/rounded/tag-fill.svg'
 import Tag from '@material-symbols/svg-400/rounded/tag.svg'
+import TranslateFill from '@material-symbols/svg-400/rounded/translate-fill.svg'
+import Translate from '@material-symbols/svg-400/rounded/translate.svg'
 import TravelExploreFill from '@material-symbols/svg-400/rounded/travel_explore-fill.svg'
 import TravelExplore from '@material-symbols/svg-400/rounded/travel_explore.svg'
 import VisibilityFill from '@material-symbols/svg-400/rounded/visibility-fill.svg'
@@ -194,7 +196,6 @@ import {ICON_TYPE} from './icon.enum'
 
 export const rounded = {
 	[ICON_TYPE.FILLED]: {
-		CROWN: CrownFill,
 		ADD_HOME: AddHomeFill,
 		ADD: AddFill,
 		ALARM_ON: AlarmOnFill,
@@ -217,6 +218,7 @@ export const rounded = {
 		COFFEE: CoffeeFill,
 		CONTENT_COPY: ContentCopyFill,
 		COTTAGE: CottageFill,
+		CROWN: CrownFill,
 		DELETE: DeleteFill,
 		DESCRIPTION: DescriptionFill,
 		DEVELOPER_MODE_TV: DeveloperModeTVFill,
@@ -285,6 +287,7 @@ export const rounded = {
 		STYLE: StyleFill,
 		SYNC_ALT: SyncAltFill,
 		TAG: TagFill,
+		TRANSLATE: TranslateFill,
 		TRAVEL_EXPLORE: TravelExploreFill,
 		VISIBILITY_OFF: VisibilityOffFill,
 		VISIBILITY: VisibilityFill,
@@ -292,7 +295,6 @@ export const rounded = {
 		WORK: WorkFill
 	},
 	[ICON_TYPE.OUTLINED]: {
-		CROWN: Crown,
 		ADD_HOME: AddHome,
 		ADD: Add,
 		ALARM_ON: AlarmOn,
@@ -315,6 +317,7 @@ export const rounded = {
 		COFFEE: Coffee,
 		CONTENT_COPY: ContentCopy,
 		COTTAGE: Cottage,
+		CROWN: Crown,
 		DELETE: Delete,
 		DESCRIPTION: Description,
 		DEVELOPER_MODE_TV: DeveloperModeTV,
@@ -383,6 +386,7 @@ export const rounded = {
 		STYLE: Style,
 		SYNC_ALT: SyncAlt,
 		TAG: Tag,
+		TRANSLATE: Translate,
 		TRAVEL_EXPLORE: TravelExplore,
 		VISIBILITY_OFF: VisibilityOff,
 		VISIBILITY: Visibility,
