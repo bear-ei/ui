@@ -246,8 +246,6 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 				return
 			}
 
-			console.info('initialized=======>')
-
 			initialValues = {...initialValues, ...values}
 		}
 
@@ -273,8 +271,6 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		)(delay)
 
 		fieldEntities = [...entities, {...rawEntity, validate: debouncedValidate}]
-
-		console.info({[name]: initialValues[name]}, '{[name]: initialValues[name]}')
 
 		setFieldsError()({[name]: undefined} as FormErrors<T>)
 		setFieldsValue({componentUpdate: false, enableValidate: false})({[name]: initialValues[name]} as T)

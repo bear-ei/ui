@@ -5,13 +5,12 @@ import type {ViewStyle} from 'react-native'
 import {View} from 'react-native'
 import {LAYOUT} from '../Common'
 import {Icon} from '../Icon'
-import {Skeleton} from '../Skeleton'
+import {Circle, Rectangular, Square} from '../Skeleton'
 import {List} from './List.component'
 import {LIST_LEADING_TYPE, LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 import type {ListProps} from './List.interface'
 
 const renderListSkeleton = () => {
-	const {Square, Rectangular, Circle} = Skeleton
 	const containerStyle = {
 		paddingLeft: 16,
 		flex: 1,
