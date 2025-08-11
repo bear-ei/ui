@@ -70,7 +70,7 @@ export interface ListProps
 	skeletonElement?: React.JSX.Element
 	supportingTextNumberOfLines?: number
 	trailing?: React.JSX.Element
-	trailingTriggerEven?: TriggerEvent
+	trailingTriggerEvent?: TriggerEvent
 	type?: ListType
 }
 
@@ -119,7 +119,7 @@ export type CreateRenderListItemOptions = Pick<
 	| 'skeletonElement'
 	| 'supportingTextNumberOfLines'
 	| 'trailing'
-	| 'trailingTriggerEven'
+	| 'trailingTriggerEvent'
 	| 'type'
 >
 

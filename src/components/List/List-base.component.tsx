@@ -49,7 +49,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			skeletonDuration = 0,
 			skeletonElement,
 			supportingTextNumberOfLines,
-			trailingTriggerEven,
+			trailingTriggerEvent,
 			type = LIST_TYPE.STANDARD,
 			leadingType,
 			...renderListProps
@@ -118,7 +118,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 					skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
 					skeletonElement,
 					supportingTextNumberOfLines,
-					trailingTriggerEven,
+					trailingTriggerEvent,
 					type
 				}),
 			[
@@ -152,7 +152,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 				skeletonDuration,
 				skeletonElement,
 				supportingTextNumberOfLines,
-				trailingTriggerEven,
+				trailingTriggerEvent,
 				type
 			]
 		)

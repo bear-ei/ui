@@ -43,7 +43,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			supporting,
 			trailing,
 			trailingProps: rawTrailingProps,
-			trailingTriggerEven,
+			trailingTriggerEvent,
 			type = LIST_TYPE.STANDARD,
 			...renderListItemProps
 		},
@@ -114,10 +114,10 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 					itemIndex,
 					onActive,
 					onLoadEnd,
-					trailingTriggerEven,
+					trailingTriggerEvent,
 					type
 				})(setState)(event),
-			[indexKey, itemIndex, onActive, onLoadEnd, setState, trailingTriggerEven, type]
+			[indexKey, itemIndex, onActive, onLoadEnd, setState, trailingTriggerEvent, type]
 		)
 
 		const interactionHandlers = useInteractionStateEvent({
@@ -162,7 +162,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 						onTrailingVisibility={onTrailingVisibility}
 						trailing={trailing}
 						trailingProps={trailingProps}
-						trailingTriggerEven={trailingTriggerEven}
+						trailingTriggerEvent={trailingTriggerEvent}
 					/>
 				:	undefined,
 			[
@@ -174,7 +174,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 				onTrailingVisibility,
 				trailing,
 				trailingProps,
-				trailingTriggerEven
+				trailingTriggerEvent
 			]
 		)
 
@@ -242,8 +242,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 				shape={shape}
 				supporting={supporting}
 				trailingElement={trailingElement}
-				trailingTriggerEven={trailingTriggerEven}
-				trailingVisible={isTrailingVisible ?? !trailingTriggerEven}
+				trailingTriggerEvent={trailingTriggerEvent}
+				trailingVisible={isTrailingVisible ?? !trailingTriggerEvent}
 				type={type}
 			/>
 		)

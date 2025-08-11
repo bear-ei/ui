@@ -81,7 +81,7 @@ export const updateListItemActive =
 
 const triggerListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
 export const handleListItemStateChange =
-	({eventName, indexKey, onActive, onLoadEnd, trailingTriggerEven, type}: HandleListItemStateChangeOptions) =>
+	({eventName, indexKey, onActive, onLoadEnd, trailingTriggerEvent, type}: HandleListItemStateChangeOptions) =>
 	(setState: Updater<ListItemState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
@@ -110,14 +110,14 @@ export const handleListItemStateChange =
 				draft.eventName = eventName
 			}
 
-			if (trailingTriggerEven) {
+			if (trailingTriggerEvent) {
 				const trigger = {
 					[TRIGGER_EVENT.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
 					[TRIGGER_EVENT.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
 					[TRIGGER_EVENT.PRESS]: [EVENT_NAME.PRESS_IN]
 				} as Record<TriggerEvent, readonly EventName[]>
 
-				const triggerEventNames = trigger[trailingTriggerEven]
+				const triggerEventNames = trigger[trailingTriggerEvent]
 
 				if (eventName && triggerEventNames?.includes(eventName)) {
 					draft.trailingVisible = eventName === EVENT_NAME.HOVER_IN

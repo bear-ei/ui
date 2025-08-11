@@ -1,4 +1,4 @@
-import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
+import {DURATION, EASING, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, isValidElement, useMemo, type FC} from 'react'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -37,7 +37,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	trailing,
 	trailingProps: rawTrailingProps,
 	onTrailingVisibility,
-	trailingTriggerEven
+	trailingTriggerEvent
 }) => {
 	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
 	const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
@@ -46,7 +46,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 		() => ({
 			...restTrailingProps,
 			...interactionHandlers,
-			...(trailingTriggerEven === TRIGGER_EVENT.HOVER && {
+			...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {
 				onHoverIn: () => onTrailingVisibility?.(true),
 				onHoverOut: () => onTrailingVisibility?.(false)
 			}),
@@ -61,7 +61,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 			isDisabled,
 			onTrailingVisibility,
 			restTrailingProps,
-			trailingTriggerEven
+			trailingTriggerEvent
 		]
 	)
 
@@ -140,7 +140,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			supportingTextNumberOfLines,
 			testID,
 			trailingElement,
-			trailingTriggerEven,
+			trailingTriggerEvent,
 			trailingVisible,
 			type = LIST_TYPE.STANDARD,
 			...touchableProps
@@ -151,7 +151,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 		const activeColor = theme.token.scheme.secondaryContainer
 		const isSupportingTextShow = !!supporting
 		const isTrailingShow = !!trailingElement
-		const isUnmountTrailing = trailingTriggerEven === TRIGGER_EVENT.HOVER
+		const isUnmountTrailing = trailingTriggerEvent === TRIGGER_EVENT.HOVER
 		const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
 		const underlayProps = useMemo(
 			() =>
@@ -275,7 +275,15 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
 								{trailingElement && (
 									<TrailingLayout
-										defaultVisible={!trailingTriggerEven}
+										entry={{
+											duration: DURATION.MEDIUM_1,
+											easing: EASING.EMPHASIZED_DECELERATE
+										}}
+										exit={{
+											duration: DURATION.SHORT_0,
+											easing: EASING.EMPHASIZED_ACCELERATE
+										}}
+										defaultVisible={!trailingTriggerEvent}
 										lazy={true}
 										supportingTextNumberOfLines={
 											supportingTextNumberOfLines

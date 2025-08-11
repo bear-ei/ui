@@ -44,7 +44,7 @@ export const Standard: StoryObj<ListProps> = {
 		activeKey: 'TitleA',
 		closeTrailing: true,
 		type: LIST_TYPE.MENU,
-		trailingTriggerEven: 'HOVER',
+		trailingTriggerEvent: 'HOVER',
 		data: [
 			{
 				indexKey: 'TitleA',
@@ -72,7 +72,7 @@ export const Menu: StoryObj<ListProps> = {
 		activeKey: 'TitleA',
 		type: LIST_TYPE.MENU,
 		closeTrailing: true,
-		trailingTriggerEven: 'HOVER',
+		trailingTriggerEvent: 'HOVER',
 		data: [
 			{
 				indexKey: 'TitleA',

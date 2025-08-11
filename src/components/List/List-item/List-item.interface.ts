@@ -42,7 +42,7 @@ export interface ListItemProps
 			| 'skeletonElement'
 			| 'supportingTextNumberOfLines'
 			| 'trailing'
-			| 'trailingTriggerEven'
+			| 'trailingTriggerEvent'
 			| 'type'
 		> {
 	/**
@@ -98,7 +98,7 @@ export interface HandleListItemStateChangeOptions
 	extends HandleStateEventChangeOptions,
 		Pick<
 			RenderListItemProps,
-			'itemIndex' | 'indexKey' | 'onActive' | 'onLoadEnd' | 'trailingTriggerEven' | 'type'
+			'itemIndex' | 'indexKey' | 'onActive' | 'onLoadEnd' | 'trailingTriggerEvent' | 'type'
 		> {}
 
 export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
@@ -115,7 +115,7 @@ export interface RenderListItemTrailingProps
 		| 'id'
 		| 'trailing'
 		| 'trailingProps'
-		| 'trailingTriggerEven'
+		| 'trailingTriggerEvent'
 	> {
 	interactionHandlers: InteractionHandlers
 	onTrailingVisibility?: (visible: boolean) => void
