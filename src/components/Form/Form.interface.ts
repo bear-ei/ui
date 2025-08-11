@@ -1,6 +1,7 @@
 import type {ValidationError, ValidatorOptions} from 'class-validator'
 import type {ForwardedRef, RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
+import type {Updater} from 'use-immer'
 import type {NamePath} from '../../utils'
 import type {ComponentStatus, LayoutType} from '../Common'
 import type {FormItemProps} from './Form-item'
@@ -94,3 +95,8 @@ export interface UseFormOptions<T> {
 }
 
 export type FormContainerProps = Pick<RenderFormProps, 'layout'> & RefAttributes<View>
+
+export interface InitializeFormStateWithValuesOptions {
+	status: ComponentStatus
+	setState: Updater<FormState>
+}

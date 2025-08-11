@@ -1,6 +1,5 @@
 import type {Meta} from '@storybook/react'
 import {IsDefined, IsNotEmpty, IsNumberString} from 'class-validator'
-import {useEffect} from 'react'
 import type {ViewStyle} from 'react-native'
 import {View} from 'react-native'
 import {BUTTON_TYPE, Button} from '../Button'
@@ -70,12 +69,6 @@ const RenderForm = (props: FormProps<Record<string, unknown>>) => {
 		flexDirection: 'column'
 	} as ViewStyle
 
-	useEffect(() => {
-		setTimeout(() => {
-			form.setFieldsValue()({name: '333', age: '999'})
-		}, 1000)
-	}, [form])
-
 	return (
 		<View style={[style]}>
 			<Form
@@ -83,6 +76,7 @@ const RenderForm = (props: FormProps<Record<string, unknown>>) => {
 				form={form}
 				items={items}
 				onFinish={handleFinish}
+				initialValues={{name: '233', age: 'CCCC'}}
 			/>
 
 			<Button

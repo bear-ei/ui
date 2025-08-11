@@ -27,8 +27,8 @@ const FormBaseInner = <T,>(
 	const formStore = useForm(form)
 	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
 	const runInitializeStateWithValues = useMemo(
-		() => initializeFormStateWithValues<T>(setInitialValues)(setState),
-		[setInitialValues, setState]
+		() => initializeFormStateWithValues<T>(setInitialValues)({setState, status}),
+		[setInitialValues, setState, status]
 	)
 
 	const runRegisterCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
