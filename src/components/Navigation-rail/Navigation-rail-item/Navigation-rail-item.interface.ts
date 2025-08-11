@@ -9,6 +9,7 @@ import type {NavigationRailProps} from '../Navigation-rail.interface'
 export interface NavigationRailItemProps
 	extends TouchableProps,
 		Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {
+	dependencies?: unknown[]
 	icon?: React.JSX.Element
 	indexKey?: string
 	labelText?: string

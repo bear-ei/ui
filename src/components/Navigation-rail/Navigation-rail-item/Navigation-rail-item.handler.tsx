@@ -13,13 +13,18 @@ import type {
 
 export const compareNavigationRailItemProps =
 	(prevProps: NavigationRailItemProps) => (nextProps: NavigationRailItemProps) => {
-		const {activeKey: prevActiveKey, indexKey: prevIndexKey} = prevProps
-		const {activeKey: nextActiveKey, indexKey: nextIndexKey} = nextProps
+		const {activeKey: prevActiveKey, indexKey: prevIndexKey, dependencies: prevDependencies} = prevProps
+		const {activeKey: nextActiveKey, indexKey: nextIndexKey, dependencies: nextDependencies} = nextProps
+
 		const isActiveChange =
 			prevActiveKey !== nextActiveKey &&
 			(nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
 
-		return ![isActiveChange].some(Boolean)
+		const isDependenciesChanged =
+			prevDependencies?.length !== nextDependencies?.length ||
+			prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
+
+		return ![isActiveChange, isDependenciesChanged].some(Boolean)
 	}
 
 export const handleNavigationRailItemStateChange =
