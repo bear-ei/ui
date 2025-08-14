@@ -52,6 +52,8 @@ import DeveloperModeTVFill from '@material-symbols/svg-400/rounded/developer_mod
 import DeveloperModeTV from '@material-symbols/svg-400/rounded/developer_mode_tv.svg'
 import DirtyLensFill from '@material-symbols/svg-400/rounded/dirty_lens-fill.svg'
 import DirtyLens from '@material-symbols/svg-400/rounded/dirty_lens.svg'
+import DownloadFill from '@material-symbols/svg-400/rounded/download-fill.svg'
+import Download from '@material-symbols/svg-400/rounded/download.svg'
 import DvrFill from '@material-symbols/svg-400/rounded/dvr-fill.svg'
 import Dvr from '@material-symbols/svg-400/rounded/dvr.svg'
 import EditFill from '@material-symbols/svg-400/rounded/edit-fill.svg'
@@ -184,6 +186,8 @@ import TranslateFill from '@material-symbols/svg-400/rounded/translate-fill.svg'
 import Translate from '@material-symbols/svg-400/rounded/translate.svg'
 import TravelExploreFill from '@material-symbols/svg-400/rounded/travel_explore-fill.svg'
 import TravelExplore from '@material-symbols/svg-400/rounded/travel_explore.svg'
+import UploadFill from '@material-symbols/svg-400/rounded/upload-fill.svg'
+import Upload from '@material-symbols/svg-400/rounded/upload.svg'
 import VisibilityFill from '@material-symbols/svg-400/rounded/visibility-fill.svg'
 import Visibility from '@material-symbols/svg-400/rounded/visibility.svg'
 import VisibilityOffFill from '@material-symbols/svg-400/rounded/visibility_off-fill.svg'
@@ -192,6 +196,7 @@ import WindowFill from '@material-symbols/svg-400/rounded/window-fill.svg'
 import Window from '@material-symbols/svg-400/rounded/window.svg'
 import WorkFill from '@material-symbols/svg-400/rounded/work-fill.svg'
 import Work from '@material-symbols/svg-400/rounded/work.svg'
+
 import {ICON_TYPE} from './icon.enum'
 
 export const rounded = {
@@ -223,6 +228,7 @@ export const rounded = {
 		DESCRIPTION: DescriptionFill,
 		DEVELOPER_MODE_TV: DeveloperModeTVFill,
 		DIRTY_LENS: DirtyLensFill,
+		Download: DownloadFill,
 		DVR: DvrFill,
 		EDIT: EditFill,
 		FAVORITE: FavoriteFill,
@@ -289,6 +295,7 @@ export const rounded = {
 		TAG: TagFill,
 		TRANSLATE: TranslateFill,
 		TRAVEL_EXPLORE: TravelExploreFill,
+		Upload: UploadFill,
 		VISIBILITY_OFF: VisibilityOffFill,
 		VISIBILITY: VisibilityFill,
 		WINDOW: WindowFill,
@@ -322,6 +329,7 @@ export const rounded = {
 		DESCRIPTION: Description,
 		DEVELOPER_MODE_TV: DeveloperModeTV,
 		DIRTY_LENS: DirtyLens,
+		Download: Download,
 		DVR: Dvr,
 		EDIT: Edit,
 		FAVORITE: Favorite,
@@ -388,6 +396,7 @@ export const rounded = {
 		TAG: Tag,
 		TRANSLATE: Translate,
 		TRAVEL_EXPLORE: TravelExplore,
+		Upload: Upload,
 		VISIBILITY_OFF: VisibilityOff,
 		VISIBILITY: Visibility,
 		WINDOW: Window,
