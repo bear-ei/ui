@@ -1,8 +1,8 @@
-import type {Platform, Scheme} from '@bearei/element-token'
+import type {Platform} from '@bearei/element-token'
 import {CONTRAST, createToken, PALETTE, PLATFORM, SCHEME, WINDOW_SIZE} from '@bearei/element-token'
 import type {FC} from 'react'
 import {useMemo} from 'react'
-import {Platform as RNPlatform, useColorScheme} from 'react-native'
+import {Platform as RNPlatform} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
 import {DENSITY} from '../../components'
 import {GlobalStyle} from '../../global.styles.ts'
@@ -13,7 +13,6 @@ import type {ThemeProps} from './Theme-provider.interface'
 
 const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeToken, density = DENSITY.STANDARD}) => {
 	const {windowSize, width, height} = useWindowSize()
-	const colorScheme = useColorScheme()
 	const defaultDesignOptions = useMemo(
 		() => ({
 			[WINDOW_SIZE.COMPACT]: {designWidth: 375, designHeight: 812, designDensity: 3},
@@ -37,17 +36,12 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeT
 	const token = useMemo(
 		() =>
 			rawThemeToken ??
-			createToken({platform})({
-				contrast: CONTRAST.STANDARD,
-				scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
-			})(PALETTE.FROSTY_ICE),
-		[colorScheme, platform, rawThemeToken]
+			createToken({platform})({contrast: CONTRAST.STANDARD, scheme: SCHEME.LIGHT})(PALETTE.NAVY),
+		[platform, rawThemeToken]
 	)
 
 	return (
-		<StyledComponentThemeProvider
-			theme={{adaptFontSize, adaptSize, colorScheme, density, OS: RNPlatform.OS, token}}
-		>
+		<StyledComponentThemeProvider theme={{adaptFontSize, adaptSize, density, OS: RNPlatform.OS, token}}>
 			{RNPlatform.OS === 'web' && <GlobalStyle />}
 			{children}
 			<ModalProvider />
@@ -57,22 +51,16 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeT
 
 const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density = DENSITY.STANDARD}) => {
 	const {adaptFontSize, adaptSize} = useMemo(() => adaptWindow()()(true), [])
-	const colorScheme = useColorScheme()
 	const platform = PLATFORM[RNPlatform.OS.toUpperCase() as Platform]
 	const token = useMemo(
 		() =>
 			rawThemeToken ??
-			createToken({platform})({
-				contrast: CONTRAST.STANDARD,
-				scheme: (colorScheme?.toUpperCase() as Scheme) ?? SCHEME.LIGHT
-			})(PALETTE.FROSTY_ICE),
-		[colorScheme, platform, rawThemeToken]
+			createToken({platform})({contrast: CONTRAST.STANDARD, scheme: SCHEME.LIGHT})(PALETTE.NAVY),
+		[platform, rawThemeToken]
 	)
 
 	return (
-		<StyledComponentThemeProvider
-			theme={{adaptFontSize, adaptSize, colorScheme, density, OS: RNPlatform.OS, token}}
-		>
+		<StyledComponentThemeProvider theme={{adaptFontSize, adaptSize, density, OS: RNPlatform.OS, token}}>
 			{RNPlatform.OS === 'web' && <GlobalStyle />}
 			{children}
 			<ModalProvider />

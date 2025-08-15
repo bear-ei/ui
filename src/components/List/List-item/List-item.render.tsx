@@ -47,8 +47,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 			...restTrailingProps,
 			...interactionHandlers,
 			...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {
-				onHoverIn: () => onTrailingVisibility?.(true),
-				onHoverOut: () => onTrailingVisibility?.(false)
+				onHoverIn: () => onTrailingVisibility?.(true)
 			}),
 			disabled: isDisabled ?? disabled,
 			testID: `listItem__trailing--${id}`,
