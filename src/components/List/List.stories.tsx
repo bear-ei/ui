@@ -3,12 +3,13 @@ import type {Meta, StoryObj} from '@storybook/react'
 import {useMemo, useState} from 'react'
 import type {ViewStyle} from 'react-native'
 import {View} from 'react-native'
+import {Button} from '../Button'
 import {LAYOUT} from '../Common'
 import {Icon} from '../Icon'
 import {Circle, Rectangular, Square} from '../Skeleton'
 import {List} from './List.component'
 import {LIST_LEADING_TYPE, LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
-import type {ListProps} from './List.interface'
+import type {ListData, ListProps} from './List.interface'
 
 const renderListSkeleton = () => {
 	const containerStyle = {
@@ -160,11 +161,23 @@ export const SelectMenu = () => {
 }
 
 export const Multiselect = () => {
+	const [data, setData] = useState<ListData[] | undefined>(undefined)
 	const [activeKeys, setActiveKeys] = useState<string[] | undefined>(undefined)
 	const style = {height: 800, width: '100%'} as ViewStyle
-	const data = useMemo(
+	const data1 = useMemo(
 		() =>
 			Array.from({length: 1255}, (_, index) => ({
+				indexKey: `Title${index + 1}`,
+				headline: `Title${index + 1}`,
+				leading: <Icon />,
+				dependencies: []
+			})),
+		[]
+	)
+
+	const data2 = useMemo(
+		() =>
+			Array.from({length: 3}, (_, index) => ({
 				indexKey: `Title${index + 1}`,
 				headline: `Title${index + 1}`,
 				leading: <Icon />,
@@ -178,12 +191,14 @@ export const Multiselect = () => {
 	}
 
 	const skeleton = useMemo(() => renderListSkeleton(), [])
+	const updateData = (val: ListData[]) => setData(val)
 
 	return (
 		<View style={[style]}>
+			<Button onPressOut={() => updateData(data2)} />
 			<List
 				activeKeys={activeKeys}
-				data={data}
+				data={data ?? data1}
 				itemSize={56}
 				onActives={onActiveKeys}
 				selectType={LIST_SELECT_TYPE.MULTIPLE}
