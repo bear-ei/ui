@@ -50,8 +50,9 @@ export interface VirtualListState {
 	layout: LayoutRectangle
 	loading?: boolean
 	nextCloseEvent?: () => void
-	nextScrollEvent?: () => void
+	nextEndReachedEvent?: () => void
 	nextLoadEndEvent?: () => void
+	nextScrollEvent?: () => void
 	scrollOffset?: number
 	startIndex?: number
 	status: ComponentStatus

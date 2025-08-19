@@ -198,7 +198,7 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 	}}
 `
 
-export const TrailingLayout = styled(LayoutAnimated)<ListItemTrailingProps>`
+export const TrailingLayout = styled.View<ListItemTrailingProps>`
 	display: flex;
 	flex-direction: column;
 
@@ -217,12 +217,15 @@ export const TrailingLayout = styled(LayoutAnimated)<ListItemTrailingProps>`
 			)}px;
 		`}
 
-        ${({theme}) => css`
-		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-	`}
+        ${({theme, closeTrailing}) =>
+		!closeTrailing &&
+		css`
+			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+			width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		`}
 `
 
+export const Trailing = styled(LayoutAnimated)``
 export const HeadlineText = styled(Typography)``
 export const SupportingText = styled(Typography)`
 	height: auto;

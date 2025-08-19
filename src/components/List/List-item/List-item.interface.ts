@@ -148,6 +148,7 @@ export interface ListItemMainInnerProps extends Pick<ListItemMainProps, 'support
 
 export type ListItemLeadingProps = Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'type'>
 export interface ListItemTrailingProps extends ListItemLeadingProps {
+	closeTrailing?: boolean
 	trailingShow?: boolean
 }
 

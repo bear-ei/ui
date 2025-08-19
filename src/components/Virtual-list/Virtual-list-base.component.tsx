@@ -51,7 +51,8 @@ const VirtualListBaseInner = <T,>(
 			startIndex,
 			status,
 			virtualListData,
-			visibleRangeData
+			visibleRangeData,
+			nextEndReachedEvent
 		},
 		setState
 	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE, startIndex: 0})
@@ -159,6 +160,10 @@ const VirtualListBaseInner = <T,>(
 	useEffect(() => {
 		runAfterInteractions(nextScrollEvent)()
 	}, [nextScrollEvent])
+
+	useEffect(() => {
+		runAfterInteractions(nextEndReachedEvent)()
+	}, [nextEndReachedEvent])
 
 	useEffect(() => {
 		runAfterInteractions(nextCloseEvent)()

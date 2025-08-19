@@ -226,6 +226,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 				afterAffordance={afterAffordance}
 				afterAffordanceExpanded={isAfterAffordanceExpanded}
 				afterAffordanceVisible={isAfterAffordanceVisible}
+				closeTrailing={closeTrailing}
 				contentAnimatedStyle={contentAnimatedStyle}
 				disabled={disabled}
 				enableUnderlay={enableUnderlay}

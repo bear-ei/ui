@@ -104,16 +104,15 @@ export const updateTextInputSupportingTextVisibility =
 
 export const updateTextInputValueWithCallback =
 	(onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value?: string) => {
-		const nextValue = value?.trim()
-		const createNextChangeTextEvent = () => typeof nextValue === 'string' && onChangeText?.(nextValue)
+		const createNextChangeTextEvent = () => typeof value === 'string' && onChangeText?.(value)
 
 		setState(draft => {
-			if (nextValue === draft.value) {
+			if (value === draft.value) {
 				return
 			}
 
 			draft.nextChangeTextEvent = createNextChangeTextEvent
-			draft.value = nextValue ?? ''
+			draft.value = value ?? ''
 		})
 	}
 

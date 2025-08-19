@@ -24,7 +24,7 @@ const calculateVirtualListVisibilityRange =
 		}
 
 		const nextScrollOffset = scrollOffset ?? draft.scrollOffset ?? 0
-		const baseStartIndex = Math.max(0, Math.floor((nextScrollOffset ?? 0) / itemSize))
+		const baseStartIndex = Math.max(0, Math.floor(nextScrollOffset / itemSize))
 		const dataSize = draft.virtualListData?.length ?? 0
 		const windowSize = Math.max(layout === LAYOUT.VERTICAL ? draft.layout.height : draft.layout.width, 0)
 		const visibleItemCount = Math.ceil(windowSize / itemSize)
@@ -115,14 +115,14 @@ export const updateVirtualListOnScroll = ({
 
 		const isHitBottom = distanceFromEnd <= thresholdDistance
 
-		if (isHitBottom || scrollOffset <= 0) {
-			onEndReached?.()
-
-			return
-		}
+		const nextEndReachedEvent = () => onEndReached?.()
 
 		setState(draft => {
 			draft.nextScrollEvent = createNextScrollEvent(event)
+
+			if (isHitBottom || scrollOffset <= 0) {
+				draft.nextEndReachedEvent = nextEndReachedEvent
+			}
 
 			calculateVirtualListVisibilityRange({itemSize, layout})(draft)(scrollOffset)
 		})
@@ -182,10 +182,8 @@ export const unmountVirtualList = ({
 
 export const updateVirtualListData = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
 	setState(draft => {
-		draft.scrollOffset = undefined
 		draft.status = COMPONENT_STATUS.LOADING
 		draft.virtualListData = data
-		draft.visibleRangeData = undefined
 	})
 
 export const checkVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => {

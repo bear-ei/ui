@@ -23,6 +23,7 @@ import {
 	MainInner,
 	SupportingText,
 	Touchable,
+	Trailing,
 	TrailingLayout
 } from './List-item.styles'
 
@@ -113,6 +114,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			afterAffordanceSecondaryButtonProps,
 			afterAffordanceVisible,
 			beforeAffordance,
+			closeTrailing,
 			contentAnimatedStyle,
 			contentStyle,
 			density,
@@ -274,26 +276,33 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
 								{trailingElement && (
 									<TrailingLayout
-										entry={{
-											duration: DURATION.MEDIUM_1,
-											easing: EASING.EMPHASIZED_DECELERATE
-										}}
-										exit={{
-											duration: DURATION.SHORT_0,
-											easing: EASING.EMPHASIZED_ACCELERATE
-										}}
-										defaultVisible={!trailingTriggerEvent}
-										lazy={true}
+										closeTrailing={closeTrailing}
 										supportingTextNumberOfLines={
 											supportingTextNumberOfLines
 										}
 										testID={`listItem__trailingLayout--${id}`}
 										trailingShow={isTrailingShow}
 										type={type}
-										unmount={isUnmountTrailing}
-										visible={trailingVisible}
 									>
-										{trailingElement}
+										<Trailing
+											defaultVisible={
+												!trailingTriggerEvent
+											}
+											entry={{
+												duration: DURATION.MEDIUM_1,
+												easing: EASING.EMPHASIZED_DECELERATE
+											}}
+											exit={{
+												duration: DURATION.SHORT_0,
+												easing: EASING.EMPHASIZED_ACCELERATE
+											}}
+											lazy={closeTrailing}
+											testID={`listItem__trailing--${id}`}
+											unmount={isUnmountTrailing}
+											visible={trailingVisible}
+										>
+											{trailingElement}
+										</Trailing>
 									</TrailingLayout>
 								)}
 							</Main>
