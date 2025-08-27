@@ -21,10 +21,7 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 		},
 		ref
 	) => {
-		const [{status}, setState] = useImmer<UnderlayState>({
-			status: COMPONENT_STATUS.IDLE
-		})
-
+		const [{status}, setState] = useImmer<UnderlayState>({status: COMPONENT_STATUS.IDLE})
 		const id = useId()
 		const isActive = rawActive ?? defaultActive
 		const onStateEventChange = useCallback(
@@ -33,11 +30,7 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 			[setState]
 		)
 
-		const interactionHandlers = useInteractionStateEvent({
-			...renderUnderlayProps,
-			onStateEventChange
-		})
-
+		const interactionHandlers = useInteractionStateEvent({...renderUnderlayProps, onStateEventChange})
 		const {hoverLayerAnimatedStyle, activeLayerAnimatedStyle} = useUnderlayAnimated({
 			active: isActive,
 			activeAnimatedType,

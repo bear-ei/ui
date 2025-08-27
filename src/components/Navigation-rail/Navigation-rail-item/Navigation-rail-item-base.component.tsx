@@ -28,6 +28,7 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
 		const [{eventName, status, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({
 			status: COMPONENT_STATUS.IDLE
 		})
+
 		const id = useId()
 		const pressableRef = useRef<PressableType>(null)
 		const isActive = activeKey === indexKey
