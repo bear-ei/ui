@@ -130,12 +130,7 @@ export const useLayoutAnimated = ({
 		}
 	}, [animatedType, runAnimate, status, visible])
 
-	useEffect(
-		() => () => {
-			cancelAnimation(containerSharedValue)
-		},
-		[containerSharedValue]
-	)
+	useEffect(() => () => cancelAnimation(containerSharedValue), [containerSharedValue])
 
 	return {containerAnimatedStyle: containerAnimatedTypeStyle[animatedType]}
 }

@@ -42,12 +42,7 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
 		runAnimate(disabled)
 	}, [runAnimate, disabled])
 
-	useEffect(
-		() => () => {
-			cancelAnimation(colorSharedValue)
-		},
-		[colorSharedValue]
-	)
+	useEffect(() => () => cancelAnimation(colorSharedValue), [colorSharedValue])
 
 	return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }

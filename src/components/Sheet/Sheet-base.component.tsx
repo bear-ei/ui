@@ -5,7 +5,7 @@ import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
 import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import {
-	clearSheetModalEvent,
+	clearSheetEvent,
 	emitSheetModal,
 	emitSheetModalUnmount,
 	setSheetVisibility,
@@ -62,7 +62,7 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			[emitId, renderProps, type]
 		)
 
-		const runClearSheetModalEvent = useMemo(() => clearSheetModalEvent(setState), [setState])
+		const runClearSheetEvent = useMemo(() => clearSheetEvent(setState), [setState])
 
 		useEffect(() => {
 			runSetVisibility(visible ?? defaultVisible)
@@ -72,13 +72,7 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			runEmitSheetModal(isSheetVisible)
 		}, [runEmitSheetModal, isSheetVisible])
 
-		useEffect(
-			() => () => {
-				runEmitModalUnmount(type)
-			},
-			[runEmitModalUnmount, type]
-		)
-
+		useEffect(() => () => runEmitModalUnmount(type), [runEmitModalUnmount, type])
 		useEffect(() => {
 			runAfterInteractions(nextCloseEvent)()
 		}, [nextCloseEvent])
@@ -91,7 +85,7 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			runAfterInteractions(nextCancelEvent)()
 		}, [nextCancelEvent])
 
-		useEffect(() => runClearSheetModalEvent, [runClearSheetModalEvent])
+		useEffect(() => runClearSheetEvent, [runClearSheetEvent])
 
 		return type === SIDE_SHEET_TYPE.SIDEBAR ? <RenderSheet {...renderProps} /> : <></>
 	}

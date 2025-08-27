@@ -40,12 +40,7 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseLis
 		}
 	}, [runAnimate, doubleConfirmed, status])
 
-	useEffect(
-		() => () => {
-			cancelAnimation(translateXSharedValue)
-		},
-		[translateXSharedValue]
-	)
+	useEffect(() => () => cancelAnimation(translateXSharedValue), [translateXSharedValue])
 
 	return {dangerAnimatedStyle}
 }

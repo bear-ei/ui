@@ -158,12 +158,7 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
 		runAnimate(level)
 	}, [runAnimate, level])
 
-	useEffect(
-		() => () => {
-			cancelAnimation(shadowSharedValue)
-		},
-		[shadowSharedValue]
-	)
+	useEffect(() => () => cancelAnimation(shadowSharedValue), [shadowSharedValue])
 
 	return {shadowAnimatedStyle}
 }

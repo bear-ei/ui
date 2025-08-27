@@ -15,10 +15,7 @@ export const useWindowDimensions = ({changeEventThrottle = 50}: UseWindowDimensi
 
 	const runUpdateWindowScaledSize = useMemo(() => updateWindowScaledSize(setState), [setState])
 
-	useEffect(() => {
-		return () => runEmitterSubscription?.remove()
-	}, [runEmitterSubscription])
-
+	useEffect(() => () => runEmitterSubscription?.remove(), [runEmitterSubscription])
 	useEffect(() => {
 		const initialWindow = Dimensions.get('window')
 

@@ -47,15 +47,17 @@ export const emitSheetModal =
 		type === SIDE_SHEET_TYPE.MODAL &&
 		emitter.emit('modal', {id: `sheet__${id}`, type: MODAL_TYPE.SIDE_SHEET, props: {...props}})
 
-export const emitSheetModalUnmount = (id: string) => (type: SheetType) =>
-	type === SIDE_SHEET_TYPE.MODAL &&
-	emitter.emit('modal', {
-		id: `sheet__${id}`,
-		type: MODAL_TYPE.SIDE_SHEET,
-		unmount: true
-	})
+export const emitSheetModalUnmount = (id: string) => (type: SheetType) => {
+	if (type === SIDE_SHEET_TYPE.MODAL) {
+		emitter.emit('modal', {
+			id: `sheet__${id}`,
+			type: MODAL_TYPE.SIDE_SHEET,
+			unmount: true
+		})
+	}
+}
 
-export const clearSheetModalEvent = (setState: Updater<SheetState>) => () =>
+export const clearSheetEvent = (setState: Updater<SheetState>) => () =>
 	setState(draft => {
 		draft.nextBackEvent = undefined
 		draft.nextCancelEvent = undefined
