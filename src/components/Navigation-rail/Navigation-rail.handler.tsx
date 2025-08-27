@@ -27,7 +27,13 @@ export const updateNavigationRailData = (setState: Updater<NavigationRailState>)
 	})
 }
 
-export const clearNavigationRailEvent = (setState: Updater<NavigationRailState>) => () =>
-	setState(draft => {
-		draft.nextActiveEvent = undefined
-	})
+export const clearNavigationRailEvent = (setState: Updater<NavigationRailState>) => (eventName: 'active') => {
+	const event = {
+		active: () =>
+			setState(draft => {
+				draft.nextActiveEvent = undefined
+			})
+	}
+
+	event[eventName]?.()
+}

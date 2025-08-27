@@ -2,7 +2,7 @@ import {nanoid} from 'nanoid'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import {
 	clearSheetEvent,
@@ -62,7 +62,10 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			[emitId, renderProps, type]
 		)
 
-		const runClearSheetEvent = useMemo(() => clearSheetEvent(setState), [setState])
+		const runClearSheetEvent = useMemo(
+			() => createDeferredHandlerWithState(clearSheetEvent)(setState)(),
+			[setState]
+		)
 
 		useEffect(() => {
 			runSetVisibility(visible ?? defaultVisible)
@@ -73,19 +76,18 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 		}, [runEmitSheetModal, isSheetVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextCloseEvent)()
-		}, [nextCloseEvent])
+			runAfterInteractions(nextCloseEvent)().done(() => runClearSheetEvent('close'))
+		}, [nextCloseEvent, runClearSheetEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextBackEvent)()
-		}, [nextBackEvent])
+			runAfterInteractions(nextBackEvent)().done(() => runClearSheetEvent('back'))
+		}, [nextBackEvent, runClearSheetEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextCancelEvent)()
-		}, [nextCancelEvent])
+			runAfterInteractions(nextCancelEvent)().done(() => runClearSheetEvent('cancel'))
+		}, [nextCancelEvent, runClearSheetEvent])
 
 		useEffect(() => () => runEmitModalUnmount(type), [runEmitModalUnmount, type])
-		useEffect(() => runClearSheetEvent, [runClearSheetEvent])
 
 		return type === SIDE_SHEET_TYPE.SIDEBAR ? <RenderSheet {...renderProps} /> : <></>
 	}

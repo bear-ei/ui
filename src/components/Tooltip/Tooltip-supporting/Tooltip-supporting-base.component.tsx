@@ -8,7 +8,7 @@ import {
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../../hooks'
-import {runAfterInteractions} from '../../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {
@@ -98,7 +98,10 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			[containerLayout, setState, supportingPosition, theme, type]
 		)
 
-		const runClearTooltipSupportingEvent = useMemo(() => clearTooltipSupportingEvent(setState), [setState])
+		const runClearTooltipSupportingEvent = useMemo(
+			() => createDeferredHandlerWithState(clearTooltipSupportingEvent)(setState)(),
+			[setState]
+		)
 
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
@@ -111,10 +114,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		}, [isVisible, layout, runUpdatePosition, windowHeight, windowWidth])
 
 		useEffect(() => {
-			runAfterInteractions(nextClosedEvent)()
-		}, [nextClosedEvent])
-
-		useEffect(() => runClearTooltipSupportingEvent, [runClearTooltipSupportingEvent])
+			runAfterInteractions(nextClosedEvent)().done(() => runClearTooltipSupportingEvent('closed'))
+		}, [nextClosedEvent, runClearTooltipSupportingEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

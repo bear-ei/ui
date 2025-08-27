@@ -84,7 +84,7 @@ export const handleMenuKeyDownEvent =
 
 export const updateMenuVisibility =
 	(setState: Updater<MenuState>) => (onVisible?: (value?: boolean) => void) => (value?: boolean) => {
-		const nextVisibleEvent = () => onVisible?.(value)
+		const nextVisibilityEvent = () => onVisible?.(value)
 
 		if (typeof value === 'undefined') {
 			return
@@ -100,7 +100,7 @@ export const updateMenuVisibility =
 				draft.focusedIndex = undefined
 			}
 
-			draft.nextVisibleEvent = nextVisibleEvent
+			draft.nextVisibilityEvent = nextVisibilityEvent
 			draft.visible = value
 		})
 	}
@@ -147,9 +147,21 @@ export const updateMenuVisible = (setState: Updater<MenuState>) => (visible: boo
 	})
 }
 
-export const clearMenuEvent = (setState: Updater<MenuState>) => () =>
-	setState(draft => {
-		draft.nextActiveEvent = undefined
-		draft.nextActivesEvent = undefined
-		draft.nextVisibleEvent = undefined
-	})
+export const clearMenuEvent = (setState: Updater<MenuState>) => (eventName: 'active' | 'actives' | 'visibility') => {
+	const event = {
+		active: () =>
+			setState(draft => {
+				draft.nextActiveEvent = undefined
+			}),
+		actives: () =>
+			setState(draft => {
+				draft.nextActivesEvent = undefined
+			}),
+		visibility: () =>
+			setState(draft => {
+				draft.nextVisibilityEvent = undefined
+			})
+	}
+
+	event[eventName]?.()
+}

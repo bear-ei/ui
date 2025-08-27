@@ -2,7 +2,7 @@ import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {debounce, runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type LayoutRectangle, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
@@ -106,7 +106,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[animatedType, delay, onVisibility, setState]
 		)
 
-		const runClearLayoutAnimatedEvent = useMemo(() => clearLayoutAnimatedEvent(setState), [setState])
+		const runClearLayoutAnimatedEvent = useMemo(
+			() => createDeferredHandlerWithState(clearLayoutAnimatedEvent)(setState)(),
+			[setState]
+		)
 
 		useEffect(() => {
 			runUpdateStatus(isLayoutVisible)
@@ -117,14 +120,14 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		}, [isLayoutVisible, runUpdateVisibility])
 
 		useEffect(() => {
-			runAfterInteractions(nextUnmountEvent)()
-		}, [nextUnmountEvent])
+			runAfterInteractions(nextUnmountEvent)().done(() => runClearLayoutAnimatedEvent('unmount'))
+		}, [nextUnmountEvent, runClearLayoutAnimatedEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibilityEvent)()
-		}, [nextVisibilityEvent])
-
-		useEffect(() => runClearLayoutAnimatedEvent, [runClearLayoutAnimatedEvent])
+			runAfterInteractions(nextVisibilityEvent)().done(() =>
+				runClearLayoutAnimatedEvent('visibility')
+			)
+		}, [nextVisibilityEvent, runClearLayoutAnimatedEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

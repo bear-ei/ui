@@ -21,7 +21,7 @@ export interface MenuState {
 	keyCode?: string
 	nextActiveEvent?: () => void
 	nextActivesEvent?: () => void
-	nextVisibleEvent?: () => void
+	nextVisibilityEvent?: () => void
 	visible?: boolean
 }
 

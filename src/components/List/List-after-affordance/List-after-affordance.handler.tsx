@@ -50,7 +50,13 @@ export const handleAffordanceStateChange =
 			}
 		})
 
-export const clearAffordanceEvent = (setState: Updater<ListAfterAffordanceState>) => () =>
-	setState(draft => {
-		draft.nextCancelEvent = undefined
-	})
+export const clearAffordanceEvent = (setState: Updater<ListAfterAffordanceState>) => (eventName: 'cancel') => {
+	const event = {
+		cancel: () =>
+			setState(draft => {
+				draft.nextCancelEvent = undefined
+			})
+	}
+
+	event[eventName]?.()
+}

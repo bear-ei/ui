@@ -2,7 +2,7 @@ import type {ForwardedRef} from 'react'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
 import {
 	clearFormEvent,
@@ -38,7 +38,7 @@ const FormBaseInner = <T,>(
 
 	const runRegisterCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
 	const runExtractAndSetFieldKeys = useMemo(() => extractAndSetFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
-	const runClearFormEvent = useMemo(() => clearFormEvent(setState), [setState])
+	const runClearFormEvent = useMemo(() => createDeferredHandlerWithState(clearFormEvent)(setState)(), [setState])
 	const itemElements = useMemo(
 		() => (
 			<RenderFormItems
@@ -64,10 +64,8 @@ const FormBaseInner = <T,>(
 	}, [runInitializeStateWithValues, initialValues])
 
 	useEffect(() => {
-		runAfterInteractions(nextInitialValuesEvent)()
-	}, [nextInitialValuesEvent])
-
-	useEffect(() => runClearFormEvent, [runClearFormEvent])
+		runAfterInteractions(nextInitialValuesEvent)().done(() => runClearFormEvent('initial'))
+	}, [nextInitialValuesEvent, runClearFormEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

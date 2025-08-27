@@ -2,7 +2,7 @@ import {DURATION} from '@bearei/element-token'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {LAYOUT_ANIMATED} from '../Layout-animated'
 import type {PressableType} from '../Touchable'
@@ -58,11 +58,14 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 			[indeterminate, setState]
 		)
 
-		const runClearCheckboxEvent = useMemo(() => clearCheckboxEvent(setState), [setState])
+		const runClearCheckboxEvent = useMemo(
+			() => createDeferredHandlerWithState(clearCheckboxEvent)(setState)(),
+			[setState]
+		)
 
 		useEffect(() => {
-			runUpdateStatus(indeterminate)
 			runUpdateIndeterminate(indeterminate)
+			runUpdateStatus(indeterminate)
 		}, [indeterminate, runUpdateIndeterminate, runUpdateStatus])
 
 		useEffect(() => {
@@ -70,10 +73,8 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 		}, [runUpdateActive, defaultActive, rawActive])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)()
-		}, [nextActiveEvent])
-
-		useEffect(() => runClearCheckboxEvent, [runClearCheckboxEvent])
+			runAfterInteractions(nextActiveEvent)().done(() => runClearCheckboxEvent('active'))
+		}, [nextActiveEvent, runClearCheckboxEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

@@ -105,8 +105,17 @@ export const createSearchLayoutMeasureHandler = (containerCurrent?: View | null)
 		listVisible && measureSearchContainerLayout(setState)
 }
 
-export const clearSearchEvent = (setState: Updater<SearchState>) => () =>
-	setState(draft => {
-		draft.nextChangeTextEvent = undefined
-		draft.nextPressOutEvent = undefined
-	})
+export const clearSearchEvent = (setState: Updater<SearchState>) => (eventName: 'changeText' | 'pressOut') => {
+	const event = {
+		changeText: () =>
+			setState(draft => {
+				draft.nextChangeTextEvent = undefined
+			}),
+		pressOut: () =>
+			setState(draft => {
+				draft.nextPressOutEvent = undefined
+			})
+	}
+
+	event[eventName]?.()
+}

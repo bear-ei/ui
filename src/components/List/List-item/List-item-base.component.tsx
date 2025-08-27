@@ -151,7 +151,11 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			[setState]
 		)
 
-		const runClearListItemEvent = useMemo(() => clearListItemEvent(setState), [setState])
+		const runClearListItemEvent = useMemo(
+			() => createDeferredHandlerWithState(clearListItemEvent)(setState)(),
+			[setState]
+		)
+
 		const trailingElement = useMemo(
 			() =>
 				[closeTrailing, afterAffordance, trailing].some(Boolean) ?
@@ -210,18 +214,16 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		}, [runUpdateFocusState, focusedIndex])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressInEvent)()
-		}, [nextPressInEvent])
+			runAfterInteractions(nextPressInEvent)().done(() => runClearListItemEvent('pressIn'))
+		}, [nextPressInEvent, runClearListItemEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)()
-		}, [nextPressOutEvent])
+			runAfterInteractions(nextPressOutEvent)().done(() => runClearListItemEvent('pressOut'))
+		}, [nextPressOutEvent, runClearListItemEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextLayoutEvent)()
-		}, [nextLayoutEvent])
-
-		useEffect(() => runClearListItemEvent, [runClearListItemEvent])
+			runAfterInteractions(nextLayoutEvent)().done(() => runClearListItemEvent('layout'))
+		}, [nextLayoutEvent, runClearListItemEvent])
 
 		return (
 			<RenderListItem

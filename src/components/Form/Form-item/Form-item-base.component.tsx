@@ -64,13 +64,8 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			runApplyStatusInitToDraft(name)
 		}, [runApplyStatusInitToDraft, name])
 
-		useEffect(
-			() => () => {
-				nextSignOutEvent?.()
-				runClearFormItemEvent()
-			},
-			[runClearFormItemEvent, nextSignOutEvent]
-		)
+		useEffect(() => nextSignOutEvent, [nextSignOutEvent])
+		useEffect(() => runClearFormItemEvent, [runClearFormItemEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

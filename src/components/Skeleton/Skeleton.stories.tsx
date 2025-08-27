@@ -1,9 +1,8 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import {LAYOUT} from '../Common'
-import {Skeleton} from './Skeleton.component'
+import {Circle, Rectangular, Skeleton, Square} from './Skeleton.component'
 import type {SkeletonProps} from './Skeleton.interface'
 
-const {Square, Rectangular, Circle} = Skeleton
 const SkeletonComponent = (props: SkeletonProps) => {
 	const skeletonStyle = {gap: 16, height: 56}
 	const skeleton = (

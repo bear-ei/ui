@@ -76,7 +76,13 @@ export const animateNavigationRailItem =
 		animateSharedValueTo({sharedValue: labelTextSharedValue})(toValue)
 	}
 
-export const clearNavigationRailItemEvent = (setState: Updater<NavigationRailItemState>) => () =>
-	setState(draft => {
-		draft.nextPressOutEvent = undefined
-	})
+export const clearNavigationRailItemEvent = (setState: Updater<NavigationRailItemState>) => (eventName: 'pressOut') => {
+	const event = {
+		pressOut: () =>
+			setState(draft => {
+				draft.nextPressOutEvent = undefined
+			})
+	}
+
+	event[eventName]?.()
+}

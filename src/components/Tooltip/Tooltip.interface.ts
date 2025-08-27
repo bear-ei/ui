@@ -35,7 +35,7 @@ export interface RenderTooltipProps extends TooltipProps {
 export type TooltipBaseProps = TooltipProps
 export interface TooltipState {
 	menuContainerLayout?: {x: number; y: number}
-	nextVisibleEvent?: () => void
+	nextVisibilityEvent?: () => void
 	tooltipVisible?: boolean
 }
 

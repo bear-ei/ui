@@ -33,7 +33,7 @@ export const ModalProvider: FC<ModalProps> = () => {
 	useEffect(() => {
 		emitter.on('modal', modal => runManageModal(modal))
 
-		return emitter.all.clear
+		return () => emitter.all.clear()
 	}, [runManageModal])
 
 	return (

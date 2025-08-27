@@ -33,7 +33,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		},
 		ref
 	) => {
-		const [{tooltipVisible: isTooltipVisible, nextVisibleEvent, menuContainerLayout}, setState] =
+		const [{tooltipVisible: isTooltipVisible, nextVisibilityEvent, menuContainerLayout}, setState] =
 			useImmer<TooltipState>({})
 
 		const containerRef = useRef<View>(null)
@@ -92,7 +92,10 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			[rawOnVisible, setState]
 		)
 
-		const runClearTooltipEvent = useMemo(() => clearTooltipEvent(setState), [setState])
+		const runClearTooltipEvent = useMemo(
+			() => createDeferredHandlerWithState(clearTooltipEvent)(setState)(),
+			[setState]
+		)
 
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
@@ -113,16 +116,10 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		}, [runUpdateVisible, visible, defaultVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibleEvent)()
-		}, [nextVisibleEvent])
+			runAfterInteractions(nextVisibilityEvent)().done(() => runClearTooltipEvent('visibility'))
+		}, [nextVisibilityEvent, runClearTooltipEvent])
 
-		useEffect(
-			() => () => {
-				runClearTooltipEvent()
-				runUnmount()
-			},
-			[runClearTooltipEvent, runUnmount]
-		)
+		useEffect(() => runUnmount, [runUnmount])
 
 		return (
 			<RenderTooltip

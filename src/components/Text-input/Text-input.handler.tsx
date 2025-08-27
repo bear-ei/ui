@@ -220,11 +220,38 @@ export const animateTextInputDisabledStateTiming =
 	(stateAnimated: TextInputStateAnimated) => (state: State) => (disabled?: boolean) =>
 		typeof disabled === 'boolean' && stateAnimated[disabled ? STATE.DISABLED : state]?.()
 
-export const clearTextInputEvent = (setState: Updater<TextInputState>) => () =>
-	setState(draft => {
-		draft.nextChangeTextEvent = undefined
-		draft.nextContentSizeChangeEvent = undefined
-		draft.nextPressOutEvent = undefined
-		draft.nextSupportingTextCloseEvent = undefined
-		draft.nextSupportingTextVisibilityEvent = undefined
-	})
+export const clearTextInputEvent =
+	(setState: Updater<TextInputState>) =>
+	(
+		eventName:
+			| 'changeText'
+			| 'contentSizeChange'
+			| 'pressOut'
+			| 'supportingTextClose'
+			| 'supportingTextVisibility'
+	) => {
+		const event = {
+			changeText: () =>
+				setState(draft => {
+					draft.nextChangeTextEvent = undefined
+				}),
+			contentSizeChange: () =>
+				setState(draft => {
+					draft.nextContentSizeChangeEvent = undefined
+				}),
+			pressOut: () =>
+				setState(draft => {
+					draft.nextPressOutEvent = undefined
+				}),
+			supportingTextClose: () =>
+				setState(draft => {
+					draft.nextSupportingTextCloseEvent = undefined
+				}),
+			supportingTextVisibility: () =>
+				setState(draft => {
+					draft.nextSupportingTextVisibilityEvent = undefined
+				})
+		}
+
+		event[eventName]?.()
+	}

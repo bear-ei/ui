@@ -129,8 +129,18 @@ export const animateLayoutAnimated =
 		createExitSharedValueAnimator({sharedValue: containerSharedValue})(0)
 	}
 
-export const clearLayoutAnimatedEvent = (setState: Updater<LayoutAnimatedState>) => () =>
-	setState(draft => {
-		draft.nextUnmountEvent = undefined
-		draft.nextVisibilityEvent = undefined
-	})
+export const clearLayoutAnimatedEvent =
+	(setState: Updater<LayoutAnimatedState>) => (eventName: 'unmount' | 'visibility') => {
+		const event = {
+			unmount: () =>
+				setState(draft => {
+					draft.nextUnmountEvent = undefined
+				}),
+			visibility: () =>
+				setState(draft => {
+					draft.nextVisibilityEvent = undefined
+				})
+		}
+
+		event[eventName]?.()
+	}

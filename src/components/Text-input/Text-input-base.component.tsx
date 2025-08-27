@@ -147,7 +147,11 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		)
 
 		const runBlurIfEditable = useMemo(() => blurTextInputIfEditable(textInputRef), [textInputRef])
-		const runClearTextInputEvent = useMemo(() => clearTextInputEvent(setState), [setState])
+		const runClearTextInputEvent = useMemo(
+			() => createDeferredHandlerWithState(clearTextInputEvent)(setState)(),
+			[setState]
+		)
+
 		const runUpdateValue = useMemo(() => updateTextInputValue(setState), [setState])
 
 		useEffect(() => {
@@ -163,26 +167,30 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		}, [runUpdateValue, defaultValue, rawValue])
 
 		useEffect(() => {
-			runAfterInteractions(nextChangeTextEvent)()
-		}, [nextChangeTextEvent])
+			runAfterInteractions(nextChangeTextEvent)().done(() => runClearTextInputEvent('changeText'))
+		}, [nextChangeTextEvent, runClearTextInputEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextContentSizeChangeEvent)()
-		}, [nextContentSizeChangeEvent])
+			runAfterInteractions(nextContentSizeChangeEvent)().done(() =>
+				runClearTextInputEvent('contentSizeChange')
+			)
+		}, [nextContentSizeChangeEvent, runClearTextInputEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextSupportingTextVisibilityEvent)()
-		}, [nextSupportingTextVisibilityEvent])
+			runAfterInteractions(nextSupportingTextVisibilityEvent)().done(() =>
+				runClearTextInputEvent('supportingTextVisibility')
+			)
+		}, [nextSupportingTextVisibilityEvent, runClearTextInputEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)()
-		}, [nextPressOutEvent])
+			runAfterInteractions(nextPressOutEvent)().done(() => runClearTextInputEvent('pressOut'))
+		}, [nextPressOutEvent, runClearTextInputEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextSupportingTextCloseEvent)()
-		}, [nextSupportingTextCloseEvent])
-
-		useEffect(() => runClearTextInputEvent, [runClearTextInputEvent])
+			runAfterInteractions(nextSupportingTextCloseEvent)().done(() =>
+				runClearTextInputEvent('supportingTextClose')
+			)
+		}, [nextSupportingTextCloseEvent, runClearTextInputEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

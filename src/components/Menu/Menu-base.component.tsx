@@ -1,7 +1,7 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {
 	clearMenuEvent,
 	handleMenuKeyDown,
@@ -39,7 +39,7 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 				focusedIndex,
 				nextActiveEvent,
 				nextActivesEvent,
-				nextVisibleEvent,
+				nextVisibilityEvent,
 				visible: isVisible
 			},
 			setState
@@ -74,7 +74,10 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 			[activeKey, activeKeys, data, multiple, rawOnActive, rawOnActives, setState]
 		)
 
-		const runClearMenuEvent = useMemo(() => clearMenuEvent(setState), [setState])
+		const runClearMenuEvent = useMemo(
+			() => createDeferredHandlerWithState(clearMenuEvent)(setState)(),
+			[setState]
+		)
 
 		useEffect(() => {
 			runKeyDown(keyCode)
@@ -93,18 +96,16 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 		}, [defaultVisible, rawIsVisible, runUpdateVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibleEvent)()
-		}, [nextVisibleEvent])
+			runAfterInteractions(nextVisibilityEvent)().done(() => runClearMenuEvent('visibility'))
+		}, [nextVisibilityEvent, runClearMenuEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextActivesEvent)()
-		}, [nextActivesEvent])
+			runAfterInteractions(nextActivesEvent)().done(() => runClearMenuEvent('actives'))
+		}, [nextActivesEvent, runClearMenuEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)()
-		}, [nextActiveEvent])
-
-		useEffect(() => runClearMenuEvent, [runClearMenuEvent])
+			runAfterInteractions(nextActiveEvent)().done(() => runClearMenuEvent('active'))
+		}, [nextActiveEvent, runClearMenuEvent])
 
 		return (
 			<RenderMenu

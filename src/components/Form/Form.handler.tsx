@@ -55,7 +55,13 @@ export const createFormFieldValidator = <T,>({rule, validatorOptions}: CreateFor
 		:	([] as ValidationError[])
 }
 
-export const clearFormEvent = (setState: Updater<FormState>) => () =>
-	setState(draft => {
-		draft.nextInitialValuesEvent = undefined
-	})
+export const clearFormEvent = (setState: Updater<FormState>) => (eventName: 'initial') => {
+	const event = {
+		initial: () =>
+			setState(draft => {
+				draft.nextInitialValuesEvent = undefined
+			})
+	}
+
+	event[eventName]?.()
+}

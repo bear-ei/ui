@@ -226,9 +226,22 @@ export const updateListItemTrailingVisibility = (setState: Updater<ListItemState
 		draft.trailingVisible = visible
 	})
 
-export const clearListItemEvent = (setState: Updater<ListItemState>) => () =>
-	setState(draft => {
-		draft.nextLayoutEvent = undefined
-		draft.nextPressInEvent = undefined
-		draft.nextPressOutEvent = undefined
-	})
+export const clearListItemEvent =
+	(setState: Updater<ListItemState>) => (eventName: 'layout' | 'pressIn' | 'pressOut') => {
+		const event = {
+			layout: () =>
+				setState(draft => {
+					draft.nextLayoutEvent = undefined
+				}),
+			pressIn: () =>
+				setState(draft => {
+					draft.nextPressInEvent = undefined
+				}),
+			pressOut: () =>
+				setState(draft => {
+					draft.nextPressOutEvent = undefined
+				})
+		}
+
+		event[eventName]?.()
+	}

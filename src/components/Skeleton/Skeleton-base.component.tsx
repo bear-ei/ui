@@ -1,7 +1,7 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {clearSkeletonEvent, updateSkeletonDuration} from './Skeleton.handler'
 import type {SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {RenderSkeleton} from './Skeleton.render'
@@ -20,17 +20,20 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 		})
 
 		const runUpdateDuration = useMemo(() => updateSkeletonDuration(setState), [setState])
-		const runClearSkeletonEvent = useMemo(() => clearSkeletonEvent(setState), [setState])
+		const runClearSkeletonEvent = useMemo(
+			() => createDeferredHandlerWithState(clearSkeletonEvent)(setState)(),
+			[setState]
+		)
 
 		useEffect(() => {
 			runUpdateDuration(duration)
 		}, [duration, runUpdateDuration])
 
 		useEffect(() => {
-			runAfterInteractions(nextSkeletonVisibilityEvent)()
-		}, [nextSkeletonVisibilityEvent])
-
-		useEffect(() => runClearSkeletonEvent, [runClearSkeletonEvent])
+			runAfterInteractions(nextSkeletonVisibilityEvent)().done(() =>
+				runClearSkeletonEvent('visibility')
+			)
+		}, [nextSkeletonVisibilityEvent, runClearSkeletonEvent])
 
 		return (
 			<RenderSkeleton

@@ -14,7 +14,7 @@ import type {
 
 export const updateTooltipVisibility =
 	(onVisible?: (value?: boolean) => void) => (setState: Updater<TooltipState>) => (value?: boolean) => {
-		const nextVisibleEvent = () => onVisible?.(value)
+		const nextVisibilityEvent = () => onVisible?.(value)
 
 		if (typeof value === 'boolean') {
 			setState(draft => {
@@ -22,7 +22,7 @@ export const updateTooltipVisibility =
 					return
 				}
 
-				draft.nextVisibleEvent = nextVisibleEvent
+				draft.nextVisibilityEvent = nextVisibilityEvent
 				draft.tooltipVisible = value
 			})
 		}
@@ -37,12 +37,12 @@ export const updateTooltipContextMenuLayout =
 		}
 
 		event.preventDefault()
-		const nextVisibleEvent = () => onVisible?.(true)
+		const nextVisibilityEvent = () => onVisible?.(true)
 		const {x, y} = event.nativeEvent
 
 		setState(draft => {
 			draft.menuContainerLayout = {x, y}
-			draft.nextVisibleEvent = nextVisibleEvent
+			draft.nextVisibilityEvent = nextVisibilityEvent
 		})
 	}
 
@@ -91,7 +91,13 @@ export const unmountTooltipSupporting = (id?: string) => () => {
 	})
 }
 
-export const clearTooltipEvent = (setState: Updater<TooltipState>) => () =>
-	setState(draft => {
-		draft.nextVisibleEvent = undefined
-	})
+export const clearTooltipEvent = (setState: Updater<TooltipState>) => (eventName: 'visibility') => {
+	const event = {
+		visibility: () =>
+			setState(draft => {
+				draft.nextVisibilityEvent = undefined
+			})
+	}
+
+	event[eventName]?.()
+}

@@ -4,7 +4,7 @@ import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {debounce, runAfterInteractions, throttle} from '../../utils'
+import {createDeferredHandlerWithState, debounce, runAfterInteractions, throttle} from '../../utils'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -120,7 +120,11 @@ const VirtualListBaseInner = <T,>(
 	)
 
 	const runUpdateData = useMemo(() => updateVirtualListData(setState), [setState])
-	const runClearVirtualListEvent = useMemo(() => clearVirtualListEvent(setState), [setState])
+	const runClearVirtualListEvent = useMemo(
+		() => createDeferredHandlerWithState(clearVirtualListEvent)(setState)(),
+		[setState]
+	)
+
 	const itemElements = useMemo(
 		() => (
 			<RenderVirtualListItem
@@ -160,22 +164,20 @@ const VirtualListBaseInner = <T,>(
 	}, [runUpdateVisibilityRangeData, virtualListData])
 
 	useEffect(() => {
-		runAfterInteractions(nextScrollEvent)()
-	}, [nextScrollEvent])
+		runAfterInteractions(nextScrollEvent)().done(() => runClearVirtualListEvent('scroll'))
+	}, [nextScrollEvent, runClearVirtualListEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextEndReachedEvent)()
-	}, [nextEndReachedEvent])
+		runAfterInteractions(nextEndReachedEvent)().done(() => runClearVirtualListEvent('endReached'))
+	}, [nextEndReachedEvent, runClearVirtualListEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextCloseEvent)()
-	}, [nextCloseEvent])
+		runAfterInteractions(nextCloseEvent)().done(() => runClearVirtualListEvent('close'))
+	}, [nextCloseEvent, runClearVirtualListEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextLoadEndEvent)()
-	}, [nextLoadEndEvent])
-
-	useEffect(() => runClearVirtualListEvent, [runClearVirtualListEvent])
+		runAfterInteractions(nextLoadEndEvent)().done(() => runClearVirtualListEvent('loadEnd'))
+	}, [nextLoadEndEvent, runClearVirtualListEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

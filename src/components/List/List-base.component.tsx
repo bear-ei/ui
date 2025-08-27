@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import type {ScrollView} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {LAYOUT} from '../Common'
 import {LIST_TYPE} from './List.enum'
 import {
@@ -90,7 +90,11 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			[selectType, setState]
 		)
 
-		const runClearListEvent = useMemo(() => clearListEvent(setState), [setState])
+		const runClearListEvent = useMemo(
+			() => createDeferredHandlerWithState(clearListEvent)(setState)(),
+			[setState]
+		)
+
 		const renderItem = useMemo(
 			() =>
 				createListItemRenderer({
@@ -166,22 +170,24 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		}, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActiveState])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)()
-		}, [nextActiveEvent])
+			runAfterInteractions(nextActiveEvent)().done(() => runClearListEvent('active'))
+		}, [nextActiveEvent, runClearListEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextAfterAffordanceActiveEvent)()
-		}, [nextAfterAffordanceActiveEvent])
+			runAfterInteractions(nextAfterAffordanceActiveEvent)().done(() =>
+				runClearListEvent('afterAffordanceActive')
+			)
+		}, [nextAfterAffordanceActiveEvent, runClearListEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextCloseEvent)()
-		}, [nextCloseEvent])
+			runAfterInteractions(nextCloseEvent)().done(() => runClearListEvent('close'))
+		}, [nextCloseEvent, runClearListEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextAfterAffordanceEvent)()
-		}, [nextAfterAffordanceEvent])
-
-		useEffect(() => runClearListEvent, [runClearListEvent])
+			runAfterInteractions(nextAfterAffordanceEvent)().done(() =>
+				runClearListEvent('afterAffordance')
+			)
+		}, [nextAfterAffordanceEvent, runClearListEvent])
 
 		return (
 			<RenderList
