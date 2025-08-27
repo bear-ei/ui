@@ -72,7 +72,6 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			runEmitSheetModal(isSheetVisible)
 		}, [runEmitSheetModal, isSheetVisible])
 
-		useEffect(() => () => runEmitModalUnmount(type), [runEmitModalUnmount, type])
 		useEffect(() => {
 			runAfterInteractions(nextCloseEvent)()
 		}, [nextCloseEvent])
@@ -85,6 +84,7 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			runAfterInteractions(nextCancelEvent)()
 		}, [nextCancelEvent])
 
+		useEffect(() => () => runEmitModalUnmount(type), [runEmitModalUnmount, type])
 		useEffect(() => runClearSheetEvent, [runClearSheetEvent])
 
 		return type === SIDE_SHEET_TYPE.SIDEBAR ? <RenderSheet {...renderProps} /> : <></>
