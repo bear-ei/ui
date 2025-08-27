@@ -12,6 +12,7 @@ export const createDeferredHandlerWithState =
 			enableInteractionManager: isEnableInteractionManager = true,
 			throttleMillisecond
 		} = options
+
 		const handler = setState ? handlerFactory?.(setState) : handlerFactory
 		const func = isEnableInteractionManager ? runAfterInteractions<T>(handler as T) : (handler as T)
 

@@ -73,8 +73,6 @@ export const updateListActiveState = ({
 					updateListActiveKey(draft)(activeKeys)
 				:	updateListActiveKeys(draft)(activeKeys ?? [])
 
-			console.info(callbackValue, 'callbackValue=============>')
-
 			draft.nextActiveEvent = createNextActiveEvent(callbackValue)
 		})
 }
