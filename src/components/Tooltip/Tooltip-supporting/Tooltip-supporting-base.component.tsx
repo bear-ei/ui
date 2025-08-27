@@ -12,6 +12,7 @@ import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {
+	clearTooltipSupportingEvent,
 	getTooltipSupportingPosition,
 	handleMaskPressOut,
 	handleTooltipSupportingStateChange,
@@ -97,6 +98,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			[containerLayout, setState, supportingPosition, theme, type]
 		)
 
+		const runClearTooltipSupportingEvent = useMemo(() => clearTooltipSupportingEvent(setState), [setState])
+
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
 		useEffect(() => {
@@ -110,6 +113,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		useEffect(() => {
 			runAfterInteractions(nextClosedEvent)()
 		}, [nextClosedEvent])
+
+		useEffect(() => runClearTooltipSupportingEvent, [runClearTooltipSupportingEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

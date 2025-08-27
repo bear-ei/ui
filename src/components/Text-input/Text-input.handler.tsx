@@ -219,3 +219,12 @@ export const animateTextInputNonErrorStateTiming = ({error, disabled}: AnimateTe
 export const animateTextInputDisabledStateTiming =
 	(stateAnimated: TextInputStateAnimated) => (state: State) => (disabled?: boolean) =>
 		typeof disabled === 'boolean' && stateAnimated[disabled ? STATE.DISABLED : state]?.()
+
+export const clearTextInputEvent = (setState: Updater<TextInputState>) => () =>
+	setState(draft => {
+		draft.nextChangeTextEvent = undefined
+		draft.nextContentSizeChangeEvent = undefined
+		draft.nextPressOutEvent = undefined
+		draft.nextSupportingTextCloseEvent = undefined
+		draft.nextSupportingTextVisibilityEvent = undefined
+	})

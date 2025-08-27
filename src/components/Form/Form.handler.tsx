@@ -1,9 +1,11 @@
 import {validate, ValidationError} from 'class-validator'
+import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS} from '../Common'
 import type {FormItemProps} from './Form-item'
 import type {
 	CreateFormFieldValidatorOptions,
 	FormCallbacks,
+	FormState,
 	InitializeFormStateWithValuesOptions,
 	RegisterFormCallbacksOptions
 } from './Form.interface'
@@ -52,3 +54,8 @@ export const createFormFieldValidator = <T,>({rule, validatorOptions}: CreateFor
 			}).then(errors => (errors.length ? errors : undefined))
 		:	([] as ValidationError[])
 }
+
+export const clearFormEvent = (setState: Updater<FormState>) => () =>
+	setState(draft => {
+		draft.nextInitialValuesEvent = undefined
+	})

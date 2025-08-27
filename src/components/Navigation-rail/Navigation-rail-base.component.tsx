@@ -7,7 +7,11 @@ import {COMPONENT_STATUS} from '../Common'
 import type {FABProps} from '../FAB'
 import type {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
-import {updateNavigationRailActiveKey, updateNavigationRailData} from './Navigation-rail.handler'
+import {
+	clearNavigationRailEvent,
+	updateNavigationRailActiveKey,
+	updateNavigationRailData
+} from './Navigation-rail.handler'
 import {RenderNavigationRail, RenderNavigationRailItems} from './Navigation-rail.render'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
@@ -38,6 +42,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 
 		const runUpdateData = useMemo(() => updateNavigationRailData(setState), [setState])
 		const runUpdateActiveKey = useMemo(() => updateNavigationRailActiveKey()(setState), [setState])
+		const runClearNavigationRailEvent = useMemo(() => clearNavigationRailEvent(setState), [setState])
 		const itemElements = useMemo(
 			() => (
 				<RenderNavigationRailItems
@@ -75,6 +80,8 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()
 		}, [nextActiveEvent])
+
+		useEffect(() => runClearNavigationRailEvent, [runClearNavigationRailEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

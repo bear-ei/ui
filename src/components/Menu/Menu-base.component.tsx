@@ -3,6 +3,7 @@ import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
 import {
+	clearMenuEvent,
 	handleMenuKeyDown,
 	handleMenuKeyDownEvent,
 	updateMenuActive,
@@ -73,6 +74,8 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 			[activeKey, activeKeys, data, multiple, rawOnActive, rawOnActives, setState]
 		)
 
+		const runClearMenuEvent = useMemo(() => clearMenuEvent(setState), [setState])
+
 		useEffect(() => {
 			runKeyDown(keyCode)
 		}, [keyCode, runKeyDown])
@@ -100,6 +103,8 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()
 		}, [nextActiveEvent])
+
+		useEffect(() => runClearMenuEvent, [runClearMenuEvent])
 
 		return (
 			<RenderMenu

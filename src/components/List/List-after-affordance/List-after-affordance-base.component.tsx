@@ -5,6 +5,7 @@ import {useInteractionStateEvent, type HandleStateEventChangeOptions, type State
 import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {
+	clearAffordanceEvent,
 	handleAffordanceStateChange,
 	resetAffordanceConfirmationOnHide,
 	triggerListAfterAffordanceConfirm,
@@ -64,6 +65,8 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 			[setState]
 		)
 
+		const runClearAffordanceEvent = useMemo(() => clearAffordanceEvent(setState), [setState])
+
 		useEffect(() => {
 			runResetConfirmationOnHide(visible)
 		}, [runResetConfirmationOnHide, visible])
@@ -71,6 +74,8 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 		useEffect(() => {
 			runAfterInteractions(nextCancelEvent)()
 		}, [nextCancelEvent])
+
+		useEffect(() => runClearAffordanceEvent, [runClearAffordanceEvent])
 
 		return (
 			<RenderListAfterAffordance

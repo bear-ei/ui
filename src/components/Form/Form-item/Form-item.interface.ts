@@ -30,7 +30,7 @@ export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {
 export type FormItemBaseProps = FormItemProps
 export interface FormItemState {
 	shouldUpdate: Record<string, unknown>
-	signOut?: () => void
+	nextSignOutEvent?: () => void
 	status: ComponentStatus
 }
 

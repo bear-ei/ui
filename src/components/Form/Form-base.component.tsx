@@ -4,7 +4,12 @@ import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
-import {extractAndSetFormFieldKeys, initializeFormStateWithValues, registerFormCallbacks} from './Form.handler'
+import {
+	clearFormEvent,
+	extractAndSetFormFieldKeys,
+	initializeFormStateWithValues,
+	registerFormCallbacks
+} from './Form.handler'
 import type {FormBaseProps, FormState} from './Form.interface'
 import {RenderForm, RenderFormItems} from './Form.render'
 import {useForm} from './use-form.hook'
@@ -33,6 +38,7 @@ const FormBaseInner = <T,>(
 
 	const runRegisterCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
 	const runExtractAndSetFieldKeys = useMemo(() => extractAndSetFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
+	const runClearFormEvent = useMemo(() => clearFormEvent(setState), [setState])
 	const itemElements = useMemo(
 		() => (
 			<RenderFormItems
@@ -60,6 +66,8 @@ const FormBaseInner = <T,>(
 	useEffect(() => {
 		runAfterInteractions(nextInitialValuesEvent)()
 	}, [nextInitialValuesEvent])
+
+	useEffect(() => runClearFormEvent, [runClearFormEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

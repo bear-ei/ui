@@ -10,6 +10,7 @@ import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
 	blurTextInputIfEditable,
+	clearTextInputEvent,
 	createUpdateTextInputContentSize,
 	focusTextInput,
 	handleTextInputStateChange,
@@ -148,6 +149,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		const runBlurIfEditable = useMemo(() => blurTextInputIfEditable(textInputRef), [textInputRef])
 		const runUpdateValue = useMemo(() => updateTextInputValue(setState), [setState])
 
+		const runClearTextInputEvent = useMemo(() => clearTextInputEvent(setState), [setState])
+
 		useEffect(() => {
 			runBlurIfEditable(editable)
 		}, [runBlurIfEditable, editable])
@@ -179,6 +182,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextSupportingTextCloseEvent)()
 		}, [nextSupportingTextCloseEvent])
+
+		useEffect(() => runClearTextInputEvent, [runClearTextInputEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

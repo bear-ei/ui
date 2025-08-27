@@ -8,6 +8,7 @@ import {LAYOUT_ANIMATED} from '../Layout-animated'
 import type {PressableType} from '../Touchable'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import {
+	clearCheckboxEvent,
 	handleCheckboxStateChange,
 	updateCheckboxActive,
 	updateCheckboxIndeterminate,
@@ -57,6 +58,8 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 			[indeterminate, setState]
 		)
 
+		const runClearCheckboxEvent = useMemo(() => clearCheckboxEvent(setState), [setState])
+
 		useEffect(() => {
 			runUpdateStatus(indeterminate)
 			runUpdateIndeterminate(indeterminate)
@@ -69,6 +72,8 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)()
 		}, [nextActiveEvent])
+
+		useEffect(() => runClearCheckboxEvent, [runClearCheckboxEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

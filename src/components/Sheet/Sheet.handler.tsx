@@ -54,3 +54,10 @@ export const emitSheetModalUnmount = (id: string) => (type: SheetType) =>
 		type: MODAL_TYPE.SIDE_SHEET,
 		unmount: true
 	})
+
+export const clearSheetModalEvent = (setState: Updater<SheetState>) => () =>
+	setState(draft => {
+		draft.nextBackEvent = undefined
+		draft.nextCancelEvent = undefined
+		draft.nextCloseEvent = undefined
+	})

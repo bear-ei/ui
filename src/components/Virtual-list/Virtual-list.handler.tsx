@@ -233,3 +233,11 @@ export const animateVirtualList =
 	(contentSharedValue: SharedValue<number>) =>
 	(contentSize: number) =>
 		animateSharedValueTo({sharedValue: contentSharedValue})(contentSize)
+
+export const clearVirtualListEvent = (setState: Updater<VirtualListState>) => () =>
+	setState(draft => {
+		draft.nextCloseEvent = undefined
+		draft.nextEndReachedEvent = undefined
+		draft.nextLoadEndEvent = undefined
+		draft.nextScrollEvent = undefined
+	})

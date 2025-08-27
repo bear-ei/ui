@@ -6,6 +6,7 @@ import {debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type LayoutRectangle, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
+	clearLayoutAnimatedEvent,
 	finalizeLayoutAnimatedVisibilityChange,
 	handleLayoutAnimatedStateChange,
 	updateLayoutAnimatedSize,
@@ -105,6 +106,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[animatedType, delay, onVisibility, setState]
 		)
 
+		const runClearLayoutAnimatedEvent = useMemo(() => clearLayoutAnimatedEvent(setState), [setState])
+
 		useEffect(() => {
 			runUpdateStatus(isLayoutVisible)
 		}, [runUpdateStatus, isLayoutVisible])
@@ -120,6 +123,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextVisibilityEvent)()
 		}, [nextVisibilityEvent])
+
+		useEffect(() => runClearLayoutAnimatedEvent, [runClearLayoutAnimatedEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

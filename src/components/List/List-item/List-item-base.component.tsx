@@ -5,6 +5,7 @@ import {createDeferredHandlerWithState, runAfterInteractions} from '../../../uti
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
+	clearListItemEvent,
 	confirmListItemAffordanceAction,
 	handleListItemStateChange,
 	maybeTriggerListItemClose,
@@ -150,6 +151,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			[setState]
 		)
 
+		const runClearListItemEvent = useMemo(() => clearListItemEvent(setState), [setState])
 		const trailingElement = useMemo(
 			() =>
 				[closeTrailing, afterAffordance, trailing].some(Boolean) ?
@@ -218,6 +220,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextLayoutEvent)()
 		}, [nextLayoutEvent])
+
+		useEffect(() => runClearListItemEvent, [runClearListItemEvent])
 
 		return (
 			<RenderListItem

@@ -7,7 +7,7 @@ import {COMPONENT_STATUS, type State} from '../../Common'
 import {Icon, ICON_NAME, ICON_TYPE, type IconProps} from '../../Icon'
 import type {PressableType} from '../../Touchable'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
-import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
+import {clearNavigationRailItemEvent, handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
 import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
 import {RenderNavigationRailItem} from './Navigation-rail-item.render'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
@@ -72,11 +72,18 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
 			[icon, id, isActive]
 		)
 
+		const runClearNavigationRailItemEvent = useMemo(
+			() => clearNavigationRailItemEvent(setState),
+			[setState]
+		)
+
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
 
 		useEffect(() => {
 			runAfterInteractions(nextPressOutEvent)()
 		}, [nextPressOutEvent])
+
+		useEffect(() => runClearNavigationRailItemEvent, [runClearNavigationRailItemEvent])
 
 		return (
 			<RenderNavigationRailItem

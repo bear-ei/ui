@@ -6,6 +6,7 @@ import {useInteractionStateEvent} from '../../hooks'
 import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {
+	clearSearchEvent,
 	createSearchLayoutMeasureHandler,
 	handleSearchInputStateChange,
 	updateSearchInputValue,
@@ -77,6 +78,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			[setState]
 		)
 
+		const runClearSearchEvent = useMemo(() => clearSearchEvent(setState), [setState])
+
 		useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
 
 		useEffect(() => {
@@ -102,6 +105,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextPressOutEvent)()
 		}, [nextPressOutEvent])
+
+		useEffect(() => runClearSearchEvent, [runClearSearchEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return

@@ -9,6 +9,7 @@ import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Com
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
 	checkVirtualListLoadEnd,
+	clearVirtualListEvent,
 	handleVirtualListStateChange,
 	triggerVirtualListMomentumScrollEnd,
 	unmountVirtualList,
@@ -119,6 +120,7 @@ const VirtualListBaseInner = <T,>(
 	)
 
 	const runUpdateData = useMemo(() => updateVirtualListData(setState), [setState])
+	const runClearVirtualListEvent = useMemo(() => clearVirtualListEvent(setState), [setState])
 	const itemElements = useMemo(
 		() => (
 			<RenderVirtualListItem
@@ -172,6 +174,8 @@ const VirtualListBaseInner = <T,>(
 	useEffect(() => {
 		runAfterInteractions(nextLoadEndEvent)()
 	}, [nextLoadEndEvent])
+
+	useEffect(() => runClearVirtualListEvent, [runClearVirtualListEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

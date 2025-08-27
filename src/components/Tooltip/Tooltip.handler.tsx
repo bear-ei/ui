@@ -90,3 +90,8 @@ export const unmountTooltipSupporting = (id?: string) => () => {
 		unmount: true
 	})
 }
+
+export const clearTooltipEvent = (setState: Updater<TooltipState>) => () =>
+	setState(draft => {
+		draft.nextVisibleEvent = undefined
+	})

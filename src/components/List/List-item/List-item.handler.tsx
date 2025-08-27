@@ -134,7 +134,7 @@ export const handleListItemStateChange =
 				return
 			}
 
-			if (eventName && nextEvent[eventName]) {
+			if (eventName === EVENT_NAME.PRESS_OUT && nextEvent[eventName]) {
 				draft.nextPressOutEvent = nextEvent[eventName]
 			}
 		})
@@ -224,4 +224,11 @@ export const animateListItemActiveState =
 export const updateListItemTrailingVisibility = (setState: Updater<ListItemState>) => (visible: boolean) =>
 	setState(draft => {
 		draft.trailingVisible = visible
+	})
+
+export const clearListItemEvent = (setState: Updater<ListItemState>) => () =>
+	setState(draft => {
+		draft.nextLayoutEvent = undefined
+		draft.nextPressInEvent = undefined
+		draft.nextPressOutEvent = undefined
 	})

@@ -146,3 +146,10 @@ export const updateMenuVisible = (setState: Updater<MenuState>) => (visible: boo
 		draft.visible = visible
 	})
 }
+
+export const clearMenuEvent = (setState: Updater<MenuState>) => () =>
+	setState(draft => {
+		draft.nextActiveEvent = undefined
+		draft.nextActivesEvent = undefined
+		draft.nextVisibleEvent = undefined
+	})

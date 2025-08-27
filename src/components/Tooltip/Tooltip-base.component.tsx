@@ -6,6 +6,7 @@ import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import type {State} from '../Common'
 import {TOOLTIP_TYPE} from './Tooltip.enum'
 import {
+	clearTooltipEvent,
 	emitTooltipSupporting,
 	handleTooltipStateChange,
 	unmountTooltipSupporting,
@@ -91,6 +92,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			[rawOnVisible, setState]
 		)
 
+		const runClearTooltipEvent = useMemo(() => clearTooltipEvent(setState), [setState])
+
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
 		useEffect(() => {
@@ -113,9 +116,13 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			runAfterInteractions(nextVisibleEvent)()
 		}, [nextVisibleEvent])
 
-		useEffect(() => {
-			return () => runUnmount()
-		}, [runUnmount])
+		useEffect(
+			() => () => {
+				runClearTooltipEvent()
+				runUnmount()
+			},
+			[runClearTooltipEvent, runUnmount]
+		)
 
 		return (
 			<RenderTooltip

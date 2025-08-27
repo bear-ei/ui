@@ -61,7 +61,9 @@ export const updateListActiveState = ({
 	}
 
 	const createNextActiveEvent = (activeKeys?: string | string[]) => () =>
-		typeof activeKeys === 'string' ? onActive?.(activeKeys) : onActives?.(activeKeys)
+		selectType === LIST_SELECT_TYPE.SINGLE ?
+			onActive?.(activeKeys as string | undefined)
+		:	onActives?.(activeKeys as string[] | undefined)
 
 	return (setState: Updater<ListState>) => (activeKeys?: string | string[]) =>
 		selectType &&
@@ -70,6 +72,8 @@ export const updateListActiveState = ({
 				selectType === LIST_SELECT_TYPE.SINGLE ?
 					updateListActiveKey(draft)(activeKeys)
 				:	updateListActiveKeys(draft)(activeKeys ?? [])
+
+			console.info(callbackValue, 'callbackValue=============>')
 
 			draft.nextActiveEvent = createNextActiveEvent(callbackValue)
 		})
@@ -145,3 +149,11 @@ export const createListItemRenderer =
 				{...options}
 				{...props}
 			/>
+
+export const clearListEvent = (setState: Updater<ListState>) => () =>
+	setState(draft => {
+		draft.nextActiveEvent = undefined
+		draft.nextAfterAffordanceActiveEvent = undefined
+		draft.nextAfterAffordanceEvent = undefined
+		draft.nextCloseEvent = undefined
+	})

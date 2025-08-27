@@ -7,6 +7,7 @@ import type {FormErrors} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
 	applyFormItemStatusInitToDraft,
+	clearFormItemEvent,
 	triggerFormItemShouldUpdate,
 	updateFormFieldValueIfChanged,
 	validateFormFieldOnBlur
@@ -16,7 +17,7 @@ import {RenderFormItem} from './Form-item.render'
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 	({labelText, name, renderControl, rule, validatorOptions, ...renderFormItemProps}, ref) => {
-		const [{signOut, status}, setState] = useImmer<FormItemState>({
+		const [{nextSignOutEvent, status}, setState] = useImmer<FormItemState>({
 			shouldUpdate: {},
 			status: COMPONENT_STATUS.IDLE
 		})
@@ -53,6 +54,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			[onComponentUpdate, rule, setState, signInField, validatorOptions]
 		)
 
+		const runClearFormItemEvent = useMemo(() => clearFormItemEvent(setState), [setState])
 		const controlElement = useMemo(
 			() => renderControl?.({errorMessage, labelText, onBlur, onValueChange, value}),
 			[errorMessage, labelText, onBlur, onValueChange, renderControl, value]
@@ -62,7 +64,13 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			runApplyStatusInitToDraft(name)
 		}, [runApplyStatusInitToDraft, name])
 
-		useEffect(() => () => signOut?.(), [signOut])
+		useEffect(
+			() => () => {
+				nextSignOutEvent?.()
+				runClearFormItemEvent()
+			},
+			[runClearFormItemEvent, nextSignOutEvent]
+		)
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

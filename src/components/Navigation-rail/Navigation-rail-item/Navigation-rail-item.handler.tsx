@@ -75,3 +75,8 @@ export const animateNavigationRailItem =
 		animateSharedValueTo({sharedValue: contentTranslateYSharedValue})(toValue)
 		animateSharedValueTo({sharedValue: labelTextSharedValue})(toValue)
 	}
+
+export const clearNavigationRailItemEvent = (setState: Updater<NavigationRailItemState>) => () =>
+	setState(draft => {
+		draft.nextPressOutEvent = undefined
+	})

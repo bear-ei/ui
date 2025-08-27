@@ -32,12 +32,7 @@ export const useVirtualListItemAnimated = ({offset = 0, status, layout}: UseVirt
 		}
 	}, [runAnimate, offset, status])
 
-	useEffect(
-		() => () => {
-			cancelAnimation(translateSharedValue)
-		},
-		[translateSharedValue]
-	)
+	useEffect(() => () => cancelAnimation(translateSharedValue), [translateSharedValue])
 
 	return {
 		containerAnimatedStyle

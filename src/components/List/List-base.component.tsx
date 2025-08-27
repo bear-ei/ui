@@ -6,6 +6,7 @@ import {runAfterInteractions} from '../../utils'
 import {LAYOUT} from '../Common'
 import {LIST_TYPE} from './List.enum'
 import {
+	clearListEvent,
 	createListItemRenderer,
 	createListItemSize,
 	triggerListClose,
@@ -89,6 +90,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			[selectType, setState]
 		)
 
+		const runClearListEvent = useMemo(() => clearListEvent(setState), [setState])
 		const renderItem = useMemo(
 			() =>
 				createListItemRenderer({
@@ -178,6 +180,8 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextAfterAffordanceEvent)()
 		}, [nextAfterAffordanceEvent])
+
+		useEffect(() => runClearListEvent, [runClearListEvent])
 
 		return (
 			<RenderList

@@ -99,7 +99,7 @@ export const Select = () => {
 	const style = {height: 800, width: '100%'} as ViewStyle
 	const data = useMemo(
 		() =>
-			Array.from({length: 200}, (_, index) => ({
+			Array.from({length: 4}, (_, index) => ({
 				indexKey: `Title${index + 1}`,
 				headline: `Title${index + 1}`,
 				leading: <Icon />,
@@ -164,16 +164,16 @@ export const Multiselect = () => {
 	const [data, setData] = useState<ListData[] | undefined>(undefined)
 	const [activeKeys, setActiveKeys] = useState<string[] | undefined>(undefined)
 	const style = {height: 800, width: '100%'} as ViewStyle
-	const data1 = useMemo(
-		() =>
-			Array.from({length: 1255}, (_, index) => ({
-				indexKey: `Title${index + 1}`,
-				headline: `Title${index + 1}`,
-				leading: <Icon />,
-				dependencies: []
-			})),
-		[]
-	)
+	// const data1 = useMemo(
+	// 	() =>
+	// 		Array.from({length: 1255}, (_, index) => ({
+	// 			indexKey: `Title${index + 1}`,
+	// 			headline: `Title${index + 1}`,
+	// 			leading: <Icon />,
+	// 			dependencies: []
+	// 		})),
+	// 	[]
+	// )
 
 	const data2 = useMemo(
 		() =>
@@ -195,10 +195,10 @@ export const Multiselect = () => {
 
 	return (
 		<View style={[style]}>
-			<Button onPressOut={() => updateData(data2)} />
+			<Button onPressOut={() => updateData([...data2].reverse())} />
 			<List
 				activeKeys={activeKeys}
-				data={data ?? data1}
+				data={data ?? data2}
 				itemSize={56}
 				onActives={onActiveKeys}
 				selectType={LIST_SELECT_TYPE.MULTIPLE}
