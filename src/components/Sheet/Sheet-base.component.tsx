@@ -76,15 +76,15 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 		}, [runEmitSheetModal, isSheetVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextCloseEvent)().done(() => runClearSheetEvent('close'))
+			runAfterInteractions(nextCloseEvent)().then(() => runClearSheetEvent('close'))
 		}, [nextCloseEvent, runClearSheetEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextBackEvent)().done(() => runClearSheetEvent('back'))
+			runAfterInteractions(nextBackEvent)().then(() => runClearSheetEvent('back'))
 		}, [nextBackEvent, runClearSheetEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextCancelEvent)().done(() => runClearSheetEvent('cancel'))
+			runAfterInteractions(nextCancelEvent)().then(() => runClearSheetEvent('cancel'))
 		}, [nextCancelEvent, runClearSheetEvent])
 
 		useEffect(() => () => runEmitModalUnmount(type), [runEmitModalUnmount, type])

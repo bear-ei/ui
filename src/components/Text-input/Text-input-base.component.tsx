@@ -167,27 +167,27 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		}, [runUpdateValue, defaultValue, rawValue])
 
 		useEffect(() => {
-			runAfterInteractions(nextChangeTextEvent)().done(() => runClearTextInputEvent('changeText'))
+			runAfterInteractions(nextChangeTextEvent)().then(() => runClearTextInputEvent('changeText'))
 		}, [nextChangeTextEvent, runClearTextInputEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextContentSizeChangeEvent)().done(() =>
+			runAfterInteractions(nextContentSizeChangeEvent)().then(() =>
 				runClearTextInputEvent('contentSizeChange')
 			)
 		}, [nextContentSizeChangeEvent, runClearTextInputEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextSupportingTextVisibilityEvent)().done(() =>
+			runAfterInteractions(nextSupportingTextVisibilityEvent)().then(() =>
 				runClearTextInputEvent('supportingTextVisibility')
 			)
 		}, [nextSupportingTextVisibilityEvent, runClearTextInputEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)().done(() => runClearTextInputEvent('pressOut'))
+			runAfterInteractions(nextPressOutEvent)().then(() => runClearTextInputEvent('pressOut'))
 		}, [nextPressOutEvent, runClearTextInputEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextSupportingTextCloseEvent)().done(() =>
+			runAfterInteractions(nextSupportingTextCloseEvent)().then(() =>
 				runClearTextInputEvent('supportingTextClose')
 			)
 		}, [nextSupportingTextCloseEvent, runClearTextInputEvent])

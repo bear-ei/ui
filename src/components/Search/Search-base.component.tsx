@@ -99,11 +99,11 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		}, [runLayoutMeasureHandler, isListVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextChangeTextEvent)().done(() => runClearSearchEvent('changeText'))
+			runAfterInteractions(nextChangeTextEvent)().then(() => runClearSearchEvent('changeText'))
 		}, [nextChangeTextEvent, runClearSearchEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)().done(() => runClearSearchEvent('pressOut'))
+			runAfterInteractions(nextPressOutEvent)().then(() => runClearSearchEvent('pressOut'))
 		}, [nextPressOutEvent, runClearSearchEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {

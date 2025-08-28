@@ -30,7 +30,7 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 		}, [duration, runUpdateDuration])
 
 		useEffect(() => {
-			runAfterInteractions(nextSkeletonVisibilityEvent)().done(() =>
+			runAfterInteractions(nextSkeletonVisibilityEvent)().then(() =>
 				runClearSkeletonEvent('visibility')
 			)
 		}, [nextSkeletonVisibilityEvent, runClearSkeletonEvent])

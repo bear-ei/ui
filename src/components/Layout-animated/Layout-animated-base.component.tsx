@@ -120,11 +120,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		}, [isLayoutVisible, runUpdateVisibility])
 
 		useEffect(() => {
-			runAfterInteractions(nextUnmountEvent)().done(() => runClearLayoutAnimatedEvent('unmount'))
+			runAfterInteractions(nextUnmountEvent)().then(() => runClearLayoutAnimatedEvent('unmount'))
 		}, [nextUnmountEvent, runClearLayoutAnimatedEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibilityEvent)().done(() =>
+			runAfterInteractions(nextVisibilityEvent)().then(() =>
 				runClearLayoutAnimatedEvent('visibility')
 			)
 		}, [nextVisibilityEvent, runClearLayoutAnimatedEvent])

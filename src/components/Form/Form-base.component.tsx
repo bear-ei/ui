@@ -64,7 +64,7 @@ const FormBaseInner = <T,>(
 	}, [runInitializeStateWithValues, initialValues])
 
 	useEffect(() => {
-		runAfterInteractions(nextInitialValuesEvent)().done(() => runClearFormEvent('initial'))
+		runAfterInteractions(nextInitialValuesEvent)().then(() => runClearFormEvent('initial'))
 	}, [nextInitialValuesEvent, runClearFormEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {

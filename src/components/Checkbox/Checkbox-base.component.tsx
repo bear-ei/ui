@@ -73,7 +73,7 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 		}, [runUpdateActive, defaultActive, rawActive])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)().done(() => runClearCheckboxEvent('active'))
+			runAfterInteractions(nextActiveEvent)().then(() => runClearCheckboxEvent('active'))
 		}, [nextActiveEvent, runClearCheckboxEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {

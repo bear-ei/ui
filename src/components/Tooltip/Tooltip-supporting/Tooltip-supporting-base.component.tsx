@@ -114,7 +114,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		}, [isVisible, layout, runUpdatePosition, windowHeight, windowWidth])
 
 		useEffect(() => {
-			runAfterInteractions(nextClosedEvent)().done(() => runClearTooltipSupportingEvent('closed'))
+			runAfterInteractions(nextClosedEvent)().then(() => runClearTooltipSupportingEvent('closed'))
 		}, [nextClosedEvent, runClearTooltipSupportingEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {

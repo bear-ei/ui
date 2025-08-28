@@ -170,21 +170,21 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		}, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActiveState])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)().done(() => runClearListEvent('active'))
+			runAfterInteractions(nextActiveEvent)().then(() => runClearListEvent('active'))
 		}, [nextActiveEvent, runClearListEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextAfterAffordanceActiveEvent)().done(() =>
+			runAfterInteractions(nextAfterAffordanceActiveEvent)().then(() =>
 				runClearListEvent('afterAffordanceActive')
 			)
 		}, [nextAfterAffordanceActiveEvent, runClearListEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextCloseEvent)().done(() => runClearListEvent('close'))
+			runAfterInteractions(nextCloseEvent)().then(() => runClearListEvent('close'))
 		}, [nextCloseEvent, runClearListEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextAfterAffordanceEvent)().done(() =>
+			runAfterInteractions(nextAfterAffordanceEvent)().then(() =>
 				runClearListEvent('afterAffordance')
 			)
 		}, [nextAfterAffordanceEvent, runClearListEvent])

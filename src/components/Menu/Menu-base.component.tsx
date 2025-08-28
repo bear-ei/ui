@@ -96,15 +96,15 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 		}, [defaultVisible, rawIsVisible, runUpdateVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibilityEvent)().done(() => runClearMenuEvent('visibility'))
+			runAfterInteractions(nextVisibilityEvent)().then(() => runClearMenuEvent('visibility'))
 		}, [nextVisibilityEvent, runClearMenuEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextActivesEvent)().done(() => runClearMenuEvent('actives'))
+			runAfterInteractions(nextActivesEvent)().then(() => runClearMenuEvent('actives'))
 		}, [nextActivesEvent, runClearMenuEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)().done(() => runClearMenuEvent('active'))
+			runAfterInteractions(nextActiveEvent)().then(() => runClearMenuEvent('active'))
 		}, [nextActiveEvent, runClearMenuEvent])
 
 		return (

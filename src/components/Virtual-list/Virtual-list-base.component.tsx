@@ -164,19 +164,19 @@ const VirtualListBaseInner = <T,>(
 	}, [runUpdateVisibilityRangeData, virtualListData])
 
 	useEffect(() => {
-		runAfterInteractions(nextScrollEvent)().done(() => runClearVirtualListEvent('scroll'))
+		runAfterInteractions(nextScrollEvent)().then(() => runClearVirtualListEvent('scroll'))
 	}, [nextScrollEvent, runClearVirtualListEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextEndReachedEvent)().done(() => runClearVirtualListEvent('endReached'))
+		runAfterInteractions(nextEndReachedEvent)().then(() => runClearVirtualListEvent('endReached'))
 	}, [nextEndReachedEvent, runClearVirtualListEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextCloseEvent)().done(() => runClearVirtualListEvent('close'))
+		runAfterInteractions(nextCloseEvent)().then(() => runClearVirtualListEvent('close'))
 	}, [nextCloseEvent, runClearVirtualListEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextLoadEndEvent)().done(() => runClearVirtualListEvent('loadEnd'))
+		runAfterInteractions(nextLoadEndEvent)().then(() => runClearVirtualListEvent('loadEnd'))
 	}, [nextLoadEndEvent, runClearVirtualListEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {

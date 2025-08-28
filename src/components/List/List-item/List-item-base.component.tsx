@@ -214,15 +214,15 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		}, [runUpdateFocusState, focusedIndex])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressInEvent)().done(() => runClearListItemEvent('pressIn'))
+			runAfterInteractions(nextPressInEvent)().then(() => runClearListItemEvent('pressIn'))
 		}, [nextPressInEvent, runClearListItemEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)().done(() => runClearListItemEvent('pressOut'))
+			runAfterInteractions(nextPressOutEvent)().then(() => runClearListItemEvent('pressOut'))
 		}, [nextPressOutEvent, runClearListItemEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextLayoutEvent)().done(() => runClearListItemEvent('layout'))
+			runAfterInteractions(nextLayoutEvent)().then(() => runClearListItemEvent('layout'))
 		}, [nextLayoutEvent, runClearListItemEvent])
 
 		return (

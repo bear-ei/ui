@@ -116,7 +116,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		}, [runUpdateVisible, visible, defaultVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibilityEvent)().done(() => runClearTooltipEvent('visibility'))
+			runAfterInteractions(nextVisibilityEvent)().then(() => runClearTooltipEvent('visibility'))
 		}, [nextVisibilityEvent, runClearTooltipEvent])
 
 		useEffect(() => runUnmount, [runUnmount])

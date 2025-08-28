@@ -82,7 +82,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		}, [runUpdateData, rawData])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)().done(() => runClearNavigationRailEvent('active'))
+			runAfterInteractions(nextActiveEvent)().then(() => runClearNavigationRailEvent('active'))
 		}, [nextActiveEvent, runClearNavigationRailEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
