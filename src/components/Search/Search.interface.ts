@@ -1,12 +1,12 @@
 import type {Size} from '@bearei/element-token'
 import type {RefAttributes, RefObject} from 'react'
-import type {PressableProps, TextInput, TextInputProps, View} from 'react-native'
+import type {PressableProps, TextInput, TextInputProps, TextStyle, View, ViewStyle} from 'react-native'
+import type {AnimatedStyle} from 'react-native-reanimated'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {CommonProps, ComponentStatus, EventName, LayoutRectangle, State} from '../Common'
 import type {ListData, ListProps} from '../List'
 import type {SearchListProps} from './Search-list'
 
-export interface SearchTextInputProps extends TextInputProps, RefAttributes<TextInput> {}
 export interface SearchProps
 	extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers>,
 		CommonProps {
@@ -19,10 +19,12 @@ export interface SearchProps
 
 export interface RenderSearchProps extends SearchProps {
 	containerRef: RefObject<View>
+	contentAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
+	inputAnimatedStyle: AnimatedStyle<TextStyle>
+	interactionHandlers: InteractionHandlers
 	layout: LayoutRectangle
 	listVisible?: boolean
-	interactionHandlers: InteractionHandlers
 }
 
 export type SearchBaseProps = SearchProps
@@ -50,3 +52,5 @@ export interface HandleSearchContainerLayoutOptions {
 export interface SearchContentProps extends Pick<SearchProps, 'density'> {
 	trailingShow: boolean
 }
+
+export type UseSearchTextInputAnimatedOptions = Pick<RenderSearchProps, 'disabled'>

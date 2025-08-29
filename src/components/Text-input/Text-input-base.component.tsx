@@ -1,7 +1,5 @@
-import {hexToRGBA} from '@bearei/element-token'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
-import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useInteractionStateEvent} from '../../hooks'
@@ -75,12 +73,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 
 		const id = useId()
 		const textInputRef = useRef<TextInput>(null)
-		const theme = useTheme()
-		const placeholderTextColor =
-			state === STATE.DISABLED ?
-				hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
-			:	theme.token.scheme.onSurfaceVariant
-
 		const onContentSizeChange = useMemo(
 			() => createUpdateTextInputContentSize(rawOnContentSizeChange)(setState),
 			[rawOnContentSizeChange, setState]
@@ -218,7 +210,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 				onContentSizeChange={onContentSizeChange}
 				onHeaderFocus={onHeaderFocus}
 				onSupportingTextVisibility={onSupportingTextVisibility}
-				placeholderTextColor={placeholderTextColor}
 				ref={textInputRef}
 				supportingText={supportingText}
 				supportingTextAnimatedStyle={supportingTextAnimatedStyle}

@@ -15,6 +15,7 @@ import {
 } from './Search.handler'
 import type {SearchBaseProps, SearchState} from './Search.interface'
 import {RenderSearch} from './Search.render'
+import {useSearchAnimated} from './use-search-animated.hook'
 
 /**
  * TODO:
@@ -28,10 +29,10 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 	(
 		{
 			defaultValue,
+			disabled,
 			leading,
 			listProps,
 			onChangeText: rawOnChangeText,
-			placeholder,
 			value: rawValue,
 			...renderSearchProps
 		},
@@ -70,7 +71,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			[setState]
 		)
 
-		const interactionHandlers = useInteractionStateEvent({...renderSearchProps, onStateEventChange})
+		const interactionHandlers = useInteractionStateEvent({
+			...renderSearchProps,
+			disabled,
+			onStateEventChange
+		})
+
 		const runUpdateVisibility = useMemo(() => updateSearchListVisibility(setState), [setState])
 		const runUpdateValue = useMemo(() => updateSearchInputValue(data)(setState), [data, setState])
 		const runLayoutMeasureHandler = useMemo(
@@ -79,6 +85,9 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		)
 
 		const runClearSearchEvent = useMemo(() => clearSearchEvent(setState), [setState])
+		const {contentAnimatedStyle, inputAnimatedStyle} = useSearchAnimated({
+			disabled
+		})
 
 		useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
 
@@ -114,15 +123,17 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			<RenderSearch
 				{...renderSearchProps}
 				containerRef={containerRef}
+				contentAnimatedStyle={contentAnimatedStyle}
+				disabled={disabled}
 				eventName={eventName}
 				id={id}
+				inputAnimatedStyle={inputAnimatedStyle}
 				interactionHandlers={interactionHandlers}
 				layout={layout}
 				leading={leading}
 				listProps={listProps}
 				listVisible={isListVisible}
 				onChangeText={onChangeText}
-				placeholder={placeholder}
 				ref={inputRef}
 				value={value}
 			/>

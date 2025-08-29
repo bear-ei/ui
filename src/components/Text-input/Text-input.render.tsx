@@ -1,4 +1,4 @@
-import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, useMemo} from 'react'
 import type {TextInput} from 'react-native'
 import type {AnimatedProps} from 'react-native-reanimated'
@@ -6,7 +6,7 @@ import Animated from 'react-native-reanimated'
 import type {FastOmit} from 'styled-components'
 import {useTheme} from 'styled-components/native'
 import {Underlay} from '../Underlay'
-import type {InputProps, RenderTextInputProps} from './Text-input.interface'
+import type {RenderTextInputProps, TextInputProps} from './Text-input.interface'
 import {
 	ActiveIndicator,
 	Container,
@@ -30,7 +30,7 @@ const AnimatedLabel = Animated.createAnimatedComponent(Label)
 const AnimatedLabelText = Animated.createAnimatedComponent(LabelText)
 const AnimatedSupportingText = Animated.createAnimatedComponent(SupportingText)
 const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.FunctionComponent<
-	AnimatedProps<FastOmit<InputProps, never>>
+	AnimatedProps<FastOmit<TextInputProps, never>>
 >
 
 export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
@@ -41,6 +41,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 			content,
 			contentSize,
 			density,
+			disabled,
 			error,
 			eventName,
 			headerAnimatedStyle,
@@ -64,6 +65,11 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 		ref
 	) => {
 		const theme = useTheme()
+		const placeholderTextColor =
+			disabled ?
+				hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
+			:	theme.token.scheme.onSurfaceVariant
+
 		const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
 		const isLeadingShow = !!leading
 		const shape = SHAPE.EXTRA_SMALL_TOP
@@ -119,9 +125,13 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 								>
 									<AnimatedTextInput
 										{...inputProps}
+										disabled={disabled}
 										multiline={multiline}
 										onBlur={onBlur}
 										onFocus={onFocus}
+										placeholderTextColor={
+											placeholderTextColor
+										}
 										ref={ref}
 										style={[inputAnimatedStyle]}
 										testID={`textInput__animatedTextInput--${id}`}

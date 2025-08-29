@@ -74,6 +74,42 @@ export const DensityScale: StoryObj<SearchProps> = {
 	}
 }
 
+export const Disabled: StoryObj<SearchProps> = {
+	args: {
+		placeholder: 'Hinted search text',
+		trailing: <IconButton type={ICON_BUTTON_TYPE.STANDARD} />,
+		disabled: true,
+		listProps: {
+			data: [
+				{
+					indexKey: 'TitleA',
+					headline: 'TitleA'
+				},
+				{
+					indexKey: 'TitleB',
+					headline: 'TitleB',
+					supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+				},
+				{
+					indexKey: 'TitleC',
+					headline: 'TitleC',
+					supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+				},
+				{
+					indexKey: 'TitleD',
+					headline: 'TitleD',
+					supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+				},
+				{
+					indexKey: 'TitleE',
+					headline: 'TitleE',
+					supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
+				}
+			]
+		}
+	}
+}
+
 export default {
 	title: 'components/Search',
 	component: Search

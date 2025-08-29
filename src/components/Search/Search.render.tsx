@@ -1,22 +1,33 @@
-import {SHAPE} from '@bearei/element-token'
-import {forwardRef, useMemo, type FC} from 'react'
-import type {TextInput as RNTextInput} from 'react-native'
+import {hexToRGBA, SHAPE} from '@bearei/element-token'
+import {cloneElement, forwardRef, useMemo} from 'react'
+import type {TextInput} from 'react-native'
+import Animated, {type AnimatedProps} from 'react-native-reanimated'
+import type {FastOmit} from 'styled-components'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_TYPE} from '../Icon'
+import type {TextInputProps} from '../Text-input'
 import {Underlay} from '../Underlay'
-import type {RenderSearchProps, SearchTextInputProps} from './Search.interface'
-import {Container, Content, Control, Leading, Main, TextInput, Touchable, Trailing} from './Search.styles'
+import type {RenderSearchProps} from './Search.interface'
+import {Container, Content, Control, Input, Leading, Main, Touchable, Trailing} from './Search.styles'
 
-const SearchTextInput = TextInput as FC<SearchTextInputProps>
-export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
+const AnimatedTextInput = Animated.createAnimatedComponent(Input) as React.FunctionComponent<
+	AnimatedProps<FastOmit<TextInputProps, never>>
+>
+
+const AnimatedContent = Animated.createAnimatedComponent(Content)
+export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
 	(
 		{
 			accessibilityLabel,
 			containerRef,
+			contentAnimatedStyle,
 			density,
+			disabled,
 			eventName,
 			id,
+			inputAnimatedStyle,
 			interactionHandlers,
+			layout: _,
 			leading,
 			listVisible,
 			onChangeText,
@@ -29,8 +40,12 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 		ref
 	) => {
 		const theme = useTheme()
+		const placeholderTextColor =
+			disabled ?
+				hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
+			:	theme.token.scheme.onSurfaceVariant
+
 		const {onBlur, onFocus, ...touchableInteractionHandlers} = interactionHandlers
-		const placeholderTextColor = theme.token.scheme.onSurfaceVariant
 		const shape = SHAPE.EXTRA_LARGE
 		const underlayColor = theme.token.scheme.onSurface
 		const underlayOpacities = useMemo(
@@ -48,34 +63,40 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 					testID={`search__touchable--${id}`}
 					tabIndex={-1}
 				>
-					<Content
+					<AnimatedContent
 						accessibilityLabel={accessibilityLabel ?? placeholder}
 						accessibilityRole='keyboardkey'
 						density={density}
 						shape={shape}
+						style={[contentAnimatedStyle]}
 						testID={`search__content--${id}`}
 						trailingShow={!!trailing}
 					>
 						<Leading testID={`search__leading--${id}`}>
-							{leading ?? (
-								<Icon
-									name={ICON_NAME.SEARCH}
-									testID={`search__iconSearch--${id}`}
-									type={ICON_TYPE.FILLED}
-								/>
+							{cloneElement(
+								leading ?? (
+									<Icon
+										name={ICON_NAME.SEARCH}
+										testID={`search__iconSearch--${id}`}
+										type={ICON_TYPE.FILLED}
+									/>
+								),
+								{disabled}
 							)}
 						</Leading>
 
 						<Main testID={`search__main--${id}`}>
 							<Control testID={`search__control--${id}`}>
-								<SearchTextInput
+								<AnimatedTextInput
 									{...textInputProps}
+									disabled={disabled}
 									onBlur={onBlur}
 									onChangeText={onChangeText}
 									onFocus={onFocus}
 									placeholder={placeholder}
 									placeholderTextColor={placeholderTextColor}
 									ref={ref}
+									style={[inputAnimatedStyle]}
 									testID={`search__searchTextInput--${id}`}
 									value={value}
 								/>
@@ -84,7 +105,7 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 
 						{trailing && (
 							<Trailing testID={`search__trailing--${id}`}>
-								{trailing}
+								{cloneElement(trailing, {disabled})}
 							</Trailing>
 						)}
 						<Underlay
@@ -94,7 +115,7 @@ export const RenderSearch = forwardRef<RNTextInput, RenderSearchProps>(
 							testID={`search__underlay--${id}`}
 							underlayColor={underlayColor}
 						/>
-					</Content>
+					</AnimatedContent>
 				</Touchable>
 
 				{/* <SearchList

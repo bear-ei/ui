@@ -1,7 +1,8 @@
 import type {WritableDraft} from 'immer'
 import type {View} from 'react-native'
+import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {StateEvent} from '../../hooks'
+import type {AnimateSharedValueTo, StateEvent} from '../../hooks'
 import {textSearch} from '../../utils'
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../Common'
 import type {ListData} from '../List'
@@ -104,6 +105,12 @@ export const createSearchLayoutMeasureHandler = (containerCurrent?: View | null)
 	return (setState: Updater<SearchState>) => (listVisible?: boolean) =>
 		listVisible && measureSearchContainerLayout(setState)
 }
+
+export const animateSearch =
+	(animateSharedValueTo: AnimateSharedValueTo) =>
+	(colorSharedValue: SharedValue<number>) =>
+	(disabled?: boolean) =>
+		animateSharedValueTo({sharedValue: colorSharedValue})(disabled ? 0 : 1)
 
 export const clearSearchEvent = (setState: Updater<SearchState>) => (eventName: 'changeText' | 'pressOut') => {
 	const event = {

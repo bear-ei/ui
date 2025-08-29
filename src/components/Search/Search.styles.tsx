@@ -34,7 +34,7 @@ export const Content = styled(Shape)<SearchContentProps>`
 		const densityScale = getScaledSpacing(density)(theme)
 
 		return css`
-			background-color: ${theme.token.scheme.surfaceContainerHigh};
+			/* background-color: ${theme.token.scheme.surfaceContainerHigh}; */
 			gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
 			padding: ${theme.adaptSize(theme.token.spacing.none)}px
@@ -77,7 +77,7 @@ export const Control = styled.View`
 	`};
 `
 
-export const TextInput = styled.TextInput`
+export const Input = styled.TextInput`
 	align-self: stretch;
 	flex: 1;
 	outline-style: none;
@@ -92,10 +92,6 @@ export const TextInput = styled.TextInput`
 		line-height: ${theme.adaptSize(theme.token.typography[TYPOGRAPHY.BODY][SIZE.LARGE].lineHeight)}px;
 		padding: ${theme.adaptSize(theme.token.spacing.none)}px;
 	`}
-
-	${({theme}) => css`
-		color: ${theme.token.scheme.onSurface};
-	`};
 `
 
 export const Trailing = styled(Leading)``
