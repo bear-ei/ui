@@ -111,6 +111,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			(options: HandleStateEventChangeOptions) => (_state: State) => (event: StateEvent) =>
 				handleListItemStateChange({
 					...options,
+					active: isActive,
 					indexKey,
 					itemIndex,
 					onActive,
@@ -118,7 +119,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 					trailingTriggerEvent,
 					type
 				})(setState)(event),
-			[indexKey, itemIndex, onActive, onLoadEnd, setState, trailingTriggerEvent, type]
+			[indexKey, isActive, itemIndex, onActive, onLoadEnd, setState, trailingTriggerEvent, type]
 		)
 
 		const interactionHandlers = useInteractionStateEvent({

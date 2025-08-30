@@ -23,7 +23,7 @@ export const updateListActiveState = ({
 	const updateListActiveKey = (draft: WritableDraft<ListState>) => (activeKeys?: string | string[]) => {
 		const prevActiveKey = draft.activeKey
 
-		if (Array.isArray(activeKeys) || activeKeys === prevActiveKey) {
+		if (Array.isArray(activeKeys)) {
 			return
 		}
 
@@ -41,10 +41,6 @@ export const updateListActiveState = ({
 		const prevActiveKeys = draft.activeKeys
 		const nextActiveKeys =
 			typeof activeKeys === 'string' ? [...(prevActiveKeys ?? []), activeKeys] : activeKeys
-
-		if (prevActiveKeys?.join() === nextActiveKeys?.join()) {
-			return
-		}
 
 		if (typeof activeKeys === 'string') {
 			draft.activeKeys =
@@ -99,8 +95,6 @@ export const updateListAffordanceActiveState =
 		const nextAfterAffordanceEvent = () => callback?.()
 
 		setState(draft => {
-			const prevActiveKey = draft.activeKey
-
 			if (draft.afterAffordanceActiveKey === activeKey) {
 				draft.afterAffordanceActiveKey = undefined
 
@@ -108,13 +102,10 @@ export const updateListAffordanceActiveState =
 			}
 
 			draft.afterAffordanceActiveKey = activeKey
+			draft.nextAfterAffordanceActiveEvent = nextAfterAffordanceActiveEvent
 
 			if (activeKey) {
 				draft.activeKey = activeKey
-			}
-
-			if (prevActiveKey !== draft.activeKey) {
-				draft.nextAfterAffordanceActiveEvent = nextAfterAffordanceActiveEvent
 			}
 
 			if (callback) {

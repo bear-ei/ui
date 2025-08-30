@@ -99,7 +99,9 @@ export interface HandleListItemStateChangeOptions
 		Pick<
 			RenderListItemProps,
 			'itemIndex' | 'indexKey' | 'onActive' | 'onLoadEnd' | 'trailingTriggerEvent' | 'type'
-		> {}
+		> {
+	active?: boolean
+}
 
 export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
 	onConfirm?: ListItemProps['onConfirm']

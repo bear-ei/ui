@@ -46,8 +46,6 @@ export const handleNavigationRailItemStateChange =
 				return
 			}
 
-			const prevEventName = draft.eventName
-
 			if (eventName) {
 				draft.eventName = eventName
 			}
@@ -56,7 +54,7 @@ export const handleNavigationRailItemStateChange =
 				nextEvent[eventName]()
 			}
 
-			if (prevEventName !== eventName && eventName === EVENT_NAME.PRESS_OUT) {
+			if (eventName === EVENT_NAME.PRESS_OUT) {
 				draft.nextPressOutEvent = nextEvent[eventName]
 			}
 		})

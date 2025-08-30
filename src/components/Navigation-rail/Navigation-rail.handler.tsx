@@ -13,10 +13,8 @@ export const updateNavigationRailActiveKey =
 		const nextActiveEvent = () => onActive?.(activeKey)
 
 		setState(draft => {
-			if (activeKey !== draft.activeKey) {
-				draft.activeKey = activeKey
-				draft.nextActiveEvent = nextActiveEvent
-			}
+			draft.activeKey = activeKey
+			draft.nextActiveEvent = nextActiveEvent
 		})
 	}
 

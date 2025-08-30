@@ -25,9 +25,7 @@ export const handleTextInputStateChange =
 
 		setState(draft => {
 			if (eventName === EVENT_NAME.LAYOUT) {
-				if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-					draft.status = COMPONENT_STATUS.SUCCEEDED
-				}
+				draft.status = COMPONENT_STATUS.SUCCEEDED
 
 				return
 			}
@@ -36,15 +34,13 @@ export const handleTextInputStateChange =
 				return
 			}
 
-			const prevEventName = draft.eventName
-
 			draft.eventName = eventName
 
 			if (state) {
 				draft.state = state
 			}
 
-			if (prevEventName !== eventName && eventName === EVENT_NAME.PRESS_OUT) {
+			if (eventName === EVENT_NAME.PRESS_OUT) {
 				draft.nextPressOutEvent = nextEvent[eventName]
 			}
 		})
@@ -76,10 +72,6 @@ export const updateTextInputSupportingText =
 		const nextSupportingTextCloseEvent = () => supportingTextDelay && value && onSupportingTextClose()
 
 		setState(draft => {
-			if (value === draft.supportingText) {
-				return
-			}
-
 			draft.supportingText = value
 			draft.supportingTextVisible = !!value
 			draft.nextSupportingTextCloseEvent = nextSupportingTextCloseEvent
@@ -103,24 +95,18 @@ export const updateTextInputSupportingTextVisibility =
 	}
 
 export const updateTextInputValueWithCallback =
-	(onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value?: string) => {
-		const createNextChangeTextEvent = () => typeof value === 'string' && onChangeText?.(value)
+	(onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value: string) => {
+		const nextChangeTextEvent = () => onChangeText?.(value)
 
 		setState(draft => {
-			if (value === draft.value) {
-				return
-			}
-
-			draft.nextChangeTextEvent = createNextChangeTextEvent
-			draft.value = value ?? ''
+			draft.nextChangeTextEvent = nextChangeTextEvent
+			draft.value = value
 		})
 	}
 
 export const updateTextInputValue = (setState: Updater<TextInputState>) => (value?: string) =>
 	setState(draft => {
-		if (value !== draft.value) {
-			draft.value = value ?? ''
-		}
+		draft.value = value ?? ''
 
 		if (draft.status === COMPONENT_STATUS.IDLE) {
 			draft.status = COMPONENT_STATUS.LOADING

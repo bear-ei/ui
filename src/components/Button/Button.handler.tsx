@@ -67,13 +67,9 @@ export const handleButtonStateChange =
 		}
 
 		setState(draft => {
-			const prevEventName = draft.eventName
-
 			draft.eventName = eventName
 
-			if (prevEventName !== eventName) {
-				updateButtonElevation(draft)(type)(state)
-			}
+			updateButtonElevation(draft)(type)(state)
 		})
 	}
 

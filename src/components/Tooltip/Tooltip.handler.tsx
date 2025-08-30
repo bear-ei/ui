@@ -18,10 +18,6 @@ export const updateTooltipVisibility =
 
 		if (typeof value === 'boolean') {
 			setState(draft => {
-				if (draft.tooltipVisible === value) {
-					return
-				}
-
 				draft.nextVisibilityEvent = nextVisibilityEvent
 				draft.tooltipVisible = value
 			})

@@ -91,10 +91,6 @@ export const updateMenuVisibility =
 		}
 
 		setState(draft => {
-			if (draft.visible === value) {
-				return
-			}
-
 			if (!value) {
 				draft.activeKey = undefined
 				draft.focusedIndex = undefined
@@ -114,10 +110,6 @@ export const updateMenuActive =
 		}
 
 		setState(draft => {
-			if (draft.activeKey === value) {
-				return
-			}
-
 			draft.activeKey = value
 			draft.nextActiveEvent = nextActiveEvent
 		})
@@ -132,10 +124,6 @@ export const updateMenuActives =
 		}
 
 		setState(draft => {
-			if (draft.activeKeys?.join() === values?.join()) {
-				return
-			}
-
 			draft.activeKeys = values
 			draft.nextActiveEvent = nextActiveEvents
 		})

@@ -81,12 +81,20 @@ export const updateListItemActive =
 
 const triggerListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
 export const handleListItemStateChange =
-	({eventName, indexKey, onActive, onLoadEnd, trailingTriggerEvent, type}: HandleListItemStateChangeOptions) =>
+	({
+		active,
+		eventName,
+		indexKey,
+		onActive,
+		onLoadEnd,
+		trailingTriggerEvent,
+		type
+	}: HandleListItemStateChangeOptions) =>
 	(setState: Updater<ListItemState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
 			[EVENT_NAME.LAYOUT]: () => triggerListItemLoadEnd?.(onLoadEnd)(indexKey),
-			[EVENT_NAME.PRESS_OUT]: () => onActive?.(indexKey)
+			[EVENT_NAME.PRESS_OUT]: () => !active && onActive?.(indexKey)
 		} as Record<EventName, () => void>
 
 		setState(draft => {
@@ -202,10 +210,6 @@ export const maybeTriggerListItemClose = (onClose?: (indexKey?: string) => void)
 
 export const updateListItemAfterAffordanceExpanded = (setState: Updater<ListItemState>) => (visible?: boolean) =>
 	setState(draft => {
-		if (draft.afterAffordanceExpanded === visible) {
-			return
-		}
-
 		draft.afterAffordanceExpanded = visible
 	})
 

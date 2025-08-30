@@ -40,10 +40,6 @@ const applyCheckboxActiveStateToDraft =
 export const updateCheckboxActive =
 	(options: UpdateCheckboxActiveOptions) => (setState: Updater<CheckboxState>) => (active?: boolean) =>
 		setState(draft => {
-			if (active === draft.active) {
-				return
-			}
-
 			applyCheckboxActiveStateToDraft(draft)(options)(active)
 		})
 
@@ -56,13 +52,11 @@ export const handleCheckboxStateChange =
 		}
 
 		setState(draft => {
-			const prevEventName = draft.eventName
-
 			if (eventName) {
 				draft.eventName = eventName
 			}
 
-			if (prevEventName !== eventName && eventName === EVENT_NAME.PRESS_OUT) {
+			if (eventName === EVENT_NAME.PRESS_OUT) {
 				applyCheckboxActiveStateToDraft(draft)({indeterminate, onActive})(!active)
 			}
 		})
