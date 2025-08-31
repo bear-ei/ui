@@ -43,15 +43,16 @@ export const handleMenuKeyDown = ({
 
 					break
 
-				case keyCode?.startsWith('Enter') && draft.keyCode !== keyCode:
+				case keyCode?.startsWith('Enter'):
 					if (!focusData || typeof draft.focusedIndex !== 'number') {
 						return
 					}
 
-					if (multiple) {
-						draft.nextActivesEvent = nextActivesEvent(focusData.indexKey)
-					} else {
-						draft.nextActiveEvent = nextActiveEvent(focusData.indexKey)
+					if (draft.keyCode !== keyCode) {
+						draft.nextActiveEvent =
+							multiple ?
+								nextActivesEvent(focusData.indexKey)
+							:	nextActiveEvent(focusData.indexKey)
 					}
 
 					draft.keyCode = keyCode
@@ -84,11 +85,11 @@ export const handleMenuKeyDownEvent =
 
 export const updateMenuVisibility =
 	(setState: Updater<MenuState>) => (onVisible?: (value?: boolean) => void) => (value?: boolean) => {
-		const nextVisibilityEvent = () => onVisible?.(value)
-
 		if (typeof value === 'undefined') {
 			return
 		}
+
+		const nextVisibilityEvent = () => onVisible?.(value)
 
 		setState(draft => {
 			if (!value) {
@@ -96,36 +97,49 @@ export const updateMenuVisibility =
 				draft.focusedIndex = undefined
 			}
 
-			draft.nextVisibilityEvent = nextVisibilityEvent
+			if (draft.visible !== value) {
+				draft.nextVisibilityEvent = nextVisibilityEvent
+			}
+
 			draft.visible = value
 		})
 	}
 
 export const updateMenuActive =
 	(setState: Updater<MenuState>) => (onActive?: (value?: string) => void) => (value?: string) => {
-		const nextActiveEvent = () => onActive?.(value)
-
 		if (typeof value === 'undefined') {
 			return
 		}
 
+		const nextActiveEvent = () => onActive?.(value)
+
 		setState(draft => {
+			if (draft.activeKey !== value) {
+				draft.nextActiveEvent = nextActiveEvent
+			}
+
 			draft.activeKey = value
-			draft.nextActiveEvent = nextActiveEvent
 		})
 	}
 
 export const updateMenuActives =
 	(setState: Updater<MenuState>) => (onActives?: (values?: string[]) => void) => (values?: string[]) => {
-		const nextActiveEvents = () => onActives?.(values)
-
 		if (typeof values === 'undefined') {
 			return
 		}
 
+		const nextActiveEvents = () => onActives?.(values)
+
 		setState(draft => {
+			const isAreArraysEqual =
+				draft.activeKeys?.length === values.length &&
+				draft.activeKeys.every((key, index) => key === values[index])
+
+			if (!isAreArraysEqual) {
+				draft.nextActiveEvent = nextActiveEvents
+			}
+
 			draft.activeKeys = values
-			draft.nextActiveEvent = nextActiveEvents
 		})
 	}
 
@@ -135,16 +149,13 @@ export const updateMenuVisible = (setState: Updater<MenuState>) => (visible: boo
 	})
 }
 
-export const clearMenuEvent = (setState: Updater<MenuState>) => (eventName: 'active' | 'actives' | 'visibility') => {
+export const clearMenuEvent = (setState: Updater<MenuState>) => (eventName: 'active' | 'visibility') => {
 	const event = {
 		active: () =>
 			setState(draft => {
 				draft.nextActiveEvent = undefined
 			}),
-		actives: () =>
-			setState(draft => {
-				draft.nextActivesEvent = undefined
-			}),
+
 		visibility: () =>
 			setState(draft => {
 				draft.nextVisibilityEvent = undefined

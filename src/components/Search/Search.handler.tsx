@@ -52,9 +52,12 @@ export const updateSearchTextWithMatch =
 		const nextChangeTextEvent = () => onChangeText?.(value)
 
 		setState(draft => {
+			if (draft.value !== value) {
+				draft.nextChangeTextEvent = nextChangeTextEvent
+			}
+
 			draft.data = (matchedData.length ? matchedData : undefined) as WritableDraft<ListData>[]
 			draft.value = value
-			draft.nextChangeTextEvent = nextChangeTextEvent
 		})
 	}
 

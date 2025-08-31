@@ -14,14 +14,19 @@ import type {
 
 export const updateTooltipVisibility =
 	(onVisible?: (value?: boolean) => void) => (setState: Updater<TooltipState>) => (value?: boolean) => {
+		if (typeof value !== 'boolean') {
+			return
+		}
+
 		const nextVisibilityEvent = () => onVisible?.(value)
 
-		if (typeof value === 'boolean') {
-			setState(draft => {
+		setState(draft => {
+			if (draft.tooltipVisible !== value) {
 				draft.nextVisibilityEvent = nextVisibilityEvent
-				draft.tooltipVisible = value
-			})
-		}
+			}
+
+			draft.tooltipVisible = value
+		})
 	}
 
 export const updateTooltipContextMenuLayout =

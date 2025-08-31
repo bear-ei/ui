@@ -20,7 +20,6 @@ export interface MenuState {
 	focusedIndex?: number
 	keyCode?: string
 	nextActiveEvent?: () => void
-	nextActivesEvent?: () => void
 	nextVisibilityEvent?: () => void
 	visible?: boolean
 }

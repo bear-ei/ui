@@ -64,12 +64,27 @@ export const updateListActiveState = ({
 	return (setState: Updater<ListState>) => (activeKeys?: string | string[]) =>
 		selectType &&
 		setState(draft => {
+			const preActiveKeys = draft.activeKeys
+			const preActiveKey = draft.activeKey
 			const callbackValue =
 				selectType === LIST_SELECT_TYPE.SINGLE ?
 					updateListActiveKey(draft)(activeKeys)
 				:	updateListActiveKeys(draft)(activeKeys ?? [])
 
-			draft.nextActiveEvent = createNextActiveEvent(callbackValue)
+			if (selectType === LIST_SELECT_TYPE.SINGLE && preActiveKey !== callbackValue) {
+				draft.nextActiveEvent = createNextActiveEvent(callbackValue)
+
+				return
+			}
+
+			const isAreArraysEqual =
+				Array.isArray(callbackValue) &&
+				preActiveKeys?.length === callbackValue.length &&
+				preActiveKeys.every((key, index) => key === callbackValue[index])
+
+			if (selectType === LIST_SELECT_TYPE.MULTIPLE && !isAreArraysEqual) {
+				draft.nextActiveEvent = createNextActiveEvent(callbackValue)
+			}
 		})
 }
 

@@ -72,9 +72,12 @@ export const updateTextInputSupportingText =
 		const nextSupportingTextCloseEvent = () => supportingTextDelay && value && onSupportingTextClose()
 
 		setState(draft => {
+			if (draft.supportingText !== value) {
+				draft.nextSupportingTextCloseEvent = nextSupportingTextCloseEvent
+			}
+
 			draft.supportingText = value
 			draft.supportingTextVisible = !!value
-			draft.nextSupportingTextCloseEvent = nextSupportingTextCloseEvent
 		})
 	}
 
@@ -89,8 +92,13 @@ export const updateTextInputSupportingTextVisibility =
 		const nextSupportingTextVisibilityEvent = () => onSupportingTextVisibility?.(visible)
 
 		setState(draft => {
-			draft.nextSupportingTextVisibilityEvent = nextSupportingTextVisibilityEvent
-			draft.supportingText = visible ? draft.supportingText : undefined
+			const supportingText = visible ? draft.supportingText : undefined
+
+			if (draft.supportingText !== supportingText) {
+				draft.nextSupportingTextVisibilityEvent = nextSupportingTextVisibilityEvent
+			}
+
+			draft.supportingText = supportingText
 		})
 	}
 
@@ -99,7 +107,10 @@ export const updateTextInputValueWithCallback =
 		const nextChangeTextEvent = () => onChangeText?.(value)
 
 		setState(draft => {
-			draft.nextChangeTextEvent = nextChangeTextEvent
+			if (draft.value !== value) {
+				draft.nextChangeTextEvent = nextChangeTextEvent
+			}
+
 			draft.value = value
 		})
 	}
