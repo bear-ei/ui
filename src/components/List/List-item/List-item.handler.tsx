@@ -47,9 +47,12 @@ export const compareListItemProps = (prevProps: ListItemProps) => {
 
 		const isNextActive = nextIndexKey && nextActiveKeys?.includes(nextIndexKey)
 		const isPrevActive = prevIndexKey && prevActiveKeys?.includes(prevIndexKey)
+		const isAreArraysEqual =
+			nextActiveKeys?.length === prevActiveKeys?.length &&
+			nextActiveKeys?.every((key, index) => key === prevActiveKeys?.[index])
+
 		const isActiveKeysChange =
-			nextActiveKeys?.join() !== prevActiveKeys?.join() &&
-			((isNextActive && !isPrevActive) || (isPrevActive && !isNextActive))
+			!isAreArraysEqual && ((isNextActive && !isPrevActive) || (isPrevActive && !isNextActive))
 
 		const isAfterAffordanceActiveChange =
 			prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&

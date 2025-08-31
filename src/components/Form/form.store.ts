@@ -275,13 +275,12 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		setFieldsError()({[name]: undefined} as FormErrors<T>)
 		setFieldsValue({componentUpdate: false, enableValidate: false})({[name]: initialValues[name]} as T)
 
-		const fieldKeySting = [...fieldKeys]?.sort((a, b) => (a as string).localeCompare(b as string)).join(',')
-		const fieldEntityNameSting = fieldEntities
-			.map(entity => entity.name)
-			.sort((a, b) => (a as string)?.localeCompare(b as string))
-			.join(',')
+		const fieldEntityNames = fieldEntities.map(entity => entity.name)
+		const isAreArraysEqual =
+			fieldKeys?.length === fieldEntityNames.length &&
+			fieldKeys.every((key, index) => key === fieldEntityNames[index])
 
-		if (fieldKeySting === fieldEntityNameSting) {
+		if (isAreArraysEqual) {
 			isSignInFieldCompleted = true
 		}
 

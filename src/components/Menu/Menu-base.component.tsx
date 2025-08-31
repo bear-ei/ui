@@ -33,15 +33,7 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 		ref
 	) => {
 		const [
-			{
-				activeKey,
-				activeKeys,
-				focusedIndex,
-				nextActiveEvent,
-				nextActivesEvent,
-				nextVisibilityEvent,
-				visible: isVisible
-			},
+			{activeKey, activeKeys, focusedIndex, nextActiveEvent, nextVisibilityEvent, visible: isVisible},
 			setState
 		] = useImmer<MenuState>({})
 
@@ -98,10 +90,6 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextVisibilityEvent)().then(() => runClearMenuEvent('visibility'))
 		}, [nextVisibilityEvent, runClearMenuEvent])
-
-		useEffect(() => {
-			runAfterInteractions(nextActivesEvent)().then(() => runClearMenuEvent('actives'))
-		}, [nextActivesEvent, runClearMenuEvent])
 
 		useEffect(() => {
 			runAfterInteractions(nextActiveEvent)().then(() => runClearMenuEvent('active'))
