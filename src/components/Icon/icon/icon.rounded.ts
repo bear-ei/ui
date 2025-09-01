@@ -188,6 +188,8 @@ import TravelExploreFill from '@material-symbols/svg-400/rounded/travel_explore-
 import TravelExplore from '@material-symbols/svg-400/rounded/travel_explore.svg'
 import UploadFill from '@material-symbols/svg-400/rounded/upload-fill.svg'
 import Upload from '@material-symbols/svg-400/rounded/upload.svg'
+import ViewObjectTrackFill from '@material-symbols/svg-400/rounded/view_object_track-fill.svg'
+import ViewObjectTrack from '@material-symbols/svg-400/rounded/view_object_track.svg'
 import VisibilityFill from '@material-symbols/svg-400/rounded/visibility-fill.svg'
 import Visibility from '@material-symbols/svg-400/rounded/visibility.svg'
 import VisibilityOffFill from '@material-symbols/svg-400/rounded/visibility_off-fill.svg'
@@ -196,7 +198,6 @@ import WindowFill from '@material-symbols/svg-400/rounded/window-fill.svg'
 import Window from '@material-symbols/svg-400/rounded/window.svg'
 import WorkFill from '@material-symbols/svg-400/rounded/work-fill.svg'
 import Work from '@material-symbols/svg-400/rounded/work.svg'
-
 import {ICON_TYPE} from './icon.enum'
 
 export const rounded = {
@@ -296,6 +297,7 @@ export const rounded = {
 		TRANSLATE: TranslateFill,
 		TRAVEL_EXPLORE: TravelExploreFill,
 		UPLOAD: UploadFill,
+		VIEW_OBJECT_TRACK: ViewObjectTrackFill,
 		VISIBILITY_OFF: VisibilityOffFill,
 		VISIBILITY: VisibilityFill,
 		WINDOW: WindowFill,
@@ -397,6 +399,7 @@ export const rounded = {
 		TRANSLATE: Translate,
 		TRAVEL_EXPLORE: TravelExplore,
 		UPLOAD: Upload,
+		VIEW_OBJECT_TRACK: ViewObjectTrack,
 		VISIBILITY_OFF: VisibilityOff,
 		VISIBILITY: Visibility,
 		WINDOW: Window,
