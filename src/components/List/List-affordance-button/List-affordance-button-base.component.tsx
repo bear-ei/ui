@@ -9,7 +9,7 @@ import {RenderListAffordanceButton} from './List-affordance-button.render'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
 export const ListAffordanceButtonBase = forwardRef<PressableType, ListAffordanceButtonBaseProps>(
-	({disabled, labelText = 'Label', ...renderListAffordanceButtonProps}, ref) => {
+	({disabled, labelText = 'Label', backgroundVisible, ...renderListAffordanceButtonProps}, ref) => {
 		const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({})
 		const id = useId()
 		const onStateEventChange = useCallback(
@@ -25,6 +25,7 @@ export const ListAffordanceButtonBase = forwardRef<PressableType, ListAffordance
 		})
 
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({
+			backgroundVisible,
 			disabled
 		})
 

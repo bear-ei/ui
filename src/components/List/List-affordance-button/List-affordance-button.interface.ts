@@ -5,6 +5,7 @@ import type {CommonProps, EventName} from '../../Common'
 import type {TouchableProps} from '../../Touchable'
 
 export interface ListAffordanceButtonProps extends TouchableProps, CommonProps {
+	backgroundVisible?: boolean
 	icon?: React.JSX.Element
 	labelText?: string
 	loading?: boolean
@@ -23,6 +24,10 @@ export interface ListAffordanceButtonState {
 	eventName?: EventName
 }
 
-export type UseListAffordanceButtonAnimatedOptions = Pick<RenderListAffordanceButtonProps, 'disabled'>
+export type UseListAffordanceButtonAnimatedOptions = Pick<
+	RenderListAffordanceButtonProps,
+	'disabled' | 'backgroundVisible'
+>
+
 export type HandleListAffordanceButtonStateChangeOptions = HandleStateEventChangeOptions
 export type ListAffordanceButtonContainerProps = Pick<RenderListAffordanceButtonProps, 'disabled'>

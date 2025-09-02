@@ -18,7 +18,5 @@ export const handleListAffordanceButtonStateChange =
 	}
 
 export const animateListAffordanceButton =
-	(animateSharedValueTo: AnimateSharedValueTo) =>
-	(colorSharedValue: SharedValue<number>) =>
-	(disabled?: boolean) =>
-		animateSharedValueTo({sharedValue: colorSharedValue})(disabled ? 0 : 1)
+	(animateSharedValueTo: AnimateSharedValueTo) => (colorSharedValue: SharedValue<number>) => (value: number) =>
+		animateSharedValueTo({sharedValue: colorSharedValue})(value)

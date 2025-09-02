@@ -1,13 +1,11 @@
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_TYPE} from '../../Icon'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 import {Container, Danger} from './List-after-affordance.styles'
 
-const AnimatedDanger = Animated.createAnimatedComponent(Danger)
 export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAffordanceProps>(
 	(
 		{
@@ -26,8 +24,9 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 		ref
 	) => {
 		const theme = useTheme()
-		const fill = theme.token.scheme.onPrimary
 		const buttonTabIndex = visible ? 0 : -1
+		const fill = theme.token.scheme.onPrimary
+		const isDangerVisible = !secondaryButtonProps?.disabled
 		const checkIconElement = (
 			<Icon
 				fill={fill}
@@ -50,6 +49,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 			<Container
 				{...containerProps}
 				{...interactionHandlers}
+				disabled={!isDangerVisible}
 				entry={{duration: 0}}
 				lazy={true}
 				ref={ref}
@@ -59,6 +59,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 				<ListAffordanceButton
 					{...(doubleConfirmed && {icon: checkIconElement})}
 					{...{labelText: 'Confirm', ...primaryButtonProps}}
+					backgroundVisible={!isDangerVisible}
 					onPressOut={onConfirm}
 					tabIndex={buttonTabIndex}
 					testID={`listAfterAffordance__listAffordanceButton--confirmed--${id}`}
@@ -67,17 +68,17 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 				<ListAffordanceButton
 					{...(doubleConfirmed && {icon: closeIconElement})}
 					{...{labelText: 'Cancel', ...secondaryButtonProps}}
+					backgroundVisible={false}
 					onPressOut={onCancel}
 					tabIndex={buttonTabIndex}
 					testID={`listAfterAffordance__listAffordanceButton--close--${id}`}
 				/>
 
-				{!secondaryButtonProps?.disabled && (
-					<AnimatedDanger
-						style={[dangerAnimatedStyle]}
-						testID={`listAfterAffordance__animatedDanger--${id}`}
-					/>
-				)}
+				<Danger
+					style={[dangerAnimatedStyle]}
+					testID={`listAfterAffordance__animatedDanger--${id}`}
+					visible={isDangerVisible}
+				/>
 			</Container>
 		)
 	}

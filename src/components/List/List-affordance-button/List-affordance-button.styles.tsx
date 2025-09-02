@@ -45,6 +45,7 @@ export const BackgroundUnderlay = styled(Shape)`
 export const LabelText = styled(Typography)`
 	text-align: center;
 	user-select: none;
+	z-index: 8;
 
 	${({theme}) => css`
 		color: ${theme.token.scheme.onPrimary};

@@ -1,7 +1,8 @@
 import styled, {css} from 'styled-components/native'
-import {LayoutAnimated, type LayoutAnimatedProps} from '../../Layout-animated'
+import {LayoutAnimated} from '../../Layout-animated'
+import type {ListItemAfterAffordanceContainerProps} from './List-after-affordance.interface'
 
-export const Container = styled(LayoutAnimated)<LayoutAnimatedProps>`
+export const Container = styled(LayoutAnimated)<ListItemAfterAffordanceContainerProps>`
 	align-self: stretch;
 	display: flex;
 	flex-direction: row;
@@ -11,9 +12,15 @@ export const Container = styled(LayoutAnimated)<LayoutAnimatedProps>`
 		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 34)}px;
 	`};
+
+	${({theme, disabled}) =>
+		!disabled &&
+		css`
+			background-color: ${theme.token.scheme.primary};
+		`};
 `
 
-export const Danger = styled.View`
+export const Danger = styled(LayoutAnimated)`
 	pointer-events: none;
 	position: absolute;
 	width: 50%;
