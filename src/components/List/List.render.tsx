@@ -6,21 +6,30 @@ import type {RenderListItemOptions, RenderListProps} from './List.interface'
 import {Container} from './List.styles'
 
 export const RenderDefaultListItem: FC<RenderListItemOptions> = ({
+	afterAffordanceSecondaryButtonProps: rawAfterAffordanceSecondaryButtonProps,
 	id,
 	index,
 	item,
 	supportingTextNumberOfLines,
 	...props
-}) => (
-	<ListItem
-		{...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
-		{...item}
-		{...props}
-		indexKey={item?.indexKey ?? `${index}`}
-		itemIndex={index}
-		testID={`list__listItem--${id}`}
-	/>
-)
+}) => {
+	const afterAffordanceSecondaryButtonProps =
+		rawAfterAffordanceSecondaryButtonProps || item.afterAffordanceSecondaryButtonProps ?
+			{...rawAfterAffordanceSecondaryButtonProps, ...item.afterAffordanceSecondaryButtonProps}
+		:	rawAfterAffordanceSecondaryButtonProps
+
+	return (
+		<ListItem
+			{...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
+			{...item}
+			{...props}
+			afterAffordanceSecondaryButtonProps={afterAffordanceSecondaryButtonProps}
+			indexKey={item?.indexKey ?? `${index}`}
+			itemIndex={index}
+			testID={`list__listItem--${id}`}
+		/>
+	)
+}
 
 export const RenderList = forwardRef<ScrollView, RenderListProps>(
 	(

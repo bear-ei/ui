@@ -29,16 +29,16 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseLis
 		]
 	}))
 
-	const runAnimate = useMemo(
+	const runTranslateXAnimate = useMemo(
 		() => animateListAfterAffordance(animateSharedValueTo)(translateXSharedValue),
 		[animateSharedValueTo, translateXSharedValue]
 	)
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
-			runAnimate(doubleConfirmed)
+			runTranslateXAnimate(doubleConfirmed)
 		}
-	}, [runAnimate, doubleConfirmed, status])
+	}, [doubleConfirmed, runTranslateXAnimate, status])
 
 	useEffect(() => () => cancelAnimation(translateXSharedValue), [translateXSharedValue])
 

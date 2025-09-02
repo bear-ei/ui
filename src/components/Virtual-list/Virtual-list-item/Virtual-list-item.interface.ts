@@ -2,9 +2,11 @@ import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ComponentStatus} from '../../Common'
+import type {ListAffordanceButtonProps} from '../../List/List-affordance-button'
 import type {RenderVirtualListProps} from '../Virtual-list.interface'
 
 export interface Item {
+	afterAffordanceSecondaryButtonProps?: ListAffordanceButtonProps
 	dependencies?: string[]
 }
 

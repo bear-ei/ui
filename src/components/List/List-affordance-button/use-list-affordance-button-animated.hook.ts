@@ -16,8 +16,8 @@ export const useListAffordanceButtonAnimated = ({disabled}: UseListAffordanceBut
 	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
 	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
 	const backgroundColorOutputRanges = useMemo(
-		() => [disabledBackgroundColor, hexToRGBA(scheme.primary)(opacity.level0)],
-		[disabledBackgroundColor, opacity.level0, scheme.primary]
+		() => [disabledBackgroundColor, hexToRGBA(scheme.primary)()],
+		[disabledBackgroundColor, scheme.primary]
 	)
 
 	const colorOutputRanges = useMemo(

@@ -72,10 +72,12 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 					testID={`listAfterAffordance__listAffordanceButton--close--${id}`}
 				/>
 
-				<AnimatedDanger
-					style={[dangerAnimatedStyle]}
-					testID={`listAfterAffordance__animatedDanger--${id}`}
-				/>
+				{!secondaryButtonProps?.disabled && (
+					<AnimatedDanger
+						style={[dangerAnimatedStyle]}
+						testID={`listAfterAffordance__animatedDanger--${id}`}
+					/>
+				)}
 			</Container>
 		)
 	}

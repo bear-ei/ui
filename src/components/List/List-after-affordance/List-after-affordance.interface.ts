@@ -5,11 +5,6 @@ import type {InteractionHandlers} from '../../../hooks'
 import type {ComponentStatus} from '../../Common'
 import type {ListItemProps} from '../List-item'
 
-export interface ListItemAfterAffordancePressOutOptions {
-	doubleConfirmed?: boolean
-	indexKey?: string
-}
-
 export interface ListAfterAffordanceProps
 	extends ViewProps,
 		RefAttributes<View>,
@@ -43,10 +38,12 @@ export type UpdateListAffordanceCancelStateOptions = Pick<ListAfterAffordancePro
 	Pick<ListAfterAffordanceState, 'doubleConfirmed' | 'nextCancelEvent'>
 
 export interface UseListAfterAffordanceAnimatedOptions extends Pick<RenderListAfterAffordanceProps, 'doubleConfirmed'> {
+	dangerDisabled?: boolean
 	layoutWidth?: number
 	status: ComponentStatus
 }
 
-export interface ListAfterAffordanceDangerProps {
-	disabled?: boolean
+export interface ListItemAfterAffordancePressOutOptions {
+	doubleConfirmed?: boolean
+	indexKey?: string
 }

@@ -19,7 +19,14 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 			visible: typeof duration === 'number' && duration ? isVisible : false
 		})
 
-		const runUpdateDuration = useMemo(() => updateSkeletonDuration(setState), [setState])
+		const runUpdateDuration = useMemo(
+			() =>
+				createDeferredHandlerWithState(updateSkeletonDuration)(setState)({
+					debounceMillisecond: 50
+				}),
+			[setState]
+		)
+
 		const runClearSkeletonEvent = useMemo(
 			() => createDeferredHandlerWithState(clearSkeletonEvent)(setState)(),
 			[setState]

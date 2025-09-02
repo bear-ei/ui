@@ -33,11 +33,8 @@ export const resetAffordanceConfirmationOnHide = (setState: Updater<ListAfterAff
 	})
 
 export const animateListAfterAffordance =
-	(animateSharedValueTo: AnimateSharedValueTo) =>
-	(translateXSharedValue: SharedValue<number>) =>
-	(doubleConfirmed?: boolean) =>
-		typeof doubleConfirmed === 'boolean' &&
-		animateSharedValueTo({sharedValue: translateXSharedValue})(doubleConfirmed ? 1 : 0)
+	(animateSharedValueTo: AnimateSharedValueTo) => (sharedValue: SharedValue<number>) => (value?: boolean) =>
+		typeof value === 'boolean' && animateSharedValueTo({sharedValue: sharedValue})(value ? 1 : 0)
 
 export const handleAffordanceStateChange =
 	({eventName}: HandleStateEventChangeOptions) =>
