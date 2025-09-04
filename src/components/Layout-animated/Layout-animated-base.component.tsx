@@ -62,7 +62,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		)
 
 		const onAnimationFinished = useMemo(
-			() => finalizeLayoutAnimatedVisibilityChange({onUnmount, unmount})(setState),
+			() =>
+				finalizeLayoutAnimatedVisibilityChange({
+					onUnmount,
+					unmount
+				})(setState),
 			[onUnmount, setState, unmount]
 		)
 
@@ -97,8 +101,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		})
 
 		const runUpdateStatus = useMemo(
-			() => updateLayoutAnimatedStatus({unmount, lazy})(setState),
-			[lazy, setState, unmount]
+			() => debounce(updateLayoutAnimatedStatus({unmount, lazy})(setState))(delay),
+			[delay, lazy, setState, unmount]
 		)
 
 		const runUpdateVisibility = useMemo(

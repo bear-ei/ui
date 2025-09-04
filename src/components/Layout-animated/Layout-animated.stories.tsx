@@ -22,6 +22,7 @@ const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
 				<LayoutAnimated
 					{...props}
 					visible={isVisible}
+					unmount={true}
 				>
 					<View style={innerStyle} />
 				</LayoutAnimated>

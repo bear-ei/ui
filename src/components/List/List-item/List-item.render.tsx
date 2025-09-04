@@ -35,9 +35,9 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	disabled,
 	id,
 	interactionHandlers,
+	onTrailingVisibility,
 	trailing,
 	trailingProps: rawTrailingProps,
-	onTrailingVisibility,
 	trailingTriggerEvent
 }) => {
 	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
