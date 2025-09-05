@@ -1,17 +1,15 @@
 import {validate, ValidationError} from 'class-validator'
-import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS} from '../Common'
 import type {FormItemProps} from './Form-item'
 import type {
 	CreateFormFieldValidatorOptions,
 	FormCallbacks,
-	FormState,
 	InitializeFormStateWithValuesOptions,
 	RegisterFormCallbacksOptions
 } from './Form.interface'
 
 export const initializeFormStateWithValues =
-	<T,>(setInitialValues: (initialized?: boolean) => (values?: T) => void) =>
+	<T,>(setInitialValues: (values?: T) => void) =>
 	({setState, status}: InitializeFormStateWithValuesOptions) =>
 	(values?: T) => {
 		if (status !== COMPONENT_STATUS.IDLE) {
@@ -19,7 +17,7 @@ export const initializeFormStateWithValues =
 		}
 
 		if (values) {
-			setInitialValues()(values)
+			setInitialValues(values)
 		}
 
 		setState(draft => {
@@ -53,17 +51,4 @@ export const createFormFieldValidator = <T,>({rule, validatorOptions}: CreateFor
 				whitelist: isWhitelist
 			}).then(errors => (errors.length ? errors : undefined))
 		:	([] as ValidationError[])
-}
-
-export const clearFormEvent = (setState: Updater<FormState>) => (eventName: 'initial') => {
-	const event = {
-		initial: () =>
-			setState(draft => {
-				draft.nextInitialValuesEvent = undefined
-			})
-	}
-
-	setTimeout(() => {
-		event[eventName]?.()
-	}, 0)
 }

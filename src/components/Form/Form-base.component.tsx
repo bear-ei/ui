@@ -2,14 +2,8 @@ import type {ForwardedRef} from 'react'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
-import {
-	clearFormEvent,
-	extractAndSetFormFieldKeys,
-	initializeFormStateWithValues,
-	registerFormCallbacks
-} from './Form.handler'
+import {extractAndSetFormFieldKeys, initializeFormStateWithValues, registerFormCallbacks} from './Form.handler'
 import type {FormBaseProps, FormState} from './Form.interface'
 import {RenderForm, RenderFormItems} from './Form.render'
 import {useForm} from './use-form.hook'
@@ -27,7 +21,7 @@ const FormBaseInner = <T,>(
 	}: FormBaseProps<T>,
 	ref: ForwardedRef<View>
 ) => {
-	const [{status, nextInitialValuesEvent}, setState] = useImmer<FormState>({status: COMPONENT_STATUS.IDLE})
+	const [{status}, setState] = useImmer<FormState>({status: COMPONENT_STATUS.IDLE})
 	const id = useId()
 	const formStore = useForm(form)
 	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
@@ -38,7 +32,6 @@ const FormBaseInner = <T,>(
 
 	const runRegisterCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
 	const runExtractAndSetFieldKeys = useMemo(() => extractAndSetFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
-	const runClearFormEvent = useMemo(() => createDeferredHandlerWithState(clearFormEvent)(setState)(), [setState])
 	const itemElements = useMemo(
 		() => (
 			<RenderFormItems
@@ -62,10 +55,6 @@ const FormBaseInner = <T,>(
 	useEffect(() => {
 		runInitializeStateWithValues(initialValues)
 	}, [runInitializeStateWithValues, initialValues])
-
-	useEffect(() => {
-		runAfterInteractions(nextInitialValuesEvent)().then(() => runClearFormEvent('initial'))
-	}, [nextInitialValuesEvent, runClearFormEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

@@ -1,5 +1,5 @@
 import type {NamePath} from '../../utils'
-import {debounceAsync, namePath} from '../../utils'
+import {namePath} from '../../utils'
 import {createFormFieldValidator} from './Form.handler'
 import type {
 	FormCallbacks,
@@ -36,7 +36,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		initialValues,
 		signInFieldCompleted: isSignInFieldCompleted,
 		store,
-		validatorOptions
+		validatorOptions: rawValidatorOptions
 	} = createFormContext<T>()
 
 	const getFieldEntities = (signOut = false) => (signOut ? fieldEntities : fieldEntities.filter(({name}) => name))
@@ -141,19 +141,17 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 
 	const setFieldKeys = (keys?: (keyof T)[]) => keys && (fieldKeys = keys)
 	const setFieldsValidate =
-		({delay = 300, ...restValidatorOptions}: FormValidatorOptions = {}) =>
+		(validatorOptions: FormValidatorOptions = {}) =>
 		(validateRule: FormValidateRule<T>) => {
 			if (!isSignInFieldCompleted) {
 				return
 			}
 
 			const createNextValidator = (entity: FormFieldEntity<T>) =>
-				debounceAsync(
-					createFormFieldValidator<T>({
-						rule: validateRule[entity.name],
-						validatorOptions: {...restValidatorOptions, ...validatorOptions}
-					})(entity.name)
-				)(delay)
+				createFormFieldValidator<T>({
+					rule: validateRule[entity.name],
+					validatorOptions: {...validatorOptions, ...rawValidatorOptions}
+				})(entity.name)
 
 			const entities = getFieldEntities()
 			const ruleKeysSet = new Set(Object.keys(validateRule) as (keyof T)[])
@@ -166,7 +164,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 				[] as FormFieldEntity<T>[]
 			)
 
-			validatorOptions ??= restValidatorOptions
+			rawValidatorOptions ??= validatorOptions
 		}
 
 	const setFieldsTouched =
@@ -239,19 +237,12 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			}
 		}
 
-	const setInitialValues =
-		(initialized?: boolean) =>
-		(values = {} as T) => {
-			if (initialized) {
-				return
-			}
-
-			initialValues = {...initialValues, ...values}
-		}
+	const setInitialValues = (values = {} as T) => {
+		initialValues = {...initialValues, ...values}
+	}
 
 	const signInField = (rawEntity: SignInFieldOptions<T>) => {
-		const {name, validatorOptions: rawValidatorOptions, rule} = rawEntity
-		const {delay = 300, ...restValidatorOptions} = rawValidatorOptions ?? {}
+		const {name, validatorOptions, rule} = rawEntity
 
 		if (!name) {
 			return
@@ -264,13 +255,10 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			return
 		}
 
-		const debouncedValidate = debounceAsync(
-			createFormFieldValidator<T>({rule: rule, validatorOptions: restValidatorOptions})(
-				rawEntity.name
-			)
-		)(delay)
-
-		fieldEntities = [...entities, {...rawEntity, validate: debouncedValidate}]
+		fieldEntities = [
+			...entities,
+			{...rawEntity, validate: createFormFieldValidator<T>({rule, validatorOptions})(rawEntity.name)}
+		]
 
 		setFieldsError()({[name]: undefined} as FormErrors<T>)
 		setFieldsValue({componentUpdate: false, enableValidate: false})({[name]: initialValues[name]} as T)

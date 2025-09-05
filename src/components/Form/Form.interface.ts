@@ -54,7 +54,7 @@ export interface FormStore<T = Record<string, unknown>> {
 	setFieldsTouched: (touched?: boolean) => (name?: keyof T) => void
 	setFieldsValidate: (options?: FormValidatorOptions) => (rule: FormValidateRule<T>) => void
 	setFieldsValue: (options?: SetFieldsValueOptions) => (value?: T) => void
-	setInitialValues: (initialized?: boolean) => (values?: T) => void
+	setInitialValues: (values?: T) => void
 	signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
 	signOutFields: (namePaths?: NamePath) => void
 	submit: (enableValidate?: boolean) => void
