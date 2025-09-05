@@ -2,6 +2,7 @@ import type {ValidationError} from 'class-validator'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS} from '../../Common'
 import type {FormErrors} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
@@ -64,8 +65,13 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 			runApplyStatusInitToDraft(name)
 		}, [runApplyStatusInitToDraft, name])
 
-		useEffect(() => nextSignOutEvent, [nextSignOutEvent])
-		useEffect(() => runClearFormItemEvent, [runClearFormItemEvent])
+		useEffect(
+			() => () => {
+				runAfterInteractions(nextSignOutEvent)()
+			},
+			[nextSignOutEvent]
+		)
+		useEffect(() => () => runClearFormItemEvent(), [runClearFormItemEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
