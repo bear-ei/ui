@@ -45,6 +45,8 @@ export const validateFormFieldOnBlur =
 	}
 
 export const clearFormItemEvent = (setState: Updater<FormItemState>) => () =>
-	setState(draft => {
-		draft.nextSignOutEvent = undefined
-	})
+	setTimeout(() => {
+		setState(draft => {
+			draft.nextSignOutEvent = undefined
+		})
+	}, 0)

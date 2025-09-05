@@ -162,5 +162,7 @@ export const clearMenuEvent = (setState: Updater<MenuState>) => (eventName: 'act
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }

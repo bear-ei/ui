@@ -100,5 +100,7 @@ export const clearTooltipEvent = (setState: Updater<TooltipState>) => (eventName
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }

@@ -73,5 +73,7 @@ export const clearSheetEvent = (setState: Updater<SheetState>) => (eventName: 'b
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }

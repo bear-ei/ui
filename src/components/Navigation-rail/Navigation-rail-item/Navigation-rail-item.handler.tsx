@@ -82,5 +82,7 @@ export const clearNavigationRailItemEvent = (setState: Updater<NavigationRailIte
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }

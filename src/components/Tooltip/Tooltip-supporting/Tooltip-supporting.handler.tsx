@@ -218,5 +218,7 @@ export const clearTooltipSupportingEvent = (setState: Updater<TooltipSupportingS
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }

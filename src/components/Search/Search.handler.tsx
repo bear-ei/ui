@@ -118,5 +118,7 @@ export const clearSearchEvent = (setState: Updater<SearchState>) => (eventName: 
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }

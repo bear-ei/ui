@@ -141,5 +141,7 @@ export const clearLayoutAnimatedEvent =
 				})
 		}
 
-		event[eventName]?.()
+		setTimeout(() => {
+			event[eventName]?.()
+		}, 0)
 	}

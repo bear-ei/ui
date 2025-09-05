@@ -36,5 +36,7 @@ export const clearNavigationRailEvent = (setState: Updater<NavigationRailState>)
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }

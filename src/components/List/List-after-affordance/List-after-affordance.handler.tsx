@@ -55,5 +55,7 @@ export const clearAffordanceEvent = (setState: Updater<ListAfterAffordanceState>
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }

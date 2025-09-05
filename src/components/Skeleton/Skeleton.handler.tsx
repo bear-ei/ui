@@ -54,5 +54,7 @@ export const clearSkeletonEvent = (setState: Updater<SkeletonState>) => (eventNa
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }

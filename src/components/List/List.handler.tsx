@@ -176,5 +176,7 @@ export const clearListEvent =
 				})
 		}
 
-		event[eventName]?.()
+		setTimeout(() => {
+			event[eventName]?.()
+		}, 0)
 	}

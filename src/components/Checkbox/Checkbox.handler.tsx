@@ -86,5 +86,7 @@ export const clearCheckboxEvent = (setState: Updater<CheckboxState>) => (eventNa
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }

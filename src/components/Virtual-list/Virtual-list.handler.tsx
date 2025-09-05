@@ -255,5 +255,7 @@ export const clearVirtualListEvent =
 				})
 		}
 
-		event[eventName]?.()
+		setTimeout(() => {
+			event[eventName]?.()
+		}, 0)
 	}

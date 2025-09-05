@@ -250,5 +250,7 @@ export const clearTextInputEvent =
 				})
 		}
 
-		event[eventName]?.()
+		setTimeout(() => {
+			event[eventName]?.()
+		}, 0)
 	}

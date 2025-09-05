@@ -63,5 +63,7 @@ export const clearFormEvent = (setState: Updater<FormState>) => (eventName: 'ini
 			})
 	}
 
-	event[eventName]?.()
+	setTimeout(() => {
+		event[eventName]?.()
+	}, 0)
 }
