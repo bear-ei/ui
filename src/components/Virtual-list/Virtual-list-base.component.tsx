@@ -4,7 +4,7 @@ import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {createDeferredHandlerWithState, debounce, runAfterInteractions, throttle} from '../../utils'
+import {createDeferredHandlerWithState, debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -63,7 +63,7 @@ const VirtualListBaseInner = <T,>(
 	const onEndReached = useMemo(() => debounce(rawOnEndReached)(150), [rawOnEndReached])
 	const onScroll = useMemo(
 		() =>
-			throttle(
+			debounce(
 				updateVirtualListOnScroll({
 					endReachedThreshold,
 					itemSize,
@@ -72,7 +72,7 @@ const VirtualListBaseInner = <T,>(
 					onScroll: rawOnScroll
 				})(setState)
 			)(50),
-		[itemSize, layout, onEndReached, endReachedThreshold, rawOnScroll, setState]
+		[endReachedThreshold, itemSize, layout, onEndReached, rawOnScroll, setState]
 	)
 
 	const onMomentumScrollEnd = useMemo(

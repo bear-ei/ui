@@ -114,7 +114,6 @@ export const updateVirtualListOnScroll = ({
 			:	layoutMeasurement.width * endReachedThreshold
 
 		const isHitBottom = distanceFromEnd <= thresholdDistance
-
 		const nextEndReachedEvent = () => onEndReached?.()
 
 		setState(draft => {
