@@ -2,10 +2,10 @@ import {nanoid} from 'nanoid'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
+import {useClearComponentEvent} from '../../hooks'
+import {runAfterInteractions} from '../../utils'
 import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import {
-	clearSheetEvent,
 	emitSheetModal,
 	emitSheetModalUnmount,
 	setSheetVisibility,
@@ -31,6 +31,8 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 	) => {
 		const [{sheetVisible: isSheetVisible, nextCloseEvent, nextBackEvent, nextCancelEvent}, setState] =
 			useImmer<SheetState>({})
+
+		useClearComponentEvent(setState)
 
 		const emitId = useMemo(() => nanoid(), [])
 		const id = useId()
@@ -62,11 +64,6 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			[emitId, renderProps, type]
 		)
 
-		const runClearSheetEvent = useMemo(
-			() => createDeferredHandlerWithState(clearSheetEvent)(setState)(),
-			[setState]
-		)
-
 		useEffect(() => {
 			runSetVisibility(visible ?? defaultVisible)
 		}, [runSetVisibility, defaultVisible, visible])
@@ -76,16 +73,16 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 		}, [runEmitSheetModal, isSheetVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextCloseEvent)().then(() => runClearSheetEvent('close'))
-		}, [nextCloseEvent, runClearSheetEvent])
+			runAfterInteractions(nextCloseEvent)()
+		}, [nextCloseEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextBackEvent)().then(() => runClearSheetEvent('back'))
-		}, [nextBackEvent, runClearSheetEvent])
+			runAfterInteractions(nextBackEvent)()
+		}, [nextBackEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextCancelEvent)().then(() => runClearSheetEvent('cancel'))
-		}, [nextCancelEvent, runClearSheetEvent])
+			runAfterInteractions(nextCancelEvent)()
+		}, [nextCancelEvent])
 
 		useEffect(() => () => runEmitModalUnmount(type), [runEmitModalUnmount, type])
 

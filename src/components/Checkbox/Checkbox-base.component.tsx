@@ -1,14 +1,18 @@
 import {DURATION} from '@bearei/element-token'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
-import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
+import {
+	useClearComponentEvent,
+	useInteractionStateEvent,
+	type HandleStateEventChangeOptions,
+	type StateEvent
+} from '../../hooks'
+import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {LAYOUT_ANIMATED} from '../Layout-animated'
 import type {PressableType} from '../Touchable'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import {
-	clearCheckboxEvent,
 	handleCheckboxStateChange,
 	updateCheckboxActive,
 	updateCheckboxIndeterminate,
@@ -21,6 +25,8 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 	({active: rawActive, defaultActive, disabled, error, indeterminate, onActive, ...renderCheckboxProps}, ref) => {
 		const [{active: isActive, eventName, status, value, nextActiveEvent}, setState] =
 			useImmer<CheckboxState>({status: COMPONENT_STATUS.IDLE, value: CHECKBOX_VALUE.UNSELECTED})
+
+		useClearComponentEvent(setState)
 
 		const id = useId()
 		const animatedOptions = useMemo(
@@ -58,11 +64,6 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 			[indeterminate, setState]
 		)
 
-		const runClearCheckboxEvent = useMemo(
-			() => createDeferredHandlerWithState(clearCheckboxEvent)(setState)(),
-			[setState]
-		)
-
 		useEffect(() => {
 			runUpdateIndeterminate(indeterminate)
 			runUpdateStatus(indeterminate)
@@ -73,8 +74,8 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 		}, [runUpdateActive, defaultActive, rawActive])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)().then(() => runClearCheckboxEvent('active'))
-		}, [nextActiveEvent, runClearCheckboxEvent])
+			runAfterInteractions(nextActiveEvent)()
+		}, [nextActiveEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

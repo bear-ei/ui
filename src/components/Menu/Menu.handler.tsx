@@ -148,21 +148,3 @@ export const updateMenuVisible = (setState: Updater<MenuState>) => (visible: boo
 		draft.visible = visible
 	})
 }
-
-export const clearMenuEvent = (setState: Updater<MenuState>) => (eventName: 'active' | 'visibility') => {
-	const event = {
-		active: () =>
-			setState(draft => {
-				draft.nextActiveEvent = undefined
-			}),
-
-		visibility: () =>
-			setState(draft => {
-				draft.nextVisibilityEvent = undefined
-			})
-	}
-
-	setTimeout(() => {
-		event[eventName]?.()
-	}, 0)
-}

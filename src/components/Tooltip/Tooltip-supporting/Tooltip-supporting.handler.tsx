@@ -209,16 +209,3 @@ export const animateTooltipSupporting =
 		createExitSharedValueAnimator({sharedValue})(0)
 		createExitSharedValueAnimator({sharedValue: opacitySharedValue})(0)
 	}
-
-export const clearTooltipSupportingEvent = (setState: Updater<TooltipSupportingState>) => (eventName: 'closed') => {
-	const event = {
-		closed: () =>
-			setState(draft => {
-				draft.nextClosedEvent = undefined
-			})
-	}
-
-	setTimeout(() => {
-		event[eventName]?.()
-	}, 0)
-}

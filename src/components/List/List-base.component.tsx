@@ -2,11 +2,11 @@ import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from
 import type {ScrollView} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
+import {useClearComponentEvent} from '../../hooks'
+import {runAfterInteractions} from '../../utils'
 import {LAYOUT} from '../Common'
 import {LIST_TYPE} from './List.enum'
 import {
-	clearListEvent,
 	createListItemRenderer,
 	createListItemSize,
 	triggerListClose,
@@ -70,6 +70,8 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			setState
 		] = useImmer<ListState>({})
 
+		useClearComponentEvent(setState)
+
 		const listRef = useRef<ScrollView>(null)
 		const id = useId()
 		const theme = useTheme()
@@ -88,11 +90,6 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		const runUpdateActiveState = useMemo(
 			() => updateListActiveState({selectType})(setState),
 			[selectType, setState]
-		)
-
-		const runClearListEvent = useMemo(
-			() => createDeferredHandlerWithState(clearListEvent)(setState)(),
-			[setState]
 		)
 
 		const renderItem = useMemo(
@@ -170,24 +167,20 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		}, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActiveState])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)().then(() => runClearListEvent('active'))
-		}, [nextActiveEvent, runClearListEvent])
+			runAfterInteractions(nextActiveEvent)()
+		}, [nextActiveEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextAfterAffordanceActiveEvent)().then(() =>
-				runClearListEvent('afterAffordanceActive')
-			)
-		}, [nextAfterAffordanceActiveEvent, runClearListEvent])
+			runAfterInteractions(nextAfterAffordanceActiveEvent)()
+		}, [nextAfterAffordanceActiveEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextCloseEvent)().then(() => runClearListEvent('close'))
-		}, [nextCloseEvent, runClearListEvent])
+			runAfterInteractions(nextCloseEvent)()
+		}, [nextCloseEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextAfterAffordanceEvent)().then(() =>
-				runClearListEvent('afterAffordance')
-			)
-		}, [nextAfterAffordanceEvent, runClearListEvent])
+			runAfterInteractions(nextAfterAffordanceEvent)()
+		}, [nextAfterAffordanceEvent])
 
 		return (
 			<RenderList

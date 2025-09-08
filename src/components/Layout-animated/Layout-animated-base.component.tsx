@@ -1,12 +1,16 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {createDeferredHandlerWithState, debounce, runAfterInteractions} from '../../utils'
+import {
+	useClearComponentEvent,
+	useInteractionStateEvent,
+	type HandleStateEventChangeOptions,
+	type StateEvent
+} from '../../hooks'
+import {debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type LayoutRectangle, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
-	clearLayoutAnimatedEvent,
 	finalizeLayoutAnimatedVisibilityChange,
 	handleLayoutAnimatedStateChange,
 	updateLayoutAnimatedSize,
@@ -50,6 +54,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			},
 			setState
 		] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE})
+
+		useClearComponentEvent(setState)
 
 		const id = useId()
 		const isLayoutVisible = rawVisible ?? defaultVisible
@@ -110,11 +116,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			[animatedType, delay, onVisibility, setState]
 		)
 
-		const runClearLayoutAnimatedEvent = useMemo(
-			() => createDeferredHandlerWithState(clearLayoutAnimatedEvent)(setState)(),
-			[setState]
-		)
-
 		useEffect(() => {
 			runUpdateStatus(isLayoutVisible)
 		}, [runUpdateStatus, isLayoutVisible])
@@ -124,14 +125,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		}, [isLayoutVisible, runUpdateVisibility])
 
 		useEffect(() => {
-			runAfterInteractions(nextUnmountEvent)().then(() => runClearLayoutAnimatedEvent('unmount'))
-		}, [nextUnmountEvent, runClearLayoutAnimatedEvent])
+			runAfterInteractions(nextUnmountEvent)()
+		}, [nextUnmountEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibilityEvent)().then(() =>
-				runClearLayoutAnimatedEvent('visibility')
-			)
-		}, [nextVisibilityEvent, runClearLayoutAnimatedEvent])
+			runAfterInteractions(nextVisibilityEvent)()
+		}, [nextVisibilityEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

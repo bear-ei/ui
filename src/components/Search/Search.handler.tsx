@@ -105,20 +105,3 @@ export const animateSearch =
 	(colorSharedValue: SharedValue<number>) =>
 	(disabled?: boolean) =>
 		animateSharedValueTo({sharedValue: colorSharedValue})(disabled ? 0 : 1)
-
-export const clearSearchEvent = (setState: Updater<SearchState>) => (eventName: 'changeText' | 'pressOut') => {
-	const event = {
-		changeText: () =>
-			setState(draft => {
-				draft.nextChangeTextEvent = undefined
-			}),
-		pressOut: () =>
-			setState(draft => {
-				draft.nextPressOutEvent = undefined
-			})
-	}
-
-	setTimeout(() => {
-		event[eventName]?.()
-	}, 0)
-}

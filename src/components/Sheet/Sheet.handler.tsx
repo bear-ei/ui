@@ -56,24 +56,3 @@ export const emitSheetModalUnmount = (id: string) => (type: SheetType) => {
 		})
 	}
 }
-
-export const clearSheetEvent = (setState: Updater<SheetState>) => (eventName: 'back' | 'cancel' | 'close') => {
-	const event = {
-		back: () =>
-			setState(draft => {
-				draft.nextBackEvent = undefined
-			}),
-		cancel: () =>
-			setState(draft => {
-				draft.nextCancelEvent = undefined
-			}),
-		close: () =>
-			setState(draft => {
-				draft.nextCloseEvent = undefined
-			})
-	}
-
-	setTimeout(() => {
-		event[eventName]?.()
-	}, 0)
-}

@@ -46,16 +46,3 @@ export const handleAffordanceStateChange =
 				draft.status = COMPONENT_STATUS.SUCCEEDED
 			}
 		})
-
-export const clearAffordanceEvent = (setState: Updater<ListAfterAffordanceState>) => (eventName: 'cancel') => {
-	const event = {
-		cancel: () =>
-			setState(draft => {
-				draft.nextCancelEvent = undefined
-			})
-	}
-
-	setTimeout(() => {
-		event[eventName]?.()
-	}, 0)
-}

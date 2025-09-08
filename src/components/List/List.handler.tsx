@@ -153,30 +153,3 @@ export const createListItemRenderer =
 				{...options}
 				{...props}
 			/>
-
-export const clearListEvent =
-	(setState: Updater<ListState>) =>
-	(eventName: 'active' | 'afterAffordanceActive' | 'afterAffordance' | 'close') => {
-		const event = {
-			active: () =>
-				setState(draft => {
-					draft.nextActiveEvent = undefined
-				}),
-			afterAffordanceActive: () =>
-				setState(draft => {
-					draft.nextAfterAffordanceActiveEvent = undefined
-				}),
-			afterAffordance: () =>
-				setState(draft => {
-					draft.nextAfterAffordanceEvent = undefined
-				}),
-			close: () =>
-				setState(draft => {
-					draft.nextCloseEvent = undefined
-				})
-		}
-
-		setTimeout(() => {
-			event[eventName]?.()
-		}, 0)
-	}

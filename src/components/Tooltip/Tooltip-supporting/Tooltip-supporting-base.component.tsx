@@ -3,16 +3,16 @@ import type {LayoutRectangle, View} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {
+	useClearComponentEvent,
 	useInteractionStateEvent,
 	useWindowDimensions,
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../../hooks'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
+import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {
-	clearTooltipSupportingEvent,
 	getTooltipSupportingPosition,
 	handleMaskPressOut,
 	handleTooltipSupportingStateChange,
@@ -44,6 +44,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 				menuPosition: {},
 				status: COMPONENT_STATUS.IDLE
 			})
+
+		useClearComponentEvent(setState)
 
 		const {width: windowWidth, height: windowHeight} = useWindowDimensions()
 		const containerRef = useRef<View>()
@@ -98,11 +100,6 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			[containerLayout, setState, supportingPosition, theme, type]
 		)
 
-		const runClearTooltipSupportingEvent = useMemo(
-			() => createDeferredHandlerWithState(clearTooltipSupportingEvent)(setState)(),
-			[setState]
-		)
-
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
 		useEffect(() => {
@@ -114,8 +111,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		}, [isVisible, layout, runUpdatePosition, windowHeight, windowWidth])
 
 		useEffect(() => {
-			runAfterInteractions(nextClosedEvent)().then(() => runClearTooltipSupportingEvent('closed'))
-		}, [nextClosedEvent, runClearTooltipSupportingEvent])
+			runAfterInteractions(nextClosedEvent)()
+		}, [nextClosedEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

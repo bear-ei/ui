@@ -45,16 +45,3 @@ export const animateSkeleton =
 
 		cancelAnimation(opacitySharedValue)
 	}
-
-export const clearSkeletonEvent = (setState: Updater<SkeletonState>) => (eventName: 'visibility') => {
-	const event = {
-		visibility: () =>
-			setState(draft => {
-				draft.nextSkeletonVisibilityEvent = undefined
-			})
-	}
-
-	setTimeout(() => {
-		event[eventName]?.()
-	}, 0)
-}

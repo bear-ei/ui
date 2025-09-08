@@ -2,11 +2,10 @@ import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo,
 import type {TextInput, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useInteractionStateEvent} from '../../hooks'
+import {useClearComponentEvent, useInteractionStateEvent} from '../../hooks'
 import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {
-	clearSearchEvent,
 	createSearchLayoutMeasureHandler,
 	handleSearchInputStateChange,
 	updateSearchInputValue,
@@ -56,6 +55,8 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			value: ''
 		})
 
+		useClearComponentEvent(setState)
+
 		const {data} = useMemo(() => listProps ?? {}, [listProps])
 		const containerRef = useRef<View>(null)
 		const id = useId()
@@ -84,7 +85,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			[setState]
 		)
 
-		const runClearSearchEvent = useMemo(() => clearSearchEvent(setState), [setState])
 		const {contentAnimatedStyle, inputAnimatedStyle} = useSearchAnimated({
 			disabled
 		})
@@ -108,12 +108,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		}, [runLayoutMeasureHandler, isListVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextChangeTextEvent)().then(() => runClearSearchEvent('changeText'))
-		}, [nextChangeTextEvent, runClearSearchEvent])
+			runAfterInteractions(nextChangeTextEvent)()
+		}, [nextChangeTextEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)().then(() => runClearSearchEvent('pressOut'))
-		}, [nextPressOutEvent, runClearSearchEvent])
+			runAfterInteractions(nextPressOutEvent)()
+		}, [nextPressOutEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return

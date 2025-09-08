@@ -1,12 +1,16 @@
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {
+	useClearComponentEvent,
+	useInteractionStateEvent,
+	type HandleStateEventChangeOptions,
+	type StateEvent
+} from '../../hooks'
 import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import type {State} from '../Common'
 import {TOOLTIP_TYPE} from './Tooltip.enum'
 import {
-	clearTooltipEvent,
 	emitTooltipSupporting,
 	handleTooltipStateChange,
 	unmountTooltipSupporting,
@@ -35,6 +39,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 	) => {
 		const [{tooltipVisible: isTooltipVisible, nextVisibilityEvent, menuContainerLayout}, setState] =
 			useImmer<TooltipState>({})
+
+		useClearComponentEvent(setState)
 
 		const containerRef = useRef<View>(null)
 		const id = useId()
@@ -92,11 +98,6 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			[rawOnVisible, setState]
 		)
 
-		const runClearTooltipEvent = useMemo(
-			() => createDeferredHandlerWithState(clearTooltipEvent)(setState)(),
-			[setState]
-		)
-
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
 		useEffect(() => {
@@ -116,8 +117,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		}, [runUpdateVisible, visible, defaultVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibilityEvent)().then(() => runClearTooltipEvent('visibility'))
-		}, [nextVisibilityEvent, runClearTooltipEvent])
+			runAfterInteractions(nextVisibilityEvent)()
+		}, [nextVisibilityEvent])
 
 		useEffect(() => () => runUnmount(), [runUnmount])
 

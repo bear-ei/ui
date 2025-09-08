@@ -1,4 +1,5 @@
 export * from './use-animated-timing'
+export * from './use-clear-component-event'
 export * from './use-desktop-scroll-event'
 export * from './use-interaction-state-event'
 export * from './use-lazy-ref'

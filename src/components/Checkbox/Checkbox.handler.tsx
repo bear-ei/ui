@@ -32,12 +32,12 @@ const applyCheckboxActiveStateToDraft =
 		const activeValue = indeterminate ? CHECKBOX_VALUE.INDETERMINATE : CHECKBOX_VALUE.SELECTED
 		const nextValue = active ? activeValue : CHECKBOX_VALUE.UNSELECTED
 
+		draft.active = active
+		draft.value = nextValue
+
 		if (draft.active !== active) {
 			draft.nextActiveEvent = nextActiveEvent
 		}
-
-		draft.active = active
-		draft.value = nextValue
 	}
 
 export const updateCheckboxActive =
@@ -77,16 +77,3 @@ export const updateCheckboxIndeterminate = (setState: Updater<CheckboxState>) =>
 
 		draft.value = draft.active ? CHECKBOX_VALUE.SELECTED : CHECKBOX_VALUE.UNSELECTED
 	})
-
-export const clearCheckboxEvent = (setState: Updater<CheckboxState>) => (eventName: 'active') => {
-	const event = {
-		active: () =>
-			setState(draft => {
-				draft.nextActiveEvent = undefined
-			})
-	}
-
-	setTimeout(() => {
-		event[eventName]?.()
-	}, 0)
-}

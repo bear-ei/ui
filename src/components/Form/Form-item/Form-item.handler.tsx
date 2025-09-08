@@ -19,7 +19,7 @@ export const applyFormItemStatusInitToDraft =
 				return
 			}
 
-			draft.nextSignOutEvent = signOut
+			draft.signOutEvent = signOut
 			draft.status = COMPONENT_STATUS.SUCCEEDED
 		})
 	}
@@ -43,11 +43,3 @@ export const validateFormFieldOnBlur =
 			validateFields(name)
 		}
 	}
-
-export const clearFormItemEvent = (setState: Updater<FormItemState>) => () => {
-	setTimeout(() => {
-		setState(draft => {
-			draft.nextSignOutEvent = undefined
-		})
-	}, 0)
-}

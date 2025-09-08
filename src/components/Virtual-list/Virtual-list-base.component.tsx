@@ -3,13 +3,12 @@ import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo}
 import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {createDeferredHandlerWithState, debounce, runAfterInteractions} from '../../utils'
+import {useClearComponentEvent, useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
+import {debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
 	checkVirtualListLoadEnd,
-	clearVirtualListEvent,
 	handleVirtualListStateChange,
 	triggerVirtualListMomentumScrollEnd,
 	unmountVirtualList,
@@ -57,6 +56,8 @@ const VirtualListBaseInner = <T,>(
 		},
 		setState
 	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE, startIndex: 0})
+
+	useClearComponentEvent(setState)
 
 	const id = useId()
 	const contentSize = (virtualListData ?? data ?? []).length * (itemSize + gap) - gap
@@ -120,11 +121,6 @@ const VirtualListBaseInner = <T,>(
 	)
 
 	const runUpdateData = useMemo(() => updateVirtualListData(setState), [setState])
-	const runClearVirtualListEvent = useMemo(
-		() => createDeferredHandlerWithState(clearVirtualListEvent)(setState)(),
-		[setState]
-	)
-
 	const itemElements = useMemo(
 		() => (
 			<RenderVirtualListItem
@@ -164,20 +160,20 @@ const VirtualListBaseInner = <T,>(
 	}, [runUpdateVisibilityRangeData, virtualListData])
 
 	useEffect(() => {
-		runAfterInteractions(nextScrollEvent)().then(() => runClearVirtualListEvent('scroll'))
-	}, [nextScrollEvent, runClearVirtualListEvent])
+		runAfterInteractions(nextScrollEvent)()
+	}, [nextScrollEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextEndReachedEvent)().then(() => runClearVirtualListEvent('endReached'))
-	}, [nextEndReachedEvent, runClearVirtualListEvent])
+		runAfterInteractions(nextEndReachedEvent)()
+	}, [nextEndReachedEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextCloseEvent)().then(() => runClearVirtualListEvent('close'))
-	}, [nextCloseEvent, runClearVirtualListEvent])
+		runAfterInteractions(nextCloseEvent)()
+	}, [nextCloseEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextLoadEndEvent)().then(() => runClearVirtualListEvent('loadEnd'))
-	}, [nextLoadEndEvent, runClearVirtualListEvent])
+		runAfterInteractions(nextLoadEndEvent)()
+	}, [nextLoadEndEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

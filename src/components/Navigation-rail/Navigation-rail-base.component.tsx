@@ -2,16 +2,13 @@ import {SIZE} from '@bearei/element-token'
 import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
+import {useClearComponentEvent} from '../../hooks'
+import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
 import type {FABProps} from '../FAB'
 import type {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
-import {
-	clearNavigationRailEvent,
-	updateNavigationRailActiveKey,
-	updateNavigationRailData
-} from './Navigation-rail.handler'
+import {updateNavigationRailActiveKey, updateNavigationRailData} from './Navigation-rail.handler'
 import {RenderNavigationRail, RenderNavigationRailItems} from './Navigation-rail.render'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
@@ -34,6 +31,8 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 			status: COMPONENT_STATUS.IDLE
 		})
 
+		useClearComponentEvent(setState)
+
 		const id = useId()
 		const onActive = useMemo(
 			() => updateNavigationRailActiveKey(rawOnActive)(setState),
@@ -42,11 +41,6 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 
 		const runUpdateData = useMemo(() => updateNavigationRailData(setState), [setState])
 		const runUpdateActiveKey = useMemo(() => updateNavigationRailActiveKey()(setState), [setState])
-		const runClearNavigationRailEvent = useMemo(
-			() => createDeferredHandlerWithState(clearNavigationRailEvent)(setState)(),
-			[setState]
-		)
-
 		const itemElements = useMemo(
 			() => (
 				<RenderNavigationRailItems
@@ -82,8 +76,8 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		}, [runUpdateData, rawData])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)().then(() => runClearNavigationRailEvent('active'))
-		}, [nextActiveEvent, runClearNavigationRailEvent])
+			runAfterInteractions(nextActiveEvent)()
+		}, [nextActiveEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

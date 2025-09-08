@@ -1,11 +1,15 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
+import {
+	useClearComponentEvent,
+	useInteractionStateEvent,
+	type HandleStateEventChangeOptions,
+	type StateEvent
+} from '../../../hooks'
+import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {
-	clearAffordanceEvent,
 	handleAffordanceStateChange,
 	resetAffordanceConfirmationOnHide,
 	triggerListAfterAffordanceConfirm,
@@ -22,6 +26,8 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 	) => {
 		const [{doubleConfirmed: isDoubleConfirmed, nextCancelEvent, status}, setState] =
 			useImmer<ListAfterAffordanceState>({status: COMPONENT_STATUS.IDLE})
+
+		useClearComponentEvent(setState)
 
 		const id = useId()
 		const onStateEventChange = useCallback(
@@ -65,18 +71,13 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 			[setState]
 		)
 
-		const runClearAffordanceEvent = useMemo(
-			() => createDeferredHandlerWithState(clearAffordanceEvent)(setState)(),
-			[setState]
-		)
-
 		useEffect(() => {
 			runResetConfirmationOnHide(visible)
 		}, [runResetConfirmationOnHide, visible])
 
 		useEffect(() => {
-			runAfterInteractions(nextCancelEvent)().then(() => runClearAffordanceEvent('cancel'))
-		}, [nextCancelEvent, runClearAffordanceEvent])
+			runAfterInteractions(nextCancelEvent)()
+		}, [nextCancelEvent])
 
 		return (
 			<RenderListAfterAffordance

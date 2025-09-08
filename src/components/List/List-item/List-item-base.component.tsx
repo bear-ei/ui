@@ -1,11 +1,15 @@
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {useImmer} from 'use-immer'
-import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
+import {
+	useClearComponentEvent,
+	useInteractionStateEvent,
+	type HandleStateEventChangeOptions,
+	type StateEvent
+} from '../../../hooks'
 import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
-	clearListItemEvent,
 	confirmListItemAffordanceAction,
 	handleListItemStateChange,
 	maybeTriggerListItemClose,
@@ -62,6 +66,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			},
 			setState
 		] = useImmer<ListItemState>({status: COMPONENT_STATUS.IDLE, afterAffordanceExpanded: false})
+
+		useClearComponentEvent(setState)
 
 		const id = useId()
 		const pressableRef = useRef<ListItemRef>(null)
@@ -152,11 +158,6 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			[setState]
 		)
 
-		const runClearListItemEvent = useMemo(
-			() => createDeferredHandlerWithState(clearListItemEvent)(setState)(),
-			[setState]
-		)
-
 		const trailingElement = useMemo(
 			() =>
 				[closeTrailing, afterAffordance, trailing].some(Boolean) ?
@@ -215,16 +216,16 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		}, [runUpdateFocusState, focusedIndex])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressInEvent)().then(() => runClearListItemEvent('pressIn'))
-		}, [nextPressInEvent, runClearListItemEvent])
+			runAfterInteractions(nextPressInEvent)()
+		}, [nextPressInEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)().then(() => runClearListItemEvent('pressOut'))
-		}, [nextPressOutEvent, runClearListItemEvent])
+			runAfterInteractions(nextPressOutEvent)()
+		}, [nextPressOutEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextLayoutEvent)().then(() => runClearListItemEvent('layout'))
-		}, [nextLayoutEvent, runClearListItemEvent])
+			runAfterInteractions(nextLayoutEvent)()
+		}, [nextLayoutEvent])
 
 		return (
 			<RenderListItem

@@ -1,13 +1,13 @@
 import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
-import {useInteractionStateEvent} from '../../../hooks'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
+import {useClearComponentEvent, useInteractionStateEvent} from '../../../hooks'
+import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {Icon, ICON_NAME, ICON_TYPE, type IconProps} from '../../Icon'
 import type {PressableType} from '../../Touchable'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
-import {clearNavigationRailItemEvent, handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
+import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
 import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
 import {RenderNavigationRailItem} from './Navigation-rail-item.render'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
@@ -28,6 +28,8 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
 		const [{eventName, status, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({
 			status: COMPONENT_STATUS.IDLE
 		})
+
+		useClearComponentEvent(setState)
 
 		const id = useId()
 		const pressableRef = useRef<PressableType>(null)
@@ -73,18 +75,11 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
 			[icon, id, isActive]
 		)
 
-		const runClearNavigationRailItemEvent = useMemo(
-			() => createDeferredHandlerWithState(clearNavigationRailItemEvent)(setState)(),
-			[setState]
-		)
-
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)().then(() =>
-				runClearNavigationRailItemEvent('pressOut')
-			)
-		}, [nextPressOutEvent, runClearNavigationRailItemEvent])
+			runAfterInteractions(nextPressOutEvent)()
+		}, [nextPressOutEvent])
 
 		return (
 			<RenderNavigationRailItem

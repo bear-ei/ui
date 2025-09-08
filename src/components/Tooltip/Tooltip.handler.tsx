@@ -91,16 +91,3 @@ export const unmountTooltipSupporting = (id?: string) => () => {
 		unmount: true
 	})
 }
-
-export const clearTooltipEvent = (setState: Updater<TooltipState>) => (eventName: 'visibility') => {
-	const event = {
-		visibility: () =>
-			setState(draft => {
-				draft.nextVisibilityEvent = undefined
-			})
-	}
-
-	setTimeout(() => {
-		event[eventName]?.()
-	}, 0)
-}

@@ -2,13 +2,12 @@ import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo,
 import type {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useInteractionStateEvent} from '../../hooks'
+import {useClearComponentEvent, useInteractionStateEvent} from '../../hooks'
 import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
 	blurTextInputIfEditable,
-	clearTextInputEvent,
 	createUpdateTextInputContentSize,
 	focusTextInput,
 	handleTextInputStateChange,
@@ -70,6 +69,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			status: COMPONENT_STATUS.IDLE,
 			value: ''
 		})
+
+		useClearComponentEvent(setState)
 
 		const id = useId()
 		const textInputRef = useRef<TextInput>(null)
@@ -139,11 +140,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		)
 
 		const runBlurIfEditable = useMemo(() => blurTextInputIfEditable(textInputRef), [textInputRef])
-		const runClearTextInputEvent = useMemo(
-			() => createDeferredHandlerWithState(clearTextInputEvent)(setState)(),
-			[setState]
-		)
-
 		const runUpdateValue = useMemo(() => updateTextInputValue(setState), [setState])
 
 		useEffect(() => {
@@ -159,30 +155,24 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		}, [runUpdateValue, defaultValue, rawValue])
 
 		useEffect(() => {
-			runAfterInteractions(nextChangeTextEvent)().then(() => runClearTextInputEvent('changeText'))
-		}, [nextChangeTextEvent, runClearTextInputEvent])
+			runAfterInteractions(nextChangeTextEvent)()
+		}, [nextChangeTextEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextContentSizeChangeEvent)().then(() =>
-				runClearTextInputEvent('contentSizeChange')
-			)
-		}, [nextContentSizeChangeEvent, runClearTextInputEvent])
+			runAfterInteractions(nextContentSizeChangeEvent)()
+		}, [nextContentSizeChangeEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextSupportingTextVisibilityEvent)().then(() =>
-				runClearTextInputEvent('supportingTextVisibility')
-			)
-		}, [nextSupportingTextVisibilityEvent, runClearTextInputEvent])
+			runAfterInteractions(nextSupportingTextVisibilityEvent)()
+		}, [nextSupportingTextVisibilityEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)().then(() => runClearTextInputEvent('pressOut'))
-		}, [nextPressOutEvent, runClearTextInputEvent])
+			runAfterInteractions(nextPressOutEvent)()
+		}, [nextPressOutEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextSupportingTextCloseEvent)().then(() =>
-				runClearTextInputEvent('supportingTextClose')
-			)
-		}, [nextSupportingTextCloseEvent, runClearTextInputEvent])
+			runAfterInteractions(nextSupportingTextCloseEvent)()
+		}, [nextSupportingTextCloseEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

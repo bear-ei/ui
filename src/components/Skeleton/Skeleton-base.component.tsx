@@ -1,8 +1,9 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+import {useClearComponentEvent} from '../../hooks'
 import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
-import {clearSkeletonEvent, updateSkeletonDuration} from './Skeleton.handler'
+import {updateSkeletonDuration} from './Skeleton.handler'
 import type {SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {RenderSkeleton} from './Skeleton.render'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
@@ -12,6 +13,8 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 		const [{visible: isVisible, nextSkeletonVisibilityEvent}, setState] = useImmer<SkeletonState>({
 			visible: true
 		})
+
+		useClearComponentEvent(setState)
 
 		const id = useId()
 		const {containerAnimatedStyle} = useSkeletonAnimated({
@@ -27,20 +30,13 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 			[setState]
 		)
 
-		const runClearSkeletonEvent = useMemo(
-			() => createDeferredHandlerWithState(clearSkeletonEvent)(setState)(),
-			[setState]
-		)
-
 		useEffect(() => {
 			runUpdateDuration(duration)
 		}, [duration, runUpdateDuration])
 
 		useEffect(() => {
-			runAfterInteractions(nextSkeletonVisibilityEvent)().then(() =>
-				runClearSkeletonEvent('visibility')
-			)
-		}, [nextSkeletonVisibilityEvent, runClearSkeletonEvent])
+			runAfterInteractions(nextSkeletonVisibilityEvent)()
+		}, [nextSkeletonVisibilityEvent])
 
 		return (
 			<RenderSkeleton

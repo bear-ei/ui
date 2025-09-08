@@ -27,16 +27,3 @@ export const updateNavigationRailData = (setState: Updater<NavigationRailState>)
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 }
-
-export const clearNavigationRailEvent = (setState: Updater<NavigationRailState>) => (eventName: 'active') => {
-	const event = {
-		active: () =>
-			setState(draft => {
-				draft.nextActiveEvent = undefined
-			})
-	}
-
-	setTimeout(() => {
-		event[eventName]?.()
-	}, 0)
-}
