@@ -107,8 +107,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		})
 
 		const runUpdateStatus = useMemo(
-			() => debounce(updateLayoutAnimatedStatus({unmount, lazy})(setState))(delay),
-			[delay, lazy, setState, unmount]
+			() => updateLayoutAnimatedStatus({unmount, lazy})(setState),
+			[lazy, setState, unmount]
 		)
 
 		const runUpdateVisibility = useMemo(
