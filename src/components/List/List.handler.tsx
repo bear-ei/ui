@@ -64,19 +64,21 @@ export const updateListActiveState = ({
 	return (setState: Updater<ListState>) => (activeKeys?: string | string[]) =>
 		selectType &&
 		setState(draft => {
+			const preActiveKey = draft.activeKey
+			const preActiveKeys = draft.activeKeys
 			const callbackValue =
 				selectType === LIST_SELECT_TYPE.SINGLE ?
 					updateListActiveKey(draft)(activeKeys)
 				:	updateListActiveKeys(draft)(activeKeys ?? [])
 
-			if (selectType === LIST_SELECT_TYPE.SINGLE && draft.activeKey !== callbackValue) {
+			if (selectType === LIST_SELECT_TYPE.SINGLE && preActiveKey !== callbackValue) {
 				draft.nextActiveEvent = createNextActiveEvent(callbackValue)
 
 				return
 			}
 
 			const isAreArraysEqual =
-				Array.isArray(callbackValue) && arrayEqual([...(draft.activeKeys ?? [])])(callbackValue)
+				Array.isArray(callbackValue) && arrayEqual([...(preActiveKeys ?? [])])(callbackValue)
 
 			if (selectType === LIST_SELECT_TYPE.MULTIPLE && !isAreArraysEqual) {
 				draft.nextActiveEvent = createNextActiveEvent(callbackValue)
@@ -87,12 +89,20 @@ export const updateListActiveState = ({
 export const createListItemSize =
 	({density, type}: CreateListItemSizeOptions) =>
 	(theme: DefaultTheme) =>
-	(itemSize?: number) =>
-		itemSize ??
-		theme.adaptSize(
-			theme.token.spacing.extraSmall * (type === LIST_TYPE.STANDARD ? 14 : 12) +
-				getScaledSpacing(density)(theme) * theme.token.spacing.extraSmall
-		)
+	(itemSize?: number) => {
+		if (itemSize) {
+			return itemSize
+		}
+
+		const densityScale = getScaledSpacing(density)(theme) * theme.token.spacing.extraSmall
+		const typeItemSize = {
+			[LIST_TYPE.STANDARD]: theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale),
+			[LIST_TYPE.MENU]: theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale),
+			[LIST_TYPE.LABEL]: theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)
+		}
+
+		return type ? typeItemSize[type] : theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)
+	}
 
 export const updateListAffordanceActiveState =
 	({onActive, selectType}: UpdateListActiveStateOptions) =>

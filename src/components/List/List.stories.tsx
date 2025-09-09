@@ -247,6 +247,34 @@ export const Horizontal = () => {
 	)
 }
 
+export const Label: StoryObj<ListProps> = {
+	args: {
+		defaultActiveKey: 'TitleB',
+		activeKey: 'TitleA',
+		type: LIST_TYPE.LABEL,
+		closeTrailing: true,
+		trailingTriggerEvent: 'HOVER',
+		data: [
+			{
+				indexKey: 'TitleA',
+				headline: 'TitleA'
+			},
+			{
+				indexKey: 'TitleB',
+				headline: 'TitleB'
+			},
+			{
+				indexKey: 'TitleC',
+				headline: 'TitleC'
+			},
+			{
+				indexKey: 'TitleD',
+				headline: 'TitleD'
+			}
+		]
+	}
+}
+
 export default {
 	title: 'components/List',
 	component: List

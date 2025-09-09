@@ -87,11 +87,13 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 				:	<IconButton
 						{...trailingProps}
 						testID={`listItem__trailingIconButton--${id}`}
+						density={-5}
 						icon={
 							<Icon
 								name={ICON_NAME.CLOSE}
 								testID={`listItem__trailingIconClose--${id}`}
 								type={ICON_TYPE.OUTLINED}
+								density={-1}
 							/>
 						}
 					/>,
@@ -151,7 +153,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 		const theme = useTheme()
 		const activeColor = theme.token.scheme.secondaryContainer
 		const isSupportingTextShow = !!supporting
-		const isTrailingShow = !!trailingElement
+		const isTrailingShow = !!trailingElement && trailingVisible
 		const isUnmountTrailing = trailingTriggerEvent === TRIGGER_EVENT.HOVER
 		const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
 		const underlayProps = useMemo(
@@ -248,7 +250,14 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 											<AnimatedHeadlineText
 												ellipsizeMode='tail'
 												numberOfLines={1}
-												size={SIZE.LARGE}
+												size={
+													(
+														type ===
+														LIST_TYPE.LABEL
+													) ?
+														SIZE.MEDIUM
+													:	SIZE.LARGE
+												}
 												style={[
 													headlineTextAnimatedStyle
 												]}
@@ -299,7 +308,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 											lazy={closeTrailing}
 											testID={`listItem__trailing--${id}`}
 											unmount={isUnmountTrailing}
-											visible={trailingVisible}
+											visible={true}
 										>
 											{trailingElement}
 										</Trailing>

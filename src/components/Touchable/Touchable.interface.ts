@@ -17,7 +17,6 @@ export interface TouchableProps
 	disabled?: boolean
 	elevationUnderlay?: React.JSX.Element
 	enableTouchableRipple?: boolean
-	hotZone?: boolean
 	style?: StyleProp<ViewStyle>
 	underlayColor?: string
 }
@@ -46,7 +45,7 @@ export interface HandleTouchableStateChangeOptions
 	ref: React.RefObject<PressableType>
 }
 
-export type TouchableContentProps = Pick<RenderTouchableProps, 'hotZone'> & RefAttributes<PressableType>
+export type TouchableContentProps = RefAttributes<PressableType>
 export interface TouchableMainProps {
 	alignSelf?: ViewStyle['alignSelf']
 }

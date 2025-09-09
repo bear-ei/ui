@@ -53,6 +53,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 			active,
 			backgroundUnderlayAnimatedStyle,
 			defaultActive,
+			density,
 			disabled,
 			eventName,
 			iconElement,
@@ -86,6 +87,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				accessibilityRole='button'
 				accessibilityState={{disabled}}
 				accessible={true}
+				density={density}
 				loading={loading}
 				tabIndex={-1}
 				testID={testID ?? `iconButton--${id}`}
@@ -123,6 +125,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 						underlayColor={underlayColor}
 					>
 						<Content
+							density={density}
 							shape={shape}
 							size={size}
 							testID={`iconButton__content--${id}`}

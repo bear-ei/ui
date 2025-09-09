@@ -8,8 +8,8 @@ export const SkeletonContainer = styled.View<SkeletonContainerProps>`
 	flex: 1;
 
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.large)}px;
+		min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
 	`}
 
 	${({layoutType = LAYOUT.HORIZONTAL}) =>

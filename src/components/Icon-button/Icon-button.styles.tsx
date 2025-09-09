@@ -8,10 +8,14 @@ export const Container = styled.View<IconButtonContainerProps>`
 	cursor: pointer;
 	position: relative;
 
-	${({theme}) => css`
-		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-	`}
+	${({theme, density}) => {
+		const densityScale = getScaledSpacing(density)(theme)
+
+		return css`
+			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+			width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+		`
+	}}
 
 	${({loading}) => css`
 		pointer-events: ${loading ? 'none' : 'auto'};
@@ -50,6 +54,11 @@ export const Content = styled(Shape)<IconButtonContentProps>`
 			width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
 		`
 	}}
+
+	${({theme, size}) => css`
+		min-height: ${size ?? theme.adaptSize(theme.token.spacing.large)}px;
+		min-width: ${size ?? theme.adaptSize(theme.token.spacing.large)}px;
+	`}
 `
 
 export const BackgroundUnderlay = styled(Shape)`

@@ -15,13 +15,6 @@ export const Touchable = styled.Pressable<TouchableContentProps>`
 	flex: 1;
 	justify-content: center;
 	outline-style: none;
-
-	${({theme, hotZone = true}) =>
-		hotZone &&
-		css`
-			min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-			min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		`}
 `
 
 export const Main = styled(Shape)<TouchableMainProps>`
