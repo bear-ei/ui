@@ -54,9 +54,15 @@ export const createUpdateTextInputContentSize =
 		const nextContentSizeChangeEvent = () => onContentSizeChange?.(event)
 
 		setState(draft => {
+			if (
+				draft.contentSize.height !== contentSize.height ||
+				draft.contentSize.width !== contentSize.width
+			) {
+				draft.nextContentSizeChangeEvent = nextContentSizeChangeEvent
+			}
+
 			draft.contentSize.height = contentSize.height
 			draft.contentSize.width = contentSize.width
-			draft.nextContentSizeChangeEvent = nextContentSizeChangeEvent
 		})
 	}
 

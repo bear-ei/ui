@@ -1,7 +1,7 @@
 import type {WritableDraft} from 'immer'
 import type {DefaultTheme} from 'styled-components/native'
 import type {Updater} from 'use-immer'
-import {getScaledSpacing} from '../../utils'
+import {arrayEqual, getScaledSpacing} from '../../utils'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
 import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 import type {
@@ -64,23 +64,19 @@ export const updateListActiveState = ({
 	return (setState: Updater<ListState>) => (activeKeys?: string | string[]) =>
 		selectType &&
 		setState(draft => {
-			const preActiveKeys = draft.activeKeys
-			const preActiveKey = draft.activeKey
 			const callbackValue =
 				selectType === LIST_SELECT_TYPE.SINGLE ?
 					updateListActiveKey(draft)(activeKeys)
 				:	updateListActiveKeys(draft)(activeKeys ?? [])
 
-			if (selectType === LIST_SELECT_TYPE.SINGLE && preActiveKey !== callbackValue) {
+			if (selectType === LIST_SELECT_TYPE.SINGLE && draft.activeKey !== callbackValue) {
 				draft.nextActiveEvent = createNextActiveEvent(callbackValue)
 
 				return
 			}
 
 			const isAreArraysEqual =
-				Array.isArray(callbackValue) &&
-				preActiveKeys?.length === callbackValue.length &&
-				preActiveKeys.every((key, index) => key === callbackValue[index])
+				Array.isArray(callbackValue) && arrayEqual([...(draft.activeKeys ?? [])])(callbackValue)
 
 			if (selectType === LIST_SELECT_TYPE.MULTIPLE && !isAreArraysEqual) {
 				draft.nextActiveEvent = createNextActiveEvent(callbackValue)

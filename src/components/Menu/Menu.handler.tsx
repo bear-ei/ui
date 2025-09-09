@@ -1,4 +1,5 @@
 import type {Updater} from 'use-immer'
+import {arrayEqual} from '../../utils'
 import type {ListData} from '../List'
 import type {HandleMenuKeyDownOptions, MenuState} from './Menu.interface'
 
@@ -131,9 +132,7 @@ export const updateMenuActives =
 		const nextActiveEvents = () => onActives?.(values)
 
 		setState(draft => {
-			const isAreArraysEqual =
-				draft.activeKeys?.length === values.length &&
-				draft.activeKeys.every((key, index) => key === values[index])
+			const isAreArraysEqual = arrayEqual([...(draft.activeKeys ?? [])])(values)
 
 			if (!isAreArraysEqual) {
 				draft.nextActiveEvent = nextActiveEvents

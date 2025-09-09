@@ -187,6 +187,7 @@ export const Multiselect = () => {
 	)
 
 	const onActiveKeys = (keys?: string[]) => {
+		console.info(keys, 'keys==============>')
 		setActiveKeys(keys)
 	}
 
