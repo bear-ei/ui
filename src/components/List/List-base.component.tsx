@@ -76,6 +76,8 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		const id = useId()
 		const theme = useTheme()
 		const itemSize = createListItemSize({density, type})(theme)(rawItemSize)
+
+		console.info(itemSize)
 		const onActive = useMemo(
 			() => updateListActiveState({onActive: rawOnActive, selectType, onActives, deselect})(setState),
 			[deselect, onActives, rawOnActive, selectType, setState]

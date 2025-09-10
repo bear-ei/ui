@@ -5,6 +5,6 @@ export const Container = styled(View)`
 	align-self: stretch;
 
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
 	`}
 `

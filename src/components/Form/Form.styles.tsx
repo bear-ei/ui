@@ -7,7 +7,7 @@ export const Container = styled.View<FormContainerProps>`
 	display: flex;
 
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
 	`}
 
 	${({layout = LAYOUT.VERTICAL, theme}) => {

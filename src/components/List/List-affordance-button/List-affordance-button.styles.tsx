@@ -9,7 +9,6 @@ export const Container = styled.View<ListAffordanceButtonContainerProps>`
 	flex-direction: column;
 
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 17)}px;
 	`}
 `
@@ -24,7 +23,6 @@ export const Content = styled.View`
 	position: relative;
 
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 17)}px;
 	`}
 `

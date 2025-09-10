@@ -43,7 +43,6 @@ export const Standard: StoryObj<ListProps> = {
 		defaultActiveKey: 'TitleB',
 		activeKey: 'TitleA',
 		closeTrailing: true,
-		type: LIST_TYPE.MENU,
 		trailingTriggerEvent: 'HOVER',
 		data: [
 			{

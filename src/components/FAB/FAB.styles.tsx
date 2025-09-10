@@ -12,8 +12,8 @@ export const Container = styled.View<FABContainerProps>`
 		const densityScale = getScaledSpacing(density)(theme)
 		const contentSize = {
 			[SIZE.SMALL]: css`
-				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
-				width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
+				width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
 			`,
 			[SIZE.MEDIUM]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
@@ -34,11 +34,6 @@ export const Container = styled.View<FABContainerProps>`
 			min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
 			width: auto;
 		`}
-
-        ${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-	`}
 `
 
 export const Content = styled(Shape)<FABContentProps>`

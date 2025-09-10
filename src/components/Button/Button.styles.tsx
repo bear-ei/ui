@@ -15,10 +15,14 @@ import type {
 export const Container = styled.View<ButtonContainerProps>`
 	cursor: pointer;
 
-	${({theme}) => css`
-		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
-	`}
+	${({theme, density}) => {
+		const densityScale = getScaledSpacing(density)(theme)
+
+		return css`
+			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
+			min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
+		`
+	}}
 
 	${({theme, type = BUTTON_TYPE.FILLED}) => {
 		const containerType = {
@@ -42,9 +46,9 @@ export const Content = styled(Shape)<ButtonContentProps>`
 	flex-direction: column;
 	justify-content: center;
 	overflow: hidden;
+	pointer-events: none;
 	position: relative;
 	z-index: 4;
-	pointer-events: none;
 
 	${({theme}) => css`
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 20)}px;
@@ -58,7 +62,7 @@ export const Content = styled(Shape)<ButtonContentProps>`
 		`
 	}}
 
-    ${({theme, type = BUTTON_TYPE.FILLED}) => {
+   	${({theme, type = BUTTON_TYPE.FILLED}) => {
 		const contentType = {
 			[BUTTON_TYPE.TEXT]: css`
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;

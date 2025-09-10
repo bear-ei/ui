@@ -38,11 +38,22 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	onTrailingVisibility,
 	trailing,
 	trailingProps: rawTrailingProps,
-	trailingTriggerEvent
+	trailingTriggerEvent,
+	type = LIST_TYPE.STANDARD
 }) => {
 	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
 	const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
 	const {disabled: isDisabled, ...restTrailingProps} = useMemo(() => rawTrailingProps ?? {}, [rawTrailingProps])
+	const density = useMemo(
+		() => ({
+			[LIST_TYPE.LABEL]: {iconButtonDensity: -4, iconDensity: -1.5},
+			[LIST_TYPE.MENU]: {iconButtonDensity: -2, iconDensity: 0},
+			[LIST_TYPE.STANDARD]: {iconButtonDensity: 0, iconDensity: 0}
+		}),
+		[]
+	)
+
+	const {iconButtonDensity, iconDensity} = density[type]
 	const trailingProps = useMemo(
 		() => ({
 			...restTrailingProps,
@@ -52,10 +63,12 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 			}),
 			disabled: isDisabled ?? disabled,
 			testID: `listItem__trailing--${id}`,
-			type: ICON_BUTTON_TYPE.STANDARD
+			type: ICON_BUTTON_TYPE.STANDARD,
+			density: iconButtonDensity
 		}),
 		[
 			disabled,
+			iconButtonDensity,
 			id,
 			interactionHandlers,
 			isDisabled,
@@ -75,31 +88,33 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 						testID={`listItem__trailingIconButton--${id}`}
 						icon={
 							<Icon
+								density={iconDensity}
 								name={ICON_NAME.MORE_HORIZ}
 								testID={`listItem__trailingIconMoreHoriz--${id}`}
 								type={ICON_TYPE.OUTLINED}
 							/>
 						}
 					/>,
-			closeTrailing:
-				trailing ?
-					cloneElement(trailing, trailingProps)
-				:	<IconButton
-						{...trailingProps}
+			closeTrailing: cloneElement(
+				trailing ?? (
+					<IconButton
 						testID={`listItem__trailingIconButton--${id}`}
-						density={-5}
 						icon={
 							<Icon
+								density={iconDensity}
 								name={ICON_NAME.CLOSE}
 								testID={`listItem__trailingIconClose--${id}`}
 								type={ICON_TYPE.OUTLINED}
-								density={-1}
 							/>
 						}
-					/>,
+					/>
+				),
+				trailingProps
+			),
+
 			standard: trailing ? cloneElement(trailing, trailingProps) : undefined
 		}),
-		[id, trailing, trailingProps]
+		[iconDensity, id, trailing, trailingProps]
 	)
 
 	return trailingElement[trailingType]
@@ -134,6 +149,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			leadingType,
 			onCancel,
 			onConfirm,
+			onTrailingUnmount,
 			panResponder,
 			selectType,
 			shape,
@@ -144,6 +160,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			testID,
 			trailingElement,
 			trailingTriggerEvent,
+			trailingUnmount,
 			trailingVisible,
 			type = LIST_TYPE.STANDARD,
 			...touchableProps
@@ -153,8 +170,8 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 		const theme = useTheme()
 		const activeColor = theme.token.scheme.secondaryContainer
 		const isSupportingTextShow = !!supporting
-		const isTrailingShow = !!trailingElement && trailingVisible
 		const isUnmountTrailing = trailingTriggerEvent === TRIGGER_EVENT.HOVER
+		const isTrailingShow = !!(trailingElement && !trailingUnmount)
 		const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
 		const underlayProps = useMemo(
 			() =>
@@ -214,6 +231,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 								}
 								supportingTextShow={isSupportingTextShow}
 								testID={`listItem__main--${id}`}
+								trailingShow={isTrailingShow}
 								type={type}
 							>
 								{leadingElement && (
@@ -306,6 +324,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 												easing: EASING.EMPHASIZED_ACCELERATE
 											}}
 											lazy={closeTrailing}
+											onUnmount={onTrailingUnmount}
 											testID={`listItem__trailing--${id}`}
 											unmount={isUnmountTrailing}
 											visible={trailingVisible}

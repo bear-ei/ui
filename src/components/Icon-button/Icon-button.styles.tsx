@@ -12,8 +12,8 @@ export const Container = styled.View<IconButtonContainerProps>`
 		const densityScale = getScaledSpacing(density)(theme)
 
 		return css`
-			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
-			width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
+			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
+			width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
 		`
 	}}
 

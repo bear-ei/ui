@@ -131,7 +131,13 @@ export const handleListItemStateChange =
 				const triggerEventNames = trigger[trailingTriggerEvent]
 
 				if (eventName && triggerEventNames?.includes(eventName)) {
-					draft.trailingVisible = eventName === EVENT_NAME.HOVER_IN
+					const isVisible = eventName === EVENT_NAME.HOVER_IN
+
+					draft.trailingVisible = isVisible
+
+					if (isVisible) {
+						draft.trailingUnmount = false
+					}
 				}
 			}
 
@@ -231,4 +237,13 @@ export const animateListItemActiveState =
 export const updateListItemTrailingVisibility = (setState: Updater<ListItemState>) => (visible: boolean) =>
 	setState(draft => {
 		draft.trailingVisible = visible
+
+		if (visible) {
+			draft.trailingUnmount = false
+		}
+	})
+
+export const updateListItemTrailingUnmount = (setState: Updater<ListItemState>) => () =>
+	setState(draft => {
+		draft.trailingUnmount = true
 	})

@@ -9,7 +9,6 @@ export const Container = styled(LayoutAnimated)<ListItemAfterAffordanceContainer
 	position: relative;
 
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 34)}px;
 	`};
 

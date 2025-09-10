@@ -142,6 +142,39 @@ export const Main = styled(Shape)<ListItemMainProps>`
 				theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 			)}px;
 		`}
+
+
+
+	${({theme, type = LIST_TYPE.STANDARD, trailingShow}) => {
+		const mainType = {
+			[LIST_TYPE.LABEL]: css`
+				padding: ${theme.adaptSize(theme.token.spacing.none)}px
+					${theme.adaptSize(
+						theme.token.spacing.small - 0.5 * theme.token.spacing.extraSmall
+					)}px
+					${theme.adaptSize(theme.token.spacing.none)}px
+					${theme.adaptSize(
+						theme.token.spacing.medium - theme.token.spacing.extraSmall
+					)}px;
+			`,
+			[LIST_TYPE.MENU]: css`
+				padding: ${theme.adaptSize(theme.token.spacing.none)}px
+					${theme.adaptSize(theme.token.spacing.small)}px
+					${theme.adaptSize(theme.token.spacing.none)}px
+					${theme.adaptSize(
+						theme.token.spacing.medium - theme.token.spacing.extraSmall
+					)}px;
+			`,
+			[LIST_TYPE.STANDARD]: css`
+				padding: ${theme.adaptSize(theme.token.spacing.none)}px
+					${theme.adaptSize(theme.token.spacing.small)}px
+					${theme.adaptSize(theme.token.spacing.none)}px
+					${theme.adaptSize(theme.token.spacing.medium)}px;
+			`
+		} as Record<ListType, RuleSet<object> | undefined>
+
+		return trailingShow && mainType[type]
+	}}
 `
 
 export const Leading = styled.View<ListItemLeadingProps>`
@@ -152,7 +185,6 @@ export const Leading = styled.View<ListItemLeadingProps>`
 
 	${({theme}) => css`
 		min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
-		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 	`};
 
 	${({supportingTextNumberOfLines = 0}) =>
@@ -172,7 +204,7 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 	${({theme, supportingTextShow}) =>
 		supportingTextShow &&
 		css`
-			min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+			min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
 		`}
 
 	${({theme, type = LIST_TYPE.STANDARD, leadingShow}) => {
@@ -202,18 +234,16 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 				padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
 			`,
 			[LIST_TYPE.MENU]: css`
-				padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
-			`,
-			[LIST_TYPE.STANDARD]: css`
 				padding-right: ${theme.adaptSize(
 					theme.token.spacing.medium - theme.token.spacing.extraSmall
 				)}px;
+			`,
+			[LIST_TYPE.STANDARD]: css`
+				padding-right: ${theme.adaptSize(theme.token.spacing.medium)}px;
 			`
 		} as Record<ListType, RuleSet<object> | undefined>
 
-		if (trailingShow) {
-			return mainInnerType[type]
-		}
+		return trailingShow && mainInnerType[type]
 	}}
 `
 
@@ -225,22 +255,6 @@ export const TrailingLayout = styled.View<ListItemTrailingProps>`
 		supportingTextNumberOfLines > 1 &&
 		css`
 			justify-content: flex-start;
-		`}
-
-	${({theme, trailingShow, type = LIST_TYPE.STANDARD}) =>
-		trailingShow &&
-		type === LIST_TYPE.MENU &&
-		css`
-			margin-right: ${-theme.adaptSize(
-				theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
-			)}px;
-		`}
-
-        ${({theme, closeTrailing}) =>
-		!closeTrailing &&
-		css`
-			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-			width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
 		`}
 `
 
