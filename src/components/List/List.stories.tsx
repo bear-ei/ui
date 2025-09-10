@@ -273,6 +273,33 @@ export const Label: StoryObj<ListProps> = {
 	}
 }
 
+export const LabelStandard: StoryObj<ListProps> = {
+	args: {
+		defaultActiveKey: 'TitleB',
+		activeKey: 'TitleA',
+		type: LIST_TYPE.LABEL,
+		afterAffordance: true,
+		data: [
+			{
+				indexKey: 'TitleA',
+				headline: 'TitleA'
+			},
+			{
+				indexKey: 'TitleB',
+				headline: 'TitleB'
+			},
+			{
+				indexKey: 'TitleC',
+				headline: 'TitleC'
+			},
+			{
+				indexKey: 'TitleD',
+				headline: 'TitleD'
+			}
+		]
+	}
+}
+
 export default {
 	title: 'components/List',
 	component: List

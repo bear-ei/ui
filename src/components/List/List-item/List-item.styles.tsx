@@ -102,7 +102,9 @@ export const Main = styled(Shape)<ListItemMainProps>`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10 + densityScale)}px;
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
-					${theme.adaptSize(theme.token.spacing.small)}px;
+					${theme.adaptSize(
+						theme.token.spacing.medium - theme.token.spacing.extraSmall
+					)}px;
 			`,
 			[LIST_TYPE.MENU]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
@@ -149,9 +151,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
 		const mainType = {
 			[LIST_TYPE.LABEL]: css`
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
-					${theme.adaptSize(
-						theme.token.spacing.small - 0.5 * theme.token.spacing.extraSmall
-					)}px
+					${theme.adaptSize(theme.token.spacing.small)}px
 					${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(
 						theme.token.spacing.medium - theme.token.spacing.extraSmall
@@ -159,7 +159,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
 			`,
 			[LIST_TYPE.MENU]: css`
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
-					${theme.adaptSize(theme.token.spacing.small)}px
+					${theme.adaptSize(theme.token.spacing.extraSmall)}px
 					${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(
 						theme.token.spacing.medium - theme.token.spacing.extraSmall
@@ -210,7 +210,9 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 	${({theme, type = LIST_TYPE.STANDARD, leadingShow}) => {
 		const mainInnerType = {
 			[LIST_TYPE.LABEL]: css`
-				padding-left: ${theme.adaptSize(theme.token.spacing.small)}px;
+				padding-left: ${theme.adaptSize(
+					theme.token.spacing.medium - theme.token.spacing.extraSmall
+				)}px;
 			`,
 			[LIST_TYPE.MENU]: css`
 				padding-left: ${theme.adaptSize(
@@ -231,7 +233,9 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
         ${({theme, type = LIST_TYPE.STANDARD, trailingShow}) => {
 		const mainInnerType = {
 			[LIST_TYPE.LABEL]: css`
-				padding-right: ${theme.adaptSize(theme.token.spacing.small)}px;
+				padding-right: ${theme.adaptSize(
+					theme.token.spacing.medium - theme.token.spacing.extraSmall
+				)}px;
 			`,
 			[LIST_TYPE.MENU]: css`
 				padding-right: ${theme.adaptSize(

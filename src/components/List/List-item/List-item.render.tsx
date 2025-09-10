@@ -46,14 +46,14 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	const {disabled: isDisabled, ...restTrailingProps} = useMemo(() => rawTrailingProps ?? {}, [rawTrailingProps])
 	const density = useMemo(
 		() => ({
-			[LIST_TYPE.LABEL]: {iconButtonDensity: -4, iconDensity: -1.5},
-			[LIST_TYPE.MENU]: {iconButtonDensity: -2, iconDensity: -1},
-			[LIST_TYPE.STANDARD]: {iconButtonDensity: 0, iconDensity: 0}
+			[LIST_TYPE.LABEL]: -2,
+			[LIST_TYPE.MENU]: 0,
+			[LIST_TYPE.STANDARD]: 0
 		}),
 		[]
 	)
 
-	const {iconButtonDensity, iconDensity} = density[type]
+	const iconButtonDensity = density[type]
 	const trailingProps = useMemo(
 		() => ({
 			...restTrailingProps,
@@ -88,7 +88,6 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 						testID={`listItem__trailingIconButton--${id}`}
 						icon={
 							<Icon
-								density={iconDensity}
 								name={ICON_NAME.MORE_HORIZ}
 								testID={`listItem__trailingIconMoreHoriz--${id}`}
 								type={ICON_TYPE.OUTLINED}
@@ -101,7 +100,6 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 						testID={`listItem__trailingIconButton--${id}`}
 						icon={
 							<Icon
-								density={iconDensity}
 								name={ICON_NAME.CLOSE}
 								testID={`listItem__trailingIconClose--${id}`}
 								type={ICON_TYPE.OUTLINED}
@@ -114,7 +112,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 
 			standard: trailing ? cloneElement(trailing, trailingProps) : undefined
 		}),
-		[iconDensity, id, trailing, trailingProps]
+		[id, trailing, trailingProps]
 	)
 
 	return trailingElement[trailingType]
