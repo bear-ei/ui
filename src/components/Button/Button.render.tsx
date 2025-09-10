@@ -121,7 +121,6 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 					backgroundUnderlay={backgroundUnderlayElement}
 					disabled={disabled}
 					elevationUnderlay={elevationUnderlayElement}
-					hotZone={type !== BUTTON_TYPE.LINK}
 					ref={ref}
 					shape={shape}
 					testID={`button__touchable--${id}`}

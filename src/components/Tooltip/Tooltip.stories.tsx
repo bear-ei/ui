@@ -15,18 +15,12 @@ export const PlainVerticalEnd = () => {
 		height: 48
 	} as ViewStyle
 
-	const tooltipStyle = {
-		width: 48,
-		height: 48
-	} as ViewStyle
-
 	return (
 		<>
 			<View style={[style]}>
 				<Tooltip
 					supporting='Supporting Text A'
 					supportingPosition={SUPPORTING_POSITION.VERTICAL_END}
-					style={[tooltipStyle]}
 				>
 					<IconButton
 						icon={<Icon name={ICON_NAME.ADD_HOME} />}
@@ -39,7 +33,6 @@ export const PlainVerticalEnd = () => {
 				<Tooltip
 					supporting='Supporting Text B'
 					supportingPosition={SUPPORTING_POSITION.VERTICAL_END}
-					style={[tooltipStyle]}
 				>
 					<IconButton
 						icon={<Icon name={ICON_NAME.ADD_HOME} />}

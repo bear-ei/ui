@@ -2,7 +2,7 @@ import {cloneElement, forwardRef} from 'react'
 import type {View} from 'react-native'
 import {TOOLTIP_TYPE} from './Tooltip.enum'
 import type {RenderTooltipProps} from './Tooltip.interface'
-import {Container, Content} from './Tooltip.styles'
+import {Container} from './Tooltip.styles'
 
 export const RenderTooltip = forwardRef<View, RenderTooltipProps>(
 	({children, id, interactionHandlers, onContextMenu, testID, type, ...containerProps}, ref) => {
@@ -14,15 +14,13 @@ export const RenderTooltip = forwardRef<View, RenderTooltipProps>(
 				testID={testID ?? `tooltip--${id}`}
 				ref={ref}
 			>
-				<Content testID={`tooltip__content--${id}`}>
-					{children &&
-						cloneElement(children, {
-							onFocus,
-							onHoverIn,
-							...onChildrenInteractionHandlers,
-							...(type === TOOLTIP_TYPE.MENU && {onContextMenu})
-						})}
-				</Content>
+				{children &&
+					cloneElement(children, {
+						onFocus,
+						onHoverIn,
+						...onChildrenInteractionHandlers,
+						...(type === TOOLTIP_TYPE.MENU && {onContextMenu})
+					})}
 			</Container>
 		)
 	}

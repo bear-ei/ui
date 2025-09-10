@@ -308,7 +308,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 											lazy={closeTrailing}
 											testID={`listItem__trailing--${id}`}
 											unmount={isUnmountTrailing}
-											visible={true}
+											visible={trailingVisible}
 										>
 											{trailingElement}
 										</Trailing>
