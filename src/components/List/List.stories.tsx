@@ -42,8 +42,7 @@ export const Standard: StoryObj<ListProps> = {
 	args: {
 		defaultActiveKey: 'TitleB',
 		activeKey: 'TitleA',
-		closeTrailing: true,
-		trailingTriggerEvent: 'HOVER',
+		afterAffordance: true,
 		data: [
 			{
 				indexKey: 'TitleA',

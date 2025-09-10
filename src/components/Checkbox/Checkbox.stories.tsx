@@ -1,5 +1,4 @@
 import type {Meta, StoryObj} from '@storybook/react'
-import {DENSITY} from '../Common'
 import {Checkbox} from './Checkbox.component'
 import type {CheckboxProps} from './Checkbox.interface'
 
@@ -16,7 +15,7 @@ export const Err: StoryObj<CheckboxProps> = {
 }
 
 export const DensityScale: StoryObj<CheckboxProps> = {
-	args: {density: DENSITY.COMPACT}
+	args: {density: -2}
 }
 
 export const Disabled: StoryObj<CheckboxProps> = {

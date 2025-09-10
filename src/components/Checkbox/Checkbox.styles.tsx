@@ -18,11 +18,6 @@ export const Container = styled.View<CheckboxContainerProps>`
 `
 
 export const Content = styled(Shape)<CheckboxContentProps>`
-	align-items: center;
-	align-self: center;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
 	position: relative;
 	z-index: 4;
 	pointer-events: none;
@@ -38,17 +33,18 @@ export const Content = styled(Shape)<CheckboxContentProps>`
 `
 
 export const Main = styled(Shape)`
+	align-self: stretch;
+	flex: 1;
 	overflow: hidden;
 	position: relative;
 	z-index: 4;
-
-	${({theme}) => css`
-		height: ${theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)}px;
-		width: ${theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)}px;
-	`}
 `
 
 export const IconLayout = styled(LayoutAnimated)<CheckboxIconLayoutProps>`
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	position: absolute;
 
 	${({theme}) => css`

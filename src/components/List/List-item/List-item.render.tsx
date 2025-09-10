@@ -47,7 +47,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	const density = useMemo(
 		() => ({
 			[LIST_TYPE.LABEL]: {iconButtonDensity: -4, iconDensity: -1.5},
-			[LIST_TYPE.MENU]: {iconButtonDensity: -2, iconDensity: 0},
+			[LIST_TYPE.MENU]: {iconButtonDensity: -2, iconDensity: -1},
 			[LIST_TYPE.STANDARD]: {iconButtonDensity: 0, iconDensity: 0}
 		}),
 		[]
@@ -171,7 +171,9 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 		const activeColor = theme.token.scheme.secondaryContainer
 		const isSupportingTextShow = !!supporting
 		const isUnmountTrailing = trailingTriggerEvent === TRIGGER_EVENT.HOVER
-		const isTrailingShow = !!(trailingElement && !trailingUnmount)
+		const isTrailingShow =
+			trailingTriggerEvent ? !!(trailingElement && !trailingUnmount) : !!trailingElement
+
 		const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
 		const underlayProps = useMemo(
 			() =>

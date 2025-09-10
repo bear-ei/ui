@@ -4,14 +4,14 @@ import type {FC} from 'react'
 import {useMemo} from 'react'
 import {Platform as RNPlatform} from 'react-native'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
-import {DENSITY} from '../../components'
+
 import {GlobalStyle} from '../../global.styles.ts'
 import {useWindowSize} from '../../hooks'
 import {adaptWindow} from '../../utils'
 import {ModalProvider} from '../Modal-provider'
 import type {ThemeProps} from './Theme-provider.interface'
 
-const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeToken, density = DENSITY.STANDARD}) => {
+const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeToken, density = 0}) => {
 	const {windowSize, width, height} = useWindowSize()
 	const defaultDesignOptions = useMemo(
 		() => ({
@@ -49,7 +49,7 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeT
 	)
 }
 
-const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density = DENSITY.STANDARD}) => {
+const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density = 0}) => {
 	const {adaptFontSize, adaptSize} = useMemo(() => adaptWindow()()(true), [])
 	const platform = PLATFORM[RNPlatform.OS.toUpperCase() as Platform]
 	const token = useMemo(

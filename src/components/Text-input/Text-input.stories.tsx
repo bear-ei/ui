@@ -1,5 +1,4 @@
 import type {Meta, StoryObj} from '@storybook/react'
-import {DENSITY} from '../Common'
 import {Icon} from '../Icon'
 import {TextInput} from './Text-input.component'
 import type {TextInputProps} from './Text-input.interface'
@@ -24,7 +23,7 @@ export const DensityScale: StoryObj<TextInputProps> = {
 	args: {
 		labelText: 'Name',
 		supportingText: 'supportingText',
-		density: DENSITY.COMPACT
+		density: -2
 	}
 }
 

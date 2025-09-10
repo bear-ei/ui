@@ -1,5 +1,5 @@
 import {SHAPE} from '@bearei/element-token'
-import {forwardRef, useMemo} from 'react'
+import {forwardRef} from 'react'
 import type {StyleProp, ViewStyle} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_TYPE} from '../Icon'
@@ -14,7 +14,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 	(
 		{
 			animatedOptions,
-			density,
+			density = 0,
 			disabled,
 			error,
 			eventName,
@@ -35,7 +35,6 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 			:	theme.token.scheme.primary
 
 		const checkBoxOutlineFill = error ? theme.token.scheme.error : unselectedFill
-		const iconSize = theme.adaptSize(theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall)
 		const shape = SHAPE.FULL
 		const checkUnderlayColor =
 			value === CHECKBOX_VALUE.UNSELECTED ?
@@ -43,19 +42,13 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 			:	theme.token.scheme.primary
 
 		const underlayColor = error ? theme.token.scheme.error : checkUnderlayColor
-		const iconSvgStyle = useMemo(
-			() => ({
-				minHeight: theme.adaptSize(theme.token.spacing.large),
-				minWidth: theme.adaptSize(theme.token.spacing.large)
-			}),
-			[theme]
-		)
-
 		const isCheckBoxVisible =
 			value &&
 			([CHECKBOX_VALUE.SELECTED, CHECKBOX_VALUE.INDETERMINATE] as readonly CheckboxValue[]).includes(
 				value
 			)
+
+		const iconDensity = density / 2
 
 		return (
 			<Container
@@ -92,11 +85,10 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 								visible={true}
 							>
 								<Icon
+									density={iconDensity}
 									disabled={disabled}
 									fill={checkBoxOutlineFill}
 									name={ICON_NAME.CHECK_BOX_OUTLINE_BLANK}
-									size={iconSize}
-									svgStyle={iconSvgStyle}
 									testID={`checkbox__icon--blank--${id}`}
 									type={ICON_TYPE.FILLED}
 								/>
@@ -108,6 +100,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 								visible={isCheckBoxVisible}
 							>
 								<Icon
+									density={iconDensity}
 									disabled={disabled}
 									fill={activeFill}
 									name={
@@ -115,8 +108,6 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 											ICON_NAME.INDETERMINATE_CHECK_BOX
 										:	ICON_NAME.CHECK_BOX
 									}
-									size={iconSize}
-									svgStyle={iconSvgStyle}
 									testID={`checkbox__icon--selected--${id}`}
 									type={ICON_TYPE.FILLED}
 								/>

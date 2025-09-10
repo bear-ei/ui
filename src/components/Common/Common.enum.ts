@@ -3,18 +3,6 @@ export const LAYOUT = {
 	VERTICAL: 'VERTICAL'
 } as const
 
-export const DENSITY = {
-	COMFORTABLE: 'COMFORTABLE',
-	COMPACT: 'COMPACT',
-	STANDARD: 'STANDARD'
-} as const
-
-export const DENSITY_SCALE = {
-	COMFORTABLE: -1,
-	COMPACT: -2,
-	STANDARD: 0
-} as const
-
 export const COMPONENT_STATUS = {
 	FAILED: 'FAILED',
 	IDLE: 'IDLE',
