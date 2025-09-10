@@ -46,12 +46,15 @@ export const Destination = styled.View<DestinationProps>`
 	}}
 `
 export const Menu = styled.View`
+	align-items: center;
+	display: flex;
+	justify-content: center;
 	overflow: hidden;
 
 	${({theme}) => css`
-		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-		margin-bottom: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+		margin-bottom: ${theme.adaptSize(theme.token.spacing.small)}px;
+		width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
 	`};
 `
 

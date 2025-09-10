@@ -175,14 +175,14 @@ export const Main = styled.View`
 
 export const PrimaryButton = styled.View`
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 23)}px;
 	`}
 `
 
 export const SecondaryButton = styled.View`
 	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
 		min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 23)}px;
 	`}
 `
@@ -216,23 +216,15 @@ export const Footer = styled.View<SheetFooterProps>`
 		const footerType = {
 			[SIDE_SHEET_TYPE.MODAL]: css`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
-				padding: ${theme.adaptSize(
-						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
-					)}px
+				padding: ${theme.adaptSize(theme.token.spacing.medium)}px
 					${theme.adaptSize(theme.token.spacing.large)}px
-					${theme.adaptSize(
-						theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
-					)}px;
+					${theme.adaptSize(theme.token.spacing.large)}px;
 			`,
 			[SIDE_SHEET_TYPE.SIDEBAR]: css`
 				background-color: ${theme.token.scheme.surfaceContainerLow};
-				padding: ${theme.adaptSize(
-						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
-					)}px
+				padding: ${theme.adaptSize(theme.token.spacing.medium)}px
 					${theme.adaptSize(theme.token.spacing.large)}px
-					${theme.adaptSize(
-						theme.token.spacing.large + -1 * theme.token.spacing.extraSmall
-					)}px;
+					${theme.adaptSize(theme.token.spacing.large)}px;
 			`
 		} as Record<SheetType, RuleSet<object> | undefined>
 

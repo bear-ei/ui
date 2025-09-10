@@ -10,10 +10,6 @@ export const Container = styled.View`
 	position: relative;
 	z-index: 4096;
 	justify-content: center;
-
-	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-	`};
 `
 
 export const Touchable = styled.Pressable`
@@ -34,7 +30,6 @@ export const Content = styled(Shape)<SearchContentProps>`
 		const densityScale = getScaledSpacing(density)(theme)
 
 		return css`
-			/* background-color: ${theme.token.scheme.surfaceContainerHigh}; */
 			gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 			height: ${theme.adaptSize(theme.token.spacing.extraSmall * 14 + densityScale)}px;
 			padding: ${theme.adaptSize(theme.token.spacing.none)}px
