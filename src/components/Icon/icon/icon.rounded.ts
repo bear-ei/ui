@@ -118,6 +118,8 @@ import OpenInNewFill from '@material-symbols/svg-400/rounded/open_in_new-fill.sv
 import OpenInNew from '@material-symbols/svg-400/rounded/open_in_new.svg'
 import OtherHousesFill from '@material-symbols/svg-400/rounded/other_houses-fill.svg'
 import OtherHouses from '@material-symbols/svg-400/rounded/other_houses.svg'
+import PackageFill from '@material-symbols/svg-400/rounded/package-fill.svg'
+import Package from '@material-symbols/svg-400/rounded/package.svg'
 import PaidFill from '@material-symbols/svg-400/rounded/paid-fill.svg'
 import Paid from '@material-symbols/svg-400/rounded/paid.svg'
 import PaletteFill from '@material-symbols/svg-400/rounded/palette-fill.svg'
@@ -262,6 +264,7 @@ export const rounded = {
 		OPEN_IN_BROWSER: OpenInBrowserFill,
 		OPEN_IN_NEW: OpenInNewFill,
 		OTHER_HOUSES: OtherHousesFill,
+		PACKAGE: PackageFill,
 		PAID: PaidFill,
 		PALETTE: PaletteFill,
 		PARTLY_CLOUDY_DAY: PartlyCloudyDayFill,
@@ -364,6 +367,7 @@ export const rounded = {
 		OPEN_IN_BROWSER: OpenInBrowser,
 		OPEN_IN_NEW: OpenInNew,
 		OTHER_HOUSES: OtherHouses,
+		PACKAGE: Package,
 		PAID: Paid,
 		PALETTE: Palette,
 		PARTLY_CLOUDY_DAY: PartlyCloudyDay,

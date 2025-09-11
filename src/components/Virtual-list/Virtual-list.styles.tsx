@@ -6,10 +6,6 @@ export const Container = styled.View`
 	align-self: stretch;
 	flex: 1;
 	position: relative;
-
-	${({theme}) => css`
-		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-	`}
 `
 
 export const ContentLayout = styled(LayoutAnimated)`
