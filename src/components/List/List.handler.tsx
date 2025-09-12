@@ -40,11 +40,13 @@ export const updateListActiveState = ({
 		const filterPrevActiveKeys = (key: string) => key !== activeKeys
 		const prevActiveKeys = draft.activeKeys
 		const nextActiveKeys =
-			typeof activeKeys === 'string' ? [...(prevActiveKeys ?? []), activeKeys] : activeKeys
+			typeof activeKeys === 'string' ?
+				[...new Set([...(prevActiveKeys ?? []), activeKeys])]
+			:	activeKeys
 
 		if (typeof activeKeys === 'string') {
 			draft.activeKeys =
-				prevActiveKeys?.includes(activeKeys) ?
+				prevActiveKeys?.includes(activeKeys) && deselect ?
 					prevActiveKeys?.filter(filterPrevActiveKeys)
 				:	nextActiveKeys
 		}

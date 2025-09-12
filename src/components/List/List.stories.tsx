@@ -198,6 +198,7 @@ export const Multiselect = () => {
 			<List
 				activeKeys={activeKeys}
 				data={data ?? data2}
+				deselect={true}
 				itemSize={56}
 				onActives={onActiveKeys}
 				selectType={LIST_SELECT_TYPE.MULTIPLE}

@@ -84,20 +84,12 @@ export const updateListItemActive =
 
 const triggerListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
 export const handleListItemStateChange =
-	({
-		active,
-		eventName,
-		indexKey,
-		onActive,
-		onLoadEnd,
-		trailingTriggerEvent,
-		type
-	}: HandleListItemStateChangeOptions) =>
+	({eventName, indexKey, onActive, onLoadEnd, trailingTriggerEvent, type}: HandleListItemStateChangeOptions) =>
 	(setState: Updater<ListItemState>) =>
 	(_event: StateEvent) => {
 		const nextEvent = {
 			[EVENT_NAME.LAYOUT]: () => triggerListItemLoadEnd?.(onLoadEnd)(indexKey),
-			[EVENT_NAME.PRESS_OUT]: () => !active && onActive?.(indexKey)
+			[EVENT_NAME.PRESS_OUT]: () => onActive?.(indexKey)
 		} as Record<EventName, () => void>
 
 		setState(draft => {
