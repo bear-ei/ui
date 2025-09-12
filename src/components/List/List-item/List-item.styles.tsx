@@ -103,7 +103,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(
-						theme.token.spacing.medium - theme.token.spacing.extraSmall
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 					)}px;
 			`,
 			[LIST_TYPE.MENU]: css`
@@ -111,7 +111,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
 				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12 + densityScale)}px;
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(
-						theme.token.spacing.medium - theme.token.spacing.extraSmall
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 					)}px;
 			`,
 			[LIST_TYPE.STANDARD]: css`
@@ -151,10 +151,12 @@ export const Main = styled(Shape)<ListItemMainProps>`
 		const mainType = {
 			[LIST_TYPE.LABEL]: css`
 				padding: ${theme.adaptSize(theme.token.spacing.none)}px
-					${theme.adaptSize(theme.token.spacing.small)}px
+					${theme.adaptSize(
+						theme.token.spacing.small + -0.5 * theme.token.spacing.extraSmall
+					)}px
 					${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(
-						theme.token.spacing.medium - theme.token.spacing.extraSmall
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 					)}px;
 			`,
 			[LIST_TYPE.MENU]: css`
@@ -162,7 +164,7 @@ export const Main = styled(Shape)<ListItemMainProps>`
 					${theme.adaptSize(theme.token.spacing.extraSmall)}px
 					${theme.adaptSize(theme.token.spacing.none)}px
 					${theme.adaptSize(
-						theme.token.spacing.medium - theme.token.spacing.extraSmall
+						theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 					)}px;
 			`,
 			[LIST_TYPE.STANDARD]: css`
@@ -182,10 +184,6 @@ export const Leading = styled.View<ListItemLeadingProps>`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-
-	${({theme}) => css`
-		min-width: ${theme.adaptSize(theme.token.spacing.large)}px;
-	`};
 
 	${({supportingTextNumberOfLines = 0}) =>
 		supportingTextNumberOfLines > 1 &&
@@ -211,12 +209,12 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 		const mainInnerType = {
 			[LIST_TYPE.LABEL]: css`
 				padding-left: ${theme.adaptSize(
-					theme.token.spacing.medium - theme.token.spacing.extraSmall
+					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 				)}px;
 			`,
 			[LIST_TYPE.MENU]: css`
 				padding-left: ${theme.adaptSize(
-					theme.token.spacing.medium - theme.token.spacing.extraSmall
+					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 				)}px;
 			`,
 			[LIST_TYPE.STANDARD]: css`
@@ -234,12 +232,12 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 		const mainInnerType = {
 			[LIST_TYPE.LABEL]: css`
 				padding-right: ${theme.adaptSize(
-					theme.token.spacing.medium - theme.token.spacing.extraSmall
+					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 				)}px;
 			`,
 			[LIST_TYPE.MENU]: css`
 				padding-right: ${theme.adaptSize(
-					theme.token.spacing.medium - theme.token.spacing.extraSmall
+					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
 				)}px;
 			`,
 			[LIST_TYPE.STANDARD]: css`

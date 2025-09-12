@@ -54,6 +54,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	)
 
 	const iconButtonDensity = density[type]
+	const iconDensity = iconButtonDensity / 2
 	const trailingProps = useMemo(
 		() => ({
 			...restTrailingProps,
@@ -88,6 +89,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 						testID={`listItem__trailingIconButton--${id}`}
 						icon={
 							<Icon
+								density={iconDensity}
 								name={ICON_NAME.MORE_HORIZ}
 								testID={`listItem__trailingIconMoreHoriz--${id}`}
 								type={ICON_TYPE.OUTLINED}
@@ -100,6 +102,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 						testID={`listItem__trailingIconButton--${id}`}
 						icon={
 							<Icon
+								density={iconDensity}
 								name={ICON_NAME.CLOSE}
 								testID={`listItem__trailingIconClose--${id}`}
 								type={ICON_TYPE.OUTLINED}
@@ -112,7 +115,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 
 			standard: trailing ? cloneElement(trailing, trailingProps) : undefined
 		}),
-		[id, trailing, trailingProps]
+		[iconDensity, id, trailing, trailingProps]
 	)
 
 	return trailingElement[trailingType]
@@ -132,7 +135,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			closeTrailing,
 			contentAnimatedStyle,
 			contentStyle,
-			density,
+			density = 0,
 			disabled,
 			divider,
 			enableUnderlay,
@@ -184,6 +187,8 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 				},
 			[active, activeColor, enableUnderlayActive, selectType]
 		)
+
+		const leadingDensity = type === LIST_TYPE.LABEL ? -1 : 0
 
 		return (
 			<Container
@@ -247,12 +252,16 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 											LIST_LEADING_TYPE.ICON
 										) ?
 											cloneElement(leadingElement, {
+												density: leadingDensity,
 												type:
 													active ?
 														ICON_TYPE.FILLED
 													:	ICON_TYPE.OUTLINED
 											})
-										:	leadingElement}
+										:	cloneElement(leadingElement, {
+												density: leadingDensity
+											})
+										}
 									</Leading>
 								)}
 

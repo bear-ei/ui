@@ -2,12 +2,13 @@ import type {PressableProps} from 'react-native'
 import type {DefaultTheme} from 'styled-components/native'
 import type {ShapeType} from '../../Common'
 import type {ElevationLevel} from '../../Elevation'
-import type {ListProps} from '../../List'
+import type {ListProps, ListType} from '../../List'
 import type {MenuType} from '../Menu.interface'
 
 export interface MenuListProps extends Omit<ListProps & PressableProps, 'type'> {
 	defaultVisible?: boolean
 	elevation?: ElevationLevel
+	listType?: ListType
 	multiple?: boolean
 	onKeyDown?: (event: React.KeyboardEvent) => void
 	shape?: ShapeType

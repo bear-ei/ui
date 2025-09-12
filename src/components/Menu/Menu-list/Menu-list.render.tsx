@@ -6,9 +6,26 @@ import type {RenderMenuListProps} from './Menu-list.interface'
 import {Container} from './Menu-list.styles'
 
 export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
-	({data, id, multiple, onFocus, onKeyDown, shape, testID, theme, type, ...menuProps}, ref) => {
+	(
+		{
+			data,
+			id,
+			listType = LIST_TYPE.MENU,
+			multiple,
+			onFocus,
+			onKeyDown,
+			shape,
+			testID,
+			theme,
+			type,
+			...menuProps
+		},
+		ref
+	) => {
 		const dataNumber = data?.length ?? 0
-		const itemSize = theme.adaptSize(theme.token.spacing.extraSmall * 12)
+		const itemSize = theme.adaptSize(
+			theme.token.spacing.extraSmall * (listType === LIST_TYPE.LABEL ? 10 : 12)
+		)
 
 		return (
 			<Container
@@ -23,11 +40,12 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
 				<List
 					{...menuProps}
 					data={data}
-					itemSize={theme.adaptSize(theme.token.spacing.extraSmall * 12)}
+					itemSize={itemSize}
 					onItemStateEvent={{onFocus} as InteractionHandlers}
-					showsVerticalScrollIndicator={false}
 					selectType={multiple ? LIST_SELECT_TYPE.MULTIPLE : LIST_SELECT_TYPE.SINGLE}
-					type={LIST_TYPE.MENU}
+					showsVerticalScrollIndicator={false}
+					testID={`menu__list--${id}`}
+					type={listType}
 				/>
 			</Container>
 		)

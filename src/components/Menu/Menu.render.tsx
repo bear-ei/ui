@@ -23,6 +23,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
 			testID,
 			type,
 			visible,
+			listType,
 			...tooltipProps
 		},
 		ref
@@ -41,6 +42,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
 				shape={shape}
 				testID={`menu__list--${id}`}
 				type={type}
+				listType={listType}
 			/>
 		)
 

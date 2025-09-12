@@ -3,7 +3,7 @@ import {useMemo, useState} from 'react'
 import {View, type StyleProp, type ViewStyle} from 'react-native'
 import {Icon} from '../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
-import {LIST_SELECT_TYPE} from '../List'
+import {LIST_SELECT_TYPE, LIST_TYPE} from '../List'
 import {Menu} from './Menu.component'
 
 export const Select = () => {
@@ -37,6 +37,7 @@ export const Select = () => {
 					activeKey={activeKey}
 					afterAffordance={true}
 					data={data}
+					listType={LIST_TYPE.LABEL}
 					loading={true}
 					onActive={onActiveKey}
 					selectType={LIST_SELECT_TYPE.SINGLE}
