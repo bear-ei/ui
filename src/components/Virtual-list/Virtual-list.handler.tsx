@@ -185,37 +185,6 @@ export const updateVirtualListData = (setState: Updater<VirtualListState>) => (d
 		draft.virtualListData = data
 	})
 
-export const checkVirtualListLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => {
-	const createIndexKeyMatcher =
-		(key: string) =>
-		({indexKey}: VirtualListData) =>
-			indexKey === key
-
-	return (setState: Updater<VirtualListState>) => (indexKey?: string) => {
-		if (indexKey) {
-			const nextLoadEndEvent = () => onLoadEnd?.(indexKey)
-
-			setState(draft => {
-				const visibleRangeDataMatchedIndex = draft.visibleRangeData?.findIndex(
-					createIndexKeyMatcher(indexKey)
-				)
-
-				const isAtEndOfVisibleRange =
-					(draft.visibleRangeData?.length ?? 0) - 1 === visibleRangeDataMatchedIndex &&
-					visibleRangeDataMatchedIndex !== -1
-
-				if (isAtEndOfVisibleRange) {
-					draft.nextLoadEndEvent = nextLoadEndEvent
-				}
-			})
-
-			return
-		}
-
-		onLoadEnd?.(indexKey)
-	}
-}
-
 export const updateVirtualListVisibilityRangeData =
 	({itemSize, layout}: UpdateVirtualListLayoutOptions) =>
 	(setState: Updater<VirtualListState>) =>

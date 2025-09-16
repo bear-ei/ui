@@ -36,6 +36,7 @@ export const RenderVirtualListItem = <T,>({
 			{data?.map((item, index) => (
 				<VirtualListItem
 					{...virtualListItemProps}
+					{...(index === data.length - 1 && {onLoadEnd})}
 					index={index}
 					item={item as Record<string, unknown>}
 					key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}

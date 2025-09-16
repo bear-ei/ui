@@ -8,7 +8,6 @@ import {debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
-	checkVirtualListLoadEnd,
 	handleVirtualListStateChange,
 	triggerVirtualListMomentumScrollEnd,
 	unmountVirtualList,
@@ -33,7 +32,7 @@ const VirtualListBaseInner = <T,>(
 		layout = LAYOUT.VERTICAL,
 		onClose: rawOnClose,
 		onEndReached: rawOnEndReached,
-		onLoadEnd: rawOnLoadEnd,
+		onLoadEnd,
 		onMomentumScrollEnd: rawOnMomentumScrollEnd,
 		onScroll: rawOnScroll,
 		renderItem,
@@ -46,13 +45,13 @@ const VirtualListBaseInner = <T,>(
 			emptyList: isEmptyList,
 			layout: containerLayout,
 			nextCloseEvent,
+			nextEndReachedEvent,
 			nextLoadEndEvent,
 			nextScrollEvent,
 			startIndex,
 			status,
 			virtualListData,
-			visibleRangeData,
-			nextEndReachedEvent
+			visibleRangeData
 		},
 		setState
 	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE, startIndex: 0})
@@ -81,7 +80,6 @@ const VirtualListBaseInner = <T,>(
 		[rawOnMomentumScrollEnd]
 	)
 
-	const onLoadEnd = useMemo(() => checkVirtualListLoadEnd(rawOnLoadEnd)(setState), [rawOnLoadEnd, setState])
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
 	const onUnmount = useMemo(
 		() =>
@@ -109,9 +107,9 @@ const VirtualListBaseInner = <T,>(
 	})
 
 	const {animatedRef, contentAnimatedStyle} = useVirtualListAnimated({
+		contentSize,
 		focusedIndex,
 		itemSize,
-		contentSize,
 		layout
 	})
 

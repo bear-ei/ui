@@ -37,15 +37,15 @@ export const useVirtualListAnimated = ({
 	)
 
 	useDerivedValue(() => {
-		const scrollToVal = focusedIndex * itemSize
+		const scrollToValue = focusedIndex * itemSize
 
 		if (layout === LAYOUT.VERTICAL) {
-			scrollTo(animatedRef, 0, scrollToVal, true)
+			scrollTo(animatedRef, 0, scrollToValue, true)
 
 			return
 		}
 
-		scrollTo(animatedRef, scrollToVal, 0, true)
+		scrollTo(animatedRef, scrollToValue, 0, true)
 	})
 
 	useEffect(() => {

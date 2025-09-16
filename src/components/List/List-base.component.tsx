@@ -36,6 +36,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			focusedIndex,
 			itemSize: rawItemSize,
 			layout = LAYOUT.VERTICAL,
+			leadingType,
 			loading,
 			loadingElement,
 			onActive: rawOnActive,
@@ -52,7 +53,6 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			supportingTextNumberOfLines,
 			trailingTriggerEvent,
 			type = LIST_TYPE.STANDARD,
-			leadingType,
 			...renderListProps
 		},
 		ref
@@ -161,7 +161,6 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		)
 
 		useImperativeHandle(ref, () => (listRef?.current ?? {}) as ScrollView, [listRef])
-
 		useEffect(() => {
 			runUpdateActiveState(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
 		}, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActiveState])
