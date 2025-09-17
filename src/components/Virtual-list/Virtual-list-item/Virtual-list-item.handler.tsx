@@ -1,7 +1,13 @@
+import type {
+	GestureStateChangeEvent,
+	GestureUpdateEvent,
+	PanGestureHandlerEventPayload
+} from 'react-native-gesture-handler'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimateSharedValueTo} from '../../../hooks'
 import {COMPONENT_STATUS} from '../../Common'
+import type {HandleDragUpdateOptions} from '../Virtual-list.interface'
 import type {VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
 
 export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => {
@@ -41,3 +47,21 @@ export const updateVirtualListItemStatus = (setState: Updater<VirtualListItemSta
 			draft.status = COMPONENT_STATUS.SUCCEEDED
 		}
 	})
+
+export const handleVirtualListItemDragUpdate =
+	(onDragUpdate?: (options: HandleDragUpdateOptions) => void) =>
+	(indexKey?: string) =>
+	(event: GestureUpdateEvent<PanGestureHandlerEventPayload>) =>
+		indexKey && onDragUpdate?.({indexKey, event})
+
+export const updateVirtualListItemDragStart =
+	(setState: Updater<VirtualListItemState>) => (_event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) =>
+		setState(draft => {
+			draft.dragging = true
+		})
+
+export const updateVirtualListItemDragEnd =
+	(setState: Updater<VirtualListItemState>) => (_event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) =>
+		setState(draft => {
+			draft.dragging = false
+		})

@@ -51,6 +51,7 @@ export interface ListProps
 	defaultActiveKeys?: string[]
 	deselect?: boolean
 	divider?: boolean
+	draggable?: boolean
 	enableUnderlay?: boolean
 	enableUnderlayActive?: boolean
 	focusedIndex?: number

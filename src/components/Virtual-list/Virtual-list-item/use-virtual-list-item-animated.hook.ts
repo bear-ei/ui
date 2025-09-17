@@ -7,7 +7,12 @@ import {COMPONENT_STATUS, LAYOUT} from '../../Common'
 import {animateVirtualListItem} from './Virtual-list-item.handler'
 import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
-export const useVirtualListItemAnimated = ({offset = 0, status, layout}: UseVirtualListItemAnimatedOptions) => {
+export const useVirtualListItemAnimated = ({
+	dragging,
+	layout,
+	offset = 0,
+	status
+}: UseVirtualListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const animateSharedValueTo = useMemo(() => animatedTiming({duration: DURATION.SHORT_2}), [animatedTiming])
@@ -27,10 +32,10 @@ export const useVirtualListItemAnimated = ({offset = 0, status, layout}: UseVirt
 	)
 
 	useEffect(() => {
-		if (status === COMPONENT_STATUS.SUCCEEDED) {
+		if (status === COMPONENT_STATUS.SUCCEEDED && !dragging) {
 			runAnimate(offset)
 		}
-	}, [runAnimate, offset, status])
+	}, [runAnimate, offset, status, dragging])
 
 	useEffect(() => () => cancelAnimation(translateSharedValue), [translateSharedValue])
 

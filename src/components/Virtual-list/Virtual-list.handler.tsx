@@ -7,6 +7,8 @@ import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} fr
 import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type EventName, type LayoutRectangle} from '../Common'
 import type {ListData} from '../List'
 import type {
+	HandleDragUpdateOptions,
+	HandleVirtualListDragUpdateOptions,
 	TriggerVirtualListCloseOptions,
 	UnmountVirtualListOptions,
 	UpdateVirtualListLayoutOptions,
@@ -201,3 +203,60 @@ export const animateVirtualList =
 	(contentSharedValue: SharedValue<number>) =>
 	(contentSize: number) =>
 		animateSharedValueTo({sharedValue: contentSharedValue})(contentSize)
+
+export const handleVirtualListDragUpdate =
+	({itemSize = 0, layout}: HandleVirtualListDragUpdateOptions) =>
+	(setState: Updater<VirtualListState>) =>
+	({indexKey, event}: HandleDragUpdateOptions) => {
+		setState(draft => {
+			const visibleRangeData = draft.visibleRangeData ?? []
+			const scrollOffset = draft.scrollOffset ?? 0
+			const updateVisibleRangeData = (itemIndexKey: string) => {
+				const draggedIndex = visibleRangeData.findIndex(item => item.indexKey === indexKey)
+				const overIndex = visibleRangeData.findIndex(item => item.indexKey === itemIndexKey)
+				const isUpdateVisibleRangeData =
+					draggedIndex !== -1 && overIndex !== -1 && draggedIndex !== overIndex
+
+				if (isUpdateVisibleRangeData) {
+					const nextVisibleRangeData = [...visibleRangeData]
+
+					;[nextVisibleRangeData[draggedIndex], nextVisibleRangeData[overIndex]] = [
+						nextVisibleRangeData[overIndex],
+						nextVisibleRangeData[draggedIndex]
+					]
+
+					draft.visibleRangeData = nextVisibleRangeData
+				}
+			}
+
+			for (const [index, {indexKey: itemIndexKey}] of visibleRangeData.entries()) {
+				const renderIndex = index + (draft.startIndex ?? 0)
+
+				if (layout === LAYOUT.HORIZONTAL) {
+					const dragItemX = event.absoluteX
+					const itemX = itemSize * renderIndex - scrollOffset
+					const isOverItem = dragItemX > itemX && dragItemX < itemX + itemSize
+
+					if (isOverItem && itemIndexKey) {
+						updateVisibleRangeData(itemIndexKey)
+
+						break
+					}
+
+					return
+				}
+
+				if (layout === LAYOUT.VERTICAL) {
+					const dragItemY = event.absoluteY
+					const itemY = itemSize * renderIndex - scrollOffset
+					const isOverItem = dragItemY > itemY && dragItemY < itemY + itemSize
+
+					if (isOverItem && itemIndexKey) {
+						updateVisibleRangeData(itemIndexKey)
+
+						break
+					}
+				}
+			}
+		})
+	}

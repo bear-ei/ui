@@ -8,6 +8,7 @@ import {debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
+	handleVirtualListDragUpdate,
 	handleVirtualListStateChange,
 	triggerVirtualListMomentumScrollEnd,
 	unmountVirtualList,
@@ -24,6 +25,7 @@ const VirtualListBaseInner = <T,>(
 		activeKey,
 		data,
 		dependencies,
+		draggable,
 		enableAutoSelect,
 		endReachedThreshold = 0.1,
 		focusedIndex,
@@ -59,7 +61,8 @@ const VirtualListBaseInner = <T,>(
 	useClearComponentEvent(setState)
 
 	const id = useId()
-	const contentSize = (virtualListData ?? data ?? []).length * (itemSize + gap) - gap
+	const renderItemSize = itemSize + gap
+	const contentSize = (virtualListData ?? data ?? []).length * renderItemSize - gap
 	const onEndReached = useMemo(() => debounce(rawOnEndReached)(150), [rawOnEndReached])
 	const onScroll = useMemo(
 		() =>
@@ -100,6 +103,11 @@ const VirtualListBaseInner = <T,>(
 		[onLayoutChange]
 	)
 
+	const onDragUpdate = useMemo(
+		() => debounce(handleVirtualListDragUpdate({itemSize: renderItemSize, layout})(setState))(50),
+		[layout, renderItemSize, setState]
+	)
+
 	const interactionHandlers = useInteractionStateEvent({
 		...renderVirtualListProps,
 		disabled: false,
@@ -122,11 +130,14 @@ const VirtualListBaseInner = <T,>(
 	const itemElements = useMemo(
 		() => (
 			<RenderVirtualListItem
+				containerLayout={containerLayout}
 				data={visibleRangeData as VirtualListData<T>[]}
 				dependencies={dependencies}
+				draggable={draggable}
 				id={id}
-				itemSize={itemSize + gap}
+				itemSize={renderItemSize}
 				layout={layout}
+				onDragUpdate={onDragUpdate}
 				onLoadEnd={onLoadEnd}
 				onUnmount={onUnmount}
 				renderItem={renderItem}
@@ -134,14 +145,16 @@ const VirtualListBaseInner = <T,>(
 			/>
 		),
 		[
+			containerLayout,
 			dependencies,
-			gap,
+			draggable,
 			id,
-			itemSize,
 			layout,
+			onDragUpdate,
 			onLoadEnd,
 			onUnmount,
 			renderItem,
+			renderItemSize,
 			startIndex,
 			visibleRangeData
 		]

@@ -18,6 +18,7 @@ import {
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 export const RenderVirtualListItem = <T,>({
+	containerLayout,
 	data,
 	id,
 	onLoadEnd,
@@ -37,10 +38,10 @@ export const RenderVirtualListItem = <T,>({
 				<VirtualListItem
 					{...virtualListItemProps}
 					{...(index === data.length - 1 && {onLoadEnd})}
+					containerLayout={containerLayout}
 					index={index}
 					item={item as Record<string, unknown>}
 					key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
-					onLoadEnd={onLoadEnd}
 					startIndex={startIndex}
 					testID={`virtualList__virtualListItem--${id}`}
 					renderItem={

@@ -1,5 +1,6 @@
 import type {RefAttributes} from 'react'
 import type {ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
+import type {GestureUpdateEvent, PanGestureHandlerEventPayload} from 'react-native-gesture-handler'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {InteractionHandlers} from '../../hooks'
 import type {ComponentStatus, LayoutRectangle, LayoutType} from '../Common'
@@ -18,6 +19,7 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Scro
 	activeKey?: string
 	data?: VirtualListData<T>[]
 	dependencies?: unknown[]
+	draggable?: boolean
 	emptyElement?: React.JSX.Element
 	enableAutoSelect?: boolean
 	endReachedThreshold?: number
@@ -88,10 +90,26 @@ export interface UseVirtualListScrollAnimatedOptions
 export interface RenderVirtualListItemOptions<T>
 	extends Pick<
 		RenderVirtualListProps<T>,
-		'itemSize' | 'renderItem' | 'dependencies' | 'onLoadEnd' | 'gap' | 'id' | 'data' | 'layout'
+		| 'containerLayout'
+		| 'data'
+		| 'dependencies'
+		| 'draggable'
+		| 'gap'
+		| 'id'
+		| 'itemSize'
+		| 'layout'
+		| 'onLoadEnd'
+		| 'renderItem'
 	> {
+	onDragUpdate?: (options: HandleDragUpdateOptions) => void
 	onUnmount?: (indexKey?: string) => void
 	startIndex?: number
 }
 
 export type UpdateVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layout'>
+export interface HandleDragUpdateOptions {
+	event: GestureUpdateEvent<PanGestureHandlerEventPayload>
+	indexKey: string
+}
+
+export type HandleVirtualListDragUpdateOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layout'>
