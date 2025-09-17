@@ -4,7 +4,9 @@ import type {
 	PanGestureHandlerEventPayload
 } from 'react-native-gesture-handler'
 import {runOnJS} from 'react-native-reanimated'
+import type {AnimateSharedValueTo} from '../../hooks'
 import type {
+	AnimateDragOptions,
 	UpdatePrevTranslationSharedValueOptions,
 	UpdateTranslationOptions,
 	UpdateTranslationScreenOptions,
@@ -31,8 +33,8 @@ export const updatePrevTranslation =
 
 export const updateTranslation = ({width, height, theme, onUpdate}: UpdateTranslationScreenOptions) => {
 	const clamp = (min: number) => (max: number) => (value: number) => Math.min(Math.max(value, min), max)
-	const maxTranslateX = width / 2 - theme.adaptSize(theme.token.spacing.large)
-	const maxTranslateY = height / 2 - theme.adaptSize(theme.token.spacing.large)
+	const maxTranslateX = width - theme.adaptSize(theme.token.spacing.large)
+	const maxTranslateY = height - theme.adaptSize(theme.token.spacing.large)
 
 	return ({
 			prevTranslationXSharedValue,
@@ -56,3 +58,24 @@ export const updateTranslation = ({width, height, theme, onUpdate}: UpdateTransl
 			}
 		}
 }
+
+export const handlePanGestureEnd =
+	(onEnd?: (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void) =>
+	(runAnimate: () => void) =>
+	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
+		'worklet'
+
+		runAnimate()
+
+		if (onEnd) {
+			runOnJS(onEnd)(event)
+		}
+	}
+
+export const animateDrag =
+	(animateSharedValueTo: AnimateSharedValueTo) =>
+	({translateXSharedValue, translateYSharedValue}: AnimateDragOptions) =>
+	() => {
+		animateSharedValueTo({sharedValue: translateXSharedValue})(0)
+		animateSharedValueTo({sharedValue: translateYSharedValue})(0)
+	}

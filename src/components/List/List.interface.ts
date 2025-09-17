@@ -31,8 +31,8 @@ export interface ListData
 
 export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & CreateRenderListItemOptions
 export interface UpdateListAffordanceActiveStateOptions {
-	callback?: () => void
 	activeKey?: string
+	callback?: () => void
 }
 
 export interface ListProps
@@ -124,7 +124,7 @@ export type CreateRenderListItemOptions = Pick<
 	| 'type'
 >
 
-export type ListBaseProps = ListProps
-export type UpdateListActiveStateOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
 export type CreateListItemSizeOptions = Pick<RenderListProps, 'density' | 'type'>
+export type ListBaseProps = ListProps
 export type ListContainerProps = Pick<RenderListProps, 'layout'>
+export type UpdateListActiveStateOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>

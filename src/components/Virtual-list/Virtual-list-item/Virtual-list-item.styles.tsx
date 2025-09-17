@@ -26,6 +26,14 @@ export const Container = styled(LayoutAnimated)<ContainerProps & LayoutAnimatedP
 			top: ${theme.adaptSize(theme.token.spacing.none)}px;
 			width: ${itemSize}px;
 		`}
+
+
+
+	${({dragging}) =>
+		dragging &&
+		css`
+			z-index: 1024;
+		`}
 `
 
 export const DragContent = styled.View<DragContentProps>`

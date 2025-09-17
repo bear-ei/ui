@@ -23,7 +23,6 @@ export const RenderVirtualListItem = <T,>({
 	id,
 	onLoadEnd,
 	renderItem,
-	startIndex = 0,
 	...virtualListItemProps
 }: RenderVirtualListItemOptions<T>) => {
 	if (data?.length === 0) {
@@ -39,10 +38,8 @@ export const RenderVirtualListItem = <T,>({
 					{...virtualListItemProps}
 					{...(index === data.length - 1 && {onLoadEnd})}
 					containerLayout={containerLayout}
-					index={index}
-					item={item as Record<string, unknown>}
-					key={`${((item as Record<string, unknown>)?.indexKey as string) ?? index}`}
-					startIndex={startIndex}
+					item={item}
+					key={`${(item?.indexKey as string) ?? index}`}
 					testID={`virtualList__virtualListItem--${id}`}
 					renderItem={
 						renderItem as (

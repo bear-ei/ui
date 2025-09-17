@@ -8,13 +8,17 @@ import type {Updater} from 'use-immer'
 import type {AnimateSharedValueTo} from '../../../hooks'
 import {COMPONENT_STATUS} from '../../Common'
 import type {HandleDragUpdateOptions} from '../Virtual-list.interface'
-import type {VirtualListItemProps, VirtualListItemState} from './Virtual-list-item.interface'
+import type {
+	HandleVirtualListItemDragEndOptions,
+	VirtualListItemProps,
+	VirtualListItemState
+} from './Virtual-list-item.interface'
 
 export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => {
-	const {dependencies: prevDependencies, index: prevIndex, item: prevItem} = prevProps
+	const {dependencies: prevDependencies, item: prevItem} = prevProps
 
 	return (nextProps: VirtualListItemProps) => {
-		const {dependencies: nextDependencies, index: nextIndex, item: nextItem} = nextProps
+		const {dependencies: nextDependencies, item: nextItem} = nextProps
 		const isDependenciesChanged =
 			prevDependencies?.length !== nextDependencies?.length ||
 			prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
@@ -25,7 +29,9 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => 
 				(dependence, index) => dependence !== nextItem?.dependencies?.[index]
 			)
 
-		return ![isDependenciesChanged, prevIndex !== nextIndex, isItemDependenciesChanged].some(Boolean)
+		return ![isDependenciesChanged, prevItem?.index !== nextItem?.index, isItemDependenciesChanged].some(
+			Boolean
+		)
 	}
 }
 
@@ -35,7 +41,7 @@ export const triggerVirtualListItemClose = (setState: Updater<VirtualListItemSta
 	})
 
 export const triggerVirtualListItemUnmount = (onUnmount?: (indexKey?: string) => void) => (indexKey?: string) => () =>
-	onUnmount?.(indexKey)
+	indexKey && onUnmount?.(indexKey)
 
 export const animateVirtualListItem =
 	(animateSharedValueTo: AnimateSharedValueTo) => (topSharedValue: SharedValue<number>) => (offsetY: number) =>
@@ -54,14 +60,24 @@ export const handleVirtualListItemDragUpdate =
 	(event: GestureUpdateEvent<PanGestureHandlerEventPayload>) =>
 		indexKey && onDragUpdate?.({indexKey, event})
 
-export const updateVirtualListItemDragStart =
+export const handleVirtualListItemDragStart =
 	(setState: Updater<VirtualListItemState>) => (_event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) =>
 		setState(draft => {
 			draft.dragging = true
 		})
 
-export const updateVirtualListItemDragEnd =
-	(setState: Updater<VirtualListItemState>) => (_event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) =>
+export const handleVirtualListItemDragEnd =
+	({onDragEnd, indexKey}: HandleVirtualListItemDragEndOptions) =>
+	(setState: Updater<VirtualListItemState>) =>
+	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
+		if (!indexKey) {
+			return
+		}
+
+		const nextDragEndEvent = () => onDragEnd?.({indexKey, event})
+
 		setState(draft => {
 			draft.dragging = false
+			draft.nextDragEndEvent = nextDragEndEvent
 		})
+	}

@@ -1,23 +1,25 @@
 import {useEffect, useMemo} from 'react'
-import {Gesture} from 'react-native-gesture-handler'
-import {cancelAnimation, runOnJS, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {Gesture, MouseButton} from 'react-native-gesture-handler'
+import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {useWindowDimensions} from '../../hooks'
-import {updatePrevTranslation, updateTranslation} from './Drag.handler'
+import {useAnimatedTiming, useWindowDimensions} from '../../hooks'
+import {animateDrag, handlePanGestureEnd, updatePrevTranslation, updateTranslation} from './Drag.handler'
 import type {UseDragAnimatedOptions} from './Drag.interface'
 
 export const useDragAnimated = ({
-	width: rawWidth,
 	height: rawHeight,
-	onUpdate,
 	onEnd,
-	onStart
+	onStart,
+	onUpdate,
+	width: rawWidth
 }: UseDragAnimatedOptions) => {
 	const {width: screenWidth, height: screenHeight} = useWindowDimensions()
+	const theme = useTheme()
+	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const height = rawHeight ?? screenHeight
 	const prevTranslationXSharedValue = useSharedValue(0)
 	const prevTranslationYSharedValue = useSharedValue(0)
-	const theme = useTheme()
 	const translateXSharedValue = useSharedValue(0)
 	const translateYSharedValue = useSharedValue(0)
 	const width = rawWidth ?? screenWidth
@@ -60,17 +62,22 @@ export const useDragAnimated = ({
 		]
 	)
 
-	const panGesture = Gesture.Pan()
-		.minDistance(1)
-		.onStart(onPanGestureStart)
-		.onUpdate(onPanGestureUpdate)
-		.onEnd(event => {
-			'worklet'
+	const runAnimate = useMemo(
+		() => animateDrag(animateSharedValueTo)({translateXSharedValue, translateYSharedValue}),
+		[animateSharedValueTo, translateXSharedValue, translateYSharedValue]
+	)
 
-			if (onEnd) {
-				runOnJS(onEnd)(event)
-			}
-		})
+	const onPanGestureEnd = useMemo(() => handlePanGestureEnd(onEnd)(runAnimate), [onEnd, runAnimate])
+	const panGesture = useMemo(
+		() =>
+			Gesture.Pan()
+				.minDistance(24)
+				.mouseButton(MouseButton.LEFT)
+				.onStart(onPanGestureStart)
+				.onUpdate(onPanGestureUpdate)
+				.onEnd(onPanGestureEnd),
+		[onPanGestureEnd, onPanGestureStart, onPanGestureUpdate]
+	)
 
 	useEffect(
 		() => () => {

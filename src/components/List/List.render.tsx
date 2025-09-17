@@ -8,7 +8,6 @@ import {Container} from './List.styles'
 export const RenderDefaultListItem: FC<RenderListItemOptions> = ({
 	afterAffordanceSecondaryButtonProps: rawAfterAffordanceSecondaryButtonProps,
 	id,
-	index,
 	item,
 	supportingTextNumberOfLines,
 	...props
@@ -24,8 +23,8 @@ export const RenderDefaultListItem: FC<RenderListItemOptions> = ({
 			{...item}
 			{...props}
 			afterAffordanceSecondaryButtonProps={afterAffordanceSecondaryButtonProps}
-			indexKey={item?.indexKey ?? `${index}`}
-			itemIndex={index}
+			indexKey={item?.indexKey ?? `${item.index}`}
+			itemIndex={item.index}
 			testID={`list__listItem--${id}`}
 		/>
 	)

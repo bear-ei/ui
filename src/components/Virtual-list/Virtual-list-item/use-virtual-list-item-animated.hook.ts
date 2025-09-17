@@ -1,4 +1,3 @@
-import {DURATION} from '@bearei/element-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -15,15 +14,11 @@ export const useVirtualListItemAnimated = ({
 }: UseVirtualListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const animateSharedValueTo = useMemo(() => animatedTiming({duration: DURATION.SHORT_2}), [animatedTiming])
+	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const translateSharedValue = useSharedValue(offset)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
-		...(layout === LAYOUT.VERTICAL && {
-			transform: [{translateY: translateSharedValue.value}]
-		}),
-		...(layout === LAYOUT.HORIZONTAL && {
-			transform: [{translateX: translateSharedValue.value}]
-		})
+		...(layout === LAYOUT.VERTICAL && {transform: [{translateY: translateSharedValue.value}]}),
+		...(layout === LAYOUT.HORIZONTAL && {transform: [{translateX: translateSharedValue.value}]})
 	}))
 
 	const runAnimate = useMemo(
@@ -35,7 +30,7 @@ export const useVirtualListItemAnimated = ({
 		if (status === COMPONENT_STATUS.SUCCEEDED && !dragging) {
 			runAnimate(offset)
 		}
-	}, [runAnimate, offset, status, dragging])
+	}, [dragging, offset, runAnimate, status])
 
 	useEffect(() => () => cancelAnimation(translateSharedValue), [translateSharedValue])
 

@@ -44,3 +44,5 @@ export interface UpdateTranslationScreenOptions extends Pick<UseDragAnimatedOpti
 export interface UpdateTranslationOptions
 	extends UpdatePrevTranslationSharedValueOptions,
 		UpdateTranslationSharedValueOptions {}
+
+export type AnimateDragOptions = UpdateTranslationSharedValueOptions

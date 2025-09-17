@@ -1,6 +1,10 @@
 import type {RefAttributes} from 'react'
 import type {ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
-import type {GestureUpdateEvent, PanGestureHandlerEventPayload} from 'react-native-gesture-handler'
+import type {
+	GestureStateChangeEvent,
+	GestureUpdateEvent,
+	PanGestureHandlerEventPayload
+} from 'react-native-gesture-handler'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {InteractionHandlers} from '../../hooks'
 import type {ComponentStatus, LayoutRectangle, LayoutType} from '../Common'
@@ -8,11 +12,18 @@ import type {RenderVirtualListItemInfo} from './Virtual-list-item'
 
 export type VirtualListData<T = Record<string, unknown>> = T & {
 	indexKey?: string
+	index?: number
 }
 
 export interface OnVirtualListCloseOptions {
 	activeKey?: string
 	indexKey?: string
+}
+
+export interface OnDragEndOptions {
+	event: GestureStateChangeEvent<PanGestureHandlerEventPayload>
+	indexKey: string
+	targetKey?: string
 }
 
 export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<ScrollView> {
@@ -30,6 +41,7 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Scro
 	loading?: boolean
 	loadingElement?: React.JSX.Element
 	onClose?: (options: OnVirtualListCloseOptions) => void
+	onDragEnd?: (options: OnDragEndOptions) => void
 	onEndReached?: () => void
 	onLoadEnd?: (indexKey?: string) => void
 	renderItem?: (options: RenderVirtualListItemInfo<T>) => React.JSX.Element
@@ -52,6 +64,8 @@ export interface VirtualListState {
 	layout: LayoutRectangle
 	loading?: boolean
 	nextCloseEvent?: () => void
+	nextDragEndEvent?: () => void
+	nextDragTargetIndexKey?: string
 	nextEndReachedEvent?: () => void
 	nextLoadEndEvent?: () => void
 	nextScrollEvent?: () => void
@@ -59,7 +73,7 @@ export interface VirtualListState {
 	startIndex?: number
 	status: ComponentStatus
 	virtualListData?: VirtualListData[]
-	visibleRangeData?: VirtualListData[]
+	visibleRangeData?: (VirtualListData & {index: number})[]
 }
 
 export interface UpdateVirtualListOnScrollOptions
@@ -101,9 +115,9 @@ export interface RenderVirtualListItemOptions<T>
 		| 'onLoadEnd'
 		| 'renderItem'
 	> {
+	onDragEnd?: (options: HandleDragEndOptions) => void
 	onDragUpdate?: (options: HandleDragUpdateOptions) => void
 	onUnmount?: (indexKey?: string) => void
-	startIndex?: number
 }
 
 export type UpdateVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layout'>
@@ -112,4 +126,10 @@ export interface HandleDragUpdateOptions {
 	indexKey: string
 }
 
+export interface HandleDragEndOptions {
+	event: GestureStateChangeEvent<PanGestureHandlerEventPayload>
+	indexKey: string
+}
+
+export type HandleVirtualListDragEndOptions = Pick<RenderVirtualListProps, 'onDragEnd'>
 export type HandleVirtualListDragUpdateOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layout'>

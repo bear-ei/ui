@@ -19,7 +19,6 @@ describe('VirtualListItem Component', () => {
 			<VirtualListItem
 				item={mockItem}
 				index={1}
-				startIndex={2}
 				itemSize={100}
 				renderItem={mockRenderItem}
 				onLoadEnd={mockOnLoadEnd}

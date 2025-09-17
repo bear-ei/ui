@@ -2,6 +2,7 @@ import {DURATION} from '@bearei/element-token'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {Drag} from '../../Drag'
+import {Elevation} from '../../Elevation'
 import type {RenderVirtualListItemProps} from './Virtual-list-item.interface'
 import {Container, DragContent} from './Virtual-list-item.styles'
 
@@ -11,10 +12,12 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 			containerAnimatedStyle,
 			containerLayout,
 			draggable,
+			dragging,
 			id,
 			itemElement,
 			itemSize = 0,
 			layout,
+			onDragEnd,
 			onDragStart,
 			onDragUpdate,
 			onUnmount,
@@ -27,6 +30,7 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 		return (
 			<Container
 				{...containerProps}
+				dragging={dragging}
 				exit={{duration: DURATION.SHORT_2}}
 				itemSize={itemSize}
 				layout={layout}
@@ -40,6 +44,7 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 				{draggable ?
 					<Drag
 						height={containerLayout?.height}
+						onEnd={onDragEnd}
 						onStart={onDragStart}
 						onUpdate={onDragUpdate}
 						testID={`virtualListItem__drag--${id}`}
@@ -52,6 +57,10 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 							testID={`virtualListItem__dragContent--${id}`}
 						>
 							{itemElement}
+							<Elevation
+								level={dragging ? 2 : 0}
+								testID={`virtualListItem__elevation--${id}`}
+							/>
 						</DragContent>
 					</Drag>
 				:	itemElement}

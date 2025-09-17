@@ -145,7 +145,7 @@ export const Draggable = () => {
 		justifyContent: 'center'
 	} as ViewStyle
 
-	const data = Array.from({length: 200}, (_, index) => ({
+	const data = Array.from({length: 10}, (_, index) => ({
 		indexKey: `Item${index + 1}`,
 		headline: `Item${index + 1}`,
 		afterAffordance: true,
@@ -158,6 +158,9 @@ export const Draggable = () => {
 				data={data}
 				itemSize={56}
 				draggable={true}
+				onDragEnd={options => {
+					console.info(options)
+				}}
 				onEndReached={() => {
 					console.info('onEndReached')
 				}}
