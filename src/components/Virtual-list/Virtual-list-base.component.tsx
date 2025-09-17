@@ -34,12 +34,12 @@ const VirtualListBaseInner = <T,>(
 		itemSize = 0,
 		layout = LAYOUT.VERTICAL,
 		onClose: rawOnClose,
+		onDragEnd: rawOnDragEnd,
 		onEndReached: rawOnEndReached,
 		onLoadEnd,
 		onMomentumScrollEnd: rawOnMomentumScrollEnd,
 		onScroll: rawOnScroll,
 		renderItem,
-		onDragEnd: rawOnDragEnd,
 		...renderVirtualListProps
 	}: VirtualListBaseProps<T>,
 	ref: ForwardedRef<ScrollView>

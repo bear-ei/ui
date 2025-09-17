@@ -31,10 +31,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		ref
 	) => {
 		const [{visible: isVisible, status, dragging: isDragging, nextDragEndEvent}, setState] =
-			useImmer<VirtualListItemState>({
-				visible: true,
-				status: COMPONENT_STATUS.IDLE
-			})
+			useImmer<VirtualListItemState>({visible: true, status: COMPONENT_STATUS.IDLE})
 
 		const id = useId()
 		const {index = 0, indexKey} = item ?? {}
