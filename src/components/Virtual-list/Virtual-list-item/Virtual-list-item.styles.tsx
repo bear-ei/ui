@@ -2,9 +2,9 @@ import styled, {css} from 'styled-components/native'
 import {LAYOUT} from '../../Common'
 import type {LayoutAnimatedProps} from '../../Layout-animated'
 import {LayoutAnimated} from '../../Layout-animated'
-import type {ContainerProps, DragContentProps} from './Virtual-list-item.interface'
+import type {VirtualListItemContainerProps, VirtualListItemDragContentProps} from './Virtual-list-item.interface'
 
-export const Container = styled(LayoutAnimated)<ContainerProps & LayoutAnimatedProps>`
+export const Container = styled(LayoutAnimated)<VirtualListItemContainerProps & LayoutAnimatedProps>`
 	display: flex;
 	flex-direction: column;
 	position: absolute;
@@ -36,18 +36,18 @@ export const Container = styled(LayoutAnimated)<ContainerProps & LayoutAnimatedP
 		`}
 `
 
-export const DragContent = styled.View<DragContentProps>`
-	${({itemSize, layout, containerLayout}) =>
+export const DragContent = styled.View<VirtualListItemDragContentProps>`
+	${({itemSize = 0, layout, containerLayout, gap = 0}) =>
 		layout === LAYOUT.VERTICAL &&
 		css`
-			height: ${itemSize}px;
+			height: ${itemSize - gap}px;
 			width: ${containerLayout?.width ?? 0}px;
 		`}
 
-	${({itemSize, layout, containerLayout}) =>
+	${({itemSize = 0, layout, containerLayout, gap = 0}) =>
 		layout === LAYOUT.HORIZONTAL &&
 		css`
 			height: ${containerLayout?.height ?? 0}px;
-			width: ${itemSize}px;
+			width: ${itemSize - gap}px;
 		`}
 `

@@ -196,6 +196,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 				onClose={onClose}
 				ref={listRef}
 				renderItem={renderItem}
+				shape={shape}
 			/>
 		)
 	}

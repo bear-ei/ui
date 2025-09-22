@@ -40,6 +40,7 @@ const VirtualListBaseInner = <T,>(
 		onMomentumScrollEnd: rawOnMomentumScrollEnd,
 		onScroll: rawOnScroll,
 		renderItem,
+		shape,
 		...renderVirtualListProps
 	}: VirtualListBaseProps<T>,
 	ref: ForwardedRef<ScrollView>
@@ -137,6 +138,7 @@ const VirtualListBaseInner = <T,>(
 				data={visibleRangeData as VirtualListData<T>[]}
 				dependencies={dependencies}
 				draggable={draggable}
+				gap={gap}
 				id={id}
 				itemSize={renderItemSize}
 				layout={layout}
@@ -145,12 +147,14 @@ const VirtualListBaseInner = <T,>(
 				onLoadEnd={onLoadEnd}
 				onUnmount={onUnmount}
 				renderItem={renderItem}
+				shape={shape}
 			/>
 		),
 		[
 			containerLayout,
 			dependencies,
 			draggable,
+			gap,
 			id,
 			layout,
 			onDragEnd,
@@ -159,6 +163,7 @@ const VirtualListBaseInner = <T,>(
 			onUnmount,
 			renderItem,
 			renderItemSize,
+			shape,
 			visibleRangeData
 		]
 	)

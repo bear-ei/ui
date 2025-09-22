@@ -26,7 +26,14 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
 		RefAttributes<View>,
 		Pick<
 			RenderVirtualListProps<T>,
-			'itemSize' | 'renderItem' | 'dependencies' | 'onLoadEnd' | 'gap' | 'layout' | 'draggable'
+			| 'dependencies'
+			| 'draggable'
+			| 'gap'
+			| 'itemSize'
+			| 'layout'
+			| 'onLoadEnd'
+			| 'renderItem'
+			| 'shape'
 		> {
 	containerLayout?: LayoutRectangle
 	index?: number
@@ -68,5 +75,8 @@ export interface HandleVirtualListItemDragEndOptions extends Pick<VirtualListIte
 	indexKey?: string
 }
 
-export type ContainerProps = Pick<RenderVirtualListItemProps, 'itemSize' | 'layout' | 'dragging'>
-export type DragContentProps = Pick<RenderVirtualListItemProps, 'itemSize' | 'containerLayout' | 'layout'>
+export type VirtualListItemContainerProps = Pick<RenderVirtualListItemProps, 'itemSize' | 'layout' | 'dragging'>
+export type VirtualListItemDragContentProps = Pick<
+	RenderVirtualListItemProps,
+	'itemSize' | 'containerLayout' | 'layout' | 'gap'
+>

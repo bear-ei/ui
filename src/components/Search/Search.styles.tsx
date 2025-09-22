@@ -40,7 +40,7 @@ export const Content = styled(Shape)<SearchContentProps>`
 	${({theme, trailingShow}) =>
 		!trailingShow &&
 		css`
-			padding-right: ${theme.adaptSize(theme.token.spacing.extraSmall * 14)}px;
+			padding-right: ${theme.adaptSize(theme.token.spacing.medium)}px;
 		`};
 `
 

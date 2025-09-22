@@ -13,6 +13,7 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 			containerLayout,
 			draggable,
 			dragging,
+			gap,
 			id,
 			itemElement,
 			itemSize = 0,
@@ -21,50 +22,51 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 			onDragStart,
 			onDragUpdate,
 			onUnmount,
+			shape,
 			testID,
 			visible,
 			...containerProps
 		},
 		ref
-	) => {
-		return (
-			<Container
-				{...containerProps}
-				dragging={dragging}
-				exit={{duration: DURATION.SHORT_2}}
-				itemSize={itemSize}
-				layout={layout}
-				onUnmount={onUnmount}
-				ref={ref}
-				style={[containerAnimatedStyle]}
-				testID={testID ?? `virtualListItem--${id}`}
-				unmount={true}
-				visible={visible}
-			>
-				{draggable ?
-					<Drag
-						height={containerLayout?.height}
-						onEnd={onDragEnd}
-						onStart={onDragStart}
-						onUpdate={onDragUpdate}
-						testID={`virtualListItem__drag--${id}`}
-						width={containerLayout?.width}
+	) => (
+		<Container
+			{...containerProps}
+			dragging={dragging}
+			exit={{duration: DURATION.SHORT_2}}
+			itemSize={itemSize}
+			layout={layout}
+			onUnmount={onUnmount}
+			ref={ref}
+			style={[containerAnimatedStyle]}
+			testID={testID ?? `virtualListItem--${id}`}
+			unmount={true}
+			visible={visible}
+		>
+			{draggable ?
+				<Drag
+					height={containerLayout?.height}
+					onEnd={onDragEnd}
+					onStart={onDragStart}
+					onUpdate={onDragUpdate}
+					testID={`virtualListItem__drag--${id}`}
+					width={containerLayout?.width}
+				>
+					<DragContent
+						containerLayout={containerLayout}
+						gap={gap}
+						itemSize={itemSize}
+						layout={layout}
+						testID={`virtualListItem__dragContent--${id}`}
 					>
-						<DragContent
-							containerLayout={containerLayout}
-							itemSize={itemSize}
-							layout={layout}
-							testID={`virtualListItem__dragContent--${id}`}
-						>
-							{itemElement}
-							<Elevation
-								level={dragging ? 2 : 0}
-								testID={`virtualListItem__elevation--${id}`}
-							/>
-						</DragContent>
-					</Drag>
-				:	itemElement}
-			</Container>
-		)
-	}
+						{itemElement}
+						<Elevation
+							level={dragging ? 2 : 0}
+							shape={shape}
+							testID={`virtualListItem__elevation--${id}`}
+						/>
+					</DragContent>
+				</Drag>
+			:	itemElement}
+		</Container>
+	)
 )

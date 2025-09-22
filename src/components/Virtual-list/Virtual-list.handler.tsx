@@ -241,30 +241,17 @@ export const handleVirtualListDragUpdate =
 			}
 
 			for (const {indexKey: itemIndexKey, index} of visibleRangeData) {
-				if (layout === LAYOUT.HORIZONTAL) {
-					const dragItemX = event.absoluteX
-					const itemX = itemSize * index - scrollOffset
-					const isOverItem = dragItemX > itemX && dragItemX < itemX + itemSize
+				const dragItemAbsolute = layout === LAYOUT.HORIZONTAL ? event.x : event.y
+				const itemOffset = itemSize * index - scrollOffset
+				const isOverItem =
+					dragItemAbsolute > itemOffset && dragItemAbsolute < itemOffset + itemSize
 
-					if (isOverItem && itemIndexKey) {
-						updateVisibleRangeData(itemIndexKey)
+				console.info(dragItemAbsolute, itemOffset, isOverItem, itemSize, index)
 
-						break
-					}
+				if (isOverItem && itemIndexKey) {
+					updateVisibleRangeData(itemIndexKey)
 
-					return
-				}
-
-				if (layout === LAYOUT.VERTICAL) {
-					const dragItemY = event.absoluteY
-					const itemY = itemSize * index - scrollOffset
-					const isOverItem = dragItemY > itemY && dragItemY < itemY + itemSize
-
-					if (isOverItem && itemIndexKey) {
-						updateVisibleRangeData(itemIndexKey)
-
-						break
-					}
+					break
 				}
 			}
 		})

@@ -3,6 +3,7 @@ import type {ViewStyle} from 'react-native'
 import {Text, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {Button} from '../Button'
+import {LAYOUT} from '../Common'
 import {Icon} from '../Icon'
 import {VirtualList} from './Virtual-list.component'
 
@@ -156,8 +157,10 @@ export const Draggable = () => {
 		<View style={[style]}>
 			<VirtualList
 				data={data}
-				itemSize={56}
 				draggable={true}
+				gap={8}
+				itemSize={56}
+				layout={LAYOUT.HORIZONTAL}
 				onDragEnd={options => {
 					console.info(options)
 				}}

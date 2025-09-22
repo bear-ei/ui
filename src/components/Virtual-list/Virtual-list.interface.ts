@@ -7,7 +7,7 @@ import type {
 } from 'react-native-gesture-handler'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {InteractionHandlers} from '../../hooks'
-import type {ComponentStatus, LayoutRectangle, LayoutType} from '../Common'
+import type {ComponentStatus, LayoutRectangle, LayoutType, ShapeType} from '../Common'
 import type {RenderVirtualListItemInfo} from './Virtual-list-item'
 
 export type VirtualListData<T = Record<string, unknown>> = T & {
@@ -45,6 +45,7 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Scro
 	onEndReached?: () => void
 	onLoadEnd?: (indexKey?: string) => void
 	renderItem?: (options: RenderVirtualListItemInfo<T>) => React.JSX.Element
+	shape?: ShapeType
 }
 
 export interface RenderVirtualListProps<T = Record<string, unknown>> extends VirtualListProps<T> {
@@ -114,6 +115,7 @@ export interface RenderVirtualListItemOptions<T>
 		| 'layout'
 		| 'onLoadEnd'
 		| 'renderItem'
+		| 'shape'
 	> {
 	onDragEnd?: (options: HandleDragEndOptions) => void
 	onDragUpdate?: (options: HandleDragUpdateOptions) => void
