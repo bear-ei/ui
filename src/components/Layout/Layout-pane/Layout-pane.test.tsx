@@ -32,7 +32,7 @@ describe('LayoutPane Component', () => {
 	it('should applies vertical layout style when layout is set to VERTICAL', async () => {
 		const {getByTestId} = await renderWithAct(
 			<LayoutPane
-				layout={LAYOUT.VERTICAL}
+				layoutType={LAYOUT.VERTICAL}
 				testID='pane-vertical'
 			>
 				<Text>Vertical Layout</Text>

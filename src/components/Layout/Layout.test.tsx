@@ -32,7 +32,7 @@ describe('Layout Component', () => {
 	it('should applies vertical layout direction correctly', async () => {
 		const {getByTestId} = await renderWithAct(
 			<Layout
-				layout={LAYOUT.VERTICAL}
+				layoutType={LAYOUT.VERTICAL}
 				testID='layout-vertical'
 			>
 				<Text>Vertical Content</Text>

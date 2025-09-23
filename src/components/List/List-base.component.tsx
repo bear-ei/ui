@@ -35,7 +35,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			enableUnderlayActive,
 			focusedIndex,
 			itemSize: rawItemSize,
-			layout = LAYOUT.VERTICAL,
+			layoutType = LAYOUT.VERTICAL,
 			leadingType,
 			loading,
 			loadingElement,
@@ -190,7 +190,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 				focusedIndex={focusedIndex}
 				id={id}
 				itemSize={itemSize}
-				layout={layout}
+				layoutType={layoutType}
 				loading={loading}
 				loadingElement={loadingElement}
 				onClose={onClose}

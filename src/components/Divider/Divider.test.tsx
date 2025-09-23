@@ -18,7 +18,7 @@ describe('Divider Component', () => {
 	it('should renders horizontal layout with subheader', async () => {
 		const {getByTestId, getByText} = await renderWithAct(
 			<Divider
-				layout={LAYOUT.HORIZONTAL}
+				layoutType={LAYOUT.HORIZONTAL}
 				subheader='Section A'
 				testID='divider'
 			/>
@@ -36,7 +36,7 @@ describe('Divider Component', () => {
 	it('should renders vertical layout without subheader', async () => {
 		const {getByTestId, queryByTestId} = await renderWithAct(
 			<Divider
-				layout={LAYOUT.VERTICAL}
+				layoutType={LAYOUT.VERTICAL}
 				testID='divider'
 			/>
 		)
@@ -55,7 +55,7 @@ describe('Divider Component', () => {
 	it('should applies size SMALL when subheader is present and layout is horizontal', async () => {
 		const {getByTestId} = await renderWithAct(
 			<Divider
-				layout={LAYOUT.HORIZONTAL}
+				layoutType={LAYOUT.HORIZONTAL}
 				subheader='Text'
 				testID='divider'
 			/>
@@ -69,7 +69,7 @@ describe('Divider Component', () => {
 	it('should supports custom size prop', async () => {
 		const {getByTestId} = await renderWithAct(
 			<Divider
-				layout={LAYOUT.VERTICAL}
+				layoutType={LAYOUT.VERTICAL}
 				size='SMALL'
 				testID='divider'
 			/>

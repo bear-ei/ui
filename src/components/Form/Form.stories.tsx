@@ -93,8 +93,8 @@ const RenderForm = (props: FormProps<Record<string, unknown>>) => {
 	)
 }
 
-export const Horizontal = () => <RenderForm layout={LAYOUT.HORIZONTAL} />
-export const Vertical = () => <RenderForm layout={LAYOUT.VERTICAL} />
+export const Horizontal = () => <RenderForm layoutType={LAYOUT.HORIZONTAL} />
+export const Vertical = () => <RenderForm layoutType={LAYOUT.VERTICAL} />
 
 export default {
 	title: 'components/Form',

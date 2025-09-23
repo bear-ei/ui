@@ -7,12 +7,12 @@ export interface SkeletonElementProps
 	extends ViewProps,
 		RefAttributes<View>,
 		Pick<ShapeProps, 'shape'>,
-		Pick<RenderSkeletonProps, 'layout'> {
+		Pick<RenderSkeletonProps, 'layoutType'> {
 	size?: number | {width?: number; height: number}
 }
 
 export type RenderSkeletonElementProps = SkeletonElementProps
 export type SkeletonElementBaseProps = SkeletonElementProps
-export type SkeletonElementContainerProps = Pick<RenderSkeletonElementProps, 'layout'> & {
+export type SkeletonElementContainerProps = Pick<RenderSkeletonElementProps, 'layoutType'> & {
 	visible?: boolean
 }

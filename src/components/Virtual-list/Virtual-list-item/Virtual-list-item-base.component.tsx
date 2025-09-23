@@ -1,8 +1,9 @@
-import {forwardRef, useEffect, useId, useMemo} from 'react'
+import {forwardRef, useEffect, useId, useMemo, useRef} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS} from '../../Common'
+import type {DragRef} from '../../Drag'
 import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
 import {
 	handleVirtualListItemDragEnd,
@@ -10,6 +11,7 @@ import {
 	handleVirtualListItemDragUpdate,
 	triggerVirtualListItemClose,
 	triggerVirtualListItemUnmount,
+	updateVirtualListItemIndex,
 	updateVirtualListItemStatus
 } from './Virtual-list-item.handler'
 import type {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
@@ -20,7 +22,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		{
 			item,
 			itemSize = 0,
-			layout,
+			layoutType,
 			onDragEnd: rawOnDragEnd,
 			onDragUpdate: rawOnDragUpdate,
 			onLoadEnd,
@@ -30,12 +32,15 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		},
 		ref
 	) => {
-		const [{visible: isVisible, status, dragging: isDragging, nextDragEndEvent}, setState] =
-			useImmer<VirtualListItemState>({visible: true, status: COMPONENT_STATUS.IDLE})
+		const [
+			{visible: isVisible, status, dragging: isDragging, nextDragEndEvent, index, nextDragResetEvent},
+			setState
+		] = useImmer<VirtualListItemState>({visible: true, status: COMPONENT_STATUS.IDLE})
 
 		const id = useId()
-		const {index = 0, indexKey} = item ?? {}
-		const offset = itemSize * index
+		const {index: rawIndex = 0, indexKey} = item ?? {}
+		const dragRef = useRef<DragRef>(null)
+		const offset = itemSize * (index ?? rawIndex)
 		const onDragUpdate = useMemo(
 			() => handleVirtualListItemDragUpdate(rawOnDragUpdate)(indexKey),
 			[indexKey, rawOnDragUpdate]
@@ -43,7 +48,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 
 		const onClose = useMemo(() => triggerVirtualListItemClose(setState), [setState])
 		const onDragEnd = useMemo(
-			() => handleVirtualListItemDragEnd({onDragEnd: rawOnDragEnd, indexKey})(setState),
+			() => handleVirtualListItemDragEnd({onDragEnd: rawOnDragEnd, indexKey, dragRef})(setState),
 			[indexKey, rawOnDragEnd, setState]
 		)
 
@@ -55,13 +60,22 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 
 		const {containerAnimatedStyle} = useVirtualListItemAnimated({
 			dragging: isDragging,
-			layout,
+			layoutType,
 			offset,
 			status
 		})
 
+		const runUpdateIndex = useMemo(
+			() => updateVirtualListItemIndex(isDragging)(setState),
+			[isDragging, setState]
+		)
+
 		const runUpdateStatus = useMemo(() => updateVirtualListItemStatus(setState), [setState])
 		const itemElement = !item ? <></> : renderItem?.({item: {...item, onClose, onLoadEnd}})
+
+		useEffect(() => {
+			runUpdateIndex(rawIndex)
+		}, [rawIndex, runUpdateIndex])
 
 		useEffect(() => {
 			runUpdateStatus()
@@ -70,6 +84,10 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextDragEndEvent)()
 		}, [nextDragEndEvent])
+
+		useEffect(() => {
+			runAfterInteractions(nextDragResetEvent)()
+		}, [nextDragResetEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>
@@ -80,11 +98,13 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 				{...renderVirtualListItemProps}
 				containerAnimatedStyle={containerAnimatedStyle}
 				dragging={isDragging}
+				dragRef={dragRef}
 				id={id}
 				index={index}
 				itemElement={itemElement}
 				itemSize={itemSize}
-				layout={layout}
+				layoutType={layoutType}
+				offset={offset}
 				onDragEnd={onDragEnd}
 				onDragStart={onDragStart}
 				onDragUpdate={onDragUpdate}

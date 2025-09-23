@@ -9,7 +9,7 @@ const SkeletonComponent = (props: SkeletonProps) => {
 		<>
 			<Square />
 			<Rectangular
-				layout={LAYOUT.VERTICAL}
+				layoutType={LAYOUT.VERTICAL}
 				size={56}
 			>
 				<Rectangular size={24} />

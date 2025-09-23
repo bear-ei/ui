@@ -10,7 +10,7 @@ export const LayoutPaneBase = forwardRef<View, LayoutPaneBaseProps>(
 		{
 			animatedType = LAYOUT_ANIMATED.STANDARD,
 			defaultVisible = true,
-			layout = LAYOUT.HORIZONTAL,
+			layoutType = LAYOUT.HORIZONTAL,
 			...renderLayoutPaneProps
 		},
 		ref
@@ -23,7 +23,7 @@ export const LayoutPaneBase = forwardRef<View, LayoutPaneBaseProps>(
 				animatedType={animatedType}
 				defaultVisible={defaultVisible}
 				id={id}
-				layout={layout}
+				layoutType={layoutType}
 				ref={ref}
 			/>
 		)

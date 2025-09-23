@@ -7,7 +7,7 @@ import type {LayoutAnimatedProps} from '../Layout-animated'
 import type {SkeletonElementProps} from './Skeleton-element'
 
 export interface SkeletonProps extends Omit<LayoutAnimatedProps, 'duration'> {
-	layout?: LayoutType
+	layoutType?: LayoutType
 	duration?: number
 	enableAnimated?: boolean
 	skeleton?: ReactNode

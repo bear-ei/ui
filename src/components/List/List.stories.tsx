@@ -233,7 +233,7 @@ export const Horizontal = () => {
 				data={data}
 				enableAutoSelect={true}
 				itemSize={320}
-				layout={LAYOUT.HORIZONTAL}
+				layoutType={LAYOUT.HORIZONTAL}
 				onActive={onActiveKey}
 				selectType={LIST_SELECT_TYPE.SINGLE}
 				shape={SHAPE.LARGE}

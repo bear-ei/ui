@@ -32,7 +32,7 @@ describe('SkeletonElement Component', () => {
 	})
 
 	it('should allow vertical layout when layout prop is set', async () => {
-		const {getByTestId} = await renderWithAct(<SkeletonElement layout={LAYOUT.VERTICAL} />)
+		const {getByTestId} = await renderWithAct(<SkeletonElement layoutType={LAYOUT.VERTICAL} />)
 		const element = await waitFor(() => getByTestId('skeletonElement--test-id'))
 
 		expect(element.props.layout).toBe('VERTICAL')

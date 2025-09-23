@@ -12,7 +12,7 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
 			children,
 			containerAnimatedStyle,
 			id,
-			layout = LAYOUT.HORIZONTAL,
+			layoutType = LAYOUT.HORIZONTAL,
 			skeleton,
 			style,
 			visible,
@@ -33,7 +33,7 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
 					>
 						<AnimatedSkeletonContainer
 							{...containerProps}
-							layoutType={layout}
+							layoutType={layoutType}
 							style={[style, containerAnimatedStyle]}
 							testID={`skeleton__animatedSkeletonLayout--${id}`}
 						>

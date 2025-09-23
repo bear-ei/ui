@@ -4,7 +4,7 @@ import type {View, ViewProps} from 'react-native'
 import type {LayoutType} from '../Common'
 
 export interface DividerProps extends ViewProps, RefAttributes<View> {
-	layout?: LayoutType
+	layoutType?: LayoutType
 	size?: Size
 	subheader?: string
 	verticalStretch?: boolean
@@ -12,4 +12,4 @@ export interface DividerProps extends ViewProps, RefAttributes<View> {
 
 export type RenderDividerProps = DividerProps
 export type DividerBaseProps = DividerProps
-export type DividerLayoutProps = Pick<RenderDividerProps, 'layout' | 'size'> & RefAttributes<View>
+export type DividerLayoutProps = Pick<RenderDividerProps, 'layoutType' | 'size'> & RefAttributes<View>

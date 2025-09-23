@@ -18,7 +18,7 @@ export const useVirtualListAnimated = ({
 	contentSize = 0,
 	focusedIndex = 0,
 	itemSize = 0,
-	layout
+	layoutType
 }: UseVirtualListScrollAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedRef = useAnimatedRef<Animated.ScrollView>()
@@ -27,8 +27,8 @@ export const useVirtualListAnimated = ({
 	const contentSharedValue = useSharedValue(contentSize)
 	const scrollSharedValue = useSharedValue(0)
 	const contentAnimatedStyle = useAnimatedStyle(() => ({
-		...(layout === LAYOUT.VERTICAL && {minHeight: contentSharedValue.value}),
-		...(layout === LAYOUT.HORIZONTAL && {minWidth: contentSharedValue.value})
+		...(layoutType === LAYOUT.VERTICAL && {minHeight: contentSharedValue.value}),
+		...(layoutType === LAYOUT.HORIZONTAL && {minWidth: contentSharedValue.value})
 	}))
 
 	const runAnimate = useMemo(
@@ -39,7 +39,7 @@ export const useVirtualListAnimated = ({
 	useDerivedValue(() => {
 		const scrollToValue = focusedIndex * itemSize
 
-		if (layout === LAYOUT.VERTICAL) {
+		if (layoutType === LAYOUT.VERTICAL) {
 			scrollTo(animatedRef, 0, scrollToValue, true)
 
 			return

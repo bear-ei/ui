@@ -32,7 +32,7 @@ const VirtualListBaseInner = <T,>(
 		focusedIndex,
 		gap = 0,
 		itemSize = 0,
-		layout = LAYOUT.VERTICAL,
+		layoutType = LAYOUT.VERTICAL,
 		onClose: rawOnClose,
 		onDragEnd: rawOnDragEnd,
 		onDragUpdate: rawOnDragUpdate,
@@ -76,12 +76,12 @@ const VirtualListBaseInner = <T,>(
 				updateVirtualListOnScroll({
 					endReachedThreshold,
 					itemSize,
-					layout,
+					layoutType,
 					onEndReached,
 					onScroll: rawOnScroll
 				})(setState)
 			)(50),
-		[endReachedThreshold, itemSize, layout, onEndReached, rawOnScroll, setState]
+		[endReachedThreshold, itemSize, layoutType, onEndReached, rawOnScroll, setState]
 	)
 
 	const onMomentumScrollEnd = useMemo(
@@ -92,15 +92,15 @@ const VirtualListBaseInner = <T,>(
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
 	const onUnmount = useMemo(
 		() =>
-			unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose, activeKey, layout})(
+			unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose, activeKey, layoutType})(
 				setState
 			),
-		[activeKey, enableAutoSelect, itemSize, layout, rawOnClose, setState]
+		[activeKey, enableAutoSelect, itemSize, layoutType, rawOnClose, setState]
 	)
 
 	const onLayoutChange = useMemo(
-		() => updateVirtualListLayout({itemSize, layout})(setState),
-		[itemSize, layout, setState]
+		() => updateVirtualListLayout({itemSize, layoutType})(setState),
+		[itemSize, layoutType, setState]
 	)
 
 	const onStateEventChange = useCallback(
@@ -111,10 +111,12 @@ const VirtualListBaseInner = <T,>(
 
 	const onDragUpdate = useMemo(
 		() =>
-			handleVirtualListDragUpdate({itemSize: renderItemSize, layout, onDragUpdate: rawOnDragUpdate})(
-				setState
-			),
-		[layout, rawOnDragUpdate, renderItemSize, setState]
+			handleVirtualListDragUpdate({
+				itemSize: renderItemSize,
+				layoutType,
+				onDragUpdate: rawOnDragUpdate
+			})(setState),
+		[layoutType, rawOnDragUpdate, renderItemSize, setState]
 	)
 
 	const onDragEnd = useMemo(
@@ -132,12 +134,12 @@ const VirtualListBaseInner = <T,>(
 		contentSize,
 		focusedIndex,
 		itemSize,
-		layout
+		layoutType
 	})
 
 	const runUpdateVisibilityRangeData = useMemo(
-		() => updateVirtualListVisibilityRangeData({itemSize, layout})(setState),
-		[itemSize, layout, setState]
+		() => updateVirtualListVisibilityRangeData({itemSize, layoutType})(setState),
+		[itemSize, layoutType, setState]
 	)
 
 	const runUpdateData = useMemo(() => updateVirtualListData(setState), [setState])
@@ -151,7 +153,7 @@ const VirtualListBaseInner = <T,>(
 				gap={gap}
 				id={id}
 				itemSize={renderItemSize}
-				layout={layout}
+				layoutType={layoutType}
 				onDragEnd={onDragEnd}
 				onDragUpdate={onDragUpdate}
 				onLoadEnd={onLoadEnd}
@@ -166,7 +168,7 @@ const VirtualListBaseInner = <T,>(
 			draggable,
 			gap,
 			id,
-			layout,
+			layoutType,
 			onDragEnd,
 			onDragUpdate,
 			onLoadEnd,
@@ -224,7 +226,7 @@ const VirtualListBaseInner = <T,>(
 			interactionHandlers={interactionHandlers}
 			itemElements={itemElements}
 			itemSize={itemSize}
-			layout={layout}
+			layoutType={layoutType}
 			ref={animatedRef}
 			status={status}
 		/>

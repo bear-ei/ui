@@ -8,7 +8,7 @@ import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interf
 
 export const useVirtualListItemAnimated = ({
 	dragging,
-	layout,
+	layoutType,
 	offset = 0,
 	status
 }: UseVirtualListItemAnimatedOptions) => {
@@ -17,8 +17,8 @@ export const useVirtualListItemAnimated = ({
 	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const translateSharedValue = useSharedValue(offset)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
-		...(layout === LAYOUT.VERTICAL && {transform: [{translateY: translateSharedValue.value}]}),
-		...(layout === LAYOUT.HORIZONTAL && {transform: [{translateX: translateSharedValue.value}]})
+		...(layoutType === LAYOUT.VERTICAL && {transform: [{translateY: translateSharedValue.value}]}),
+		...(layoutType === LAYOUT.HORIZONTAL && {transform: [{translateX: translateSharedValue.value}]})
 	}))
 
 	const runAnimate = useMemo(

@@ -23,8 +23,4 @@ export const Container = styled(View)`
 export const Shadow = styled(Shape)<ElevationShadowProps>`
 	align-self: stretch;
 	flex: 1;
-
-	${({theme}) => css`
-		background-color: ${theme.token.scheme.surfaceContainerLow};
-	`};
 `

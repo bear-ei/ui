@@ -5,8 +5,11 @@ import type {RenderLayoutProps} from './Layout.interface'
 import {Container} from './Layout.styles'
 
 export const RenderLayout = forwardRef<View, RenderLayoutProps>(
-	({children, id, style: rawStyle, testID, layout, ...containerProps}, ref) => {
-		const style = [rawStyle, {flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'}] as ViewStyle
+	({children, id, style: rawStyle, testID, layoutType, ...containerProps}, ref) => {
+		const style = [
+			rawStyle,
+			{flexDirection: layoutType === LAYOUT.HORIZONTAL ? 'row' : 'column'}
+		] as ViewStyle
 
 		return (
 			<Container

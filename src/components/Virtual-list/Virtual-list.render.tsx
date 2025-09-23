@@ -69,7 +69,7 @@ export const RenderVirtualListInner = <T,>(
 		scrollEventThrottle = 50,
 		status,
 		testID,
-		layout,
+		layoutType,
 		...containerProps
 	}: RenderVirtualListProps<T>,
 	ref: React.ForwardedRef<ScrollView>
@@ -83,12 +83,12 @@ export const RenderVirtualListInner = <T,>(
 	const scrollViewContentStyle = useMemo(
 		() =>
 			({
-				...(layout === LAYOUT.VERTICAL && {minHeight: contentSize}),
-				...(layout === LAYOUT.HORIZONTAL && {minWidth: contentSize}),
+				...(layoutType === LAYOUT.VERTICAL && {minHeight: contentSize}),
+				...(layoutType === LAYOUT.HORIZONTAL && {minWidth: contentSize}),
 				alignSelf: 'stretch',
 				flex: 1
 			}) as ViewStyle,
-		[contentSize, layout]
+		[contentSize, layoutType]
 	)
 
 	return (
@@ -104,7 +104,7 @@ export const RenderVirtualListInner = <T,>(
 					<AnimatedScrollView
 						{...containerProps}
 						contentContainerStyle={scrollViewContentStyle}
-						horizontal={layout === LAYOUT.HORIZONTAL}
+						horizontal={layoutType === LAYOUT.HORIZONTAL}
 						ref={ref}
 						scrollEventThrottle={scrollEventThrottle}
 						testID={`virtualList__animatedScrollView--${id}`}

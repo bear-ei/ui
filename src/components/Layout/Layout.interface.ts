@@ -2,7 +2,7 @@ import type {LayoutType} from '../Common'
 import type {LayoutAnimatedProps} from '../Layout-animated'
 
 export interface LayoutProps extends LayoutAnimatedProps {
-	layout?: LayoutType
+	layoutType?: LayoutType
 }
 
 export type RenderLayoutProps = LayoutProps

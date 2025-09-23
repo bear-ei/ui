@@ -10,7 +10,7 @@ export const Container = styled.View<FormContainerProps>`
 		min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
 	`}
 
-	${({layout = LAYOUT.VERTICAL, theme}) => {
+	${({layoutType = LAYOUT.VERTICAL, theme}) => {
 		const containerLayout = {
 			[LAYOUT.HORIZONTAL]: css`
 				flex-direction: row;
@@ -23,6 +23,6 @@ export const Container = styled.View<FormContainerProps>`
 			`
 		} as Record<LayoutType, RuleSet<object> | undefined>
 
-		return containerLayout[layout]
+		return containerLayout[layoutType]
 	}}
 `

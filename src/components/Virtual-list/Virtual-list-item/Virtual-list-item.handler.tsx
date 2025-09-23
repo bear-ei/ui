@@ -70,7 +70,7 @@ export const handleVirtualListItemDragStart =
 		})
 
 export const handleVirtualListItemDragEnd =
-	({onDragEnd, indexKey}: HandleVirtualListItemDragEndOptions) =>
+	({onDragEnd, indexKey, dragRef}: HandleVirtualListItemDragEndOptions) =>
 	(setState: Updater<VirtualListItemState>) =>
 	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
 		if (!indexKey) {
@@ -78,9 +78,18 @@ export const handleVirtualListItemDragEnd =
 		}
 
 		const nextDragEndEvent = () => onDragEnd?.({indexKey, event})
+		const nextDragResetEvent = () => dragRef.current?.reset()
 
 		setState(draft => {
 			draft.dragging = false
 			draft.nextDragEndEvent = nextDragEndEvent
+			draft.nextDragResetEvent = nextDragResetEvent
 		})
 	}
+
+export const updateVirtualListItemIndex =
+	(dragging?: boolean) => (setState: Updater<VirtualListItemState>) => (index: number) =>
+		!dragging &&
+		setState(draft => {
+			draft.index = index
+		})

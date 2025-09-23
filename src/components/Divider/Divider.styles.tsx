@@ -14,7 +14,7 @@ export const Container = styled.View<DividerLayoutProps>`
 		gap: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
 	`}
 
-	${({layout = LAYOUT.HORIZONTAL, theme}) => {
+	${({layoutType = LAYOUT.HORIZONTAL, theme}) => {
 		const containerLayout = {
 			[LAYOUT.HORIZONTAL]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall / 4)}px;
@@ -27,13 +27,13 @@ export const Container = styled.View<DividerLayoutProps>`
 			`
 		} as Record<LayoutType, RuleSet<object> | undefined>
 
-		return containerLayout[layout]
+		return containerLayout[layoutType]
 	}}
     
-    ${({layout = LAYOUT.HORIZONTAL, size = SIZE.MEDIUM, theme}) => {
+    ${({layoutType = LAYOUT.HORIZONTAL, size = SIZE.MEDIUM, theme}) => {
 		const containerSize = {
 			[SIZE.MEDIUM]:
-				layout === LAYOUT.HORIZONTAL ?
+				layoutType === LAYOUT.HORIZONTAL ?
 					css`
 						padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
 					`
@@ -41,7 +41,7 @@ export const Container = styled.View<DividerLayoutProps>`
 						padding-top: ${theme.adaptSize(theme.token.spacing.medium)}px;
 					`,
 			[SIZE.SMALL]:
-				layout === LAYOUT.HORIZONTAL ?
+				layoutType === LAYOUT.HORIZONTAL ?
 					css`
 						padding: ${theme.adaptSize(theme.token.spacing.none)}px
 							${theme.adaptSize(theme.token.spacing.medium)}px;

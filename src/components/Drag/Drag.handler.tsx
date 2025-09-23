@@ -1,57 +1,97 @@
+import type {LayoutChangeEvent} from 'react-native'
 import type {
 	GestureStateChangeEvent,
 	GestureUpdateEvent,
 	PanGestureHandlerEventPayload
 } from 'react-native-gesture-handler'
 import {runOnJS} from 'react-native-reanimated'
-import type {AnimateSharedValueTo} from '../../hooks'
+import type {Updater} from 'use-immer'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import {EVENT_NAME, LAYOUT, type EventName, type LayoutRectangle} from '../Common'
 import type {
 	AnimateDragOptions,
-	UpdatePrevTranslationSharedValueOptions,
-	UpdateTranslationOptions,
-	UpdateTranslationScreenOptions,
-	UpdateTranslationSharedValueOptions
+	DragState,
+	UpdatePrevTranslateSharedValueOptions,
+	UpdateTranslateOptions,
+	UpdateTranslateScreenOptions,
+	UpdateTranslateSharedValueOptions
 } from './Drag.interface'
 
-export const updatePrevTranslation =
-	({
-		prevTranslationXSharedValue,
-		prevTranslationYSharedValue,
-		onStart
-	}: UpdatePrevTranslationSharedValueOptions) =>
-	({translateXSharedValue, translateYSharedValue}: UpdateTranslationSharedValueOptions) =>
+export const updateDragLayout =
+	(setState: Updater<DragState>) =>
+	({width, height}: LayoutRectangle) =>
+		setState(draft => {
+			if (draft.layout.width !== width || draft.layout.height !== height) {
+				draft.layout.width = width
+				draft.layout.height = height
+			}
+		})
+
+export const handleDragStateChange =
+	({eventName}: HandleStateEventChangeOptions) =>
+	(onDragLayoutChange: (layout: LayoutRectangle) => void) =>
+	(event: StateEvent) => {
+		const nextEvent = {
+			[EVENT_NAME.LAYOUT]: () =>
+				onDragLayoutChange((event as LayoutChangeEvent).nativeEvent.layout as LayoutRectangle)
+		} as Record<EventName, () => void>
+
+		if (!eventName) {
+			return
+		}
+
+		nextEvent[eventName]?.()
+	}
+
+export const updatePrevTranslate =
+	({prevTranslateXSharedValue, prevTranslateYSharedValue, onStart}: UpdatePrevTranslateSharedValueOptions) =>
+	({translateXSharedValue, translateYSharedValue}: UpdateTranslateSharedValueOptions) =>
 	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
 		'worklet'
 
-		prevTranslationXSharedValue.value = translateXSharedValue.value
-		prevTranslationYSharedValue.value = translateYSharedValue.value
+		prevTranslateXSharedValue.value = translateXSharedValue.value
+		prevTranslateYSharedValue.value = translateYSharedValue.value
 
 		if (onStart) {
 			runOnJS(onStart)(event)
 		}
 	}
 
-export const updateTranslation = ({width, height, theme, onUpdate}: UpdateTranslationScreenOptions) => {
+export const updateTranslate = ({
+	height,
+	layout,
+	layoutType,
+	offset,
+	onUpdate,
+	width
+}: UpdateTranslateScreenOptions) => {
 	const clamp = (min: number) => (max: number) => (value: number) => Math.min(Math.max(value, min), max)
-	const maxTranslateX = width / 2 - theme.adaptSize(theme.token.spacing.large)
-	const maxTranslateY = height / 2 - theme.adaptSize(theme.token.spacing.large)
+	const maxTranslateX = width - layout.width
+	const maxTranslateY = height - layout.height
+	const minTranslateX = 0
+	const minTranslateY = 0
 
 	return ({
-			prevTranslationXSharedValue,
-			prevTranslationYSharedValue,
+			prevTranslateXSharedValue,
+			prevTranslateYSharedValue,
 			translateXSharedValue,
 			translateYSharedValue
-		}: UpdateTranslationOptions) =>
+		}: UpdateTranslateOptions) =>
 		(event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
 			'worklet'
 
-			translateXSharedValue.value = clamp(-maxTranslateX)(maxTranslateX)(
-				prevTranslationXSharedValue.value + event.translationX
-			)
+			const offsetY = typeof offset === 'number' ? offset : prevTranslateYSharedValue.value
+			const offsetX = typeof offset === 'number' ? offset : prevTranslateXSharedValue.value
+			const nextTranslationX = offsetX + event.translationX
+			const nextTranslationY = offsetY + event.translationY
+			const clampedX = clamp(minTranslateX)(maxTranslateX)(nextTranslationX)
+			const clampedY = clamp(minTranslateY)(maxTranslateY)(nextTranslationY)
 
-			translateYSharedValue.value = clamp(-maxTranslateY)(maxTranslateY)(
-				prevTranslationYSharedValue.value + event.translationY
-			)
+			translateXSharedValue.value =
+				layoutType === LAYOUT.HORIZONTAL ? clampedX - offsetX : minTranslateX
+
+			translateYSharedValue.value =
+				layoutType === LAYOUT.VERTICAL ? clampedY - offsetY : minTranslateY
 
 			if (onUpdate) {
 				runOnJS(onUpdate)(event)
@@ -61,11 +101,8 @@ export const updateTranslation = ({width, height, theme, onUpdate}: UpdateTransl
 
 export const handlePanGestureEnd =
 	(onEnd?: (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void) =>
-	(runAnimate: () => void) =>
 	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
 		'worklet'
-
-		runAnimate()
 
 		if (onEnd) {
 			runOnJS(onEnd)(event)

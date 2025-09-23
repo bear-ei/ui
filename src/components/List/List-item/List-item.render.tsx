@@ -205,7 +205,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			>
 				<Skeleton
 					duration={skeletonDuration}
-					layout={LAYOUT.HORIZONTAL}
+					layoutType={LAYOUT.HORIZONTAL}
 					skeleton={skeletonDuration ? skeletonElement : undefined}
 					testID={`listItem__skeleton--${id}`}
 				>
@@ -381,7 +381,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 					{divider && (
 						<DividerLayout testID={`listItem__dividerLayout--${id}`}>
 							<Divider
-								layout={LAYOUT.HORIZONTAL}
+								layoutType={LAYOUT.HORIZONTAL}
 								size={SIZE.LARGE}
 								testID={`listItem__divider--${id}`}
 							/>

@@ -6,8 +6,8 @@ export const Container = styled.View<ListContainerProps>`
 	align-self: stretch;
 	flex: 1;
 
-	${({theme, layout}) =>
-		layout === LAYOUT.VERTICAL ?
+	${({theme, layoutType}) =>
+		layoutType === LAYOUT.VERTICAL ?
 			css`
 				padding: ${theme.adaptSize(theme.token.spacing.small)}px
 					${theme.adaptSize(theme.token.spacing.none)}px;

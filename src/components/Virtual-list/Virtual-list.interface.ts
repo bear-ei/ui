@@ -44,7 +44,7 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Scro
 	focusedIndex?: number
 	gap?: number
 	itemSize?: number
-	layout?: LayoutType
+	layoutType?: LayoutType
 	loading?: boolean
 	loadingElement?: React.JSX.Element
 	onClose?: (options: OnVirtualListCloseOptions) => void
@@ -86,7 +86,7 @@ export interface VirtualListState {
 
 export interface UpdateVirtualListOnScrollOptions
 	extends Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'endReachedThreshold'>,
-		Pick<VirtualListProps<unknown>, 'layout'> {
+		Pick<VirtualListProps<unknown>, 'layoutType'> {
 	onEndReached: () => void
 }
 
@@ -97,7 +97,7 @@ export interface HandleVirtualListLayoutChangeOptions {
 export type TriggerVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose' | 'activeKey'>
 export interface UnmountVirtualListOptions
 	extends TriggerVirtualListCloseOptions,
-		Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layout'> {}
+		Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layoutType'> {}
 
 export interface HandleVirtualListContentVisibilityOptions {
 	loading?: boolean
@@ -105,7 +105,7 @@ export interface HandleVirtualListContentVisibilityOptions {
 }
 
 export interface UseVirtualListScrollAnimatedOptions
-	extends Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize' | 'layout'> {
+	extends Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize' | 'layoutType'> {
 	contentSize?: number
 }
 
@@ -119,7 +119,7 @@ export interface RenderVirtualListItemOptions<T>
 		| 'gap'
 		| 'id'
 		| 'itemSize'
-		| 'layout'
+		| 'layoutType'
 		| 'onLoadEnd'
 		| 'renderItem'
 		| 'shape'
@@ -129,7 +129,7 @@ export interface RenderVirtualListItemOptions<T>
 	onUnmount?: (indexKey?: string) => void
 }
 
-export type UpdateVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layout'>
+export type UpdateVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layoutType'>
 export interface HandleDragUpdateOptions {
 	event: GestureUpdateEvent<PanGestureHandlerEventPayload>
 	indexKey: string
@@ -145,4 +145,7 @@ export interface HandleVirtualListDragEndOptions {
 	startIndex?: number
 }
 
-export type HandleVirtualListDragUpdateOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layout' | 'onDragUpdate'>
+export type HandleVirtualListDragUpdateOptions = Pick<
+	RenderVirtualListProps,
+	'itemSize' | 'layoutType' | 'onDragUpdate'
+>

@@ -65,7 +65,7 @@ export interface FormProps<T = Record<string, unknown>> extends ViewProps, FormC
 	form?: FormStore<T>
 	initialValues?: T
 	items?: FormItemProps[]
-	layout?: LayoutType
+	layoutType?: LayoutType
 	ref?: ForwardedRef<View>
 	validatorOptions?: FormValidatorOptions
 }
@@ -94,8 +94,7 @@ export interface UseFormOptions<T> {
 	form?: FormStore<T>
 }
 
-export type FormContainerProps = Pick<RenderFormProps, 'layout'> & RefAttributes<View>
-
+export type FormContainerProps = Pick<RenderFormProps, 'layoutType'> & RefAttributes<View>
 export interface InitializeFormStateWithValuesOptions {
 	status: ComponentStatus
 	setState: Updater<FormState>

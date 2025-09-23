@@ -9,8 +9,8 @@ export const Container = styled(LayoutAnimated)<VirtualListItemContainerProps & 
 	flex-direction: column;
 	position: absolute;
 
-	${({theme, itemSize, layout}) =>
-		layout === LAYOUT.VERTICAL &&
+	${({theme, itemSize, layoutType}) =>
+		layoutType === LAYOUT.VERTICAL &&
 		css`
 			height: ${itemSize}px;
 			left: ${theme.adaptSize(theme.token.spacing.none)}px;
@@ -18,8 +18,8 @@ export const Container = styled(LayoutAnimated)<VirtualListItemContainerProps & 
 			top: ${theme.adaptSize(theme.token.spacing.none)}px;
 		`}
 
-	${({theme, itemSize, layout}) =>
-		layout === LAYOUT.HORIZONTAL &&
+	${({theme, itemSize, layoutType}) =>
+		layoutType === LAYOUT.HORIZONTAL &&
 		css`
 			bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
 			left: ${theme.adaptSize(theme.token.spacing.none)}px;
@@ -37,14 +37,14 @@ export const Container = styled(LayoutAnimated)<VirtualListItemContainerProps & 
 `
 
 export const DragContent = styled.View<VirtualListItemDragContentProps>`
-	${({itemSize = 0, layout, gap = 0}) =>
-		layout === LAYOUT.VERTICAL &&
+	${({itemSize = 0, layoutType, gap = 0}) =>
+		layoutType === LAYOUT.VERTICAL &&
 		css`
 			height: ${itemSize - gap}px;
 		`}
 
-	${({itemSize = 0, layout, gap = 0}) =>
-		layout === LAYOUT.HORIZONTAL &&
+	${({itemSize = 0, layoutType, gap = 0}) =>
+		layoutType === LAYOUT.HORIZONTAL &&
 		css`
 			width: ${itemSize - gap}px;
 		`}

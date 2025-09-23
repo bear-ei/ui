@@ -6,8 +6,11 @@ import type {RenderLayoutPaneProps} from './Layout-pane.interface'
 import {Container} from './Layout-pane.styles'
 
 export const RenderLayoutPane = forwardRef<View, RenderLayoutPaneProps>(
-	({children, id, layout, style: rawStyle, testID, ...containerProps}, ref) => {
-		const style = [rawStyle, {flexDirection: layout === LAYOUT.HORIZONTAL ? 'row' : 'column'}] as ViewStyle
+	({children, id, layoutType, style: rawStyle, testID, ...containerProps}, ref) => {
+		const style = [
+			rawStyle,
+			{flexDirection: layoutType === LAYOUT.HORIZONTAL ? 'row' : 'column'}
+		] as ViewStyle
 
 		return (
 			<Container

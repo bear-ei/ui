@@ -126,5 +126,5 @@ export type CreateRenderListItemOptions = Pick<
 
 export type CreateListItemSizeOptions = Pick<RenderListProps, 'density' | 'type'>
 export type ListBaseProps = ListProps
-export type ListContainerProps = Pick<RenderListProps, 'layout'>
+export type ListContainerProps = Pick<RenderListProps, 'layoutType'>
 export type UpdateListActiveStateOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>

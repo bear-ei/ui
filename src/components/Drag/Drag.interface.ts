@@ -1,3 +1,4 @@
+import type React from 'react'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {
@@ -7,11 +8,18 @@ import type {
 	PanGestureHandlerEventPayload
 } from 'react-native-gesture-handler'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import type {DefaultTheme} from 'styled-components/native'
-import type {CommonProps} from '../Common'
+import type {InteractionHandlers} from '../../hooks'
+import type {CommonProps, LayoutRectangle, LayoutType} from '../Common'
+
+export interface DragRef extends View {
+	reset: () => void
+}
 
 export interface DragProps extends ViewProps, RefAttributes<View>, CommonProps {
+	children?: React.JSX.Element
 	height?: number
+	layoutType?: LayoutType
+	offset?: number
 	onEnd?: (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void
 	onStart?: (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void
 	onUpdate?: (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => void
@@ -21,28 +29,37 @@ export interface DragProps extends ViewProps, RefAttributes<View>, CommonProps {
 export type DragBaseProps = DragProps
 export interface RenderDragProps extends DragProps {
 	animatedStyle: AnimatedStyle<ViewStyle>
+	interactionHandlers: InteractionHandlers
 	panGesture: PanGesture
 }
 
-export interface UpdatePrevTranslationSharedValueOptions extends Pick<UseDragAnimatedOptions, 'onStart'> {
-	prevTranslationXSharedValue: SharedValue<number>
-	prevTranslationYSharedValue: SharedValue<number>
+export interface DragState {
+	layout: LayoutRectangle
 }
 
-export type UseDragAnimatedOptions = Pick<DragProps, 'height' | 'width' | 'onEnd' | 'onStart' | 'onUpdate'>
-export interface UpdateTranslationSharedValueOptions {
+export interface UpdatePrevTranslateSharedValueOptions extends Pick<UseDragAnimatedOptions, 'onStart'> {
+	prevTranslateXSharedValue: SharedValue<number>
+	prevTranslateYSharedValue: SharedValue<number>
+}
+
+export interface UseDragAnimatedOptions
+	extends Pick<DragProps, 'height' | 'width' | 'onEnd' | 'onStart' | 'onUpdate' | 'layoutType' | 'offset'> {
+	layout: LayoutRectangle
+}
+
+export interface UpdateTranslateSharedValueOptions {
 	translateXSharedValue: SharedValue<number>
 	translateYSharedValue: SharedValue<number>
 }
 
-export interface UpdateTranslationScreenOptions extends Pick<UseDragAnimatedOptions, 'onUpdate'> {
+export interface UpdateTranslateScreenOptions
+	extends Pick<UseDragAnimatedOptions, 'onUpdate' | 'layout' | 'layoutType' | 'offset'> {
 	height: number
-	theme: DefaultTheme
 	width: number
 }
 
-export interface UpdateTranslationOptions
-	extends UpdatePrevTranslationSharedValueOptions,
-		UpdateTranslationSharedValueOptions {}
+export interface UpdateTranslateOptions
+	extends UpdatePrevTranslateSharedValueOptions,
+		UpdateTranslateSharedValueOptions {}
 
-export type AnimateDragOptions = UpdateTranslationSharedValueOptions
+export type AnimateDragOptions = UpdateTranslateSharedValueOptions

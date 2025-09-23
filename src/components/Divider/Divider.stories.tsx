@@ -9,11 +9,11 @@ export const Horizontal: StoryObj<DividerProps> = {
 }
 
 export const Subheader: StoryObj<DividerProps> = {
-	args: {layout: LAYOUT.HORIZONTAL, subheader: 'Subheader'}
+	args: {layoutType: LAYOUT.HORIZONTAL, subheader: 'Subheader'}
 }
 
 export const Vertical: StoryObj<DividerProps> = {
-	args: {size: SIZE.LARGE, layout: LAYOUT.VERTICAL}
+	args: {size: SIZE.LARGE, layoutType: LAYOUT.VERTICAL}
 }
 
 export default {

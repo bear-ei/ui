@@ -6,13 +6,13 @@ import type {RenderDividerProps} from './Divider.interface'
 import {Container, Content, Subheader} from './Divider.styles'
 
 export const RenderDivider = forwardRef<View, RenderDividerProps>(
-	({id, layout, size: rawSize, style, subheader, testID, ...containerProps}: RenderDividerProps, ref) => {
-		const size = subheader && layout === LAYOUT.HORIZONTAL ? SIZE.SMALL : rawSize
+	({id, layoutType, size: rawSize, style, subheader, testID, ...containerProps}: RenderDividerProps, ref) => {
+		const size = subheader && layoutType === LAYOUT.HORIZONTAL ? SIZE.SMALL : rawSize
 
 		return (
 			<Container
 				{...containerProps}
-				layout={layout}
+				layoutType={layoutType}
 				ref={ref}
 				size={size}
 				testID={testID ?? `divider--${id}`}

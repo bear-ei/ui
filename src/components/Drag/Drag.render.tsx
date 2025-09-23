@@ -7,20 +7,25 @@ import {Container, Content} from './Drag.styles'
 
 const AnimatedContent = Animated.createAnimatedComponent(Content)
 export const RenderDrag = forwardRef<View, RenderDragProps>(
-	({testID, children, id, panGesture, animatedStyle, ...containerProps}, ref) => (
-		<Container
-			{...containerProps}
-			ref={ref}
-			testID={testID ?? `drag--${id}`}
-		>
-			<GestureDetector gesture={panGesture}>
-				<AnimatedContent
-					style={[animatedStyle]}
-					testID={`drag__content--${id}`}
-				>
-					{children}
-				</AnimatedContent>
-			</GestureDetector>
-		</Container>
-	)
+	({testID, children, id, panGesture, animatedStyle, interactionHandlers, ...containerProps}, ref) => {
+		const {onLayout} = interactionHandlers
+
+		return (
+			<Container
+				{...containerProps}
+				onLayout={onLayout}
+				ref={ref}
+				testID={testID ?? `drag--${id}`}
+			>
+				<GestureDetector gesture={panGesture}>
+					<AnimatedContent
+						style={[animatedStyle]}
+						testID={`drag__content--${id}`}
+					>
+						{children}
+					</AnimatedContent>
+				</GestureDetector>
+			</Container>
+		)
+	}
 )
