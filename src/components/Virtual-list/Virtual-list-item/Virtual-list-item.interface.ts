@@ -76,7 +76,4 @@ export interface HandleVirtualListItemDragEndOptions extends Pick<VirtualListIte
 }
 
 export type VirtualListItemContainerProps = Pick<RenderVirtualListItemProps, 'itemSize' | 'layout' | 'dragging'>
-export type VirtualListItemDragContentProps = Pick<
-	RenderVirtualListItemProps,
-	'itemSize' | 'containerLayout' | 'layout' | 'gap'
->
+export type VirtualListItemDragContentProps = Pick<RenderVirtualListItemProps, 'itemSize' | 'layout' | 'gap'>

@@ -37,17 +37,15 @@ export const Container = styled(LayoutAnimated)<VirtualListItemContainerProps & 
 `
 
 export const DragContent = styled.View<VirtualListItemDragContentProps>`
-	${({itemSize = 0, layout, containerLayout, gap = 0}) =>
+	${({itemSize = 0, layout, gap = 0}) =>
 		layout === LAYOUT.VERTICAL &&
 		css`
 			height: ${itemSize - gap}px;
-			width: ${containerLayout?.width ?? 0}px;
 		`}
 
-	${({itemSize = 0, layout, containerLayout, gap = 0}) =>
+	${({itemSize = 0, layout, gap = 0}) =>
 		layout === LAYOUT.HORIZONTAL &&
 		css`
-			height: ${containerLayout?.height ?? 0}px;
 			width: ${itemSize - gap}px;
 		`}
 `

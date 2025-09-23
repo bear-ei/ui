@@ -62,20 +62,24 @@ const calculateVirtualListVisibilityRange =
 export const updateVirtualListLayout =
 	({itemSize, layout}: UpdateVirtualListLayoutOptions) =>
 	(setState: Updater<VirtualListState>) =>
-	({width, height}: LayoutRectangle) => {
+	({width, height, left, top}: LayoutRectangle) => {
 		setState(draft => {
 			if (['web', 'macos', 'windows'].includes(Platform.OS) && draft.layout.height) {
 				return
 			}
 
 			const {width: prevWidth, height: prevHeight} = draft.layout
+			const isUpdateLayout = prevWidth !== width || prevHeight !== height
 
-			if (prevWidth !== width || prevHeight !== height) {
+			draft.layout.left = left
+			draft.layout.top = top
+
+			if (isUpdateLayout) {
 				draft.layout.height = height
 				draft.layout.width = width
-			}
 
-			calculateVirtualListVisibilityRange({itemSize, layout})(draft)()
+				calculateVirtualListVisibilityRange({itemSize, layout})(draft)()
+			}
 		})
 	}
 
@@ -215,6 +219,11 @@ export const handleVirtualListDragUpdate =
 		setState(draft => {
 			const visibleRangeData = draft.visibleRangeData ?? []
 			const scrollOffset = draft.scrollOffset ?? 0
+			const dragItemAbsolute =
+				layout === LAYOUT.HORIZONTAL ?
+					event.absoluteX - (draft.layout.left ?? 0)
+				:	event.absoluteY - (draft.layout.top ?? 0)
+
 			const updateVisibleRangeData = (itemIndexKey: string) => {
 				if (itemIndexKey === indexKey) {
 					return
@@ -241,12 +250,9 @@ export const handleVirtualListDragUpdate =
 			}
 
 			for (const {indexKey: itemIndexKey, index} of visibleRangeData) {
-				const dragItemAbsolute = layout === LAYOUT.HORIZONTAL ? event.x : event.y
 				const itemOffset = itemSize * index - scrollOffset
 				const isOverItem =
 					dragItemAbsolute > itemOffset && dragItemAbsolute < itemOffset + itemSize
-
-				console.info(dragItemAbsolute, itemOffset, isOverItem, itemSize, index)
 
 				if (isOverItem && itemIndexKey) {
 					updateVisibleRangeData(itemIndexKey)

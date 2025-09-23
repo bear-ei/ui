@@ -3,8 +3,8 @@ import {CONTRAST, createToken, PALETTE, PLATFORM, SCHEME, WINDOW_SIZE} from '@be
 import type {FC} from 'react'
 import {useMemo} from 'react'
 import {Platform as RNPlatform} from 'react-native'
+import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import {ThemeProvider as StyledComponentThemeProvider} from 'styled-components/native'
-
 import {GlobalStyle} from '../../global.styles.ts'
 import {useWindowSize} from '../../hooks'
 import {adaptWindow} from '../../utils'
@@ -42,9 +42,11 @@ const MobileDevice: FC<ThemeProps> = ({designOptions, children, token: rawThemeT
 
 	return (
 		<StyledComponentThemeProvider theme={{adaptFontSize, adaptSize, density, OS: RNPlatform.OS, token}}>
-			{RNPlatform.OS === 'web' && <GlobalStyle />}
-			{children}
-			<ModalProvider />
+			<GestureHandlerRootView>
+				{RNPlatform.OS === 'web' && <GlobalStyle />}
+				{children}
+				<ModalProvider />
+			</GestureHandlerRootView>
 		</StyledComponentThemeProvider>
 	)
 }
@@ -61,9 +63,11 @@ const DesktopDevice: FC<ThemeProps> = ({children, token: rawThemeToken, density 
 
 	return (
 		<StyledComponentThemeProvider theme={{adaptFontSize, adaptSize, density, OS: RNPlatform.OS, token}}>
-			{RNPlatform.OS === 'web' && <GlobalStyle />}
-			{children}
-			<ModalProvider />
+			<GestureHandlerRootView>
+				{RNPlatform.OS === 'web' && <GlobalStyle />}
+				{children}
+				<ModalProvider />
+			</GestureHandlerRootView>
 		</StyledComponentThemeProvider>
 	)
 }

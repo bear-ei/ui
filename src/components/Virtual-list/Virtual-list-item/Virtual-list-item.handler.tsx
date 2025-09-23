@@ -15,10 +15,10 @@ import type {
 } from './Virtual-list-item.interface'
 
 export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => {
-	const {dependencies: prevDependencies, item: prevItem} = prevProps
+	const {dependencies: prevDependencies, item: prevItem, containerLayout: prevContainerLayout} = prevProps
 
 	return (nextProps: VirtualListItemProps) => {
-		const {dependencies: nextDependencies, item: nextItem} = nextProps
+		const {dependencies: nextDependencies, item: nextItem, containerLayout: nextContainerLayout} = nextProps
 		const isDependenciesChanged =
 			prevDependencies?.length !== nextDependencies?.length ||
 			prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
@@ -29,9 +29,12 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => 
 				(dependence, index) => dependence !== nextItem?.dependencies?.[index]
 			)
 
-		return ![isDependenciesChanged, prevItem?.index !== nextItem?.index, isItemDependenciesChanged].some(
-			Boolean
-		)
+		return ![
+			isDependenciesChanged,
+			isItemDependenciesChanged,
+			JSON.stringify(prevContainerLayout) !== JSON.stringify(nextContainerLayout),
+			prevItem?.index !== nextItem?.index
+		].some(Boolean)
 	}
 }
 

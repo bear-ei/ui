@@ -22,4 +22,11 @@ export const Container = styled(View)`
 export const Content = styled.View`
 	position: absolute;
 	z-index: 1024;
+
+	${({theme}) => css`
+		bottom: ${theme.adaptSize(theme.token.spacing.none)}px;
+		left: ${theme.adaptSize(theme.token.spacing.none)}px;
+		right: ${theme.adaptSize(theme.token.spacing.none)}px;
+		top: ${theme.adaptSize(theme.token.spacing.none)}px;
+	`};
 `

@@ -52,7 +52,6 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 					width={containerLayout?.width}
 				>
 					<DragContent
-						containerLayout={containerLayout}
 						gap={gap}
 						itemSize={itemSize}
 						layout={layout}
