@@ -39,7 +39,7 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
 			dependencies = [],
 			focusedIndex,
 			id,
-			layout,
+			layoutType,
 			loading,
 			style,
 			testID,
@@ -51,14 +51,14 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
 			accessibilityLabel='list'
 			accessibilityRole='list'
 			accessible={true}
-			layout={layout}
+			layoutType={layoutType}
 			style={[style]}
 			testID={testID ?? `list--${id}`}
 		>
 			<VirtualList
 				{...virtualListProps}
 				activeKey={activeKey}
-				layout={layout}
+				layoutType={layoutType}
 				ref={ref}
 				testID={`list__virtualList--${id}`}
 				dependencies={[

@@ -3,6 +3,7 @@ import type {ViewStyle} from 'react-native'
 import {Text, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {Button} from '../Button'
+import {LAYOUT} from '../Common'
 import {Icon} from '../Icon'
 import {VirtualList} from './Virtual-list.component'
 
@@ -159,6 +160,49 @@ export const Draggable = () => {
 				draggable={true}
 				gap={8}
 				itemSize={56}
+				onDragEnd={options => {
+					console.info(options)
+				}}
+				onEndReached={() => {
+					console.info('onEndReached')
+				}}
+				renderItem={({item}) => (
+					<View
+						key={item.indexKey}
+						style={[itemStyle]}
+					>
+						<Text>{item.indexKey}</Text>
+					</View>
+				)}
+			/>
+		</View>
+	)
+}
+
+export const DraggableHorizontal = () => {
+	const style = {height: 800, width: '100%'} as ViewStyle
+	const itemStyle = {
+		height: 56,
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center'
+	} as ViewStyle
+
+	const data = Array.from({length: 10}, (_, index) => ({
+		indexKey: `Item${index + 1}`,
+		headline: `Item${index + 1}`,
+		afterAffordance: true,
+		leading: <Icon />
+	}))
+
+	return (
+		<View style={[style]}>
+			<VirtualList
+				data={data}
+				draggable={true}
+				gap={8}
+				itemSize={56}
+				layoutType={LAYOUT.HORIZONTAL}
 				onDragEnd={options => {
 					console.info(options)
 				}}
