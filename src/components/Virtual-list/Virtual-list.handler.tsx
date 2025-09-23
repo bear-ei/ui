@@ -9,6 +9,7 @@ import type {ListData} from '../List'
 import type {
 	HandleDragEndOptions,
 	HandleDragUpdateOptions,
+	HandleVirtualListDragEndOptions,
 	HandleVirtualListDragUpdateOptions,
 	OnDragEndOptions,
 	TriggerVirtualListCloseOptions,
@@ -213,11 +214,15 @@ export const animateVirtualList =
 		animateSharedValueTo({sharedValue: contentSharedValue})(contentSize)
 
 export const handleVirtualListDragUpdate =
-	({itemSize = 0, layout}: HandleVirtualListDragUpdateOptions) =>
+	({itemSize = 0, layout, onDragUpdate}: HandleVirtualListDragUpdateOptions) =>
 	(setState: Updater<VirtualListState>) =>
 	({indexKey, event}: HandleDragUpdateOptions) => {
 		setState(draft => {
-			const visibleRangeData = draft.visibleRangeData ?? []
+			if (!draft.visibleRangeData) {
+				return
+			}
+
+			const visibleRangeData = draft.visibleRangeData
 			const scrollOffset = draft.scrollOffset ?? 0
 			const dragItemAbsolute =
 				layout === LAYOUT.HORIZONTAL ?
@@ -229,23 +234,20 @@ export const handleVirtualListDragUpdate =
 					return
 				}
 
+				const nextDragUpdateEvent = () =>
+					onDragUpdate?.({indexKey, targetKey: itemIndexKey, event})
+
 				const draggedIndex = visibleRangeData.findIndex(item => item.indexKey === indexKey)
 				const overIndex = visibleRangeData.findIndex(item => item.indexKey === itemIndexKey)
 				const isUpdateVisibleRangeData = draggedIndex !== -1 && overIndex !== -1
 
 				if (isUpdateVisibleRangeData) {
-					const nextVisibleRangeData = [...visibleRangeData]
-
-					;[
-						nextVisibleRangeData[draggedIndex].index,
-						nextVisibleRangeData[overIndex].index
-					] = [
-						nextVisibleRangeData[overIndex].index,
-						nextVisibleRangeData[draggedIndex].index
+					;[visibleRangeData[draggedIndex].index, visibleRangeData[overIndex].index] = [
+						visibleRangeData[overIndex].index,
+						visibleRangeData[draggedIndex].index
 					]
 
-					draft.nextDragTargetIndexKey = itemIndexKey
-					draft.visibleRangeData = nextVisibleRangeData
+					draft.nextDragUpdateEvent = nextDragUpdateEvent
 				}
 			}
 
@@ -264,15 +266,7 @@ export const handleVirtualListDragUpdate =
 	}
 
 export const handleVirtualListDragEnd =
+	(options: HandleVirtualListDragEndOptions) =>
 	(onDragEnd?: (options: OnDragEndOptions) => void) =>
-	(setState: Updater<VirtualListState>) =>
-	({indexKey, event}: HandleDragEndOptions) => {
-		const createNextDragEndEvent = (targetKey?: string) => () => onDragEnd?.({indexKey, targetKey, event})
-
-		setState(draft => {
-			const targetKey = draft.nextDragTargetIndexKey
-
-			draft.nextDragEndEvent = createNextDragEndEvent(targetKey)
-			draft.nextDragTargetIndexKey = undefined
-		})
-	}
+	({indexKey, event}: HandleDragEndOptions) =>
+		onDragEnd?.({...options, indexKey, event})

@@ -33,8 +33,8 @@ export const updatePrevTranslation =
 
 export const updateTranslation = ({width, height, theme, onUpdate}: UpdateTranslationScreenOptions) => {
 	const clamp = (min: number) => (max: number) => (value: number) => Math.min(Math.max(value, min), max)
-	const maxTranslateX = width - theme.adaptSize(theme.token.spacing.large)
-	const maxTranslateY = height - theme.adaptSize(theme.token.spacing.large)
+	const maxTranslateX = width / 2 - theme.adaptSize(theme.token.spacing.large)
+	const maxTranslateY = height / 2 - theme.adaptSize(theme.token.spacing.large)
 
 	return ({
 			prevTranslationXSharedValue,

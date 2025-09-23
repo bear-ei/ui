@@ -35,6 +35,7 @@ const VirtualListBaseInner = <T,>(
 		layout = LAYOUT.VERTICAL,
 		onClose: rawOnClose,
 		onDragEnd: rawOnDragEnd,
+		onDragUpdate: rawOnDragUpdate,
 		onEndReached: rawOnEndReached,
 		onLoadEnd,
 		onMomentumScrollEnd: rawOnMomentumScrollEnd,
@@ -48,12 +49,14 @@ const VirtualListBaseInner = <T,>(
 	const [
 		{
 			emptyList: isEmptyList,
+			endIndex,
 			layout: containerLayout,
 			nextCloseEvent,
-			nextDragEndEvent,
+			nextDragUpdateEvent,
 			nextEndReachedEvent,
 			nextLoadEndEvent,
 			nextScrollEvent,
+			startIndex,
 			status,
 			virtualListData,
 			visibleRangeData
@@ -107,11 +110,18 @@ const VirtualListBaseInner = <T,>(
 	)
 
 	const onDragUpdate = useMemo(
-		() => handleVirtualListDragUpdate({itemSize: renderItemSize, layout})(setState),
-		[layout, renderItemSize, setState]
+		() =>
+			handleVirtualListDragUpdate({itemSize: renderItemSize, layout, onDragUpdate: rawOnDragUpdate})(
+				setState
+			),
+		[layout, rawOnDragUpdate, renderItemSize, setState]
 	)
 
-	const onDragEnd = useMemo(() => handleVirtualListDragEnd(rawOnDragEnd)(setState), [rawOnDragEnd, setState])
+	const onDragEnd = useMemo(
+		() => handleVirtualListDragEnd({endIndex, startIndex})(rawOnDragEnd),
+		[endIndex, rawOnDragEnd, startIndex]
+	)
+
 	const interactionHandlers = useInteractionStateEvent({
 		...renderVirtualListProps,
 		disabled: false,
@@ -195,8 +205,8 @@ const VirtualListBaseInner = <T,>(
 	}, [nextLoadEndEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextDragEndEvent)()
-	}, [nextDragEndEvent])
+		runAfterInteractions(nextDragUpdateEvent)()
+	}, [nextDragUpdateEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>
