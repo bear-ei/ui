@@ -149,7 +149,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			leadingType,
 			onCancel,
 			onConfirm,
-			onTrailingUnmount,
 			panResponder,
 			selectType,
 			shape,
@@ -160,7 +159,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			testID,
 			trailingElement,
 			trailingTriggerEvent,
-			trailingUnmount,
 			trailingVisible,
 			type = LIST_TYPE.STANDARD,
 			...touchableProps
@@ -171,9 +169,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 		const activeColor = theme.token.scheme.secondaryContainer
 		const isSupportingTextShow = !!supporting
 		const isUnmountTrailing = trailingTriggerEvent === TRIGGER_EVENT.HOVER
-		const isTrailingShow =
-			trailingTriggerEvent ? !!(trailingElement && !trailingUnmount) : !!trailingElement
-
+		const isTrailingShow = !!trailingElement
 		const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
 		const underlayProps = useMemo(
 			() =>
@@ -189,6 +185,22 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
 		const leadingDensity = type === LIST_TYPE.LABEL ? -1 : 0
 		const size = type === LIST_TYPE.LABEL ? SIZE.MEDIUM : SIZE.LARGE
+		const trailingStyle = useMemo(
+			() => ({
+				[LIST_TYPE.LABEL]: {
+					paddingRight: theme.adaptSize(
+						theme.token.spacing.small + -0.5 * theme.token.spacing.extraSmall
+					)
+				},
+				[LIST_TYPE.MENU]: {
+					paddingRight: theme.adaptSize(theme.token.spacing.extraSmall)
+				},
+				[LIST_TYPE.STANDARD]: {
+					paddingRight: theme.adaptSize(theme.token.spacing.small)
+				}
+			}),
+			[theme]
+		)
 
 		return (
 			<Container
@@ -238,6 +250,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 								testID={`listItem__main--${id}`}
 								trailingShow={isTrailingShow}
 								type={type}
+								unmountTrailing={isUnmountTrailing}
 							>
 								{leadingElement && (
 									<Leading
@@ -266,10 +279,8 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 								)}
 
 								<MainInner
-									leadingShow={!!leadingElement}
 									supportingTextShow={isSupportingTextShow}
 									testID={`listItem__mainInner--${id}`}
-									trailingShow={isTrailingShow}
 									type={type}
 								>
 									{headline &&
@@ -312,8 +323,16 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 										testID={`listItem__trailingLayout--${id}`}
 										trailingShow={isTrailingShow}
 										type={type}
+										unmountTrailing={isUnmountTrailing}
 									>
 										<Trailing
+											{...(isUnmountTrailing && {
+												style: [
+													trailingStyle[
+														type
+													]
+												]
+											})}
 											defaultVisible={
 												!trailingTriggerEvent
 											}
@@ -326,7 +345,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 												easing: EASING.EMPHASIZED_ACCELERATE
 											}}
 											lazy={closeTrailing}
-											onUnmount={onTrailingUnmount}
 											testID={`listItem__trailing--${id}`}
 											unmount={isUnmountTrailing}
 											visible={trailingVisible}

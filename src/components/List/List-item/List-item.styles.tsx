@@ -146,7 +146,6 @@ export const Main = styled(Shape)<ListItemMainProps>`
 		`}
 
 
-
 	${({theme, type = LIST_TYPE.STANDARD, trailingShow}) => {
 		const mainType = {
 			[LIST_TYPE.LABEL]: css`
@@ -177,6 +176,12 @@ export const Main = styled(Shape)<ListItemMainProps>`
 
 		return trailingShow && mainType[type]
 	}}
+
+	${({unmountTrailing, theme}) =>
+		unmountTrailing &&
+		css`
+			padding-right: ${theme.adaptSize(theme.token.spacing.none)}px;
+		`}
 `
 
 export const Leading = styled.View<ListItemLeadingProps>`
@@ -190,6 +195,26 @@ export const Leading = styled.View<ListItemLeadingProps>`
 		css`
 			justify-content: flex-start;
 		`}
+
+	${({theme, type = LIST_TYPE.STANDARD}) => {
+		const mainInnerType = {
+			[LIST_TYPE.LABEL]: css`
+				margin-right: ${theme.adaptSize(
+					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+				)}px;
+			`,
+			[LIST_TYPE.MENU]: css`
+				margin-right: ${theme.adaptSize(
+					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+				)}px;
+			`,
+			[LIST_TYPE.STANDARD]: css`
+				margin-right: ${theme.adaptSize(theme.token.spacing.medium)}px;
+			`
+		} as Record<ListType, RuleSet<object> | undefined>
+
+		return mainInnerType[type]
+	}}
 `
 
 export const MainInner = styled.View<ListItemMainInnerProps>`
@@ -204,54 +229,46 @@ export const MainInner = styled.View<ListItemMainInnerProps>`
 		css`
 			min-height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
 		`}
-
-	${({theme, type = LIST_TYPE.STANDARD, leadingShow}) => {
-		const mainInnerType = {
-			[LIST_TYPE.LABEL]: css`
-				padding-left: ${theme.adaptSize(
-					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
-				)}px;
-			`,
-			[LIST_TYPE.MENU]: css`
-				padding-left: ${theme.adaptSize(
-					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
-				)}px;
-			`,
-			[LIST_TYPE.STANDARD]: css`
-				padding-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
-			`
-		} as Record<ListType, RuleSet<object> | undefined>
-
-		if (leadingShow) {
-			return mainInnerType[type]
-		}
-	}}
-
-
-        ${({theme, type = LIST_TYPE.STANDARD, trailingShow}) => {
-		const mainInnerType = {
-			[LIST_TYPE.LABEL]: css`
-				padding-right: ${theme.adaptSize(
-					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
-				)}px;
-			`,
-			[LIST_TYPE.MENU]: css`
-				padding-right: ${theme.adaptSize(
-					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
-				)}px;
-			`,
-			[LIST_TYPE.STANDARD]: css`
-				padding-right: ${theme.adaptSize(theme.token.spacing.medium)}px;
-			`
-		} as Record<ListType, RuleSet<object> | undefined>
-
-		return trailingShow && mainInnerType[type]
-	}}
 `
 
 export const TrailingLayout = styled.View<ListItemTrailingProps>`
 	display: flex;
 	flex-direction: column;
+
+	${({theme, type = LIST_TYPE.STANDARD, trailingShow}) => {
+		const mainInnerType = {
+			[LIST_TYPE.LABEL]: css`
+				height: ${theme.adaptSize(theme.token.spacing.extraLarge)}px;
+				margin-left: ${theme.adaptSize(
+					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+				)}px;
+
+				width: ${theme.adaptSize(theme.token.spacing.extraLarge)}px;
+			`,
+			[LIST_TYPE.MENU]: css`
+				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+				margin-left: ${theme.adaptSize(
+					theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall
+				)}px;
+
+				width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+			`,
+			[LIST_TYPE.STANDARD]: css`
+				height: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+				margin-left: ${theme.adaptSize(theme.token.spacing.medium)}px;
+				width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+			`
+		} as Record<ListType, RuleSet<object> | undefined>
+
+		return trailingShow && mainInnerType[type]
+	}}
+
+	${({unmountTrailing}) =>
+		unmountTrailing &&
+		css`
+			height: auto;
+			width: auto;
+		`}
 
 	${({supportingTextNumberOfLines = 0}) =>
 		supportingTextNumberOfLines > 1 &&

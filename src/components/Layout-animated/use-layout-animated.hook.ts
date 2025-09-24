@@ -119,12 +119,6 @@ export const useLayoutAnimated = ({
 	)
 
 	useEffect(() => {
-		if (animatedType === LAYOUT_ANIMATED.FADE) {
-			runAnimate(visible)
-
-			return
-		}
-
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
 			runAnimate(visible)
 		}

@@ -4,7 +4,7 @@ import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useClearComponentEvent, useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {debounce, runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, debounce, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -111,11 +111,13 @@ const VirtualListBaseInner = <T,>(
 
 	const onDragUpdate = useMemo(
 		() =>
-			handleVirtualListDragUpdate({
-				itemSize: renderItemSize,
-				layoutType,
-				onDragUpdate: rawOnDragUpdate
-			})(setState),
+			createDeferredHandlerWithState(
+				handleVirtualListDragUpdate({
+					itemSize: renderItemSize,
+					layoutType,
+					onDragUpdate: rawOnDragUpdate
+				})
+			)(setState)({throttleMillisecond: 50}),
 		[layoutType, rawOnDragUpdate, renderItemSize, setState]
 	)
 

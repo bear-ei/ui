@@ -17,10 +17,9 @@ export const useTooltipSupportingAnimated = ({
 	type = TOOLTIP_TYPE.PLAIN,
 	visible
 }: UseTooltipSupportingAnimatedOptions) => {
-	const isVisible = visible && status === COMPONENT_STATUS.SUCCEEDED
-	const heightSharedValue = useSharedValue(isVisible ? 1 : 0)
-	const opacitySharedValue = useSharedValue(isVisible ? 1 : 0)
-	const transformSharedValue = useSharedValue(isVisible ? 1 : 0)
+	const heightSharedValue = useSharedValue(0)
+	const opacitySharedValue = useSharedValue(0)
+	const transformSharedValue = useSharedValue(0)
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const createEntrySharedValueAnimator = useMemo(
@@ -31,11 +30,11 @@ export const useTooltipSupportingAnimated = ({
 	const createExitSharedValueAnimator = useMemo(
 		() =>
 			animatedTiming({
-				callback: (finished?: boolean) => finished && !isVisible && onClose?.(true),
+				callback: (finished?: boolean) => finished && onClose?.(true),
 				duration: DURATION.SHORT_3,
 				easing: EASING.EMPHASIZED_ACCELERATE
 			}),
-		[animatedTiming, isVisible, onClose]
+		[animatedTiming, onClose]
 	)
 
 	const contentAnimatedStyle = useAnimatedStyle(() => ({
@@ -131,8 +130,10 @@ export const useTooltipSupportingAnimated = ({
 	)
 
 	useEffect(() => {
-		runAnimate(isVisible)
-	}, [runAnimate, isVisible])
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimate(visible)
+		}
+	}, [runAnimate, status, visible])
 
 	useEffect(
 		() => () => {

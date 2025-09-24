@@ -32,7 +32,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 			supportingPosition,
 			triggerEvent,
 			type = TOOLTIP_TYPE.PLAIN,
-			visible,
+			visible: rawVisible,
 			...renderTooltipProps
 		},
 		ref
@@ -42,6 +42,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 
 		useClearComponentEvent(setState)
 
+		const isVisible = rawVisible ?? defaultVisible
 		const containerRef = useRef<View>(null)
 		const id = useId()
 		const onVisible = useMemo(
@@ -113,8 +114,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		}, [isTooltipVisible, menuContainerLayout, runEmit, type])
 
 		useEffect(() => {
-			runUpdateVisible(visible ?? defaultVisible)
-		}, [runUpdateVisible, visible, defaultVisible])
+			runUpdateVisible(isVisible)
+		}, [isVisible, runUpdateVisible])
 
 		useEffect(() => {
 			runAfterInteractions(nextVisibilityEvent)()

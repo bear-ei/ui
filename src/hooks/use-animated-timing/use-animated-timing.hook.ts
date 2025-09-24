@@ -25,10 +25,6 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 				(toValue: number) => {
 					'worklet'
 
-					if (sharedValue.value === toValue) {
-						return
-					}
-
 					if (immediate) {
 						sharedValue.value = toValue
 

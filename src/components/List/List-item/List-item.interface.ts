@@ -76,12 +76,10 @@ export interface RenderListItemProps extends ListItemProps {
 	headlineTextAnimatedStyle: AnimatedStyle<TextStyle>
 	interactionHandlers: InteractionHandlers
 	leadingElement?: React.JSX.Element
-	onTrailingUnmount?: () => void
 	panResponder?: PanResponderInstance
 	skeletonVisible?: boolean
 	state?: State
 	trailingElement?: React.JSX.Element
-	trailingUnmount?: boolean
 	trailingVisible?: boolean
 }
 
@@ -93,7 +91,6 @@ export interface ListItemState {
 	nextPressInEvent?: () => void
 	nextPressOutEvent?: () => void
 	status: ComponentStatus
-	trailingUnmount?: boolean
 	trailingVisible?: boolean
 }
 
@@ -144,17 +141,15 @@ export interface ListItemMainProps
 		ListItemContentProps {
 	supportingTextShow?: boolean
 	trailingShow?: boolean
+	unmountTrailing?: boolean
 }
 
-export interface ListItemMainInnerProps extends Pick<ListItemMainProps, 'supportingTextShow' | 'type'> {
-	leadingShow?: boolean
-	trailingShow?: boolean
-}
-
+export type ListItemMainInnerProps = Pick<ListItemMainProps, 'supportingTextShow' | 'type'>
 export type ListItemLeadingProps = Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'type'>
 export interface ListItemTrailingProps extends ListItemLeadingProps {
 	closeTrailing?: boolean
 	trailingShow?: boolean
+	unmountTrailing?: boolean
 }
 
 export type ListItemItemTouchableProps = RefAttributes<PressableType>

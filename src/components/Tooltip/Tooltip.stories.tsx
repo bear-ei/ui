@@ -11,8 +11,8 @@ export const PlainVerticalEnd = () => {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: 48,
-		height: 48
+		width: 40,
+		height: 40
 	} as ViewStyle
 
 	return (
@@ -54,8 +54,8 @@ export const PlainVerticalStart = () => {
 	} as ViewStyle
 
 	const tooltipStyle = {
-		width: 48,
-		height: 48
+		width: 40,
+		height: 40
 	} as ViewStyle
 
 	return (
@@ -85,8 +85,8 @@ export const PlainHorizontalStart = () => {
 	} as ViewStyle
 
 	const tooltipStyle = {
-		width: 48,
-		height: 48
+		width: 40,
+		height: 40
 	} as ViewStyle
 
 	return (
@@ -117,8 +117,8 @@ export const PlainHorizontalEnd = () => {
 	} as ViewStyle
 
 	const tooltipStyle = {
-		width: 48,
-		height: 48
+		width: 40,
+		height: 40
 	} as ViewStyle
 
 	return (

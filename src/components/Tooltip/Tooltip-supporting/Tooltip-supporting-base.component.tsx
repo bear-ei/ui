@@ -33,7 +33,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 			supportingPosition,
 			triggerEvent,
 			type,
-			visible: isVisible,
+			visible,
 			...renderTooltipSupportingProps
 		},
 		ref
@@ -64,10 +64,10 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		const {contentAnimatedStyle} = useTooltipSupportingAnimated({
 			height: layout.height,
 			onClose: onClosed,
+			position,
 			status,
 			type,
-			visible: isVisible,
-			position
+			visible
 		})
 
 		const onStateEventChange = useCallback(
@@ -84,8 +84,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		})
 
 		const runUpdateStatus = useMemo(
-			() => updateTooltipSupportingStatus({setState, windowWidth})(containerLayout),
-			[containerLayout, setState, windowWidth]
+			() => updateTooltipSupportingStatus({setState, windowWidth}),
+			[setState, windowWidth]
 		)
 
 		const runUpdatePosition = useMemo(
@@ -103,12 +103,12 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
 		useEffect(() => {
-			runUpdateStatus(isVisible)
-		}, [runUpdateStatus, isVisible])
+			runUpdateStatus(containerLayout)
+		}, [containerLayout, runUpdateStatus, visible])
 
 		useEffect(() => {
-			runUpdatePosition({visible: isVisible, windowHeight, windowWidth, layout})
-		}, [isVisible, layout, runUpdatePosition, windowHeight, windowWidth])
+			runUpdatePosition({visible, windowHeight, windowWidth, layout})
+		}, [visible, layout, runUpdatePosition, windowHeight, windowWidth])
 
 		useEffect(() => {
 			runAfterInteractions(nextClosedEvent)()
@@ -132,7 +132,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 				supportingPosition={position}
 				theme={theme}
 				type={type}
-				visible={isVisible}
+				visible={visible}
 				width={tooltipSupportingWidth}
 				windowHeight={windowHeight}
 				windowWidth={windowWidth}

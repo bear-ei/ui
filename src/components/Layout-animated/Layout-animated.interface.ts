@@ -31,7 +31,6 @@ export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View
 	translate?: boolean
 	// ]
 
-	delay?: number
 	style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>> | StyleProp<AnimatedStyle<StyleProp<TextStyle>>>
 	unmount?: boolean
 	visible?: boolean
@@ -44,17 +43,18 @@ export interface RenderLayoutAnimatedProps extends Omit<LayoutAnimatedProps, 'co
 }
 
 export interface LayoutAnimatedState {
-	invisible?: boolean
 	layout: LayoutRectangle
 	nextUnmountEvent?: () => void
 	nextVisibilityEvent?: () => void
 	status: ComponentStatus
-	unmountLayout?: boolean
-	visible?: boolean
 }
 
 export type LayoutAnimatedBaseProps = LayoutAnimatedProps
-export type FinalizeLayoutAnimatedVisibilityChangeOptions = Pick<RenderLayoutAnimatedProps, 'onUnmount' | 'unmount'>
+export type FinalizeLayoutAnimatedVisibilityChangeOptions = Pick<
+	RenderLayoutAnimatedProps,
+	'onUnmount' | 'unmount' | 'onVisibility'
+>
+
 export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEventChangeOptions {
 	onLayoutChange: (layout: LayoutRectangle) => void
 }
@@ -70,12 +70,10 @@ export interface UseLayoutAnimatedOptions
 	width?: number
 }
 
-export type UpdateLayoutAnimatedStatusOptions = Pick<LayoutAnimatedProps, 'lazy' | 'unmount'>
 export interface AnimateLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 'animatedType'> {
 	createEntrySharedValueAnimator: AnimateSharedValueTo
 	createExitSharedValueAnimator: AnimateSharedValueTo
 }
 
-export type UpdateLayoutAnimatedVisibilityOptions = Pick<LayoutAnimatedProps, 'onVisibility' | 'animatedType'>
 export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>
 export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible'>

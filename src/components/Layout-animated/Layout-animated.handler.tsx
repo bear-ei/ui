@@ -1,4 +1,3 @@
-import type {WritableDraft} from 'immer'
 import type {LayoutChangeEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
@@ -10,9 +9,7 @@ import type {
 	ContentSize,
 	FinalizeLayoutAnimatedVisibilityChangeOptions,
 	HandleLayoutAnimatedStateChangeOptions,
-	LayoutAnimatedState,
-	UpdateLayoutAnimatedStatusOptions,
-	UpdateLayoutAnimatedVisibilityOptions
+	LayoutAnimatedState
 } from './Layout-animated.interface'
 
 export const updateLayoutAnimatedSize =
@@ -52,60 +49,31 @@ export const handleLayoutAnimatedStateChange =
 		nextEvent[eventName]?.()
 	}
 
-export const updateLayoutAnimatedVisibility =
-	({onVisibility, animatedType}: UpdateLayoutAnimatedVisibilityOptions) =>
-	(setState: Updater<LayoutAnimatedState>) => {
-		const createNextVisibilityEvent = (visible?: boolean) => () => onVisibility?.(visible)
-		const applyLayoutVisibilityToDraft =
-			(visible?: boolean) => (draft: WritableDraft<LayoutAnimatedState>) => {
-				if (draft.visible !== visible) {
-					draft.nextVisibilityEvent = createNextVisibilityEvent(visible)
-				}
-
-				draft.visible = visible
-
-				if (animatedType === LAYOUT_ANIMATED.STANDARD) {
-					draft.invisible = !visible
-
-					return
-				}
-
-				if (visible) {
-					draft.invisible = false
-				}
-			}
-
-		return (visible?: boolean) => setState(applyLayoutVisibilityToDraft(visible))
-	}
+export const updateLayoutAnimatedVisibility = (onVisibility?: (visible?: boolean) => void) => (visible?: boolean) =>
+	onVisibility?.(visible)
 
 export const finalizeLayoutAnimatedVisibilityChange =
-	({onUnmount, unmount}: FinalizeLayoutAnimatedVisibilityChangeOptions) =>
+	({onUnmount, unmount, onVisibility}: FinalizeLayoutAnimatedVisibilityChangeOptions) =>
 	(setState: Updater<LayoutAnimatedState>) =>
 	(visible?: boolean) => {
 		const nextUnmountEvent = () => onUnmount?.()
+		const nextVisibilityEvent = () => onVisibility?.(visible)
 
 		setState(draft => {
-			draft.invisible = !visible
-
 			if (unmount && !visible) {
 				draft.nextUnmountEvent = nextUnmountEvent
 				draft.status = COMPONENT_STATUS.IDLE
-				draft.unmountLayout = true
 			}
+
+			draft.nextVisibilityEvent = nextVisibilityEvent
 		})
 	}
 
 export const updateLayoutAnimatedStatus =
-	({unmount, lazy}: UpdateLayoutAnimatedStatusOptions) =>
-	(setState: Updater<LayoutAnimatedState>) =>
-	(visible?: boolean) =>
+	(lazy?: boolean) => (setState: Updater<LayoutAnimatedState>) => (visible?: boolean) =>
 		setState(draft => {
 			if (draft.status === COMPONENT_STATUS.SUCCEEDED) {
 				return
-			}
-
-			if (unmount) {
-				draft.unmountLayout = !visible
 			}
 
 			draft.status = lazy && !visible ? COMPONENT_STATUS.IDLE : COMPONENT_STATUS.LOADING
@@ -115,11 +83,11 @@ export const animateLayoutAnimated =
 	({createEntrySharedValueAnimator, createExitSharedValueAnimator, animatedType}: AnimateLayoutAnimatedOptions) =>
 	(containerSharedValue: SharedValue<number>) =>
 	(visible?: boolean) => {
-		if (animatedType === LAYOUT_ANIMATED.STANDARD) {
+		if (animatedType === LAYOUT_ANIMATED.STANDARD || typeof visible !== 'boolean') {
 			return
 		}
 
-		if (typeof visible === 'boolean' && visible) {
+		if (visible) {
 			createEntrySharedValueAnimator({sharedValue: containerSharedValue})(1)
 
 			return

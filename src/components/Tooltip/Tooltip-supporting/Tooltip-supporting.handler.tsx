@@ -74,9 +74,7 @@ export const updateTooltipSupportingClosed =
 export const updateTooltipSupportingStatus =
 	({setState, windowWidth}: UpdateTooltipSupportingStatusOptions) =>
 	(containerLayout?: LayoutRectangle) =>
-	(visible?: boolean) =>
 		windowWidth &&
-		visible &&
 		containerLayout &&
 		setState(draft => {
 			if (draft.status === COMPONENT_STATUS.IDLE) {
@@ -199,7 +197,7 @@ export const animateTooltipSupporting =
 
 		const sharedValue = type === TOOLTIP_TYPE.MENU ? heightSharedValue : transformSharedValue
 
-		if (typeof visible === 'boolean' && visible) {
+		if (visible) {
 			createEntrySharedValueAnimator({sharedValue})(1)
 			createEntrySharedValueAnimator({sharedValue: opacitySharedValue})(1)
 

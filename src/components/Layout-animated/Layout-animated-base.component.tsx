@@ -7,15 +7,14 @@ import {
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../hooks'
-import {debounce, runAfterInteractions} from '../../utils'
+import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type LayoutRectangle, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
 	finalizeLayoutAnimatedVisibilityChange,
 	handleLayoutAnimatedStateChange,
 	updateLayoutAnimatedSize,
-	updateLayoutAnimatedStatus,
-	updateLayoutAnimatedVisibility
+	updateLayoutAnimatedStatus
 } from './Layout-animated.handler'
 import type {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
 import {RenderLayoutAnimated} from './Layout-animated.render'
@@ -27,7 +26,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			animatedType = LAYOUT_ANIMATED.FADE,
 			contentSize: rawContentSize,
 			defaultVisible,
-			delay = 50,
 			entry,
 			exit,
 			lazy = false,
@@ -37,28 +35,18 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			scale = false,
 			translate,
 			unmount,
-			visible: rawVisible,
+			visible,
 			...renderLayoutAnimatedProps
 		},
 		ref
 	) => {
-		const [
-			{
-				invisible: isInvisible,
-				layout,
-				nextUnmountEvent,
-				nextVisibilityEvent,
-				status,
-				unmountLayout: isUnmountLayout,
-				visible: isVisible
-			},
-			setState
-		] = useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE})
+		const [{layout, nextUnmountEvent, nextVisibilityEvent, status}, setState] =
+			useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE})
 
 		useClearComponentEvent(setState)
 
 		const id = useId()
-		const isLayoutVisible = rawVisible ?? defaultVisible
+		const isVisible = visible ?? defaultVisible
 		const contentSize = useMemo(
 			() =>
 				typeof rawContentSize === 'number' ?
@@ -71,9 +59,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			() =>
 				finalizeLayoutAnimatedVisibilityChange({
 					onUnmount,
-					unmount
+					unmount,
+					onVisibility
 				})(setState),
-			[onUnmount, setState, unmount]
+			[onUnmount, onVisibility, setState, unmount]
 		)
 
 		const onLayoutChange = useMemo(
@@ -102,27 +91,15 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			scale,
 			status,
 			translate,
-			visible: isVisible ?? isLayoutVisible,
+			visible: isVisible,
 			width: layout.width ?? contentSize?.width
 		})
 
-		const runUpdateStatus = useMemo(
-			() => updateLayoutAnimatedStatus({unmount, lazy})(setState),
-			[lazy, setState, unmount]
-		)
-
-		const runUpdateVisibility = useMemo(
-			() => debounce(updateLayoutAnimatedVisibility({onVisibility, animatedType})(setState))(delay),
-			[animatedType, delay, onVisibility, setState]
-		)
+		const runUpdateStatus = useMemo(() => updateLayoutAnimatedStatus(lazy)(setState), [lazy, setState])
 
 		useEffect(() => {
-			runUpdateStatus(isLayoutVisible)
-		}, [runUpdateStatus, isLayoutVisible])
-
-		useEffect(() => {
-			runUpdateVisibility(isLayoutVisible)
-		}, [isLayoutVisible, runUpdateVisibility])
+			runUpdateStatus(isVisible)
+		}, [runUpdateStatus, isVisible])
 
 		useEffect(() => {
 			runAfterInteractions(nextUnmountEvent)()
@@ -136,16 +113,16 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			return <></>
 		}
 
-		return isUnmountLayout ?
-				<></>
-			:	<RenderLayoutAnimated
-					{...renderLayoutAnimatedProps}
-					animatedType={animatedType}
-					containerAnimatedStyle={containerAnimatedStyle}
-					id={id}
-					interactionHandlers={interactionHandlers}
-					ref={ref}
-					visible={typeof isInvisible === 'boolean' ? !isInvisible : isLayoutVisible}
-				/>
+		return (
+			<RenderLayoutAnimated
+				{...renderLayoutAnimatedProps}
+				animatedType={animatedType}
+				containerAnimatedStyle={containerAnimatedStyle}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				ref={ref}
+				visible={isVisible}
+			/>
+		)
 	}
 )
