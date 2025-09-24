@@ -85,9 +85,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 			[setState]
 		)
 
-		const {contentAnimatedStyle, inputAnimatedStyle} = useSearchAnimated({
-			disabled
-		})
+		const {contentAnimatedStyle, inputAnimatedStyle} = useSearchAnimated({disabled})
 
 		useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
 

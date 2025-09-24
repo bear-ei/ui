@@ -130,6 +130,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			[indexKey, itemIndex, onActive, onLoadEnd, setState, trailingTriggerEvent, type]
 		)
 
+		const handleActive = useCallback(() => onActive?.(indexKey), [indexKey, onActive])
 		const interactionHandlers = useInteractionStateEvent({
 			...renderListItemProps,
 			disabled,
@@ -195,10 +196,10 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			() =>
 				({
 					...(pressableRef?.current ?? {}),
-					active: () => onActive?.(indexKey),
+					active: handleActive,
 					close: onClose
 				}) as ListItemRef,
-			[indexKey, onActive, onClose]
+			[handleActive, onClose]
 		)
 
 		useEffect(() => {

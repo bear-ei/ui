@@ -16,9 +16,8 @@ export const handleSearchInputStateChange =
 	({eventName, ref, state}: HandleSearchInputStateChangeOptions) =>
 	(setState: Updater<SearchState>) =>
 	(_event: StateEvent) => {
-		const focusTextInput = () => ref?.current?.focus()
 		const nextEvent = {
-			[EVENT_NAME.PRESS_OUT]: () => focusTextInput()
+			[EVENT_NAME.PRESS_OUT]: () => ref?.current?.focus()
 		} as Record<EventName, () => void>
 
 		if (eventName === EVENT_NAME.LAYOUT) {

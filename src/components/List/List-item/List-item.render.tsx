@@ -1,5 +1,5 @@
 import {DURATION, EASING, SIZE, TYPOGRAPHY} from '@bearei/element-token'
-import {cloneElement, forwardRef, isValidElement, useMemo, type FC} from 'react'
+import {cloneElement, forwardRef, isValidElement, useCallback, useMemo, type FC} from 'react'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {LAYOUT, TRIGGER_EVENT} from '../../Common'
@@ -55,13 +55,12 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 
 	const iconButtonDensity = density[type]
 	const iconDensity = iconButtonDensity / 2
+	const onHoverIn = useCallback(() => onTrailingVisibility?.(true), [onTrailingVisibility])
 	const trailingProps = useMemo(
 		() => ({
 			...restTrailingProps,
 			...interactionHandlers,
-			...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {
-				onHoverIn: () => onTrailingVisibility?.(true)
-			}),
+			...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {onHoverIn}),
 			disabled: isDisabled ?? disabled,
 			testID: `listItem__trailing--${id}`,
 			type: ICON_BUTTON_TYPE.STANDARD,
@@ -73,7 +72,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 			id,
 			interactionHandlers,
 			isDisabled,
-			onTrailingVisibility,
+			onHoverIn,
 			restTrailingProps,
 			trailingTriggerEvent
 		]
@@ -189,6 +188,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 		)
 
 		const leadingDensity = type === LIST_TYPE.LABEL ? -1 : 0
+		const size = type === LIST_TYPE.LABEL ? SIZE.MEDIUM : SIZE.LARGE
 
 		return (
 			<Container
@@ -277,14 +277,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 											<AnimatedHeadlineText
 												ellipsizeMode='tail'
 												numberOfLines={1}
-												size={
-													(
-														type ===
-														LIST_TYPE.LABEL
-													) ?
-														SIZE.MEDIUM
-													:	SIZE.LARGE
-												}
+												size={size}
 												style={[
 													headlineTextAnimatedStyle
 												]}

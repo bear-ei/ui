@@ -1,7 +1,7 @@
 import {act, waitFor} from '@testing-library/react-native'
 import {Text} from 'react-native'
 import {renderWithAct} from '../../../__test__'
-import {Skeleton} from '../Skeleton'
+import {Circle, Rectangular, Skeleton, Square} from '../Skeleton'
 
 describe('Skeleton Component', () => {
 	beforeAll(() => {
@@ -48,21 +48,21 @@ describe('Skeleton Component', () => {
 	})
 
 	it('should render Circle shape correctly', async () => {
-		const {getByTestId} = await renderWithAct(<Skeleton.Circle testID='skeleton-circle' />)
+		const {getByTestId} = await renderWithAct(<Circle testID='skeleton-circle' />)
 		const circle = await waitFor(() => getByTestId('skeleton-circle'))
 
 		expect(circle).toBeTruthy()
 	})
 
 	it('should render Square shape correctly', async () => {
-		const {getByTestId} = await renderWithAct(<Skeleton.Square testID='skeleton-square' />)
+		const {getByTestId} = await renderWithAct(<Square testID='skeleton-square' />)
 		const square = await waitFor(() => getByTestId('skeleton-square'))
 
 		expect(square).toBeTruthy()
 	})
 
 	it('should render Rectangular shape correctly', async () => {
-		const {getByTestId} = await renderWithAct(<Skeleton.Rectangular testID='skeleton-rectangular' />)
+		const {getByTestId} = await renderWithAct(<Rectangular testID='skeleton-rectangular' />)
 		const rectangular = await waitFor(() => getByTestId('skeleton-rectangular'))
 
 		expect(rectangular).toBeTruthy()

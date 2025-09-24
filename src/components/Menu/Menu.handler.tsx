@@ -14,12 +14,12 @@ const handleMenuActiveKeys =
 	}
 
 export const handleMenuKeyDown = ({
+	activeKey,
+	activeKeys,
 	data,
 	multiple,
-	onActives,
 	onActive,
-	activeKeys,
-	activeKey
+	onActives
 }: HandleMenuKeyDownOptions) => {
 	const nextActivesEvent = (indexKey: string) => () => onActives?.(handleMenuActiveKeys(activeKeys)(indexKey))
 	const nextActiveEvent = (indexKey: string) => () => onActive?.(indexKey === activeKey ? undefined : indexKey)

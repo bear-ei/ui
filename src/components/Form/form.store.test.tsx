@@ -30,7 +30,7 @@ describe('formStore', () => {
 	})
 
 	it('should set and get initial values correctly', () => {
-		store.setInitialValues()({username: 'testUser', email: 'test@example.com'})
+		store.setInitialValues({username: 'testUser', email: 'test@example.com'})
 
 		expect(store.getInitialValues()).toEqual({username: 'testUser', email: 'test@example.com'})
 	})
@@ -42,7 +42,7 @@ describe('formStore', () => {
 	})
 
 	it('should reset fields properly', () => {
-		store.setInitialValues()({username: 'resetUser'})
+		store.setInitialValues({username: 'resetUser'})
 		store.setFieldsValue()({username: 'changedUser'})
 		store.resetFields(['username'])
 
