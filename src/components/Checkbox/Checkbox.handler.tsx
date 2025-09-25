@@ -49,11 +49,8 @@ export const updateCheckboxActive =
 export const handleCheckboxStateChange =
 	({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
 	(setState: Updater<CheckboxState>) =>
-	(_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
-			return
-		}
-
+	(_event: StateEvent) =>
+		eventName !== EVENT_NAME.LAYOUT &&
 		setState(draft => {
 			if (eventName) {
 				draft.eventName = eventName
@@ -63,7 +60,6 @@ export const handleCheckboxStateChange =
 				applyCheckboxActiveStateToDraft(draft)({indeterminate, onActive})(!active)
 			}
 		})
-	}
 
 export const updateCheckboxIndeterminate = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
 	typeof indeterminate === 'boolean' &&

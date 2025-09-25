@@ -61,17 +61,13 @@ export const updateButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
 export const handleButtonStateChange =
 	({eventName, type, state}: HandleButtonStateChangeOptions) =>
 	(setState: Updater<ButtonState>) =>
-	(_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
-			return
-		}
-
+	(_event: StateEvent) =>
+		eventName !== EVENT_NAME.LAYOUT &&
 		setState(draft => {
 			draft.eventName = eventName
 
 			updateButtonElevation(draft)(type)(state)
 		})
-	}
 
 export const updateButtonDisabledState =
 	(type?: ButtonType) => (setState: Updater<ButtonState>) => (disabled?: boolean) =>

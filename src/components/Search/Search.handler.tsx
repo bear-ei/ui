@@ -4,7 +4,7 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimateSharedValueTo, StateEvent} from '../../hooks'
 import {textSearch} from '../../utils'
-import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../Common'
+import {COMPONENT_STATUS, EVENT_NAME, STATE} from '../Common'
 import type {ListData} from '../List'
 import type {
 	HandleSearchInputStateChangeOptions,
@@ -16,10 +16,6 @@ export const handleSearchInputStateChange =
 	({eventName, ref, state}: HandleSearchInputStateChangeOptions) =>
 	(setState: Updater<SearchState>) =>
 	(_event: StateEvent) => {
-		const nextEvent = {
-			[EVENT_NAME.PRESS_OUT]: () => ref?.current?.focus()
-		} as Record<EventName, () => void>
-
 		if (eventName === EVENT_NAME.LAYOUT) {
 			return
 		}
@@ -39,7 +35,7 @@ export const handleSearchInputStateChange =
 		})
 
 		if (eventName === EVENT_NAME.PRESS_OUT) {
-			nextEvent[eventName]()
+			ref?.current?.focus()
 		}
 	}
 

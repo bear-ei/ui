@@ -38,8 +38,5 @@ export const triggerFormItemShouldUpdate = (setState: Updater<FormItemState>) =>
 export const validateFormFieldOnBlur =
 	(validateFields: (name?: string) => Promise<FormErrors<unknown>>) =>
 	(name?: string) =>
-	(_event: NativeSyntheticEvent<TargetedEvent>) => {
-		if (name) {
-			validateFields(name)
-		}
-	}
+	(_event: NativeSyntheticEvent<TargetedEvent>) =>
+		name && validateFields(name)

@@ -60,7 +60,7 @@ export const updatePrevTranslate =
 export const updateTranslate = ({
 	height,
 	layout,
-	layoutType,
+	layoutType = LAYOUT.VERTICAL,
 	offset,
 	onUpdate,
 	width

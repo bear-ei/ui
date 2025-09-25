@@ -156,17 +156,12 @@ export const triggerListItemTrailingActions =
 			return
 		}
 
-		const nextEvent = {
-			afterAffordance: () => onActiveAfterAffordance?.({activeKey: indexKey}),
-			closeTrailing: () => onClose()
-		}
-
 		if (afterAffordance) {
-			nextEvent.afterAffordance()
+			onActiveAfterAffordance?.({activeKey: indexKey})
 		}
 
 		if (closeTrailing) {
-			nextEvent.closeTrailing()
+			onClose()
 		}
 	}
 

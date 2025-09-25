@@ -148,7 +148,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		const runUpdateAfterAffordanceVisibility = useMemo(
 			() =>
 				createDeferredHandlerWithState(updateListItemAfterAffordanceExpanded)(setState)({
-					debounceMillisecond: 400
+					debounceMillisecond: 350
 				}),
 			[setState]
 		)

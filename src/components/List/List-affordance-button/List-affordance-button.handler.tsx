@@ -7,15 +7,11 @@ import type {ListAffordanceButtonState} from './List-affordance-button.interface
 export const handleListAffordanceButtonStateChange =
 	({eventName}: HandleStateEventChangeOptions) =>
 	(setState: Updater<ListAffordanceButtonState>) =>
-	(_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
-			return
-		}
-
+	(_event: StateEvent) =>
+		eventName !== EVENT_NAME.LAYOUT &&
 		setState(draft => {
 			draft.eventName = eventName
 		})
-	}
 
 export const animateListAffordanceButton =
 	(animateSharedValueTo: AnimateSharedValueTo) => (colorSharedValue: SharedValue<number>) => (value: number) =>

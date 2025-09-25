@@ -14,15 +14,11 @@ import type {
 export const handleIconButtonStateChange =
 	({eventName}: HandleIconButtonStateChangeOptions) =>
 	(setState: Updater<IconButtonState>) =>
-	(_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
-			return
-		}
-
+	(_event: StateEvent) =>
+		eventName !== EVENT_NAME.LAYOUT &&
 		setState(draft => {
 			draft.eventName = eventName
 		})
-	}
 
 export const updateIconButtonDisabledState = (setState: Updater<IconButtonState>) => (disabled?: boolean) =>
 	disabled &&

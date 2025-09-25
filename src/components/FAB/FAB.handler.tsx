@@ -45,11 +45,8 @@ export const handleFABStateChange = ({eventName, elevated, state}: HandleFABStat
 		}
 	}
 
-	return (setState: Updater<FABState>) => (_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
-			return
-		}
-
+	return (setState: Updater<FABState>) => (_event: StateEvent) =>
+		eventName !== EVENT_NAME.LAYOUT &&
 		setState(draft => {
 			if (eventName) {
 				draft.eventName = eventName
@@ -57,7 +54,6 @@ export const handleFABStateChange = ({eventName, elevated, state}: HandleFABStat
 
 			applyFABElevationToDraft(draft)
 		})
-	}
 }
 
 export const updateFABDisabledState = (elevated?: boolean) => (setState: Updater<FABState>) => (disabled?: boolean) =>
