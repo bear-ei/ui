@@ -84,7 +84,12 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 			runAfterInteractions(nextCancelEvent)()
 		}, [nextCancelEvent])
 
-		useEffect(() => () => runEmitModalUnmount(type), [runEmitModalUnmount, type])
+		useEffect(
+			() => () => {
+				runEmitModalUnmount(type)
+			},
+			[runEmitModalUnmount, type]
+		)
 
 		return type === SIDE_SHEET_TYPE.SIDEBAR ? <RenderSheet {...renderProps} /> : <></>
 	}
