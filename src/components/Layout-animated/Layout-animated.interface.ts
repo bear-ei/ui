@@ -44,6 +44,7 @@ export interface RenderLayoutAnimatedProps extends Omit<LayoutAnimatedProps, 'co
 
 export interface LayoutAnimatedState {
 	layout: LayoutRectangle
+	layoutVisible?: boolean
 	nextUnmountEvent?: () => void
 	nextVisibilityEvent?: () => void
 	status: ComponentStatus
@@ -64,8 +65,8 @@ export interface UseLayoutAnimatedOptions
 		LayoutAnimatedProps,
 		'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible' | 'translate'
 	> {
-	onAnimationFinished: (visible?: boolean) => void
 	height?: number
+	onAnimationFinished: (visible?: boolean) => void
 	status: ComponentStatus
 	width?: number
 }
@@ -75,5 +76,5 @@ export interface AnimateLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 
 	createExitSharedValueAnimator: AnimateSharedValueTo
 }
 
-export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>
 export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible'>
+export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>

@@ -106,16 +106,10 @@ export const handleVirtualListStateChange =
 		nextEvent[eventName]?.()
 	}
 
-export const updateVirtualListOnScroll = ({
-	endReachedThreshold = 0.1,
-	itemSize,
-	layoutType,
-	onEndReached,
-	onScroll
-}: UpdateVirtualListOnScrollOptions) => {
-	const createNextScrollEvent = (event: NativeSyntheticEvent<NativeScrollEvent>) => () => onScroll?.(event)
-
-	return (setState: Updater<VirtualListState>) => (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+export const updateVirtualListOnScroll =
+	({endReachedThreshold = 0.1, itemSize, layoutType, onEndReached, onScroll}: UpdateVirtualListOnScrollOptions) =>
+	(setState: Updater<VirtualListState>) =>
+	(event: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
 		const scrollOffset = layoutType === LAYOUT.VERTICAL ? contentOffset.y : contentOffset.x
 		const distanceFromEnd =
@@ -129,19 +123,19 @@ export const updateVirtualListOnScroll = ({
 			:	layoutMeasurement.width * endReachedThreshold
 
 		const isHitBottom = distanceFromEnd <= thresholdDistance
-		const nextEndReachedEvent = () => onEndReached?.()
 
 		setState(draft => {
-			draft.nextScrollEvent = createNextScrollEvent(event)
+			if (onScroll) {
+				draft.nextScrollEvent = () => onScroll?.(event)
+			}
 
-			if (isHitBottom || scrollOffset <= 0) {
-				draft.nextEndReachedEvent = nextEndReachedEvent
+			if ((isHitBottom || scrollOffset <= 0) && onEndReached) {
+				draft.nextEndReachedEvent = () => onEndReached?.()
 			}
 
 			calculateVirtualListVisibilityRange({itemSize, layoutType})(draft)(scrollOffset)
 		})
 	}
-}
 
 export const triggerVirtualListMomentumScrollEnd =
 	(onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void) =>
@@ -152,19 +146,18 @@ const triggerVirtualListClose =
 	({enableAutoSelect, onClose, activeKey}: TriggerVirtualListCloseOptions) =>
 	(draft: WritableDraft<VirtualListState>) =>
 	(indexKey?: string) => {
-		if (enableAutoSelect && indexKey === activeKey) {
+		if (enableAutoSelect && indexKey === activeKey && onClose) {
 			const data = (draft.virtualListData ?? []) as ListData[]
 			const datumIndex = data.findIndex((datum: ListData) => datum.indexKey === indexKey)
 			const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
-			const nextAutoSelectCloseEvent = () => onClose?.({activeKey: nextActiveKey, indexKey})
-
-			draft.nextCloseEvent = nextAutoSelectCloseEvent
+			draft.nextCloseEvent = () => onClose?.({activeKey: nextActiveKey, indexKey})
 
 			return
 		}
 
-		const nextCloseEvent = () => onClose?.({indexKey})
-		draft.nextCloseEvent = nextCloseEvent
+		if (onClose) {
+			draft.nextCloseEvent = () => onClose?.({indexKey})
+		}
 	}
 
 export const unmountVirtualList = ({
@@ -238,9 +231,6 @@ export const handleVirtualListDragUpdate =
 					return
 				}
 
-				const nextDragUpdateEvent = () =>
-					onDragUpdate?.({indexKey, targetKey: itemIndexKey, event})
-
 				const draggedIndex = visibleRangeData.findIndex(item => item.indexKey === indexKey)
 				const overIndex = visibleRangeData.findIndex(item => item.indexKey === itemIndexKey)
 				const isUpdateVisibleRangeData = draggedIndex !== -1 && overIndex !== -1
@@ -251,7 +241,10 @@ export const handleVirtualListDragUpdate =
 						visibleRangeData[draggedIndex].index
 					]
 
-					draft.nextDragUpdateEvent = nextDragUpdateEvent
+					if (onDragUpdate) {
+						draft.nextDragUpdateEvent = () =>
+							onDragUpdate?.({indexKey, targetKey: itemIndexKey, event})
+					}
 				}
 			}
 

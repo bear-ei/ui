@@ -7,7 +7,7 @@ import {
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../hooks'
-import {runAfterInteractions} from '../../utils'
+import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type LayoutRectangle, type State} from '../Common'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
@@ -57,11 +57,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
 		const onAnimationFinished = useMemo(
 			() =>
-				finalizeLayoutAnimatedVisibilityChange({
-					onUnmount,
-					unmount,
-					onVisibility
-				})(setState),
+				createDeferredHandlerWithState(
+					finalizeLayoutAnimatedVisibilityChange({
+						onUnmount,
+						onVisibility,
+						unmount
+					})
+				)(setState)({debounceMillisecond: 50}),
 			[onUnmount, onVisibility, setState, unmount]
 		)
 
@@ -99,7 +101,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
 		useEffect(() => {
 			runUpdateStatus(isVisible)
-		}, [runUpdateStatus, isVisible])
+		}, [isVisible, runUpdateStatus])
 
 		useEffect(() => {
 			runAfterInteractions(nextUnmountEvent)()

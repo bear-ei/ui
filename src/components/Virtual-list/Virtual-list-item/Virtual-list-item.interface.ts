@@ -65,7 +65,6 @@ export interface VirtualListItemState {
 	dragging?: boolean
 	index?: number
 	nextDragEndEvent?: () => void
-	nextDragResetEvent?: () => void
 	status: ComponentStatus
 	visible?: boolean
 }

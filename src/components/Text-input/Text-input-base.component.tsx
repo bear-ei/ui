@@ -53,7 +53,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 				eventName,
 				nextChangeTextEvent,
 				nextContentSizeChangeEvent,
-				nextPressOutEvent,
 				nextSupportingTextCloseEvent,
 				nextSupportingTextVisibilityEvent,
 				state,
@@ -165,10 +164,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextSupportingTextVisibilityEvent)()
 		}, [nextSupportingTextVisibilityEvent])
-
-		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)()
-		}, [nextPressOutEvent])
 
 		useEffect(() => {
 			runAfterInteractions(nextSupportingTextCloseEvent)()

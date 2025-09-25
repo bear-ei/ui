@@ -39,11 +39,11 @@ export const handleTextInputStateChange =
 			if (state) {
 				draft.state = state
 			}
-
-			if (eventName === EVENT_NAME.PRESS_OUT) {
-				draft.nextPressOutEvent = nextEvent[eventName]
-			}
 		})
+
+		if (eventName) {
+			nextEvent[eventName]?.()
+		}
 	}
 
 export const createUpdateTextInputContentSize =
@@ -51,14 +51,15 @@ export const createUpdateTextInputContentSize =
 	(setState: Updater<TextInputState>) =>
 	(event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
 		const contentSize = event.nativeEvent.contentSize
-		const nextContentSizeChangeEvent = () => onContentSizeChange?.(event)
 
 		setState(draft => {
-			if (
-				draft.contentSize.height !== contentSize.height ||
-				draft.contentSize.width !== contentSize.width
-			) {
-				draft.nextContentSizeChangeEvent = nextContentSizeChangeEvent
+			const isUpdateNextContentSizeChangeEvent =
+				(draft.contentSize.height !== contentSize.height ||
+					draft.contentSize.width !== contentSize.width) &&
+				onContentSizeChange
+
+			if (isUpdateNextContentSizeChangeEvent) {
+				draft.nextContentSizeChangeEvent = () => onContentSizeChange?.(event)
 			}
 
 			draft.contentSize.height = contentSize.height
@@ -75,11 +76,10 @@ export const updateTextInputSupportingText =
 	({onSupportingTextClose, supportingTextDelay}: UpdateTextInputSupportingTextOptions) =>
 	(setState: Updater<TextInputState>) =>
 	(value?: string) => {
-		const nextSupportingTextCloseEvent = () => supportingTextDelay && value && onSupportingTextClose()
-
 		setState(draft => {
-			if (draft.supportingText !== value) {
-				draft.nextSupportingTextCloseEvent = nextSupportingTextCloseEvent
+			if (draft.supportingText !== value && onSupportingTextClose) {
+				draft.nextSupportingTextCloseEvent = () =>
+					supportingTextDelay && value && onSupportingTextClose()
 			}
 
 			draft.supportingText = value
@@ -90,36 +90,27 @@ export const updateTextInputSupportingText =
 export const updateTextInputSupportingTextVisibility =
 	(onSupportingTextVisibility?: (visible?: boolean) => void) =>
 	(setState: Updater<TextInputState>) =>
-	(visible?: boolean) => {
-		if (typeof visible !== 'boolean') {
-			return
-		}
-
-		const nextSupportingTextVisibilityEvent = () => onSupportingTextVisibility?.(visible)
-
+	(visible?: boolean) =>
+		typeof visible === 'boolean' &&
 		setState(draft => {
 			const supportingText = visible ? draft.supportingText : undefined
 
-			if (draft.supportingText !== supportingText) {
-				draft.nextSupportingTextVisibilityEvent = nextSupportingTextVisibilityEvent
+			if (draft.supportingText !== supportingText && onSupportingTextVisibility) {
+				draft.nextSupportingTextVisibilityEvent = () => onSupportingTextVisibility?.(visible)
 			}
 
 			draft.supportingText = supportingText
 		})
-	}
 
 export const updateTextInputValueWithCallback =
-	(onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value: string) => {
-		const nextChangeTextEvent = () => onChangeText?.(value)
-
+	(onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value: string) =>
 		setState(draft => {
-			if (draft.value !== value) {
-				draft.nextChangeTextEvent = nextChangeTextEvent
+			if (draft.value !== value && onChangeText) {
+				draft.nextChangeTextEvent = () => onChangeText?.(value)
 			}
 
 			draft.value = value
 		})
-	}
 
 export const updateTextInputValue = (setState: Updater<TextInputState>) => (value?: string) =>
 	setState(draft => {

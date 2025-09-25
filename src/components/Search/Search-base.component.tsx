@@ -37,23 +37,13 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		},
 		ref
 	) => {
-		const [
-			{
-				eventName,
-				layout,
-				listVisible: isListVisible,
-				nextChangeTextEvent,
-				nextPressOutEvent,
-				status,
-				value
-			},
-			setState
-		] = useImmer<SearchState>({
-			layout: {} as SearchState['layout'],
-			state: STATE.ENABLED,
-			status: COMPONENT_STATUS.IDLE,
-			value: ''
-		})
+		const [{eventName, layout, listVisible: isListVisible, nextChangeTextEvent, status, value}, setState] =
+			useImmer<SearchState>({
+				layout: {} as SearchState['layout'],
+				state: STATE.ENABLED,
+				status: COMPONENT_STATUS.IDLE,
+				value: ''
+			})
 
 		useClearComponentEvent(setState)
 
@@ -108,10 +98,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextChangeTextEvent)()
 		}, [nextChangeTextEvent])
-
-		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)()
-		}, [nextPressOutEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return

@@ -32,10 +32,8 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		},
 		ref
 	) => {
-		const [
-			{visible: isVisible, status, dragging: isDragging, nextDragEndEvent, index, nextDragResetEvent},
-			setState
-		] = useImmer<VirtualListItemState>({visible: true, status: COMPONENT_STATUS.IDLE})
+		const [{visible: isVisible, status, dragging: isDragging, nextDragEndEvent, index}, setState] =
+			useImmer<VirtualListItemState>({visible: true, status: COMPONENT_STATUS.IDLE})
 
 		const id = useId()
 		const {index: rawIndex = 0, indexKey} = item ?? {}
@@ -84,10 +82,6 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		useEffect(() => {
 			runAfterInteractions(nextDragEndEvent)()
 		}, [nextDragEndEvent])
-
-		useEffect(() => {
-			runAfterInteractions(nextDragResetEvent)()
-		}, [nextDragResetEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
 			return <></>

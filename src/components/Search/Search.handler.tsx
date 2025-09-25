@@ -36,37 +36,35 @@ export const handleSearchInputStateChange =
 			if (state) {
 				draft.state = state
 			}
-
-			if (eventName === EVENT_NAME.PRESS_OUT) {
-				draft.nextPressOutEvent = nextEvent[eventName]
-			}
 		})
+
+		if (eventName === EVENT_NAME.PRESS_OUT) {
+			nextEvent[eventName]()
+		}
 	}
 
 export const updateSearchTextWithMatch =
 	({data = [], onChangeText}: UpdateSearchTextWithMatchOptions = {}) =>
 	(setState: Updater<SearchState>) =>
-	(value: string) => {
-		const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
-		const nextChangeTextEvent = () => onChangeText?.(value)
-
+	(value: string) =>
 		setState(draft => {
-			if (draft.value !== value) {
-				draft.nextChangeTextEvent = nextChangeTextEvent
+			if (draft.value !== value && onChangeText) {
+				draft.nextChangeTextEvent = () => onChangeText?.(value)
 			}
+
+			const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
 
 			draft.data = (matchedData.length ? matchedData : undefined) as WritableDraft<ListData>[]
 			draft.value = value
 		})
-	}
 
 export const updateSearchInputValue =
 	(data: ListData[] = []) =>
 	(setState: Updater<SearchState>) =>
-	(value?: string) => {
-		const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
-
+	(value?: string) =>
 		setState(draft => {
+			const matchedData = value ? textSearch(data)(['headline', 'supporting'])(value) : []
+
 			draft.data = (matchedData.length ? matchedData : undefined) as WritableDraft<ListData>[]
 			draft.value = value ?? ''
 
@@ -74,7 +72,6 @@ export const updateSearchInputValue =
 				draft.status = COMPONENT_STATUS.SUCCEEDED
 			}
 		})
-	}
 
 export const updateSearchListVisibility = (setState: Updater<SearchState>) => (visible?: boolean) =>
 	typeof visible === 'boolean' &&

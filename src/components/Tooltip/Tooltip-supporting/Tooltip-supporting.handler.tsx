@@ -57,19 +57,18 @@ export const handleTooltipSupportingStateChange =
 	}
 
 export const updateTooltipSupportingClosed =
-	(onClosed?: () => void) => (setState: Updater<TooltipSupportingState>) => (value?: boolean) => {
-		const nextClosedEvent = () => onClosed?.()
+	(onClosed?: () => void) => (setState: Updater<TooltipSupportingState>) => (value?: boolean) =>
+		typeof value === 'boolean' &&
+		value &&
+		setState(draft => {
+			if (draft.invert) {
+				draft.invert = false
+			}
 
-		if (typeof value === 'boolean' && value) {
-			setState(draft => {
-				if (draft.invert) {
-					draft.invert = false
-				}
-
-				draft.nextClosedEvent = nextClosedEvent
-			})
-		}
-	}
+			if (onClosed) {
+				draft.nextClosedEvent = () => onClosed?.()
+			}
+		})
 
 export const updateTooltipSupportingStatus =
 	({setState, windowWidth}: UpdateTooltipSupportingStatusOptions) =>

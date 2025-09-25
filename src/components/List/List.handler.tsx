@@ -58,11 +58,6 @@ export const updateListActiveState = ({
 		return draft.activeKeys
 	}
 
-	const createNextActiveEvent = (activeKeys?: string | string[]) => () =>
-		selectType === LIST_SELECT_TYPE.SINGLE ?
-			onActive?.(activeKeys as string | undefined)
-		:	onActives?.(activeKeys as string[] | undefined)
-
 	return (setState: Updater<ListState>) => (activeKeys?: string | string[]) =>
 		selectType &&
 		setState(draft => {
@@ -73,8 +68,11 @@ export const updateListActiveState = ({
 					updateListActiveKey(draft)(activeKeys)
 				:	updateListActiveKeys(draft)(activeKeys ?? [])
 
-			if (selectType === LIST_SELECT_TYPE.SINGLE && preActiveKey !== callbackValue) {
-				draft.nextActiveEvent = createNextActiveEvent(callbackValue)
+			const isUpdateSingleNextActiveEvent =
+				selectType === LIST_SELECT_TYPE.SINGLE && preActiveKey !== callbackValue && onActive
+
+			if (isUpdateSingleNextActiveEvent) {
+				draft.nextActiveEvent = () => onActive?.(callbackValue as string | undefined)
 
 				return
 			}
@@ -82,8 +80,11 @@ export const updateListActiveState = ({
 			const isAreArraysEqual =
 				Array.isArray(callbackValue) && arrayEqual([...(preActiveKeys ?? [])])(callbackValue)
 
-			if (selectType === LIST_SELECT_TYPE.MULTIPLE && !isAreArraysEqual) {
-				draft.nextActiveEvent = createNextActiveEvent(callbackValue)
+			const isUpdateMultipleNextActiveEvent =
+				selectType === LIST_SELECT_TYPE.MULTIPLE && !isAreArraysEqual && onActives
+
+			if (isUpdateMultipleNextActiveEvent) {
+				draft.nextActiveEvent = () => onActives?.(callbackValue as string[] | undefined)
 			}
 		})
 }
@@ -109,14 +110,8 @@ export const createListItemSize =
 export const updateListAffordanceActiveState =
 	({onActive, selectType}: UpdateListActiveStateOptions) =>
 	(setState: Updater<ListState>) =>
-	({activeKey, callback} = {} as UpdateListAffordanceActiveStateOptions) => {
-		if (selectType === LIST_SELECT_TYPE.MULTIPLE) {
-			return
-		}
-
-		const nextAfterAffordanceActiveEvent = () => onActive?.(activeKey)
-		const nextAfterAffordanceEvent = () => callback?.()
-
+	({activeKey, callback} = {} as UpdateListAffordanceActiveStateOptions) =>
+		selectType === LIST_SELECT_TYPE.MULTIPLE &&
 		setState(draft => {
 			if (draft.afterAffordanceActiveKey === activeKey) {
 				draft.afterAffordanceActiveKey = undefined
@@ -125,32 +120,34 @@ export const updateListAffordanceActiveState =
 			}
 
 			draft.afterAffordanceActiveKey = activeKey
-			draft.nextAfterAffordanceActiveEvent = nextAfterAffordanceActiveEvent
+
+			if (onActive) {
+				draft.nextAfterAffordanceActiveEvent = () => onActive?.(activeKey)
+			}
 
 			if (activeKey) {
 				draft.activeKey = activeKey
 			}
 
 			if (callback) {
-				draft.nextAfterAffordanceEvent = nextAfterAffordanceEvent
+				draft.nextAfterAffordanceEvent = () => callback?.()
+			}
+		})
+
+export const triggerListClose =
+	(onClose?: (options: OnVirtualListCloseOptions) => void) =>
+	(setState: Updater<ListState>) =>
+	({activeKey, indexKey}: OnVirtualListCloseOptions) => {
+		setState(draft => {
+			if (activeKey) {
+				draft.activeKey = activeKey
+			}
+
+			if (onClose) {
+				draft.nextCloseEvent = () => onClose?.({indexKey, activeKey})
 			}
 		})
 	}
-
-export const triggerListClose = (onClose?: (options: OnVirtualListCloseOptions) => void) => {
-	const createNextCloseEvent = (options: OnVirtualListCloseOptions) => () => onClose?.(options)
-
-	return (setState: Updater<ListState>) =>
-		({activeKey, indexKey}: OnVirtualListCloseOptions) => {
-			setState(draft => {
-				if (activeKey) {
-					draft.activeKey = activeKey
-				}
-
-				draft.nextCloseEvent = createNextCloseEvent({indexKey, activeKey})
-			})
-		}
-}
 
 export const createListItemRenderer =
 	({renderItem, ...options}: CreateRenderListItemOptions) =>

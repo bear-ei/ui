@@ -111,9 +111,9 @@ export const useLayoutAnimated = ({
 	const runAnimate = useMemo(
 		() =>
 			animateLayoutAnimated({
+				animatedType,
 				createEntrySharedValueAnimator,
-				createExitSharedValueAnimator,
-				animatedType
+				createExitSharedValueAnimator
 			})(containerSharedValue),
 		[animatedType, containerSharedValue, createEntrySharedValueAnimator, createExitSharedValueAnimator]
 	)

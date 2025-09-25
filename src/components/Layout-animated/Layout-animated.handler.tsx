@@ -49,25 +49,24 @@ export const handleLayoutAnimatedStateChange =
 		nextEvent[eventName]?.()
 	}
 
-export const updateLayoutAnimatedVisibility = (onVisibility?: (visible?: boolean) => void) => (visible?: boolean) =>
-	onVisibility?.(visible)
-
 export const finalizeLayoutAnimatedVisibilityChange =
 	({onUnmount, unmount, onVisibility}: FinalizeLayoutAnimatedVisibilityChangeOptions) =>
 	(setState: Updater<LayoutAnimatedState>) =>
-	(visible?: boolean) => {
-		const nextUnmountEvent = () => onUnmount?.()
-		const nextVisibilityEvent = () => onVisibility?.(visible)
-
+	(visible?: boolean) =>
 		setState(draft => {
 			if (unmount && !visible) {
-				draft.nextUnmountEvent = nextUnmountEvent
+				draft.layoutVisible = undefined
 				draft.status = COMPONENT_STATUS.IDLE
+
+				if (onUnmount) {
+					draft.nextUnmountEvent = () => onUnmount?.()
+				}
 			}
 
-			draft.nextVisibilityEvent = nextVisibilityEvent
+			if (onVisibility) {
+				draft.nextVisibilityEvent = () => onVisibility?.(visible)
+			}
 		})
-	}
 
 export const updateLayoutAnimatedStatus =
 	(lazy?: boolean) => (setState: Updater<LayoutAnimatedState>) => (visible?: boolean) =>

@@ -9,7 +9,7 @@ export const Container = styled(Shape)<LayoutAnimatedContainerProps>`
 	${({visible}) =>
 		!visible &&
 		css`
-			z-index: -4096;
 			pointer-events: none;
+			z-index: -4096;
 		`}
 `

@@ -9,29 +9,28 @@ import type {
 	UpdateSheetBackWithEventOptions
 } from './Sheet.interface'
 
-export const updateSheetClose = (onClose?: () => void) => (setState: Updater<SheetState>) => () => {
-	const nextOnClose = () => onClose?.()
-
+export const updateSheetClose = (onClose?: () => void) => (setState: Updater<SheetState>) => () =>
 	setState(draft => {
-		draft.nextCloseEvent = nextOnClose
+		if (onClose) {
+			draft.nextCloseEvent = () => onClose?.()
+		}
+
 		draft.sheetVisible = false
 	})
-}
 
 export const updateSheetBackWithEvent =
 	({type, disabledClose, onBack}: UpdateSheetBackWithEventOptions) =>
 	(setState: Updater<SheetState>) =>
-	() => {
-		const nextBackEvent = () => onBack?.()
-
+	() =>
 		setState(draft => {
 			if (type !== SIDE_SHEET_TYPE.SIDEBAR || !disabledClose) {
 				draft.sheetVisible = false
 			}
 
-			draft.nextBackEvent = nextBackEvent
+			if (onBack) {
+				draft.nextBackEvent = () => onBack?.()
+			}
 		})
-	}
 
 export const setSheetVisibility = (setState: Updater<SheetState>) => (visible?: boolean) =>
 	typeof visible === 'boolean' &&
@@ -47,12 +46,10 @@ export const emitSheetModal =
 		type === SIDE_SHEET_TYPE.MODAL &&
 		emitter.emit('modal', {id: `sheet__${id}`, type: MODAL_TYPE.SIDE_SHEET, props: {...props}})
 
-export const emitSheetModalUnmount = (id: string) => (type: SheetType) => {
-	if (type === SIDE_SHEET_TYPE.MODAL) {
-		emitter.emit('modal', {
-			id: `sheet__${id}`,
-			type: MODAL_TYPE.SIDE_SHEET,
-			unmount: true
-		})
-	}
-}
+export const emitSheetModalUnmount = (id: string) => (type: SheetType) =>
+	type === SIDE_SHEET_TYPE.MODAL &&
+	emitter.emit('modal', {
+		id: `sheet__${id}`,
+		type: MODAL_TYPE.SIDE_SHEET,
+		unmount: true
+	})

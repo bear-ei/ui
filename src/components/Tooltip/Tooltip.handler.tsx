@@ -13,21 +13,15 @@ import type {
 } from './Tooltip.interface'
 
 export const updateTooltipVisibility =
-	(onVisible?: (value?: boolean) => void) => (setState: Updater<TooltipState>) => (value?: boolean) => {
-		if (typeof value !== 'boolean') {
-			return
-		}
-
-		const nextVisibilityEvent = () => onVisible?.(value)
-
+	(onVisible?: (value?: boolean) => void) => (setState: Updater<TooltipState>) => (value?: boolean) =>
+		typeof value === 'boolean' &&
 		setState(draft => {
-			if (draft.tooltipVisible !== value) {
-				draft.nextVisibilityEvent = nextVisibilityEvent
+			if (draft.tooltipVisible !== value && onVisible) {
+				draft.nextVisibilityEvent = () => onVisible?.(value)
 			}
 
 			draft.tooltipVisible = value
 		})
-	}
 
 export const updateTooltipContextMenuLayout =
 	(setState: Updater<TooltipState>) =>
@@ -38,12 +32,14 @@ export const updateTooltipContextMenuLayout =
 		}
 
 		event.preventDefault()
-		const nextVisibilityEvent = () => onVisible?.(true)
 		const {x, y} = event.nativeEvent
 
 		setState(draft => {
 			draft.menuContainerLayout = {x, y}
-			draft.nextVisibilityEvent = nextVisibilityEvent
+
+			if (onVisible) {
+				draft.nextVisibilityEvent = () => onVisible?.(true)
+			}
 		})
 	}
 

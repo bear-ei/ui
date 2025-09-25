@@ -1,7 +1,6 @@
-import type {View} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../../hooks'
-import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../../Common'
+import {COMPONENT_STATUS, EVENT_NAME} from '../../Common'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {
 	AnimateNavigationRailItemOptions,
@@ -31,12 +30,6 @@ export const handleNavigationRailItemStateChange =
 	({eventName, indexKey, onActive, ref}: HandleNavigationRailItemStateChangeOptions) =>
 	(setState: Updater<NavigationRailItemState>) =>
 	(_event: StateEvent) => {
-		const triggerNavigationRailItemPressOut = (activeKey?: string) => activeKey && onActive?.(activeKey)
-		const nextEvent = {
-			[EVENT_NAME.PRESS_IN]: () => (ref as unknown as React.RefObject<View>).current?.focus(),
-			[EVENT_NAME.PRESS_OUT]: () => triggerNavigationRailItemPressOut(indexKey)
-		} as unknown as Record<EventName, () => void>
-
 		setState(draft => {
 			if (eventName === EVENT_NAME.LAYOUT) {
 				if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
@@ -50,14 +43,14 @@ export const handleNavigationRailItemStateChange =
 				draft.eventName = eventName
 			}
 
-			if (eventName === EVENT_NAME.PRESS_IN) {
-				nextEvent[eventName]()
-			}
-
-			if (eventName === EVENT_NAME.PRESS_OUT) {
-				draft.nextPressOutEvent = nextEvent[eventName]
+			if (eventName === EVENT_NAME.PRESS_OUT && onActive) {
+				draft.nextPressOutEvent = () => onActive?.(indexKey)
 			}
 		})
+
+		if (eventName === EVENT_NAME.PRESS_IN) {
+			ref.current?.focus()
+		}
 	}
 
 export const animateNavigationRailItem =

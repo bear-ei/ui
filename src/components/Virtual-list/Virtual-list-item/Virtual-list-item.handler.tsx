@@ -77,14 +77,15 @@ export const handleVirtualListItemDragEnd =
 			return
 		}
 
-		const nextDragEndEvent = () => onDragEnd?.({indexKey, event})
-		const nextDragResetEvent = () => dragRef.current?.reset()
-
 		setState(draft => {
 			draft.dragging = false
-			draft.nextDragEndEvent = nextDragEndEvent
-			draft.nextDragResetEvent = nextDragResetEvent
+
+			if (onDragEnd) {
+				draft.nextDragEndEvent = () => onDragEnd?.({indexKey, event})
+			}
 		})
+
+		dragRef.current?.reset()
 	}
 
 export const updateVirtualListItemIndex =

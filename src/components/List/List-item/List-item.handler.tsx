@@ -82,16 +82,10 @@ export const updateListItemActive =
 	(selectType?: ListSelectType) => (onActive?: (indexKey?: string) => void) => (indexKey?: string) =>
 		selectType && indexKey && onActive?.(indexKey)
 
-const triggerListItemLoadEnd = (onLoadEnd?: (indexKey?: string) => void) => (indexKey?: string) => onLoadEnd?.(indexKey)
 export const handleListItemStateChange =
 	({eventName, indexKey, onActive, onLoadEnd, trailingTriggerEvent, type}: HandleListItemStateChangeOptions) =>
 	(setState: Updater<ListItemState>) =>
-	(_event: StateEvent) => {
-		const nextEvent = {
-			[EVENT_NAME.LAYOUT]: () => triggerListItemLoadEnd?.(onLoadEnd)(indexKey),
-			[EVENT_NAME.PRESS_OUT]: () => onActive?.(indexKey)
-		} as Record<EventName, () => void>
-
+	(_event: StateEvent) =>
 		setState(draft => {
 			if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.IDLE) {
 				return
@@ -130,7 +124,9 @@ export const handleListItemStateChange =
 			}
 
 			if (eventName === EVENT_NAME.LAYOUT) {
-				draft.nextLayoutEvent = nextEvent[eventName]
+				if (onLoadEnd) {
+					draft.nextLayoutEvent = () => onLoadEnd?.(indexKey)
+				}
 
 				if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
 					draft.status = COMPONENT_STATUS.SUCCEEDED
@@ -139,11 +135,10 @@ export const handleListItemStateChange =
 				return
 			}
 
-			if (eventName === EVENT_NAME.PRESS_OUT && nextEvent[eventName]) {
-				draft.nextPressOutEvent = nextEvent[eventName]
+			if (eventName === EVENT_NAME.PRESS_OUT && onActive) {
+				draft.nextPressOutEvent = () => onActive?.(indexKey)
 			}
 		})
-	}
 
 export const triggerListItemTrailingActions =
 	({

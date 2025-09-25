@@ -57,7 +57,6 @@ export interface TextInputState {
 	eventName?: EventName
 	nextChangeTextEvent?: () => void
 	nextContentSizeChangeEvent?: () => void
-	nextPressOutEvent?: () => void
 	nextSupportingTextCloseEvent?: () => void
 	nextSupportingTextVisibilityEvent?: () => void
 	state: State

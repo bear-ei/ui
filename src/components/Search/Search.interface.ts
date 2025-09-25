@@ -34,7 +34,6 @@ export interface SearchState {
 	layout: LayoutRectangle
 	listVisible?: boolean
 	nextChangeTextEvent?: () => void
-	nextPressOutEvent?: () => void
 	state: State
 	status: ComponentStatus
 	value?: string

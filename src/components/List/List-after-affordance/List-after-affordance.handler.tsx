@@ -17,14 +17,14 @@ export const triggerListAfterAffordanceConfirm =
 export const updateListAffordanceCancelState =
 	({onCancel, doubleConfirmed, indexKey}: UpdateListAffordanceCancelStateOptions) =>
 	(setState: Updater<ListAfterAffordanceState>) =>
-	(_event: GestureResponderEvent) => {
-		const nextCancelEvent = () => onCancel?.({indexKey, doubleConfirmed})
-
+	(_event: GestureResponderEvent) =>
 		setState(draft => {
 			draft.doubleConfirmed = !doubleConfirmed
-			draft.nextCancelEvent = nextCancelEvent
+
+			if (onCancel) {
+				draft.nextCancelEvent = () => onCancel?.({indexKey, doubleConfirmed})
+			}
 		})
-	}
 
 export const resetAffordanceConfirmationOnHide = (setState: Updater<ListAfterAffordanceState>) => (visible?: boolean) =>
 	!visible &&
