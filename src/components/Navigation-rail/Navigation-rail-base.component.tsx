@@ -3,7 +3,6 @@ import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useClearComponentEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS} from '../Common'
 import type {FABProps} from '../FAB'
 import type {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
@@ -76,7 +75,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 		}, [runUpdateData, rawData])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)()
+			nextActiveEvent?.()
 		}, [nextActiveEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {

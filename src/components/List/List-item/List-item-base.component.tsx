@@ -6,12 +6,14 @@ import {
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../../hooks'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../../utils'
+
+import {debounce} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
 	confirmListItemAffordanceAction,
 	handleListItemStateChange,
+	handleTrailingTriggerEvent,
 	maybeTriggerListItemClose,
 	triggerListItemTrailingActions,
 	updateListItemActive,
@@ -121,10 +123,9 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 					itemIndex,
 					onActive,
 					onLoadEnd,
-					trailingTriggerEvent,
 					type
 				})(setState)(event),
-			[indexKey, itemIndex, onActive, onLoadEnd, setState, trailingTriggerEvent, type]
+			[indexKey, itemIndex, onActive, onLoadEnd, setState, type]
 		)
 
 		const handleActive = useCallback(() => onActive?.(indexKey), [indexKey, onActive])
@@ -146,16 +147,18 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		)
 
 		const runUpdateAfterAffordanceVisibility = useMemo(
-			() =>
-				createDeferredHandlerWithState(updateListItemAfterAffordanceExpanded)(setState)({
-					debounceMillisecond: 350
-				}),
+			() => debounce(updateListItemAfterAffordanceExpanded(setState))(450),
 			[setState]
 		)
 
 		const runUpdateAfterAffordanceNotVisibility = useMemo(
 			() => updateListItemAfterAffordanceExpanded(setState),
 			[setState]
+		)
+
+		const runTrailingTriggerEvent = useMemo(
+			() => debounce(handleTrailingTriggerEvent(trailingTriggerEvent)(setState))(50),
+			[setState, trailingTriggerEvent]
 		)
 
 		const trailingElement = useMemo(
@@ -214,19 +217,23 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		])
 
 		useEffect(() => {
+			runTrailingTriggerEvent(eventName)
+		}, [eventName, runTrailingTriggerEvent])
+
+		useEffect(() => {
 			runUpdateFocusState(focusedIndex)
 		}, [runUpdateFocusState, focusedIndex])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressInEvent)()
+			nextPressInEvent?.()
 		}, [nextPressInEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)()
+			nextPressOutEvent?.()
 		}, [nextPressOutEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextLayoutEvent)()
+			nextLayoutEvent?.()
 		}, [nextLayoutEvent])
 
 		return (

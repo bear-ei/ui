@@ -44,7 +44,6 @@ export interface RenderLayoutAnimatedProps extends Omit<LayoutAnimatedProps, 'co
 
 export interface LayoutAnimatedState {
 	layout: LayoutRectangle
-	layoutVisible?: boolean
 	nextUnmountEvent?: () => void
 	nextVisibilityEvent?: () => void
 	status: ComponentStatus

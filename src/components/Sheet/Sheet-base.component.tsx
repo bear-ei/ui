@@ -3,7 +3,6 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useClearComponentEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
 import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import {
 	emitSheetModal,
@@ -73,15 +72,15 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 		}, [runEmitSheetModal, isSheetVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextCloseEvent)()
+			nextCloseEvent?.()
 		}, [nextCloseEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextBackEvent)()
+			nextBackEvent?.()
 		}, [nextBackEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextCancelEvent)()
+			nextCancelEvent?.()
 		}, [nextCancelEvent])
 
 		useEffect(

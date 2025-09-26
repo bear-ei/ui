@@ -1,7 +1,7 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {createDeferredHandlerWithState} from '../../utils'
+import {debounce} from '../../utils'
 import {updateSkeletonDuration} from './Skeleton.handler'
 import type {SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {RenderSkeleton} from './Skeleton.render'
@@ -16,13 +16,7 @@ export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
 			visible: typeof duration === 'number' && duration ? isVisible : false
 		})
 
-		const runUpdateDuration = useMemo(
-			() =>
-				createDeferredHandlerWithState(updateSkeletonDuration)(setState)({
-					debounceMillisecond: 50
-				}),
-			[setState]
-		)
+		const runUpdateDuration = useMemo(() => debounce(updateSkeletonDuration(setState))(50), [setState])
 
 		useEffect(() => {
 			runUpdateDuration(duration)

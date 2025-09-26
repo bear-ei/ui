@@ -2,7 +2,6 @@ import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useClearComponentEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
 import {
 	handleMenuKeyDown,
 	handleMenuKeyDownEvent,
@@ -85,11 +84,11 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 		}, [defaultVisible, rawIsVisible, runUpdateVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibilityEvent)()
+			nextVisibilityEvent?.()
 		}, [nextVisibilityEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)()
+			nextActiveEvent?.()
 		}, [nextActiveEvent])
 
 		return (

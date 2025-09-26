@@ -3,7 +3,6 @@ import type {ScrollView} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {useImmer} from 'use-immer'
 import {useClearComponentEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
 import {LAYOUT} from '../Common'
 import {LIST_TYPE} from './List.enum'
 import {
@@ -161,24 +160,25 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		)
 
 		useImperativeHandle(ref, () => (listRef?.current ?? {}) as ScrollView, [listRef])
+
 		useEffect(() => {
 			runUpdateActiveState(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
 		}, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActiveState])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)()
+			nextActiveEvent?.()
 		}, [nextActiveEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextAfterAffordanceActiveEvent)()
+			nextAfterAffordanceActiveEvent?.()
 		}, [nextAfterAffordanceActiveEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextCloseEvent)()
+			nextCloseEvent?.()
 		}, [nextCloseEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextAfterAffordanceEvent)()
+			nextAfterAffordanceEvent?.()
 		}, [nextAfterAffordanceEvent])
 
 		return (

@@ -2,7 +2,6 @@ import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHa
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import {useClearComponentEvent, useInteractionStateEvent} from '../../../hooks'
-import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {Icon, ICON_NAME, ICON_TYPE, type IconProps} from '../../Icon'
 import type {PressableType} from '../../Touchable'
@@ -78,7 +77,7 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
 		useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
 
 		useEffect(() => {
-			runAfterInteractions(nextPressOutEvent)()
+			nextPressOutEvent?.()
 		}, [nextPressOutEvent])
 
 		return (

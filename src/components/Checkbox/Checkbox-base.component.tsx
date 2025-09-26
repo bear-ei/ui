@@ -7,7 +7,6 @@ import {
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../hooks'
-import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, type State} from '../Common'
 import {LAYOUT_ANIMATED} from '../Layout-animated'
 import type {PressableType} from '../Touchable'
@@ -74,7 +73,7 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 		}, [runUpdateActive, defaultActive, rawActive])
 
 		useEffect(() => {
-			runAfterInteractions(nextActiveEvent)()
+			nextActiveEvent?.()
 		}, [nextActiveEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {

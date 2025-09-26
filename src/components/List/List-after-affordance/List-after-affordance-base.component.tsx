@@ -7,7 +7,6 @@ import {
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../../hooks'
-import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {
 	handleAffordanceStateChange,
@@ -76,7 +75,7 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 		}, [runResetConfirmationOnHide, visible])
 
 		useEffect(() => {
-			runAfterInteractions(nextCancelEvent)()
+			nextCancelEvent?.()
 		}, [nextCancelEvent])
 
 		return (

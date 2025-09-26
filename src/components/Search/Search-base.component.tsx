@@ -3,7 +3,6 @@ import type {TextInput, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useClearComponentEvent, useInteractionStateEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {
 	createSearchLayoutMeasureHandler,
@@ -96,7 +95,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 		}, [runLayoutMeasureHandler, isListVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextChangeTextEvent)()
+			nextChangeTextEvent?.()
 		}, [nextChangeTextEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {

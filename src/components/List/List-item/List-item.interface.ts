@@ -90,16 +90,14 @@ export interface ListItemState {
 	nextLayoutEvent?: () => void
 	nextPressInEvent?: () => void
 	nextPressOutEvent?: () => void
+	nextTrailingTriggerEvent?: () => void
 	status: ComponentStatus
 	trailingVisible?: boolean
 }
 
 export interface HandleListItemStateChangeOptions
 	extends HandleStateEventChangeOptions,
-		Pick<
-			RenderListItemProps,
-			'itemIndex' | 'indexKey' | 'onActive' | 'onLoadEnd' | 'trailingTriggerEvent' | 'type'
-		> {}
+		Pick<RenderListItemProps, 'itemIndex' | 'indexKey' | 'onActive' | 'onLoadEnd' | 'type'> {}
 
 export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
 	onConfirm?: ListItemProps['onConfirm']

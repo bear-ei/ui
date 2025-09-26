@@ -7,7 +7,7 @@ import {
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../hooks'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
+import {debounce} from '../../utils'
 import type {State} from '../Common'
 import {TOOLTIP_TYPE} from './Tooltip.enum'
 import {
@@ -46,18 +46,11 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		const containerRef = useRef<View>(null)
 		const id = useId()
 		const onVisible = useMemo(
-			() =>
-				createDeferredHandlerWithState(updateTooltipVisibility(rawOnVisible))(setState)({
-					debounceMillisecond: 150
-				}),
+			() => debounce(updateTooltipVisibility(rawOnVisible)(setState))(150),
 			[rawOnVisible, setState]
 		)
 
-		const onClosed = useMemo(
-			() => createDeferredHandlerWithState(unmountTooltipSupporting)(id)({debounceMillisecond: 150}),
-			[id]
-		)
-
+		const onClosed = useMemo(() => debounce(unmountTooltipSupporting(id))(150), [id])
 		const onContextMenu = useMemo(
 			() => updateTooltipContextMenuLayout(setState)({onVisible, disabled: isDisabled}),
 			[isDisabled, onVisible, setState]
@@ -92,10 +85,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 
 		const runUnmount = useMemo(() => unmountTooltipSupporting(id), [id])
 		const runUpdateVisible = useMemo(
-			() =>
-				createDeferredHandlerWithState(updateTooltipVisibility(rawOnVisible))(setState)({
-					debounceMillisecond: 150
-				}),
+			() => debounce(updateTooltipVisibility(rawOnVisible)(setState))(150),
 			[rawOnVisible, setState]
 		)
 
@@ -118,7 +108,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
 		}, [isVisible, runUpdateVisible])
 
 		useEffect(() => {
-			runAfterInteractions(nextVisibilityEvent)()
+			nextVisibilityEvent?.()
 		}, [nextVisibilityEvent])
 
 		useEffect(() => () => runUnmount(), [runUnmount])

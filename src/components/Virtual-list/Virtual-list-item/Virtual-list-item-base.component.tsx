@@ -2,7 +2,6 @@ import {forwardRef, useEffect, useId, useMemo, useRef} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {useClearComponentEvent} from '../../../hooks'
-import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS} from '../../Common'
 import type {DragRef} from '../../Drag'
 import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
@@ -83,7 +82,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		}, [runUpdateStatus])
 
 		useEffect(() => {
-			runAfterInteractions(nextDragEndEvent)()
+			nextDragEndEvent?.()
 		}, [nextDragEndEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {

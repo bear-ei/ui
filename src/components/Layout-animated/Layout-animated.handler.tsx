@@ -55,7 +55,6 @@ export const finalizeLayoutAnimatedVisibilityChange =
 	(visible?: boolean) =>
 		setState(draft => {
 			if (unmount && !visible) {
-				draft.layoutVisible = undefined
 				draft.status = COMPONENT_STATUS.IDLE
 
 				if (onUnmount) {

@@ -4,7 +4,7 @@ import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useClearComponentEvent, useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {createDeferredHandlerWithState, debounce, runAfterInteractions} from '../../utils'
+import {debounce, throttle} from '../../utils'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -111,13 +111,13 @@ const VirtualListBaseInner = <T,>(
 
 	const onDragUpdate = useMemo(
 		() =>
-			createDeferredHandlerWithState(
+			throttle(
 				handleVirtualListDragUpdate({
 					itemSize: renderItemSize,
 					layoutType,
 					onDragUpdate: rawOnDragUpdate
-				})
-			)(setState)({throttleMillisecond: 50}),
+				})(setState)
+			)(50),
 		[layoutType, rawOnDragUpdate, renderItemSize, setState]
 	)
 
@@ -193,23 +193,23 @@ const VirtualListBaseInner = <T,>(
 	}, [runUpdateVisibilityRangeData, virtualListData])
 
 	useEffect(() => {
-		runAfterInteractions(nextScrollEvent)()
+		nextScrollEvent?.()
 	}, [nextScrollEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextEndReachedEvent)()
+		nextEndReachedEvent?.()
 	}, [nextEndReachedEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextCloseEvent)()
+		nextCloseEvent?.()
 	}, [nextCloseEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextLoadEndEvent)()
+		nextLoadEndEvent?.()
 	}, [nextLoadEndEvent])
 
 	useEffect(() => {
-		runAfterInteractions(nextDragUpdateEvent)()
+		nextDragUpdateEvent?.()
 	}, [nextDragUpdateEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {

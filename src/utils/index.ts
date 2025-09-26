@@ -1,6 +1,5 @@
 export * from './adapt-window'
 export * from './array-equal'
-export * from './create-handler'
 export * from './debounce'
 export * from './density'
 export * from './name-path'

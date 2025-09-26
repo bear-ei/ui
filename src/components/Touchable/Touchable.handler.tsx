@@ -2,7 +2,6 @@ import {nanoid} from 'nanoid'
 import type {GestureResponderEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
-import {runAfterInteractions} from '../../utils'
 import {EVENT_NAME, type EventName} from '../Common'
 import type {AddTouchableRippleOptions, HandleTouchableStateChangeOptions, TouchableState} from './Touchable.interface'
 
@@ -26,7 +25,7 @@ export const handleTouchableStateChange =
 
 			if (enableTouchableRipple) {
 				ref?.current?.measure((x, y, width, height) =>
-					runAfterInteractions(addTouchableRipple)({
+					addTouchableRipple({
 						contentLayout: {width, height, x, y},
 						touchableLocation: {locationX, locationY}
 					})

@@ -82,8 +82,32 @@ export const updateListItemActive =
 	(selectType?: ListSelectType) => (onActive?: (indexKey?: string) => void) => (indexKey?: string) =>
 		selectType && indexKey && onActive?.(indexKey)
 
+export const handleTrailingTriggerEvent = (trailingTriggerEvent?: TriggerEvent) => {
+	const trigger = {
+		[TRIGGER_EVENT.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
+		[TRIGGER_EVENT.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
+		[TRIGGER_EVENT.PRESS]: [EVENT_NAME.PRESS_IN]
+	} as Record<TriggerEvent, readonly EventName[]>
+
+	return (setState: Updater<ListItemState>) => (eventName?: EventName) => {
+		if (!trailingTriggerEvent) {
+			return
+		}
+
+		const triggerEventNames = trigger[trailingTriggerEvent]
+
+		if (eventName && triggerEventNames?.includes(eventName)) {
+			const isVisible = eventName === EVENT_NAME.HOVER_IN
+
+			setState(draft => {
+				draft.trailingVisible = isVisible
+			})
+		}
+	}
+}
+
 export const handleListItemStateChange =
-	({eventName, indexKey, onActive, onLoadEnd, trailingTriggerEvent, type}: HandleListItemStateChangeOptions) =>
+	({eventName, indexKey, onActive, onLoadEnd, type}: HandleListItemStateChangeOptions) =>
 	(setState: Updater<ListItemState>) =>
 	(_event: StateEvent) =>
 		setState(draft => {
@@ -105,22 +129,6 @@ export const handleListItemStateChange =
 
 			if (eventName && draft.status === COMPONENT_STATUS.SUCCEEDED) {
 				draft.eventName = eventName
-			}
-
-			if (trailingTriggerEvent) {
-				const trigger = {
-					[TRIGGER_EVENT.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
-					[TRIGGER_EVENT.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
-					[TRIGGER_EVENT.PRESS]: [EVENT_NAME.PRESS_IN]
-				} as Record<TriggerEvent, readonly EventName[]>
-
-				const triggerEventNames = trigger[trailingTriggerEvent]
-
-				if (eventName && triggerEventNames?.includes(eventName)) {
-					const isVisible = eventName === EVENT_NAME.HOVER_IN
-
-					draft.trailingVisible = isVisible
-				}
 			}
 
 			if (eventName === EVENT_NAME.LAYOUT) {

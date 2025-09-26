@@ -9,7 +9,6 @@ import {
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../../hooks'
-import {runAfterInteractions} from '../../../utils'
 import {COMPONENT_STATUS, type State} from '../../Common'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {
@@ -111,7 +110,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 		}, [visible, layout, runUpdatePosition, windowHeight, windowWidth])
 
 		useEffect(() => {
-			runAfterInteractions(nextClosedEvent)()
+			nextClosedEvent?.()
 		}, [nextClosedEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {

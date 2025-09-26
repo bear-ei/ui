@@ -17,7 +17,6 @@ export type StateEvent =
 
 export interface UseHandleStateEventOptions extends InteractionHandlers {
 	disabled?: boolean
-	layoutEventDelay?: number
 	onStateEventChange?: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 

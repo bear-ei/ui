@@ -25,17 +25,16 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 				(toValue: number) => {
 					'worklet'
 
-					const runCallback = () => callback && runOnJS(callback)(true)
-
 					if (sharedValue.value === toValue) {
-						runCallback()
-
 						return
 					}
 
 					if (immediate) {
 						sharedValue.value = toValue
-						runCallback()
+
+						if (callback) {
+							runOnJS(callback)(true)
+						}
 
 						return
 					}

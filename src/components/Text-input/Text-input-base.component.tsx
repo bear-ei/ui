@@ -3,7 +3,7 @@ import type {TextInput, TextInputContentSizeChangeEventData} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useClearComponentEvent, useInteractionStateEvent} from '../../hooks'
-import {createDeferredHandlerWithState, runAfterInteractions} from '../../utils'
+import {debounce} from '../../utils'
 import {COMPONENT_STATUS, STATE, type State} from '../Common'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
@@ -39,7 +39,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 			onSupportingTextVisibility: rawOnSupportingTextVisibility,
 			placeholder,
 			supportingText: rawSupportingText,
-			supportingTextDelay,
+			supportingTextDelay = 0,
 			trailing,
 			type = TEXT_INPUT_TYPE.FILLED,
 			value: rawValue,
@@ -79,10 +79,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		)
 
 		const onSupportingTextClose = useMemo(
-			() =>
-				createDeferredHandlerWithState(updateTextInputSupportingTextClose)(setState)({
-					debounceMillisecond: supportingTextDelay ?? 0
-				}),
+			() => debounce(updateTextInputSupportingTextClose(setState))(supportingTextDelay),
 			[setState, supportingTextDelay]
 		)
 
@@ -154,19 +151,19 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		}, [runUpdateValue, defaultValue, rawValue])
 
 		useEffect(() => {
-			runAfterInteractions(nextChangeTextEvent)()
+			nextChangeTextEvent?.()
 		}, [nextChangeTextEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextContentSizeChangeEvent)()
+			nextContentSizeChangeEvent?.()
 		}, [nextContentSizeChangeEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextSupportingTextVisibilityEvent)()
+			nextSupportingTextVisibilityEvent?.()
 		}, [nextSupportingTextVisibilityEvent])
 
 		useEffect(() => {
-			runAfterInteractions(nextSupportingTextCloseEvent)()
+			nextSupportingTextCloseEvent?.()
 		}, [nextSupportingTextCloseEvent])
 
 		if (status === COMPONENT_STATUS.IDLE) {
