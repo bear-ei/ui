@@ -147,12 +147,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		)
 
 		const runUpdateAfterAffordanceVisibility = useMemo(
-			() => debounce(updateListItemAfterAffordanceExpanded(setState))(450),
-			[setState]
-		)
-
-		const runUpdateAfterAffordanceNotVisibility = useMemo(
-			() => updateListItemAfterAffordanceExpanded(setState),
+			() => debounce(updateListItemAfterAffordanceExpanded(setState))(300),
 			[setState]
 		)
 
@@ -203,18 +198,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		)
 
 		useEffect(() => {
-			if (isAfterAffordanceVisible) {
-				runUpdateAfterAffordanceVisibility(isAfterAffordanceVisible)
-
-				return
-			}
-
-			runUpdateAfterAffordanceNotVisibility(isAfterAffordanceVisible)
-		}, [
-			isAfterAffordanceVisible,
-			runUpdateAfterAffordanceNotVisibility,
-			runUpdateAfterAffordanceVisibility
-		])
+			runUpdateAfterAffordanceVisibility(isAfterAffordanceVisible)
+		}, [isAfterAffordanceVisible, runUpdateAfterAffordanceVisibility])
 
 		useEffect(() => {
 			runTrailingTriggerEvent(eventName)

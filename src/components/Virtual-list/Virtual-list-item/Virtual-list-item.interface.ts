@@ -43,12 +43,14 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
 	onDragEnd?: (options: HandleDragEndOptions) => void
 	onDragUpdate?: (options: HandleDragUpdateOptions) => void
 	onUnmount?: (indexKey?: string) => void
+	scrollOffset?: number
 }
 
 export interface RenderVirtualListItemProps<T = Record<string, unknown>>
 	extends Omit<VirtualListItemProps<T>, 'onUnmount' | 'onDragUpdate' | 'onDragEnd'> {
 	containerAnimatedStyle?: AnimatedStyle<ViewStyle>
 	dragging?: boolean
+	dragOffset?: number
 	dragRef?: React.LegacyRef<DragRef>
 	itemElement?: React.JSX.Element
 	offset?: number

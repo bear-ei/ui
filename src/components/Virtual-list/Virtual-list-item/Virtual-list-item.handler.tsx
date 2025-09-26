@@ -15,10 +15,20 @@ import type {
 } from './Virtual-list-item.interface'
 
 export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => {
-	const {dependencies: prevDependencies, item: prevItem, containerLayout: prevContainerLayout} = prevProps
+	const {
+		dependencies: prevDependencies,
+		item: prevItem,
+		containerLayout: prevContainerLayout,
+		scrollOffset: prevScrollOffset
+	} = prevProps
 
 	return (nextProps: VirtualListItemProps) => {
-		const {dependencies: nextDependencies, item: nextItem, containerLayout: nextContainerLayout} = nextProps
+		const {
+			dependencies: nextDependencies,
+			item: nextItem,
+			containerLayout: nextContainerLayout,
+			scrollOffset: nextScrollOffset
+		} = nextProps
 		const isDependenciesChanged =
 			prevDependencies?.length !== nextDependencies?.length ||
 			prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
@@ -33,7 +43,8 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => 
 			isDependenciesChanged,
 			isItemDependenciesChanged,
 			JSON.stringify(prevContainerLayout) !== JSON.stringify(nextContainerLayout),
-			prevItem?.index !== nextItem?.index
+			prevItem?.index !== nextItem?.index,
+			prevScrollOffset !== nextScrollOffset
 		].some(Boolean)
 	}
 }
@@ -46,9 +57,17 @@ export const triggerVirtualListItemClose = (setState: Updater<VirtualListItemSta
 export const triggerVirtualListItemUnmount = (onUnmount?: (indexKey?: string) => void) => (indexKey?: string) => () =>
 	indexKey && onUnmount?.(indexKey)
 
-export const animateVirtualListItem =
-	(animateSharedValueTo: AnimateSharedValueTo) => (topSharedValue: SharedValue<number>) => (offsetY: number) =>
-		animateSharedValueTo({sharedValue: topSharedValue})(offsetY)
+export const animateVirtualListItemTranslate =
+	(animateSharedValueTo: AnimateSharedValueTo) =>
+	(translateSharedValue: SharedValue<number>) =>
+	(offsetY: number) =>
+		animateSharedValueTo({sharedValue: translateSharedValue})(offsetY)
+
+export const animateVirtualListItemScale =
+	(animateSharedValueTo: AnimateSharedValueTo) =>
+	(scaleSharedValue: SharedValue<number>) =>
+	(dragging?: boolean) =>
+		typeof dragging === 'boolean' && animateSharedValueTo({sharedValue: scaleSharedValue})(dragging ? 1 : 0)
 
 export const updateVirtualListItemStatus = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {

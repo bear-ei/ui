@@ -28,6 +28,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			onLoadEnd,
 			onUnmount: rawOnUnmount,
 			renderItem,
+			scrollOffset = 0,
 			...renderVirtualListItemProps
 		},
 		ref
@@ -41,6 +42,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		const {index: rawIndex = 0, indexKey} = item ?? {}
 		const dragRef = useRef<DragRef>(null)
 		const offset = itemSize * (index ?? rawIndex)
+		const dragOffset = offset - scrollOffset
 		const onDragUpdate = useMemo(
 			() => handleVirtualListItemDragUpdate(rawOnDragUpdate)(indexKey),
 			[indexKey, rawOnDragUpdate]
@@ -94,13 +96,13 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 				{...renderVirtualListItemProps}
 				containerAnimatedStyle={containerAnimatedStyle}
 				dragging={isDragging}
+				dragOffset={dragOffset}
 				dragRef={dragRef}
 				id={id}
 				index={index}
 				itemElement={itemElement}
 				itemSize={itemSize}
 				layoutType={layoutType}
-				offset={offset}
 				onDragEnd={onDragEnd}
 				onDragStart={onDragStart}
 				onDragUpdate={onDragUpdate}

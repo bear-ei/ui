@@ -13,13 +13,13 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 			containerLayout,
 			draggable,
 			dragging,
+			dragOffset,
 			dragRef,
 			gap,
 			id,
 			itemElement,
 			itemSize = 0,
 			layoutType,
-			offset,
 			onDragEnd,
 			onDragStart,
 			onDragUpdate,
@@ -48,13 +48,13 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 				<Drag
 					height={containerLayout?.height}
 					layoutType={layoutType}
-					offset={offset}
+					offset={dragOffset}
 					onEnd={onDragEnd}
 					onStart={onDragStart}
 					onUpdate={onDragUpdate}
+					ref={dragRef}
 					testID={`virtualListItem__drag--${id}`}
 					width={containerLayout?.width}
-					ref={dragRef}
 				>
 					<DragContent
 						gap={gap}

@@ -20,10 +20,10 @@ const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 export const RenderVirtualListItem = <T,>({
 	containerLayout,
 	data,
+	draggable,
 	id,
 	onLoadEnd,
 	renderItem,
-	draggable,
 	...virtualListItemProps
 }: RenderVirtualListItemOptions<T>) => {
 	if (data?.length === 0) {

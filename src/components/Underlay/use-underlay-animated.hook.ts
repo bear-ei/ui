@@ -46,7 +46,7 @@ export const useUnderlayAnimated = ({
 	}))
 
 	const activeLayerScaleXAnimatedStyle = useAnimatedStyle(() => ({
-		transform: [{scaleX: interpolate(activeLayerSharedValue.value, [0.3, 1], [0, scaleX])}],
+		transform: [{scaleX: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleX])}],
 		opacity: interpolate(
 			activeLayerSharedValue.value,
 			[0, 1],
@@ -55,7 +55,7 @@ export const useUnderlayAnimated = ({
 	}))
 
 	const activeLayerScaleYAnimatedStyle = useAnimatedStyle(() => ({
-		transform: [{scaleY: interpolate(activeLayerSharedValue.value, [0.3, 1], [0, scaleY])}],
+		transform: [{scaleY: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY])}],
 		opacity: interpolate(
 			activeLayerSharedValue.value,
 			[0, 1],
@@ -64,7 +64,7 @@ export const useUnderlayAnimated = ({
 	}))
 
 	const activeLayerScaleAnimatedStyle = useAnimatedStyle(() => ({
-		transform: [{scale: interpolate(activeLayerSharedValue.value, [0.3, 1], [0, scaleY])}],
+		transform: [{scale: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY])}],
 		opacity: interpolate(
 			activeLayerSharedValue.value,
 			[0, 1],

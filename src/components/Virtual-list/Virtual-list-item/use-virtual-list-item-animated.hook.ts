@@ -1,9 +1,9 @@
 import {useEffect, useMemo} from 'react'
-import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
 import {useAnimatedTiming} from '../../../hooks'
 import {COMPONENT_STATUS, LAYOUT} from '../../Common'
-import {animateVirtualListItem} from './Virtual-list-item.handler'
+import {animateVirtualListItemScale, animateVirtualListItemTranslate} from './Virtual-list-item.handler'
 import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
 export const useVirtualListItemAnimated = ({
@@ -16,21 +16,43 @@ export const useVirtualListItemAnimated = ({
 	const animatedTiming = useAnimatedTiming({token: theme.token})
 	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const translateSharedValue = useSharedValue(offset)
+	const scaleSharedValue = useSharedValue(0)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
-		...(layoutType === LAYOUT.VERTICAL && {transform: [{translateY: translateSharedValue.value}]}),
-		...(layoutType === LAYOUT.HORIZONTAL && {transform: [{translateX: translateSharedValue.value}]})
+		...(layoutType === LAYOUT.VERTICAL && {
+			transform: [
+				{translateY: translateSharedValue.value},
+				{scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
+			]
+		}),
+		...(layoutType === LAYOUT.HORIZONTAL && {
+			transform: [
+				{translateX: translateSharedValue.value},
+				{scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.97])}
+			]
+		})
 	}))
 
-	const runAnimate = useMemo(
-		() => animateVirtualListItem(animateSharedValueTo)(translateSharedValue),
+	const runAnimateTranslate = useMemo(
+		() => animateVirtualListItemTranslate(animateSharedValueTo)(translateSharedValue),
 		[animateSharedValueTo, translateSharedValue]
+	)
+
+	const runAnimateScale = useMemo(
+		() => animateVirtualListItemScale(animateSharedValueTo)(scaleSharedValue),
+		[animateSharedValueTo, scaleSharedValue]
 	)
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED && !dragging) {
-			runAnimate(offset)
+			runAnimateTranslate(offset)
 		}
-	}, [dragging, offset, runAnimate, status])
+	}, [dragging, offset, runAnimateTranslate, status])
+
+	useEffect(() => {
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimateScale(dragging)
+		}
+	}, [dragging, runAnimateScale, status])
 
 	useEffect(() => () => cancelAnimation(translateSharedValue), [translateSharedValue])
 

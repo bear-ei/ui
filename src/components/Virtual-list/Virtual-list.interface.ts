@@ -127,6 +127,7 @@ export interface RenderVirtualListItemOptions<T>
 	onDragEnd?: (options: HandleDragEndOptions) => void
 	onDragUpdate?: (options: HandleDragUpdateOptions) => void
 	onUnmount?: (indexKey?: string) => void
+	scrollOffset?: number
 }
 
 export type UpdateVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layoutType'>

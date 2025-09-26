@@ -9,7 +9,6 @@ import type {ListData} from '../List'
 import type {
 	HandleDragEndOptions,
 	HandleDragUpdateOptions,
-	HandleVirtualListDragEndOptions,
 	HandleVirtualListDragUpdateOptions,
 	OnDragEndOptions,
 	TriggerVirtualListCloseOptions,
@@ -49,15 +48,13 @@ const calculateVirtualListVisibilityRange =
 			return
 		}
 
-		const nextVisibleRangeData = draft.virtualListData
-			?.slice(startIndex, endIndex)
-			.map((item, index) => ({...item, index: startIndex + index}))
-
 		draft.emptyList = !draft.virtualListData?.length
 		draft.endIndex = endIndex
 		draft.scrollOffset = nextScrollOffset
 		draft.startIndex = startIndex
-		draft.visibleRangeData = nextVisibleRangeData
+		draft.visibleRangeData = draft.virtualListData
+			?.slice(startIndex, endIndex)
+			.map((item, index) => ({...item, index: startIndex + index}))
 
 		if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
 			draft.status = draft.virtualListData ? COMPONENT_STATUS.SUCCEEDED : COMPONENT_STATUS.LOADING
@@ -250,6 +247,9 @@ export const handleVirtualListDragUpdate =
 
 			for (const {indexKey: itemIndexKey, index} of visibleRangeData) {
 				const itemOffset = itemSize * index - scrollOffset
+
+				console.info(index, itemOffset, 'itemOffset===========>')
+
 				const isOverItem =
 					dragItemAbsolute > itemOffset && dragItemAbsolute < itemOffset + itemSize
 
@@ -263,7 +263,6 @@ export const handleVirtualListDragUpdate =
 	}
 
 export const handleVirtualListDragEnd =
-	(options: HandleVirtualListDragEndOptions) =>
 	(onDragEnd?: (options: OnDragEndOptions) => void) =>
 	({indexKey, event}: HandleDragEndOptions) =>
-		onDragEnd?.({...options, indexKey, event})
+		onDragEnd?.({indexKey, event})

@@ -4,7 +4,7 @@ import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {useClearComponentEvent, useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {debounce, throttle} from '../../utils'
+import {debounce} from '../../utils'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
@@ -31,7 +31,7 @@ const VirtualListBaseInner = <T,>(
 		endReachedThreshold = 0.1,
 		focusedIndex,
 		gap = 0,
-		itemSize = 0,
+		itemSize: rawItemSize = 0,
 		layoutType = LAYOUT.VERTICAL,
 		onClose: rawOnClose,
 		onDragEnd: rawOnDragEnd,
@@ -49,17 +49,16 @@ const VirtualListBaseInner = <T,>(
 	const [
 		{
 			emptyList: isEmptyList,
-			endIndex,
 			layout: containerLayout,
 			nextCloseEvent,
 			nextDragUpdateEvent,
 			nextEndReachedEvent,
 			nextLoadEndEvent,
 			nextScrollEvent,
-			startIndex,
 			status,
 			virtualListData,
-			visibleRangeData
+			visibleRangeData,
+			scrollOffset
 		},
 		setState
 	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE})
@@ -67,8 +66,8 @@ const VirtualListBaseInner = <T,>(
 	useClearComponentEvent(setState)
 
 	const id = useId()
-	const renderItemSize = itemSize + gap
-	const contentSize = (virtualListData ?? data ?? []).length * renderItemSize - gap
+	const itemSize = rawItemSize + gap
+	const contentSize = (virtualListData ?? data ?? []).length * itemSize - gap
 	const onEndReached = useMemo(() => debounce(rawOnEndReached)(150), [rawOnEndReached])
 	const onScroll = useMemo(
 		() =>
@@ -92,9 +91,13 @@ const VirtualListBaseInner = <T,>(
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
 	const onUnmount = useMemo(
 		() =>
-			unmountVirtualList({itemSize, enableAutoSelect, onClose: rawOnClose, activeKey, layoutType})(
-				setState
-			),
+			unmountVirtualList({
+				itemSize,
+				enableAutoSelect,
+				onClose: rawOnClose,
+				activeKey,
+				layoutType
+			})(setState),
 		[activeKey, enableAutoSelect, itemSize, layoutType, rawOnClose, setState]
 	)
 
@@ -111,20 +114,15 @@ const VirtualListBaseInner = <T,>(
 
 	const onDragUpdate = useMemo(
 		() =>
-			throttle(
-				handleVirtualListDragUpdate({
-					itemSize: renderItemSize,
-					layoutType,
-					onDragUpdate: rawOnDragUpdate
-				})(setState)
-			)(50),
-		[layoutType, rawOnDragUpdate, renderItemSize, setState]
+			handleVirtualListDragUpdate({
+				itemSize,
+				layoutType,
+				onDragUpdate: rawOnDragUpdate
+			})(setState),
+		[itemSize, layoutType, rawOnDragUpdate, setState]
 	)
 
-	const onDragEnd = useMemo(
-		() => handleVirtualListDragEnd({endIndex, startIndex})(rawOnDragEnd),
-		[endIndex, rawOnDragEnd, startIndex]
-	)
+	const onDragEnd = useMemo(() => handleVirtualListDragEnd(rawOnDragEnd), [rawOnDragEnd])
 
 	const interactionHandlers = useInteractionStateEvent({
 		...renderVirtualListProps,
@@ -154,13 +152,14 @@ const VirtualListBaseInner = <T,>(
 				draggable={draggable}
 				gap={gap}
 				id={id}
-				itemSize={renderItemSize}
+				itemSize={itemSize}
 				layoutType={layoutType}
 				onDragEnd={onDragEnd}
 				onDragUpdate={onDragUpdate}
 				onLoadEnd={onLoadEnd}
 				onUnmount={onUnmount}
 				renderItem={renderItem}
+				scrollOffset={scrollOffset}
 				shape={shape}
 			/>
 		),
@@ -170,13 +169,14 @@ const VirtualListBaseInner = <T,>(
 			draggable,
 			gap,
 			id,
+			itemSize,
 			layoutType,
 			onDragEnd,
 			onDragUpdate,
 			onLoadEnd,
 			onUnmount,
 			renderItem,
-			renderItemSize,
+			scrollOffset,
 			shape,
 			visibleRangeData
 		]
@@ -227,7 +227,6 @@ const VirtualListBaseInner = <T,>(
 			id={id}
 			interactionHandlers={interactionHandlers}
 			itemElements={itemElements}
-			itemSize={itemSize}
 			layoutType={layoutType}
 			ref={animatedRef}
 			status={status}
