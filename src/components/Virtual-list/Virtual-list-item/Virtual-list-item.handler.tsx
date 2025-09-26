@@ -16,19 +16,20 @@ import type {
 
 export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => {
 	const {
+		containerLayout: prevContainerLayout,
 		dependencies: prevDependencies,
 		item: prevItem,
-		containerLayout: prevContainerLayout,
 		scrollOffset: prevScrollOffset
 	} = prevProps
 
 	return (nextProps: VirtualListItemProps) => {
 		const {
+			containerLayout: nextContainerLayout,
 			dependencies: nextDependencies,
 			item: nextItem,
-			containerLayout: nextContainerLayout,
 			scrollOffset: nextScrollOffset
 		} = nextProps
+
 		const isDependenciesChanged =
 			prevDependencies?.length !== nextDependencies?.length ||
 			prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])

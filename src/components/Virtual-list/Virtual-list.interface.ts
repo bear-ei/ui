@@ -84,7 +84,7 @@ export interface VirtualListState {
 	visibleRangeData?: (VirtualListData & {index: number})[]
 }
 
-export interface UpdateVirtualListOnScrollOptions
+export interface HandleVirtualListScrollOptions
 	extends Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'endReachedThreshold'>,
 		Pick<VirtualListProps<unknown>, 'layoutType'> {
 	onEndReached: () => void

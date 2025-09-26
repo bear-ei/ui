@@ -9,12 +9,13 @@ import type {ListData} from '../List'
 import type {
 	HandleDragEndOptions,
 	HandleDragUpdateOptions,
+	HandleVirtualListDragEndOptions,
 	HandleVirtualListDragUpdateOptions,
+	HandleVirtualListScrollOptions,
 	OnDragEndOptions,
 	TriggerVirtualListCloseOptions,
 	UnmountVirtualListOptions,
 	UpdateVirtualListLayoutOptions,
-	UpdateVirtualListOnScrollOptions,
 	VirtualListData,
 	VirtualListState
 } from './Virtual-list.interface'
@@ -103,8 +104,8 @@ export const handleVirtualListStateChange =
 		nextEvent[eventName]?.()
 	}
 
-export const updateVirtualListOnScroll =
-	({endReachedThreshold = 0.1, itemSize, layoutType, onEndReached, onScroll}: UpdateVirtualListOnScrollOptions) =>
+export const handleVirtualListScroll =
+	({endReachedThreshold = 0.1, itemSize, layoutType, onEndReached, onScroll}: HandleVirtualListScrollOptions) =>
 	(setState: Updater<VirtualListState>) =>
 	(event: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const {contentSize, layoutMeasurement, contentOffset} = event.nativeEvent
@@ -133,11 +134,6 @@ export const updateVirtualListOnScroll =
 			calculateVirtualListVisibilityRange({itemSize, layoutType})(draft)(scrollOffset)
 		})
 	}
-
-export const triggerVirtualListMomentumScrollEnd =
-	(onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void) =>
-	(event: NativeSyntheticEvent<NativeScrollEvent>) =>
-		onMomentumScrollEnd?.(event)
 
 const triggerVirtualListClose =
 	({enableAutoSelect, onClose, activeKey}: TriggerVirtualListCloseOptions) =>
@@ -248,8 +244,6 @@ export const handleVirtualListDragUpdate =
 			for (const {indexKey: itemIndexKey, index} of visibleRangeData) {
 				const itemOffset = itemSize * index - scrollOffset
 
-				console.info(index, itemOffset, 'itemOffset===========>')
-
 				const isOverItem =
 					dragItemAbsolute > itemOffset && dragItemAbsolute < itemOffset + itemSize
 
@@ -263,6 +257,7 @@ export const handleVirtualListDragUpdate =
 	}
 
 export const handleVirtualListDragEnd =
+	(options: HandleVirtualListDragEndOptions) =>
 	(onDragEnd?: (options: OnDragEndOptions) => void) =>
 	({indexKey, event}: HandleDragEndOptions) =>
-		onDragEnd?.({indexKey, event})
+		onDragEnd?.({...options, indexKey, event})

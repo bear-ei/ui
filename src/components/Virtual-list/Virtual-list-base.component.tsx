@@ -10,12 +10,11 @@ import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
 	handleVirtualListDragEnd,
 	handleVirtualListDragUpdate,
+	handleVirtualListScroll,
 	handleVirtualListStateChange,
-	triggerVirtualListMomentumScrollEnd,
 	unmountVirtualList,
 	updateVirtualListData,
 	updateVirtualListLayout,
-	updateVirtualListOnScroll,
 	updateVirtualListVisibilityRangeData
 } from './Virtual-list.handler'
 import type {VirtualListBaseProps, VirtualListData, VirtualListState} from './Virtual-list.interface'
@@ -38,7 +37,7 @@ const VirtualListBaseInner = <T,>(
 		onDragUpdate: rawOnDragUpdate,
 		onEndReached: rawOnEndReached,
 		onLoadEnd,
-		onMomentumScrollEnd: rawOnMomentumScrollEnd,
+		onMomentumScrollEnd,
 		onScroll: rawOnScroll,
 		renderItem,
 		shape,
@@ -49,16 +48,18 @@ const VirtualListBaseInner = <T,>(
 	const [
 		{
 			emptyList: isEmptyList,
+			endIndex,
 			layout: containerLayout,
 			nextCloseEvent,
 			nextDragUpdateEvent,
 			nextEndReachedEvent,
 			nextLoadEndEvent,
 			nextScrollEvent,
+			scrollOffset,
+			startIndex,
 			status,
 			virtualListData,
-			visibleRangeData,
-			scrollOffset
+			visibleRangeData
 		},
 		setState
 	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE})
@@ -72,7 +73,7 @@ const VirtualListBaseInner = <T,>(
 	const onScroll = useMemo(
 		() =>
 			debounce(
-				updateVirtualListOnScroll({
+				handleVirtualListScroll({
 					endReachedThreshold,
 					itemSize,
 					layoutType,
@@ -81,11 +82,6 @@ const VirtualListBaseInner = <T,>(
 				})(setState)
 			)(50),
 		[endReachedThreshold, itemSize, layoutType, onEndReached, rawOnScroll, setState]
-	)
-
-	const onMomentumScrollEnd = useMemo(
-		() => triggerVirtualListMomentumScrollEnd(rawOnMomentumScrollEnd),
-		[rawOnMomentumScrollEnd]
 	)
 
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
@@ -122,7 +118,10 @@ const VirtualListBaseInner = <T,>(
 		[itemSize, layoutType, rawOnDragUpdate, setState]
 	)
 
-	const onDragEnd = useMemo(() => handleVirtualListDragEnd(rawOnDragEnd), [rawOnDragEnd])
+	const onDragEnd = useMemo(
+		() => handleVirtualListDragEnd({startIndex, endIndex})(rawOnDragEnd),
+		[endIndex, rawOnDragEnd, startIndex]
+	)
 
 	const interactionHandlers = useInteractionStateEvent({
 		...renderVirtualListProps,
