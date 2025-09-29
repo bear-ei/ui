@@ -27,7 +27,7 @@ export const useVirtualListItemAnimated = ({
 		...(layoutType === LAYOUT.HORIZONTAL && {
 			transform: [
 				{translateX: translateSharedValue.value},
-				{scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.97])}
+				{scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
 			]
 		})
 	}))

@@ -49,12 +49,12 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		)
 
 		const onClose = useMemo(() => triggerVirtualListItemClose(setState), [setState])
+		const onDragStart = useMemo(() => handleVirtualListItemDragStart(setState), [setState])
 		const onDragEnd = useMemo(
 			() => handleVirtualListItemDragEnd({onDragEnd: rawOnDragEnd, indexKey, dragRef})(setState),
 			[indexKey, rawOnDragEnd, setState]
 		)
 
-		const onDragStart = useMemo(() => handleVirtualListItemDragStart(setState), [setState])
 		const onUnmount = useMemo(
 			() => triggerVirtualListItemUnmount(rawOnUnmount)(indexKey),
 			[indexKey, rawOnUnmount]

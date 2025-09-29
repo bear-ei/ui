@@ -14,7 +14,6 @@ export const compareNavigationRailItemProps =
 	(prevProps: NavigationRailItemProps) => (nextProps: NavigationRailItemProps) => {
 		const {activeKey: prevActiveKey, indexKey: prevIndexKey, dependencies: prevDependencies} = prevProps
 		const {activeKey: nextActiveKey, indexKey: nextIndexKey, dependencies: nextDependencies} = nextProps
-
 		const isActiveChange =
 			prevActiveKey !== nextActiveKey &&
 			(nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)

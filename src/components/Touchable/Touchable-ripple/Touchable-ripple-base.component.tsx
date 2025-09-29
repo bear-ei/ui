@@ -41,7 +41,6 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
 
 		const interactionHandlers = useInteractionStateEvent({
 			...renderTouchableRippleProps,
-			layoutEventDelay: 0,
 			onStateEventChange
 		})
 
