@@ -70,9 +70,10 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 	) => {
 		const sizeShape = size === SIZE.MEDIUM ? SHAPE.LARGE : SHAPE.MEDIUM
 		const shape = size === SIZE.LARGE ? SHAPE.EXTRA_LARGE : sizeShape
-		const touchableContentStyle = {
-			alignSelf: size === SIZE.SMALL ? 'center' : 'stretch'
-		} as StyleProp<ViewStyle>
+		const touchableContentStyle = useMemo(
+			() => ({alignSelf: size === SIZE.SMALL ? 'center' : 'stretch'}) as StyleProp<ViewStyle>,
+			[size]
+		)
 
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay

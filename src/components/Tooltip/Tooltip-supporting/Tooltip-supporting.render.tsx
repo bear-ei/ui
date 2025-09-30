@@ -1,5 +1,5 @@
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/element-token'
-import {cloneElement, forwardRef, isValidElement} from 'react'
+import {cloneElement, forwardRef, isValidElement, useMemo} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -43,7 +43,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 		},
 		ref
 	) => {
-		const maskStyle = {position: 'fixed'} as unknown as ViewStyle
+		const maskStyle = useMemo(() => ({position: 'fixed'}) as unknown as ViewStyle, [])
 		const {onLayout, ...mainInteractionHandlers} = interactionHandlers
 		const theme = useTheme()
 		const mainElement = (

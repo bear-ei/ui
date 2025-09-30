@@ -1,5 +1,5 @@
 import {SIZE, TYPOGRAPHY} from '@bearei/element-token'
-import {forwardRef} from 'react'
+import {forwardRef, useMemo} from 'react'
 import type {StyleProp, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
@@ -28,7 +28,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 		ref
 	) => {
 		const theme = useTheme()
-		const touchableContentStyle = {flex: 1} as StyleProp<ViewStyle>
+		const touchableContentStyle = useMemo(() => ({flex: 1}) as StyleProp<ViewStyle>, [])
 		const underlayColor = theme.token.scheme.onPrimary
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay

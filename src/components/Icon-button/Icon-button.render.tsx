@@ -72,7 +72,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 		const theme = useTheme()
 		const shape = SHAPE.FULL
 		const activeColor = theme.token.scheme.secondaryContainer
-		const touchableContentStyle = {alignSelf: 'center'} as StyleProp<ViewStyle>
+		const touchableContentStyle = useMemo(() => ({alignSelf: 'center'}) as StyleProp<ViewStyle>, [])
 		const backgroundUnderlayElement = (
 			<AnimatedBackgroundUnderlay
 				shape={shape}

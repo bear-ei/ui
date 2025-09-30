@@ -1,5 +1,5 @@
 import {SHAPE} from '@bearei/element-token'
-import {forwardRef} from 'react'
+import {forwardRef, useMemo} from 'react'
 import type {StyleProp, ViewStyle} from 'react-native'
 import {useTheme} from 'styled-components/native'
 import {Icon, ICON_NAME, ICON_TYPE} from '../Icon'
@@ -28,7 +28,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 	) => {
 		const theme = useTheme()
 		const activeFill = error ? theme.token.scheme.error : theme.token.scheme.primary
-		const touchableContentStyle = {alignSelf: 'center'} as StyleProp<ViewStyle>
+		const touchableContentStyle = useMemo(() => ({alignSelf: 'center'}) as StyleProp<ViewStyle>, [])
 		const unselectedFill =
 			value === CHECKBOX_VALUE.UNSELECTED ?
 				theme.token.scheme.onSurfaceVariant
