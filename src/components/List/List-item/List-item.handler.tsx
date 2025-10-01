@@ -22,6 +22,7 @@ export const compareListItemProps = (prevProps: ListItemProps) => {
 		afterAffordanceActiveKey: prevAfterAffordanceActiveKey,
 		dependencies: prevDependencies,
 		disabled: isPrevDisabled,
+		dragging: isPrevDragging,
 		focusedIndex: prevFocusedIndex,
 		indexKey: prevIndexKey,
 		itemIndex: prevItemIndex,
@@ -35,6 +36,7 @@ export const compareListItemProps = (prevProps: ListItemProps) => {
 			afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
 			dependencies: nextDependencies,
 			disabled: isNextDisabled,
+			dragging: isNextDragging,
 			focusedIndex: nextFocusedIndex,
 			indexKey: nextIndexKey,
 			itemIndex: nextItemIndex,
@@ -70,9 +72,10 @@ export const compareListItemProps = (prevProps: ListItemProps) => {
 			isActiveKeyChange,
 			isActiveKeysChange,
 			isAfterAffordanceActiveChange,
+			isDependenciesChanged,
 			isFocusedIndexChange,
 			isPrevDisabled !== isNextDisabled,
-			isDependenciesChanged,
+			isPrevDragging !== isNextDragging,
 			prevSkeletonMinDuration !== nextSkeletonMinDuration
 		].some(Boolean)
 	}
@@ -143,7 +146,9 @@ export const handleListItemStateChange =
 				return
 			}
 
-			if (eventName === EVENT_NAME.PRESS_OUT && onActive) {
+			const activeEventNames = [EVENT_NAME.PRESS_OUT, EVENT_NAME.LONG_PRESS] as readonly EventName[]
+
+			if (eventName && activeEventNames.includes(eventName) && onActive) {
 				draft.nextPressOutEvent = () => onActive?.(indexKey)
 			}
 		})

@@ -13,11 +13,11 @@ export const Container = styled.View<ProgressContainerProps>`
 		const containerType = {
 			[PROGRESS_TYPE.LINEAR]: css`
 				height: ${theme.adaptSize(theme.token.spacing.extraSmall)}px;
-				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+				min-width: ${theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
 			`,
 			[PROGRESS_TYPE.CIRCULAR]: css`
-				height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
-				width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 12)}px;
+				height: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
+				width: ${size ?? theme.adaptSize(theme.token.spacing.extraSmall * 10)}px;
 			`
 		} as Record<ProgressType, RuleSet<object> | undefined>
 

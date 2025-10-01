@@ -73,7 +73,8 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		)
 
 		const runUpdateStatus = useMemo(() => updateVirtualListItemStatus(setState), [setState])
-		const itemElement = !item ? <></> : renderItem?.({item: {...item, onClose, onLoadEnd}})
+		const itemElement =
+			!item ? <></> : renderItem?.({item: {...item, onClose, onLoadEnd, dragging: isDragging}})
 
 		useEffect(() => {
 			runUpdateIndex(rawIndex)

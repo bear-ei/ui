@@ -52,6 +52,7 @@ export interface ListItemProps
 	 */
 	contentStyle?: StyleProp<ViewStyle>
 	dependencies?: unknown[]
+	dragging?: boolean
 	headline?: React.ReactNode
 	indexKey?: string
 	itemIndex?: number

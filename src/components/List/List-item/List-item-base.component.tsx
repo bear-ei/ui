@@ -34,6 +34,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			afterAffordanceActiveKey,
 			closeTrailing,
 			disabled,
+			dragging,
 			enableUnderlay = true,
 			enableUnderlayActive = true,
 			focusedIndex,
@@ -141,6 +142,11 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			status
 		})
 
+		const runActive = useMemo(
+			() => updateListItemActive(selectType)(rawOnActive),
+			[rawOnActive, selectType]
+		)
+
 		const runUpdateFocusState = useMemo(
 			() => updateListItemFocusState(itemIndex)(pressableRef),
 			[itemIndex]
@@ -196,6 +202,12 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 				}) as ListItemRef,
 			[handleActive, onClose]
 		)
+
+		useEffect(() => {
+			if (dragging) {
+				runActive(indexKey)
+			}
+		}, [dragging, indexKey, runActive])
 
 		useEffect(() => {
 			runUpdateAfterAffordanceVisibility(isAfterAffordanceVisible)

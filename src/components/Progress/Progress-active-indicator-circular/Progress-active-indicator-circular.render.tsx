@@ -20,7 +20,7 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
 			id,
 			interactionHandlers,
 			radius,
-			size = 48,
+			size = 40,
 			strokeWidth,
 			testID,
 			...containerProps

@@ -119,6 +119,7 @@ export const Select = () => {
 				onActive={onActiveKey}
 				selectType={LIST_SELECT_TYPE.SINGLE}
 				shape={SHAPE.LARGE}
+				draggable={true}
 			/>
 		</View>
 	)
