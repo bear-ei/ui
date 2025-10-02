@@ -2,7 +2,7 @@ import {DURATION, EASING, SIZE, TYPOGRAPHY} from '@bearei/element-token'
 import {cloneElement, forwardRef, isValidElement, useCallback, useMemo, type FC} from 'react'
 import Animated from 'react-native-reanimated'
 import {useTheme} from 'styled-components/native'
-import {LAYOUT, TRIGGER_EVENT} from '../../Common'
+import {EVENT_NAME, LAYOUT, TRIGGER_EVENT} from '../../Common'
 import {Divider} from '../../Divider'
 import {Icon, ICON_NAME, ICON_TYPE} from '../../Icon'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
@@ -55,7 +55,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 
 	const iconButtonDensity = density[type]
 	const iconDensity = iconButtonDensity / 2
-	const onHoverIn = useCallback(() => onTrailingVisibility?.(true), [onTrailingVisibility])
+	const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
 	const trailingProps = useMemo(
 		() => ({
 			...restTrailingProps,

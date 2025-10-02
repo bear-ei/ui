@@ -118,7 +118,7 @@ export interface RenderListItemTrailingProps
 		| 'type'
 	> {
 	interactionHandlers: InteractionHandlers
-	onTrailingVisibility?: (visible: boolean) => void
+	onTrailingVisibility?: (eventName: EventName) => void
 }
 
 export interface UseListItemAnimatedOptions {

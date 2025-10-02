@@ -225,7 +225,8 @@ export const animateListItemActiveState =
 	(active?: boolean) =>
 		animateSharedValueTo({sharedValue: headlineTextSharedValue})(active ? 1 : 0)
 
-export const updateListItemTrailingVisibility = (setState: Updater<ListItemState>) => (visible: boolean) =>
+export const updateListItemTrailingVisibility = (setState: Updater<ListItemState>) => (eventName: EventName) =>
+	eventName === EVENT_NAME.HOVER_IN &&
 	setState(draft => {
-		draft.trailingVisible = visible
+		draft.eventName = eventName
 	})
