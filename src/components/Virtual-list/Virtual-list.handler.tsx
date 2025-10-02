@@ -212,13 +212,14 @@ export const handleVirtualListDragUpdate =
 				return
 			}
 
-			const virtualListData = draft.virtualListData
-			const visibleRangeData = draft.visibleRangeData
-			const scrollOffset = draft.scrollOffset ?? 0
 			const dragItemAbsolute =
 				layoutType === LAYOUT.HORIZONTAL ?
 					event.absoluteX - (draft.layout.left ?? 0)
 				:	event.absoluteY - (draft.layout.top ?? 0)
+
+			const scrollOffset = draft.scrollOffset ?? 0
+			const virtualListData = draft.virtualListData
+			const visibleRangeData = draft.visibleRangeData
 
 			const updateVisibleRangeData = (itemIndexKey: string) => {
 				if (itemIndexKey === indexKey) {
@@ -268,7 +269,7 @@ export const handleVirtualListDragUpdate =
 				}
 			}
 
-			for (const {indexKey: itemIndexKey, index} of visibleRangeData) {
+			for (const {indexKey: itemIndexKey, index = 0} of visibleRangeData) {
 				const itemOffset = itemSize * index - scrollOffset
 				const isOverItem =
 					dragItemAbsolute > itemOffset && dragItemAbsolute < itemOffset + itemSize
