@@ -80,7 +80,7 @@ export interface VirtualListState {
 	scrollOffset?: number
 	startIndex?: number
 	status: ComponentStatus
-	virtualListData?: VirtualListData[]
+	virtualListData?: (VirtualListData & {index: number})[]
 	visibleRangeData?: (VirtualListData & {index: number})[]
 }
 

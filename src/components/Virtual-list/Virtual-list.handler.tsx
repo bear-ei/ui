@@ -54,8 +54,8 @@ const calculateVirtualListVisibilityRange =
 		draft.scrollOffset = nextScrollOffset
 		draft.startIndex = startIndex
 		draft.visibleRangeData = draft.virtualListData
-			?.slice(startIndex, endIndex)
-			.map((item, index) => ({...item, index: startIndex + index}))
+			?.sort((a, b) => (a.index ?? 0) - (b.index ?? 0))
+			.slice(startIndex, endIndex)
 
 		if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
 			draft.status = draft.virtualListData ? COMPONENT_STATUS.SUCCEEDED : COMPONENT_STATUS.LOADING
@@ -183,7 +183,7 @@ export const unmountVirtualList = ({
 export const updateVirtualListData = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
 	setState(draft => {
 		draft.status = COMPONENT_STATUS.LOADING
-		draft.virtualListData = data
+		draft.virtualListData = data?.map((item, index) => ({...item, index}))
 	})
 
 export const updateVirtualListVisibilityRangeData =
@@ -208,10 +208,11 @@ export const handleVirtualListDragUpdate =
 	(setState: Updater<VirtualListState>) =>
 	({indexKey, event}: HandleDragUpdateOptions) => {
 		setState(draft => {
-			if (!draft.visibleRangeData) {
+			if (!(draft.virtualListData && draft.visibleRangeData)) {
 				return
 			}
 
+			const virtualListData = draft.virtualListData
 			const visibleRangeData = draft.visibleRangeData
 			const scrollOffset = draft.scrollOffset ?? 0
 			const dragItemAbsolute =
@@ -224,14 +225,40 @@ export const handleVirtualListDragUpdate =
 					return
 				}
 
-				const draggedIndex = visibleRangeData.findIndex(item => item.indexKey === indexKey)
-				const overIndex = visibleRangeData.findIndex(item => item.indexKey === itemIndexKey)
-				const isUpdateVisibleRangeData = draggedIndex !== -1 && overIndex !== -1
+				const visibleRangeDraggedIndex = visibleRangeData.findIndex(
+					item => item.indexKey === indexKey
+				)
+
+				const visibleRangeOverIndex = visibleRangeData.findIndex(
+					item => item.indexKey === itemIndexKey
+				)
+
+				const isUpdateVisibleRangeData =
+					visibleRangeDraggedIndex !== -1 && visibleRangeOverIndex !== -1
 
 				if (isUpdateVisibleRangeData) {
-					;[visibleRangeData[draggedIndex].index, visibleRangeData[overIndex].index] = [
-						visibleRangeData[overIndex].index,
-						visibleRangeData[draggedIndex].index
+					;[
+						visibleRangeData[visibleRangeDraggedIndex].index,
+						visibleRangeData[visibleRangeOverIndex].index
+					] = [
+						visibleRangeData[visibleRangeOverIndex].index,
+						visibleRangeData[visibleRangeDraggedIndex].index
+					]
+
+					const virtualListDraggedIndex = virtualListData.findIndex(
+						item => item.indexKey === indexKey
+					)
+
+					const virtualListOverIndex = virtualListData.findIndex(
+						item => item.indexKey === itemIndexKey
+					)
+
+					;[
+						virtualListData[virtualListDraggedIndex].index,
+						virtualListData[virtualListOverIndex].index
+					] = [
+						virtualListData[virtualListOverIndex].index,
+						virtualListData[virtualListDraggedIndex].index
 					]
 
 					if (onDragUpdate) {
@@ -243,7 +270,6 @@ export const handleVirtualListDragUpdate =
 
 			for (const {indexKey: itemIndexKey, index} of visibleRangeData) {
 				const itemOffset = itemSize * index - scrollOffset
-
 				const isOverItem =
 					dragItemAbsolute > itemOffset && dragItemAbsolute < itemOffset + itemSize
 
