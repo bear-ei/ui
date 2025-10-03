@@ -6,6 +6,7 @@ import type {
 	PanGestureHandlerEventPayload
 } from 'react-native-gesture-handler'
 import type {AnimatedStyle} from 'react-native-reanimated'
+import type {Updater} from 'use-immer'
 import type {InteractionHandlers} from '../../hooks'
 import type {ComponentStatus, LayoutRectangle, LayoutType, ShapeType} from '../Common'
 import type {RenderVirtualListItemInfo} from './Virtual-list-item'
@@ -50,6 +51,7 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Scro
 	onClose?: (options: OnVirtualListCloseOptions) => void
 	onDragEnd?: (options: OnDragEndOptions) => void
 	onDragUpdate?: (options: OnDragUpdateOptions) => void
+
 	onEndReached?: () => void
 	onLoadEnd?: (indexKey?: string) => void
 	renderItem?: (options: RenderVirtualListItemInfo<T>) => React.JSX.Element
@@ -68,11 +70,13 @@ export interface RenderVirtualListProps<T = Record<string, unknown>> extends Vir
 
 export type VirtualListBaseProps<T> = VirtualListProps<T>
 export interface VirtualListState {
+	dragging?: boolean
 	emptyList?: boolean
 	endIndex?: number
 	layout: LayoutRectangle
 	loading?: boolean
 	nextCloseEvent?: () => void
+	nextDragEndEvent?: () => void
 	nextDragUpdateEvent?: () => void
 	nextEndReachedEvent?: () => void
 	nextLoadEndEvent?: () => void
@@ -125,6 +129,7 @@ export interface RenderVirtualListItemOptions<T>
 		| 'shape'
 	> {
 	onDragEnd?: (options: HandleDragEndOptions) => void
+	onDragStart?: (options: HandleDragStartOptions) => void
 	onDragUpdate?: (options: HandleDragUpdateOptions) => void
 	onUnmount?: (indexKey?: string) => void
 	scrollOffset?: number
@@ -136,13 +141,15 @@ export interface HandleDragUpdateOptions {
 	indexKey: string
 }
 
-export interface HandleDragEndOptions {
+export interface HandleDragStartOptions {
 	event: GestureStateChangeEvent<PanGestureHandlerEventPayload>
 	indexKey: string
 }
 
+export type HandleDragEndOptions = HandleDragStartOptions
 export interface HandleVirtualListDragEndOptions {
 	endIndex?: number
+	setState: Updater<VirtualListState>
 	startIndex?: number
 }
 

@@ -8,6 +8,7 @@ import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type EventName, type LayoutRectang
 import type {ListData} from '../List'
 import type {
 	HandleDragEndOptions,
+	HandleDragStartOptions,
 	HandleDragUpdateOptions,
 	HandleVirtualListDragEndOptions,
 	HandleVirtualListDragUpdateOptions,
@@ -192,7 +193,9 @@ export const updateVirtualListVisibilityRangeData =
 	(virtualListData?: VirtualListData[]) =>
 		virtualListData &&
 		setState(draft => {
-			if (draft.layout.height || draft.layout.width) {
+			const isCalculate = (draft.layout.height || draft.layout.width) && !draft.dragging
+
+			if (isCalculate) {
 				calculateVirtualListVisibilityRange({itemSize, layoutType})(draft)()
 			}
 		})
@@ -283,8 +286,19 @@ export const handleVirtualListDragUpdate =
 		})
 	}
 
+export const handleVirtualListDragStart = (setState: Updater<VirtualListState>) => (_options: HandleDragStartOptions) =>
+	setState(draft => {
+		draft.dragging = true
+	})
+
 export const handleVirtualListDragEnd =
-	(options: HandleVirtualListDragEndOptions) =>
+	({setState, ...options}: HandleVirtualListDragEndOptions) =>
 	(onDragEnd?: (options: OnDragEndOptions) => void) =>
 	({indexKey, event}: HandleDragEndOptions) =>
-		onDragEnd?.({...options, indexKey, event})
+		setState(draft => {
+			draft.dragging = false
+
+			if (onDragEnd) {
+				draft.nextDragEndEvent = () => onDragEnd?.({...options, indexKey, event})
+			}
+		})

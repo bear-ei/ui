@@ -9,7 +9,12 @@ import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ComponentStatus} from '../../Common'
 import type {DragRef} from '../../Drag'
 import type {ListAffordanceButtonProps} from '../../List/List-affordance-button'
-import type {HandleDragEndOptions, HandleDragUpdateOptions, RenderVirtualListProps} from '../Virtual-list.interface'
+import type {
+	HandleDragEndOptions,
+	HandleDragStartOptions,
+	HandleDragUpdateOptions,
+	RenderVirtualListProps
+} from '../Virtual-list.interface'
 
 export interface Item {
 	afterAffordanceSecondaryButtonProps?: ListAffordanceButtonProps
@@ -41,13 +46,14 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
 	item?: T & Item
 	loading?: boolean
 	onDragEnd?: (options: HandleDragEndOptions) => void
+	onDragStart?: (options: HandleDragStartOptions) => void
 	onDragUpdate?: (options: HandleDragUpdateOptions) => void
 	onUnmount?: (indexKey?: string) => void
 	scrollOffset?: number
 }
 
 export interface RenderVirtualListItemProps<T = Record<string, unknown>>
-	extends Omit<VirtualListItemProps<T>, 'onUnmount' | 'onDragUpdate' | 'onDragEnd'> {
+	extends Omit<VirtualListItemProps<T>, 'onUnmount' | 'onDragUpdate' | 'onDragEnd' | 'onDragStart'> {
 	containerAnimatedStyle?: AnimatedStyle<ViewStyle>
 	dragging?: boolean
 	dragOffset?: number
@@ -60,6 +66,7 @@ export interface RenderVirtualListItemProps<T = Record<string, unknown>>
 	onUnmount?: () => void
 	unmount?: boolean
 	visible?: boolean
+	zIndex?: number
 }
 
 export type VirtualListItemBaseProps<T = Record<string, unknown>> = VirtualListItemProps<T>
@@ -67,13 +74,16 @@ export interface VirtualListItemState {
 	dragging?: boolean
 	index?: number
 	nextDragEndEvent?: () => void
+	nextDragStartEvent?: () => void
 	status: ComponentStatus
 	visible?: boolean
+	zIndex: number
 }
 
 export interface UseVirtualListItemAnimatedOptions extends Pick<VirtualListItemProps, 'layoutType'> {
 	dragging?: boolean
 	offset?: number
+	onAnimationFinished?: (visible?: boolean) => void
 	status: ComponentStatus
 }
 
@@ -82,5 +92,9 @@ export interface HandleVirtualListItemDragEndOptions extends Pick<VirtualListIte
 	dragRef: React.RefObject<DragRef>
 }
 
-export type VirtualListItemContainerProps = Pick<RenderVirtualListItemProps, 'itemSize' | 'layoutType' | 'dragging'>
+export interface HandleVirtualListItemDragStartOptions extends Pick<VirtualListItemProps, 'onDragStart'> {
+	indexKey?: string
+}
+
+export type VirtualListItemContainerProps = Pick<RenderVirtualListItemProps, 'itemSize' | 'layoutType' | 'zIndex'>
 export type VirtualListItemDragContentProps = Pick<RenderVirtualListItemProps, 'itemSize' | 'layoutType' | 'gap'>

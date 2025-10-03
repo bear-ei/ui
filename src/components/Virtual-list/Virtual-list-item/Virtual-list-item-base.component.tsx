@@ -6,6 +6,7 @@ import {COMPONENT_STATUS} from '../../Common'
 import type {DragRef} from '../../Drag'
 import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
 import {
+	handleVirtualListItemAnimationFinished,
 	handleVirtualListItemDragEnd,
 	handleVirtualListItemDragStart,
 	handleVirtualListItemDragUpdate,
@@ -24,6 +25,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			itemSize = 0,
 			layoutType,
 			onDragEnd: rawOnDragEnd,
+			onDragStart: rawOnDragStart,
 			onDragUpdate: rawOnDragUpdate,
 			onLoadEnd,
 			onUnmount: rawOnUnmount,
@@ -33,8 +35,18 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		},
 		ref
 	) => {
-		const [{visible: isVisible, status, dragging: isDragging, nextDragEndEvent, index}, setState] =
-			useImmer<VirtualListItemState>({visible: true, status: COMPONENT_STATUS.IDLE})
+		const [
+			{
+				dragging: isDragging,
+				index,
+				nextDragEndEvent,
+				nextDragStartEvent,
+				status,
+				visible: isVisible,
+				zIndex
+			},
+			setState
+		] = useImmer<VirtualListItemState>({visible: true, status: COMPONENT_STATUS.IDLE, zIndex: 0})
 
 		useClearComponentEvent(setState)
 
@@ -49,7 +61,11 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		)
 
 		const onClose = useMemo(() => triggerVirtualListItemClose(setState), [setState])
-		const onDragStart = useMemo(() => handleVirtualListItemDragStart(setState), [setState])
+		const onDragStart = useMemo(
+			() => handleVirtualListItemDragStart({onDragStart: rawOnDragStart, indexKey})(setState),
+			[indexKey, rawOnDragStart, setState]
+		)
+
 		const onDragEnd = useMemo(
 			() => handleVirtualListItemDragEnd({onDragEnd: rawOnDragEnd, indexKey, dragRef})(setState),
 			[indexKey, rawOnDragEnd, setState]
@@ -60,10 +76,12 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 			[indexKey, rawOnUnmount]
 		)
 
+		const onAnimationFinished = useMemo(() => handleVirtualListItemAnimationFinished(setState), [setState])
 		const {containerAnimatedStyle} = useVirtualListItemAnimated({
 			dragging: isDragging,
 			layoutType,
 			offset,
+			onAnimationFinished,
 			status
 		})
 
@@ -83,6 +101,10 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 		useEffect(() => {
 			runUpdateStatus()
 		}, [runUpdateStatus])
+
+		useEffect(() => {
+			nextDragStartEvent?.()
+		}, [nextDragStartEvent])
 
 		useEffect(() => {
 			nextDragEndEvent?.()
@@ -110,6 +132,7 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 				onUnmount={onUnmount}
 				ref={ref}
 				visible={isVisible}
+				zIndex={zIndex}
 			/>
 		)
 	}

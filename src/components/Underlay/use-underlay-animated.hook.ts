@@ -96,7 +96,7 @@ export const useUnderlayAnimated = ({
 	)
 
 	const runAnimateActiveState = useMemo(
-		() => animateUnderlayActiveState(animateSharedValueTo)(activeLayerSharedValue),
+		() => debounce(animateUnderlayActiveState(animateSharedValueTo)(activeLayerSharedValue))(50),
 		[animateSharedValueTo, activeLayerSharedValue]
 	)
 

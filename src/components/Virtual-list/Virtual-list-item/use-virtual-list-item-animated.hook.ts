@@ -10,11 +10,17 @@ export const useVirtualListItemAnimated = ({
 	dragging,
 	layoutType,
 	offset = 0,
-	status
+	status,
+	onAnimationFinished
 }: UseVirtualListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
+	const animateTranslateYSharedValueTo = useMemo(
+		() => animatedTiming({callback: (finished?: boolean) => finished && onAnimationFinished?.()}),
+		[animatedTiming, onAnimationFinished]
+	)
+
+	const animateScaleSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const translateSharedValue = useSharedValue(offset)
 	const scaleSharedValue = useSharedValue(0)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
@@ -33,13 +39,13 @@ export const useVirtualListItemAnimated = ({
 	}))
 
 	const runAnimateTranslate = useMemo(
-		() => animateVirtualListItemTranslate(animateSharedValueTo)(translateSharedValue),
-		[animateSharedValueTo, translateSharedValue]
+		() => animateVirtualListItemTranslate(animateTranslateYSharedValueTo)(translateSharedValue),
+		[animateTranslateYSharedValueTo, translateSharedValue]
 	)
 
 	const runAnimateScale = useMemo(
-		() => animateVirtualListItemScale(animateSharedValueTo)(scaleSharedValue),
-		[animateSharedValueTo, scaleSharedValue]
+		() => animateVirtualListItemScale(animateScaleSharedValueTo)(scaleSharedValue),
+		[animateScaleSharedValueTo, scaleSharedValue]
 	)
 
 	useEffect(() => {

@@ -29,11 +29,9 @@ export const Container = styled(LayoutAnimated)<VirtualListItemContainerProps & 
 
 
 
-	${({dragging}) =>
-		dragging &&
-		css`
-			z-index: 1024;
-		`}
+	${({zIndex = 0}) => css`
+		z-index: ${zIndex};
+	`}
 `
 
 export const DragContent = styled.View<VirtualListItemDragContentProps>`

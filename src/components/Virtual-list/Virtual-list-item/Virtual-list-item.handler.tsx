@@ -10,6 +10,7 @@ import {COMPONENT_STATUS} from '../../Common'
 import type {HandleDragUpdateOptions} from '../Virtual-list.interface'
 import type {
 	HandleVirtualListItemDragEndOptions,
+	HandleVirtualListItemDragStartOptions,
 	VirtualListItemProps,
 	VirtualListItemState
 } from './Virtual-list-item.interface'
@@ -83,10 +84,23 @@ export const handleVirtualListItemDragUpdate =
 	(event: GestureUpdateEvent<PanGestureHandlerEventPayload>) =>
 		indexKey && onDragUpdate?.({indexKey, event})
 
+export const handleVirtualListItemAnimationFinished = (setState: Updater<VirtualListItemState>) => () =>
+	setState(draft => {
+		draft.zIndex = 0
+	})
+
 export const handleVirtualListItemDragStart =
-	(setState: Updater<VirtualListItemState>) => (_event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) =>
+	({indexKey, onDragStart}: HandleVirtualListItemDragStartOptions) =>
+	(setState: Updater<VirtualListItemState>) =>
+	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) =>
+		indexKey &&
 		setState(draft => {
 			draft.dragging = true
+			draft.zIndex = 1024
+
+			if (onDragStart) {
+				draft.nextDragStartEvent = () => onDragStart?.({indexKey, event})
+			}
 		})
 
 export const handleVirtualListItemDragEnd =

@@ -9,6 +9,7 @@ import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Com
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
 	handleVirtualListDragEnd,
+	handleVirtualListDragStart,
 	handleVirtualListDragUpdate,
 	handleVirtualListScroll,
 	handleVirtualListStateChange,
@@ -51,6 +52,7 @@ const VirtualListBaseInner = <T,>(
 			endIndex,
 			layout: containerLayout,
 			nextCloseEvent,
+			nextDragEndEvent,
 			nextDragUpdateEvent,
 			nextEndReachedEvent,
 			nextLoadEndEvent,
@@ -118,9 +120,10 @@ const VirtualListBaseInner = <T,>(
 		[itemSize, layoutType, rawOnDragUpdate, setState]
 	)
 
+	const onDragStart = useMemo(() => handleVirtualListDragStart(setState), [setState])
 	const onDragEnd = useMemo(
-		() => handleVirtualListDragEnd({startIndex, endIndex})(rawOnDragEnd),
-		[endIndex, rawOnDragEnd, startIndex]
+		() => handleVirtualListDragEnd({startIndex, endIndex, setState})(rawOnDragEnd),
+		[endIndex, rawOnDragEnd, setState, startIndex]
 	)
 
 	const interactionHandlers = useInteractionStateEvent({
@@ -154,6 +157,7 @@ const VirtualListBaseInner = <T,>(
 				itemSize={itemSize}
 				layoutType={layoutType}
 				onDragEnd={onDragEnd}
+				onDragStart={onDragStart}
 				onDragUpdate={onDragUpdate}
 				onLoadEnd={onLoadEnd}
 				onUnmount={onUnmount}
@@ -171,6 +175,7 @@ const VirtualListBaseInner = <T,>(
 			itemSize,
 			layoutType,
 			onDragEnd,
+			onDragStart,
 			onDragUpdate,
 			onLoadEnd,
 			onUnmount,
@@ -210,6 +215,10 @@ const VirtualListBaseInner = <T,>(
 	useEffect(() => {
 		nextDragUpdateEvent?.()
 	}, [nextDragUpdateEvent])
+
+	useEffect(() => {
+		nextDragEndEvent?.()
+	}, [nextDragEndEvent])
 
 	if (status === COMPONENT_STATUS.IDLE) {
 		return <></>

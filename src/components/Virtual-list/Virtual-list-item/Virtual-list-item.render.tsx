@@ -27,13 +27,13 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 			shape,
 			testID,
 			visible,
+			zIndex,
 			...containerProps
 		},
 		ref
 	) => (
 		<Container
 			{...containerProps}
-			dragging={dragging}
 			exit={{duration: DURATION.SHORT_2}}
 			itemSize={itemSize}
 			layoutType={layoutType}
@@ -43,6 +43,7 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 			testID={testID ?? `virtualListItem--${id}`}
 			unmount={true}
 			visible={visible}
+			zIndex={zIndex}
 		>
 			{draggable ?
 				<Drag
