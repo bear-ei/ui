@@ -1,32 +1,18 @@
-import react from '@vitejs/plugin-react'
 import {resolve} from 'node:path'
 import {visualizer} from 'rollup-plugin-visualizer'
 import {defineConfig} from 'vite'
 import dts from 'vite-plugin-dts'
-import reactNativeWeb from 'vite-plugin-react-native-web'
+import {rnw} from 'vite-plugin-rnw'
 import svgr from 'vite-plugin-svgr'
 
-const babelPlugins = [
-	['@babel/plugin-proposal-decorators', {legacy: true}],
-	['@babel/plugin-proposal-class-properties', {loose: true}],
-	['@babel/plugin-proposal-private-methods', {loose: true}],
-	['@babel/plugin-proposal-private-property-in-object', {loose: true}],
-	'react-native-reanimated/plugin'
-]
-
 const externals = [
-	'react',
-	'react-dom',
-	'react-native',
-	'react-native-reanimated',
-	'@bearei/theme-token',
 	'@material-symbols/svg-400',
-	'class-validator',
-	'immer',
-	'mitt',
-	'nanoid',
+	'nativewind',
+	'react-dom',
+	'react-native-reanimated',
 	'react-native-svg',
-	'use-immer'
+	'react-native',
+	'react'
 ]
 
 const config = defineConfig({
@@ -34,7 +20,7 @@ const config = defineConfig({
 		lib: {
 			entry: resolve(__dirname, './src/index.ts'),
 			fileName: 'index.mjs',
-			name: 'BeareiElement',
+			name: 'BeareiUI',
 			formats: ['es']
 		},
 		rollupOptions: {
@@ -57,8 +43,7 @@ const config = defineConfig({
 			outDir: resolve(__dirname, 'dist'),
 			tsconfigPath: './tsconfig.app.json'
 		}),
-		react({babel: {plugins: babelPlugins}}),
-		reactNativeWeb({babelPlugins}),
+		rnw({babel: {plugins: ['react-native-worklets/plugin']}}),
 		svgr({
 			include: '**/*.svg',
 			svgrOptions: {exportType: 'default', ref: true, svgo: false, titleProp: true}

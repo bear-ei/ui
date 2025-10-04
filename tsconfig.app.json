@@ -29,5 +29,5 @@
 		"forceConsistentCasingInFileNames": true,
 		"strictPropertyInitialization": false
 	},
-	"include": ["src"]
+	"include": ["src", "nativewind-env.d.ts"]
 }

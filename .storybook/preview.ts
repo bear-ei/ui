@@ -1,4 +1,5 @@
 import type {Preview} from '@storybook/react-native-web-vite'
+import '../src/global.css'
 
 const preview: Preview = {
 	parameters: {

@@ -5,7 +5,14 @@ const config: StorybookConfig = {
 	addons: ['@storybook/addon-docs'],
 	framework: {
 		name: '@storybook/react-native-web-vite',
-		options: {}
+		options: {
+			pluginReactOptions: {
+				jsxRuntime: 'automatic',
+				jsxImportSource: 'nativewind',
+				babel: {plugins: ['react-native-worklets/plugin']}
+			},
+			pluginBabelOptions: {}
+		}
 	}
 }
 export default config
