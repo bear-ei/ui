@@ -51,13 +51,8 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => 
 	}
 }
 
-export const triggerVirtualListItemClose = (setState: Updater<VirtualListItemState>) => () =>
-	setState(draft => {
-		draft.visible = false
-	})
-
-export const triggerVirtualListItemUnmount = (onUnmount?: (indexKey?: string) => void) => (indexKey?: string) => () =>
-	indexKey && onUnmount?.(indexKey)
+export const triggerVirtualListItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => () =>
+	indexKey && onClose?.(indexKey)
 
 export const animateVirtualListItemTranslate =
 	(animateSharedValueTo: AnimateSharedValueTo) =>

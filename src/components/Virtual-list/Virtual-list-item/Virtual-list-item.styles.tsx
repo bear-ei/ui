@@ -1,10 +1,9 @@
+import {View} from 'react-native'
 import styled, {css} from 'styled-components/native'
 import {LAYOUT} from '../../Common'
-import type {LayoutAnimatedProps} from '../../Layout-animated'
-import {LayoutAnimated} from '../../Layout-animated'
 import type {VirtualListItemContainerProps, VirtualListItemDragContentProps} from './Virtual-list-item.interface'
 
-export const Container = styled(LayoutAnimated)<VirtualListItemContainerProps & LayoutAnimatedProps>`
+export const Container = styled(View)<VirtualListItemContainerProps>`
 	display: flex;
 	flex-direction: column;
 	position: absolute;

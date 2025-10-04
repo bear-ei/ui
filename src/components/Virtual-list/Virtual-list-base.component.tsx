@@ -8,12 +8,12 @@ import {debounce} from '../../utils'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../Common'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
+	closeVirtualList,
 	handleVirtualListDragEnd,
 	handleVirtualListDragStart,
 	handleVirtualListDragUpdate,
 	handleVirtualListScroll,
 	handleVirtualListStateChange,
-	unmountVirtualList,
 	updateVirtualListData,
 	updateVirtualListLayout,
 	updateVirtualListVisibilityRangeData
@@ -87,14 +87,14 @@ const VirtualListBaseInner = <T,>(
 	)
 
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
-	const onUnmount = useMemo(
+	const onClose = useMemo(
 		() =>
-			unmountVirtualList({
-				itemSize,
-				enableAutoSelect,
-				onClose: rawOnClose,
+			closeVirtualList({
 				activeKey,
-				layoutType
+				enableAutoSelect,
+				itemSize,
+				layoutType,
+				onClose: rawOnClose
 			})(setState),
 		[activeKey, enableAutoSelect, itemSize, layoutType, rawOnClose, setState]
 	)
@@ -156,11 +156,11 @@ const VirtualListBaseInner = <T,>(
 				id={id}
 				itemSize={itemSize}
 				layoutType={layoutType}
+				onClose={onClose}
 				onDragEnd={onDragEnd}
 				onDragStart={onDragStart}
 				onDragUpdate={onDragUpdate}
 				onLoadEnd={onLoadEnd}
-				onUnmount={onUnmount}
 				renderItem={renderItem}
 				scrollOffset={scrollOffset}
 				shape={shape}
@@ -178,7 +178,7 @@ const VirtualListBaseInner = <T,>(
 			onDragStart,
 			onDragUpdate,
 			onLoadEnd,
-			onUnmount,
+			onClose,
 			renderItem,
 			scrollOffset,
 			shape,

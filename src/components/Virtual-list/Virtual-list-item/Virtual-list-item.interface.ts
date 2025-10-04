@@ -48,7 +48,7 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
 	onDragEnd?: (options: HandleDragEndOptions) => void
 	onDragStart?: (options: HandleDragStartOptions) => void
 	onDragUpdate?: (options: HandleDragUpdateOptions) => void
-	onUnmount?: (indexKey?: string) => void
+	onClose?: (indexKey?: string) => void
 	scrollOffset?: number
 }
 
@@ -63,9 +63,7 @@ export interface RenderVirtualListItemProps<T = Record<string, unknown>>
 	onDragEnd?: (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void
 	onDragStart?: (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void
 	onDragUpdate?: (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => void
-	onUnmount?: () => void
-	unmount?: boolean
-	visible?: boolean
+	onClose?: () => void
 	zIndex?: number
 }
 
@@ -76,7 +74,6 @@ export interface VirtualListItemState {
 	nextDragEndEvent?: () => void
 	nextDragStartEvent?: () => void
 	status: ComponentStatus
-	visible?: boolean
 	zIndex: number
 }
 

@@ -1,11 +1,12 @@
-import {DURATION} from '@bearei/element-token'
 import {forwardRef} from 'react'
-import {View} from 'react-native'
+import type {View} from 'react-native'
+import Animated from 'react-native-reanimated'
 import {Drag} from '../../Drag'
 import {Elevation} from '../../Elevation'
 import type {RenderVirtualListItemProps} from './Virtual-list-item.interface'
 import {Container, DragContent} from './Virtual-list-item.styles'
 
+const AnimatedContainer = Animated.createAnimatedComponent(Container)
 export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps>(
 	(
 		{
@@ -23,26 +24,20 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 			onDragEnd,
 			onDragStart,
 			onDragUpdate,
-			onUnmount,
 			shape,
 			testID,
-			visible,
 			zIndex,
 			...containerProps
 		},
 		ref
 	) => (
-		<Container
+		<AnimatedContainer
 			{...containerProps}
-			exit={{duration: DURATION.SHORT_2}}
 			itemSize={itemSize}
 			layoutType={layoutType}
-			onUnmount={onUnmount}
 			ref={ref}
 			style={[containerAnimatedStyle]}
 			testID={testID ?? `virtualListItem--${id}`}
-			unmount={true}
-			visible={visible}
 			zIndex={zIndex}
 		>
 			{draggable ?
@@ -72,6 +67,6 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
 					</DragContent>
 				</Drag>
 			:	itemElement}
-		</Container>
+		</AnimatedContainer>
 	)
 )

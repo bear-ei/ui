@@ -46,7 +46,7 @@ export const BigVirtualList = () => {
 }
 
 export const FocusedIndex = () => {
-	const [{focusedIndex}, setState] = useImmer({focusedIndex: 0})
+	const [{sort: isSort}, setState] = useImmer({sort: false})
 	const style = {height: 800, width: '100%'} as ViewStyle
 	const itemStyle = {
 		height: 56,
@@ -55,25 +55,26 @@ export const FocusedIndex = () => {
 		justifyContent: 'center'
 	} as ViewStyle
 
-	const data = Array.from({length: 200}, (_, index) => ({
+	const data = Array.from({length: 400}, (_, index) => ({
+		index: index,
 		indexKey: `Item${index + 1}`,
 		headline: `Item${index + 1}`,
 		afterAffordance: true,
 		leading: <Icon />
-	}))
+	})).sort((a, b) => (isSort ? a.index - b.index : b.index - a.index))
 
 	return (
 		<View style={[style]}>
 			<Button
 				onPressOut={() => {
 					setState(d => {
-						d.focusedIndex = data.length - 1
+						d.sort = !d.sort
 					})
 				}}
 			/>
 			<VirtualList
 				data={data}
-				focusedIndex={focusedIndex}
+				// focusedIndex={focusedIndex}
 				itemSize={56}
 				onEndReached={() => {
 					console.info('onEndReached')

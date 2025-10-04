@@ -7,6 +7,7 @@ import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} fr
 import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type EventName, type LayoutRectangle} from '../Common'
 import type {ListData} from '../List'
 import type {
+	closeVirtualListOptions,
 	HandleDragEndOptions,
 	HandleDragStartOptions,
 	HandleDragUpdateOptions,
@@ -15,7 +16,6 @@ import type {
 	HandleVirtualListScrollOptions,
 	OnDragEndOptions,
 	TriggerVirtualListCloseOptions,
-	UnmountVirtualListOptions,
 	UpdateVirtualListLayoutOptions,
 	VirtualListData,
 	VirtualListState
@@ -154,19 +154,10 @@ const triggerVirtualListClose =
 		}
 	}
 
-export const unmountVirtualList = ({
-	activeKey,
-	enableAutoSelect,
-	itemSize = 0,
-	layoutType,
-	onClose
-}: UnmountVirtualListOptions) => {
-	const filterVirtualListData =
-		(key: string) =>
-		({indexKey}: VirtualListData) =>
-			indexKey !== key
-
-	return (setState: Updater<VirtualListState>) => (indexKey?: string) => {
+export const closeVirtualList =
+	({activeKey, enableAutoSelect, itemSize = 0, layoutType, onClose}: closeVirtualListOptions) =>
+	(setState: Updater<VirtualListState>) =>
+	(indexKey?: string) => {
 		if (!indexKey) {
 			return
 		}
@@ -174,12 +165,13 @@ export const unmountVirtualList = ({
 		setState(draft => {
 			triggerVirtualListClose({enableAutoSelect, onClose, activeKey})(draft)(indexKey)
 
-			draft.virtualListData = draft.virtualListData?.filter(filterVirtualListData(indexKey))
+			draft.virtualListData = draft.virtualListData
+				?.filter(item => item.indexKey !== indexKey)
+				.map((item, index) => ({...item, index}))
 
 			calculateVirtualListVisibilityRange({itemSize, layoutType})(draft)()
 		})
 	}
-}
 
 export const updateVirtualListData = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
 	setState(draft => {

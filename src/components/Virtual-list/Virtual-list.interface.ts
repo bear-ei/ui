@@ -99,7 +99,7 @@ export interface HandleVirtualListLayoutChangeOptions {
 }
 
 export type TriggerVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose' | 'activeKey'>
-export interface UnmountVirtualListOptions
+export interface closeVirtualListOptions
 	extends TriggerVirtualListCloseOptions,
 		Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layoutType'> {}
 
@@ -128,10 +128,10 @@ export interface RenderVirtualListItemOptions<T>
 		| 'renderItem'
 		| 'shape'
 	> {
+	onClose?: (indexKey?: string) => void
 	onDragEnd?: (options: HandleDragEndOptions) => void
 	onDragStart?: (options: HandleDragStartOptions) => void
 	onDragUpdate?: (options: HandleDragUpdateOptions) => void
-	onUnmount?: (indexKey?: string) => void
 	scrollOffset?: number
 }
 
