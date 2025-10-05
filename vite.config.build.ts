@@ -3,57 +3,43 @@ import {visualizer} from 'rollup-plugin-visualizer'
 import {defineConfig} from 'vite'
 import dts from 'vite-plugin-dts'
 import {rnw} from 'vite-plugin-rnw'
-import svgr from 'vite-plugin-svgr'
 
-const externals = [
-	'@material-symbols/svg-400',
-	'nativewind',
-	'react-dom',
-	'react-native-reanimated',
-	'react-native-svg',
-	'react-native',
-	'react'
-]
-
+const externals = ['nativewind', 'react-dom', 'react-native-reanimated', 'react-native', 'react']
 const config = defineConfig({
-	build: {
-		lib: {
-			entry: resolve(__dirname, './src/index.ts'),
-			fileName: 'index.mjs',
-			name: 'BeareiUI',
-			formats: ['es']
-		},
-		rollupOptions: {
-			external: id => externals.includes(id) || externals.some(pkg => id.startsWith(pkg + '/')),
-			output: {
-				chunkFileNames: 'chunks/[name].[hash].mjs',
-				entryFileNames: '[name].mjs',
-				preserveModules: true,
-				preserveModulesRoot: resolve(__dirname, 'src')
-			}
-		},
-		commonjsOptions: {transformMixedEsModules: true}
-	},
-	plugins: [
-		dts({
-			copyDtsFiles: true,
-			entryRoot: resolve(__dirname, 'src'),
-			exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx', '**/*.test.tsx', '**/*.test.ts'],
-			insertTypesEntry: true,
-			outDir: resolve(__dirname, 'dist'),
-			tsconfigPath: './tsconfig.app.json'
-		}),
-		rnw({
-			babel: {presets: ['nativewind/babel'], plugins: ['react-native-worklets/plugin']},
-			jsxImportSource: 'nativewind',
-			jsxRuntime: 'automatic'
-		}),
-		svgr({
-			include: '**/*.svg',
-			svgrOptions: {exportType: 'default', ref: true, svgo: false, titleProp: true}
-		}),
-		visualizer({open: false})
-	]
+        build: {
+                lib: {
+                        entry: resolve(__dirname, './src/index.ts'),
+                        fileName: 'index.mjs',
+                        name: 'BeareiUI',
+                        formats: ['es']
+                },
+                rollupOptions: {
+                        external: id => externals.includes(id) || externals.some(pkg => id.startsWith(pkg + '/')),
+                        output: {
+                                chunkFileNames: 'chunks/[name].[hash].mjs',
+                                entryFileNames: '[name].mjs',
+                                preserveModules: true,
+                                preserveModulesRoot: resolve(__dirname, 'src')
+                        }
+                },
+                commonjsOptions: {transformMixedEsModules: true}
+        },
+        plugins: [
+                dts({
+                        copyDtsFiles: true,
+                        entryRoot: resolve(__dirname, 'src'),
+                        exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx', '**/*.test.tsx', '**/*.test.ts'],
+                        insertTypesEntry: true,
+                        outDir: resolve(__dirname, 'dist'),
+                        tsconfigPath: './tsconfig.app.json'
+                }),
+                rnw({
+                        babel: {presets: ['nativewind/babel'], plugins: ['react-native-worklets/plugin']},
+                        jsxImportSource: 'nativewind',
+                        jsxRuntime: 'automatic'
+                }),
+                visualizer({open: false})
+        ]
 })
 
 export default config
