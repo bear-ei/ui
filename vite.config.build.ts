@@ -4,7 +4,7 @@ import {defineConfig} from 'vite'
 import dts from 'vite-plugin-dts'
 import {rnw} from 'vite-plugin-rnw'
 
-const externals = ['nativewind', 'react-dom', 'react-native-reanimated', 'react-native', 'react']
+const externals = ['react-dom', 'react-native-reanimated', 'react-native', 'react']
 const config = defineConfig({
         build: {
                 lib: {
