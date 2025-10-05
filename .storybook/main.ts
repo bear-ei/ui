@@ -9,10 +9,13 @@ const config: StorybookConfig = {
 			pluginReactOptions: {
 				jsxRuntime: 'automatic',
 				jsxImportSource: 'nativewind',
-				babel: {plugins: ['react-native-worklets/plugin']}
-			},
-			pluginBabelOptions: {}
+				babel: {
+					presets: ['nativewind/babel'],
+					plugins: ['react-native-worklets/plugin']
+				}
+			}
 		}
 	}
 }
+
 export default config

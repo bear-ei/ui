@@ -11,6 +11,7 @@
 		/* Bundler mode */
 		"allowImportingTsExtensions": true,
 		"jsx": "react-jsx",
+		"jsxImportSource": "nativewind",
 		"moduleDetection": "force",
 		"moduleResolution": "bundler",
 		"noEmit": true,

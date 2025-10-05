@@ -68,7 +68,6 @@
 		"@storybook/react-native": "^9.1.4",
 		"@storybook/react-native-web-vite": "^9.1.10",
 		"@tailwindcss/postcss": "^4.1.14",
-		"@tailwindcss/vite": "^4.1.14",
 		"@types/jest": "^29.5.13",
 		"@types/react": "^19.1.0",
 		"@types/react-dom": "^19",

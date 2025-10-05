@@ -1572,7 +1572,6 @@ __metadata:
     "@storybook/react-native": "npm:^9.1.4"
     "@storybook/react-native-web-vite": "npm:^9.1.10"
     "@tailwindcss/postcss": "npm:^4.1.14"
-    "@tailwindcss/vite": "npm:^4.1.14"
     "@types/jest": "npm:^29.5.13"
     "@types/react": "npm:^19.1.0"
     "@types/react-dom": "npm:^19"
@@ -3861,19 +3860,6 @@ __metadata:
     postcss: "npm:^8.4.41"
     tailwindcss: "npm:4.1.14"
   checksum: 10c0/f1befe8b92ed7c162328fe359f9c118ba7edbd37e32e0d62956aed9c7891d1107c70c2dfb4dc4fae8c5acd5442529851d3762549974c973b3c4ef6c043444c03
-  languageName: node
-  linkType: hard
-
-"@tailwindcss/vite@npm:^4.1.14":
-  version: 4.1.14
-  resolution: "@tailwindcss/vite@npm:4.1.14"
-  dependencies:
-    "@tailwindcss/node": "npm:4.1.14"
-    "@tailwindcss/oxide": "npm:4.1.14"
-    tailwindcss: "npm:4.1.14"
-  peerDependencies:
-    vite: ^5.2.0 || ^6 || ^7
-  checksum: 10c0/38a34602a29fcad23eb80bdb6f3162473d191a1d8ec0bffdee73a1c7b9716de13a1c3705b95baf40eed6ed70e806df35ba03f3cfe541f1758a3440ddb03b6e81
   languageName: node
   linkType: hard
 

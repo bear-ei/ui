@@ -43,7 +43,11 @@ const config = defineConfig({
 			outDir: resolve(__dirname, 'dist'),
 			tsconfigPath: './tsconfig.app.json'
 		}),
-		rnw({babel: {plugins: ['react-native-worklets/plugin']}}),
+		rnw({
+			babel: {presets: ['nativewind/babel'], plugins: ['react-native-worklets/plugin']},
+			jsxImportSource: 'nativewind',
+			jsxRuntime: 'automatic'
+		}),
 		svgr({
 			include: '**/*.svg',
 			svgrOptions: {exportType: 'default', ref: true, svgo: false, titleProp: true}
