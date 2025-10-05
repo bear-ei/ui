@@ -32,6 +32,7 @@
                 "!**/test.*"
         ],
         "dependencies": {
+                "@bearei/theme-token": "^0.0.1",
                 "@expo/vector-icons": "^15.0.2",
                 "@react-navigation/bottom-tabs": "^7.4.0",
                 "@react-navigation/elements": "^2.6.3",
@@ -74,12 +75,10 @@
                 "@storybook/react-native-web-vite": "^9.1.10",
                 "@types/babel__core": "^7",
                 "@types/react": "~19.1.0",
-                "autoprefixer": "^10.4.21",
                 "babel-loader": "^8.4.1",
                 "eslint": "^9.25.0",
                 "eslint-config-expo": "~10.0.0",
                 "eslint-plugin-storybook": "^9.1.10",
-                "postcss-import": "^16.1.1",
                 "prettier": "^3.6.2",
                 "prettier-plugin-tailwindcss": "^0.5.11",
                 "rollup-plugin-visualizer": "^6.0.4",
