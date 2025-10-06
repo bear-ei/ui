@@ -1,21 +1,9 @@
-import type {
-        Bezier,
-        BorderRadius,
-        Elevation,
-        Font,
-        Palette,
-        Shadow,
-        Shape,
-        Size,
-        Spacing,
-        Typography
-} from '@bearei/theme-token'
+import type {Bezier, Elevation, Font, Palette, Shadow, Shape, Size, Spacing, Typography} from '@bearei/theme-token'
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle as RNLayoutRectangle, TextProps, View, ViewProps} from 'react-native'
 import type {COMPONENT_STATUS, EVENT_NAME, LAYOUT, STATE, TRIGGER_EVENT} from './Common.enum'
 
 export type BezierType = keyof Bezier
-export type BorderRadiusType = keyof BorderRadius
 export type ComponentStatus = (typeof COMPONENT_STATUS)[keyof typeof COMPONENT_STATUS]
 export type ElevationType = keyof Elevation
 export type EventName = (typeof EVENT_NAME)[keyof typeof EVENT_NAME]

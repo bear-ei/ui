@@ -1,9 +1,16 @@
-import {Text, View} from 'react-native'
+import {forwardRef} from 'react'
+import type {View} from 'react-native'
+import {typedMemo} from '../../utils'
+import {AvatarBase} from './Avatar-base.component'
+import type {AvatarProps} from './Avatar.interface'
 
-export function Avatar() {
-        return (
-                <View className='flex-1 items-center justify-center bg-white'>
-                        <Text className='text-xl font-bold text-blue-500'>Welcome to Nativewind!</Text>
-                </View>
-        )
-}
+const AvatarWithRef = forwardRef<View, AvatarProps>((props, ref) => (
+        <AvatarBase
+                {...props}
+                ref={ref}
+        />
+))
+
+AvatarWithRef.displayName = 'Avatar'
+
+export const Avatar = typedMemo(AvatarWithRef)()

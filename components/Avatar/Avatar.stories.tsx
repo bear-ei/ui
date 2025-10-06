@@ -1,20 +1,16 @@
 import type {Meta, StoryObj} from '@storybook/react'
-import {View} from 'react-native'
 import {Avatar} from './Avatar.component'
+import {AvatarProps} from './Avatar.interface'
 
-const meta: Meta<typeof Avatar> = {
-        component: Avatar,
-        decorators: [
-                Story => (
-                        <View className='flex-1 items-start'>
-                                <Story />
-                        </View>
-                )
-        ]
+export const NoneContentText: StoryObj<AvatarProps> = {
+        args: {}
 }
 
-export default meta
+export const ContentText: StoryObj<AvatarProps> = {
+        args: {labelText: 'Bearei'}
+}
 
-type Story = StoryObj<typeof Avatar>
-
-export const Primary: Story = {}
+export default {
+        component: Avatar,
+        title: 'components/Avatar'
+} as Meta<typeof Avatar>

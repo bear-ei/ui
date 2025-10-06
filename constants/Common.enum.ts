@@ -38,3 +38,32 @@ export const TRIGGER_EVENT = {
         HOVER: 'HOVER',
         PRESS: 'PRESS'
 } as const
+
+export const DURATION = {
+        EXTRA_LONG_0: 'EXTRA_LONG_0',
+        EXTRA_LONG_1: 'EXTRA_LONG_1',
+        EXTRA_LONG_2: 'EXTRA_LONG_2',
+        EXTRA_LONG_3: 'EXTRA_LONG_3',
+        LONG_0: 'LONG_0',
+        LONG_1: 'LONG_1',
+        LONG_2: 'LONG_2',
+        LONG_3: 'LONG_3',
+        MEDIUM_0: 'MEDIUM_0',
+        MEDIUM_1: 'MEDIUM_1',
+        MEDIUM_2: 'MEDIUM_2',
+        MEDIUM_3: 'MEDIUM_3',
+        SHORT_0: 'SHORT_0',
+        SHORT_1: 'SHORT_1',
+        SHORT_2: 'SHORT_2',
+        SHORT_3: 'SHORT_3'
+} as const
+
+export const EASING = {
+        EMPHASIZED_ACCELERATE: 'EMPHASIZED_ACCELERATE',
+        EMPHASIZED_DECELERATE: 'EMPHASIZED_DECELERATE',
+        EMPHASIZED: 'EMPHASIZED',
+        LINEAR: 'LINEAR',
+        STANDARD_ACCELERATE: 'STANDARD_ACCELERATE',
+        STANDARD_DECELERATE: 'STANDARD_DECELERATE',
+        STANDARD: 'STANDARD'
+} as const
