@@ -1,8 +1,7 @@
 {
-        "editor.codeActionsOnSave": {
-                "source.fixAll": "explicit",
-                "source.organizeImports": "explicit",
-                "source.sortMembers": "explicit"
-        },
-        "cSpell.words": ["ellipsize", "nativewind", "rnstorybook", "worklets"]
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit",
+    "source.sortMembers": "explicit"
+  }
 }
