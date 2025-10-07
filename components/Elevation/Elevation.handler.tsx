@@ -1,6 +1,6 @@
+import {AnimateSharedValueTo} from '@/hooks'
 import {hexToRGBA} from '@bearei/theme-token'
 import type {SharedValue} from 'react-native-reanimated'
-import type {AnimateSharedValueTo} from '../../hooks'
 import type {GetWebBoxShadowOptions} from './Elevation.interface'
 
 export const getWebBoxShadow = ({offsetX, offsetY, radius, opacity, color}: GetWebBoxShadowOptions): string => {

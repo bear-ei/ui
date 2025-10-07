@@ -1,10 +1,5 @@
 import {CommonProps, ComponentStatus, EventName} from '@/constants'
-import type {
-        AnimatedTiming,
-        AnimatedTimingOptions,
-        HandleStateEventChangeOptions,
-        InteractionHandlers
-} from '../../hooks'
+import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {LayoutAnimatedType} from '../Layout-animated'
 import type {TouchableProps} from '../Touchable'
 import type {CHECKBOX_VALUE} from './Checkbox.enum'
@@ -50,11 +45,3 @@ export type CheckboxIconAnimatedOptions = {
         entry: AnimatedTimingOptions
         exit: AnimatedTimingOptions
 }
-
-export interface CheckboxIconLayoutProps {
-        visible?: boolean
-        zIndex?: number
-}
-
-export type CheckboxContainerProps = Pick<RenderCheckboxProps, 'density'>
-export type CheckboxContentProps = Pick<RenderCheckboxProps, 'density'>

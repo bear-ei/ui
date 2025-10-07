@@ -1,7 +1,7 @@
 import {COMPONENT_STATUS, EVENT_NAME, EventName} from '@/constants'
+import {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '@/hooks'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import type {AnimateUnderlayHoverStateOptions, UnderlayState} from './Underlay.interface'
 
 export const handleUnderlayStateChange =

@@ -1,6 +1,6 @@
+import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import {typedMemo} from '../../utils'
 import {LayoutAnimatedBase} from './Layout-animated-base.component'
 import type {LayoutAnimatedProps} from './Layout-animated.interface'
 

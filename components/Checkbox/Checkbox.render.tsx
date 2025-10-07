@@ -25,13 +25,13 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                 ref
         ) => {
                 const theme = useTheme()
-                const activeFill = error ? theme.token.scheme.error : theme.token.scheme.primary
-                const unselectedFill =
+                const activeColor = error ? theme.token.scheme.error : theme.token.scheme.primary
+                const unselectedColor =
                         value === CHECKBOX_VALUE.UNSELECTED ?
                                 theme.token.scheme.onSurfaceVariant
                         :       theme.token.scheme.primary
 
-                const checkBoxOutlineFill = error ? theme.token.scheme.error : unselectedFill
+                const checkBoxOutlineColor = error ? theme.token.scheme.error : unselectedColor
                 const shape = SHAPE.FULL
                 const checkUnderlayColor =
                         value === CHECKBOX_VALUE.UNSELECTED ?
@@ -82,7 +82,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                 <MaterialCommunityIcons
                                                                         color={
                                                                                 disabled ? disabledColor : (
-                                                                                        checkBoxOutlineFill
+                                                                                        checkBoxOutlineColor
                                                                                 )
                                                                         }
                                                                         disabled={disabled}
@@ -99,7 +99,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                 visible={isCheckBoxVisible}
                                                         >
                                                                 <MaterialCommunityIcons
-                                                                        color={disabled ? disabledColor : activeFill}
+                                                                        color={disabled ? disabledColor : activeColor}
                                                                         disabled={disabled}
                                                                         name={
                                                                                 value === CHECKBOX_VALUE.INDETERMINATE ?

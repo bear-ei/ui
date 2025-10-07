@@ -3,7 +3,6 @@ import {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {ElevationLevel} from '../Elevation'
-import type {LayoutAnimatedProps} from '../Layout-animated'
 import type {TouchableProps} from '../Touchable'
 import type {BUTTON_TYPE} from './Button.enum'
 
@@ -49,11 +48,3 @@ export interface AnimateButtonSharedValues {
         borderSharedValue: SharedValue<number>
         colorSharedValue: SharedValue<number>
 }
-
-export type ButtonContainerProps = Pick<RenderButtonProps, 'type'>
-export type ButtonContentProps = Pick<RenderButtonProps, 'type'>
-export interface ButtonMainProps extends Pick<RenderButtonProps, 'type'> {
-        iconShow: boolean
-}
-
-export interface ActiveIndicatorLayoutProps extends LayoutAnimatedProps, Pick<ButtonProps, 'linkColor'> {}

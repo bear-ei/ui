@@ -1,5 +1,5 @@
+import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
-import {typedMemo} from '../../utils'
 import type {PressableType} from '../Touchable'
 import {ButtonBase} from './Button-base.component'
 import type {ButtonProps} from './Button.interface'

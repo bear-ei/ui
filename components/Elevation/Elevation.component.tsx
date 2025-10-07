@@ -1,6 +1,6 @@
+import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import {typedMemo} from '../../utils'
 import {ElevationBase} from './Elevation-base.component'
 import type {ElevationProps} from './Elevation.interface'
 

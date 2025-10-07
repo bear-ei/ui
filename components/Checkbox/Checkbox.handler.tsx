@@ -1,7 +1,7 @@
 import {COMPONENT_STATUS, EVENT_NAME} from '@/constants'
+import {StateEvent} from '@/hooks'
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
-import type {StateEvent} from '../../hooks'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {CheckboxState, HandleCheckboxStateChangeOptions, UpdateCheckboxActiveOptions} from './Checkbox.interface'
 
