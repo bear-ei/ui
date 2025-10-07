@@ -1,7 +1,7 @@
 import {COMPONENT_STATUS} from '@/constants'
+import {useAnimatedTiming, useTheme} from '@/hooks'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
-import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {animateTouchableRipple} from './Touchable-ripple.handler'
 import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
 

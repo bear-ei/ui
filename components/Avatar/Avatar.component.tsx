@@ -1,6 +1,6 @@
+import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import {typedMemo} from '../../utils'
 import {AvatarBase} from './Avatar-base.component'
 import type {AvatarProps} from './Avatar.interface'
 

@@ -1,7 +1,7 @@
 import {EVENT_NAME, EventName} from '@/constants'
+import {StateEvent} from '@/hooks'
 import type {GestureResponderEvent} from 'react-native'
 import type {Updater} from 'use-immer'
-import type {StateEvent} from '../../hooks'
 import type {AddTouchableRippleOptions, HandleTouchableStateChangeOptions, TouchableState} from './Touchable.interface'
 
 export const handleTouchableStateChange =

@@ -41,7 +41,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                                 accessibilityRole='image'
                                 accessible={true}
                                 className={clsx(
-                                        'pointer-events-none relative h-10 w-10 overflow-hidden bg-[--color-primary-container]',
+                                        'pointer-events-none relative h-10 min-h-6 w-10 min-w-6 overflow-hidden bg-[--color-primary-container]',
                                         shapeClasses(shape)
                                 )}
                                 ref={ref}

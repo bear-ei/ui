@@ -42,7 +42,7 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
                                 {...containerProps}
                                 {...interactionHandlers}
                                 className={clsx(
-                                        'pointer-events-none absolute bg-[--color-primary-container]',
+                                        'pointer-events-none absolute bg-[--color-on-surface]',
                                         shapeClasses(SHAPE.FULL)
                                 )}
                                 ref={ref}
