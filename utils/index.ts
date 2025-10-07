@@ -1,6 +1,5 @@
 export * from './array-equal'
 export * from './debounce'
-export * from './density'
 export * from './name-path'
 export * from './text-search'
 export * from './throttle'

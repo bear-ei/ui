@@ -16,7 +16,7 @@ export const debounceAsync = <T extends (...args: any[]) => unknown>(func?: T) =
                 }
 
         return (delay: number) => {
-                let timeoutId: NodeJS.Timeout
+                let timeoutId: NodeJS.Timeout | number
                 let lastResolve: (value?: Awaited<ReturnType<T>>) => void
 
                 return (...args: Parameters<T>) => {
@@ -36,7 +36,7 @@ export const debounceAsync = <T extends (...args: any[]) => unknown>(func?: T) =
 export const debounce =
         <T extends (...args: any[]) => unknown>(func?: T) =>
         (delay: number) => {
-                let timeoutId: NodeJS.Timeout
+                let timeoutId: NodeJS.Timeout | number
 
                 return (...args: Parameters<T>) => {
                         if (timeoutId) {
