@@ -1,5 +1,4 @@
 import {EVENT_NAME, EventName} from '@/constants'
-import {nanoid} from 'nanoid'
 import type {GestureResponderEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {StateEvent} from '../../hooks'
@@ -14,7 +13,7 @@ export const handleTouchableStateChange =
                         setState(draft => {
                                 draft.contentLayout.height = height
                                 draft.contentLayout.width = width
-                                draft.rippleSequence[nanoid()] = touchableLocation
+                                draft.rippleSequence[Date.now()] = touchableLocation
                         })
                 }
 

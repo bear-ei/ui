@@ -2,7 +2,6 @@ import {shapeClasses} from '@/constants'
 import {clsx} from 'clsx'
 import {forwardRef, type FC} from 'react'
 import {Pressable, View} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {TouchableRipple} from './Touchable-ripple'
 import type {PressableType, RenderTouchableProps, RenderTouchableRippleProps} from './Touchable.interface'
 
@@ -53,13 +52,6 @@ export const RenderTouchable = forwardRef<PressableType, RenderTouchableProps>(
                         testID={testID ?? `touchable--${id}`}
                         className='flex-1 self-stretch'
                 >
-                        <Animated.View
-                                className={'pointer-events-none absolute bg-[--color-primary-container]'}
-                                ref={ref}
-                                // style={containerStyle}
-                                testID={testID ?? `touchableRipple--${id}`}
-                        />
-
                         <Pressable
                                 {...touchableProps}
                                 {...interactionHandlers}

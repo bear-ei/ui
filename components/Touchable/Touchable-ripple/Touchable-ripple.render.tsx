@@ -1,11 +1,13 @@
 import {shapeClasses} from '@/constants'
-import {useTheme} from '@/hooks'
 import {SHAPE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
+import {cssInterop} from 'nativewind'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
+
+cssInterop(Animated.View, {className: 'style'})
 
 export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps>(
         (
@@ -23,20 +25,17 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
                 },
                 ref
         ) => {
-                const theme = useTheme()
                 const containerStyle = [
                         style,
                         {
                                 ...(underlayColor && {backgroundColor: underlayColor}),
                                 height: size,
-                                left: locationY,
-                                top: locationX,
+                                left: locationX,
+                                top: locationY,
                                 width: size
                         },
                         containerAnimatedStyle
                 ]
-
-                console.info(containerStyle)
 
                 return (
                         <Animated.View
@@ -44,11 +43,10 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
                                 {...interactionHandlers}
                                 className={clsx(
                                         'pointer-events-none absolute bg-[--color-primary-container]',
-                                        // theme.token.opacity.level2.classes,
                                         shapeClasses(SHAPE.FULL)
                                 )}
                                 ref={ref}
-                                // style={containerStyle}
+                                style={containerStyle}
                                 testID={testID ?? `touchableRipple--${id}`}
                         />
                 )

@@ -46,7 +46,7 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
 
                 const {containerAnimatedStyle} = useTouchableRippleAnimated({
                         indexKey,
-                        // onAnimateFinished,
+                        onAnimateFinished,
                         radius,
                         status
                 })
