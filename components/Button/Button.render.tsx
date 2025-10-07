@@ -1,6 +1,6 @@
 import {EVENT_NAME, EventName, shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import {View} from 'react-native'
@@ -26,6 +26,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, type = BU
                 [theme.token.scheme.onPrimary, theme.token.scheme.onSecondaryContainer, theme.token.scheme.primary]
         )
 
+        const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5.opacity)
         const size = theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall
 
         if (!icon) {
@@ -34,7 +35,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, type = BU
 
         return cloneElement(icon, {
                 disabled,
-                color: color[type],
+                color: disabled ? disabledColor : color[type],
                 size,
                 testID: `button__icon--${id}`
         })
@@ -162,7 +163,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 
                                                         <Animated.Text
                                                                 className={clsx(
-                                                                        'text-center',
+                                                                        'select-none text-center',
                                                                         typographyClasses(
                                                                                 isLink ?
                                                                                         TYPOGRAPHY.BODY

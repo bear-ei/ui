@@ -1,4 +1,4 @@
-import Ionicons from '@expo/vector-icons/Ionicons'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import type {Meta, StoryObj} from '@storybook/react'
 import {Button} from './Button.component'
 import {BUTTON_TYPE} from './Button.enum'
@@ -26,7 +26,7 @@ export const Text: StoryObj<ButtonProps> = {
 
 export const TextIcon: StoryObj<ButtonProps> = {
         args: {
-                icon: <Ionicons name='checkmark-circle' />,
+                icon: <MaterialCommunityIcons name='circle' />,
                 labelText: 'Label',
                 type: BUTTON_TYPE.TEXT
         }
@@ -55,7 +55,7 @@ export const Link: StoryObj<ButtonProps> = {
 
 export const Icon: StoryObj<ButtonProps> = {
         args: {
-                icon: <Ionicons name='checkmark-circle' />,
+                icon: <MaterialCommunityIcons name='circle' />,
                 labelText: 'Label'
         }
 }

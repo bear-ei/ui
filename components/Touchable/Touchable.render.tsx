@@ -49,20 +49,20 @@ export const RenderTouchable = forwardRef<PressableType, RenderTouchableProps>(
                 ref
         ) => (
                 <View
-                        testID={testID ?? `touchable--${id}`}
                         className='flex-1 self-stretch'
+                        testID={testID ?? `touchable--${id}`}
                 >
                         <Pressable
                                 {...touchableProps}
                                 {...interactionHandlers}
+                                className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
                                 ref={ref}
                                 testID={`touchable__pressable--${id}`}
-                                className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
                         >
                                 <View
-                                        testID={`touchable__main--${id}`}
-                                        style={[contentStyle]}
                                         className={clsx('relative z-[12] self-stretch', shapeClasses(shape))}
+                                        style={[contentStyle]}
+                                        testID={`touchable__main--${id}`}
                                 >
                                         {children}
                                         <View
