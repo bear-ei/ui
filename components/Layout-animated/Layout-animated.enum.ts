@@ -1,0 +1,7 @@
+export const LAYOUT_ANIMATED = {
+        COLLAPSE_X: 'COLLAPSE_X',
+        COLLAPSE_Y: 'COLLAPSE_Y',
+        FADE: 'FADE',
+        SCALE: 'SCALE',
+        STANDARD: 'STANDARD'
+} as const
