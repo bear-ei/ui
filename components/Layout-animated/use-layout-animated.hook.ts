@@ -41,7 +41,11 @@ export const useLayoutAnimated = ({
                 [animatedTiming, exit, onAnimationFinished]
         )
 
-        const opacityOutputRanges = useMemo(() => [theme.token.opacity.level0.opacity, opacity], [opacity, theme])
+        const opacityOutputRanges = useMemo(
+                () => [theme.token.opacity.level0.opacity, opacity],
+                [opacity, theme.token.opacity.level0.opacity]
+        )
+
         const fadeAnimatedStyle = useAnimatedStyle(() => ({
                 opacity: interpolate(containerSharedValue.value, [0, 1], opacityOutputRanges)
         }))

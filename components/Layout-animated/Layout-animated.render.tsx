@@ -6,7 +6,17 @@ import type {RenderLayoutAnimatedProps} from './Layout-animated.interface'
 
 export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
         (
-                {children, containerAnimatedStyle, id, interactionHandlers, style, testID, visible, ...containerProps},
+                {
+                        children,
+                        className,
+                        containerAnimatedStyle,
+                        id,
+                        interactionHandlers,
+                        style,
+                        testID,
+                        visible,
+                        ...containerProps
+                },
                 ref
         ) => {
                 const {onLayout} = interactionHandlers
@@ -14,7 +24,11 @@ export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
                 return (
                         <Animated.View
                                 {...containerProps}
-                                className={clsx('flex flex-col', {['pointer-events-none -z-[4096]']: !visible})}
+                                className={clsx(
+                                        'flex flex-col',
+                                        {['pointer-events-none -z-[4096]']: !visible},
+                                        className
+                                )}
                                 onLayout={onLayout}
                                 ref={ref}
                                 style={[style, containerAnimatedStyle]}

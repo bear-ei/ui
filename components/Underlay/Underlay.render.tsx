@@ -26,7 +26,7 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
                         {...interactionHandlers}
                         ref={ref}
                         className={clsx(
-                                'pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-[-4] flex flex-col items-center justify-center overflow-hidden',
+                                'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-[4] flex flex-col items-center justify-center overflow-hidden',
                                 shapeClasses(shape)
                         )}
                         testID={testID ?? `underlay--${id}`}

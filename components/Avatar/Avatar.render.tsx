@@ -12,7 +12,6 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                         accessibilityLabel,
                         backgroundColor,
                         defaultSource,
-                        density,
                         id,
                         labelText,
                         shape = SHAPE.FULL,
@@ -28,15 +27,13 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                 const contentItemClasses =
                         'absolute bottom-0 left-0 right-0 top-0 flex flex-row items-center justify-center'
 
-                const containerStyle = [
-                        backgroundColor ? {backgroundColor} : {},
-                        size ? {width: size, height: size} : {}
-                ]
-
                 return (
                         <View
                                 {...containerProps}
-                                style={containerStyle}
+                                style={[
+                                        {...(backgroundColor && {backgroundColor})},
+                                        {...(typeof size === 'number' && {width: size, height: size})}
+                                ]}
                                 accessibilityLabel={accessibilityLabel ?? labelText}
                                 accessibilityRole='image'
                                 accessible={true}

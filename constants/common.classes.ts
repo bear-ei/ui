@@ -6,4 +6,4 @@ export const shapeClasses = (shape = SHAPE.NONE as ShapeType) => createShape()[s
 export const typographyClasses =
         (typography = TYPOGRAPHY.BODY as TypographyType) =>
         (size = SIZE.MEDIUM as Size) =>
-                clsx(createTypography()[typography][size], 'font-sans')
+                clsx(createTypography()[typography][size], 'font-sans color-[--color-on-surface]')

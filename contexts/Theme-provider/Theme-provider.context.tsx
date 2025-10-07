@@ -1,11 +1,19 @@
 import {CONTRAST, createToken, PALETTE, SCHEME, Token} from '@bearei/theme-token'
-import {useColorScheme} from 'nativewind'
+import {cssInterop, useColorScheme} from 'nativewind'
 import {createContext, useId, type FC} from 'react'
 import {View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
+import Animated from 'react-native-reanimated'
 import {ModalProvider} from '../Modal-provider'
 import {processCssVariables} from './Theme-provider.handler'
 import type {ThemeContextOptions, ThemeProviderProps} from './Theme-provider.interface'
+
+/**
+ * FIXME:
+ *
+ * Temporarily trigger Animated to correctly handle nativewind style
+ */
+cssInterop(Animated.View, {className: 'style'})
 
 export const ThemeContext = createContext<ThemeContextOptions>({
         theme: {colorScheme: 'light', token: {} as Token}
