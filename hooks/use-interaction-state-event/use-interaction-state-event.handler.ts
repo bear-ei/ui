@@ -1,11 +1,5 @@
 import {EVENT_NAME, STATE, State} from '@/constants'
-import type {
-        GestureResponderEvent,
-        LayoutChangeEvent,
-        MouseEvent,
-        NativeSyntheticEvent,
-        TargetedEvent
-} from 'react-native'
+import type {BlurEvent, FocusEvent, GestureResponderEvent, LayoutChangeEvent, MouseEvent} from 'react-native'
 import type {
         HandleStateEventChangeOptions,
         HandleStateEventOptions,
@@ -87,7 +81,7 @@ export const handleHoverOutEvent =
 export const handleFocusEvent =
         ({interactionHandlers}: HandleStateEventOptions) =>
         (onFocus?: InteractionHandlers['onFocus']) =>
-        (event: NativeSyntheticEvent<TargetedEvent>) =>
+        (event: FocusEvent) =>
                 interactionHandlers({callback: () => onFocus?.(event), eventName: EVENT_NAME.FOCUS})(STATE.FOCUSED)(
                         event
                 )
@@ -95,7 +89,7 @@ export const handleFocusEvent =
 export const handleBlurEvent =
         ({interactionHandlers}: HandleStateEventOptions) =>
         (onBlur?: InteractionHandlers['onBlur']) =>
-        (event: NativeSyntheticEvent<TargetedEvent>) =>
+        (event: BlurEvent) =>
                 interactionHandlers({callback: () => onBlur?.(event), eventName: EVENT_NAME.BLUR})(STATE.ENABLED)(event)
 
 export const handleLayoutEvent =

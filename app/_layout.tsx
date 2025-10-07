@@ -1,20 +1,17 @@
-import {DefaultTheme, ThemeProvider} from '@react-navigation/native'
 import {Stack} from 'expo-router'
-import {StatusBar} from 'expo-status-bar'
 import {FC} from 'react'
 import 'react-native-reanimated'
 import '../global.css'
 
+const StorybookEnabled = process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === 'true'
 const RootLayout: FC = () => (
-        <ThemeProvider value={DefaultTheme}>
-                <Stack>
-                        <Stack.Screen
-                                name='(tabs)'
-                                options={{headerShown: false}}
-                        />
-                </Stack>
-                <StatusBar style='auto' />
-        </ThemeProvider>
+        <Stack screenOptions={{headerShown: false}}>
+                <Stack.Protected guard={StorybookEnabled}>
+                        <Stack.Screen name='(storybook)' />
+                </Stack.Protected>
+
+                <Stack.Screen name='(pages)' />
+        </Stack>
 )
 
 export default RootLayout

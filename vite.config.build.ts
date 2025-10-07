@@ -36,7 +36,10 @@ const config = defineConfig({
                 rnw({
                         babel: {
                                 presets: ['nativewind/babel'],
-                                plugins: ['react-native-worklets/plugin']
+                                plugins: [
+                                        '@babel/plugin-proposal-export-namespace-from',
+                                        'react-native-worklets/plugin'
+                                ]
                         },
                         jsxImportSource: 'nativewind',
                         jsxRuntime: 'automatic'

@@ -8,10 +8,7 @@ import {processCssVariables} from './Theme-provider.handler'
 import type {ThemeContextOptions, ThemeProviderProps} from './Theme-provider.interface'
 
 export const ThemeContext = createContext<ThemeContextOptions>({
-        theme: {
-                colorScheme: 'light',
-                token: {} as Token
-        }
+        theme: {colorScheme: 'light', token: {} as Token}
 })
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({children}) => {

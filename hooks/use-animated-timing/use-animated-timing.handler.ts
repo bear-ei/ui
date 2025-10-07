@@ -1,4 +1,5 @@
-import {Easing, runOnJS, withRepeat, withTiming, type AnimationCallback} from 'react-native-reanimated'
+import {Easing, withRepeat, withTiming, type AnimationCallback} from 'react-native-reanimated'
+import {scheduleOnRN} from 'react-native-worklets'
 import type {CreateAnimatedTimingOptions} from './use-animated-timing.interface'
 
 export const createAnimatedTiming =
@@ -14,7 +15,7 @@ export const createAnimatedTiming =
                                 'worklet'
 
                                 if (callback) {
-                                        runOnJS(callback)(finished)
+                                        scheduleOnRN(callback, finished)
                                 }
                         }
                 )

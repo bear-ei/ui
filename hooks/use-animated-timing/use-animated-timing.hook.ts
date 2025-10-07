@@ -1,6 +1,6 @@
 import {DURATION, EASING} from '@bearei/theme-token'
 import {useCallback} from 'react'
-import {runOnJS} from 'react-native-reanimated'
+import {scheduleOnRN} from 'react-native-worklets'
 import {createAnimatedTiming} from './use-animated-timing.handler'
 import type {
         AnimatedTimingOptions,
@@ -33,7 +33,7 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
                                                 sharedValue.value = toValue
 
                                                 if (callback) {
-                                                        runOnJS(callback)(true)
+                                                        scheduleOnRN(callback, true)
                                                 }
 
                                                 return

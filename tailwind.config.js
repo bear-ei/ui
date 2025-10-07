@@ -1,11 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
         // NOTE: Update this to include the paths to all files that contain Nativewind classes.
-        content: ['./app/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}', './stories/**/*.{js,jsx,ts,tsx}'],
+        darkMode: 'class',
+        content: ['./app/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
         presets: [require('nativewind/preset')],
         theme: {
                 extend: {}
         },
+        plugins: [],
         safelist: [
                 'font-medium',
                 'font-mono',
@@ -78,6 +80,5 @@ module.exports = {
                 'tracking-wide',
                 'tracking-wider',
                 'tracking-widest'
-        ],
-        plugins: []
+        ]
 }
