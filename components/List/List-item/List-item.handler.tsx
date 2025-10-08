@@ -197,7 +197,7 @@ export const confirmListItemAffordanceAction =
  * Otherwise the Text-field-picker will lose focus.
  */
 export const updateListItemFocusState =
-        (itemIndex?: number) => (pressableRef: React.RefObject<PressableType>) => (focusedIndex?: number) =>
+        (itemIndex?: number) => (pressableRef: React.RefObject<PressableType | null>) => (focusedIndex?: number) =>
                 typeof focusedIndex === 'number' && itemIndex === focusedIndex && pressableRef.current?.focus()
 
 export const maybeTriggerListItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => () => {

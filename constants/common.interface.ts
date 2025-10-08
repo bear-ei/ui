@@ -1,6 +1,5 @@
 import type {Bezier, Elevation, Font, Palette, Shadow, Shape, Size, Spacing, Typography} from '@bearei/theme-token'
-import type {RefAttributes} from 'react'
-import type {LayoutRectangle as RNLayoutRectangle, TextProps, View, ViewProps} from 'react-native'
+import type {LayoutRectangle as RNLayoutRectangle} from 'react-native'
 import type {COMPONENT_STATUS, EVENT_NAME, LAYOUT, STATE, TRIGGER_EVENT} from './common.enum'
 
 export type BezierType = keyof Bezier
@@ -16,20 +15,14 @@ export type SpacingType = keyof Spacing
 export type State = (typeof STATE)[keyof typeof STATE]
 export type TriggerEvent = (typeof TRIGGER_EVENT)[keyof typeof TRIGGER_EVENT]
 export type TypographyType = keyof Typography
-export interface ShapeProps extends ViewProps, RefAttributes<View> {
-        shape?: ShapeType
-}
-
-export interface TypographyProps extends TextProps {
-        line?: number
-        multiline?: boolean
-        size?: Size
-        type?: TypographyType
-}
-
 export interface LayoutRectangle extends RNLayoutRectangle {
         left?: number
         pageX?: number
         pageY?: number
         top?: number
+}
+
+export interface CommonProps {
+        size?: Size
+        shape?: ShapeType
 }

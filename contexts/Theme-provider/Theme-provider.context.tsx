@@ -14,6 +14,7 @@ import type {ThemeContextOptions, ThemeProviderProps} from './Theme-provider.int
  * Temporarily trigger Animated to correctly handle nativewind style
  */
 cssInterop(Animated.View, {className: 'style'})
+cssInterop(Animated.Text, {className: 'style'})
 
 export const ThemeContext = createContext<ThemeContextOptions>({
         theme: {colorScheme: 'light', token: {} as Token}

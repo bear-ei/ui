@@ -15,8 +15,9 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                         id,
                         labelText,
                         shape = SHAPE.FULL,
-                        size,
+                        size = SIZE.MEDIUM,
                         source,
+                        style,
                         svgElement,
                         testID,
                         ...containerProps
@@ -24,29 +25,29 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                 ref
         ) => {
                 const isSVG = !!svgElement
-                const contentItemClasses =
-                        'absolute bottom-0 left-0 right-0 top-0 flex flex-row items-center justify-center'
 
                 return (
                         <View
                                 {...containerProps}
-                                style={[
-                                        {...(backgroundColor && {backgroundColor})},
-                                        {...(typeof size === 'number' && {width: size, height: size})}
-                                ]}
+                                className={clsx(
+                                        'pointer-events-none relative overflow-hidden bg-[--color-primary-container]',
+                                        {
+                                                ['h-12 w-12']: size === SIZE.LARGE,
+                                                ['h-10 w-10']: size === SIZE.MEDIUM,
+                                                ['h-8 w-8']: size === SIZE.SMALL
+                                        },
+                                        shapeClasses(shape)
+                                )}
+                                style={[{...(backgroundColor && {backgroundColor})}, style]}
                                 accessibilityLabel={accessibilityLabel ?? labelText}
                                 accessibilityRole='image'
                                 accessible={true}
-                                className={clsx(
-                                        'pointer-events-none relative h-10 min-h-6 w-10 min-w-6 overflow-hidden bg-[--color-primary-container]',
-                                        shapeClasses(shape)
-                                )}
                                 ref={ref}
                                 testID={testID ?? `avatar--${id}`}
                         >
                                 {isSVG && (
                                         <View
-                                                className={contentItemClasses}
+                                                className='absolute bottom-0 left-0 right-0 top-0 flex flex-row items-center justify-center'
                                                 testID={`avatar__contentItem--svg--${id}`}
                                         >
                                                 {cloneElement(svgElement, {height: '100%', width: '100%'})}
@@ -55,7 +56,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 
                                 {!isSVG && (
                                         <View
-                                                className={contentItemClasses}
+                                                className='absolute bottom-0 left-0 right-0 top-0 flex flex-row items-center justify-center'
                                                 testID={`avatar__contentItem--img--${id}`}
                                         >
                                                 {source || defaultSource ?

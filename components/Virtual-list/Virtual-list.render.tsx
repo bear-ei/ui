@@ -1,0 +1,155 @@
+import {COMPONENT_STATUS, LAYOUT, typographyClasses} from '@/constants'
+import {SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {clsx} from 'clsx'
+import {cloneElement, forwardRef, type ForwardedRef} from 'react'
+import {ScrollView, Text, View} from 'react-native'
+import Animated from 'react-native-reanimated'
+import {LayoutAnimated} from '../Layout-animated'
+import {VirtualListItem, type RenderVirtualListItemInfo} from './Virtual-list-item'
+import type {RenderVirtualListItemOptions, RenderVirtualListProps} from './Virtual-list.interface'
+
+export const RenderVirtualListItem = <T,>({
+        containerLayout,
+        data,
+        draggable,
+        id,
+        onLoadEnd,
+        renderItem,
+        ...virtualListItemProps
+}: RenderVirtualListItemOptions<T>) => {
+        if (data?.length === 0) {
+                onLoadEnd?.()
+
+                return
+        }
+
+        return (
+                <>
+                        {data?.map((item, index) => (
+                                <VirtualListItem
+                                        {...virtualListItemProps}
+                                        {...(index === data.length - 1 && {onLoadEnd})}
+                                        {...(draggable && {containerLayout})}
+                                        draggable={draggable}
+                                        item={item}
+                                        key={`${(item?.indexKey as string) ?? index}`}
+                                        testID={`virtualList__virtualListItem--${id}`}
+                                        renderItem={
+                                                renderItem as (
+                                                        options: RenderVirtualListItemInfo<Record<string, unknown>>
+                                                ) => React.JSX.Element
+                                        }
+                                />
+                        ))}
+                </>
+        )
+}
+
+export const RenderVirtualListInner = <T,>(
+        {
+                contentAnimatedStyle,
+                contentSize,
+                emptyElement,
+                emptyList,
+                id,
+                interactionHandlers,
+                itemElements,
+                containerLayout,
+                loading,
+                loadingElement,
+                scrollEventThrottle = 50,
+                status,
+                testID,
+                layoutType,
+                ...containerProps
+        }: RenderVirtualListProps<T>,
+        ref: React.ForwardedRef<Animated.ScrollView>
+) => {
+        const {onLayout} = interactionHandlers
+        const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
+        const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
+        const isLayoutCompleted =
+                typeof containerLayout?.height === 'number' && (containerLayout.height > 0 || containerLayout.width > 0)
+
+        return (
+                <View
+                        className='relative flex-1 self-stretch'
+                        onLayout={onLayout}
+                        testID={testID ?? `virtualList--${id}`}
+                >
+                        {isLayoutCompleted && (
+                                <LayoutAnimated
+                                        testID={`virtualList__contentLayout--${id}`}
+                                        visible={isContentVisible}
+                                        className='absolute bottom-0 left-0 right-0 top-0'
+                                >
+                                        <Animated.ScrollView
+                                                {...containerProps}
+                                                contentContainerStyle={{
+                                                        ...(layoutType === LAYOUT.VERTICAL && {minHeight: contentSize}),
+                                                        ...(layoutType === LAYOUT.HORIZONTAL && {
+                                                                minWidth: contentSize
+                                                        }),
+                                                        alignSelf: 'stretch',
+                                                        flex: 1
+                                                }}
+                                                horizontal={layoutType === LAYOUT.HORIZONTAL}
+                                                ref={ref}
+                                                scrollEventThrottle={scrollEventThrottle}
+                                                testID={`virtualList__animatedScrollView--${id}`}
+                                        >
+                                                <Animated.View
+                                                        className='relative flex-1'
+                                                        style={contentAnimatedStyle}
+                                                        testID={`virtualList__animatedContent--${id}`}
+                                                >
+                                                        {itemElements}
+                                                </Animated.View>
+                                        </Animated.ScrollView>
+                                </LayoutAnimated>
+                        )}
+
+                        <LayoutAnimated
+                                lazy={true}
+                                testID={`virtualList__emptyContentLayout--${id}`}
+                                visible={isEmptyContentVisible}
+                                className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
+                        >
+                                {emptyElement ?? (
+                                        <Text
+                                                className={clsx(
+                                                        typographyClasses(TYPOGRAPHY.BODY)(SIZE.MEDIUM),
+                                                        'color-[--color-on-surface-variant]'
+                                                )}
+                                                testID={`virtualList__supportingText--${id}`}
+                                        >
+                                                No data
+                                        </Text>
+                                )}
+                        </LayoutAnimated>
+
+                        <LayoutAnimated
+                                lazy={true}
+                                testID={`virtualList__loadingContentLayout--${id}`}
+                                visible={loading}
+                        >
+                                {loadingElement ?
+                                        cloneElement(loadingElement, {loading})
+                                :       <Text
+                                                className={clsx(
+                                                        typographyClasses(TYPOGRAPHY.BODY)(SIZE.MEDIUM),
+                                                        'color-[--color-on-surface-variant]'
+                                                )}
+                                                testID={`virtualList__supportingText--${id}`}
+                                        >
+                                                Loading
+                                        </Text>
+                                }
+                        </LayoutAnimated>
+                </View>
+        )
+}
+
+export const RenderVirtualList = forwardRef(RenderVirtualListInner) as <T>(
+        props: RenderVirtualListProps<T> & {ref?: ForwardedRef<ScrollView>}
+) => ReturnType<typeof RenderVirtualListInner>

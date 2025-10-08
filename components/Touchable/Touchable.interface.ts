@@ -1,4 +1,4 @@
-import {LayoutRectangle, ShapeProps} from '@/constants'
+import {CommonProps, LayoutRectangle} from '@/constants'
 import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {NativeTouchEvent, Pressable, PressableProps, StyleProp, View, ViewStyle} from 'react-native'
@@ -7,9 +7,10 @@ import type {TouchableRippleProps} from './Touchable-ripple'
 export type PressableType = typeof Pressable & View
 export interface TouchableProps
         extends Omit<
-                PressableProps & Pick<ShapeProps, 'shape'> & RefAttributes<PressableType> & InteractionHandlers,
-                'children' | 'disabled' | 'hitSlop' | 'style'
-        > {
+                        PressableProps & RefAttributes<PressableType> & InteractionHandlers,
+                        'children' | 'disabled' | 'hitSlop' | 'style'
+                >,
+                CommonProps {
         backgroundUnderlay?: React.JSX.Element
         centered?: boolean
         children?: React.JSX.Element

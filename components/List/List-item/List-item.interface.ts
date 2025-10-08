@@ -25,7 +25,6 @@ export interface ListItemProps
                         | 'afterAffordanceSecondaryButtonProps'
                         | 'beforeAffordance'
                         | 'closeTrailing'
-                        | 'density'
                         | 'divider'
                         | 'enableUnderlay'
                         | 'enableUnderlayActive'
@@ -133,10 +132,10 @@ export interface TriggerListItemTrailingActionsOptions
         onClose: (close?: boolean) => void
 }
 
-export type ListItemContainerProps = Pick<RenderListItemProps, 'type' | 'density'>
+export type ListItemContainerProps = Pick<RenderListItemProps, 'type'>
 export type ListItemContentProps = Pick<RenderListItemProps, 'type'>
 export interface ListItemMainProps
-        extends Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'density'>,
+        extends Pick<RenderListItemProps, 'supportingTextNumberOfLines'>,
                 ListItemContentProps {
         supportingTextShow?: boolean
         trailingShow?: boolean

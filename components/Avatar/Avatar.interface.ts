@@ -1,12 +1,11 @@
-import {ShapeProps} from '@/constants'
+import {CommonProps} from '@/constants'
 import type {JSX, RefAttributes} from 'react'
 import type {ImageSourcePropType, ImageURISource, View, ViewProps} from 'react-native'
 
-export interface AvatarProps extends ViewProps, RefAttributes<View>, ShapeProps {
+export interface AvatarProps extends ViewProps, RefAttributes<View>, CommonProps {
         backgroundColor?: string
         defaultSource?: ImageURISource | number
         labelText?: string
-        size?: number
         source?: ImageSourcePropType
         svgElement?: JSX.Element
 }

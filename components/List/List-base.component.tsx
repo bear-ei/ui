@@ -26,7 +26,6 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                         closeTrailing,
                         defaultActiveKey,
                         defaultActiveKeys,
-                        density,
                         deselect,
                         divider,
                         enableUnderlay,
@@ -73,7 +72,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                 const listRef = useRef<ScrollView>(null)
                 const id = useId()
                 const theme = useTheme()
-                const itemSize = createListItemSize({density, type})(theme)(rawItemSize)
+                const itemSize = createListItemSize({type})(theme)(rawItemSize)
                 const onActive = useMemo(
                         () => updateListActiveState({onActive: rawOnActive, selectType, onActives, deselect})(setState),
                         [deselect, onActives, rawOnActive, selectType, setState]
@@ -102,7 +101,6 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                                         afterAffordanceSecondaryButtonProps,
                                         beforeAffordance,
                                         closeTrailing,
-                                        density,
                                         divider,
                                         enableUnderlay,
                                         enableUnderlayActive,
@@ -133,7 +131,6 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                                 closeTrailing,
                                 defaultActiveKey,
                                 defaultActiveKeys,
-                                density,
                                 divider,
                                 enableUnderlay,
                                 enableUnderlayActive,

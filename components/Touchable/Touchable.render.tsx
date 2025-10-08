@@ -48,38 +48,33 @@ export const RenderTouchable = forwardRef<PressableType, RenderTouchableProps>(
                 }: RenderTouchableProps,
                 ref
         ) => (
-                <View
-                        className='flex-1 self-stretch'
+                <Pressable
+                        {...touchableProps}
+                        {...interactionHandlers}
+                        className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
+                        ref={ref}
                         testID={testID ?? `touchable--${id}`}
                 >
-                        <Pressable
-                                {...touchableProps}
-                                {...interactionHandlers}
-                                className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
-                                ref={ref}
-                                testID={`touchable__pressable--${id}`}
+                        <View
+                                className={clsx('relative z-30 flex-1 self-stretch', shapeClasses(shape))}
+                                style={[contentStyle]}
+                                testID={`touchable__main--${id}`}
                         >
+                                {children}
                                 <View
-                                        className={clsx('relative z-30 self-stretch', shapeClasses(shape))}
-                                        style={[contentStyle]}
-                                        testID={`touchable__main--${id}`}
+                                        className={clsx(
+                                                'absolute bottom-0 left-0 right-0 top-0 overflow-hidden',
+                                                shapeClasses(shape)
+                                        )}
+                                        testID={`touchable__rippleLayout--${id}`}
                                 >
-                                        {children}
-                                        <View
-                                                className={clsx(
-                                                        'absolute bottom-0 left-0 right-0 top-0 overflow-hidden',
-                                                        shapeClasses(shape)
-                                                )}
-                                                testID={`touchable__rippleLayout--${id}`}
-                                        >
-                                                {rippleElements}
-                                        </View>
-
-                                        {backgroundUnderlay}
-                                        {elevationUnderlay}
+                                        {rippleElements}
                                 </View>
-                        </Pressable>
-                </View>
+
+                                {backgroundUnderlay}
+                                {elevationUnderlay}
+                        </View>
+                </Pressable>
         )
 )
 

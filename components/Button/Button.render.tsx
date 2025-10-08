@@ -2,7 +2,7 @@ import {EVENT_NAME, EventName, shapeClasses, typographyClasses} from '@/constant
 import {useTheme} from '@/hooks'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
-import {cloneElement, forwardRef, useMemo, type FC} from 'react'
+import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Elevation} from '../Elevation'
@@ -14,29 +14,24 @@ import type {ButtonType, RenderButtonIconProps, RenderButtonProps} from './Butto
 
 export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, type = BUTTON_TYPE.FILLED, id, icon}) => {
         const theme = useTheme()
-        const color = useMemo(
-                () =>
-                        ({
-                                [BUTTON_TYPE.ELEVATED]: theme.token.scheme.primary,
-                                [BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,
-                                [BUTTON_TYPE.LINK]: theme.token.scheme.primary,
-                                [BUTTON_TYPE.TEXT]: theme.token.scheme.primary,
-                                [BUTTON_TYPE.TONAL]: theme.token.scheme.onSecondaryContainer
-                        }) as Record<ButtonType, string>,
-                [theme.token.scheme.onPrimary, theme.token.scheme.onSecondaryContainer, theme.token.scheme.primary]
-        )
+        const color = {
+                [BUTTON_TYPE.ELEVATED]: theme.token.scheme.primary,
+                [BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,
+                [BUTTON_TYPE.LINK]: theme.token.scheme.primary,
+                [BUTTON_TYPE.TEXT]: theme.token.scheme.primary,
+                [BUTTON_TYPE.TONAL]: theme.token.scheme.onSecondaryContainer
+        } as Record<ButtonType, string>
 
         const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5.opacity)
-        const size = theme.token.spacing.large + -1.5 * theme.token.spacing.extraSmall
 
         if (!icon) {
                 return <></>
         }
 
         return cloneElement(icon, {
-                disabled,
                 color: disabled ? disabledColor : color[type],
-                size,
+                disabled,
+                size: theme.token.spacing.large - theme.token.spacing.extraSmall,
                 testID: `button__icon--${id}`
         })
 }
@@ -56,6 +51,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                         labelTextAnimatedStyle,
                         linkColor,
                         loading,
+                        size = SIZE.MEDIUM,
                         testID,
                         type = BUTTON_TYPE.FILLED,
                         underlayColor,
@@ -78,7 +74,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                 const isLink = type === BUTTON_TYPE.LINK
                 const buttonTypes = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]
                 const loadingEventName = type && buttonTypes.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
-                const shape = isLink ? SHAPE.EXTRA_SMALL : SHAPE.FULL
+                const shape = isLink ? SHAPE.EXTRA_SMALL_TOP : SHAPE.FULL
                 const backgroundUnderlayElement = (
                         <Animated.View
                                 className={clsx(
@@ -99,6 +95,10 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                 />
                         :       <></>
 
+                console.info(
+                        typographyClasses(isLink ? TYPOGRAPHY.BODY : TYPOGRAPHY.LABEL)(isLink ? SIZE.SMALL : SIZE.LARGE)
+                )
+
                 return (
                         <View
                                 accessibilityLabel={accessibilityLabel ?? `Button: ${labelText}`}
@@ -107,9 +107,12 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                 accessible={true}
                                 tabIndex={-1}
                                 testID={testID ?? `button--${id}`}
-                                className={clsx('h-10 min-w-20 cursor-pointer', {
+                                className={clsx('cursor-pointer', {
+                                        ['h-12 min-w-20']: size === SIZE.LARGE,
+                                        ['h-10 min-w-20']: size === SIZE.MEDIUM,
+                                        ['h-8 min-w-20']: size === SIZE.SMALL,
                                         ['min-w-14']: type === BUTTON_TYPE.TEXT,
-                                        ['h-auto min-h-4 min-w-6']: type === BUTTON_TYPE.LINK
+                                        ['h-4 min-w-6']: type === BUTTON_TYPE.LINK
                                 })}
                         >
                                 <Touchable
@@ -126,27 +129,17 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                         <View
                                                 testID={`button__content--${id}`}
                                                 className={clsx(
-                                                        'pointer-events-none relative z-10 flex flex-col items-center justify-center overflow-hidden',
-                                                        {
-                                                                ['min-w-20']: !(
-                                                                        [
-                                                                                BUTTON_TYPE.TEXT,
-                                                                                BUTTON_TYPE.LINK
-                                                                        ] as readonly ButtonType[]
-                                                                ).includes(type),
-                                                                ['h-10']: type !== BUTTON_TYPE.LINK,
-                                                                ['min-w-14']: type === BUTTON_TYPE.TEXT,
-                                                                ['h-4 min-w-4']: type === BUTTON_TYPE.LINK
-                                                        },
+                                                        'pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center self-stretch overflow-hidden',
                                                         shapeClasses(shape)
                                                 )}
                                         >
                                                 <View
-                                                        testID={`button__main--${id}`}
                                                         className={clsx(
-                                                                'z-10 flex flex-1 flex-row items-center justify-center gap-2 self-stretch pb-0 pl-4 pr-4 pt-0',
+                                                                'z-10 flex flex-1 flex-row items-center justify-center gap-2 self-stretch pb-0 pt-0',
+                                                                {['pl-4 pr-4']: type !== BUTTON_TYPE.LINK},
                                                                 {['pl-1 pr-1']: type === BUTTON_TYPE.LINK}
                                                         )}
+                                                        testID={`button__main--${id}`}
                                                 >
                                                         {iconElement && !isLink && (
                                                                 <View

@@ -90,7 +90,7 @@ export const updateListActiveState = ({
 }
 
 export const createListItemSize =
-        ({density, type}: CreateListItemSizeOptions) =>
+        ({type}: CreateListItemSizeOptions) =>
         (theme: Theme) =>
         (itemSize?: number) => {
                 if (itemSize) {
@@ -150,6 +150,7 @@ export const triggerListClose =
 
 export const createListItemRenderer =
         ({renderItem, ...options}: CreateRenderListItemOptions) =>
+        // eslint-disable-next-line react/display-name
         (props: RenderVirtualListItemInfo<ListData>) =>
                 renderItem ?
                         renderItem({...options, ...props})

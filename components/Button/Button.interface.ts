@@ -1,4 +1,4 @@
-import {ComponentStatus, EventName} from '@/constants'
+import {CommonProps, ComponentStatus, EventName} from '@/constants'
 import {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
@@ -7,7 +7,7 @@ import type {TouchableProps} from '../Touchable'
 import type {BUTTON_TYPE} from './Button.enum'
 
 export type ButtonType = (typeof BUTTON_TYPE)[keyof typeof BUTTON_TYPE]
-export interface ButtonProps extends TouchableProps {
+export interface ButtonProps extends TouchableProps, CommonProps {
         error?: boolean
         icon?: React.JSX.Element
         labelText?: string

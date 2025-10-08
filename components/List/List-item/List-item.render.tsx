@@ -106,7 +106,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         closeTrailing,
                         contentAnimatedStyle,
                         contentStyle,
-                        density = 0,
                         disabled,
                         divider,
                         enableUnderlay,

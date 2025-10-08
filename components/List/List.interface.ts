@@ -100,7 +100,6 @@ export type CreateRenderListItemOptions = Pick<
         | 'beforeAffordance'
         | 'closeTrailing'
         | 'defaultActiveKey'
-        | 'density'
         | 'dependencies'
         | 'divider'
         | 'enableUnderlay'
@@ -123,7 +122,7 @@ export type CreateRenderListItemOptions = Pick<
         | 'type'
 >
 
-export type CreateListItemSizeOptions = Pick<RenderListProps, 'density' | 'type'>
+export type CreateListItemSizeOptions = Pick<RenderListProps, 'type'>
 export type ListBaseProps = ListProps
 export type ListContainerProps = Pick<RenderListProps, 'layoutType'>
 export type UpdateListActiveStateOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>

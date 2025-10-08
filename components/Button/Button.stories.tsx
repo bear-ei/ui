@@ -1,3 +1,4 @@
+import {SIZE} from '@bearei/theme-token'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import type {Meta, StoryObj} from '@storybook/react'
 import {Button} from './Button.component'
@@ -65,6 +66,18 @@ export const Err: StoryObj<ButtonProps> = {
                 labelText: 'Label',
                 error: true
         }
+}
+
+export const Medium: StoryObj<ButtonProps> = {
+        args: {size: SIZE.MEDIUM}
+}
+
+export const Large: StoryObj<ButtonProps> = {
+        args: {size: SIZE.LARGE}
+}
+
+export const Small: StoryObj<ButtonProps> = {
+        args: {size: SIZE.SMALL}
 }
 
 export default {
