@@ -1,8 +1,7 @@
-import {COMPONENT_STATUS, DURATION, State} from '@/constants'
+import {COMPONENT_STATUS, State} from '@/constants'
 import {HandleStateEventChangeOptions, StateEvent, useClearComponentEvent, useInteractionStateEvent} from '@/hooks'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
-import {LAYOUT_ANIMATED} from '../Layout-animated'
 import type {PressableType} from '../Touchable'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import {
@@ -11,7 +10,7 @@ import {
         updateCheckboxIndeterminate,
         updateCheckboxStatus
 } from './Checkbox.handler'
-import type {CheckboxBaseProps, CheckboxIconAnimatedOptions, CheckboxState} from './Checkbox.interface'
+import type {CheckboxBaseProps, CheckboxState} from './Checkbox.interface'
 import {RenderCheckbox} from './Checkbox.render'
 
 export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
@@ -22,16 +21,6 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
                 useClearComponentEvent(setState)
 
                 const id = useId()
-                const animatedOptions = useMemo(
-                        () =>
-                                ({
-                                        animatedType: LAYOUT_ANIMATED.SCALE,
-                                        entry: {duration: DURATION.SHORT_2},
-                                        exit: {duration: DURATION.SHORT_1}
-                                }) as CheckboxIconAnimatedOptions,
-                        []
-                )
-
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleCheckboxStateChange({
@@ -77,7 +66,6 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
                 return (
                         <RenderCheckbox
                                 {...renderCheckboxProps}
-                                animatedOptions={animatedOptions}
                                 disabled={disabled}
                                 error={error}
                                 eventName={eventName}

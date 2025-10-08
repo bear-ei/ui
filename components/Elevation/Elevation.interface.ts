@@ -1,11 +1,11 @@
-import {ShapeProps} from '@/constants'
+import {CommonProps} from '@/constants'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ELEVATION} from './Elevation.enum'
 
 export type ElevationLevel = (typeof ELEVATION)[keyof typeof ELEVATION]
-export interface ElevationProps extends ViewProps, RefAttributes<View>, Pick<ShapeProps, 'shape'> {
+export interface ElevationProps extends ViewProps, RefAttributes<View>, CommonProps {
         defaultLevel?: ElevationLevel
         level?: ElevationLevel
 }

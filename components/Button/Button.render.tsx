@@ -95,10 +95,6 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                 />
                         :       <></>
 
-                console.info(
-                        typographyClasses(isLink ? TYPOGRAPHY.BODY : TYPOGRAPHY.LABEL)(isLink ? SIZE.SMALL : SIZE.LARGE)
-                )
-
                 return (
                         <View
                                 accessibilityLabel={accessibilityLabel ?? `Button: ${labelText}`}
@@ -135,7 +131,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                         >
                                                 <View
                                                         className={clsx(
-                                                                'z-10 flex flex-1 flex-row items-center justify-center gap-2 self-stretch pb-0 pt-0',
+                                                                'z-10 flex flex-1 flex-row items-center justify-center gap-2 self-stretch',
                                                                 {['pl-4 pr-4']: type !== BUTTON_TYPE.LINK},
                                                                 {['pl-1 pr-1']: type === BUTTON_TYPE.LINK}
                                                         )}
@@ -157,7 +153,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                                                 isLink ?
                                                                                         TYPOGRAPHY.BODY
                                                                                 :       TYPOGRAPHY.LABEL
-                                                                        )(isLink ? SIZE.SMALL : SIZE.LARGE)
+                                                                        )(isLink ? SIZE.SMALL : SIZE.LARGE)()
                                                                 )}
                                                                 ellipsizeMode='tail'
                                                                 numberOfLines={1}

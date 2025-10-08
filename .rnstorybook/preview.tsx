@@ -9,7 +9,7 @@ const preview: Preview = {
                         <ThemeProvider>
                                 <View
                                         testID='story'
-                                        style={{minHeight: 800, minWidth: 800}}
+                                        style={{height: 800, width: 800}}
                                 >
                                         <Story />
                                 </View>

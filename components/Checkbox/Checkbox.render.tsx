@@ -1,9 +1,10 @@
 import {useTheme} from '@/hooks'
-import {hexToRGBA, SHAPE} from '@bearei/theme-token'
+import {DURATION, hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import {LayoutAnimated} from '../Layout-animated'
+import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
@@ -12,12 +13,12 @@ import type {CheckboxValue, RenderCheckboxProps} from './Checkbox.interface'
 export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
         (
                 {
-                        animatedOptions,
                         disabled,
                         error,
                         eventName,
                         id,
                         interactionHandlers,
+                        size = SIZE.MEDIUM,
                         testID,
                         value,
                         ...touchableProps
@@ -46,13 +47,22 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                 value
                         )
 
+                const iconSize =
+                        size === SIZE.SMALL ?
+                                theme.token.spacing.large - theme.token.spacing.extraSmall
+                        :       theme.token.spacing.large
+
                 return (
                         <View
                                 accessibilityLabel='checkbox'
                                 accessibilityRole='checkbox'
                                 accessibilityState={{disabled}}
                                 accessible={true}
-                                className='h-10 w-10'
+                                className={clsx({
+                                        ['h-12 w-12']: size === SIZE.LARGE,
+                                        ['h-10 w-10']: size === SIZE.MEDIUM,
+                                        ['h-8 w-8']: size === SIZE.SMALL
+                                })}
                                 tabIndex={-1}
                                 testID={testID ?? `checkbox--${id}`}
                         >
@@ -60,7 +70,6 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                         {...touchableProps}
                                         {...interactionHandlers}
                                         centered={true}
-                                        contentStyle={{alignSelf: 'center'}}
                                         disabled={disabled}
                                         ref={ref}
                                         shape={shape}
@@ -68,7 +77,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                         underlayColor={underlayColor}
                                 >
                                         <View
-                                                className='pointer-events-none relative z-10 h-10 w-10 overflow-hidden'
+                                                className='pointer-events-none relative z-10 flex flex-1 self-stretch overflow-hidden'
                                                 testID={`checkbox__content--${id}`}
                                         >
                                                 <View
@@ -87,14 +96,16 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                         }
                                                                         disabled={disabled}
                                                                         name='checkbox-blank-outline'
-                                                                        size={theme.token.spacing.large}
+                                                                        size={iconSize}
                                                                         testID={`checkbox__icon--blank--${id}`}
                                                                 />
                                                         </View>
 
                                                         <LayoutAnimated
-                                                                {...animatedOptions}
+                                                                animatedType={LAYOUT_ANIMATED.SCALE}
                                                                 className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
+                                                                entry={{duration: DURATION.SHORT_2}}
+                                                                exit={{duration: DURATION.SHORT_1}}
                                                                 testID={`checkbox__iconLayout--selected--${id}`}
                                                                 visible={isCheckBoxVisible}
                                                         >
@@ -106,7 +117,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                                         'checkbox-intermediate'
                                                                                 :       'checkbox-marked'
                                                                         }
-                                                                        size={theme.token.spacing.large}
+                                                                        size={iconSize}
                                                                         testID={`checkbox__icon--selected--${id}`}
                                                                 />
                                                         </LayoutAnimated>

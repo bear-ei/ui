@@ -14,7 +14,6 @@ export interface TouchableProps
         backgroundUnderlay?: React.JSX.Element
         centered?: boolean
         children?: React.JSX.Element
-        contentStyle?: StyleProp<ViewStyle>
         disabled?: boolean
         elevationUnderlay?: React.JSX.Element
         enableTouchableRipple?: boolean

@@ -5,7 +5,7 @@ import {Divider} from './Divider.component'
 import type {DividerProps} from './Divider.interface'
 
 export const Horizontal: StoryObj<DividerProps> = {
-        args: {size: SIZE.LARGE}
+        args: {layoutType: LAYOUT.HORIZONTAL}
 }
 
 export const Subheader: StoryObj<DividerProps> = {
@@ -13,7 +13,19 @@ export const Subheader: StoryObj<DividerProps> = {
 }
 
 export const Vertical: StoryObj<DividerProps> = {
-        args: {size: SIZE.LARGE, layoutType: LAYOUT.VERTICAL}
+        args: {layoutType: LAYOUT.VERTICAL}
+}
+
+export const Medium: StoryObj<DividerProps> = {
+        args: {size: SIZE.MEDIUM}
+}
+
+export const Large: StoryObj<DividerProps> = {
+        args: {size: SIZE.LARGE}
+}
+
+export const Small: StoryObj<DividerProps> = {
+        args: {size: SIZE.SMALL}
 }
 
 export default {
