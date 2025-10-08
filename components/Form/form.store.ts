@@ -1,5 +1,4 @@
-import type {NamePath} from '../../utils'
-import {namePath} from '../../utils'
+import {namePath, NamePath} from '@/utils'
 import {createFormFieldValidator} from './Form.handler'
 import type {
         FormCallbacks,

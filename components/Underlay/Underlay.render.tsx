@@ -26,13 +26,13 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
                         {...interactionHandlers}
                         ref={ref}
                         className={clsx(
-                                'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-[4] flex flex-col items-center justify-center overflow-hidden',
+                                'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10 flex flex-col items-center justify-center overflow-hidden',
                                 shapeClasses(shape)
                         )}
                         testID={testID ?? `underlay--${id}`}
                 >
                         <Animated.View
-                                className='absolute bottom-0 left-0 right-0 top-0 z-[8]'
+                                className='absolute bottom-0 left-0 right-0 top-0 z-20'
                                 style={[
                                         {...(underlayColor && {backgroundColor: underlayColor})},
                                         hoverLayerAnimatedStyle
@@ -42,7 +42,7 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
 
                         {typeof active === 'boolean' && activeColor && (
                                 <Animated.View
-                                        className='absolute bottom-0 left-0 right-0 top-0 z-[4]'
+                                        className='absolute bottom-0 left-0 right-0 top-0 z-10'
                                         style={[
                                                 {...(activeColor && {backgroundColor: activeColor})},
                                                 activeLayerAnimatedStyle

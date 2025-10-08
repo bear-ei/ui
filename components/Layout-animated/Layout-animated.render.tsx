@@ -24,11 +24,7 @@ export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
                 return (
                         <Animated.View
                                 {...containerProps}
-                                className={clsx(
-                                        'flex flex-col',
-                                        {['pointer-events-none -z-[4096]']: !visible},
-                                        className
-                                )}
+                                className={clsx('flex flex-col', {['pointer-events-none -z-40']: !visible}, className)}
                                 onLayout={onLayout}
                                 ref={ref}
                                 style={[style, containerAnimatedStyle]}

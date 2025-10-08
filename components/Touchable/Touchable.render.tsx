@@ -60,7 +60,7 @@ export const RenderTouchable = forwardRef<PressableType, RenderTouchableProps>(
                                 testID={`touchable__pressable--${id}`}
                         >
                                 <View
-                                        className={clsx('relative z-[12] self-stretch', shapeClasses(shape))}
+                                        className={clsx('relative z-30 self-stretch', shapeClasses(shape))}
                                         style={[contentStyle]}
                                         testID={`touchable__main--${id}`}
                                 >

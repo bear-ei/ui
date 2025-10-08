@@ -68,11 +68,11 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                         underlayColor={underlayColor}
                                 >
                                         <View
-                                                className='pointer-events-none relative z-[4] h-10 w-10 overflow-hidden'
+                                                className='pointer-events-none relative z-10 h-10 w-10 overflow-hidden'
                                                 testID={`checkbox__content--${id}`}
                                         >
                                                 <View
-                                                        className='relative z-[4] flex-1 self-stretch'
+                                                        className='relative z-10 flex-1 self-stretch'
                                                         testID={`checkbox__main--${id}`}
                                                 >
                                                         <View

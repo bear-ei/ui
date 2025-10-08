@@ -9,7 +9,7 @@ export const RenderElevation = forwardRef<View, RenderElevationProps>(
         ({id, level, shadowAnimatedStyle, shape, testID, ...containerProps}, ref) => (
                 <View
                         {...containerProps}
-                        className='absolute bottom-0 left-0 right-0 top-0 -z-[8] flex flex-col items-center justify-center bg-transparent'
+                        className='absolute bottom-0 left-0 right-0 top-0 -z-20 flex flex-col items-center justify-center bg-transparent'
                         ref={ref}
                         testID={testID ?? `elevation--${id}`}
                 >

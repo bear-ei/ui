@@ -1,4 +1,5 @@
 import type {Preview} from '@storybook/react-native-web-vite'
+import {View} from 'react-native'
 import {ThemeProvider} from '../contexts'
 import '../global.css'
 
@@ -6,7 +7,12 @@ const preview: Preview = {
         decorators: [
                 Story => (
                         <ThemeProvider>
-                                <Story />
+                                <View
+                                        testID='story'
+                                        style={{minHeight: 800, minWidth: 800}}
+                                >
+                                        <Story />
+                                </View>
                         </ThemeProvider>
                 )
         ],

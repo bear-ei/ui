@@ -1,8 +1,8 @@
-import {CommonProps, ShapeProps} from '@/constants'
+import {ShapeProps} from '@/constants'
 import type {JSX, RefAttributes} from 'react'
 import type {ImageSourcePropType, ImageURISource, View, ViewProps} from 'react-native'
 
-export interface AvatarProps extends ViewProps, RefAttributes<View>, CommonProps, ShapeProps {
+export interface AvatarProps extends ViewProps, RefAttributes<View>, ShapeProps {
         backgroundColor?: string
         defaultSource?: ImageURISource | number
         labelText?: string

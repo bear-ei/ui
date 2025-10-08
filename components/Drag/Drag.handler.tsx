@@ -1,4 +1,5 @@
 import {EVENT_NAME, EventName, LAYOUT, LayoutRectangle} from '@/constants'
+import {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '@/hooks'
 import type {LayoutChangeEvent} from 'react-native'
 import type {
         GestureStateChangeEvent,
@@ -7,7 +8,6 @@ import type {
 } from 'react-native-gesture-handler'
 import {scheduleOnRN} from 'react-native-worklets'
 import type {Updater} from 'use-immer'
-import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import type {
         AnimateDragOptions,
         DragState,

@@ -77,7 +77,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                 const backgroundUnderlayElement = (
                         <Animated.View
                                 className={clsx(
-                                        'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-[4]',
+                                        'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
                                         shapeClasses(shape)
                                 )}
                                 style={[backgroundUnderlayAnimatedStyle]}
@@ -121,7 +121,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                                 >
                                         <View
                                                 className={clsx(
-                                                        'pointer-events-none relative z-[4] flex items-center justify-center',
+                                                        'pointer-events-none relative z-10 flex items-center justify-center',
                                                         {
                                                                 ['h-10 w-10']: size === SIZE.SMALL,
                                                                 ['h-14 w-14']: size === SIZE.MEDIUM,
@@ -133,7 +133,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                                         >
                                                 <View
                                                         className={clsx(
-                                                                'z-[4] flex flex-1 flex-row items-center justify-center self-stretch',
+                                                                'z-10 flex flex-1 flex-row items-center justify-center self-stretch',
                                                                 {
                                                                         ['pb-0 pl-2 pr-2 pt-0']: size === SIZE.SMALL,
                                                                         ['pb-0 pl-4 pr-4 pt-0']: size === SIZE.MEDIUM,

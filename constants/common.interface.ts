@@ -27,10 +27,6 @@ export interface TypographyProps extends TextProps {
         type?: TypographyType
 }
 
-export interface CommonProps {
-        density?: number
-}
-
 export interface LayoutRectangle extends RNLayoutRectangle {
         left?: number
         pageX?: number

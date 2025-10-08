@@ -11,14 +11,14 @@ export const RenderDrag = forwardRef<View, RenderDragProps>(
                 return (
                         <View
                                 {...containerProps}
-                                className='pointer-events-box-none absolute bottom-0 left-0 right-0 top-0 z-[1024] min-h-6 min-w-6'
+                                className='pointer-events-box-none absolute bottom-0 left-0 right-0 top-0 z-40 min-h-6 min-w-6'
                                 onLayout={onLayout}
                                 ref={ref}
                                 testID={testID ?? `drag--${id}`}
                         >
                                 <GestureDetector gesture={panGesture}>
                                         <Animated.View
-                                                className='absolute bottom-0 left-0 right-0 top-0 z-[1024]'
+                                                className='absolute bottom-0 left-0 right-0 top-0 z-40'
                                                 style={[animatedStyle]}
                                                 testID={`drag__content--${id}`}
                                         >

@@ -1,9 +1,9 @@
 import {ComponentStatus, LayoutType} from '@/constants'
+import {NamePath} from '@/utils'
 import type {ValidationError, ValidatorOptions} from 'class-validator'
 import type {ForwardedRef, RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 import type {Updater} from 'use-immer'
-import type {NamePath} from '../../utils'
 import type {FormItemProps} from './Form-item'
 
 export type FormErrors<T> = Partial<Record<keyof T, ValidationError[] | undefined>>

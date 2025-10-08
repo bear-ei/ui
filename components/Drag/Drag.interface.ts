@@ -1,4 +1,4 @@
-import {CommonProps, LayoutRectangle, LayoutType} from '@/constants'
+import {LayoutRectangle, LayoutType} from '@/constants'
 import {InteractionHandlers} from '@/hooks'
 import type React from 'react'
 import type {RefAttributes} from 'react'
@@ -15,7 +15,7 @@ export interface DragRef extends View {
         reset: () => void
 }
 
-export interface DragProps extends ViewProps, RefAttributes<View>, CommonProps {
+export interface DragProps extends ViewProps, RefAttributes<View> {
         children?: React.JSX.Element
         height?: number
         layoutType?: LayoutType

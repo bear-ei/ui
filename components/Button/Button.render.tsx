@@ -46,7 +46,6 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                 {
                         accessibilityLabel,
                         backgroundUnderlayAnimatedStyle,
-                        density,
                         disabled,
                         elevation,
                         eventName,
@@ -83,7 +82,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                 const backgroundUnderlayElement = (
                         <Animated.View
                                 className={clsx(
-                                        'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-[4]',
+                                        'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
                                         shapeClasses(shape)
                                 )}
                                 style={[backgroundUnderlayAnimatedStyle]}
@@ -127,7 +126,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                         <View
                                                 testID={`button__content--${id}`}
                                                 className={clsx(
-                                                        'pointer-events-none relative z-[4] flex flex-col items-center justify-center overflow-hidden',
+                                                        'pointer-events-none relative z-10 flex flex-col items-center justify-center overflow-hidden',
                                                         {
                                                                 ['min-w-20']: !(
                                                                         [
@@ -145,11 +144,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                 <View
                                                         testID={`button__main--${id}`}
                                                         className={clsx(
-                                                                'z-[4] flex flex-1 flex-row items-center justify-center gap-2 self-stretch pb-0 pt-0',
-                                                                {
-                                                                        ['pl-4 pr-4']: type !== BUTTON_TYPE.LINK,
-                                                                        ['pl-1 pr-1']: type === BUTTON_TYPE.LINK
-                                                                }
+                                                                'z-10 flex flex-1 flex-row items-center justify-center gap-2 self-stretch pb-0 pl-4 pr-4 pt-0',
+                                                                {['pl-1 pr-1']: type === BUTTON_TYPE.LINK}
                                                         )}
                                                 >
                                                         {iconElement && !isLink && (
@@ -182,7 +178,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                 {type === BUTTON_TYPE.LINK && (
                                                         <LayoutAnimated
                                                                 className={clsx(
-                                                                        'absolute bottom-0 left-0 right-0 z-[8] min-h-[1px] bg-[--color-primary]'
+                                                                        'absolute bottom-0 left-0 right-0 z-20 min-h-[1px] bg-[--color-primary]'
                                                                 )}
                                                                 style={[
                                                                         {...(linkColor && {backgroundColor: linkColor})}

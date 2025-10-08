@@ -1,4 +1,4 @@
-import {useLazyRef} from '../../hooks'
+import {useLazyRef} from '@/hooks'
 import type {FormStore} from './Form.interface'
 import {formStore} from './form.store'
 

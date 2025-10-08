@@ -44,6 +44,7 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
         return cloneElement(icon ?? <MaterialCommunityIcons name='circle' />, {
                 color: disabled ? disabledColor : iconColor,
                 disabled,
+                size: theme.token.spacing.large,
                 testID: `iconButton__icon--${id}`
         })
 }
@@ -77,7 +78,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                 const backgroundUnderlayElement = (
                         <Animated.View
                                 className={clsx(
-                                        'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-[4]',
+                                        'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
                                         shapeClasses(shape)
                                 )}
                                 style={[backgroundUnderlayAnimatedStyle]}
@@ -133,7 +134,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                                         >
                                                 <View
                                                         className={clsx(
-                                                                'pointer-events-none relative z-[4] flex h-10 min-h-6 w-10 min-w-6 flex-col items-center justify-center overflow-hidden',
+                                                                'pointer-events-none relative z-10 flex h-10 min-h-6 w-10 min-w-6 flex-col items-center justify-center overflow-hidden',
                                                                 shapeClasses(shape)
                                                         )}
                                                         style={[
@@ -149,7 +150,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                                                         testID={`iconButton__content--${id}`}
                                                 >
                                                         <View
-                                                                className='z-[4]'
+                                                                className='z-10'
                                                                 testID={`iconButton__main--${id}`}
                                                         >
                                                                 {iconElement}

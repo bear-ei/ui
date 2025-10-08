@@ -24,7 +24,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
                                 <Animated.View
                                         {...containerProps}
                                         className={clsx(
-                                                'pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-[4] origin-left bg-[--color-primary]',
+                                                'pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-10 origin-left bg-[--color-primary]',
                                                 shapeClasses(shape)
                                         )}
                                         style={[contentAnimatedStyle]}
@@ -42,7 +42,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
                                 {animatedType === PROGRESS_ANIMATED.DETERMINATE && (
                                         <Animated.View
                                                 className={clsx(
-                                                        'absolute right-0 top-0 z-[4] h-1 w-1 bg-[--color-primary]',
+                                                        'absolute right-0 top-0 z-10 h-1 w-1 bg-[--color-primary]',
                                                         shapeClasses(shape)
                                                 )}
                                                 testID={`progressActiveIndicatorLinear__stop--${id}`}

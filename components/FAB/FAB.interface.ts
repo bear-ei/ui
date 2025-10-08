@@ -1,4 +1,4 @@
-import {CommonProps, ComponentStatus, EventName} from '@/constants'
+import {ComponentStatus, EventName} from '@/constants'
 import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import {Size} from '@bearei/theme-token'
 import type {TextStyle, ViewStyle} from 'react-native'
@@ -8,7 +8,7 @@ import type {TouchableProps} from '../Touchable'
 import type {FAB_TYPE} from './FAB.enum'
 
 export type FABType = (typeof FAB_TYPE)[keyof typeof FAB_TYPE]
-export interface FABProps extends TouchableProps, CommonProps {
+export interface FABProps extends TouchableProps {
         disabled?: boolean
         elevated?: boolean
         extendedFAB?: boolean

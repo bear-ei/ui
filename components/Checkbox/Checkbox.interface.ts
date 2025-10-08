@@ -1,11 +1,11 @@
-import {CommonProps, ComponentStatus, EventName} from '@/constants'
+import {ComponentStatus, EventName} from '@/constants'
 import {AnimatedTiming, AnimatedTimingOptions, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {LayoutAnimatedType} from '../Layout-animated'
 import type {TouchableProps} from '../Touchable'
 import type {CHECKBOX_VALUE} from './Checkbox.enum'
 
 export type CheckboxValue = (typeof CHECKBOX_VALUE)[keyof typeof CHECKBOX_VALUE]
-export interface CheckboxProps extends TouchableProps, CommonProps {
+export interface CheckboxProps extends TouchableProps {
         active?: boolean
         defaultActive?: boolean
         disabled?: boolean

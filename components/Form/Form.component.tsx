@@ -1,7 +1,7 @@
+import {typedMemo} from '@/utils'
 import type {ForwardedRef} from 'react'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import {typedMemo} from '../../utils'
 import {FormBase} from './Form-base.component'
 import type {FormProps} from './Form.interface'
 import {useForm} from './use-form.hook'
