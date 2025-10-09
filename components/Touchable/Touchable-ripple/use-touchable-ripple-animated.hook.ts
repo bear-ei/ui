@@ -19,7 +19,7 @@ export const useTouchableRippleAnimated = ({
                 opacity: interpolate(
                         opacitySharedValue.value,
                         [0, 1],
-                        [theme.token.opacity.level0.opacity, theme.token.opacity.level2.opacity]
+                        [theme.token.opacity.level0, theme.token.opacity.level2]
                 ),
                 transform: [
                         {translateX: -radius},

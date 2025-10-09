@@ -21,7 +21,7 @@ export const useLayoutAnimated = ({
 }: UseLayoutAnimatedOptions) => {
         const containerSharedValue = useSharedValue(visible ? 1 : 0)
         const theme = useTheme()
-        const opacity = rawOpacity ?? theme.token.opacity.level10.opacity
+        const opacity = rawOpacity ?? theme.token.opacity.level10
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const createEntrySharedValueAnimator = useMemo(
                 () =>
@@ -42,8 +42,8 @@ export const useLayoutAnimated = ({
         )
 
         const opacityOutputRanges = useMemo(
-                () => [theme.token.opacity.level0.opacity, opacity],
-                [opacity, theme.token.opacity.level0.opacity]
+                () => [theme.token.opacity.level0, opacity],
+                [opacity, theme.token.opacity.level0]
         )
 
         const fadeAnimatedStyle = useAnimatedStyle(() => ({

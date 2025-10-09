@@ -33,7 +33,7 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
         ) => (
                 <Animated.View
                         {...containerProps}
-                        className={clsx('absolute left-0 right-0 top-0 flex flex-col')}
+                        className={clsx('absolute bottom-0 left-0 right-0 top-0 flex flex-col')}
                         ref={ref}
                         style={[
                                 {...(layoutType === LAYOUT.VERTICAL ? {height: itemSize} : {width: itemSize}), zIndex},

@@ -27,7 +27,7 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
                 [FAB_TYPE.TERTIARY]: theme.token.scheme.onTertiaryContainer
         } as Record<FABType, string>
 
-        const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5.opacity)
+        const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
         const iconSize = {
                 [SIZE.LARGE]: theme.token.spacing.extraLarge,
                 [SIZE.MEDIUM]: theme.token.spacing.large + theme.token.spacing.extraSmall,

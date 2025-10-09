@@ -22,7 +22,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, type = BU
                 [BUTTON_TYPE.TONAL]: theme.token.scheme.onSecondaryContainer
         } as Record<ButtonType, string>
 
-        const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5.opacity)
+        const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
 
         if (!icon) {
                 return <></>

@@ -32,8 +32,8 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 
         const headlineTextColorOutputRanges = useMemo(
                 () => [
-                        hexToRGBA(scheme.onSurface)(opacity.level10.opacity),
-                        hexToRGBA(scheme.onSecondaryContainer)(opacity.level10.opacity)
+                        hexToRGBA(scheme.onSurface)(opacity.level10),
+                        hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
                 ],
                 [opacity.level10, scheme.onSecondaryContainer, scheme.onSurface]
         )

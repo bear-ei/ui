@@ -39,7 +39,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                 theme.token.scheme.onSurfaceVariant
                         :       theme.token.scheme.primary
 
-                const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5.opacity)
+                const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
                 const underlayColor = error ? theme.token.scheme.error : checkUnderlayColor
                 const isCheckBoxVisible =
                         value &&

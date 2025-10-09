@@ -12,42 +12,42 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
         const {scheme, opacity} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
-        const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2.opacity)
-        const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5.opacity)
+        const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
+        const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
         const backgroundColorType = useMemo(
                 () => ({
                         [FAB_TYPE.SURFACE]: {
                                 inputRanges: [0, 1],
                                 outputRanges: [
                                         disabledBackgroundColor,
-                                        hexToRGBA(scheme.surfaceContainerHigh)(opacity.level10.opacity)
+                                        hexToRGBA(scheme.surfaceContainerHigh)(opacity.level10)
                                 ]
                         },
                         [FAB_TYPE.PRIMARY]: {
                                 inputRanges: [0, 1],
                                 outputRanges: [
                                         disabledBackgroundColor,
-                                        hexToRGBA(scheme.primaryContainer)(opacity.level10.opacity)
+                                        hexToRGBA(scheme.primaryContainer)(opacity.level10)
                                 ]
                         },
                         [FAB_TYPE.SECONDARY]: {
                                 inputRanges: [0, 1],
                                 outputRanges: [
                                         disabledBackgroundColor,
-                                        hexToRGBA(scheme.secondaryContainer)(opacity.level10.opacity)
+                                        hexToRGBA(scheme.secondaryContainer)(opacity.level10)
                                 ]
                         },
                         [FAB_TYPE.TERTIARY]: {
                                 inputRanges: [0, 1],
                                 outputRanges: [
                                         disabledBackgroundColor,
-                                        hexToRGBA(scheme.tertiaryContainer)(opacity.level10.opacity)
+                                        hexToRGBA(scheme.tertiaryContainer)(opacity.level10)
                                 ]
                         }
                 }),
                 [
                         disabledBackgroundColor,
-                        opacity.level10.opacity,
+                        opacity.level10,
                         scheme.primaryContainer,
                         scheme.secondaryContainer,
                         scheme.surfaceContainerHigh,
@@ -59,33 +59,24 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
                 () => ({
                         [FAB_TYPE.SURFACE]: {
                                 inputRanges: [0, 1],
-                                outputRanges: [disabledColor, hexToRGBA(scheme.primary)(opacity.level10.opacity)]
+                                outputRanges: [disabledColor, hexToRGBA(scheme.primary)(opacity.level10)]
                         },
                         [FAB_TYPE.PRIMARY]: {
                                 inputRanges: [0, 1],
-                                outputRanges: [
-                                        disabledColor,
-                                        hexToRGBA(scheme.onPrimaryContainer)(opacity.level10.opacity)
-                                ]
+                                outputRanges: [disabledColor, hexToRGBA(scheme.onPrimaryContainer)(opacity.level10)]
                         },
                         [FAB_TYPE.SECONDARY]: {
                                 inputRanges: [0, 1],
-                                outputRanges: [
-                                        disabledColor,
-                                        hexToRGBA(scheme.onSecondaryContainer)(opacity.level10.opacity)
-                                ]
+                                outputRanges: [disabledColor, hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)]
                         },
                         [FAB_TYPE.TERTIARY]: {
                                 inputRanges: [0, 1],
-                                outputRanges: [
-                                        disabledColor,
-                                        hexToRGBA(scheme.onTertiaryContainer)(opacity.level10.opacity)
-                                ]
+                                outputRanges: [disabledColor, hexToRGBA(scheme.onTertiaryContainer)(opacity.level10)]
                         }
                 }),
                 [
                         disabledColor,
-                        opacity.level10.opacity,
+                        opacity.level10,
                         scheme.onPrimaryContainer,
                         scheme.onSecondaryContainer,
                         scheme.onTertiaryContainer,

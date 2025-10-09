@@ -16,16 +16,10 @@ export const useUnderlayAnimated = ({
         status
 }: UseUnderlayAnimatedOptions) => {
         const theme = useTheme()
+        const {opacity} = theme.token
         const opacities = useMemo(
-                () =>
-                        rawOpacities?.length ? rawOpacities : (
-                                [
-                                        theme.token.opacity.level0.opacity,
-                                        theme.token.opacity.level1.opacity,
-                                        theme.token.opacity.level2.opacity
-                                ]
-                        ),
-                [rawOpacities, theme.token.opacity.level0, theme.token.opacity.level1, theme.token.opacity.level2]
+                () => (rawOpacities?.length ? rawOpacities : [opacity.level0, opacity.level1, opacity.level2]),
+                [rawOpacities, opacity.level0, opacity.level1, opacity.level2]
         )
 
         const {x: scaleX = 1.2, y: scaleY = 1.2} = activeScale ?? {}
@@ -41,38 +35,22 @@ export const useUnderlayAnimated = ({
         }))
 
         const activeLayerFadeAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(
-                        activeLayerSharedValue.value,
-                        [0, 1],
-                        [theme.token.opacity.level0.opacity, theme.token.opacity.level10.opacity]
-                )
+                opacity: interpolate(activeLayerSharedValue.value, [0, 1], [opacity.level0, opacity.level10])
         }))
 
         const activeLayerScaleXAnimatedStyle = useAnimatedStyle(() => ({
                 transform: [{scaleX: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleX])}],
-                opacity: interpolate(
-                        activeLayerSharedValue.value,
-                        [0, 1],
-                        [theme.token.opacity.level0.opacity, theme.token.opacity.level10.opacity]
-                )
+                opacity: interpolate(activeLayerSharedValue.value, [0, 1], [opacity.level0, opacity.level10])
         }))
 
         const activeLayerScaleYAnimatedStyle = useAnimatedStyle(() => ({
                 transform: [{scaleY: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY])}],
-                opacity: interpolate(
-                        activeLayerSharedValue.value,
-                        [0, 1],
-                        [theme.token.opacity.level0.opacity, theme.token.opacity.level10.opacity]
-                )
+                opacity: interpolate(activeLayerSharedValue.value, [0, 1], [opacity.level0, opacity.level10])
         }))
 
         const activeLayerScaleAnimatedStyle = useAnimatedStyle(() => ({
                 transform: [{scale: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY])}],
-                opacity: interpolate(
-                        activeLayerSharedValue.value,
-                        [0, 1],
-                        [theme.token.opacity.level0.opacity, theme.token.opacity.level10.opacity]
-                )
+                opacity: interpolate(activeLayerSharedValue.value, [0, 1], [opacity.level0, opacity.level10])
         }))
 
         const activeLayerAnimated = useMemo(

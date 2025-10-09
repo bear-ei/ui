@@ -31,7 +31,7 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
                 [ICON_BUTTON_TYPE.TONAL]: theme.token.scheme.onSecondaryContainer
         }
 
-        const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5.opacity)
+        const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
         const iconColor =
                 rawColor ?? (!loading ? color[type as keyof typeof color] : theme.token.scheme.onSurfaceVariant)
 
