@@ -1,46 +1,46 @@
+import {debounce} from '@/utils'
 import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import {debounce} from '../../utils'
 import type {AnimateSkeletonOptions, SkeletonState} from './Skeleton.interface'
 
 const updateSkeletonVisibility = (setState: Updater<SkeletonState>) => (duration?: number) => {
-	if (typeof duration === 'number' && duration >= 0) {
-		setState(draft => {
-			draft.visible = true
-		})
+        if (typeof duration === 'number' && duration >= 0) {
+                setState(draft => {
+                        draft.visible = true
+                })
 
-		debounce(() =>
-			setState(draft => {
-				draft.visible = false
-			})
-		)(duration)()
+                debounce(() =>
+                        setState(draft => {
+                                draft.visible = false
+                        })
+                )(duration)()
 
-		return
-	}
+                return
+        }
 
-	if (typeof duration === 'number' && duration < 0) {
-		setState(draft => {
-			draft.visible = true
-		})
-	}
+        if (typeof duration === 'number' && duration < 0) {
+                setState(draft => {
+                        draft.visible = true
+                })
+        }
 }
 
 export const updateSkeletonDuration = (setState: Updater<SkeletonState>) => (duration?: number) =>
-	updateSkeletonVisibility(setState)(duration)
+        updateSkeletonVisibility(setState)(duration)
 
 export const animateSkeleton =
-	({animateSharedValueTo, enableAnimated}: AnimateSkeletonOptions) =>
-	(opacitySharedValue: SharedValue<number>) =>
-	(visible?: boolean) => {
-		if (!enableAnimated) {
-			return
-		}
+        ({animateSharedValueTo, enableAnimated}: AnimateSkeletonOptions) =>
+        (opacitySharedValue: SharedValue<number>) =>
+        (visible?: boolean) => {
+                if (!enableAnimated) {
+                        return
+                }
 
-		if (visible) {
-			animateSharedValueTo({sharedValue: opacitySharedValue})(2)
+                if (visible) {
+                        animateSharedValueTo({sharedValue: opacitySharedValue})(2)
 
-			return
-		}
+                        return
+                }
 
-		cancelAnimation(opacitySharedValue)
-	}
+                cancelAnimation(opacitySharedValue)
+        }

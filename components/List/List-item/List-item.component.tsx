@@ -1,5 +1,5 @@
+import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
-import {typedMemo} from '../../../utils'
 import {ListItemBase} from './List-item-base.component'
 import {compareListItemProps} from './List-item.handler'
 import type {ListItemProps, ListItemRef} from './List-item.interface'

@@ -1,7 +1,7 @@
 import {Theme} from '@/contexts'
+import {arrayEqual} from '@/utils'
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
-import {arrayEqual} from '../../utils'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
 import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 import type {

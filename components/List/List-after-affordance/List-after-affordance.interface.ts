@@ -1,9 +1,8 @@
 import {ComponentStatus} from '@/constants'
+import {InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {GestureResponderEvent, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {InteractionHandlers} from '../../../hooks'
-import type {LayoutAnimatedProps} from '../../Layout-animated'
 import type {ListItemProps} from '../List-item'
 
 export interface ListAfterAffordanceProps
@@ -47,8 +46,4 @@ export interface UseListAfterAffordanceAnimatedOptions extends Pick<RenderListAf
 export interface ListItemAfterAffordancePressOutOptions {
         doubleConfirmed?: boolean
         indexKey?: string
-}
-
-export interface ListItemAfterAffordanceContainerProps extends LayoutAnimatedProps {
-        disabled?: boolean
 }

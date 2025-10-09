@@ -1,3 +1,5 @@
+import {PressableType, Touchable} from '@/components/Touchable'
+import {Underlay} from '@/components/Underlay'
 import {typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {SIZE, TYPOGRAPHY} from '@bearei/theme-token'
@@ -5,8 +7,6 @@ import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Touchable, type PressableType} from '../../Touchable'
-import {Underlay} from '../../Underlay'
 import type {RenderListAffordanceButtonProps} from './List-affordance-button.interface'
 
 export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAffordanceButtonProps>(
@@ -48,7 +48,6 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                                         {...touchableProps}
                                         {...interactionHandlers}
                                         backgroundUnderlay={backgroundUnderlayElement}
-                                        contentStyle={{flex: 1}}
                                         disabled={disabled}
                                         ref={ref}
                                         testID={`listAffordanceButton__touchable--${id}`}

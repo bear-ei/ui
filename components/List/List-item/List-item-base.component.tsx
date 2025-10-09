@@ -1,13 +1,8 @@
 import {COMPONENT_STATUS, State} from '@/constants'
+import {HandleStateEventChangeOptions, StateEvent, useClearComponentEvent, useInteractionStateEvent} from '@/hooks'
+import {debounce} from '@/utils'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {useImmer} from 'use-immer'
-import {
-        useClearComponentEvent,
-        useInteractionStateEvent,
-        type HandleStateEventChangeOptions,
-        type StateEvent
-} from '../../../hooks'
-import {debounce} from '../../../utils'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
         confirmListItemAffordanceAction,

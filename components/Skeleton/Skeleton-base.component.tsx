@@ -1,7 +1,7 @@
+import {debounce} from '@/utils'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {debounce} from '../../utils'
 import {updateSkeletonDuration} from './Skeleton.handler'
 import type {SkeletonBaseProps, SkeletonState} from './Skeleton.interface'
 import {RenderSkeleton} from './Skeleton.render'

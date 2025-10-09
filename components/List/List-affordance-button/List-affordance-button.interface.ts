@@ -1,8 +1,8 @@
+import {TouchableProps} from '@/components/Touchable'
 import {EventName} from '@/constants'
+import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
-import type {TouchableProps} from '../../Touchable'
 
 export interface ListAffordanceButtonProps extends TouchableProps {
         backgroundVisible?: boolean
@@ -30,4 +30,3 @@ export type UseListAffordanceButtonAnimatedOptions = Pick<
 >
 
 export type HandleListAffordanceButtonStateChangeOptions = HandleStateEventChangeOptions
-export type ListAffordanceButtonContainerProps = Pick<RenderListAffordanceButtonProps, 'disabled'>

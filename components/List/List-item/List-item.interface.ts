@@ -1,10 +1,10 @@
+import {IconButtonProps} from '@/components/Icon-button'
+import {PressableType, TouchableProps} from '@/components/Touchable'
 import {ComponentStatus, EventName, State} from '@/constants'
 import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {IconButtonProps} from '../../Icon-button'
-import type {PressableType, TouchableProps} from '../../Touchable'
 import type {ListAffordanceButtonProps} from '../List-affordance-button'
 import type {ListProps} from '../List.interface'
 

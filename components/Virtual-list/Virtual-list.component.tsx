@@ -1,7 +1,7 @@
+import {typedMemo} from '@/utils'
 import type {ForwardedRef} from 'react'
 import {forwardRef} from 'react'
 import type {ScrollView} from 'react-native'
-import {typedMemo} from '../../utils'
 import {VirtualListBase} from './Virtual-list-base.component'
 import type {VirtualListProps} from './Virtual-list.interface'
 

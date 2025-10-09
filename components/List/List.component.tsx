@@ -1,6 +1,6 @@
+import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
 import type {ScrollView} from 'react-native'
-import {typedMemo} from '../../utils'
 import {ListBase} from './List-base.component'
 import type {ListProps} from './List.interface'
 

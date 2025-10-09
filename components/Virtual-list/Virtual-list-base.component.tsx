@@ -1,11 +1,16 @@
 import {COMPONENT_STATUS, LAYOUT, LayoutRectangle, State} from '@/constants'
+import {
+        HandleStateEventChangeOptions,
+        StateEvent,
+        useClearComponentEvent,
+        useDesktopScrollEvent,
+        useInteractionStateEvent
+} from '@/hooks'
+import {debounce} from '@/utils'
 import type {ForwardedRef} from 'react'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo} from 'react'
 import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
-import type {HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {useClearComponentEvent, useDesktopScrollEvent, useInteractionStateEvent} from '../../hooks'
-import {debounce} from '../../utils'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
         closeVirtualList,
@@ -174,11 +179,11 @@ const VirtualListBaseInner = <T,>(
                         id,
                         itemSize,
                         layoutType,
+                        onClose,
                         onDragEnd,
                         onDragStart,
                         onDragUpdate,
                         onLoadEnd,
-                        onClose,
                         renderItem,
                         scrollOffset,
                         shape,

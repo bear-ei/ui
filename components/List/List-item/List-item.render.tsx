@@ -1,4 +1,8 @@
+import {Divider} from '@/components/Divider'
+import {ICON_BUTTON_TYPE, IconButton} from '@/components/Icon-button'
 import {LayoutAnimated} from '@/components/Layout-animated'
+import {Skeleton} from '@/components/Skeleton'
+import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
 import {EVENT_NAME, LAYOUT, shapeClasses, TRIGGER_EVENT, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {DURATION, EASING, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
@@ -7,9 +11,6 @@ import {clsx} from 'clsx'
 import {cloneElement, forwardRef, isValidElement, useCallback, useMemo, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
 import Animated from 'react-native-reanimated'
-import {Divider} from '../../Divider'
-import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
-import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_LEADING_TYPE, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {ListType} from '../List.interface'
@@ -30,17 +31,6 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
         const {disabled: isDisabled, ...restTrailingProps} = useMemo(() => rawTrailingProps ?? {}, [rawTrailingProps])
-        // const density = useMemo(
-        //         () => ({
-        //                 [LIST_TYPE.LABEL]: -2,
-        //                 [LIST_TYPE.MENU]: 0,
-        //                 [LIST_TYPE.STANDARD]: 0
-        //         }),
-        //         []
-        // )
-
-        // const iconButtonDensity = density[type]
-        // const iconDensity = iconButtonDensity / 2
         const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
         const trailingProps = useMemo(
                 () => ({
@@ -50,7 +40,6 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                         disabled: isDisabled ?? disabled,
                         testID: `listItem__trailing--${id}`,
                         type: ICON_BUTTON_TYPE.STANDARD
-                        // density: iconButtonDensity
                 }),
                 [disabled, id, interactionHandlers, isDisabled, onHoverIn, restTrailingProps, trailingTriggerEvent]
         )
@@ -154,7 +143,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         [active, activeColor, enableUnderlayActive, selectType]
                 )
 
-                // const leadingDensity = type === LIST_TYPE.LABEL ? -1 : 0
                 const size = type === LIST_TYPE.LABEL ? SIZE.MEDIUM : SIZE.LARGE
                 const isLines = (supportingTextNumberOfLines ?? 0) > 1
                 const mainElement = (
@@ -247,7 +235,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                 <Animated.Text
                                                                                         className={typographyClasses(
                                                                                                 TYPOGRAPHY.BODY
-                                                                                        )(size)}
+                                                                                        )(size)()}
                                                                                         ellipsizeMode='tail'
                                                                                         numberOfLines={1}
                                                                                         style={[
@@ -396,15 +384,14 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 )}
                         >
                                 {skeletonElement ?
-                                        // <Skeleton
-                                        //         duration={skeletonDuration}
-                                        //         layoutType={LAYOUT.HORIZONTAL}
-                                        //         skeleton={skeletonElement}
-                                        //         testID={`listItem__skeleton--${id}`}
-                                        // >
-                                        //         {mainElement}
-                                        // </Skeleton>
-                                        <></>
+                                        <Skeleton
+                                                duration={skeletonDuration}
+                                                layoutType={LAYOUT.HORIZONTAL}
+                                                skeleton={skeletonElement}
+                                                testID={`listItem__skeleton--${id}`}
+                                        >
+                                                {mainElement}
+                                        </Skeleton>
                                 :       mainElement}
                         </View>
                 )

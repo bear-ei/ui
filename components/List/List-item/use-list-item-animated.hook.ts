@@ -1,8 +1,8 @@
 import {COMPONENT_STATUS} from '@/constants'
+import {useAnimatedTiming, useTheme} from '@/hooks'
 import {hexToRGBA} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
-import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {animateListItemActiveState, animateListItemAffordanceVisibility} from './List-item.handler'
 import type {UseListItemAnimatedOptions} from './List-item.interface'
 
