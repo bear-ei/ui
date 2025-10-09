@@ -35,6 +35,8 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
 
                 const id = useId()
                 const size = progressSize[rawSize]
+
+                console.info(size)
                 const strokeWidth = rawStrokeWidth ?? theme.token.spacing.extraSmall
                 const radius = (size - strokeWidth) / 2
                 const circumference = 2 * Math.PI * radius

@@ -15,7 +15,7 @@ export const RenderProgress = forwardRef<View, RenderProgressProps>(
                         defaultValue,
                         enableAnimated,
                         id,
-                        size,
+                        size = SIZE.MEDIUM,
                         strokeWidth,
                         testID,
                         type = PROGRESS_TYPE.LINEAR,

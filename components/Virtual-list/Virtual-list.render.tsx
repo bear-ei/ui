@@ -47,6 +47,7 @@ export const RenderVirtualListItem = <T,>({
 
 export const RenderVirtualListInner = <T,>(
         {
+                containerLayout,
                 contentAnimatedStyle,
                 contentSize,
                 emptyElement,
@@ -54,13 +55,12 @@ export const RenderVirtualListInner = <T,>(
                 id,
                 interactionHandlers,
                 itemElements,
-                containerLayout,
+                layoutType,
                 loading,
                 loadingElement,
                 scrollEventThrottle = 50,
                 status,
                 testID,
-                layoutType,
                 ...containerProps
         }: RenderVirtualListProps<T>,
         ref: React.ForwardedRef<Animated.ScrollView>
@@ -79,9 +79,9 @@ export const RenderVirtualListInner = <T,>(
                 >
                         {isLayoutCompleted && (
                                 <LayoutAnimated
+                                        className='absolute bottom-0 left-0 right-0 top-0'
                                         testID={`virtualList__contentLayout--${id}`}
                                         visible={isContentVisible}
-                                        className='absolute bottom-0 left-0 right-0 top-0'
                                 >
                                         <Animated.ScrollView
                                                 {...containerProps}
@@ -110,10 +110,10 @@ export const RenderVirtualListInner = <T,>(
                         )}
 
                         <LayoutAnimated
+                                className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
                                 lazy={true}
                                 testID={`virtualList__emptyContentLayout--${id}`}
                                 visible={isEmptyContentVisible}
-                                className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
                         >
                                 {emptyElement ?? (
                                         <Text
@@ -129,6 +129,7 @@ export const RenderVirtualListInner = <T,>(
                         </LayoutAnimated>
 
                         <LayoutAnimated
+                                className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
                                 lazy={true}
                                 testID={`virtualList__loadingContentLayout--${id}`}
                                 visible={loading}

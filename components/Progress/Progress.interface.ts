@@ -9,7 +9,6 @@ export interface ProgressProps extends ViewProps, RefAttributes<View>, CommonPro
         animatedType?: ProgressAnimated
         content?: React.JSX.Element
         defaultValue?: number
-
         strokeWidth?: number
         type?: ProgressType
         value?: number

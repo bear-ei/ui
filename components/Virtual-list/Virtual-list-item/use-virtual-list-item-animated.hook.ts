@@ -1,7 +1,7 @@
 import {COMPONENT_STATUS, LAYOUT} from '@/constants'
+import {useAnimatedTiming, useTheme} from '@/hooks'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
-import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {animateVirtualListItemScale, animateVirtualListItemTranslate} from './Virtual-list-item.handler'
 import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
