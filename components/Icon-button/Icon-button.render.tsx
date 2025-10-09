@@ -36,9 +36,11 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
                 rawColor ?? (!loading ? color[type as keyof typeof color] : theme.token.scheme.onSurfaceVariant)
 
         const iconSize = {
+                [SIZE.EXTRA_LARGE]: theme.token.spacing.large + theme.token.spacing.small,
                 [SIZE.LARGE]: theme.token.spacing.large + theme.token.spacing.extraSmall,
                 [SIZE.MEDIUM]: theme.token.spacing.large,
-                [SIZE.SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall
+                [SIZE.SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall,
+                [SIZE.EXTRA_SMALL]: theme.token.spacing.large - theme.token.spacing.small
         }
 
         return cloneElement(icon ?? <MaterialCommunityIcons name='circle' />, {
@@ -97,6 +99,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                                         ['h-12 w-12']: size === SIZE.LARGE,
                                         ['h-10 w-10']: size === SIZE.MEDIUM,
                                         ['h-8 w-8']: size === SIZE.SMALL,
+                                        ['h-6 w-6']: size === SIZE.EXTRA_SMALL,
                                         ['pointer-events-none']: loading
                                 })}
                         >

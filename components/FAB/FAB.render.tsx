@@ -29,9 +29,11 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
 
         const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
         const iconSize = {
+                [SIZE.EXTRA_LARGE]: theme.token.spacing.large + theme.token.spacing.medium,
                 [SIZE.LARGE]: theme.token.spacing.extraLarge,
                 [SIZE.MEDIUM]: theme.token.spacing.large + theme.token.spacing.extraSmall,
-                [SIZE.SMALL]: theme.token.spacing.large
+                [SIZE.SMALL]: theme.token.spacing.large,
+                [SIZE.EXTRA_SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall
         }
 
         if (!icon) {
@@ -69,6 +71,8 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                 ref
         ) => {
                 const shapeSize = {
+                        [SIZE.EXTRA_LARGE]: SHAPE.LARGE,
+                        [SIZE.EXTRA_SMALL]: SHAPE.MEDIUM,
                         [SIZE.LARGE]: SHAPE.LARGE,
                         [SIZE.MEDIUM]: SHAPE.LARGE,
                         [SIZE.SMALL]: SHAPE.MEDIUM

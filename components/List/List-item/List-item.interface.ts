@@ -37,6 +37,7 @@ export interface ListItemProps
                         | 'onConfirm'
                         | 'selectType'
                         | 'shape'
+                        | 'size'
                         | 'skeletonDuration'
                         | 'skeletonElement'
                         | 'supportingTextNumberOfLines'
@@ -111,10 +112,10 @@ export interface RenderListItemTrailingProps
                 | 'closeTrailing'
                 | 'disabled'
                 | 'id'
+                | 'size'
                 | 'trailing'
                 | 'trailingProps'
                 | 'trailingTriggerEvent'
-                | 'type'
         > {
         interactionHandlers: InteractionHandlers
         onTrailingVisibility?: (eventName: EventName) => void

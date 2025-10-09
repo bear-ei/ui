@@ -64,7 +64,6 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
                 return (
                         <RenderIconButton
                                 {...renderIconButtonProps}
-                                size={size}
                                 backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
                                 disabled={isDisabled}
                                 eventName={eventName}
@@ -73,6 +72,7 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
                                 interactionHandlers={interactionHandlers}
                                 loading={loading}
                                 ref={ref}
+                                size={size}
                                 type={type}
                                 underlayColor={underlayColor}
                         />

@@ -165,7 +165,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                                                 isLink ?
                                                                                         TYPOGRAPHY.BODY
                                                                                 :       TYPOGRAPHY.LABEL
-                                                                        )(isLink ? SIZE.SMALL : SIZE.LARGE)()
+                                                                        )(size)()
                                                                 )}
                                                                 ellipsizeMode='tail'
                                                                 numberOfLines={1}

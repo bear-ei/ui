@@ -5,7 +5,7 @@ import {Skeleton} from '@/components/Skeleton'
 import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
 import {EVENT_NAME, LAYOUT, shapeClasses, TRIGGER_EVENT, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {DURATION, EASING, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, isValidElement, useCallback, useMemo, type FC} from 'react'
@@ -13,7 +13,6 @@ import {Pressable, Text, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_LEADING_TYPE, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
-import {ListType} from '../List.interface'
 import type {ListItemRef, RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
 
 export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
@@ -23,15 +22,24 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         id,
         interactionHandlers,
         onTrailingVisibility,
+        size: rawSize = SIZE.MEDIUM,
         trailing,
         trailingProps: rawTrailingProps,
-        trailingTriggerEvent,
-        type = LIST_TYPE.STANDARD
+        trailingTriggerEvent
 }) => {
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
         const {disabled: isDisabled, ...restTrailingProps} = useMemo(() => rawTrailingProps ?? {}, [rawTrailingProps])
         const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
+        const iconSize = {
+                [SIZE.EXTRA_LARGE]: SHAPE.LARGE,
+                [SIZE.EXTRA_SMALL]: SHAPE.EXTRA_SMALL,
+                [SIZE.LARGE]: SHAPE.MEDIUM,
+                [SIZE.MEDIUM]: SHAPE.SMALL,
+                [SIZE.SMALL]: SHAPE.EXTRA_SMALL
+        }
+
+        const size = iconSize[rawSize]
         const trailingProps = useMemo(
                 () => ({
                         ...restTrailingProps,
@@ -39,9 +47,19 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                         ...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {onHoverIn}),
                         disabled: isDisabled ?? disabled,
                         testID: `listItem__trailing--${id}`,
-                        type: ICON_BUTTON_TYPE.STANDARD
+                        type: ICON_BUTTON_TYPE.STANDARD,
+                        size
                 }),
-                [disabled, id, interactionHandlers, isDisabled, onHoverIn, restTrailingProps, trailingTriggerEvent]
+                [
+                        disabled,
+                        id,
+                        interactionHandlers,
+                        isDisabled,
+                        onHoverIn,
+                        restTrailingProps,
+                        size,
+                        trailingTriggerEvent
+                ]
         )
 
         const trailingElement = useMemo(
@@ -54,7 +72,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                                                 testID={`listItem__trailingIconButton--${id}`}
                                                 icon={
                                                         <MaterialCommunityIcons
-                                                                name='more'
+                                                                name='dots-horizontal'
                                                                 testID={`listItem__trailingIconMoreHoriz--${id}`}
                                                         />
                                                 }
@@ -112,6 +130,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         panResponder,
                         selectType,
                         shape,
+                        size = SIZE.MEDIUM,
                         skeletonDuration = 300,
                         skeletonElement,
                         supporting,
@@ -143,7 +162,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         [active, activeColor, enableUnderlayActive, selectType]
                 )
 
-                const size = type === LIST_TYPE.LABEL ? SIZE.MEDIUM : SIZE.LARGE
+                // const size = type === LIST_TYPE.LABEL ? SIZE.MEDIUM : SIZE.LARGE
                 const isLines = (supportingTextNumberOfLines ?? 0) > 1
                 const mainElement = (
                         <>
@@ -155,45 +174,31 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                 {beforeAffordance}
                                         </View>
                                 )}
+
                                 <Animated.View
                                         style={[contentStyle, contentAnimatedStyle]}
                                         testID={`listItem__animatedContent--${id}`}
-                                        className={clsx('absolute z-10', {
-                                                ['h-10 min-w-12']: type === LIST_TYPE.LABEL,
-                                                ['h-12 min-w-12']: type === LIST_TYPE.MENU,
-                                                ['h-14 min-w-14']: type === LIST_TYPE.STANDARD
+                                        className={clsx('absolute bottom-0 left-0 right-0 top-0 z-10', {
+                                                ['bg-[--color-surface-container]']: type !== LIST_TYPE.STANDARD,
+                                                ['bg-[--color-surface]']: type === LIST_TYPE.STANDARD
                                         })}
                                 >
                                         <Pressable
                                                 {...touchableProps}
                                                 {...interactionHandlers}
-                                                className='flex flex-col items-center justify-center outline-none'
+                                                className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
                                                 disabled={disabled}
                                                 ref={ref}
                                                 testID={`listItem__touchable--${id}`}
                                         >
                                                 <View
                                                         className={clsx(
-                                                                'relative z-10 flex flex-row items-center justify-start self-stretch overflow-hidden',
+                                                                'relative z-10 flex flex-row items-center justify-start self-stretch',
                                                                 {
-                                                                        ['h-10 min-w-12 pb-0 pl-3 pr-3 pt-0']:
-                                                                                type === LIST_TYPE.LABEL,
-                                                                        ['h-12 min-w-12 pb-0 pl-3 pr-3 pt-0']:
-                                                                                type === LIST_TYPE.MENU,
-                                                                        ['h-14 min-w-14 pb-0 pl-4 pr-4 pt-0']:
-                                                                                type === LIST_TYPE.STANDARD,
-                                                                        ['pb-2 pt-2']: isSupportingTextShow,
-                                                                        ['pb-3 pt-3']: isLines,
-                                                                        ['pb-0 pl-2 pr-3 pt-0']:
-                                                                                type === LIST_TYPE.LABEL &&
-                                                                                isTrailingShow,
-                                                                        ['pb-0 pl-3 pr-1 pt-0']:
-                                                                                type === LIST_TYPE.MENU &&
-                                                                                isTrailingShow,
-                                                                        ['pb-0 pl-3 pr-2 pt-0']:
-                                                                                type === LIST_TYPE.STANDARD &&
-                                                                                isTrailingShow,
-                                                                        ['pr-0']: isUnmountTrailing
+                                                                        ['pl-4 pr-4']: size !== SIZE.SMALL,
+                                                                        ['pl-3 pr-3']: size === SIZE.SMALL,
+                                                                        ['pb-2 pt-2']: isSupportingTextShow && !isLines,
+                                                                        ['pb-3 pt-3']: isSupportingTextShow && isLines
                                                                 }
                                                         )}
                                                         testID={`listItem__main--${id}`}
@@ -205,15 +210,8 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
                                                                                         ['justify-start']: isLines,
-                                                                                        ['mr-3']: (
-                                                                                                [
-                                                                                                        LIST_TYPE.LABEL,
-                                                                                                        LIST_TYPE.MENU
-                                                                                                ] as readonly ListType[]
-                                                                                        ).includes(type),
-                                                                                        ['mr-4']:
-                                                                                                type ===
-                                                                                                LIST_TYPE.STANDARD
+                                                                                        ['mr-4']: size !== SIZE.SMALL,
+                                                                                        ['mr-3']: size === SIZE.SMALL
                                                                                 }
                                                                         )}
                                                                 >
@@ -227,7 +225,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                 testID={`listItem__mainInner--${id}`}
                                                                 className={clsx(
                                                                         'pointer-events-none flex flex-1 flex-col justify-center',
-                                                                        {['min-h-10']: isSupportingTextShow}
+                                                                        {['min-h-8']: isSupportingTextShow}
                                                                 )}
                                                         >
                                                                 {headline &&
@@ -253,8 +251,9 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                         className={clsx(
                                                                                                 typographyClasses(
                                                                                                         TYPOGRAPHY.BODY
-                                                                                                )(SIZE.MEDIUM),
-                                                                                                'color-[--color-on-surface-variant]'
+                                                                                                )(size)(
+                                                                                                        'color-[--color-on-surface-variant]'
+                                                                                                )
                                                                                         )}
                                                                                         ellipsizeMode='tail'
                                                                                         numberOfLines={
@@ -270,31 +269,26 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                         {trailingElement && (
                                                                 <View
                                                                         className={clsx('flex flex-col', {
-                                                                                ['ml-3 h-8 w-8']:
-                                                                                        type === LIST_TYPE.LABEL,
-                                                                                ['ml-3 h-10 w-10']:
-                                                                                        type === LIST_TYPE.MENU,
-                                                                                ['ml-4 h-10 w-10']:
-                                                                                        type === LIST_TYPE.MENU,
-                                                                                ['h-auto w-auto']: isUnmountTrailing,
-                                                                                ['justify-start']: isLines
+                                                                                ['justify-start']: isLines,
+                                                                                ['ml-4']: size !== SIZE.SMALL,
+                                                                                ['ml-3']: size === SIZE.SMALL
                                                                         })}
                                                                         testID={`listItem__trailingLayout--${id}`}
                                                                 >
                                                                         <LayoutAnimated
-                                                                                className={clsx({
-                                                                                        ['pr-2']:
-                                                                                                isUnmountTrailing &&
-                                                                                                (
-                                                                                                        [
-                                                                                                                LIST_TYPE.LABEL,
-                                                                                                                LIST_TYPE.STANDARD
-                                                                                                        ] as readonly ListType[]
-                                                                                                ).includes(type),
-                                                                                        ['pr-1']:
-                                                                                                isUnmountTrailing &&
-                                                                                                type === LIST_TYPE.MENU
-                                                                                })}
+                                                                                // className={clsx({
+                                                                                //         ['pr-2']:
+                                                                                //                 isUnmountTrailing &&
+                                                                                //                 (
+                                                                                //                         [
+                                                                                //                                 LIST_TYPE.LABEL,
+                                                                                //                                 LIST_TYPE.STANDARD
+                                                                                //                         ] as readonly ListType[]
+                                                                                //                 ).includes(type),
+                                                                                //         ['pr-1']:
+                                                                                //                 isUnmountTrailing &&
+                                                                                //                 type === LIST_TYPE.MENU
+                                                                                // })}
                                                                                 defaultVisible={!trailingTriggerEvent}
                                                                                 entry={{
                                                                                         duration: DURATION.MEDIUM_1,
@@ -328,7 +322,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
                                 {afterAffordance && (
                                         <View
-                                                className={clsx('flex flex-1 flex-row items-end justify-center', {
+                                                className={clsx('flex flex-1 flex-row justify-center self-end', {
                                                         ['z-20']: afterAffordanceExpanded
                                                 })}
                                                 testID={`listItem__afterAffordanceLayout--${id}`}
@@ -376,9 +370,9 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 className={clsx(
                                         'relative flex flex-col self-stretch overflow-hidden',
                                         {
-                                                ['h-10 min-w-12']: type === LIST_TYPE.LABEL,
-                                                ['h-12 min-w-12']: type === LIST_TYPE.MENU,
-                                                ['h-14 min-w-14']: type === LIST_TYPE.STANDARD
+                                                ['h-8 min-w-8']: size === SIZE.SMALL,
+                                                ['h-10 min-w-10']: size === SIZE.MEDIUM,
+                                                ['h-12 min-w-12']: size === SIZE.LARGE
                                         },
                                         shapeClasses(shape)
                                 )}
@@ -392,7 +386,13 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                         >
                                                 {mainElement}
                                         </Skeleton>
-                                :       mainElement}
+                                :       <View
+                                                className='flex-1 self-stretch'
+                                                testID={`listItem__mainLayout--${id}`}
+                                        >
+                                                {mainElement}
+                                        </View>
+                                }
                         </View>
                 )
         }

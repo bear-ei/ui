@@ -1142,10 +1142,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bearei/theme-token@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "@bearei/theme-token@npm:0.0.4"
-  checksum: 10c0/86e932537023f2358129dd539fc24c525bf28ec7aec2fff3aa1bc60f5aec3e87fb248e7ea29cb41e5b01f45e56655e4b273b9b9be0a91b96d80133c722a861e0
+"@bearei/theme-token@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@bearei/theme-token@npm:0.0.5"
+  checksum: 10c0/919fa05cbaeb7ee0e101ba9171e69c1edad6904b34e4e064672fc3173f407a6228cafdc7b54c3dd358b27626fa7c98eab76fd779101f44f1f7e1eadef10f9dfb
   languageName: node
   linkType: hard
 
@@ -1155,7 +1155,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.28.4"
     "@babel/plugin-proposal-export-namespace-from": "npm:^7.18.9"
-    "@bearei/theme-token": "npm:^0.0.4"
+    "@bearei/theme-token": "npm:^0.0.5"
     "@expo/vector-icons": "npm:^15.0.2"
     "@gorhom/bottom-sheet": "npm:^5.2.6"
     "@react-native-async-storage/async-storage": "npm:^2.2.0"

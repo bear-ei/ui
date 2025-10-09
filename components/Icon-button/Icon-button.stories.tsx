@@ -52,6 +52,10 @@ export const Small: StoryObj<IconButtonProps> = {
         args: {size: SIZE.SMALL}
 }
 
+export const ExtraSmall: StoryObj<IconButtonProps> = {
+        args: {size: SIZE.EXTRA_SMALL}
+}
+
 export default {
         title: 'components/IconButton',
         argTypes: {onPress: {action: 'pressed'}},

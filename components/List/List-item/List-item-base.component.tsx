@@ -42,6 +42,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                         onLoadEnd,
                         selectType,
                         shape,
+                        size,
                         supporting,
                         trailing,
                         trailingProps: rawTrailingProps,
@@ -166,10 +167,10 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                                 id={id}
                                                 interactionHandlers={{onPressOut: onTrailingPressOut}}
                                                 onTrailingVisibility={onTrailingVisibility}
+                                                size={size}
                                                 trailing={trailing}
                                                 trailingProps={trailingProps}
                                                 trailingTriggerEvent={trailingTriggerEvent}
-                                                type={type}
                                         />
                                 :       undefined,
                         [
@@ -179,10 +180,10 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                 id,
                                 onTrailingPressOut,
                                 onTrailingVisibility,
+                                size,
                                 trailing,
                                 trailingProps,
-                                trailingTriggerEvent,
-                                type
+                                trailingTriggerEvent
                         ]
                 )
 
@@ -249,6 +250,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                 ref={pressableRef}
                                 selectType={selectType}
                                 shape={shape}
+                                size={size}
                                 supporting={supporting}
                                 trailingElement={trailingElement}
                                 trailingTriggerEvent={trailingTriggerEvent}

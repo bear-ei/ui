@@ -1,11 +1,11 @@
 import {Theme} from '@/contexts'
 import {arrayEqual} from '@/utils'
+import {Size, SIZE} from '@bearei/theme-token'
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
-import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
+import {LIST_SELECT_TYPE} from './List.enum'
 import type {
-        CreateListItemSizeOptions,
         CreateRenderListItemOptions,
         ListData,
         ListState,
@@ -90,20 +90,20 @@ export const updateListActiveState = ({
 }
 
 export const createListItemSize =
-        ({type}: CreateListItemSizeOptions) =>
+        (size = SIZE.MEDIUM as Size) =>
         (theme: Theme) =>
         (itemSize?: number) => {
                 if (itemSize) {
                         return itemSize
                 }
 
-                const typeItemSize = {
-                        [LIST_TYPE.STANDARD]: theme.token.spacing.extraSmall * 14,
-                        [LIST_TYPE.MENU]: theme.token.spacing.extraSmall * 12,
-                        [LIST_TYPE.LABEL]: theme.token.spacing.extraSmall * 10
+                const listItemSize = {
+                        [SIZE.LARGE]: theme.token.spacing.extraSmall * 12,
+                        [SIZE.MEDIUM]: theme.token.spacing.extraSmall * 10,
+                        [SIZE.SMALL]: theme.token.spacing.extraLarge
                 }
 
-                return type ? typeItemSize[type] : theme.token.spacing.extraSmall * 14
+                return listItemSize[size]
         }
 
 export const updateListAffordanceActiveState =
@@ -150,11 +150,14 @@ export const triggerListClose =
 
 export const createListItemRenderer =
         ({renderItem, ...options}: CreateRenderListItemOptions) =>
-        // eslint-disable-next-line react/display-name
-        (props: RenderVirtualListItemInfo<ListData>) =>
-                renderItem ?
-                        renderItem({...options, ...props})
-                :       <RenderDefaultListItem
-                                {...options}
-                                {...props}
-                        />
+        (props: RenderVirtualListItemInfo<ListData>) => {
+                const itemElement =
+                        renderItem ?
+                                renderItem({...options, ...props})
+                        :       <RenderDefaultListItem
+                                        {...options}
+                                        {...props}
+                                />
+
+                return itemElement
+        }

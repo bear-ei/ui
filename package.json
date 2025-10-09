@@ -32,7 +32,7 @@
                 "!**/test.*"
         ],
         "dependencies": {
-                "@bearei/theme-token": "^0.0.4",
+                "@bearei/theme-token": "^0.0.5",
                 "@expo/vector-icons": "^15.0.2",
                 "@react-navigation/bottom-tabs": "^7.4.0",
                 "@react-navigation/elements": "^2.6.3",

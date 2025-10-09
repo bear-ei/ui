@@ -1,4 +1,4 @@
-import {ShapeType, TriggerEvent} from '@/constants'
+import {CommonProps, TriggerEvent} from '@/constants'
 import {InteractionHandlers} from '@/hooks'
 import type {ForwardedRef, RefAttributes} from 'react'
 import type Animated from 'react-native-reanimated'
@@ -36,7 +36,8 @@ export interface UpdateListAffordanceActiveStateOptions {
 }
 
 export interface ListProps
-        extends Omit<Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>>, 'ref'> {
+        extends Omit<Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>>, 'ref'>,
+                CommonProps {
         activeKey?: string
         activeKeys?: string[]
         afterAffordance?: React.JSX.Element | boolean
@@ -65,7 +66,6 @@ export interface ListProps
         onItemStateEvent?: InteractionHandlers
         ref?: ForwardedRef<Animated.ScrollView>
         selectType?: ListSelectType
-        shape?: ShapeType
         skeletonDuration?: number
         skeletonElement?: React.JSX.Element
         supportingTextNumberOfLines?: number
@@ -114,6 +114,7 @@ export type CreateRenderListItemOptions = Pick<
         | 'renderItem'
         | 'selectType'
         | 'shape'
+        | 'size'
         | 'skeletonDuration'
         | 'skeletonElement'
         | 'supportingTextNumberOfLines'
@@ -122,7 +123,6 @@ export type CreateRenderListItemOptions = Pick<
         | 'type'
 >
 
-export type CreateListItemSizeOptions = Pick<RenderListProps, 'type'>
 export type ListBaseProps = ListProps
 export type ListContainerProps = Pick<RenderListProps, 'layoutType'>
 export type UpdateListActiveStateOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>

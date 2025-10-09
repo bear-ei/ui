@@ -28,7 +28,7 @@ const SkeletonComponent = (props: SkeletonProps) => {
         )
 }
 
-export const Default: StoryObj<SkeletonProps> = {
+export const DefaultSkeleton: StoryObj<SkeletonProps> = {
         args: {}
 }
 

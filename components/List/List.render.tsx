@@ -55,8 +55,8 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
                         style={[style]}
                         testID={testID ?? `list--${id}`}
                         className={clsx('flex-1 self-stretch', {
-                                ['pb-2 pl-0 pr-0 pt-2']: layoutType === LAYOUT.VERTICAL,
-                                ['pb-0 pl-2 pr-2 pt-0']: layoutType === LAYOUT.HORIZONTAL
+                                ['pb-2 pt-2']: layoutType === LAYOUT.VERTICAL,
+                                ['pl-2 pr-2']: layoutType === LAYOUT.HORIZONTAL
                         })}
                 >
                         <VirtualList

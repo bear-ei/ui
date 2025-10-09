@@ -1,308 +1,220 @@
-import {SHAPE} from '@bearei/element-token'
+import {SHAPE, SIZE} from '@bearei/theme-token'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import type {Meta, StoryObj} from '@storybook/react'
-import {useMemo, useState} from 'react'
-import type {ViewStyle} from 'react-native'
-import {View} from 'react-native'
-import {Button} from '../Button'
-import {LAYOUT} from '../Common'
-import {Icon} from '../Icon'
-import {Circle, Rectangular, Square} from '../Skeleton'
 import {List} from './List.component'
-import {LIST_LEADING_TYPE, LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
-import type {ListData, ListProps} from './List.interface'
+import type {ListProps} from './List.interface'
 
-const renderListSkeleton = () => {
-	const containerStyle = {
-		paddingLeft: 16,
-		flex: 1,
-		gap: 16,
-		paddingRight: 28
-	} as ViewStyle
+export const Leading: StoryObj<ListProps> = {
+        args: {
+                size: SIZE.MEDIUM,
+                shape: SHAPE.MEDIUM,
+                defaultActiveKey: 'TitleB',
+                activeKey: 'TitleA',
 
-	const rectangularStyle = {flex: 1} as ViewStyle
-
-	return (
-		<Rectangular
-			size={56}
-			style={[containerStyle]}
-		>
-			<Square size={24} />
-
-			<Rectangular
-				size={48}
-				style={[rectangularStyle]}
-			/>
-
-			<Circle size={40} />
-		</Rectangular>
-	)
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA',
+                                leading: (
+                                        <MaterialCommunityIcons
+                                                name='circle'
+                                                size={24}
+                                        />
+                                )
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB',
+                                leading: (
+                                        <MaterialCommunityIcons
+                                                name='circle'
+                                                size={24}
+                                        />
+                                )
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC',
+                                leading: (
+                                        <MaterialCommunityIcons
+                                                name='circle'
+                                                size={24}
+                                        />
+                                )
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD',
+                                leading: (
+                                        <MaterialCommunityIcons
+                                                name='circle'
+                                                size={24}
+                                        />
+                                )
+                        }
+                ]
+        }
 }
 
-export const Standard: StoryObj<ListProps> = {
-	args: {
-		defaultActiveKey: 'TitleB',
-		activeKey: 'TitleA',
-		afterAffordance: true,
-		data: [
-			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
-			},
-			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
-			},
-			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
-			},
-			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
-			}
-		]
-	}
+export const Trailing: StoryObj<ListProps> = {
+        args: {
+                size: SIZE.MEDIUM,
+                shape: SHAPE.MEDIUM,
+                defaultActiveKey: 'TitleB',
+                activeKey: 'TitleA',
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA',
+                                trailing: (
+                                        <MaterialCommunityIcons
+                                                name='circle'
+                                                size={24}
+                                        />
+                                )
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB',
+                                trailing: (
+                                        <MaterialCommunityIcons
+                                                name='circle'
+                                                size={24}
+                                        />
+                                )
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC',
+                                trailing: (
+                                        <MaterialCommunityIcons
+                                                name='circle'
+                                                size={24}
+                                        />
+                                )
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD',
+                                trailing: (
+                                        <MaterialCommunityIcons
+                                                name='circle'
+                                                size={24}
+                                        />
+                                )
+                        }
+                ]
+        }
 }
 
-export const Menu: StoryObj<ListProps> = {
-	args: {
-		defaultActiveKey: 'TitleB',
-		activeKey: 'TitleA',
-		type: LIST_TYPE.MENU,
-		closeTrailing: true,
-		trailingTriggerEvent: 'HOVER',
-		data: [
-			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
-			},
-			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
-			},
-			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
-			},
-			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
-			}
-		]
-	}
+export const AfterAffordance: StoryObj<ListProps> = {
+        args: {
+                size: SIZE.MEDIUM,
+                shape: SHAPE.MEDIUM,
+                defaultActiveKey: 'TitleB',
+                activeKey: 'TitleA',
+                afterAffordance: true,
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA'
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB'
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC'
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD'
+                        }
+                ]
+        }
 }
 
-export const Select = () => {
-	const [activeKey, setActiveKey] = useState<string | undefined>(undefined)
-	const style = {height: 800, width: '100%'} as ViewStyle
-	const data = useMemo(
-		() =>
-			Array.from({length: 4}, (_, index) => ({
-				indexKey: `Title${index + 1}`,
-				headline: `Title${index + 1}`,
-				leading: <Icon />,
-				dependencies: []
-			})),
-		[]
-	)
-
-	const onActiveKey = (key?: string) => setActiveKey(key)
-
-	return (
-		<View style={[style]}>
-			<List
-				activeKey={activeKey}
-				afterAffordance={true}
-				data={data}
-				enableAutoSelect={true}
-				itemSize={56}
-				onActive={onActiveKey}
-				selectType={LIST_SELECT_TYPE.SINGLE}
-				shape={SHAPE.LARGE}
-				draggable={true}
-			/>
-		</View>
-	)
+export const Medium: StoryObj<ListProps> = {
+        args: {
+                size: SIZE.MEDIUM,
+                shape: SHAPE.MEDIUM,
+                defaultActiveKey: 'TitleB',
+                activeKey: 'TitleA',
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA'
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB'
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC'
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD'
+                        }
+                ]
+        }
 }
 
-export const SelectMenu = () => {
-	const [activeKey, setActiveKey] = useState<string | undefined>(undefined)
-	const style = {height: 800, width: '100%'} as ViewStyle
-	const data = useMemo(
-		() =>
-			Array.from({length: 2000}, (_, index) => ({
-				indexKey: `Title${index + 1}`,
-				headline: `Title${index + 1}`,
-				leading: <Icon />,
-				dependencies: []
-			})),
-		[]
-	)
-
-	const onActiveKey = (key?: string) => setActiveKey(key)
-
-	return (
-		<View style={[style]}>
-			<List
-				activeKey={activeKey}
-				afterAffordance={true}
-				data={data}
-				enableAutoSelect={true}
-				itemSize={48}
-				onActive={onActiveKey}
-				selectType={LIST_SELECT_TYPE.SINGLE}
-				shape={SHAPE.LARGE}
-				type={LIST_TYPE.MENU}
-				leadingType={LIST_LEADING_TYPE.ICON}
-			/>
-		</View>
-	)
+export const Large: StoryObj<ListProps> = {
+        args: {
+                size: SIZE.LARGE,
+                defaultActiveKey: 'TitleB',
+                activeKey: 'TitleA',
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA'
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB'
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC'
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD'
+                        }
+                ]
+        }
 }
 
-export const Multiselect = () => {
-	const [data, setData] = useState<ListData[] | undefined>(undefined)
-	const [activeKeys, setActiveKeys] = useState<string[] | undefined>(undefined)
-	const style = {height: 800, width: '100%'} as ViewStyle
-	// const data1 = useMemo(
-	// 	() =>
-	// 		Array.from({length: 1255}, (_, index) => ({
-	// 			indexKey: `Title${index + 1}`,
-	// 			headline: `Title${index + 1}`,
-	// 			leading: <Icon />,
-	// 			dependencies: []
-	// 		})),
-	// 	[]
-	// )
-
-	const data2 = useMemo(
-		() =>
-			Array.from({length: 3}, (_, index) => ({
-				indexKey: `Title${index + 1}`,
-				headline: `Title${index + 1}`,
-				leading: <Icon />,
-				dependencies: []
-			})),
-		[]
-	)
-
-	const onActiveKeys = (keys?: string[]) => {
-		console.info(keys, 'keys==============>')
-		setActiveKeys(keys)
-	}
-
-	const skeleton = useMemo(() => renderListSkeleton(), [])
-	const updateData = (val: ListData[]) => setData(val)
-
-	return (
-		<View style={[style]}>
-			<Button onPressOut={() => updateData([...data2].reverse())} />
-			<List
-				activeKeys={activeKeys}
-				data={data ?? data2}
-				deselect={true}
-				itemSize={56}
-				onActives={onActiveKeys}
-				selectType={LIST_SELECT_TYPE.MULTIPLE}
-				shape={SHAPE.FULL}
-				skeletonElement={skeleton}
-			/>
-		</View>
-	)
-}
-
-export const Horizontal = () => {
-	const [activeKey, setActiveKey] = useState<string | undefined>(undefined)
-	const style = {height: 800, width: '100%'} as ViewStyle
-	const data = useMemo(
-		() =>
-			Array.from({length: 200}, (_, index) => ({
-				indexKey: `Title${index + 1}`,
-				headline: `Title${index + 1}`,
-				leading: <Icon />,
-				dependencies: []
-			})),
-		[]
-	)
-
-	const onActiveKey = (key?: string) => setActiveKey(key)
-
-	return (
-		<View style={[style]}>
-			<List
-				activeKey={activeKey}
-				afterAffordance={true}
-				data={data}
-				enableAutoSelect={true}
-				itemSize={320}
-				layoutType={LAYOUT.HORIZONTAL}
-				onActive={onActiveKey}
-				selectType={LIST_SELECT_TYPE.SINGLE}
-				shape={SHAPE.LARGE}
-				endReachedThreshold={0.5}
-				onEndReached={() => {
-					console.info('onEndReached')
-				}}
-			/>
-		</View>
-	)
-}
-
-export const Label: StoryObj<ListProps> = {
-	args: {
-		defaultActiveKey: 'TitleB',
-		activeKey: 'TitleA',
-		type: LIST_TYPE.LABEL,
-		closeTrailing: true,
-		trailingTriggerEvent: 'HOVER',
-		data: [
-			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
-			},
-			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
-			},
-			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
-			},
-			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
-			}
-		]
-	}
-}
-
-export const LabelStandard: StoryObj<ListProps> = {
-	args: {
-		defaultActiveKey: 'TitleB',
-		activeKey: 'TitleA',
-		type: LIST_TYPE.LABEL,
-		afterAffordance: true,
-		data: [
-			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
-			},
-			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
-			},
-			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
-			},
-			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
-			}
-		]
-	}
+export const Small: StoryObj<ListProps> = {
+        args: {
+                size: SIZE.SMALL,
+                defaultActiveKey: 'TitleB',
+                activeKey: 'TitleA',
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA'
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB'
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC'
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD'
+                        }
+                ]
+        }
 }
 
 export default {
-	title: 'components/List',
-	component: List
+        title: 'components/List',
+        component: List
 } as Meta<typeof List>

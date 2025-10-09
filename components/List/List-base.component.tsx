@@ -45,6 +45,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                         renderItem: rawRenderItem,
                         selectType,
                         shape,
+                        size,
                         skeletonDuration = 0,
                         skeletonElement,
                         supportingTextNumberOfLines,
@@ -72,7 +73,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                 const listRef = useRef<ScrollView>(null)
                 const id = useId()
                 const theme = useTheme()
-                const itemSize = createListItemSize({type})(theme)(rawItemSize)
+                const itemSize = createListItemSize(size)(theme)(rawItemSize)
                 const onActive = useMemo(
                         () => updateListActiveState({onActive: rawOnActive, selectType, onActives, deselect})(setState),
                         [deselect, onActives, rawOnActive, selectType, setState]
@@ -114,6 +115,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                                         renderItem: rawRenderItem,
                                         selectType,
                                         shape,
+                                        size,
                                         skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
                                         skeletonElement,
                                         supportingTextNumberOfLines,
@@ -147,6 +149,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                                 rawRenderItem,
                                 selectType,
                                 shape,
+                                size,
                                 skeletonDuration,
                                 skeletonElement,
                                 supportingTextNumberOfLines,
