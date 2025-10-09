@@ -1,4 +1,4 @@
-import {EventName} from '@/constants'
+import {CommonProps, EventName} from '@/constants'
 import {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
@@ -6,14 +6,13 @@ import type {TouchableProps} from '../Touchable'
 import type {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
 export type IconButtonType = (typeof ICON_BUTTON_TYPE)[keyof typeof ICON_BUTTON_TYPE]
-export interface IconButtonProps extends TouchableProps {
+export interface IconButtonProps extends TouchableProps, CommonProps {
         active?: boolean
         defaultActive?: boolean
         icon?: React.JSX.Element
         iconColor?: string
         labelText?: string
         loading?: boolean
-        size?: number
         type?: IconButtonType
 }
 
@@ -30,7 +29,7 @@ export interface IconButtonState {
 }
 
 export interface RenderIconButtonIconProps
-        extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'iconColor' | 'loading' | 'id' | 'icon'> {
+        extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'iconColor' | 'loading' | 'id' | 'icon' | 'size'> {
         eventName?: EventName
 }
 

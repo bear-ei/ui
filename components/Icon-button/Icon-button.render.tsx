@@ -1,9 +1,9 @@
 import {shapeClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {hexToRGBA, SHAPE} from '@bearei/theme-token'
+import {hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import {clsx} from 'clsx'
-import {cloneElement, forwardRef, useMemo, type FC} from 'react'
+import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {LayoutAnimated} from '../Layout-animated'
@@ -19,32 +19,32 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
         iconColor: rawColor,
         id,
         loading,
+        size = SIZE.MEDIUM,
         type
 }) => {
         const theme = useTheme()
-        const color = useMemo(
-                () => ({
-                        [ICON_BUTTON_TYPE.ACTIVE]: theme.token.scheme.onSurfaceVariant,
-                        [ICON_BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,
-                        [ICON_BUTTON_TYPE.OUTLINED]: theme.token.scheme.onSurfaceVariant,
-                        [ICON_BUTTON_TYPE.STANDARD]: theme.token.scheme.onSurfaceVariant,
-                        [ICON_BUTTON_TYPE.TONAL]: theme.token.scheme.onSecondaryContainer
-                }),
-                [
-                        theme.token.scheme.onPrimary,
-                        theme.token.scheme.onSecondaryContainer,
-                        theme.token.scheme.onSurfaceVariant
-                ]
-        )
+        const color = {
+                [ICON_BUTTON_TYPE.ACTIVE]: theme.token.scheme.onSurfaceVariant,
+                [ICON_BUTTON_TYPE.FILLED]: theme.token.scheme.onPrimary,
+                [ICON_BUTTON_TYPE.OUTLINED]: theme.token.scheme.onSurfaceVariant,
+                [ICON_BUTTON_TYPE.STANDARD]: theme.token.scheme.onSurfaceVariant,
+                [ICON_BUTTON_TYPE.TONAL]: theme.token.scheme.onSecondaryContainer
+        }
 
         const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5.opacity)
         const iconColor =
                 rawColor ?? (!loading ? color[type as keyof typeof color] : theme.token.scheme.onSurfaceVariant)
 
+        const iconSize = {
+                [SIZE.LARGE]: theme.token.spacing.large + theme.token.spacing.extraSmall,
+                [SIZE.MEDIUM]: theme.token.spacing.large,
+                [SIZE.SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall
+        }
+
         return cloneElement(icon ?? <MaterialCommunityIcons name='circle' />, {
                 color: disabled ? disabledColor : iconColor,
                 disabled,
-                size: theme.token.spacing.large,
+                size: iconSize[size],
                 testID: `iconButton__icon--${id}`
         })
 }
@@ -56,7 +56,6 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                         active,
                         backgroundUnderlayAnimatedStyle,
                         defaultActive,
-                        density,
                         disabled,
                         eventName,
                         iconElement,
@@ -64,7 +63,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                         interactionHandlers,
                         labelText,
                         loading,
-                        size,
+                        size = SIZE.MEDIUM,
                         testID,
                         type,
                         underlayColor,
@@ -94,7 +93,10 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                                 accessible={true}
                                 tabIndex={-1}
                                 testID={testID ?? `iconButton--${id}`}
-                                className={clsx('relative h-10 w-10 cursor-pointer', {
+                                className={clsx('relative cursor-pointer', {
+                                        ['h-12 w-12']: size === SIZE.LARGE,
+                                        ['h-10 w-10']: size === SIZE.MEDIUM,
+                                        ['h-8 w-8']: size === SIZE.SMALL,
                                         ['pointer-events-none']: loading
                                 })}
                         >
@@ -108,7 +110,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                                                 animatedType={PROGRESS_ANIMATED.INDETERMINATE}
                                                 content={iconElement}
                                                 enableAnimated={loading}
-                                                size={theme.token.spacing.extraSmall * 10}
+                                                size={size}
                                                 testID={`iconButton__progress--${id}`}
                                                 type={PROGRESS_TYPE.CIRCULAR}
                                         />
@@ -124,7 +126,6 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                                                 {...interactionHandlers}
                                                 backgroundUnderlay={backgroundUnderlayElement}
                                                 centered={true}
-                                                contentStyle={{alignSelf: 'center'}}
                                                 disabled={disabled}
                                                 enableTouchableRipple={type !== ICON_BUTTON_TYPE.ACTIVE}
                                                 ref={ref}
@@ -133,24 +134,11 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                                                 underlayColor={underlayColor}
                                         >
                                                 <View
-                                                        className={clsx(
-                                                                'pointer-events-none relative z-10 flex h-10 min-h-6 w-10 min-w-6 flex-col items-center justify-center overflow-hidden',
-                                                                shapeClasses(shape)
-                                                        )}
-                                                        style={[
-                                                                {
-                                                                        ...(typeof size === 'number' && {
-                                                                                height: size,
-                                                                                minHeight: size,
-                                                                                minWidth: size,
-                                                                                width: size
-                                                                        })
-                                                                }
-                                                        ]}
+                                                        className='pointer-events-none relative z-10 flex flex-1 self-stretch overflow-hidden'
                                                         testID={`iconButton__content--${id}`}
                                                 >
                                                         <View
-                                                                className='z-10'
+                                                                className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
                                                                 testID={`iconButton__main--${id}`}
                                                         >
                                                                 {iconElement}

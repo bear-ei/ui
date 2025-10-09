@@ -1,15 +1,15 @@
-import {LayoutRectangle} from '@/constants'
+import {CommonProps, LayoutRectangle} from '@/constants'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 import type {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 
 export type ProgressType = (typeof PROGRESS_TYPE)[keyof typeof PROGRESS_TYPE]
 export type ProgressAnimated = (typeof PROGRESS_ANIMATED)[keyof typeof PROGRESS_ANIMATED]
-export interface ProgressProps extends ViewProps, RefAttributes<View> {
+export interface ProgressProps extends ViewProps, RefAttributes<View>, CommonProps {
         animatedType?: ProgressAnimated
         content?: React.JSX.Element
         defaultValue?: number
-        size?: number
+
         strokeWidth?: number
         type?: ProgressType
         value?: number

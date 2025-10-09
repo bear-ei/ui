@@ -13,9 +13,10 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
         (
                 {
                         disabled: rawDisabled = false,
-                        iconColor,
                         icon,
+                        iconColor,
                         loading,
+                        size,
                         type = ICON_BUTTON_TYPE.FILLED,
                         ...renderIconButtonProps
                 },
@@ -49,10 +50,11 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
                                         iconColor={iconColor}
                                         id={id}
                                         loading={loading}
+                                        size={size}
                                         type={type}
                                 />
                         ),
-                        [eventName, icon, iconColor, id, isDisabled, loading, type]
+                        [eventName, icon, iconColor, id, isDisabled, loading, size, type]
                 )
 
                 useEffect(() => {
@@ -62,6 +64,7 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
                 return (
                         <RenderIconButton
                                 {...renderIconButtonProps}
+                                size={size}
                                 backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
                                 disabled={isDisabled}
                                 eventName={eventName}

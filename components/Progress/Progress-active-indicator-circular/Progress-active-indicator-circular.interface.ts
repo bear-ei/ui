@@ -1,4 +1,4 @@
-import {ComponentStatus, ShapeProps} from '@/constants'
+import {CommonProps, ComponentStatus} from '@/constants'
 import {InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
@@ -9,7 +9,7 @@ import type {ProgressProps} from '../Progress.interface'
 export interface ProgressActiveIndicatorCircularProps
         extends ViewProps,
                 RefAttributes<View>,
-                ShapeProps,
+                Omit<CommonProps, 'size'>,
                 Pick<
                         ProgressProps,
                         'animatedType' | 'value' | 'defaultValue' | 'strokeWidth' | 'size' | 'enableAnimated'
@@ -21,12 +21,13 @@ export interface ProgressActiveIndicatorCircularState {
         status: ComponentStatus
 }
 
-export interface RenderProgressActiveIndicatorCircularProps extends ProgressActiveIndicatorCircularProps {
+export interface RenderProgressActiveIndicatorCircularProps extends Omit<ProgressActiveIndicatorCircularProps, 'size'> {
         circleAnimatedProps: AnimatedProps<CircleProps>['animatedProps']
         circumference: number
         containerAnimatedStyle: AnimatedStyle<ViewStyle>
         interactionHandlers: InteractionHandlers
         radius: number
+        size: number
         strokeWidth: number
 }
 

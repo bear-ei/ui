@@ -6,7 +6,7 @@ export const RenderFormItem = forwardRef<View, RenderFormItemProps>(
         ({controlElement, testID, id, ...containerProps}, ref) => (
                 <View
                         {...containerProps}
-                        className='min-h-10 self-stretch'
+                        className='min-h-10 flex-1 self-stretch'
                         ref={ref}
                         testID={testID ?? `formItem--${id}`}
                 >

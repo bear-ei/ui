@@ -1,3 +1,4 @@
+import {SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
@@ -28,7 +29,9 @@ export const RenderProgress = forwardRef<View, RenderProgressProps>(
                         accessibilityRole='progressbar'
                         className={clsx('pointer-events-none flex flex-col self-stretch', {
                                 ['h-1 min-w-10']: type === PROGRESS_TYPE.LINEAR,
-                                ['h-10 w-10']: type === PROGRESS_TYPE.CIRCULAR,
+                                ['h-12 w-12']: type === PROGRESS_TYPE.CIRCULAR && size === SIZE.LARGE,
+                                ['h-10 w-10']: type === PROGRESS_TYPE.CIRCULAR && size === SIZE.MEDIUM,
+                                ['h-8 w-8']: type === PROGRESS_TYPE.CIRCULAR && size === SIZE.SMALL,
                                 ['gap-1']: !!(value && value > 0) && type === PROGRESS_TYPE.LINEAR
                         })}
                         ref={ref}

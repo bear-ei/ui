@@ -1,6 +1,5 @@
-import {ComponentStatus, EventName} from '@/constants'
+import {CommonProps, ComponentStatus, EventName} from '@/constants'
 import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
-import {Size} from '@bearei/theme-token'
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ElevationLevel} from '../Elevation'
@@ -8,14 +7,13 @@ import type {TouchableProps} from '../Touchable'
 import type {FAB_TYPE} from './FAB.enum'
 
 export type FABType = (typeof FAB_TYPE)[keyof typeof FAB_TYPE]
-export interface FABProps extends TouchableProps {
+export interface FABProps extends TouchableProps, CommonProps {
         disabled?: boolean
         elevated?: boolean
         extended?: boolean
         icon?: React.JSX.Element
         labelText?: string
         loading?: boolean
-        size?: Size
         type?: FABType
 }
 

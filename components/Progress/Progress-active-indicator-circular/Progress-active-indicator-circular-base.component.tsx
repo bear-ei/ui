@@ -1,5 +1,6 @@
 import {COMPONENT_STATUS, State} from '@/constants'
 import {HandleStateEventChangeOptions, StateEvent, useInteractionStateEvent, useTheme} from '@/hooks'
+import {SIZE} from '@bearei/theme-token'
 import {forwardRef, useCallback, useId} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
@@ -15,7 +16,7 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
         (
                 {
                         enableAnimated,
-                        size: rawSize,
+                        size: rawSize = SIZE.MEDIUM,
                         strokeWidth: rawStrokeWidth,
                         ...renderProgressActiveIndicatorCircularProps
                 },
@@ -26,8 +27,14 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
                 })
 
                 const theme = useTheme()
+                const progressSize = {
+                        [SIZE.LARGE]: theme.token.spacing.extraSmall * 12,
+                        [SIZE.MEDIUM]: theme.token.spacing.extraSmall * 10,
+                        [SIZE.SMALL]: theme.token.spacing.extraLarge
+                }
+
                 const id = useId()
-                const size = rawSize ?? theme.token.spacing.extraSmall * 10
+                const size = progressSize[rawSize]
                 const strokeWidth = rawStrokeWidth ?? theme.token.spacing.extraSmall
                 const radius = (size - strokeWidth) / 2
                 const circumference = 2 * Math.PI * radius

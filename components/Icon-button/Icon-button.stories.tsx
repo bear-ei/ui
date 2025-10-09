@@ -1,3 +1,4 @@
+import {SIZE} from '@bearei/theme-token'
 import type {Meta, StoryObj} from '@storybook/react'
 import {IconButton} from './Icon-button.component'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
@@ -37,6 +38,18 @@ export const Loading: StoryObj<IconButtonProps> = {
         args: {
                 loading: true
         }
+}
+
+export const Medium: StoryObj<IconButtonProps> = {
+        args: {size: SIZE.MEDIUM}
+}
+
+export const Large: StoryObj<IconButtonProps> = {
+        args: {size: SIZE.LARGE}
+}
+
+export const Small: StoryObj<IconButtonProps> = {
+        args: {size: SIZE.SMALL}
 }
 
 export default {

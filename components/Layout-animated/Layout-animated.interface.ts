@@ -1,4 +1,4 @@
-import {ComponentStatus, LayoutRectangle, ShapeProps} from '@/constants'
+import {CommonProps, ComponentStatus, LayoutRectangle} from '@/constants'
 import {AnimatedTimingOptions, AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import {Duration, Easing} from '@bearei/theme-token'
 import type {RefAttributes} from 'react'
@@ -8,7 +8,7 @@ import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 export type ContentSize = {width?: number; height?: number}
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
-export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View> & ShapeProps, 'style'> {
+export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View> & CommonProps, 'style'> {
         animatedType?: LayoutAnimatedType
         contentSize?: ContentSize | number
         defaultVisible?: boolean
