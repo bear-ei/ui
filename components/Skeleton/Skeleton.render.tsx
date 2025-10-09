@@ -10,6 +10,7 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
         (
                 {
                         children,
+                        className,
                         containerAnimatedStyle,
                         id,
                         layoutType = LAYOUT.HORIZONTAL,
@@ -34,12 +35,16 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
                                         >
                                                 <Animated.View
                                                         {...containerProps}
-                                                        className={clsx('flex min-h-6 min-w-6 flex-1 self-stretch', {
-                                                                ['flex-row items-center']:
-                                                                        layoutType === LAYOUT.HORIZONTAL,
-                                                                ['flex-col justify-center']:
-                                                                        layoutType === LAYOUT.HORIZONTAL
-                                                        })}
+                                                        className={clsx(
+                                                                'flex min-h-6 min-w-6',
+                                                                {
+                                                                        ['flex-row items-center']:
+                                                                                layoutType === LAYOUT.HORIZONTAL,
+                                                                        ['flex-col justify-center']:
+                                                                                layoutType === LAYOUT.VERTICAL
+                                                                },
+                                                                className
+                                                        )}
                                                         style={[style, containerAnimatedStyle]}
                                                         testID={`skeleton__animatedSkeletonLayout--${id}`}
                                                 >

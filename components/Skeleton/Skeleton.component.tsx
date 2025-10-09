@@ -16,36 +16,45 @@ const SkeletonWithRef = forwardRef<View, SkeletonProps>((props, ref) => (
 
 SkeletonWithRef.displayName = 'SkeletonWithRef'
 
-export const Circle = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => (
+export const Circle = forwardRef<View, SkeletonElementProps>(({style, size, ...props}: SkeletonElementProps, ref) => (
         <SkeletonElement
                 {...props}
                 className='h-10 w-10'
                 ref={ref}
                 shape={SHAPE.FULL}
+                style={[style, {...(typeof size === 'number' && {width: size, height: size})}]}
         />
 ))
 
 Circle.displayName = 'Circle'
 
-export const Square = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => (
+export const Square = forwardRef<View, SkeletonElementProps>(({style, size, ...props}: SkeletonElementProps, ref) => (
         <SkeletonElement
                 {...props}
                 className='h-10 w-10'
                 ref={ref}
                 shape={SHAPE.SMALL}
+                style={[style, {...(typeof size === 'number' && {width: size, height: size})}]}
         />
 ))
 
 Square.displayName = 'Square'
 
-export const Rectangular = forwardRef<View, SkeletonElementProps>((props: SkeletonElementProps, ref) => (
-        <SkeletonElement
-                {...props}
-                className='h-10 min-w-10 flex-1 self-stretch'
-                ref={ref}
-                shape={SHAPE.SMALL}
-        />
-))
+export const Rectangular = forwardRef<View, SkeletonElementProps>(
+        ({style, size, ...props}: SkeletonElementProps, ref) => (
+                <SkeletonElement
+                        {...props}
+                        className='h-10 min-w-10 flex-1 self-stretch'
+                        ref={ref}
+                        shape={SHAPE.SMALL}
+                        style={[
+                                style,
+                                {...(typeof size === 'number' && {height: size})},
+                                {...(typeof size === 'object' && size)}
+                        ]}
+                />
+        )
+)
 
 Rectangular.displayName = 'Rectangular'
 
