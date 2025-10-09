@@ -15,7 +15,6 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
                 {
                         disabled: rawDisabled,
                         elevated = true,
-                        extendedFAB,
                         icon,
                         labelText,
                         loading,
@@ -29,6 +28,7 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
                 const id = useId()
                 const theme = useTheme()
                 const isDisabled = loading || rawDisabled
+                const extended = !!labelText
                 const underlayColor = getFABUnderlayColor(theme)(type)
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -58,13 +58,14 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
                                 icon && (
                                         <RenderFABIcon
                                                 disabled={rawDisabled}
+                                                extended={extended}
                                                 icon={icon}
                                                 id={id}
                                                 size={size}
                                                 type={type}
                                         />
                                 ),
-                        [icon, id, rawDisabled, size, type]
+                        [extended, icon, id, rawDisabled, size, type]
                 )
 
                 useEffect(() => {
@@ -86,7 +87,7 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
                                 disabled={isDisabled}
                                 elevation={elevation}
                                 eventName={eventName}
-                                extendedFAB={extendedFAB ?? !!labelText}
+                                extended={extended}
                                 iconElement={iconElement}
                                 id={id}
                                 interactionHandlers={interactionHandlers}

@@ -47,10 +47,11 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                 value
                         )
 
-                const iconSize =
-                        size === SIZE.SMALL ?
-                                theme.token.spacing.large - theme.token.spacing.extraSmall
-                        :       theme.token.spacing.large
+                const iconSize = {
+                        [SIZE.LARGE]: theme.token.spacing.large + theme.token.spacing.extraSmall,
+                        [SIZE.MEDIUM]: theme.token.spacing.large,
+                        [SIZE.SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall
+                }
 
                 return (
                         <View
@@ -96,7 +97,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                         }
                                                                         disabled={disabled}
                                                                         name='checkbox-blank-outline'
-                                                                        size={iconSize}
+                                                                        size={iconSize[size]}
                                                                         testID={`checkbox__icon--blank--${id}`}
                                                                 />
                                                         </View>
@@ -117,7 +118,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                                         'checkbox-intermediate'
                                                                                 :       'checkbox-marked'
                                                                         }
-                                                                        size={iconSize}
+                                                                        size={iconSize[size]}
                                                                         testID={`checkbox__icon--selected--${id}`}
                                                                 />
                                                         </LayoutAnimated>

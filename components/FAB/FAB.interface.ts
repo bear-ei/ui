@@ -11,7 +11,7 @@ export type FABType = (typeof FAB_TYPE)[keyof typeof FAB_TYPE]
 export interface FABProps extends TouchableProps {
         disabled?: boolean
         elevated?: boolean
-        extendedFAB?: boolean
+        extended?: boolean
         icon?: React.JSX.Element
         labelText?: string
         loading?: boolean
@@ -36,5 +36,5 @@ export interface FABState {
 }
 
 export type HandleFABStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderFABProps, 'elevated'>
-export type RenderFABIconProps = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'id' | 'icon'>
+export type RenderFABIconProps = Pick<RenderFABProps, 'size' | 'disabled' | 'type' | 'id' | 'icon' | 'extended'>
 export type UseFABAnimatedOptions = Pick<RenderFABProps, 'disabled' | 'type'>

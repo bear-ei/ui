@@ -33,7 +33,7 @@ export const Tertiary: StoryObj<FABProps> = {
         }
 }
 
-export const Label: StoryObj<FABProps> = {
+export const Extended: StoryObj<FABProps> = {
         args: {
                 labelText: 'Label',
                 type: FAB_TYPE.TERTIARY,
@@ -41,20 +41,16 @@ export const Label: StoryObj<FABProps> = {
         }
 }
 
+export const Medium: StoryObj<FABProps> = {
+        args: {size: SIZE.MEDIUM, icon: <MaterialCommunityIcons name='circle' />}
+}
+
 export const Large: StoryObj<FABProps> = {
-        args: {
-                icon: <MaterialCommunityIcons name='circle' />,
-                size: SIZE.LARGE,
-                type: FAB_TYPE.PRIMARY
-        }
+        args: {size: SIZE.LARGE, icon: <MaterialCommunityIcons name='circle' />}
 }
 
 export const Small: StoryObj<FABProps> = {
-        args: {
-                icon: <MaterialCommunityIcons name='circle' />,
-                size: SIZE.SMALL,
-                type: FAB_TYPE.PRIMARY
-        }
+        args: {size: SIZE.SMALL, icon: <MaterialCommunityIcons name='circle' />}
 }
 
 export default {

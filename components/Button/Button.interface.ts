@@ -13,6 +13,7 @@ export interface ButtonProps extends TouchableProps, CommonProps {
         labelText?: string
         linkColor?: string
         loading?: boolean
+        stretch: boolean
         type?: ButtonType
 }
 

@@ -31,7 +31,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, type = BU
         return cloneElement(icon, {
                 color: disabled ? disabledColor : color[type],
                 disabled,
-                size: theme.token.spacing.large - theme.token.spacing.extraSmall,
+                size: theme.token.spacing.medium,
                 testID: `button__icon--${id}`
         })
 }
@@ -52,6 +52,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                         linkColor,
                         loading,
                         size = SIZE.MEDIUM,
+                        stretch,
                         testID,
                         type = BUTTON_TYPE.FILLED,
                         underlayColor,
@@ -104,6 +105,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                 tabIndex={-1}
                                 testID={testID ?? `button--${id}`}
                                 className={clsx('cursor-pointer', {
+                                        ['self-start']: !stretch,
+                                        ['self-stretch']: stretch,
                                         ['h-12 min-w-20']: size === SIZE.LARGE,
                                         ['h-10 min-w-20']: size === SIZE.MEDIUM,
                                         ['h-8 min-w-20']: size === SIZE.SMALL,
@@ -123,17 +126,26 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                         underlayColor={underlayColor}
                                 >
                                         <View
-                                                testID={`button__content--${id}`}
                                                 className={clsx(
-                                                        'pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center self-stretch overflow-hidden',
-                                                        shapeClasses(shape)
+                                                        'pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center self-stretch overflow-hidden'
                                                 )}
+                                                testID={`button__content--${id}`}
                                         >
                                                 <View
                                                         className={clsx(
                                                                 'z-10 flex flex-1 flex-row items-center justify-center gap-2 self-stretch',
-                                                                {['pl-4 pr-4']: type !== BUTTON_TYPE.LINK},
-                                                                {['pl-1 pr-1']: type === BUTTON_TYPE.LINK}
+                                                                {
+                                                                        ['pl-1 pr-1']: type === BUTTON_TYPE.LINK,
+                                                                        ['pl-3 pr-3']:
+                                                                                type !== BUTTON_TYPE.LINK &&
+                                                                                size === SIZE.SMALL,
+                                                                        ['pl-4 pr-4']:
+                                                                                type !== BUTTON_TYPE.LINK &&
+                                                                                size === SIZE.MEDIUM,
+                                                                        ['pl-6 pr-6']:
+                                                                                type !== BUTTON_TYPE.LINK &&
+                                                                                size === SIZE.LARGE
+                                                                }
                                                         )}
                                                         testID={`button__main--${id}`}
                                                 >
