@@ -11,6 +11,7 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
                         active,
                         activeColor,
                         activeLayerAnimatedStyle,
+                        activeShape,
                         hoverLayerAnimatedStyle,
                         id,
                         interactionHandlers,
@@ -42,7 +43,10 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
 
                         {typeof active === 'boolean' && activeColor && (
                                 <Animated.View
-                                        className='absolute bottom-0 left-0 right-0 top-0 z-10'
+                                        className={clsx(
+                                                'absolute bottom-0 left-0 right-0 top-0 z-10',
+                                                shapeClasses(activeShape ?? shape)
+                                        )}
                                         style={[
                                                 {...(activeColor && {backgroundColor: activeColor})},
                                                 activeLayerAnimatedStyle

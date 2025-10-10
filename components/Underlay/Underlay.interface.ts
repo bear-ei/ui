@@ -1,4 +1,4 @@
-import {CommonProps, ComponentStatus, EventName, LayoutRectangle} from '@/constants'
+import {CommonProps, ComponentStatus, EventName, LayoutRectangle, ShapeType} from '@/constants'
 import {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
@@ -10,6 +10,7 @@ export interface UnderlayProps extends ViewProps, RefAttributes<View>, CommonPro
         active?: boolean
         activeAnimatedType?: ActiveAnimatedType
         activeColor?: string
+        activeShape?: ShapeType
         defaultActive?: boolean
 
         /**
