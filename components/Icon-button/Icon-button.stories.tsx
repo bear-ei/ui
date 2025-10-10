@@ -40,12 +40,16 @@ export const Loading: StoryObj<IconButtonProps> = {
         }
 }
 
-export const Medium: StoryObj<IconButtonProps> = {
-        args: {size: SIZE.MEDIUM}
+export const ExtraLarge: StoryObj<IconButtonProps> = {
+        args: {size: SIZE.EXTRA_LARGE}
 }
 
 export const Large: StoryObj<IconButtonProps> = {
         args: {size: SIZE.LARGE}
+}
+
+export const Medium: StoryObj<IconButtonProps> = {
+        args: {size: SIZE.MEDIUM}
 }
 
 export const Small: StoryObj<IconButtonProps> = {

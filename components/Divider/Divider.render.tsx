@@ -1,5 +1,5 @@
 import {LAYOUT, typographyClasses} from '@/constants'
-import {SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {Text, View} from 'react-native'
@@ -46,7 +46,7 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
                                         <Text
                                                 testID={`divider__subheader--${id}`}
                                                 className={clsx(
-                                                        typographyClasses(TYPOGRAPHY.TITLE)(SIZE.SMALL)(
+                                                        typographyClasses(TYPOGRAPHY.TITLE)(TYPOGRAPHY_SIZE.SMALL)(
                                                                 'color-[--color-on-surface-variant]'
                                                         )
                                                 )}

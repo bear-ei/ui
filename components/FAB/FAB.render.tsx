@@ -1,6 +1,6 @@
 import {shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
@@ -29,11 +29,11 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
 
         const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
         const iconSize = {
-                [SIZE.EXTRA_LARGE]: theme.token.spacing.large + theme.token.spacing.medium,
+                [SIZE.EXTRA_LARGE]: theme.token.spacing.extraSmall * 10,
+                [SIZE.EXTRA_SMALL]: theme.token.spacing.extraSmall * 5,
                 [SIZE.LARGE]: theme.token.spacing.extraLarge,
-                [SIZE.MEDIUM]: theme.token.spacing.large + theme.token.spacing.extraSmall,
-                [SIZE.SMALL]: theme.token.spacing.large,
-                [SIZE.EXTRA_SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall
+                [SIZE.MEDIUM]: theme.token.spacing.extraSmall * 7,
+                [SIZE.SMALL]: theme.token.spacing.large
         }
 
         if (!icon) {
@@ -79,7 +79,6 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                 }
 
                 const shape = shapeSize[size]
-
                 const backgroundUnderlayElement = (
                         <Animated.View
                                 className={clsx(
@@ -108,6 +107,8 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                                         ['h-10 w-10']: !extended && size === SIZE.SMALL,
                                         ['h-12 w-12']: !extended && size === SIZE.MEDIUM,
                                         ['h-14 w-14']: !extended && size === SIZE.LARGE,
+                                        ['h-16 w-16']: !extended && size === SIZE.EXTRA_LARGE,
+                                        ['h-8 w-8']: !extended && size === SIZE.EXTRA_SMALL,
                                         ['h-12 min-w-20 self-start']: extended
                                 })}
                                 tabIndex={-1}
@@ -151,7 +152,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                                                                         className={clsx(
                                                                                 'select-none text-center',
                                                                                 typographyClasses(TYPOGRAPHY.LABEL)(
-                                                                                        SIZE.LARGE
+                                                                                        TYPOGRAPHY_SIZE.LARGE
                                                                                 )()
                                                                         )}
                                                                         ellipsizeMode='tail'

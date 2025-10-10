@@ -29,9 +29,11 @@ export const RenderProgress = forwardRef<View, RenderProgressProps>(
                         accessibilityRole='progressbar'
                         className={clsx('pointer-events-none flex flex-col self-stretch', {
                                 ['h-1 min-w-10']: type === PROGRESS_TYPE.LINEAR,
+                                ['h-14 w-14']: type === PROGRESS_TYPE.CIRCULAR && size === SIZE.EXTRA_LARGE,
                                 ['h-12 w-12']: type === PROGRESS_TYPE.CIRCULAR && size === SIZE.LARGE,
                                 ['h-10 w-10']: type === PROGRESS_TYPE.CIRCULAR && size === SIZE.MEDIUM,
                                 ['h-8 w-8']: type === PROGRESS_TYPE.CIRCULAR && size === SIZE.SMALL,
+                                ['h-6 w-6']: type === PROGRESS_TYPE.CIRCULAR && size === SIZE.EXTRA_SMALL,
                                 ['gap-1']: !!(value && value > 0) && type === PROGRESS_TYPE.LINEAR
                         })}
                         ref={ref}

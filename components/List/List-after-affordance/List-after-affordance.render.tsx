@@ -31,11 +31,11 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                 const color = theme.token.scheme.onPrimary
                 const isDangerVisible = !secondaryButtonProps?.disabled
                 const iconSize = {
-                        [SIZE.EXTRA_LARGE]: theme.token.spacing.large + theme.token.spacing.small,
-                        [SIZE.LARGE]: theme.token.spacing.large + theme.token.spacing.extraSmall,
+                        [SIZE.EXTRA_LARGE]: theme.token.spacing.extraLarge,
+                        [SIZE.EXTRA_SMALL]: theme.token.spacing.medium,
+                        [SIZE.LARGE]: theme.token.spacing.extraSmall * 7,
                         [SIZE.MEDIUM]: theme.token.spacing.large,
-                        [SIZE.SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall,
-                        [SIZE.EXTRA_SMALL]: theme.token.spacing.large - theme.token.spacing.small
+                        [SIZE.SMALL]: theme.token.spacing.extraSmall * 5
                 }
 
                 const size = iconSize[rawSize]

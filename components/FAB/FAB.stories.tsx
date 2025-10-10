@@ -41,6 +41,10 @@ export const Extended: StoryObj<FABProps> = {
         }
 }
 
+export const ExtraLarge: StoryObj<FABProps> = {
+        args: {size: SIZE.EXTRA_LARGE, icon: <MaterialIcons name='circle' />}
+}
+
 export const Medium: StoryObj<FABProps> = {
         args: {size: SIZE.MEDIUM, icon: <MaterialIcons name='circle' />}
 }
@@ -51,6 +55,10 @@ export const Large: StoryObj<FABProps> = {
 
 export const Small: StoryObj<FABProps> = {
         args: {size: SIZE.SMALL, icon: <MaterialIcons name='circle' />}
+}
+
+export const ExtraSmall: StoryObj<FABProps> = {
+        args: {size: SIZE.EXTRA_SMALL, icon: <MaterialIcons name='circle' />}
 }
 
 export default {

@@ -29,10 +29,10 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
                 const theme = useTheme()
                 const progressSize = {
                         [SIZE.EXTRA_LARGE]: theme.token.spacing.extraSmall * 14,
+                        [SIZE.EXTRA_SMALL]: theme.token.spacing.large,
                         [SIZE.LARGE]: theme.token.spacing.extraSmall * 12,
                         [SIZE.MEDIUM]: theme.token.spacing.extraSmall * 10,
-                        [SIZE.SMALL]: theme.token.spacing.extraLarge,
-                        [SIZE.EXTRA_SMALL]: theme.token.spacing.large
+                        [SIZE.SMALL]: theme.token.spacing.extraLarge
                 }
 
                 const id = useId()

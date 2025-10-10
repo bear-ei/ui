@@ -18,16 +18,24 @@ export const CircularDeterminate: StoryObj<ProgressProps> = {
         }
 }
 
-export const Medium: StoryObj<ProgressProps> = {
-        args: {size: SIZE.MEDIUM, type: PROGRESS_TYPE.CIRCULAR, enableAnimated: true}
+export const ExtraLarge: StoryObj<ProgressProps> = {
+        args: {size: SIZE.EXTRA_LARGE, type: PROGRESS_TYPE.CIRCULAR, enableAnimated: true}
 }
 
 export const Large: StoryObj<ProgressProps> = {
         args: {size: SIZE.LARGE, type: PROGRESS_TYPE.CIRCULAR, enableAnimated: true}
 }
 
+export const Medium: StoryObj<ProgressProps> = {
+        args: {size: SIZE.MEDIUM, type: PROGRESS_TYPE.CIRCULAR, enableAnimated: true}
+}
+
 export const Small: StoryObj<ProgressProps> = {
         args: {size: SIZE.SMALL, type: PROGRESS_TYPE.CIRCULAR, enableAnimated: true}
+}
+
+export const ExtraSmall: StoryObj<ProgressProps> = {
+        args: {size: SIZE.EXTRA_SMALL, type: PROGRESS_TYPE.CIRCULAR, enableAnimated: true}
 }
 
 export default {

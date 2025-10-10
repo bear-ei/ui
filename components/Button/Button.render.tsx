@@ -107,10 +107,11 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                 className={clsx('cursor-pointer', {
                                         ['self-start']: !stretch,
                                         ['self-stretch']: stretch,
-                                        ['h-12 min-w-20']: size === SIZE.LARGE,
-                                        ['h-10 min-w-20']: size === SIZE.MEDIUM,
-                                        ['h-8 min-w-20']: size === SIZE.SMALL,
-                                        ['min-w-14']: type === BUTTON_TYPE.TEXT,
+                                        ['h-14 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.EXTRA_LARGE,
+                                        ['h-12 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.LARGE,
+                                        ['h-10 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.MEDIUM,
+                                        ['h-8 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.SMALL,
+                                        ['h-6 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.EXTRA_SMALL,
                                         ['h-4 min-w-6']: type === BUTTON_TYPE.LINK
                                 })}
                         >

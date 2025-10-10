@@ -49,10 +49,10 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 
                 const iconSize = {
                         [SIZE.EXTRA_LARGE]: theme.token.spacing.extraLarge,
-                        [SIZE.LARGE]: theme.token.spacing.large + theme.token.spacing.extraSmall,
+                        [SIZE.EXTRA_SMALL]: theme.token.spacing.medium,
+                        [SIZE.LARGE]: theme.token.spacing.extraSmall * 7,
                         [SIZE.MEDIUM]: theme.token.spacing.large,
-                        [SIZE.SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall,
-                        [SIZE.EXTRA_SMALL]: theme.token.spacing.large - theme.token.spacing.small
+                        [SIZE.SMALL]: theme.token.spacing.extraSmall * 5
                 }
 
                 return (
@@ -62,9 +62,11 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                 accessibilityState={{disabled}}
                                 accessible={true}
                                 className={clsx({
+                                        ['h-14 w-14']: size === SIZE.EXTRA_LARGE,
                                         ['h-12 w-12']: size === SIZE.LARGE,
                                         ['h-10 w-10']: size === SIZE.MEDIUM,
-                                        ['h-8 w-8']: size === SIZE.SMALL
+                                        ['h-8 w-8']: size === SIZE.SMALL,
+                                        ['h-6 w-6']: size === SIZE.EXTRA_SMALL
                                 })}
                                 tabIndex={-1}
                                 testID={testID ?? `checkbox--${id}`}

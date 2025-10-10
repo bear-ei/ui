@@ -32,9 +32,11 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                                 className={clsx(
                                         'pointer-events-none relative overflow-hidden bg-[--color-primary-container]',
                                         {
+                                                ['h-14 w-14']: size === SIZE.EXTRA_LARGE,
                                                 ['h-12 w-12']: size === SIZE.LARGE,
                                                 ['h-10 w-10']: size === SIZE.MEDIUM,
-                                                ['h-8 w-8']: size === SIZE.SMALL
+                                                ['h-8 w-8']: size === SIZE.SMALL,
+                                                ['h-6 w-6']: size === SIZE.EXTRA_SMALL
                                         },
                                         shapeClasses(shape)
                                 )}
@@ -70,7 +72,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                                                 :       <Text
                                                                 className={clsx(
                                                                         'color-[--color-on-primary-container]',
-                                                                        typographyClasses(TYPOGRAPHY.TITLE)(SIZE.MEDIUM)
+                                                                        typographyClasses(TYPOGRAPHY.TITLE)(size)
                                                                 )}
                                                                 ellipsizeMode='tail'
                                                                 numberOfLines={1}

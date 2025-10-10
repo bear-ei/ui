@@ -1,5 +1,5 @@
 import {COMPONENT_STATUS, LAYOUT, typographyClasses} from '@/constants'
-import {SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type ForwardedRef} from 'react'
 import {ScrollView, Text, View} from 'react-native'
@@ -118,7 +118,7 @@ export const RenderVirtualListInner = <T,>(
                                 {emptyElement ?? (
                                         <Text
                                                 className={clsx(
-                                                        typographyClasses(TYPOGRAPHY.BODY)(SIZE.MEDIUM),
+                                                        typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.MEDIUM),
                                                         'color-[--color-on-surface-variant]'
                                                 )}
                                                 testID={`virtualList__supportingText--${id}`}
@@ -138,7 +138,7 @@ export const RenderVirtualListInner = <T,>(
                                         cloneElement(loadingElement, {loading})
                                 :       <Text
                                                 className={clsx(
-                                                        typographyClasses(TYPOGRAPHY.BODY)(SIZE.MEDIUM),
+                                                        typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.MEDIUM),
                                                         'color-[--color-on-surface-variant]'
                                                 )}
                                                 testID={`virtualList__supportingText--${id}`}
