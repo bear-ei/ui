@@ -13,11 +13,7 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
         const contentTransformXSharedValue = useSharedValue(0)
         const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
-        const contentTranslateXOutputRanges = useMemo(
-                () => [spacing.none, -spacing.extraSmall * 40],
-                [spacing.extraSmall, spacing.none]
-        )
-
+        const contentTranslateXOutputRanges = [spacing.none, -spacing.extraSmall * 40]
         const contentAnimatedStyle = useAnimatedStyle(() => ({
                 transform: [
                         {
@@ -30,13 +26,10 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
                 ]
         }))
 
-        const headlineTextColorOutputRanges = useMemo(
-                () => [
-                        hexToRGBA(scheme.onSurface)(opacity.level10),
-                        hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
-                ],
-                [opacity.level10, scheme.onSecondaryContainer, scheme.onSurface]
-        )
+        const headlineTextColorOutputRanges = [
+                hexToRGBA(scheme.onSurface)(opacity.level10),
+                hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
+        ]
 
         const headlineTextAnimatedStyle = useAnimatedStyle(() => ({
                 color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRanges)

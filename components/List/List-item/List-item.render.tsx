@@ -8,7 +8,7 @@ import {useTheme} from '@/hooks'
 import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
-import {cloneElement, forwardRef, isValidElement, useCallback, useMemo, type FC} from 'react'
+import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ListAfterAffordance} from '../List-after-affordance'
@@ -40,61 +40,46 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         }
 
         const size = iconSize[rawSize]
-        const trailingProps = useMemo(
-                () => ({
-                        ...restTrailingProps,
-                        ...interactionHandlers,
-                        ...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {onHoverIn}),
-                        disabled: isDisabled ?? disabled,
-                        testID: `listItem__trailing--${id}`,
-                        type: ICON_BUTTON_TYPE.STANDARD,
-                        size
-                }),
-                [
-                        disabled,
-                        id,
-                        interactionHandlers,
-                        isDisabled,
-                        onHoverIn,
-                        restTrailingProps,
-                        size,
-                        trailingTriggerEvent
-                ]
-        )
+        const trailingProps = {
+                ...restTrailingProps,
+                ...interactionHandlers,
+                ...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {onHoverIn}),
+                disabled: isDisabled ?? disabled,
+                testID: `listItem__trailing--${id}`,
+                type: ICON_BUTTON_TYPE.STANDARD,
+                size
+        }
 
-        const trailingElement = useMemo(
-                () => ({
-                        afterAffordance:
-                                trailing ?
-                                        cloneElement(trailing, trailingProps)
-                                :       <IconButton
-                                                {...trailingProps}
-                                                testID={`listItem__trailingIconButton--${id}`}
-                                                icon={
-                                                        <MaterialIcons
-                                                                name='more-horiz'
-                                                                testID={`listItem__trailingIconMoreHoriz--${id}`}
-                                                        />
-                                                }
-                                        />,
-                        closeTrailing: cloneElement(
-                                trailing ?? (
-                                        <IconButton
-                                                testID={`listItem__trailingIconButton--${id}`}
-                                                icon={
-                                                        <MaterialIcons
-                                                                name='close'
-                                                                testID={`listItem__trailingIconMoreHoriz--${id}`}
-                                                        />
-                                                }
-                                        />
-                                ),
-                                trailingProps
+        const trailingElement = {
+                afterAffordance:
+                        trailing ?
+                                cloneElement(trailing, trailingProps)
+                        :       <IconButton
+                                        {...trailingProps}
+                                        testID={`listItem__trailingIconButton--${id}`}
+                                        icon={
+                                                <MaterialIcons
+                                                        name='more-horiz'
+                                                        testID={`listItem__trailingIconMoreHoriz--${id}`}
+                                                />
+                                        }
+                                />,
+                closeTrailing: cloneElement(
+                        trailing ?? (
+                                <IconButton
+                                        testID={`listItem__trailingIconButton--${id}`}
+                                        icon={
+                                                <MaterialIcons
+                                                        name='close'
+                                                        testID={`listItem__trailingIconMoreHoriz--${id}`}
+                                                />
+                                        }
+                                />
                         ),
-                        standard: trailing ? cloneElement(trailing, trailingProps) : undefined
-                }),
-                [id, trailing, trailingProps]
-        )
+                        trailingProps
+                ),
+                standard: trailing ? cloneElement(trailing, trailingProps) : undefined
+        }
 
         return trailingElement[trailingType]
 }

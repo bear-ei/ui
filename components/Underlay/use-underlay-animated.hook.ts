@@ -17,11 +17,7 @@ export const useUnderlayAnimated = ({
 }: UseUnderlayAnimatedOptions) => {
         const theme = useTheme()
         const {opacity} = theme.token
-        const opacities = useMemo(
-                () => (rawOpacities?.length ? rawOpacities : [opacity.level0, opacity.level1, opacity.level2]),
-                [rawOpacities, opacity.level0, opacity.level1, opacity.level2]
-        )
-
+        const opacities = rawOpacities?.length ? rawOpacities : [opacity.level0, opacity.level1, opacity.level2]
         const {x: scaleX = 1.2, y: scaleY = 1.2} = activeScale ?? {}
         const defaultScaleValue = active ? 1 : 0
         const activeValue = opacities.length === 3 ? opacities.length - 1 : 0
@@ -29,7 +25,7 @@ export const useUnderlayAnimated = ({
         const activeLayerSharedValue = useSharedValue(typeof active === 'boolean' ? defaultScaleValue : 0)
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
-        const opacityInputRanges = useMemo(() => opacities.map((_value, index) => index), [opacities])
+        const opacityInputRanges = opacities.map((_value, index) => index)
         const hoverLayerAnimatedStyle = useAnimatedStyle(() => ({
                 opacity: interpolate(hoverLayerSharedValue.value, opacityInputRanges, opacities)
         }))
@@ -53,20 +49,12 @@ export const useUnderlayAnimated = ({
                 opacity: interpolate(activeLayerSharedValue.value, [0, 1], [opacity.level0, opacity.level10])
         }))
 
-        const activeLayerAnimated = useMemo(
-                () => ({
-                        [ACTIVE_ANIMATED.FADE]: activeLayerFadeAnimatedStyle,
-                        [ACTIVE_ANIMATED.SCALE_X]: activeLayerScaleXAnimatedStyle,
-                        [ACTIVE_ANIMATED.SCALE_Y]: activeLayerScaleYAnimatedStyle,
-                        [ACTIVE_ANIMATED.SCALE]: activeLayerScaleAnimatedStyle
-                }),
-                [
-                        activeLayerFadeAnimatedStyle,
-                        activeLayerScaleAnimatedStyle,
-                        activeLayerScaleXAnimatedStyle,
-                        activeLayerScaleYAnimatedStyle
-                ]
-        )
+        const activeLayerAnimated = {
+                [ACTIVE_ANIMATED.FADE]: activeLayerFadeAnimatedStyle,
+                [ACTIVE_ANIMATED.SCALE_X]: activeLayerScaleXAnimatedStyle,
+                [ACTIVE_ANIMATED.SCALE_Y]: activeLayerScaleYAnimatedStyle,
+                [ACTIVE_ANIMATED.SCALE]: activeLayerScaleAnimatedStyle
+        }
 
         const runAnimateHoverState = useMemo(
                 () =>

@@ -14,75 +14,42 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
         const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
         const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
-        const backgroundColorType = useMemo(
-                () => ({
-                        [FAB_TYPE.SURFACE]: {
-                                inputRanges: [0, 1],
-                                outputRanges: [
-                                        disabledBackgroundColor,
-                                        hexToRGBA(scheme.surfaceContainerHigh)(opacity.level10)
-                                ]
-                        },
-                        [FAB_TYPE.PRIMARY]: {
-                                inputRanges: [0, 1],
-                                outputRanges: [
-                                        disabledBackgroundColor,
-                                        hexToRGBA(scheme.primaryContainer)(opacity.level10)
-                                ]
-                        },
-                        [FAB_TYPE.SECONDARY]: {
-                                inputRanges: [0, 1],
-                                outputRanges: [
-                                        disabledBackgroundColor,
-                                        hexToRGBA(scheme.secondaryContainer)(opacity.level10)
-                                ]
-                        },
-                        [FAB_TYPE.TERTIARY]: {
-                                inputRanges: [0, 1],
-                                outputRanges: [
-                                        disabledBackgroundColor,
-                                        hexToRGBA(scheme.tertiaryContainer)(opacity.level10)
-                                ]
-                        }
-                }),
-                [
-                        disabledBackgroundColor,
-                        opacity.level10,
-                        scheme.primaryContainer,
-                        scheme.secondaryContainer,
-                        scheme.surfaceContainerHigh,
-                        scheme.tertiaryContainer
-                ]
-        )
-
-        const colorType = useMemo(
-                () => ({
-                        [FAB_TYPE.SURFACE]: {
-                                inputRanges: [0, 1],
-                                outputRanges: [disabledColor, hexToRGBA(scheme.primary)(opacity.level10)]
-                        },
-                        [FAB_TYPE.PRIMARY]: {
-                                inputRanges: [0, 1],
-                                outputRanges: [disabledColor, hexToRGBA(scheme.onPrimaryContainer)(opacity.level10)]
-                        },
-                        [FAB_TYPE.SECONDARY]: {
-                                inputRanges: [0, 1],
-                                outputRanges: [disabledColor, hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)]
-                        },
-                        [FAB_TYPE.TERTIARY]: {
-                                inputRanges: [0, 1],
-                                outputRanges: [disabledColor, hexToRGBA(scheme.onTertiaryContainer)(opacity.level10)]
-                        }
-                }),
-                [
-                        disabledColor,
-                        opacity.level10,
-                        scheme.onPrimaryContainer,
-                        scheme.onSecondaryContainer,
-                        scheme.onTertiaryContainer,
-                        scheme.primary
-                ]
-        )
+        const backgroundColorType = {
+                [FAB_TYPE.SURFACE]: {
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerHigh)(opacity.level10)]
+                },
+                [FAB_TYPE.PRIMARY]: {
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.primaryContainer)(opacity.level10)]
+                },
+                [FAB_TYPE.SECONDARY]: {
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.secondaryContainer)(opacity.level10)]
+                },
+                [FAB_TYPE.TERTIARY]: {
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.tertiaryContainer)(opacity.level10)]
+                }
+        }
+        const colorType = {
+                [FAB_TYPE.SURFACE]: {
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledColor, hexToRGBA(scheme.primary)(opacity.level10)]
+                },
+                [FAB_TYPE.PRIMARY]: {
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledColor, hexToRGBA(scheme.onPrimaryContainer)(opacity.level10)]
+                },
+                [FAB_TYPE.SECONDARY]: {
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledColor, hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)]
+                },
+                [FAB_TYPE.TERTIARY]: {
+                        inputRanges: [0, 1],
+                        outputRanges: [disabledColor, hexToRGBA(scheme.onTertiaryContainer)(opacity.level10)]
+                }
+        }
 
         const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(

@@ -27,14 +27,11 @@ export const useProgressActiveIndicatorCircularAnimated = ({
                 transform: [{rotate: `${interpolate(containerSharedValue.value, [0, 1, 2], [0, 360, 720])}deg`}]
         }))
 
-        const circleStrokeDashoffsetOutputRanges = useMemo(
-                () => [
-                        computeProgressStrokeDashoffset(circumference)(0.1),
-                        computeProgressStrokeDashoffset(circumference)(0.8),
-                        computeProgressStrokeDashoffset(circumference)(0.1)
-                ],
-                [circumference]
-        )
+        const circleStrokeDashoffsetOutputRanges = [
+                computeProgressStrokeDashoffset(circumference)(0.1),
+                computeProgressStrokeDashoffset(circumference)(0.8),
+                computeProgressStrokeDashoffset(circumference)(0.1)
+        ]
 
         const circleAnimatedProps = useAnimatedProps(() => ({
                 strokeDashoffset: interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRanges)

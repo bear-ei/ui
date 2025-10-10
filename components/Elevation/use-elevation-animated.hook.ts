@@ -13,101 +13,51 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
         const {elevation} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
-        const inputRanges = useMemo(() => [0, 1, 2, 3, 4, 5], [])
-        const shadowOpacityOutputRanges = useMemo(
-                () => [
-                        elevation.level0.shadowOpacity,
-                        elevation.level1.shadowOpacity,
-                        elevation.level2.shadowOpacity,
-                        elevation.level3.shadowOpacity,
-                        elevation.level4.shadowOpacity,
-                        elevation.level5.shadowOpacity
-                ],
-                [
-                        elevation.level0.shadowOpacity,
-                        elevation.level1.shadowOpacity,
-                        elevation.level2.shadowOpacity,
-                        elevation.level3.shadowOpacity,
-                        elevation.level4.shadowOpacity,
-                        elevation.level5.shadowOpacity
-                ]
-        )
+        const inputRanges = [0, 1, 2, 3, 4, 5]
+        const shadowOpacityOutputRanges = [
+                elevation.level0.shadowOpacity,
+                elevation.level1.shadowOpacity,
+                elevation.level2.shadowOpacity,
+                elevation.level3.shadowOpacity,
+                elevation.level4.shadowOpacity,
+                elevation.level5.shadowOpacity
+        ]
 
-        const elevationOutputRanges = useMemo(
-                () => [
-                        elevation.level0.elevation,
-                        elevation.level1.elevation,
-                        elevation.level2.elevation,
-                        elevation.level3.elevation,
-                        elevation.level4.elevation,
-                        elevation.level5.elevation
-                ],
-                [
-                        elevation.level0.elevation,
-                        elevation.level1.elevation,
-                        elevation.level2.elevation,
-                        elevation.level3.elevation,
-                        elevation.level4.elevation,
-                        elevation.level5.elevation
-                ]
-        )
+        const elevationOutputRanges = [
+                elevation.level0.elevation,
+                elevation.level1.elevation,
+                elevation.level2.elevation,
+                elevation.level3.elevation,
+                elevation.level4.elevation,
+                elevation.level5.elevation
+        ]
 
-        const shadowRadiusOutputRanges = useMemo(
-                () => [
-                        elevation.level0.shadowRadius,
-                        elevation.level1.shadowRadius,
-                        elevation.level2.shadowRadius,
-                        elevation.level3.shadowRadius,
-                        elevation.level4.shadowRadius,
-                        elevation.level5.shadowRadius
-                ],
-                [
-                        elevation.level0.shadowRadius,
-                        elevation.level1.shadowRadius,
-                        elevation.level2.shadowRadius,
-                        elevation.level3.shadowRadius,
-                        elevation.level4.shadowRadius,
-                        elevation.level5.shadowRadius
-                ]
-        )
+        const shadowRadiusOutputRanges = [
+                elevation.level0.shadowRadius,
+                elevation.level1.shadowRadius,
+                elevation.level2.shadowRadius,
+                elevation.level3.shadowRadius,
+                elevation.level4.shadowRadius,
+                elevation.level5.shadowRadius
+        ]
 
-        const shadowOffsetXOutputRanges = useMemo(
-                () => [
-                        elevation.level0.shadowOffset.width,
-                        elevation.level1.shadowOffset.width,
-                        elevation.level2.shadowOffset.width,
-                        elevation.level3.shadowOffset.width,
-                        elevation.level4.shadowOffset.width,
-                        elevation.level5.shadowOffset.width
-                ],
-                [
-                        elevation.level0.shadowOffset.width,
-                        elevation.level1.shadowOffset.width,
-                        elevation.level2.shadowOffset.width,
-                        elevation.level3.shadowOffset.width,
-                        elevation.level4.shadowOffset.width,
-                        elevation.level5.shadowOffset.width
-                ]
-        )
+        const shadowOffsetXOutputRanges = [
+                elevation.level0.shadowOffset.width,
+                elevation.level1.shadowOffset.width,
+                elevation.level2.shadowOffset.width,
+                elevation.level3.shadowOffset.width,
+                elevation.level4.shadowOffset.width,
+                elevation.level5.shadowOffset.width
+        ]
 
-        const shadowOffsetYOutputRanges = useMemo(
-                () => [
-                        elevation.level0.shadowOffset.height,
-                        elevation.level1.shadowOffset.height,
-                        elevation.level2.shadowOffset.height,
-                        elevation.level3.shadowOffset.height,
-                        elevation.level4.shadowOffset.height,
-                        elevation.level5.shadowOffset.height
-                ],
-                [
-                        elevation.level0.shadowOffset.height,
-                        elevation.level1.shadowOffset.height,
-                        elevation.level2.shadowOffset.height,
-                        elevation.level3.shadowOffset.height,
-                        elevation.level4.shadowOffset.height,
-                        elevation.level5.shadowOffset.height
-                ]
-        )
+        const shadowOffsetYOutputRanges = [
+                elevation.level0.shadowOffset.height,
+                elevation.level1.shadowOffset.height,
+                elevation.level2.shadowOffset.height,
+                elevation.level3.shadowOffset.height,
+                elevation.level4.shadowOffset.height,
+                elevation.level5.shadowOffset.height
+        ]
 
         const shadowAnimatedStyle = useAnimatedStyle(() => {
                 const shadowOffsetX = interpolate(shadowSharedValue.value, inputRanges, shadowOffsetXOutputRanges)

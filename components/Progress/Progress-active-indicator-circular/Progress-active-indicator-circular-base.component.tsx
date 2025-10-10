@@ -28,15 +28,15 @@ export const ProgressActiveIndicatorCircularBase = forwardRef<View, ProgressActi
 
                 const theme = useTheme()
                 const progressSize = {
+                        [SIZE.EXTRA_LARGE]: theme.token.spacing.extraSmall * 14,
                         [SIZE.LARGE]: theme.token.spacing.extraSmall * 12,
                         [SIZE.MEDIUM]: theme.token.spacing.extraSmall * 10,
-                        [SIZE.SMALL]: theme.token.spacing.extraLarge
+                        [SIZE.SMALL]: theme.token.spacing.extraLarge,
+                        [SIZE.EXTRA_SMALL]: theme.token.spacing.large
                 }
 
                 const id = useId()
                 const size = progressSize[rawSize]
-
-                console.info(size)
                 const strokeWidth = rawStrokeWidth ?? theme.token.spacing.extraSmall
                 const radius = (size - strokeWidth) / 2
                 const circumference = 2 * Math.PI * radius

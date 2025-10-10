@@ -13,31 +13,22 @@ export const useListAffordanceButtonAnimated = ({
         const {scheme, opacity} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
-        const animatedValue =
-                backgroundVisible ? 2
-                : disabled ? 0
-                : 1
-
+        const disabledValue = disabled ? 0 : 1
+        const animatedValue = backgroundVisible ? 2 : disabledValue
         const colorSharedValue = useSharedValue(animatedValue)
         const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
         const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
-        const backgroundColorOutputRanges = useMemo(
-                () => [
-                        disabledBackgroundColor,
-                        hexToRGBA(scheme.primary)(opacity.level0),
-                        hexToRGBA(scheme.primary)(opacity.level10)
-                ],
-                [disabledBackgroundColor, opacity.level0, opacity.level10, scheme.primary]
-        )
+        const backgroundColorOutputRanges = [
+                disabledBackgroundColor,
+                hexToRGBA(scheme.primary)(opacity.level0),
+                hexToRGBA(scheme.primary)(opacity.level10)
+        ]
 
-        const colorOutputRanges = useMemo(
-                () => [
-                        disabledColor,
-                        hexToRGBA(scheme.onPrimary)(opacity.level10),
-                        hexToRGBA(scheme.onPrimary)(opacity.level10)
-                ],
-                [disabledColor, opacity.level10, scheme.onPrimary]
-        )
+        const colorOutputRanges = [
+                disabledColor,
+                hexToRGBA(scheme.onPrimary)(opacity.level10),
+                hexToRGBA(scheme.onPrimary)(opacity.level10)
+        ]
 
         const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 backgroundColor: interpolateColor(colorSharedValue.value, [0, 1, 2], backgroundColorOutputRanges)
@@ -53,12 +44,8 @@ export const useListAffordanceButtonAnimated = ({
         )
 
         useEffect(() => {
-                runAnimate(
-                        backgroundVisible ? 2
-                        : disabled ? 0
-                        : 1
-                )
-        }, [runAnimate, disabled, backgroundVisible])
+                runAnimate(backgroundVisible ? 2 : disabledValue)
+        }, [backgroundVisible, disabledValue, runAnimate])
 
         useEffect(() => () => cancelAnimation(colorSharedValue), [colorSharedValue])
 
