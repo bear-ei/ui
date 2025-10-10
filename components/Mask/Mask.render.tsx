@@ -1,6 +1,6 @@
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
-import {Pressable, View} from 'react-native'
+import {Platform, Pressable, View} from 'react-native'
 import type {RenderMaskProps} from './Mask.interface'
 
 export const RenderMask = forwardRef<View, RenderMaskProps>(
@@ -23,8 +23,12 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
                         accessibilityRole='alert'
                         accessible={true}
                         className={clsx(
-                                'absolute z-40 cursor-default bg-[--color-scrim] opacity-20',
-                                {['-z-40 overflow-hidden']: !visible},
+                                'bottom-0 left-0 right-0 top-0 z-40 cursor-default bg-[--color-scrim] opacity-20',
+                                {
+                                        ['-z-40 overflow-hidden']: !visible,
+                                        ['absolute']: Platform.OS !== 'web',
+                                        ['fixed']: Platform.OS === 'web'
+                                },
                                 className
                         )}
                         ref={ref}

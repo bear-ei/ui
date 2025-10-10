@@ -208,7 +208,6 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                 backgroundColor={theme.token.scheme.scrim}
                                                 onPressOut={onMaskPressOut}
                                                 opacity={theme.token.opacity.level0}
-                                                // style={[{position: 'fixed'}]}
                                                 testID={`tooltip__mask--${id}`}
                                                 visible={visible}
                                         />

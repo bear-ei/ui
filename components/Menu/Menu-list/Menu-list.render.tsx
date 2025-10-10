@@ -39,7 +39,10 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                 return (
                         <View
                                 {...(['web', 'windows', 'macos'].includes(Platform.OS) && {onKeyDown})}
-                                className={clsx('w-[180px] overflow-hidden outline-none', shapeClasses(shape))}
+                                className={clsx(
+                                        'w-[180px] overflow-hidden bg-[--color-surface-container] outline-none',
+                                        shapeClasses(shape)
+                                )}
                                 ref={ref}
                                 style={{height: dataNumber * itemSize + theme.token.spacing.medium}}
                                 tabIndex={-1}
@@ -52,6 +55,7 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                                         onItemStateEvent={{onFocus} as InteractionHandlers}
                                         selectType={multiple ? LIST_SELECT_TYPE.MULTIPLE : LIST_SELECT_TYPE.SINGLE}
                                         showsVerticalScrollIndicator={false}
+                                        size={SIZE.MEDIUM}
                                         testID={`menu__list--${id}`}
                                         type={listType}
                                 />
