@@ -6,7 +6,7 @@ import type {RenderTooltipProps} from './Tooltip.interface'
 
 export const RenderTooltip = forwardRef<View, RenderTooltipProps>(
         ({children, id, interactionHandlers, onContextMenu, testID, type, className, ...containerProps}, ref) => {
-                const {onFocus, onHoverIn, ...onChildrenInteractionHandlers} = interactionHandlers
+                const {onFocus, onHoverIn, ...childrenInteractionHandlers} = interactionHandlers
 
                 return (
                         <View
@@ -19,7 +19,7 @@ export const RenderTooltip = forwardRef<View, RenderTooltipProps>(
                                         cloneElement(children, {
                                                 onFocus,
                                                 onHoverIn,
-                                                ...onChildrenInteractionHandlers,
+                                                ...childrenInteractionHandlers,
                                                 ...(type === TOOLTIP_TYPE.MENU && {onContextMenu})
                                         })}
                         </View>

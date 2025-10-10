@@ -13,7 +13,7 @@ export const updateModals = (setState: Updater<ModalState>) => (modal: Modal) =>
 
                 const existingIndex = draft.modals?.findIndex(item => item.id === id)
 
-                if (existingIndex && existingIndex !== -1 && draft.modals) {
+                if (typeof existingIndex === 'number' && existingIndex !== -1 && draft.modals) {
                         draft.modals[existingIndex] = {...draft.modals[existingIndex], props}
 
                         return

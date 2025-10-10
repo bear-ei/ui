@@ -6,31 +6,19 @@ import {SUPPORTING_POSITION} from './Tooltip-supporting'
 import {Tooltip} from './Tooltip.component'
 
 export const PlainVerticalEnd = () => (
-        <>
-                <View className='flex h-10 w-10 flex-row justify-center'>
-                        <Tooltip
-                                supporting='Supporting Text A'
-                                supportingPosition={SUPPORTING_POSITION.VERTICAL_END}
-                        >
-                                <IconButton
-                                        icon={<MaterialIcons name='circle' />}
-                                        type={ICON_BUTTON_TYPE.STANDARD}
-                                />
-                        </Tooltip>
-                </View>
-
-                <View className='flex h-10 w-10 flex-row justify-center'>
-                        <Tooltip
-                                supporting='Supporting Text B'
-                                supportingPosition={SUPPORTING_POSITION.VERTICAL_END}
-                        >
-                                <IconButton
-                                        icon={<MaterialIcons name='circle' />}
-                                        type={ICON_BUTTON_TYPE.STANDARD}
-                                />
-                        </Tooltip>
-                </View>
-        </>
+        <View className='flex h-[800px] w-[800px] items-center justify-center'>
+                <Tooltip
+                        className='h-10 w-10'
+                        defaultVisible={true}
+                        supporting='2222222'
+                        supportingPosition={SUPPORTING_POSITION.VERTICAL_END}
+                >
+                        <IconButton
+                                icon={<MaterialIcons name='circle' />}
+                                type={ICON_BUTTON_TYPE.STANDARD}
+                        />
+                </Tooltip>
+        </View>
 )
 
 export const PlainVerticalStart = () => (
