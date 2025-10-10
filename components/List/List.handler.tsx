@@ -98,6 +98,8 @@ export const createListItemSize =
                 }
 
                 const listItemSize = {
+                        [SIZE.EXTRA_LARGE]: theme.token.spacing.extraSmall * 14,
+                        [SIZE.EXTRA_SMALL]: theme.token.spacing.large,
                         [SIZE.LARGE]: theme.token.spacing.extraSmall * 12,
                         [SIZE.MEDIUM]: theme.token.spacing.extraSmall * 10,
                         [SIZE.SMALL]: theme.token.spacing.extraLarge

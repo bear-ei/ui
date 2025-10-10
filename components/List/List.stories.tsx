@@ -163,9 +163,9 @@ export const TrailingClose: StoryObj<ListProps> = {
         }
 }
 
-export const Medium: StoryObj<ListProps> = {
+export const ExtraLarge: StoryObj<ListProps> = {
         args: {
-                size: SIZE.MEDIUM,
+                size: SIZE.EXTRA_LARGE,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
                 data: [
@@ -215,9 +215,61 @@ export const Large: StoryObj<ListProps> = {
         }
 }
 
+export const Medium: StoryObj<ListProps> = {
+        args: {
+                size: SIZE.MEDIUM,
+                defaultActiveKey: 'TitleB',
+                activeKey: 'TitleA',
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA'
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB'
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC'
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD'
+                        }
+                ]
+        }
+}
+
 export const Small: StoryObj<ListProps> = {
         args: {
                 size: SIZE.SMALL,
+                defaultActiveKey: 'TitleB',
+                activeKey: 'TitleA',
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA'
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB'
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC'
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD'
+                        }
+                ]
+        }
+}
+
+export const ExtraSmall: StoryObj<ListProps> = {
+        args: {
+                size: SIZE.EXTRA_SMALL,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
                 data: [

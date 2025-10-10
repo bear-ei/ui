@@ -353,9 +353,11 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 className={clsx(
                                         'relative flex flex-col self-stretch overflow-hidden',
                                         {
-                                                ['h-8 min-w-8']: size === SIZE.SMALL,
                                                 ['h-10 min-w-10']: size === SIZE.MEDIUM,
-                                                ['h-12 min-w-12']: size === SIZE.LARGE
+                                                ['h-12 min-w-12']: size === SIZE.LARGE,
+                                                ['h-14 min-w-14']: size === SIZE.EXTRA_LARGE,
+                                                ['h-6 min-w-6']: size === SIZE.EXTRA_SMALL,
+                                                ['h-8 min-w-8']: size === SIZE.SMALL
                                         },
                                         shapeClasses(shape)
                                 )}

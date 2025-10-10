@@ -4,137 +4,137 @@ import type {ListData} from '../List'
 import type {HandleMenuKeyDownOptions, MenuState} from './Menu.interface'
 
 const handleMenuActiveKeys =
-	(activeKeys = [] as string[]) =>
-	(key: string) => {
-		if (activeKeys.findIndex(item => item === key) !== -1) {
-			return activeKeys?.filter(item => item !== key)
-		}
+        (activeKeys = [] as string[]) =>
+        (key: string) => {
+                if (activeKeys.findIndex(item => item === key) !== -1) {
+                        return activeKeys?.filter(item => item !== key)
+                }
 
-		return [...activeKeys, key]
-	}
+                return [...activeKeys, key]
+        }
 
 export const handleMenuKeyDown = ({
-	activeKey,
-	activeKeys,
-	data,
-	multiple,
-	onActive,
-	onActives
+        activeKey,
+        activeKeys,
+        data,
+        multiple,
+        onActive,
+        onActives
 }: HandleMenuKeyDownOptions) => {
-	const handleMenuKeyCode = (setState: Updater<MenuState>) => (keyCode?: string) =>
-		setState(draft => {
-			const currentFocusedIndex = draft.focusedIndex ?? -1
-			const lastIndex = (data?.length ?? 0) - 1
-			const focusData =
-				currentFocusedIndex && currentFocusedIndex !== -1 ?
-					data?.[currentFocusedIndex]
-				:	undefined
+        const handleMenuKeyCode = (setState: Updater<MenuState>) => (keyCode?: string) =>
+                setState(draft => {
+                        const currentFocusedIndex = draft.focusedIndex ?? -1
+                        const lastIndex = (data?.length ?? 0) - 1
+                        const focusData =
+                                currentFocusedIndex && currentFocusedIndex !== -1 ?
+                                        data?.[currentFocusedIndex]
+                                :       undefined
 
-			switch (true) {
-				case keyCode?.startsWith('ArrowUp'):
-					draft.focusedIndex =
-						currentFocusedIndex - 1 < 0 ? lastIndex : currentFocusedIndex - 1
-					break
+                        switch (true) {
+                                case keyCode?.startsWith('ArrowUp'):
+                                        draft.focusedIndex =
+                                                currentFocusedIndex - 1 < 0 ? lastIndex : currentFocusedIndex - 1
+                                        break
 
-				case keyCode?.startsWith('ArrowDown'):
-					draft.focusedIndex =
-						currentFocusedIndex + 1 > lastIndex ? 0 : currentFocusedIndex + 1
+                                case keyCode?.startsWith('ArrowDown'):
+                                        draft.focusedIndex =
+                                                currentFocusedIndex + 1 > lastIndex ? 0 : currentFocusedIndex + 1
 
-					break
+                                        break
 
-				case keyCode?.startsWith('Enter'):
-					if (!focusData || typeof draft.focusedIndex !== 'number') {
-						return
-					}
+                                case keyCode?.startsWith('Enter'):
+                                        if (!focusData || typeof draft.focusedIndex !== 'number') {
+                                                return
+                                        }
 
-					draft.keyCode = keyCode
+                                        draft.keyCode = keyCode
 
-					if (draft.keyCode !== keyCode && onActives && multiple) {
-						draft.nextActiveEvent = () =>
-							onActives?.(
-								handleMenuActiveKeys(activeKeys)(focusData.indexKey)
-							)
+                                        if (draft.keyCode !== keyCode && onActives && multiple) {
+                                                draft.nextActiveEvent = () =>
+                                                        onActives?.(
+                                                                handleMenuActiveKeys(activeKeys)(focusData.indexKey)
+                                                        )
 
-						return
-					}
+                                                return
+                                        }
 
-					if (draft.keyCode !== keyCode && onActive) {
-						draft.nextActiveEvent = () =>
-							onActive?.(
-								focusData.indexKey === activeKey ?
-									undefined
-								:	focusData.indexKey
-							)
-					}
+                                        if (draft.keyCode !== keyCode && onActive) {
+                                                draft.nextActiveEvent = () =>
+                                                        onActive?.(
+                                                                focusData.indexKey === activeKey ?
+                                                                        undefined
+                                                                :       focusData.indexKey
+                                                        )
+                                        }
 
-					break
+                                        break
 
-				default:
-					break
-			}
-		})
+                                default:
+                                        break
+                        }
+                })
 
-	return (setState: Updater<MenuState>) => (keyCode?: string) => {
-		if (!data) {
-			return
-		}
+        return (setState: Updater<MenuState>) => (keyCode?: string) => {
+                if (!data) {
+                        return
+                }
 
-		handleMenuKeyCode(setState)(keyCode)
-	}
+                handleMenuKeyCode(setState)(keyCode)
+        }
 }
 
 export const handleMenuKeyDownEvent =
-	(data?: ListData[]) => (setState: Updater<MenuState>) => (event: React.KeyboardEvent) => {
-		const {code} = event
+        (data?: ListData[]) => (setState: Updater<MenuState>) => (event: React.KeyboardEvent) => {
+                const {code} = event
 
-		if (['ArrowUp', 'ArrowDown'].includes(code)) {
-			event.preventDefault()
-		}
+                if (['ArrowUp', 'ArrowDown'].includes(code)) {
+                        event.preventDefault()
+                }
 
-		handleMenuKeyDown({data})(setState)(code)
-	}
+                handleMenuKeyDown({data})(setState)(code)
+        }
 
 export const updateMenuVisibility =
-	(setState: Updater<MenuState>) => (onVisible?: (value?: boolean) => void) => (value?: boolean) =>
-		typeof value !== 'undefined' &&
-		setState(draft => {
-			if (!value) {
-				draft.activeKey = undefined
-				draft.focusedIndex = undefined
-			}
+        (setState: Updater<MenuState>) => (onVisible?: (value?: boolean) => void) => (value?: boolean) =>
+                typeof value !== 'undefined' &&
+                setState(draft => {
+                        if (!value) {
+                                draft.activeKey = undefined
+                                draft.focusedIndex = undefined
+                        }
 
-			if (draft.visible !== value && onVisible) {
-				draft.nextVisibilityEvent = () => onVisible?.(value)
-			}
+                        if (draft.visible !== value && onVisible) {
+                                draft.nextVisibilityEvent = () => onVisible?.(value)
+                        }
 
-			draft.visible = value
-		})
+                        draft.visible = value
+                })
 
 export const updateMenuActive =
-	(setState: Updater<MenuState>) => (onActive?: (value?: string) => void) => (value?: string) =>
-		typeof value !== 'undefined' &&
-		setState(draft => {
-			if (draft.activeKey !== value && onActive) {
-				draft.nextActiveEvent = () => onActive?.(value)
-			}
+        (setState: Updater<MenuState>) => (onActive?: (value?: string) => void) => (value?: string) =>
+                typeof value !== 'undefined' &&
+                setState(draft => {
+                        if (draft.activeKey !== value && onActive) {
+                                draft.nextActiveEvent = () => onActive?.(value)
+                        }
 
-			draft.activeKey = value
-		})
+                        draft.activeKey = value
+                })
 
 export const updateMenuActives =
-	(setState: Updater<MenuState>) => (onActives?: (values?: string[]) => void) => (values?: string[]) =>
-		typeof values !== 'undefined' &&
-		setState(draft => {
-			const isAreArraysEqual = arrayEqual([...(draft.activeKeys ?? [])])(values)
+        (setState: Updater<MenuState>) => (onActives?: (values?: string[]) => void) => (values?: string[]) =>
+                typeof values !== 'undefined' &&
+                setState(draft => {
+                        const isAreArraysEqual = arrayEqual([...(draft.activeKeys ?? [])])(values)
 
-			if (!isAreArraysEqual && onActives) {
-				draft.nextActiveEvent = () => onActives?.(values)
-			}
+                        if (!isAreArraysEqual && onActives) {
+                                draft.nextActiveEvent = () => onActives?.(values)
+                        }
 
-			draft.activeKeys = values
-		})
+                        draft.activeKeys = values
+                })
 
 export const updateMenuVisible = (setState: Updater<MenuState>) => (visible: boolean) =>
-	setState(draft => {
-		draft.visible = visible
-	})
+        setState(draft => {
+                draft.visible = visible
+        })
