@@ -1,6 +1,6 @@
 import {CONTRAST, createToken, PALETTE, SCHEME, Token} from '@bearei/theme-token'
 import {cssInterop, useColorScheme} from 'nativewind'
-import {createContext, useId, type FC} from 'react'
+import {createContext, useId, useMemo, type FC} from 'react'
 import {View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
@@ -28,10 +28,11 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({children}) => {
                 scheme: colorScheme === 'light' ? SCHEME.LIGHT : SCHEME.DARK
         })(PALETTE.NAVY)
 
+        const theme = useMemo(() => ({theme: {colorScheme, token}}), [colorScheme, token])
         const variables = processCssVariables(token)
 
         return (
-                <ThemeContext.Provider value={{theme: {colorScheme, token}}}>
+                <ThemeContext.Provider value={theme}>
                         <GestureHandlerRootView>
                                 <View
                                         className='flex-1'

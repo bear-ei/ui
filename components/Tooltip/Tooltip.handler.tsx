@@ -80,9 +80,12 @@ export const emitTooltipSupporting =
                         type: MODAL_TYPE.TOOL_TIP
                 })
 
-export const unmountTooltipSupporting = (id?: string) => () =>
+export const unmountTooltipSupporting = (id?: string) => () => {
+        console.info(id, 'id====>')
+
         emitter.emit('modal', {
                 id: `tooltip__supporting--${id}`,
                 type: MODAL_TYPE.TOOL_TIP,
                 unmount: true
         })
+}
