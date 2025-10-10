@@ -1,5 +1,5 @@
 import {SIZE} from '@bearei/theme-token'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import type {Meta, StoryObj} from '@storybook/react'
 import {Button} from './Button.component'
 import {BUTTON_TYPE} from './Button.enum'
@@ -27,7 +27,7 @@ export const Text: StoryObj<ButtonProps> = {
 
 export const TextIcon: StoryObj<ButtonProps> = {
         args: {
-                icon: <MaterialCommunityIcons name='circle' />,
+                icon: <MaterialIcons name='circle' />,
                 labelText: 'Label',
                 type: BUTTON_TYPE.TEXT
         }
@@ -56,7 +56,7 @@ export const Link: StoryObj<ButtonProps> = {
 
 export const Icon: StoryObj<ButtonProps> = {
         args: {
-                icon: <MaterialCommunityIcons name='circle' />,
+                icon: <MaterialIcons name='circle' />,
                 labelText: 'Label'
         }
 }

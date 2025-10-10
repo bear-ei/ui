@@ -1,5 +1,5 @@
 import {SHAPE, SIZE} from '@bearei/theme-token'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import type {Meta, StoryObj} from '@storybook/react'
 import {List} from './List.component'
 import type {ListProps} from './List.interface'
@@ -10,13 +10,12 @@ export const Leading: StoryObj<ListProps> = {
                 shape: SHAPE.MEDIUM,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
-
                 data: [
                         {
                                 indexKey: 'TitleA',
                                 headline: 'TitleA',
                                 leading: (
-                                        <MaterialCommunityIcons
+                                        <MaterialIcons
                                                 name='circle'
                                                 size={24}
                                         />
@@ -26,7 +25,7 @@ export const Leading: StoryObj<ListProps> = {
                                 indexKey: 'TitleB',
                                 headline: 'TitleB',
                                 leading: (
-                                        <MaterialCommunityIcons
+                                        <MaterialIcons
                                                 name='circle'
                                                 size={24}
                                         />
@@ -36,7 +35,7 @@ export const Leading: StoryObj<ListProps> = {
                                 indexKey: 'TitleC',
                                 headline: 'TitleC',
                                 leading: (
-                                        <MaterialCommunityIcons
+                                        <MaterialIcons
                                                 name='circle'
                                                 size={24}
                                         />
@@ -46,7 +45,7 @@ export const Leading: StoryObj<ListProps> = {
                                 indexKey: 'TitleD',
                                 headline: 'TitleD',
                                 leading: (
-                                        <MaterialCommunityIcons
+                                        <MaterialIcons
                                                 name='circle'
                                                 size={24}
                                         />
@@ -67,7 +66,7 @@ export const Trailing: StoryObj<ListProps> = {
                                 indexKey: 'TitleA',
                                 headline: 'TitleA',
                                 trailing: (
-                                        <MaterialCommunityIcons
+                                        <MaterialIcons
                                                 name='circle'
                                                 size={24}
                                         />
@@ -77,7 +76,7 @@ export const Trailing: StoryObj<ListProps> = {
                                 indexKey: 'TitleB',
                                 headline: 'TitleB',
                                 trailing: (
-                                        <MaterialCommunityIcons
+                                        <MaterialIcons
                                                 name='circle'
                                                 size={24}
                                         />
@@ -87,7 +86,7 @@ export const Trailing: StoryObj<ListProps> = {
                                 indexKey: 'TitleC',
                                 headline: 'TitleC',
                                 trailing: (
-                                        <MaterialCommunityIcons
+                                        <MaterialIcons
                                                 name='circle'
                                                 size={24}
                                         />
@@ -97,7 +96,7 @@ export const Trailing: StoryObj<ListProps> = {
                                 indexKey: 'TitleD',
                                 headline: 'TitleD',
                                 trailing: (
-                                        <MaterialCommunityIcons
+                                        <MaterialIcons
                                                 name='circle'
                                                 size={24}
                                         />
@@ -135,10 +134,38 @@ export const AfterAffordance: StoryObj<ListProps> = {
         }
 }
 
+export const TrailingClose: StoryObj<ListProps> = {
+        args: {
+                activeKey: 'TitleA',
+                closeTrailing: true,
+                defaultActiveKey: 'TitleB',
+                shape: SHAPE.MEDIUM,
+                size: SIZE.MEDIUM,
+                trailingTriggerEvent: 'HOVER',
+                data: [
+                        {
+                                indexKey: 'TitleA',
+                                headline: 'TitleA'
+                        },
+                        {
+                                indexKey: 'TitleB',
+                                headline: 'TitleB'
+                        },
+                        {
+                                indexKey: 'TitleC',
+                                headline: 'TitleC'
+                        },
+                        {
+                                indexKey: 'TitleD',
+                                headline: 'TitleD'
+                        }
+                ]
+        }
+}
+
 export const Medium: StoryObj<ListProps> = {
         args: {
                 size: SIZE.MEDIUM,
-                shape: SHAPE.MEDIUM,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
                 data: [

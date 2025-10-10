@@ -1,6 +1,7 @@
 import {LayoutAnimated} from '@/components/Layout-animated'
 import {useTheme} from '@/hooks'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import {SIZE} from '@bearei/theme-token'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
@@ -18,6 +19,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         onConfirm,
                         primaryButtonProps,
                         secondaryButtonProps,
+                        size: rawSize = SIZE.MEDIUM,
                         testID,
                         visible,
                         ...containerProps
@@ -28,9 +30,17 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                 const buttonTabIndex = visible ? 0 : -1
                 const color = theme.token.scheme.onPrimary
                 const isDangerVisible = !secondaryButtonProps?.disabled
-                const size = theme.token.spacing.large
+                const iconSize = {
+                        [SIZE.EXTRA_LARGE]: theme.token.spacing.large + theme.token.spacing.small,
+                        [SIZE.LARGE]: theme.token.spacing.large + theme.token.spacing.extraSmall,
+                        [SIZE.MEDIUM]: theme.token.spacing.large,
+                        [SIZE.SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall,
+                        [SIZE.EXTRA_SMALL]: theme.token.spacing.large - theme.token.spacing.small
+                }
+
+                const size = iconSize[rawSize]
                 const checkIconElement = (
-                        <MaterialCommunityIcons
+                        <MaterialIcons
                                 color={color}
                                 name='check'
                                 size={size}
@@ -39,7 +49,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                 )
 
                 const closeIconElement = (
-                        <MaterialCommunityIcons
+                        <MaterialIcons
                                 color={color}
                                 name='close'
                                 size={size}
@@ -51,29 +61,32 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         <LayoutAnimated
                                 {...containerProps}
                                 {...interactionHandlers}
-                                className={clsx('relative flex w-40 flex-row self-stretch', {
-                                        ['bg-[--color-primary]']: !isDangerVisible
+                                className={clsx('relative flex w-32 self-stretch', {
+                                        ['bg-[--color-primary]']: isDangerVisible
                                 })}
                                 entry={{duration: 0}}
                                 lazy={true}
                                 ref={ref}
+                                style={{flexDirection: 'row'}}
                                 testID={testID ?? `listAfterAffordance--${id}`}
                                 visible={visible}
                         >
                                 <ListAffordanceButton
                                         {...(doubleConfirmed && {icon: checkIconElement})}
-                                        {...{labelText: 'Confirm', ...primaryButtonProps}}
+                                        {...{labelText: 'Edit', ...primaryButtonProps}}
                                         backgroundVisible={!isDangerVisible}
                                         onPressOut={onConfirm}
+                                        size={rawSize}
                                         tabIndex={buttonTabIndex}
                                         testID={`listAfterAffordance__listAffordanceButton--confirmed--${id}`}
                                 />
 
                                 <ListAffordanceButton
                                         {...(doubleConfirmed && {icon: closeIconElement})}
-                                        {...{labelText: 'Cancel', ...secondaryButtonProps}}
+                                        {...{labelText: 'Del', ...secondaryButtonProps}}
                                         backgroundVisible={false}
                                         onPressOut={onCancel}
+                                        size={rawSize}
                                         tabIndex={buttonTabIndex}
                                         testID={`listAfterAffordance__listAffordanceButton--close--${id}`}
                                 />

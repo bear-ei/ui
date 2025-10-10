@@ -1,10 +1,10 @@
 import {TouchableProps} from '@/components/Touchable'
-import {EventName} from '@/constants'
+import {CommonProps, EventName} from '@/constants'
 import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
-export interface ListAffordanceButtonProps extends TouchableProps {
+export interface ListAffordanceButtonProps extends TouchableProps, CommonProps {
         backgroundVisible?: boolean
         icon?: React.JSX.Element
         labelText?: string

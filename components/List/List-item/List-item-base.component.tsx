@@ -74,11 +74,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                         activeKey === indexKey
                 :       indexKey && activeKeys?.includes(indexKey))
 
-                const {onPressOut: rawOnTrailingPressOut, ...trailingProps} = useMemo(
-                        () => rawTrailingProps ?? {},
-                        [rawTrailingProps]
-                )
-
+                const {onPressOut: rawOnTrailingPressOut, ...trailingProps} = rawTrailingProps ?? {}
                 const onClose = useMemo(() => maybeTriggerListItemClose(rawOnClose)(indexKey), [indexKey, rawOnClose])
                 const onTrailingVisibility = useMemo(() => updateListItemTrailingVisibility(setState), [setState])
                 const onConfirm = useMemo(

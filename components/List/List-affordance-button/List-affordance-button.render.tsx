@@ -2,7 +2,7 @@ import {PressableType, Touchable} from '@/components/Touchable'
 import {Underlay} from '@/components/Underlay'
 import {typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
@@ -21,6 +21,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                         interactionHandlers,
                         labelText,
                         labelTextAnimatedStyle,
+                        size,
                         testID,
                         ...touchableProps
                 },
@@ -40,7 +41,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                         <View
                                 accessibilityLabel={accessibilityLabel ?? labelText}
                                 accessibilityRole='button'
-                                className='flex min-w-20 cursor-pointer flex-col self-stretch'
+                                className='flex w-16 cursor-pointer flex-col'
                                 tabIndex={-1}
                                 testID={testID ?? `listAffordanceButton--${id}`}
                         >
@@ -54,14 +55,16 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                                         underlayColor={underlayColor}
                                 >
                                         <View
-                                                className='pointer-events-none relative flex min-w-20 flex-1 flex-col items-center justify-center'
+                                                className='pointer-events-none relative flex flex-1 flex-col items-center justify-center'
                                                 testID={`listAffordanceButton__content--${id}`}
                                         >
                                                 {icon ?? (
                                                         <Animated.Text
                                                                 className={clsx(
-                                                                        'z-20 select-none text-center color-[--color-on-primary]',
-                                                                        typographyClasses(TYPOGRAPHY.LABEL)(SIZE.LARGE)
+                                                                        'z-20 select-none text-center',
+                                                                        typographyClasses(TYPOGRAPHY.LABEL)(size)(
+                                                                                'color-[--color-on-primary]'
+                                                                        )
                                                                 )}
                                                                 ellipsizeMode='tail'
                                                                 numberOfLines={1}

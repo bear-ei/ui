@@ -1,6 +1,6 @@
 import {useTheme} from '@/hooks'
 import {DURATION, hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
@@ -48,9 +48,11 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                         )
 
                 const iconSize = {
+                        [SIZE.EXTRA_LARGE]: theme.token.spacing.extraLarge,
                         [SIZE.LARGE]: theme.token.spacing.large + theme.token.spacing.extraSmall,
                         [SIZE.MEDIUM]: theme.token.spacing.large,
-                        [SIZE.SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall
+                        [SIZE.SMALL]: theme.token.spacing.large - theme.token.spacing.extraSmall,
+                        [SIZE.EXTRA_SMALL]: theme.token.spacing.large - theme.token.spacing.small
                 }
 
                 return (
@@ -89,14 +91,14 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                 className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
                                                                 testID={`checkbox__iconLayout--blank--${id}`}
                                                         >
-                                                                <MaterialCommunityIcons
+                                                                <MaterialIcons
                                                                         color={
                                                                                 disabled ? disabledColor : (
                                                                                         checkBoxOutlineColor
                                                                                 )
                                                                         }
                                                                         disabled={disabled}
-                                                                        name='checkbox-blank-outline'
+                                                                        name='check-box-outline-blank'
                                                                         size={iconSize[size]}
                                                                         testID={`checkbox__icon--blank--${id}`}
                                                                 />
@@ -110,13 +112,13 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                 testID={`checkbox__iconLayout--selected--${id}`}
                                                                 visible={isCheckBoxVisible}
                                                         >
-                                                                <MaterialCommunityIcons
+                                                                <MaterialIcons
                                                                         color={disabled ? disabledColor : activeColor}
                                                                         disabled={disabled}
                                                                         name={
                                                                                 value === CHECKBOX_VALUE.INDETERMINATE ?
-                                                                                        'checkbox-intermediate'
-                                                                                :       'checkbox-marked'
+                                                                                        'indeterminate-check-box'
+                                                                                :       'check-box'
                                                                         }
                                                                         size={iconSize[size]}
                                                                         testID={`checkbox__icon--selected--${id}`}

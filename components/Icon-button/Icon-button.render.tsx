@@ -1,7 +1,7 @@
 import {shapeClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
@@ -43,7 +43,7 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
                 [SIZE.EXTRA_SMALL]: theme.token.spacing.large - theme.token.spacing.small
         }
 
-        return cloneElement(icon ?? <MaterialCommunityIcons name='circle' />, {
+        return cloneElement(icon ?? <MaterialIcons name='circle' />, {
                 color: disabled ? disabledColor : iconColor,
                 disabled,
                 size: iconSize[size],

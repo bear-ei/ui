@@ -12,7 +12,7 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseLis
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
         const dangerTranslateXOutputRanges = useMemo(
-                () => [spacing.none, -((spacing.extraSmall * 40) / 2)],
+                () => [spacing.none, -((spacing.extraSmall * 32) / 2)],
                 [spacing.extraSmall, spacing.none]
         )
 

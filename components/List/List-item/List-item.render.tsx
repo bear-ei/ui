@@ -6,7 +6,7 @@ import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
 import {EVENT_NAME, LAYOUT, shapeClasses, TRIGGER_EVENT, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, isValidElement, useCallback, useMemo, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
@@ -29,7 +29,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 }) => {
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
-        const {disabled: isDisabled, ...restTrailingProps} = useMemo(() => rawTrailingProps ?? {}, [rawTrailingProps])
+        const {disabled: isDisabled, ...restTrailingProps} = rawTrailingProps ?? {}
         const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
         const iconSize = {
                 [SIZE.EXTRA_LARGE]: SHAPE.LARGE,
@@ -71,8 +71,8 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                                                 {...trailingProps}
                                                 testID={`listItem__trailingIconButton--${id}`}
                                                 icon={
-                                                        <MaterialCommunityIcons
-                                                                name='dots-horizontal'
+                                                        <MaterialIcons
+                                                                name='more-horiz'
                                                                 testID={`listItem__trailingIconMoreHoriz--${id}`}
                                                         />
                                                 }
@@ -82,7 +82,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                                         <IconButton
                                                 testID={`listItem__trailingIconButton--${id}`}
                                                 icon={
-                                                        <MaterialCommunityIcons
+                                                        <MaterialIcons
                                                                 name='close'
                                                                 testID={`listItem__trailingIconMoreHoriz--${id}`}
                                                         />
@@ -147,22 +147,17 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                 const theme = useTheme()
                 const activeColor = theme.token.scheme.secondaryContainer
                 const isSupportingTextShow = !!supporting
+                const isTrailingElementShow = !!trailingElement
                 const isUnmountTrailing = trailingTriggerEvent === TRIGGER_EVENT.HOVER
-                const isTrailingShow = !!trailingElement
                 const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
-                const underlayProps = useMemo(
-                        () =>
-                                selectType &&
-                                [LIST_SELECT_TYPE.SINGLE, LIST_SELECT_TYPE.MULTIPLE].includes(selectType) &&
-                                enableUnderlayActive && {
-                                        active,
-                                        activeAnimatedType: ACTIVE_ANIMATED.SCALE_X,
-                                        activeColor
-                                },
-                        [active, activeColor, enableUnderlayActive, selectType]
-                )
+                const underlayProps = selectType &&
+                        [LIST_SELECT_TYPE.SINGLE, LIST_SELECT_TYPE.MULTIPLE].includes(selectType) &&
+                        enableUnderlayActive && {
+                                active,
+                                activeAnimatedType: ACTIVE_ANIMATED.SCALE_X,
+                                activeColor
+                        }
 
-                // const size = type === LIST_TYPE.LABEL ? SIZE.MEDIUM : SIZE.LARGE
                 const isLines = (supportingTextNumberOfLines ?? 0) > 1
                 const mainElement = (
                         <>
@@ -195,8 +190,19 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                         className={clsx(
                                                                 'relative z-10 flex flex-row items-center justify-start self-stretch',
                                                                 {
-                                                                        ['pl-4 pr-4']: size !== SIZE.SMALL,
-                                                                        ['pl-3 pr-3']: size === SIZE.SMALL,
+                                                                        ['pl-4 pr-4']:
+                                                                                !isTrailingElementShow &&
+                                                                                size !== SIZE.SMALL,
+                                                                        ['pl-3 pr-3']:
+                                                                                !isTrailingElementShow &&
+                                                                                size === SIZE.SMALL,
+                                                                        ['pl-4 pr-[10px]']:
+                                                                                isTrailingElementShow &&
+                                                                                size !== SIZE.SMALL,
+                                                                        ['pl-3 pr-2']:
+                                                                                isTrailingElementShow &&
+                                                                                size === SIZE.SMALL,
+
                                                                         ['pb-2 pt-2']: isSupportingTextShow && !isLines,
                                                                         ['pb-3 pt-3']: isSupportingTextShow && isLines
                                                                 }
@@ -270,25 +276,16 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                 <View
                                                                         className={clsx('flex flex-col', {
                                                                                 ['justify-start']: isLines,
-                                                                                ['ml-4']: size !== SIZE.SMALL,
-                                                                                ['ml-3']: size === SIZE.SMALL
+                                                                                ['ml-4']:
+                                                                                        trailingVisible &&
+                                                                                        size !== SIZE.SMALL,
+                                                                                ['ml-3']:
+                                                                                        trailingVisible &&
+                                                                                        size === SIZE.SMALL
                                                                         })}
                                                                         testID={`listItem__trailingLayout--${id}`}
                                                                 >
                                                                         <LayoutAnimated
-                                                                                // className={clsx({
-                                                                                //         ['pr-2']:
-                                                                                //                 isUnmountTrailing &&
-                                                                                //                 (
-                                                                                //                         [
-                                                                                //                                 LIST_TYPE.LABEL,
-                                                                                //                                 LIST_TYPE.STANDARD
-                                                                                //                         ] as readonly ListType[]
-                                                                                //                 ).includes(type),
-                                                                                //         ['pr-1']:
-                                                                                //                 isUnmountTrailing &&
-                                                                                //                 type === LIST_TYPE.MENU
-                                                                                // })}
                                                                                 defaultVisible={!trailingTriggerEvent}
                                                                                 entry={{
                                                                                         duration: DURATION.MEDIUM_1,
@@ -336,6 +333,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                 secondaryButtonProps={
                                                                         afterAffordanceSecondaryButtonProps
                                                                 }
+                                                                size={size}
                                                                 testID={`listItem__listAfterAffordance--${id}`}
                                                                 visible={afterAffordanceVisible}
                                                         />

@@ -10,7 +10,7 @@ export interface ListAfterAffordanceProps
                 RefAttributes<View>,
                 Pick<
                         ListItemProps,
-                        'indexKey' | 'primaryButtonProps' | 'secondaryButtonProps' | 'onCancel' | 'onConfirm'
+                        'indexKey' | 'primaryButtonProps' | 'secondaryButtonProps' | 'onCancel' | 'onConfirm' | 'size'
                 > {
         visible?: boolean
 }
