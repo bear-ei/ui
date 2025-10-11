@@ -48,9 +48,10 @@ export const RenderNavigationRail = forwardRef<View, RenderNavigationRailProps>(
 
                         <View
                                 className={clsx('flex flex-1 flex-col items-center gap-3 self-stretch', {
-                                        ['justify-start']: destinationPosition === NAVIGATION_DESTINATION_POSITION.TOP,
                                         ['justify-center']:
                                                 destinationPosition === NAVIGATION_DESTINATION_POSITION.CENTER,
+
+                                        ['justify-start']: destinationPosition === NAVIGATION_DESTINATION_POSITION.TOP,
                                         ['justify-end']: destinationPosition === NAVIGATION_DESTINATION_POSITION.BOTTOM
                                 })}
                                 testID={`navigationRail__destination--${id}`}

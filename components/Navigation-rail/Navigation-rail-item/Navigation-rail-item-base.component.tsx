@@ -66,10 +66,13 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
                 const iconElement = useMemo(
                         () =>
                                 cloneElement(icon ?? <MaterialIcons name='circle' />, {
-                                        size: theme.token.spacing.large,
+                                        size:
+                                                type === NAVIGATION_RAIL_TYPE.BLOCK ?
+                                                        theme.token.spacing.large
+                                                :       theme.token.spacing.extraSmall * 5,
                                         testID: `navigationRailItem__icon--${id}`
                                 }),
-                        [icon, id, theme.token.spacing.large]
+                        [icon, id, theme.token.spacing.extraSmall, theme.token.spacing.large, type]
                 )
 
                 useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
