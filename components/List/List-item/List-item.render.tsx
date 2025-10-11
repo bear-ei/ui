@@ -32,10 +32,10 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         const {disabled: isDisabled, ...restTrailingProps} = rawTrailingProps ?? {}
         const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
         const iconSize = {
-                [SIZE.EXTRA_LARGE]: SHAPE.LARGE,
+                [SIZE.EXTRA_LARGE]: SHAPE.MEDIUM,
                 [SIZE.EXTRA_SMALL]: SHAPE.EXTRA_SMALL,
-                [SIZE.LARGE]: SHAPE.MEDIUM,
-                [SIZE.MEDIUM]: SHAPE.SMALL,
+                [SIZE.LARGE]: SHAPE.SMALL,
+                [SIZE.MEDIUM]: SHAPE.EXTRA_SMALL,
                 [SIZE.SMALL]: SHAPE.EXTRA_SMALL
         }
 
@@ -175,18 +175,36 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                         className={clsx(
                                                                 'relative z-10 flex flex-row items-center justify-start self-stretch',
                                                                 {
+                                                                        ['pl-6 pr-6']:
+                                                                                !isTrailingElementShow &&
+                                                                                size === SIZE.EXTRA_LARGE,
+                                                                        ['pl-5 pr-5']:
+                                                                                !isTrailingElementShow &&
+                                                                                size === SIZE.LARGE,
                                                                         ['pl-4 pr-4']:
                                                                                 !isTrailingElementShow &&
-                                                                                size !== SIZE.SMALL,
+                                                                                size === SIZE.MEDIUM,
                                                                         ['pl-3 pr-3']:
                                                                                 !isTrailingElementShow &&
                                                                                 size === SIZE.SMALL,
-                                                                        ['pl-4 pr-[10px]']:
+                                                                        ['pl-2 pr-2']:
+                                                                                !isTrailingElementShow &&
+                                                                                size === SIZE.EXTRA_SMALL,
+                                                                        ['pl-6 pr-4']:
                                                                                 isTrailingElementShow &&
-                                                                                size !== SIZE.SMALL,
+                                                                                size === SIZE.EXTRA_LARGE,
+                                                                        ['pl-5 pr-[14px]']:
+                                                                                isTrailingElementShow &&
+                                                                                size === SIZE.LARGE,
+                                                                        ['pl-4 pr-3']:
+                                                                                isTrailingElementShow &&
+                                                                                size === SIZE.MEDIUM,
                                                                         ['pl-3 pr-2']:
                                                                                 isTrailingElementShow &&
                                                                                 size === SIZE.SMALL,
+                                                                        ['pl-2 pr-1']:
+                                                                                isTrailingElementShow &&
+                                                                                size === SIZE.EXTRA_SMALL,
 
                                                                         ['pb-2 pt-2']: isSupportingTextShow && !isLines,
                                                                         ['pb-3 pt-3']: isSupportingTextShow && isLines
@@ -353,11 +371,11 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 className={clsx(
                                         'relative flex flex-col self-stretch overflow-hidden',
                                         {
-                                                ['h-10 min-w-10']: size === SIZE.MEDIUM,
-                                                ['h-12 min-w-12']: size === SIZE.LARGE,
-                                                ['h-14 min-w-14']: size === SIZE.EXTRA_LARGE,
-                                                ['h-6 min-w-6']: size === SIZE.EXTRA_SMALL,
-                                                ['h-8 min-w-8']: size === SIZE.SMALL
+                                                ['h-12 min-w-10']: size === SIZE.MEDIUM,
+                                                ['h-14 min-w-12']: size === SIZE.LARGE,
+                                                ['h-16 min-w-14']: size === SIZE.EXTRA_LARGE,
+                                                ['h-8 min-w-8']: size === SIZE.EXTRA_SMALL,
+                                                ['h-10 min-w-10']: size === SIZE.SMALL
                                         },
                                         shapeClasses(shape)
                                 )}

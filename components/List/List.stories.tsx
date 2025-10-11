@@ -168,6 +168,7 @@ export const ExtraLarge: StoryObj<ListProps> = {
                 size: SIZE.EXTRA_LARGE,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
+                closeTrailing: true,
                 data: [
                         {
                                 indexKey: 'TitleA',
@@ -194,6 +195,7 @@ export const Large: StoryObj<ListProps> = {
                 size: SIZE.LARGE,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
+                closeTrailing: true,
                 data: [
                         {
                                 indexKey: 'TitleA',
@@ -220,6 +222,7 @@ export const Medium: StoryObj<ListProps> = {
                 size: SIZE.MEDIUM,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
+                closeTrailing: true,
                 data: [
                         {
                                 indexKey: 'TitleA',
@@ -246,6 +249,7 @@ export const Small: StoryObj<ListProps> = {
                 size: SIZE.SMALL,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
+                closeTrailing: true,
                 data: [
                         {
                                 indexKey: 'TitleA',
@@ -272,6 +276,7 @@ export const ExtraSmall: StoryObj<ListProps> = {
                 size: SIZE.EXTRA_SMALL,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
+                closeTrailing: true,
                 data: [
                         {
                                 indexKey: 'TitleA',

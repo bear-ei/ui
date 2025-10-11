@@ -4,5 +4,5 @@
                 "source.organizeImports": "explicit",
                 "source.sortMembers": "explicit"
         },
-        "cSpell.words": ["ellipsize", "nativewind", "worklets"]
+        "cSpell.words": ["ellipsize", "keyboardkey", "nativewind", "Nonerror", "worklets"]
 }

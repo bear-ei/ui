@@ -105,14 +105,14 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                 tabIndex={-1}
                                 testID={testID ?? `button--${id}`}
                                 className={clsx('cursor-pointer', {
-                                        ['self-start']: !stretch,
-                                        ['self-stretch']: stretch,
-                                        ['h-14 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.EXTRA_LARGE,
-                                        ['h-12 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.LARGE,
                                         ['h-10 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.MEDIUM,
-                                        ['h-8 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.SMALL,
+                                        ['h-12 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.LARGE,
+                                        ['h-14 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.EXTRA_LARGE,
+                                        ['h-4 min-w-6']: type === BUTTON_TYPE.LINK,
                                         ['h-6 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.EXTRA_SMALL,
-                                        ['h-4 min-w-6']: type === BUTTON_TYPE.LINK
+                                        ['h-8 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.SMALL,
+                                        ['self-start']: !stretch,
+                                        ['self-stretch']: stretch
                                 })}
                         >
                                 <Touchable
@@ -137,15 +137,21 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                                 'z-10 flex flex-1 flex-row items-center justify-center gap-2 self-stretch',
                                                                 {
                                                                         ['pl-1 pr-1']: type === BUTTON_TYPE.LINK,
+                                                                        ['pl-2 pr-2']:
+                                                                                type !== BUTTON_TYPE.LINK &&
+                                                                                size === SIZE.EXTRA_SMALL,
                                                                         ['pl-3 pr-3']:
                                                                                 type !== BUTTON_TYPE.LINK &&
                                                                                 size === SIZE.SMALL,
                                                                         ['pl-4 pr-4']:
                                                                                 type !== BUTTON_TYPE.LINK &&
                                                                                 size === SIZE.MEDIUM,
+                                                                        ['pl-5 pr-5']:
+                                                                                type !== BUTTON_TYPE.LINK &&
+                                                                                size === SIZE.LARGE,
                                                                         ['pl-6 pr-6']:
                                                                                 type !== BUTTON_TYPE.LINK &&
-                                                                                size === SIZE.LARGE
+                                                                                size === SIZE.EXTRA_LARGE
                                                                 }
                                                         )}
                                                         testID={`button__main--${id}`}

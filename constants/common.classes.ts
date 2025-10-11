@@ -9,6 +9,9 @@ import {
         TypographySize
 } from '@bearei/theme-token'
 import {clsx} from 'clsx'
+import {cssInterop} from 'nativewind'
+import {TextInput, TextInputProps} from 'react-native'
+import Animated, {AnimatedProps} from 'react-native-reanimated'
 import {ShapeType, TypographyType} from './common.interface.js'
 
 export const shapeClasses = (shape = SHAPE.NONE as ShapeType) => createShape()[shape]
@@ -28,3 +31,7 @@ export const typographyClasses =
 
                 return clsx(createTypography()[typography][size], 'font-sans', colorClasses)
         }
+
+export const AnimatedTextInput = cssInterop(Animated.createAnimatedComponent(TextInput), {
+        className: 'style'
+}) as React.ComponentClass<AnimatedProps<TextInputProps>, any>

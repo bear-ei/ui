@@ -1,12 +1,14 @@
 import {CONTRAST, createToken, PALETTE, SCHEME, Token} from '@bearei/theme-token'
 import {cssInterop, useColorScheme} from 'nativewind'
 import {createContext, useId, useMemo, type FC} from 'react'
-import {View} from 'react-native'
+import {TextInput, View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import {ModalProvider} from '../Modal-provider'
 import {processCssVariables} from './Theme-provider.handler'
 import type {ThemeContextOptions, ThemeProviderProps} from './Theme-provider.interface'
+
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
 
 /**
  * FIXME:
@@ -15,6 +17,7 @@ import type {ThemeContextOptions, ThemeProviderProps} from './Theme-provider.int
  */
 cssInterop(Animated.View, {className: 'style'})
 cssInterop(Animated.Text, {className: 'style'})
+cssInterop(AnimatedTextInput, {className: 'style'})
 
 export const ThemeContext = createContext<ThemeContextOptions>({
         theme: {colorScheme: 'light', token: {} as Token}

@@ -1,5 +1,7 @@
 import {EventName, State} from '@/constants'
 import type {
+        BlurEvent,
+        FocusEvent,
         GestureResponderEvent,
         LayoutChangeEvent,
         MouseEvent,
@@ -26,15 +28,11 @@ export interface HandleStateEventOptions {
         interactionHandlers: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 
-export type InteractionHandlers = Pick<
-        PressableProps,
-        | 'onBlur'
-        | 'onFocus'
-        | 'onHoverIn'
-        | 'onHoverOut'
-        | 'onLayout'
-        | 'onLongPress'
-        | 'onPress'
-        | 'onPressIn'
-        | 'onPressOut'
->
+export interface InteractionHandlers
+        extends Pick<
+                PressableProps,
+                'onHoverIn' | 'onHoverOut' | 'onLayout' | 'onLongPress' | 'onPress' | 'onPressIn' | 'onPressOut'
+        > {
+        onBlur?: ((e: BlurEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)
+        onFocus?: ((e: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)
+}

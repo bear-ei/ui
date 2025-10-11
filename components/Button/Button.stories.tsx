@@ -72,12 +72,12 @@ export const ExtraLarge: StoryObj<ButtonProps> = {
         args: {size: SIZE.EXTRA_LARGE}
 }
 
-export const Medium: StoryObj<ButtonProps> = {
-        args: {size: SIZE.MEDIUM}
-}
-
 export const Large: StoryObj<ButtonProps> = {
         args: {size: SIZE.LARGE}
+}
+
+export const Medium: StoryObj<ButtonProps> = {
+        args: {size: SIZE.MEDIUM}
 }
 
 export const Small: StoryObj<ButtonProps> = {

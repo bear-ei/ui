@@ -1,0 +1,126 @@
+import {CommonProps, ComponentStatus, EventName, State} from '@/constants'
+import type {RefAttributes, RefObject} from 'react'
+import type {PressableProps, TextInputProps as RNTextInputProps, TextInput, TextStyle, ViewStyle} from 'react-native'
+import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {TEXT_INPUT_TYPE} from './Text-input.enum'
+
+export type TextInputType = (typeof TEXT_INPUT_TYPE)[keyof typeof TEXT_INPUT_TYPE]
+export type ContentSize = {width: number; height: number}
+export interface InputProps extends RNTextInputProps, RefAttributes<TextInput> {}
+export interface TextInputProps
+        extends Partial<RNTextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers>,
+                CommonProps {
+        content?: React.ReactNode
+        disabled?: boolean
+        error?: boolean
+        filled?: boolean
+        labelText?: string
+        leading?: React.JSX.Element
+        onSupportingTextVisibility?: (visible?: boolean) => void
+        supportingText?: string
+        supportingTextDelay?: number
+        trailing?: React.JSX.Element
+        type?: TextInputType
+}
+
+export interface RenderTextInputProps extends TextInputProps {
+        activeIndicatorAnimatedStyle: AnimatedStyle<ViewStyle>
+        contentSize?: ContentSize
+        eventName?: EventName
+        headerAnimatedStyle: AnimatedStyle<ViewStyle>
+        inputAnimatedStyle: AnimatedStyle<TextStyle>
+        labelAnimatedStyle: AnimatedStyle<ViewStyle>
+        labelTextAnimatedStyle: AnimatedStyle<TextStyle>
+        onHeaderFocus?: () => void
+        interactionHandlers: InteractionHandlers
+        onSupportingTextVisibility?: (visible?: boolean) => void
+        supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
+        supportingTextVisible?: boolean
+}
+
+export type TextInputBaseProps = TextInputProps
+export interface TextInputState {
+        contentSize: ContentSize
+        eventName?: EventName
+        nextChangeTextEvent?: () => void
+        nextContentSizeChangeEvent?: () => void
+        nextSupportingTextCloseEvent?: () => void
+        nextSupportingTextVisibilityEvent?: () => void
+        state: State
+        status: ComponentStatus
+        supportingText?: string
+        supportingTextVisible?: boolean
+        value?: string
+}
+
+export interface HandleTextInputStateChangeOptions
+        extends HandleStateEventChangeOptions,
+                Pick<TextInputProps, 'content'> {
+        ref?: RefObject<TextInput | null>
+}
+
+export interface UseTextInputAnimatedOptions extends Pick<RenderTextInputProps, 'type' | 'error' | 'disabled'> {
+        filled: boolean
+        state: State
+        status: ComponentStatus
+}
+
+export interface CreateTextInputEnabledStateOptions extends Pick<UseTextInputAnimatedOptions, 'error'> {
+        filledToValue: number
+}
+
+export interface UpdateTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelay'> {
+        onSupportingTextClose: () => void
+}
+
+export interface CreateTextInputEnabledSharedValues {
+        activeIndicatorScaleYSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
+        inputColorSharedValue: SharedValue<number>
+        labelTextSharedValue: SharedValue<number>
+        supportingTextSharedValue: SharedValue<number>
+}
+
+export interface CreateTextInputDisabledSharedValues {
+        activeIndicatorScaleYSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
+        headerInnerBackgroundColorSharedValue: SharedValue<number>
+        inputColorSharedValue: SharedValue<number>
+        supportingTextSharedValue: SharedValue<number>
+}
+
+export interface CreateTextInputErrorSharedValues {
+        activeIndicatorScaleYSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
+        inputColorSharedValue: SharedValue<number>
+        supportingTextSharedValue: SharedValue<number>
+}
+
+export interface CreateTextInputFocusedSharedValues {
+        activeIndicatorScaleYSharedValue: SharedValue<number>
+        colorSharedValue: SharedValue<number>
+        labelTextSharedValue: SharedValue<number>
+}
+
+export type TextInputStateAnimated = Partial<Record<State, () => void>>
+export type AnimateTextInputNonErrorStateTimingOptions = Pick<UseTextInputAnimatedOptions, 'disabled' | 'error'>
+export type TextInputHeaderProps = Pick<RenderTextInputProps, 'type'> & {
+        leadingShow: boolean
+        trailingShow: boolean
+}
+
+export interface TextInputControlProps {
+        multiline?: boolean
+        size?: number
+}
+
+export interface TextInputLabelProps {
+        leadingShow: boolean
+}
+
+export interface TextInputMainProps {
+        contentShow?: boolean
+}
+
+export type TextInputTouchableHeaderProps = Record<string, unknown>
