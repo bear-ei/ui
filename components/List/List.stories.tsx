@@ -1,6 +1,7 @@
 import {SHAPE, SIZE} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import type {Meta, StoryObj} from '@storybook/react'
+import {IconButton} from '../Icon-button'
 import {List} from './List.component'
 import type {ListProps} from './List.interface'
 
@@ -14,42 +15,22 @@ export const Leading: StoryObj<ListProps> = {
                         {
                                 indexKey: 'TitleA',
                                 headline: 'TitleA',
-                                leading: (
-                                        <MaterialIcons
-                                                name='circle'
-                                                size={24}
-                                        />
-                                )
+                                leading: <MaterialIcons name='circle' />
                         },
                         {
                                 indexKey: 'TitleB',
                                 headline: 'TitleB',
-                                leading: (
-                                        <MaterialIcons
-                                                name='circle'
-                                                size={24}
-                                        />
-                                )
+                                leading: <MaterialIcons name='circle' />
                         },
                         {
                                 indexKey: 'TitleC',
                                 headline: 'TitleC',
-                                leading: (
-                                        <MaterialIcons
-                                                name='circle'
-                                                size={24}
-                                        />
-                                )
+                                leading: <MaterialIcons name='circle' />
                         },
                         {
                                 indexKey: 'TitleD',
                                 headline: 'TitleD',
-                                leading: (
-                                        <MaterialIcons
-                                                name='circle'
-                                                size={24}
-                                        />
-                                )
+                                leading: <MaterialIcons name='circle' />
                         }
                 ]
         }
@@ -65,42 +46,22 @@ export const Trailing: StoryObj<ListProps> = {
                         {
                                 indexKey: 'TitleA',
                                 headline: 'TitleA',
-                                trailing: (
-                                        <MaterialIcons
-                                                name='circle'
-                                                size={24}
-                                        />
-                                )
+                                trailing: <IconButton />
                         },
                         {
                                 indexKey: 'TitleB',
                                 headline: 'TitleB',
-                                trailing: (
-                                        <MaterialIcons
-                                                name='circle'
-                                                size={24}
-                                        />
-                                )
+                                trailing: <IconButton />
                         },
                         {
                                 indexKey: 'TitleC',
                                 headline: 'TitleC',
-                                trailing: (
-                                        <MaterialIcons
-                                                name='circle'
-                                                size={24}
-                                        />
-                                )
+                                trailing: <IconButton />
                         },
                         {
                                 indexKey: 'TitleD',
                                 headline: 'TitleD',
-                                trailing: (
-                                        <MaterialIcons
-                                                name='circle'
-                                                size={24}
-                                        />
-                                )
+                                trailing: <IconButton />
                         }
                 ]
         }

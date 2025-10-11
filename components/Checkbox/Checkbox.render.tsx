@@ -1,4 +1,5 @@
 import {useTheme} from '@/hooks'
+import {processIconSize} from '@/utils'
 import {DURATION, hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
@@ -47,13 +48,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                 value
                         )
 
-                const iconSize = {
-                        [SIZE.EXTRA_LARGE]: theme.token.spacing.extraLarge,
-                        [SIZE.EXTRA_SMALL]: theme.token.spacing.medium,
-                        [SIZE.LARGE]: theme.token.spacing.extraSmall * 7,
-                        [SIZE.MEDIUM]: theme.token.spacing.large,
-                        [SIZE.SMALL]: theme.token.spacing.extraSmall * 5
-                }
+                const iconSize = processIconSize(theme)(size)
 
                 return (
                         <View
@@ -101,7 +96,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                         }
                                                                         disabled={disabled}
                                                                         name='check-box-outline-blank'
-                                                                        size={iconSize[size]}
+                                                                        size={iconSize}
                                                                         testID={`checkbox__icon--blank--${id}`}
                                                                 />
                                                         </View>
@@ -122,7 +117,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                                         'indeterminate-check-box'
                                                                                 :       'check-box'
                                                                         }
-                                                                        size={iconSize[size]}
+                                                                        size={iconSize}
                                                                         testID={`checkbox__icon--selected--${id}`}
                                                                 />
                                                         </LayoutAnimated>

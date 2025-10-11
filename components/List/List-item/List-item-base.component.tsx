@@ -1,6 +1,7 @@
 import {COMPONENT_STATUS, State} from '@/constants'
 import {HandleStateEventChangeOptions, StateEvent, useClearComponentEvent, useInteractionStateEvent} from '@/hooks'
 import {debounce} from '@/utils'
+import {SIZE} from '@bearei/theme-token'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {useImmer} from 'use-immer'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
@@ -73,6 +74,14 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                 const isActive = !!(selectType === LIST_SELECT_TYPE.SINGLE ?
                         activeKey === indexKey
                 :       indexKey && activeKeys?.includes(indexKey))
+
+                const iconButtonSize = {
+                        [SIZE.EXTRA_LARGE]: SIZE.MEDIUM,
+                        [SIZE.EXTRA_SMALL]: SIZE.EXTRA_SMALL,
+                        [SIZE.LARGE]: SIZE.SMALL,
+                        [SIZE.MEDIUM]: SIZE.EXTRA_SMALL,
+                        [SIZE.SMALL]: SIZE.EXTRA_SMALL
+                }
 
                 const {onPressOut: rawOnTrailingPressOut, ...trailingProps} = rawTrailingProps ?? {}
                 const onClose = useMemo(() => maybeTriggerListItemClose(rawOnClose)(indexKey), [indexKey, rawOnClose])
@@ -153,35 +162,22 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                         [setState, trailingTriggerEvent]
                 )
 
-                const trailingElement = useMemo(
-                        () =>
-                                [closeTrailing, afterAffordance, trailing].some(Boolean) ?
-                                        <RenderListItemTrailing
-                                                afterAffordance={afterAffordance}
-                                                closeTrailing={closeTrailing}
-                                                disabled={disabled}
-                                                id={id}
-                                                interactionHandlers={{onPressOut: onTrailingPressOut}}
-                                                onTrailingVisibility={onTrailingVisibility}
-                                                size={size}
-                                                trailing={trailing}
-                                                trailingProps={trailingProps}
-                                                trailingTriggerEvent={trailingTriggerEvent}
-                                        />
-                                :       undefined,
-                        [
-                                afterAffordance,
-                                closeTrailing,
-                                disabled,
-                                id,
-                                onTrailingPressOut,
-                                onTrailingVisibility,
-                                size,
-                                trailing,
-                                trailingProps,
-                                trailingTriggerEvent
-                        ]
-                )
+                const trailingElement =
+                        [closeTrailing, afterAffordance, trailing].some(Boolean) ?
+                                <RenderListItemTrailing
+                                        afterAffordance={afterAffordance}
+                                        closeTrailing={closeTrailing}
+                                        disabled={disabled}
+                                        iconButtonSize={iconButtonSize}
+                                        id={id}
+                                        interactionHandlers={{onPressOut: onTrailingPressOut}}
+                                        onTrailingVisibility={onTrailingVisibility}
+                                        size={size}
+                                        trailing={trailing}
+                                        trailingProps={trailingProps}
+                                        trailingTriggerEvent={trailingTriggerEvent}
+                                />
+                        :       undefined
 
                 useImperativeHandle(
                         ref,
@@ -227,6 +223,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                 return (
                         <RenderListItem
                                 {...renderListItemProps}
+                                iconButtonSize={iconButtonSize}
                                 active={isActive}
                                 afterAffordance={afterAffordance}
                                 afterAffordanceExpanded={isAfterAffordanceExpanded}

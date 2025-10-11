@@ -73,7 +73,7 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
                                                                 className={clsx('h-5 w-5 overflow-hidden', {
                                                                         ['h-5 w-5']:
                                                                                 type !== NAVIGATION_RAIL_TYPE.BLOCK,
-                                                                        ['h-6 w-6']: type === NAVIGATION_RAIL_TYPE.BLOCK
+                                                                        ['h-7 w-7']: type === NAVIGATION_RAIL_TYPE.BLOCK
                                                                 })}
                                                                 testID={`navigationRailItem__iconLayout--${id}`}
                                                         >

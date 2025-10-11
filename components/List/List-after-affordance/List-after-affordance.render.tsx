@@ -1,5 +1,6 @@
 import {LayoutAnimated} from '@/components/Layout-animated'
 import {useTheme} from '@/hooks'
+import {processIconSize} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
@@ -19,7 +20,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         onConfirm,
                         primaryButtonProps,
                         secondaryButtonProps,
-                        size: rawSize = SIZE.MEDIUM,
+                        size = SIZE.MEDIUM,
                         testID,
                         visible,
                         ...containerProps
@@ -30,20 +31,12 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                 const buttonTabIndex = visible ? 0 : -1
                 const color = theme.token.scheme.onPrimary
                 const isDangerVisible = !secondaryButtonProps?.disabled
-                const iconSize = {
-                        [SIZE.EXTRA_LARGE]: theme.token.spacing.extraLarge,
-                        [SIZE.EXTRA_SMALL]: theme.token.spacing.medium,
-                        [SIZE.LARGE]: theme.token.spacing.extraSmall * 7,
-                        [SIZE.MEDIUM]: theme.token.spacing.large,
-                        [SIZE.SMALL]: theme.token.spacing.extraSmall * 5
-                }
-
-                const size = iconSize[rawSize]
+                const iconSize = processIconSize(theme)(size)
                 const checkIconElement = (
                         <MaterialIcons
                                 color={color}
                                 name='check'
-                                size={size}
+                                size={iconSize}
                                 testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`}
                         />
                 )
@@ -52,7 +45,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         <MaterialIcons
                                 color={color}
                                 name='close'
-                                size={size}
+                                size={iconSize}
                                 testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`}
                         />
                 )
@@ -76,7 +69,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                                         {...{labelText: 'Edit', ...primaryButtonProps}}
                                         backgroundVisible={!isDangerVisible}
                                         onPressOut={onConfirm}
-                                        size={rawSize}
+                                        size={size}
                                         tabIndex={buttonTabIndex}
                                         testID={`listAfterAffordance__listAffordanceButton--confirmed--${id}`}
                                 />
@@ -86,7 +79,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                                         {...{labelText: 'Del', ...secondaryButtonProps}}
                                         backgroundVisible={false}
                                         onPressOut={onCancel}
-                                        size={rawSize}
+                                        size={size}
                                         tabIndex={buttonTabIndex}
                                         testID={`listAfterAffordance__listAffordanceButton--close--${id}`}
                                 />

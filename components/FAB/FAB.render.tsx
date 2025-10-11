@@ -1,5 +1,6 @@
 import {shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
+import {processIconSize} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
@@ -28,13 +29,7 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
         } as Record<FABType, string>
 
         const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
-        const iconSize = {
-                [SIZE.EXTRA_LARGE]: theme.token.spacing.extraSmall * 10,
-                [SIZE.EXTRA_SMALL]: theme.token.spacing.extraSmall * 5,
-                [SIZE.LARGE]: theme.token.spacing.extraLarge,
-                [SIZE.MEDIUM]: theme.token.spacing.extraSmall * 7,
-                [SIZE.SMALL]: theme.token.spacing.large
-        }
+        const iconSize = processIconSize(theme)(size)
 
         if (!icon) {
                 return <></>
@@ -43,7 +38,7 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
         return cloneElement(icon, {
                 color: disabled ? disabledColor : color[type],
                 disabled,
-                size: extended ? theme.token.spacing.medium : iconSize[size],
+                size: extended ? theme.token.spacing.medium : iconSize,
                 testID: `fab__icon--${id}`
         })
 }

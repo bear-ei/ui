@@ -5,24 +5,26 @@ import {Skeleton} from '@/components/Skeleton'
 import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
 import {EVENT_NAME, LAYOUT, shapeClasses, TRIGGER_EVENT, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {processIconSize} from '@/utils'
+import {DURATION, EASING, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ListAfterAffordance} from '../List-after-affordance'
-import {LIST_LEADING_TYPE, LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
+import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import type {ListItemRef, RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
 
 export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         afterAffordance,
         closeTrailing,
         disabled,
+        iconButtonSize,
         id,
         interactionHandlers,
         onTrailingVisibility,
-        size: rawSize = SIZE.MEDIUM,
+        size = SIZE.MEDIUM,
         trailing,
         trailingProps: rawTrailingProps,
         trailingTriggerEvent
@@ -31,15 +33,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
         const {disabled: isDisabled, ...restTrailingProps} = rawTrailingProps ?? {}
         const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
-        const iconSize = {
-                [SIZE.EXTRA_LARGE]: SHAPE.MEDIUM,
-                [SIZE.EXTRA_SMALL]: SHAPE.EXTRA_SMALL,
-                [SIZE.LARGE]: SHAPE.SMALL,
-                [SIZE.MEDIUM]: SHAPE.EXTRA_SMALL,
-                [SIZE.SMALL]: SHAPE.EXTRA_SMALL
-        }
-
-        const size = iconSize[rawSize]
+        const trailingSize = iconButtonSize[size]
         const trailingProps = {
                 ...restTrailingProps,
                 ...interactionHandlers,
@@ -47,15 +41,13 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                 disabled: isDisabled ?? disabled,
                 testID: `listItem__trailing--${id}`,
                 type: ICON_BUTTON_TYPE.STANDARD,
-                size
+                size: trailingSize
         }
 
         const trailingElement = {
-                afterAffordance:
-                        trailing ?
-                                cloneElement(trailing, trailingProps)
-                        :       <IconButton
-                                        {...trailingProps}
+                afterAffordance: cloneElement(
+                        trailing ?? (
+                                <IconButton
                                         testID={`listItem__trailingIconButton--${id}`}
                                         icon={
                                                 <MaterialIcons
@@ -63,7 +55,10 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                                                         testID={`listItem__trailingIconMoreHoriz--${id}`}
                                                 />
                                         }
-                                />,
+                                />
+                        ),
+                        trailingProps
+                ),
                 closeTrailing: cloneElement(
                         trailing ?? (
                                 <IconButton
@@ -80,6 +75,8 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                 ),
                 standard: trailing ? cloneElement(trailing, trailingProps) : undefined
         }
+
+        // console.info(trailingType, trailingProps.size, 'trailingType========>')
 
         return trailingElement[trailingType]
 }
@@ -105,11 +102,11 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         eventName,
                         headline,
                         headlineTextAnimatedStyle,
+                        iconButtonSize,
                         id,
                         indexKey,
                         interactionHandlers,
                         leadingElement,
-                        leadingType,
                         onCancel,
                         onConfirm,
                         panResponder,
@@ -144,6 +141,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         }
 
                 const isLines = (supportingTextNumberOfLines ?? 0) > 1
+                const iconSize = processIconSize(theme)(iconButtonSize[size])
                 const mainElement = (
                         <>
                                 {beforeAffordance && (
@@ -214,19 +212,27 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                 >
                                                         {leadingElement && (
                                                                 <View
-                                                                        testID={`listItem__Leading--${id}`}
+                                                                        testID={`listItem__leading--${id}`}
                                                                         className={clsx(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
                                                                                         ['justify-start']: isLines,
-                                                                                        ['mr-4']: size !== SIZE.SMALL,
-                                                                                        ['mr-3']: size === SIZE.SMALL
+                                                                                        ['mr-4 h-10 w-10']:
+                                                                                                size ===
+                                                                                                SIZE.EXTRA_LARGE,
+                                                                                        ['mr-[14px] h-8 w-8']:
+                                                                                                size === SIZE.LARGE,
+                                                                                        ['mr-3 h-6 w-6']:
+                                                                                                size === SIZE.MEDIUM,
+                                                                                        ['mr-2 h-6 w-6']:
+                                                                                                size === SIZE.SMALL,
+                                                                                        ['mr-1 h-6 w-6']:
+                                                                                                size ===
+                                                                                                SIZE.EXTRA_SMALL
                                                                                 }
                                                                         )}
                                                                 >
-                                                                        {leadingType === LIST_LEADING_TYPE.ICON ?
-                                                                                cloneElement(leadingElement, {})
-                                                                        :       leadingElement}
+                                                                        {cloneElement(leadingElement, {size: iconSize})}
                                                                 </View>
                                                         )}
 
@@ -277,15 +283,24 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
                                                         {trailingElement && (
                                                                 <View
-                                                                        className={clsx('flex flex-col', {
-                                                                                ['justify-start']: isLines,
-                                                                                ['ml-4']:
-                                                                                        trailingVisible &&
-                                                                                        size !== SIZE.SMALL,
-                                                                                ['ml-3']:
-                                                                                        trailingVisible &&
-                                                                                        size === SIZE.SMALL
-                                                                        })}
+                                                                        className={clsx(
+                                                                                'flex flex-col items-center justify-center',
+                                                                                {
+                                                                                        ['justify-start']: isLines,
+                                                                                        ['ml-4 h-10 w-10']:
+                                                                                                size ===
+                                                                                                SIZE.EXTRA_LARGE,
+                                                                                        ['ml-[14px] h-8 w-8']:
+                                                                                                size === SIZE.LARGE,
+                                                                                        ['ml-3 h-6 w-6']:
+                                                                                                size === SIZE.MEDIUM,
+                                                                                        ['ml-2 h-6 w-6']:
+                                                                                                size === SIZE.SMALL,
+                                                                                        ['ml-1 h-6 w-6']:
+                                                                                                size ===
+                                                                                                SIZE.EXTRA_SMALL
+                                                                                }
+                                                                        )}
                                                                         testID={`listItem__trailingLayout--${id}`}
                                                                 >
                                                                         <LayoutAnimated

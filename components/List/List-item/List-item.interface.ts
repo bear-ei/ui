@@ -13,6 +13,14 @@ export interface ListItemRef extends PressableType {
         close: () => void
 }
 
+export type IconButtonSize = {
+        EXTRA_LARGE: 'MEDIUM'
+        EXTRA_SMALL: 'EXTRA_SMALL'
+        LARGE: 'SMALL'
+        MEDIUM: 'EXTRA_SMALL'
+        SMALL: 'EXTRA_SMALL'
+}
+
 export interface ListItemProps
         extends TouchableProps,
                 Pick<
@@ -30,7 +38,6 @@ export interface ListItemProps
                         | 'enableUnderlayActive'
                         | 'focusedIndex'
                         | 'gap'
-                        | 'leadingType'
                         | 'onActive'
                         | 'onActiveAfterAffordance'
                         | 'onCancel'
@@ -82,6 +89,7 @@ export interface RenderListItemProps extends ListItemProps {
         state?: State
         trailingElement?: React.JSX.Element
         trailingVisible?: boolean
+        iconButtonSize: IconButtonSize
 }
 
 export type ListItemBaseProps = ListItemProps
@@ -111,6 +119,7 @@ export interface RenderListItemTrailingProps
                 | 'afterAffordance'
                 | 'closeTrailing'
                 | 'disabled'
+                | 'iconButtonSize'
                 | 'id'
                 | 'size'
                 | 'trailing'

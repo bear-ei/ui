@@ -1,5 +1,6 @@
 export * from './array-equal'
 export * from './debounce'
+export * from './icon-size'
 export * from './name-path'
 export * from './text-search'
 export * from './throttle'

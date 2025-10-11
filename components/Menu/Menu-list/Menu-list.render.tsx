@@ -27,11 +27,11 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
         ) => {
                 const dataNumber = data?.length ?? 0
                 const sizeDensity = {
-                        [SIZE.EXTRA_LARGE]: 14,
-                        [SIZE.EXTRA_SMALL]: 6,
-                        [SIZE.LARGE]: 12,
-                        [SIZE.MEDIUM]: 10,
-                        [SIZE.SMALL]: 8
+                        [SIZE.EXTRA_LARGE]: 16,
+                        [SIZE.EXTRA_SMALL]: 8,
+                        [SIZE.LARGE]: 14,
+                        [SIZE.MEDIUM]: 12,
+                        [SIZE.SMALL]: 10
                 }
 
                 const itemSize = theme.token.spacing.extraSmall * sizeDensity[size]

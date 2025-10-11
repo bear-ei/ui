@@ -1,5 +1,6 @@
 import {shapeClasses} from '@/constants'
 import {useTheme} from '@/hooks'
+import {processIconSize} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
@@ -35,18 +36,12 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
         const iconColor =
                 rawColor ?? (!loading ? color[type as keyof typeof color] : theme.token.scheme.onSurfaceVariant)
 
-        const iconSize = {
-                [SIZE.EXTRA_LARGE]: theme.token.spacing.extraLarge,
-                [SIZE.EXTRA_SMALL]: theme.token.spacing.medium,
-                [SIZE.LARGE]: theme.token.spacing.extraSmall * 7,
-                [SIZE.MEDIUM]: theme.token.spacing.large,
-                [SIZE.SMALL]: theme.token.spacing.extraSmall * 5
-        }
+        const iconSize = processIconSize(theme)(size)
 
         return cloneElement(icon ?? <MaterialIcons name='circle' />, {
                 color: disabled ? disabledColor : iconColor,
                 disabled,
-                size: iconSize[size],
+                size: iconSize,
                 testID: `iconButton__icon--${id}`
         })
 }
