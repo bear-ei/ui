@@ -9,7 +9,15 @@ const config: StorybookConfig = {
                         pluginReactOptions: {
                                 jsxRuntime: 'automatic',
                                 jsxImportSource: 'nativewind',
-                                babel: {presets: ['nativewind/babel']}
+                                babel: {
+                                        presets: ['nativewind/babel'],
+                                        plugins: [
+                                                ['@babel/plugin-proposal-decorators', {legacy: true}],
+                                                ['@babel/plugin-proposal-class-properties', {loose: true}],
+                                                '@babel/plugin-proposal-export-namespace-from',
+                                                'react-native-worklets/plugin'
+                                        ]
+                                }
                         }
                 }
         }

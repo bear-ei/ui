@@ -29,14 +29,12 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         disabled,
                         editable,
                         error,
-                        filled,
                         labelText = 'Label',
                         leading,
                         multiline,
                         onChangeText: rawOnChangeText,
                         onContentSizeChange: rawOnContentSizeChange,
                         onSupportingTextVisibility: rawOnSupportingTextVisibility,
-                        placeholder,
                         supportingText: rawSupportingText,
                         supportingTextDelay = 0,
                         trailing,
@@ -122,13 +120,10 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         activeIndicatorAnimatedStyle,
                         headerAnimatedStyle,
                         inputAnimatedStyle,
-                        labelAnimatedStyle,
-                        labelTextAnimatedStyle,
                         supportingTextAnimatedStyle
                 } = useTextInputAnimated({
                         disabled,
                         error,
-                        filled: [rawValue, defaultValue, placeholder, value, content, filled].some(Boolean),
                         state,
                         status,
                         type
@@ -189,9 +184,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                                 id={id}
                                 inputAnimatedStyle={inputAnimatedStyle}
                                 interactionHandlers={interactionHandlers}
-                                labelAnimatedStyle={labelAnimatedStyle}
                                 labelText={labelText}
-                                labelTextAnimatedStyle={labelTextAnimatedStyle}
                                 leadingElement={leading}
                                 multiline={multiline}
                                 onChangeText={onChangeText}

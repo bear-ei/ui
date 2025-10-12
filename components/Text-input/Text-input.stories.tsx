@@ -1,25 +1,32 @@
 import {SIZE} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import type {Meta, StoryObj} from '@storybook/react'
+import {IconButton} from '../Icon-button'
 import {TextInput} from './Text-input.component'
 import type {TextInputProps} from './Text-input.interface'
 
 export const Filled: StoryObj<TextInputProps> = {
+        args: {}
+}
+
+export const Leading: StoryObj<TextInputProps> = {
         args: {
                 supportingText: 'supportingText',
-                filled: true
+                leading: <MaterialIcons name='circle' />
         }
 }
 
-export const IconTextInput: StoryObj<TextInputProps> = {
+export const Trailing: StoryObj<TextInputProps> = {
         args: {
                 supportingText: 'supportingText',
-                leading: (
-                        <MaterialIcons
-                                name='circle'
-                                size={24}
-                        />
-                )
+                trailing: <IconButton />
+        }
+}
+
+export const Err: StoryObj<TextInputProps> = {
+        args: {
+                error: true,
+                supportingText: 'supportingText'
         }
 }
 

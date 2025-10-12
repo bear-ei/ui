@@ -18,7 +18,6 @@ import type {UseTextInputAnimatedOptions} from './Text-input.interface'
 export const useTextInputAnimated = ({
         disabled,
         error,
-        filled,
         state,
         status,
         type = TEXT_INPUT_TYPE.FILLED
@@ -54,8 +53,6 @@ export const useTextInputAnimated = ({
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
         const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
         const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
-        const filledToValue = filled ? 0 : 1
-        const labelTextSharedValue = useSharedValue(filledToValue)
         const backgroundColorType = {
                 [TEXT_INPUT_TYPE.FILLED]: {
                         inputRanges: [0, 1],
@@ -86,25 +83,6 @@ export const useTextInputAnimated = ({
                 color: interpolateColor(colorSharedValue.value, [0, 1], inputColorSharedValueOutputRanges)
         }))
 
-        const labelTranslateYOutputRanges = [-theme.token.spacing.small, theme.token.spacing.none]
-        const labelAnimatedStyle = useAnimatedStyle(() => ({
-                transform: [
-                        {translateY: interpolate(labelTextSharedValue.value, [0, 1], labelTranslateYOutputRanges)},
-                        {scale: interpolate(labelTextSharedValue.value, [0, 1], [0.6666, 1])}
-                ]
-        }))
-
-        const labelTextColorOutputRanges = [
-                disabledColor,
-                hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-                hexToRGBA(scheme.primary)(opacity.level10),
-                hexToRGBA(scheme.error)(opacity.level10)
-        ]
-
-        const labelTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(colorSharedValue.value, [0, 1, 2, 3], labelTextColorOutputRanges)
-        }))
-
         const activeIndicatorBackgroundColorOutputRanges = [
                 disabledColor,
                 hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
@@ -118,7 +96,7 @@ export const useTextInputAnimated = ({
                         [0, 1, 2, 3],
                         activeIndicatorBackgroundColorOutputRanges
                 ),
-                transform: [{scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.3333, 1])}]
+                transform: [{scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.5, 1])}]
         }))
 
         const supportingTextSharedValueColorOutputRanges = [
@@ -141,17 +119,14 @@ export const useTextInputAnimated = ({
                                 activeIndicatorScaleYSharedValue,
                                 colorSharedValue,
                                 inputColorSharedValue,
-                                labelTextSharedValue,
                                 supportingTextSharedValue
-                        })({error, filledToValue}),
+                        })(error),
                 [
                         activeIndicatorScaleYSharedValue,
                         animateSharedValueTo,
                         colorSharedValue,
                         error,
-                        filledToValue,
                         inputColorSharedValue,
-                        labelTextSharedValue,
                         supportingTextSharedValue
                 ]
         )
@@ -196,10 +171,9 @@ export const useTextInputAnimated = ({
                 () =>
                         createAnimateTextInputFocusedState(animateSharedValueTo)({
                                 activeIndicatorScaleYSharedValue,
-                                colorSharedValue,
-                                labelTextSharedValue
+                                colorSharedValue
                         })(error),
-                [activeIndicatorScaleYSharedValue, animateSharedValueTo, colorSharedValue, error, labelTextSharedValue]
+                [activeIndicatorScaleYSharedValue, animateSharedValueTo, colorSharedValue, error]
         )
 
         const stateAnimated = useMemo(
@@ -252,7 +226,6 @@ export const useTextInputAnimated = ({
                         cancelAnimation(colorSharedValue)
                         cancelAnimation(headerInnerBackgroundColorSharedValue)
                         cancelAnimation(inputColorSharedValue)
-                        cancelAnimation(labelTextSharedValue)
                         cancelAnimation(supportingTextSharedValue)
                 },
                 [
@@ -260,7 +233,6 @@ export const useTextInputAnimated = ({
                         colorSharedValue,
                         headerInnerBackgroundColorSharedValue,
                         inputColorSharedValue,
-                        labelTextSharedValue,
                         supportingTextSharedValue
                 ]
         )
@@ -269,8 +241,6 @@ export const useTextInputAnimated = ({
                 activeIndicatorAnimatedStyle,
                 headerAnimatedStyle,
                 inputAnimatedStyle,
-                labelAnimatedStyle,
-                labelTextAnimatedStyle,
                 supportingTextAnimatedStyle
         }
 }

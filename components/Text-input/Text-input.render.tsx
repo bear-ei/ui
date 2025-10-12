@@ -6,10 +6,14 @@ import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {LayoutAnimated} from '../Layout-animated'
 import {Underlay} from '../Underlay'
 import type {RenderTextInputProps} from './Text-input.interface'
 
+/**
+ * TODO: Support Multiline
+ */
 export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
         (
                 {
@@ -26,9 +30,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                         id,
                         inputAnimatedStyle,
                         interactionHandlers,
-                        labelAnimatedStyle,
                         labelText,
-                        labelTextAnimatedStyle,
                         leadingElement,
                         multiline,
                         onHeaderFocus,
@@ -38,7 +40,8 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                         supportingTextAnimatedStyle,
                         supportingTextVisible,
                         testID,
-                        trailing,
+                        trailingElement,
+                        placeholder = 'Placeholder',
                         ...inputProps
                 },
                 ref
@@ -51,7 +54,8 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 
                 const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
                 const iconSize = processIconSize(theme)(iconButtonSize[size])
-                const isTrailingShow = !!trailing
+                const isLeadingShow = !!leadingElement
+                const isTrailingShow = !!trailingElement
                 const shape = SHAPE.EXTRA_SMALL_TOP
                 const underlayColor = theme.token.scheme.onSurface
                 const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
@@ -65,7 +69,9 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                 testID={testID ?? `textInput--${id}`}
                         >
                                 <View
-                                        className='flex flex-col gap-1'
+                                        className={clsx('flex flex-col', {
+                                                ['gap-1']: typeof supportingText === 'string'
+                                        })}
                                         testID={`textInput__content--${id}`}
                                 >
                                         <Pressable
@@ -81,36 +87,61 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                         >
                                                 <Animated.View
                                                         className={clsx(
-                                                                'relative z-10 flex min-w-20 flex-row items-center gap-1',
+                                                                'relative z-10 flex min-w-20 flex-row items-center',
                                                                 {
                                                                         ['h-10']: size === SIZE.MEDIUM,
                                                                         ['h-12']: size === SIZE.LARGE,
                                                                         ['h-14']: size === SIZE.EXTRA_LARGE,
                                                                         ['h-6']: size === SIZE.EXTRA_SMALL,
                                                                         ['h-8']: size === SIZE.SMALL,
-                                                                        ['pl-6 pr-6']:
+                                                                        ['pr-6']:
                                                                                 !isTrailingShow &&
                                                                                 size === SIZE.EXTRA_LARGE,
-                                                                        ['pl-5 pr-5']:
+                                                                        ['pr-5']:
                                                                                 !isTrailingShow && size === SIZE.LARGE,
-                                                                        ['pl-4 pr-4']:
-                                                                                !isTrailingShow && size === SIZE.MEDIUM,
-                                                                        ['pl-3 pr-3']:
-                                                                                !isTrailingShow && size === SIZE.SMALL,
-                                                                        ['pl-2 pr-2']:
-                                                                                !isTrailingShow &&
-                                                                                size === SIZE.EXTRA_SMALL,
-                                                                        ['pl-6 pr-4']:
-                                                                                isTrailingShow &&
-                                                                                size === SIZE.EXTRA_LARGE,
-                                                                        ['pl-5 pr-[14px]']:
+                                                                        ['pr-4']:
+                                                                                (!isTrailingShow &&
+                                                                                        size === SIZE.MEDIUM) ||
+                                                                                (isTrailingShow &&
+                                                                                        size === SIZE.EXTRA_LARGE),
+                                                                        ['pr-3']:
+                                                                                (!isTrailingShow &&
+                                                                                        size === SIZE.SMALL) ||
+                                                                                (isTrailingShow &&
+                                                                                        size === SIZE.MEDIUM),
+                                                                        ['pr-2']:
+                                                                                (!isTrailingShow &&
+                                                                                        size === SIZE.EXTRA_SMALL) ||
+                                                                                (isTrailingShow && size === SIZE.SMALL),
+
+                                                                        ['pr-[14px]']:
                                                                                 isTrailingShow && size === SIZE.LARGE,
-                                                                        ['pl-4 pr-3']:
-                                                                                isTrailingShow && size === SIZE.MEDIUM,
-                                                                        ['pl-3 pr-2']:
-                                                                                isTrailingShow && size === SIZE.SMALL,
-                                                                        ['pl-2 pr-1']:
+
+                                                                        ['pr-1']:
                                                                                 isTrailingShow &&
+                                                                                size === SIZE.EXTRA_SMALL,
+                                                                        ['pl-6']:
+                                                                                !isLeadingShow &&
+                                                                                size === SIZE.EXTRA_LARGE,
+
+                                                                        ['pl-5']: !isLeadingShow && size === SIZE.LARGE,
+                                                                        ['pl-4']:
+                                                                                (!isLeadingShow &&
+                                                                                        size === SIZE.MEDIUM) ||
+                                                                                (isLeadingShow &&
+                                                                                        size === SIZE.EXTRA_LARGE),
+                                                                        ['pl-3']:
+                                                                                (!isLeadingShow &&
+                                                                                        size === SIZE.SMALL) ||
+                                                                                (isLeadingShow && size === SIZE.MEDIUM),
+                                                                        ['pl-2']:
+                                                                                (!isLeadingShow &&
+                                                                                        size === SIZE.EXTRA_SMALL) ||
+                                                                                (isLeadingShow && size === SIZE.SMALL),
+                                                                        ['pl-[14px]']:
+                                                                                isLeadingShow && size === SIZE.LARGE,
+                                                                        ['pl-1']:
+                                                                                isLeadingShow &&
                                                                                 size === SIZE.EXTRA_SMALL
                                                                 },
                                                                 shapeClasses(shape)
@@ -121,8 +152,9 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                         {leadingElement && (
                                                                 <View
                                                                         className={clsx(
-                                                                                'flex items-center justify-center',
+                                                                                'flex flex-col items-center justify-center',
                                                                                 {
+                                                                                        ['justify-start']: multiline,
                                                                                         ['mr-4 h-10 w-10']:
                                                                                                 size ===
                                                                                                 SIZE.EXTRA_LARGE,
@@ -179,6 +211,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                                 multiline={multiline}
                                                                                 onBlur={onBlur}
                                                                                 onFocus={onFocus}
+                                                                                placeholder={placeholder}
                                                                                 placeholderTextColor={
                                                                                         placeholderTextColor
                                                                                 }
@@ -189,39 +222,38 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                 </View>
                                                         </View>
 
-                                                        {trailing && (
+                                                        {trailingElement && (
                                                                 <View
-                                                                        className='flex h-10 w-10 flex-col items-center justify-center'
+                                                                        className={clsx(
+                                                                                'flex flex-col items-center justify-center',
+                                                                                {
+                                                                                        ['justify-start']: multiline,
+                                                                                        ['ml-4 h-10 w-10']:
+                                                                                                size ===
+                                                                                                SIZE.EXTRA_LARGE,
+                                                                                        ['ml-[14px] h-8 w-8']:
+                                                                                                size === SIZE.LARGE,
+                                                                                        ['ml-3 h-6 w-6']:
+                                                                                                size === SIZE.MEDIUM,
+                                                                                        ['ml-2 h-6 w-6']:
+                                                                                                size === SIZE.SMALL,
+                                                                                        ['ml-1 h-6 w-6']:
+                                                                                                size ===
+                                                                                                SIZE.EXTRA_SMALL
+                                                                                }
+                                                                        )}
                                                                         testID={`textInput__trailing--${id}`}
                                                                 >
-                                                                        {cloneElement(trailing, {disabledFocus: true})}
+                                                                        {cloneElement(trailingElement, {
+                                                                                size: iconButtonSize[size],
+                                                                                tabIndex: -1,
+                                                                                type: ICON_BUTTON_TYPE.STANDARD
+                                                                        })}
                                                                 </View>
                                                         )}
 
-                                                        {/* <Animated.View
-                                                                className={clsx(
-                                                                        'absolute top-4 z-20 flex origin-top-left flex-col',
-                                                                        {
-                                                                                ['left-4']: !isLeadingShow,
-                                                                                ['left-11']: isLeadingShow
-                                                                        }
-                                                                )}
-                                                                style={[labelAnimatedStyle]}
-                                                                testID={`textInput__animatedLabel--${id}`}
-                                                        >
-                                                                <Animated.Text
-                                                                        className={typographyClasses(TYPOGRAPHY.BODY)(
-                                                                                TYPOGRAPHY_SIZE.LARGE
-                                                                        )()}
-                                                                        style={[labelTextAnimatedStyle]}
-                                                                        testID={`textInput__animatedLabelText--${id}`}
-                                                                >
-                                                                        {labelText}
-                                                                </Animated.Text>
-                                                        </Animated.View> */}
-
                                                         <Animated.View
-                                                                className='absolute bottom-0 left-0 right-0 z-20 h-1 origin-bottom'
+                                                                className='absolute bottom-0 left-0 right-0 z-20 h-[2px] origin-bottom'
                                                                 style={[activeIndicatorAnimatedStyle]}
                                                                 testID={`textInput__animatedActiveIndicator--${id}`}
                                                         />
@@ -235,20 +267,28 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                 </Animated.View>
                                         </Pressable>
 
-                                        <LayoutAnimated
-                                                className='pl-4 pr-4'
-                                                onVisibility={onSupportingTextVisibility}
-                                                testID={`textInput__supportingLayoutAnimated--${id}`}
-                                                visible={supportingTextVisible}
-                                        >
-                                                <Animated.Text
-                                                        className={typographyClasses(TYPOGRAPHY.BODY)(size)()}
-                                                        style={[supportingTextAnimatedStyle]}
-                                                        testID={`textInput__animatedSupportingText--${id}`}
+                                        {typeof supportingText === 'string' && (
+                                                <LayoutAnimated
+                                                        className={clsx('mb-1', {
+                                                                ['pl-6 pr-6']: size === SIZE.EXTRA_LARGE,
+                                                                ['pl-2 pr-2']: size === SIZE.EXTRA_SMALL,
+                                                                ['pl-4 pr-4']: size === SIZE.MEDIUM,
+                                                                ['pl-5 pr-5']: size === SIZE.LARGE,
+                                                                ['pl-3 pr-3']: size === SIZE.SMALL
+                                                        })}
+                                                        onVisibility={onSupportingTextVisibility}
+                                                        testID={`textInput__supportingLayoutAnimated--${id}`}
+                                                        visible={supportingTextVisible}
                                                 >
-                                                        {supportingText}
-                                                </Animated.Text>
-                                        </LayoutAnimated>
+                                                        <Animated.Text
+                                                                className={typographyClasses(TYPOGRAPHY.BODY)(size)()}
+                                                                style={[supportingTextAnimatedStyle]}
+                                                                testID={`textInput__animatedSupportingText--${id}`}
+                                                        >
+                                                                {supportingText}
+                                                        </Animated.Text>
+                                                </LayoutAnimated>
+                                        )}
                                 </View>
                         </View>
                 )

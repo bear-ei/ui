@@ -40,7 +40,6 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                 ...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {onHoverIn}),
                 disabled: isDisabled ?? disabled,
                 size: trailingSize,
-                testID: `listItem__trailing--${id}`,
                 type: ICON_BUTTON_TYPE.STANDARD
         }
 
@@ -79,6 +78,9 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         return trailingElement[trailingType]
 }
 
+/**
+ * TODO: Support Multiline
+ */
 export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
         (
                 {
@@ -139,10 +141,8 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 activeColor
                         }
 
-                const isLines = (supportingTextNumberOfLines ?? 0) > 1
+                const isMultiline = (supportingTextNumberOfLines ?? 0) > 1
                 const iconSize = processIconSize(theme)(iconButtonSize[size])
-
-                console.info((!isLeadingShow && size === SIZE.MEDIUM) || (isLeadingShow && size === SIZE.EXTRA_LARGE))
                 const mainElement = (
                         <>
                                 {beforeAffordance && (
@@ -223,8 +223,10 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                         ['pl-1']:
                                                                                 isLeadingShow &&
                                                                                 size === SIZE.EXTRA_SMALL,
-                                                                        ['pb-2 pt-2']: isSupportingTextShow && !isLines,
-                                                                        ['pb-3 pt-3']: isSupportingTextShow && isLines
+                                                                        ['pb-2 pt-2']:
+                                                                                isSupportingTextShow && !isMultiline,
+                                                                        ['pb-4 pt-4']:
+                                                                                isSupportingTextShow && isMultiline
                                                                 }
                                                         )}
                                                         testID={`listItem__main--${id}`}
@@ -235,7 +237,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                         className={clsx(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
-                                                                                        ['justify-start']: isLines,
+                                                                                        ['justify-start']: isMultiline,
                                                                                         ['mr-4 h-10 w-10']:
                                                                                                 size ===
                                                                                                 SIZE.EXTRA_LARGE,
@@ -305,7 +307,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                         className={clsx(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
-                                                                                        ['justify-start']: isLines,
+                                                                                        ['justify-start']: isMultiline,
                                                                                         ['ml-4 h-10 w-10']:
                                                                                                 trailingVisible &&
                                                                                                 size ===
@@ -424,13 +426,13 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 tabIndex={-1}
                                 testID={testID ?? `listItem--${id}`}
                                 className={clsx(
-                                        'relative flex flex-col self-stretch overflow-hidden',
+                                        'relative flex min-w-20 flex-col self-stretch overflow-hidden',
                                         {
-                                                ['h-12 min-w-10']: size === SIZE.MEDIUM,
-                                                ['h-14 min-w-12']: size === SIZE.LARGE,
-                                                ['h-16 min-w-14']: size === SIZE.EXTRA_LARGE,
-                                                ['h-8 min-w-8']: size === SIZE.EXTRA_SMALL,
-                                                ['h-10 min-w-10']: size === SIZE.SMALL
+                                                ['h-10']: size === SIZE.SMALL,
+                                                ['h-12']: size === SIZE.MEDIUM,
+                                                ['h-14']: size === SIZE.LARGE,
+                                                ['h-16']: size === SIZE.EXTRA_LARGE,
+                                                ['h-8']: size === SIZE.EXTRA_SMALL
                                         },
                                         shapeClasses(shape)
                                 )}

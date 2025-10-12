@@ -14,7 +14,6 @@ export interface TextInputProps
         content?: React.ReactNode
         disabled?: boolean
         error?: boolean
-        filled?: boolean
         labelText?: string
         leading?: React.JSX.Element
         onSupportingTextVisibility?: (visible?: boolean) => void
@@ -25,15 +24,13 @@ export interface TextInputProps
 }
 
 export interface RenderTextInputProps extends TextInputProps {
-        iconButtonSize: IconButtonSize
         activeIndicatorAnimatedStyle: AnimatedStyle<ViewStyle>
         contentSize?: ContentSize
         eventName?: EventName
         headerAnimatedStyle: AnimatedStyle<ViewStyle>
+        iconButtonSize: IconButtonSize
         inputAnimatedStyle: AnimatedStyle<TextStyle>
         interactionHandlers: InteractionHandlers
-        labelAnimatedStyle: AnimatedStyle<ViewStyle>
-        labelTextAnimatedStyle: AnimatedStyle<TextStyle>
         leadingElement?: React.JSX.Element
         onHeaderFocus?: () => void
         onSupportingTextVisibility?: (visible?: boolean) => void
@@ -64,13 +61,8 @@ export interface HandleTextInputStateChangeOptions
 }
 
 export interface UseTextInputAnimatedOptions extends Pick<RenderTextInputProps, 'type' | 'error' | 'disabled'> {
-        filled: boolean
         state: State
         status: ComponentStatus
-}
-
-export interface CreateTextInputEnabledStateOptions extends Pick<UseTextInputAnimatedOptions, 'error'> {
-        filledToValue: number
 }
 
 export interface UpdateTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelay'> {
@@ -81,7 +73,6 @@ export interface CreateTextInputEnabledSharedValues {
         activeIndicatorScaleYSharedValue: SharedValue<number>
         colorSharedValue: SharedValue<number>
         inputColorSharedValue: SharedValue<number>
-        labelTextSharedValue: SharedValue<number>
         supportingTextSharedValue: SharedValue<number>
 }
 
@@ -103,7 +94,6 @@ export interface CreateTextInputErrorSharedValues {
 export interface CreateTextInputFocusedSharedValues {
         activeIndicatorScaleYSharedValue: SharedValue<number>
         colorSharedValue: SharedValue<number>
-        labelTextSharedValue: SharedValue<number>
 }
 
 export type TextInputStateAnimated = Partial<Record<State, () => void>>
