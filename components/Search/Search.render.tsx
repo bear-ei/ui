@@ -1,11 +1,13 @@
-import {shapeClasses, typographyClasses} from '@/constants'
+import {ICON_BUTTON_SIZE, shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {hexToRGBA, SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
+import {processIconSize} from '@/utils'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {Underlay} from '../Underlay'
 import type {RenderSearchProps} from './Search.interface'
 
@@ -23,12 +25,13 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                         inputAnimatedStyle,
                         interactionHandlers,
                         layout: _,
-                        leading,
+                        leadingElement,
                         listVisible,
                         onChangeText,
                         placeholder,
+                        size = SIZE.MEDIUM,
                         testID,
-                        trailing,
+                        trailingElement,
                         value,
                         ...textInputProps
                 },
@@ -41,7 +44,10 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                         :       theme.token.scheme.onSurfaceVariant
 
                 const {onBlur, onFocus, ...touchableInteractionHandlers} = interactionHandlers
-                const shape = SHAPE.EXTRA_LARGE
+                const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
+                const isLeadingShow = !!leadingElement
+                const isTrailingShow = !!trailingElement
+                const shape = SHAPE.FULL
                 const underlayColor = theme.token.scheme.onSurface
                 const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
 
@@ -61,10 +67,44 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                 accessibilityLabel={accessibilityLabel ?? placeholder}
                                                 accessibilityRole='keyboardkey'
                                                 className={clsx(
-                                                        'relative z-10 flex h-14 flex-row items-center justify-between gap-1 self-stretch pl-1',
+                                                        'relative z-10 flex flex-row items-center justify-between self-stretch pl-1',
                                                         {
-                                                                ['pr-4']: !trailing,
-                                                                ['pr-1']: !!trailing
+                                                                ['h-10']: size === SIZE.MEDIUM,
+                                                                ['h-12']: size === SIZE.LARGE,
+                                                                ['h-14']: size === SIZE.EXTRA_LARGE,
+                                                                ['h-6']: size === SIZE.EXTRA_SMALL,
+                                                                ['h-8']: size === SIZE.SMALL,
+                                                                ['pr-6']: !isTrailingShow && size === SIZE.EXTRA_LARGE,
+                                                                ['pr-5']: !isTrailingShow && size === SIZE.LARGE,
+                                                                ['pr-4']:
+                                                                        (!isTrailingShow && size === SIZE.MEDIUM) ||
+                                                                        (isTrailingShow && size === SIZE.EXTRA_LARGE),
+                                                                ['pr-3']:
+                                                                        (!isTrailingShow && size === SIZE.SMALL) ||
+                                                                        (isTrailingShow && size === SIZE.MEDIUM),
+                                                                ['pr-2']:
+                                                                        (!isTrailingShow &&
+                                                                                size === SIZE.EXTRA_SMALL) ||
+                                                                        (isTrailingShow && size === SIZE.SMALL),
+
+                                                                ['pr-[0.875rem]']:
+                                                                        isTrailingShow && size === SIZE.LARGE,
+
+                                                                ['pr-1']: isTrailingShow && size === SIZE.EXTRA_SMALL,
+                                                                ['pl-6']: !isLeadingShow && size === SIZE.EXTRA_LARGE,
+
+                                                                ['pl-5']: !isLeadingShow && size === SIZE.LARGE,
+                                                                ['pl-4']:
+                                                                        (!isLeadingShow && size === SIZE.MEDIUM) ||
+                                                                        (isLeadingShow && size === SIZE.EXTRA_LARGE),
+                                                                ['pl-3']:
+                                                                        (!isLeadingShow && size === SIZE.SMALL) ||
+                                                                        (isLeadingShow && size === SIZE.MEDIUM),
+                                                                ['pl-2']:
+                                                                        (!isLeadingShow && size === SIZE.EXTRA_SMALL) ||
+                                                                        (isLeadingShow && size === SIZE.SMALL),
+                                                                ['pl-[0.875rem]']: isLeadingShow && size === SIZE.LARGE,
+                                                                ['pl-1']: isLeadingShow && size === SIZE.EXTRA_SMALL
                                                         },
                                                         shapeClasses(shape)
                                                 )}
@@ -72,18 +112,18 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                 testID={`search__content--${id}`}
                                         >
                                                 <View
-                                                        className='flex h-10 w-10 flex-col items-center justify-center'
+                                                        className={clsx('flex flex-col items-center justify-center', {
+                                                                ['mr-4 h-10 w-10']: size === SIZE.EXTRA_LARGE,
+                                                                ['mr-[0.875rem] h-8 w-8']: size === SIZE.LARGE,
+                                                                ['mr-3 h-6 w-6']: size === SIZE.MEDIUM,
+                                                                ['mr-2 h-6 w-6']: size === SIZE.SMALL,
+                                                                ['mr-1 h-6 w-6']: size === SIZE.EXTRA_SMALL
+                                                        })}
                                                         testID={`search__leading--${id}`}
                                                 >
                                                         {cloneElement(
-                                                                leading ?? (
-                                                                        <MaterialIcons
-                                                                                name='search'
-                                                                                size={24}
-                                                                                testID={`search__iconSearch--${id}`}
-                                                                        />
-                                                                ),
-                                                                {disabled}
+                                                                leadingElement ?? <MaterialIcons name='search' />,
+                                                                {disabled, size: iconSize}
                                                         )}
                                                 </View>
 
@@ -92,7 +132,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                         testID={`search__main--${id}`}
                                                 >
                                                         <View
-                                                                className='max-h-6 min-w-16'
+                                                                className='flex min-w-16 flex-1 flex-col justify-center self-stretch'
                                                                 testID={`search__control--${id}`}
                                                         >
                                                                 <AnimatedTextInput
@@ -105,7 +145,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                                         className={clsx(
                                                                                 'flex-1 self-stretch pb-0 pl-0 pr-0 pt-0 text-left outline-none',
                                                                                 typographyClasses(TYPOGRAPHY.BODY)(
-                                                                                        TYPOGRAPHY_SIZE.LARGE
+                                                                                        size
                                                                                 )()
                                                                         )}
                                                                         onBlur={onBlur}
@@ -121,12 +161,29 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                         </View>
                                                 </View>
 
-                                                {trailing && (
+                                                {trailingElement && (
                                                         <View
-                                                                className='flex h-10 w-10 flex-col items-center justify-center'
+                                                                className={clsx(
+                                                                        'flex flex-col items-center justify-center',
+                                                                        {
+                                                                                ['ml-4 h-10 w-10']:
+                                                                                        size === SIZE.EXTRA_LARGE,
+                                                                                ['ml-[0.875rem] h-8 w-8']:
+                                                                                        size === SIZE.LARGE,
+                                                                                ['ml-3 h-6 w-6']: size === SIZE.MEDIUM,
+                                                                                ['ml-2 h-6 w-6']: size === SIZE.SMALL,
+                                                                                ['ml-1 h-6 w-6']:
+                                                                                        size === SIZE.EXTRA_SMALL
+                                                                        }
+                                                                )}
                                                                 testID={`search__trailing--${id}`}
                                                         >
-                                                                {cloneElement(trailing, {disabled})}
+                                                                {cloneElement(trailingElement, {
+                                                                        disabled,
+                                                                        size: ICON_BUTTON_SIZE[size],
+                                                                        tabIndex: -1,
+                                                                        type: ICON_BUTTON_TYPE.STANDARD
+                                                                })}
                                                         </View>
                                                 )}
 

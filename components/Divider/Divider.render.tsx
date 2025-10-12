@@ -27,9 +27,9 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
                                 ref={ref}
                                 testID={testID ?? `divider--${id}`}
                                 className={clsx('gap-1', {
-                                        ['h-[1px] w-full']: !subheader && layoutType === LAYOUT.HORIZONTAL,
+                                        ['h-[0.0625rem] w-full']: !subheader && layoutType === LAYOUT.HORIZONTAL,
                                         ['h-6 w-full']: subheader && layoutType === LAYOUT.HORIZONTAL,
-                                        ['h-full w-[1px]']: layoutType === LAYOUT.VERTICAL,
+                                        ['h-full w-[0.0625rem]']: layoutType === LAYOUT.VERTICAL,
                                         ['pl-4']: layoutType === LAYOUT.HORIZONTAL && size === SIZE.MEDIUM,
                                         ['pt-4']: layoutType !== LAYOUT.HORIZONTAL && size === SIZE.MEDIUM,
                                         ['pl-4 pr-4']: layoutType === LAYOUT.HORIZONTAL && size === SIZE.SMALL,
@@ -39,7 +39,7 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
                                 <View
                                         style={[style]}
                                         testID={`divider__content--${id}`}
-                                        className='min-h-[1px] flex-1 self-stretch bg-[--color-outline-variant]'
+                                        className='min-h-[0.0625rem] flex-1 self-stretch bg-[--color-outline-variant]'
                                 />
 
                                 {subheader && (

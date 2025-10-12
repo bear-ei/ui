@@ -40,7 +40,7 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                         <View
                                 {...(['web', 'windows', 'macos'].includes(Platform.OS) && {onKeyDown})}
                                 className={clsx(
-                                        'w-[180px] overflow-hidden bg-[--color-surface-container] outline-none',
+                                        'w-[11.25rem] overflow-hidden bg-[--color-surface-container] outline-none',
                                         shapeClasses(shape)
                                 )}
                                 ref={ref}

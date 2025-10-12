@@ -133,16 +133,16 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                         testID={`sheetContent__content--${id}`}
                                 >
                                         <View
-                                                testID={`sheetContent__header--${id}`}
                                                 className={clsx(
-                                                        'flex flex-row items-center gap-2 self-stretch pb-2 pr-1 pt-2',
+                                                        'flex flex-row items-center gap-4 self-stretch pb-2 pr-1 pt-2',
                                                         {
-                                                                ['pl-2']: !!leadingElement,
-                                                                ['pr-2']: !!trailingElement,
-                                                                ['pl-4']: !leadingElement,
-                                                                ['pr-4']: !trailingElement
+                                                                ['pl-4']: !!leadingElement,
+                                                                ['pr-4']: !!trailingElement,
+                                                                ['pl-6']: !leadingElement,
+                                                                ['pr-6']: !trailingElement
                                                         }
                                                 )}
+                                                testID={`sheetContent__header--${id}`}
                                         >
                                                 {leadingElement && (
                                                         <View
@@ -154,7 +154,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                                 )}
 
                                                 <View
-                                                        className='flex h-12 flex-1 flex-row items-center'
+                                                        className='flex h-10 flex-1 flex-row items-center'
                                                         testID={`sheetContent__headlineLayout--${id}`}
                                                 >
                                                         <Text
@@ -190,8 +190,8 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 
                                         <LayoutAnimated
                                                 animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
-                                                contentSize={footerLayoutAnimatedContentSize}
                                                 className='absolute bottom-0 left-0 right-0 origin-bottom'
+                                                contentSize={footerLayoutAnimatedContentSize}
                                                 entry={{
                                                         duration: DURATION.MEDIUM_3,
                                                         easing: EASING.EMPHASIZED_DECELERATE
@@ -215,7 +215,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 
                                                         <View
                                                                 className={
-                                                                        'flex flex-row gap-2 bg-[--color-surface-container-low] pb-4 pl-4 pr-4 pt-4'
+                                                                        'flex flex-row gap-2 bg-[--color-surface-container-low] pb-4 pl-6 pr-6 pt-4'
                                                                 }
                                                                 testID={`sheetContent__footer--${id}`}
                                                         >

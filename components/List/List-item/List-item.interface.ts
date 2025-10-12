@@ -1,6 +1,6 @@
 import {IconButtonProps} from '@/components/Icon-button'
 import {PressableType, TouchableProps} from '@/components/Touchable'
-import {ComponentStatus, EventName, IconButtonSize, State} from '@/constants'
+import {ComponentStatus, EventName, State} from '@/constants'
 import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
@@ -74,7 +74,6 @@ export interface RenderListItemProps extends ListItemProps {
         contentAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
         headlineTextAnimatedStyle: AnimatedStyle<TextStyle>
-        iconButtonSize: IconButtonSize
         interactionHandlers: InteractionHandlers
         leadingElement?: React.JSX.Element
         panResponder?: PanResponderInstance
@@ -111,7 +110,6 @@ export interface RenderListItemTrailingProps
                 | 'afterAffordance'
                 | 'closeTrailing'
                 | 'disabled'
-                | 'iconButtonSize'
                 | 'id'
                 | 'size'
                 | 'trailing'

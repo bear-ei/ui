@@ -186,7 +186,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                 {type === BUTTON_TYPE.LINK && (
                                                         <LayoutAnimated
                                                                 className={clsx(
-                                                                        'absolute bottom-0 left-0 right-0 z-20 min-h-[1px] bg-[--color-primary]'
+                                                                        'absolute bottom-0 left-0 right-0 z-20 min-h-[0.0625rem] bg-[--color-primary]'
                                                                 )}
                                                                 style={[
                                                                         {...(linkColor && {backgroundColor: linkColor})}

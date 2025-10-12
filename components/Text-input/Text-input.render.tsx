@@ -1,4 +1,4 @@
-import {AnimatedTextInput, shapeClasses, typographyClasses} from '@/constants'
+import {AnimatedTextInput, ICON_BUTTON_SIZE, shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {processIconSize} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
@@ -26,7 +26,6 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                         error,
                         eventName,
                         headerAnimatedStyle,
-                        iconButtonSize,
                         id,
                         inputAnimatedStyle,
                         interactionHandlers,
@@ -53,7 +52,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                         :       theme.token.scheme.onSurfaceVariant
 
                 const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
-                const iconSize = processIconSize(theme)(iconButtonSize[size])
+                const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
                 const isLeadingShow = !!leadingElement
                 const isTrailingShow = !!trailingElement
                 const shape = SHAPE.EXTRA_SMALL_TOP
@@ -114,7 +113,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                                         size === SIZE.EXTRA_SMALL) ||
                                                                                 (isTrailingShow && size === SIZE.SMALL),
 
-                                                                        ['pr-[14px]']:
+                                                                        ['pr-[0.875rem]']:
                                                                                 isTrailingShow && size === SIZE.LARGE,
 
                                                                         ['pr-1']:
@@ -138,7 +137,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                                 (!isLeadingShow &&
                                                                                         size === SIZE.EXTRA_SMALL) ||
                                                                                 (isLeadingShow && size === SIZE.SMALL),
-                                                                        ['pl-[14px]']:
+                                                                        ['pl-[0.875rem]']:
                                                                                 isLeadingShow && size === SIZE.LARGE,
                                                                         ['pl-1']:
                                                                                 isLeadingShow &&
@@ -158,7 +157,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                                         ['mr-4 h-10 w-10']:
                                                                                                 size ===
                                                                                                 SIZE.EXTRA_LARGE,
-                                                                                        ['mr-[14px] h-8 w-8']:
+                                                                                        ['mr-[0.875rem] h-8 w-8']:
                                                                                                 size === SIZE.LARGE,
                                                                                         ['mr-3 h-6 w-6']:
                                                                                                 size === SIZE.MEDIUM,
@@ -185,7 +184,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                         >
                                                                 {content}
                                                                 <View
-                                                                        className='m-h-6 flex min-w-16 flex-1 flex-col justify-center self-stretch'
+                                                                        className='flex min-w-16 flex-1 flex-col justify-center self-stretch'
                                                                         testID={`textInput__control--${id}`}
                                                                         style={[
                                                                                 {
@@ -231,7 +230,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                                         ['ml-4 h-10 w-10']:
                                                                                                 size ===
                                                                                                 SIZE.EXTRA_LARGE,
-                                                                                        ['ml-[14px] h-8 w-8']:
+                                                                                        ['ml-[0.875rem] h-8 w-8']:
                                                                                                 size === SIZE.LARGE,
                                                                                         ['ml-3 h-6 w-6']:
                                                                                                 size === SIZE.MEDIUM,
@@ -245,7 +244,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                         testID={`textInput__trailing--${id}`}
                                                                 >
                                                                         {cloneElement(trailingElement, {
-                                                                                size: iconButtonSize[size],
+                                                                                size: ICON_BUTTON_SIZE[size],
                                                                                 tabIndex: -1,
                                                                                 type: ICON_BUTTON_TYPE.STANDARD
                                                                         })}
@@ -253,7 +252,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                         )}
 
                                                         <Animated.View
-                                                                className='absolute bottom-0 left-0 right-0 z-20 h-[2px] origin-bottom'
+                                                                className='absolute bottom-0 left-0 right-0 z-20 h-[0.125rem] origin-bottom'
                                                                 style={[activeIndicatorAnimatedStyle]}
                                                                 testID={`textInput__animatedActiveIndicator--${id}`}
                                                         />

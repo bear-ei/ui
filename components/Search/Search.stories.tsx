@@ -1,76 +1,56 @@
+import {SIZE} from '@bearei/theme-token'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import type {Meta, StoryObj} from '@storybook/react'
-import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
+import {IconButton} from '../Icon-button'
 import {Search} from './Search.component'
 import type {SearchProps} from './Search.interface'
 
-export const Standard: StoryObj<SearchProps> = {
+export const Leading: StoryObj<SearchProps> = {
         args: {
                 placeholder: 'Hinted search text',
-                trailing: <IconButton type={ICON_BUTTON_TYPE.STANDARD} />,
-                listProps: {
-                        data: [
-                                {
-                                        indexKey: 'TitleA',
-                                        headline: 'TitleA'
-                                },
-                                {
-                                        indexKey: 'TitleB',
-                                        headline: 'TitleB',
-                                        supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
-                                },
-                                {
-                                        indexKey: 'TitleC',
-                                        headline: 'TitleC',
-                                        supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
-                                },
-                                {
-                                        indexKey: 'TitleD',
-                                        headline: 'TitleD',
-                                        supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
-                                },
-                                {
-                                        indexKey: 'TitleE',
-                                        headline: 'TitleE',
-                                        supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
-                                }
-                        ]
-                }
+                leading: <MaterialIcons name='circle' />
         }
 }
 
-export const Disabled: StoryObj<SearchProps> = {
+export const Trailing: StoryObj<SearchProps> = {
         args: {
                 placeholder: 'Hinted search text',
-                trailing: <IconButton type={ICON_BUTTON_TYPE.STANDARD} />,
-                disabled: true,
-                listProps: {
-                        data: [
-                                {
-                                        indexKey: 'TitleA',
-                                        headline: 'TitleA'
-                                },
-                                {
-                                        indexKey: 'TitleB',
-                                        headline: 'TitleB',
-                                        supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
-                                },
-                                {
-                                        indexKey: 'TitleC',
-                                        headline: 'TitleC',
-                                        supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
-                                },
-                                {
-                                        indexKey: 'TitleD',
-                                        headline: 'TitleD',
-                                        supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
-                                },
-                                {
-                                        indexKey: 'TitleE',
-                                        headline: 'TitleE',
-                                        supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur.'
-                                }
-                        ]
-                }
+                trailing: <IconButton />
+        }
+}
+
+export const ExtraLarge: StoryObj<SearchProps> = {
+        args: {
+                placeholder: 'Hinted search text',
+                size: SIZE.EXTRA_LARGE
+        }
+}
+
+export const Large: StoryObj<SearchProps> = {
+        args: {
+                placeholder: 'Hinted search text',
+                size: SIZE.LARGE
+        }
+}
+
+export const Medium: StoryObj<SearchProps> = {
+        args: {
+                placeholder: 'Hinted search text',
+                size: SIZE.MEDIUM
+        }
+}
+
+export const Small: StoryObj<SearchProps> = {
+        args: {
+                placeholder: 'Hinted search text',
+                size: SIZE.SMALL
+        }
+}
+
+export const ExtraSmall: StoryObj<SearchProps> = {
+        args: {
+                placeholder: 'Hinted search text',
+                size: SIZE.EXTRA_SMALL
         }
 }
 

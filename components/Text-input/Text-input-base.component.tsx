@@ -1,7 +1,6 @@
 import {COMPONENT_STATUS, State, STATE} from '@/constants'
 import {HandleStateEventChangeOptions, StateEvent, useClearComponentEvent, useInteractionStateEvent} from '@/hooks'
 import {debounce} from '@/utils'
-import {SIZE} from '@bearei/theme-token'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {TextInput} from 'react-native'
 import {useImmer} from 'use-immer'
@@ -70,14 +69,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 
                 const id = useId()
                 const textInputRef = useRef<TextInput>(null)
-                const iconButtonSize = {
-                        [SIZE.EXTRA_LARGE]: SIZE.MEDIUM,
-                        [SIZE.EXTRA_SMALL]: SIZE.EXTRA_SMALL,
-                        [SIZE.LARGE]: SIZE.SMALL,
-                        [SIZE.MEDIUM]: SIZE.EXTRA_SMALL,
-                        [SIZE.SMALL]: SIZE.EXTRA_SMALL
-                }
-
                 const onContentSizeChange = useMemo(
                         () => createUpdateTextInputContentSize(rawOnContentSizeChange)(setState),
                         [rawOnContentSizeChange, setState]
@@ -180,7 +171,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                                 editable={editable}
                                 eventName={eventName}
                                 headerAnimatedStyle={headerAnimatedStyle}
-                                iconButtonSize={iconButtonSize}
                                 id={id}
                                 inputAnimatedStyle={inputAnimatedStyle}
                                 interactionHandlers={interactionHandlers}

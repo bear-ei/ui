@@ -3,7 +3,7 @@ import {ICON_BUTTON_TYPE, IconButton} from '@/components/Icon-button'
 import {LayoutAnimated} from '@/components/Layout-animated'
 import {Skeleton} from '@/components/Skeleton'
 import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
-import {EVENT_NAME, LAYOUT, shapeClasses, TRIGGER_EVENT, typographyClasses} from '@/constants'
+import {EVENT_NAME, ICON_BUTTON_SIZE, LAYOUT, shapeClasses, TRIGGER_EVENT, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {processIconSize} from '@/utils'
 import {DURATION, EASING, Size, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
@@ -20,7 +20,6 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         afterAffordance,
         closeTrailing,
         disabled,
-        iconButtonSize,
         id,
         interactionHandlers,
         onTrailingVisibility,
@@ -32,7 +31,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         const {disabled: isDisabled, ...restTrailingProps} = rawTrailingProps ?? {}
         const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
-        const trailingSize = iconButtonSize[size]
+        const trailingSize = ICON_BUTTON_SIZE[size]
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
         const trailingProps = {
                 ...restTrailingProps,
@@ -102,7 +101,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         eventName,
                         headline,
                         headlineTextAnimatedStyle,
-                        iconButtonSize,
                         id,
                         indexKey,
                         interactionHandlers,
@@ -142,7 +140,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         }
 
                 const isMultiline = (supportingTextNumberOfLines ?? 0) > 1
-                const iconSize = processIconSize(theme)(iconButtonSize[size])
+                const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
                 const mainElement = (
                         <>
                                 {beforeAffordance && (
@@ -194,7 +192,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                         size === SIZE.EXTRA_SMALL) ||
                                                                                 (isTrailingShow && size === SIZE.SMALL),
 
-                                                                        ['pr-[14px]']:
+                                                                        ['pr-[0.875rem]']:
                                                                                 isTrailingShow && size === SIZE.LARGE,
 
                                                                         ['pr-1']:
@@ -218,7 +216,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                 (!isLeadingShow &&
                                                                                         size === SIZE.EXTRA_SMALL) ||
                                                                                 (isLeadingShow && size === SIZE.SMALL),
-                                                                        ['pl-[14px]']:
+                                                                        ['pl-[0.875rem]']:
                                                                                 isLeadingShow && size === SIZE.LARGE,
                                                                         ['pl-1']:
                                                                                 isLeadingShow &&
@@ -241,7 +239,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                         ['mr-4 h-10 w-10']:
                                                                                                 size ===
                                                                                                 SIZE.EXTRA_LARGE,
-                                                                                        ['mr-[14px] h-8 w-8']:
+                                                                                        ['mr-[0.875rem] h-8 w-8']:
                                                                                                 size === SIZE.LARGE,
                                                                                         ['mr-3 h-6 w-6']:
                                                                                                 size === SIZE.MEDIUM,
@@ -312,7 +310,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                                 trailingVisible &&
                                                                                                 size ===
                                                                                                         SIZE.EXTRA_LARGE,
-                                                                                        ['ml-[14px] h-8 w-8']:
+                                                                                        ['ml-[0.875rem] h-8 w-8']:
                                                                                                 trailingVisible &&
                                                                                                 size === SIZE.LARGE,
                                                                                         ['ml-3 h-6 w-6']:
@@ -329,7 +327,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                                 !trailingVisible &&
                                                                                                 size ===
                                                                                                         SIZE.EXTRA_LARGE,
-                                                                                        ['ml-[6px]']:
+                                                                                        ['ml-[0.375rem]']:
                                                                                                 !trailingVisible &&
                                                                                                 size === SIZE.LARGE,
                                                                                         ['ml-1']:
@@ -404,7 +402,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 {divider && (
                                         <View
                                                 testID={`listItem__dividerLayout--${id}`}
-                                                className='absolute bottom-0 left-0 right-0 z-20 h-[1px]'
+                                                className='absolute bottom-0 left-0 right-0 z-20 h-[0.0625rem]'
                                         >
                                                 <Divider
                                                         layoutType={LAYOUT.HORIZONTAL}

@@ -25,6 +25,7 @@ import {useSearchAnimated} from './use-search-animated.hook'
 export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         (
                 {
+                        trailing,
                         defaultValue,
                         disabled,
                         leading,
@@ -112,11 +113,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 inputAnimatedStyle={inputAnimatedStyle}
                                 interactionHandlers={interactionHandlers}
                                 layout={layout}
-                                leading={leading}
+                                leadingElement={leading}
                                 listProps={listProps}
                                 listVisible={isListVisible}
                                 onChangeText={onChangeText}
                                 ref={inputRef}
+                                trailingElement={trailing}
                                 value={value}
                         />
                 )

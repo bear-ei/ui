@@ -16,6 +16,8 @@ export interface SearchProps
 }
 
 export interface RenderSearchProps extends SearchProps {
+        leadingElement?: React.JSX.Element
+        trailingElement?: React.JSX.Element
         containerRef: RefObject<View | null>
         contentAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
