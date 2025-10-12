@@ -1,10 +1,10 @@
 import {AnimatedTextInput, ICON_BUTTON_SIZE, shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {processIconSize} from '@/utils'
-import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {hexToRGBA, pxToRem, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
-import {Pressable, TextInput, View} from 'react-native'
+import {Platform, Pressable, TextInput, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {LayoutAnimated} from '../Layout-animated'
@@ -170,7 +170,20 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                         )}
                                                                         testID={`textInput__leading--${id}`}
                                                                 >
-                                                                        {cloneElement(leadingElement, {size: iconSize})}
+                                                                        {cloneElement(leadingElement, {
+                                                                                color: theme.token.scheme
+                                                                                        .onSurfaceVariant,
+                                                                                ...Platform.select({
+                                                                                        default: {size: iconSize},
+                                                                                        web: {
+                                                                                                style: {
+                                                                                                        fontSize: pxToRem()(
+                                                                                                                iconSize
+                                                                                                        )
+                                                                                                }
+                                                                                        }
+                                                                                })
+                                                                        })}
                                                                 </View>
                                                         )}
 

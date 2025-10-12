@@ -72,7 +72,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                                                 :       <Text
                                                                 className={clsx(
                                                                         'color-[--color-on-primary-container]',
-                                                                        typographyClasses(TYPOGRAPHY.TITLE)(size)
+                                                                        typographyClasses(TYPOGRAPHY.TITLE)(size)()
                                                                 )}
                                                                 ellipsizeMode='tail'
                                                                 numberOfLines={1}

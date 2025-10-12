@@ -66,17 +66,13 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
                         [setState, type]
                 )
 
-                const iconElement = useMemo(
-                        () =>
-                                icon && (
-                                        <RenderButtonIcon
-                                                disabled={rawDisabled}
-                                                icon={icon}
-                                                id={id}
-                                                type={type}
-                                        />
-                                ),
-                        [icon, id, rawDisabled, type]
+                const iconElement = icon && (
+                        <RenderButtonIcon
+                                disabled={rawDisabled}
+                                icon={icon}
+                                id={id}
+                                type={type}
+                        />
                 )
 
                 useEffect(() => {

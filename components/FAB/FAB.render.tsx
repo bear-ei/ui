@@ -1,10 +1,10 @@
 import {shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {processIconSize} from '@/utils'
-import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
+import {hexToRGBA, pxToRem, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
-import {View} from 'react-native'
+import {Platform, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Elevation} from '../Elevation'
 import {Touchable, type PressableType} from '../Touchable'
@@ -17,7 +17,7 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
         extended,
         icon,
         id,
-        size = SIZE.MEDIUM,
+        size: rawSize = SIZE.MEDIUM,
         type = FAB_TYPE.PRIMARY
 }) => {
         const theme = useTheme()
@@ -29,17 +29,22 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
         } as Record<FABType, string>
 
         const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
-        const iconSize = processIconSize(theme)(size)
+        const iconSize = processIconSize(theme)(rawSize)
 
         if (!icon) {
                 return <></>
         }
 
+        const size = extended ? theme.token.spacing.medium : iconSize
+
         return cloneElement(icon, {
                 color: disabled ? disabledColor : color[type],
                 disabled,
-                size: extended ? theme.token.spacing.medium : iconSize,
-                testID: `fab__icon--${id}`
+                testID: `fab__icon--${id}`,
+                ...Platform.select({
+                        default: {size},
+                        web: {style: {fontSize: pxToRem(size)}}
+                })
         })
 }
 

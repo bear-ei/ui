@@ -9,7 +9,7 @@ import type {ProgressProps} from '../Progress.interface'
 export interface ProgressActiveIndicatorCircularProps
         extends ViewProps,
                 RefAttributes<View>,
-                Omit<CommonProps, 'size'>,
+                CommonProps,
                 Pick<
                         ProgressProps,
                         'animatedType' | 'value' | 'defaultValue' | 'strokeWidth' | 'size' | 'enableAnimated'

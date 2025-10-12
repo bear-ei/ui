@@ -1,11 +1,11 @@
 import {ICON_BUTTON_SIZE, shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {processIconSize} from '@/utils'
-import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {hexToRGBA, pxToRem, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
-import {Pressable, TextInput, View} from 'react-native'
+import {Platform, Pressable, TextInput, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {Underlay} from '../Underlay'
@@ -123,7 +123,20 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                 >
                                                         {cloneElement(
                                                                 leadingElement ?? <MaterialIcons name='search' />,
-                                                                {disabled, size: iconSize}
+                                                                {
+                                                                        color: theme.token.scheme.onSurfaceVariant,
+                                                                        disabled,
+                                                                        ...Platform.select({
+                                                                                default: {size: iconSize},
+                                                                                web: {
+                                                                                        style: {
+                                                                                                fontSize: pxToRem()(
+                                                                                                        iconSize
+                                                                                                )
+                                                                                        }
+                                                                                }
+                                                                        })
+                                                                }
                                                         )}
                                                 </View>
 
@@ -180,7 +193,6 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                         >
                                                                 {cloneElement(trailingElement, {
                                                                         disabled,
-                                                                        size: ICON_BUTTON_SIZE[size],
                                                                         tabIndex: -1,
                                                                         type: ICON_BUTTON_TYPE.STANDARD
                                                                 })}

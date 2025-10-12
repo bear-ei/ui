@@ -1,9 +1,9 @@
 import {EVENT_NAME, EventName, shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {hexToRGBA, pxToRem, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
-import {View} from 'react-native'
+import {Platform, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Elevation} from '../Elevation'
 import {LayoutAnimated} from '../Layout-animated'
@@ -12,7 +12,7 @@ import {Underlay} from '../Underlay'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonType, RenderButtonIconProps, RenderButtonProps} from './Button.interface'
 
-export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, type = BUTTON_TYPE.FILLED, id, icon}) => {
+export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, icon, id, type = BUTTON_TYPE.FILLED}) => {
         const theme = useTheme()
         const color = {
                 [BUTTON_TYPE.ELEVATED]: theme.token.scheme.primary,
@@ -28,11 +28,16 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, type = BU
                 return <></>
         }
 
+        const iconSize = theme.token.spacing.medium
+
         return cloneElement(icon, {
                 color: disabled ? disabledColor : color[type],
                 disabled,
-                size: theme.token.spacing.medium,
-                testID: `button__icon--${id}`
+                testID: `button__icon--${id}`,
+                ...Platform.select({
+                        default: {size: iconSize},
+                        web: {style: {fontSize: pxToRem()(iconSize)}}
+                })
         })
 }
 
@@ -64,9 +69,9 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                         EVENT_NAME.FOCUS,
                         EVENT_NAME.HOVER_IN,
                         EVENT_NAME.LONG_PRESS,
+                        EVENT_NAME.PRESS,
                         EVENT_NAME.PRESS_IN,
-                        EVENT_NAME.PRESS_OUT,
-                        EVENT_NAME.PRESS
+                        EVENT_NAME.PRESS_OUT
                 ] as readonly EventName[]
 
                 const isActiveIndicatorVisible =
@@ -95,6 +100,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                         testID={`button__elevation--${id}`}
                                 />
                         :       <></>
+
+                console.info(type !== BUTTON_TYPE.LINK && size === SIZE.EXTRA_LARGE, type, size)
 
                 return (
                         <View

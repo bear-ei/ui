@@ -11,9 +11,11 @@ import type {
 } from 'react-native'
 
 export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
-export interface UseHandleStateEventOptions extends InteractionHandlers {
+export interface UseHandleStateEventOptions extends Omit<InteractionHandlers, 'onBlur' | 'onFocus'> {
         disabled?: boolean
         onStateEventChange?: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
+        onBlur?: ((e: BlurEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void) | null
+        onFocus?: ((e: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void) | null
 }
 
 export interface HandleStateEventChangeOptions

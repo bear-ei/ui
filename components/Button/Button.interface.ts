@@ -34,7 +34,7 @@ export interface ButtonState {
 }
 
 export type HandleButtonStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderButtonProps, 'type'>
-export type RenderButtonIconProps = Pick<RenderButtonProps, 'disabled' | 'type' | 'id' | 'icon'>
+export type RenderButtonIconProps = Pick<RenderButtonProps, 'disabled' | 'type' | 'id' | 'icon' | 'size'>
 export type UseButtonAnimatedOptions = Pick<
         RenderButtonProps,
         'disabled' | 'type' | 'eventName' | 'error' | 'linkColor'
