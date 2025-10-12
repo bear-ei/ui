@@ -1,6 +1,6 @@
 import {IconButtonProps} from '@/components/Icon-button'
 import {PressableType, TouchableProps} from '@/components/Touchable'
-import {ComponentStatus, EventName, State} from '@/constants'
+import {ComponentStatus, EventName, IconButtonSize, State} from '@/constants'
 import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
@@ -11,14 +11,6 @@ import type {ListProps} from '../List.interface'
 export interface ListItemRef extends PressableType {
         active: () => void
         close: () => void
-}
-
-export type IconButtonSize = {
-        EXTRA_LARGE: 'MEDIUM'
-        EXTRA_SMALL: 'EXTRA_SMALL'
-        LARGE: 'SMALL'
-        MEDIUM: 'EXTRA_SMALL'
-        SMALL: 'EXTRA_SMALL'
 }
 
 export interface ListItemProps
@@ -82,6 +74,7 @@ export interface RenderListItemProps extends ListItemProps {
         contentAnimatedStyle: AnimatedStyle<ViewStyle>
         eventName?: EventName
         headlineTextAnimatedStyle: AnimatedStyle<TextStyle>
+        iconButtonSize: IconButtonSize
         interactionHandlers: InteractionHandlers
         leadingElement?: React.JSX.Element
         panResponder?: PanResponderInstance
@@ -89,7 +82,6 @@ export interface RenderListItemProps extends ListItemProps {
         state?: State
         trailingElement?: React.JSX.Element
         trailingVisible?: boolean
-        iconButtonSize: IconButtonSize
 }
 
 export type ListItemBaseProps = ListItemProps

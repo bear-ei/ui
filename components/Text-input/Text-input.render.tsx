@@ -1,6 +1,7 @@
 import {AnimatedTextInput, shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {hexToRGBA, SHAPE, Size, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {processIconSize} from '@/utils'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View} from 'react-native'
@@ -21,13 +22,14 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                         error,
                         eventName,
                         headerAnimatedStyle,
+                        iconButtonSize,
                         id,
                         inputAnimatedStyle,
                         interactionHandlers,
                         labelAnimatedStyle,
                         labelText,
                         labelTextAnimatedStyle,
-                        leading,
+                        leadingElement,
                         multiline,
                         onHeaderFocus,
                         onSupportingTextVisibility,
@@ -48,7 +50,8 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                         :       theme.token.scheme.onSurfaceVariant
 
                 const {onFocus, onBlur, ...onTouchableHeaderEvent} = interactionHandlers
-                const isLeadingShow = !!leading
+                const iconSize = processIconSize(theme)(iconButtonSize[size])
+                const isTrailingShow = !!trailing
                 const shape = SHAPE.EXTRA_SMALL_TOP
                 const underlayColor = theme.token.scheme.onSurface
                 const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
@@ -78,34 +81,65 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                         >
                                                 <Animated.View
                                                         className={clsx(
-                                                                'relative z-10 flex flex-row items-center gap-1',
+                                                                'relative z-10 flex min-w-20 flex-row items-center gap-1',
                                                                 {
-                                                                        ['h-10 min-w-10']: size === SIZE.MEDIUM,
-                                                                        ['h-12 min-w-12']: size === SIZE.LARGE,
-                                                                        ['h-14 min-w-14']: size === SIZE.EXTRA_LARGE,
-                                                                        ['h-6 min-w-6']: size === SIZE.EXTRA_SMALL,
-                                                                        ['h-8 min-w-8']: size === SIZE.SMALL,
-                                                                        ['pl-2 pr-2']: size === SIZE.SMALL,
-                                                                        ['pl-3 pr-3']: size === SIZE.SMALL,
-                                                                        ['pl-4 pr-4']: (
-                                                                                [
-                                                                                        SIZE.MEDIUM,
-                                                                                        SIZE.LARGE,
-                                                                                        SIZE.EXTRA_LARGE
-                                                                                ] as readonly Size[]
-                                                                        ).includes(size)
+                                                                        ['h-10']: size === SIZE.MEDIUM,
+                                                                        ['h-12']: size === SIZE.LARGE,
+                                                                        ['h-14']: size === SIZE.EXTRA_LARGE,
+                                                                        ['h-6']: size === SIZE.EXTRA_SMALL,
+                                                                        ['h-8']: size === SIZE.SMALL,
+                                                                        ['pl-6 pr-6']:
+                                                                                !isTrailingShow &&
+                                                                                size === SIZE.EXTRA_LARGE,
+                                                                        ['pl-5 pr-5']:
+                                                                                !isTrailingShow && size === SIZE.LARGE,
+                                                                        ['pl-4 pr-4']:
+                                                                                !isTrailingShow && size === SIZE.MEDIUM,
+                                                                        ['pl-3 pr-3']:
+                                                                                !isTrailingShow && size === SIZE.SMALL,
+                                                                        ['pl-2 pr-2']:
+                                                                                !isTrailingShow &&
+                                                                                size === SIZE.EXTRA_SMALL,
+                                                                        ['pl-6 pr-4']:
+                                                                                isTrailingShow &&
+                                                                                size === SIZE.EXTRA_LARGE,
+                                                                        ['pl-5 pr-[14px]']:
+                                                                                isTrailingShow && size === SIZE.LARGE,
+                                                                        ['pl-4 pr-3']:
+                                                                                isTrailingShow && size === SIZE.MEDIUM,
+                                                                        ['pl-3 pr-2']:
+                                                                                isTrailingShow && size === SIZE.SMALL,
+                                                                        ['pl-2 pr-1']:
+                                                                                isTrailingShow &&
+                                                                                size === SIZE.EXTRA_SMALL
                                                                 },
                                                                 shapeClasses(shape)
                                                         )}
                                                         style={[headerAnimatedStyle]}
                                                         testID={`textInput__animatedHeader--${id}`}
                                                 >
-                                                        {leading && (
+                                                        {leadingElement && (
                                                                 <View
-                                                                        className='flex h-10 w-10 items-center justify-center'
+                                                                        className={clsx(
+                                                                                'flex items-center justify-center',
+                                                                                {
+                                                                                        ['mr-4 h-10 w-10']:
+                                                                                                size ===
+                                                                                                SIZE.EXTRA_LARGE,
+                                                                                        ['mr-[14px] h-8 w-8']:
+                                                                                                size === SIZE.LARGE,
+                                                                                        ['mr-3 h-6 w-6']:
+                                                                                                size === SIZE.MEDIUM,
+                                                                                        ['mr-2 h-6 w-6']:
+                                                                                                size === SIZE.SMALL,
+                                                                                        ['mr-1 h-6 w-6']:
+                                                                                                size ===
+                                                                                                SIZE.EXTRA_SMALL
+                                                                                }
+                                                                        )}
                                                                         testID={`textInput__leading--${id}`}
                                                                 >
-                                                                        {leading}
+                                                                        {cloneElement(leadingElement, {size: iconSize})}
                                                                 </View>
                                                         )}
 

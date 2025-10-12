@@ -6,7 +6,7 @@ import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
 import {EVENT_NAME, LAYOUT, shapeClasses, TRIGGER_EVENT, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {processIconSize} from '@/utils'
-import {DURATION, EASING, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {DURATION, EASING, Size, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
@@ -29,19 +29,19 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         trailingProps: rawTrailingProps,
         trailingTriggerEvent
 }) => {
-        const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
-        const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
         const {disabled: isDisabled, ...restTrailingProps} = rawTrailingProps ?? {}
         const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
+        const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
         const trailingSize = iconButtonSize[size]
+        const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
         const trailingProps = {
                 ...restTrailingProps,
                 ...interactionHandlers,
                 ...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {onHoverIn}),
                 disabled: isDisabled ?? disabled,
+                size: trailingSize,
                 testID: `listItem__trailing--${id}`,
-                type: ICON_BUTTON_TYPE.STANDARD,
-                size: trailingSize
+                type: ICON_BUTTON_TYPE.STANDARD
         }
 
         const trailingElement = {
@@ -75,8 +75,6 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                 ),
                 standard: trailing ? cloneElement(trailing, trailingProps) : undefined
         }
-
-        // console.info(trailingType, trailingProps.size, 'trailingType========>')
 
         return trailingElement[trailingType]
 }
@@ -129,7 +127,8 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                 const theme = useTheme()
                 const activeColor = theme.token.scheme.secondaryContainer
                 const isSupportingTextShow = !!supporting
-                const isTrailingElementShow = !!trailingElement
+                const isTrailingShow = !!trailingElement
+                const isLeadingShow = !!leadingElement
                 const isUnmountTrailing = trailingTriggerEvent === TRIGGER_EVENT.HOVER
                 const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
                 const underlayProps = selectType &&
@@ -142,6 +141,8 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
                 const isLines = (supportingTextNumberOfLines ?? 0) > 1
                 const iconSize = processIconSize(theme)(iconButtonSize[size])
+
+                console.info((!isLeadingShow && size === SIZE.MEDIUM) || (isLeadingShow && size === SIZE.EXTRA_LARGE))
                 const mainElement = (
                         <>
                                 {beforeAffordance && (
@@ -173,37 +174,55 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                         className={clsx(
                                                                 'relative z-10 flex flex-row items-center justify-start self-stretch',
                                                                 {
-                                                                        ['pl-6 pr-6']:
-                                                                                !isTrailingElementShow &&
+                                                                        ['pr-6']:
+                                                                                !isTrailingShow &&
                                                                                 size === SIZE.EXTRA_LARGE,
-                                                                        ['pl-5 pr-5']:
-                                                                                !isTrailingElementShow &&
-                                                                                size === SIZE.LARGE,
-                                                                        ['pl-4 pr-4']:
-                                                                                !isTrailingElementShow &&
-                                                                                size === SIZE.MEDIUM,
-                                                                        ['pl-3 pr-3']:
-                                                                                !isTrailingElementShow &&
-                                                                                size === SIZE.SMALL,
-                                                                        ['pl-2 pr-2']:
-                                                                                !isTrailingElementShow &&
-                                                                                size === SIZE.EXTRA_SMALL,
-                                                                        ['pl-6 pr-4']:
-                                                                                isTrailingElementShow &&
-                                                                                size === SIZE.EXTRA_LARGE,
-                                                                        ['pl-5 pr-[14px]']:
-                                                                                isTrailingElementShow &&
-                                                                                size === SIZE.LARGE,
-                                                                        ['pl-4 pr-3']:
-                                                                                isTrailingElementShow &&
-                                                                                size === SIZE.MEDIUM,
-                                                                        ['pl-3 pr-2']:
-                                                                                isTrailingElementShow &&
-                                                                                size === SIZE.SMALL,
-                                                                        ['pl-2 pr-1']:
-                                                                                isTrailingElementShow &&
-                                                                                size === SIZE.EXTRA_SMALL,
+                                                                        ['pr-5']:
+                                                                                !isTrailingShow && size === SIZE.LARGE,
+                                                                        ['pr-4']:
+                                                                                (!isTrailingShow &&
+                                                                                        size === SIZE.MEDIUM) ||
+                                                                                (isTrailingShow &&
+                                                                                        size === SIZE.EXTRA_LARGE),
+                                                                        ['pr-3']:
+                                                                                (!isTrailingShow &&
+                                                                                        size === SIZE.SMALL) ||
+                                                                                (isTrailingShow &&
+                                                                                        size === SIZE.MEDIUM),
+                                                                        ['pr-2']:
+                                                                                (!isTrailingShow &&
+                                                                                        size === SIZE.EXTRA_SMALL) ||
+                                                                                (isTrailingShow && size === SIZE.SMALL),
 
+                                                                        ['pr-[14px]']:
+                                                                                isTrailingShow && size === SIZE.LARGE,
+
+                                                                        ['pr-1']:
+                                                                                isTrailingShow &&
+                                                                                size === SIZE.EXTRA_SMALL,
+                                                                        ['pl-6']:
+                                                                                !isLeadingShow &&
+                                                                                size === SIZE.EXTRA_LARGE,
+
+                                                                        ['pl-5']: !isLeadingShow && size === SIZE.LARGE,
+                                                                        ['pl-4']:
+                                                                                (!isLeadingShow &&
+                                                                                        size === SIZE.MEDIUM) ||
+                                                                                (isLeadingShow &&
+                                                                                        size === SIZE.EXTRA_LARGE),
+                                                                        ['pl-3']:
+                                                                                (!isLeadingShow &&
+                                                                                        size === SIZE.SMALL) ||
+                                                                                (isLeadingShow && size === SIZE.MEDIUM),
+                                                                        ['pl-2']:
+                                                                                (!isLeadingShow &&
+                                                                                        size === SIZE.EXTRA_SMALL) ||
+                                                                                (isLeadingShow && size === SIZE.SMALL),
+                                                                        ['pl-[14px]']:
+                                                                                isLeadingShow && size === SIZE.LARGE,
+                                                                        ['pl-1']:
+                                                                                isLeadingShow &&
+                                                                                size === SIZE.EXTRA_SMALL,
                                                                         ['pb-2 pt-2']: isSupportingTextShow && !isLines,
                                                                         ['pb-3 pt-3']: isSupportingTextShow && isLines
                                                                 }
@@ -288,17 +307,38 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                 {
                                                                                         ['justify-start']: isLines,
                                                                                         ['ml-4 h-10 w-10']:
+                                                                                                trailingVisible &&
                                                                                                 size ===
-                                                                                                SIZE.EXTRA_LARGE,
+                                                                                                        SIZE.EXTRA_LARGE,
                                                                                         ['ml-[14px] h-8 w-8']:
+                                                                                                trailingVisible &&
                                                                                                 size === SIZE.LARGE,
                                                                                         ['ml-3 h-6 w-6']:
+                                                                                                trailingVisible &&
                                                                                                 size === SIZE.MEDIUM,
                                                                                         ['ml-2 h-6 w-6']:
+                                                                                                trailingVisible &&
                                                                                                 size === SIZE.SMALL,
                                                                                         ['ml-1 h-6 w-6']:
+                                                                                                trailingVisible &&
                                                                                                 size ===
-                                                                                                SIZE.EXTRA_SMALL
+                                                                                                        SIZE.EXTRA_SMALL,
+                                                                                        ['ml-2']:
+                                                                                                !trailingVisible &&
+                                                                                                size ===
+                                                                                                        SIZE.EXTRA_LARGE,
+                                                                                        ['ml-[6px]']:
+                                                                                                !trailingVisible &&
+                                                                                                size === SIZE.LARGE,
+                                                                                        ['ml-1']:
+                                                                                                !trailingVisible &&
+                                                                                                (
+                                                                                                        [
+                                                                                                                SIZE.EXTRA_SMALL,
+                                                                                                                SIZE.MEDIUM,
+                                                                                                                SIZE.SMALL
+                                                                                                        ] as readonly Size[]
+                                                                                                ).includes(size)
                                                                                 }
                                                                         )}
                                                                         testID={`listItem__trailingLayout--${id}`}

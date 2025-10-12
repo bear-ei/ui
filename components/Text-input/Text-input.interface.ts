@@ -1,4 +1,4 @@
-import {CommonProps, ComponentStatus, EventName, State} from '@/constants'
+import {CommonProps, ComponentStatus, EventName, IconButtonSize, State} from '@/constants'
 import type {RefAttributes, RefObject} from 'react'
 import type {PressableProps, TextInputProps as RNTextInputProps, TextInput, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
@@ -25,18 +25,21 @@ export interface TextInputProps
 }
 
 export interface RenderTextInputProps extends TextInputProps {
+        iconButtonSize: IconButtonSize
         activeIndicatorAnimatedStyle: AnimatedStyle<ViewStyle>
         contentSize?: ContentSize
         eventName?: EventName
         headerAnimatedStyle: AnimatedStyle<ViewStyle>
         inputAnimatedStyle: AnimatedStyle<TextStyle>
+        interactionHandlers: InteractionHandlers
         labelAnimatedStyle: AnimatedStyle<ViewStyle>
         labelTextAnimatedStyle: AnimatedStyle<TextStyle>
+        leadingElement?: React.JSX.Element
         onHeaderFocus?: () => void
-        interactionHandlers: InteractionHandlers
         onSupportingTextVisibility?: (visible?: boolean) => void
         supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
         supportingTextVisible?: boolean
+        trailingElement?: React.JSX.Element
 }
 
 export type TextInputBaseProps = TextInputProps

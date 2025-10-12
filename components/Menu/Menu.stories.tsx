@@ -23,7 +23,7 @@ export const Select = () => {
 
         return (
                 <View className='flex h-[800px] w-[800px] items-center justify-center'>
-                        <View className='h-12 w-12'>
+                        <View className='h-10 w-10'>
                                 <Menu
                                         activeKey={activeKey}
                                         afterAffordance={true}

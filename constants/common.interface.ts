@@ -26,3 +26,11 @@ export interface CommonProps {
         size?: Size
         shape?: ShapeType
 }
+
+export type IconButtonSize = {
+        EXTRA_LARGE: 'MEDIUM'
+        EXTRA_SMALL: 'EXTRA_SMALL'
+        LARGE: 'SMALL'
+        MEDIUM: 'EXTRA_SMALL'
+        SMALL: 'EXTRA_SMALL'
+}

@@ -7,7 +7,6 @@ import type {ListProps} from './List.interface'
 
 export const Leading: StoryObj<ListProps> = {
         args: {
-                size: SIZE.MEDIUM,
                 shape: SHAPE.MEDIUM,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
@@ -38,7 +37,6 @@ export const Leading: StoryObj<ListProps> = {
 
 export const Trailing: StoryObj<ListProps> = {
         args: {
-                size: SIZE.MEDIUM,
                 shape: SHAPE.MEDIUM,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',

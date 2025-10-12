@@ -1,3 +1,4 @@
+import {SIZE} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import type {Meta, StoryObj} from '@storybook/react'
 import {TextInput} from './Text-input.component'
@@ -5,7 +6,6 @@ import type {TextInputProps} from './Text-input.interface'
 
 export const Filled: StoryObj<TextInputProps> = {
         args: {
-                labelText: 'Name',
                 supportingText: 'supportingText',
                 filled: true
         }
@@ -13,7 +13,6 @@ export const Filled: StoryObj<TextInputProps> = {
 
 export const IconTextInput: StoryObj<TextInputProps> = {
         args: {
-                labelText: 'Name',
                 supportingText: 'supportingText',
                 leading: (
                         <MaterialIcons
@@ -21,6 +20,36 @@ export const IconTextInput: StoryObj<TextInputProps> = {
                                 size={24}
                         />
                 )
+        }
+}
+
+export const ExtraLarge: StoryObj<TextInputProps> = {
+        args: {
+                size: SIZE.EXTRA_LARGE
+        }
+}
+
+export const LARGE: StoryObj<TextInputProps> = {
+        args: {
+                size: SIZE.LARGE
+        }
+}
+
+export const MEDIUM: StoryObj<TextInputProps> = {
+        args: {
+                size: SIZE.MEDIUM
+        }
+}
+
+export const SMALL: StoryObj<TextInputProps> = {
+        args: {
+                size: SIZE.SMALL
+        }
+}
+
+export const EXTRA_SMALL: StoryObj<TextInputProps> = {
+        args: {
+                size: SIZE.EXTRA_SMALL
         }
 }
 

@@ -17,7 +17,7 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                         onFocus,
                         onKeyDown,
                         shape,
-                        size = SIZE.MEDIUM,
+                        size = SIZE.SMALL,
                         testID,
                         theme,
                         type,
@@ -55,7 +55,7 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                                         onItemStateEvent={{onFocus} as InteractionHandlers}
                                         selectType={multiple ? LIST_SELECT_TYPE.MULTIPLE : LIST_SELECT_TYPE.SINGLE}
                                         showsVerticalScrollIndicator={false}
-                                        size={SIZE.MEDIUM}
+                                        size={size}
                                         testID={`menu__list--${id}`}
                                         type={listType}
                                 />
