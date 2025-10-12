@@ -177,9 +177,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                                         default: {size: iconSize},
                                                                                         web: {
                                                                                                 style: {
-                                                                                                        fontSize: pxToRem()(
-                                                                                                                iconSize
-                                                                                                        )
+                                                                                                        fontSize: `${pxToRem()(iconSize)}rem`
                                                                                                 }
                                                                                         }
                                                                                 })

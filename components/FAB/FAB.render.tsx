@@ -43,7 +43,7 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
                 testID: `fab__icon--${id}`,
                 ...Platform.select({
                         default: {size},
-                        web: {style: {fontSize: pxToRem(size)}}
+                        web: {style: {fontSize: `${pxToRem()(size)}rem`}}
                 })
         })
 }

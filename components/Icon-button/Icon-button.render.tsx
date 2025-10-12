@@ -44,7 +44,7 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
                 testID: `iconButton__icon--${id}`,
                 ...Platform.select({
                         default: {size: iconSize},
-                        web: {style: {fontSize: pxToRem()(iconSize)}}
+                        web: {style: {fontSize: `${pxToRem()(iconSize)}rem`}}
                 })
         })
 }

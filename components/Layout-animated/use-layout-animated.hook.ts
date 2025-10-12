@@ -1,6 +1,8 @@
 import {COMPONENT_STATUS} from '@/constants'
 import {useAnimatedTiming, useTheme} from '@/hooks'
+import {pxToRem} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
+import {Platform, ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {animateLayoutAnimated} from './Layout-animated.handler'
@@ -10,14 +12,14 @@ export const useLayoutAnimated = ({
         animatedType = LAYOUT_ANIMATED.FADE,
         entry,
         exit,
-        height,
+        height: rawHeight,
         onAnimationFinished,
         opacity: rawOpacity,
         scale,
         status,
         translate,
         visible,
-        width
+        width: rawWidth
 }: UseLayoutAnimatedOptions) => {
         const containerSharedValue = useSharedValue(visible ? 1 : 0)
         const theme = useTheme()
@@ -46,29 +48,80 @@ export const useLayoutAnimated = ({
                 opacity: interpolate(containerSharedValue.value, [0, 1], opacityOutputRanges)
         }))
 
-        const widthOutputRanges = [theme.token.spacing.none, width ?? theme.token.spacing.none]
-        const transformXOutputRanges = [width ?? theme.token.spacing.none, theme.token.spacing.none]
-        const collapseXAnimatedStyle = useAnimatedStyle(() => ({
-                width: translate ? width : interpolate(containerSharedValue.value, [0, 1], widthOutputRanges),
-                ...(scale && {transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]}),
-                ...(translate && {
-                        transform: [
-                                {translateX: interpolate(containerSharedValue.value, [0, 1], transformXOutputRanges)}
-                        ]
-                })
-        }))
+        const width = Platform.select({
+                web: pxToRem()(rawWidth ?? theme.token.spacing.none),
+                default: rawWidth ?? theme.token.spacing.none
+        })
 
-        const heightOutputRanges = [theme.token.spacing.none, height ?? theme.token.spacing.none]
-        const transformYOutputRanges = [height ?? theme.token.spacing.none, theme.token.spacing.none]
-        const collapseYAnimatedStyle = useAnimatedStyle(() => ({
-                height: translate ? height : interpolate(containerSharedValue.value, [0, 1], heightOutputRanges),
-                ...(scale && {transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]}),
-                ...(translate && {
-                        transform: [
-                                {translateY: interpolate(containerSharedValue.value, [0, 1], transformYOutputRanges)}
-                        ]
-                })
-        }))
+        const widthOutputRanges = Platform.select({
+                default: [pxToRem()(theme.token.spacing.none), width],
+                web: [theme.token.spacing.none, width]
+        })
+
+        const transformXOutputRanges = Platform.select({
+                web: [width, pxToRem()(theme.token.spacing.none)],
+                default: [width, theme.token.spacing.none]
+        })
+
+        const collapseXAnimatedStyle = useAnimatedStyle(() => {
+                const translateXInterpolate = interpolate(containerSharedValue.value, [0, 1], transformXOutputRanges)
+                const widthInterpolate =
+                        translate ? width : interpolate(containerSharedValue.value, [0, 1], widthOutputRanges)
+
+                return {
+                        ...(scale && {
+                                transform: [{scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
+                        }),
+                        ...(translate && {
+                                transform: Platform.select({
+                                        web: [{translateX: `${translateXInterpolate}rem`}],
+                                        default: [{translateX: translateXInterpolate}]
+                                })
+                        }),
+                        ...Platform.select({
+                                web: {width: `${widthInterpolate}rem`},
+                                default: {width: widthInterpolate}
+                        })
+                } as ViewStyle
+        })
+
+        const height = Platform.select({
+                web: pxToRem()(rawHeight ?? theme.token.spacing.none),
+                default: rawHeight ?? theme.token.spacing.none
+        })
+
+        const heightOutputRanges = Platform.select({
+                web: [pxToRem()(theme.token.spacing.none), height],
+                default: [theme.token.spacing.none, height]
+        })
+
+        const transformYOutputRanges = Platform.select({
+                web: [height, pxToRem()(theme.token.spacing.none)],
+                default: [height, theme.token.spacing.none]
+        })
+
+        const collapseYAnimatedStyle = useAnimatedStyle(() => {
+                const translateYInterpolate = interpolate(containerSharedValue.value, [0, 1], transformYOutputRanges)
+                const heightInterpolate =
+                        translate ? height : interpolate(containerSharedValue.value, [0, 1], heightOutputRanges)
+
+                return {
+                        ...(scale && {
+                                transform: [{scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
+                        }),
+
+                        ...(translate && {
+                                transform: Platform.select({
+                                        web: [{translateY: `${translateYInterpolate}rem`}],
+                                        default: [{translateY: translateYInterpolate}]
+                                })
+                        }),
+                        ...Platform.select({
+                                web: {height: `${heightInterpolate}rem`},
+                                default: {height: heightInterpolate}
+                        })
+                } as ViewStyle
+        })
 
         const scaleAnimatedStyle = useAnimatedStyle(() => ({
                 transform: [{scale: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]

@@ -36,7 +36,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, icon, id,
                 testID: `button__icon--${id}`,
                 ...Platform.select({
                         default: {size: iconSize},
-                        web: {style: {fontSize: pxToRem()(iconSize)}}
+                        web: {style: {fontSize: `${pxToRem()(iconSize)}rem`}}
                 })
         })
 }
@@ -100,8 +100,6 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                         testID={`button__elevation--${id}`}
                                 />
                         :       <></>
-
-                console.info(type !== BUTTON_TYPE.LINK && size === SIZE.EXTRA_LARGE, type, size)
 
                 return (
                         <View

@@ -75,7 +75,7 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
                         testID: `navigationRailItem__icon--${id}`,
                         ...Platform.select({
                                 default: {size},
-                                web: {style: {fontSize: pxToRem()(size)}}
+                                web: {style: {fontSize: `${pxToRem()(size)}rem`}}
                         })
                 })
 

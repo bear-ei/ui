@@ -130,9 +130,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                                                 default: {size: iconSize},
                                                                                 web: {
                                                                                         style: {
-                                                                                                fontSize: pxToRem()(
-                                                                                                        iconSize
-                                                                                                )
+                                                                                                fontSize: `${pxToRem()(iconSize)}rem`
                                                                                         }
                                                                                 }
                                                                         })

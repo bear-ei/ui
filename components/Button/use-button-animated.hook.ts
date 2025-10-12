@@ -1,6 +1,7 @@
 import {useAnimatedTiming, useTheme} from '@/hooks'
-import {hexToRGBA} from '@bearei/theme-token'
+import {hexToRGBA, pxToRem} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
+import {Platform, ViewStyle} from 'react-native'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {BUTTON_TYPE} from './Button.enum'
 import {animateButton} from './Button.handler'
@@ -143,15 +144,19 @@ export const useButtonAnimated = ({
                                 backgroundColorType[type].outputRanges
                         )
                 }),
-                ...(!isNotBorderColor && {
-                        borderColor: interpolateColor(
-                                borderSharedValue.value,
-                                borderColorInputRanges,
-                                borderColorOutputRanges
-                        ),
-                        borderStyle: 'solid',
-                        borderWidth
-                })
+                ...(!isNotBorderColor &&
+                        ({
+                                borderColor: interpolateColor(
+                                        borderSharedValue.value,
+                                        borderColorInputRanges,
+                                        borderColorOutputRanges
+                                ),
+                                borderStyle: 'solid',
+                                ...Platform.select({
+                                        default: {borderWidth},
+                                        web: {borderWidth: `${pxToRem()(borderWidth)}rem`}
+                                })
+                        } as ViewStyle))
         }))
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({

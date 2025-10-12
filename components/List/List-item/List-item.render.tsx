@@ -258,9 +258,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                         default: {size: iconSize},
                                                                                         web: {
                                                                                                 style: {
-                                                                                                        fontSize: pxToRem()(
-                                                                                                                iconSize
-                                                                                                        )
+                                                                                                        fontSize: `${pxToRem()(iconSize)}rem`
                                                                                                 }
                                                                                         }
                                                                                 })
