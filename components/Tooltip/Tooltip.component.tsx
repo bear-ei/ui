@@ -1,6 +1,6 @@
+import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import {typedMemo} from '../../utils'
 import {TooltipBase} from './Tooltip-base.component'
 import type {TooltipProps} from './Tooltip.interface'
 

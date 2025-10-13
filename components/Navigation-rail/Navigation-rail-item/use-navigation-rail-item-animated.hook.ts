@@ -30,21 +30,22 @@ export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigat
                 opacity: interpolate(labelTextSharedValue.value, [0, 1], [0, 1])
         }))
 
-        const contentAnimatedStyle = useAnimatedStyle(() => {
-                return {
-                        transform: [
-                                {
-                                        translateY: platformValue(
-                                                interpolate(
-                                                        contentTranslateYSharedValue.value,
-                                                        [0, 1],
-                                                        contentTranslateYOutputRanges
+        const contentAnimatedStyle = useAnimatedStyle(
+                () =>
+                        ({
+                                transform: [
+                                        {
+                                                translateY: platformValue(
+                                                        interpolate(
+                                                                contentTranslateYSharedValue.value,
+                                                                [0, 1],
+                                                                contentTranslateYOutputRanges
+                                                        )
                                                 )
-                                        )
-                                }
-                        ]
-                } as ViewStyle
-        })
+                                        }
+                                ]
+                        }) as ViewStyle
+        )
 
         const runAnimate = useMemo(
                 () =>

@@ -15,7 +15,7 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
         const contentTransformXSharedValue = useSharedValue(0)
         const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
-        const contentTranslateXOutputRanges = [spacing.none, -spacing.extraSmall * 40]
+        const contentTranslateXOutputRanges = [spacing.none, -spacing.extraSmall * 32]
         const contentAnimatedStyle = useAnimatedStyle(
                 () =>
                         ({

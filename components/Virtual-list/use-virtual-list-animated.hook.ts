@@ -1,6 +1,8 @@
 import {DURATION, LAYOUT} from '@/constants'
 import {useAnimatedTiming, useTheme} from '@/hooks'
+import {platformValue} from '@/utils'
 import {useEffect, useMemo} from 'react'
+import {ViewStyle} from 'react-native'
 import Animated, {
         cancelAnimation,
         scrollTo,
@@ -25,8 +27,10 @@ export const useVirtualListAnimated = ({
         const contentSharedValue = useSharedValue(contentSize)
         const scrollSharedValue = useSharedValue(0)
         const contentAnimatedStyle = useAnimatedStyle(() => ({
-                ...(layoutType === LAYOUT.VERTICAL && {minHeight: contentSharedValue.value}),
-                ...(layoutType === LAYOUT.HORIZONTAL && {minWidth: contentSharedValue.value})
+                ...(layoutType === LAYOUT.VERTICAL &&
+                        ({minHeight: platformValue(contentSharedValue.value)} as ViewStyle)),
+                ...(layoutType === LAYOUT.HORIZONTAL &&
+                        ({minWidth: platformValue(contentSharedValue.value)} as ViewStyle))
         }))
 
         const runAnimate = useMemo(

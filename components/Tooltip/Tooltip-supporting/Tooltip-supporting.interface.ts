@@ -1,3 +1,4 @@
+import {ElevationLevel} from '@/components/Elevation'
 import {ComponentStatus, ShapeType, TriggerEvent} from '@/constants'
 import {Theme} from '@/contexts'
 import {
@@ -10,7 +11,6 @@ import type {JSX, RefAttributes} from 'react'
 import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {ElevationLevel} from '../../Elevation'
 import type {TooltipType} from '../Tooltip.interface'
 import type {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 

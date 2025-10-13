@@ -24,6 +24,7 @@ export const initializeFormStateWithValues =
                         draft.status = COMPONENT_STATUS.SUCCEEDED
                 })
         }
+
 export const registerFormCallbacks =
         <T,>(setCallbacks: (callbacks: FormCallbacks<T>) => void) =>
         ({onFinish, onFinishFailed, onValuesChange}: RegisterFormCallbacksOptions<T>) =>

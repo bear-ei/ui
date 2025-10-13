@@ -1,4 +1,5 @@
 import {useAnimatedTiming, useTheme, useWindowDimensions} from '@/hooks'
+import {platformValue} from '@/utils'
 import {useEffect, useMemo} from 'react'
 import {Gesture, MouseButton} from 'react-native-gesture-handler'
 import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
@@ -26,7 +27,10 @@ export const useDragAnimated = ({
         const translateYSharedValue = useSharedValue(0)
         const width = rawWidth ?? screenWidth
         const animatedStyle = useAnimatedStyle(() => ({
-                transform: [{translateX: translateXSharedValue.value}, {translateY: translateYSharedValue.value}]
+                transform: [
+                        {translateX: platformValue(translateXSharedValue.value) as number},
+                        {translateY: platformValue(translateYSharedValue.value) as number}
+                ]
         }))
 
         const onPanGestureStart = useMemo(

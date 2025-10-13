@@ -94,7 +94,6 @@ export interface UseFormOptions<T> {
         form?: FormStore<T>
 }
 
-export type FormContainerProps = Pick<RenderFormProps, 'layoutType'> & RefAttributes<View>
 export interface InitializeFormStateWithValuesOptions {
         status: ComponentStatus
         setState: Updater<FormState>

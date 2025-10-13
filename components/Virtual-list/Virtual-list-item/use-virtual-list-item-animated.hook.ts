@@ -1,6 +1,8 @@
 import {COMPONENT_STATUS, LAYOUT} from '@/constants'
 import {useAnimatedTiming, useTheme} from '@/hooks'
+import {platformValue} from '@/utils'
 import {useEffect, useMemo} from 'react'
+import {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {animateVirtualListItemScale, animateVirtualListItemTranslate} from './Virtual-list-item.handler'
 import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
@@ -23,18 +25,20 @@ export const useVirtualListItemAnimated = ({
         const translateSharedValue = useSharedValue(offset)
         const scaleSharedValue = useSharedValue(0)
         const containerAnimatedStyle = useAnimatedStyle(() => ({
-                ...(layoutType === LAYOUT.VERTICAL && {
-                        transform: [
-                                {translateY: translateSharedValue.value},
-                                {scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
-                        ]
-                }),
-                ...(layoutType === LAYOUT.HORIZONTAL && {
-                        transform: [
-                                {translateX: translateSharedValue.value},
-                                {scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
-                        ]
-                })
+                ...(layoutType === LAYOUT.VERTICAL &&
+                        ({
+                                transform: [
+                                        {translateY: platformValue(translateSharedValue.value)},
+                                        {scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
+                                ]
+                        } as ViewStyle)),
+                ...(layoutType === LAYOUT.HORIZONTAL &&
+                        ({
+                                transform: [
+                                        {translateX: platformValue(translateSharedValue.value)},
+                                        {scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
+                                ]
+                        } as ViewStyle))
         }))
 
         const runAnimateTranslate = useMemo(
