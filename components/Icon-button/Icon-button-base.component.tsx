@@ -41,20 +41,17 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
 
                 const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})
                 const runUpdateDisabledState = useMemo(() => updateIconButtonDisabledState(setState), [setState])
-                const iconElement = useMemo(
-                        () => (
-                                <RenderIconButtonIcon
-                                        disabled={isDisabled}
-                                        eventName={eventName}
-                                        icon={icon}
-                                        iconColor={iconColor}
-                                        id={id}
-                                        loading={loading}
-                                        size={size}
-                                        type={type}
-                                />
-                        ),
-                        [eventName, icon, iconColor, id, isDisabled, loading, size, type]
+                const iconElement = (
+                        <RenderIconButtonIcon
+                                disabled={isDisabled}
+                                eventName={eventName}
+                                icon={icon}
+                                iconColor={iconColor}
+                                id={id}
+                                loading={loading}
+                                size={size}
+                                type={type}
+                        />
                 )
 
                 useEffect(() => {

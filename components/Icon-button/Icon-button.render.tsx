@@ -91,16 +91,16 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                                 accessibilityRole='button'
                                 accessibilityState={{disabled}}
                                 accessible={true}
-                                tabIndex={-1}
-                                testID={testID ?? `iconButton--${id}`}
                                 className={clsx('relative cursor-pointer', {
-                                        ['h-14 w-14']: size === SIZE.EXTRA_LARGE,
-                                        ['h-12 w-12']: size === SIZE.LARGE,
                                         ['h-10 w-10']: size === SIZE.MEDIUM,
-                                        ['h-8 w-8']: size === SIZE.SMALL,
+                                        ['h-12 w-12']: size === SIZE.LARGE,
+                                        ['h-14 w-14']: size === SIZE.EXTRA_LARGE,
                                         ['h-6 w-6']: size === SIZE.EXTRA_SMALL,
+                                        ['h-8 w-8']: size === SIZE.SMALL,
                                         ['pointer-events-none']: loading
                                 })}
+                                tabIndex={-1}
+                                testID={testID ?? `iconButton--${id}`}
                         >
                                 <LayoutAnimated
                                         className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
