@@ -105,11 +105,11 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                                 accessibilityState={{disabled}}
                                 className={clsx('cursor-pointer', {
                                         ['h-10 w-10']: !extended && size === SIZE.SMALL,
+                                        ['h-12 min-w-20 self-start']: extended,
                                         ['h-12 w-12']: !extended && size === SIZE.MEDIUM,
                                         ['h-14 w-14']: !extended && size === SIZE.LARGE,
                                         ['h-16 w-16']: !extended && size === SIZE.EXTRA_LARGE,
-                                        ['h-8 w-8']: !extended && size === SIZE.EXTRA_SMALL,
-                                        ['h-12 min-w-20 self-start']: extended
+                                        ['h-8 w-8']: !extended && size === SIZE.EXTRA_SMALL
                                 })}
                                 tabIndex={-1}
                                 testID={testID ?? `fab--${id}`}

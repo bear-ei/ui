@@ -53,19 +53,15 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
                         [elevated, setState]
                 )
 
-                const iconElement = useMemo(
-                        () =>
-                                icon && (
-                                        <RenderFABIcon
-                                                disabled={rawDisabled}
-                                                extended={extended}
-                                                icon={icon}
-                                                id={id}
-                                                size={size}
-                                                type={type}
-                                        />
-                                ),
-                        [extended, icon, id, rawDisabled, size, type]
+                const iconElement = icon && (
+                        <RenderFABIcon
+                                disabled={rawDisabled}
+                                extended={extended}
+                                icon={icon}
+                                id={id}
+                                size={size}
+                                type={type}
+                        />
                 )
 
                 useEffect(() => {
