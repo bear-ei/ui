@@ -16,10 +16,10 @@ export const RenderSkeletonElement = forwardRef<View, RenderSkeletonElementProps
                                 className={clsx(
                                         'flex min-h-6 min-w-6 gap-2',
                                         {
-                                                ['bg-transparent']: isChildren,
                                                 ['bg-[--color-on-surface] opacity-10']: !isChildren,
-                                                ['flex-row items-center']: layoutType === LAYOUT.HORIZONTAL,
-                                                ['flex-col justify-center']: layoutType === LAYOUT.VERTICAL
+                                                ['bg-transparent']: isChildren,
+                                                ['flex-col justify-center']: layoutType === LAYOUT.VERTICAL,
+                                                ['flex-row items-center']: layoutType === LAYOUT.HORIZONTAL
                                         },
                                         className
                                 )}

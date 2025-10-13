@@ -27,8 +27,8 @@ export const Circle = forwardRef<View, SkeletonElementProps>(({style, size, ...p
                         {
                                 ...(typeof size === 'number' &&
                                         Platform.select({
-                                                web: {width: `${pxToRem()(size)}rem`, height: `${pxToRem()(size)}rem`},
-                                                default: {width: size, height: size}
+                                                default: {width: size, height: size},
+                                                web: {width: `${pxToRem()(size)}rem`, height: `${pxToRem()(size)}rem`}
                                         }))
                         } as ViewStyle
                 ]}
@@ -48,8 +48,8 @@ export const Square = forwardRef<View, SkeletonElementProps>(({style, size, ...p
                         {
                                 ...(typeof size === 'number' &&
                                         Platform.select({
-                                                web: {width: `${pxToRem()(size)}rem`, height: `${pxToRem()(size)}rem`},
-                                                default: {width: size, height: size}
+                                                default: {width: size, height: size},
+                                                web: {width: `${pxToRem()(size)}rem`, height: `${pxToRem()(size)}rem`}
                                         }))
                         } as ViewStyle
                 ]}
@@ -70,8 +70,8 @@ export const Rectangular = forwardRef<View, SkeletonElementProps>(
                                 {
                                         ...(typeof size === 'number' &&
                                                 Platform.select({
-                                                        web: {height: `${pxToRem()(size)}rem`},
-                                                        default: {height: size}
+                                                        default: {height: size},
+                                                        web: {height: `${pxToRem()(size)}rem`}
                                                 }))
                                 } as ViewStyle,
                                 {
@@ -79,11 +79,11 @@ export const Rectangular = forwardRef<View, SkeletonElementProps>(
                                                 typeof size.width === 'number' &&
                                                 typeof size.height === 'number' &&
                                                 Platform.select({
+                                                        default: {width: size, height: size},
                                                         web: {
                                                                 width: `${pxToRem()(size.width)}rem`,
                                                                 height: `${pxToRem()(size.height)}rem`
-                                                        },
-                                                        default: {width: size, height: size}
+                                                        }
                                                 }))
                                 } as ViewStyle
                         ]}

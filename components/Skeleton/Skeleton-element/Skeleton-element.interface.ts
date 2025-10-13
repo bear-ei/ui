@@ -13,6 +13,3 @@ export interface SkeletonElementProps
 
 export type RenderSkeletonElementProps = SkeletonElementProps
 export type SkeletonElementBaseProps = SkeletonElementProps
-export type SkeletonElementContainerProps = Pick<RenderSkeletonElementProps, 'layoutType'> & {
-        visible?: boolean
-}

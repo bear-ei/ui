@@ -34,8 +34,3 @@ export interface SkeletonComponent extends FC<SkeletonProps> {
         Rectangular: FC<SkeletonElementProps>
         Square: FC<SkeletonElementProps>
 }
-
-export type SkeletonContainerProps = {
-        layoutType?: LayoutType
-        showChildren?: boolean
-}
