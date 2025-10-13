@@ -29,22 +29,22 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                 return (
                         <View
                                 {...containerProps}
-                                className={clsx(
-                                        'pointer-events-none relative overflow-hidden bg-[--color-primary-container]',
-                                        {
-                                                ['h-14 w-14']: size === SIZE.EXTRA_LARGE,
-                                                ['h-12 w-12']: size === SIZE.LARGE,
-                                                ['h-10 w-10']: size === SIZE.MEDIUM,
-                                                ['h-8 w-8']: size === SIZE.SMALL,
-                                                ['h-6 w-6']: size === SIZE.EXTRA_SMALL
-                                        },
-                                        shapeClasses(shape)
-                                )}
-                                style={[{...(backgroundColor && {backgroundColor})}, style]}
                                 accessibilityLabel={accessibilityLabel ?? labelText}
                                 accessibilityRole='image'
                                 accessible={true}
+                                className={clsx(
+                                        'pointer-events-none relative overflow-hidden bg-[--color-primary-container]',
+                                        {
+                                                ['h-10 w-10']: size === SIZE.MEDIUM,
+                                                ['h-12 w-12']: size === SIZE.LARGE,
+                                                ['h-14 w-14']: size === SIZE.EXTRA_LARGE,
+                                                ['h-6 w-6']: size === SIZE.EXTRA_SMALL,
+                                                ['h-8 w-8']: size === SIZE.SMALL
+                                        },
+                                        shapeClasses(shape)
+                                )}
                                 ref={ref}
+                                style={[{...(backgroundColor && {backgroundColor})}, style]}
                                 testID={testID ?? `avatar--${id}`}
                         >
                                 {isSVG && (

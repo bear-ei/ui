@@ -64,33 +64,29 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
                 const shadowOffsetY = interpolate(shadowSharedValue.value, inputRanges, shadowOffsetYOutputRanges)
                 const shadowOpacity = interpolate(shadowSharedValue.value, inputRanges, shadowOpacityOutputRanges)
                 const shadowRadius = interpolate(shadowSharedValue.value, inputRanges, shadowRadiusOutputRanges)
-                const shadowColor =
-                        Platform.OS === 'web' ?
-                                /** Running in JS thread*/
-                                hexToRGBA(elevation.shadowColor)(shadowOpacity)
-                        :       elevation.shadowColor
+                const shadowColor = Platform.select({
+                        web: hexToRGBA(elevation.shadowColor)(shadowOpacity),
+                        default: elevation.shadowColor
+                })
 
-                return Platform.OS === 'web' ?
-                                {
-                                        boxShadow: getWebBoxShadow({
-                                                color: elevation.shadowColor,
-                                                offsetX: shadowOffsetX,
-                                                offsetY: shadowOffsetY,
-                                                opacity: shadowOpacity,
-                                                radius: shadowRadius
-                                        })
-                                }
-                        :       {
-                                        elevation: interpolate(
-                                                shadowSharedValue.value,
-                                                inputRanges,
-                                                elevationOutputRanges
-                                        ),
-                                        shadowColor: shadowColor,
-                                        shadowOffset: {height: shadowOffsetY, width: shadowOffsetX},
-                                        shadowOpacity: shadowOpacity,
-                                        shadowRadius: shadowRadius
-                                }
+                return Platform.select({
+                        default: {
+                                elevation: interpolate(shadowSharedValue.value, inputRanges, elevationOutputRanges),
+                                shadowColor: shadowColor,
+                                shadowOffset: {height: shadowOffsetY, width: shadowOffsetX},
+                                shadowOpacity: shadowOpacity,
+                                shadowRadius: shadowRadius
+                        },
+                        web: {
+                                boxShadow: getWebBoxShadow({
+                                        color: elevation.shadowColor,
+                                        offsetX: shadowOffsetX,
+                                        offsetY: shadowOffsetY,
+                                        opacity: shadowOpacity,
+                                        radius: shadowRadius
+                                })
+                        }
+                })
         })
 
         const runAnimate = useMemo(
