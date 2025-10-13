@@ -1,10 +1,10 @@
 import {AnimatedTextInput, ICON_BUTTON_SIZE, shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {processIconSize} from '@/utils'
-import {hexToRGBA, pxToRem, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {platformValue, processIconSize} from '@/utils'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
-import {Platform, Pressable, TextInput, View, ViewStyle} from 'react-native'
+import {Pressable, TextInput, View, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {LayoutAnimated} from '../Layout-animated'
@@ -173,14 +173,11 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                         {cloneElement(leadingElement, {
                                                                                 color: theme.token.scheme
                                                                                         .onSurfaceVariant,
-                                                                                ...Platform.select({
-                                                                                        default: {size: iconSize},
-                                                                                        web: {
-                                                                                                style: {
-                                                                                                        fontSize: `${pxToRem()(iconSize)}rem`
-                                                                                                }
-                                                                                        }
-                                                                                })
+                                                                                style: {
+                                                                                        fontSize: platformValue(
+                                                                                                iconSize
+                                                                                        )
+                                                                                }
                                                                         })}
                                                                 </View>
                                                         )}
@@ -199,20 +196,12 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                         testID={`textInput__control--${id}`}
                                                                         style={[
                                                                                 {
-                                                                                        ...(multiline &&
-                                                                                                Platform.select({
-                                                                                                        default: {
-                                                                                                                minHeight:
-                                                                                                                        contentSize?.height ??
-                                                                                                                        theme
-                                                                                                                                .token
-                                                                                                                                .spacing
-                                                                                                                                .none
-                                                                                                        },
-                                                                                                        web: {
-                                                                                                                minHeight: `${pxToRem()(contentSize?.height ?? theme.token.spacing.none)}rem`
-                                                                                                        }
-                                                                                                }))
+                                                                                        minHeight: platformValue(
+                                                                                                contentSize?.height ??
+                                                                                                        theme.token
+                                                                                                                .spacing
+                                                                                                                .none
+                                                                                        )
                                                                                 } as ViewStyle
                                                                         ]}
                                                                 >

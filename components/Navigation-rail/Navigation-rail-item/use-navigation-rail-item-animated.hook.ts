@@ -1,8 +1,9 @@
 import {COMPONENT_STATUS} from '@/constants'
 import {useAnimatedTiming, useTheme} from '@/hooks'
-import {hexToRGBA, pxToRem} from '@bearei/theme-token'
+import {platformValue} from '@/utils'
+import {hexToRGBA} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
-import {Platform, ViewStyle} from 'react-native'
+import {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {animateNavigationRailItem} from './Navigation-rail-item.handler'
 import type {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.interface'
@@ -19,13 +20,10 @@ export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigat
                 hexToRGBA(scheme.onSurface)(opacity.level10)
         ]
 
-        const contentTranslateYOutputRanges = Platform.select({
-                default: [theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall, theme.token.spacing.none],
-                web: [
-                        pxToRem()(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall),
-                        pxToRem()(theme.token.spacing.none)
-                ]
-        })
+        const contentTranslateYOutputRanges = [
+                theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall,
+                theme.token.spacing.none
+        ]
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
                 color: interpolateColor(labelTextSharedValue.value, [0, 1], labelTextColorOutputRanges),
@@ -33,17 +31,18 @@ export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigat
         }))
 
         const contentAnimatedStyle = useAnimatedStyle(() => {
-                const translateYInterpolate = interpolate(
-                        contentTranslateYSharedValue.value,
-                        [0, 1],
-                        contentTranslateYOutputRanges
-                )
-
                 return {
-                        transform: Platform.select({
-                                default: [{translateY: translateYInterpolate}],
-                                web: [{translateY: `${translateYInterpolate}rem`}]
-                        })
+                        transform: [
+                                {
+                                        translateY: platformValue(
+                                                interpolate(
+                                                        contentTranslateYSharedValue.value,
+                                                        [0, 1],
+                                                        contentTranslateYOutputRanges
+                                                )
+                                        )
+                                }
+                        ]
                 } as ViewStyle
         })
 

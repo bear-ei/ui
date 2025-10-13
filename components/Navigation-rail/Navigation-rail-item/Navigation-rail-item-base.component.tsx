@@ -7,10 +7,9 @@ import {
         useInteractionStateEvent,
         useTheme
 } from '@/hooks'
-import {pxToRem} from '@bearei/theme-token'
+import {platformValue} from '@/utils'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef} from 'react'
-import {Platform} from 'react-native'
 import {useImmer} from 'use-immer'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
@@ -72,11 +71,8 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
 
                 const iconElement = cloneElement(icon ?? <MaterialIcons name='circle' />, {
                         color: theme.token.scheme.onSurfaceVariant,
-                        testID: `navigationRailItem__icon--${id}`,
-                        ...Platform.select({
-                                default: {size},
-                                web: {style: {fontSize: `${pxToRem()(size)}rem`}}
-                        })
+                        style: {fontSize: platformValue(size)},
+                        testID: `navigationRailItem__icon--${id}`
                 })
 
                 useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])

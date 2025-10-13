@@ -1,7 +1,8 @@
 import {COMPONENT_STATUS, LAYOUT, typographyClasses} from '@/constants'
-import {pxToRem, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
+import {platformValue} from '@/utils'
+import {TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {cloneElement, forwardRef, type ForwardedRef} from 'react'
-import {Platform, ScrollView, Text, View, ViewStyle} from 'react-native'
+import {ScrollView, Text, View, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {LayoutAnimated} from '../Layout-animated'
 import {VirtualListItem, type RenderVirtualListItemInfo} from './Virtual-list-item'
@@ -48,7 +49,7 @@ export const RenderVirtualListInner = <T,>(
         {
                 containerLayout,
                 contentAnimatedStyle,
-                contentSize: rawContentSize = 0,
+                contentSize = 0,
                 emptyElement,
                 emptyList,
                 id,
@@ -70,11 +71,6 @@ export const RenderVirtualListInner = <T,>(
         const isLayoutCompleted =
                 typeof containerLayout?.height === 'number' && (containerLayout.height > 0 || containerLayout.width > 0)
 
-        const contentSize = Platform.select({
-                default: rawContentSize,
-                web: pxToRem()(rawContentSize)
-        })
-
         return (
                 <View
                         className='relative flex-1 self-stretch'
@@ -91,16 +87,12 @@ export const RenderVirtualListInner = <T,>(
                                                 {...containerProps}
                                                 contentContainerStyle={
                                                         {
-                                                                ...(layoutType === LAYOUT.VERTICAL &&
-                                                                        Platform.select({
-                                                                                default: {minHeight: contentSize},
-                                                                                web: {minHeight: `${contentSize}rem`}
-                                                                        })),
-                                                                ...(layoutType === LAYOUT.HORIZONTAL &&
-                                                                        Platform.select({
-                                                                                default: {minWidth: contentSize},
-                                                                                web: {minWidth: `${contentSize}rem`}
-                                                                        })),
+                                                                ...(layoutType === LAYOUT.VERTICAL && {
+                                                                        minHeight: platformValue(contentSize)
+                                                                }),
+                                                                ...(layoutType === LAYOUT.HORIZONTAL && {
+                                                                        minWidth: platformValue(contentSize)
+                                                                }),
                                                                 alignSelf: 'stretch',
                                                                 flex: 1
                                                         } as ViewStyle

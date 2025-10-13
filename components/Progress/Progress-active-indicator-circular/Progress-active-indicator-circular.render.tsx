@@ -1,7 +1,7 @@
 import {useTheme} from '@/hooks'
-import {pxToRem} from '@bearei/theme-token'
+import {platformValue} from '@/utils'
 import {forwardRef} from 'react'
-import {Platform, View} from 'react-native'
+import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Circle, Svg} from 'react-native-svg'
 import {PROGRESS_ANIMATED} from '../Progress.enum'
@@ -31,24 +31,14 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
                 const cx = size / 2
                 const cy = size / 2
                 const trackColor = theme.token.scheme.primaryContainer
-                const circleProps = Platform.select({
-                        default: {
-                                cx,
-                                cy,
-                                r: radius,
-                                strokeDasharray: circumference,
-                                strokeDashoffset: theme.token.spacing.none,
-                                strokeWidth
-                        },
-                        web: {
-                                cx: `${pxToRem()(cx)}rem`,
-                                cy: `${pxToRem()(cy)}rem`,
-                                r: `${pxToRem()(radius)}rem`,
-                                strokeDasharray: `${pxToRem()(circumference)}rem`,
-                                strokeDashoffset: `${pxToRem()(theme.token.spacing.none)}rem`,
-                                strokeWidth: `${pxToRem()(strokeWidth)}rem`
-                        }
-                })
+                const circleProps = {
+                        cx: platformValue(cx),
+                        cy: platformValue(cy),
+                        r: platformValue(radius),
+                        strokeDasharray: platformValue(circumference),
+                        strokeDashoffset: platformValue(theme.token.spacing.none),
+                        strokeWidth: platformValue(strokeWidth)
+                }
 
                 return (
                         <View

@@ -3,7 +3,8 @@ import {Mask} from '@/components/Mask'
 import {MenuProps} from '@/components/Menu'
 import {shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {pxToRem, SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
+import {platformValue} from '@/utils'
+import {SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import React, {cloneElement, forwardRef, isValidElement} from 'react'
 import {Platform, Pressable, Text, View, ViewStyle} from 'react-native'
@@ -166,46 +167,23 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                         })}
                                         style={[
                                                 {
-                                                        ...Platform.select({
-                                                                web: {
-                                                                        height: `${pxToRem()(height)}rem`,
-                                                                        width: `${pxToRem()(width)}rem`,
-                                                                        ...(type === TOOLTIP_TYPE.PLAIN ?
-                                                                                {
-                                                                                        left: `${pxToRem()(plainPosition.left)}rem`,
-                                                                                        top: `${pxToRem()(plainPosition.top)}rem`
-                                                                                }
-                                                                        :       {
-                                                                                        left: `${pxToRem()(
-                                                                                                menuPosition.left ??
-                                                                                                        theme.token
-                                                                                                                .spacing
-                                                                                                                .none
-                                                                                        )}rem`,
-                                                                                        top: `${pxToRem()(
-                                                                                                menuPosition.top ??
-                                                                                                        theme.token
-                                                                                                                .spacing
-                                                                                                                .none
-                                                                                        )}rem`
-                                                                                })
-                                                                },
-                                                                default: {
-                                                                        height,
-                                                                        width,
-                                                                        ...(type === TOOLTIP_TYPE.PLAIN ?
-                                                                                plainPosition
-                                                                        :       {
-                                                                                        left:
-                                                                                                menuPosition.left ??
-                                                                                                theme.token.spacing
-                                                                                                        .none,
-                                                                                        top:
-                                                                                                menuPosition.top ??
-                                                                                                theme.token.spacing.none
-                                                                                })
+                                                        height: platformValue(height),
+                                                        width: platformValue(width),
+                                                        ...(type === TOOLTIP_TYPE.PLAIN ?
+                                                                {
+                                                                        left: platformValue(plainPosition.left),
+                                                                        top: platformValue(plainPosition.top)
                                                                 }
-                                                        })
+                                                        :       {
+                                                                        left: platformValue(
+                                                                                menuPosition.left ??
+                                                                                        theme.token.spacing.none
+                                                                        ),
+                                                                        top: platformValue(
+                                                                                menuPosition.top ??
+                                                                                        theme.token.spacing.none
+                                                                        )
+                                                                })
                                                 } as ViewStyle,
                                                 contentAnimatedStyle
                                         ]}

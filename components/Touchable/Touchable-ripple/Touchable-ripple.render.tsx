@@ -1,8 +1,9 @@
 import {shapeClasses} from '@/constants'
-import {pxToRem, SHAPE} from '@bearei/theme-token'
+import {platformValue} from '@/utils'
+import {SHAPE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
-import {Platform, View, ViewStyle} from 'react-native'
+import {View, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
 
@@ -32,16 +33,13 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
                         ref={ref}
                         style={[
                                 style,
-                                Platform.select({
-                                        web: {
-                                                height: `${pxToRem()(size)}rem`,
-                                                left: `${pxToRem()(locationX)}rem`,
-                                                top: `${pxToRem()(locationY)}rem`,
-                                                width: `${pxToRem()(size)}rem`
-                                        },
-                                        default: {height: size, left: locationX, top: locationY, width: size}
-                                }) as ViewStyle,
                                 {...(underlayColor && {backgroundColor: underlayColor})},
+                                {
+                                        height: platformValue(size),
+                                        left: platformValue(locationX),
+                                        top: platformValue(locationY),
+                                        width: platformValue(size)
+                                } as ViewStyle,
                                 containerAnimatedStyle
                         ]}
                         testID={testID ?? `touchableRipple--${id}`}

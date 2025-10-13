@@ -1,11 +1,11 @@
 import {shapeClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {processIconSize} from '@/utils'
-import {hexToRGBA, pxToRem, SHAPE, SIZE} from '@bearei/theme-token'
+import {platformValue, processIconSize} from '@/utils'
+import {hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
-import {Platform, View} from 'react-native'
+import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {LayoutAnimated} from '../Layout-animated'
 import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
@@ -41,11 +41,8 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
         return cloneElement(icon ?? <MaterialIcons name='circle' />, {
                 color: disabled ? disabledColor : iconColor,
                 disabled,
-                testID: `iconButton__icon--${id}`,
-                ...Platform.select({
-                        default: {size: iconSize},
-                        web: {style: {fontSize: `${pxToRem()(iconSize)}rem`}}
-                })
+                style: {fontSize: platformValue(iconSize)},
+                testID: `iconButton__icon--${id}`
         })
 }
 

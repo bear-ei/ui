@@ -1,9 +1,10 @@
 import {EVENT_NAME, EventName, shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {hexToRGBA, pxToRem, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {platformValue} from '@/utils'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
-import {Platform, View} from 'react-native'
+import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Elevation} from '../Elevation'
 import {LayoutAnimated} from '../Layout-animated'
@@ -33,11 +34,8 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, icon, id,
         return cloneElement(icon, {
                 color: disabled ? disabledColor : color[type],
                 disabled,
-                testID: `button__icon--${id}`,
-                ...Platform.select({
-                        default: {size: iconSize},
-                        web: {style: {fontSize: `${pxToRem()(iconSize)}rem`}}
-                })
+                style: {fontSize: platformValue(iconSize)},
+                testID: `button__icon--${id}`
         })
 }
 

@@ -1,7 +1,7 @@
-import {typedMemo} from '@/utils'
-import {pxToRem, SHAPE} from '@bearei/theme-token'
+import {platformValue, typedMemo} from '@/utils'
+import {SHAPE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
-import {Platform, ViewStyle, type View} from 'react-native'
+import {ViewStyle, type View} from 'react-native'
 import {SkeletonBase} from './Skeleton-base.component'
 import type {SkeletonElementProps} from './Skeleton-element'
 import {SkeletonElement} from './Skeleton-element'
@@ -25,11 +25,10 @@ export const Circle = forwardRef<View, SkeletonElementProps>(({style, size, ...p
                 style={[
                         style,
                         {
-                                ...(typeof size === 'number' &&
-                                        Platform.select({
-                                                default: {width: size, height: size},
-                                                web: {width: `${pxToRem()(size)}rem`, height: `${pxToRem()(size)}rem`}
-                                        }))
+                                ...(typeof size === 'number' && {
+                                        height: platformValue(size),
+                                        width: platformValue(size)
+                                })
                         } as ViewStyle
                 ]}
         />
@@ -46,11 +45,10 @@ export const Square = forwardRef<View, SkeletonElementProps>(({style, size, ...p
                 style={[
                         style,
                         {
-                                ...(typeof size === 'number' &&
-                                        Platform.select({
-                                                default: {width: size, height: size},
-                                                web: {width: `${pxToRem()(size)}rem`, height: `${pxToRem()(size)}rem`}
-                                        }))
+                                ...(typeof size === 'number' && {
+                                        height: platformValue(size),
+                                        width: platformValue(size)
+                                })
                         } as ViewStyle
                 ]}
         />
@@ -68,23 +66,15 @@ export const Rectangular = forwardRef<View, SkeletonElementProps>(
                         style={[
                                 style,
                                 {
-                                        ...(typeof size === 'number' &&
-                                                Platform.select({
-                                                        default: {height: size},
-                                                        web: {height: `${pxToRem()(size)}rem`}
-                                                }))
+                                        ...(typeof size === 'number' && {height: platformValue(size)})
                                 } as ViewStyle,
                                 {
                                         ...(typeof size === 'object' &&
                                                 typeof size.width === 'number' &&
-                                                typeof size.height === 'number' &&
-                                                Platform.select({
-                                                        default: {width: size, height: size},
-                                                        web: {
-                                                                width: `${pxToRem()(size.width)}rem`,
-                                                                height: `${pxToRem()(size.height)}rem`
-                                                        }
-                                                }))
+                                                typeof size.height === 'number' && {
+                                                        height: platformValue(size.height),
+                                                        width: platformValue(size.width)
+                                                })
                                 } as ViewStyle
                         ]}
                 />

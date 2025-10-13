@@ -1,7 +1,8 @@
 import {useAnimatedTiming, useTheme} from '@/hooks'
-import {hexToRGBA, pxToRem} from '@bearei/theme-token'
+import {platformValue} from '@/utils'
+import {hexToRGBA} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
-import {Platform, ViewStyle} from 'react-native'
+import {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import {animateIconButton} from './Icon-button.handler'
@@ -63,10 +64,7 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
                                         [disabledBackgroundColor, scheme.outline]
                                 ),
                                 borderStyle: 'solid',
-                                ...Platform.select({
-                                        default: {borderWidth},
-                                        web: {borderWidth: `${pxToRem()(borderWidth)}rem`}
-                                })
+                                borderWidth: platformValue(borderWidth)
                         } as ViewStyle))
         }))
 

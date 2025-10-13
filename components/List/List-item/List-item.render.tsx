@@ -5,12 +5,12 @@ import {Skeleton} from '@/components/Skeleton'
 import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
 import {EVENT_NAME, ICON_BUTTON_SIZE, LAYOUT, shapeClasses, TRIGGER_EVENT, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {processIconSize} from '@/utils'
-import {DURATION, EASING, pxToRem, Size, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {platformValue, processIconSize} from '@/utils'
+import {DURATION, EASING, Size, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
-import {Platform, Pressable, Text, View} from 'react-native'
+import {Pressable, Text, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
@@ -254,14 +254,11 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                         {cloneElement(leadingElement, {
                                                                                 color: theme.token.scheme
                                                                                         .onSurfaceVariant,
-                                                                                ...Platform.select({
-                                                                                        default: {size: iconSize},
-                                                                                        web: {
-                                                                                                style: {
-                                                                                                        fontSize: `${pxToRem()(iconSize)}rem`
-                                                                                                }
-                                                                                        }
-                                                                                })
+                                                                                style: {
+                                                                                        fontSize: platformValue(
+                                                                                                iconSize
+                                                                                        )
+                                                                                }
                                                                         })}
                                                                 </View>
                                                         )}

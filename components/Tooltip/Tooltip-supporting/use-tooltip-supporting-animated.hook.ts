@@ -1,8 +1,8 @@
 import {COMPONENT_STATUS, DURATION, EASING} from '@/constants'
 import {useAnimatedTiming, useTheme} from '@/hooks'
-import {pxToRem} from '@bearei/theme-token'
+import {platformValue} from '@/utils'
 import {useEffect, useMemo} from 'react'
-import {Platform, ViewStyle} from 'react-native'
+import {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
@@ -10,7 +10,7 @@ import {animateTooltipSupporting} from './Tooltip-supporting.handler'
 import type {UseTooltipSupportingAnimatedOptions} from './Tooltip-supporting.interface'
 
 export const useTooltipSupportingAnimated = ({
-        height: rawHeight = 0,
+        height = 0,
         onClose,
         position = SUPPORTING_POSITION.VERTICAL_START,
         status,
@@ -37,106 +37,80 @@ export const useTooltipSupportingAnimated = ({
                 [animatedTiming, onClose]
         )
 
-        const verticalStartOutputRanges = Platform.select({
-                default: [theme.token.spacing.small, theme.token.spacing.none],
-                web: [pxToRem()(theme.token.spacing.small), pxToRem()(theme.token.spacing.none)]
-        })
-
-        const verticalEndOutputRanges = Platform.select({
-                default: [-theme.token.spacing.small, theme.token.spacing.none],
-                web: [-pxToRem()(theme.token.spacing.small), pxToRem()(theme.token.spacing.none)]
-        })
-
-        const horizontalStartOutputRanges = Platform.select({
-                default: [theme.token.spacing.small, theme.token.spacing.none],
-                web: [pxToRem()(theme.token.spacing.small), pxToRem()(theme.token.spacing.none)]
-        })
-
-        const horizontalEndOutputRanges = Platform.select({
-                default: [-theme.token.spacing.small, theme.token.spacing.none],
-                web: [-pxToRem()(theme.token.spacing.small), pxToRem()(theme.token.spacing.none)]
-        })
-
-        const height = Platform.select({
-                web: pxToRem()(rawHeight),
-                default: rawHeight
-        })
-
-        const contentAnimatedStyle = useAnimatedStyle(() => {
-                const verticalStartTranslateYInterpolate = interpolate(
-                        transformSharedValue.value,
-                        [0, 1],
-                        verticalStartOutputRanges
-                )
-
-                const verticalEndTranslateYInterpolate = interpolate(
-                        transformSharedValue.value,
-                        [0, 1],
-                        verticalEndOutputRanges
-                )
-
-                const horizontalStartTranslateXInterpolate = interpolate(
-                        transformSharedValue.value,
-                        [0, 1],
-                        horizontalStartOutputRanges
-                )
-
-                const horizontalEndTranslateXInterpolate = interpolate(
-                        transformSharedValue.value,
-                        [0, 1],
-                        horizontalEndOutputRanges
-                )
-
-                const heightInterpolate = interpolate(heightSharedValue.value, [0, 1], [0, height])
-
-                return {
-                        opacity: interpolate(
-                                opacitySharedValue.value,
-                                [0, 1],
-                                [theme.token.opacity.level0, theme.token.opacity.level10]
-                        ),
-
-                        ...(type === TOOLTIP_TYPE.MENU ?
-                                Platform.select({
-                                        default: {height: heightInterpolate},
-                                        web: {height: `${heightInterpolate}rem`}
-                                })
-                        :       {
-                                        ...(position === SUPPORTING_POSITION.VERTICAL_START && {
-                                                transform: Platform.select({
-                                                        default: [{translateY: verticalStartTranslateYInterpolate}],
-                                                        web: [{translateY: `${verticalStartTranslateYInterpolate}rem`}]
-                                                })
-                                        }),
-                                        ...(position === SUPPORTING_POSITION.VERTICAL_END && {
-                                                transform: Platform.select({
-                                                        default: [{translateY: verticalEndTranslateYInterpolate}],
-                                                        web: [{translateY: `${verticalEndTranslateYInterpolate}rem`}]
-                                                })
-                                        }),
-                                        ...(position === SUPPORTING_POSITION.HORIZONTAL_START && {
-                                                transform: Platform.select({
-                                                        default: [{translateX: horizontalStartTranslateXInterpolate}],
-                                                        web: [
+        const horizontalEndOutputRanges = [-theme.token.spacing.small, theme.token.spacing.none]
+        const horizontalStartOutputRanges = [theme.token.spacing.small, theme.token.spacing.none]
+        const verticalEndOutputRanges = [-theme.token.spacing.small, theme.token.spacing.none]
+        const verticalStartOutputRanges = [theme.token.spacing.small, theme.token.spacing.none]
+        const contentAnimatedStyle = useAnimatedStyle(
+                () =>
+                        ({
+                                opacity: interpolate(
+                                        opacitySharedValue.value,
+                                        [0, 1],
+                                        [theme.token.opacity.level0, theme.token.opacity.level10]
+                                ),
+                                ...(type === TOOLTIP_TYPE.MENU ?
+                                        {
+                                                height: platformValue(
+                                                        interpolate(heightSharedValue.value, [0, 1], [0, height])
+                                                )
+                                        }
+                                :       {
+                                                ...(position === SUPPORTING_POSITION.VERTICAL_START && {
+                                                        transform: [
                                                                 {
-                                                                        translateX: `${horizontalStartTranslateXInterpolate}rem`
+                                                                        translateY: platformValue(
+                                                                                interpolate(
+                                                                                        transformSharedValue.value,
+                                                                                        [0, 1],
+                                                                                        verticalStartOutputRanges
+                                                                                )
+                                                                        )
                                                                 }
                                                         ]
-                                                })
-                                        }),
-                                        ...(position === SUPPORTING_POSITION.HORIZONTAL_END && {
-                                                transform: Platform.select({
-                                                        default: [{translateX: horizontalEndTranslateXInterpolate}],
-                                                        web: [
+                                                }),
+                                                ...(position === SUPPORTING_POSITION.VERTICAL_END && {
+                                                        transform: [
                                                                 {
-                                                                        translateX: `${horizontalEndTranslateXInterpolate}rem`
+                                                                        translateY: platformValue(
+                                                                                interpolate(
+                                                                                        transformSharedValue.value,
+                                                                                        [0, 1],
+                                                                                        verticalEndOutputRanges
+                                                                                )
+                                                                        )
+                                                                }
+                                                        ]
+                                                }),
+                                                ...(position === SUPPORTING_POSITION.HORIZONTAL_START && {
+                                                        transform: [
+                                                                {
+                                                                        translateX: platformValue(
+                                                                                interpolate(
+                                                                                        transformSharedValue.value,
+                                                                                        [0, 1],
+                                                                                        horizontalStartOutputRanges
+                                                                                )
+                                                                        )
+                                                                }
+                                                        ]
+                                                }),
+                                                ...(position === SUPPORTING_POSITION.HORIZONTAL_END && {
+                                                        transform: [
+                                                                {
+                                                                        translateX: platformValue(
+                                                                                interpolate(
+                                                                                        transformSharedValue.value,
+                                                                                        [0, 1],
+                                                                                        horizontalEndOutputRanges
+                                                                                )
+                                                                        )
                                                                 }
                                                         ]
                                                 })
                                         })
-                                })
-                } as ViewStyle
-        })
+                        }) as ViewStyle
+        )
 
         const runAnimate = useMemo(
                 () =>

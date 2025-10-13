@@ -1,8 +1,8 @@
 import {COMPONENT_STATUS} from '@/constants'
 import {useAnimatedTiming, useTheme} from '@/hooks'
-import {pxToRem} from '@bearei/theme-token'
+import {platformValue} from '@/utils'
 import {useEffect, useMemo} from 'react'
-import {Platform, ViewStyle} from 'react-native'
+import {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {animateTouchableRipple} from './Touchable-ripple.handler'
 import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
@@ -25,18 +25,11 @@ export const useTouchableRippleAnimated = ({
                                         [0, 1],
                                         [theme.token.opacity.level0, theme.token.opacity.level2]
                                 ),
-                                transform: Platform.select({
-                                        default: [
-                                                {translateX: -radius},
-                                                {translateY: -radius},
-                                                {scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1])}
-                                        ],
-                                        web: [
-                                                {translateX: `${-pxToRem()(radius)}rem`},
-                                                {translateY: `${-pxToRem()(radius)}rem`},
-                                                {scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1])}
-                                        ]
-                                })
+                                transform: [
+                                        {translateX: platformValue(-radius)},
+                                        {translateY: platformValue(-radius)},
+                                        {scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1])}
+                                ]
                         }) as ViewStyle
         )
 

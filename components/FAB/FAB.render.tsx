@@ -1,10 +1,10 @@
 import {shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {processIconSize} from '@/utils'
-import {hexToRGBA, pxToRem, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
+import {platformValue, processIconSize} from '@/utils'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
-import {Platform, View} from 'react-native'
+import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Elevation} from '../Elevation'
 import {Touchable, type PressableType} from '../Touchable'
@@ -40,11 +40,8 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
         return cloneElement(icon, {
                 color: disabled ? disabledColor : color[type],
                 disabled,
-                testID: `fab__icon--${id}`,
-                ...Platform.select({
-                        default: {size},
-                        web: {style: {fontSize: `${pxToRem()(size)}rem`}}
-                })
+                style: {fontSize: platformValue(size)},
+                testID: `fab__icon--${id}`
         })
 }
 
