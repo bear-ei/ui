@@ -133,9 +133,9 @@ export const useButtonAnimated = ({
                 hexToRGBA(scheme.primary)(opacity.level10)
         ]
 
+        const borderWidth = spacing.extraSmall / 4
         const isNotBackgroundColor = ([BUTTON_TYPE.TEXT, BUTTON_TYPE.LINK] as readonly ButtonType[]).includes(type)
         const isNotBorderColor = type !== BUTTON_TYPE.OUTLINED
-        const borderWidth = spacing.extraSmall / 4
         const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
                 ...(!isNotBackgroundColor && {
                         backgroundColor: interpolateColor(

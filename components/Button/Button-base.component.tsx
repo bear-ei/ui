@@ -52,8 +52,8 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
                         disabled: rawDisabled,
                         error,
                         eventName,
-                        type,
-                        linkColor
+                        linkColor,
+                        type
                 })
 
                 const runUpdateStatus = useMemo(

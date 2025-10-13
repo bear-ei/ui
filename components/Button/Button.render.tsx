@@ -69,16 +69,16 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                         EVENT_NAME.FOCUS,
                         EVENT_NAME.HOVER_IN,
                         EVENT_NAME.LONG_PRESS,
-                        EVENT_NAME.PRESS,
                         EVENT_NAME.PRESS_IN,
-                        EVENT_NAME.PRESS_OUT
+                        EVENT_NAME.PRESS_OUT,
+                        EVENT_NAME.PRESS
                 ] as readonly EventName[]
 
+                const buttonTypes = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]
                 const isActiveIndicatorVisible =
                         type === BUTTON_TYPE.LINK && eventName && eventNames.includes(eventName)
 
                 const isLink = type === BUTTON_TYPE.LINK
-                const buttonTypes = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]
                 const loadingEventName = type && buttonTypes.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
                 const shape = isLink ? SHAPE.EXTRA_SMALL_TOP : SHAPE.FULL
                 const backgroundUnderlayElement = (
@@ -107,8 +107,6 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                 accessibilityRole='button'
                                 accessibilityState={{disabled}}
                                 accessible={true}
-                                tabIndex={-1}
-                                testID={testID ?? `button--${id}`}
                                 className={clsx('cursor-pointer', {
                                         ['h-10 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.MEDIUM,
                                         ['h-12 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.LARGE,
@@ -119,6 +117,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                         ['self-start']: !stretch,
                                         ['self-stretch']: stretch
                                 })}
+                                tabIndex={-1}
+                                testID={testID ?? `button--${id}`}
                         >
                                 <Touchable
                                         {...touchableProps}
