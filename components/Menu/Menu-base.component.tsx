@@ -1,7 +1,7 @@
+import {useClearComponentEvent} from '@/hooks'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {useClearComponentEvent} from '../../hooks'
 import {
         handleMenuKeyDown,
         handleMenuKeyDownEvent,

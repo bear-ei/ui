@@ -1,10 +1,10 @@
+import {List, LIST_SELECT_TYPE, LIST_TYPE} from '@/components/List'
 import {shapeClasses} from '@/constants'
+import {InteractionHandlers} from '@/hooks'
 import {pxToRem, SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {Platform, View, ViewStyle} from 'react-native'
-import type {InteractionHandlers} from '../../../hooks'
-import {List, LIST_SELECT_TYPE, LIST_TYPE} from '../../List'
 import type {RenderMenuListProps} from './Menu-list.interface'
 
 export const RenderMenuList = forwardRef<View, RenderMenuListProps>(

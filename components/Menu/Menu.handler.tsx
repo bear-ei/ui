@@ -1,5 +1,5 @@
+import {arrayEqual} from '@/utils'
 import type {Updater} from 'use-immer'
-import {arrayEqual} from '../../utils'
 import type {ListData} from '../List'
 import type {HandleMenuKeyDownOptions, MenuState} from './Menu.interface'
 

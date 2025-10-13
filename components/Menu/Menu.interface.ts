@@ -35,5 +35,3 @@ export interface HandleNextActivesEventOptions {
         activeKeys: string[]
         indexKey: string
 }
-
-export type ContainerProps = Pick<RenderMenuProps, 'onContextMenu'>
