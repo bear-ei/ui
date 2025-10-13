@@ -1,6 +1,7 @@
 import {useTheme} from '@/hooks'
+import {pxToRem} from '@bearei/theme-token'
 import {forwardRef} from 'react'
-import {View} from 'react-native'
+import {Platform, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Circle, Svg} from 'react-native-svg'
 import {PROGRESS_ANIMATED} from '../Progress.enum'
@@ -30,6 +31,24 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
                 const cx = size / 2
                 const cy = size / 2
                 const trackColor = theme.token.scheme.primaryContainer
+                const circleProps = Platform.select({
+                        default: {
+                                cx,
+                                cy,
+                                r: radius,
+                                strokeDasharray: circumference,
+                                strokeDashoffset: theme.token.spacing.none,
+                                strokeWidth
+                        },
+                        web: {
+                                cx: `${pxToRem()(cx)}rem`,
+                                cy: `${pxToRem()(cy)}rem`,
+                                r: `${pxToRem()(radius)}rem`,
+                                strokeDasharray: `${pxToRem()(circumference)}rem`,
+                                strokeDashoffset: `${pxToRem()(theme.token.spacing.none)}rem`,
+                                strokeWidth: `${pxToRem()(strokeWidth)}rem`
+                        }
+                })
 
                 return (
                         <View
@@ -53,37 +72,42 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
                                         <Svg
                                                 fill='none'
                                                 testID={`progressActiveIndicatorCircular__svg--${id}`}
-                                                viewBox={`0 0 ${size} ${size}`}
+                                                {...Platform.select({
+                                                        default: {
+                                                                viewBox: `${theme.token.spacing.none} ${theme.token.spacing.none} ${size} ${size}`
+                                                        },
+                                                        web: {
+                                                                viewBox: `${pxToRem()(theme.token.spacing.none)}rem ${pxToRem()(theme.token.spacing.none)}rem ${pxToRem()(size)}rem ${pxToRem()(size)}rem`
+                                                        }
+                                                })}
                                         >
                                                 {animatedType === PROGRESS_ANIMATED.DETERMINATE && (
                                                         <Circle
-                                                                cx={cx}
-                                                                cy={cy}
-                                                                r={radius}
+                                                                {...circleProps}
                                                                 stroke={trackColor}
-                                                                strokeDasharray={circumference}
-                                                                strokeDashoffset={0}
                                                                 strokeLinecap='round'
-                                                                strokeWidth={strokeWidth}
                                                                 testID={`progressActiveIndicatorCircular__circle--${id}`}
                                                         />
                                                 )}
 
                                                 <AnimatedCircle
+                                                        {...circleProps}
                                                         animatedProps={circleAnimatedProps}
-                                                        cx={cx}
-                                                        cy={cy}
-                                                        r={radius}
                                                         stroke={activeIndicatorColor}
-                                                        strokeDasharray={circumference}
                                                         strokeLinecap='round'
-                                                        strokeWidth={strokeWidth}
                                                         testID={`progressActiveIndicatorCircular__animatedCircle--${id}`}
-                                                        transform={[
-                                                                {rotate: '180'},
-                                                                {rotateX: `${cx}`},
-                                                                {rotateY: `${cy}`}
-                                                        ]}
+                                                        transform={Platform.select({
+                                                                default: [
+                                                                        {rotate: '180deg'},
+                                                                        {rotateX: `${cx}`},
+                                                                        {rotateY: `${cy}`}
+                                                                ],
+                                                                web: [
+                                                                        {rotate: '180deg'},
+                                                                        {rotateX: `${pxToRem()(cx)}rem`},
+                                                                        {rotateY: `${pxToRem()(cy)}rem`}
+                                                                ]
+                                                        })}
                                                 />
                                         </Svg>
                                 </Animated.View>
