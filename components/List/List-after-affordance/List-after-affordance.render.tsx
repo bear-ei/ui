@@ -1,11 +1,11 @@
 import {LayoutAnimated} from '@/components/Layout-animated'
 import {useTheme} from '@/hooks'
 import {processIconSize} from '@/utils'
-import {SIZE} from '@bearei/theme-token'
+import {pxToRem, SIZE} from '@bearei/theme-token'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
-import type {View} from 'react-native'
+import {Platform, TextStyle, type View} from 'react-native'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 
@@ -36,8 +36,11 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         <MaterialIcons
                                 color={color}
                                 name='check'
-                                size={iconSize}
                                 testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`}
+                                {...(Platform.select({
+                                        default: {size: iconSize},
+                                        web: {style: {fontSize: `${pxToRem()(iconSize)}rem`}}
+                                }) as TextStyle)}
                         />
                 )
 
@@ -45,8 +48,11 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         <MaterialIcons
                                 color={color}
                                 name='close'
-                                size={iconSize}
                                 testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`}
+                                {...(Platform.select({
+                                        default: {size: iconSize},
+                                        web: {style: {fontSize: `${pxToRem()(iconSize)}rem`}}
+                                }) as TextStyle)}
                         />
                 )
 

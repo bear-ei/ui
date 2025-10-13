@@ -6,8 +6,8 @@ import {animateListAffordanceButton} from './List-affordance-button.handler'
 import type {UseListAffordanceButtonAnimatedOptions} from './List-affordance-button.interface'
 
 export const useListAffordanceButtonAnimated = ({
-        disabled,
-        backgroundVisible
+        backgroundVisible,
+        disabled
 }: UseListAffordanceButtonAnimatedOptions) => {
         const theme = useTheme()
         const {scheme, opacity} = theme.token

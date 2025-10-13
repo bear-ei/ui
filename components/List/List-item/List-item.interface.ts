@@ -2,7 +2,6 @@ import {IconButtonProps} from '@/components/Icon-button'
 import {PressableType, TouchableProps} from '@/components/Touchable'
 import {ComponentStatus, EventName, State} from '@/constants'
 import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
-import type {RefAttributes} from 'react'
 import type {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ListAffordanceButtonProps} from '../List-affordance-button'
@@ -132,23 +131,4 @@ export interface TriggerListItemTrailingActionsOptions
         onClose: (close?: boolean) => void
 }
 
-export type ListItemContainerProps = Pick<RenderListItemProps, 'type'>
-export type ListItemContentProps = Pick<RenderListItemProps, 'type'>
-export interface ListItemMainProps
-        extends Pick<RenderListItemProps, 'supportingTextNumberOfLines'>,
-                ListItemContentProps {
-        supportingTextShow?: boolean
-        trailingShow?: boolean
-        unmountTrailing?: boolean
-}
-
-export type ListItemMainInnerProps = Pick<ListItemMainProps, 'supportingTextShow' | 'type'>
-export type ListItemLeadingProps = Pick<RenderListItemProps, 'supportingTextNumberOfLines' | 'type'>
-export interface ListItemTrailingProps extends ListItemLeadingProps {
-        closeTrailing?: boolean
-        trailingShow?: boolean
-        unmountTrailing?: boolean
-}
-
-export type ListItemItemTouchableProps = RefAttributes<PressableType>
 export type AffordanceLayoutProps = Pick<RenderListItemProps, 'afterAffordanceExpanded'>

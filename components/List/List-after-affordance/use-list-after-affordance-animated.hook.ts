@@ -14,8 +14,8 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseLis
         const animatedTiming = useAnimatedTiming({token: theme.token})
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
         const dangerTranslateXOutputRanges = Platform.select({
-                web: [pxToRem()(spacing.none), -pxToRem()((spacing.extraSmall * 32) / 2)],
-                default: [spacing.none, -((spacing.extraSmall * 32) / 2)]
+                default: [spacing.none, -((spacing.extraSmall * 32) / 2)],
+                web: [pxToRem()(spacing.none), -pxToRem()((spacing.extraSmall * 32) / 2)]
         })
 
         const dangerAnimatedStyle = useAnimatedStyle(() => {

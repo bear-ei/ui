@@ -52,19 +52,16 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
                         accessibilityLabel='list'
                         accessibilityRole='list'
                         accessible={true}
-                        style={[style]}
-                        testID={testID ?? `list--${id}`}
                         className={clsx('flex-1 self-stretch', {
                                 ['pb-2 pt-2']: layoutType === LAYOUT.VERTICAL,
                                 ['pl-2 pr-2']: layoutType === LAYOUT.HORIZONTAL
                         })}
+                        style={[style]}
+                        testID={testID ?? `list--${id}`}
                 >
                         <VirtualList
                                 {...virtualListProps}
                                 activeKey={activeKey}
-                                layoutType={layoutType}
-                                ref={ref}
-                                testID={`list__virtualList--${id}`}
                                 dependencies={[
                                         ...dependencies,
                                         `${activeKey}`,
@@ -74,7 +71,10 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
                                         `${loading}`
                                 ]}
                                 focusedIndex={focusedIndex}
+                                layoutType={layoutType}
                                 loading={loading}
+                                ref={ref}
+                                testID={`list__virtualList--${id}`}
                         />
                 </View>
         )

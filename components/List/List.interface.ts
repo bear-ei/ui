@@ -121,5 +121,4 @@ export type CreateRenderListItemOptions = Pick<
 >
 
 export type ListBaseProps = ListProps
-export type ListContainerProps = Pick<RenderListProps, 'layoutType'>
 export type UpdateListActiveStateOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
