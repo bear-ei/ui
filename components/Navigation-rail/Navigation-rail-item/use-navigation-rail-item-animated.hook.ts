@@ -1,7 +1,8 @@
 import {COMPONENT_STATUS} from '@/constants'
 import {useAnimatedTiming, useTheme} from '@/hooks'
-import {hexToRGBA} from '@bearei/theme-token'
+import {hexToRGBA, pxToRem} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
+import {Platform, ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {animateNavigationRailItem} from './Navigation-rail-item.handler'
 import type {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.interface'
@@ -18,27 +19,33 @@ export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigat
                 hexToRGBA(scheme.onSurface)(opacity.level10)
         ]
 
-        const contentTranslateYOutputRanges = [
-                theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall,
-                theme.token.spacing.none
-        ]
+        const contentTranslateYOutputRanges = Platform.select({
+                web: [
+                        pxToRem()(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall),
+                        pxToRem()(theme.token.spacing.none)
+                ],
+                default: [theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall, theme.token.spacing.none]
+        })
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
                 color: interpolateColor(labelTextSharedValue.value, [0, 1], labelTextColorOutputRanges),
                 opacity: interpolate(labelTextSharedValue.value, [0, 1], [0, 1])
         }))
 
-        const contentAnimatedStyle = useAnimatedStyle(() => ({
-                transform: [
-                        {
-                                translateY: interpolate(
-                                        contentTranslateYSharedValue.value,
-                                        [0, 1],
-                                        contentTranslateYOutputRanges
-                                )
-                        }
-                ]
-        }))
+        const contentAnimatedStyle = useAnimatedStyle(() => {
+                const translateYInterpolate = interpolate(
+                        contentTranslateYSharedValue.value,
+                        [0, 1],
+                        contentTranslateYOutputRanges
+                )
+
+                return {
+                        transform: Platform.select({
+                                web: [{translateY: `${translateYInterpolate}rem`}],
+                                default: [{translateY: translateYInterpolate}]
+                        })
+                } as ViewStyle
+        })
 
         const runAnimate = useMemo(
                 () =>

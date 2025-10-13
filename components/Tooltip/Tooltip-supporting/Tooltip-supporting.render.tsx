@@ -3,10 +3,10 @@ import {Mask} from '@/components/Mask'
 import {MenuProps} from '@/components/Menu'
 import {shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
+import {pxToRem, SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import React, {cloneElement, forwardRef, isValidElement} from 'react'
-import {Platform, Pressable, Text, View} from 'react-native'
+import {Platform, Pressable, Text, View, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
@@ -109,6 +109,8 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                         }
                 }
 
+                const plainPosition = position[supportingPosition]()
+
                 const mainElement = (
                         <View
                                 {...(type === TOOLTIP_TYPE.PLAIN && {onLayout})}
@@ -164,16 +166,41 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                 ['fixed']: Platform.OS === 'web'
                                         })}
                                         style={[
-                                                {
-                                                        height,
-                                                        width,
-                                                        ...(type === TOOLTIP_TYPE.PLAIN ?
-                                                                position[supportingPosition]()
-                                                        :       {
-                                                                        left: menuPosition.left ?? 0,
-                                                                        top: menuPosition.top ?? 0
-                                                                })
-                                                },
+                                                Platform.select({
+                                                        web: {
+                                                                height: pxToRem()(height),
+                                                                width: pxToRem()(width),
+                                                                ...(type === TOOLTIP_TYPE.PLAIN ?
+                                                                        {
+                                                                                left: pxToRem()(plainPosition.left),
+                                                                                top: pxToRem()(plainPosition.top)
+                                                                        }
+                                                                :       {
+                                                                                left: pxToRem()(
+                                                                                        menuPosition.left ??
+                                                                                                theme.token.spacing.none
+                                                                                ),
+                                                                                top: pxToRem()(
+                                                                                        menuPosition.top ??
+                                                                                                theme.token.spacing.none
+                                                                                )
+                                                                        })
+                                                        },
+                                                        default: {
+                                                                height,
+                                                                width,
+                                                                ...(type === TOOLTIP_TYPE.PLAIN ?
+                                                                        plainPosition
+                                                                :       {
+                                                                                left:
+                                                                                        menuPosition.left ??
+                                                                                        theme.token.spacing.none,
+                                                                                top:
+                                                                                        menuPosition.top ??
+                                                                                        theme.token.spacing.none
+                                                                        })
+                                                        }
+                                                }) as ViewStyle,
                                                 contentAnimatedStyle
                                         ]}
                                         testID={testID ?? `tooltipSupporting__supporting--${id}`}

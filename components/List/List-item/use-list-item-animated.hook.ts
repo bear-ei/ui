@@ -1,7 +1,8 @@
 import {COMPONENT_STATUS} from '@/constants'
 import {useAnimatedTiming, useTheme} from '@/hooks'
-import {hexToRGBA} from '@bearei/theme-token'
+import {hexToRGBA, pxToRem} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
+import {Platform, ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {animateListItemActiveState, animateListItemAffordanceVisibility} from './List-item.handler'
 import type {UseListItemAnimatedOptions} from './List-item.interface'
@@ -13,18 +14,25 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
         const contentTransformXSharedValue = useSharedValue(0)
         const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
-        const contentTranslateXOutputRanges = [spacing.none, -spacing.extraSmall * 40]
-        const contentAnimatedStyle = useAnimatedStyle(() => ({
-                transform: [
-                        {
-                                translateX: interpolate(
-                                        contentTransformXSharedValue.value,
-                                        [0, 1],
-                                        contentTranslateXOutputRanges
-                                )
-                        }
-                ]
-        }))
+        const contentTranslateXOutputRanges = Platform.select({
+                web: [pxToRem()(spacing.none), -pxToRem()(spacing.extraSmall * 40)],
+                default: [spacing.none, -spacing.extraSmall * 40]
+        })
+
+        const contentAnimatedStyle = useAnimatedStyle(() => {
+                const translateXInterpolate = interpolate(
+                        contentTransformXSharedValue.value,
+                        [0, 1],
+                        contentTranslateXOutputRanges
+                )
+
+                return {
+                        transform: Platform.select({
+                                default: [{translateX: translateXInterpolate}],
+                                web: [{translateX: `${translateXInterpolate}rem`}]
+                        })
+                } as ViewStyle
+        })
 
         const headlineTextColorOutputRanges = [
                 hexToRGBA(scheme.onSurface)(opacity.level10),

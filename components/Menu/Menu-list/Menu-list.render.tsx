@@ -1,8 +1,8 @@
 import {shapeClasses} from '@/constants'
-import {SIZE} from '@bearei/theme-token'
+import {pxToRem, SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
-import {Platform, View} from 'react-native'
+import {Platform, View, ViewStyle} from 'react-native'
 import type {InteractionHandlers} from '../../../hooks'
 import {List, LIST_SELECT_TYPE, LIST_TYPE} from '../../List'
 import type {RenderMenuListProps} from './Menu-list.interface'
@@ -35,6 +35,10 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                 }
 
                 const itemSize = theme.token.spacing.extraSmall * sizeDensity[size]
+                const height = Platform.select({
+                        web: pxToRem()(dataNumber * itemSize + theme.token.spacing.medium),
+                        default: dataNumber * itemSize + theme.token.spacing.medium
+                })
 
                 return (
                         <View
@@ -44,7 +48,9 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                                         shapeClasses(shape)
                                 )}
                                 ref={ref}
-                                style={{height: dataNumber * itemSize + theme.token.spacing.medium}}
+                                style={[
+                                        Platform.select({default: {height}, web: {height: `${height}rem`}}) as ViewStyle
+                                ]}
                                 tabIndex={-1}
                                 testID={testID ?? `menu--${id}`}
                         >

@@ -1,8 +1,8 @@
 import {shapeClasses} from '@/constants'
-import {SHAPE} from '@bearei/theme-token'
+import {pxToRem, SHAPE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
-import {View} from 'react-native'
+import {Platform, View, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
 
@@ -12,9 +12,9 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
                         containerAnimatedStyle,
                         id,
                         interactionHandlers,
-                        locationX,
-                        locationY,
-                        size,
+                        locationX = 0,
+                        locationY = 0,
+                        size = 0,
                         style,
                         testID,
                         underlayColor,
@@ -34,11 +34,16 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
                                 style,
                                 {
                                         ...(underlayColor && {backgroundColor: underlayColor}),
-                                        height: size,
-                                        left: locationX,
-                                        top: locationY,
-                                        width: size
-                                },
+                                        ...Platform.select({
+                                                web: {
+                                                        height: `${pxToRem()(size)}rem`,
+                                                        left: `${pxToRem()(locationX)}rem`,
+                                                        top: `${pxToRem()(locationY)}rem`,
+                                                        width: `${pxToRem()(size)}rem`
+                                                },
+                                                default: {height: size, left: locationX, top: locationY, width: size}
+                                        })
+                                } as ViewStyle,
                                 containerAnimatedStyle
                         ]}
                         testID={testID ?? `touchableRipple--${id}`}

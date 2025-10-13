@@ -4,7 +4,7 @@ import {processIconSize} from '@/utils'
 import {hexToRGBA, pxToRem, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
-import {Platform, Pressable, TextInput, View} from 'react-native'
+import {Platform, Pressable, TextInput, View, ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {LayoutAnimated} from '../Layout-animated'
@@ -199,10 +199,21 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                         testID={`textInput__control--${id}`}
                                                                         style={[
                                                                                 {
-                                                                                        ...(multiline && {
-                                                                                                minHeight: contentSize?.height
-                                                                                        })
-                                                                                }
+                                                                                        ...(multiline &&
+                                                                                                Platform.select({
+                                                                                                        default: {
+                                                                                                                minHeight:
+                                                                                                                        contentSize?.height ??
+                                                                                                                        theme
+                                                                                                                                .token
+                                                                                                                                .spacing
+                                                                                                                                .none
+                                                                                                        },
+                                                                                                        web: {
+                                                                                                                minHeight: `${pxToRem()(contentSize?.height ?? theme.token.spacing.none)}rem`
+                                                                                                        }
+                                                                                                }))
+                                                                                } as ViewStyle
                                                                         ]}
                                                                 >
                                                                         <AnimatedTextInput
