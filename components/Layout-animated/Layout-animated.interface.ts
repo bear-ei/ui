@@ -69,6 +69,3 @@ export interface AnimateLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 
         createEntrySharedValueAnimator: AnimateSharedValueTo
         createExitSharedValueAnimator: AnimateSharedValueTo
 }
-
-export type LayoutAnimatedContainerProps = Pick<LayoutAnimatedProps, 'visible'>
-export type LayoutAnimatedContentProps = Pick<RenderLayoutAnimatedProps, 'visible'>

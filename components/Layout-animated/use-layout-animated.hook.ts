@@ -12,14 +12,14 @@ export const useLayoutAnimated = ({
         animatedType = LAYOUT_ANIMATED.FADE,
         entry,
         exit,
-        height: rawHeight,
+        height: rawHeight = 0,
         onAnimationFinished,
         opacity: rawOpacity,
         scale,
         status,
         translate,
         visible,
-        width: rawWidth
+        width: rawWidth = 0
 }: UseLayoutAnimatedOptions) => {
         const containerSharedValue = useSharedValue(visible ? 1 : 0)
         const theme = useTheme()
@@ -48,19 +48,15 @@ export const useLayoutAnimated = ({
                 opacity: interpolate(containerSharedValue.value, [0, 1], opacityOutputRanges)
         }))
 
-        const width = Platform.select({
-                web: pxToRem()(rawWidth ?? theme.token.spacing.none),
-                default: rawWidth ?? theme.token.spacing.none
-        })
-
+        const width = Platform.select({web: pxToRem()(rawWidth), default: rawWidth})
         const widthOutputRanges = Platform.select({
                 default: [pxToRem()(theme.token.spacing.none), width],
                 web: [theme.token.spacing.none, width]
         })
 
         const transformXOutputRanges = Platform.select({
-                web: [width, pxToRem()(theme.token.spacing.none)],
-                default: [width, theme.token.spacing.none]
+                default: [width, theme.token.spacing.none],
+                web: [width, pxToRem()(theme.token.spacing.none)]
         })
 
         const collapseXAnimatedStyle = useAnimatedStyle(() => {
@@ -74,30 +70,23 @@ export const useLayoutAnimated = ({
                         }),
                         ...(translate && {
                                 transform: Platform.select({
-                                        web: [{translateX: `${translateXInterpolate}rem`}],
-                                        default: [{translateX: translateXInterpolate}]
+                                        default: [{translateX: translateXInterpolate}],
+                                        web: [{translateX: `${translateXInterpolate}rem`}]
                                 })
                         }),
-                        ...Platform.select({
-                                web: {width: `${widthInterpolate}rem`},
-                                default: {width: widthInterpolate}
-                        })
+                        ...Platform.select({default: {width: widthInterpolate}, web: {width: `${widthInterpolate}rem`}})
                 } as ViewStyle
         })
 
-        const height = Platform.select({
-                web: pxToRem()(rawHeight ?? theme.token.spacing.none),
-                default: rawHeight ?? theme.token.spacing.none
-        })
-
+        const height = Platform.select({default: rawHeight, web: pxToRem()(rawHeight)})
         const heightOutputRanges = Platform.select({
-                web: [pxToRem()(theme.token.spacing.none), height],
-                default: [theme.token.spacing.none, height]
+                default: [theme.token.spacing.none, height],
+                web: [pxToRem()(theme.token.spacing.none), height]
         })
 
         const transformYOutputRanges = Platform.select({
-                web: [height, pxToRem()(theme.token.spacing.none)],
-                default: [height, theme.token.spacing.none]
+                default: [height, theme.token.spacing.none],
+                web: [height, pxToRem()(theme.token.spacing.none)]
         })
 
         const collapseYAnimatedStyle = useAnimatedStyle(() => {
@@ -112,13 +101,13 @@ export const useLayoutAnimated = ({
 
                         ...(translate && {
                                 transform: Platform.select({
-                                        web: [{translateY: `${translateYInterpolate}rem`}],
-                                        default: [{translateY: translateYInterpolate}]
+                                        default: [{translateY: translateYInterpolate}],
+                                        web: [{translateY: `${translateYInterpolate}rem`}]
                                 })
                         }),
                         ...Platform.select({
-                                web: {height: `${heightInterpolate}rem`},
-                                default: {height: heightInterpolate}
+                                default: {height: heightInterpolate},
+                                web: {height: `${heightInterpolate}rem`}
                         })
                 } as ViewStyle
         })
