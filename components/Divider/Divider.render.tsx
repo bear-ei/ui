@@ -24,32 +24,32 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
                 return (
                         <View
                                 {...containerProps}
-                                ref={ref}
-                                testID={testID ?? `divider--${id}`}
                                 className={clsx('gap-1', {
                                         ['h-[0.0625rem] w-full']: !subheader && layoutType === LAYOUT.HORIZONTAL,
                                         ['h-6 w-full']: subheader && layoutType === LAYOUT.HORIZONTAL,
                                         ['h-full w-[0.0625rem]']: layoutType === LAYOUT.VERTICAL,
-                                        ['pl-4']: layoutType === LAYOUT.HORIZONTAL && size === SIZE.MEDIUM,
-                                        ['pt-4']: layoutType !== LAYOUT.HORIZONTAL && size === SIZE.MEDIUM,
+                                        ['pb-4 pt-4']: layoutType !== LAYOUT.HORIZONTAL && size === SIZE.SMALL,
                                         ['pl-4 pr-4']: layoutType === LAYOUT.HORIZONTAL && size === SIZE.SMALL,
-                                        ['pb-4 pt-4']: layoutType !== LAYOUT.HORIZONTAL && size === SIZE.SMALL
+                                        ['pl-4']: layoutType === LAYOUT.HORIZONTAL && size === SIZE.MEDIUM,
+                                        ['pt-4']: layoutType !== LAYOUT.HORIZONTAL && size === SIZE.MEDIUM
                                 })}
+                                ref={ref}
+                                testID={testID ?? `divider--${id}`}
                         >
                                 <View
+                                        className='min-h-[0.0625rem] flex-1 self-stretch bg-[--color-outline-variant]'
                                         style={[style]}
                                         testID={`divider__content--${id}`}
-                                        className='min-h-[0.0625rem] flex-1 self-stretch bg-[--color-outline-variant]'
                                 />
 
                                 {subheader && (
                                         <Text
-                                                testID={`divider__subheader--${id}`}
                                                 className={clsx(
                                                         typographyClasses(TYPOGRAPHY.TITLE)(TYPOGRAPHY_SIZE.SMALL)(
                                                                 'color-[--color-on-surface-variant]'
                                                         )
                                                 )}
+                                                testID={`divider__subheader--${id}`}
                                         >
                                                 {subheader}
                                         </Text>
