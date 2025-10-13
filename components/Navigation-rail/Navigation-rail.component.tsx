@@ -1,6 +1,6 @@
+import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import {typedMemo} from '../../utils'
 import {NavigationRailBase} from './Navigation-rail-base.component'
 import type {NavigationRailProps} from './Navigation-rail.interface'
 

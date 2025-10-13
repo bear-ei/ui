@@ -47,5 +47,3 @@ export interface NavigationRailState {
         nextActiveEvent?: () => void
         status: ComponentStatus
 }
-
-export type DestinationProps = Pick<RenderNavigationRailProps, 'destinationPosition'>

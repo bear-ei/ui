@@ -20,11 +20,11 @@ export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigat
         ]
 
         const contentTranslateYOutputRanges = Platform.select({
+                default: [theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall, theme.token.spacing.none],
                 web: [
                         pxToRem()(theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall),
                         pxToRem()(theme.token.spacing.none)
-                ],
-                default: [theme.token.spacing.medium + -1 * theme.token.spacing.extraSmall, theme.token.spacing.none]
+                ]
         })
 
         const labelTextAnimatedStyle = useAnimatedStyle(() => ({
@@ -41,8 +41,8 @@ export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigat
 
                 return {
                         transform: Platform.select({
-                                web: [{translateY: `${translateYInterpolate}rem`}],
-                                default: [{translateY: translateYInterpolate}]
+                                default: [{translateY: translateYInterpolate}],
+                                web: [{translateY: `${translateYInterpolate}rem`}]
                         })
                 } as ViewStyle
         })

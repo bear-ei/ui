@@ -40,31 +40,25 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 
                 const runUpdateData = useMemo(() => updateNavigationRailData(setState), [setState])
                 const runUpdateActiveKey = useMemo(() => updateNavigationRailActiveKey()(setState), [setState])
-                const itemElements = useMemo(
-                        () => (
-                                <RenderNavigationRailItems
-                                        activeKey={activeKey ?? defaultActiveKey}
-                                        animatedType={animatedType}
-                                        data={data}
-                                        id={id}
-                                        onActive={onActive}
-                                        type={type}
-                                />
-                        ),
-                        [activeKey, animatedType, data, defaultActiveKey, id, onActive, type]
+                const itemElements = (
+                        <RenderNavigationRailItems
+                                activeKey={activeKey ?? defaultActiveKey}
+                                animatedType={animatedType}
+                                data={data}
+                                id={id}
+                                onActive={onActive}
+                                type={type}
+                        />
                 )
 
-                const fabElement = useMemo(
-                        () =>
-                                fab ?
-                                        cloneElement<FABProps>(fab, {
-                                                elevated: false,
-                                                size: SIZE.LARGE,
-                                                testID: `navigationRail__fab--${id}`
-                                        })
-                                :       undefined,
-                        [fab, id]
-                )
+                const fabElement =
+                        fab ?
+                                cloneElement<FABProps>(fab, {
+                                        elevated: false,
+                                        size: SIZE.LARGE,
+                                        testID: `navigationRail__fab--${id}`
+                                })
+                        :       undefined
 
                 useEffect(() => {
                         runUpdateActiveKey(rawActiveKey ?? defaultActiveKey)

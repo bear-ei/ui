@@ -1,3 +1,4 @@
+import {PressableType} from '@/components/Touchable'
 import {COMPONENT_STATUS, State} from '@/constants'
 import {
         HandleStateEventChangeOptions,
@@ -11,7 +12,6 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef} from 'react'
 import {Platform} from 'react-native'
 import {useImmer} from 'use-immer'
-import type {PressableType} from '../../Touchable'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
 import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
