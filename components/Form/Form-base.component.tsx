@@ -32,16 +32,13 @@ const FormBaseInner = <T,>(
 
         const runRegisterCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
         const runExtractAndSetFieldKeys = useMemo(() => extractAndSetFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
-        const itemElements = useMemo(
-                () => (
-                        <RenderFormItems
-                                id={id}
-                                items={items}
-                                status={status}
-                                validatorOptions={validatorOptions}
-                        />
-                ),
-                [id, items, status, validatorOptions]
+        const itemElements = (
+                <RenderFormItems
+                        id={id}
+                        items={items}
+                        status={status}
+                        validatorOptions={validatorOptions}
+                />
         )
 
         useEffect(() => {

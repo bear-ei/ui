@@ -27,12 +27,12 @@ const RenderFormInner = <T,>(
         <FormContext.Provider value={form as FormStore<Record<string, unknown>>}>
                 <View
                         {...containerProps}
-                        testID={testID ?? `form--${id}`}
-                        ref={ref}
                         className={clsx('flex', {
                                 ['flex-row gap-4']: layoutType === LAYOUT.HORIZONTAL,
                                 ['flex-col gap-1']: layoutType === LAYOUT.VERTICAL
                         })}
+                        testID={testID ?? `form--${id}`}
+                        ref={ref}
                 >
                         {itemElements}
                 </View>
