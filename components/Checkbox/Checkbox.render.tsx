@@ -57,11 +57,11 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                 accessibilityState={{disabled}}
                                 accessible={true}
                                 className={clsx({
-                                        ['h-14 w-14']: size === SIZE.EXTRA_LARGE,
-                                        ['h-12 w-12']: size === SIZE.LARGE,
                                         ['h-10 w-10']: size === SIZE.MEDIUM,
-                                        ['h-8 w-8']: size === SIZE.SMALL,
-                                        ['h-6 w-6']: size === SIZE.EXTRA_SMALL
+                                        ['h-12 w-12']: size === SIZE.LARGE,
+                                        ['h-14 w-14']: size === SIZE.EXTRA_LARGE,
+                                        ['h-6 w-6']: size === SIZE.EXTRA_SMALL,
+                                        ['h-8 w-8']: size === SIZE.SMALL
                                 })}
                                 tabIndex={-1}
                                 testID={testID ?? `checkbox--${id}`}
