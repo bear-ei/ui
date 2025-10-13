@@ -19,8 +19,3 @@ export interface RenderSheetContentLeadingProps
 export interface RenderSheetContentTrailingProps extends Pick<SheetContentProps, 'headlineTrailing' | 'close' | 'id'> {
         onClose?: () => void
 }
-
-export type SheetContainerProps = Pick<RenderSheetContentProps, 'position' | 'type'>
-export type SheetHeaderProps = {leadingShow?: boolean; trailingShow?: boolean} & Pick<RenderSheetContentProps, 'type'>
-export type SheetViewContentProps = Pick<RenderSheetContentProps, 'type'>
-export type SheetFooterProps = Pick<RenderSheetContentProps, 'type'>

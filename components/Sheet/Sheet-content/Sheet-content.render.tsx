@@ -137,8 +137,8 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                                         'flex flex-row items-center gap-4 self-stretch pb-2 pr-1 pt-2',
                                                         {
                                                                 ['pl-4']: !!leadingElement,
-                                                                ['pr-4']: !!trailingElement,
                                                                 ['pl-6']: !leadingElement,
+                                                                ['pr-4']: !!trailingElement,
                                                                 ['pr-6']: !trailingElement
                                                         }
                                                 )}
