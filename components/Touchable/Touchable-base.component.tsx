@@ -33,18 +33,15 @@ export const TouchableBase = forwardRef<PressableType, TouchableBaseProps>(
                         onStateEventChange
                 })
 
-                const rippleElements = useMemo(
-                        () => (
-                                <RenderTouchableRipples
-                                        centered={centered}
-                                        containerLayout={contentLayout}
-                                        id={id}
-                                        onAnimateFinished={onAnimateFinished}
-                                        rippleSequence={rippleSequence}
-                                        underlayColor={underlayColor}
-                                />
-                        ),
-                        [centered, contentLayout, id, onAnimateFinished, rippleSequence, underlayColor]
+                const rippleElements = (
+                        <RenderTouchableRipples
+                                centered={centered}
+                                containerLayout={contentLayout}
+                                id={id}
+                                onAnimateFinished={onAnimateFinished}
+                                rippleSequence={rippleSequence}
+                                underlayColor={underlayColor}
+                        />
                 )
 
                 useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])

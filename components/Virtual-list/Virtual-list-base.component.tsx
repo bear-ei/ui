@@ -150,45 +150,25 @@ const VirtualListBaseInner = <T,>(
         )
 
         const runUpdateData = useMemo(() => updateVirtualListData(setState), [setState])
-        const itemElements = useMemo(
-                () => (
-                        <RenderVirtualListItem
-                                containerLayout={containerLayout}
-                                data={visibleRangeData as VirtualListData<T>[]}
-                                dependencies={dependencies}
-                                draggable={draggable}
-                                gap={gap}
-                                id={id}
-                                itemSize={itemSize}
-                                layoutType={layoutType}
-                                onClose={onClose}
-                                onDragEnd={onDragEnd}
-                                onDragStart={onDragStart}
-                                onDragUpdate={onDragUpdate}
-                                onLoadEnd={onLoadEnd}
-                                renderItem={renderItem}
-                                scrollOffset={scrollOffset}
-                                shape={shape}
-                        />
-                ),
-                [
-                        containerLayout,
-                        dependencies,
-                        draggable,
-                        gap,
-                        id,
-                        itemSize,
-                        layoutType,
-                        onClose,
-                        onDragEnd,
-                        onDragStart,
-                        onDragUpdate,
-                        onLoadEnd,
-                        renderItem,
-                        scrollOffset,
-                        shape,
-                        visibleRangeData
-                ]
+        const itemElements = (
+                <RenderVirtualListItem
+                        containerLayout={containerLayout}
+                        data={visibleRangeData as VirtualListData<T>[]}
+                        dependencies={dependencies}
+                        draggable={draggable}
+                        gap={gap}
+                        id={id}
+                        itemSize={itemSize}
+                        layoutType={layoutType}
+                        onClose={onClose}
+                        onDragEnd={onDragEnd}
+                        onDragStart={onDragStart}
+                        onDragUpdate={onDragUpdate}
+                        onLoadEnd={onLoadEnd}
+                        renderItem={renderItem}
+                        scrollOffset={scrollOffset}
+                        shape={shape}
+                />
         )
 
         useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as ScrollView, [animatedRef])
