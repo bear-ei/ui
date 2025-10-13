@@ -59,9 +59,9 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                         >
                                 <Pressable
                                         {...touchableInteractionHandlers}
-                                        testID={`search__touchable--${id}`}
-                                        tabIndex={-1}
                                         className='cursor-text outline-none'
+                                        tabIndex={-1}
+                                        testID={`search__touchable--${id}`}
                                 >
                                         <Animated.View
                                                 accessibilityLabel={accessibilityLabel ?? placeholder}
@@ -113,11 +113,11 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                         >
                                                 <View
                                                         className={clsx('flex flex-col items-center justify-center', {
-                                                                ['mr-4 h-10 w-10']: size === SIZE.EXTRA_LARGE,
                                                                 ['mr-[0.875rem] h-8 w-8']: size === SIZE.LARGE,
-                                                                ['mr-3 h-6 w-6']: size === SIZE.MEDIUM,
+                                                                ['mr-1 h-6 w-6']: size === SIZE.EXTRA_SMALL,
                                                                 ['mr-2 h-6 w-6']: size === SIZE.SMALL,
-                                                                ['mr-1 h-6 w-6']: size === SIZE.EXTRA_SMALL
+                                                                ['mr-3 h-6 w-6']: size === SIZE.MEDIUM,
+                                                                ['mr-4 h-10 w-10']: size === SIZE.EXTRA_LARGE
                                                         })}
                                                         testID={`search__leading--${id}`}
                                                 >
