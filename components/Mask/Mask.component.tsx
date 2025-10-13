@@ -1,6 +1,6 @@
+import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import {typedMemo} from '../../utils'
 import {MaskBase} from './Mask-base.component'
 import type {MaskProps} from './Mask.interface'
 
