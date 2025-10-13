@@ -98,7 +98,7 @@ export interface HandleVirtualListLayoutChangeOptions {
 }
 
 export type TriggerVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose' | 'activeKey'>
-export interface closeVirtualListOptions
+export interface CloseVirtualListOptions
         extends TriggerVirtualListCloseOptions,
                 Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layoutType'> {}
 

@@ -7,7 +7,7 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {ListData} from '../List'
 import type {
-        closeVirtualListOptions,
+        CloseVirtualListOptions,
         HandleDragEndOptions,
         HandleDragStartOptions,
         HandleDragUpdateOptions,
@@ -155,7 +155,7 @@ const triggerVirtualListClose =
         }
 
 export const closeVirtualList =
-        ({activeKey, enableAutoSelect, itemSize = 0, layoutType, onClose}: closeVirtualListOptions) =>
+        ({activeKey, enableAutoSelect, itemSize = 0, layoutType, onClose}: CloseVirtualListOptions) =>
         (setState: Updater<VirtualListState>) =>
         (indexKey?: string) => {
                 if (!indexKey) {

@@ -32,18 +32,16 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
                         ref={ref}
                         style={[
                                 style,
-                                {
-                                        ...(underlayColor && {backgroundColor: underlayColor}),
-                                        ...Platform.select({
-                                                web: {
-                                                        height: `${pxToRem()(size)}rem`,
-                                                        left: `${pxToRem()(locationX)}rem`,
-                                                        top: `${pxToRem()(locationY)}rem`,
-                                                        width: `${pxToRem()(size)}rem`
-                                                },
-                                                default: {height: size, left: locationX, top: locationY, width: size}
-                                        })
-                                } as ViewStyle,
+                                Platform.select({
+                                        web: {
+                                                height: `${pxToRem()(size)}rem`,
+                                                left: `${pxToRem()(locationX)}rem`,
+                                                top: `${pxToRem()(locationY)}rem`,
+                                                width: `${pxToRem()(size)}rem`
+                                        },
+                                        default: {height: size, left: locationX, top: locationY, width: size}
+                                }) as ViewStyle,
+                                {...(underlayColor && {backgroundColor: underlayColor})},
                                 containerAnimatedStyle
                         ]}
                         testID={testID ?? `touchableRipple--${id}`}

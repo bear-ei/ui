@@ -1,6 +1,8 @@
 import {COMPONENT_STATUS} from '@/constants'
 import {useAnimatedTiming, useTheme} from '@/hooks'
+import {pxToRem} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
+import {Platform, ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {animateTouchableRipple} from './Touchable-ripple.handler'
 import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
@@ -15,18 +17,28 @@ export const useTouchableRippleAnimated = ({
         const scaleSharedValue = useSharedValue(0)
         const theme = useTheme()
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const containerAnimatedStyle = useAnimatedStyle(() => ({
-                opacity: interpolate(
-                        opacitySharedValue.value,
-                        [0, 1],
-                        [theme.token.opacity.level0, theme.token.opacity.level2]
-                ),
-                transform: [
-                        {translateX: -radius},
-                        {translateY: -radius},
-                        {scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1])}
-                ]
-        }))
+        const containerAnimatedStyle = useAnimatedStyle(
+                () =>
+                        ({
+                                opacity: interpolate(
+                                        opacitySharedValue.value,
+                                        [0, 1],
+                                        [theme.token.opacity.level0, theme.token.opacity.level2]
+                                ),
+                                transform: Platform.select({
+                                        default: [
+                                                {translateX: -radius},
+                                                {translateY: -radius},
+                                                {scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1])}
+                                        ],
+                                        web: [
+                                                {translateX: `${-pxToRem()(radius)}rem`},
+                                                {translateY: `${-pxToRem()(radius)}rem`},
+                                                {scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1])}
+                                        ]
+                                })
+                        }) as ViewStyle
+        )
 
         const runAnimate = useMemo(
                 () =>
