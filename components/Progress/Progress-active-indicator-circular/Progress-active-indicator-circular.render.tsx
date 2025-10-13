@@ -72,14 +72,7 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
                                         <Svg
                                                 fill='none'
                                                 testID={`progressActiveIndicatorCircular__svg--${id}`}
-                                                {...Platform.select({
-                                                        default: {
-                                                                viewBox: `${theme.token.spacing.none} ${theme.token.spacing.none} ${size} ${size}`
-                                                        },
-                                                        web: {
-                                                                viewBox: `${pxToRem()(theme.token.spacing.none)}rem ${pxToRem()(theme.token.spacing.none)}rem ${pxToRem()(size)}rem ${pxToRem()(size)}rem`
-                                                        }
-                                                })}
+                                                viewBox={`${theme.token.spacing.none} ${theme.token.spacing.none} ${size} ${size}`}
                                         >
                                                 {animatedType === PROGRESS_ANIMATED.DETERMINATE && (
                                                         <Circle
@@ -96,18 +89,11 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
                                                         stroke={activeIndicatorColor}
                                                         strokeLinecap='round'
                                                         testID={`progressActiveIndicatorCircular__animatedCircle--${id}`}
-                                                        transform={Platform.select({
-                                                                default: [
-                                                                        {rotate: '180deg'},
-                                                                        {rotateX: `${cx}`},
-                                                                        {rotateY: `${cy}`}
-                                                                ],
-                                                                web: [
-                                                                        {rotate: '180deg'},
-                                                                        {rotateX: `${pxToRem()(cx)}rem`},
-                                                                        {rotateY: `${pxToRem()(cy)}rem`}
-                                                                ]
-                                                        })}
+                                                        transform={[
+                                                                {rotate: '180deg'},
+                                                                {rotateX: `${cx}deg`},
+                                                                {rotateY: `${cy}deg`}
+                                                        ]}
                                                 />
                                         </Svg>
                                 </Animated.View>
