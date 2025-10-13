@@ -97,22 +97,3 @@ export interface CreateTextInputFocusedSharedValues {
 
 export type TextInputStateAnimated = Partial<Record<State, () => void>>
 export type AnimateTextInputNonErrorStateTimingOptions = Pick<UseTextInputAnimatedOptions, 'disabled' | 'error'>
-export type TextInputHeaderProps = Pick<RenderTextInputProps, 'type'> & {
-        leadingShow: boolean
-        trailingShow: boolean
-}
-
-export interface TextInputControlProps {
-        multiline?: boolean
-        size?: number
-}
-
-export interface TextInputLabelProps {
-        leadingShow: boolean
-}
-
-export interface TextInputMainProps {
-        contentShow?: boolean
-}
-
-export type TextInputTouchableHeaderProps = Record<string, unknown>

@@ -110,7 +110,6 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                 }
 
                 const plainPosition = position[supportingPosition]()
-
                 const mainElement = (
                         <View
                                 {...(type === TOOLTIP_TYPE.PLAIN && {onLayout})}
@@ -166,41 +165,48 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                 ['fixed']: Platform.OS === 'web'
                                         })}
                                         style={[
-                                                Platform.select({
-                                                        web: {
-                                                                height: pxToRem()(height),
-                                                                width: pxToRem()(width),
-                                                                ...(type === TOOLTIP_TYPE.PLAIN ?
-                                                                        {
-                                                                                left: pxToRem()(plainPosition.left),
-                                                                                top: pxToRem()(plainPosition.top)
-                                                                        }
-                                                                :       {
-                                                                                left: pxToRem()(
-                                                                                        menuPosition.left ??
+                                                {
+                                                        ...Platform.select({
+                                                                web: {
+                                                                        height: `${pxToRem()(height)}rem`,
+                                                                        width: `${pxToRem()(width)}rem`,
+                                                                        ...(type === TOOLTIP_TYPE.PLAIN ?
+                                                                                {
+                                                                                        left: `${pxToRem()(plainPosition.left)}rem`,
+                                                                                        top: `${pxToRem()(plainPosition.top)}rem`
+                                                                                }
+                                                                        :       {
+                                                                                        left: `${pxToRem()(
+                                                                                                menuPosition.left ??
+                                                                                                        theme.token
+                                                                                                                .spacing
+                                                                                                                .none
+                                                                                        )}rem`,
+                                                                                        top: `${pxToRem()(
+                                                                                                menuPosition.top ??
+                                                                                                        theme.token
+                                                                                                                .spacing
+                                                                                                                .none
+                                                                                        )}rem`
+                                                                                })
+                                                                },
+                                                                default: {
+                                                                        height,
+                                                                        width,
+                                                                        ...(type === TOOLTIP_TYPE.PLAIN ?
+                                                                                plainPosition
+                                                                        :       {
+                                                                                        left:
+                                                                                                menuPosition.left ??
+                                                                                                theme.token.spacing
+                                                                                                        .none,
+                                                                                        top:
+                                                                                                menuPosition.top ??
                                                                                                 theme.token.spacing.none
-                                                                                ),
-                                                                                top: pxToRem()(
-                                                                                        menuPosition.top ??
-                                                                                                theme.token.spacing.none
-                                                                                )
-                                                                        })
-                                                        },
-                                                        default: {
-                                                                height,
-                                                                width,
-                                                                ...(type === TOOLTIP_TYPE.PLAIN ?
-                                                                        plainPosition
-                                                                :       {
-                                                                                left:
-                                                                                        menuPosition.left ??
-                                                                                        theme.token.spacing.none,
-                                                                                top:
-                                                                                        menuPosition.top ??
-                                                                                        theme.token.spacing.none
-                                                                        })
-                                                        }
-                                                }) as ViewStyle,
+                                                                                })
+                                                                }
+                                                        })
+                                                } as ViewStyle,
                                                 contentAnimatedStyle
                                         ]}
                                         testID={testID ?? `tooltipSupporting__supporting--${id}`}

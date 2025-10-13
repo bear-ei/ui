@@ -126,7 +126,6 @@ export const createAnimateTextInputEnabledState =
                 activeIndicatorScaleYSharedValue,
                 colorSharedValue,
                 inputColorSharedValue,
-
                 supportingTextSharedValue
         }: CreateTextInputEnabledSharedValues) =>
         (error?: boolean) => {

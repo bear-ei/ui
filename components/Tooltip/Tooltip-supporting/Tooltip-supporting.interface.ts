@@ -1,6 +1,11 @@
 import {ComponentStatus, ShapeType, TriggerEvent} from '@/constants'
 import {Theme} from '@/contexts'
-import {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
+import {
+        AnimateSharedValueTo,
+        HandleStateEventChangeOptions,
+        InteractionHandlers,
+        UseHandleStateEventOptions
+} from '@/hooks'
 import type {JSX, RefAttributes} from 'react'
 import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
@@ -10,7 +15,7 @@ import type {TooltipType} from '../Tooltip.interface'
 import type {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 
 export type SupportingPosition = (typeof SUPPORTING_POSITION)[keyof typeof SUPPORTING_POSITION]
-export interface TooltipSupportingProps extends ViewProps, RefAttributes<View>, InteractionHandlers {
+export interface TooltipSupportingProps extends ViewProps, RefAttributes<View>, UseHandleStateEventOptions {
         containerLayout?: LayoutRectangle
         elevation?: ElevationLevel
         onClosed?: () => void
@@ -92,17 +97,6 @@ export interface HandleTooltipSupportingPositionWindowOptions {
         windowWidth: number
 }
 
-export interface TooltipSupportingContentProps
-        extends Pick<
-                RenderTooltipSupportingProps,
-                'type' | 'supportingPosition' | 'width' | 'height' | 'containerLayout'
-        > {
-        menuPosition: {top?: number; left?: number}
-        windowHeight?: number
-        windowWidth?: number
-}
-
-export type TooltipSupportingMainProps = Pick<RenderTooltipSupportingProps, 'type' | 'supportingPosition'>
 export interface GetSafeMenuPositionOptions {
         height: number
         margin?: number

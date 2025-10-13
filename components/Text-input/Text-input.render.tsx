@@ -34,13 +34,13 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                         multiline,
                         onHeaderFocus,
                         onSupportingTextVisibility,
+                        placeholder = 'Placeholder',
                         size = SIZE.MEDIUM,
                         supportingText,
                         supportingTextAnimatedStyle,
                         supportingTextVisible,
                         testID,
                         trailingElement,
-                        placeholder = 'Placeholder',
                         ...inputProps
                 },
                 ref
@@ -186,12 +186,12 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                         )}
 
                                                         <View
-                                                                testID={`textInput__main--${id}`}
                                                                 className={clsx('z-10 flex flex-1', {
                                                                         ['flex-row flex-wrap gap-x-1 gap-y-2']:
                                                                                 !!content,
                                                                         ['flex-col justify-end']: !content
                                                                 })}
+                                                                testID={`textInput__main--${id}`}
                                                         >
                                                                 {content}
                                                                 <View
@@ -218,17 +218,17 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                 >
                                                                         <AnimatedTextInput
                                                                                 {...inputProps}
-                                                                                editable={
-                                                                                        typeof disabled === 'boolean' ?
-                                                                                                !disabled
-                                                                                        :       editable
-                                                                                }
                                                                                 className={clsx(
                                                                                         'flex-1 self-stretch pb-0 pl-0 pr-0 pt-0 text-left outline-none',
                                                                                         typographyClasses(
                                                                                                 TYPOGRAPHY.BODY
                                                                                         )(size)()
                                                                                 )}
+                                                                                editable={
+                                                                                        typeof disabled === 'boolean' ?
+                                                                                                !disabled
+                                                                                        :       editable
+                                                                                }
                                                                                 multiline={multiline}
                                                                                 onBlur={onBlur}
                                                                                 onFocus={onFocus}
@@ -291,11 +291,11 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                         {typeof supportingText === 'string' && (
                                                 <LayoutAnimated
                                                         className={clsx('mb-1', {
-                                                                ['pl-6 pr-6']: size === SIZE.EXTRA_LARGE,
                                                                 ['pl-2 pr-2']: size === SIZE.EXTRA_SMALL,
+                                                                ['pl-3 pr-3']: size === SIZE.SMALL,
                                                                 ['pl-4 pr-4']: size === SIZE.MEDIUM,
                                                                 ['pl-5 pr-5']: size === SIZE.LARGE,
-                                                                ['pl-3 pr-3']: size === SIZE.SMALL
+                                                                ['pl-6 pr-6']: size === SIZE.EXTRA_LARGE
                                                         })}
                                                         onVisibility={onSupportingTextVisibility}
                                                         testID={`textInput__supportingLayoutAnimated--${id}`}
