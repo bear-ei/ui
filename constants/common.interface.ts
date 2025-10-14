@@ -26,3 +26,5 @@ export interface CommonProps {
         size?: Size
         shape?: ShapeType
 }
+
+export type ContentSize = {width?: number; height?: number}
