@@ -1,4 +1,4 @@
-import {COMPONENT_STATUS, State, STATE} from '@/constants'
+import {COMPONENT_STATUS, ContentSize, State, STATE} from '@/constants'
 import {HandleStateEventChangeOptions, StateEvent, useClearComponentEvent, useInteractionStateEvent} from '@/hooks'
 import {debounce} from '@/utils'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
@@ -16,7 +16,7 @@ import {
         updateTextInputValue,
         updateTextInputValueWithCallback
 } from './Text-input.handler'
-import type {ContentSize, TextInputBaseProps, TextInputState} from './Text-input.interface'
+import type {TextInputBaseProps, TextInputState} from './Text-input.interface'
 import {RenderTextInput} from './Text-input.render'
 import {useTextInputAnimated} from './use-text-input-animated.hook'
 

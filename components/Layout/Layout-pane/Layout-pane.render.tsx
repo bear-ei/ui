@@ -1,5 +1,6 @@
 import {LayoutAnimated} from '@/components/Layout-animated'
-import {DURATION, EASING, LAYOUT} from '@/constants'
+import {LAYOUT} from '@/constants'
+import {DURATION, EASING} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import type {RenderLayoutPaneProps} from './Layout-pane.interface'

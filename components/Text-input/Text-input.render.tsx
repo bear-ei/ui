@@ -1,4 +1,4 @@
-import {AnimatedTextInput, ICON_BUTTON_SIZE, shapeClasses, typographyClasses} from '@/constants'
+import {ICON_BUTTON_SIZE, shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
@@ -10,6 +10,8 @@ import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {LayoutAnimated} from '../Layout-animated'
 import {Underlay} from '../Underlay'
 import type {RenderTextInputProps} from './Text-input.interface'
+
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
 
 /**
  * TODO: Support Multiline

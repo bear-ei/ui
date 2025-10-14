@@ -3,12 +3,13 @@ import {visualizer} from 'rollup-plugin-visualizer'
 import {defineConfig} from 'vite'
 import dts from 'vite-plugin-dts'
 import {rnw} from 'vite-plugin-rnw'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 const externals = ['react-dom', 'react-native-reanimated', 'react-native', 'react']
 const config = defineConfig({
         build: {
                 lib: {
-                        entry: resolve(__dirname, './src/index.ts'),
+                        entry: resolve(__dirname, './index.ts'),
                         fileName: 'index.mjs',
                         name: 'BeareiUI',
                         formats: ['es']
@@ -19,33 +20,23 @@ const config = defineConfig({
                                 chunkFileNames: 'chunks/[name].[hash].mjs',
                                 entryFileNames: '[name].mjs',
                                 preserveModules: true,
-                                preserveModulesRoot: resolve(__dirname, 'src')
+                                preserveModulesRoot: resolve(__dirname, '.')
                         }
                 },
                 commonjsOptions: {transformMixedEsModules: true}
         },
         plugins: [
+                tsconfigPaths(),
                 dts({
                         copyDtsFiles: true,
-                        entryRoot: resolve(__dirname, 'src'),
+                        entryRoot: resolve(__dirname, '.'),
+                        include: ['components', 'constants', 'contexts', 'hooks', 'index.ts', 'global.css', 'utils'],
                         exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx', '**/*.test.tsx', '**/*.test.ts'],
                         insertTypesEntry: true,
                         outDir: resolve(__dirname, 'dist'),
-                        tsconfigPath: './tsconfig.app.json'
+                        tsconfigPath: './tsconfig.json'
                 }),
-                rnw({
-                        jsxRuntime: 'automatic',
-                        jsxImportSource: 'nativewind',
-                        babel: {
-                                presets: ['nativewind/babel'],
-                                plugins: [
-                                        ['@babel/plugin-proposal-decorators', {legacy: true}],
-                                        ['@babel/plugin-proposal-class-properties', {loose: true}],
-                                        '@babel/plugin-proposal-export-namespace-from',
-                                        'react-native-worklets/plugin'
-                                ]
-                        }
-                }),
+                rnw(),
                 visualizer({open: false})
         ]
 })

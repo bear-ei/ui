@@ -1,5 +1,5 @@
 import {LayoutAnimated} from '@/components/Layout-animated'
-import {DURATION, EASING} from '@/constants'
+import {DURATION, EASING} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import type {RenderLayoutNavigationProps} from './Layout-navigation.interface'
