@@ -1,6 +1,6 @@
-import {EVENT_NAME, EventName, shapeClasses, typographyClasses} from '@/constants'
+import {EVENT_NAME, EventName} from '@/constants'
 import {useTheme} from '@/hooks'
-import {platformValue} from '@/utils'
+import {platformValue, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'

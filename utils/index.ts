@@ -1,4 +1,5 @@
 export * from './array-equal'
+export * from './classes'
 export * from './debounce'
 export * from './icon-size'
 export * from './name-path'

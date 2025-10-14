@@ -1,6 +1,5 @@
-import {shapeClasses, typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {platformValue, processIconSize} from '@/utils'
+import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'

@@ -1,6 +1,6 @@
-import {ICON_BUTTON_SIZE, shapeClasses, typographyClasses} from '@/constants'
+import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
-import {platformValue, processIconSize} from '@/utils'
+import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'

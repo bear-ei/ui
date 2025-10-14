@@ -1,4 +1,4 @@
-import {shapeClasses} from '@/constants'
+import {shapeClasses} from '@/utils'
 import {clsx} from 'clsx'
 import {forwardRef, type FC} from 'react'
 import {Pressable, View} from 'react-native'

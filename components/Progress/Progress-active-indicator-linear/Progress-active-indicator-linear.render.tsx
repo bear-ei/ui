@@ -1,4 +1,4 @@
-import {shapeClasses} from '@/constants'
+import {shapeClasses} from '@/utils'
 import {SHAPE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'

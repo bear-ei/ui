@@ -1,6 +1,5 @@
-import {shapeClasses} from '@/constants'
 import {useTheme} from '@/hooks'
-import {platformValue, processIconSize} from '@/utils'
+import {platformValue, processIconSize, shapeClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
 import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'

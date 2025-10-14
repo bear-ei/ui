@@ -1,4 +1,4 @@
-import {shapeClasses, typographyClasses} from '@/constants'
+import {shapeClasses, typographyClasses} from '@/utils'
 import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
