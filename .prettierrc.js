@@ -9,6 +9,6 @@ module.exports = {
         singleQuote: true,
         tabWidth: 8,
         trailingComma: 'none',
-        // plugins: [require.resolve('prettier-plugin-tailwindcss')],
+        plugins: [require.resolve('prettier-plugin-tailwindcss')],
         tailwindAttributes: ['className']
 }

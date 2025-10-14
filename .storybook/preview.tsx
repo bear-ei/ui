@@ -1,4 +1,4 @@
-import type {Preview} from '@storybook/react'
+import type {Preview} from '@storybook/react-native-web-vite'
 import {View} from 'react-native'
 import {ThemeProvider} from '../contexts'
 import '../global.css'
@@ -20,7 +20,7 @@ const preview: Preview = {
                 controls: {
                         matchers: {
                                 color: /(background|color)$/i,
-                                date: /Date$/
+                                date: /Date$/i
                         }
                 }
         }

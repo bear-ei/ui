@@ -1,5 +1,5 @@
 import {SHAPE, SIZE} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-design-icons'
+import MaterialIcons from '@react-native-vector-icons/material-icons'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {IconButton} from '../Icon-button'
 import {List} from './List.component'

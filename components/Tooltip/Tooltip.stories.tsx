@@ -1,4 +1,4 @@
-import MaterialIcons from '@react-native-vector-icons/material-design-icons'
+import MaterialIcons from '@react-native-vector-icons/material-icons'
 import type {Meta} from '@storybook/react-native-web-vite'
 import {View} from 'react-native'
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'

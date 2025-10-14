@@ -1,4 +1,4 @@
-import MaterialIcons from '@react-native-vector-icons/material-design-icons'
+import MaterialIcons from '@react-native-vector-icons/material-icons'
 import type {Meta} from '@storybook/react-native-web-vite'
 import {useMemo, useState} from 'react'
 import {View} from 'react-native'

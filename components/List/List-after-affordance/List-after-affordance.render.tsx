@@ -2,10 +2,10 @@ import {LayoutAnimated} from '@/components/Layout-animated'
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-design-icons'
+import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
-import {TextStyle, type View} from 'react-native'
+import {TextStyle, ViewStyle, type View} from 'react-native'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 
@@ -50,6 +50,8 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         />
                 )
 
+                const layoutAnimatedStyle = {flexDirection: 'row'} as ViewStyle
+
                 return (
                         <LayoutAnimated
                                 {...containerProps}
@@ -60,7 +62,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                                 entry={{duration: 0}}
                                 lazy={true}
                                 ref={ref}
-                                style={{flexDirection: 'row'}}
+                                style={layoutAnimatedStyle}
                                 testID={testID ?? `listAfterAffordance--${id}`}
                                 visible={visible}
                         >

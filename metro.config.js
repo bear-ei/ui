@@ -25,7 +25,7 @@ const config = {
 const finalConfig = mergeConfig(defaultConfig, config)
 const withStorybookConfig = withStorybook(finalConfig, {
         enabled: true,
-        configPath: path.resolve(__dirname, './.storybook')
+        configPath: path.resolve(__dirname, './.rnstorybook')
 })
 
 module.exports = withNativeWind(withStorybookConfig, {input: './global.css'})

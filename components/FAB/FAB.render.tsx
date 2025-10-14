@@ -61,7 +61,6 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                         labelTextAnimatedStyle,
                         size = SIZE.MEDIUM,
                         testID,
-                        type,
                         underlayColor,
                         ...touchableProps
                 }: RenderFABProps,

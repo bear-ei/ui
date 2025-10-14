@@ -3,6 +3,7 @@ import {visualizer} from 'rollup-plugin-visualizer'
 import {defineConfig} from 'vite'
 import dts from 'vite-plugin-dts'
 import {rnw} from 'vite-plugin-rnw'
+import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 const externals = ['react-dom', 'react-native-reanimated', 'react-native', 'react']
@@ -37,6 +38,10 @@ const config = defineConfig({
                         tsconfigPath: './tsconfig.json'
                 }),
                 rnw(),
+                svgr({
+                        include: '**/*.svg',
+                        svgrOptions: {exportType: 'default', ref: true, svgo: false, titleProp: true}
+                }),
                 visualizer({open: false})
         ]
 })

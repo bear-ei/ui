@@ -21,7 +21,6 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                         size = SIZE.SMALL,
                         testID,
                         theme,
-                        type,
                         ...menuProps
                 },
                 ref

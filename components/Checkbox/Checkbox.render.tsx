@@ -1,7 +1,7 @@
 import {useTheme} from '@/hooks'
 import {processIconSize} from '@/utils'
 import {DURATION, hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-design-icons'
+import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'

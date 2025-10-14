@@ -7,7 +7,7 @@ import {EVENT_NAME, ICON_BUTTON_SIZE, LAYOUT, shapeClasses, TRIGGER_EVENT, typog
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize} from '@/utils'
 import {DURATION, EASING, Size, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-design-icons'
+import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
