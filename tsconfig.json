@@ -1,6 +1,9 @@
 {
         "extends": "@react-native/typescript-config",
         "compilerOptions": {
+                "emitDecoratorMetadata": true,
+                "experimentalDecorators": true,
+                "strictPropertyInitialization": false,
                 "paths": {
                         "@/*": ["./*"]
                 },
