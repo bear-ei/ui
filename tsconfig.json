@@ -1,14 +1,11 @@
 {
-        "extends": "expo/tsconfig.base",
+        "extends": "@react-native/typescript-config",
         "compilerOptions": {
-                "strict": true,
-                "emitDecoratorMetadata": true,
-                "experimentalDecorators": true,
-                "strictPropertyInitialization": false,
                 "paths": {
                         "@/*": ["./*"]
                 },
                 "types": ["nativewind/types"]
         },
-        "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "nativewind-env.d.ts"]
+        "include": ["**/*.ts", "**/*.tsx"],
+        "exclude": ["**/node_modules", "**/Pods"]
 }
