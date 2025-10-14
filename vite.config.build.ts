@@ -1,4 +1,3 @@
-import react from '@vitejs/plugin-react'
 import {resolve} from 'node:path'
 import {visualizer} from 'rollup-plugin-visualizer'
 import {defineConfig} from 'vite'
@@ -11,7 +10,7 @@ const externals = ['react-dom', 'react-native-reanimated', 'react-native', 'reac
 const config = defineConfig({
         build: {
                 lib: {
-                        entry: resolve(__dirname, './index.ts'),
+                        entry: resolve(__dirname, './src/index.ts'),
                         fileName: 'index.mjs',
                         name: 'BeareiUI',
                         formats: ['es']
@@ -30,11 +29,9 @@ const config = defineConfig({
         plugins: [
                 tsconfigPaths(),
                 rnw(),
-                react(),
                 dts({
                         copyDtsFiles: true,
                         entryRoot: resolve(__dirname, './src'),
-                        include: ['components', 'constants', 'contexts', 'hooks', 'index.ts', 'global.css', 'utils'],
                         exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx', '**/*.test.tsx', '**/*.test.ts'],
                         insertTypesEntry: true,
                         outDir: resolve(__dirname, 'dist'),

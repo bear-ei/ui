@@ -1,4 +1,5 @@
-import {LAYOUT, typographyClasses} from '@/constants'
+import {LAYOUT} from '@/constants'
+import {typographyClasses} from '@/utils'
 import {SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'

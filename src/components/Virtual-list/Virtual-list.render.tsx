@@ -1,5 +1,5 @@
-import {COMPONENT_STATUS, LAYOUT, typographyClasses} from '@/constants'
-import {platformValue} from '@/utils'
+import {COMPONENT_STATUS, LAYOUT} from '@/constants'
+import {platformValue, typographyClasses} from '@/utils'
 import {TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {cloneElement, forwardRef, type ForwardedRef} from 'react'
 import {ScrollView, Text, View, ViewStyle} from 'react-native'

@@ -26,6 +26,8 @@
         "files": [
                 "dist",
                 "src",
+                "!dist/_virtual",
+                "!dist/node_modules",
                 "!**/__snapshots__",
                 "!**/*.stories.*",
                 "!**/test.*"
@@ -76,7 +78,6 @@
                 "@types/react-dom": "^19",
                 "@types/react-native-web": "^0",
                 "@types/react-test-renderer": "^19.1.0",
-                "@vitejs/plugin-react": "^5.0.4",
                 "autoprefixer": "^10.4.21",
                 "babel-loader": "^8.4.1",
                 "eslint": "^8.19.0",
@@ -112,7 +113,7 @@
                 "clean": "yarn shx rm -rf dist",
                 "format": "prettier --write .",
                 "ios": "react-native run-ios",
-                "lint": "eslint .",
+                "lint": "eslint ./src",
                 "publish": "yarn build && yarn npm publish --access public",
                 "start": "react-native start",
                 "storybook-generate": "sb-rn-get-stories",

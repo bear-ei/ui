@@ -1,7 +1,7 @@
 import {PressableType, Touchable} from '@/components/Touchable'
 import {Underlay} from '@/components/Underlay'
-import {typographyClasses} from '@/constants'
 import {useTheme} from '@/hooks'
+import {typographyClasses} from '@/utils'
 import {TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
