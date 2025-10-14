@@ -5,9 +5,9 @@ import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import type {FABProps} from '../FAB'
-import type {NavigationRailBaseProps, NavigationRailState} from '././Navigation-rail.interface'
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
 import {updateNavigationRailActiveKey, updateNavigationRailData} from './Navigation-rail.handler'
+import type {NavigationRailBaseProps, NavigationRailState} from './Navigation-rail.interface'
 import {RenderNavigationRail, RenderNavigationRailItems} from './Navigation-rail.render'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
