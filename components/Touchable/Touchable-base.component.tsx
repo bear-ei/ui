@@ -1,0 +1,61 @@
+import {LayoutRectangle, State} from '@/constants'
+import {HandleStateEventChangeOptions, StateEvent, useInteractionStateEvent} from '@/hooks'
+import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {useImmer} from 'use-immer'
+import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handler'
+import type {PressableType, TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
+import {RenderTouchable, RenderTouchableRipples} from './Touchable.render'
+
+export const TouchableBase = forwardRef<PressableType, TouchableBaseProps>(
+        ({centered, disabled, enableTouchableRipple = true, underlayColor, ...renderTouchableProps}, ref) => {
+                const [{rippleSequence, contentLayout}, setState] = useImmer<TouchableState>({
+                        contentLayout: {} as LayoutRectangle,
+                        rippleSequence: {} as TouchableRippleSequence
+                })
+
+                const id = useId()
+                const pressableRef = useRef<PressableType>(null)
+                const onAnimateFinished = useMemo(() => deleteTouchableRippleByIndex(setState), [setState])
+                const onStateEventChange = useCallback(
+                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                                handleTouchableStateChange({
+                                        ...options,
+                                        enableTouchableRipple,
+                                        ref: pressableRef,
+                                        state
+                                })(setState)(event),
+                        [enableTouchableRipple, setState]
+                )
+
+                const interactionHandlers = useInteractionStateEvent({
+                        ...renderTouchableProps,
+                        disabled,
+                        onStateEventChange
+                })
+
+                const rippleElements = (
+                        <RenderTouchableRipples
+                                centered={centered}
+                                containerLayout={contentLayout}
+                                id={id}
+                                onAnimateFinished={onAnimateFinished}
+                                rippleSequence={rippleSequence}
+                                underlayColor={underlayColor}
+                        />
+                )
+
+                useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
+
+                return (
+                        <RenderTouchable
+                                {...renderTouchableProps}
+                                id={id}
+                                interactionHandlers={interactionHandlers}
+                                ref={pressableRef}
+                                rippleElements={rippleElements}
+                        />
+                )
+        }
+)
+
+TouchableBase.displayName = 'TouchableBase'
