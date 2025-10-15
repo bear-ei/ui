@@ -12,8 +12,8 @@ const config = defineConfig({
                 lib: {
                         entry: resolve(__dirname, './src/index.ts'),
                         fileName: 'index.mjs',
-                        name: 'BeareiUI',
-                        formats: ['es']
+                        formats: ['es'],
+                        name: 'BeareiUI'
                 },
                 rollupOptions: {
                         external: id => externals.includes(id) || externals.some(pkg => id.startsWith(pkg + '/')),
@@ -28,7 +28,19 @@ const config = defineConfig({
         },
         plugins: [
                 tsconfigPaths(),
-                rnw(),
+                rnw({
+                        jsxRuntime: 'automatic',
+                        jsxImportSource: 'nativewind',
+                        babel: {
+                                presets: ['nativewind/babel'],
+                                plugins: [
+                                        ['@babel/plugin-proposal-decorators', {legacy: true}],
+                                        ['@babel/plugin-proposal-class-properties', {loose: true}],
+                                        '@babel/plugin-proposal-export-namespace-from',
+                                        'react-native-worklets/plugin'
+                                ]
+                        }
+                }),
                 dts({
                         copyDtsFiles: true,
                         entryRoot: resolve(__dirname, './src'),

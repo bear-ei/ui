@@ -8,13 +8,13 @@ import '@storybook/addon-ondevice-controls/register'
 const normalizedStories = [
         {
                 titlePrefix: '',
-                directory: './src/components',
+                directory: './src',
                 files: '**/*.stories.?(ts|tsx|js|jsx)',
                 importPathMatcher:
                         /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
                 // @ts-ignore
                 req: require.context(
-                        '../src/components',
+                        '../src',
                         true,
                         /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/
                 )
