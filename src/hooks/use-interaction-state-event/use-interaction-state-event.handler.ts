@@ -1,4 +1,4 @@
-import {EVENT_NAME, STATE, State} from '@/constants'
+import {EVENT_NAME, STATE, type State} from '@/constants'
 import type {BlurEvent, FocusEvent, GestureResponderEvent, LayoutChangeEvent, MouseEvent} from 'react-native'
 import type {
         HandleStateEventChangeOptions,

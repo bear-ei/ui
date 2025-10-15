@@ -1,5 +1,4 @@
 import {useClearComponentEvent} from '@/hooks'
-import {nanoid} from 'nanoid'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
@@ -33,7 +32,7 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 
                 useClearComponentEvent(setState)
 
-                const emitId = useMemo(() => nanoid(), [])
+                const emitId = useMemo(() => `${Date.now()}`, [])
                 const id = useId()
                 const onBack = useMemo(
                         () => updateSheetBackWithEvent({onBack: rawOnBack, disabledClose, type})(setState),

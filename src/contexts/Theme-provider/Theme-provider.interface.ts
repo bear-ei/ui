@@ -4,6 +4,7 @@ import type {ReactNode} from 'react'
 export interface ThemeProviderProps {
         children?: ReactNode
         story?: boolean
+        token?: Token
 }
 
 export interface Theme {

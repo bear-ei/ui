@@ -6,7 +6,25 @@ import {rnw} from 'vite-plugin-rnw'
 import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
-const externals = ['react-dom', 'react-native-reanimated', 'react-native', 'react']
+const externals = [
+        '@bearei/theme-token',
+        '@react-native-vector-icons/material-icons',
+        'class-validator',
+        'clsx',
+        'immer',
+        'mitt',
+        'nativewind',
+        'react-dom',
+        'react-native-css-interop',
+        'react-native-gesture-handler',
+        'react-native-reanimated',
+        'react-native-svg',
+        'react-native-worklets',
+        'react-native',
+        'react',
+        'use-immer'
+]
+
 const config = defineConfig({
         build: {
                 lib: {

@@ -1,4 +1,4 @@
-import {Token} from '@bearei/theme-token'
+import type {Token} from '@bearei/theme-token'
 import {vars} from 'nativewind'
 
 export const processCssVariables = (token: Token) => {

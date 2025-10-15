@@ -23,13 +23,15 @@ export const ThemeContext = createContext<ThemeContextOptions>({
         theme: {colorScheme: 'light', token: {} as Token}
 })
 
-export const ThemeProvider: FC<ThemeProviderProps> = ({children}) => {
+export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken}) => {
         const {colorScheme = 'light'} = useColorScheme()
         const id = useId()
-        const token = createToken({
-                contrast: CONTRAST.STANDARD,
-                scheme: colorScheme === 'light' ? SCHEME.LIGHT : SCHEME.DARK
-        })(PALETTE.NAVY)
+        const token =
+                rawToken ??
+                createToken({
+                        contrast: CONTRAST.STANDARD,
+                        scheme: colorScheme === 'light' ? SCHEME.LIGHT : SCHEME.DARK
+                })(PALETTE.NAVY)
 
         const theme = useMemo(() => ({theme: {colorScheme, token}}), [colorScheme, token])
         const variables = processCssVariables(token)

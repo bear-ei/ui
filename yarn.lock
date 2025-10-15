@@ -1609,6 +1609,13 @@ __metadata:
     vite-plugin-rnw: "npm:^0.0.7"
     vite-plugin-svgr: "npm:^4.5.0"
     vite-tsconfig-paths: "npm:^5.1.4"
+  peerDependencies:
+    react: ^19.0.0
+    react-dom: ^19.0.0
+    react-native: ^0.80.0
+    react-native-reanimated: ^4.0.0
+    react-native-svg: ^15.14.0
+    react-native-worklets: ^0.6.0
   languageName: unknown
   linkType: soft
 
