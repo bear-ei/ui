@@ -1,5 +1,5 @@
-import {CommonProps, ComponentStatus, ContentSize, EventName, State} from '@/constants'
-import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
+import type {CommonProps, ComponentStatus, ContentSize, EventName, State} from '@/constants'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes, RefObject} from 'react'
 import type {PressableProps, TextInputProps as RNTextInputProps, TextInput, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'

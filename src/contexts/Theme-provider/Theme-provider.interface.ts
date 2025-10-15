@@ -1,4 +1,4 @@
-import {Token} from '@bearei/theme-token'
+import type {Token} from '@bearei/theme-token'
 import type {ReactNode} from 'react'
 
 export interface ThemeProviderProps {

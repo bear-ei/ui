@@ -1,4 +1,4 @@
-import {CONTRAST, createToken, PALETTE, SCHEME, Token} from '@bearei/theme-token'
+import {CONTRAST, createToken, PALETTE, SCHEME, type Token} from '@bearei/theme-token'
 import {cssInterop, useColorScheme} from 'nativewind'
 import {createContext, useId, useMemo, type FC} from 'react'
 import {TextInput, View} from 'react-native'
@@ -7,7 +7,9 @@ import Animated from 'react-native-reanimated'
 import {ModalProvider} from '../Modal-provider'
 import {processCssVariables} from './Theme-provider.handler'
 import type {ThemeContextOptions, ThemeProviderProps} from './Theme-provider.interface'
+
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
+
 /**
  * FIXME:
  *

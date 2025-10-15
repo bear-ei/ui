@@ -1,4 +1,4 @@
-import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {View} from 'react-native'
 import type {LayoutAnimatedProps} from '../Layout-animated'
 import type {TouchableProps} from '../Touchable'

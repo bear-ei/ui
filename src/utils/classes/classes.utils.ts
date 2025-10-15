@@ -1,13 +1,13 @@
-import {ShapeType, TypographyType} from '@/constants'
+import type {ShapeType, TypographyType} from '@/constants'
 import {
         createShape,
         createTypography,
         SHAPE,
         SIZE,
-        Size,
+        type Size,
         TYPOGRAPHY,
         TYPOGRAPHY_SIZE,
-        TypographySize
+        type TypographySize
 } from '@bearei/theme-token'
 import {clsx} from 'clsx'
 

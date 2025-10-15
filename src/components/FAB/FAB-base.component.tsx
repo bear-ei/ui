@@ -1,5 +1,5 @@
-import {COMPONENT_STATUS, State} from '@/constants'
-import {HandleStateEventChangeOptions, StateEvent, useInteractionStateEvent, useTheme} from '@/hooks'
+import {COMPONENT_STATUS, type State} from '@/constants'
+import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent, useTheme} from '@/hooks'
 import {SIZE} from '@bearei/theme-token'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'

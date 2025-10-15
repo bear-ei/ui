@@ -1,5 +1,5 @@
-import {LayoutRectangle, State} from '@/constants'
-import {HandleStateEventChangeOptions, StateEvent, useInteractionStateEvent} from '@/hooks'
+import type {LayoutRectangle, State} from '@/constants'
+import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent} from '@/hooks'
 import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {useImmer} from 'use-immer'
 import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handler'

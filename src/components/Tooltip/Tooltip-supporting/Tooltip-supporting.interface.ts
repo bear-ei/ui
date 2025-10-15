@@ -1,7 +1,7 @@
-import {ElevationLevel} from '@/components/Elevation'
-import {ComponentStatus, ShapeType, TriggerEvent} from '@/constants'
-import {Theme} from '@/contexts'
-import {
+import type {ElevationLevel} from '@/components/Elevation'
+import type {ComponentStatus, ShapeType, TriggerEvent} from '@/constants'
+import type {Theme} from '@/contexts'
+import type {
         AnimateSharedValueTo,
         HandleStateEventChangeOptions,
         InteractionHandlers,

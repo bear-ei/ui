@@ -1,6 +1,6 @@
-import {ListProps} from '@/components/List'
-import {LayoutRectangle} from '@/constants'
-import {AnimatedTiming} from '@/hooks'
+import type {ListProps} from '@/components/List'
+import type {LayoutRectangle} from '@/constants'
+import type {AnimatedTiming} from '@/hooks'
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 

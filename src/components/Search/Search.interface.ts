@@ -1,10 +1,10 @@
-import {CommonProps, ComponentStatus, EventName, LayoutRectangle, State} from '@/constants'
-import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
+import type {CommonProps, ComponentStatus, EventName, LayoutRectangle, State} from '@/constants'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes, RefObject} from 'react'
 import type {PressableProps, TextInput, TextInputProps, TextStyle, View, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ListData, ListProps} from '../List'
-import {SearchListProps} from './Search-list'
+import type {SearchListProps} from './Search-list'
 
 export interface SearchProps
         extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers>,

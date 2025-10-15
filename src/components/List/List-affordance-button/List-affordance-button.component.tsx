@@ -1,4 +1,4 @@
-import {PressableType} from '@/components/Touchable'
+import type {PressableType} from '@/components/Touchable'
 import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
 import {ListAffordanceButtonBase} from './List-affordance-button-base.component'

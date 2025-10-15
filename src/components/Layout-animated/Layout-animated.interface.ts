@@ -1,6 +1,11 @@
-import {CommonProps, ComponentStatus, ContentSize, LayoutRectangle} from '@/constants'
-import {AnimatedTimingOptions, AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
-import {Duration, Easing} from '@bearei/theme-token'
+import type {CommonProps, ComponentStatus, ContentSize, LayoutRectangle} from '@/constants'
+import type {
+        AnimatedTimingOptions,
+        AnimateSharedValueTo,
+        HandleStateEventChangeOptions,
+        InteractionHandlers
+} from '@/hooks'
+import type {Duration, Easing} from '@bearei/theme-token'
 import type {RefAttributes} from 'react'
 import type {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'

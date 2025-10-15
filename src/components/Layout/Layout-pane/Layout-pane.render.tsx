@@ -2,7 +2,7 @@ import {LayoutAnimated} from '@/components/Layout-animated'
 import {LAYOUT} from '@/constants'
 import {DURATION, EASING} from '@bearei/theme-token'
 import {forwardRef} from 'react'
-import {View, ViewStyle} from 'react-native'
+import {View, type ViewStyle} from 'react-native'
 import type {RenderLayoutPaneProps} from './Layout-pane.interface'
 
 export const RenderLayoutPane = forwardRef<View, RenderLayoutPaneProps>(

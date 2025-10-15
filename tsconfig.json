@@ -4,6 +4,7 @@
                 "emitDecoratorMetadata": true,
                 "experimentalDecorators": true,
                 "strictPropertyInitialization": false,
+                "verbatimModuleSyntax": true,
                 "paths": {
                         "@/*": ["./src/*"]
                 },

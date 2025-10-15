@@ -1,10 +1,10 @@
-import {ComponentStatus, LayoutRectangle} from '@/constants'
-import {Theme} from '@/contexts'
-import {AnimatedTiming, InteractionHandlers} from '@/hooks'
+import type {ComponentStatus, LayoutRectangle} from '@/constants'
+import type {Theme} from '@/contexts'
+import type {AnimatedTiming, InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {NativeTouchEvent, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import {TouchableProps} from '../Touchable.interface'
+import type {TouchableProps} from '../Touchable.interface'
 
 export interface TouchableRippleProps
         extends ViewProps,

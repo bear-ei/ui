@@ -1,7 +1,7 @@
 import {SIZE} from '@bearei/theme-token'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {Avatar} from './Avatar.component'
-import {AvatarProps} from './Avatar.interface'
+import type {AvatarProps} from './Avatar.interface'
 
 export const NoneContentText: StoryObj<AvatarProps> = {
         args: {}

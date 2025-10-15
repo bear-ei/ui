@@ -4,7 +4,7 @@ import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
-import {Pressable, TextInput, View, ViewStyle} from 'react-native'
+import {Pressable, TextInput, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {LayoutAnimated} from '../Layout-animated'

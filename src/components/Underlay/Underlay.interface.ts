@@ -1,5 +1,5 @@
-import {CommonProps, ComponentStatus, EventName, LayoutRectangle, ShapeType} from '@/constants'
-import {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
+import type {CommonProps, ComponentStatus, EventName, LayoutRectangle, ShapeType} from '@/constants'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'

@@ -1,6 +1,6 @@
-import {Theme} from '@/contexts'
+import type {Theme} from '@/contexts'
 import {arrayEqual} from '@/utils'
-import {Size, SIZE} from '@bearei/theme-token'
+import {type Size, SIZE} from '@bearei/theme-token'
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'

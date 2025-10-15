@@ -1,5 +1,5 @@
-import {State} from '@/constants'
-import {HandleStateEventChangeOptions, StateEvent, useInteractionStateEvent, useTheme} from '@/hooks'
+import type {State} from '@/constants'
+import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent, useTheme} from '@/hooks'
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
 import type {PressableType} from '../Touchable'

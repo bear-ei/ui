@@ -1,7 +1,7 @@
 import {platformValue, typedMemo} from '@/utils'
 import {SHAPE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
-import {ViewStyle, type View} from 'react-native'
+import type {View, ViewStyle} from 'react-native'
 import {SkeletonBase} from './Skeleton-base.component'
 import type {SkeletonElementProps} from './Skeleton-element'
 import {SkeletonElement} from './Skeleton-element'

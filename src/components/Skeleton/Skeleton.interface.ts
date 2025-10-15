@@ -1,5 +1,5 @@
-import {LayoutType} from '@/constants'
-import {AnimateSharedValueTo, HandleStateEventChangeOptions} from '@/hooks'
+import type {LayoutType} from '@/constants'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions} from '@/hooks'
 import type {FC, ReactNode} from 'react'
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'

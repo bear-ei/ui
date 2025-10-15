@@ -1,7 +1,7 @@
-import {COMPONENT_STATUS, LAYOUT, LayoutRectangle, State} from '@/constants'
+import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '@/constants'
 import {
-        HandleStateEventChangeOptions,
-        StateEvent,
+        type HandleStateEventChangeOptions,
+        type StateEvent,
         useClearComponentEvent,
         useDesktopScrollEvent,
         useInteractionStateEvent

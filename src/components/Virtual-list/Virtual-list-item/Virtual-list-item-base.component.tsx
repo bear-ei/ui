@@ -1,4 +1,4 @@
-import {DragRef} from '@/components/Drag'
+import type {DragRef} from '@/components/Drag'
 import {COMPONENT_STATUS} from '@/constants'
 import {useClearComponentEvent} from '@/hooks'
 import {forwardRef, useEffect, useId, useMemo, useRef} from 'react'

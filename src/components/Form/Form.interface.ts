@@ -1,5 +1,5 @@
-import {ComponentStatus, LayoutType} from '@/constants'
-import {NamePath} from '@/utils'
+import type {ComponentStatus, LayoutType} from '@/constants'
+import type {NamePath} from '@/utils'
 import type {ValidationError, ValidatorOptions} from 'class-validator'
 import type {ForwardedRef, RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'

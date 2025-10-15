@@ -1,5 +1,5 @@
-import {COMPONENT_STATUS, EVENT_NAME, EventName, TRIGGER_EVENT, TriggerEvent} from '@/constants'
-import {StateEvent} from '@/hooks'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_EVENT, type TriggerEvent} from '@/constants'
+import type {StateEvent} from '@/hooks'
 import type {WritableDraft} from 'immer'
 import type {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import type {Updater} from 'use-immer'

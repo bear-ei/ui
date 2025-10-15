@@ -1,4 +1,4 @@
-import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {JSX, RefAttributes} from 'react'
 import type {LayoutRectangle, MouseEvent, View, ViewProps} from 'react-native'
 import type {TooltipSupportingProps} from './Tooltip-supporting'

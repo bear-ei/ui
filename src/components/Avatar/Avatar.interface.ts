@@ -1,4 +1,4 @@
-import {CommonProps} from '@/constants'
+import type {CommonProps} from '@/constants'
 import type {JSX, RefAttributes} from 'react'
 import type {ImageSourcePropType, ImageURISource, View, ViewProps} from 'react-native'
 

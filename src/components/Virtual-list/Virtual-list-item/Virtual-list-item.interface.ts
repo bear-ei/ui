@@ -1,6 +1,6 @@
-import {DragRef} from '@/components/Drag'
-import {ListAffordanceButtonProps} from '@/components/List/List-affordance-button'
-import {ComponentStatus} from '@/constants'
+import type {DragRef} from '@/components/Drag'
+import type {ListAffordanceButtonProps} from '@/components/List/List-affordance-button'
+import type {ComponentStatus} from '@/constants'
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import type {

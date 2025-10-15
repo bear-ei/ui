@@ -2,7 +2,7 @@ import {platformValue, shapeClasses} from '@/utils'
 import {SHAPE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
-import {View, ViewStyle} from 'react-native'
+import {View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
 

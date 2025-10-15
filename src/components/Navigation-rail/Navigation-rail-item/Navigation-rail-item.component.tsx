@@ -1,4 +1,4 @@
-import {PressableType} from '@/components/Touchable'
+import type {PressableType} from '@/components/Touchable'
 import {typedMemo} from '@/utils'
 import {forwardRef} from 'react'
 import {NavigationRailItemBase} from './Navigation-rail-item-base.component'

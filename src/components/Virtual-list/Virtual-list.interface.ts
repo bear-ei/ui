@@ -1,5 +1,5 @@
-import {ComponentStatus, LayoutRectangle, LayoutType, ShapeType} from '@/constants'
-import {InteractionHandlers} from '@/hooks'
+import type {ComponentStatus, LayoutRectangle, LayoutType, ShapeType} from '@/constants'
+import type {InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
 import type {

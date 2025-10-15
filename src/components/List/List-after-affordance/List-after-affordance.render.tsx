@@ -5,7 +5,7 @@ import {SIZE} from '@bearei/theme-token'
 import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
-import {TextStyle, ViewStyle, type View} from 'react-native'
+import type {TextStyle, View, ViewStyle} from 'react-native'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 

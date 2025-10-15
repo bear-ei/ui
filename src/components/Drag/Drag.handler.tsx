@@ -1,5 +1,5 @@
-import {EVENT_NAME, EventName, LAYOUT, LayoutRectangle} from '@/constants'
-import {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '@/hooks'
+import {EVENT_NAME, type EventName, LAYOUT, type LayoutRectangle} from '@/constants'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '@/hooks'
 import type {LayoutChangeEvent} from 'react-native'
 import type {
         GestureStateChangeEvent,

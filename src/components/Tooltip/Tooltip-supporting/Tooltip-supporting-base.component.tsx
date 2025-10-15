@@ -1,7 +1,7 @@
-import {COMPONENT_STATUS, State} from '@/constants'
+import {COMPONENT_STATUS, type State} from '@/constants'
 import {
-        HandleStateEventChangeOptions,
-        StateEvent,
+        type HandleStateEventChangeOptions,
+        type StateEvent,
         useClearComponentEvent,
         useInteractionStateEvent,
         useTheme,

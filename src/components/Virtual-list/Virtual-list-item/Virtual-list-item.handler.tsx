@@ -1,5 +1,5 @@
 import {COMPONENT_STATUS} from '@/constants'
-import {AnimateSharedValueTo} from '@/hooks'
+import type {AnimateSharedValueTo} from '@/hooks'
 import type {
         GestureStateChangeEvent,
         GestureUpdateEvent,

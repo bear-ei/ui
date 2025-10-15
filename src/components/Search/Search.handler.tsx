@@ -1,5 +1,5 @@
 import {COMPONENT_STATUS, EVENT_NAME, STATE} from '@/constants'
-import {AnimateSharedValueTo, StateEvent} from '@/hooks'
+import type {AnimateSharedValueTo, StateEvent} from '@/hooks'
 import {textSearch} from '@/utils'
 import type {WritableDraft} from 'immer'
 import type {View} from 'react-native'

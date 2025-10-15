@@ -1,4 +1,4 @@
-import {LayoutType} from '@/constants'
+import type {LayoutType} from '@/constants'
 import type {LayoutAnimatedProps} from '../Layout-animated'
 
 export interface LayoutProps extends LayoutAnimatedProps {

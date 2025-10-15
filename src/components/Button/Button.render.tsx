@@ -1,4 +1,4 @@
-import {EVENT_NAME, EventName} from '@/constants'
+import {EVENT_NAME, type EventName} from '@/constants'
 import {useTheme} from '@/hooks'
 import {platformValue, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'

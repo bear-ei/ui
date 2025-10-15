@@ -1,6 +1,6 @@
-import {EVENT_NAME, EventName, TRIGGER_EVENT, TriggerEvent} from '@/constants'
+import {EVENT_NAME, type EventName, TRIGGER_EVENT, type TriggerEvent} from '@/constants'
 import {emitter, MODAL_TYPE} from '@/contexts'
-import {StateEvent} from '@/hooks'
+import type {StateEvent} from '@/hooks'
 import type {MouseEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {TooltipSupportingProps} from './Tooltip-supporting'

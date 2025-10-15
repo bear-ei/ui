@@ -1,7 +1,7 @@
 import {LAYOUT_ANIMATED} from '@/components/Layout-animated'
 import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
-import {LayoutNavigationBaseProps} from './Layout-navigation.interface'
+import type {LayoutNavigationBaseProps} from './Layout-navigation.interface'
 import {RenderLayoutNavigation} from './Layout-navigation.render'
 
 export const LayoutNavigationBase = forwardRef<View, LayoutNavigationBaseProps>(

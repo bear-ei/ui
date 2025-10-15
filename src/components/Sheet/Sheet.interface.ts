@@ -1,4 +1,4 @@
-import {CommonProps} from '@/constants'
+import type {CommonProps} from '@/constants'
 import type {RefAttributes} from 'react'
 import type {ModalProps, View, ViewProps} from 'react-native'
 import type {ButtonProps} from '../Button'

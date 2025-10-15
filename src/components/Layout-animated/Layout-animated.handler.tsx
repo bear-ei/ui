@@ -1,5 +1,5 @@
-import {COMPONENT_STATUS, ContentSize, EVENT_NAME, EventName, LayoutRectangle} from '@/constants'
-import {StateEvent} from '@/hooks'
+import {COMPONENT_STATUS, type ContentSize, EVENT_NAME, type EventName, type LayoutRectangle} from '@/constants'
+import type {StateEvent} from '@/hooks'
 import type {LayoutChangeEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'

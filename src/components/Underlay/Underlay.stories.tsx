@@ -1,4 +1,4 @@
-import {EVENT_NAME, EventName} from '@/constants'
+import {EVENT_NAME, type EventName} from '@/constants'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {useState} from 'react'
 import {Pressable} from 'react-native'

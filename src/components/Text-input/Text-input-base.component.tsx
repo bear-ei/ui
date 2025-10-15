@@ -1,5 +1,10 @@
-import {COMPONENT_STATUS, ContentSize, State, STATE} from '@/constants'
-import {HandleStateEventChangeOptions, StateEvent, useClearComponentEvent, useInteractionStateEvent} from '@/hooks'
+import {COMPONENT_STATUS, type ContentSize, type State, STATE} from '@/constants'
+import {
+        type HandleStateEventChangeOptions,
+        type StateEvent,
+        useClearComponentEvent,
+        useInteractionStateEvent
+} from '@/hooks'
 import {debounce} from '@/utils'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {TextInput} from 'react-native'

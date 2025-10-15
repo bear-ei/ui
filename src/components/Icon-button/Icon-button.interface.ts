@@ -1,5 +1,5 @@
-import {CommonProps, EventName} from '@/constants'
-import {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
+import type {CommonProps, EventName} from '@/constants'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {TouchableProps} from '../Touchable'

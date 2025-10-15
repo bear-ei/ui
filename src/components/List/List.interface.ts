@@ -1,5 +1,5 @@
-import {CommonProps, TriggerEvent} from '@/constants'
-import {InteractionHandlers} from '@/hooks'
+import type {CommonProps, TriggerEvent} from '@/constants'
+import type {InteractionHandlers} from '@/hooks'
 import type {ForwardedRef, RefAttributes} from 'react'
 import type Animated from 'react-native-reanimated'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualListProps} from '../Virtual-list'

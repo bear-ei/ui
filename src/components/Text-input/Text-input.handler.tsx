@@ -1,5 +1,5 @@
-import {COMPONENT_STATUS, EVENT_NAME, State, STATE} from '@/constants'
-import {AnimateSharedValueTo, StateEvent} from '@/hooks'
+import {COMPONENT_STATUS, EVENT_NAME, type State, STATE} from '@/constants'
+import type {AnimateSharedValueTo, StateEvent} from '@/hooks'
 import type {TextInput, TextInputContentSizeChangeEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {

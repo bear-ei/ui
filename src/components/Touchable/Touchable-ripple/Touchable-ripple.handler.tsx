@@ -1,5 +1,5 @@
 import {COMPONENT_STATUS, EVENT_NAME} from '@/constants'
-import {HandleStateEventChangeOptions, StateEvent} from '@/hooks'
+import type {HandleStateEventChangeOptions, StateEvent} from '@/hooks'
 import type {Updater} from 'use-immer'
 import type {
         AnimateTouchableRippleOptions,

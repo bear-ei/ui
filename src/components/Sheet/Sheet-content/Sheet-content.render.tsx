@@ -1,4 +1,4 @@
-import {Button, BUTTON_TYPE, ButtonProps} from '@/components/Button'
+import {Button, BUTTON_TYPE, type ButtonProps} from '@/components/Button'
 import {Divider} from '@/components/Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '@/components/Icon-button'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '@/components/Layout-animated'
@@ -8,7 +8,7 @@ import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@beare
 import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
 import {forwardRef, type FC} from 'react'
-import {Text, View, ViewStyle} from 'react-native'
+import {Text, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
 import type {

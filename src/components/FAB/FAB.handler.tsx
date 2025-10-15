@@ -1,6 +1,6 @@
 import {COMPONENT_STATUS, EVENT_NAME, STATE} from '@/constants'
-import {Theme} from '@/contexts'
-import {AnimateSharedValueTo, StateEvent} from '@/hooks'
+import type {Theme} from '@/contexts'
+import type {AnimateSharedValueTo, StateEvent} from '@/hooks'
 import type {WritableDraft} from 'immer'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'

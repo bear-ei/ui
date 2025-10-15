@@ -3,7 +3,7 @@ import {useAnimatedTiming, useTheme} from '@/hooks'
 import {platformValue} from '@/utils'
 import {DURATION} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
-import {ViewStyle} from 'react-native'
+import type {ViewStyle} from 'react-native'
 import Animated, {
         cancelAnimation,
         scrollTo,

@@ -1,5 +1,5 @@
-import {CommonProps, ComponentStatus, EventName} from '@/constants'
-import {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
+import type {CommonProps, ComponentStatus, EventName} from '@/constants'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ElevationLevel} from '../Elevation'

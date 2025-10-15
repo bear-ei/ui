@@ -1,5 +1,5 @@
-import {LayoutType} from '@/constants'
-import {Size} from '@bearei/theme-token'
+import type {LayoutType} from '@/constants'
+import type {Size} from '@bearei/theme-token'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 

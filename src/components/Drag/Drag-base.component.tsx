@@ -1,5 +1,5 @@
-import {State} from '@/constants'
-import {HandleStateEventChangeOptions, StateEvent, useInteractionStateEvent} from '@/hooks'
+import type {State} from '@/constants'
+import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent} from '@/hooks'
 import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {LayoutRectangle} from 'react-native'
 import {useImmer} from 'use-immer'

@@ -1,5 +1,5 @@
-import {CommonProps, ComponentStatus, EventName} from '@/constants'
-import {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
+import type {CommonProps, ComponentStatus, EventName} from '@/constants'
+import type {AnimatedTiming, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {TouchableProps} from '../Touchable'
 import type {CHECKBOX_VALUE} from './Checkbox.enum'
 

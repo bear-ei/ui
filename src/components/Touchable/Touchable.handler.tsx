@@ -1,5 +1,5 @@
-import {EVENT_NAME, EventName} from '@/constants'
-import {StateEvent} from '@/hooks'
+import {EVENT_NAME, type EventName} from '@/constants'
+import type {StateEvent} from '@/hooks'
 import type {GestureResponderEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {AddTouchableRippleOptions, HandleTouchableStateChangeOptions, TouchableState} from './Touchable.interface'

@@ -4,7 +4,7 @@ import {LAYOUT} from '@/constants'
 import {platformValue} from '@/utils'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
-import {View, ViewStyle} from 'react-native'
+import {View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import type {RenderVirtualListItemProps} from './Virtual-list-item.interface'
 

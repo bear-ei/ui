@@ -1,8 +1,8 @@
-import {ElevationLevel} from '@/components/Elevation'
-import {ListProps, ListType} from '@/components/List'
-import {CommonProps} from '@/constants'
-import {Theme} from '@/contexts'
-import {ShapeType} from '@bearei/theme-token'
+import type {ElevationLevel} from '@/components/Elevation'
+import type {ListProps, ListType} from '@/components/List'
+import type {CommonProps} from '@/constants'
+import type {Theme} from '@/contexts'
+import type {ShapeType} from '@bearei/theme-token'
 import type {PressableProps} from 'react-native'
 import type {MenuType} from '../Menu.interface'
 

@@ -1,8 +1,8 @@
-import {PressableType} from '@/components/Touchable'
-import {COMPONENT_STATUS, State} from '@/constants'
+import type {PressableType} from '@/components/Touchable'
+import {COMPONENT_STATUS, type State} from '@/constants'
 import {
-        HandleStateEventChangeOptions,
-        StateEvent,
+        type HandleStateEventChangeOptions,
+        type StateEvent,
         useClearComponentEvent,
         useInteractionStateEvent,
         useTheme

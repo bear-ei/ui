@@ -1,5 +1,5 @@
-import {CommonProps, ComponentStatus} from '@/constants'
-import {InteractionHandlers} from '@/hooks'
+import type {CommonProps, ComponentStatus} from '@/constants'
+import type {InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedProps, AnimatedStyle, SharedValue} from 'react-native-reanimated'

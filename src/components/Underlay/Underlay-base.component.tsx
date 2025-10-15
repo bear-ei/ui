@@ -1,5 +1,5 @@
-import {COMPONENT_STATUS, State} from '@/constants'
-import {HandleStateEventChangeOptions, StateEvent, useInteractionStateEvent} from '@/hooks'
+import {COMPONENT_STATUS, type State} from '@/constants'
+import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent} from '@/hooks'
 import {forwardRef, useCallback, useId} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'

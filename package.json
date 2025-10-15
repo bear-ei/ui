@@ -1,6 +1,6 @@
 {
         "name": "@bearei/ui",
-        "version": "1.0.0",
+        "version": "0.0.1",
         "module": "./dist/index.mjs",
         "react-native": "./src/index.ts",
         "types": "./dist/index.d.ts",
@@ -8,7 +8,6 @@
         "description": "Bearei ui for React Native and Web",
         "readmeFilename": "README.md",
         "license": "UNLICENSED",
-        "private": true,
         "exports": {
                 ".": {
                         "types": "./dist/index.d.ts",

@@ -1,4 +1,4 @@
-import {ComponentStatus} from '@/constants'
+import type {ComponentStatus} from '@/constants'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 import type {NavigationRailItemProps} from './Navigation-rail-item'

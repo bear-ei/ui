@@ -1,4 +1,4 @@
-import {PressableType, Touchable} from '@/components/Touchable'
+import {type PressableType, Touchable} from '@/components/Touchable'
 import {Underlay} from '@/components/Underlay'
 import {useTheme} from '@/hooks'
 import {typographyClasses} from '@/utils'

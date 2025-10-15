@@ -1,4 +1,4 @@
-import {CommonProps, LayoutRectangle} from '@/constants'
+import type {CommonProps, LayoutRectangle} from '@/constants'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 import type {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
