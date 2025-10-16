@@ -5,8 +5,8 @@ import {LAYOUT_ANIMATED, LayoutAnimated} from '@/components/Layout-animated'
 import {useTheme} from '@/hooks'
 import {shapeClasses, typographyClasses} from '@/utils'
 import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
+import {ArrowLeft, ArrowRight, X} from 'lucide-react-native'
 import {forwardRef, type FC} from 'react'
 import {Text, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -27,16 +27,7 @@ export const RenderSheetContentLeading: FC<RenderSheetContentLeadingProps> = ({
         headlineLeading ??
         (back ?
                 <IconButton
-                        icon={
-                                <MaterialIcons
-                                        name={
-                                                position === SIDE_SHEET_POSITION.HORIZONTAL_START ?
-                                                        'arrow-forward'
-                                                :       'arrow-back'
-                                        }
-                                        testID={`sheet__iconForward--${id}`}
-                                />
-                        }
+                        icon={position === SIDE_SHEET_POSITION.HORIZONTAL_START ? <ArrowRight /> : <ArrowLeft />}
                         onPressOut={onBack}
                         testID={`sheet__backIconButton--${id}`}
                         type={ICON_BUTTON_TYPE.STANDARD}
@@ -52,12 +43,7 @@ export const RenderSheetContentTrailing: FC<RenderSheetContentTrailingProps> = (
         headlineTrailing ??
         (close ?
                 <IconButton
-                        icon={
-                                <MaterialIcons
-                                        name='close'
-                                        testID={`sheet__iconForward--${id}`}
-                                />
-                        }
+                        icon={<X />}
                         onPressOut={onClose}
                         testID={`sheet__closeIconButton--${id}`}
                         type={ICON_BUTTON_TYPE.STANDARD}

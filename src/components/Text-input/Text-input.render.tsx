@@ -175,11 +175,8 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                         {cloneElement(leadingElement, {
                                                                                 color: theme.token.scheme
                                                                                         .onSurfaceVariant,
-                                                                                style: {
-                                                                                        fontSize: platformValue(
-                                                                                                iconSize
-                                                                                        )
-                                                                                }
+                                                                                size: platformValue(iconSize),
+                                                                                testID: `textInput__leadingIcon--${id}`
                                                                         })}
                                                                 </View>
                                                         )}

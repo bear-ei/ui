@@ -8,7 +8,7 @@ import {
         useTheme
 } from '@/hooks'
 import {platformValue} from '@/utils'
-import MaterialIcons from '@react-native-vector-icons/material-icons'
+import {Circle} from 'lucide-react-native'
 import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef} from 'react'
 import {useImmer} from 'use-immer'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
@@ -69,9 +69,9 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
                                 theme.token.spacing.extraSmall * 7
                         :       theme.token.spacing.extraSmall * 5
 
-                const iconElement = cloneElement(icon ?? <MaterialIcons name='circle' />, {
+                const iconElement = cloneElement(icon ?? <Circle />, {
                         color: theme.token.scheme.onSurfaceVariant,
-                        style: {fontSize: platformValue(size)},
+                        size: platformValue(size),
                         testID: `navigationRailItem__icon--${id}`
                 })
 

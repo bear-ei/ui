@@ -18,6 +18,7 @@ import {
         updateListItemActive,
         updateListItemAfterAffordanceExpanded,
         updateListItemFocusState,
+        updateListItemTrailingUnmount,
         updateListItemTrailingVisibility
 } from './List-item.handler'
 import type {ListItemBaseProps, ListItemRef, ListItemState} from './List-item.interface'
@@ -65,7 +66,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                 nextPressInEvent,
                                 nextPressOutEvent,
                                 status,
-                                trailingVisible: isTrailingVisible
+                                trailingVisible: isTrailingVisible,
+                                trailingUnmount: isTrailingUnmount
                         },
                         setState
                 ] = useImmer<ListItemState>({status: COMPONENT_STATUS.IDLE})
@@ -82,6 +84,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                 const {onPressOut: rawOnTrailingPressOut, ...trailingProps} = rawTrailingProps ?? {}
                 const onClose = useMemo(() => maybeTriggerListItemClose(rawOnClose)(indexKey), [indexKey, rawOnClose])
                 const onTrailingVisibility = useMemo(() => updateListItemTrailingVisibility(setState), [setState])
+                const onTrailingUnmount = useMemo(() => updateListItemTrailingUnmount(setState), [setState])
                 const onConfirm = useMemo(
                         () =>
                                 confirmListItemAffordanceAction({
@@ -234,6 +237,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                 interactionHandlers={interactionHandlers}
                                 leadingElement={leading}
                                 onConfirm={onConfirm}
+                                onTrailingUnmount={onTrailingUnmount}
                                 ref={pressableRef}
                                 selectType={selectType}
                                 shape={shape}
@@ -241,6 +245,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                 supporting={supporting}
                                 trailingElement={trailingElement}
                                 trailingTriggerEvent={trailingTriggerEvent}
+                                trailingUnmount={isTrailingUnmount}
                                 trailingVisible={isTrailingVisible ?? !trailingTriggerEvent}
                                 type={type}
                         />

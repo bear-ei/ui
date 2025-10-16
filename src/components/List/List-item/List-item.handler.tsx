@@ -85,6 +85,15 @@ export const updateListItemActive =
         (selectType?: ListSelectType) => (onActive?: (indexKey?: string) => void) => (indexKey?: string) =>
                 selectType && indexKey && onActive?.(indexKey)
 
+export const updateListItemTrailingUnmount = (setState: Updater<ListItemState>) => () =>
+        setState(draft => {
+                draft.trailingUnmount = true
+        })
+
+export const updateListItemTrailing =
+        (selectType?: ListSelectType) => (onActive?: (indexKey?: string) => void) => (indexKey?: string) =>
+                selectType && indexKey && onActive?.(indexKey)
+
 export const handleTrailingTriggerEvent = (trailingTriggerEvent?: TriggerEvent) => {
         const trigger = {
                 [TRIGGER_EVENT.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
@@ -104,6 +113,10 @@ export const handleTrailingTriggerEvent = (trailingTriggerEvent?: TriggerEvent) 
 
                         setState(draft => {
                                 draft.trailingVisible = isVisible
+
+                                if (isVisible) {
+                                        draft.trailingUnmount = !isVisible
+                                }
                         })
                 }
         }

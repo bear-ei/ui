@@ -7,14 +7,15 @@ import Animated from 'react-native-reanimated'
 import {ModalProvider} from '../Modal-provider'
 import {processCssVariables} from './Theme-provider.handler'
 import type {ThemeContextOptions, ThemeProviderProps} from './Theme-provider.interface'
-
-const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
+import './theme-provider.css'
 
 /**
  * FIXME:
+ * Waiting for upstream fix.
  *
  * Temporarily trigger Animated to correctly handle nativewind style
  */
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
 cssInterop(Animated.View, {className: 'style'})
 cssInterop(Animated.Text, {className: 'style'})
 cssInterop(AnimatedTextInput, {className: 'style'})
@@ -42,7 +43,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken
                                 <View
                                         className='flex-1'
                                         style={variables}
-                                        testID={`root--${id}`}
+                                        testID={`provider__theme--${id}`}
                                 >
                                         {children}
                                         <ModalProvider />

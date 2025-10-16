@@ -2,8 +2,8 @@ import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
+import {Search} from 'lucide-react-native'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -121,14 +121,12 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                         })}
                                                         testID={`search__leading--${id}`}
                                                 >
-                                                        {cloneElement(
-                                                                leadingElement ?? <MaterialIcons name='search' />,
-                                                                {
-                                                                        color: theme.token.scheme.onSurfaceVariant,
-                                                                        disabled,
-                                                                        style: {fontSize: platformValue(iconSize)}
-                                                                }
-                                                        )}
+                                                        {cloneElement(leadingElement ?? <Search />, {
+                                                                color: theme.token.scheme.onSurfaceVariant,
+                                                                disabled,
+                                                                size: platformValue(iconSize),
+                                                                testID: `search__leadingIcon--${id}`
+                                                        })}
                                                 </View>
 
                                                 <View

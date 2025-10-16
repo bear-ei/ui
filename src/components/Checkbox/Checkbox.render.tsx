@@ -1,15 +1,15 @@
 import {useTheme} from '@/hooks'
-import {processIconSize} from '@/utils'
+import {platformValue, processIconSize} from '@/utils'
 import {DURATION, hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
+import {Square, SquareCheckBig} from 'lucide-react-native'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
-import type {CheckboxValue, RenderCheckboxProps} from './Checkbox.interface'
+import type {RenderCheckboxProps} from './Checkbox.interface'
 
 export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
         (
@@ -42,12 +42,6 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 
                 const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
                 const underlayColor = error ? theme.token.scheme.error : checkUnderlayColor
-                const isCheckBoxVisible =
-                        value &&
-                        ([CHECKBOX_VALUE.SELECTED, CHECKBOX_VALUE.INDETERMINATE] as readonly CheckboxValue[]).includes(
-                                value
-                        )
-
                 const iconSize = processIconSize(theme)(size)
 
                 return (
@@ -88,15 +82,14 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                 className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
                                                                 testID={`checkbox__iconLayout--blank--${id}`}
                                                         >
-                                                                <MaterialIcons
+                                                                <Square
                                                                         color={
                                                                                 disabled ? disabledColor : (
                                                                                         checkBoxOutlineColor
                                                                                 )
                                                                         }
                                                                         disabled={disabled}
-                                                                        name='check-box-outline-blank'
-                                                                        size={iconSize}
+                                                                        size={platformValue(iconSize)}
                                                                         testID={`checkbox__icon--blank--${id}`}
                                                                 />
                                                         </View>
@@ -107,17 +100,28 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                 entry={{duration: DURATION.SHORT_2}}
                                                                 exit={{duration: DURATION.SHORT_1}}
                                                                 testID={`checkbox__iconLayout--selected--${id}`}
-                                                                visible={isCheckBoxVisible}
+                                                                visible={value === CHECKBOX_VALUE.SELECTED}
                                                         >
-                                                                <MaterialIcons
+                                                                <SquareCheckBig
                                                                         color={disabled ? disabledColor : activeColor}
                                                                         disabled={disabled}
-                                                                        name={
-                                                                                value === CHECKBOX_VALUE.INDETERMINATE ?
-                                                                                        'indeterminate-check-box'
-                                                                                :       'check-box'
-                                                                        }
-                                                                        size={iconSize}
+                                                                        size={platformValue(iconSize)}
+                                                                        testID={`checkbox__icon--selected--${id}`}
+                                                                />
+                                                        </LayoutAnimated>
+
+                                                        <LayoutAnimated
+                                                                animatedType={LAYOUT_ANIMATED.SCALE}
+                                                                className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
+                                                                entry={{duration: DURATION.SHORT_2}}
+                                                                exit={{duration: DURATION.SHORT_1}}
+                                                                testID={`checkbox__iconLayout--selected--${id}`}
+                                                                visible={value === CHECKBOX_VALUE.INDETERMINATE}
+                                                        >
+                                                                <SquareCheckBig
+                                                                        color={disabled ? disabledColor : activeColor}
+                                                                        disabled={disabled}
+                                                                        size={platformValue(iconSize)}
                                                                         testID={`checkbox__icon--selected--${id}`}
                                                                 />
                                                         </LayoutAnimated>

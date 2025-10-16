@@ -1,6 +1,6 @@
 import {SIZE} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+import {Circle} from 'lucide-react-native'
 import {IconButton} from '../Icon-button'
 import {TextInput} from './Text-input.component'
 import type {TextInputProps} from './Text-input.interface'
@@ -12,7 +12,7 @@ export const Filled: StoryObj<TextInputProps> = {
 export const Leading: StoryObj<TextInputProps> = {
         args: {
                 supportingText: 'supportingText',
-                leading: <MaterialIcons name='circle' />
+                leading: <Circle />
         }
 }
 

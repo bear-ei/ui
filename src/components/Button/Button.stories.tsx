@@ -1,6 +1,6 @@
 import {SIZE} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+import {Circle} from 'lucide-react-native'
 import {Button} from './Button.component'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonProps} from './Button.interface'
@@ -27,7 +27,7 @@ export const Text: StoryObj<ButtonProps> = {
 
 export const TextIcon: StoryObj<ButtonProps> = {
         args: {
-                icon: <MaterialIcons name='circle' />,
+                icon: <Circle />,
                 labelText: 'Label',
                 type: BUTTON_TYPE.TEXT
         }
@@ -56,7 +56,7 @@ export const Link: StoryObj<ButtonProps> = {
 
 export const Icon: StoryObj<ButtonProps> = {
         args: {
-                icon: <MaterialIcons name='circle' />,
+                icon: <Circle />,
                 labelText: 'Label'
         }
 }

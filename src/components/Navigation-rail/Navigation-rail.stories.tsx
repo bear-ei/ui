@@ -1,5 +1,5 @@
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+import {Circle} from 'lucide-react-native'
 import {Fab} from '../FAB'
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
 import {NavigationRail} from './Navigation-rail.component'
@@ -11,11 +11,11 @@ export const Standard: StoryObj<NavigationRailProps> = {
                 defaultActiveKey: 'A',
                 menu: (
                         <IconButton
-                                icon={<MaterialIcons name='circle' />}
+                                icon={<Circle />}
                                 type={ICON_BUTTON_TYPE.STANDARD}
                         />
                 ),
-                fab: <Fab icon={<MaterialIcons name='circle' />} />,
+                fab: <Fab icon={<Circle />} />,
                 animatedType: NAVIGATION_RAIL_ANIMATED.COLLAPSE,
                 data: [
                         {
@@ -37,7 +37,7 @@ export const Standard: StoryObj<NavigationRailProps> = {
 export const Block: StoryObj<NavigationRailProps> = {
         args: {
                 defaultActiveKey: 'name',
-                fab: <Fab icon={<MaterialIcons name='circle' />} />,
+                fab: <Fab icon={<Circle />} />,
                 type: NAVIGATION_RAIL_TYPE.BLOCK,
                 data: [
                         {
@@ -62,11 +62,11 @@ export const Top: StoryObj<NavigationRailProps> = {
                 destinationPosition: NAVIGATION_DESTINATION_POSITION.TOP,
                 menu: (
                         <IconButton
-                                icon={<MaterialIcons name='circle' />}
+                                icon={<Circle />}
                                 type={ICON_BUTTON_TYPE.STANDARD}
                         />
                 ),
-                fab: <Fab icon={<MaterialIcons name='circle' />} />,
+                fab: <Fab icon={<Circle />} />,
                 data: [
                         {
                                 labelText: 'Label1',
@@ -90,11 +90,11 @@ export const Center: StoryObj<NavigationRailProps> = {
                 destinationPosition: NAVIGATION_DESTINATION_POSITION.CENTER,
                 menu: (
                         <IconButton
-                                icon={<MaterialIcons name='circle' />}
+                                icon={<Circle />}
                                 type={ICON_BUTTON_TYPE.STANDARD}
                         />
                 ),
-                fab: <Fab icon={<MaterialIcons name='circle' />} />,
+                fab: <Fab icon={<Circle />} />,
                 data: [
                         {
                                 labelText: 'Label1',
@@ -118,11 +118,11 @@ export const Bottom: StoryObj<NavigationRailProps> = {
                 destinationPosition: NAVIGATION_DESTINATION_POSITION.BOTTOM,
                 menu: (
                         <IconButton
-                                icon={<MaterialIcons name='circle' />}
+                                icon={<Circle />}
                                 type={ICON_BUTTON_TYPE.STANDARD}
                         />
                 ),
-                fab: <Fab icon={<MaterialIcons name='circle' />} />,
+                fab: <Fab icon={<Circle />} />,
                 data: [
                         {
                                 labelText: 'Label1',

@@ -1,5 +1,5 @@
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import type {Meta} from '@storybook/react-native-web-vite'
+import {Circle} from 'lucide-react-native'
 import {View} from 'react-native'
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
 import {SUPPORTING_POSITION} from './Tooltip-supporting'
@@ -14,7 +14,7 @@ export const PlainVerticalEnd = () => (
                         supportingPosition={SUPPORTING_POSITION.VERTICAL_END}
                 >
                         <IconButton
-                                icon={<MaterialIcons name='circle' />}
+                                icon={<Circle />}
                                 type={ICON_BUTTON_TYPE.STANDARD}
                         />
                 </Tooltip>
@@ -30,7 +30,7 @@ export const PlainVerticalStart = () => (
                         supportingPosition={SUPPORTING_POSITION.VERTICAL_START}
                 >
                         <IconButton
-                                icon={<MaterialIcons name='circle' />}
+                                icon={<Circle />}
                                 type={ICON_BUTTON_TYPE.STANDARD}
                         />
                 </Tooltip>
@@ -47,7 +47,7 @@ export const PlainHorizontalStart = () => (
                         delay={2000}
                 >
                         <IconButton
-                                icon={<MaterialIcons name='circle' />}
+                                icon={<Circle />}
                                 type={ICON_BUTTON_TYPE.STANDARD}
                         />
                 </Tooltip>
@@ -63,7 +63,7 @@ export const PlainHorizontalEnd = () => (
                         className='h-10 w-10'
                 >
                         <IconButton
-                                icon={<MaterialIcons name='circle' />}
+                                icon={<Circle />}
                                 type={ICON_BUTTON_TYPE.STANDARD}
                         />
                 </Tooltip>

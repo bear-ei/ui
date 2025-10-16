@@ -7,8 +7,8 @@ import {EVENT_NAME, ICON_BUTTON_SIZE, LAYOUT, TRIGGER_EVENT} from '@/constants'
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {DURATION, EASING, SIZE, TYPOGRAPHY, type Size} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
+import {Ellipsis, X} from 'lucide-react-native'
 import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -47,12 +47,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                         trailing ?? (
                                 <IconButton
                                         testID={`listItem__trailingIconButton--${id}`}
-                                        icon={
-                                                <MaterialIcons
-                                                        name='more-horiz'
-                                                        testID={`listItem__trailingIconMoreHoriz--${id}`}
-                                                />
-                                        }
+                                        icon={<Ellipsis testID={`listItem__trailingIconMoreHoriz--${id}`} />}
                                 />
                         ),
                         trailingProps
@@ -61,12 +56,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
                         trailing ?? (
                                 <IconButton
                                         testID={`listItem__trailingIconButton--${id}`}
-                                        icon={
-                                                <MaterialIcons
-                                                        name='close'
-                                                        testID={`listItem__trailingIconMoreHoriz--${id}`}
-                                                />
-                                        }
+                                        icon={<X testID={`listItem__trailingIconMoreHoriz--${id}`} />}
                                 />
                         ),
                         trailingProps
@@ -107,6 +97,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         leadingElement,
                         onCancel,
                         onConfirm,
+                        onTrailingUnmount,
                         panResponder,
                         selectType,
                         shape,
@@ -118,6 +109,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         testID,
                         trailingElement,
                         trailingTriggerEvent,
+                        trailingUnmount = true,
                         trailingVisible,
                         type = LIST_TYPE.STANDARD,
                         ...touchableProps
@@ -129,7 +121,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                 const isSupportingTextShow = !!supporting
                 const isTrailingShow = !!trailingElement
                 const isLeadingShow = !!leadingElement
-                const isUnmountTrailing = trailingTriggerEvent === TRIGGER_EVENT.HOVER
+                // const isUnmountTrailing = trailingTriggerEvent === TRIGGER_EVENT.HOVER
                 const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
                 const underlayProps = selectType &&
                         [LIST_SELECT_TYPE.SINGLE, LIST_SELECT_TYPE.MULTIPLE].includes(selectType) &&
@@ -254,11 +246,8 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                         {cloneElement(leadingElement, {
                                                                                 color: theme.token.scheme
                                                                                         .onSurfaceVariant,
-                                                                                style: {
-                                                                                        fontSize: platformValue(
-                                                                                                iconSize
-                                                                                        )
-                                                                                }
+                                                                                size: platformValue(iconSize),
+                                                                                testID: `listItem__leadingIcon--${id}`
                                                                         })}
                                                                 </View>
                                                         )}
@@ -315,31 +304,31 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                 {
                                                                                         ['justify-start']: isMultiline,
                                                                                         ['ml-4 h-10 w-10']:
-                                                                                                trailingVisible &&
+                                                                                                !trailingUnmount &&
                                                                                                 size ===
                                                                                                         SIZE.EXTRA_LARGE,
                                                                                         ['ml-[0.875rem] h-8 w-8']:
-                                                                                                trailingVisible &&
+                                                                                                !trailingUnmount &&
                                                                                                 size === SIZE.LARGE,
                                                                                         ['ml-3 h-6 w-6']:
-                                                                                                trailingVisible &&
+                                                                                                !trailingUnmount &&
                                                                                                 size === SIZE.MEDIUM,
                                                                                         ['ml-2 h-6 w-6']:
-                                                                                                trailingVisible &&
+                                                                                                !trailingUnmount &&
                                                                                                 size === SIZE.SMALL,
                                                                                         ['ml-1 h-6 w-6']:
-                                                                                                trailingVisible &&
+                                                                                                !trailingUnmount &&
                                                                                                 size ===
                                                                                                         SIZE.EXTRA_SMALL,
                                                                                         ['ml-2']:
-                                                                                                !trailingVisible &&
+                                                                                                trailingUnmount &&
                                                                                                 size ===
                                                                                                         SIZE.EXTRA_LARGE,
                                                                                         ['ml-[0.375rem]']:
-                                                                                                !trailingVisible &&
+                                                                                                trailingUnmount &&
                                                                                                 size === SIZE.LARGE,
                                                                                         ['ml-1']:
-                                                                                                !trailingVisible &&
+                                                                                                trailingUnmount &&
                                                                                                 (
                                                                                                         [
                                                                                                                 SIZE.EXTRA_SMALL,
@@ -362,8 +351,9 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                         easing: EASING.EMPHASIZED_ACCELERATE
                                                                                 }}
                                                                                 lazy={closeTrailing}
+                                                                                onUnmount={onTrailingUnmount}
                                                                                 testID={`listItem__trailing--${id}`}
-                                                                                unmount={isUnmountTrailing}
+                                                                                unmount={true}
                                                                                 visible={trailingVisible}
                                                                         >
                                                                                 {trailingElement}

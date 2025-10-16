@@ -8,10 +8,10 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 const externals = [
         '@bearei/theme-token',
-        '@react-native-vector-icons/material-icons',
         'class-validator',
         'clsx',
         'immer',
+        'lucide-react-native',
         'mitt',
         'nativewind',
         'react-dom',
@@ -46,6 +46,14 @@ const config = defineConfig({
         },
         plugins: [
                 tsconfigPaths(),
+                dts({
+                        copyDtsFiles: true,
+                        entryRoot: resolve(__dirname, './src'),
+                        exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx', '**/*.test.tsx', '**/*.test.ts'],
+                        insertTypesEntry: true,
+                        outDir: resolve(__dirname, 'dist'),
+                        tsconfigPath: './tsconfig.json'
+                }),
                 rnw({
                         jsxRuntime: 'automatic',
                         jsxImportSource: 'nativewind',
@@ -58,14 +66,6 @@ const config = defineConfig({
                                         'react-native-worklets/plugin'
                                 ]
                         }
-                }),
-                dts({
-                        copyDtsFiles: true,
-                        entryRoot: resolve(__dirname, './src'),
-                        exclude: ['**/*.stories.*', '**/App.tsx', '**/App.style.tsx', '**/*.test.tsx', '**/*.test.ts'],
-                        insertTypesEntry: true,
-                        outDir: resolve(__dirname, 'dist'),
-                        tsconfigPath: './tsconfig.json'
                 }),
                 svgr({
                         include: '**/*.svg',

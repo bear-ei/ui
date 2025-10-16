@@ -1,8 +1,8 @@
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize, shapeClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
+import {Circle} from 'lucide-react-native'
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -37,10 +37,10 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 
         const iconSize = processIconSize(theme)(size)
 
-        return cloneElement(icon ?? <MaterialIcons name='circle' />, {
+        return cloneElement(icon ?? <Circle />, {
                 color: disabled ? disabledColor : iconColor,
                 disabled,
-                style: {fontSize: platformValue(iconSize)},
+                size: platformValue(iconSize),
                 testID: `iconButton__icon--${id}`
         })
 }

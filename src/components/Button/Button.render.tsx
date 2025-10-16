@@ -34,7 +34,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, icon, id,
         return cloneElement(icon, {
                 color: disabled ? disabledColor : color[type],
                 disabled,
-                style: {fontSize: platformValue(iconSize)},
+                size: platformValue(iconSize),
                 testID: `button__icon--${id}`
         })
 }

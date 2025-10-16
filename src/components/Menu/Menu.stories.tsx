@@ -1,5 +1,5 @@
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import type {Meta} from '@storybook/react-native-web-vite'
+import {Circle} from 'lucide-react-native'
 import {useMemo, useState} from 'react'
 import {View} from 'react-native'
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
@@ -13,7 +13,7 @@ export const Select = () => {
                         Array.from({length: 2}, (_, index) => ({
                                 indexKey: `Title${index + 1}`,
                                 headline: `Title${index + 1}`,
-                                leading: <MaterialIcons name='circle' />,
+                                leading: <Circle />,
                                 extraData: []
                         })),
                 []

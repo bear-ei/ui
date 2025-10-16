@@ -1,6 +1,6 @@
 import {SIZE} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+import {Circle} from 'lucide-react-native'
 import {IconButton} from '../Icon-button'
 import {Search} from './Search.component'
 import type {SearchProps} from './Search.interface'
@@ -8,7 +8,7 @@ import type {SearchProps} from './Search.interface'
 export const Leading: StoryObj<SearchProps> = {
         args: {
                 placeholder: 'Hinted search text',
-                leading: <MaterialIcons name='circle' />
+                leading: <Circle />
         }
 }
 

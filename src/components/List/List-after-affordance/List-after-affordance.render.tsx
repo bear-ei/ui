@@ -2,10 +2,10 @@ import {LayoutAnimated} from '@/components/Layout-animated'
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
-import MaterialIcons from '@react-native-vector-icons/material-icons'
 import {clsx} from 'clsx'
+import {Check, X} from 'lucide-react-native'
 import {forwardRef} from 'react'
-import type {TextStyle, View, ViewStyle} from 'react-native'
+import type {View, ViewStyle} from 'react-native'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 
@@ -33,19 +33,17 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                 const isDangerVisible = !secondaryButtonProps?.disabled
                 const iconSize = processIconSize(theme)(size)
                 const checkIconElement = (
-                        <MaterialIcons
+                        <Check
                                 color={color}
-                                name='check'
-                                style={{fontSize: platformValue(iconSize)} as TextStyle}
+                                size={platformValue(iconSize)}
                                 testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`}
                         />
                 )
 
                 const closeIconElement = (
-                        <MaterialIcons
+                        <X
                                 color={color}
-                                name='close'
-                                style={{fontSize: platformValue(iconSize)} as TextStyle}
+                                size={platformValue(iconSize)}
                                 testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`}
                         />
                 )

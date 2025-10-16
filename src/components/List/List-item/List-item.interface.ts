@@ -75,10 +75,12 @@ export interface RenderListItemProps extends ListItemProps {
         headlineTextAnimatedStyle: AnimatedStyle<TextStyle>
         interactionHandlers: InteractionHandlers
         leadingElement?: React.JSX.Element
+        onTrailingUnmount?: () => void
         panResponder?: PanResponderInstance
         skeletonVisible?: boolean
         state?: State
         trailingElement?: React.JSX.Element
+        trailingUnmount?: boolean
         trailingVisible?: boolean
 }
 
@@ -92,6 +94,7 @@ export interface ListItemState {
         nextTrailingTriggerEvent?: () => void
         status: ComponentStatus
         trailingVisible?: boolean
+        trailingUnmount?: boolean
 }
 
 export interface HandleListItemStateChangeOptions

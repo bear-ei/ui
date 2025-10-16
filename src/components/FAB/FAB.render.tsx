@@ -39,7 +39,7 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
         return cloneElement(icon, {
                 color: disabled ? disabledColor : color[type],
                 disabled,
-                style: {fontSize: platformValue(size)},
+                size: platformValue(size),
                 testID: `fab__icon--${id}`
         })
 }

@@ -1,6 +1,5 @@
 import type {Preview} from '@storybook/react-native-web-vite'
 import {View} from 'react-native'
-import 'unfonts.css'
 import '../global.css'
 import {ThemeProvider} from '../src/contexts'
 
