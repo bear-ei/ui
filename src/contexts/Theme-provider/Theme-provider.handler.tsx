@@ -6,7 +6,7 @@ export const processCssVariables = (token: Token) => {
                 Array.from(str)
                         .map(char =>
                                 char === char.toUpperCase() && char !== char.toLowerCase() ?
-                                        '-' + char.toLowerCase()
+                                        `-${char.toLowerCase()}`
                                 :       char
                         )
                         .join('')

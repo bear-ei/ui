@@ -1,6 +1,6 @@
 {
         "name": "@bearei/ui",
-        "version": "0.0.9",
+        "version": "0.0.13",
         "module": "./dist/index.mjs",
         "react-native": "./src/index.ts",
         "types": "./dist/index.d.ts",
@@ -13,7 +13,8 @@
                         "types": "./dist/index.d.ts",
                         "import": "./dist/index.mjs",
                         "default": "./dist/index.mjs"
-                }
+                },
+                "./index.css": "./dist/styles/index.css"
         },
         "repository": {
                 "type": "git",
