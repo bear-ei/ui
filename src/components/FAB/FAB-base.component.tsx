@@ -24,7 +24,7 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
                 },
                 ref
         ) => {
-                const [{elevation, eventName, status}, setState] = useImmer<FABState>({status: COMPONENT_STATUS.IDLE})
+                const [{elevation, eventName}, setState] = useImmer<FABState>({status: COMPONENT_STATUS.IDLE})
                 const id = useId()
                 const theme = useTheme()
                 const isDisabled = loading || rawDisabled
@@ -71,10 +71,6 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
                 useEffect(() => {
                         runUpdateDisabledState(elevated)
                 }, [runUpdateDisabledState, elevated])
-
-                if (status === COMPONENT_STATUS.IDLE) {
-                        return <></>
-                }
 
                 return (
                         <RenderFAB

@@ -1,4 +1,3 @@
-import {COMPONENT_STATUS} from '@/constants'
 import {useClearComponentEvent} from '@/hooks'
 import {SIZE} from '@bearei/theme-token'
 import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
@@ -26,9 +25,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                 },
                 ref
         ) => {
-                const [{activeKey, data, nextActiveEvent, status}, setState] = useImmer<NavigationRailState>({
-                        status: COMPONENT_STATUS.IDLE
-                })
+                const [{activeKey, data, nextActiveEvent}, setState] = useImmer<NavigationRailState>({})
 
                 useClearComponentEvent(setState)
 
@@ -71,10 +68,6 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                 useEffect(() => {
                         nextActiveEvent?.()
                 }, [nextActiveEvent])
-
-                if (status === COMPONENT_STATUS.IDLE) {
-                        return <></>
-                }
 
                 return (
                         <RenderNavigationRail

@@ -1,4 +1,3 @@
-import {COMPONENT_STATUS} from '@/constants'
 import type {Updater} from 'use-immer'
 import type {NavigationRailData, NavigationRailState} from './Navigation-rail.interface'
 
@@ -16,6 +15,5 @@ export const updateNavigationRailActiveKey =
 export const updateNavigationRailData = (setState: Updater<NavigationRailState>) => (data?: NavigationRailData[]) => {
         setState(draft => {
                 draft.data = data
-                draft.status = COMPONENT_STATUS.SUCCEEDED
         })
 }

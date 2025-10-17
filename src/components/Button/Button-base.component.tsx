@@ -28,7 +28,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
                 },
                 ref
         ) => {
-                const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({
+                const [{elevation, eventName}, setState] = useImmer<ButtonState>({
                         status: COMPONENT_STATUS.IDLE
                 })
 
@@ -82,10 +82,6 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
                 useEffect(() => {
                         runUpdateDisabledState(isDisabled)
                 }, [isDisabled, runUpdateDisabledState])
-
-                if (status === COMPONENT_STATUS.IDLE) {
-                        return <></>
-                }
 
                 return (
                         <RenderButton

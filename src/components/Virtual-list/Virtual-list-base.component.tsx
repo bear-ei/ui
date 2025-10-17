@@ -205,10 +205,6 @@ const VirtualListBaseInner = <T,>(
                 nextDragEndEvent?.()
         }, [nextDragEndEvent])
 
-        if (status === COMPONENT_STATUS.IDLE) {
-                return <></>
-        }
-
         return (
                 <RenderVirtualList
                         {...renderVirtualListProps}

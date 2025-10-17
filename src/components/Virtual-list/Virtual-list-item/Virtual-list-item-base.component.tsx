@@ -94,10 +94,6 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                         nextDragEndEvent?.()
                 }, [nextDragEndEvent])
 
-                if (status === COMPONENT_STATUS.IDLE) {
-                        return <></>
-                }
-
                 return (
                         <RenderVirtualListItem
                                 {...renderVirtualListItemProps}

@@ -163,10 +163,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         nextSupportingTextCloseEvent?.()
                 }, [nextSupportingTextCloseEvent])
 
-                if (status === COMPONENT_STATUS.IDLE) {
-                        return <></>
-                }
-
                 return (
                         <RenderTextInput
                                 {...renderTextInputProps}

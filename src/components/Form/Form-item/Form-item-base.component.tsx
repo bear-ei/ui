@@ -64,10 +64,6 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 
                 useEffect(() => () => signOutEvent?.(), [signOutEvent])
 
-                if (status === COMPONENT_STATUS.IDLE) {
-                        return <></>
-                }
-
                 return (
                         <RenderFormItem
                                 {...renderFormItemProps}

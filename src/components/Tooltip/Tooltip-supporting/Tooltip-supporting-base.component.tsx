@@ -113,10 +113,6 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                         nextClosedEvent?.()
                 }, [nextClosedEvent])
 
-                if (status === COMPONENT_STATUS.IDLE) {
-                        return <></>
-                }
-
                 return (
                         <RenderTooltipSupporting
                                 {...renderTooltipSupportingProps}

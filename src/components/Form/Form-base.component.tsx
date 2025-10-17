@@ -53,10 +53,6 @@ const FormBaseInner = <T,>(
                 runInitializeStateWithValues(initialValues)
         }, [runInitializeStateWithValues, initialValues])
 
-        if (status === COMPONENT_STATUS.IDLE) {
-                return <></>
-        }
-
         return (
                 <RenderForm
                         {...renderFormProps}
