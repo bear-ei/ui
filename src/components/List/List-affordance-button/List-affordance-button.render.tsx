@@ -62,9 +62,10 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                                                         <Animated.Text
                                                                 className={clsx(
                                                                         'z-20 select-none text-center',
-                                                                        typographyClasses(TYPOGRAPHY.LABEL)(size)(
-                                                                                'color-[--color-on-primary]'
-                                                                        )
+                                                                        typographyClasses(TYPOGRAPHY.LABEL)(size)({
+                                                                                colorClasses:
+                                                                                        'color-[--color-on-primary]'
+                                                                        })
                                                                 )}
                                                                 ellipsizeMode='tail'
                                                                 numberOfLines={1}

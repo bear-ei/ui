@@ -46,9 +46,9 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
                                 {subheader && (
                                         <Text
                                                 className={clsx(
-                                                        typographyClasses(TYPOGRAPHY.TITLE)(TYPOGRAPHY_SIZE.SMALL)(
-                                                                'color-[--color-on-surface-variant]'
-                                                        )
+                                                        typographyClasses(TYPOGRAPHY.TITLE)(TYPOGRAPHY_SIZE.SMALL)({
+                                                                colorClasses: 'color-[--color-on-surface-variant]'
+                                                        })
                                                 )}
                                                 testID={`divider__subheader--${id}`}
                                         >

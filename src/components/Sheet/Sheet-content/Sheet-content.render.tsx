@@ -148,7 +148,10 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                                                         'select-none text-center',
                                                                         typographyClasses(TYPOGRAPHY.TITLE)(
                                                                                 TYPOGRAPHY_SIZE.LARGE
-                                                                        )('color-[--color-on-surface-variant]')
+                                                                        )({
+                                                                                colorClasses:
+                                                                                        'color-[--color-on-surface-variant]'
+                                                                        })
                                                                 )}
                                                                 numberOfLines={1}
                                                                 testID={`sheetContent__headerText--${id}`}

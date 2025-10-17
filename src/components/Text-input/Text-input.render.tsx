@@ -1,7 +1,7 @@
 import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
-import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View, type ViewStyle} from 'react-native'
@@ -70,9 +70,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                 testID={testID ?? `textInput--${id}`}
                         >
                                 <View
-                                        className={clsx('flex flex-col', {
-                                                ['gap-1']: typeof supportingText === 'string'
-                                        })}
+                                        className='flex flex-col gap-1'
                                         testID={`textInput__content--${id}`}
                                 >
                                         <Pressable
@@ -277,7 +275,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                         </Pressable>
 
                                         <LayoutAnimated
-                                                className={clsx('mb-1', {
+                                                className={clsx('mb-1 min-h-4', {
                                                         ['pl-2 pr-2']: size === SIZE.EXTRA_SMALL,
                                                         ['pl-3 pr-3']: size === SIZE.SMALL,
                                                         ['pl-4 pr-4']: size === SIZE.MEDIUM,
@@ -290,7 +288,9 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                 visible={supportingTextVisible}
                                         >
                                                 <Animated.Text
-                                                        className={typographyClasses(TYPOGRAPHY.BODY)(size)()}
+                                                        className={typographyClasses(TYPOGRAPHY.BODY)(
+                                                                TYPOGRAPHY_SIZE.SMALL
+                                                        )()}
                                                         style={[supportingTextAnimatedStyle]}
                                                         testID={`textInput__animatedSupportingText--${id}`}
                                                 >

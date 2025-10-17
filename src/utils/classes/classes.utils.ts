@@ -10,12 +10,18 @@ import {
         type TypographySize
 } from '@bearei/theme-token'
 import {clsx} from 'clsx'
+import type {TypographyClassesOptions} from './classes.interface'
 
 export const shapeClasses = (shape = SHAPE.NONE as ShapeType) => createShape()[shape]
 export const typographyClasses =
         (typography = TYPOGRAPHY.BODY as TypographyType) =>
         (rawSize = TYPOGRAPHY_SIZE.MEDIUM as TypographySize | Size) =>
-        (colorClasses = 'color-[--color-on-surface]') => {
+        (
+                {
+                        colorClasses = 'color-[--color-on-surface]',
+                        fontFamilyClasses = 'font-[family-name:var(--font-family)]'
+                } = {} as TypographyClassesOptions
+        ) => {
                 const typographySize = {
                         [SIZE.EXTRA_LARGE]: TYPOGRAPHY_SIZE.LARGE,
                         [SIZE.EXTRA_SMALL]: TYPOGRAPHY_SIZE.SMALL,
@@ -26,5 +32,5 @@ export const typographyClasses =
 
                 const size = typographySize[rawSize]
 
-                return clsx(createTypography()[typography][size], 'font-[--font-family]', colorClasses)
+                return clsx(createTypography()[typography][size], fontFamilyClasses, colorClasses)
         }

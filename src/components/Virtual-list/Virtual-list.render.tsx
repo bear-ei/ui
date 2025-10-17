@@ -121,9 +121,9 @@ export const RenderVirtualListInner = <T,>(
                         >
                                 {emptyElement ?? (
                                         <Text
-                                                className={typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.MEDIUM)(
-                                                        'color-[--color-on-surface-variant]'
-                                                )}
+                                                className={typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.MEDIUM)({
+                                                        colorClasses: 'color-[--color-on-surface-variant]'
+                                                })}
                                                 testID={`virtualList__supportingText--${id}`}
                                         >
                                                 No data
@@ -140,9 +140,9 @@ export const RenderVirtualListInner = <T,>(
                                 {loadingElement ?
                                         cloneElement(loadingElement, {loading})
                                 :       <Text
-                                                className={typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.MEDIUM)(
-                                                        'color-[--color-on-surface-variant]'
-                                                )}
+                                                className={typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.MEDIUM)({
+                                                        colorClasses: 'color-[--color-on-surface-variant]'
+                                                })}
                                                 testID={`virtualList__supportingText--${id}`}
                                         >
                                                 Loading

@@ -144,9 +144,9 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                 testID={`tooltipSupporting__supportingText--${id}`}
                                                 className={clsx(
                                                         'select-none text-center',
-                                                        typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.SMALL)(
-                                                                'color-[--color-inverse-on-surface]'
-                                                        )
+                                                        typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.SMALL)({
+                                                                colorClasses: 'color-[--color-inverse-on-surface]'
+                                                        })
                                                 )}
                                         >
                                                 {supporting}

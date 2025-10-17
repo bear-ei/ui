@@ -56,6 +56,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                         loading,
                         size = SIZE.MEDIUM,
                         stretch,
+                        style,
                         testID,
                         type = BUTTON_TYPE.FILLED,
                         underlayColor,
@@ -105,6 +106,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                 accessibilityRole='button'
                                 accessibilityState={{disabled}}
                                 accessible={true}
+                                style={[style]}
                                 className={clsx('cursor-pointer', {
                                         ['h-10 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.MEDIUM,
                                         ['h-12 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.LARGE,
@@ -139,7 +141,6 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                         className={clsx(
                                                                 'z-10 flex flex-1 flex-row items-center justify-center gap-2 self-stretch',
                                                                 {
-                                                                        ['pl-1 pr-1']: type === BUTTON_TYPE.LINK,
                                                                         ['pl-2 pr-2']:
                                                                                 type !== BUTTON_TYPE.LINK &&
                                                                                 size === SIZE.EXTRA_SMALL,

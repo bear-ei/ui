@@ -282,9 +282,10 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                         className={clsx(
                                                                                                 typographyClasses(
                                                                                                         TYPOGRAPHY.BODY
-                                                                                                )(size)(
-                                                                                                        'color-[--color-on-surface-variant]'
-                                                                                                )
+                                                                                                )(size)({
+                                                                                                        colorClasses:
+                                                                                                                'color-[--color-on-surface-variant]'
+                                                                                                })
                                                                                         )}
                                                                                         ellipsizeMode='tail'
                                                                                         numberOfLines={
