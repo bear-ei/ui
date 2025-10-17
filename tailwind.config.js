@@ -7,6 +7,9 @@ module.exports = {
         theme: {extend: {}},
         plugins: [],
         safelist: [
+                'color-[--color-on-surface]',
+                'font-[--font-code-family]',
+                'font-[--font-family]',
                 'font-medium',
                 'font-mono',
                 'font-normal',

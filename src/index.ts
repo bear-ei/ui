@@ -10,6 +10,7 @@ export {
         SHAPE,
         SIZE,
         TYPOGRAPHY,
+        TYPOGRAPHY_SIZE,
         WINDOW_SIZE
 } from '@bearei/theme-token'
 export type {Platform, Token} from '@bearei/theme-token'

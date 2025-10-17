@@ -276,28 +276,27 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                 </Animated.View>
                                         </Pressable>
 
-                                        {typeof supportingText === 'string' && (
-                                                <LayoutAnimated
-                                                        className={clsx('mb-1', {
-                                                                ['pl-2 pr-2']: size === SIZE.EXTRA_SMALL,
-                                                                ['pl-3 pr-3']: size === SIZE.SMALL,
-                                                                ['pl-4 pr-4']: size === SIZE.MEDIUM,
-                                                                ['pl-5 pr-5']: size === SIZE.LARGE,
-                                                                ['pl-6 pr-6']: size === SIZE.EXTRA_LARGE
-                                                        })}
-                                                        onVisibility={onSupportingTextVisibility}
-                                                        testID={`textInput__supportingLayoutAnimated--${id}`}
-                                                        visible={supportingTextVisible}
+                                        <LayoutAnimated
+                                                className={clsx('mb-1', {
+                                                        ['pl-2 pr-2']: size === SIZE.EXTRA_SMALL,
+                                                        ['pl-3 pr-3']: size === SIZE.SMALL,
+                                                        ['pl-4 pr-4']: size === SIZE.MEDIUM,
+                                                        ['pl-5 pr-5']: size === SIZE.LARGE,
+                                                        ['pl-6 pr-6']: size === SIZE.EXTRA_LARGE
+                                                })}
+                                                contentSize={{height: theme.token.spacing.medium}}
+                                                onVisibility={onSupportingTextVisibility}
+                                                testID={`textInput__supportingLayoutAnimated--${id}`}
+                                                visible={supportingTextVisible}
+                                        >
+                                                <Animated.Text
+                                                        className={typographyClasses(TYPOGRAPHY.BODY)(size)()}
+                                                        style={[supportingTextAnimatedStyle]}
+                                                        testID={`textInput__animatedSupportingText--${id}`}
                                                 >
-                                                        <Animated.Text
-                                                                className={typographyClasses(TYPOGRAPHY.BODY)(size)()}
-                                                                style={[supportingTextAnimatedStyle]}
-                                                                testID={`textInput__animatedSupportingText--${id}`}
-                                                        >
-                                                                {supportingText}
-                                                        </Animated.Text>
-                                                </LayoutAnimated>
-                                        )}
+                                                        {supportingText}
+                                                </Animated.Text>
+                                        </LayoutAnimated>
                                 </View>
                         </View>
                 )

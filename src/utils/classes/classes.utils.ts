@@ -15,7 +15,7 @@ export const shapeClasses = (shape = SHAPE.NONE as ShapeType) => createShape()[s
 export const typographyClasses =
         (typography = TYPOGRAPHY.BODY as TypographyType) =>
         (rawSize = TYPOGRAPHY_SIZE.MEDIUM as TypographySize | Size) =>
-        (colorClasses = 'color-[--color-error]') => {
+        (colorClasses = 'color-[--color-on-surface]') => {
                 const typographySize = {
                         [SIZE.EXTRA_LARGE]: TYPOGRAPHY_SIZE.LARGE,
                         [SIZE.EXTRA_SMALL]: TYPOGRAPHY_SIZE.SMALL,
@@ -26,5 +26,5 @@ export const typographyClasses =
 
                 const size = typographySize[rawSize]
 
-                return clsx(createTypography()[typography][size], 'font-sans', colorClasses)
+                return clsx(createTypography()[typography][size], 'font-[--font-family]', colorClasses)
         }

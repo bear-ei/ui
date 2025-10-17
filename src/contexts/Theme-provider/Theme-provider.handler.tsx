@@ -15,6 +15,10 @@ export const processCssVariables = (token: Token) => {
                 ...Object.entries(token.scheme).reduce(
                         (accumulator, [key, value]) => ({...accumulator, [`--color-${toKebabCase(key)}`]: value}),
                         {}
+                ),
+                ...Object.entries(token.font).reduce(
+                        (accumulator, [key, value]) => ({...accumulator, [`--font-${toKebabCase(key)}`]: value}),
+                        {}
                 )
         })
 }
