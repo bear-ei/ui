@@ -66,8 +66,8 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
 
                 const size =
                         type === NAVIGATION_RAIL_TYPE.BLOCK ?
-                                theme.token.spacing.extraSmall * 7
-                        :       theme.token.spacing.extraSmall * 5
+                                theme.token.spacing.extraSmall * 6
+                        :       theme.token.spacing.extraSmall * 4
 
                 const iconElement = cloneElement(icon ?? <Circle />, {
                         color: theme.token.scheme.onSurfaceVariant,

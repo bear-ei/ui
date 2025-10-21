@@ -24,13 +24,13 @@ export const RenderNavigationRail = forwardRef<View, RenderNavigationRailProps>(
         ({destinationPosition, id, itemElements, menuElement, testID, fabElement, ...containerProps}, ref) => (
                 <View
                         {...containerProps}
-                        className='flex w-20 flex-1 flex-col items-center self-stretch pb-14 pt-11'
+                        className='flex w-20 flex-1 flex-col items-center self-stretch pb-14 pt-14'
                         ref={ref}
                         testID={testID ?? `navigationRail--${id}`}
                 >
                         {menuElement && (
                                 <View
-                                        className='mb-2 flex h-10 w-10 items-center justify-center overflow-hidden'
+                                        className='mb-4 flex h-8 w-8 items-center justify-center overflow-hidden'
                                         testID={`navigationRail__menu--${id}`}
                                 >
                                         {menuElement}
@@ -39,7 +39,7 @@ export const RenderNavigationRail = forwardRef<View, RenderNavigationRailProps>(
 
                         {fabElement && (
                                 <View
-                                        className='mb-10 h-14 w-14 overflow-hidden'
+                                        className='mb-10 h-12 w-12 overflow-hidden'
                                         testID={`navigationRail__fab--${id}`}
                                 >
                                         {fabElement}

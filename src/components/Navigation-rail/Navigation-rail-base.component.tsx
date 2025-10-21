@@ -52,8 +52,16 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                         fab ?
                                 cloneElement<FABProps>(fab, {
                                         elevated: false,
-                                        size: SIZE.LARGE,
+                                        size: SIZE.MEDIUM,
                                         testID: `navigationRail__fab--${id}`
+                                })
+                        :       undefined
+
+                const menuElement =
+                        menu ?
+                                cloneElement<FABProps>(menu, {
+                                        size: SIZE.SMALL,
+                                        testID: `navigationRail__menu--${id}`
                                 })
                         :       undefined
 
@@ -76,7 +84,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                                 fabElement={fabElement}
                                 id={id}
                                 itemElements={itemElements}
-                                menuElement={menu}
+                                menuElement={menuElement}
                                 ref={ref}
                         />
                 )
