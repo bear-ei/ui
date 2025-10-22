@@ -27,6 +27,7 @@ export const RenderSheetContentLeading: FC<RenderSheetContentLeadingProps> = ({
         headlineLeading ??
         (back ?
                 <IconButton
+                        size={SIZE.SMALL}
                         icon={position === SIDE_SHEET_POSITION.HORIZONTAL_START ? <ArrowRight /> : <ArrowLeft />}
                         onPressOut={onBack}
                         testID={`sheet__backIconButton--${id}`}
@@ -45,6 +46,7 @@ export const RenderSheetContentTrailing: FC<RenderSheetContentTrailingProps> = (
                 <IconButton
                         icon={<X />}
                         onPressOut={onClose}
+                        size={SIZE.SMALL}
                         testID={`sheet__closeIconButton--${id}`}
                         type={ICON_BUTTON_TYPE.STANDARD}
                 />
@@ -132,7 +134,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                         >
                                                 {leadingElement && (
                                                         <View
-                                                                className='flex h-10 w-10 flex-col items-center justify-center overflow-hidden'
+                                                                className='flex flex-col items-center justify-center overflow-hidden'
                                                                 testID={`sheetContent__leading--${id}`}
                                                         >
                                                                 {leadingElement}
@@ -162,7 +164,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 
                                                 {trailingElement && (
                                                         <View
-                                                                className='flex h-10 w-10 flex-col items-center justify-center overflow-hidden'
+                                                                className='flex flex-col items-center justify-center overflow-hidden'
                                                                 testID={`sheetContent__trailing--${id}`}
                                                         >
                                                                 {trailingElement}

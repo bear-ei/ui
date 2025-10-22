@@ -1,8 +1,8 @@
-import {shapeClasses, typographyClasses} from '@/utils'
-import {SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {platformValue, shapeClasses, typographyClasses} from '@/utils'
+import {SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
-import {Image, Text, View} from 'react-native'
+import {Image, Text, View, type ViewStyle} from 'react-native'
 import type {RenderAvatarProps} from './Avatar.interface'
 
 export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
@@ -43,7 +43,16 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                                         shapeClasses(shape)
                                 )}
                                 ref={ref}
-                                style={[{...(backgroundColor && {backgroundColor})}, style]}
+                                style={[
+                                        {...(backgroundColor && {backgroundColor})},
+                                        {
+                                                ...(typeof size === 'number' && {
+                                                        width: platformValue(size),
+                                                        height: platformValue(size)
+                                                })
+                                        } as ViewStyle,
+                                        style
+                                ]}
                                 testID={testID ?? `avatar--${id}`}
                         >
                                 {isSVG && (
@@ -71,7 +80,11 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                                                 :       <Text
                                                                 className={clsx(
                                                                         'color-[--color-on-primary-container]',
-                                                                        typographyClasses(TYPOGRAPHY.TITLE)(size)()
+                                                                        typographyClasses(TYPOGRAPHY.TITLE)(
+                                                                                typeof size === 'number' ?
+                                                                                        TYPOGRAPHY_SIZE.MEDIUM
+                                                                                :       size
+                                                                        )()
                                                                 )}
                                                                 ellipsizeMode='tail'
                                                                 numberOfLines={1}

@@ -15,6 +15,7 @@ export const RenderLayout = forwardRef<View, RenderLayoutProps>(
                         <LayoutAnimated
                                 {...containerProps}
                                 className={clsx('flex flex-1 self-stretch bg-[--color-surface-container]', className)}
+                                defaultVisible={true}
                                 ref={ref}
                                 style={[rawStyle, layoutAnimatedStyle]}
                                 testID={testID ?? `layout--${id}`}
