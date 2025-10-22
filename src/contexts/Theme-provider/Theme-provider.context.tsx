@@ -1,7 +1,7 @@
 import {CONTRAST, createToken, PALETTE, SCHEME, type Token} from '@bearei/theme-token'
 import {cssInterop, useColorScheme} from 'nativewind'
 import {createContext, useId, useMemo, type FC} from 'react'
-import {TextInput, View} from 'react-native'
+import {View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import {ModalProvider} from '../Modal-provider'
@@ -14,10 +14,9 @@ import type {ThemeContextOptions, ThemeProviderProps} from './Theme-provider.int
  *
  * Temporarily trigger Animated to correctly handle nativewind style
  */
-const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
+
 cssInterop(Animated.View, {className: 'style'})
 cssInterop(Animated.Text, {className: 'style'})
-cssInterop(AnimatedTextInput, {className: 'style'})
 
 export const ThemeContext = createContext<ThemeContextOptions>({
         theme: {colorScheme: 'light', token: {} as Token}

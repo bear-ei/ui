@@ -260,10 +260,16 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                 )}
                                                         >
                                                                 {headline &&
-                                                                        (isValidElement(headline) ? headline : (
-                                                                                <Animated.Text
+                                                                        (isValidElement(headline) ?
+                                                                                cloneElement(headline, {...{active}})
+                                                                        :       <Animated.Text
                                                                                         className={typographyClasses(
-                                                                                                TYPOGRAPHY.BODY
+                                                                                                (
+                                                                                                        type ===
+                                                                                                                LIST_TYPE.MENU
+                                                                                                ) ?
+                                                                                                        TYPOGRAPHY.LABEL
+                                                                                                :       TYPOGRAPHY.BODY
                                                                                         )(size)()}
                                                                                         ellipsizeMode='tail'
                                                                                         numberOfLines={1}
@@ -273,8 +279,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                         testID={`listItem__animatedHeadlineText--${id}`}
                                                                                 >
                                                                                         {headline}
-                                                                                </Animated.Text>
-                                                                        ))}
+                                                                                </Animated.Text>)}
 
                                                                 {supporting &&
                                                                         (isValidElement(supporting) ? supporting : (

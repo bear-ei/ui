@@ -3,6 +3,7 @@ import {useTheme} from '@/hooks'
 import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
+import {cssInterop} from 'nativewind'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -12,6 +13,7 @@ import {Underlay} from '../Underlay'
 import type {RenderTextInputProps} from './Text-input.interface'
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
+cssInterop(AnimatedTextInput, {className: 'style'})
 
 /**
  * TODO: Support Multiline
