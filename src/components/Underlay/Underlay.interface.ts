@@ -46,6 +46,3 @@ export interface AnimateUnderlayHoverStateOptions {
         activeValue: number
         animateSharedValueTo: AnimateSharedValueTo
 }
-
-export type HoverLayerProps = Pick<RenderUnderlayProps, 'underlayColor'>
-export type ActiveLayerProps = Pick<RenderUnderlayProps, 'activeColor'>

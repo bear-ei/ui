@@ -81,6 +81,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         afterAffordanceSecondaryButtonProps,
                         afterAffordanceVisible,
                         beforeAffordance,
+                        className,
                         closeTrailing,
                         contentAnimatedStyle,
                         contentStyle,
@@ -155,7 +156,10 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                         <Pressable
                                                 {...touchableProps}
                                                 {...interactionHandlers}
-                                                className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
+                                                className={clsx(
+                                                        'flex flex-1 flex-col items-center justify-center self-stretch outline-none',
+                                                        className
+                                                )}
                                                 disabled={disabled}
                                                 ref={ref}
                                                 testID={`listItem__touchable--${id}`}

@@ -45,11 +45,6 @@ export interface HandleTouchableStateChangeOptions
         ref: React.RefObject<PressableType | null>
 }
 
-export type TouchableContentProps = RefAttributes<PressableType>
-export interface TouchableMainProps {
-        alignSelf?: ViewStyle['alignSelf']
-}
-
 export interface AddTouchableRippleOptions extends Pick<TouchableState, 'contentLayout'> {
         touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>
 }
