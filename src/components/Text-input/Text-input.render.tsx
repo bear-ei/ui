@@ -1,14 +1,14 @@
 import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
-import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cssInterop} from 'nativewind'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
-import {LayoutAnimated} from '../Layout-animated'
+import {SupportingText} from '../Supporting-text'
 import {Underlay} from '../Underlay'
 import type {RenderTextInputProps} from './Text-input.interface'
 
@@ -41,7 +41,6 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                         placeholder = 'Placeholder',
                         size = SIZE.MEDIUM,
                         supportingText,
-                        supportingTextAnimatedStyle,
                         supportingTextVisible,
                         testID,
                         trailingElement,
@@ -276,29 +275,15 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                 </Animated.View>
                                         </Pressable>
 
-                                        <LayoutAnimated
-                                                className={clsx('mb-1 min-h-4', {
-                                                        ['pl-2 pr-2']: size === SIZE.EXTRA_SMALL,
-                                                        ['pl-3 pr-3']: size === SIZE.SMALL,
-                                                        ['pl-4 pr-4']: size === SIZE.MEDIUM,
-                                                        ['pl-5 pr-5']: size === SIZE.LARGE,
-                                                        ['pl-6 pr-6']: size === SIZE.EXTRA_LARGE
-                                                })}
-                                                contentSize={{height: theme.token.spacing.medium}}
+                                        <SupportingText
+                                                disabled={disabled}
+                                                error={error}
                                                 onVisibility={onSupportingTextVisibility}
                                                 testID={`textInput__supportingLayoutAnimated--${id}`}
                                                 visible={supportingTextVisible}
                                         >
-                                                <Animated.Text
-                                                        className={typographyClasses(TYPOGRAPHY.BODY)(
-                                                                TYPOGRAPHY_SIZE.SMALL
-                                                        )()}
-                                                        style={[supportingTextAnimatedStyle]}
-                                                        testID={`textInput__animatedSupportingText--${id}`}
-                                                >
-                                                        {supportingText}
-                                                </Animated.Text>
-                                        </LayoutAnimated>
+                                                {supportingText}
+                                        </SupportingText>
                                 </View>
                         </View>
                 )

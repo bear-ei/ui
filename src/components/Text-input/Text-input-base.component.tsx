@@ -112,12 +112,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         onStateEventChange
                 })
 
-                const {
-                        activeIndicatorAnimatedStyle,
-                        headerAnimatedStyle,
-                        inputAnimatedStyle,
-                        supportingTextAnimatedStyle
-                } = useTextInputAnimated({
+                const {activeIndicatorAnimatedStyle, headerAnimatedStyle, inputAnimatedStyle} = useTextInputAnimated({
                         disabled,
                         error,
                         state,
@@ -169,7 +164,9 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                                 activeIndicatorAnimatedStyle={activeIndicatorAnimatedStyle}
                                 content={content}
                                 contentSize={contentSize}
+                                disabled={disabled}
                                 editable={editable}
+                                error={error}
                                 eventName={eventName}
                                 headerAnimatedStyle={headerAnimatedStyle}
                                 id={id}
@@ -184,7 +181,6 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                                 onSupportingTextVisibility={onSupportingTextVisibility}
                                 ref={textInputRef}
                                 supportingText={supportingText}
-                                supportingTextAnimatedStyle={supportingTextAnimatedStyle}
                                 supportingTextVisible={isSupportingTextVisible}
                                 trailingElement={trailing}
                                 value={value}

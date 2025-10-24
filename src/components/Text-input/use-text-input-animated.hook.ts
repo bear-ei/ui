@@ -28,8 +28,7 @@ export const useTextInputAnimated = ({
         const defaultAnimatedValue = {
                 activeIndicatorScaleYSharedValue: error ? 1 : 0,
                 colorSharedValue: error ? 3 : 1,
-                inputColorSharedValue: error ? 3 : 1,
-                supportingTextSharedValueValue: error ? 2 : 1
+                inputColorSharedValue: error ? 3 : 1
         }
 
         const activeIndicatorScaleYSharedValue = useSharedValue(
@@ -43,10 +42,6 @@ export const useTextInputAnimated = ({
 
         const inputColorSharedValue = useSharedValue(
                 disabled ? disabledAnimatedValue : defaultAnimatedValue.inputColorSharedValue
-        )
-
-        const supportingTextSharedValue = useSharedValue(
-                disabled ? disabledAnimatedValue : defaultAnimatedValue.supportingTextSharedValueValue
         )
 
         const animatedTiming = useAnimatedTiming({token: theme.token})
@@ -99,36 +94,14 @@ export const useTextInputAnimated = ({
                 transform: [{scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.5, 1])}]
         }))
 
-        const supportingTextSharedValueColorOutputRanges = [
-                disabledColor,
-                hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-                hexToRGBA(scheme.error)(opacity.level10)
-        ]
-
-        const supportingTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(
-                        supportingTextSharedValue.value,
-                        [0, 1, 2],
-                        supportingTextSharedValueColorOutputRanges
-                )
-        }))
-
         const animateTextInputEnabledState = useCallback(
                 () =>
                         createAnimateTextInputEnabledState(animateSharedValueTo)({
                                 activeIndicatorScaleYSharedValue,
                                 colorSharedValue,
-                                inputColorSharedValue,
-                                supportingTextSharedValue
+                                inputColorSharedValue
                         })(error),
-                [
-                        activeIndicatorScaleYSharedValue,
-                        animateSharedValueTo,
-                        colorSharedValue,
-                        error,
-                        inputColorSharedValue,
-                        supportingTextSharedValue
-                ]
+                [activeIndicatorScaleYSharedValue, animateSharedValueTo, colorSharedValue, error, inputColorSharedValue]
         )
 
         const animateTextInputDisabledState = useCallback(
@@ -137,16 +110,14 @@ export const useTextInputAnimated = ({
                                 activeIndicatorScaleYSharedValue,
                                 colorSharedValue,
                                 headerInnerBackgroundColorSharedValue,
-                                inputColorSharedValue,
-                                supportingTextSharedValue
+                                inputColorSharedValue
                         }),
                 [
                         activeIndicatorScaleYSharedValue,
                         animateSharedValueTo,
                         colorSharedValue,
                         headerInnerBackgroundColorSharedValue,
-                        inputColorSharedValue,
-                        supportingTextSharedValue
+                        inputColorSharedValue
                 ]
         )
 
@@ -155,16 +126,9 @@ export const useTextInputAnimated = ({
                         createAnimateTextInputErrorState(animateSharedValueTo)({
                                 activeIndicatorScaleYSharedValue,
                                 colorSharedValue,
-                                inputColorSharedValue,
-                                supportingTextSharedValue
+                                inputColorSharedValue
                         }),
-                [
-                        activeIndicatorScaleYSharedValue,
-                        animateSharedValueTo,
-                        colorSharedValue,
-                        inputColorSharedValue,
-                        supportingTextSharedValue
-                ]
+                [activeIndicatorScaleYSharedValue, animateSharedValueTo, colorSharedValue, inputColorSharedValue]
         )
 
         const animateTextInputFocusedState = useCallback(
@@ -226,21 +190,14 @@ export const useTextInputAnimated = ({
                         cancelAnimation(colorSharedValue)
                         cancelAnimation(headerInnerBackgroundColorSharedValue)
                         cancelAnimation(inputColorSharedValue)
-                        cancelAnimation(supportingTextSharedValue)
                 },
                 [
                         activeIndicatorScaleYSharedValue,
                         colorSharedValue,
                         headerInnerBackgroundColorSharedValue,
-                        inputColorSharedValue,
-                        supportingTextSharedValue
+                        inputColorSharedValue
                 ]
         )
 
-        return {
-                activeIndicatorAnimatedStyle,
-                headerAnimatedStyle,
-                inputAnimatedStyle,
-                supportingTextAnimatedStyle
-        }
+        return {activeIndicatorAnimatedStyle, headerAnimatedStyle, inputAnimatedStyle}
 }

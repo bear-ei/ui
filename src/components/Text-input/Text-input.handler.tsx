@@ -125,8 +125,7 @@ export const createAnimateTextInputEnabledState =
         ({
                 activeIndicatorScaleYSharedValue,
                 colorSharedValue,
-                inputColorSharedValue,
-                supportingTextSharedValue
+                inputColorSharedValue
         }: CreateTextInputEnabledSharedValues) =>
         (error?: boolean) => {
                 if (error) {
@@ -136,7 +135,6 @@ export const createAnimateTextInputEnabledState =
                 animateSharedValueTo({sharedValue: activeIndicatorScaleYSharedValue})(0)
                 animateSharedValueTo({sharedValue: colorSharedValue})(1)
                 animateSharedValueTo({sharedValue: inputColorSharedValue})(1)
-                animateSharedValueTo({sharedValue: supportingTextSharedValue})(1)
         }
 
 export const createAnimateTextInputDisabledState =
@@ -145,8 +143,7 @@ export const createAnimateTextInputDisabledState =
                 activeIndicatorScaleYSharedValue,
                 colorSharedValue,
                 headerInnerBackgroundColorSharedValue,
-                inputColorSharedValue,
-                supportingTextSharedValue
+                inputColorSharedValue
         }: CreateTextInputDisabledSharedValues) => {
                 const toValue = 0
 
@@ -154,7 +151,6 @@ export const createAnimateTextInputDisabledState =
                 animateSharedValueTo({sharedValue: colorSharedValue})(toValue)
                 animateSharedValueTo({sharedValue: headerInnerBackgroundColorSharedValue})(toValue)
                 animateSharedValueTo({sharedValue: inputColorSharedValue})(1)
-                animateSharedValueTo({sharedValue: supportingTextSharedValue})(1)
         }
 
 export const createAnimateTextInputErrorState =
@@ -162,13 +158,11 @@ export const createAnimateTextInputErrorState =
         ({
                 activeIndicatorScaleYSharedValue,
                 colorSharedValue,
-                inputColorSharedValue,
-                supportingTextSharedValue
+                inputColorSharedValue
         }: CreateTextInputErrorSharedValues) => {
                 animateSharedValueTo({sharedValue: activeIndicatorScaleYSharedValue})(1)
                 animateSharedValueTo({sharedValue: colorSharedValue})(3)
                 animateSharedValueTo({sharedValue: inputColorSharedValue})(1)
-                animateSharedValueTo({sharedValue: supportingTextSharedValue})(2)
         }
 
 export const createAnimateTextInputFocusedState =

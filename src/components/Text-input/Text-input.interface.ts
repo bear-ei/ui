@@ -32,7 +32,6 @@ export interface RenderTextInputProps extends TextInputProps {
         leadingElement?: React.JSX.Element
         onHeaderFocus?: () => void
         onSupportingTextVisibility?: (visible?: boolean) => void
-        supportingTextAnimatedStyle: AnimatedStyle<TextStyle>
         supportingTextVisible?: boolean
         trailingElement?: React.JSX.Element
 }
@@ -71,7 +70,6 @@ export interface CreateTextInputEnabledSharedValues {
         activeIndicatorScaleYSharedValue: SharedValue<number>
         colorSharedValue: SharedValue<number>
         inputColorSharedValue: SharedValue<number>
-        supportingTextSharedValue: SharedValue<number>
 }
 
 export interface CreateTextInputDisabledSharedValues {
@@ -79,14 +77,12 @@ export interface CreateTextInputDisabledSharedValues {
         colorSharedValue: SharedValue<number>
         headerInnerBackgroundColorSharedValue: SharedValue<number>
         inputColorSharedValue: SharedValue<number>
-        supportingTextSharedValue: SharedValue<number>
 }
 
 export interface CreateTextInputErrorSharedValues {
         activeIndicatorScaleYSharedValue: SharedValue<number>
         colorSharedValue: SharedValue<number>
         inputColorSharedValue: SharedValue<number>
-        supportingTextSharedValue: SharedValue<number>
 }
 
 export interface CreateTextInputFocusedSharedValues {
