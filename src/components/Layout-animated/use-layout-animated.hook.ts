@@ -1,6 +1,6 @@
 import {COMPONENT_STATUS} from '@/constants'
 import {useAnimatedTiming, useTheme} from '@/hooks'
-import {platformValue} from '@/utils'
+import {debounce, platformValue} from '@/utils'
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
@@ -10,6 +10,7 @@ import type {UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
 export const useLayoutAnimated = ({
         animatedType = LAYOUT_ANIMATED.FADE,
+        delay = 50,
         entry,
         exit,
         height = 0,
@@ -120,12 +121,26 @@ export const useLayoutAnimated = ({
 
         const runAnimate = useMemo(
                 () =>
-                        animateLayoutAnimated({
-                                animatedType,
-                                createEntrySharedValueAnimator,
-                                createExitSharedValueAnimator
-                        })(containerSharedValue),
-                [animatedType, containerSharedValue, createEntrySharedValueAnimator, createExitSharedValueAnimator]
+                        animatedType !== LAYOUT_ANIMATED.STANDARD ?
+                                debounce(
+                                        animateLayoutAnimated({
+                                                animatedType,
+                                                createEntrySharedValueAnimator,
+                                                createExitSharedValueAnimator
+                                        })(containerSharedValue)
+                                )(delay)
+                        :       animateLayoutAnimated({
+                                        animatedType,
+                                        createEntrySharedValueAnimator,
+                                        createExitSharedValueAnimator
+                                })(containerSharedValue),
+                [
+                        animatedType,
+                        containerSharedValue,
+                        createEntrySharedValueAnimator,
+                        createExitSharedValueAnimator,
+                        delay
+                ]
         )
 
         useEffect(() => {

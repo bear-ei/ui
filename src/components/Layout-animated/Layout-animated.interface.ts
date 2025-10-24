@@ -13,6 +13,7 @@ import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
 export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View> & CommonProps, 'style'> {
+        delay?: number
         animatedType?: LayoutAnimatedType
         contentSize?: ContentSize | number
         defaultVisible?: boolean
@@ -61,7 +62,7 @@ export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEvent
 export interface UseLayoutAnimatedOptions
         extends Pick<
                 LayoutAnimatedProps,
-                'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible' | 'translate'
+                'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible' | 'translate' | 'delay'
         > {
         height?: number
         onAnimationFinished: (visible?: boolean) => void
