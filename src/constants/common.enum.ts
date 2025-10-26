@@ -38,3 +38,9 @@ export const TRIGGER_EVENT = {
         HOVER: 'HOVER',
         PRESS: 'PRESS'
 } as const
+
+export const ALIGNMENT = {
+        CENTER: 'CENTER',
+        END: 'END',
+        START: 'START'
+} as const

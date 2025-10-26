@@ -279,6 +279,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                 disabled={disabled}
                                                 error={error}
                                                 onVisibility={onSupportingTextVisibility}
+                                                size={size}
                                                 testID={`textInput__supportingLayoutAnimated--${id}`}
                                                 visible={supportingTextVisible}
                                         >
