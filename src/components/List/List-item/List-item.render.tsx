@@ -342,6 +342,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
                                                                                         ['ml-[0.375rem] h-10 w-10']:
                                                                                                 size === SIZE.LARGE,
+
                                                                                         ['ml-1 h-8 w-8']:
                                                                                                 size &&
                                                                                                 (

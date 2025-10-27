@@ -122,7 +122,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                 >
                                         <View
                                                 className={clsx(
-                                                        'flex flex-row items-center gap-4 self-stretch pb-2 pr-1 pt-2',
+                                                        'flex flex-row items-center gap-1 self-stretch pb-2 pr-1 pt-2',
                                                         {
                                                                 ['pl-4']: !!leadingElement,
                                                                 ['pl-6']: !leadingElement,
@@ -142,7 +142,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                                 )}
 
                                                 <View
-                                                        className='flex h-10 flex-1 flex-row items-center'
+                                                        className='flex h-8 flex-1 flex-row items-center'
                                                         testID={`sheetContent__headlineLayout--${id}`}
                                                 >
                                                         <Text

@@ -1,6 +1,7 @@
+import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
-import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
+import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, type Size} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {Search} from 'lucide-react-native'
 import {cloneElement, forwardRef} from 'react'
@@ -24,7 +25,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                         inputAnimatedStyle,
                         interactionHandlers,
                         layout: _,
-                        leadingElement,
+                        leadingElement = <Search />,
                         listVisible,
                         onChangeText,
                         placeholder,
@@ -43,7 +44,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                         :       theme.token.scheme.onSurfaceVariant
 
                 const {onBlur, onFocus, ...touchableInteractionHandlers} = interactionHandlers
-                const iconSize = processIconSize(theme)(size)
+                const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
                 const isLeadingShow = !!leadingElement
                 const isTrailingShow = !!trailingElement
                 const shape = SHAPE.FULL
@@ -53,12 +54,18 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                 return (
                         <View
                                 {...(containerRef && {ref: containerRef})}
-                                className='relative z-40 justify-center self-stretch'
+                                className={clsx('relative z-40 justify-center self-stretch', {
+                                        ['h-10']: size === SIZE.SMALL,
+                                        ['h-12']: size === SIZE.MEDIUM,
+                                        ['h-14']: size === SIZE.LARGE,
+                                        ['h-16']: size === SIZE.EXTRA_LARGE,
+                                        ['h-8']: size === SIZE.EXTRA_SMALL
+                                })}
                                 testID={testID ?? `search--${id}`}
                         >
                                 <Pressable
                                         {...touchableInteractionHandlers}
-                                        className='cursor-text outline-none'
+                                        className='flex-1 cursor-text outline-none'
                                         tabIndex={-1}
                                         testID={`search__touchable--${id}`}
                                 >
@@ -66,44 +73,53 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                 accessibilityLabel={accessibilityLabel ?? placeholder}
                                                 accessibilityRole='keyboardkey'
                                                 className={clsx(
-                                                        'relative z-10 flex flex-row items-center justify-between self-stretch pl-1',
+                                                        'relative z-10 flex flex-1 flex-row items-center justify-between self-stretch',
                                                         {
-                                                                ['h-10']: size === SIZE.MEDIUM,
-                                                                ['h-12']: size === SIZE.LARGE,
-                                                                ['h-14']: size === SIZE.EXTRA_LARGE,
-                                                                ['h-6']: size === SIZE.EXTRA_SMALL,
-                                                                ['h-8']: size === SIZE.SMALL,
                                                                 ['pr-6']: !isTrailingShow && size === SIZE.EXTRA_LARGE,
-                                                                ['pr-5']: !isTrailingShow && size === SIZE.LARGE,
-                                                                ['pr-4']:
-                                                                        (!isTrailingShow && size === SIZE.MEDIUM) ||
-                                                                        (isTrailingShow && size === SIZE.EXTRA_LARGE),
+                                                                ['pl-6']: !isLeadingShow && size === SIZE.EXTRA_LARGE,
                                                                 ['pr-3']:
-                                                                        (!isTrailingShow && size === SIZE.SMALL) ||
-                                                                        (isTrailingShow && size === SIZE.MEDIUM),
-                                                                ['pr-2']:
-                                                                        (!isTrailingShow &&
-                                                                                size === SIZE.EXTRA_SMALL) ||
-                                                                        (isTrailingShow && size === SIZE.SMALL),
+                                                                        (isTrailingShow && size === SIZE.EXTRA_LARGE) ||
+                                                                        (!isTrailingShow && size === SIZE.SMALL),
 
-                                                                ['pr-[0.875rem]']:
+                                                                ['pl-3']:
+                                                                        (isLeadingShow && size === SIZE.EXTRA_LARGE) ||
+                                                                        (!isLeadingShow && size === SIZE.SMALL),
+
+                                                                ['pr-5']: !isTrailingShow && size === SIZE.LARGE,
+                                                                ['pl-5']: !isLeadingShow && size === SIZE.LARGE,
+                                                                ['pr-[0.625rem]']:
                                                                         isTrailingShow && size === SIZE.LARGE,
 
-                                                                ['pr-1']: isTrailingShow && size === SIZE.EXTRA_SMALL,
-                                                                ['pl-6']: !isLeadingShow && size === SIZE.EXTRA_LARGE,
+                                                                ['pl-[0.625rem]']: isLeadingShow && size === SIZE.LARGE,
 
-                                                                ['pl-5']: !isLeadingShow && size === SIZE.LARGE,
-                                                                ['pl-4']:
-                                                                        (!isLeadingShow && size === SIZE.MEDIUM) ||
-                                                                        (isLeadingShow && size === SIZE.EXTRA_LARGE),
-                                                                ['pl-3']:
-                                                                        (!isLeadingShow && size === SIZE.SMALL) ||
-                                                                        (isLeadingShow && size === SIZE.MEDIUM),
+                                                                ['pr-4']: !isTrailingShow && size === SIZE.MEDIUM,
+                                                                ['pl-4']: !isLeadingShow && size === SIZE.MEDIUM,
+                                                                ['pr-2']:
+                                                                        (isTrailingShow && size === SIZE.MEDIUM) ||
+                                                                        (!isTrailingShow && size === SIZE.EXTRA_SMALL),
+
                                                                 ['pl-2']:
-                                                                        (!isLeadingShow && size === SIZE.EXTRA_SMALL) ||
-                                                                        (isLeadingShow && size === SIZE.SMALL),
-                                                                ['pl-[0.875rem]']: isLeadingShow && size === SIZE.LARGE,
-                                                                ['pl-1']: isLeadingShow && size === SIZE.EXTRA_SMALL
+                                                                        (isLeadingShow && size === SIZE.MEDIUM) ||
+                                                                        (!isLeadingShow && size === SIZE.EXTRA_SMALL),
+
+                                                                ['pr-1']:
+                                                                        isTrailingShow &&
+                                                                        size &&
+                                                                        (
+                                                                                [
+                                                                                        SIZE.SMALL,
+                                                                                        SIZE.EXTRA_SMALL
+                                                                                ] as readonly Size[]
+                                                                        ).includes(size),
+                                                                ['pl-1']:
+                                                                        isLeadingShow &&
+                                                                        size &&
+                                                                        (
+                                                                                [
+                                                                                        SIZE.SMALL,
+                                                                                        SIZE.EXTRA_SMALL
+                                                                                ] as readonly Size[]
+                                                                        ).includes(size)
                                                         },
                                                         shapeClasses(shape)
                                                 )}
@@ -112,15 +128,22 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                         >
                                                 <View
                                                         className={clsx('flex flex-col items-center justify-center', {
-                                                                ['mr-[0.875rem] h-8 w-8']: size === SIZE.LARGE,
-                                                                ['mr-1 h-6 w-6']: size === SIZE.EXTRA_SMALL,
-                                                                ['mr-2 h-6 w-6']: size === SIZE.SMALL,
-                                                                ['mr-3 h-6 w-6']: size === SIZE.MEDIUM,
-                                                                ['mr-4 h-10 w-10']: size === SIZE.EXTRA_LARGE
+                                                                ['mr-1 h-12 w-12']: size === SIZE.EXTRA_LARGE,
+                                                                ['mr-[0.375rem] h-10 w-10']: size === SIZE.LARGE,
+                                                                ['mr-1 h-8 w-8']:
+                                                                        size &&
+                                                                        (
+                                                                                [
+                                                                                        SIZE.MEDIUM,
+                                                                                        SIZE.SMALL
+                                                                                ] as readonly Size[]
+                                                                        ).includes(size),
+
+                                                                ['mr-1 h-6 w-6']: size === SIZE.EXTRA_SMALL
                                                         })}
                                                         testID={`search__leading--${id}`}
                                                 >
-                                                        {cloneElement(leadingElement ?? <Search />, {
+                                                        {cloneElement(leadingElement, {
                                                                 color: theme.token.scheme.onSurfaceVariant,
                                                                 disabled,
                                                                 size: platformValue(iconSize),
@@ -167,12 +190,21 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                                 className={clsx(
                                                                         'flex flex-col items-center justify-center',
                                                                         {
-                                                                                ['ml-4 h-10 w-10']:
+                                                                                ['ml-1 h-12 w-12']:
                                                                                         size === SIZE.EXTRA_LARGE,
-                                                                                ['ml-[0.875rem] h-8 w-8']:
+
+                                                                                ['ml-[0.375rem] h-10 w-10']:
                                                                                         size === SIZE.LARGE,
-                                                                                ['ml-3 h-6 w-6']: size === SIZE.MEDIUM,
-                                                                                ['ml-2 h-6 w-6']: size === SIZE.SMALL,
+
+                                                                                ['ml-1 h-8 w-8']:
+                                                                                        size &&
+                                                                                        (
+                                                                                                [
+                                                                                                        SIZE.MEDIUM,
+                                                                                                        SIZE.SMALL
+                                                                                                ] as readonly Size[]
+                                                                                        ).includes(size),
+
                                                                                 ['ml-1 h-6 w-6']:
                                                                                         size === SIZE.EXTRA_SMALL
                                                                         }
