@@ -14,6 +14,7 @@ import {Pressable, Text, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
+import type {ListType} from '../List.interface'
 import type {ListItemRef, RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
 
 export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
@@ -98,7 +99,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         leadingElement,
                         onCancel,
                         onConfirm,
-                        onTrailingUnmount,
                         panResponder,
                         selectType,
                         shape,
@@ -110,7 +110,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         testID,
                         trailingElement,
                         trailingTriggerEvent,
-                        trailingUnmount = true,
                         trailingVisible,
                         type = LIST_TYPE.STANDARD,
                         ...touchableProps
@@ -122,7 +121,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                 const isSupportingTextShow = !!supporting
                 const isTrailingShow = !!trailingElement
                 const isLeadingShow = !!leadingElement
-                // const isUnmountTrailing = trailingTriggerEvent === TRIGGER_EVENT.HOVER
                 const underlayColor = active ? theme.token.scheme.onSecondaryContainer : theme.token.scheme.onSurface
                 const underlayProps = selectType &&
                         [LIST_SELECT_TYPE.SINGLE, LIST_SELECT_TYPE.MULTIPLE].includes(selectType) &&
@@ -134,6 +132,11 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
                 const isMultiline = (supportingTextNumberOfLines ?? 0) > 1
                 const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
+                const typographyType =
+                        type && ([LIST_TYPE.MENU, LIST_TYPE.LABEL] as readonly ListType[]).includes(type) ?
+                                TYPOGRAPHY.LABEL
+                        :       TYPOGRAPHY.BODY
+
                 const mainElement = (
                         <>
                                 {beforeAffordance && (
@@ -171,52 +174,70 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                         ['pr-6']:
                                                                                 !isTrailingShow &&
                                                                                 size === SIZE.EXTRA_LARGE,
-                                                                        ['pr-5']:
-                                                                                !isTrailingShow && size === SIZE.LARGE,
-                                                                        ['pr-4']:
-                                                                                (!isTrailingShow &&
-                                                                                        size === SIZE.MEDIUM) ||
-                                                                                (isTrailingShow &&
-                                                                                        size === SIZE.EXTRA_LARGE),
-                                                                        ['pr-3']:
-                                                                                (!isTrailingShow &&
-                                                                                        size === SIZE.SMALL) ||
-                                                                                (isTrailingShow &&
-                                                                                        size === SIZE.MEDIUM),
-                                                                        ['pr-2']:
-                                                                                (!isTrailingShow &&
-                                                                                        size === SIZE.EXTRA_SMALL) ||
-                                                                                (isTrailingShow && size === SIZE.SMALL),
 
-                                                                        ['pr-[0.875rem]']:
-                                                                                isTrailingShow && size === SIZE.LARGE,
-
-                                                                        ['pr-1']:
-                                                                                isTrailingShow &&
-                                                                                size === SIZE.EXTRA_SMALL,
                                                                         ['pl-6']:
                                                                                 !isLeadingShow &&
                                                                                 size === SIZE.EXTRA_LARGE,
 
-                                                                        ['pl-5']: !isLeadingShow && size === SIZE.LARGE,
-                                                                        ['pl-4']:
-                                                                                (!isLeadingShow &&
-                                                                                        size === SIZE.MEDIUM) ||
-                                                                                (isLeadingShow &&
-                                                                                        size === SIZE.EXTRA_LARGE),
+                                                                        ['pr-3']:
+                                                                                (isTrailingShow &&
+                                                                                        size === SIZE.EXTRA_LARGE) ||
+                                                                                (!isTrailingShow &&
+                                                                                        size === SIZE.SMALL),
+
                                                                         ['pl-3']:
-                                                                                (!isLeadingShow &&
-                                                                                        size === SIZE.SMALL) ||
-                                                                                (isLeadingShow && size === SIZE.MEDIUM),
-                                                                        ['pl-2']:
-                                                                                (!isLeadingShow &&
-                                                                                        size === SIZE.EXTRA_SMALL) ||
-                                                                                (isLeadingShow && size === SIZE.SMALL),
-                                                                        ['pl-[0.875rem]']:
+                                                                                (isLeadingShow &&
+                                                                                        size === SIZE.EXTRA_LARGE) ||
+                                                                                (!isLeadingShow && size === SIZE.SMALL),
+
+                                                                        ['pr-5']:
+                                                                                !isTrailingShow && size === SIZE.LARGE,
+
+                                                                        ['pl-5']: !isLeadingShow && size === SIZE.LARGE,
+
+                                                                        ['pr-[0.625rem]']:
+                                                                                isTrailingShow && size === SIZE.LARGE,
+
+                                                                        ['pl-[0.625rem]']:
                                                                                 isLeadingShow && size === SIZE.LARGE,
+
+                                                                        ['pr-4']:
+                                                                                !isTrailingShow && size === SIZE.MEDIUM,
+
+                                                                        ['pl-4']:
+                                                                                !isLeadingShow && size === SIZE.MEDIUM,
+
+                                                                        ['pr-2']:
+                                                                                (isTrailingShow &&
+                                                                                        size === SIZE.MEDIUM) ||
+                                                                                (!isTrailingShow &&
+                                                                                        size === SIZE.EXTRA_SMALL),
+
+                                                                        ['pl-2']:
+                                                                                (isLeadingShow &&
+                                                                                        size === SIZE.MEDIUM) ||
+                                                                                (!isLeadingShow &&
+                                                                                        size === SIZE.EXTRA_SMALL),
+
+                                                                        ['pr-1']:
+                                                                                isTrailingShow &&
+                                                                                size &&
+                                                                                (
+                                                                                        [
+                                                                                                SIZE.SMALL,
+                                                                                                SIZE.EXTRA_SMALL
+                                                                                        ] as readonly Size[]
+                                                                                ).includes(size),
                                                                         ['pl-1']:
                                                                                 isLeadingShow &&
-                                                                                size === SIZE.EXTRA_SMALL,
+                                                                                size &&
+                                                                                (
+                                                                                        [
+                                                                                                SIZE.SMALL,
+                                                                                                SIZE.EXTRA_SMALL
+                                                                                        ] as readonly Size[]
+                                                                                ).includes(size),
+
                                                                         ['pb-2 pt-2']:
                                                                                 isSupportingTextShow && !isMultiline,
                                                                         ['pb-4 pt-4']:
@@ -232,15 +253,22 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
                                                                                         ['justify-start']: isMultiline,
-                                                                                        ['mr-4 h-10 w-10']:
+                                                                                        ['mr-1 h-12 w-12']:
                                                                                                 size ===
                                                                                                 SIZE.EXTRA_LARGE,
-                                                                                        ['mr-[0.875rem] h-8 w-8']:
+
+                                                                                        ['mr-[0.375rem] h-10 w-10']:
                                                                                                 size === SIZE.LARGE,
-                                                                                        ['mr-3 h-6 w-6']:
-                                                                                                size === SIZE.MEDIUM,
-                                                                                        ['mr-2 h-6 w-6']:
-                                                                                                size === SIZE.SMALL,
+
+                                                                                        ['mr-1 h-8 w-8']:
+                                                                                                size &&
+                                                                                                (
+                                                                                                        [
+                                                                                                                SIZE.MEDIUM,
+                                                                                                                SIZE.SMALL
+                                                                                                        ] as readonly Size[]
+                                                                                                ).includes(size),
+
                                                                                         ['mr-1 h-6 w-6']:
                                                                                                 size ===
                                                                                                 SIZE.EXTRA_SMALL
@@ -268,12 +296,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                 cloneElement(headline, {...{active}})
                                                                         :       <Animated.Text
                                                                                         className={typographyClasses(
-                                                                                                (
-                                                                                                        type ===
-                                                                                                                LIST_TYPE.MENU
-                                                                                                ) ?
-                                                                                                        TYPOGRAPHY.LABEL
-                                                                                                :       TYPOGRAPHY.BODY
+                                                                                                typographyType
                                                                                         )(size)()}
                                                                                         ellipsizeMode='tail'
                                                                                         numberOfLines={1}
@@ -313,39 +336,24 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
                                                                                         ['justify-start']: isMultiline,
-                                                                                        ['ml-4 h-10 w-10']:
-                                                                                                !trailingUnmount &&
+                                                                                        ['ml-1 h-12 w-12']:
                                                                                                 size ===
-                                                                                                        SIZE.EXTRA_LARGE,
-                                                                                        ['ml-[0.875rem] h-8 w-8']:
-                                                                                                !trailingUnmount &&
+                                                                                                SIZE.EXTRA_LARGE,
+
+                                                                                        ['ml-[0.375rem] h-10 w-10']:
                                                                                                 size === SIZE.LARGE,
-                                                                                        ['ml-3 h-6 w-6']:
-                                                                                                !trailingUnmount &&
-                                                                                                size === SIZE.MEDIUM,
-                                                                                        ['ml-2 h-6 w-6']:
-                                                                                                !trailingUnmount &&
-                                                                                                size === SIZE.SMALL,
-                                                                                        ['ml-1 h-6 w-6']:
-                                                                                                !trailingUnmount &&
-                                                                                                size ===
-                                                                                                        SIZE.EXTRA_SMALL,
-                                                                                        ['ml-2']:
-                                                                                                trailingUnmount &&
-                                                                                                size ===
-                                                                                                        SIZE.EXTRA_LARGE,
-                                                                                        ['ml-[0.375rem]']:
-                                                                                                trailingUnmount &&
-                                                                                                size === SIZE.LARGE,
-                                                                                        ['ml-1']:
-                                                                                                trailingUnmount &&
+                                                                                        ['ml-1 h-8 w-8']:
+                                                                                                size &&
                                                                                                 (
                                                                                                         [
-                                                                                                                SIZE.EXTRA_SMALL,
                                                                                                                 SIZE.MEDIUM,
                                                                                                                 SIZE.SMALL
                                                                                                         ] as readonly Size[]
-                                                                                                ).includes(size)
+                                                                                                ).includes(size),
+
+                                                                                        ['ml-1 h-6 w-6']:
+                                                                                                size ===
+                                                                                                SIZE.EXTRA_SMALL
                                                                                 }
                                                                         )}
                                                                         testID={`listItem__trailingLayout--${id}`}
@@ -361,7 +369,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                         easing: EASING.EMPHASIZED_ACCELERATE
                                                                                 }}
                                                                                 lazy={closeTrailing}
-                                                                                onUnmount={onTrailingUnmount}
                                                                                 testID={`listItem__trailing--${id}`}
                                                                                 unmount={true}
                                                                                 visible={trailingVisible}

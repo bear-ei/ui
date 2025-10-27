@@ -80,7 +80,6 @@ export interface RenderListItemProps extends ListItemProps {
         skeletonVisible?: boolean
         state?: State
         trailingElement?: React.JSX.Element
-        trailingUnmount?: boolean
         trailingVisible?: boolean
 }
 
@@ -94,7 +93,6 @@ export interface ListItemState {
         nextTrailingTriggerEvent?: () => void
         status: ComponentStatus
         trailingVisible?: boolean
-        trailingUnmount?: boolean
 }
 
 export interface HandleListItemStateChangeOptions

@@ -38,18 +38,19 @@ export const Leading: StoryObj<ListProps> = {
 export const Trailing: StoryObj<ListProps> = {
         args: {
                 shape: SHAPE.MEDIUM,
+                size: SIZE.EXTRA_SMALL,
                 defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
                 data: [
                         {
                                 indexKey: 'TitleA',
-                                headline: 'TitleA',
-                                trailing: <IconButton />
+                                headline: 'TitleA'
+                                // trailing: <IconButton />
                         },
                         {
                                 indexKey: 'TitleB',
                                 headline: 'TitleB',
-                                trailing: <IconButton />
+                                leading: <Circle />
                         },
                         {
                                 indexKey: 'TitleC',

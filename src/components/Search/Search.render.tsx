@@ -1,4 +1,3 @@
-import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
@@ -44,7 +43,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                         :       theme.token.scheme.onSurfaceVariant
 
                 const {onBlur, onFocus, ...touchableInteractionHandlers} = interactionHandlers
-                const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
+                const iconSize = processIconSize(theme)(size)
                 const isLeadingShow = !!leadingElement
                 const isTrailingShow = !!trailingElement
                 const shape = SHAPE.FULL
