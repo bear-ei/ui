@@ -1,6 +1,4 @@
 import {LayoutAnimated} from '@/components/Layout-animated'
-import {useTheme} from '@/hooks'
-import {platformValue, processIconSize} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {Check, X} from 'lucide-react-native'
@@ -27,27 +25,10 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                 }: RenderListAfterAffordanceProps,
                 ref
         ) => {
-                const theme = useTheme()
                 const buttonTabIndex = visible ? 0 : -1
-                const color = theme.token.scheme.onPrimary
+                const checkIconElement = <Check testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`} />
+                const closeIconElement = <X testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`} />
                 const isDangerVisible = !secondaryButtonProps?.disabled
-                const iconSize = processIconSize(theme)(size)
-                const checkIconElement = (
-                        <Check
-                                color={color}
-                                size={platformValue(iconSize)}
-                                testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`}
-                        />
-                )
-
-                const closeIconElement = (
-                        <X
-                                color={color}
-                                size={platformValue(iconSize)}
-                                testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`}
-                        />
-                )
-
                 const layoutAnimatedStyle = {flexDirection: 'row'} as ViewStyle
 
                 return (

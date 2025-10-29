@@ -1,10 +1,11 @@
 import {type PressableType, Touchable} from '@/components/Touchable'
 import {Underlay} from '@/components/Underlay'
+import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
-import {typographyClasses} from '@/utils'
-import {TYPOGRAPHY} from '@bearei/theme-token'
+import {platformValue, processIconSize, typographyClasses} from '@/utils'
+import {SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
-import {forwardRef} from 'react'
+import {cloneElement, forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import type {RenderListAffordanceButtonProps} from './List-affordance-button.interface'
@@ -21,7 +22,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                         interactionHandlers,
                         labelText,
                         labelTextAnimatedStyle,
-                        size,
+                        size = SIZE.MEDIUM,
                         testID,
                         ...touchableProps
                 },
@@ -29,6 +30,8 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
         ) => {
                 const theme = useTheme()
                 const underlayColor = theme.token.scheme.onPrimary
+                const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
+                const color = theme.token.scheme.onPrimary
                 const backgroundUnderlayElement = (
                         <Animated.View
                                 className='pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10'
@@ -58,8 +61,9 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                                                 className='pointer-events-none relative flex flex-1 flex-col items-center justify-center'
                                                 testID={`listAffordanceButton__content--${id}`}
                                         >
-                                                {icon ?? (
-                                                        <Animated.Text
+                                                {icon ?
+                                                        cloneElement(icon, {size: platformValue(iconSize), color})
+                                                :       <Animated.Text
                                                                 className={clsx(
                                                                         'z-20 select-none text-center',
                                                                         typographyClasses(TYPOGRAPHY.LABEL)(size)({
@@ -74,7 +78,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                                                         >
                                                                 {labelText}
                                                         </Animated.Text>
-                                                )}
+                                                }
 
                                                 <Underlay
                                                         eventName={eventName}
