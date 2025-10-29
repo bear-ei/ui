@@ -151,7 +151,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 <Animated.View
                                         style={[contentStyle, contentAnimatedStyle]}
                                         testID={`listItem__animatedContent--${id}`}
-                                        className={clsx('absolute bottom-0 left-0 right-0 top-0 z-10', {
+                                        className={clsx('absolute bottom-0 left-0 right-0 top-0 z-20', {
                                                 ['bg-[--color-surface-container]']: type !== LIST_TYPE.STANDARD,
                                                 ['bg-[--color-surface]']: type === LIST_TYPE.STANDARD
                                         })}
@@ -394,7 +394,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 {afterAffordance && (
                                         <View
                                                 className={clsx('flex flex-1 flex-row justify-center self-end', {
-                                                        ['z-20']: afterAffordanceExpanded
+                                                        ['z-10']: afterAffordanceExpanded
                                                 })}
                                                 testID={`listItem__afterAffordanceLayout--${id}`}
                                         >
