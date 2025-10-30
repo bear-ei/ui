@@ -2,10 +2,10 @@ import {useTheme} from '@/hooks'
 import {platformValue, processIconSize} from '@/utils'
 import {DURATION, hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
-import {Square, SquareCheckBig} from 'lucide-react-native'
+import {Square, SquareCheckBig, SquareMinus} from 'lucide-react-native'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
+import {LayoutAnimated} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
@@ -78,9 +78,12 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                         className='relative z-10 flex-1 self-stretch'
                                                         testID={`checkbox__main--${id}`}
                                                 >
-                                                        <View
+                                                        <LayoutAnimated
                                                                 className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
+                                                                entry={{duration: DURATION.SHORT_2}}
+                                                                exit={{duration: DURATION.SHORT_1}}
                                                                 testID={`checkbox__iconLayout--blank--${id}`}
+                                                                visible={value === CHECKBOX_VALUE.UNSELECTED}
                                                         >
                                                                 <Square
                                                                         color={
@@ -92,10 +95,9 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                                         size={platformValue(iconSize)}
                                                                         testID={`checkbox__icon--blank--${id}`}
                                                                 />
-                                                        </View>
+                                                        </LayoutAnimated>
 
                                                         <LayoutAnimated
-                                                                animatedType={LAYOUT_ANIMATED.SCALE}
                                                                 className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
                                                                 entry={{duration: DURATION.SHORT_2}}
                                                                 exit={{duration: DURATION.SHORT_1}}
@@ -111,14 +113,13 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                                         </LayoutAnimated>
 
                                                         <LayoutAnimated
-                                                                animatedType={LAYOUT_ANIMATED.SCALE}
                                                                 className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
                                                                 entry={{duration: DURATION.SHORT_2}}
                                                                 exit={{duration: DURATION.SHORT_1}}
                                                                 testID={`checkbox__iconLayout--selected--${id}`}
                                                                 visible={value === CHECKBOX_VALUE.INDETERMINATE}
                                                         >
-                                                                <SquareCheckBig
+                                                                <SquareMinus
                                                                         color={disabled ? disabledColor : activeColor}
                                                                         disabled={disabled}
                                                                         size={platformValue(iconSize)}
