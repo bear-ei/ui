@@ -111,7 +111,12 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                         requestIdleCallback(() => nextVisibilityEvent?.())
                 }, [nextVisibilityEvent])
 
-                useEffect(() => () => runUnmount(), [runUnmount])
+                useEffect(
+                        () => () => {
+                                requestIdleCallback(() => runUnmount())
+                        },
+                        [runUnmount]
+                )
 
                 return (
                         <RenderTooltip

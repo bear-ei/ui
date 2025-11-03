@@ -79,8 +79,10 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
 
         useEffect(
                 () => () => {
-                        cancelAnimation(borderSharedValue)
-                        cancelAnimation(colorSharedValue)
+                        requestIdleCallback(() => {
+                                cancelAnimation(borderSharedValue)
+                                cancelAnimation(colorSharedValue)
+                        })
                 },
                 [borderSharedValue, colorSharedValue]
         )

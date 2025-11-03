@@ -84,7 +84,7 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
 
                 useEffect(
                         () => () => {
-                                runEmitModalUnmount(type)
+                                requestIdleCallback(() => runEmitModalUnmount(type))
                         },
                         [runEmitModalUnmount, type]
                 )

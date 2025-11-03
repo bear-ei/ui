@@ -37,7 +37,12 @@ export const useSearchAnimated = ({disabled}: UseSearchTextInputAnimatedOptions)
                 runAnimate(disabled)
         }, [runAnimate, disabled])
 
-        useEffect(() => () => cancelAnimation(colorSharedValue), [colorSharedValue])
+        useEffect(
+                () => () => {
+                        requestIdleCallback(() => cancelAnimation(colorSharedValue))
+                },
+                [colorSharedValue]
+        )
 
         return {contentAnimatedStyle, inputAnimatedStyle}
 }

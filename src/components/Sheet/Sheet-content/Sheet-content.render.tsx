@@ -81,7 +81,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                 ref
         ) => {
                 const theme = useTheme()
-                const footerLayoutAnimatedContentSize = {height: theme.token.spacing.extraSmall * 18}
+                const footerLayoutAnimatedContentSize = {height: theme.token.spacing.extraSmall * 20}
                 const positionShape =
                         position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.LARGE_END : SHAPE.LARGE_START
 
@@ -122,7 +122,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                 >
                                         <View
                                                 className={clsx(
-                                                        'flex flex-row items-center gap-1 self-stretch pb-2 pr-1 pt-2',
+                                                        'flex flex-row items-center gap-1 self-stretch pb-2 pr-1 pt-4',
                                                         {
                                                                 ['pl-4']: !!leadingElement,
                                                                 ['pl-6']: !leadingElement,
@@ -206,7 +206,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 
                                                         <View
                                                                 className={
-                                                                        'flex flex-row gap-2 bg-[--color-surface-container-low] pb-4 pl-6 pr-6 pt-4'
+                                                                        'flex flex-row gap-2 bg-[--color-surface-container-low] pb-6 pl-6 pr-6 pt-4'
                                                                 }
                                                                 testID={`sheetContent__footer--${id}`}
                                                         >

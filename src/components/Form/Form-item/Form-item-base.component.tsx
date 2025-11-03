@@ -62,7 +62,12 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
                         runApplyStatusInitToDraft(name)
                 }, [runApplyStatusInitToDraft, name])
 
-                useEffect(() => () => signOutEvent?.(), [signOutEvent])
+                useEffect(
+                        () => () => {
+                                requestIdleCallback(() => signOutEvent?.())
+                        },
+                        [signOutEvent]
+                )
 
                 return (
                         <RenderFormItem

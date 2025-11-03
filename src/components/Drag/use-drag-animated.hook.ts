@@ -91,8 +91,10 @@ export const useDragAnimated = ({
 
         useEffect(
                 () => () => {
-                        cancelAnimation(translateXSharedValue)
-                        cancelAnimation(translateYSharedValue)
+                        requestIdleCallback(() => {
+                                cancelAnimation(translateXSharedValue)
+                                cancelAnimation(translateYSharedValue)
+                        })
                 },
                 [translateXSharedValue, translateYSharedValue]
         )

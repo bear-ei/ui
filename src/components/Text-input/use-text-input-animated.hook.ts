@@ -186,10 +186,12 @@ export const useTextInputAnimated = ({
 
         useEffect(
                 () => () => {
-                        cancelAnimation(activeIndicatorScaleYSharedValue)
-                        cancelAnimation(colorSharedValue)
-                        cancelAnimation(headerInnerBackgroundColorSharedValue)
-                        cancelAnimation(inputColorSharedValue)
+                        requestIdleCallback(() => {
+                                cancelAnimation(activeIndicatorScaleYSharedValue)
+                                cancelAnimation(colorSharedValue)
+                                cancelAnimation(headerInnerBackgroundColorSharedValue)
+                                cancelAnimation(inputColorSharedValue)
+                        })
                 },
                 [
                         activeIndicatorScaleYSharedValue,

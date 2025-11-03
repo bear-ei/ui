@@ -27,7 +27,13 @@ export const useProgressActiveIndicatorLinearAnimated = ({
                 }
         }, [runAnimate, status, value])
 
-        useEffect(() => () => cancelAnimation(scaleXSharedValue), [scaleXSharedValue])
+        useEffect(
+                () => () => {
+                        requestIdleCallback(() => cancelAnimation(scaleXSharedValue))
+                },
+
+                [scaleXSharedValue]
+        )
 
         return {contentAnimatedStyle}
 }

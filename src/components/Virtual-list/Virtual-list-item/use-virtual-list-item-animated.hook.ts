@@ -63,7 +63,12 @@ export const useVirtualListItemAnimated = ({
                 }
         }, [dragging, runAnimateScale, status])
 
-        useEffect(() => () => cancelAnimation(translateSharedValue), [translateSharedValue])
+        useEffect(
+                () => () => {
+                        requestIdleCallback(() => cancelAnimation(translateSharedValue))
+                },
+                [translateSharedValue]
+        )
 
         return {containerAnimatedStyle}
 }

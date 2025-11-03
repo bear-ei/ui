@@ -76,7 +76,12 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
                 runAnimate(disabled)
         }, [runAnimate, disabled])
 
-        useEffect(() => () => cancelAnimation(colorSharedValue), [colorSharedValue])
+        useEffect(
+                () => () => {
+                        requestIdleCallback(() => cancelAnimation(colorSharedValue))
+                },
+                [colorSharedValue]
+        )
 
         return {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle}
 }
