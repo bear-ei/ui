@@ -45,6 +45,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
 
                 const {onBlur, onFocus, ...touchableInteractionHandlers} = interactionHandlers
                 const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
+                const trailingSize = ICON_BUTTON_SIZE[size]
                 const isLeadingShow = !!leadingElement
                 const isTrailingShow = !!trailingElement
                 const shape = SHAPE.FULL
@@ -128,9 +129,18 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                         >
                                                 <View
                                                         className={clsx('flex flex-col items-center justify-center', {
-                                                                ['mr-1 h-12 w-12']: size === SIZE.EXTRA_LARGE,
-                                                                ['mr-[0.375rem] h-10 w-10']: size === SIZE.LARGE,
-                                                                ['mr-1 h-8 w-8']:
+                                                                ['mr-1']: (
+                                                                        [
+                                                                                SIZE.SMALL,
+                                                                                SIZE.EXTRA_SMALL
+                                                                        ] as readonly Size[]
+                                                                ).includes(size),
+                                                                ['mr-2']: size === SIZE.MEDIUM,
+                                                                ['mr-3']: size === SIZE.EXTRA_LARGE,
+                                                                ['mr-[0.625rem]']: size === SIZE.LARGE,
+                                                                ['h-12 w-12']: size === SIZE.EXTRA_LARGE,
+                                                                ['h-10 w-10']: size === SIZE.LARGE,
+                                                                ['h-8 w-8']:
                                                                         size &&
                                                                         (
                                                                                 [
@@ -139,7 +149,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                                                 ] as readonly Size[]
                                                                         ).includes(size),
 
-                                                                ['mr-1 h-6 w-6']: size === SIZE.EXTRA_SMALL
+                                                                ['h-6 w-6']: size === SIZE.EXTRA_SMALL
                                                         })}
                                                         testID={`search__leading--${id}`}
                                                 >
@@ -190,13 +200,20 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                                 className={clsx(
                                                                         'flex flex-col items-center justify-center',
                                                                         {
-                                                                                ['ml-1 h-12 w-12']:
+                                                                                ['ml-1']: (
+                                                                                        [
+                                                                                                SIZE.SMALL,
+                                                                                                SIZE.EXTRA_SMALL
+                                                                                        ] as readonly Size[]
+                                                                                ).includes(size),
+                                                                                ['ml-2']: size === SIZE.MEDIUM,
+                                                                                ['ml-3']: size === SIZE.EXTRA_LARGE,
+                                                                                ['ml-[0.625rem]']: size === SIZE.LARGE,
+                                                                                ['h-12 w-12']:
                                                                                         size === SIZE.EXTRA_LARGE,
 
-                                                                                ['ml-[0.375rem] h-10 w-10']:
-                                                                                        size === SIZE.LARGE,
-
-                                                                                ['ml-1 h-8 w-8']:
+                                                                                ['h-10 w-10']: size === SIZE.LARGE,
+                                                                                ['h-8 w-8']:
                                                                                         size &&
                                                                                         (
                                                                                                 [
@@ -205,14 +222,14 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                                                                 ] as readonly Size[]
                                                                                         ).includes(size),
 
-                                                                                ['ml-1 h-6 w-6']:
-                                                                                        size === SIZE.EXTRA_SMALL
+                                                                                ['h-6 w-6']: size === SIZE.EXTRA_SMALL
                                                                         }
                                                                 )}
                                                                 testID={`search__trailing--${id}`}
                                                         >
                                                                 {cloneElement(trailingElement, {
                                                                         disabled,
+                                                                        size: trailingSize,
                                                                         tabIndex: -1,
                                                                         type: ICON_BUTTON_TYPE.STANDARD
                                                                 })}

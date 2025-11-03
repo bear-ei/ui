@@ -253,14 +253,27 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
                                                                                         ['justify-start']: isMultiline,
-                                                                                        ['mr-1 h-12 w-12']:
+                                                                                        ['mr-1']: (
+                                                                                                [
+                                                                                                        SIZE.SMALL,
+                                                                                                        SIZE.EXTRA_SMALL
+                                                                                                ] as readonly Size[]
+                                                                                        ).includes(size),
+                                                                                        ['mr-2']: size === SIZE.MEDIUM,
+                                                                                        ['mr-3']:
+                                                                                                size ===
+                                                                                                SIZE.EXTRA_LARGE,
+                                                                                        ['mr-[0.625rem]']:
+                                                                                                size === SIZE.LARGE,
+
+                                                                                        ['h-12 w-12']:
                                                                                                 size ===
                                                                                                 SIZE.EXTRA_LARGE,
 
-                                                                                        ['mr-[0.375rem] h-10 w-10']:
+                                                                                        ['h-10 w-10']:
                                                                                                 size === SIZE.LARGE,
 
-                                                                                        ['mr-1 h-8 w-8']:
+                                                                                        ['h-8 w-8']:
                                                                                                 size &&
                                                                                                 (
                                                                                                         [
@@ -269,7 +282,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                                         ] as readonly Size[]
                                                                                                 ).includes(size),
 
-                                                                                        ['mr-1 h-6 w-6']:
+                                                                                        ['h-6 w-6']:
                                                                                                 size ===
                                                                                                 SIZE.EXTRA_SMALL
                                                                                 }
@@ -336,25 +349,41 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
                                                                                         ['justify-start']: isMultiline,
-                                                                                        ['ml-1 h-12 w-12']:
+                                                                                        ['ml-1']: (
+                                                                                                [
+                                                                                                        SIZE.SMALL,
+                                                                                                        SIZE.EXTRA_SMALL
+                                                                                                ] as readonly Size[]
+                                                                                        ).includes(size),
+                                                                                        ['ml-2']: size === SIZE.MEDIUM,
+                                                                                        ['ml-3']:
                                                                                                 size ===
                                                                                                 SIZE.EXTRA_LARGE,
-
-                                                                                        ['ml-[0.375rem] h-10 w-10']:
+                                                                                        ['ml-[0.625rem]']:
                                                                                                 size === SIZE.LARGE,
+                                                                                        ['h-12 w-12']:
+                                                                                                size ===
+                                                                                                        SIZE.EXTRA_LARGE &&
+                                                                                                trailingVisible,
 
-                                                                                        ['ml-1 h-8 w-8']:
+                                                                                        ['h-10 w-10']:
+                                                                                                size === SIZE.LARGE &&
+                                                                                                trailingVisible,
+
+                                                                                        ['h-8 w-8']:
                                                                                                 size &&
                                                                                                 (
                                                                                                         [
                                                                                                                 SIZE.MEDIUM,
                                                                                                                 SIZE.SMALL
                                                                                                         ] as readonly Size[]
-                                                                                                ).includes(size),
+                                                                                                ).includes(size) &&
+                                                                                                trailingVisible,
 
-                                                                                        ['ml-1 h-6 w-6']:
+                                                                                        ['h-6 w-6']:
                                                                                                 size ===
-                                                                                                SIZE.EXTRA_SMALL
+                                                                                                        SIZE.EXTRA_SMALL &&
+                                                                                                trailingVisible
                                                                                 }
                                                                         )}
                                                                         testID={`listItem__trailingLayout--${id}`}
@@ -471,5 +500,3 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                 )
         }
 )
-
-RenderListItem.displayName = 'RenderListItem'
