@@ -74,7 +74,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                 }, [runUpdateData, rawData])
 
                 useEffect(() => {
-                        nextActiveEvent?.()
+                        requestIdleCallback(() => nextActiveEvent?.())
                 }, [nextActiveEvent])
 
                 return (

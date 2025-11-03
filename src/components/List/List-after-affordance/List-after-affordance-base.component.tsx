@@ -75,7 +75,7 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
                 }, [runResetConfirmationOnHide, visible])
 
                 useEffect(() => {
-                        nextCancelEvent?.()
+                        requestIdleCallback(() => nextCancelEvent?.())
                 }, [nextCancelEvent])
 
                 return (

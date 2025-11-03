@@ -103,11 +103,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 }, [isVisible, runUpdateStatus])
 
                 useEffect(() => {
-                        nextUnmountEvent?.()
+                        requestIdleCallback(() => nextUnmountEvent?.())
                 }, [nextUnmountEvent])
 
                 useEffect(() => {
-                        nextVisibilityEvent?.()
+                        requestIdleCallback(() => nextVisibilityEvent?.())
                 }, [nextVisibilityEvent])
 
                 if (status === COMPONENT_STATUS.IDLE && lazy) {

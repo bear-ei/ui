@@ -78,7 +78,7 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
                 useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
 
                 useEffect(() => {
-                        nextPressOutEvent?.()
+                        requestIdleCallback(() => nextPressOutEvent?.())
                 }, [nextPressOutEvent])
 
                 return (

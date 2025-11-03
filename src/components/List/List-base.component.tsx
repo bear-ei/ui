@@ -162,19 +162,19 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                 }, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActiveState])
 
                 useEffect(() => {
-                        nextActiveEvent?.()
+                        requestIdleCallback(() => nextActiveEvent?.())
                 }, [nextActiveEvent])
 
                 useEffect(() => {
-                        nextAfterAffordanceActiveEvent?.()
+                        requestIdleCallback(() => nextAfterAffordanceActiveEvent?.())
                 }, [nextAfterAffordanceActiveEvent])
 
                 useEffect(() => {
-                        nextCloseEvent?.()
+                        requestIdleCallback(() => nextCloseEvent?.())
                 }, [nextCloseEvent])
 
                 useEffect(() => {
-                        nextAfterAffordanceEvent?.()
+                        requestIdleCallback(() => nextAfterAffordanceEvent?.())
                 }, [nextAfterAffordanceEvent])
 
                 return (

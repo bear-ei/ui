@@ -108,7 +108,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                 }, [isVisible, runUpdateVisible])
 
                 useEffect(() => {
-                        nextVisibilityEvent?.()
+                        requestIdleCallback(() => nextVisibilityEvent?.())
                 }, [nextVisibilityEvent])
 
                 useEffect(() => () => runUnmount(), [runUnmount])

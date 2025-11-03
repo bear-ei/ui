@@ -182,27 +182,27 @@ const VirtualListBaseInner = <T,>(
         }, [runUpdateVisibilityRangeData, virtualListData])
 
         useEffect(() => {
-                nextScrollEvent?.()
+                requestIdleCallback(() => nextScrollEvent?.())
         }, [nextScrollEvent])
 
         useEffect(() => {
-                nextEndReachedEvent?.()
+                requestIdleCallback(() => nextEndReachedEvent?.())
         }, [nextEndReachedEvent])
 
         useEffect(() => {
-                nextCloseEvent?.()
+                requestIdleCallback(() => nextCloseEvent?.())
         }, [nextCloseEvent])
 
         useEffect(() => {
-                nextLoadEndEvent?.()
+                requestIdleCallback(() => nextLoadEndEvent?.())
         }, [nextLoadEndEvent])
 
         useEffect(() => {
-                nextDragUpdateEvent?.()
+                requestIdleCallback(() => nextDragUpdateEvent?.())
         }, [nextDragUpdateEvent])
 
         useEffect(() => {
-                nextDragEndEvent?.()
+                requestIdleCallback(() => nextDragEndEvent?.())
         }, [nextDragEndEvent])
 
         return (

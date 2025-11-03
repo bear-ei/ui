@@ -9,13 +9,14 @@ import type {
 
 export const createStableEventHandler =
         <T extends StateEvent>(handler: (event: T) => void) =>
+        (idleCallback = true) =>
         (event: T) => {
                 if (event && typeof event.persist === 'function') {
                         event.persist()
                         event.stopPropagation?.()
                 }
 
-                return handler(event)
+                return idleCallback ? requestIdleCallback(() => handler(event)) : handler(event)
         }
 
 export const handleStateEventChange =

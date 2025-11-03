@@ -143,19 +143,19 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 }, [runUpdateValue, defaultValue, rawValue])
 
                 useEffect(() => {
-                        nextChangeTextEvent?.()
+                        requestIdleCallback(() => nextChangeTextEvent?.())
                 }, [nextChangeTextEvent])
 
                 useEffect(() => {
-                        nextContentSizeChangeEvent?.()
+                        requestIdleCallback(() => nextContentSizeChangeEvent?.())
                 }, [nextContentSizeChangeEvent])
 
                 useEffect(() => {
-                        nextSupportingTextVisibilityEvent?.()
+                        requestIdleCallback(() => nextSupportingTextVisibilityEvent?.())
                 }, [nextSupportingTextVisibilityEvent])
 
                 useEffect(() => {
-                        nextSupportingTextCloseEvent?.()
+                        requestIdleCallback(() => nextSupportingTextCloseEvent?.())
                 }, [nextSupportingTextCloseEvent])
 
                 return (

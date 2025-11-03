@@ -100,7 +100,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 }, [runLayoutMeasureHandler, isListVisible])
 
                 useEffect(() => {
-                        nextChangeTextEvent?.()
+                        requestIdleCallback(() => nextChangeTextEvent?.())
                 }, [nextChangeTextEvent])
 
                 if (status === COMPONENT_STATUS.IDLE) {

@@ -87,11 +87,11 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
                 }, [runUpdateStatus])
 
                 useEffect(() => {
-                        nextDragStartEvent?.()
+                        requestIdleCallback(() => nextDragStartEvent?.())
                 }, [nextDragStartEvent])
 
                 useEffect(() => {
-                        nextDragEndEvent?.()
+                        requestIdleCallback(() => nextDragEndEvent?.())
                 }, [nextDragEndEvent])
 
                 return (

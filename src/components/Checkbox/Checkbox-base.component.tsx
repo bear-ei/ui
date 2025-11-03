@@ -63,7 +63,7 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
                 }, [runUpdateActive, defaultActive, rawActive])
 
                 useEffect(() => {
-                        nextActiveEvent?.()
+                        requestIdleCallback(() => nextActiveEvent?.())
                 }, [nextActiveEvent])
 
                 return (
