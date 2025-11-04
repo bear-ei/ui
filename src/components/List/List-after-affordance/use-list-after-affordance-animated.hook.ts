@@ -44,7 +44,7 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseLis
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => cancelAnimation(translateXSharedValue))
+                        cancelAnimation(translateXSharedValue)
                 },
                 [translateXSharedValue]
         )

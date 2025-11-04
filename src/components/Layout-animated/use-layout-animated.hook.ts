@@ -151,7 +151,7 @@ export const useLayoutAnimated = ({
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => cancelAnimation(containerSharedValue))
+                        cancelAnimation(containerSharedValue)
                 },
                 [containerSharedValue]
         )

@@ -78,7 +78,7 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => cancelAnimation(colorSharedValue))
+                        cancelAnimation(colorSharedValue)
                 },
                 [colorSharedValue]
         )

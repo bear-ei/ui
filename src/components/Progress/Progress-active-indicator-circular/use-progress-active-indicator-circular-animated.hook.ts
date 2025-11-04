@@ -54,10 +54,8 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => {
-                                cancelAnimation(circleSharedValue)
-                                cancelAnimation(containerSharedValue)
-                        })
+                        cancelAnimation(circleSharedValue)
+                        cancelAnimation(containerSharedValue)
                 },
                 [circleSharedValue, containerSharedValue]
         )

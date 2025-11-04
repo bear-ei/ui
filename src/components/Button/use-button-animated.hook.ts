@@ -180,10 +180,8 @@ export const useButtonAnimated = ({
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => {
-                                cancelAnimation(borderSharedValue)
-                                cancelAnimation(colorSharedValue)
-                        })
+                        cancelAnimation(borderSharedValue)
+                        cancelAnimation(colorSharedValue)
                 },
                 [borderSharedValue, colorSharedValue]
         )

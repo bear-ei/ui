@@ -49,7 +49,7 @@ export const useListAffordanceButtonAnimated = ({
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => cancelAnimation(colorSharedValue))
+                        cancelAnimation(colorSharedValue)
                 },
                 [colorSharedValue]
         )

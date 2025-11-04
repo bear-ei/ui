@@ -40,7 +40,7 @@ export const useSupportingTextAnimated = ({disabled, error}: UseSupportingTextOp
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => cancelAnimation(supportingTextSharedValue))
+                        cancelAnimation(supportingTextSharedValue)
                 },
                 [supportingTextSharedValue]
         )

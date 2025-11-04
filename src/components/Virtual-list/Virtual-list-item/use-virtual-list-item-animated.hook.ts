@@ -65,7 +65,7 @@ export const useVirtualListItemAnimated = ({
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => cancelAnimation(translateSharedValue))
+                        cancelAnimation(translateSharedValue)
                 },
                 [translateSharedValue]
         )

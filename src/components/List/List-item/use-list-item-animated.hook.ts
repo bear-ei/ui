@@ -66,10 +66,8 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => {
-                                cancelAnimation(contentTransformXSharedValue)
-                                cancelAnimation(headlineTextSharedValue)
-                        })
+                        cancelAnimation(contentTransformXSharedValue)
+                        cancelAnimation(headlineTextSharedValue)
                 },
                 [contentTransformXSharedValue, headlineTextSharedValue]
         )

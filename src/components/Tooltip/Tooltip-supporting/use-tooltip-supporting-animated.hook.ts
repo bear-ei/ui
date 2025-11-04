@@ -144,11 +144,9 @@ export const useTooltipSupportingAnimated = ({
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => {
-                                cancelAnimation(heightSharedValue)
-                                cancelAnimation(opacitySharedValue)
-                                cancelAnimation(transformSharedValue)
-                        })
+                        cancelAnimation(heightSharedValue)
+                        cancelAnimation(opacitySharedValue)
+                        cancelAnimation(transformSharedValue)
                 },
                 [heightSharedValue, opacitySharedValue, transformSharedValue]
         )

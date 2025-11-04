@@ -64,10 +64,8 @@ export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigat
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => {
-                                cancelAnimation(contentTranslateYSharedValue)
-                                cancelAnimation(labelTextSharedValue)
-                        })
+                        cancelAnimation(contentTranslateYSharedValue)
+                        cancelAnimation(labelTextSharedValue)
                 },
                 [contentTranslateYSharedValue, labelTextSharedValue]
         )

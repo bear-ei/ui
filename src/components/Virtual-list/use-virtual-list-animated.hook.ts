@@ -57,10 +57,8 @@ export const useVirtualListAnimated = ({
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => {
-                                cancelAnimation(contentSharedValue)
-                                cancelAnimation(scrollSharedValue)
-                        })
+                        cancelAnimation(contentSharedValue)
+                        cancelAnimation(scrollSharedValue)
                 },
                 [contentSharedValue, scrollSharedValue]
         )

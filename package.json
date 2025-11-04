@@ -1,6 +1,6 @@
 {
         "name": "@bearei/ui",
-        "version": "0.0.48",
+        "version": "0.0.50",
         "module": "./dist/index.mjs",
         "react-native": "./src/index.ts",
         "types": "./dist/index.d.ts",

@@ -100,7 +100,7 @@ export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAn
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => cancelAnimation(shadowSharedValue))
+                        cancelAnimation(shadowSharedValue)
                 },
                 [shadowSharedValue]
         )

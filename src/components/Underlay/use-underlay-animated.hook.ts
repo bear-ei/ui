@@ -83,10 +83,8 @@ export const useUnderlayAnimated = ({
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => {
-                                cancelAnimation(activeLayerSharedValue)
-                                cancelAnimation(hoverLayerSharedValue)
-                        })
+                        cancelAnimation(activeLayerSharedValue)
+                        cancelAnimation(hoverLayerSharedValue)
                 },
                 [activeLayerSharedValue, hoverLayerSharedValue]
         )

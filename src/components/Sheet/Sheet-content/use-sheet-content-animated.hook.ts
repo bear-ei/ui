@@ -39,7 +39,7 @@ export const useSheetContentAnimated = ({type = SIDE_SHEET_TYPE.SIDEBAR, visible
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => cancelAnimation(backgroundColorSharedValue))
+                        cancelAnimation(backgroundColorSharedValue)
                 },
                 [backgroundColorSharedValue]
         )

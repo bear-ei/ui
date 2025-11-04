@@ -33,7 +33,7 @@ export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimat
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => cancelAnimation(opacitySharedValue))
+                        cancelAnimation(opacitySharedValue)
                 },
                 [opacitySharedValue]
         )

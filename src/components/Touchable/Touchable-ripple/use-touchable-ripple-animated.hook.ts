@@ -50,10 +50,8 @@ export const useTouchableRippleAnimated = ({
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => {
-                                cancelAnimation(opacitySharedValue)
-                                cancelAnimation(scaleSharedValue)
-                        })
+                        cancelAnimation(opacitySharedValue)
+                        cancelAnimation(scaleSharedValue)
                 },
                 [opacitySharedValue, scaleSharedValue]
         )

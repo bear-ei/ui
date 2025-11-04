@@ -39,7 +39,7 @@ export const useSearchAnimated = ({disabled}: UseSearchTextInputAnimatedOptions)
 
         useEffect(
                 () => () => {
-                        requestIdleCallback(() => cancelAnimation(colorSharedValue))
+                        cancelAnimation(colorSharedValue)
                 },
                 [colorSharedValue]
         )
