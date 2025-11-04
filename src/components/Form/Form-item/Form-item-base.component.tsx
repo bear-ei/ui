@@ -64,7 +64,7 @@ export const FormItemBase = forwardRef<View, FormItemBaseProps>(
 
                 useEffect(
                         () => () => {
-                                requestIdleCallback(() => signOutEvent?.())
+                                signOutEvent?.()
                         },
                         [signOutEvent]
                 )

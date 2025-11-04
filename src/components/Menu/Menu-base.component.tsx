@@ -84,11 +84,11 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                 }, [defaultVisible, rawIsVisible, runUpdateVisible])
 
                 useEffect(() => {
-                        requestIdleCallback(() => nextVisibilityEvent?.())
+                        nextVisibilityEvent?.()
                 }, [nextVisibilityEvent])
 
                 useEffect(() => {
-                        requestIdleCallback(() => nextActiveEvent?.())
+                        nextActiveEvent?.()
                 }, [nextActiveEvent])
 
                 return (

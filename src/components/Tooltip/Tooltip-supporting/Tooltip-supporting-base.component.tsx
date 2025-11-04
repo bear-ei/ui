@@ -110,7 +110,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                 }, [visible, layout, runUpdatePosition, windowHeight, windowWidth])
 
                 useEffect(() => {
-                        requestIdleCallback(() => nextClosedEvent?.())
+                        nextClosedEvent?.()
                 }, [nextClosedEvent])
 
                 return (

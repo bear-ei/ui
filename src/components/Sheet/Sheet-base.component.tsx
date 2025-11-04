@@ -71,20 +71,20 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
                 }, [runEmitSheetModal, isSheetVisible])
 
                 useEffect(() => {
-                        requestIdleCallback(() => nextCloseEvent?.())
+                        nextCloseEvent?.()
                 }, [nextCloseEvent])
 
                 useEffect(() => {
-                        requestIdleCallback(() => nextBackEvent?.())
+                        nextBackEvent?.()
                 }, [nextBackEvent])
 
                 useEffect(() => {
-                        requestIdleCallback(() => nextCancelEvent?.())
+                        nextCancelEvent?.()
                 }, [nextCancelEvent])
 
                 useEffect(
                         () => () => {
-                                requestIdleCallback(() => runEmitModalUnmount(type))
+                                runEmitModalUnmount(type)
                         },
                         [runEmitModalUnmount, type]
                 )

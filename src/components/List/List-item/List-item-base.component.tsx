@@ -204,15 +204,15 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                 }, [runUpdateFocusState, focusedIndex])
 
                 useEffect(() => {
-                        requestIdleCallback(() => nextPressInEvent?.())
+                        nextPressInEvent?.()
                 }, [nextPressInEvent])
 
                 useEffect(() => {
-                        requestIdleCallback(() => nextPressOutEvent?.())
+                        nextPressOutEvent?.()
                 }, [nextPressOutEvent])
 
                 useEffect(() => {
-                        requestIdleCallback(() => nextLayoutEvent?.())
+                        nextLayoutEvent?.()
                 }, [nextLayoutEvent])
 
                 return (
