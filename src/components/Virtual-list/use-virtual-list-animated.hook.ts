@@ -40,6 +40,10 @@ export const useVirtualListAnimated = ({
         )
 
         useDerivedValue(() => {
+                if (!animatedRef.current) {
+                        return
+                }
+
                 const scrollToValue = focusedIndex * itemSize
 
                 if (layoutType === LAYOUT.VERTICAL) {
