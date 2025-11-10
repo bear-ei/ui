@@ -40,7 +40,6 @@ const config = defineConfig({
                                 entryFileNames: '[name].mjs',
                                 preserveModules: true,
                                 preserveModulesRoot: resolve(__dirname, './src'),
-
                                 assetFileNames: assetInfo => {
                                         if (assetInfo.names?.some(n => n.endsWith('.css'))) {
                                                 return 'styles/index.css'

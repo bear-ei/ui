@@ -77,3 +77,4 @@ yarn-error.log
 # build
 dist/
 stats.html
+storybook-static
