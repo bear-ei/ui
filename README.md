@@ -1,6 +1,6 @@
 # Bearei UI
 
-Bearei UI is a React Native component library based on Material Design, supporting both Web and React Native.
+Bearei UI is a React Native component library based on Material Design that supports both Web and React Native. Note that while it is based on Material Design, it does not strictly follow the Material Design specifications; it includes several custom specifications.
 
 # Related Links:
 
