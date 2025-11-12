@@ -14,7 +14,7 @@ const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
                                 <LayoutAnimated
                                         {...props}
                                         visible={isVisible}
-                                        unmount={true}
+                                        // unmount={true}
                                 >
                                         <View className='h-60 w-80 bg-red-400' />
                                 </LayoutAnimated>
