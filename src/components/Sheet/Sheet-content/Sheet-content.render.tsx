@@ -1,3 +1,4 @@
+import {AnimatedView} from '@/components/Animated-component'
 import {Button, BUTTON_TYPE, type ButtonProps} from '@/components/Button'
 import {Divider} from '@/components/Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '@/components/Icon-button'
@@ -9,7 +10,6 @@ import {clsx} from 'clsx'
 import {ArrowLeft, ArrowRight, X} from 'lucide-react-native'
 import {forwardRef, type FC} from 'react'
 import {Text, View, type ViewStyle} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
 import type {
         RenderSheetContentLeadingProps,
@@ -91,7 +91,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                 const buttonTabIndex = footerVisible ? 0 : -1
 
                 return (
-                        <Animated.View
+                        <AnimatedView
                                 accessibilityRole='alert'
                                 accessible={true}
                                 className={clsx('flex flex-1 flex-row self-stretch overflow-hidden', {
@@ -253,7 +253,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                                 </View>
                                         </LayoutAnimated>
                                 </View>
-                        </Animated.View>
+                        </AnimatedView>
                 )
         }
 )

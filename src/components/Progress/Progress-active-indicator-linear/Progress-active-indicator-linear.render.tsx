@@ -1,9 +1,9 @@
+import {AnimatedView} from '@/components/Animated-component'
 import {shapeClasses} from '@/utils'
 import {SHAPE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {PROGRESS_ANIMATED} from '../Progress.enum'
 import type {RenderProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear.interface'
 
@@ -21,7 +21,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
                                 ref={ref}
                                 testID={testID ?? `progressActiveIndicatorLinear--${id}`}
                         >
-                                <Animated.View
+                                <AnimatedView
                                         {...containerProps}
                                         className={clsx(
                                                 'pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-10 origin-left bg-[--color-primary]',
@@ -31,7 +31,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
                                         testID={`progressActiveIndicatorLinear__animatedContent--${id}`}
                                 />
 
-                                <Animated.View
+                                <AnimatedView
                                         className={clsx(
                                                 'h-1 flex-1 self-stretch bg-[--color-primary-container]',
                                                 shapeClasses(shape)
@@ -40,7 +40,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
                                 />
 
                                 {animatedType === PROGRESS_ANIMATED.DETERMINATE && (
-                                        <Animated.View
+                                        <AnimatedView
                                                 className={clsx(
                                                         'absolute right-0 top-0 z-10 h-1 w-1 bg-[--color-primary]',
                                                         shapeClasses(shape)

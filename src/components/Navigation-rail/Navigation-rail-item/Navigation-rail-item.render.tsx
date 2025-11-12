@@ -1,3 +1,4 @@
+import {AnimatedText, AnimatedView} from '@/components/Animated-component'
 import type {PressableType} from '@/components/Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
 import {useTheme} from '@/hooks'
@@ -6,7 +7,6 @@ import {SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {Pressable, View} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
 
@@ -52,7 +52,7 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
                                         ref={ref}
                                         testID={`navigationRailItem__touchable--${id}`}
                                 >
-                                        <Animated.View
+                                        <AnimatedView
                                                 {...(type !== NAVIGATION_RAIL_TYPE.BLOCK && {
                                                         style: [contentAnimatedStyle]
                                                 })}
@@ -97,7 +97,7 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
                                                                 testID={`navigationRailItem__label--${id}`}
                                                                 className='flex h-6 flex-col justify-center self-stretch'
                                                         >
-                                                                <Animated.Text
+                                                                <AnimatedText
                                                                         className={clsx(
                                                                                 'select-none text-center font-bold',
                                                                                 {
@@ -114,10 +114,10 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
                                                                         testID={`navigationRailItem__animatedLabelText--${id}`}
                                                                 >
                                                                         {labelText}
-                                                                </Animated.Text>
+                                                                </AnimatedText>
                                                         </View>
                                                 )}
-                                        </Animated.View>
+                                        </AnimatedView>
                                 </Pressable>
                         </View>
                 )

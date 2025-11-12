@@ -3,17 +3,13 @@ import {useTheme} from '@/hooks'
 import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, type Size} from '@bearei/theme-token'
 import {clsx} from 'clsx'
-import {cssInterop} from 'nativewind'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View, type ViewStyle} from 'react-native'
-import Animated from 'react-native-reanimated'
+import {AnimatedTextInput, AnimatedView} from '../Animated-component'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {SupportingText} from '../Supporting-text'
 import {Underlay} from '../Underlay'
 import type {RenderTextInputProps} from './Text-input.interface'
-
-const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
-cssInterop(AnimatedTextInput, {className: 'style'})
 
 /**
  * TODO: Support Multiline
@@ -91,7 +87,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                 tabIndex={-1}
                                                 testID={`textInput__touchableHeader--${id}`}
                                         >
-                                                <Animated.View
+                                                <AnimatedView
                                                         className={clsx(
                                                                 'relative z-10 flex min-w-20 flex-1 flex-row items-center',
                                                                 {
@@ -311,7 +307,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                 </View>
                                                         )}
 
-                                                        <Animated.View
+                                                        <AnimatedView
                                                                 className='absolute bottom-0 left-0 right-0 z-20 h-[0.125rem] origin-bottom'
                                                                 style={[activeIndicatorAnimatedStyle]}
                                                                 testID={`textInput__animatedActiveIndicator--${id}`}
@@ -323,7 +319,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                 testID={`textInput__underlay--${id}`}
                                                                 underlayColor={underlayColor}
                                                         />
-                                                </Animated.View>
+                                                </AnimatedView>
                                         </Pressable>
 
                                         <SupportingText

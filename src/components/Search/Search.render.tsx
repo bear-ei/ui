@@ -7,6 +7,7 @@ import {Search} from 'lucide-react-native'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {AnimatedView} from '../Animated-component'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {Underlay} from '../Underlay'
 import type {RenderSearchProps} from './Search.interface'
@@ -70,7 +71,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                         tabIndex={-1}
                                         testID={`search__touchable--${id}`}
                                 >
-                                        <Animated.View
+                                        <AnimatedView
                                                 accessibilityLabel={accessibilityLabel ?? placeholder}
                                                 accessibilityRole='keyboardkey'
                                                 className={clsx(
@@ -243,7 +244,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                         testID={`search__underlay--${id}`}
                                                         underlayColor={underlayColor}
                                                 />
-                                        </Animated.View>
+                                        </AnimatedView>
                                 </Pressable>
 
                                 {/* <SearchList

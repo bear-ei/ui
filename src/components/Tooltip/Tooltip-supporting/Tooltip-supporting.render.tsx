@@ -1,3 +1,4 @@
+import {AnimatedView} from '@/components/Animated-component'
 import {Elevation} from '@/components/Elevation'
 import {Mask} from '@/components/Mask'
 import type {MenuProps} from '@/components/Menu'
@@ -7,7 +8,6 @@ import {SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import React, {cloneElement, forwardRef, isValidElement} from 'react'
 import {Platform, Pressable, Text, View, type ViewStyle} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 import {getSafeMenuPosition} from './Tooltip-supporting.handler'
@@ -157,7 +157,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 
                 return (
                         <>
-                                <Animated.View
+                                <AnimatedView
                                         {...containerProps}
                                         ref={ref}
                                         className={clsx('z-50 min-h-6', {
@@ -211,7 +211,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                         testID={`tooltipSupporting_elevation--${id}`}
                                                 />
                                         )}
-                                </Animated.View>
+                                </AnimatedView>
 
                                 {type === TOOLTIP_TYPE.MENU && (
                                         <Mask

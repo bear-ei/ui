@@ -21,6 +21,7 @@ import {useSearchAnimated} from './use-search-animated.hook'
 
 /**
  * TODO:
+ *
  * - [macOS] Add support for trailingEvent
  *
  * Later handling may deal with the trailingEvent to move into the event

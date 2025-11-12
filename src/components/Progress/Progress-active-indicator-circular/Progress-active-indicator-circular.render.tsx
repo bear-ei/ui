@@ -1,3 +1,4 @@
+import {AnimatedView} from '@/components/Animated-component'
 import {useTheme} from '@/hooks'
 import {platformValue} from '@/utils'
 import {forwardRef} from 'react'
@@ -55,7 +56,7 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
                                         {content}
                                 </View>
 
-                                <Animated.View
+                                <AnimatedView
                                         style={[containerAnimatedStyle]}
                                         testID={`progressActiveIndicatorCircular__animatedMain--${id}`}
                                 >
@@ -86,7 +87,7 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
                                                         ]}
                                                 />
                                         </Svg>
-                                </Animated.View>
+                                </AnimatedView>
                         </View>
                 )
         }

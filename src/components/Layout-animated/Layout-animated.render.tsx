@@ -1,7 +1,7 @@
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import Animated from 'react-native-reanimated'
+import {AnimatedView} from '../Animated-component'
 import type {RenderLayoutAnimatedProps} from './Layout-animated.interface'
 
 export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
@@ -22,7 +22,7 @@ export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
                 const {onLayout} = interactionHandlers
 
                 return (
-                        <Animated.View
+                        <AnimatedView
                                 {...containerProps}
                                 className={clsx('flex flex-col', {['pointer-events-none -z-40']: !visible}, className)}
                                 onLayout={onLayout}
@@ -31,7 +31,7 @@ export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
                                 testID={testID ?? `layoutAnimated--${id}`}
                         >
                                 {children}
-                        </Animated.View>
+                        </AnimatedView>
                 )
         }
 )

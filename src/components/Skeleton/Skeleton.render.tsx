@@ -2,7 +2,7 @@ import {LAYOUT} from '@/constants'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import Animated from 'react-native-reanimated'
+import {AnimatedView} from '../Animated-component'
 import {LayoutAnimated} from '../Layout-animated'
 import type {RenderSkeletonProps} from './Skeleton.interface'
 
@@ -33,7 +33,7 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
                                                 unmount={true}
                                                 visible={isSkeletonVisible}
                                         >
-                                                <Animated.View
+                                                <AnimatedView
                                                         {...containerProps}
                                                         className={clsx(
                                                                 'flex min-h-6 min-w-6',
@@ -49,7 +49,7 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
                                                         testID={`skeleton__animatedSkeletonLayout--${id}`}
                                                 >
                                                         {skeleton}
-                                                </Animated.View>
+                                                </AnimatedView>
                                         </LayoutAnimated>
                                 )}
 

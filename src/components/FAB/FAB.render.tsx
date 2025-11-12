@@ -4,7 +4,7 @@ import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
-import Animated from 'react-native-reanimated'
+import {AnimatedText, AnimatedView} from '../Animated-component'
 import {Elevation} from '../Elevation'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
@@ -75,7 +75,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 
                 const shape = shapeSize[size]
                 const backgroundUnderlayElement = (
-                        <Animated.View
+                        <AnimatedView
                                 className={clsx(
                                         'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
                                         shapeClasses(shape)
@@ -143,7 +143,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                                                         )}
 
                                                         {extended && labelText && (
-                                                                <Animated.Text
+                                                                <AnimatedText
                                                                         className={clsx(
                                                                                 'select-none text-center',
                                                                                 typographyClasses(TYPOGRAPHY.LABEL)(
@@ -156,7 +156,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                                                                         testID={`fab__animatedLabelText--${id}`}
                                                                 >
                                                                         {labelText}
-                                                                </Animated.Text>
+                                                                </AnimatedText>
                                                         )}
                                                 </View>
 

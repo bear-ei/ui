@@ -1,3 +1,4 @@
+import {AnimatedText, AnimatedView} from '@/components/Animated-component'
 import {type PressableType, Touchable} from '@/components/Touchable'
 import {Underlay} from '@/components/Underlay'
 import {ICON_BUTTON_SIZE} from '@/constants'
@@ -7,7 +8,6 @@ import {SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
 import {View} from 'react-native'
-import Animated from 'react-native-reanimated'
 import type {RenderListAffordanceButtonProps} from './List-affordance-button.interface'
 
 export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAffordanceButtonProps>(
@@ -33,7 +33,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                 const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
                 const color = theme.token.scheme.onPrimary
                 const backgroundUnderlayElement = (
-                        <Animated.View
+                        <AnimatedView
                                 className='pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10'
                                 style={[backgroundUnderlayAnimatedStyle]}
                                 testID={`listAffordanceButton__backgroundUnderlay--${id}`}
@@ -63,7 +63,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                                         >
                                                 {icon ?
                                                         cloneElement(icon, {size: platformValue(iconSize), color})
-                                                :       <Animated.Text
+                                                :       <AnimatedText
                                                                 className={clsx(
                                                                         'z-20 select-none text-center',
                                                                         typographyClasses(TYPOGRAPHY.LABEL)(size)({
@@ -77,7 +77,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                                                                 testID={`listAffordanceButton__animatedLabelText--${id}`}
                                                         >
                                                                 {labelText}
-                                                        </Animated.Text>
+                                                        </AnimatedText>
                                                 }
 
                                                 <Underlay

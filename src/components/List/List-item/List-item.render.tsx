@@ -1,3 +1,4 @@
+import {AnimatedText, AnimatedView} from '@/components/Animated-component'
 import {Divider} from '@/components/Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '@/components/Icon-button'
 import {LayoutAnimated} from '@/components/Layout-animated'
@@ -11,7 +12,6 @@ import {clsx} from 'clsx'
 import {Ellipsis, X} from 'lucide-react-native'
 import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
-import Animated from 'react-native-reanimated'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import type {ListType} from '../List.interface'
@@ -148,7 +148,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                         </View>
                                 )}
 
-                                <Animated.View
+                                <AnimatedView
                                         style={[contentStyle, contentAnimatedStyle]}
                                         testID={`listItem__animatedContent--${id}`}
                                         className={clsx('absolute bottom-0 left-0 right-0 top-0 z-20', {
@@ -307,7 +307,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                 {headline &&
                                                                         (isValidElement(headline) ?
                                                                                 cloneElement(headline, {...{active}})
-                                                                        :       <Animated.Text
+                                                                        :       <AnimatedText
                                                                                         className={typographyClasses(
                                                                                                 typographyType
                                                                                         )(size)()}
@@ -319,7 +319,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                         testID={`listItem__animatedHeadlineText--${id}`}
                                                                                 >
                                                                                         {headline}
-                                                                                </Animated.Text>)}
+                                                                                </AnimatedText>)}
 
                                                                 {supporting &&
                                                                         (isValidElement(supporting) ? supporting : (
@@ -418,7 +418,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                         underlayColor={underlayColor}
                                                 />
                                         )}
-                                </Animated.View>
+                                </AnimatedView>
 
                                 {afterAffordance && (
                                         <View

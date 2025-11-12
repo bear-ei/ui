@@ -5,7 +5,7 @@ import {clsx} from 'clsx'
 import {Circle} from 'lucide-react-native'
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
-import Animated from 'react-native-reanimated'
+import {AnimatedView} from '../Animated-component'
 import {LayoutAnimated} from '../Layout-animated'
 import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
 import {Touchable, type PressableType} from '../Touchable'
@@ -71,7 +71,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                 const shape = SHAPE.FULL
                 const activeColor = theme.token.scheme.secondaryContainer
                 const backgroundUnderlayElement = (
-                        <Animated.View
+                        <AnimatedView
                                 className={clsx(
                                         'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
                                         shapeClasses(shape)

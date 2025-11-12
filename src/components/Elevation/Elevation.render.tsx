@@ -2,7 +2,7 @@ import {shapeClasses} from '@/utils'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import Animated from 'react-native-reanimated'
+import {AnimatedView} from '../Animated-component'
 import type {RenderElevationProps} from './Elevation.interface'
 
 export const RenderElevation = forwardRef<View, RenderElevationProps>(
@@ -13,7 +13,7 @@ export const RenderElevation = forwardRef<View, RenderElevationProps>(
                         ref={ref}
                         testID={testID ?? `elevation--${id}`}
                 >
-                        <Animated.View
+                        <AnimatedView
                                 className={clsx('flex-1 self-stretch', shapeClasses(shape))}
                                 style={[shadowAnimatedStyle]}
                                 testID={`elevation__shadow--${id}`}

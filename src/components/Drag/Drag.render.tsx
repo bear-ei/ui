@@ -1,7 +1,7 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {GestureDetector} from 'react-native-gesture-handler'
-import Animated from 'react-native-reanimated'
+import {AnimatedView} from '../Animated-component'
 import type {RenderDragProps} from './Drag.interface'
 
 export const RenderDrag = forwardRef<View, RenderDragProps>(
@@ -17,13 +17,13 @@ export const RenderDrag = forwardRef<View, RenderDragProps>(
                                 testID={testID ?? `drag--${id}`}
                         >
                                 <GestureDetector gesture={panGesture}>
-                                        <Animated.View
+                                        <AnimatedView
                                                 className='absolute bottom-0 left-0 right-0 top-0 z-40'
                                                 style={[animatedStyle]}
                                                 testID={`drag__content--${id}`}
                                         >
                                                 {children}
-                                        </Animated.View>
+                                        </AnimatedView>
                                 </GestureDetector>
                         </View>
                 )

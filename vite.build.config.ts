@@ -39,14 +39,7 @@ const config = defineConfig({
                                 chunkFileNames: 'chunks/[name].[hash].mjs',
                                 entryFileNames: '[name].mjs',
                                 preserveModules: true,
-                                preserveModulesRoot: resolve(__dirname, './src'),
-                                assetFileNames: assetInfo => {
-                                        if (assetInfo.names?.some(n => n.endsWith('.css'))) {
-                                                return 'styles/index.css'
-                                        }
-
-                                        return 'assets/[name].[ext]'
-                                }
+                                preserveModulesRoot: resolve(__dirname, './src')
                         }
                 },
                 commonjsOptions: {transformMixedEsModules: true}

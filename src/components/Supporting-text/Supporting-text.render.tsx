@@ -5,7 +5,7 @@ import {SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import Animated from 'react-native-reanimated'
+import {AnimatedText} from '../Animated-component'
 import {LayoutAnimated} from '../Layout-animated'
 import type {RenderSupportingTextProps} from './Supporting-text.interface'
 
@@ -34,7 +34,7 @@ export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(
                                 testID={`supportingText__layoutAnimated--${id}`}
                                 ref={ref}
                         >
-                                <Animated.Text
+                                <AnimatedText
                                         className={clsx(
                                                 {
                                                         ['text-center']: alignment === ALIGNMENT.CENTER,
@@ -47,7 +47,7 @@ export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(
                                         testID={`supportingText__animatedText--${id}`}
                                 >
                                         {children}
-                                </Animated.Text>
+                                </AnimatedText>
                         </LayoutAnimated>
                 )
         }

@@ -5,7 +5,7 @@ import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
-import Animated from 'react-native-reanimated'
+import {AnimatedText, AnimatedView} from '../Animated-component'
 import {Elevation} from '../Elevation'
 import {LayoutAnimated} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
@@ -81,7 +81,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                 const loadingEventName = type && buttonTypes.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
                 const shape = isLink ? SHAPE.EXTRA_SMALL_TOP : SHAPE.FULL
                 const backgroundUnderlayElement = (
-                        <Animated.View
+                        <AnimatedView
                                 className={clsx(
                                         'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
                                         shapeClasses(shape)
@@ -169,7 +169,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                                 </View>
                                                         )}
 
-                                                        <Animated.Text
+                                                        <AnimatedText
                                                                 className={clsx(
                                                                         'select-none text-center',
                                                                         typographyClasses(
@@ -184,7 +184,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                                 testID={`button__animatedLabelText--${id}`}
                                                         >
                                                                 {labelText}
-                                                        </Animated.Text>
+                                                        </AnimatedText>
                                                 </View>
 
                                                 {type === BUTTON_TYPE.LINK && (

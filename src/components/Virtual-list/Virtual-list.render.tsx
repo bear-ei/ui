@@ -4,6 +4,7 @@ import {TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {cloneElement, forwardRef, type ForwardedRef} from 'react'
 import {ScrollView, Text, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
+import {AnimatedView} from '../Animated-component'
 import {LayoutAnimated} from '../Layout-animated'
 import {VirtualListItem, type RenderVirtualListItemInfo} from './Virtual-list-item'
 import type {RenderVirtualListItemOptions, RenderVirtualListProps} from './Virtual-list.interface'
@@ -102,13 +103,13 @@ export const RenderVirtualListInner = <T,>(
                                                 scrollEventThrottle={scrollEventThrottle}
                                                 testID={`virtualList__animatedScrollView--${id}`}
                                         >
-                                                <Animated.View
+                                                <AnimatedView
                                                         className='relative flex-1'
                                                         style={contentAnimatedStyle}
                                                         testID={`virtualList__animatedContent--${id}`}
                                                 >
                                                         {itemElements}
-                                                </Animated.View>
+                                                </AnimatedView>
                                         </Animated.ScrollView>
                                 </LayoutAnimated>
                         )}

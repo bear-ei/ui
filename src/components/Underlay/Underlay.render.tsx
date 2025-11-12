@@ -2,7 +2,7 @@ import {shapeClasses} from '@/utils'
 import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import Animated from 'react-native-reanimated'
+import {AnimatedView} from '../Animated-component'
 import type {RenderUnderlayProps} from './Underlay.interface'
 
 export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
@@ -32,7 +32,7 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
                         )}
                         testID={testID ?? `underlay--${id}`}
                 >
-                        <Animated.View
+                        <AnimatedView
                                 className='absolute bottom-0 left-0 right-0 top-0 z-20'
                                 style={[
                                         {...(underlayColor && {backgroundColor: underlayColor})},
@@ -42,7 +42,7 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
                         />
 
                         {typeof active === 'boolean' && activeColor && (
-                                <Animated.View
+                                <AnimatedView
                                         className={clsx(
                                                 'absolute bottom-0 left-0 right-0 top-0 z-10',
                                                 shapeClasses(activeShape ?? shape)
