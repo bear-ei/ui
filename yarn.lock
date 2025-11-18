@@ -1530,10 +1530,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bearei/theme-token@npm:^0.0.14":
-  version: 0.0.14
-  resolution: "@bearei/theme-token@npm:0.0.14"
-  checksum: 10c0/53f6cf67dda563b3b93490ac964bd1ebd7b0224a27871a49a1a568fd87e5f9f67aea4d221532f4dfa7c5b8bfbf33dbd9801473a5fc678a03d3d7b6d8aefcda79
+"@bearei/theme-token@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@bearei/theme-token@npm:1.0.0"
+  checksum: 10c0/fe8386d1c927fbf02620709831b5aede493b807ac60a2a390a98defa302554440a4a424998276b238514ea7b4170a379a5a9fba8e355ed52c10b29aacf795369
   languageName: node
   linkType: hard
 
@@ -1547,7 +1547,7 @@ __metadata:
     "@babel/plugin-proposal-export-namespace-from": "npm:^7.18.9"
     "@babel/preset-env": "npm:^7.25.3"
     "@babel/runtime": "npm:^7.25.0"
-    "@bearei/theme-token": "npm:^0.0.14"
+    "@bearei/theme-token": "npm:^1.0.0"
     "@eslint/eslintrc": "npm:^3.3.1"
     "@eslint/js": "npm:^9.37.0"
     "@gorhom/bottom-sheet": "npm:^5.2.6"

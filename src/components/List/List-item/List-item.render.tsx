@@ -7,7 +7,7 @@ import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
 import {EVENT_NAME, ICON_BUTTON_SIZE, LAYOUT, TRIGGER_EVENT} from '@/constants'
 import {useTheme} from '@/hooks'
 import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
-import {DURATION, EASING, SIZE, TYPOGRAPHY, type Size} from '@bearei/theme-token'
+import {DURATION, EASING, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE, type Size} from '@bearei/theme-token'
 import {clsx} from 'clsx'
 import {Ellipsis, X} from 'lucide-react-native'
 import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
@@ -136,6 +136,11 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         type && ([LIST_TYPE.MENU, LIST_TYPE.LABEL] as readonly ListType[]).includes(type) ?
                                 TYPOGRAPHY.LABEL
                         :       TYPOGRAPHY.BODY
+
+                const typographySize =
+                        type && ([LIST_TYPE.MENU, LIST_TYPE.LABEL] as readonly ListType[]).includes(type) ?
+                                TYPOGRAPHY_SIZE.MEDIUM
+                        :       size
 
                 const mainElement = (
                         <>
@@ -310,7 +315,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                         :       <AnimatedText
                                                                                         className={typographyClasses(
                                                                                                 typographyType
-                                                                                        )(size)()}
+                                                                                        )(typographySize)()}
                                                                                         ellipsizeMode='tail'
                                                                                         numberOfLines={1}
                                                                                         style={[
@@ -327,7 +332,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                                         className={clsx(
                                                                                                 typographyClasses(
                                                                                                         TYPOGRAPHY.BODY
-                                                                                                )(size)({
+                                                                                                )(typographySize)({
                                                                                                         colorClasses:
                                                                                                                 'color-[--color-on-surface-variant]'
                                                                                                 })
