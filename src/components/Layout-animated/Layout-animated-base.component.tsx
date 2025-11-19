@@ -110,7 +110,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         nextVisibilityEvent?.()
                 }, [nextVisibilityEvent])
 
-                if (status === COMPONENT_STATUS.IDLE && lazy) {
+                if (status === COMPONENT_STATUS.IDLE && [lazy, unmount].some(Boolean)) {
                         return <></>
                 }
 
