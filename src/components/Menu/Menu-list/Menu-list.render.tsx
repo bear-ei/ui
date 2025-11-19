@@ -1,8 +1,7 @@
 import {List, LIST_SELECT_TYPE, LIST_TYPE} from '@/components/List'
 import type {InteractionHandlers} from '@/hooks'
-import {platformValue, shapeClasses} from '@/utils'
+import {classesName, platformValue, shapeClasses} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {Platform, View, type ViewStyle} from 'react-native'
 import type {RenderMenuListProps} from './Menu-list.interface'
@@ -39,7 +38,7 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                 return (
                         <View
                                 {...(['web', 'windows', 'macos'].includes(Platform.OS) && {onKeyDown})}
-                                className={clsx(
+                                className={classesName(
                                         'w-[11.25rem] overflow-hidden bg-[--color-surface-container] outline-none',
                                         shapeClasses(shape)
                                 )}

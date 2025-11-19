@@ -1,4 +1,4 @@
-import {clsx} from 'clsx'
+import {classesName} from '@/utils'
 import {forwardRef, type FC} from 'react'
 import {View} from 'react-native'
 import {NavigationRailItem} from './Navigation-rail-item'
@@ -47,7 +47,7 @@ export const RenderNavigationRail = forwardRef<View, RenderNavigationRailProps>(
                         )}
 
                         <View
-                                className={clsx('flex flex-1 flex-col items-center gap-3 self-stretch', {
+                                className={classesName('flex flex-1 flex-col items-center gap-3 self-stretch', {
                                         ['justify-center']:
                                                 destinationPosition === NAVIGATION_DESTINATION_POSITION.CENTER,
 

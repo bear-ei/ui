@@ -1,8 +1,7 @@
 import {EVENT_NAME, type EventName} from '@/constants'
 import {useTheme} from '@/hooks'
-import {platformValue, shapeClasses, typographyClasses} from '@/utils'
+import {classesName, platformValue, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
 import {AnimatedText, AnimatedView} from '../Animated-component'
@@ -82,7 +81,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                 const shape = isLink ? SHAPE.EXTRA_SMALL_TOP : SHAPE.FULL
                 const backgroundUnderlayElement = (
                         <AnimatedView
-                                className={clsx(
+                                className={classesName(
                                         'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
                                         shapeClasses(shape)
                                 )}
@@ -107,7 +106,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                 accessibilityState={{disabled}}
                                 accessible={true}
                                 style={[style]}
-                                className={clsx('cursor-pointer', {
+                                className={classesName('cursor-pointer', {
                                         ['h-10 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.MEDIUM,
                                         ['h-12 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.LARGE,
                                         ['h-14 min-w-20']: type !== BUTTON_TYPE.LINK && size === SIZE.EXTRA_LARGE,
@@ -132,13 +131,11 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                         underlayColor={underlayColor}
                                 >
                                         <View
-                                                className={clsx(
-                                                        'pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center self-stretch overflow-hidden'
-                                                )}
+                                                className='pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center self-stretch overflow-hidden'
                                                 testID={`button__content--${id}`}
                                         >
                                                 <View
-                                                        className={clsx(
+                                                        className={classesName(
                                                                 'z-10 flex flex-1 flex-row items-center justify-center gap-2 self-stretch',
                                                                 {
                                                                         ['pl-2 pr-2']:
@@ -170,7 +167,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                         )}
 
                                                         <AnimatedText
-                                                                className={clsx(
+                                                                className={classesName(
                                                                         'select-none text-center',
                                                                         typographyClasses(
                                                                                 isLink ?
@@ -189,9 +186,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 
                                                 {type === BUTTON_TYPE.LINK && (
                                                         <LayoutAnimated
-                                                                className={clsx(
-                                                                        'absolute bottom-0 left-0 right-0 z-20 min-h-[0.0625rem] bg-[--color-primary]'
-                                                                )}
+                                                                className='absolute bottom-0 left-0 right-0 z-20 min-h-[0.0625rem] bg-[--color-primary]'
                                                                 style={[
                                                                         {...(linkColor && {backgroundColor: linkColor})}
                                                                 ]}

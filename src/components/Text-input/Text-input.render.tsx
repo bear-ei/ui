@@ -1,8 +1,7 @@
 import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
-import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
+import {classesName, platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, type Size} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View, type ViewStyle} from 'react-native'
 import {AnimatedTextInput, AnimatedView} from '../Animated-component'
@@ -76,7 +75,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                         accessibilityLabel: accessibilityLabel ?? labelText,
                                                         accessibilityRole: 'keyboardkey'
                                                 })}
-                                                className={clsx('flex cursor-text flex-col outline-none', {
+                                                className={classesName('flex cursor-text flex-col outline-none', {
                                                         ['h-10']: size === SIZE.SMALL,
                                                         ['h-12']: size === SIZE.MEDIUM,
                                                         ['h-14']: size === SIZE.LARGE,
@@ -88,7 +87,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                 testID={`textInput__touchableHeader--${id}`}
                                         >
                                                 <AnimatedView
-                                                        className={clsx(
+                                                        className={classesName(
                                                                 'relative z-10 flex min-w-20 flex-1 flex-row items-center',
                                                                 {
                                                                         ['pr-6']:
@@ -159,7 +158,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                 >
                                                         {leadingElement && (
                                                                 <View
-                                                                        className={clsx(
+                                                                        className={classesName(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
                                                                                         ['justify-start']: multiline,
@@ -209,7 +208,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                         )}
 
                                                         <View
-                                                                className={clsx('z-10 flex flex-1', {
+                                                                className={classesName('z-10 flex flex-1', {
                                                                         ['flex-row flex-wrap gap-x-1 gap-y-2']:
                                                                                 !!content,
                                                                         ['flex-col justify-end']: !content
@@ -233,7 +232,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                 >
                                                                         <AnimatedTextInput
                                                                                 {...inputProps}
-                                                                                className={clsx(
+                                                                                className={classesName(
                                                                                         'flex-1 self-stretch pb-0 pl-0 pr-0 pt-0 text-left outline-none',
                                                                                         typographyClasses(
                                                                                                 TYPOGRAPHY.BODY
@@ -260,7 +259,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 
                                                         {trailingElement && (
                                                                 <View
-                                                                        className={clsx(
+                                                                        className={classesName(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
                                                                                         ['justify-start']: multiline,

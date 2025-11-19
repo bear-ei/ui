@@ -6,9 +6,8 @@ import {Skeleton} from '@/components/Skeleton'
 import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
 import {EVENT_NAME, ICON_BUTTON_SIZE, LAYOUT, TRIGGER_EVENT} from '@/constants'
 import {useTheme} from '@/hooks'
-import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
+import {classesName, platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {DURATION, EASING, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE, type Size} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {Ellipsis, X} from 'lucide-react-native'
 import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
@@ -156,7 +155,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 <AnimatedView
                                         style={[contentStyle, contentAnimatedStyle]}
                                         testID={`listItem__animatedContent--${id}`}
-                                        className={clsx('absolute bottom-0 left-0 right-0 top-0 z-20', {
+                                        className={classesName('absolute bottom-0 left-0 right-0 top-0 z-20', {
                                                 ['bg-[--color-surface-container]']: type !== LIST_TYPE.STANDARD,
                                                 ['bg-[--color-surface]']: type === LIST_TYPE.STANDARD
                                         })}
@@ -164,7 +163,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                         <Pressable
                                                 {...touchableProps}
                                                 {...interactionHandlers}
-                                                className={clsx(
+                                                className={classesName(
                                                         'flex flex-1 flex-col items-center justify-center self-stretch outline-none',
                                                         className
                                                 )}
@@ -173,7 +172,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                 testID={`listItem__touchable--${id}`}
                                         >
                                                 <View
-                                                        className={clsx(
+                                                        className={classesName(
                                                                 'relative z-10 flex flex-row items-center justify-start self-stretch',
                                                                 {
                                                                         ['pr-6']:
@@ -254,7 +253,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                         {leadingElement && (
                                                                 <View
                                                                         testID={`listItem__leading--${id}`}
-                                                                        className={clsx(
+                                                                        className={classesName(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
                                                                                         ['justify-start']: isMultiline,
@@ -304,7 +303,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
                                                         <View
                                                                 testID={`listItem__mainInner--${id}`}
-                                                                className={clsx(
+                                                                className={classesName(
                                                                         'pointer-events-none flex flex-1 flex-col justify-center',
                                                                         {['min-h-8']: isSupportingTextShow}
                                                                 )}
@@ -329,14 +328,12 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                 {supporting &&
                                                                         (isValidElement(supporting) ? supporting : (
                                                                                 <Text
-                                                                                        className={clsx(
-                                                                                                typographyClasses(
-                                                                                                        TYPOGRAPHY.BODY
-                                                                                                )(typographySize)({
-                                                                                                        colorClasses:
-                                                                                                                'color-[--color-on-surface-variant]'
-                                                                                                })
-                                                                                        )}
+                                                                                        className={typographyClasses(
+                                                                                                TYPOGRAPHY.BODY
+                                                                                        )(typographySize)({
+                                                                                                colorClasses:
+                                                                                                        'color-[--color-on-surface-variant]'
+                                                                                        })}
                                                                                         ellipsizeMode='tail'
                                                                                         numberOfLines={
                                                                                                 supportingTextNumberOfLines
@@ -350,7 +347,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
                                                         {trailingElement && (
                                                                 <View
-                                                                        className={clsx(
+                                                                        className={classesName(
                                                                                 'flex flex-col items-center justify-center',
                                                                                 {
                                                                                         ['justify-start']: isMultiline,
@@ -427,7 +424,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
                                 {afterAffordance && (
                                         <View
-                                                className={clsx('flex flex-1 flex-row justify-center self-end', {
+                                                className={classesName('flex flex-1 flex-row justify-center self-end', {
                                                         ['z-10']: afterAffordanceExpanded
                                                 })}
                                                 testID={`listItem__afterAffordanceLayout--${id}`}
@@ -473,7 +470,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                 accessibilityRole='menuitem'
                                 tabIndex={-1}
                                 testID={testID ?? `listItem--${id}`}
-                                className={clsx(
+                                className={classesName(
                                         'relative flex min-w-20 flex-col self-stretch overflow-hidden',
                                         {
                                                 ['h-10']: size === SIZE.SMALL,

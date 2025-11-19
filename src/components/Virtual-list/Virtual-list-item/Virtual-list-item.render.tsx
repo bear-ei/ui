@@ -3,7 +3,6 @@ import {Drag} from '@/components/Drag'
 import {Elevation} from '@/components/Elevation'
 import {LAYOUT} from '@/constants'
 import {platformValue} from '@/utils'
-import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View, type ViewStyle} from 'react-native'
 import type {RenderVirtualListItemProps} from './Virtual-list-item.interface'
@@ -34,7 +33,7 @@ export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps
         ) => (
                 <AnimatedView
                         {...containerProps}
-                        className={clsx('absolute bottom-0 left-0 right-0 top-0 flex flex-col')}
+                        className='absolute bottom-0 left-0 right-0 top-0 flex flex-col'
                         ref={ref}
                         style={[
                                 {

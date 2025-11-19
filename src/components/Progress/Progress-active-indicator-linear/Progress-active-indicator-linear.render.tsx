@@ -1,7 +1,6 @@
 import {AnimatedView} from '@/components/Animated-component'
-import {shapeClasses} from '@/utils'
+import {classesName, shapeClasses} from '@/utils'
 import {SHAPE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {PROGRESS_ANIMATED} from '../Progress.enum'
@@ -14,7 +13,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
                 return (
                         <View
                                 {...interactionHandlers}
-                                className={clsx(
+                                className={classesName(
                                         'relative flex flex-1 flex-row self-stretch overflow-hidden',
                                         shapeClasses(shape)
                                 )}
@@ -23,7 +22,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
                         >
                                 <AnimatedView
                                         {...containerProps}
-                                        className={clsx(
+                                        className={classesName(
                                                 'pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-10 origin-left bg-[--color-primary]',
                                                 shapeClasses(shape)
                                         )}
@@ -32,7 +31,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
                                 />
 
                                 <AnimatedView
-                                        className={clsx(
+                                        className={classesName(
                                                 'h-1 flex-1 self-stretch bg-[--color-primary-container]',
                                                 shapeClasses(shape)
                                         )}
@@ -41,7 +40,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
 
                                 {animatedType === PROGRESS_ANIMATED.DETERMINATE && (
                                         <AnimatedView
-                                                className={clsx(
+                                                className={classesName(
                                                         'absolute right-0 top-0 z-10 h-1 w-1 bg-[--color-primary]',
                                                         shapeClasses(shape)
                                                 )}

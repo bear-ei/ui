@@ -1,4 +1,4 @@
-import {clsx} from 'clsx'
+import {classesName} from '@/utils'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {AnimatedView} from '../Animated-component'
@@ -24,7 +24,11 @@ export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
                 return (
                         <AnimatedView
                                 {...containerProps}
-                                className={clsx('flex flex-col', {['pointer-events-none -z-40']: !visible}, className)}
+                                className={classesName(
+                                        'flex flex-col',
+                                        {['pointer-events-none -z-40']: !visible},
+                                        className
+                                )}
                                 onLayout={onLayout}
                                 ref={ref}
                                 style={[style, containerAnimatedStyle]}

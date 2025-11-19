@@ -1,8 +1,7 @@
 import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
-import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
+import {classesName, platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, type Size} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {Search} from 'lucide-react-native'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View} from 'react-native'
@@ -56,7 +55,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                 return (
                         <View
                                 {...(containerRef && {ref: containerRef})}
-                                className={clsx('relative z-40 justify-center self-stretch', {
+                                className={classesName('relative z-40 justify-center self-stretch', {
                                         ['h-10']: size === SIZE.SMALL,
                                         ['h-12']: size === SIZE.MEDIUM,
                                         ['h-14']: size === SIZE.LARGE,
@@ -74,7 +73,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                         <AnimatedView
                                                 accessibilityLabel={accessibilityLabel ?? placeholder}
                                                 accessibilityRole='keyboardkey'
-                                                className={clsx(
+                                                className={classesName(
                                                         'relative z-10 flex flex-1 flex-row items-center justify-between self-stretch',
                                                         {
                                                                 ['pr-6']: !isTrailingShow && size === SIZE.EXTRA_LARGE,
@@ -129,29 +128,32 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                 testID={`search__content--${id}`}
                                         >
                                                 <View
-                                                        className={clsx('flex flex-col items-center justify-center', {
-                                                                ['mr-1']: (
-                                                                        [
-                                                                                SIZE.SMALL,
-                                                                                SIZE.EXTRA_SMALL
-                                                                        ] as readonly Size[]
-                                                                ).includes(size),
-                                                                ['mr-2']: size === SIZE.MEDIUM,
-                                                                ['mr-3']: size === SIZE.EXTRA_LARGE,
-                                                                ['mr-[0.625rem]']: size === SIZE.LARGE,
-                                                                ['h-12 w-12']: size === SIZE.EXTRA_LARGE,
-                                                                ['h-10 w-10']: size === SIZE.LARGE,
-                                                                ['h-8 w-8']:
-                                                                        size &&
-                                                                        (
+                                                        className={classesName(
+                                                                'flex flex-col items-center justify-center',
+                                                                {
+                                                                        ['mr-1']: (
                                                                                 [
-                                                                                        SIZE.MEDIUM,
-                                                                                        SIZE.SMALL
+                                                                                        SIZE.SMALL,
+                                                                                        SIZE.EXTRA_SMALL
                                                                                 ] as readonly Size[]
                                                                         ).includes(size),
+                                                                        ['mr-2']: size === SIZE.MEDIUM,
+                                                                        ['mr-3']: size === SIZE.EXTRA_LARGE,
+                                                                        ['mr-[0.625rem]']: size === SIZE.LARGE,
+                                                                        ['h-12 w-12']: size === SIZE.EXTRA_LARGE,
+                                                                        ['h-10 w-10']: size === SIZE.LARGE,
+                                                                        ['h-8 w-8']:
+                                                                                size &&
+                                                                                (
+                                                                                        [
+                                                                                                SIZE.MEDIUM,
+                                                                                                SIZE.SMALL
+                                                                                        ] as readonly Size[]
+                                                                                ).includes(size),
 
-                                                                ['h-6 w-6']: size === SIZE.EXTRA_SMALL
-                                                        })}
+                                                                        ['h-6 w-6']: size === SIZE.EXTRA_SMALL
+                                                                }
+                                                        )}
                                                         testID={`search__leading--${id}`}
                                                 >
                                                         {cloneElement(leadingElement, {
@@ -177,7 +179,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                                                         !disabled
                                                                                 :       editable
                                                                         }
-                                                                        className={clsx(
+                                                                        className={classesName(
                                                                                 'flex-1 self-stretch pb-0 pl-0 pr-0 pt-0 text-left outline-none',
                                                                                 typographyClasses(TYPOGRAPHY.BODY)(
                                                                                         size
@@ -198,7 +200,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
 
                                                 {trailingElement && (
                                                         <View
-                                                                className={clsx(
+                                                                className={classesName(
                                                                         'flex flex-col items-center justify-center',
                                                                         {
                                                                                 ['ml-1']: (

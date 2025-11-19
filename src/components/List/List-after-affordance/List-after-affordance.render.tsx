@@ -1,6 +1,6 @@
 import {LayoutAnimated} from '@/components/Layout-animated'
+import {classesName} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {Check, X} from 'lucide-react-native'
 import {forwardRef} from 'react'
 import type {View, ViewStyle} from 'react-native'
@@ -35,7 +35,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         <LayoutAnimated
                                 {...containerProps}
                                 {...interactionHandlers}
-                                className={clsx('relative flex w-32 self-stretch', {
+                                className={classesName('relative flex w-32 self-stretch', {
                                         ['bg-[--color-primary]']: isDangerVisible
                                 })}
                                 entry={{duration: 0}}

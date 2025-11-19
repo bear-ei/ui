@@ -1,5 +1,5 @@
 import {LAYOUT} from '@/constants'
-import {clsx} from 'clsx'
+import {classesName} from '@/utils'
 import {forwardRef, type FC} from 'react'
 import {View, type ScrollView} from 'react-native'
 import {VirtualList} from '../Virtual-list'
@@ -52,7 +52,7 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
                         accessibilityLabel='list'
                         accessibilityRole='list'
                         accessible={true}
-                        className={clsx('flex-1 self-stretch', {
+                        className={classesName('flex-1 self-stretch', {
                                 ['pb-2 pt-2']: layoutType === LAYOUT.VERTICAL,
                                 ['pl-2 pr-2']: layoutType === LAYOUT.HORIZONTAL
                         })}

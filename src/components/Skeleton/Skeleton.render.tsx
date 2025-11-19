@@ -1,5 +1,5 @@
 import {LAYOUT} from '@/constants'
-import {clsx} from 'clsx'
+import {classesName} from '@/utils'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {AnimatedView} from '../Animated-component'
@@ -35,7 +35,7 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
                                         >
                                                 <AnimatedView
                                                         {...containerProps}
-                                                        className={clsx(
+                                                        className={classesName(
                                                                 'flex min-h-6 min-w-6',
                                                                 {
                                                                         ['flex-row items-center']:

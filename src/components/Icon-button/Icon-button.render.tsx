@@ -1,7 +1,6 @@
 import {useTheme} from '@/hooks'
-import {platformValue, processIconSize, shapeClasses} from '@/utils'
+import {classesName, platformValue, processIconSize, shapeClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {Circle} from 'lucide-react-native'
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
@@ -72,7 +71,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                 const activeColor = theme.token.scheme.secondaryContainer
                 const backgroundUnderlayElement = (
                         <AnimatedView
-                                className={clsx(
+                                className={classesName(
                                         'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
                                         shapeClasses(shape)
                                 )}
@@ -87,7 +86,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
                                 accessibilityRole='button'
                                 accessibilityState={{disabled}}
                                 accessible={true}
-                                className={clsx('relative cursor-pointer', {
+                                className={classesName('relative cursor-pointer', {
                                         ['h-10 w-10']: size === SIZE.MEDIUM,
                                         ['h-12 w-12']: size === SIZE.LARGE,
                                         ['h-14 w-14']: size === SIZE.EXTRA_LARGE,

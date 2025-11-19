@@ -1,6 +1,6 @@
 import {useTheme} from '@/hooks'
+import {classesName} from '@/utils'
 import {hexToRGBA} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {Pressable, View} from 'react-native'
 import {LayoutAnimated} from '../Layout-animated'
@@ -29,7 +29,7 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
                                 visible={visible}
                                 accessibilityRole='alert'
                                 accessible={true}
-                                className={clsx(
+                                className={classesName(
                                         'absolute bottom-0 left-0 right-0 top-0 cursor-default',
                                         {
                                                 ['overflow-hidden']: !visible,

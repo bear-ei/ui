@@ -1,5 +1,5 @@
 import {LAYOUT} from '@/constants'
-import {clsx} from 'clsx'
+import {classesName} from '@/utils'
 import {forwardRef} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {LayoutAnimated} from '../Layout-animated'
@@ -14,7 +14,10 @@ export const RenderLayout = forwardRef<View, RenderLayoutProps>(
                 return (
                         <LayoutAnimated
                                 {...containerProps}
-                                className={clsx('flex flex-1 self-stretch bg-[--color-surface-container]', className)}
+                                className={classesName(
+                                        'flex flex-1 self-stretch bg-[--color-surface-container]',
+                                        className
+                                )}
                                 defaultVisible={true}
                                 ref={ref}
                                 style={[rawStyle, layoutAnimatedStyle]}

@@ -1,7 +1,6 @@
 import {useTheme} from '@/hooks'
-import {platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
+import {classesName, platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
 import {AnimatedText, AnimatedView} from '../Animated-component'
@@ -76,7 +75,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                 const shape = shapeSize[size]
                 const backgroundUnderlayElement = (
                         <AnimatedView
-                                className={clsx(
+                                className={classesName(
                                         'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
                                         shapeClasses(shape)
                                 )}
@@ -98,7 +97,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                                 accessibilityLabel={accessibilityLabel ?? labelText}
                                 accessibilityRole='button'
                                 accessibilityState={{disabled}}
-                                className={clsx('cursor-pointer', {
+                                className={classesName('cursor-pointer', {
                                         ['h-10 w-10']: !extended && size === SIZE.SMALL,
                                         ['h-12 min-w-20 self-start']: extended,
                                         ['h-12 w-12']: !extended && size === SIZE.MEDIUM,
@@ -121,13 +120,11 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
                                         underlayColor={underlayColor}
                                 >
                                         <View
-                                                className={clsx(
-                                                        'pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center self-stretch overflow-hidden'
-                                                )}
+                                                className='pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center self-stretch overflow-hidden'
                                                 testID={`fab__content--${id}`}
                                         >
                                                 <View
-                                                        className={clsx(
+                                                        className={classesName(
                                                                 'z-10 flex flex-1 flex-row items-center justify-center self-stretch',
                                                                 {['gap-2 pl-4 pr-4']: extended}
                                                         )}
@@ -144,7 +141,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 
                                                         {extended && labelText && (
                                                                 <AnimatedText
-                                                                        className={clsx(
+                                                                        className={classesName(
                                                                                 'select-none text-center',
                                                                                 typographyClasses(TYPOGRAPHY.LABEL)(
                                                                                         TYPOGRAPHY_SIZE.LARGE

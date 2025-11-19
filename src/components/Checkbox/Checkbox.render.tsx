@@ -1,7 +1,6 @@
 import {useTheme} from '@/hooks'
-import {platformValue, processIconSize} from '@/utils'
+import {classesName, platformValue, processIconSize} from '@/utils'
 import {DURATION, hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {Square, SquareCheckBig, SquareMinus} from 'lucide-react-native'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
@@ -50,7 +49,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
                                 accessibilityRole='checkbox'
                                 accessibilityState={{disabled}}
                                 accessible={true}
-                                className={clsx({
+                                className={classesName({
                                         ['h-10 w-10']: size === SIZE.MEDIUM,
                                         ['h-12 w-12']: size === SIZE.LARGE,
                                         ['h-14 w-14']: size === SIZE.EXTRA_LARGE,

@@ -1,5 +1,5 @@
+import {classesName} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circular'
@@ -27,7 +27,7 @@ export const RenderProgress = forwardRef<View, RenderProgressProps>(
                 <View
                         {...containerProps}
                         accessibilityRole='progressbar'
-                        className={clsx('pointer-events-none flex flex-col self-stretch', {
+                        className={classesName('pointer-events-none flex flex-col self-stretch', {
                                 ['gap-1']: !!(value && value > 0) && type === PROGRESS_TYPE.LINEAR,
                                 ['h-1 min-w-10']: type === PROGRESS_TYPE.LINEAR,
                                 ['h-10 w-10']: type === PROGRESS_TYPE.CIRCULAR && size === SIZE.MEDIUM,

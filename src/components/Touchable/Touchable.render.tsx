@@ -1,5 +1,4 @@
-import {shapeClasses} from '@/utils'
-import {clsx} from 'clsx'
+import {classesName, shapeClasses} from '@/utils'
 import {forwardRef, type FC} from 'react'
 import {Pressable, View} from 'react-native'
 import {TouchableRipple} from './Touchable-ripple'
@@ -55,12 +54,12 @@ export const RenderTouchable = forwardRef<PressableType, RenderTouchableProps>(
                         testID={testID ?? `touchable--${id}`}
                 >
                         <View
-                                className={clsx('relative z-30 flex-1 self-stretch', shapeClasses(shape))}
+                                className={classesName('relative z-30 flex-1 self-stretch', shapeClasses(shape))}
                                 testID={`touchable__main--${id}`}
                         >
                                 {children}
                                 <View
-                                        className={clsx(
+                                        className={classesName(
                                                 'absolute bottom-0 left-0 right-0 top-0 overflow-hidden',
                                                 shapeClasses(shape)
                                         )}

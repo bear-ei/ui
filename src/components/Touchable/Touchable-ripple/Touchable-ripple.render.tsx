@@ -1,7 +1,6 @@
 import {AnimatedView} from '@/components/Animated-component'
-import {platformValue, shapeClasses} from '@/utils'
+import {classesName, platformValue, shapeClasses} from '@/utils'
 import {SHAPE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View, type ViewStyle} from 'react-native'
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
@@ -25,7 +24,7 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
                 <AnimatedView
                         {...containerProps}
                         {...interactionHandlers}
-                        className={clsx(
+                        className={classesName(
                                 'pointer-events-none absolute bg-[--color-on-surface]',
                                 shapeClasses(SHAPE.FULL)
                         )}

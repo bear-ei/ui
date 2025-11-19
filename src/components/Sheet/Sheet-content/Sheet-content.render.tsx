@@ -4,9 +4,8 @@ import {Divider} from '@/components/Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '@/components/Icon-button'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '@/components/Layout-animated'
 import {useTheme} from '@/hooks'
-import {shapeClasses, typographyClasses} from '@/utils'
+import {classesName, shapeClasses, typographyClasses} from '@/utils'
 import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {ArrowLeft, ArrowRight, X} from 'lucide-react-native'
 import {forwardRef, type FC} from 'react'
 import {Text, View, type ViewStyle} from 'react-native'
@@ -94,7 +93,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                         <AnimatedView
                                 accessibilityRole='alert'
                                 accessible={true}
-                                className={clsx('flex flex-1 flex-row self-stretch overflow-hidden', {
+                                className={classesName('flex flex-1 flex-row self-stretch overflow-hidden', {
                                         ['justify-start']:
                                                 type === SIDE_SHEET_TYPE.MODAL &&
                                                 position === SIDE_SHEET_POSITION.HORIZONTAL_START,
@@ -108,7 +107,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                         >
                                 <View
                                         {...contentProps}
-                                        className={clsx(
+                                        className={classesName(
                                                 'relative flex flex-1 flex-col overflow-hidden bg-[--color-surface-container-low]',
                                                 {
                                                         ['m-w-80']: type === SIDE_SHEET_TYPE.MODAL,
@@ -121,7 +120,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                         testID={`sheetContent__content--${id}`}
                                 >
                                         <View
-                                                className={clsx(
+                                                className={classesName(
                                                         'flex flex-row items-center gap-1 self-stretch pb-4 pr-1 pt-4',
                                                         {
                                                                 ['pl-4']: !!leadingElement,
@@ -146,7 +145,7 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                                         testID={`sheetContent__headlineLayout--${id}`}
                                                 >
                                                         <Text
-                                                                className={clsx(
+                                                                className={classesName(
                                                                         'select-none text-center',
                                                                         typographyClasses(TYPOGRAPHY.TITLE)(
                                                                                 TYPOGRAPHY_SIZE.LARGE

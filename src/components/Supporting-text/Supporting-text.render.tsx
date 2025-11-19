@@ -1,8 +1,7 @@
 import {ALIGNMENT} from '@/constants'
 import {useTheme} from '@/hooks'
-import {typographyClasses} from '@/utils'
+import {classesName, typographyClasses} from '@/utils'
 import {SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {AnimatedText} from '../Animated-component'
@@ -19,7 +18,7 @@ export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(
                 return (
                         <LayoutAnimated
                                 {...props}
-                                className={clsx(
+                                className={classesName(
                                         'mb-1 min-h-4',
                                         {
                                                 ['pl-2 pr-2']: size === SIZE.EXTRA_SMALL,
@@ -35,7 +34,7 @@ export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(
                                 ref={ref}
                         >
                                 <AnimatedText
-                                        className={clsx(
+                                        className={classesName(
                                                 {
                                                         ['text-center']: alignment === ALIGNMENT.CENTER,
                                                         ['text-end']: alignment === ALIGNMENT.END,

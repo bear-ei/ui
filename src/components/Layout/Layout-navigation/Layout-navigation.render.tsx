@@ -1,6 +1,6 @@
 import {LayoutAnimated} from '@/components/Layout-animated'
+import {classesName} from '@/utils'
 import {DURATION, EASING} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import type {RenderLayoutNavigationProps} from './Layout-navigation.interface'
@@ -9,7 +9,7 @@ export const RenderLayoutNavigation = forwardRef<View, RenderLayoutNavigationPro
         ({children, id, testID, className, ...containerProps}, ref) => (
                 <LayoutAnimated
                         {...containerProps}
-                        className={clsx(
+                        className={classesName(
                                 'flex max-w-80 flex-col self-stretch bg-[--color-surface-container]',
                                 className
                         )}

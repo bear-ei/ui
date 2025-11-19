@@ -1,5 +1,4 @@
-import {shapeClasses} from '@/utils'
-import {clsx} from 'clsx'
+import {classesName, shapeClasses} from '@/utils'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {AnimatedView} from '../Animated-component'
@@ -26,7 +25,7 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
                         {...containerProps}
                         {...interactionHandlers}
                         ref={ref}
-                        className={clsx(
+                        className={classesName(
                                 'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10 flex flex-col items-center justify-center overflow-hidden',
                                 shapeClasses(shape)
                         )}
@@ -43,7 +42,7 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
 
                         {typeof active === 'boolean' && activeColor && (
                                 <AnimatedView
-                                        className={clsx(
+                                        className={classesName(
                                                 'absolute bottom-0 left-0 right-0 top-0 z-10',
                                                 shapeClasses(activeShape ?? shape)
                                         )}

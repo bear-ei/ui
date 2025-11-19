@@ -22,6 +22,7 @@ const externals = [
         'react-native-worklets',
         'react-native',
         'react',
+        'tailwind-merge',
         'use-immer'
 ]
 

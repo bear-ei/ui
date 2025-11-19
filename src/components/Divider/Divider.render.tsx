@@ -1,7 +1,6 @@
 import {LAYOUT} from '@/constants'
-import {typographyClasses} from '@/utils'
+import {classesName, typographyClasses} from '@/utils'
 import {SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {Text, View} from 'react-native'
 import type {RenderDividerProps} from './Divider.interface'
@@ -25,7 +24,7 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
                 return (
                         <View
                                 {...containerProps}
-                                className={clsx('gap-1', {
+                                className={classesName('gap-1', {
                                         ['h-[0.0625rem] w-full']: !subheader && layoutType === LAYOUT.HORIZONTAL,
                                         ['h-6 w-full']: subheader && layoutType === LAYOUT.HORIZONTAL,
                                         ['h-full w-[0.0625rem]']: layoutType === LAYOUT.VERTICAL,
@@ -45,11 +44,9 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
 
                                 {subheader && (
                                         <Text
-                                                className={clsx(
-                                                        typographyClasses(TYPOGRAPHY.TITLE)(TYPOGRAPHY_SIZE.SMALL)({
-                                                                colorClasses: 'color-[--color-on-surface-variant]'
-                                                        })
-                                                )}
+                                                className={typographyClasses(TYPOGRAPHY.TITLE)(TYPOGRAPHY_SIZE.SMALL)({
+                                                        colorClasses: 'color-[--color-on-surface-variant]'
+                                                })}
                                                 testID={`divider__subheader--${id}`}
                                         >
                                                 {subheader}

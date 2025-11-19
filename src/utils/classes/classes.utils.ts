@@ -4,12 +4,13 @@ import {
         createTypography,
         SHAPE,
         SIZE,
-        type Size,
         TYPOGRAPHY,
         TYPOGRAPHY_SIZE,
+        type Size,
         type TypographySize
 } from '@bearei/theme-token'
-import {clsx} from 'clsx'
+import {clsx, type ClassValue} from 'clsx'
+import {twMerge} from 'tailwind-merge'
 import type {TypographyClassesOptions} from './classes.interface'
 
 export const shapeClasses = (shape = SHAPE.NONE as ShapeType) => createShape()[shape]
@@ -34,3 +35,5 @@ export const typographyClasses =
 
                 return clsx(createTypography()[typography][size], fontFamilyClasses, colorClasses)
         }
+
+export const classesName = (...inputs: ClassValue[]) => twMerge(clsx(inputs))

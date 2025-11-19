@@ -1,6 +1,5 @@
-import {platformValue, shapeClasses, typographyClasses} from '@/utils'
+import {classesName, platformValue, shapeClasses, typographyClasses} from '@/utils'
 import {SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
 import {Image, Text, View, type ViewStyle} from 'react-native'
 import type {RenderAvatarProps} from './Avatar.interface'
@@ -31,7 +30,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                                 accessibilityLabel={accessibilityLabel ?? labelText}
                                 accessibilityRole='image'
                                 accessible={true}
-                                className={clsx(
+                                className={classesName(
                                         'pointer-events-none relative overflow-hidden bg-[--color-primary-container]',
                                         {
                                                 ['h-10 w-10']: size === SIZE.MEDIUM,
@@ -78,7 +77,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                                                                 testID={`avatar__image--${id}`}
                                                         />
                                                 :       <Text
-                                                                className={clsx(
+                                                                className={classesName(
                                                                         'color-[--color-on-primary-container]',
                                                                         typographyClasses(TYPOGRAPHY.TITLE)(
                                                                                 typeof size === 'number' ?

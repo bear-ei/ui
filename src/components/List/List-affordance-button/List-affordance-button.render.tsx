@@ -3,9 +3,8 @@ import {type PressableType, Touchable} from '@/components/Touchable'
 import {Underlay} from '@/components/Underlay'
 import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
-import {platformValue, processIconSize, typographyClasses} from '@/utils'
+import {classesName, platformValue, processIconSize, typographyClasses} from '@/utils'
 import {SIZE, TYPOGRAPHY} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {cloneElement, forwardRef} from 'react'
 import {View} from 'react-native'
 import type {RenderListAffordanceButtonProps} from './List-affordance-button.interface'
@@ -64,7 +63,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
                                                 {icon ?
                                                         cloneElement(icon, {size: platformValue(iconSize), color})
                                                 :       <AnimatedText
-                                                                className={clsx(
+                                                                className={classesName(
                                                                         'z-20 select-none text-center',
                                                                         typographyClasses(TYPOGRAPHY.LABEL)(size)({
                                                                                 colorClasses:

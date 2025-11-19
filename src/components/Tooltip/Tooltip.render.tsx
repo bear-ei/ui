@@ -1,4 +1,4 @@
-import {clsx} from 'clsx'
+import {classesName} from '@/utils'
 import {cloneElement, forwardRef} from 'react'
 import {View} from 'react-native'
 import {TOOLTIP_TYPE} from './Tooltip.enum'
@@ -11,7 +11,7 @@ export const RenderTooltip = forwardRef<View, RenderTooltipProps>(
                 return (
                         <View
                                 {...containerProps}
-                                className={clsx('flex flex-col', className)}
+                                className={classesName('flex flex-col', className)}
                                 ref={ref}
                                 testID={testID ?? `tooltip--${id}`}
                         >

@@ -3,9 +3,8 @@ import {Elevation} from '@/components/Elevation'
 import {Mask} from '@/components/Mask'
 import type {MenuProps} from '@/components/Menu'
 import {useTheme} from '@/hooks'
-import {platformValue, shapeClasses, typographyClasses} from '@/utils'
+import {classesName, platformValue, shapeClasses, typographyClasses} from '@/utils'
 import {SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import React, {cloneElement, forwardRef, isValidElement} from 'react'
 import {Platform, Pressable, Text, View, type ViewStyle} from 'react-native'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
@@ -113,7 +112,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                 const mainElement = (
                         <View
                                 {...(type === TOOLTIP_TYPE.PLAIN && {onLayout})}
-                                className={clsx(
+                                className={classesName(
                                         'absolute bottom-0 top-0 overflow-hidden',
                                         {
                                                 ['m-h-6 bg-[--color-inverse-surface] pb-1 pl-2 pr-2 pt-1']:
@@ -142,7 +141,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                 ellipsizeMode='tail'
                                                 numberOfLines={1}
                                                 testID={`tooltipSupporting__supportingText--${id}`}
-                                                className={clsx(
+                                                className={classesName(
                                                         'select-none text-center',
                                                         typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.SMALL)({
                                                                 colorClasses: 'color-[--color-inverse-on-surface]'
@@ -160,7 +159,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                 <AnimatedView
                                         {...containerProps}
                                         ref={ref}
-                                        className={clsx('z-50 min-h-6', {
+                                        className={classesName('z-50 min-h-6', {
                                                 ['absolute']: Platform.OS !== 'web',
                                                 ['fixed']: Platform.OS === 'web'
                                         })}

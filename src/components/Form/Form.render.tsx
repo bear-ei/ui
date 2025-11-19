@@ -1,5 +1,5 @@
 import {COMPONENT_STATUS, LAYOUT} from '@/constants'
-import {clsx} from 'clsx'
+import {classesName} from '@/utils'
 import {forwardRef, type FC, type ForwardedRef} from 'react'
 import {View} from 'react-native'
 import {FormItem} from './Form-item'
@@ -27,7 +27,7 @@ const RenderFormInner = <T,>(
         <FormContext.Provider value={form as FormStore<Record<string, unknown>>}>
                 <View
                         {...containerProps}
-                        className={clsx('flex', {
+                        className={classesName('flex', {
                                 ['flex-row gap-4']: layoutType === LAYOUT.HORIZONTAL,
                                 ['flex-col gap-1']: layoutType === LAYOUT.VERTICAL
                         })}

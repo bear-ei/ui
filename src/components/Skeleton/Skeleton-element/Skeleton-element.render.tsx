@@ -1,5 +1,5 @@
 import {LAYOUT} from '@/constants'
-import {clsx} from 'clsx'
+import {classesName} from '@/utils'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import type {RenderSkeletonElementProps} from './Skeleton-element.interface'
@@ -13,7 +13,7 @@ export const RenderSkeletonElement = forwardRef<View, RenderSkeletonElementProps
                                 {...props}
                                 ref={ref}
                                 testID={testID ?? `skeletonElement--${id}`}
-                                className={clsx(
+                                className={classesName(
                                         'flex min-h-6 min-w-6 gap-2',
                                         {
                                                 ['bg-[--color-on-surface] opacity-10']: !isChildren,

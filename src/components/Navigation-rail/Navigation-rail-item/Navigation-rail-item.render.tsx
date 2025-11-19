@@ -2,9 +2,8 @@ import {AnimatedText, AnimatedView} from '@/components/Animated-component'
 import type {PressableType} from '@/components/Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
 import {useTheme} from '@/hooks'
-import {typographyClasses} from '@/utils'
+import {classesName, typographyClasses} from '@/utils'
 import {SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
-import {clsx} from 'clsx'
 import {forwardRef} from 'react'
 import {Pressable, View} from 'react-native'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
@@ -60,7 +59,7 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
                                                 testID={`navigationRailItem__content--${id}`}
                                         >
                                                 <View
-                                                        className={clsx(
+                                                        className={classesName(
                                                                 'pointer-events-none relative z-10 flex w-14 flex-col items-center justify-center',
                                                                 {
                                                                         ['h-14']: type === NAVIGATION_RAIL_TYPE.BLOCK,
@@ -70,7 +69,7 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
                                                         testID={`navigationRailItem__header--${id}`}
                                                 >
                                                         <View
-                                                                className={clsx('overflow-hidden', {
+                                                                className={classesName('overflow-hidden', {
                                                                         ['h-4 w-4']:
                                                                                 type !== NAVIGATION_RAIL_TYPE.BLOCK,
                                                                         ['h-5 w-5']: type === NAVIGATION_RAIL_TYPE.BLOCK
@@ -98,7 +97,7 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
                                                                 className='flex h-6 flex-col justify-center self-stretch'
                                                         >
                                                                 <AnimatedText
-                                                                        className={clsx(
+                                                                        className={classesName(
                                                                                 'select-none text-center font-bold',
                                                                                 {
                                                                                         ['font-bold']: active,
