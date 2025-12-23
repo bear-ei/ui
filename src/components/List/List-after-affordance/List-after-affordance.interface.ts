@@ -8,10 +8,10 @@ import type {ListItemProps} from '../List-item'
 export interface ListAfterAffordanceProps
         extends ViewProps,
                 RefAttributes<View>,
-                Pick<
-                        ListItemProps,
-                        'indexKey' | 'primaryButtonProps' | 'secondaryButtonProps' | 'onCancel' | 'onConfirm' | 'size'
-                > {
+                Pick<ListItemProps, 'indexKey' | 'onCancel' | 'onConfirm' | 'size'> {
+        primaryLabelText?: string
+        secondaryButtonDisabled?: boolean
+        secondaryLabelText?: string
         visible?: boolean
 }
 

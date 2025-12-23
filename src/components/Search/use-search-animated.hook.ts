@@ -1,17 +1,19 @@
 import {useAnimatedTiming, useTheme} from '@/hooks'
 import {hexToRGBA} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
-import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
-import {animateSearch} from './Search.handler'
+import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {animateSearchBorderRadius, animateSearchColor} from './Search.handler'
 import type {UseSearchTextInputAnimatedOptions} from './Search.interface'
 
-export const useSearchAnimated = ({disabled}: UseSearchTextInputAnimatedOptions) => {
-        const animatedValue = disabled ? 0 : 1
-        const colorSharedValue = useSharedValue(animatedValue)
+export const useSearchAnimated = ({disabled, listExpanded}: UseSearchTextInputAnimatedOptions) => {
         const theme = useTheme()
         const {scheme, opacity} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
+        const animatedValue = disabled ? 0 : 1
         const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
+        const borderBottomRadiusSharedValue = useSharedValue(1)
+        const borderTopRadiusSharedValue = useSharedValue(1)
+        const colorSharedValue = useSharedValue(animatedValue)
         const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level2)
         const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
         const backgroundSharedValueOutputRanges = [
@@ -19,8 +21,30 @@ export const useSearchAnimated = ({disabled}: UseSearchTextInputAnimatedOptions)
                 hexToRGBA(scheme.surfaceContainerHigh)(opacity.level10)
         ]
 
+        const borderBottomRadiusOutputRanges = [
+                theme.token.spacing.none,
+                theme.token.spacing.extraLarge - theme.token.spacing.extraSmall
+        ]
+
+        const borderTopRadiusOutputRanges = [
+                theme.token.spacing.medium - theme.token.spacing.extraSmall,
+                theme.token.spacing.extraLarge - theme.token.spacing.extraSmall
+        ]
+
         const contentAnimatedStyle = useAnimatedStyle(() => ({
-                backgroundColor: interpolateColor(colorSharedValue.value, [0, 1], backgroundSharedValueOutputRanges)
+                backgroundColor: interpolateColor(colorSharedValue.value, [0, 1], backgroundSharedValueOutputRanges),
+                borderBottomLeftRadius: interpolate(
+                        borderBottomRadiusSharedValue.value,
+                        [0, 1],
+                        borderBottomRadiusOutputRanges
+                ),
+                borderBottomRightRadius: interpolate(
+                        borderBottomRadiusSharedValue.value,
+                        [0, 1],
+                        borderBottomRadiusOutputRanges
+                ),
+                borderTopLeftRadius: interpolate(borderTopRadiusSharedValue.value, [0, 1], borderTopRadiusOutputRanges),
+                borderTopRightRadius: interpolate(borderTopRadiusSharedValue.value, [0, 1], borderTopRadiusOutputRanges)
         }))
 
         const inputColorSharedValueOutputRanges = [disabledColor, hexToRGBA(scheme.onSurface)(opacity.level10)]
@@ -28,20 +52,35 @@ export const useSearchAnimated = ({disabled}: UseSearchTextInputAnimatedOptions)
                 color: interpolateColor(colorSharedValue.value, [0, 1], inputColorSharedValueOutputRanges)
         }))
 
-        const runAnimate = useMemo(
-                () => animateSearch(animateSharedValueTo)(colorSharedValue),
+        const runColorAnimate = useMemo(
+                () => animateSearchColor(animateSharedValueTo)(colorSharedValue),
                 [animateSharedValueTo, colorSharedValue]
         )
 
+        const runBorderRadiusAnimate = useMemo(
+                () =>
+                        animateSearchBorderRadius(animateSharedValueTo)({
+                                borderBottomRadiusSharedValue,
+                                borderTopRadiusSharedValue
+                        }),
+                [animateSharedValueTo, borderBottomRadiusSharedValue, borderTopRadiusSharedValue]
+        )
+
         useEffect(() => {
-                runAnimate(disabled)
-        }, [runAnimate, disabled])
+                runColorAnimate(disabled)
+        }, [runColorAnimate, disabled])
+
+        useEffect(() => {
+                runBorderRadiusAnimate(listExpanded)
+        }, [runBorderRadiusAnimate, listExpanded])
 
         useEffect(
                 () => () => {
+                        cancelAnimation(borderBottomRadiusSharedValue)
+                        cancelAnimation(borderTopRadiusSharedValue)
                         cancelAnimation(colorSharedValue)
                 },
-                [colorSharedValue]
+                [colorSharedValue, borderBottomRadiusSharedValue, borderTopRadiusSharedValue]
         )
 
         return {contentAnimatedStyle, inputAnimatedStyle}

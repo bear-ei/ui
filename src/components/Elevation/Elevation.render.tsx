@@ -5,10 +5,13 @@ import {AnimatedView} from '../Animated-component'
 import type {RenderElevationProps} from './Elevation.interface'
 
 export const RenderElevation = forwardRef<View, RenderElevationProps>(
-        ({id, shadowAnimatedStyle, shape, testID, ...containerProps}, ref) => (
+        ({id, shadowAnimatedStyle, shape, testID, className, ...containerProps}, ref) => (
                 <View
                         {...containerProps}
-                        className='absolute bottom-0 left-0 right-0 top-0 -z-20 flex flex-col items-center justify-center bg-transparent'
+                        className={classesName(
+                                'absolute bottom-0 left-0 right-0 top-0 -z-20 flex flex-col items-center justify-center bg-transparent',
+                                className
+                        )}
                         ref={ref}
                         testID={testID ?? `elevation--${id}`}
                 >

@@ -6,30 +6,16 @@ import {VirtualList} from '../Virtual-list'
 import {ListItem} from './List-item'
 import type {RenderListItemOptions, RenderListProps} from './List.interface'
 
-export const RenderDefaultListItem: FC<RenderListItemOptions> = ({
-        afterAffordanceSecondaryButtonProps: rawAfterAffordanceSecondaryButtonProps,
-        id,
-        item,
-        supportingTextNumberOfLines,
-        ...props
-}) => {
-        const afterAffordanceSecondaryButtonProps =
-                rawAfterAffordanceSecondaryButtonProps || item.afterAffordanceSecondaryButtonProps ?
-                        {...rawAfterAffordanceSecondaryButtonProps, ...item.afterAffordanceSecondaryButtonProps}
-                :       rawAfterAffordanceSecondaryButtonProps
-
-        return (
-                <ListItem
-                        {...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
-                        {...item}
-                        {...props}
-                        afterAffordanceSecondaryButtonProps={afterAffordanceSecondaryButtonProps}
-                        indexKey={item?.indexKey ?? `${item.index}`}
-                        itemIndex={item.index}
-                        testID={`list__listItem--${id}`}
-                />
-        )
-}
+export const RenderDefaultListItem: FC<RenderListItemOptions> = ({id, item, supportingTextNumberOfLines, ...props}) => (
+        <ListItem
+                {...(typeof item?.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
+                {...item}
+                {...props}
+                indexKey={item?.indexKey ?? `${item.index}`}
+                itemIndex={item.index}
+                testID={`list__listItem--${id}`}
+        />
+)
 
 export const RenderList = forwardRef<ScrollView, RenderListProps>(
         (
@@ -64,11 +50,11 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
                                 activeKey={activeKey}
                                 dependencies={[
                                         ...dependencies,
-                                        `${activeKey}`,
-                                        `${activeKeys?.join()} `,
-                                        `${afterAffordanceActiveKey}`,
-                                        `${focusedIndex}`,
-                                        `${loading}`
+                                        activeKey,
+                                        activeKeys?.join(),
+                                        afterAffordanceActiveKey,
+                                        focusedIndex,
+                                        loading
                                 ]}
                                 focusedIndex={focusedIndex}
                                 layoutType={layoutType}

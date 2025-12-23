@@ -28,7 +28,7 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
                 const id = useId()
                 const theme = useTheme()
                 const isDisabled = loading || rawDisabled
-                const extended = !!labelText
+                const isExtended = !!labelText
                 const underlayColor = getFABUnderlayColor(theme)(type)
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -56,7 +56,7 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
                 const iconElement = icon && (
                         <RenderFABIcon
                                 disabled={rawDisabled}
-                                extended={extended}
+                                extended={isExtended}
                                 icon={icon}
                                 id={id}
                                 size={size}
@@ -79,7 +79,7 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
                                 disabled={isDisabled}
                                 elevation={elevation}
                                 eventName={eventName}
-                                extended={extended}
+                                extended={isExtended}
                                 iconElement={iconElement}
                                 id={id}
                                 interactionHandlers={interactionHandlers}

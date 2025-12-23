@@ -14,4 +14,4 @@ export interface RenderSupportingTextProps extends SupportingTextProps {
         textAnimatedStyle: AnimatedStyle<TextStyle>
 }
 
-export interface UseSupportingTextOptions extends Pick<SupportingTextProps, 'disabled' | 'error'> {}
+export type UseSupportingTextOptions = Pick<SupportingTextProps, 'disabled' | 'error'>

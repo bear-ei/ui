@@ -1,5 +1,4 @@
 import type {AnimateSharedValueTo} from '@/hooks'
-import {platformValue} from '@/utils'
 import {hexToRGBA} from '@bearei/theme-token'
 import type {SharedValue} from 'react-native-reanimated'
 import type {GetWebBoxShadowOptions} from './Elevation.interface'
@@ -10,10 +9,16 @@ export const getWebBoxShadow = ({offsetX, offsetY, radius, opacity, color}: GetW
         const x = Math.max(1, offsetX)
         const y = Math.max(1, offsetY)
 
+        // return [
+        //         `${platformValue(x)} ${platformValue(y)} ${platformValue(r)} ${shadowColor}`,
+        //         `${platformValue(x * 0.66)} ${platformValue(y * 0.66)} ${platformValue(r * 0.75)} ${shadowColor}`,
+        //         `${platformValue(x * 0.33)} ${platformValue(y * 0.33)} ${platformValue(r * 0.5)} ${shadowColor}`
+        // ].join(', ')
+
         return [
-                `${platformValue(x)} ${platformValue(y)} ${platformValue(r)} ${shadowColor}`,
-                `${platformValue(x * 0.66)} ${platformValue(y * 0.66)} ${platformValue(r * 0.75)} ${shadowColor}`,
-                `${platformValue(x * 0.33)} ${platformValue(y * 0.33)} ${platformValue(r * 0.5)} ${shadowColor}`
+                `${x}px ${y}px ${r}px ${shadowColor}`,
+                `${x * 0.66}px ${y * 0.66}px ${r * 0.75}px ${shadowColor}`,
+                `${x * 0.33}px ${y * 0.33}px ${r * 0.5}px ${shadowColor}`
         ].join(', ')
 }
 

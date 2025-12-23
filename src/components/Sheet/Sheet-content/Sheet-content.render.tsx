@@ -1,5 +1,5 @@
 import {AnimatedView} from '@/components/Animated-component'
-import {Button, BUTTON_TYPE, type ButtonProps} from '@/components/Button'
+import {Button, BUTTON_TYPE} from '@/components/Button'
 import {Divider} from '@/components/Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '@/components/Icon-button'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '@/components/Layout-animated'
@@ -8,7 +8,7 @@ import {classesName, shapeClasses, typographyClasses} from '@/utils'
 import {DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {ArrowLeft, ArrowRight, X} from 'lucide-react-native'
 import {forwardRef, type FC} from 'react'
-import {Text, View, type ViewStyle} from 'react-native'
+import {Text, View} from 'react-native'
 import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
 import type {
         RenderSheetContentLeadingProps,
@@ -67,9 +67,11 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                         onConfirm,
                         position,
                         primaryButton,
-                        primaryButtonProps,
+                        primaryButtonLabelText = 'Confirm',
+                        primaryButtonStyle,
                         secondaryButton,
-                        secondaryButtonProps,
+                        secondaryButtonLabelText = 'Cancel',
+                        secondaryButtonStyle,
                         shape,
                         style,
                         testID,
@@ -85,8 +87,6 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                         position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.LARGE_END : SHAPE.LARGE_START
 
                 const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.SIDEBAR ? SHAPE.LARGE : positionShape)
-                const {style: primaryButtonStyle} = primaryButtonProps ?? ({} as ButtonProps)
-                const {style: secondaryButtonStyle} = secondaryButtonProps ?? ({} as ButtonProps)
                 const buttonTabIndex = footerVisible ? 0 : -1
 
                 return (
@@ -211,15 +211,14 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                                         >
                                                                 <View
                                                                         className='m-h-10 min-w-24'
-                                                                        style={[primaryButtonStyle as ViewStyle]}
+                                                                        style={[primaryButtonStyle]}
                                                                         testID={`sheetContent__primaryButton--${id}`}
                                                                 >
                                                                         {primaryButton ?? (
                                                                                 <Button
-                                                                                        {...{
-                                                                                                labelText: 'Confirm',
-                                                                                                ...primaryButtonProps
-                                                                                        }}
+                                                                                        labelText={
+                                                                                                primaryButtonLabelText
+                                                                                        }
                                                                                         onPressOut={onConfirm}
                                                                                         stretch={true}
                                                                                         tabIndex={buttonTabIndex}
@@ -231,15 +230,14 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 
                                                                 <View
                                                                         className='m-h-10 min-w-24'
-                                                                        style={[secondaryButtonStyle as ViewStyle]}
+                                                                        style={[secondaryButtonStyle]}
                                                                         testID={`sheetContent__secondaryButton--${id}`}
                                                                 >
                                                                         {secondaryButton ?? (
                                                                                 <Button
-                                                                                        {...{
-                                                                                                labelText: 'Cancel',
-                                                                                                ...secondaryButtonProps
-                                                                                        }}
+                                                                                        labelText={
+                                                                                                secondaryButtonLabelText
+                                                                                        }
                                                                                         onPressOut={onCancel}
                                                                                         stretch={true}
                                                                                         tabIndex={buttonTabIndex}

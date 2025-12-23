@@ -1,10 +1,9 @@
-import type {IconButtonProps} from '@/components/Icon-button'
 import type {PressableType, TouchableProps} from '@/components/Touchable'
 import type {ComponentStatus, EventName, State} from '@/constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
-import type {PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
+import type {GestureResponderEvent, PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {ListAffordanceButtonProps} from '../List-affordance-button'
+import type {ListAfterAffordanceProps} from '../List-after-affordance'
 import type {ListProps} from '../List.interface'
 
 export interface ListItemRef extends PressableType {
@@ -20,8 +19,6 @@ export interface ListItemProps
                         | 'activeKeys'
                         | 'afterAffordance'
                         | 'afterAffordanceActiveKey'
-                        | 'afterAffordancePrimaryButtonProps'
-                        | 'afterAffordanceSecondaryButtonProps'
                         | 'beforeAffordance'
                         | 'closeTrailing'
                         | 'divider'
@@ -42,7 +39,8 @@ export interface ListItemProps
                         | 'trailing'
                         | 'trailingTriggerEvent'
                         | 'type'
-                > {
+                >,
+                Pick<ListAfterAffordanceProps, 'primaryLabelText' | 'secondaryLabelText' | 'secondaryButtonDisabled'> {
         /**
          * Enabling ripples while using style to specify the background color can cause the ripple to be obscured, as the
          * ripple is always one z-index level below the main container. This property is used to specify the background
@@ -59,10 +57,9 @@ export interface ListItemProps
         onActives?: (activeKeys?: string[]) => void
         onClose?: (indexKey?: string) => void
         onLoadEnd?: (indexKey?: string) => void
-        primaryButtonProps?: ListAffordanceButtonProps
-        secondaryButtonProps?: ListAffordanceButtonProps
+        onTrailingPressOut?: (event: GestureResponderEvent) => void
         supporting?: string | React.JSX.Element
-        trailingProps?: IconButtonProps
+        trailingDisabled?: boolean
 }
 
 export interface RenderListItemProps extends ListItemProps {
@@ -113,7 +110,7 @@ export interface RenderListItemTrailingProps
                 | 'id'
                 | 'size'
                 | 'trailing'
-                | 'trailingProps'
+                | 'trailingDisabled'
                 | 'trailingTriggerEvent'
         > {
         interactionHandlers: InteractionHandlers

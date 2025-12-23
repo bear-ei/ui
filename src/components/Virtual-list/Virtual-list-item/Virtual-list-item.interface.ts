@@ -1,5 +1,4 @@
 import type {DragRef} from '@/components/Drag'
-import type {ListAffordanceButtonProps} from '@/components/List/List-affordance-button'
 import type {ComponentStatus} from '@/constants'
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
@@ -17,7 +16,6 @@ import type {
 } from '../Virtual-list.interface'
 
 export interface Item {
-        afterAffordanceSecondaryButtonProps?: ListAffordanceButtonProps
         dependencies?: string[]
         index?: number
         indexKey?: string

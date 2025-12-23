@@ -10,8 +10,11 @@ import type {TextInput, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {
         createSearchLayoutMeasureHandler,
+        emitSearchList,
         handleSearchInputStateChange,
+        unmountSearchList,
         updateSearchInputValue,
+        updateSearchListExpanded,
         updateSearchListVisibility,
         updateSearchTextWithMatch
 } from './Search.handler'
@@ -34,7 +37,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         defaultValue,
                         disabled,
                         leading,
-                        listProps,
+                        data: rawData,
                         onChangeText: rawOnChangeText,
                         trailing,
                         value: rawValue,
@@ -42,25 +45,38 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 },
                 ref
         ) => {
-                const [{eventName, layout, listVisible: isListVisible, nextChangeTextEvent, status, value}, setState] =
-                        useImmer<SearchState>({
-                                layout: {} as SearchState['layout'],
-                                state: STATE.ENABLED,
-                                status: COMPONENT_STATUS.IDLE,
-                                value: ''
-                        })
+                const [
+                        {
+                                data,
+                                elevation,
+                                eventName,
+                                layout,
+                                listExpanded: isListExpanded,
+                                listVisible: isListVisible,
+                                nextChangeTextEvent,
+                                nextListVisibleEvent,
+                                status,
+                                value
+                        },
+                        setState
+                ] = useImmer<SearchState>({
+                        layout: {} as SearchState['layout'],
+                        state: STATE.ENABLED,
+                        status: COMPONENT_STATUS.IDLE,
+                        value: ''
+                })
 
                 useClearComponentEvent(setState)
 
-                const {data} = listProps ?? {}
                 const containerRef = useRef<View>(null)
                 const id = useId()
                 const inputRef = useRef<TextInput>(null)
                 const onChangeText = useMemo(
-                        () => updateSearchTextWithMatch({data, onChangeText: rawOnChangeText})(setState),
-                        [data, rawOnChangeText, setState]
+                        () => updateSearchTextWithMatch({data: rawData, onChangeText: rawOnChangeText})(setState),
+                        [rawData, rawOnChangeText, setState]
                 )
 
+                const onListVisibility = useMemo(() => updateSearchListExpanded(setState), [setState])
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleSearchInputStateChange({...options, ref: inputRef, state})(setState)(event),
@@ -73,36 +89,47 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         onStateEventChange
                 })
 
-                const runUpdateVisibility = useMemo(() => updateSearchListVisibility(setState), [setState])
-                const runUpdateValue = useMemo(() => updateSearchInputValue(data)(setState), [data, setState])
-                const runLayoutMeasureHandler = useMemo(
-                        () => createSearchLayoutMeasureHandler(containerRef.current)(setState),
-                        [setState]
+                const runEmitList = useMemo(
+                        () => emitSearchList(id)({containerLayout: layout, onVisibility: onListVisibility, data}),
+                        [data, id, layout, onListVisibility]
                 )
 
-                const {contentAnimatedStyle, inputAnimatedStyle} = useSearchAnimated({disabled})
+                const runLayoutMeasureHandler = useMemo(() => createSearchLayoutMeasureHandler(setState), [setState])
+                const runUnmountList = useMemo(() => unmountSearchList(id), [id])
+                const runUpdateValue = useMemo(() => updateSearchInputValue(rawData)(setState), [rawData, setState])
+                const runUpdateVisibility = useMemo(() => updateSearchListVisibility(setState), [setState])
+                const {contentAnimatedStyle, inputAnimatedStyle} = useSearchAnimated({
+                        disabled,
+                        listExpanded: isListExpanded
+                })
 
                 useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
+
+                useEffect(() => {
+                        runEmitList(isListVisible)
+                }, [isListVisible, runEmitList])
 
                 useEffect(() => {
                         runUpdateValue(rawValue ?? defaultValue)
                 }, [runUpdateValue, defaultValue, rawValue])
 
                 useEffect(() => {
-                        if (!data) {
-                                return
-                        }
-
-                        runUpdateVisibility(!data?.length)
-                }, [runUpdateVisibility, data])
+                        runUpdateVisibility(!!data?.length)
+                }, [runUpdateVisibility, data?.length])
 
                 useEffect(() => {
-                        runLayoutMeasureHandler(isListVisible)
+                        runLayoutMeasureHandler(containerRef.current)(isListVisible)
                 }, [runLayoutMeasureHandler, isListVisible])
 
                 useEffect(() => {
                         nextChangeTextEvent?.()
                 }, [nextChangeTextEvent])
+
+                useEffect(() => {
+                        nextListVisibleEvent?.()
+                }, [nextListVisibleEvent])
+
+                useEffect(() => () => runUnmountList(), [runUnmountList])
 
                 if (status === COMPONENT_STATUS.IDLE) {
                         return
@@ -114,13 +141,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 containerRef={containerRef}
                                 contentAnimatedStyle={contentAnimatedStyle}
                                 disabled={disabled}
+                                elevation={elevation}
                                 eventName={eventName}
                                 id={id}
                                 inputAnimatedStyle={inputAnimatedStyle}
                                 interactionHandlers={interactionHandlers}
-                                layout={layout}
                                 leadingElement={leading}
-                                listProps={listProps}
                                 listVisible={isListVisible}
                                 onChangeText={onChangeText}
                                 ref={inputRef}

@@ -1,7 +1,6 @@
 import type {CommonProps} from '@/constants'
 import type {RefAttributes} from 'react'
 import type {ModalProps, View, ViewProps} from 'react-native'
-import type {ButtonProps} from '../Button'
 import type {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from './Sheet.enum'
 
 export type SheetType = (typeof SIDE_SHEET_TYPE)[keyof typeof SIDE_SHEET_TYPE]
@@ -26,9 +25,7 @@ export interface SheetProps extends ViewProps, RefAttributes<View>, CommonProps,
          */
         onVisibility?: (visible?: boolean) => void
         primaryButton?: React.JSX.Element
-        primaryButtonProps?: ButtonProps
         secondaryButton?: React.JSX.Element
-        secondaryButtonProps?: ButtonProps
         position?: SheetPosition
         visible?: boolean
 

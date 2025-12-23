@@ -19,7 +19,7 @@ export interface ModalState {
 }
 
 export interface ModalItemProps extends ViewProps, RefAttributes<View> {
-        modalProps?: ViewProps & RefAttributes<View>
+        componentProps?: ViewProps & RefAttributes<View>
         type?: ModalType
 }
 

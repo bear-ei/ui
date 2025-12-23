@@ -1,12 +1,13 @@
 import {ICON_BUTTON_SIZE} from '@/constants'
 import {useTheme} from '@/hooks'
-import {classesName, platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
+import {classesName, platformValue, processIconSize, typographyClasses} from '@/utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, type Size} from '@bearei/theme-token'
 import {Search} from 'lucide-react-native'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {AnimatedView} from '../Animated-component'
+import {Elevation} from '../Elevation'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {Underlay} from '../Underlay'
 import type {RenderSearchProps} from './Search.interface'
@@ -20,11 +21,11 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                         contentAnimatedStyle,
                         disabled,
                         editable,
+                        elevation,
                         eventName,
                         id,
                         inputAnimatedStyle,
                         interactionHandlers,
-                        layout: _,
                         leadingElement = <Search />,
                         listVisible,
                         onChangeText,
@@ -37,24 +38,23 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                 },
                 ref
         ) => {
+                const {onBlur, onFocus, ...touchableInteractionHandlers} = interactionHandlers
                 const theme = useTheme()
+                const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
+                const isLeadingShow = !!leadingElement
+                const isTrailingShow = !!trailingElement
                 const placeholderTextColor =
                         disabled ?
                                 hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
                         :       theme.token.scheme.onSurfaceVariant
 
-                const {onBlur, onFocus, ...touchableInteractionHandlers} = interactionHandlers
-                const iconSize = processIconSize(theme)(ICON_BUTTON_SIZE[size])
                 const trailingSize = ICON_BUTTON_SIZE[size]
-                const isLeadingShow = !!leadingElement
-                const isTrailingShow = !!trailingElement
-                const shape = SHAPE.FULL
                 const underlayColor = theme.token.scheme.onSurface
                 const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
 
                 return (
                         <View
-                                {...(containerRef && {ref: containerRef})}
+                                ref={containerRef}
                                 className={classesName('relative z-40 justify-center self-stretch', {
                                         ['h-10']: size === SIZE.SMALL,
                                         ['h-12']: size === SIZE.MEDIUM,
@@ -121,8 +121,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                                                         SIZE.EXTRA_SMALL
                                                                                 ] as readonly Size[]
                                                                         ).includes(size)
-                                                        },
-                                                        shapeClasses(shape)
+                                                        }
                                                 )}
                                                 style={[contentAnimatedStyle]}
                                                 testID={`search__content--${id}`}
@@ -242,18 +241,25 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                 <Underlay
                                                         eventName={eventName}
                                                         opacities={underlayOpacities}
-                                                        shape={listVisible ? SHAPE.EXTRA_LARGE_TOP : shape}
+                                                        shape={listVisible ? SHAPE.MEDIUM_TOP : SHAPE.EXTRA_LARGE}
                                                         testID={`search__underlay--${id}`}
                                                         underlayColor={underlayColor}
                                                 />
                                         </AnimatedView>
                                 </Pressable>
 
-                                {/* <SearchList
-				{...listProps}
-				containerLayout={layout}
-				testID={`search__searchList--${id}`}
-			/> */}
+                                <Elevation
+                                        className={classesName({
+                                                ['h-[22.5rem]']: size === SIZE.SMALL,
+                                                ['h-[22rem]']: size === SIZE.EXTRA_SMALL,
+                                                ['h-[23.5rem]']: size === SIZE.LARGE,
+                                                ['h-[23rem]']: size === SIZE.MEDIUM,
+                                                ['h-[24rem]']: size === SIZE.EXTRA_LARGE
+                                        })}
+                                        level={elevation}
+                                        shape={listVisible ? SHAPE.MEDIUM : SHAPE.EXTRA_LARGE}
+                                        testID={`search__elevation--${id}`}
+                                />
                         </View>
                 )
         }

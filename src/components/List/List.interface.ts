@@ -1,9 +1,10 @@
 import type {CommonProps, TriggerEvent} from '@/constants'
 import type {InteractionHandlers} from '@/hooks'
 import type {ForwardedRef, RefAttributes} from 'react'
+import type {ScrollView} from 'react-native'
 import type Animated from 'react-native-reanimated'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualListProps} from '../Virtual-list'
-import type {ListAfterAffordanceProps, ListItemAfterAffordancePressOutOptions} from './List-after-affordance'
+import type {ListItemAfterAffordancePressOutOptions} from './List-after-affordance'
 import type {ListItemProps} from './List-item'
 import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 
@@ -23,7 +24,7 @@ export interface ListData
                 | 'supporting'
                 | 'supportingTextNumberOfLines'
                 | 'trailing'
-                | 'trailingProps'
+                | 'trailingDisabled'
         > {
         indexKey: string
 }
@@ -41,8 +42,6 @@ export interface ListProps
         activeKeys?: string[]
         afterAffordance?: React.JSX.Element | boolean
         afterAffordanceActiveKey?: string
-        afterAffordancePrimaryButtonProps?: ListAfterAffordanceProps['primaryButtonProps']
-        afterAffordanceSecondaryButtonProps?: ListAfterAffordanceProps['secondaryButtonProps']
         beforeAffordance?: React.JSX.Element | boolean
         closeTrailing?: boolean
         data?: ListData[]
@@ -62,7 +61,7 @@ export interface ListProps
         onClose?: (options: OnVirtualListCloseOptions) => void
         onConfirm?: (options: ListItemAfterAffordancePressOutOptions) => void
         onItemStateEvent?: InteractionHandlers
-        ref?: ForwardedRef<Animated.ScrollView>
+        ref?: ForwardedRef<ScrollView>
         selectType?: ListSelectType
         skeletonDuration?: number
         skeletonElement?: React.JSX.Element
@@ -93,8 +92,6 @@ export type CreateRenderListItemOptions = Pick<
         | 'activeKeys'
         | 'afterAffordance'
         | 'afterAffordanceActiveKey'
-        | 'afterAffordancePrimaryButtonProps'
-        | 'afterAffordanceSecondaryButtonProps'
         | 'beforeAffordance'
         | 'closeTrailing'
         | 'defaultActiveKey'

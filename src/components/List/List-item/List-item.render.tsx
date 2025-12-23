@@ -25,19 +25,17 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         onTrailingVisibility,
         size = SIZE.MEDIUM,
         trailing,
-        trailingProps: rawTrailingProps,
+        trailingDisabled: isTrailingDisabled,
         trailingTriggerEvent
 }) => {
-        const {disabled: isDisabled, ...restTrailingProps} = rawTrailingProps ?? {}
         const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
         const trailingSize = ICON_BUTTON_SIZE[size]
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
         const trailingProps = {
-                ...restTrailingProps,
                 ...interactionHandlers,
                 ...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {onHoverIn}),
-                disabled: isDisabled ?? disabled,
+                disabled: isTrailingDisabled ?? disabled,
                 size: trailingSize,
                 type: ICON_BUTTON_TYPE.STANDARD
         }
@@ -77,8 +75,6 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         active,
                         afterAffordance,
                         afterAffordanceExpanded,
-                        afterAffordancePrimaryButtonProps,
-                        afterAffordanceSecondaryButtonProps,
                         afterAffordanceVisible,
                         beforeAffordance,
                         className,
@@ -99,6 +95,9 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         onCancel,
                         onConfirm,
                         panResponder,
+                        primaryLabelText,
+                        secondaryButtonDisabled,
+                        secondaryLabelText,
                         selectType,
                         shape,
                         size = SIZE.MEDIUM,
@@ -434,10 +433,9 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                 indexKey={indexKey}
                                                                 onCancel={onCancel}
                                                                 onConfirm={onConfirm}
-                                                                primaryButtonProps={afterAffordancePrimaryButtonProps}
-                                                                secondaryButtonProps={
-                                                                        afterAffordanceSecondaryButtonProps
-                                                                }
+                                                                primaryLabelText={primaryLabelText}
+                                                                secondaryButtonDisabled={secondaryButtonDisabled}
+                                                                secondaryLabelText={secondaryLabelText}
                                                                 size={size}
                                                                 testID={`listItem__listAfterAffordance--${id}`}
                                                                 visible={afterAffordanceVisible}

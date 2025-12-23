@@ -1,11 +1,13 @@
 import {COMPONENT_STATUS, EVENT_NAME, STATE} from '@/constants'
+import {emitter, MODAL_TYPE} from '@/contexts'
 import type {AnimateSharedValueTo, StateEvent} from '@/hooks'
-import {textSearch} from '@/utils'
+import {debounce, textSearch} from '@/utils'
 import type {WritableDraft} from 'immer'
 import type {View} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {ListData} from '../List'
+import type {AnimateSearchBorderRadiusOptions, SearchListProps} from './Search-list'
 import type {
         HandleSearchInputStateChangeOptions,
         SearchState,
@@ -69,14 +71,42 @@ export const updateSearchInputValue =
                         }
                 })
 
-export const updateSearchListVisibility = (setState: Updater<SearchState>) => (visible?: boolean) =>
-        typeof visible === 'boolean' &&
+export const updateSearchListVisibility = (setState: Updater<SearchState>) => (visible?: boolean) => {
+        if (typeof visible === 'boolean') {
+                const nextListVisibleEvent = debounce(() =>
+                        setState(draft => {
+                                draft.listVisible = false
+                        })
+                )(300)
+
+                setState(draft => {
+                        if (visible) {
+                                draft.listExpanded = true
+                                draft.listVisible = visible
+
+                                return
+                        }
+
+                        draft.elevation = 0
+                        draft.nextListVisibleEvent = nextListVisibleEvent
+                })
+        }
+}
+
+export const updateSearchListExpanded = (setState: Updater<SearchState>) => (visible?: boolean) =>
         setState(draft => {
-                draft.listVisible = visible
+                if (!visible) {
+                        draft.listExpanded = false
+
+                        return
+                }
+
+                draft.elevation = 4
         })
 
-export const createSearchLayoutMeasureHandler = (containerCurrent?: View | null) => {
-        const measureSearchContainerLayout = (setState: Updater<SearchState>) =>
+export const createSearchLayoutMeasureHandler =
+        (setState: Updater<SearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) =>
+                listVisible &&
                 containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
                         setState(draft => {
                                 draft.layout.height = height
@@ -88,12 +118,25 @@ export const createSearchLayoutMeasureHandler = (containerCurrent?: View | null)
                         })
                 )
 
-        return (setState: Updater<SearchState>) => (listVisible?: boolean) =>
-                listVisible && measureSearchContainerLayout(setState)
-}
+export const emitSearchList = (id: string) => (props: SearchListProps) => (visible?: boolean) =>
+        typeof visible === 'boolean' &&
+        emitter.emit('modal', {id: `search__list--${id}`, type: MODAL_TYPE.SEARCH_LIST, props: {...props, visible}})
 
-export const animateSearch =
+export const unmountSearchList = (id: string) => () =>
+        emitter.emit('modal', {id: `search__list--${id}`, type: MODAL_TYPE.SEARCH_LIST})
+
+export const animateSearchColor =
         (animateSharedValueTo: AnimateSharedValueTo) =>
         (colorSharedValue: SharedValue<number>) =>
         (disabled?: boolean) =>
                 animateSharedValueTo({sharedValue: colorSharedValue})(disabled ? 0 : 1)
+
+export const animateSearchBorderRadius =
+        (animateSharedValueTo: AnimateSharedValueTo) =>
+        ({borderBottomRadiusSharedValue, borderTopRadiusSharedValue}: AnimateSearchBorderRadiusOptions) =>
+        (listExpanded?: boolean) => {
+                const toValue = listExpanded ? 0 : 1
+
+                animateSharedValueTo({sharedValue: borderBottomRadiusSharedValue})(toValue)
+                animateSharedValueTo({sharedValue: borderTopRadiusSharedValue})(toValue)
+        }

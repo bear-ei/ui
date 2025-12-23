@@ -16,8 +16,9 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         interactionHandlers,
                         onCancel,
                         onConfirm,
-                        primaryButtonProps,
-                        secondaryButtonProps,
+                        primaryLabelText = 'Edit',
+                        secondaryButtonDisabled,
+                        secondaryLabelText = 'Del',
                         size = SIZE.MEDIUM,
                         testID,
                         visible,
@@ -28,7 +29,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                 const buttonTabIndex = visible ? 0 : -1
                 const checkIconElement = <Check testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`} />
                 const closeIconElement = <X testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`} />
-                const isDangerVisible = !secondaryButtonProps?.disabled
+                const isDangerVisible = !secondaryButtonDisabled
                 const layoutAnimatedStyle = {flexDirection: 'row'} as ViewStyle
 
                 return (
@@ -47,7 +48,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         >
                                 <ListAffordanceButton
                                         {...(doubleConfirmed && {icon: checkIconElement})}
-                                        {...{labelText: 'Edit', ...primaryButtonProps}}
+                                        {...{labelText: primaryLabelText}}
                                         backgroundVisible={!isDangerVisible}
                                         onPressOut={onConfirm}
                                         size={size}
@@ -57,7 +58,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 
                                 <ListAffordanceButton
                                         {...(doubleConfirmed && {icon: closeIconElement})}
-                                        {...{labelText: 'Del', ...secondaryButtonProps}}
+                                        {...{labelText: secondaryLabelText ?? 'Del'}}
                                         backgroundVisible={false}
                                         onPressOut={onCancel}
                                         size={size}

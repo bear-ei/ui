@@ -45,12 +45,12 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                         onClose: rawOnClose,
                         onConfirm: rawOnConfirm,
                         onLoadEnd,
+                        onTrailingPressOut: rawOnTrailingPressOut,
                         selectType,
                         shape,
                         size,
                         supporting,
                         trailing,
-                        trailingProps: rawTrailingProps,
                         trailingTriggerEvent,
                         type = LIST_TYPE.STANDARD,
                         ...renderListItemProps
@@ -79,7 +79,6 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                         activeKey === indexKey
                 :       indexKey && activeKeys?.includes(indexKey))
 
-                const {onPressOut: rawOnTrailingPressOut, ...trailingProps} = rawTrailingProps ?? {}
                 const onClose = useMemo(() => maybeTriggerListItemClose(rawOnClose)(indexKey), [indexKey, rawOnClose])
                 const onTrailingVisibility = useMemo(() => updateListItemTrailingVisibility(setState), [setState])
                 const onConfirm = useMemo(
@@ -169,19 +168,14 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                         onTrailingVisibility={onTrailingVisibility}
                                         size={size}
                                         trailing={trailing}
-                                        trailingProps={trailingProps}
+                                        // trailingProps={trailingProps}
                                         trailingTriggerEvent={trailingTriggerEvent}
                                 />
                         :       undefined
 
                 useImperativeHandle(
                         ref,
-                        () =>
-                                ({
-                                        ...(pressableRef?.current ?? {}),
-                                        active: handleActive,
-                                        close: onClose
-                                }) as ListItemRef,
+                        () => ({...(pressableRef?.current ?? {}), active: handleActive, close: onClose}) as ListItemRef,
                         [handleActive, onClose]
                 )
 
