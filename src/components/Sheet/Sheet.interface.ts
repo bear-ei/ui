@@ -1,6 +1,6 @@
 import type {CommonProps} from '@/constants'
 import type {RefAttributes} from 'react'
-import type {ModalProps, View, ViewProps} from 'react-native'
+import type {ModalProps, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import type {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from './Sheet.enum'
 
 export type SheetType = (typeof SIDE_SHEET_TYPE)[keyof typeof SIDE_SHEET_TYPE]
@@ -35,6 +35,14 @@ export interface SheetProps extends ViewProps, RefAttributes<View>, CommonProps,
          * implement the native modal and some of the mechanisms of the macos component itself.
          */
         type?: SheetType
+        primaryButtonDisabled?: boolean
+        primaryButtonLabelText?: string
+        primaryButtonLoading?: boolean
+        primaryButtonStyle?: StyleProp<ViewStyle>
+        secondaryButtonDisabled?: boolean
+        secondaryButtonLabelText?: string
+        secondaryButtonLoading?: boolean
+        secondaryButtonStyle?: StyleProp<ViewStyle>
 }
 
 export interface RenderSheetProps extends SheetProps {

@@ -67,10 +67,14 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                         onConfirm,
                         position,
                         primaryButton,
+                        primaryButtonDisabled,
                         primaryButtonLabelText = 'Confirm',
+                        primaryButtonLoading,
                         primaryButtonStyle,
                         secondaryButton,
+                        secondaryButtonDisabled,
                         secondaryButtonLabelText = 'Cancel',
+                        secondaryButtonLoading,
                         secondaryButtonStyle,
                         shape,
                         style,
@@ -219,6 +223,8 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                                                                         labelText={
                                                                                                 primaryButtonLabelText
                                                                                         }
+                                                                                        disabled={primaryButtonDisabled}
+                                                                                        loading={primaryButtonLoading}
                                                                                         onPressOut={onConfirm}
                                                                                         stretch={true}
                                                                                         tabIndex={buttonTabIndex}
@@ -238,6 +244,10 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
                                                                                         labelText={
                                                                                                 secondaryButtonLabelText
                                                                                         }
+                                                                                        disabled={
+                                                                                                secondaryButtonDisabled
+                                                                                        }
+                                                                                        loading={secondaryButtonLoading}
                                                                                         onPressOut={onCancel}
                                                                                         stretch={true}
                                                                                         tabIndex={buttonTabIndex}

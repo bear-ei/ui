@@ -16,9 +16,14 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         interactionHandlers,
                         onCancel,
                         onConfirm,
-                        primaryLabelText = 'Edit',
+                        primaryButtonDisabled,
+                        primaryButtonLabelText = 'Edit',
+                        primaryButtonLoading,
+                        primaryButtonStyle,
                         secondaryButtonDisabled,
-                        secondaryLabelText = 'Del',
+                        secondaryButtonLabelText = 'Del',
+                        secondaryButtonLoading,
+                        secondaryButtonStyle,
                         size = SIZE.MEDIUM,
                         testID,
                         visible,
@@ -48,18 +53,24 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                         >
                                 <ListAffordanceButton
                                         {...(doubleConfirmed && {icon: checkIconElement})}
-                                        {...{labelText: primaryLabelText}}
                                         backgroundVisible={!isDangerVisible}
+                                        disabled={primaryButtonDisabled}
+                                        labelText={primaryButtonLabelText}
+                                        loading={primaryButtonLoading}
                                         onPressOut={onConfirm}
                                         size={size}
+                                        style={primaryButtonStyle}
                                         tabIndex={buttonTabIndex}
                                         testID={`listAfterAffordance__listAffordanceButton--confirmed--${id}`}
                                 />
 
                                 <ListAffordanceButton
                                         {...(doubleConfirmed && {icon: closeIconElement})}
-                                        {...{labelText: secondaryLabelText ?? 'Del'}}
+                                        style={secondaryButtonStyle}
                                         backgroundVisible={false}
+                                        disabled={secondaryButtonDisabled}
+                                        labelText={secondaryButtonLabelText}
+                                        loading={secondaryButtonLoading}
                                         onPressOut={onCancel}
                                         size={size}
                                         tabIndex={buttonTabIndex}

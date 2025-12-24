@@ -56,9 +56,14 @@ export interface ListItemProps
         onClose?: (indexKey?: string) => void
         onLoadEnd?: (indexKey?: string) => void
         onTrailingPressOut?: (event: GestureResponderEvent) => void
-        primaryLabelText?: string
+        primaryButtonDisabled?: boolean
+        primaryButtonLabelText?: string
+        primaryButtonLoading?: boolean
+        primaryButtonStyle?: StyleProp<ViewStyle>
         secondaryButtonDisabled?: boolean
-        secondaryLabelText?: string
+        secondaryButtonLabelText?: string
+        secondaryButtonLoading?: boolean
+        secondaryButtonStyle?: StyleProp<ViewStyle>
         supporting?: string | React.JSX.Element
         trailingDisabled?: boolean
 }

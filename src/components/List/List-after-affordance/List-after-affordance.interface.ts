@@ -13,9 +13,14 @@ export interface ListAfterAffordanceProps
                         | 'indexKey'
                         | 'onCancel'
                         | 'onConfirm'
-                        | 'primaryLabelText'
+                        | 'primaryButtonDisabled'
+                        | 'primaryButtonLabelText'
+                        | 'primaryButtonLoading'
+                        | 'primaryButtonStyle'
                         | 'secondaryButtonDisabled'
-                        | 'secondaryLabelText'
+                        | 'secondaryButtonLabelText'
+                        | 'secondaryButtonLoading'
+                        | 'secondaryButtonStyle'
                         | 'size'
                 > {
         visible?: boolean

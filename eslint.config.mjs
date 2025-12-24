@@ -1,32 +1,3 @@
-// module.exports = {
-//         root: true,
-//         extends: ['@react-native', 'plugin:storybook/recommended'],
-//         rules: {
-//                 '@typescript-eslint/no-empty-object-type': 'error',
-//                 '@typescript-eslint/explicit-function-return-type': 'off',
-//                 '@typescript-eslint/explicit-module-boundary-types': 'off',
-//                 '@typescript-eslint/interface-name-prefix': 'off',
-//                 '@typescript-eslint/no-explicit-any': ['error', {ignoreRestArgs: true}],
-//                 '@typescript-eslint/no-unused-vars': [
-//                         'error',
-//                         {
-//                                 argsIgnorePattern: '^_',
-//                                 varsIgnorePattern: '^_',
-//                                 caughtErrorsIgnorePattern: '^_'
-//                         }
-//                 ],
-//                 '@typescript-eslint/naming-convention': [
-//                         'error',
-//                         {
-//                                 selector: 'variable',
-//                                 format: ['PascalCase', 'camelCase'],
-//                                 prefix: ['is', 'IS_'],
-//                                 types: ['boolean']
-//                         }
-//                 ]
-//         }
-// }
-
 import {FlatCompat} from '@eslint/eslintrc'
 import js from '@eslint/js'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'

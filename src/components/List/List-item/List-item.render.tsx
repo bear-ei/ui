@@ -95,9 +95,14 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         onCancel,
                         onConfirm,
                         panResponder,
-                        primaryLabelText,
+                        primaryButtonDisabled,
+                        primaryButtonLabelText,
+                        primaryButtonLoading,
+                        primaryButtonStyle,
                         secondaryButtonDisabled,
-                        secondaryLabelText,
+                        secondaryButtonLabelText,
+                        secondaryButtonLoading,
+                        secondaryButtonStyle,
                         selectType,
                         shape,
                         size = SIZE.MEDIUM,
@@ -433,9 +438,14 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                 indexKey={indexKey}
                                                                 onCancel={onCancel}
                                                                 onConfirm={onConfirm}
-                                                                primaryLabelText={primaryLabelText}
+                                                                primaryButtonDisabled={primaryButtonDisabled}
+                                                                primaryButtonLabelText={primaryButtonLabelText}
+                                                                primaryButtonLoading={primaryButtonLoading}
+                                                                primaryButtonStyle={primaryButtonStyle}
                                                                 secondaryButtonDisabled={secondaryButtonDisabled}
-                                                                secondaryLabelText={secondaryLabelText}
+                                                                secondaryButtonLabelText={secondaryButtonLabelText}
+                                                                secondaryButtonLoading={secondaryButtonLoading}
+                                                                secondaryButtonStyle={secondaryButtonStyle}
                                                                 size={size}
                                                                 testID={`listItem__listAfterAffordance--${id}`}
                                                                 visible={afterAffordanceVisible}

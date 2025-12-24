@@ -168,7 +168,6 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                         onTrailingVisibility={onTrailingVisibility}
                                         size={size}
                                         trailing={trailing}
-                                        // trailingProps={trailingProps}
                                         trailingTriggerEvent={trailingTriggerEvent}
                                 />
                         :       undefined
@@ -228,7 +227,6 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                 interactionHandlers={interactionHandlers}
                                 leadingElement={leading}
                                 onConfirm={onConfirm}
-                                // onTrailingUnmount={onTrailingUnmount}
                                 ref={pressableRef}
                                 selectType={selectType}
                                 shape={shape}
