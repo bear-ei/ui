@@ -1,6 +1,6 @@
 {
         "name": "@bearei/ui",
-        "version": "1.0.2",
+        "version": "1.0.3",
         "module": "./dist/index.mjs",
         "react-native": "./src/index.ts",
         "types": "./dist/index.d.ts",
@@ -125,7 +125,7 @@
                 "clean": "yarn shx rm -rf dist",
                 "format": "prettier --write .",
                 "ios": "react-native run-ios",
-                "lint": "eslint .",
+                "lint": "eslint ./src",
                 "publish": "yarn build && yarn npm publish --access public",
                 "start": "react-native start",
                 "storybook-generate": "sb-rn-get-stories",

@@ -3,8 +3,8 @@ import type {LayoutRectangle} from '@/constants'
 import type {SharedValue} from 'react-native-reanimated'
 
 export interface SearchListProps extends ListProps {
-        onVisibility?: (visible?: boolean) => void
         containerLayout?: LayoutRectangle
+        onVisibility?: (visible?: boolean) => void
         visible?: boolean
 }
 

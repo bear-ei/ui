@@ -3,7 +3,6 @@ import type {ComponentStatus, EventName, State} from '@/constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {GestureResponderEvent, PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {ListAfterAffordanceProps} from '../List-after-affordance'
 import type {ListProps} from '../List.interface'
 
 export interface ListItemRef extends PressableType {
@@ -39,8 +38,7 @@ export interface ListItemProps
                         | 'trailing'
                         | 'trailingTriggerEvent'
                         | 'type'
-                >,
-                Pick<ListAfterAffordanceProps, 'primaryLabelText' | 'secondaryLabelText' | 'secondaryButtonDisabled'> {
+                > {
         /**
          * Enabling ripples while using style to specify the background color can cause the ripple to be obscured, as the
          * ripple is always one z-index level below the main container. This property is used to specify the background
@@ -58,6 +56,9 @@ export interface ListItemProps
         onClose?: (indexKey?: string) => void
         onLoadEnd?: (indexKey?: string) => void
         onTrailingPressOut?: (event: GestureResponderEvent) => void
+        primaryLabelText?: string
+        secondaryButtonDisabled?: boolean
+        secondaryLabelText?: string
         supporting?: string | React.JSX.Element
         trailingDisabled?: boolean
 }

@@ -14,8 +14,10 @@ export interface SearchProps
         data?: ListData[]
         disabled?: boolean
         leading?: React.JSX.Element
-        onActive?: (indexKey?: string) => void
-        onClose?: (options: OnVirtualListCloseOptions) => void
+        listCloseTrailing?: boolean
+        listEmptyElement?: React.JSX.Element
+        onListActive?: (indexKey?: string) => void
+        onListClose?: (options: OnVirtualListCloseOptions) => void
         trailing?: React.JSX.Element
 }
 

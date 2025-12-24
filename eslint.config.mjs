@@ -97,6 +97,8 @@ const configs = [
                         '.prettierrc.js',
                         '.rnstorybook/**.ts',
                         '.rnstorybook/**.tsx',
+                        '.storybook/**.ts',
+                        '.storybook/**.tsx',
                         '**/**.config.js',
                         '**/**.config.mjs',
                         '**/**.config.ts',

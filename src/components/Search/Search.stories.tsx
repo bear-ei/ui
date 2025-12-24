@@ -58,6 +58,7 @@ export const MediumList: StoryObj<SearchProps> = {
         args: {
                 placeholder: 'Hinted search text',
                 size: SIZE.MEDIUM,
+                listCloseTrailing: true,
                 data: [
                         {
                                 indexKey: 'TitleA',

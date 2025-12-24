@@ -34,11 +34,15 @@ import {useSearchAnimated} from './use-search-animated.hook'
 export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         (
                 {
+                        data: rawData,
                         defaultValue,
                         disabled,
                         leading,
-                        data: rawData,
+                        listCloseTrailing,
+                        listEmptyElement,
                         onChangeText: rawOnChangeText,
+                        onListActive,
+                        onListClose,
                         trailing,
                         value: rawValue,
                         ...renderSearchProps
@@ -90,8 +94,26 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 })
 
                 const runEmitList = useMemo(
-                        () => emitSearchList(id)({containerLayout: layout, onVisibility: onListVisibility, data}),
-                        [data, id, layout, onListVisibility]
+                        () =>
+                                emitSearchList(id)({
+                                        closeTrailing: listCloseTrailing,
+                                        containerLayout: layout,
+                                        data,
+                                        emptyElement: listEmptyElement,
+                                        onActive: onListActive,
+                                        onClose: onListClose,
+                                        onVisibility: onListVisibility
+                                }),
+                        [
+                                data,
+                                id,
+                                layout,
+                                listCloseTrailing,
+                                listEmptyElement,
+                                onListActive,
+                                onListClose,
+                                onListVisibility
+                        ]
                 )
 
                 const runLayoutMeasureHandler = useMemo(() => createSearchLayoutMeasureHandler(setState), [setState])
