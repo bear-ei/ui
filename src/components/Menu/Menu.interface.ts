@@ -1,14 +1,13 @@
 import type {PressableProps} from 'react-native'
 import type {ListType} from '../List'
-import type {TooltipProps} from '../Tooltip'
+import type {TooltipProps, TooltipType} from '../Tooltip'
 import type {MenuListProps} from './Menu-list'
 
-export type MenuType = 'textInputPicker'
 export interface MenuProps extends Omit<PressableProps & TooltipProps & MenuListProps, 'type'> {
         keyCode?: string
         listType?: ListType
         onContextMenu?: React.MouseEventHandler<HTMLDivElement>
-        type?: MenuType
+        type?: TooltipType
 }
 
 export interface RenderMenuProps extends MenuProps {

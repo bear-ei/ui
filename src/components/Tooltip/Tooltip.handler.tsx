@@ -1,4 +1,4 @@
-import {EVENT_NAME, type EventName, TRIGGER_EVENT, type TriggerEvent} from '@/constants'
+import {EVENT_NAME, TRIGGER_ON, type EventName, type TriggerOn} from '@/constants'
 import {emitter, MODAL_TYPE} from '@/contexts'
 import type {StateEvent} from '@/hooks'
 import type {MouseEvent} from 'react-native'
@@ -46,17 +46,17 @@ export const updateTooltipContextMenuLayout =
 export const handleTooltipStateChange = ({
         eventName,
         onVisible,
-        triggerEvent = TRIGGER_EVENT.HOVER,
+        triggerEvent = TRIGGER_ON.HOVER,
         type
 }: HandleTooltipStateEventChangeOptions) => {
         const trigger = {
-                [TRIGGER_EVENT.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
-                [TRIGGER_EVENT.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
-                [TRIGGER_EVENT.PRESS]: [EVENT_NAME.PRESS_IN]
-        } as Record<TriggerEvent, readonly EventName[]>
+                [TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
+                [TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
+                [TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
+        } as Record<TriggerOn, readonly EventName[]>
 
         return (_event: StateEvent) => {
-                if (eventName === EVENT_NAME.LAYOUT || type === TOOLTIP_TYPE.MENU) {
+                if (eventName === EVENT_NAME.LAYOUT || type === TOOLTIP_TYPE.CONTEXT_MENU) {
                         return
                 }
 

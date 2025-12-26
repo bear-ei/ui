@@ -4,7 +4,7 @@ import {ICON_BUTTON_TYPE, IconButton} from '@/components/Icon-button'
 import {LayoutAnimated} from '@/components/Layout-animated'
 import {Skeleton} from '@/components/Skeleton'
 import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
-import {EVENT_NAME, ICON_BUTTON_SIZE, LAYOUT, TRIGGER_EVENT} from '@/constants'
+import {EVENT_NAME, ICON_BUTTON_SIZE, LAYOUT, TRIGGER_ON} from '@/constants'
 import {useTheme} from '@/hooks'
 import {classesName, platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {DURATION, EASING, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE, type Size} from '@bearei/theme-token'
@@ -26,7 +26,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         size = SIZE.MEDIUM,
         trailing,
         trailingDisabled: isTrailingDisabled,
-        trailingTriggerEvent
+        trailingTriggerOn
 }) => {
         const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
@@ -34,7 +34,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
         const trailingProps = {
                 ...interactionHandlers,
-                ...(trailingTriggerEvent === TRIGGER_EVENT.HOVER && {onHoverIn}),
+                ...(trailingTriggerOn === TRIGGER_ON.HOVER && {onHoverIn}),
                 disabled: isTrailingDisabled ?? disabled,
                 size: trailingSize,
                 type: ICON_BUTTON_TYPE.STANDARD
@@ -112,7 +112,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                         supportingTextNumberOfLines,
                         testID,
                         trailingElement,
-                        trailingTriggerEvent,
+                        trailingTriggerOn,
                         trailingVisible,
                         type = LIST_TYPE.STANDARD,
                         ...touchableProps
@@ -395,7 +395,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
                                                                         testID={`listItem__trailingLayout--${id}`}
                                                                 >
                                                                         <LayoutAnimated
-                                                                                defaultVisible={!trailingTriggerEvent}
+                                                                                defaultVisible={!trailingTriggerOn}
                                                                                 entry={{
                                                                                         duration: DURATION.MEDIUM_1,
                                                                                         easing: EASING.EMPHASIZED_DECELERATE

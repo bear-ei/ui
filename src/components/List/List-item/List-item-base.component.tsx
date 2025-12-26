@@ -51,7 +51,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                         size,
                         supporting,
                         trailing,
-                        trailingTriggerEvent,
+                        trailingTriggerOn,
                         type = LIST_TYPE.STANDARD,
                         ...renderListItemProps
                 },
@@ -153,8 +153,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                 )
 
                 const runTrailingTriggerEvent = useMemo(
-                        () => debounce(handleTrailingTriggerEvent(trailingTriggerEvent)(setState))(50),
-                        [setState, trailingTriggerEvent]
+                        () => debounce(handleTrailingTriggerEvent(trailingTriggerOn)(setState))(50),
+                        [setState, trailingTriggerOn]
                 )
 
                 const trailingElement =
@@ -168,7 +168,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                         onTrailingVisibility={onTrailingVisibility}
                                         size={size}
                                         trailing={trailing}
-                                        trailingTriggerEvent={trailingTriggerEvent}
+                                        trailingTriggerOn={trailingTriggerOn}
                                 />
                         :       undefined
 
@@ -233,8 +233,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                 size={size}
                                 supporting={supporting}
                                 trailingElement={trailingElement}
-                                trailingTriggerEvent={trailingTriggerEvent}
-                                trailingVisible={isTrailingVisible ?? !trailingTriggerEvent}
+                                trailingTriggerOn={trailingTriggerOn}
+                                trailingVisible={isTrailingVisible ?? !trailingTriggerOn}
                                 type={type}
                         />
                 )

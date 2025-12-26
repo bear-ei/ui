@@ -1,5 +1,6 @@
 export const TOOLTIP_TYPE = {
-        MENU: 'MENU',
+        CONTEXT_MENU: 'CONTEXT_MENU',
         PLAIN: 'PLAIN',
-        RICH: 'RICH'
+        RICH: 'RICH',
+        TEXT_INPUT_PICKER: 'TEXT_INPUT_PICKER'
 } as const

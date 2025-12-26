@@ -1,4 +1,5 @@
 import {List, LIST_SELECT_TYPE, LIST_TYPE} from '@/components/List'
+import {TOOLTIP_TYPE} from '@/components/Tooltip'
 import type {InteractionHandlers} from '@/hooks'
 import {classesName, platformValue, shapeClasses} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
@@ -19,6 +20,7 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                         size = SIZE.SMALL,
                         testID,
                         theme,
+                        type,
                         ...menuProps
                 },
                 ref
@@ -39,7 +41,8 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                         <View
                                 {...(['web', 'windows', 'macos'].includes(Platform.OS) && {onKeyDown})}
                                 className={classesName(
-                                        'w-[11.25rem] overflow-hidden bg-[--color-surface-container] outline-none',
+                                        'overflow-hidden bg-[--color-surface-container] outline-none',
+                                        {['w-[11.25rem]']: type === TOOLTIP_TYPE.CONTEXT_MENU},
                                         shapeClasses(shape)
                                 )}
                                 ref={ref}

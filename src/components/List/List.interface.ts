@@ -1,4 +1,4 @@
-import type {CommonProps, TriggerEvent} from '@/constants'
+import type {CommonProps, TriggerOn} from '@/constants'
 import type {InteractionHandlers} from '@/hooks'
 import type {ForwardedRef, RefAttributes} from 'react'
 import type {ScrollView} from 'react-native'
@@ -75,7 +75,7 @@ export interface ListProps
         skeletonElement?: React.JSX.Element
         supportingTextNumberOfLines?: number
         trailing?: React.JSX.Element
-        trailingTriggerEvent?: TriggerEvent
+        trailingTriggerOn?: TriggerOn
         type?: ListType
 }
 
@@ -121,7 +121,7 @@ export type CreateRenderListItemOptions = Pick<
         | 'skeletonElement'
         | 'supportingTextNumberOfLines'
         | 'trailing'
-        | 'trailingTriggerEvent'
+        | 'trailingTriggerOn'
         | 'type'
 >
 

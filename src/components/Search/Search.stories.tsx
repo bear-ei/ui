@@ -1,7 +1,9 @@
+import {TRIGGER_ON} from '@/constants'
 import {SIZE} from '@bearei/theme-token'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {Circle} from 'lucide-react-native'
 import {IconButton} from '../Icon-button'
+import {LIST_SELECT_TYPE} from '../List'
 import {Search} from './Search.component'
 import type {SearchProps} from './Search.interface'
 
@@ -56,9 +58,13 @@ export const ExtraSmall: StoryObj<SearchProps> = {
 
 export const MediumList: StoryObj<SearchProps> = {
         args: {
+                listActiveKey: 'TitleB',
+                listCloseTrailing: true,
+                listSelectType: LIST_SELECT_TYPE.SINGLE,
+                listTrailingTriggerOn: TRIGGER_ON.HOVER,
                 placeholder: 'Hinted search text',
                 size: SIZE.MEDIUM,
-                listCloseTrailing: true,
+                filter: true,
                 data: [
                         {
                                 indexKey: 'TitleA',

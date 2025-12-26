@@ -92,7 +92,7 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                 useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
                 useEffect(() => {
-                        if (type === TOOLTIP_TYPE.MENU) {
+                        if (type === TOOLTIP_TYPE.CONTEXT_MENU) {
                                 runEmit({containerLayout: menuContainerLayout, visible: isTooltipVisible})
 
                                 return

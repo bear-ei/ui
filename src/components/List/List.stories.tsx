@@ -76,7 +76,9 @@ export const AfterAffordance: StoryObj<ListProps> = {
                 data: [
                         {
                                 indexKey: 'TitleA',
-                                headline: 'TitleA'
+                                headline: 'TitleA',
+                                primaryButtonLabelText: 'Action',
+                                secondaryButtonLabelText: 'More'
                         },
                         {
                                 indexKey: 'TitleB',
@@ -101,7 +103,7 @@ export const TrailingClose: StoryObj<ListProps> = {
                 defaultActiveKey: 'TitleB',
                 shape: SHAPE.MEDIUM,
                 size: SIZE.MEDIUM,
-                trailingTriggerEvent: 'HOVER',
+                trailingTriggerOn: 'HOVER',
                 data: [
                         {
                                 indexKey: 'TitleA',

@@ -2,7 +2,9 @@ const matchByKeys =
         <T>(keys: (keyof T)[]) =>
         (item: T) =>
         (matchText: string) =>
-                keys.some(key => item[key]?.toString().toLowerCase()?.includes(matchText))
+                keys.some(
+                        key => typeof item[key] === 'string' && item[key]?.toString().toLowerCase()?.includes(matchText)
+                )
 
 export const textSearch =
         <T>(data: T[]) =>

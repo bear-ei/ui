@@ -1,6 +1,6 @@
 import type {Bezier, Elevation, Font, Palette, Shadow, Shape, Size, Spacing, Typography} from '@bearei/theme-token'
 import type {LayoutRectangle as RNLayoutRectangle} from 'react-native'
-import type {ALIGNMENT, COMPONENT_STATUS, EVENT_NAME, LAYOUT, STATE, TRIGGER_EVENT} from './common.enum'
+import type {ALIGNMENT, COMPONENT_STATUS, EVENT_NAME, LAYOUT, STATE, TRIGGER_ON} from './common.enum'
 
 export type Alignment = (typeof ALIGNMENT)[keyof typeof ALIGNMENT]
 export type BezierType = keyof Bezier
@@ -14,7 +14,7 @@ export type ShadowType = keyof Shadow
 export type ShapeType = keyof Shape
 export type SpacingType = keyof Spacing
 export type State = (typeof STATE)[keyof typeof STATE]
-export type TriggerEvent = (typeof TRIGGER_EVENT)[keyof typeof TRIGGER_EVENT]
+export type TriggerOn = (typeof TRIGGER_ON)[keyof typeof TRIGGER_ON]
 export type TypographyType = keyof Typography
 export interface LayoutRectangle extends RNLayoutRectangle {
         left?: number

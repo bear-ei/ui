@@ -5,7 +5,7 @@ import {TOOLTIP_TYPE} from './Tooltip.enum'
 import type {RenderTooltipProps} from './Tooltip.interface'
 
 export const RenderTooltip = forwardRef<View, RenderTooltipProps>(
-        ({children, id, interactionHandlers, onContextMenu, testID, type, className, ...containerProps}, ref) => {
+        ({children, className, id, interactionHandlers, onContextMenu, testID, type, ...containerProps}, ref) => {
                 const {onFocus, onHoverIn, ...childrenInteractionHandlers} = interactionHandlers
 
                 return (
@@ -20,7 +20,7 @@ export const RenderTooltip = forwardRef<View, RenderTooltipProps>(
                                                 onFocus,
                                                 onHoverIn,
                                                 ...childrenInteractionHandlers,
-                                                ...(type === TOOLTIP_TYPE.MENU && {onContextMenu})
+                                                ...(type === TOOLTIP_TYPE.CONTEXT_MENU && {onContextMenu})
                                         })}
                         </View>
                 )

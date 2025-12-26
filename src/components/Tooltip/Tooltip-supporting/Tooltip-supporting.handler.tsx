@@ -1,9 +1,10 @@
-import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_EVENT, type TriggerEvent} from '@/constants'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '@/constants'
 import type {StateEvent} from '@/hooks'
 import type {WritableDraft} from 'immer'
 import type {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import type {Updater} from 'use-immer'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
+import type {TooltipType} from '../Tooltip.interface'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 import type {
         AnimateTooltipSupportingOptions,
@@ -19,7 +20,7 @@ import type {
 } from './Tooltip-supporting.interface'
 
 export const handleTooltipSupportingStateChange =
-        ({eventName, onVisible, triggerEvent = TRIGGER_EVENT.HOVER}: HandleTooltipSupportingStateEventChangeOptions) =>
+        ({eventName, onVisible, triggerEvent = TRIGGER_ON.HOVER}: HandleTooltipSupportingStateEventChangeOptions) =>
         (setState: Updater<TooltipSupportingState>) => {
                 const updateTooltipSupportingLayout = (event: LayoutChangeEvent) => {
                         const {height, width} = event.nativeEvent.layout
@@ -43,10 +44,10 @@ export const handleTooltipSupportingStateChange =
                         }
 
                         const trigger = {
-                                [TRIGGER_EVENT.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
-                                [TRIGGER_EVENT.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
-                                [TRIGGER_EVENT.PRESS]: [EVENT_NAME.PRESS_IN]
-                        } as Record<TriggerEvent, readonly EventName[]>
+                                [TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
+                                [TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
+                                [TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
+                        } as Record<TriggerOn, readonly EventName[]>
 
                         const triggerEventNames = trigger[triggerEvent]
 
@@ -130,7 +131,7 @@ export const updateTooltipSupportingPosition =
                                 return
                         }
 
-                        if (type === TOOLTIP_TYPE.MENU) {
+                        if (type === TOOLTIP_TYPE.CONTEXT_MENU) {
                                 setState(draft => {
                                         const {left, top} = getSafeMenuPosition({
                                                 height: layout.height,
@@ -194,7 +195,13 @@ export const animateTooltipSupporting =
                         return
                 }
 
-                const sharedValue = type === TOOLTIP_TYPE.MENU ? heightSharedValue : transformSharedValue
+                const isHeightSharedValue =
+                        type &&
+                        (
+                                [TOOLTIP_TYPE.CONTEXT_MENU, TOOLTIP_TYPE.TEXT_INPUT_PICKER] as readonly TooltipType[]
+                        ).includes(type)
+
+                const sharedValue = isHeightSharedValue ? heightSharedValue : transformSharedValue
 
                 if (visible) {
                         createEntrySharedValueAnimator({sharedValue})(1)

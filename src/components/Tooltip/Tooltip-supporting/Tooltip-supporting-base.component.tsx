@@ -11,6 +11,7 @@ import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo,
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
+import type {TooltipType} from '../Tooltip.interface'
 import {
         getTooltipSupportingPosition,
         handleMaskPressOut,
@@ -31,7 +32,7 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                         onVisible,
                         supportingPosition,
                         triggerEvent,
-                        type,
+                        type = TOOLTIP_TYPE.PLAIN,
                         visible,
                         ...renderTooltipSupportingProps
                 },
@@ -50,8 +51,16 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                 const containerRef = useRef<View>(null)
                 const id = useId()
                 const theme = useTheme()
+                const isMenuOrPicker = (
+                        [TOOLTIP_TYPE.CONTEXT_MENU, TOOLTIP_TYPE.TEXT_INPUT_PICKER] as readonly TooltipType[]
+                ).includes(type)
+
                 const tooltipSupportingWidth =
-                        type === TOOLTIP_TYPE.MENU ? theme.token.spacing.extraSmall * 45 : layout.width
+                        isMenuOrPicker ?
+                                type === TOOLTIP_TYPE.TEXT_INPUT_PICKER ?
+                                        containerLayout?.width
+                                :       theme.token.spacing.extraSmall * 45
+                        :       layout.width
 
                 const onClosed = useMemo(
                         () => updateTooltipSupportingClosed(rawOnClosed)(setState),

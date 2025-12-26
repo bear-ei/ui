@@ -36,7 +36,7 @@ export interface ListItemProps
                         | 'skeletonElement'
                         | 'supportingTextNumberOfLines'
                         | 'trailing'
-                        | 'trailingTriggerEvent'
+                        | 'trailingTriggerOn'
                         | 'type'
                 > {
         /**
@@ -117,7 +117,7 @@ export interface RenderListItemTrailingProps
                 | 'size'
                 | 'trailing'
                 | 'trailingDisabled'
-                | 'trailingTriggerEvent'
+                | 'trailingTriggerOn'
         > {
         interactionHandlers: InteractionHandlers
         onTrailingVisibility?: (eventName: EventName) => void

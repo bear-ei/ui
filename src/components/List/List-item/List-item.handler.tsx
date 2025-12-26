@@ -1,5 +1,5 @@
 import type {PressableType} from '@/components/Touchable'
-import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_EVENT, type TriggerEvent} from '@/constants'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '@/constants'
 import type {AnimateSharedValueTo, StateEvent} from '@/hooks'
 import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
@@ -89,19 +89,19 @@ export const updateListItemTrailing =
         (selectType?: ListSelectType) => (onActive?: (indexKey?: string) => void) => (indexKey?: string) =>
                 selectType && indexKey && onActive?.(indexKey)
 
-export const handleTrailingTriggerEvent = (trailingTriggerEvent?: TriggerEvent) => {
+export const handleTrailingTriggerEvent = (trailingTriggerOn?: TriggerOn) => {
         const trigger = {
-                [TRIGGER_EVENT.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
-                [TRIGGER_EVENT.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
-                [TRIGGER_EVENT.PRESS]: [EVENT_NAME.PRESS_IN]
-        } as Record<TriggerEvent, readonly EventName[]>
+                [TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
+                [TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
+                [TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
+        } as Record<TriggerOn, readonly EventName[]>
 
         return (setState: Updater<ListItemState>) => (eventName?: EventName) => {
-                if (!trailingTriggerEvent) {
+                if (!trailingTriggerOn) {
                         return
                 }
 
-                const triggerEventNames = trigger[trailingTriggerEvent]
+                const triggerEventNames = trigger[trailingTriggerOn]
 
                 if (eventName && triggerEventNames?.includes(eventName)) {
                         const isVisible = eventName === EVENT_NAME.HOVER_IN

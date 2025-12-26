@@ -33,7 +33,7 @@ export const EVENT_NAME = {
         PRESS: 'PRESS'
 } as const
 
-export const TRIGGER_EVENT = {
+export const TRIGGER_ON = {
         FOCUS: 'FOCUS',
         HOVER: 'HOVER',
         PRESS: 'PRESS'

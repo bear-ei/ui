@@ -6,6 +6,7 @@ import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
+import type {TooltipType} from '../Tooltip.interface'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 import {animateTooltipSupporting} from './Tooltip-supporting.handler'
 import type {UseTooltipSupportingAnimatedOptions} from './Tooltip-supporting.interface'
@@ -18,6 +19,10 @@ export const useTooltipSupportingAnimated = ({
         type = TOOLTIP_TYPE.PLAIN,
         visible
 }: UseTooltipSupportingAnimatedOptions) => {
+        const isMenuOrPicker = (
+                [TOOLTIP_TYPE.CONTEXT_MENU, TOOLTIP_TYPE.TEXT_INPUT_PICKER] as readonly TooltipType[]
+        ).includes(type)
+
         const heightSharedValue = useSharedValue(0)
         const opacitySharedValue = useSharedValue(0)
         const transformSharedValue = useSharedValue(0)
@@ -50,7 +55,7 @@ export const useTooltipSupportingAnimated = ({
                                         [0, 1],
                                         [theme.token.opacity.level0, theme.token.opacity.level10]
                                 ),
-                                ...(type === TOOLTIP_TYPE.MENU ?
+                                ...(isMenuOrPicker ?
                                         {
                                                 height: platformValue(
                                                         interpolate(heightSharedValue.value, [0, 1], [0, height])

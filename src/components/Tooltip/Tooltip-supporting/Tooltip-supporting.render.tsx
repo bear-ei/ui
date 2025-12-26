@@ -8,6 +8,7 @@ import {SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import React, {cloneElement, forwardRef, isValidElement} from 'react'
 import {Platform, Pressable, Text, View, type ViewStyle} from 'react-native'
 import {TOOLTIP_TYPE} from '../Tooltip.enum'
+import type {TooltipType} from '../Tooltip.interface'
 import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
 import {getSafeMenuPosition} from './Tooltip-supporting.handler'
 import type {RenderTooltipSupportingProps} from './Tooltip-supporting.interface'
@@ -45,10 +46,22 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                         y: containerY = 0
                 } = containerLayout ?? {}
 
+                const isMenuOrPicker =
+                        type &&
+                        (
+                                [TOOLTIP_TYPE.CONTEXT_MENU, TOOLTIP_TYPE.TEXT_INPUT_PICKER] as readonly TooltipType[]
+                        ).includes(type)
+
                 const position = {
                         [SUPPORTING_POSITION.VERTICAL_START]: () => {
                                 const x = containerX - (width - containerWidth) / 2
-                                const y = containerY - height - theme.token.spacing.extraSmall
+                                const y =
+                                        containerY -
+                                        height -
+                                        (type === TOOLTIP_TYPE.TEXT_INPUT_PICKER ?
+                                                theme.token.spacing.none
+                                        :       theme.token.spacing.extraSmall)
+
                                 const {left} = getSafeMenuPosition({
                                         height,
                                         margin: theme.token.spacing.medium,
@@ -63,7 +76,13 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                         },
                         [SUPPORTING_POSITION.VERTICAL_END]: () => {
                                 const x = containerX - (width - containerWidth) / 2
-                                const y = containerY + containerHeight + theme.token.spacing.extraSmall
+                                const y =
+                                        containerY +
+                                        containerHeight +
+                                        (type === TOOLTIP_TYPE.TEXT_INPUT_PICKER ?
+                                                theme.token.spacing.none
+                                        :       theme.token.spacing.extraSmall)
+
                                 const {left} = getSafeMenuPosition({
                                         height,
                                         margin: theme.token.spacing.medium,
@@ -116,7 +135,8 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                         'absolute bottom-0 top-0 overflow-hidden',
                                         {
                                                 ['m-h-6 bg-[--color-inverse-surface] pb-1 pl-2 pr-2 pt-1']:
-                                                        type === TOOLTIP_TYPE.PLAIN
+                                                        type === TOOLTIP_TYPE.PLAIN,
+                                                ['left-0 right-0']: isMenuOrPicker
                                         },
                                         shapeClasses(shape)
                                 )}
@@ -124,10 +144,10 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                         >
                                 {isValidElement(supporting) ?
                                         <View
-                                                {...(type === TOOLTIP_TYPE.MENU && {onLayout})}
+                                                {...(isMenuOrPicker && {onLayout})}
                                                 testID={`tooltipSupporting__supporting--${id}`}
                                         >
-                                                {type === TOOLTIP_TYPE.MENU ?
+                                                {isMenuOrPicker ?
                                                         cloneElement<MenuProps>(
                                                                 supporting as React.ReactElement<
                                                                         MenuProps,
@@ -167,12 +187,8 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                 {
                                                         height: platformValue(height),
                                                         width: platformValue(width),
-                                                        ...(type === TOOLTIP_TYPE.PLAIN ?
+                                                        ...(type === TOOLTIP_TYPE.CONTEXT_MENU ?
                                                                 {
-                                                                        left: platformValue(plainPosition.left),
-                                                                        top: platformValue(plainPosition.top)
-                                                                }
-                                                        :       {
                                                                         left: platformValue(
                                                                                 menuPosition.left ??
                                                                                         theme.token.spacing.none
@@ -181,13 +197,17 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                                                 menuPosition.top ??
                                                                                         theme.token.spacing.none
                                                                         )
+                                                                }
+                                                        :       {
+                                                                        left: platformValue(plainPosition.left),
+                                                                        top: platformValue(plainPosition.top)
                                                                 })
                                                 } as ViewStyle,
                                                 contentAnimatedStyle
                                         ]}
                                         testID={testID ?? `tooltipSupporting__supporting--${id}`}
                                 >
-                                        {type === TOOLTIP_TYPE.MENU ?
+                                        {isMenuOrPicker ?
                                                 <View
                                                         className='relative flex-1 self-stretch'
                                                         testID={`tooltipSupporting_content--${id}`}
@@ -212,12 +232,12 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                         )}
                                 </AnimatedView>
 
-                                {type === TOOLTIP_TYPE.MENU && (
+                                {isMenuOrPicker && (
                                         <Mask
                                                 backgroundColor={theme.token.scheme.scrim}
                                                 onPressOut={onMaskPressOut}
                                                 opacity={theme.token.opacity.level0}
-                                                testID={`tooltip__mask--${id}`}
+                                                testID={`tooltipSupporting__mask--${id}`}
                                                 visible={visible}
                                         />
                                 )}

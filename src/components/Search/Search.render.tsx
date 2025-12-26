@@ -9,6 +9,8 @@ import Animated from 'react-native-reanimated'
 import {AnimatedView} from '../Animated-component'
 import {Elevation} from '../Elevation'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
+import {Menu} from '../Menu'
+import {SUPPORTING_POSITION, TOOLTIP_TYPE} from '../Tooltip'
 import {Underlay} from '../Underlay'
 import type {RenderSearchProps} from './Search.interface'
 
@@ -17,8 +19,9 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
         (
                 {
                         accessibilityLabel,
-                        containerRef,
+                        // containerRef,
                         contentAnimatedStyle,
+                        data,
                         disabled,
                         editable,
                         elevation,
@@ -52,9 +55,9 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                 const underlayColor = theme.token.scheme.onSurface
                 const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
 
-                return (
+                const searchElement = (
                         <View
-                                ref={containerRef}
+                                // ref={containerRef}
                                 className={classesName('relative z-40 justify-center self-stretch', {
                                         ['h-10']: size === SIZE.SMALL,
                                         ['h-12']: size === SIZE.MEDIUM,
@@ -261,6 +264,22 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                         testID={`search__elevation--${id}`}
                                 />
                         </View>
+                )
+
+                return (
+                        <>
+                                {data ?
+                                        <Menu
+                                                data={data}
+                                                supportingPosition={SUPPORTING_POSITION.VERTICAL_END}
+                                                testID={`search__menu--${id}`}
+                                                type={TOOLTIP_TYPE.TEXT_INPUT_PICKER}
+                                                visible={true}
+                                        >
+                                                {searchElement}
+                                        </Menu>
+                                :       searchElement}
+                        </>
                 )
         }
 )

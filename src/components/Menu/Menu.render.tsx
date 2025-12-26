@@ -1,7 +1,7 @@
 import {SHAPE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import {Tooltip, TOOLTIP_TYPE} from '../Tooltip'
+import {Tooltip} from '../Tooltip'
 import {MenuList} from './Menu-list'
 import type {RenderMenuProps} from './Menu.interface'
 
@@ -56,7 +56,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                                         onVisible={onVisible}
                                         shape={shape}
                                         supporting={supporting}
-                                        type={TOOLTIP_TYPE.MENU}
+                                        type={type}
                                         visible={visible}
                                 />
                         </View>

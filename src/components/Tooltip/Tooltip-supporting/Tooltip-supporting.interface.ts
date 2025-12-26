@@ -1,5 +1,5 @@
 import type {ElevationLevel} from '@/components/Elevation'
-import type {ComponentStatus, ShapeType, TriggerEvent} from '@/constants'
+import type {ComponentStatus, ShapeType, TriggerOn} from '@/constants'
 import type {Theme} from '@/contexts'
 import type {
         AnimateSharedValueTo,
@@ -23,7 +23,7 @@ export interface TooltipSupportingProps extends ViewProps, RefAttributes<View>, 
         shape?: ShapeType
         supporting?: string | JSX.Element
         supportingPosition?: SupportingPosition
-        triggerEvent?: TriggerEvent
+        triggerEvent?: TriggerOn
         type?: TooltipType
         visible?: boolean
 }

@@ -1,10 +1,10 @@
 import type {ElevationLevel} from '@/components/Elevation'
 import type {ListProps, ListType} from '@/components/List'
+import type {TooltipType} from '@/components/Tooltip'
 import type {CommonProps} from '@/constants'
 import type {Theme} from '@/contexts'
 import type {ShapeType} from '@bearei/theme-token'
 import type {PressableProps} from 'react-native'
-import type {MenuType} from '../Menu.interface'
 
 export interface MenuListProps extends Omit<ListProps & PressableProps, 'type'>, CommonProps {
         defaultVisible?: boolean
@@ -13,7 +13,7 @@ export interface MenuListProps extends Omit<ListProps & PressableProps, 'type'>,
         multiple?: boolean
         onKeyDown?: (event: React.KeyboardEvent) => void
         shape?: ShapeType
-        type?: MenuType
+        type?: TooltipType
         visible?: boolean
 }
 
