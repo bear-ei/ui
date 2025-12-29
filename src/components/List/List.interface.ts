@@ -5,7 +5,7 @@ import type {ScrollView} from 'react-native'
 import type Animated from 'react-native-reanimated'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo, VirtualListProps} from '../Virtual-list'
 import type {ListItemAfterAffordancePressOutOptions} from './List-after-affordance'
-import type {ListItemProps} from './List-item'
+import type {ListItemData} from './List-item'
 import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
 
 export type ListSelectType = (typeof LIST_SELECT_TYPE)[keyof typeof LIST_SELECT_TYPE]
@@ -14,37 +14,17 @@ export type VirtualListComponent<T> = (
         props: VirtualListProps<T> & {ref?: ForwardedRef<Animated.ScrollView>}
 ) => React.ReactElement | null
 
-export interface ListData
-        extends Pick<
-                ListItemProps,
-                | 'contentStyle'
-                | 'dependencies'
-                | 'headline'
-                | 'leading'
-                | 'primaryButtonDisabled'
-                | 'primaryButtonLabelText'
-                | 'primaryButtonLoading'
-                | 'primaryButtonStyle'
-                | 'secondaryButtonDisabled'
-                | 'secondaryButtonLabelText'
-                | 'secondaryButtonLoading'
-                | 'secondaryButtonStyle'
-                | 'supporting'
-                | 'supportingTextNumberOfLines'
-                | 'trailing'
-                | 'trailingDisabled'
-        > {
-        indexKey: string
-}
-
-export type RenderListItemOptions = RenderVirtualListItemInfo<ListData> & CreateRenderListItemOptions
+export type RenderListItemOptions = RenderVirtualListItemInfo<ListItemData> & CreateRenderListItemOptions
 export interface UpdateListAffordanceActiveStateOptions {
         activeKey?: string
         callback?: () => void
 }
 
 export interface ListProps
-        extends Omit<Partial<VirtualListProps<ListData> & RefAttributes<VirtualListComponent<ListData>>>, 'ref'>,
+        extends Omit<
+                        Partial<VirtualListProps<ListItemData> & RefAttributes<VirtualListComponent<ListItemData>>>,
+                        'ref'
+                >,
                 CommonProps {
         activeKey?: string
         activeKeys?: string[]
@@ -52,7 +32,7 @@ export interface ListProps
         afterAffordanceActiveKey?: string
         beforeAffordance?: React.JSX.Element | boolean
         closeTrailing?: boolean
-        data?: ListData[]
+        data?: ListItemData[]
         defaultActiveKey?: string
         defaultActiveKeys?: string[]
         deselect?: boolean
@@ -87,7 +67,7 @@ export interface ListState {
         activeKey?: string
         activeKeys?: string[]
         afterAffordanceActiveKey?: string
-        data?: ListData[]
+        data?: ListItemData[]
         nextActiveEvent?: () => void
         nextAfterAffordanceActiveEvent?: () => void
         nextAfterAffordanceEvent?: () => void

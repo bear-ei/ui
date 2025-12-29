@@ -67,24 +67,28 @@ export const MediumList: StoryObj<SearchProps> = {
                 filter: true,
                 data: [
                         {
-                                indexKey: 'TitleA',
                                 headline: 'TitleA',
-                                leading: <Circle />
+                                indexKey: 'TitleA',
+                                leading: <Circle />,
+                                supporting: 'TitleA'
                         },
                         {
-                                indexKey: 'TitleB',
                                 headline: 'TitleB',
-                                leading: <Circle />
+                                indexKey: 'TitleB',
+                                leading: <Circle />,
+                                supporting: 'TitleB'
                         },
                         {
-                                indexKey: 'TitleC',
                                 headline: 'TitleC',
-                                leading: <Circle />
+                                indexKey: 'TitleC',
+                                leading: <Circle />,
+                                supporting: 'TitleC'
                         },
                         {
-                                indexKey: 'TitleD',
                                 headline: 'TitleD',
-                                leading: <Circle />
+                                indexKey: 'TitleD',
+                                leading: <Circle />,
+                                supporting: 'TitleD'
                         }
                 ]
         }

@@ -3,26 +3,23 @@ import type {StateEvent} from '@/hooks'
 import type {WritableDraft} from 'immer'
 import type {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
 import type {Updater} from 'use-immer'
-import {TOOLTIP_TYPE} from '../Tooltip.enum'
-import type {TooltipType} from '../Tooltip.interface'
-import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
+import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverContentPosition, type PopoverType} from '..'
 import type {
-        AnimateTooltipSupportingOptions,
-        AnimateTooltipSupportingSharedValues,
+        AnimatePopoverContentOptions,
+        AnimatePopoverContentSharedValues,
         GetSafeMenuPositionOptions,
-        HandleTooltipSupportingPositionWindowOptions,
-        HandleTooltipSupportingStateEventChangeOptions,
-        SupportingPosition,
-        TooltipSupportingState,
-        UpdateTooltipSupportingInvertOptions,
-        UpdateTooltipSupportingPositionOptions,
-        UpdateTooltipSupportingStatusOptions
-} from './Tooltip-supporting.interface'
+        HandlePopoverContentPositionWindowOptions,
+        HandlePopoverContentStateEventChangeOptions,
+        PopoverContentState,
+        UpdatePopoverContentInvertOptions,
+        UpdatePopoverContentPositionOptions,
+        UpdatePopoverContentStatusOptions
+} from './Popover-content.interface'
 
-export const handleTooltipSupportingStateChange =
-        ({eventName, onVisible, triggerEvent = TRIGGER_ON.HOVER}: HandleTooltipSupportingStateEventChangeOptions) =>
-        (setState: Updater<TooltipSupportingState>) => {
-                const updateTooltipSupportingLayout = (event: LayoutChangeEvent) => {
+export const handlePopoverContentStateChange =
+        ({eventName, onVisible, triggerEvent = TRIGGER_ON.HOVER}: HandlePopoverContentStateEventChangeOptions) =>
+        (setState: Updater<PopoverContentState>) => {
+                const updatePopoverContentLayout = (event: LayoutChangeEvent) => {
                         const {height, width} = event.nativeEvent.layout
 
                         setState(draft => {
@@ -38,7 +35,7 @@ export const handleTooltipSupportingStateChange =
 
                 return (event: StateEvent) => {
                         if (eventName === EVENT_NAME.LAYOUT) {
-                                updateTooltipSupportingLayout(event as LayoutChangeEvent)
+                                updatePopoverContentLayout(event as LayoutChangeEvent)
 
                                 return
                         }
@@ -57,8 +54,8 @@ export const handleTooltipSupportingStateChange =
                 }
         }
 
-export const updateTooltipSupportingClosed =
-        (onClosed?: () => void) => (setState: Updater<TooltipSupportingState>) => (value?: boolean) =>
+export const updatePopoverContentClosed =
+        (onClosed?: () => void) => (setState: Updater<PopoverContentState>) => (value?: boolean) =>
                 typeof value === 'boolean' &&
                 value &&
                 setState(draft => {
@@ -71,8 +68,8 @@ export const updateTooltipSupportingClosed =
                         }
                 })
 
-export const updateTooltipSupportingStatus =
-        ({setState, windowWidth}: UpdateTooltipSupportingStatusOptions) =>
+export const updatePopoverContentStatus =
+        ({setState, windowWidth}: UpdatePopoverContentStatusOptions) =>
         (containerLayout?: LayoutRectangle) =>
                 windowWidth &&
                 containerLayout &&
@@ -114,24 +111,24 @@ export const getSafeMenuPosition = ({
         return {left, top}
 }
 
-export const updateTooltipSupportingPosition =
-        ({supportingPosition, setState, type, containerLayout, theme}: UpdateTooltipSupportingPositionOptions) =>
+export const updatePopoverContentPosition =
+        ({popoverContentPosition, setState, type, containerLayout, theme}: UpdatePopoverContentPositionOptions) =>
         (ref: React.RefObject<View | null>) => {
-                const updateTooltipSupportingInvert =
-                        ({height, x, y, width, windowHeight, windowWidth}: UpdateTooltipSupportingInvertOptions) =>
-                        (draft: WritableDraft<TooltipSupportingState>) => {
+                const updatePopoverContentInvert =
+                        ({height, x, y, width, windowHeight, windowWidth}: UpdatePopoverContentInvertOptions) =>
+                        (draft: WritableDraft<PopoverContentState>) => {
                                 draft.invert =
-                                        supportingPosition?.startsWith('HORIZONTAL') ?
+                                        popoverContentPosition?.startsWith('HORIZONTAL') ?
                                                 width + x >= windowWidth && x > width
                                         :       height + y >= windowHeight && y > height
                         }
 
-                return ({windowHeight, visible, windowWidth, layout}: HandleTooltipSupportingPositionWindowOptions) => {
+                return ({windowHeight, visible, windowWidth, layout}: HandlePopoverContentPositionWindowOptions) => {
                         if (!visible) {
                                 return
                         }
 
-                        if (type === TOOLTIP_TYPE.CONTEXT_MENU) {
+                        if (type === POPOVER_TYPE.CONTEXT_MENU) {
                                 setState(draft => {
                                         const {left, top} = getSafeMenuPosition({
                                                 height: layout.height,
@@ -152,7 +149,7 @@ export const updateTooltipSupportingPosition =
 
                         ref?.current?.measureInWindow((x, y, width, height) =>
                                 setState(
-                                        updateTooltipSupportingInvert({
+                                        updatePopoverContentInvert({
                                                 height,
                                                 width,
                                                 windowHeight,
@@ -165,31 +162,33 @@ export const updateTooltipSupportingPosition =
                 }
         }
 
-export const getTooltipSupportingPosition = (supportingPosition?: SupportingPosition) => (invert?: boolean) => {
+export const getPopoverContentPosition = (popoverContentPosition?: PopoverContentPosition) => (invert?: boolean) => {
         const position = {
                 invertY:
-                        supportingPosition === SUPPORTING_POSITION.VERTICAL_END ?
-                                SUPPORTING_POSITION.VERTICAL_START
-                        :       SUPPORTING_POSITION.VERTICAL_END,
+                        popoverContentPosition === POPOVER_CONTENT_POSITION.VERTICAL_END ?
+                                POPOVER_CONTENT_POSITION.VERTICAL_START
+                        :       POPOVER_CONTENT_POSITION.VERTICAL_END,
 
                 invertX:
-                        supportingPosition === SUPPORTING_POSITION.HORIZONTAL_END ?
-                                SUPPORTING_POSITION.HORIZONTAL_START
-                        :       SUPPORTING_POSITION.HORIZONTAL_END
+                        popoverContentPosition === POPOVER_CONTENT_POSITION.HORIZONTAL_END ?
+                                POPOVER_CONTENT_POSITION.HORIZONTAL_START
+                        :       POPOVER_CONTENT_POSITION.HORIZONTAL_END
         }
 
         const invertPosition = (
-                supportingPosition?.startsWith('HORIZONTAL') ?
+                popoverContentPosition?.startsWith('HORIZONTAL') ?
                         position.invertX
-                :       position.invertY) as SupportingPosition
+                :       position.invertY) as PopoverContentPosition
 
-        return invert ? invertPosition : supportingPosition
+        return invert ? invertPosition : popoverContentPosition
 }
 
-export const handleMaskPressOut = (onTooltipVisible?: (value?: boolean) => void) => () => onTooltipVisible?.(false)
-export const animateTooltipSupporting =
-        ({createEntrySharedValueAnimator, type, createExitSharedValueAnimator}: AnimateTooltipSupportingOptions) =>
-        ({transformSharedValue, heightSharedValue, opacitySharedValue}: AnimateTooltipSupportingSharedValues) =>
+export const handleMaskPressOut = (onPopoverContentVisible?: (value?: boolean) => void) => () =>
+        onPopoverContentVisible?.(false)
+
+export const animatePopoverContent =
+        ({createEntrySharedValueAnimator, type, createExitSharedValueAnimator}: AnimatePopoverContentOptions) =>
+        ({transformSharedValue, heightSharedValue, opacitySharedValue}: AnimatePopoverContentSharedValues) =>
         (visible?: boolean) => {
                 if (typeof visible !== 'boolean') {
                         return
@@ -198,7 +197,7 @@ export const animateTooltipSupporting =
                 const isHeightSharedValue =
                         type &&
                         (
-                                [TOOLTIP_TYPE.CONTEXT_MENU, TOOLTIP_TYPE.TEXT_INPUT_PICKER] as readonly TooltipType[]
+                                [POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]
                         ).includes(type)
 
                 const sharedValue = isHeightSharedValue ? heightSharedValue : transformSharedValue

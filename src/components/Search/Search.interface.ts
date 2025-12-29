@@ -1,16 +1,16 @@
-import type {CommonProps, ComponentStatus, EventName, LayoutRectangle, State, TriggerOn} from '@/constants'
+import type {CommonProps, ComponentStatus, EventName, State, TriggerOn} from '@/constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes, RefObject} from 'react'
 import type {PressableProps, TextInput, TextInputProps, TextStyle, View, ViewStyle} from 'react-native'
-import type {AnimatedStyle} from 'react-native-reanimated'
+import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {ElevationLevel} from '../Elevation'
-import type {ListData, ListSelectType} from '../List'
+import type {ListItemData, ListSelectType} from '../List'
 import type {OnVirtualListCloseOptions} from '../Virtual-list'
 
 export interface SearchProps
         extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers>,
                 CommonProps {
-        data?: ListData[]
+        data?: ListItemData[]
         disabled?: boolean
         filter?: boolean
         leading?: React.JSX.Element
@@ -26,7 +26,6 @@ export interface SearchProps
 }
 
 export interface RenderSearchProps extends SearchProps {
-        containerRef: RefObject<View | null>
         contentAnimatedStyle: AnimatedStyle<ViewStyle>
         elevation?: ElevationLevel
         eventName?: EventName
@@ -39,10 +38,9 @@ export interface RenderSearchProps extends SearchProps {
 
 export type SearchBaseProps = SearchProps
 export interface SearchState {
-        data?: ListData[]
+        data?: ListItemData[]
         elevation?: ElevationLevel
         eventName?: EventName
-        layout: LayoutRectangle
         listExpanded?: boolean
         listVisible?: boolean
         nextChangeTextEvent?: () => void
@@ -61,3 +59,7 @@ export interface HandleSearchContainerLayoutOptions {
 }
 
 export type UseSearchTextInputAnimatedOptions = Pick<RenderSearchProps, 'disabled'> & Pick<SearchState, 'listExpanded'>
+export interface AnimateSearchBorderRadiusOptions {
+        borderBottomRadiusSharedValue: SharedValue<number>
+        borderTopRadiusSharedValue: SharedValue<number>
+}

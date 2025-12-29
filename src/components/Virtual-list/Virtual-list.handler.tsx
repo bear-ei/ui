@@ -5,7 +5,7 @@ import type {LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent} from 'r
 import {Platform} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {ListData} from '../List'
+import type {ListItemData} from '../List'
 import type {
         CloseVirtualListOptions,
         HandleDragEndOptions,
@@ -141,9 +141,10 @@ const triggerVirtualListClose =
         (draft: WritableDraft<VirtualListState>) =>
         (indexKey?: string) => {
                 if (enableAutoSelect && indexKey === activeKey && onClose) {
-                        const data = (draft.virtualListData ?? []) as ListData[]
-                        const datumIndex = data.findIndex((datum: ListData) => datum.indexKey === indexKey)
+                        const data = (draft.virtualListData ?? []) as ListItemData[]
+                        const datumIndex = data.findIndex((datum: ListItemData) => datum.indexKey === indexKey)
                         const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
+
                         draft.nextCloseEvent = () => onClose?.({activeKey: nextActiveKey, indexKey})
 
                         return

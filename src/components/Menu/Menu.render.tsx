@@ -1,7 +1,8 @@
 import {SHAPE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import {Tooltip} from '../Tooltip'
+import {ELEVATION} from '../Elevation'
+import {Tooltip} from '../Popover'
 import {MenuList} from './Menu-list'
 import type {RenderMenuProps} from './Menu.interface'
 
@@ -10,7 +11,10 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                 {
                         activeKey,
                         activeKeys,
+                        closeTrailing,
                         data,
+                        elevation = ELEVATION.LEVEL_2,
+                        emptyElement,
                         focusedIndex,
                         id,
                         listType,
@@ -20,7 +24,9 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                         onKeyDown,
                         onVisible,
                         shape = SHAPE.SMALL,
+                        size,
                         testID,
+                        trailingTriggerOn,
                         type,
                         visible,
                         ...tooltipProps
@@ -31,7 +37,9 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                         <MenuList
                                 activeKey={activeKey}
                                 activeKeys={activeKeys}
+                                closeTrailing={closeTrailing}
                                 data={data}
+                                emptyElement={emptyElement}
                                 focusedIndex={focusedIndex}
                                 listType={listType}
                                 multiple={multiple}
@@ -40,7 +48,9 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                                 onKeyDown={onKeyDown}
                                 ref={ref}
                                 shape={shape}
+                                size={size}
                                 testID={`menu__list--${id}`}
+                                trailingTriggerOn={trailingTriggerOn}
                                 type={type}
                         />
                 )
@@ -49,10 +59,12 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                         <View
                                 className='flex-1'
                                 testID={testID ?? `menu--${id}`}
+                                // {...(['web', 'windows', 'macos'].includes(Platform.OS) && {onKeyDown})}
                         >
                                 <Tooltip
                                         {...tooltipProps}
-                                        elevation={2}
+                                        onKeyDown={onKeyDown}
+                                        elevation={elevation}
                                         onVisible={onVisible}
                                         shape={shape}
                                         supporting={supporting}

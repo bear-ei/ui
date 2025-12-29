@@ -1,15 +1,17 @@
 import {COMPONENT_STATUS, EVENT_NAME, STATE} from '@/constants'
-import {emitter, MODAL_TYPE} from '@/contexts'
 import type {AnimateSharedValueTo, StateEvent} from '@/hooks'
 import {debounce} from '@/utils'
 import type {WritableDraft} from 'immer'
-import type {TextInput, View} from 'react-native'
+import type {TextInput} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {ListData} from '../List'
+import type {ListItemData} from '../List'
 import type {OnVirtualListCloseOptions} from '../Virtual-list'
-import type {AnimateSearchBorderRadiusOptions, SearchListProps} from './Search-list'
-import type {HandleSearchInputStateChangeOptions, SearchState} from './Search.interface'
+import type {
+        AnimateSearchBorderRadiusOptions,
+        HandleSearchInputStateChangeOptions,
+        SearchState
+} from './Search.interface'
 
 export const handleSearchInputStateChange =
         ({eventName, ref, state}: HandleSearchInputStateChangeOptions) =>
@@ -92,37 +94,16 @@ export const updateSearchListExpanded = (setState: Updater<SearchState>) => (vis
                 draft.elevation = 4
         })
 
-export const createSearchLayoutMeasureHandler =
-        (setState: Updater<SearchState>) => (containerCurrent?: View | null) => (listVisible?: boolean) =>
-                listVisible &&
-                containerCurrent?.measure((x, y, width, height, pageX, pageY) =>
-                        setState(draft => {
-                                draft.layout.height = height
-                                draft.layout.pageX = pageX
-                                draft.layout.pageY = pageY
-                                draft.layout.width = width
-                                draft.layout.x = x
-                                draft.layout.y = y
-                        })
-                )
-
-export const emitSearchList = (id: string) => (props: SearchListProps) => (visible?: boolean) =>
-        typeof visible === 'boolean' &&
-        emitter.emit('modal', {id: `search__list--${id}`, type: MODAL_TYPE.SEARCH_LIST, props: {...props, visible}})
-
-export const unmountSearchList = (id: string) => () =>
-        emitter.emit('modal', {id: `search__list--${id}`, type: MODAL_TYPE.SEARCH_LIST})
-
 export const animateSearchColor =
         (animateSharedValueTo: AnimateSharedValueTo) =>
         (colorSharedValue: SharedValue<number>) =>
         (disabled?: boolean) =>
                 animateSharedValueTo({sharedValue: colorSharedValue})(disabled ? 0 : 1)
 
-export const updateSearchListData = (setState: Updater<SearchState>) => (data?: ListData[]) =>
+export const updateSearchListData = (setState: Updater<SearchState>) => (data?: ListItemData[]) =>
         data &&
         setState(draft => {
-                draft.data = data as WritableDraft<ListData>[]
+                draft.data = data as WritableDraft<ListItemData>[]
         })
 
 export const animateSearchBorderRadius =
@@ -143,10 +124,6 @@ export const handleSearchListActive =
                 onListActive?.(indexKey)
         }
 
-/**
-	 * 
-	
-	 */
 export const handleSearchListClose =
         (ref: React.RefObject<TextInput | null> | undefined) =>
         (onListClose?: (options: OnVirtualListCloseOptions) => void) =>
@@ -154,7 +131,7 @@ export const handleSearchListClose =
                 ref?.current?.focus()
 
                 // setState(draft => {
-                //         draft.data = data as WritableDraft<ListData>[]
+                //         draft.data = data as WritableDraft<ListItemData>[]
                 // })
 
                 onListClose?.(options)

@@ -1,6 +1,6 @@
 import {arrayEqual} from '@/utils'
 import type {Updater} from 'use-immer'
-import type {ListData} from '../List'
+import type {ListItemData} from '../List'
 import type {HandleMenuKeyDownOptions, MenuState} from './Menu.interface'
 
 const handleMenuActiveKeys =
@@ -84,7 +84,7 @@ export const handleMenuKeyDown = ({
 }
 
 export const handleMenuKeyDownEvent =
-        (data?: ListData[]) => (setState: Updater<MenuState>) => (event: React.KeyboardEvent) => {
+        (data?: ListItemData[]) => (setState: Updater<MenuState>) => (event: React.KeyboardEvent) => {
                 const {code} = event
 
                 if (['ArrowUp', 'ArrowDown'].includes(code)) {

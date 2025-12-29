@@ -1,6 +1,6 @@
 import type {ElevationLevel} from '@/components/Elevation'
 import type {ListProps, ListType} from '@/components/List'
-import type {TooltipType} from '@/components/Tooltip'
+import type {TooltipType} from '@/components/Popover'
 import type {CommonProps} from '@/constants'
 import type {Theme} from '@/contexts'
 import type {ShapeType} from '@bearei/theme-token'

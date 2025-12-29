@@ -1,5 +1,4 @@
-import type {ElevationLevel} from '@/components/Elevation'
-import type {ComponentStatus, ShapeType, TriggerOn} from '@/constants'
+import type {ComponentStatus} from '@/constants'
 import type {Theme} from '@/contexts'
 import type {
         AnimateSharedValueTo,
@@ -7,28 +6,32 @@ import type {
         InteractionHandlers,
         UseHandleStateEventOptions
 } from '@/hooks'
-import type {JSX, RefAttributes} from 'react'
+import type {RefAttributes} from 'react'
 import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {TooltipType} from '../Tooltip.interface'
-import type {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
+import type {PopoverContentPosition, PopoverProps} from '..'
 
-export type SupportingPosition = (typeof SUPPORTING_POSITION)[keyof typeof SUPPORTING_POSITION]
-export interface TooltipSupportingProps extends ViewProps, RefAttributes<View>, UseHandleStateEventOptions {
+export interface PopoverContentProps
+        extends ViewProps,
+                RefAttributes<View>,
+                UseHandleStateEventOptions,
+                Pick<
+                        PopoverProps,
+                        | 'elevation'
+                        | 'onVisible'
+                        | 'shape'
+                        | 'content'
+                        | 'popoverContentPosition'
+                        | 'triggerEvent'
+                        | 'type'
+                        | 'visible'
+                > {
         containerLayout?: LayoutRectangle
-        elevation?: ElevationLevel
         onClosed?: () => void
-        onVisible?: (value?: boolean) => void
-        shape?: ShapeType
-        supporting?: string | JSX.Element
-        supportingPosition?: SupportingPosition
-        triggerEvent?: TriggerOn
-        type?: TooltipType
-        visible?: boolean
 }
 
-export interface RenderTooltipSupportingProps extends TooltipSupportingProps {
+export interface RenderPopoverContentProps extends PopoverContentProps {
         contentAnimatedStyle?: AnimatedStyle<ViewStyle>
         height?: number
         interactionHandlers: InteractionHandlers
@@ -40,8 +43,8 @@ export interface RenderTooltipSupportingProps extends TooltipSupportingProps {
         windowWidth?: number
 }
 
-export type TooltipSupportingBaseProps = TooltipSupportingProps
-export interface TooltipSupportingState {
+export type PopoverContentBaseProps = PopoverContentProps
+export interface PopoverContentState {
         invert?: boolean
         layout: LayoutRectangle
         menuPosition: {top?: number; left?: number}
@@ -49,33 +52,33 @@ export interface TooltipSupportingState {
         status: ComponentStatus
 }
 
-export type HandleTooltipSupportingStateEventChangeOptions = HandleStateEventChangeOptions &
-        Pick<TooltipSupportingProps, 'onVisible' | 'triggerEvent'>
+export type HandlePopoverContentStateEventChangeOptions = HandleStateEventChangeOptions &
+        Pick<PopoverContentProps, 'onVisible' | 'triggerEvent'>
 
-export interface UseTooltipSupportingAnimatedOptions extends Pick<RenderTooltipSupportingProps, 'type' | 'visible'> {
+export interface UsePopoverContentAnimatedOptions extends Pick<RenderPopoverContentProps, 'type' | 'visible'> {
         height?: number
         onClose?: (value?: boolean) => void
-        position?: SupportingPosition
+        position?: PopoverContentPosition
         status?: ComponentStatus
 }
 
-export interface UpdateTooltipSupportingStatusOptions {
-        setState: Updater<TooltipSupportingState>
+export interface UpdatePopoverContentStatusOptions {
+        setState: Updater<PopoverContentState>
         windowWidth: number
 }
 
-export interface AnimateTooltipSupportingOptions extends UseTooltipSupportingAnimatedOptions {
+export interface AnimatePopoverContentOptions extends UsePopoverContentAnimatedOptions {
         createEntrySharedValueAnimator: AnimateSharedValueTo
         createExitSharedValueAnimator: AnimateSharedValueTo
 }
 
-export interface AnimateTooltipSupportingSharedValues {
+export interface AnimatePopoverContentSharedValues {
         heightSharedValue: SharedValue<number>
         opacitySharedValue: SharedValue<number>
         transformSharedValue: SharedValue<number>
 }
 
-export interface UpdateTooltipSupportingInvertOptions {
+export interface UpdatePopoverContentInvertOptions {
         height: number
         width: number
         windowHeight: number
@@ -84,13 +87,13 @@ export interface UpdateTooltipSupportingInvertOptions {
         y: number
 }
 
-export interface UpdateTooltipSupportingPositionOptions
-        extends Pick<TooltipSupportingProps, 'supportingPosition' | 'type' | 'containerLayout'> {
-        setState: Updater<TooltipSupportingState>
+export interface UpdatePopoverContentPositionOptions
+        extends Pick<PopoverContentProps, 'popoverContentPosition' | 'type' | 'containerLayout'> {
+        setState: Updater<PopoverContentState>
         theme: Theme
 }
 
-export interface HandleTooltipSupportingPositionWindowOptions {
+export interface HandlePopoverContentPositionWindowOptions {
         layout: LayoutRectangle
         visible?: boolean
         windowHeight: number

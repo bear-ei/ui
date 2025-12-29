@@ -3,29 +3,29 @@ import {emitter, MODAL_TYPE} from '@/contexts'
 import type {StateEvent} from '@/hooks'
 import type {MouseEvent} from 'react-native'
 import type {Updater} from 'use-immer'
-import type {TooltipSupportingProps} from './Tooltip-supporting'
-import {TOOLTIP_TYPE} from './Tooltip.enum'
+import type {PopoverContentProps} from './Popover-content'
+import {POPOVER_TYPE} from './Popover.enum'
 import type {
-        EmitTooltipSupportingOptions,
-        HandleTooltipStateEventChangeOptions,
-        TooltipState,
-        UpdateTooltipContextMenuLayoutOptions
-} from './Tooltip.interface'
+        EmitPopoverOptions,
+        HandlePopoverStateEventChangeOptions,
+        PopoverState,
+        UpdatePopoverContextMenuLayoutOptions
+} from './Popover.interface'
 
-export const updateTooltipVisibility =
-        (onVisible?: (value?: boolean) => void) => (setState: Updater<TooltipState>) => (value?: boolean) =>
+export const updatePopoverVisibility =
+        (onVisible?: (value?: boolean) => void) => (setState: Updater<PopoverState>) => (value?: boolean) =>
                 typeof value === 'boolean' &&
                 setState(draft => {
-                        if (draft.tooltipVisible !== value && onVisible) {
+                        if (draft.popoverVisible !== value && onVisible) {
                                 draft.nextVisibilityEvent = () => onVisible?.(value)
                         }
 
-                        draft.tooltipVisible = value
+                        draft.popoverVisible = value
                 })
 
-export const updateTooltipContextMenuLayout =
-        (setState: Updater<TooltipState>) =>
-        ({disabled, onVisible}: UpdateTooltipContextMenuLayoutOptions) =>
+export const updatePopoverContextMenuLayout =
+        (setState: Updater<PopoverState>) =>
+        ({disabled, onVisible}: UpdatePopoverContextMenuLayoutOptions) =>
         (event: MouseEvent) => {
                 if (disabled) {
                         return
@@ -43,12 +43,12 @@ export const updateTooltipContextMenuLayout =
                 })
         }
 
-export const handleTooltipStateChange = ({
+export const handlePopoverStateChange = ({
         eventName,
         onVisible,
         triggerEvent = TRIGGER_ON.HOVER,
         type
-}: HandleTooltipStateEventChangeOptions) => {
+}: HandlePopoverStateEventChangeOptions) => {
         const trigger = {
                 [TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
                 [TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
@@ -56,7 +56,7 @@ export const handleTooltipStateChange = ({
         } as Record<TriggerOn, readonly EventName[]>
 
         return (_event: StateEvent) => {
-                if (eventName === EVENT_NAME.LAYOUT || type === TOOLTIP_TYPE.CONTEXT_MENU) {
+                if (eventName === EVENT_NAME.LAYOUT || type === POPOVER_TYPE.CONTEXT_MENU) {
                         return
                 }
 
@@ -68,21 +68,21 @@ export const handleTooltipStateChange = ({
         }
 }
 
-export const emitTooltipSupporting =
+export const emitPopover =
         (id: string) =>
-        ({supporting, ...props}: TooltipSupportingProps) =>
-        ({visible, containerLayout}: EmitTooltipSupportingOptions) =>
+        ({content, ...props}: PopoverContentProps) =>
+        ({visible, containerLayout}: EmitPopoverOptions) =>
                 typeof visible === 'boolean' &&
-                supporting &&
+                content &&
                 emitter.emit('modal', {
-                        id: `tooltip__supporting--${id}`,
-                        props: {...props, containerLayout, visible, supporting},
-                        type: MODAL_TYPE.TOOL_TIP
+                        id: `popover--${id}`,
+                        props: {...props, containerLayout, visible, content},
+                        type: MODAL_TYPE.POPOVER
                 })
 
-export const unmountTooltipSupporting = (id?: string) => () =>
+export const unmountPopover = (id?: string) => () =>
         emitter.emit('modal', {
-                id: `tooltip__supporting--${id}`,
-                type: MODAL_TYPE.TOOL_TIP,
+                id: `popover--${id}`,
+                type: MODAL_TYPE.POPOVER,
                 unmount: true
         })

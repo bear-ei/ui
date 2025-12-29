@@ -1,5 +1,5 @@
 import {List, LIST_SELECT_TYPE, LIST_TYPE} from '@/components/List'
-import {TOOLTIP_TYPE} from '@/components/Tooltip'
+import {POPOVER_TYPE} from '@/components/Popover'
 import type {InteractionHandlers} from '@/hooks'
 import {classesName, platformValue, shapeClasses} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
@@ -39,10 +39,11 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
 
                 return (
                         <View
-                                {...(['web', 'windows', 'macos'].includes(Platform.OS) && {onKeyDown})}
+                                {...(['web', 'windows', 'macos'].includes(Platform.OS) &&
+                                        type === POPOVER_TYPE.CONTEXT_MENU && {onKeyDown})}
                                 className={classesName(
                                         'overflow-hidden bg-[--color-surface-container] outline-none',
-                                        {['w-[11.25rem]']: type === TOOLTIP_TYPE.CONTEXT_MENU},
+                                        {['w-[11.25rem]']: type === POPOVER_TYPE.CONTEXT_MENU},
                                         shapeClasses(shape)
                                 )}
                                 ref={ref}

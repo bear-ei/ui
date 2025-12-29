@@ -87,6 +87,29 @@ export interface RenderListItemProps extends ListItemProps {
 }
 
 export type ListItemBaseProps = ListItemProps
+export interface ListItemData
+        extends Pick<
+                ListItemProps,
+                | 'contentStyle'
+                | 'dependencies'
+                | 'headline'
+                | 'leading'
+                | 'primaryButtonDisabled'
+                | 'primaryButtonLabelText'
+                | 'primaryButtonLoading'
+                | 'primaryButtonStyle'
+                | 'secondaryButtonDisabled'
+                | 'secondaryButtonLabelText'
+                | 'secondaryButtonLoading'
+                | 'secondaryButtonStyle'
+                | 'supporting'
+                | 'supportingTextNumberOfLines'
+                | 'trailing'
+                | 'trailingDisabled'
+        > {
+        indexKey: string
+}
+
 export interface ListItemState {
         afterAffordanceExpanded?: boolean
         eventName?: EventName

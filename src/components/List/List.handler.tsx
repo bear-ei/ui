@@ -4,10 +4,10 @@ import {type Size, SIZE} from '@bearei/theme-token'
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
 import type {OnVirtualListCloseOptions, RenderVirtualListItemInfo} from '../Virtual-list'
+import type {ListItemData} from './List-item'
 import {LIST_SELECT_TYPE} from './List.enum'
 import type {
         CreateRenderListItemOptions,
-        ListData,
         ListState,
         UpdateListActiveStateOptions,
         UpdateListAffordanceActiveStateOptions
@@ -152,7 +152,7 @@ export const triggerListClose =
 
 export const createListItemRenderer =
         ({renderItem, ...options}: CreateRenderListItemOptions) =>
-        (props: RenderVirtualListItemInfo<ListData>) => {
+        (props: RenderVirtualListItemInfo<ListItemData>) => {
                 const itemElement =
                         renderItem ?
                                 renderItem({...options, ...props})

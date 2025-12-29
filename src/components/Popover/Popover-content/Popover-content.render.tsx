@@ -7,16 +7,15 @@ import {classesName, platformValue, shapeClasses, typographyClasses} from '@/uti
 import {SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import React, {cloneElement, forwardRef, isValidElement} from 'react'
 import {Platform, Pressable, Text, View, type ViewStyle} from 'react-native'
-import {TOOLTIP_TYPE} from '../Tooltip.enum'
-import type {TooltipType} from '../Tooltip.interface'
-import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
-import {getSafeMenuPosition} from './Tooltip-supporting.handler'
-import type {RenderTooltipSupportingProps} from './Tooltip-supporting.interface'
+import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverType} from '..'
+import {getSafeMenuPosition} from './Popover-content.handler'
+import type {RenderPopoverContentProps} from './Popover-content.interface'
 
-export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingProps>(
+export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
         (
                 {
                         containerLayout,
+                        content,
                         contentAnimatedStyle,
                         elevation,
                         height = 0,
@@ -24,9 +23,8 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                         interactionHandlers,
                         menuPosition,
                         onMaskPressOut,
+                        popoverContentPosition = POPOVER_CONTENT_POSITION.VERTICAL_START,
                         shape = SHAPE.EXTRA_SMALL,
-                        supporting,
-                        supportingPosition = SUPPORTING_POSITION.VERTICAL_START,
                         testID,
                         type,
                         visible,
@@ -49,16 +47,16 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                 const isMenuOrPicker =
                         type &&
                         (
-                                [TOOLTIP_TYPE.CONTEXT_MENU, TOOLTIP_TYPE.TEXT_INPUT_PICKER] as readonly TooltipType[]
+                                [POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]
                         ).includes(type)
 
                 const position = {
-                        [SUPPORTING_POSITION.VERTICAL_START]: () => {
+                        [POPOVER_CONTENT_POSITION.VERTICAL_START]: () => {
                                 const x = containerX - (width - containerWidth) / 2
                                 const y =
                                         containerY -
                                         height -
-                                        (type === TOOLTIP_TYPE.TEXT_INPUT_PICKER ?
+                                        (type === POPOVER_TYPE.TEXT_INPUT_PICKER ?
                                                 theme.token.spacing.none
                                         :       theme.token.spacing.extraSmall)
 
@@ -74,12 +72,12 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 
                                 return {left, top: y}
                         },
-                        [SUPPORTING_POSITION.VERTICAL_END]: () => {
+                        [POPOVER_CONTENT_POSITION.VERTICAL_END]: () => {
                                 const x = containerX - (width - containerWidth) / 2
                                 const y =
                                         containerY +
                                         containerHeight +
-                                        (type === TOOLTIP_TYPE.TEXT_INPUT_PICKER ?
+                                        (type === POPOVER_TYPE.TEXT_INPUT_PICKER ?
                                                 theme.token.spacing.none
                                         :       theme.token.spacing.extraSmall)
 
@@ -95,7 +93,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 
                                 return {left, top: y}
                         },
-                        [SUPPORTING_POSITION.HORIZONTAL_START]: () => {
+                        [POPOVER_CONTENT_POSITION.HORIZONTAL_START]: () => {
                                 const x = containerX - width - theme.token.spacing.extraSmall
                                 const y = containerY - (height - containerHeight) / 2
                                 const {top} = getSafeMenuPosition({
@@ -110,7 +108,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
 
                                 return {left: x, top}
                         },
-                        [SUPPORTING_POSITION.HORIZONTAL_END]: () => {
+                        [POPOVER_CONTENT_POSITION.HORIZONTAL_END]: () => {
                                 const x = containerX + containerWidth + theme.token.spacing.extraSmall
                                 const y = containerY - (height - containerHeight) / 2
                                 const {top} = getSafeMenuPosition({
@@ -127,40 +125,40 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                         }
                 }
 
-                const plainPosition = position[supportingPosition]()
+                const plainPosition = position[popoverContentPosition]()
                 const mainElement = (
                         <View
-                                {...(type === TOOLTIP_TYPE.PLAIN && {onLayout})}
+                                {...(type === POPOVER_TYPE.PLAIN && {onLayout})}
                                 className={classesName(
                                         'absolute bottom-0 top-0 overflow-hidden',
                                         {
                                                 ['m-h-6 bg-[--color-inverse-surface] pb-1 pl-2 pr-2 pt-1']:
-                                                        type === TOOLTIP_TYPE.PLAIN,
+                                                        type === POPOVER_TYPE.PLAIN,
                                                 ['left-0 right-0']: isMenuOrPicker
                                         },
                                         shapeClasses(shape)
                                 )}
-                                testID={`tooltipSupporting__main--${id}`}
+                                testID={`popoverContent__main--${id}`}
                         >
-                                {isValidElement(supporting) ?
+                                {isValidElement(content) && type !== POPOVER_TYPE.TOOLTIP ?
                                         <View
                                                 {...(isMenuOrPicker && {onLayout})}
-                                                testID={`tooltipSupporting__supporting--${id}`}
+                                                testID={`popoverContent__supporting--${id}`}
                                         >
                                                 {isMenuOrPicker ?
                                                         cloneElement<MenuProps>(
-                                                                supporting as React.ReactElement<
+                                                                content as React.ReactElement<
                                                                         MenuProps,
                                                                         string | React.JSXElementConstructor<unknown>
                                                                 >,
                                                                 {...mainInteractionHandlers, visible}
                                                         )
-                                                :       supporting}
+                                                :       content}
                                         </View>
                                 :       <Text
                                                 ellipsizeMode='tail'
                                                 numberOfLines={1}
-                                                testID={`tooltipSupporting__supportingText--${id}`}
+                                                testID={`popoverContent__supportingText--${id}`}
                                                 className={classesName(
                                                         'select-none text-center',
                                                         typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.SMALL)({
@@ -168,7 +166,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                         })
                                                 )}
                                         >
-                                                {supporting}
+                                                {content}
                                         </Text>
                                 }
                         </View>
@@ -187,7 +185,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                 {
                                                         height: platformValue(height),
                                                         width: platformValue(width),
-                                                        ...(type === TOOLTIP_TYPE.CONTEXT_MENU ?
+                                                        ...(type === POPOVER_TYPE.CONTEXT_MENU ?
                                                                 {
                                                                         left: platformValue(
                                                                                 menuPosition.left ??
@@ -205,29 +203,29 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                 } as ViewStyle,
                                                 contentAnimatedStyle
                                         ]}
-                                        testID={testID ?? `tooltipSupporting__supporting--${id}`}
+                                        testID={testID ?? `popoverContent__supporting--${id}`}
                                 >
                                         {isMenuOrPicker ?
                                                 <View
                                                         className='relative flex-1 self-stretch'
-                                                        testID={`tooltipSupporting_content--${id}`}
+                                                        testID={`popoverContent_content--${id}`}
                                                 >
                                                         {mainElement}
                                                 </View>
                                         :       <Pressable
                                                         {...mainInteractionHandlers}
                                                         className='relative flex-1 self-stretch outline-none'
-                                                        testID={`tooltipSupporting_content--${id}`}
+                                                        testID={`popoverContent_content--${id}`}
                                                 >
                                                         {mainElement}
                                                 </Pressable>
                                         }
 
-                                        {elevation && (
+                                        {typeof elevation === 'number' && (
                                                 <Elevation
                                                         level={elevation}
                                                         shape={shape}
-                                                        testID={`tooltipSupporting_elevation--${id}`}
+                                                        testID={`popoverContent_elevation--${id}`}
                                                 />
                                         )}
                                 </AnimatedView>
@@ -237,7 +235,7 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
                                                 backgroundColor={theme.token.scheme.scrim}
                                                 onPressOut={onMaskPressOut}
                                                 opacity={theme.token.opacity.level0}
-                                                testID={`tooltipSupporting__mask--${id}`}
+                                                testID={`popoverContent__mask--${id}`}
                                                 visible={visible}
                                         />
                                 )}
@@ -246,4 +244,4 @@ export const RenderTooltipSupporting = forwardRef<View, RenderTooltipSupportingP
         }
 )
 
-RenderTooltipSupporting.displayName = 'RenderTooltipSupporting'
+RenderPopoverContent.displayName = 'RenderPopoverContent'

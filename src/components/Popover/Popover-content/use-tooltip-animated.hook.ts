@@ -5,22 +5,20 @@ import {DURATION, EASING} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
-import {TOOLTIP_TYPE} from '../Tooltip.enum'
-import type {TooltipType} from '../Tooltip.interface'
-import {SUPPORTING_POSITION} from './Tooltip-supporting.enum'
-import {animateTooltipSupporting} from './Tooltip-supporting.handler'
-import type {UseTooltipSupportingAnimatedOptions} from './Tooltip-supporting.interface'
+import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverType} from '..'
+import {animatePopoverContent} from './Popover-content.handler'
+import type {UsePopoverContentAnimatedOptions} from './Popover-content.interface'
 
-export const useTooltipSupportingAnimated = ({
+export const usePopoverContentAnimated = ({
         height = 0,
         onClose,
-        position = SUPPORTING_POSITION.VERTICAL_START,
+        position = POPOVER_CONTENT_POSITION.VERTICAL_START,
         status,
-        type = TOOLTIP_TYPE.PLAIN,
+        type = POPOVER_TYPE.PLAIN,
         visible
-}: UseTooltipSupportingAnimatedOptions) => {
+}: UsePopoverContentAnimatedOptions) => {
         const isMenuOrPicker = (
-                [TOOLTIP_TYPE.CONTEXT_MENU, TOOLTIP_TYPE.TEXT_INPUT_PICKER] as readonly TooltipType[]
+                [POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]
         ).includes(type)
 
         const heightSharedValue = useSharedValue(0)
@@ -62,7 +60,7 @@ export const useTooltipSupportingAnimated = ({
                                                 )
                                         }
                                 :       {
-                                                ...(position === SUPPORTING_POSITION.VERTICAL_START && {
+                                                ...(position === POPOVER_CONTENT_POSITION.VERTICAL_START && {
                                                         transform: [
                                                                 {
                                                                         translateY: platformValue(
@@ -75,7 +73,7 @@ export const useTooltipSupportingAnimated = ({
                                                                 }
                                                         ]
                                                 }),
-                                                ...(position === SUPPORTING_POSITION.VERTICAL_END && {
+                                                ...(position === POPOVER_CONTENT_POSITION.VERTICAL_END && {
                                                         transform: [
                                                                 {
                                                                         translateY: platformValue(
@@ -88,7 +86,7 @@ export const useTooltipSupportingAnimated = ({
                                                                 }
                                                         ]
                                                 }),
-                                                ...(position === SUPPORTING_POSITION.HORIZONTAL_START && {
+                                                ...(position === POPOVER_CONTENT_POSITION.HORIZONTAL_START && {
                                                         transform: [
                                                                 {
                                                                         translateX: platformValue(
@@ -101,7 +99,7 @@ export const useTooltipSupportingAnimated = ({
                                                                 }
                                                         ]
                                                 }),
-                                                ...(position === SUPPORTING_POSITION.HORIZONTAL_END && {
+                                                ...(position === POPOVER_CONTENT_POSITION.HORIZONTAL_END && {
                                                         transform: [
                                                                 {
                                                                         translateX: platformValue(
@@ -120,7 +118,7 @@ export const useTooltipSupportingAnimated = ({
 
         const runAnimate = useMemo(
                 () =>
-                        animateTooltipSupporting({
+                        animatePopoverContent({
                                 createEntrySharedValueAnimator,
                                 createExitSharedValueAnimator,
                                 onClose,

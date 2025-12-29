@@ -9,36 +9,36 @@ import {debounce} from '@/utils'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {TOOLTIP_TYPE} from './Tooltip.enum'
+import {POPOVER_TYPE} from './Popover.enum'
 import {
-        emitTooltipSupporting,
-        handleTooltipStateChange,
-        unmountTooltipSupporting,
-        updateTooltipContextMenuLayout,
-        updateTooltipVisibility
-} from './Tooltip.handler'
-import type {TooltipBaseProps, TooltipState} from './Tooltip.interface'
-import {RenderTooltip} from './Tooltip.render'
+        emitPopover,
+        handlePopoverStateChange,
+        unmountPopover,
+        updatePopoverContextMenuLayout,
+        updatePopoverVisibility
+} from './Popover.handler'
+import type {PopoverBaseProps, PopoverState} from './Popover.interface'
+import {RenderPopover} from './Popover.render'
 
-export const TooltipBase = forwardRef<View, TooltipBaseProps>(
+export const PopoverBase = forwardRef<View, PopoverBaseProps>(
         (
                 {
+                        content,
                         defaultVisible,
                         disabled: isDisabled = false,
                         elevation,
                         onVisible: rawOnVisible,
+                        popoverContentPosition,
                         shape,
-                        supporting,
-                        supportingPosition,
                         triggerEvent,
-                        type = TOOLTIP_TYPE.PLAIN,
+                        type = POPOVER_TYPE.PLAIN,
                         visible: rawVisible,
-                        ...renderTooltipProps
+                        ...renderPopoverProps
                 },
                 ref
         ) => {
-                const [{tooltipVisible: isTooltipVisible, nextVisibilityEvent, menuContainerLayout}, setState] =
-                        useImmer<TooltipState>({})
+                const [{popoverVisible: isPopoverVisible, nextVisibilityEvent, menuContainerLayout}, setState] =
+                        useImmer<PopoverState>({})
 
                 useClearComponentEvent(setState)
 
@@ -46,62 +46,62 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                 const containerRef = useRef<View>(null)
                 const id = useId()
                 const onVisible = useMemo(
-                        () => debounce(updateTooltipVisibility(rawOnVisible)(setState))(150),
+                        () => debounce(updatePopoverVisibility(rawOnVisible)(setState))(150),
                         [rawOnVisible, setState]
                 )
 
-                const onClosed = useMemo(() => debounce(unmountTooltipSupporting(id))(150), [id])
+                const onClosed = useMemo(() => debounce(unmountPopover(id))(150), [id])
                 const onContextMenu = useMemo(
-                        () => updateTooltipContextMenuLayout(setState)({onVisible, disabled: isDisabled}),
+                        () => updatePopoverContextMenuLayout(setState)({onVisible, disabled: isDisabled}),
                         [isDisabled, onVisible, setState]
                 )
 
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleTooltipStateChange({...options, onVisible, state, triggerEvent, type})(event),
+                                handlePopoverStateChange({...options, onVisible, state, triggerEvent, type})(event),
                         [onVisible, triggerEvent, type]
                 )
 
                 const interactionHandlers = useInteractionStateEvent({
-                        ...renderTooltipProps,
+                        ...renderPopoverProps,
                         disabled: isDisabled,
                         onStateEventChange
                 })
 
                 const runEmit = useMemo(
                         () =>
-                                emitTooltipSupporting(id)({
+                                emitPopover(id)({
+                                        content,
                                         elevation,
                                         onClosed,
                                         onVisible,
+                                        popoverContentPosition,
                                         shape,
-                                        supporting,
-                                        supportingPosition,
                                         triggerEvent,
                                         type
                                 }),
-                        [elevation, id, onClosed, onVisible, shape, supporting, supportingPosition, triggerEvent, type]
+                        [content, elevation, id, onClosed, onVisible, popoverContentPosition, shape, triggerEvent, type]
                 )
 
-                const runUnmount = useMemo(() => unmountTooltipSupporting(id), [id])
+                const runUnmount = useMemo(() => unmountPopover(id), [id])
                 const runUpdateVisible = useMemo(
-                        () => debounce(updateTooltipVisibility(rawOnVisible)(setState))(150),
+                        () => debounce(updatePopoverVisibility(rawOnVisible)(setState))(150),
                         [rawOnVisible, setState]
                 )
 
                 useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
                 useEffect(() => {
-                        if (type === TOOLTIP_TYPE.CONTEXT_MENU) {
-                                runEmit({containerLayout: menuContainerLayout, visible: isTooltipVisible})
+                        if (type === POPOVER_TYPE.CONTEXT_MENU) {
+                                runEmit({containerLayout: menuContainerLayout, visible: isPopoverVisible})
 
                                 return
                         }
 
                         containerRef.current?.measureInWindow((x, y, width, height) =>
-                                runEmit({containerLayout: {x, y, width, height}, visible: isTooltipVisible})
+                                runEmit({containerLayout: {x, y, width, height}, visible: isPopoverVisible})
                         )
-                }, [isTooltipVisible, menuContainerLayout, runEmit, type])
+                }, [isPopoverVisible, menuContainerLayout, runEmit, type])
 
                 useEffect(() => {
                         runUpdateVisible(isVisible)
@@ -119,8 +119,8 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
                 )
 
                 return (
-                        <RenderTooltip
-                                {...renderTooltipProps}
+                        <RenderPopover
+                                {...renderPopoverProps}
                                 id={id}
                                 interactionHandlers={interactionHandlers}
                                 onContextMenu={onContextMenu}
@@ -131,4 +131,4 @@ export const TooltipBase = forwardRef<View, TooltipBaseProps>(
         }
 )
 
-TooltipBase.displayName = 'TooltipBase'
+PopoverBase.displayName = 'PopoverBase'

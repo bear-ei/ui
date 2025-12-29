@@ -10,36 +10,35 @@ import {
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {TOOLTIP_TYPE} from '../Tooltip.enum'
-import type {TooltipType} from '../Tooltip.interface'
+import {POPOVER_TYPE, type PopoverType} from '..'
 import {
-        getTooltipSupportingPosition,
+        getPopoverContentPosition,
         handleMaskPressOut,
-        handleTooltipSupportingStateChange,
-        updateTooltipSupportingClosed,
-        updateTooltipSupportingPosition,
-        updateTooltipSupportingStatus
-} from './Tooltip-supporting.handler'
-import type {TooltipSupportingBaseProps, TooltipSupportingState} from './Tooltip-supporting.interface'
-import {RenderTooltipSupporting} from './Tooltip-supporting.render'
-import {useTooltipSupportingAnimated} from './use-tooltip-supporting-animated.hook'
+        handlePopoverContentStateChange,
+        updatePopoverContentClosed,
+        updatePopoverContentPosition,
+        updatePopoverContentStatus
+} from './Popover-content.handler'
+import type {PopoverContentBaseProps, PopoverContentState} from './Popover-content.interface'
+import {RenderPopoverContent} from './Popover-content.render'
+import {usePopoverContentAnimated} from './use-tooltip-animated.hook'
 
-export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps>(
+export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
         (
                 {
                         containerLayout,
                         onClosed: rawOnClosed,
                         onVisible,
-                        supportingPosition,
+                        popoverContentPosition,
                         triggerEvent,
-                        type = TOOLTIP_TYPE.PLAIN,
+                        type = POPOVER_TYPE.TOOLTIP,
                         visible,
-                        ...renderTooltipSupportingProps
+                        ...renderPopoverContentProps
                 },
                 ref
         ) => {
                 const [{layout, status, invert: isInvert, menuPosition, nextClosedEvent}, setState] =
-                        useImmer<TooltipSupportingState>({
+                        useImmer<PopoverContentState>({
                                 layout: {} as LayoutRectangle,
                                 menuPosition: {},
                                 status: COMPONENT_STATUS.IDLE
@@ -52,24 +51,24 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                 const id = useId()
                 const theme = useTheme()
                 const isMenuOrPicker = (
-                        [TOOLTIP_TYPE.CONTEXT_MENU, TOOLTIP_TYPE.TEXT_INPUT_PICKER] as readonly TooltipType[]
+                        [POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]
                 ).includes(type)
 
-                const tooltipSupportingWidth =
+                const tooltipWidth =
                         isMenuOrPicker ?
-                                type === TOOLTIP_TYPE.TEXT_INPUT_PICKER ?
+                                type === POPOVER_TYPE.TEXT_INPUT_PICKER ?
                                         containerLayout?.width
                                 :       theme.token.spacing.extraSmall * 45
                         :       layout.width
 
                 const onClosed = useMemo(
-                        () => updateTooltipSupportingClosed(rawOnClosed)(setState),
+                        () => updatePopoverContentClosed(rawOnClosed)(setState),
                         [rawOnClosed, setState]
                 )
 
                 const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisible), [onVisible])
-                const position = getTooltipSupportingPosition(supportingPosition)(isInvert)
-                const {contentAnimatedStyle} = useTooltipSupportingAnimated({
+                const position = getPopoverContentPosition(popoverContentPosition)(isInvert)
+                const {contentAnimatedStyle} = usePopoverContentAnimated({
                         height: layout.height,
                         onClose: onClosed,
                         position,
@@ -80,32 +79,32 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
 
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleTooltipSupportingStateChange({...options, state, onVisible, triggerEvent})(
-                                        setState
-                                )(event),
+                                handlePopoverContentStateChange({...options, state, onVisible, triggerEvent})(setState)(
+                                        event
+                                ),
                         [onVisible, setState, triggerEvent]
                 )
 
                 const interactionHandlers = useInteractionStateEvent({
-                        ...renderTooltipSupportingProps,
+                        ...renderPopoverContentProps,
                         onStateEventChange
                 })
 
                 const runUpdateStatus = useMemo(
-                        () => updateTooltipSupportingStatus({setState, windowWidth}),
+                        () => updatePopoverContentStatus({setState, windowWidth}),
                         [setState, windowWidth]
                 )
 
                 const runUpdatePosition = useMemo(
                         () =>
-                                updateTooltipSupportingPosition({
+                                updatePopoverContentPosition({
                                         containerLayout,
+                                        popoverContentPosition,
                                         setState,
-                                        supportingPosition,
                                         theme,
                                         type
                                 })(containerRef),
-                        [containerLayout, setState, supportingPosition, theme, type]
+                        [containerLayout, setState, popoverContentPosition, theme, type]
                 )
 
                 useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
@@ -123,8 +122,8 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                 }, [nextClosedEvent])
 
                 return (
-                        <RenderTooltipSupporting
-                                {...renderTooltipSupportingProps}
+                        <RenderPopoverContent
+                                {...renderPopoverContentProps}
                                 containerLayout={containerLayout}
                                 contentAnimatedStyle={contentAnimatedStyle}
                                 height={layout.height}
@@ -132,12 +131,12 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
                                 interactionHandlers={interactionHandlers}
                                 menuPosition={menuPosition}
                                 onMaskPressOut={onMaskPressOut}
+                                popoverContentPosition={position}
                                 ref={containerRef}
-                                supportingPosition={position}
                                 theme={theme}
                                 type={type}
                                 visible={visible}
-                                width={tooltipSupportingWidth}
+                                width={tooltipWidth}
                                 windowHeight={windowHeight}
                                 windowWidth={windowWidth}
                         />
@@ -145,4 +144,4 @@ export const TooltipSupportingBase = forwardRef<View, TooltipSupportingBaseProps
         }
 )
 
-TooltipSupportingBase.displayName = 'TooltipSupportingBase'
+PopoverContentBase.displayName = 'PopoverContentBase'

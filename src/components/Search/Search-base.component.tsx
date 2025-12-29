@@ -1,18 +1,16 @@
-import {COMPONENT_STATUS, EVENT_NAME, type State, STATE} from '@/constants'
+import {COMPONENT_STATUS, type State, STATE} from '@/constants'
 import {
         type HandleStateEventChangeOptions,
         type StateEvent,
         useClearComponentEvent,
         useInteractionStateEvent
 } from '@/hooks'
-import {debounce, textSearch} from '@/utils'
+import {textSearch} from '@/utils'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import type {TextInput, View} from 'react-native'
+import type {TextInput} from 'react-native'
 import {useImmer} from 'use-immer'
 import {
-        createSearchLayoutMeasureHandler,
         handleSearchInputStateChange,
-        unmountSearchList,
         updateSearchInputValue,
         updateSearchListData,
         updateSearchListVisibility,
@@ -40,8 +38,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         filter,
                         leading,
                         // listActiveKey,
-                        // listCloseTrailing,
-                        // listEmptyElement,
                         // listItemSize,
                         // listSelectType,
                         // listTrailingTriggerOn,
@@ -50,6 +46,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         // onListClose: rawOnListClose,
                         trailing,
                         value: rawValue,
+
                         ...renderSearchProps
                 },
                 ref
@@ -59,7 +56,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 data,
                                 elevation,
                                 eventName,
-                                // layout,
                                 listExpanded: isListExpanded,
                                 listVisible: isListVisible,
                                 nextChangeTextEvent,
@@ -69,7 +65,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         },
                         setState
                 ] = useImmer<SearchState>({
-                        layout: {} as SearchState['layout'],
                         state: STATE.ENABLED,
                         status: COMPONENT_STATUS.IDLE,
                         value: ''
@@ -77,7 +72,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 
                 useClearComponentEvent(setState)
 
-                const containerRef = useRef<View>(null)
                 const id = useId()
                 const inputRef = useRef<TextInput>(null)
                 const searchListData = useMemo(
@@ -95,9 +89,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         [rawOnChangeText, setState]
                 )
 
-                // const onListActive = useMemo(() => handleSearchListActive(inputRef)(rawOnListActive), [rawOnListActive])
-                // const onListClose = useMemo(() => handleSearchListClose(inputRef)(rawOnListClose), [rawOnListClose])
-                // const onListVisibility = useMemo(() => updateSearchListExpanded(setState), [setState])
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handleSearchInputStateChange({...options, ref: inputRef, state})(setState)(event),
@@ -110,46 +101,13 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         onStateEventChange
                 })
 
-                // const runEmitList = useMemo(
-                //         () =>
-                //                 emitSearchList(id)({
-                //                         activeKey: listActiveKey,
-                //                         closeTrailing: listCloseTrailing,
-                //                         containerLayout: layout,
-                //                         data: searchListData,
-                //                         emptyElement: listEmptyElement,
-                //                         itemSize: listItemSize,
-                //                         onActive: onListActive,
-                //                         onClose: onListClose,
-                //                         onVisibility: onListVisibility,
-                //                         selectType: listSelectType,
-                //                         trailingTriggerOn: listTrailingTriggerOn
-                //                 }),
-                //         [
-                //                 id,
-                //                 layout,
-                //                 listActiveKey,
-                //                 listCloseTrailing,
-                //                 listEmptyElement,
-                //                 listItemSize,
-                //                 listSelectType,
-                //                 listTrailingTriggerOn,
-                //                 onListActive,
-                //                 onListClose,
-                //                 onListVisibility,
-                //                 searchListData
-                //         ]
-                // )
-
-                const runLayoutMeasureHandler = useMemo(() => createSearchLayoutMeasureHandler(setState), [setState])
-                const runUnmountList = useMemo(() => unmountSearchList(id), [id])
                 const runUpdateListData = useMemo(() => updateSearchListData(setState), [setState])
                 const runUpdateValue = useMemo(() => updateSearchInputValue(setState), [setState])
                 const runUpdateVisibility = useMemo(() => updateSearchListVisibility(setState), [setState])
-                const runDebouncedUpdateVisibility = useMemo(
-                        () => debounce(updateSearchListVisibility(setState))(150),
-                        [setState]
-                )
+                // const runDebouncedUpdateVisibility = useMemo(
+                //         () => debounce(updateSearchListVisibility(setState))(150),
+                //         [setState]
+                // )
 
                 const {contentAnimatedStyle, inputAnimatedStyle} = useSearchAnimated({
                         disabled,
@@ -157,10 +115,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 })
 
                 useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
-
-                // useEffect(() => {
-                //         runEmitList(isListVisible)
-                // }, [isListVisible, runEmitList])
 
                 useEffect(() => {
                         runUpdateListData(rawData)
@@ -176,13 +130,9 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         }
                 }, [runUpdateVisibility, searchListData])
 
-                useEffect(() => {
-                        runDebouncedUpdateVisibility(eventName === EVENT_NAME.BLUR ? false : undefined)
-                }, [eventName, runDebouncedUpdateVisibility])
-
-                useEffect(() => {
-                        runLayoutMeasureHandler(containerRef.current)(isListVisible)
-                }, [runLayoutMeasureHandler, isListVisible])
+                // useEffect(() => {
+                //         runDebouncedUpdateVisibility(eventName === EVENT_NAME.BLUR ? false : undefined)
+                // }, [eventName, runDebouncedUpdateVisibility])
 
                 useEffect(() => {
                         nextChangeTextEvent?.()
@@ -192,8 +142,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         nextListVisibleEvent?.()
                 }, [nextListVisibleEvent])
 
-                useEffect(() => () => runUnmountList(), [runUnmountList])
-
                 if (status === COMPONENT_STATUS.IDLE) {
                         return
                 }
@@ -201,7 +149,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 return (
                         <RenderSearch
                                 {...renderSearchProps}
-                                containerRef={containerRef}
                                 contentAnimatedStyle={contentAnimatedStyle}
                                 data={data}
                                 disabled={disabled}

@@ -91,6 +91,8 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                         nextActiveEvent?.()
                 }, [nextActiveEvent])
 
+                console.info(focusedIndex)
+
                 return (
                         <RenderMenu
                                 {...renderProps}
