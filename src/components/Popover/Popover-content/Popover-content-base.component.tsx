@@ -21,7 +21,7 @@ import {
 } from './Popover-content.handler'
 import type {PopoverContentBaseProps, PopoverContentState} from './Popover-content.interface'
 import {RenderPopoverContent} from './Popover-content.render'
-import {usePopoverContentAnimated} from './use-tooltip-animated.hook'
+import {usePopoverContentAnimated} from './use-popover-content-animated.hook'
 
 export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
         (
