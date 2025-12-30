@@ -2,7 +2,7 @@ import {SHAPE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {ELEVATION} from '../Elevation'
-import {Tooltip} from '../Popover'
+import {Popover} from '../Popover'
 import {MenuList} from './Menu-list'
 import type {RenderMenuProps} from './Menu.interface'
 
@@ -33,7 +33,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                 },
                 ref
         ) => {
-                const supporting = (
+                const popoverContentElement = (
                         <MenuList
                                 activeKey={activeKey}
                                 activeKeys={activeKeys}
@@ -61,13 +61,13 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                                 testID={testID ?? `menu--${id}`}
                                 // {...(['web', 'windows', 'macos'].includes(Platform.OS) && {onKeyDown})}
                         >
-                                <Tooltip
+                                <Popover
                                         {...tooltipProps}
-                                        onKeyDown={onKeyDown}
+                                        content={popoverContentElement}
                                         elevation={elevation}
+                                        onKeyDown={onKeyDown}
                                         onVisible={onVisible}
                                         shape={shape}
-                                        supporting={supporting}
                                         type={type}
                                         visible={visible}
                                 />

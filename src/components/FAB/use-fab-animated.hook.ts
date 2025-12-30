@@ -32,6 +32,7 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
                         outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.tertiaryContainer)(opacity.level10)]
                 }
         }
+
         const colorType = {
                 [FAB_TYPE.SURFACE]: {
                         inputRanges: [0, 1],

@@ -14,8 +14,6 @@ const SkeletonWithRef = forwardRef<View, SkeletonProps>((props, ref) => (
         />
 ))
 
-SkeletonWithRef.displayName = 'SkeletonWithRef'
-
 export const Circle = forwardRef<View, SkeletonElementProps>(({style, size, ...props}: SkeletonElementProps, ref) => (
         <SkeletonElement
                 {...props}
@@ -34,8 +32,6 @@ export const Circle = forwardRef<View, SkeletonElementProps>(({style, size, ...p
         />
 ))
 
-Circle.displayName = 'Circle'
-
 export const Square = forwardRef<View, SkeletonElementProps>(({style, size, ...props}: SkeletonElementProps, ref) => (
         <SkeletonElement
                 {...props}
@@ -53,8 +49,6 @@ export const Square = forwardRef<View, SkeletonElementProps>(({style, size, ...p
                 ]}
         />
 ))
-
-Square.displayName = 'Square'
 
 export const Rectangular = forwardRef<View, SkeletonElementProps>(
         ({style, size, ...props}: SkeletonElementProps, ref) => (
@@ -81,6 +75,9 @@ export const Rectangular = forwardRef<View, SkeletonElementProps>(
         )
 )
 
+Circle.displayName = 'Circle'
 Rectangular.displayName = 'Rectangular'
+SkeletonWithRef.displayName = 'SkeletonWithRef'
+Square.displayName = 'Square'
 
 export const Skeleton = typedMemo(SkeletonWithRef)()

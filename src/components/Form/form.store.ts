@@ -231,15 +231,14 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 
                         if (componentUpdate) {
                                 Promise.all(Object.keys(values).map(fieldEntityUpdateHandler)).then(notifyValuesChange)
-                        } else {
-                                updateStoreWithCallback(onValuesChange)(values)
+
+                                return
                         }
+
+                        updateStoreWithCallback(onValuesChange)(values)
                 }
 
-        const setInitialValues = (values = {} as T) => {
-                initialValues = {...initialValues, ...values}
-        }
-
+        const setInitialValues = (values = {} as T) => (initialValues = {...initialValues, ...values})
         const signInField = (rawEntity: SignInFieldOptions<T>) => {
                 const {name, validatorOptions, rule} = rawEntity
 
@@ -271,9 +270,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
                         isSignInFieldCompleted = true
                 }
 
-                return {
-                        signOut: () => signOutFields(name)
-                }
+                return {signOut: () => signOutFields(name)}
         }
 
         const signOutFields = (namePaths?: NamePath<T>) => {

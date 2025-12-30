@@ -1,6 +1,6 @@
 import type {ElevationLevel} from '@/components/Elevation'
 import type {ListProps, ListType} from '@/components/List'
-import type {TooltipType} from '@/components/Popover'
+import type {PopoverType} from '@/components/Popover'
 import type {CommonProps} from '@/constants'
 import type {Theme} from '@/contexts'
 import type {ShapeType} from '@bearei/theme-token'
@@ -13,7 +13,7 @@ export interface MenuListProps extends Omit<ListProps & PressableProps, 'type'>,
         multiple?: boolean
         onKeyDown?: (event: React.KeyboardEvent) => void
         shape?: ShapeType
-        type?: TooltipType
+        type?: PopoverType
         visible?: boolean
 }
 

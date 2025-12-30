@@ -54,7 +54,7 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                         [POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]
                 ).includes(type)
 
-                const tooltipWidth =
+                const popoverWidth =
                         isMenuOrPicker ?
                                 type === POPOVER_TYPE.TEXT_INPUT_PICKER ?
                                         containerLayout?.width
@@ -136,7 +136,7 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                                 theme={theme}
                                 type={type}
                                 visible={visible}
-                                width={tooltipWidth}
+                                width={popoverWidth}
                                 windowHeight={windowHeight}
                                 windowWidth={windowWidth}
                         />
