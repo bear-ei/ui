@@ -1,7 +1,13 @@
 import {arrayEqual} from '@/utils'
+import type {TextInputKeyPressEvent} from 'react-native'
 import type {Updater} from 'use-immer'
-import type {ListItemData} from '../List'
-import type {HandleMenuKeyDownOptions, MenuState} from './Menu.interface'
+import {POPOVER_TYPE} from '../Popover'
+import type {
+        HandleMenuKeyDownEventOptions,
+        HandleMenuKeyDownOptions,
+        MenuState,
+        UpdateMenuVisibilityOptions
+} from './Menu.interface'
 
 const handleMenuActiveKeys =
         (activeKeys = [] as string[]) =>
@@ -19,35 +25,51 @@ export const handleMenuKeyDown = ({
         data,
         multiple,
         onActive,
-        onActives
+        onActives,
+        onFocusKey
 }: HandleMenuKeyDownOptions) => {
         const handleMenuKeyCode = (setState: Updater<MenuState>) => (keyCode?: string) =>
                 setState(draft => {
                         const currentFocusedIndex = draft.focusedIndex ?? -1
                         const lastIndex = (data?.length ?? 0) - 1
                         const focusData =
-                                currentFocusedIndex && currentFocusedIndex !== -1 ?
+                                typeof currentFocusedIndex === 'number' && currentFocusedIndex !== -1 ?
                                         data?.[currentFocusedIndex]
                                 :       undefined
 
                         switch (true) {
-                                case keyCode?.startsWith('ArrowUp'):
-                                        draft.focusedIndex =
+                                case keyCode?.startsWith('ArrowUp'): {
+                                        const nextFocusedIndex =
                                                 currentFocusedIndex - 1 < 0 ? lastIndex : currentFocusedIndex - 1
-                                        break
 
-                                case keyCode?.startsWith('ArrowDown'):
-                                        draft.focusedIndex =
+                                        draft.focusedIndex = nextFocusedIndex
+
+                                        if (onFocusKey) {
+                                                draft.nextFocusKeyEvent = () =>
+                                                        onFocusKey?.(data?.[nextFocusedIndex]?.indexKey)
+                                        }
+
+                                        break
+                                }
+
+                                case keyCode?.startsWith('ArrowDown'): {
+                                        const nextFocusedIndex =
                                                 currentFocusedIndex + 1 > lastIndex ? 0 : currentFocusedIndex + 1
 
+                                        draft.focusedIndex = nextFocusedIndex
+
+                                        if (onFocusKey) {
+                                                draft.nextFocusKeyEvent = () =>
+                                                        onFocusKey?.(data?.[nextFocusedIndex]?.indexKey)
+                                        }
+
                                         break
+                                }
 
                                 case keyCode?.startsWith('Enter'):
                                         if (!focusData || typeof draft.focusedIndex !== 'number') {
-                                                return
+                                                break
                                         }
-
-                                        draft.keyCode = keyCode
 
                                         if (draft.keyCode !== keyCode && onActives && multiple) {
                                                 draft.nextActiveEvent = () =>
@@ -55,7 +77,7 @@ export const handleMenuKeyDown = ({
                                                                 handleMenuActiveKeys(activeKeys)(focusData.indexKey)
                                                         )
 
-                                                return
+                                                break
                                         }
 
                                         if (draft.keyCode !== keyCode && onActive) {
@@ -72,6 +94,8 @@ export const handleMenuKeyDown = ({
                                 default:
                                         break
                         }
+
+                        draft.keyCode = keyCode
                 })
 
         return (setState: Updater<MenuState>) => (keyCode?: string) => {
@@ -84,23 +108,30 @@ export const handleMenuKeyDown = ({
 }
 
 export const handleMenuKeyDownEvent =
-        (data?: ListItemData[]) => (setState: Updater<MenuState>) => (event: React.KeyboardEvent) => {
-                const {code} = event
+        (options: HandleMenuKeyDownEventOptions) =>
+        (setState: Updater<MenuState>) =>
+        (event: React.KeyboardEvent | TextInputKeyPressEvent) => {
+                const key = event.nativeEvent ? event.nativeEvent.key : (event as React.KeyboardEvent).key
 
-                if (['ArrowUp', 'ArrowDown'].includes(code)) {
+                if (['ArrowUp', 'ArrowDown'].includes(key)) {
                         event.preventDefault()
                 }
 
-                handleMenuKeyDown({data})(setState)(code)
+                handleMenuKeyDown(options)(setState)(key)
         }
 
 export const updateMenuVisibility =
-        (setState: Updater<MenuState>) => (onVisible?: (value?: boolean) => void) => (value?: boolean) =>
+        ({onVisible, type}: UpdateMenuVisibilityOptions) =>
+        (setState: Updater<MenuState>) =>
+        (value?: boolean) =>
                 typeof value !== 'undefined' &&
                 setState(draft => {
                         if (!value) {
-                                draft.activeKey = undefined
                                 draft.focusedIndex = undefined
+
+                                if (type === POPOVER_TYPE.CONTEXT_MENU) {
+                                        draft.activeKey = undefined
+                                }
                         }
 
                         if (draft.visible !== value && onVisible) {

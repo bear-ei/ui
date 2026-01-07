@@ -7,6 +7,7 @@ export interface MenuProps extends Omit<PressableProps & PopoverProps & MenuList
         keyCode?: string
         listType?: ListType
         onContextMenu?: React.MouseEventHandler<HTMLDivElement>
+        onFocusKey?: (key?: string) => void
         type?: PopoverType
 }
 
@@ -21,16 +22,26 @@ export interface MenuState {
         focusedIndex?: number
         keyCode?: string
         nextActiveEvent?: () => void
+        nextFocusKeyEvent?: () => void
         nextVisibilityEvent?: () => void
         visible?: boolean
 }
 
 export type HandleMenuKeyDownOptions = Pick<
         MenuProps,
-        'data' | 'multiple' | 'onActives' | 'onActive' | 'activeKeys' | 'activeKey'
+        'data' | 'multiple' | 'onActives' | 'onActive' | 'activeKeys' | 'activeKey' | 'onFocusKey'
 >
 
 export interface HandleNextActivesEventOptions {
         activeKeys: string[]
         indexKey: string
+}
+
+export type HandleMenuKeyDownEventOptions = Pick<
+        HandleMenuKeyDownOptions,
+        'onFocusKey' | 'data' | 'onActives' | 'onActive'
+>
+
+export interface UpdateMenuVisibilityOptions extends Pick<MenuProps, 'type'> {
+        onVisible?: (value?: boolean) => void
 }

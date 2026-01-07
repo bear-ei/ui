@@ -14,6 +14,7 @@ import type {RenderPopoverContentProps} from './Popover-content.interface'
 export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
         (
                 {
+                        children,
                         containerLayout,
                         content,
                         contentAnimatedStyle,
@@ -172,6 +173,10 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                         </View>
                 )
 
+                if (children) {
+                        return <>{children}</>
+                }
+
                 return (
                         <>
                                 <AnimatedView
@@ -221,7 +226,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                                                 </Pressable>
                                         }
 
-                                        {typeof elevation === 'number' && (
+                                        {typeof elevation === 'number' && type !== POPOVER_TYPE.TEXT_INPUT_PICKER && (
                                                 <Elevation
                                                         level={elevation}
                                                         shape={shape}

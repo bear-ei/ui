@@ -1,7 +1,6 @@
 import {List, LIST_SELECT_TYPE, LIST_TYPE} from '@/components/List'
 import {POPOVER_TYPE} from '@/components/Popover'
-import type {InteractionHandlers} from '@/hooks'
-import {classesName, platformValue, shapeClasses} from '@/utils'
+import {classesName, platformValue} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {Platform, View, type ViewStyle} from 'react-native'
@@ -14,9 +13,7 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                         id,
                         listType = LIST_TYPE.MENU,
                         multiple,
-                        onFocus,
                         onKeyDown,
-                        shape,
                         size = SIZE.SMALL,
                         testID,
                         theme,
@@ -39,27 +36,24 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
 
                 return (
                         <View
-                                {...(['web', 'windows', 'macos'].includes(Platform.OS) &&
-                                        type === POPOVER_TYPE.CONTEXT_MENU && {onKeyDown})}
-                                className={classesName(
-                                        'overflow-hidden bg-[--color-surface-container] outline-none',
-                                        {['w-[11.25rem]']: type === POPOVER_TYPE.CONTEXT_MENU},
-                                        shapeClasses(shape)
-                                )}
+                                {...(['web', 'windows', 'macos'].includes(Platform.OS) && {onKeyDown})}
+                                className={classesName('overflow-hidden bg-[--color-surface-container] outline-none', {
+                                        ['min-h-80']: type === POPOVER_TYPE.TEXT_INPUT_PICKER,
+                                        ['w-[11.25rem]']: type === POPOVER_TYPE.CONTEXT_MENU
+                                })}
                                 ref={ref}
                                 style={[{height: platformValue(height)} as ViewStyle]}
                                 tabIndex={-1}
-                                testID={testID ?? `menu--${id}`}
+                                testID={testID ?? `menuList--${id}`}
                         >
                                 <List
                                         {...menuProps}
                                         data={data}
                                         itemSize={itemSize}
-                                        onItemStateEvent={{onFocus} as InteractionHandlers}
                                         selectType={multiple ? LIST_SELECT_TYPE.MULTIPLE : LIST_SELECT_TYPE.SINGLE}
                                         showsVerticalScrollIndicator={false}
                                         size={size}
-                                        testID={`menu__list--${id}`}
+                                        testID={`menuList__list--${id}`}
                                         type={listType}
                                 />
                         </View>

@@ -86,3 +86,18 @@ export const unmountPopover = (id?: string) => () =>
                 type: MODAL_TYPE.POPOVER,
                 unmount: true
         })
+
+export const emitChildren = (id: string) => (element: React.JSX.Element) =>
+        element &&
+        emitter.emit('modal', {
+                id: `popoverChildren--${id}`,
+                props: {children: element},
+                type: MODAL_TYPE.POPOVER
+        })
+
+export const unmountChildren = (id?: string) => () =>
+        emitter.emit('modal', {
+                id: `popoverChildren--${id}`,
+                type: MODAL_TYPE.POPOVER_CHILDREN,
+                unmount: true
+        })

@@ -1,4 +1,5 @@
 export const MODAL_TYPE = {
-        SIDE_SHEET: 'SIDE_SHEET',
-        POPOVER: 'POPOVER'
+        POPOVER_CHILDREN: 'POPOVER_CHILDREN',
+        POPOVER: 'POPOVER',
+        SIDE_SHEET: 'SIDE_SHEET'
 } as const

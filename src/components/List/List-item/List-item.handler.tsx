@@ -1,4 +1,3 @@
-import type {PressableType} from '@/components/Touchable'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '@/constants'
 import type {AnimateSharedValueTo, StateEvent} from '@/hooks'
 import type {GestureResponderEvent} from 'react-native'
@@ -196,13 +195,15 @@ export const confirmListItemAffordanceAction =
                 onActiveAfterAffordance?.({callback: () => onConfirm?.({...options, indexKey})})
         }
 
-/**
- * When using the component Text-field-picker, you only need to change the focus style. Do not get the real focus.
- * Otherwise the Text-field-picker will lose focus.
- */
 export const updateListItemFocusState =
-        (itemIndex?: number) => (pressableRef: React.RefObject<PressableType | null>) => (focusedIndex?: number) =>
-                typeof focusedIndex === 'number' && itemIndex === focusedIndex && pressableRef.current?.focus()
+        (setState: Updater<ListItemState>) => (itemIndex?: number) => (focusedIndex?: number) =>
+                typeof focusedIndex === 'number' &&
+                setState(draft => {
+                        draft.eventName =
+                                itemIndex === focusedIndex ? EVENT_NAME.FOCUS
+                                : draft.eventName === EVENT_NAME.FOCUS ? EVENT_NAME.BLUR
+                                : draft.eventName
+                })
 
 export const maybeTriggerListItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => () => {
         if (!indexKey) {
@@ -217,6 +218,12 @@ export const updateListItemAfterAffordanceExpanded = (setState: Updater<ListItem
                 draft.afterAffordanceExpanded = visible
         })
 
+export const updateListItemTrailingVisibility = (setState: Updater<ListItemState>) => (eventName: EventName) =>
+        eventName === EVENT_NAME.HOVER_IN &&
+        setState(draft => {
+                draft.eventName = eventName
+        })
+
 export const animateListItemAffordanceVisibility =
         (animateSharedValueTo: AnimateSharedValueTo) =>
         (contentTransformXSharedValue: SharedValue<number>) =>
@@ -228,9 +235,3 @@ export const animateListItemActiveState =
         (headlineTextSharedValue: SharedValue<number>) =>
         (active?: boolean) =>
                 animateSharedValueTo({sharedValue: headlineTextSharedValue})(active ? 1 : 0)
-
-export const updateListItemTrailingVisibility = (setState: Updater<ListItemState>) => (eventName: EventName) =>
-        eventName === EVENT_NAME.HOVER_IN &&
-        setState(draft => {
-                draft.eventName = eventName
-        })

@@ -58,37 +58,37 @@ export const ExtraSmall: StoryObj<SearchProps> = {
 
 export const MediumList: StoryObj<SearchProps> = {
         args: {
-                listActiveKey: 'TitleB',
-                listCloseTrailing: true,
-                listSelectType: LIST_SELECT_TYPE.SINGLE,
-                listTrailingTriggerOn: TRIGGER_ON.HOVER,
-                placeholder: 'Hinted search text',
-                size: SIZE.MEDIUM,
+                activeKey: 'TitleB',
+                closeTrailing: true,
                 filter: true,
+                placeholder: 'Hinted search text',
+                selectType: LIST_SELECT_TYPE.SINGLE,
+                size: SIZE.MEDIUM,
+                trailingTriggerOn: TRIGGER_ON.HOVER,
                 data: [
                         {
                                 headline: 'TitleA',
                                 indexKey: 'TitleA',
                                 leading: <Circle />,
-                                supporting: 'TitleA'
+                                supporting: 'www.bilibili.com'
                         },
                         {
                                 headline: 'TitleB',
                                 indexKey: 'TitleB',
                                 leading: <Circle />,
-                                supporting: 'TitleB'
+                                supporting: 'www.baidu.com'
                         },
                         {
                                 headline: 'TitleC',
                                 indexKey: 'TitleC',
                                 leading: <Circle />,
-                                supporting: 'TitleC'
+                                supporting: 'www.github.com'
                         },
                         {
                                 headline: 'TitleD',
                                 indexKey: 'TitleD',
                                 leading: <Circle />,
-                                supporting: 'TitleD'
+                                supporting: 'www.xiaohongshu.com'
                         }
                 ]
         }

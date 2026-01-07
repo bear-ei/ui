@@ -143,8 +143,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                 )
 
                 const runUpdateFocusState = useMemo(
-                        () => updateListItemFocusState(itemIndex)(pressableRef),
-                        [itemIndex]
+                        () => updateListItemFocusState(setState)(itemIndex),
+                        [itemIndex, setState]
                 )
 
                 const runUpdateAfterAffordanceVisibility = useMemo(

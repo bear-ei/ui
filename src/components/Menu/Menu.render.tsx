@@ -2,7 +2,7 @@ import {SHAPE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {ELEVATION} from '../Elevation'
-import {Popover} from '../Popover'
+import {Popover, POPOVER_TYPE} from '../Popover'
 import {MenuList} from './Menu-list'
 import type {RenderMenuProps} from './Menu.interface'
 
@@ -29,12 +29,13 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                         trailingTriggerOn,
                         type,
                         visible,
-                        ...tooltipProps
+                        ...popoverProps
                 },
                 ref
         ) => {
                 const popoverContentElement = (
                         <MenuList
+                                {...(type === POPOVER_TYPE.CONTEXT_MENU && {onKeyDown})}
                                 activeKey={activeKey}
                                 activeKeys={activeKeys}
                                 closeTrailing={closeTrailing}
@@ -45,9 +46,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                                 multiple={multiple}
                                 onActive={onActive}
                                 onActives={onActives}
-                                onKeyDown={onKeyDown}
                                 ref={ref}
-                                shape={shape}
                                 size={size}
                                 testID={`menu__list--${id}`}
                                 trailingTriggerOn={trailingTriggerOn}
@@ -59,15 +58,14 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                         <View
                                 className='flex-1'
                                 testID={testID ?? `menu--${id}`}
-                                // {...(['web', 'windows', 'macos'].includes(Platform.OS) && {onKeyDown})}
                         >
                                 <Popover
-                                        {...tooltipProps}
+                                        {...popoverProps}
                                         content={popoverContentElement}
                                         elevation={elevation}
                                         onKeyDown={onKeyDown}
                                         onVisible={onVisible}
-                                        shape={shape}
+                                        shape={type === POPOVER_TYPE.TEXT_INPUT_PICKER ? SHAPE.MEDIUM_BOTTOM : shape}
                                         type={type}
                                         visible={visible}
                                 />

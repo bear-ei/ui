@@ -25,14 +25,24 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                         multiple,
                         onActive: rawOnActive,
                         onActives: rawOnActives,
+                        onFocusKey,
                         onVisible: rawOnVisible,
+                        type,
                         visible: rawIsVisible,
                         ...renderProps
                 },
                 ref
         ) => {
                 const [
-                        {activeKey, activeKeys, focusedIndex, nextActiveEvent, nextVisibilityEvent, visible: isVisible},
+                        {
+                                activeKey,
+                                activeKeys,
+                                focusedIndex,
+                                nextActiveEvent,
+                                nextFocusKeyEvent,
+                                nextVisibilityEvent,
+                                visible: isVisible
+                        },
                         setState
                 ] = useImmer<MenuState>({})
 
@@ -41,8 +51,22 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                 const id = useId()
                 const onActive = useMemo(() => updateMenuActive(setState)(rawOnActive), [rawOnActive, setState])
                 const onActives = useMemo(() => updateMenuActives(setState)(rawOnActives), [rawOnActives, setState])
-                const onKeyDown = useMemo(() => handleMenuKeyDownEvent(data)(setState), [data, setState])
-                const onVisible = useMemo(() => updateMenuVisibility(setState)(rawOnVisible), [rawOnVisible, setState])
+                const onKeyDown = useMemo(
+                        () =>
+                                handleMenuKeyDownEvent({
+                                        data,
+                                        onFocusKey,
+                                        onActive: rawOnActive,
+                                        onActives: rawOnActives
+                                })(setState),
+                        [data, onFocusKey, rawOnActive, rawOnActives, setState]
+                )
+
+                const onVisible = useMemo(
+                        () => updateMenuVisibility({onVisible: rawOnVisible, type})(setState),
+                        [rawOnVisible, setState, type]
+                )
+
                 const runUpdateActive = useMemo(() => updateMenuActive(setState)(rawOnActive), [rawOnActive, setState])
                 const runUpdateActives = useMemo(
                         () => updateMenuActives(setState)(rawOnActives),
@@ -50,8 +74,8 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                 )
 
                 const runUpdateVisible = useMemo(
-                        () => updateMenuVisibility(setState)(rawOnVisible),
-                        [rawOnVisible, setState]
+                        () => updateMenuVisibility({onVisible: rawOnVisible, type})(setState),
+                        [rawOnVisible, setState, type]
                 )
 
                 const runKeyDown = useMemo(
@@ -84,6 +108,10 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                 }, [defaultVisible, rawIsVisible, runUpdateVisible])
 
                 useEffect(() => {
+                        nextFocusKeyEvent?.()
+                }, [nextFocusKeyEvent])
+
+                useEffect(() => {
                         nextVisibilityEvent?.()
                 }, [nextVisibilityEvent])
 
@@ -105,6 +133,7 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                                 onKeyDown={onKeyDown}
                                 onVisible={onVisible}
                                 ref={ref}
+                                type={type}
                                 visible={isVisible}
                         />
                 )

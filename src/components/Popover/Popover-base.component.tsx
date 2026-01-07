@@ -6,7 +6,7 @@ import {
         useInteractionStateEvent
 } from '@/hooks'
 import {debounce} from '@/utils'
-import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {POPOVER_TYPE} from './Popover.enum'
@@ -33,6 +33,8 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
                         triggerEvent,
                         type = POPOVER_TYPE.PLAIN,
                         visible: rawVisible,
+                        children: rawChildren,
+                        onKeyDown,
                         ...renderPopoverProps
                 },
                 ref
@@ -67,6 +69,17 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
                         disabled: isDisabled,
                         onStateEventChange
                 })
+
+                const {onFocus, onHoverIn, ...childrenInteractionHandlers} = interactionHandlers
+                const childrenElement =
+                        rawChildren &&
+                        cloneElement(rawChildren, {
+                                onFocus,
+                                onHoverIn,
+                                ...childrenInteractionHandlers,
+                                ...(type === POPOVER_TYPE.CONTEXT_MENU && {onContextMenu}),
+                                ...(type === POPOVER_TYPE.TEXT_INPUT_PICKER && {onKeyPress: onKeyDown})
+                        })
 
                 const runEmit = useMemo(
                         () =>
@@ -121,10 +134,13 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
                 return (
                         <RenderPopover
                                 {...renderPopoverProps}
+                                children={childrenElement}
+                                elevation={elevation}
                                 id={id}
                                 interactionHandlers={interactionHandlers}
                                 onContextMenu={onContextMenu}
                                 ref={containerRef}
+                                shape={shape}
                                 type={type}
                         />
                 )

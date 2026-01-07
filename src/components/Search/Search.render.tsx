@@ -7,7 +7,6 @@ import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {AnimatedView} from '../Animated-component'
-import {ELEVATION, Elevation} from '../Elevation'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {Menu} from '../Menu'
 import {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from '../Popover'
@@ -15,22 +14,18 @@ import {Underlay} from '../Underlay'
 import type {RenderSearchProps} from './Search.interface'
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
-export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
+const RenderTextInput = forwardRef<TextInput, RenderSearchProps>(
         (
                 {
                         accessibilityLabel,
                         contentAnimatedStyle,
-                        data,
                         disabled,
                         editable,
-                        elevation,
                         eventName,
                         id,
                         inputAnimatedStyle,
                         interactionHandlers,
                         leadingElement = <Search />,
-                        listCloseTrailing,
-                        listEmptyElement,
                         listVisible,
                         onChangeText,
                         placeholder,
@@ -55,7 +50,8 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                 const trailingSize = ICON_BUTTON_SIZE[size]
                 const underlayColor = theme.token.scheme.onSurface
                 const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
-                const searchElement = (
+
+                return (
                         <View
                                 className={classesName('relative justify-center self-stretch', {
                                         ['h-10']: size === SIZE.SMALL,
@@ -175,23 +171,6 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                         >
                                                                 <AnimatedTextInput
                                                                         {...textInputProps}
-                                                                        onKeyPress={({nativeEvent}) => {
-                                                                                if (nativeEvent.key === 'ArrowUp') {
-                                                                                        console.log('向上键被按下')
-                                                                                } else if (
-                                                                                        nativeEvent.key === 'ArrowDown'
-                                                                                ) {
-                                                                                        console.log('向下键被按下')
-                                                                                } else if (
-                                                                                        nativeEvent.key === 'ArrowLeft'
-                                                                                ) {
-                                                                                        console.log('向左键被按下')
-                                                                                } else if (
-                                                                                        nativeEvent.key === 'ArrowRight'
-                                                                                ) {
-                                                                                        console.log('向右键被按下')
-                                                                                }
-                                                                        }}
                                                                         editable={
                                                                                 typeof disabled === 'boolean' ?
                                                                                         !disabled
@@ -266,41 +245,66 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                 />
                                         </AnimatedView>
                                 </Pressable>
-
-                                <Elevation
-                                        className={classesName({
-                                                ['h-[22.5rem]']: size === SIZE.SMALL,
-                                                ['h-[22rem]']: size === SIZE.EXTRA_SMALL,
-                                                ['h-[23.5rem]']: size === SIZE.LARGE,
-                                                ['h-[23rem]']: size === SIZE.MEDIUM,
-                                                ['h-[24rem]']: size === SIZE.EXTRA_LARGE
-                                        })}
-                                        level={elevation}
-                                        shape={listVisible ? SHAPE.MEDIUM : SHAPE.EXTRA_LARGE}
-                                        testID={`search__elevation--${id}`}
-                                />
                         </View>
+                )
+        }
+)
+
+export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
+        (
+                {
+                        activeKey,
+                        closeTrailing,
+                        data,
+                        emptyElement,
+                        id,
+                        listVisible,
+                        onActive,
+                        onFocusKey,
+                        onVisible,
+                        textInputPicker,
+                        size,
+                        ...textInputProps
+                },
+                ref
+        ) => {
+                const textInputElement = (
+                        <RenderTextInput
+                                {...textInputProps}
+                                id={id}
+                                ref={ref}
+                        />
                 )
 
                 return (
                         <>
-                                {data ?
+                                {textInputPicker ?
                                         <Menu
-                                                closeTrailing={listCloseTrailing}
+                                                activeKey={activeKey}
+                                                closeTrailing={closeTrailing}
+                                                className={classesName('justify-center self-stretch', {
+                                                        ['h-10']: size === SIZE.SMALL,
+                                                        ['h-12']: size === SIZE.MEDIUM,
+                                                        ['h-14']: size === SIZE.LARGE,
+                                                        ['h-16']: size === SIZE.EXTRA_LARGE,
+                                                        ['h-8']: size === SIZE.EXTRA_SMALL
+                                                })}
                                                 data={data}
-                                                elevation={ELEVATION.LEVEL_0}
-                                                emptyElement={listEmptyElement}
+                                                emptyElement={emptyElement}
+                                                onActive={onActive}
+                                                onFocusKey={onFocusKey}
+                                                onVisible={onVisible}
                                                 popoverContentPosition={POPOVER_CONTENT_POSITION.VERTICAL_END}
-                                                shape={SHAPE.MEDIUM_BOTTOM}
-                                                size={SIZE.MEDIUM}
+                                                shape={listVisible ? SHAPE.MEDIUM : SHAPE.EXTRA_LARGE}
+                                                size={size}
                                                 testID={`search__picker--${id}`}
                                                 trailingTriggerOn={TRIGGER_ON.HOVER}
                                                 type={POPOVER_TYPE.TEXT_INPUT_PICKER}
                                                 visible={listVisible}
                                         >
-                                                {searchElement}
+                                                {textInputElement}
                                         </Menu>
-                                :       searchElement}
+                                :       textInputElement}
                         </>
                 )
         }

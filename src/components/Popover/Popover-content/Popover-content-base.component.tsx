@@ -85,11 +85,7 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                         [onVisible, setState, triggerEvent]
                 )
 
-                const interactionHandlers = useInteractionStateEvent({
-                        ...renderPopoverContentProps,
-                        onStateEventChange
-                })
-
+                const interactionHandlers = useInteractionStateEvent({...renderPopoverContentProps, onStateEventChange})
                 const runUpdateStatus = useMemo(
                         () => updatePopoverContentStatus({setState, windowWidth}),
                         [setState, windowWidth]

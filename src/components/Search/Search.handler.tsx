@@ -1,6 +1,6 @@
 import {COMPONENT_STATUS, EVENT_NAME, STATE} from '@/constants'
 import type {AnimateSharedValueTo, StateEvent} from '@/hooks'
-import {debounce} from '@/utils'
+import {textSearch} from '@/utils'
 import type {WritableDraft} from 'immer'
 import type {TextInput} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
@@ -10,7 +10,9 @@ import type {OnVirtualListCloseOptions} from '../Virtual-list'
 import type {
         AnimateSearchBorderRadiusOptions,
         HandleSearchInputStateChangeOptions,
-        SearchState
+        HandleSearchListActiveKeyOptions,
+        SearchState,
+        UpdateSearchListDataOptions
 } from './Search.interface'
 
 export const handleSearchInputStateChange =
@@ -59,52 +61,79 @@ export const updateSearchInputValue = (setState: Updater<SearchState>) => (value
                 }
         })
 
-export const updateSearchListVisibility = (setState: Updater<SearchState>) => (visible?: boolean) => {
-        if (typeof visible !== 'boolean') {
-                return
-        }
-
-        const nextListVisibleEvent = debounce(() =>
-                setState(draft => {
-                        draft.listVisible = false
-                })
-        )(300)
-
+export const updateSearchListVisibility = (setState: Updater<SearchState>) => (visible?: boolean) =>
+        typeof visible === 'boolean' &&
         setState(draft => {
-                if (visible && draft.eventName === EVENT_NAME.FOCUS) {
+                if (visible) {
                         draft.listExpanded = true
                         draft.listVisible = visible
 
                         return
                 }
 
-                draft.elevation = 0
-                draft.nextListVisibleEvent = nextListVisibleEvent
+                draft.listVisible = false
         })
-}
 
 export const updateSearchListExpanded = (setState: Updater<SearchState>) => (visible?: boolean) =>
+        typeof visible === 'boolean' &&
         setState(draft => {
                 if (!visible) {
                         draft.listExpanded = false
-
-                        return
                 }
-
-                draft.elevation = 4
         })
+
+export const handleSearchListClose =
+        (ref?: React.RefObject<TextInput | null>) =>
+        (onListClose?: (options: OnVirtualListCloseOptions) => void) =>
+        (options: OnVirtualListCloseOptions) => {
+                ref?.current?.focus()
+
+                // setState(draft => {
+                //         draft.data = data as WritableDraft<ListItemData>[]
+                // })
+
+                // onListClose?.(options)
+        }
+
+export const handleSearchListFocusKey = (setState: Updater<SearchState>) => (key?: string) =>
+        setState(draft => {
+                draft.value = draft.data?.find(({indexKey}) => indexKey === key)?.supporting as string
+        })
+
+export const handleSearchListActiveKey =
+        ({onActive, ref}: HandleSearchListActiveKeyOptions) =>
+        (setState: Updater<SearchState>) =>
+        (key?: string) => {
+                ref?.current?.focus()
+
+                setState(draft => {
+                        draft.activeKey = key
+                        draft.value = draft.data?.find(({indexKey}) => indexKey === key)?.supporting as string
+
+                        if (onActive) {
+                                draft.nextActiveEvent = () => onActive?.(key)
+                        }
+                })
+        }
+
+export const updateSearchListData =
+        ({data, filter}: UpdateSearchListDataOptions) =>
+        (setState: Updater<SearchState>) =>
+        (value?: string) =>
+                filter &&
+                data &&
+                setState(draft => {
+                        draft.data = (
+                                value ?
+                                        textSearch(data)(['headline', 'supporting'])(value)
+                                :       []) as WritableDraft<ListItemData>[]
+                })
 
 export const animateSearchColor =
         (animateSharedValueTo: AnimateSharedValueTo) =>
         (colorSharedValue: SharedValue<number>) =>
         (disabled?: boolean) =>
                 animateSharedValueTo({sharedValue: colorSharedValue})(disabled ? 0 : 1)
-
-export const updateSearchListData = (setState: Updater<SearchState>) => (data?: ListItemData[]) =>
-        data &&
-        setState(draft => {
-                draft.data = data as WritableDraft<ListItemData>[]
-        })
 
 export const animateSearchBorderRadius =
         (animateSharedValueTo: AnimateSharedValueTo) =>
@@ -114,25 +143,4 @@ export const animateSearchBorderRadius =
 
                 animateSharedValueTo({sharedValue: borderBottomRadiusSharedValue})(toValue)
                 animateSharedValueTo({sharedValue: borderTopRadiusSharedValue})(toValue)
-        }
-
-export const handleSearchListActive =
-        (ref: React.RefObject<TextInput | null> | undefined) =>
-        (onListActive?: (indexKey?: string) => void) =>
-        (indexKey?: string) => {
-                ref?.current?.focus()
-                onListActive?.(indexKey)
-        }
-
-export const handleSearchListClose =
-        (ref: React.RefObject<TextInput | null> | undefined) =>
-        (onListClose?: (options: OnVirtualListCloseOptions) => void) =>
-        (options: OnVirtualListCloseOptions) => {
-                ref?.current?.focus()
-
-                // setState(draft => {
-                //         draft.data = data as WritableDraft<ListItemData>[]
-                // })
-
-                onListClose?.(options)
         }
