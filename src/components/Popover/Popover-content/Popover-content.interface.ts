@@ -6,33 +6,30 @@ import type {
         InteractionHandlers,
         UseHandleStateEventOptions
 } from '@/hooks'
-import type {RefAttributes} from 'react'
-import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
-import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {LayoutRectangle, ViewProps} from 'react-native'
+import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {PopoverContentPosition, PopoverProps} from '..'
 
 export interface PopoverContentProps
         extends ViewProps,
-                RefAttributes<View>,
                 UseHandleStateEventOptions,
                 Pick<
                         PopoverProps,
-                        | 'elevation'
-                        | 'onVisible'
-                        | 'shape'
                         | 'content'
+                        | 'elevation'
+                        | 'onAnimationFinished'
+                        | 'onVisible'
                         | 'popoverContentPosition'
+                        | 'shape'
                         | 'triggerEvent'
                         | 'type'
                         | 'visible'
                 > {
         containerLayout?: LayoutRectangle
-        onClosed?: () => void
 }
 
 export interface RenderPopoverContentProps extends PopoverContentProps {
-        contentAnimatedStyle?: AnimatedStyle<ViewStyle>
         height?: number
         interactionHandlers: InteractionHandlers
         menuPosition: {top?: number; left?: number}
@@ -48,8 +45,7 @@ export interface PopoverContentState {
         invert?: boolean
         layout: LayoutRectangle
         menuPosition: {top?: number; left?: number}
-        nextClosedEvent?: () => void
-        status: ComponentStatus
+        nextAnimationFinishedEvent?: () => void
 }
 
 export type HandlePopoverContentStateEventChangeOptions = HandleStateEventChangeOptions &

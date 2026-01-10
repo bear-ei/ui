@@ -1,4 +1,4 @@
-import {PopoverContent} from '@/components'
+import {PopoverContent, RenderPopoverPressableLayout} from '@/components'
 import mitt from 'mitt'
 import type {FC, RefAttributes} from 'react'
 import {useEffect, useMemo} from 'react'
@@ -10,8 +10,9 @@ import type {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './Modal
 
 const ModalItem: FC<ModalItemProps> = ({type, componentProps, testID}) => {
         const component = {
-                [MODAL_TYPE.SIDE_SHEET]: View,
-                [MODAL_TYPE.POPOVER]: PopoverContent
+                [MODAL_TYPE.PRESSABLE_LAYOUT]: RenderPopoverPressableLayout,
+                [MODAL_TYPE.POPOVER]: PopoverContent,
+                [MODAL_TYPE.SIDE_SHEET]: View
         }
 
         if (!type) {

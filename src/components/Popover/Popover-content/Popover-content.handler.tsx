@@ -1,7 +1,7 @@
-import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '@/constants'
+import {EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '@/constants'
 import type {StateEvent} from '@/hooks'
 import type {WritableDraft} from 'immer'
-import type {LayoutChangeEvent, LayoutRectangle, View} from 'react-native'
+import type {LayoutChangeEvent, View} from 'react-native'
 import type {Updater} from 'use-immer'
 import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverContentPosition, type PopoverType} from '..'
 import type {
@@ -12,8 +12,7 @@ import type {
         HandlePopoverContentStateEventChangeOptions,
         PopoverContentState,
         UpdatePopoverContentInvertOptions,
-        UpdatePopoverContentPositionOptions,
-        UpdatePopoverContentStatusOptions
+        UpdatePopoverContentPositionOptions
 } from './Popover-content.interface'
 
 export const handlePopoverContentStateChange =
@@ -28,7 +27,6 @@ export const handlePopoverContentStateChange =
                                 if (prevWidth !== width || prevHeight !== height) {
                                         draft.layout.height = height
                                         draft.layout.width = width
-                                        draft.status = COMPONENT_STATUS.SUCCEEDED
                                 }
                         })
                 }
@@ -43,6 +41,7 @@ export const handlePopoverContentStateChange =
                         const trigger = {
                                 [TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
                                 [TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
+                                [TRIGGER_ON.NONE]: [EVENT_NAME.NONE],
                                 [TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
                         } as Record<TriggerOn, readonly EventName[]>
 
@@ -54,30 +53,31 @@ export const handlePopoverContentStateChange =
                 }
         }
 
-export const updatePopoverContentClosed =
-        (onClosed?: () => void) => (setState: Updater<PopoverContentState>) => (value?: boolean) =>
-                typeof value === 'boolean' &&
-                value &&
+export const handlePopoverContentAnimationFinished =
+        (onAnimationFinished?: (visible?: boolean) => void) =>
+        (setState: Updater<PopoverContentState>) =>
+        (visible?: boolean) =>
+                typeof visible === 'boolean' &&
                 setState(draft => {
-                        if (draft.invert) {
+                        if (draft.invert && !visible) {
                                 draft.invert = false
                         }
 
-                        if (onClosed) {
-                                draft.nextClosedEvent = () => onClosed?.()
+                        if (onAnimationFinished) {
+                                draft.nextAnimationFinishedEvent = () => onAnimationFinished?.(visible)
                         }
                 })
 
-export const updatePopoverContentStatus =
-        ({setState, windowWidth}: UpdatePopoverContentStatusOptions) =>
-        (containerLayout?: LayoutRectangle) =>
-                windowWidth &&
-                containerLayout &&
-                setState(draft => {
-                        if (draft.status === COMPONENT_STATUS.IDLE) {
-                                draft.status = COMPONENT_STATUS.LOADING
-                        }
-                })
+// export const updatePopoverContentStatus =
+//         ({setState, windowWidth}: UpdatePopoverContentStatusOptions) =>
+//         (containerLayout?: LayoutRectangle) =>
+//                 windowWidth &&
+//                 containerLayout &&
+//                 setState(draft => {
+//                         if (draft.status === COMPONENT_STATUS.IDLE) {
+//                                 draft.status = COMPONENT_STATUS.LOADING
+//                         }
+//                 })
 
 export const getSafeMenuPosition = ({
         height,
@@ -183,9 +183,7 @@ export const getPopoverContentPosition = (popoverContentPosition?: PopoverConten
         return invert ? invertPosition : popoverContentPosition
 }
 
-export const handleMaskPressOut = (onPopoverContentVisible?: (value?: boolean) => void) => () =>
-        onPopoverContentVisible?.(false)
-
+export const handleMaskPressOut = (onVisible?: (value?: boolean) => void) => () => onVisible?.(false)
 export const animatePopoverContent =
         ({createEntrySharedValueAnimator, type, createExitSharedValueAnimator}: AnimatePopoverContentOptions) =>
         ({transformSharedValue, heightSharedValue, opacitySharedValue}: AnimatePopoverContentSharedValues) =>

@@ -11,8 +11,8 @@ export const useVirtualListItemAnimated = ({
         dragging,
         layoutType,
         offset = 0,
-        status,
-        onAnimationFinished
+        onAnimationFinished,
+        status
 }: UseVirtualListItemAnimatedOptions) => {
         const theme = useTheme()
         const animatedTiming = useAnimatedTiming({token: theme.token})

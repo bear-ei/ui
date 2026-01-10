@@ -7,13 +7,16 @@ import {
 } from '@/hooks'
 import {debounce} from '@/utils'
 import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {View} from 'react-native'
+import {TextInput, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {POPOVER_TYPE} from './Popover.enum'
 import {
-        emitPopover,
+        emitPopoverContent,
+        emitPopoverPressableLayout,
+        handlePopoverContentAnimationFinished,
         handlePopoverStateChange,
-        unmountPopover,
+        unmountPopoverContent,
+        unmountPopoverPressableLayout,
         updatePopoverContextMenuLayout,
         updatePopoverVisibility
 } from './Popover.handler'
@@ -23,36 +26,43 @@ import {RenderPopover} from './Popover.render'
 export const PopoverBase = forwardRef<View, PopoverBaseProps>(
         (
                 {
+                        children: rawChildren,
                         content,
                         defaultVisible,
                         disabled: isDisabled = false,
                         elevation,
+                        onKeyDown,
                         onVisible: rawOnVisible,
                         popoverContentPosition,
                         shape,
                         triggerEvent,
                         type = POPOVER_TYPE.PLAIN,
                         visible: rawVisible,
-                        children: rawChildren,
-                        onKeyDown,
+                        onAnimationFinished: rawOnAnimationFinished,
                         ...renderPopoverProps
                 },
                 ref
         ) => {
-                const [{popoverVisible: isPopoverVisible, nextVisibilityEvent, menuContainerLayout}, setState] =
+                const [{popoverVisible: isPopoverVisible, nextVisibilityEvent, contextMenuLayout}, setState] =
                         useImmer<PopoverState>({})
 
                 useClearComponentEvent(setState)
 
                 const isVisible = rawVisible ?? defaultVisible
                 const containerRef = useRef<View>(null)
+                const childrenRef = useRef<TextInput>(null)
                 const id = useId()
                 const onVisible = useMemo(
                         () => debounce(updatePopoverVisibility(rawOnVisible)(setState))(150),
                         [rawOnVisible, setState]
                 )
 
-                const onClosed = useMemo(() => debounce(unmountPopover(id))(150), [id])
+                const onContentUnmount = useMemo(() => debounce(unmountPopoverContent(id))(150), [id])
+                const onContentAnimationFinished = useMemo(
+                        () => handlePopoverContentAnimationFinished(onContentUnmount)(rawOnAnimationFinished),
+                        [onContentUnmount, rawOnAnimationFinished]
+                )
+
                 const onContextMenu = useMemo(
                         () => updatePopoverContextMenuLayout(setState)({onVisible, disabled: isDisabled}),
                         [isDisabled, onVisible, setState]
@@ -60,7 +70,14 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handlePopoverStateChange({...options, onVisible, state, triggerEvent, type})(event),
+                                handlePopoverStateChange({
+                                        ...options,
+                                        childrenRef,
+                                        onVisible,
+                                        state,
+                                        triggerEvent,
+                                        type
+                                })(event),
                         [onVisible, triggerEvent, type]
                 )
 
@@ -70,51 +87,64 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
                         onStateEventChange
                 })
 
-                const {onFocus, onHoverIn, ...childrenInteractionHandlers} = interactionHandlers
-                const childrenElement =
-                        rawChildren &&
-                        cloneElement(rawChildren, {
-                                onFocus,
-                                onHoverIn,
-                                ...childrenInteractionHandlers,
-                                ...(type === POPOVER_TYPE.CONTEXT_MENU && {onContextMenu}),
-                                ...(type === POPOVER_TYPE.TEXT_INPUT_PICKER && {onKeyPress: onKeyDown})
-                        })
-
-                const runEmit = useMemo(
+                const runEmitContent = useMemo(
                         () =>
-                                emitPopover(id)({
+                                emitPopoverContent(id)({
                                         content,
                                         elevation,
-                                        onClosed,
+                                        onAnimationFinished: onContentAnimationFinished,
                                         onVisible,
                                         popoverContentPosition,
                                         shape,
                                         triggerEvent,
                                         type
                                 }),
-                        [content, elevation, id, onClosed, onVisible, popoverContentPosition, shape, triggerEvent, type]
+                        [
+                                content,
+                                elevation,
+                                id,
+                                onContentAnimationFinished,
+                                onVisible,
+                                popoverContentPosition,
+                                shape,
+                                triggerEvent,
+                                type
+                        ]
                 )
 
-                const runUnmount = useMemo(() => unmountPopover(id), [id])
+                const runEmitPressableLayout = useMemo(() => emitPopoverPressableLayout(id)(containerRef), [id])
+                const runUnmountContent = useMemo(() => unmountPopoverContent(id), [id])
+                const runUnmountPressableLayout = useMemo(() => unmountPopoverPressableLayout(id), [id])
                 const runUpdateVisible = useMemo(
                         () => debounce(updatePopoverVisibility(rawOnVisible)(setState))(150),
                         [rawOnVisible, setState]
                 )
 
+                const children = cloneElement(rawChildren ?? <></>, {
+                        ...(type === POPOVER_TYPE.TEXT_INPUT_PICKER && {ref: childrenRef, onKeyPress: onKeyDown}),
+                        ...(type === POPOVER_TYPE.CONTEXT_MENU && {onContextMenu}),
+                        ...interactionHandlers
+                })
+
                 useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
                 useEffect(() => {
-                        if (type === POPOVER_TYPE.CONTEXT_MENU) {
-                                runEmit({containerLayout: menuContainerLayout, visible: isPopoverVisible})
+                        if (contextMenuLayout) {
+                                runEmitContent({containerLayout: contextMenuLayout, visible: isPopoverVisible})
 
                                 return
                         }
 
                         containerRef.current?.measureInWindow((x, y, width, height) =>
-                                runEmit({containerLayout: {x, y, width, height}, visible: isPopoverVisible})
+                                runEmitContent({containerLayout: {x, y, width, height}, visible: isPopoverVisible})
                         )
-                }, [isPopoverVisible, menuContainerLayout, runEmit, type])
+                }, [isPopoverVisible, contextMenuLayout, runEmitContent])
+
+                useEffect(() => {
+                        if (type === POPOVER_TYPE.TEXT_INPUT_PICKER) {
+                                runEmitPressableLayout(interactionHandlers)
+                        }
+                }, [interactionHandlers, runEmitPressableLayout, type])
 
                 useEffect(() => {
                         runUpdateVisible(isVisible)
@@ -126,18 +156,18 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 
                 useEffect(
                         () => () => {
-                                runUnmount()
+                                runUnmountContent()
+                                runUnmountPressableLayout()
                         },
-                        [runUnmount]
+                        [runUnmountContent, runUnmountPressableLayout]
                 )
 
                 return (
                         <RenderPopover
                                 {...renderPopoverProps}
-                                children={childrenElement}
+                                children={children}
                                 elevation={elevation}
                                 id={id}
-                                interactionHandlers={interactionHandlers}
                                 onContextMenu={onContextMenu}
                                 ref={containerRef}
                                 shape={shape}

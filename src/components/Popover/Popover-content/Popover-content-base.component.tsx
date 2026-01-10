@@ -1,4 +1,4 @@
-import {COMPONENT_STATUS, type State} from '@/constants'
+import {type State} from '@/constants'
 import {
         type HandleStateEventChangeOptions,
         type StateEvent,
@@ -14,20 +14,18 @@ import {POPOVER_TYPE, type PopoverType} from '..'
 import {
         getPopoverContentPosition,
         handleMaskPressOut,
+        handlePopoverContentAnimationFinished,
         handlePopoverContentStateChange,
-        updatePopoverContentClosed,
-        updatePopoverContentPosition,
-        updatePopoverContentStatus
+        updatePopoverContentPosition
 } from './Popover-content.handler'
 import type {PopoverContentBaseProps, PopoverContentState} from './Popover-content.interface'
 import {RenderPopoverContent} from './Popover-content.render'
-import {usePopoverContentAnimated} from './use-popover-content-animated.hook'
 
 export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
         (
                 {
                         containerLayout,
-                        onClosed: rawOnClosed,
+                        onAnimationFinished: rawOnAnimationFinished,
                         onVisible,
                         popoverContentPosition,
                         triggerEvent,
@@ -37,11 +35,11 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                 },
                 ref
         ) => {
-                const [{layout, status, invert: isInvert, menuPosition, nextClosedEvent}, setState] =
+                const [{layout, invert: isInvert, menuPosition, nextAnimationFinishedEvent}, setState] =
                         useImmer<PopoverContentState>({
                                 layout: {} as LayoutRectangle,
-                                menuPosition: {},
-                                status: COMPONENT_STATUS.IDLE
+                                menuPosition: {}
+                                // status: COMPONENT_STATUS.IDLE
                         })
 
                 useClearComponentEvent(setState)
@@ -61,22 +59,13 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                                 :       theme.token.spacing.extraSmall * 45
                         :       layout.width
 
-                const onClosed = useMemo(
-                        () => updatePopoverContentClosed(rawOnClosed)(setState),
-                        [rawOnClosed, setState]
+                const onAnimationFinished = useMemo(
+                        () => handlePopoverContentAnimationFinished(rawOnAnimationFinished)(setState),
+                        [rawOnAnimationFinished, setState]
                 )
 
                 const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisible), [onVisible])
                 const position = getPopoverContentPosition(popoverContentPosition)(isInvert)
-                const {contentAnimatedStyle} = usePopoverContentAnimated({
-                        height: layout.height,
-                        onClose: onClosed,
-                        position,
-                        status,
-                        type,
-                        visible
-                })
-
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handlePopoverContentStateChange({...options, state, onVisible, triggerEvent})(setState)(
@@ -86,10 +75,10 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                 )
 
                 const interactionHandlers = useInteractionStateEvent({...renderPopoverContentProps, onStateEventChange})
-                const runUpdateStatus = useMemo(
-                        () => updatePopoverContentStatus({setState, windowWidth}),
-                        [setState, windowWidth]
-                )
+                // const runUpdateStatus = useMemo(
+                //         () => updatePopoverContentStatus({setState, windowWidth}),
+                //         [setState, windowWidth]
+                // )
 
                 const runUpdatePosition = useMemo(
                         () =>
@@ -105,27 +94,27 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 
                 useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
 
-                useEffect(() => {
-                        runUpdateStatus(containerLayout)
-                }, [containerLayout, runUpdateStatus, visible])
+                // useEffect(() => {
+                //         runUpdateStatus(containerLayout)
+                // }, [containerLayout, runUpdateStatus, visible])
 
                 useEffect(() => {
                         runUpdatePosition({visible, windowHeight, windowWidth, layout})
                 }, [visible, layout, runUpdatePosition, windowHeight, windowWidth])
 
                 useEffect(() => {
-                        nextClosedEvent?.()
-                }, [nextClosedEvent])
+                        nextAnimationFinishedEvent?.()
+                }, [nextAnimationFinishedEvent])
 
                 return (
                         <RenderPopoverContent
                                 {...renderPopoverContentProps}
                                 containerLayout={containerLayout}
-                                contentAnimatedStyle={contentAnimatedStyle}
                                 height={layout.height}
                                 id={id}
                                 interactionHandlers={interactionHandlers}
                                 menuPosition={menuPosition}
+                                onAnimationFinished={onAnimationFinished}
                                 onMaskPressOut={onMaskPressOut}
                                 popoverContentPosition={position}
                                 ref={containerRef}

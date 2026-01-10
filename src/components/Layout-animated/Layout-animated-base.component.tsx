@@ -29,8 +29,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         entry,
                         exit,
                         lazy = false,
+                        onAnimationFinished: rawOnAnimationFinished,
                         onUnmount,
-                        onVisibility,
                         opacity,
                         scale = false,
                         translate,
@@ -40,7 +40,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 },
                 ref
         ) => {
-                const [{layout, nextUnmountEvent, nextVisibilityEvent, status}, setState] =
+                const [{layout, nextUnmountEvent, nextAnimationFinishedEvent, status}, setState] =
                         useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE})
 
                 useClearComponentEvent(setState)
@@ -58,11 +58,11 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 const onAnimationFinished = useMemo(
                         () =>
                                 finalizeLayoutAnimatedVisibilityChange({
+                                        onAnimationFinished: rawOnAnimationFinished,
                                         onUnmount,
-                                        onVisibility,
                                         unmount
                                 })(setState),
-                        [onUnmount, onVisibility, setState, unmount]
+                        [onUnmount, rawOnAnimationFinished, setState, unmount]
                 )
 
                 const onLayoutChange = useMemo(
@@ -107,8 +107,8 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 }, [nextUnmountEvent])
 
                 useEffect(() => {
-                        nextVisibilityEvent?.()
-                }, [nextVisibilityEvent])
+                        nextAnimationFinishedEvent?.()
+                }, [nextAnimationFinishedEvent])
 
                 if (status === COMPONENT_STATUS.IDLE && [lazy, unmount].some(Boolean)) {
                         return <></>

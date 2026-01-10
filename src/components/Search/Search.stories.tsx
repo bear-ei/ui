@@ -56,7 +56,7 @@ export const ExtraSmall: StoryObj<SearchProps> = {
         }
 }
 
-export const MediumList: StoryObj<SearchProps> = {
+export const SearchList: StoryObj<SearchProps> = {
         args: {
                 activeKey: 'TitleB',
                 closeTrailing: true,

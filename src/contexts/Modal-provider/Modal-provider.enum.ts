@@ -1,5 +1,5 @@
 export const MODAL_TYPE = {
-        POPOVER_CHILDREN: 'POPOVER_CHILDREN',
         POPOVER: 'POPOVER',
+        PRESSABLE_LAYOUT: 'PRESSABLE_LAYOUT',
         SIDE_SHEET: 'SIDE_SHEET'
 } as const

@@ -22,8 +22,8 @@ export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View
         entry?: AnimatedTimingOptions
         exit?: AnimatedTimingOptions
         lazy?: boolean
+        onAnimationFinished?: (visible?: boolean) => void
         onUnmount?: () => void
-        onVisibility?: (visible?: boolean) => void
         opacity?: number
 
         // [ These parameters are only effective when the animation type is Collapse.
@@ -45,14 +45,14 @@ export interface RenderLayoutAnimatedProps extends Omit<LayoutAnimatedProps, 'co
 export interface LayoutAnimatedState {
         layout: LayoutRectangle
         nextUnmountEvent?: () => void
-        nextVisibilityEvent?: () => void
+        nextAnimationFinishedEvent?: () => void
         status: ComponentStatus
 }
 
 export type LayoutAnimatedBaseProps = LayoutAnimatedProps
 export type FinalizeLayoutAnimatedVisibilityChangeOptions = Pick<
         RenderLayoutAnimatedProps,
-        'onUnmount' | 'unmount' | 'onVisibility'
+        'onUnmount' | 'unmount' | 'onAnimationFinished'
 >
 
 export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEventChangeOptions {

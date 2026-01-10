@@ -11,6 +11,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                 {
                         activeKey,
                         activeKeys,
+                        children,
                         closeTrailing,
                         data,
                         elevation = ELEVATION.LEVEL_2,
@@ -65,10 +66,12 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                                         elevation={elevation}
                                         onKeyDown={onKeyDown}
                                         onVisible={onVisible}
-                                        shape={type === POPOVER_TYPE.TEXT_INPUT_PICKER ? SHAPE.MEDIUM_BOTTOM : shape}
+                                        shape={shape}
                                         type={type}
                                         visible={visible}
-                                />
+                                >
+                                        {children}
+                                </Popover>
                         </View>
                 )
         }

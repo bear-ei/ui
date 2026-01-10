@@ -1,5 +1,5 @@
-import {AnimatedView} from '@/components/Animated-component'
 import {Elevation} from '@/components/Elevation'
+import {LAYOUT_ANIMATED, LayoutAnimated} from '@/components/Layout-animated'
 import {Mask} from '@/components/Mask'
 import type {MenuProps} from '@/components/Menu'
 import {useTheme} from '@/hooks'
@@ -14,10 +14,8 @@ import type {RenderPopoverContentProps} from './Popover-content.interface'
 export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
         (
                 {
-                        children,
                         containerLayout,
                         content,
-                        contentAnimatedStyle,
                         elevation,
                         height = 0,
                         id,
@@ -37,6 +35,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                 ref
         ) => {
                 const {onLayout, ...mainInteractionHandlers} = interactionHandlers
+
                 const theme = useTheme()
                 const {
                         height: containerHeight = 0,
@@ -126,7 +125,40 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                         }
                 }
 
-                const plainPosition = position[popoverContentPosition]()
+                const contentPosition = position[popoverContentPosition]()
+
+                const contentStyle = {
+                        height: platformValue(height),
+                        width: platformValue(width),
+                        ...(type === POPOVER_TYPE.CONTEXT_MENU ?
+                                {
+                                        left: platformValue(menuPosition.left ?? theme.token.spacing.none),
+                                        top: platformValue(menuPosition.top ?? theme.token.spacing.none)
+                                }
+                        :       {left: platformValue(contentPosition.left), top: platformValue(contentPosition.top)})
+                } as ViewStyle
+
+                const elevationLayoutStyle = {
+                        height: platformValue(height + containerHeight),
+                        width: platformValue(width)
+                } as ViewStyle
+
+                const positionOutputRanges = {
+                        [POPOVER_CONTENT_POSITION.VERTICAL_START]: [
+                                theme.token.spacing.small,
+                                theme.token.spacing.none
+                        ],
+                        [POPOVER_CONTENT_POSITION.VERTICAL_END]: [-theme.token.spacing.small, theme.token.spacing.none],
+                        [POPOVER_CONTENT_POSITION.HORIZONTAL_START]: [
+                                theme.token.spacing.small,
+                                theme.token.spacing.none
+                        ],
+                        [POPOVER_CONTENT_POSITION.HORIZONTAL_END]: [
+                                -theme.token.spacing.small,
+                                theme.token.spacing.none
+                        ]
+                }
+
                 const mainElement = (
                         <View
                                 {...(type === POPOVER_TYPE.PLAIN && {onLayout})}
@@ -137,7 +169,9 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                                                         type === POPOVER_TYPE.PLAIN,
                                                 ['left-0 right-0']: isMenuOrPicker
                                         },
-                                        shapeClasses(shape)
+                                        shapeClasses(
+                                                type === POPOVER_TYPE.TEXT_INPUT_PICKER ? SHAPE.MEDIUM_BOTTOM : shape
+                                        )
                                 )}
                                 testID={`popoverContent__main--${id}`}
                         >
@@ -173,67 +207,34 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                         </View>
                 )
 
-                if (children) {
-                        return <>{children}</>
-                }
-
                 return (
                         <>
-                                <AnimatedView
+                                <LayoutAnimated
                                         {...containerProps}
-                                        ref={ref}
-                                        className={classesName('z-50 min-h-6', {
+                                        animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
+                                        contentSize={{height, width}}
+                                        className={classesName('z-50 ', {
                                                 ['absolute']: Platform.OS !== 'web',
-                                                ['fixed']: Platform.OS === 'web'
+                                                ['fixed']: Platform.OS === 'web',
+                                                ['min-h-6']: !isMenuOrPicker
                                         })}
-                                        style={[
-                                                {
-                                                        height: platformValue(height),
-                                                        width: platformValue(width),
-                                                        ...(type === POPOVER_TYPE.CONTEXT_MENU ?
-                                                                {
-                                                                        left: platformValue(
-                                                                                menuPosition.left ??
-                                                                                        theme.token.spacing.none
-                                                                        ),
-                                                                        top: platformValue(
-                                                                                menuPosition.top ??
-                                                                                        theme.token.spacing.none
-                                                                        )
-                                                                }
-                                                        :       {
-                                                                        left: platformValue(plainPosition.left),
-                                                                        top: platformValue(plainPosition.top)
-                                                                })
-                                                } as ViewStyle,
-                                                contentAnimatedStyle
-                                        ]}
-                                        testID={testID ?? `popoverContent__supporting--${id}`}
+                                        ref={ref}
+                                        style={[contentStyle]}
+                                        testID={testID ?? `popoverContent__content--${id}`}
+                                        translate={!isMenuOrPicker}
+                                        visible={visible}
                                 >
                                         {isMenuOrPicker ?
-                                                <View
-                                                        className='relative flex-1 self-stretch'
-                                                        testID={`popoverContent_content--${id}`}
-                                                >
-                                                        {mainElement}
-                                                </View>
+                                                mainElement
                                         :       <Pressable
                                                         {...mainInteractionHandlers}
                                                         className='relative flex-1 self-stretch outline-none'
-                                                        testID={`popoverContent_content--${id}`}
+                                                        testID={`popoverContent_contentMain--${id}`}
                                                 >
                                                         {mainElement}
                                                 </Pressable>
                                         }
-
-                                        {typeof elevation === 'number' && type !== POPOVER_TYPE.TEXT_INPUT_PICKER && (
-                                                <Elevation
-                                                        level={elevation}
-                                                        shape={shape}
-                                                        testID={`popoverContent_elevation--${id}`}
-                                                />
-                                        )}
-                                </AnimatedView>
+                                </LayoutAnimated>
 
                                 {isMenuOrPicker && (
                                         <Mask
@@ -243,6 +244,23 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                                                 testID={`popoverContent__mask--${id}`}
                                                 visible={visible}
                                         />
+                                )}
+
+                                {typeof elevation === 'number' && type === POPOVER_TYPE.TEXT_INPUT_PICKER && (
+                                        <View
+                                                className={classesName('z-40', {
+                                                        ['absolute']: Platform.OS !== 'web',
+                                                        ['fixed']: Platform.OS === 'web'
+                                                })}
+                                                style={[elevationLayoutStyle]}
+                                                testID={`popoverContent_elevationLayout--${id}`}
+                                        >
+                                                <Elevation
+                                                        level={elevation}
+                                                        shape={SHAPE.MEDIUM}
+                                                        testID={`popoverContent_elevation--${id}`}
+                                                />
+                                        </View>
                                 )}
                         </>
                 )

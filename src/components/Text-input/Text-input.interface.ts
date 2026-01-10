@@ -15,7 +15,7 @@ export interface TextInputProps
         error?: boolean
         labelText?: string
         leading?: React.JSX.Element
-        onSupportingTextVisibility?: (visible?: boolean) => void
+        onSupportingTextAnimationFinished?: (visible?: boolean) => void
         supportingText?: string
         supportingTextDelay?: number
         trailing?: React.JSX.Element
@@ -31,7 +31,7 @@ export interface RenderTextInputProps extends TextInputProps {
         interactionHandlers: InteractionHandlers
         leadingElement?: React.JSX.Element
         onHeaderFocus?: () => void
-        onSupportingTextVisibility?: (visible?: boolean) => void
+        onSupportingTextAnimationFinished?: (visible?: boolean) => void
         supportingTextVisible?: boolean
         trailingElement?: React.JSX.Element
 }
@@ -43,7 +43,7 @@ export interface TextInputState {
         nextChangeTextEvent?: () => void
         nextContentSizeChangeEvent?: () => void
         nextSupportingTextCloseEvent?: () => void
-        nextSupportingTextVisibilityEvent?: () => void
+        nextSupportingTextAnimationFinishedEvent?: () => void
         state: State
         status: ComponentStatus
         supportingText?: string

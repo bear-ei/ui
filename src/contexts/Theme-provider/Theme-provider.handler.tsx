@@ -1,7 +1,7 @@
 import type {Token} from '@bearei/theme-token'
 import {vars} from 'nativewind'
 
-export const processCssVariables = (token: Token) => {
+export const processStyleVariables = (token: Token) => {
         const toKebabCase = (str: string) =>
                 Array.from(str)
                         .map(char =>

@@ -3,6 +3,7 @@ import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes, RefObject} from 'react'
 import type {PressableProps, TextInput, TextInputProps, TextStyle, View, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {ElevationLevel} from '../Elevation'
 import type {ListItemData} from '../List'
 import type {MenuProps} from '../Menu'
 
@@ -31,6 +32,7 @@ export type SearchBaseProps = SearchProps
 export interface SearchState {
         activeKey?: string
         data?: ListItemData[]
+        elevation?: ElevationLevel
         eventName?: EventName
         listExpanded?: boolean
         listVisible?: boolean
@@ -41,6 +43,8 @@ export interface SearchState {
         state: State
         status: ComponentStatus
         value?: string
+
+        filterValue?: string
 }
 
 export interface HandleSearchInputStateChangeOptions extends HandleStateEventChangeOptions {

@@ -49,7 +49,7 @@ export const handleLayoutAnimatedStateChange =
         }
 
 export const finalizeLayoutAnimatedVisibilityChange =
-        ({onUnmount, unmount, onVisibility}: FinalizeLayoutAnimatedVisibilityChangeOptions) =>
+        ({onUnmount, unmount, onAnimationFinished}: FinalizeLayoutAnimatedVisibilityChangeOptions) =>
         (setState: Updater<LayoutAnimatedState>) =>
         (visible?: boolean) =>
                 setState(draft => {
@@ -61,8 +61,8 @@ export const finalizeLayoutAnimatedVisibilityChange =
                                 }
                         }
 
-                        if (onVisibility) {
-                                draft.nextVisibilityEvent = () => onVisibility?.(visible)
+                        if (onAnimationFinished) {
+                                draft.nextAnimationFinishedEvent = () => onAnimationFinished?.(visible)
                         }
                 })
 

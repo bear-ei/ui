@@ -32,7 +32,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                         leadingElement,
                         multiline,
                         onHeaderFocus,
-                        onSupportingTextVisibility,
+                        onSupportingTextAnimationFinished,
                         placeholder = 'Placeholder',
                         size = SIZE.MEDIUM,
                         supportingText,
@@ -324,7 +324,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                         <SupportingText
                                                 disabled={disabled}
                                                 error={error}
-                                                onVisibility={onSupportingTextVisibility}
+                                                onAnimationFinished={onSupportingTextAnimationFinished}
                                                 size={size}
                                                 testID={`textInput__supportingLayoutAnimated--${id}`}
                                                 visible={supportingTextVisible}

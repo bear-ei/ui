@@ -43,7 +43,9 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         {
                                 activeKey,
                                 data,
+                                elevation,
                                 eventName,
+                                filterValue,
                                 listExpanded: isListExpanded,
                                 listVisible: isListVisible,
                                 nextActiveEvent,
@@ -53,7 +55,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 value
                         },
                         setState
-                ] = useImmer<SearchState>({state: STATE.ENABLED, status: COMPONENT_STATUS.IDLE, value: ''})
+                ] = useImmer<SearchState>({
+                        elevation: 0,
+                        state: STATE.ENABLED,
+                        status: COMPONENT_STATUS.IDLE,
+                        value: ''
+                })
 
                 useClearComponentEvent(setState)
 
@@ -70,10 +77,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 )
 
                 const onListFocusKey = useMemo(() => handleSearchListFocusKey(setState), [setState])
-                const onUpdateListExpanded = useMemo(
-                        () => debounce(updateSearchListExpanded(setState))(300),
-                        [setState]
-                )
+                const onUpdateListExpanded = useMemo(() => updateSearchListExpanded(setState), [setState])
 
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
@@ -88,7 +92,11 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 })
 
                 const runUpdateValue = useMemo(() => updateSearchInputValue(setState), [setState])
-                const runUpdateVisibility = useMemo(() => updateSearchListVisibility(setState), [setState])
+                const runUpdateVisibility = useMemo(
+                        () => debounce(updateSearchListVisibility(setState))(150),
+                        [setState]
+                )
+
                 const runUpdateSearchListData = useMemo(
                         () => updateSearchListData({data: rawData, filter})(setState),
                         [filter, rawData, setState]
@@ -102,18 +110,16 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
 
                 useEffect(() => {
-                        runUpdateSearchListData(value)
-                }, [value, runUpdateSearchListData])
+                        runUpdateSearchListData(filterValue)
+                }, [filterValue, runUpdateSearchListData])
 
                 useEffect(() => {
                         runUpdateValue(rawValue ?? defaultValue)
                 }, [runUpdateValue, defaultValue, rawValue])
 
                 useEffect(() => {
-                        if (data) {
-                                runUpdateVisibility(!!data?.length)
-                        }
-                }, [runUpdateVisibility, data])
+                        runUpdateVisibility(!!value)
+                }, [runUpdateVisibility, value])
 
                 useEffect(() => {
                         nextActiveEvent?.()
@@ -138,6 +144,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 contentAnimatedStyle={contentAnimatedStyle}
                                 data={data}
                                 disabled={disabled}
+                                elevation={elevation}
                                 eventName={eventName}
                                 id={id}
                                 inputAnimatedStyle={inputAnimatedStyle}
@@ -145,9 +152,9 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 leadingElement={leading}
                                 listVisible={isListVisible}
                                 onActive={onListActiveKey}
+                                onAnimationFinished={onUpdateListExpanded}
                                 onChangeText={onChangeText}
                                 onFocusKey={onListFocusKey}
-                                onVisible={onUpdateListExpanded}
                                 ref={inputRef}
                                 textInputPicker={!!rawData}
                                 trailingElement={trailing}

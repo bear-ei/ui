@@ -15,9 +15,9 @@ import {
         createUpdateTextInputContentSize,
         focusTextInput,
         handleTextInputStateChange,
+        handleTextInputSupportingTextAnimationFinished,
         updateTextInputSupportingText,
         updateTextInputSupportingTextClose,
-        updateTextInputSupportingTextVisibility,
         updateTextInputValue,
         updateTextInputValueWithCallback
 } from './Text-input.handler'
@@ -38,7 +38,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         multiline,
                         onChangeText: rawOnChangeText,
                         onContentSizeChange: rawOnContentSizeChange,
-                        onSupportingTextVisibility: rawOnSupportingTextVisibility,
+                        onSupportingTextAnimationFinished: rawOnSupportingTextAnimationFinished,
                         supportingText: rawSupportingText,
                         supportingTextDelay = 0,
                         trailing,
@@ -55,7 +55,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                                 nextChangeTextEvent,
                                 nextContentSizeChangeEvent,
                                 nextSupportingTextCloseEvent,
-                                nextSupportingTextVisibilityEvent,
+                                nextSupportingTextAnimationFinishedEvent,
                                 state,
                                 status,
                                 supportingText,
@@ -89,9 +89,12 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                         [rawOnChangeText, setState]
                 )
 
-                const onSupportingTextVisibility = useMemo(
-                        () => updateTextInputSupportingTextVisibility(rawOnSupportingTextVisibility)(setState),
-                        [rawOnSupportingTextVisibility, setState]
+                const onSupportingTextAnimationFinished = useMemo(
+                        () =>
+                                handleTextInputSupportingTextAnimationFinished(rawOnSupportingTextAnimationFinished)(
+                                        setState
+                                ),
+                        [rawOnSupportingTextAnimationFinished, setState]
                 )
 
                 const onHeaderFocus = useMemo(() => focusTextInput(textInputRef), [])
@@ -151,8 +154,8 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                 }, [nextContentSizeChangeEvent])
 
                 useEffect(() => {
-                        nextSupportingTextVisibilityEvent?.()
-                }, [nextSupportingTextVisibilityEvent])
+                        nextSupportingTextAnimationFinishedEvent?.()
+                }, [nextSupportingTextAnimationFinishedEvent])
 
                 useEffect(() => {
                         nextSupportingTextCloseEvent?.()
@@ -178,7 +181,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
                                 onChangeText={onChangeText}
                                 onContentSizeChange={onContentSizeChange}
                                 onHeaderFocus={onHeaderFocus}
-                                onSupportingTextVisibility={onSupportingTextVisibility}
+                                onSupportingTextAnimationFinished={onSupportingTextAnimationFinished}
                                 ref={textInputRef}
                                 supportingText={supportingText}
                                 supportingTextVisible={isSupportingTextVisible}

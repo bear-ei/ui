@@ -82,16 +82,17 @@ export const updateTextInputSupportingText =
                 })
         }
 
-export const updateTextInputSupportingTextVisibility =
-        (onSupportingTextVisibility?: (visible?: boolean) => void) =>
+export const handleTextInputSupportingTextAnimationFinished =
+        (onSupportingTextAnimationFinished?: (visible?: boolean) => void) =>
         (setState: Updater<TextInputState>) =>
         (visible?: boolean) =>
                 typeof visible === 'boolean' &&
                 setState(draft => {
                         const supportingText = visible ? draft.supportingText : undefined
 
-                        if (draft.supportingText !== supportingText && onSupportingTextVisibility) {
-                                draft.nextSupportingTextVisibilityEvent = () => onSupportingTextVisibility?.(visible)
+                        if (draft.supportingText !== supportingText && onSupportingTextAnimationFinished) {
+                                draft.nextSupportingTextAnimationFinishedEvent = () =>
+                                        onSupportingTextAnimationFinished?.(visible)
                         }
 
                         draft.supportingText = supportingText

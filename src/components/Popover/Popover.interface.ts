@@ -2,13 +2,15 @@ import type {TriggerOn} from '@/constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {ShapeType} from '@bearei/theme-token'
 import type {JSX, RefAttributes} from 'react'
-import type {LayoutRectangle, MouseEvent, View, ViewProps} from 'react-native'
+import type {LayoutRectangle, MouseEvent, PressableProps, TextInput, View, ViewProps} from 'react-native'
 import type {ElevationLevel} from '../Elevation'
+import type {LayoutAnimatedProps} from '../Layout-animated'
+import type {PressableType} from '../Touchable'
 import type {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from './Popover.enum'
 
 export type PopoverContentPosition = (typeof POPOVER_CONTENT_POSITION)[keyof typeof POPOVER_CONTENT_POSITION]
 export type PopoverType = (typeof POPOVER_TYPE)[keyof typeof POPOVER_TYPE]
-export interface PopoverProps extends ViewProps, RefAttributes<View> {
+export interface PopoverProps extends ViewProps, RefAttributes<View>, Omit<LayoutAnimatedProps, 'style'> {
         children?: JSX.Element
         content?: string | JSX.Element
         defaultVisible?: boolean
@@ -25,13 +27,20 @@ export interface PopoverProps extends ViewProps, RefAttributes<View> {
 }
 
 export interface RenderPopoverProps extends PopoverProps {
-        interactionHandlers: InteractionHandlers
         onContextMenu: (event: MouseEvent) => void
+}
+
+export interface RenderPopoverLayoutProps
+        extends Omit<
+                PressableProps & RefAttributes<PressableType> & InteractionHandlers,
+                'children' | 'disabled' | 'hitSlop' | 'style'
+        > {
+        containerLayout?: Partial<LayoutRectangle>
 }
 
 export type PopoverBaseProps = PopoverProps
 export interface PopoverState {
-        menuContainerLayout?: {x: number; y: number}
+        contextMenuLayout?: {x: number; y: number}
         nextVisibilityEvent?: () => void
         popoverVisible?: boolean
 }
@@ -39,10 +48,12 @@ export interface PopoverState {
 export interface HandlePopoverStateEventChangeOptions
         extends HandleStateEventChangeOptions,
                 Pick<PopoverProps, 'triggerEvent' | 'type'> {
+        childrenRef?: React.RefObject<TextInput | null>
         onVisible: (value?: boolean) => void
 }
 
 export interface EmitPopoverOptions {
+        children?: JSX.Element
         containerLayout?: Partial<LayoutRectangle>
         visible?: boolean
 }

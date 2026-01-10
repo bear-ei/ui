@@ -5,6 +5,7 @@ import type {WritableDraft} from 'immer'
 import type {TextInput} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+import {ELEVATION} from '../Elevation'
 import type {ListItemData} from '../List'
 import type {OnVirtualListCloseOptions} from '../Virtual-list'
 import type {
@@ -45,16 +46,26 @@ export const handleSearchInputStateChange =
 export const updateSearchText =
         (onChangeText?: (text: string) => void) => (setState: Updater<SearchState>) => (value: string) =>
                 setState(draft => {
-                        if (draft.value !== value && onChangeText) {
-                                draft.nextChangeTextEvent = () => onChangeText?.(value)
+                        if (draft.value === value) {
+                                return
                         }
 
                         draft.value = value
+                        draft.filterValue = value
+
+                        if (onChangeText) {
+                                draft.nextChangeTextEvent = () => onChangeText?.(value)
+                        }
                 })
 
 export const updateSearchInputValue = (setState: Updater<SearchState>) => (value?: string) =>
         setState(draft => {
-                draft.value = value ?? ''
+                const nextValue = value ?? ''
+
+                if (nextValue !== draft.value) {
+                        draft.value = nextValue
+                        draft.filterValue = nextValue
+                }
 
                 if (draft.status === COMPONENT_STATUS.IDLE) {
                         draft.status = COMPONENT_STATUS.SUCCEEDED
@@ -72,15 +83,24 @@ export const updateSearchListVisibility = (setState: Updater<SearchState>) => (v
                 }
 
                 draft.listVisible = false
+                draft.elevation = ELEVATION.LEVEL_0
         })
 
-export const updateSearchListExpanded = (setState: Updater<SearchState>) => (visible?: boolean) =>
-        typeof visible === 'boolean' &&
-        setState(draft => {
-                if (!visible) {
-                        draft.listExpanded = false
-                }
-        })
+export const updateSearchListExpanded = (setState: Updater<SearchState>) => (visible?: boolean) => {
+        return (
+                typeof visible === 'boolean' &&
+                setState(draft => {
+                        console.info(visible, 'visible=====>')
+                        if (!visible) {
+                                draft.listExpanded = false
+
+                                return
+                        }
+
+                        draft.elevation = ELEVATION.LEVEL_2
+                })
+        )
+}
 
 export const handleSearchListClose =
         (ref?: React.RefObject<TextInput | null>) =>

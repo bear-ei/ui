@@ -256,14 +256,15 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                         activeKey,
                         closeTrailing,
                         data,
+                        elevation,
                         emptyElement,
                         id,
                         listVisible,
                         onActive,
+                        onAnimationFinished,
                         onFocusKey,
-                        onVisible,
-                        textInputPicker,
                         size,
+                        textInputPicker: isTextInputPicker,
                         ...textInputProps
                 },
                 ref
@@ -278,7 +279,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
 
                 return (
                         <>
-                                {textInputPicker ?
+                                {isTextInputPicker ?
                                         <Menu
                                                 activeKey={activeKey}
                                                 closeTrailing={closeTrailing}
@@ -290,15 +291,17 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                         ['h-8']: size === SIZE.EXTRA_SMALL
                                                 })}
                                                 data={data}
+                                                elevation={elevation}
                                                 emptyElement={emptyElement}
                                                 onActive={onActive}
+                                                onAnimationFinished={onAnimationFinished}
                                                 onFocusKey={onFocusKey}
-                                                onVisible={onVisible}
                                                 popoverContentPosition={POPOVER_CONTENT_POSITION.VERTICAL_END}
                                                 shape={listVisible ? SHAPE.MEDIUM : SHAPE.EXTRA_LARGE}
                                                 size={size}
                                                 testID={`search__picker--${id}`}
                                                 trailingTriggerOn={TRIGGER_ON.HOVER}
+                                                triggerEvent={TRIGGER_ON.NONE}
                                                 type={POPOVER_TYPE.TEXT_INPUT_PICKER}
                                                 visible={listVisible}
                                         >

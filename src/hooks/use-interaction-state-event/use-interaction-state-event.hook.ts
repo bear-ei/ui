@@ -93,16 +93,32 @@ export const useInteractionStateEvent = ({
                 [interactionHandlers, rawOnLayout]
         )
 
-        return {
-                mobileDevice: isMobileDevice,
-                onBlur,
-                onFocus,
-                onHoverIn,
-                onHoverOut,
-                onLayout,
-                onLongPress,
-                onPress,
-                onPressIn,
-                onPressOut
-        }
+        const result = useMemo(
+                () => ({
+                        mobileDevice: isMobileDevice,
+                        onBlur,
+                        onFocus,
+                        onHoverIn,
+                        onHoverOut,
+                        onLayout,
+                        onLongPress,
+                        onPress,
+                        onPressIn,
+                        onPressOut
+                }),
+                [
+                        isMobileDevice,
+                        onBlur,
+                        onFocus,
+                        onHoverIn,
+                        onHoverOut,
+                        onLayout,
+                        onLongPress,
+                        onPress,
+                        onPressIn,
+                        onPressOut
+                ]
+        )
+
+        return result
 }
