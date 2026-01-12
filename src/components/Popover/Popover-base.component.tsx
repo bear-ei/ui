@@ -1,12 +1,25 @@
 import type {State} from '@/constants'
 import {
-        type HandleStateEventChangeOptions,
-        type StateEvent,
         useClearComponentEvent,
-        useInteractionStateEvent
+        useInteractionStateEvent,
+        useMergeRefs,
+        type HandleStateEventChangeOptions,
+        type StateEvent
 } from '@/hooks'
 import {debounce} from '@/utils'
-import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {
+        cloneElement,
+        forwardRef,
+        isValidElement,
+        useCallback,
+        useEffect,
+        useId,
+        useImperativeHandle,
+        useMemo,
+        useRef,
+        type ComponentPropsWithRef,
+        type ReactElement
+} from 'react'
 import {TextInput, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {POPOVER_TYPE} from './Popover.enum'
@@ -25,9 +38,6 @@ import {
 import type {PopoverBaseProps, PopoverState} from './Popover.interface'
 import {RenderPopover} from './Popover.render'
 
-/**
- * TODO: 修复层的残留问题
- */
 export const PopoverBase = forwardRef<View, PopoverBaseProps>(
         (
                 {
@@ -63,17 +73,25 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 
                 useClearComponentEvent(setState)
 
-                const containerRef = useRef<View>(null)
                 const childrenRef = useRef<TextInput>(null)
+                const containerRef = useRef<View>(null)
+                const mergedChildrenRef = useMergeRefs([
+                        isValidElement(rawChildren) && type === POPOVER_TYPE.TEXT_INPUT_PICKER ?
+                                (rawChildren as ReactElement<ComponentPropsWithRef<typeof TextInput>>).props.ref
+                        :       null,
+                        childrenRef
+                ])
+
                 const id = useId()
+                const debounceVisibleDelay = type === POPOVER_TYPE.TEXT_INPUT_PICKER ? 0 : 150
                 const onVisible = useMemo(
-                        () => debounce(updatePopoverVisible(rawOnVisible)(setState))(0),
-                        [rawOnVisible, setState]
+                        () => debounce(updatePopoverVisible(rawOnVisible)(setState))(debounceVisibleDelay),
+                        [debounceVisibleDelay, rawOnVisible, setState]
                 )
 
                 const onElevationAnimationFinished = useMemo(
-                        () => handleElevationAnimationFinished(setState),
-                        [setState]
+                        () => handleElevationAnimationFinished(rawOnVisible)(setState),
+                        [rawOnVisible, setState]
                 )
 
                 const onContentUnmount = useMemo(() => debounce(unmountPopoverContent(id))(150), [id])
@@ -144,14 +162,14 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
                 const runUnmountContent = useMemo(() => unmountPopoverContent(id), [id])
                 const runUnmountPressableLayout = useMemo(() => unmountPopoverPressableLayout(id), [id])
                 const runUpdateVisible = useMemo(
-                        () => debounce(updatePopoverVisible(rawOnVisible)(setState))(150),
-                        [rawOnVisible, setState]
+                        () => debounce(updatePopoverVisible(rawOnVisible)(setState))(debounceVisibleDelay),
+                        [debounceVisibleDelay, rawOnVisible, setState]
                 )
 
                 const runUpdateElevation = useMemo(() => updatePopoverElevation(setState), [setState])
                 const children = cloneElement(rawChildren ?? <></>, {
-                        ...(type === POPOVER_TYPE.TEXT_INPUT_PICKER && {ref: childrenRef, onKeyPress: onKeyDown}),
                         ...(type === POPOVER_TYPE.CONTEXT_MENU && {onContextMenu}),
+                        ...(type === POPOVER_TYPE.TEXT_INPUT_PICKER && {onKeyPress: onKeyDown, ref: mergedChildrenRef}),
                         ...interactionHandlers
                 })
 

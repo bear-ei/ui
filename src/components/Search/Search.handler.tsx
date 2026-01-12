@@ -59,7 +59,7 @@ export const handleSearchClose =
         (ref?: React.RefObject<TextInput | null>) =>
         (_onListClose?: (options: OnVirtualListCloseOptions) => void) =>
         (_options: OnVirtualListCloseOptions) => {
-                ref?.current?.focus()
+                ref?.current?.focus?.()
 
                 // setState(draft => {
                 //         draft.data = data as WritableDraft<ListItemData>[]
@@ -77,7 +77,7 @@ export const handleSearchActiveKey =
         ({onActive, ref}: HandleSearchActiveKeyOptions) =>
         (setState: Updater<SearchState>) =>
         (key?: string) => {
-                ref?.current?.focus()
+                ref?.current?.focus?.()
 
                 setState(draft => {
                         draft.activeKey = key

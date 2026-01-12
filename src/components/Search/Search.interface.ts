@@ -1,4 +1,4 @@
-import type {CommonProps, EventName, State} from '@/constants'
+import type {CommonProps} from '@/constants'
 import type {InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {PressableProps, TextInput, TextInputProps} from 'react-native'
@@ -15,11 +15,9 @@ export interface SearchProps
 }
 
 export interface RenderSearchProps extends SearchProps {
-        eventName?: EventName
         expanded?: boolean
         leadingElement?: React.JSX.Element
         listVisible?: boolean
-        // onListFocusKey?: (key?: string) => void
         textInputPicker?: boolean
         trailingElement?: React.JSX.Element
 }
@@ -28,15 +26,12 @@ export type SearchBaseProps = SearchProps
 export interface SearchState {
         activeKey?: string
         data?: ListItemData[]
-        eventName?: EventName
         expanded?: boolean
         filterValue?: string
         listVisible?: boolean
         nextActiveEvent?: () => void
         nextChangeTextEvent?: () => void
         nextListVisibleEvent?: () => void
-        searchListData?: ListItemData[]
-        state: State
         value?: string
 }
 

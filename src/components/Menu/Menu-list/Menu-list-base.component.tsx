@@ -14,17 +14,17 @@ export const MenuListBase = forwardRef<View, MenuListBaseProps>(({visible, type,
 
         useEffect(() => {
                 if (visible && type === POPOVER_TYPE.CONTEXT_MENU) {
-                        containerRef.current?.focus()
+                        containerRef.current?.focus?.()
                 }
         }, [type, visible])
 
         return (
                 <RenderMenuList
                         {...props}
-                        type={type}
                         id={id}
                         ref={containerRef}
                         theme={theme}
+                        type={type}
                 />
         )
 })

@@ -1,5 +1,5 @@
 export * from './Popover-content'
+export * from './Popover-pressable-layout'
 export * from './Popover.component'
 export * from './Popover.enum'
 export * from './Popover.interface'
-export {RenderPopoverPressableLayout} from './Popover.render'

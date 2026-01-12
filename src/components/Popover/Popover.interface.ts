@@ -1,11 +1,10 @@
 import type {TriggerOn} from '@/constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
+import type {HandleStateEventChangeOptions} from '@/hooks'
 import type {ShapeType} from '@bearei/theme-token'
 import type {JSX, RefAttributes} from 'react'
-import type {LayoutRectangle, MouseEvent, PressableProps, TextInput, View, ViewProps} from 'react-native'
+import type {LayoutRectangle, MouseEvent, TextInput, View, ViewProps} from 'react-native'
 import type {ElevationLevel} from '../Elevation'
 import type {LayoutAnimatedProps} from '../Layout-animated'
-import type {PressableType} from '../Touchable'
 import type {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from './Popover.enum'
 
 export type PopoverContentPosition = (typeof POPOVER_CONTENT_POSITION)[keyof typeof POPOVER_CONTENT_POSITION]
@@ -30,14 +29,6 @@ export interface RenderPopoverProps extends PopoverProps {
         onContextMenu: (event: MouseEvent) => void
 }
 
-export interface RenderPopoverLayoutProps
-        extends Omit<
-                PressableProps & RefAttributes<PressableType> & InteractionHandlers,
-                'children' | 'disabled' | 'hitSlop' | 'style'
-        > {
-        containerLayout?: Partial<LayoutRectangle>
-}
-
 export type PopoverBaseProps = PopoverProps
 export interface PopoverState {
         contextMenuLayout?: {x: number; y: number}
@@ -52,7 +43,7 @@ export interface PopoverState {
 export interface HandlePopoverStateEventChangeOptions
         extends HandleStateEventChangeOptions,
                 Pick<PopoverProps, 'triggerEvent' | 'type'> {
-        childrenRef?: React.RefObject<TextInput | null>
+        childrenRef: React.RefObject<TextInput | null>
         onVisible: (value?: boolean) => void
 }
 

@@ -27,7 +27,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                 },
                 ref
         ) => {
-                const textInputElement = (
+                const searchTextInputElement = (
                         <SearchTextInput
                                 {...textInputProps}
                                 id={id}
@@ -63,9 +63,9 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                 type={POPOVER_TYPE.TEXT_INPUT_PICKER}
                                                 visible={listVisible}
                                         >
-                                                {textInputElement}
+                                                {searchTextInputElement}
                                         </Menu>
-                                :       textInputElement}
+                                :       searchTextInputElement}
                         </>
                 )
         }

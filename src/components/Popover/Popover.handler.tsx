@@ -25,14 +25,25 @@ export const updatePopoverVisible =
 
                         if (visible) {
                                 draft.visible = visible
+
+                                return
                         }
+
+                        draft.elevation = ELEVATION.LEVEL_0
                 })
 
-export const handleElevationAnimationFinished = (setState: Updater<PopoverState>) => (elevation?: ElevationLevel) =>
-        setState(draft => {
-                console.info(elevation, 'elevation========>2222')
-                // draft.visible = false
-        })
+export const handleElevationAnimationFinished =
+        (onVisible?: (visible?: boolean) => void) =>
+        (setState: Updater<PopoverState>) =>
+        (elevation?: ElevationLevel) =>
+                elevation === ELEVATION.LEVEL_0 &&
+                setState(draft => {
+                        draft.visible = false
+
+                        if (onVisible) {
+                                draft.nextVisibleEvent = () => onVisible?.(false)
+                        }
+                })
 
 export const updatePopoverElevation = (setState: Updater<PopoverState>) => (elevation?: ElevationLevel) =>
         setState(draft => {
@@ -76,8 +87,6 @@ export const handlePopoverStateChange =
                 } as Record<TriggerOn, readonly EventName[]>
 
                 return (_event: StateEvent) => {
-                        console.info(eventName, "typeof draft.visible !== 'boolean'======>")
-
                         if (eventName === EVENT_NAME.LAYOUT || type === POPOVER_TYPE.CONTEXT_MENU) {
                                 return
                         }
@@ -92,7 +101,7 @@ export const handlePopoverStateChange =
                                 isTextInputPickerTriggerEvent
 
                         if (isFocus) {
-                                childrenRef?.current?.focus()
+                                childrenRef?.current?.focus?.()
                         }
 
                         const triggerEventNames = trigger[triggerEvent]
@@ -102,7 +111,6 @@ export const handlePopoverStateChange =
                         }
 
                         setState(draft => {
-                                console.info(isTextInputPickerTriggerEvent, typeof draft.visible !== 'boolean')
                                 if (isTextInputPickerTriggerEvent && typeof draft.visible !== 'boolean') {
                                         draft.visible = false
                                 }

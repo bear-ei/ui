@@ -1,4 +1,3 @@
-import {STATE} from '@/constants'
 import {useClearComponentEvent} from '@/hooks'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {TextInput} from 'react-native'
@@ -20,6 +19,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 {
                         data: rawData,
                         defaultValue,
+                        disabled,
                         filter,
                         leading,
                         onActive: rawOnActive,
@@ -34,7 +34,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         {
                                 activeKey,
                                 data,
-                                eventName,
                                 expanded: isExpanded,
                                 filterValue,
                                 listVisible: isListVisible,
@@ -44,7 +43,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 value
                         },
                         setState
-                ] = useImmer<SearchState>({state: STATE.ENABLED, value: ''})
+                ] = useImmer<SearchState>({value: ''})
 
                 useClearComponentEvent(setState)
 
@@ -55,7 +54,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         [rawOnChangeText, setState]
                 )
 
-                const onListActiveKey = useMemo(
+                const onActiveKey = useMemo(
                         () => handleSearchActiveKey({onActive: rawOnActive, ref: inputRef})(setState),
                         [rawOnActive, setState]
                 )
@@ -102,12 +101,12 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 {...renderSearchProps}
                                 activeKey={activeKey}
                                 data={data}
-                                eventName={eventName}
+                                disabled={disabled}
                                 expanded={isExpanded}
                                 id={id}
                                 leadingElement={leading}
                                 listVisible={isListVisible}
-                                onActive={onListActiveKey}
+                                onActive={onActiveKey}
                                 onAnimationFinished={onUpdateExpanded}
                                 onChangeText={onChangeText}
                                 onFocusKey={onFocusKey}

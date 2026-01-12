@@ -6,6 +6,7 @@ import type {
         LayoutChangeEvent,
         MouseEvent,
         NativeSyntheticEvent,
+        NativeTouchEvent,
         PressableProps,
         TargetedEvent
 } from 'react-native'
@@ -31,10 +32,12 @@ export interface HandleStateEventOptions {
 }
 
 export interface InteractionHandlers
-        extends Pick<
-                PressableProps,
-                'onHoverIn' | 'onHoverOut' | 'onLayout' | 'onLongPress' | 'onPress' | 'onPressIn' | 'onPressOut'
-        > {
-        onBlur?: ((e: BlurEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)
-        onFocus?: ((e: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)
+        extends Pick<PressableProps, 'onHoverIn' | 'onHoverOut' | 'onLayout' | 'onLongPress'> {
+        onBlur?: ((event: BlurEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)
+        onFocus?: ((event: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)
+        onPress?: ((event: NativeSyntheticEvent<NativeTouchEvent>) => void) | ((event: GestureResponderEvent) => void)
+        onPressIn?: ((event: NativeSyntheticEvent<NativeTouchEvent>) => void) | ((event: GestureResponderEvent) => void)
+        onPressOut?:
+                | ((event: NativeSyntheticEvent<NativeTouchEvent>) => void)
+                | ((event: GestureResponderEvent) => void)
 }

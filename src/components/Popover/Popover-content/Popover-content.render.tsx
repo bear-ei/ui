@@ -144,21 +144,21 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                         width: platformValue(width)
                 } as ViewStyle
 
-                const positionOutputRanges = {
-                        [POPOVER_CONTENT_POSITION.VERTICAL_START]: [
-                                theme.token.spacing.small,
-                                theme.token.spacing.none
-                        ],
-                        [POPOVER_CONTENT_POSITION.VERTICAL_END]: [-theme.token.spacing.small, theme.token.spacing.none],
-                        [POPOVER_CONTENT_POSITION.HORIZONTAL_START]: [
-                                theme.token.spacing.small,
-                                theme.token.spacing.none
-                        ],
-                        [POPOVER_CONTENT_POSITION.HORIZONTAL_END]: [
-                                -theme.token.spacing.small,
-                                theme.token.spacing.none
-                        ]
-                }
+                // const positionOutputRanges = {
+                //         [POPOVER_CONTENT_POSITION.VERTICAL_START]: [
+                //                 theme.token.spacing.small,
+                //                 theme.token.spacing.none
+                //         ],
+                //         [POPOVER_CONTENT_POSITION.VERTICAL_END]: [-theme.token.spacing.small, theme.token.spacing.none],
+                //         [POPOVER_CONTENT_POSITION.HORIZONTAL_START]: [
+                //                 theme.token.spacing.small,
+                //                 theme.token.spacing.none
+                //         ],
+                //         [POPOVER_CONTENT_POSITION.HORIZONTAL_END]: [
+                //                 -theme.token.spacing.small,
+                //                 theme.token.spacing.none
+                //         ]
+                // }
 
                 const mainElement = (
                         <View
@@ -249,7 +249,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 
                                 {type === POPOVER_TYPE.TEXT_INPUT_PICKER && (
                                         <View
-                                                className={classesName('z-40', {
+                                                className={classesName('-z-20', {
                                                         ['absolute']: Platform.OS !== 'web',
                                                         ['fixed']: Platform.OS === 'web'
                                                 })}
