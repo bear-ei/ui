@@ -2,10 +2,10 @@ import {useAnimatedTiming, useTheme} from '@/hooks'
 import {hexToRGBA} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
-import {animateSearchBorderRadius, animateSearchColor} from './Search.handler'
-import type {UseSearchTextInputAnimatedOptions} from './Search.interface'
+import {animateSearchBorderRadius, animateSearchColor} from './Search-text-input.handler'
+import type {UseSearchTextInputAnimatedOptions} from './Search-text-input.interface'
 
-export const useSearchAnimated = ({disabled, listExpanded}: UseSearchTextInputAnimatedOptions) => {
+export const useSearchTextInputAnimated = ({disabled, expanded}: UseSearchTextInputAnimatedOptions) => {
         const theme = useTheme()
         const {scheme, opacity} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
@@ -71,8 +71,8 @@ export const useSearchAnimated = ({disabled, listExpanded}: UseSearchTextInputAn
         }, [runColorAnimate, disabled])
 
         useEffect(() => {
-                runBorderRadiusAnimate(listExpanded)
-        }, [runBorderRadiusAnimate, listExpanded])
+                runBorderRadiusAnimate(expanded)
+        }, [runBorderRadiusAnimate, expanded])
 
         useEffect(
                 () => () => {

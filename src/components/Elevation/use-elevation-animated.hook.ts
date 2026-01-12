@@ -7,12 +7,19 @@ import {ELEVATION} from './Elevation.enum'
 import {animateElevation, getWebBoxShadow} from './Elevation.handler'
 import type {UseElevationAnimatedOptions} from './Elevation.interface'
 
-export const useElevationAnimated = ({level = ELEVATION.LEVEL_0}: UseElevationAnimatedOptions) => {
+export const useElevationAnimated = ({level = ELEVATION.LEVEL_0, onAnimationFinished}: UseElevationAnimatedOptions) => {
         const shadowSharedValue = useSharedValue<number>(level)
         const theme = useTheme()
         const {elevation} = theme.token
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
+        const animateSharedValueTo = useMemo(
+                () =>
+                        animatedTiming({
+                                callback: (finished?: boolean) => finished && onAnimationFinished?.(level)
+                        }),
+                [animatedTiming, level, onAnimationFinished]
+        )
+
         const inputRanges = [0, 1, 2, 3, 4, 5]
         const shadowOpacityOutputRanges = [
                 elevation.level0.shadowOpacity,

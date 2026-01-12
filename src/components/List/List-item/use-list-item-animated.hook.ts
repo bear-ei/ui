@@ -5,7 +5,7 @@ import {hexToRGBA} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
-import {animateListItemActiveState, animateListItemAffordanceVisibility} from './List-item.handler'
+import {animateListItemActiveState, animateListItemAffordanceVisible} from './List-item.handler'
 import type {UseListItemAnimatedOptions} from './List-item.interface'
 
 export const useListItemAnimated = ({active, afterAffordanceVisible, status}: UseListItemAnimatedOptions) => {
@@ -42,8 +42,8 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
                 color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRanges)
         }))
 
-        const runAnimateVisibility = useMemo(
-                () => animateListItemAffordanceVisibility(animateSharedValueTo)(contentTransformXSharedValue),
+        const runAnimateVisible = useMemo(
+                () => animateListItemAffordanceVisible(animateSharedValueTo)(contentTransformXSharedValue),
                 [animateSharedValueTo, contentTransformXSharedValue]
         )
 
@@ -54,9 +54,9 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 
         useEffect(() => {
                 if (status === COMPONENT_STATUS.SUCCEEDED) {
-                        runAnimateVisibility(afterAffordanceVisible)
+                        runAnimateVisible(afterAffordanceVisible)
                 }
-        }, [afterAffordanceVisible, runAnimateVisibility, status])
+        }, [afterAffordanceVisible, runAnimateVisible, status])
 
         useEffect(() => {
                 if (status === COMPONENT_STATUS.SUCCEEDED) {

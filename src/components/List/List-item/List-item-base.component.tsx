@@ -18,7 +18,7 @@ import {
         updateListItemActive,
         updateListItemAfterAffordanceExpanded,
         updateListItemFocusState,
-        updateListItemTrailingVisibility
+        updateListItemTrailingVisible
 } from './List-item.handler'
 import type {ListItemBaseProps, ListItemRef, ListItemState} from './List-item.interface'
 import {RenderListItem, RenderListItemTrailing} from './List-item.render'
@@ -80,7 +80,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                 :       indexKey && activeKeys?.includes(indexKey))
 
                 const onClose = useMemo(() => maybeTriggerListItemClose(rawOnClose)(indexKey), [indexKey, rawOnClose])
-                const onTrailingVisibility = useMemo(() => updateListItemTrailingVisibility(setState), [setState])
+                const onTrailingVisible = useMemo(() => updateListItemTrailingVisible(setState), [setState])
                 const onConfirm = useMemo(
                         () =>
                                 confirmListItemAffordanceAction({
@@ -147,7 +147,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                         [itemIndex, setState]
                 )
 
-                const runUpdateAfterAffordanceVisibility = useMemo(
+                const runUpdateAfterAffordanceVisible = useMemo(
                         () => debounce(updateListItemAfterAffordanceExpanded(setState))(300),
                         [setState]
                 )
@@ -165,7 +165,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                                         disabled={disabled}
                                         id={id}
                                         interactionHandlers={{onPressOut: onTrailingPressOut}}
-                                        onTrailingVisibility={onTrailingVisibility}
+                                        onTrailingVisible={onTrailingVisible}
                                         size={size}
                                         trailing={trailing}
                                         trailingTriggerOn={trailingTriggerOn}
@@ -185,8 +185,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                 }, [dragging, indexKey, runActive])
 
                 useEffect(() => {
-                        runUpdateAfterAffordanceVisibility(isAfterAffordanceVisible)
-                }, [isAfterAffordanceVisible, runUpdateAfterAffordanceVisibility])
+                        runUpdateAfterAffordanceVisible(isAfterAffordanceVisible)
+                }, [isAfterAffordanceVisible, runUpdateAfterAffordanceVisible])
 
                 useEffect(() => {
                         runTrailingTriggerEvent(eventName)

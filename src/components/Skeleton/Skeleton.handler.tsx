@@ -3,7 +3,7 @@ import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimateSkeletonOptions, SkeletonState} from './Skeleton.interface'
 
-const updateSkeletonVisibility = (setState: Updater<SkeletonState>) => (duration?: number) => {
+const updateSkeletonVisible = (setState: Updater<SkeletonState>) => (duration?: number) => {
         if (typeof duration === 'number' && duration >= 0) {
                 setState(draft => {
                         draft.visible = true
@@ -26,7 +26,7 @@ const updateSkeletonVisibility = (setState: Updater<SkeletonState>) => (duration
 }
 
 export const updateSkeletonDuration = (setState: Updater<SkeletonState>) => (duration?: number) =>
-        updateSkeletonVisibility(setState)(duration)
+        updateSkeletonVisible(setState)(duration)
 
 export const animateSkeleton =
         ({animateSharedValueTo, enableAnimated}: AnimateSkeletonOptions) =>

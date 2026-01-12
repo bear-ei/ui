@@ -6,7 +6,7 @@ import type {
         HandleMenuKeyDownEventOptions,
         HandleMenuKeyDownOptions,
         MenuState,
-        UpdateMenuVisibilityOptions
+        UpdateMenuVisibleOptions
 } from './Menu.interface'
 
 const handleMenuActiveKeys =
@@ -120,8 +120,8 @@ export const handleMenuKeyDownEvent =
                 handleMenuKeyDown(options)(setState)(key)
         }
 
-export const updateMenuVisibility =
-        ({onVisible, type}: UpdateMenuVisibilityOptions) =>
+export const updateMenuVisible =
+        ({onVisible, type}: UpdateMenuVisibleOptions) =>
         (setState: Updater<MenuState>) =>
         (value?: boolean) =>
                 typeof value !== 'undefined' &&
@@ -135,7 +135,7 @@ export const updateMenuVisibility =
                         }
 
                         if (draft.visible !== value && onVisible) {
-                                draft.nextVisibilityEvent = () => onVisible?.(value)
+                                draft.nextVisibleEvent = () => onVisible?.(value)
                         }
 
                         draft.visible = value
@@ -164,8 +164,3 @@ export const updateMenuActives =
 
                         draft.activeKeys = values
                 })
-
-export const updateMenuVisible = (setState: Updater<MenuState>) => (visible: boolean) =>
-        setState(draft => {
-                draft.visible = visible
-        })

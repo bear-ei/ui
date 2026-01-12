@@ -102,7 +102,7 @@ export interface CloseVirtualListOptions
         extends TriggerVirtualListCloseOptions,
                 Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layoutType'> {}
 
-export interface HandleVirtualListContentVisibilityOptions {
+export interface HandleVirtualListContentVisibleOptions {
         loading?: boolean
         emptyList?: boolean
 }

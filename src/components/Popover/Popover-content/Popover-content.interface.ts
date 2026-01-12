@@ -1,3 +1,4 @@
+import type {ElevationLevel} from '@/components/Elevation'
 import type {ComponentStatus} from '@/constants'
 import type {Theme} from '@/contexts'
 import type {
@@ -27,6 +28,7 @@ export interface PopoverContentProps
                         | 'visible'
                 > {
         containerLayout?: LayoutRectangle
+        onElevationAnimationFinished?: (elevation?: ElevationLevel) => void
 }
 
 export interface RenderPopoverContentProps extends PopoverContentProps {
@@ -64,8 +66,8 @@ export interface UpdatePopoverContentStatusOptions {
 }
 
 export interface AnimatePopoverContentOptions extends UsePopoverContentAnimatedOptions {
-        createEntrySharedValueAnimator: AnimateSharedValueTo
-        createExitSharedValueAnimator: AnimateSharedValueTo
+        entryAnimateSharedValueTo: AnimateSharedValueTo
+        exitAnimateSharedValueTo: AnimateSharedValueTo
 }
 
 export interface AnimatePopoverContentSharedValues {

@@ -10,7 +10,7 @@ import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
-        finalizeLayoutAnimatedVisibilityChange,
+        finalizeLayoutAnimatedVisibleChange,
         handleLayoutAnimatedStateChange,
         updateLayoutAnimatedSize,
         updateLayoutAnimatedStatus
@@ -57,7 +57,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 
                 const onAnimationFinished = useMemo(
                         () =>
-                                finalizeLayoutAnimatedVisibilityChange({
+                                finalizeLayoutAnimatedVisibleChange({
                                         onAnimationFinished: rawOnAnimationFinished,
                                         onUnmount,
                                         unmount

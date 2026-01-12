@@ -3,10 +3,8 @@ import type {StateEvent} from '@/hooks'
 import type {WritableDraft} from 'immer'
 import type {LayoutChangeEvent, View} from 'react-native'
 import type {Updater} from 'use-immer'
-import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverContentPosition, type PopoverType} from '..'
+import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverContentPosition} from '..'
 import type {
-        AnimatePopoverContentOptions,
-        AnimatePopoverContentSharedValues,
         GetSafeMenuPositionOptions,
         HandlePopoverContentPositionWindowOptions,
         HandlePopoverContentStateEventChangeOptions,
@@ -184,29 +182,3 @@ export const getPopoverContentPosition = (popoverContentPosition?: PopoverConten
 }
 
 export const handleMaskPressOut = (onVisible?: (value?: boolean) => void) => () => onVisible?.(false)
-export const animatePopoverContent =
-        ({createEntrySharedValueAnimator, type, createExitSharedValueAnimator}: AnimatePopoverContentOptions) =>
-        ({transformSharedValue, heightSharedValue, opacitySharedValue}: AnimatePopoverContentSharedValues) =>
-        (visible?: boolean) => {
-                if (typeof visible !== 'boolean') {
-                        return
-                }
-
-                const isHeightSharedValue =
-                        type &&
-                        (
-                                [POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]
-                        ).includes(type)
-
-                const sharedValue = isHeightSharedValue ? heightSharedValue : transformSharedValue
-
-                if (visible) {
-                        createEntrySharedValueAnimator({sharedValue})(1)
-                        createEntrySharedValueAnimator({sharedValue: opacitySharedValue})(1)
-
-                        return
-                }
-
-                createExitSharedValueAnimator({sharedValue})(0)
-                createExitSharedValueAnimator({sharedValue: opacitySharedValue})(0)
-        }

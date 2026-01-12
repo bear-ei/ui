@@ -22,13 +22,13 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
         disabled,
         id,
         interactionHandlers,
-        onTrailingVisibility,
+        onTrailingVisible,
         size = SIZE.MEDIUM,
         trailing,
         trailingDisabled: isTrailingDisabled,
         trailingTriggerOn
 }) => {
-        const onHoverIn = useCallback(() => onTrailingVisibility?.(EVENT_NAME.HOVER_IN), [onTrailingVisibility])
+        const onHoverIn = useCallback(() => onTrailingVisible?.(EVENT_NAME.HOVER_IN), [onTrailingVisible])
         const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
         const trailingSize = ICON_BUTTON_SIZE[size]
         const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing

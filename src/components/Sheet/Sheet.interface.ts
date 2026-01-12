@@ -23,7 +23,7 @@ export interface SheetProps extends ViewProps, RefAttributes<View>, CommonProps,
         /**
          * FIXME: Unable to trigger callbacks properly
          */
-        onVisibility?: (visible?: boolean) => void
+        onVisible?: (visible?: boolean) => void
         primaryButton?: React.JSX.Element
         secondaryButton?: React.JSX.Element
         position?: SheetPosition
@@ -46,7 +46,7 @@ export interface SheetProps extends ViewProps, RefAttributes<View>, CommonProps,
 }
 
 export interface RenderSheetProps extends SheetProps {
-        onVisibilitySource?: () => void
+        onVisibleSource?: () => void
 }
 
 export type SheetBaseProps = SheetProps

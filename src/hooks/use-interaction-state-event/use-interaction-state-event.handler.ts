@@ -62,7 +62,7 @@ export const handlePressOutEvent =
                         mobileDevice ? STATE.ENABLED : STATE.HOVERED
                 )(event)
 
-export const handleHoverIntEvent =
+export const handleHoverInEvent =
         ({interactionHandlers}: HandleStateEventOptions) =>
         (onHoverIn?: UseHandleStateEventOptions['onHoverIn']) =>
         (event: MouseEvent) =>

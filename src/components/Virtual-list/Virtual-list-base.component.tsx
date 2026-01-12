@@ -21,7 +21,7 @@ import {
         handleVirtualListStateChange,
         updateVirtualListData,
         updateVirtualListLayout,
-        updateVirtualListVisibilityRangeData
+        updateVirtualListVisibleRangeData
 } from './Virtual-list.handler'
 import type {VirtualListBaseProps, VirtualListData, VirtualListState} from './Virtual-list.interface'
 import {RenderVirtualList, RenderVirtualListItem} from './Virtual-list.render'
@@ -144,8 +144,8 @@ const VirtualListBaseInner = <T,>(
                 layoutType
         })
 
-        const runUpdateVisibilityRangeData = useMemo(
-                () => updateVirtualListVisibilityRangeData({itemSize, layoutType})(setState),
+        const runUpdateVisibleRangeData = useMemo(
+                () => updateVirtualListVisibleRangeData({itemSize, layoutType})(setState),
                 [itemSize, layoutType, setState]
         )
 
@@ -178,8 +178,8 @@ const VirtualListBaseInner = <T,>(
         }, [runUpdateData, data])
 
         useEffect(() => {
-                runUpdateVisibilityRangeData(virtualListData)
-        }, [runUpdateVisibilityRangeData, virtualListData])
+                runUpdateVisibleRangeData(virtualListData)
+        }, [runUpdateVisibleRangeData, virtualListData])
 
         useEffect(() => {
                 nextScrollEvent?.()

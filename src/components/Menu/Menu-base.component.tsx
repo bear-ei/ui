@@ -7,7 +7,7 @@ import {
         handleMenuKeyDownEvent,
         updateMenuActive,
         updateMenuActives,
-        updateMenuVisibility
+        updateMenuVisible
 } from './Menu.handler'
 import type {MenuBaseProps, MenuState} from './Menu.interface'
 import {RenderMenu} from './Menu.render'
@@ -40,7 +40,7 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                                 focusedIndex,
                                 nextActiveEvent,
                                 nextFocusKeyEvent,
-                                nextVisibilityEvent,
+                                nextVisibleEvent,
                                 visible: isVisible
                         },
                         setState
@@ -63,7 +63,7 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                 )
 
                 const onVisible = useMemo(
-                        () => updateMenuVisibility({onVisible: rawOnVisible, type})(setState),
+                        () => updateMenuVisible({onVisible: rawOnVisible, type})(setState),
                         [rawOnVisible, setState, type]
                 )
 
@@ -74,7 +74,7 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                 )
 
                 const runUpdateVisible = useMemo(
-                        () => updateMenuVisibility({onVisible: rawOnVisible, type})(setState),
+                        () => updateMenuVisible({onVisible: rawOnVisible, type})(setState),
                         [rawOnVisible, setState, type]
                 )
 
@@ -112,8 +112,8 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                 }, [nextFocusKeyEvent])
 
                 useEffect(() => {
-                        nextVisibilityEvent?.()
-                }, [nextVisibilityEvent])
+                        nextVisibleEvent?.()
+                }, [nextVisibleEvent])
 
                 useEffect(() => {
                         nextActiveEvent?.()

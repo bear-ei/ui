@@ -6,7 +6,7 @@ import type {Updater} from 'use-immer'
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import type {
         AnimateLayoutAnimatedOptions,
-        FinalizeLayoutAnimatedVisibilityChangeOptions,
+        FinalizeLayoutAnimatedVisibleChangeOptions,
         HandleLayoutAnimatedStateChangeOptions,
         LayoutAnimatedState
 } from './Layout-animated.interface'
@@ -48,8 +48,8 @@ export const handleLayoutAnimatedStateChange =
                 nextEvent[eventName]?.()
         }
 
-export const finalizeLayoutAnimatedVisibilityChange =
-        ({onUnmount, unmount, onAnimationFinished}: FinalizeLayoutAnimatedVisibilityChangeOptions) =>
+export const finalizeLayoutAnimatedVisibleChange =
+        ({onUnmount, unmount, onAnimationFinished}: FinalizeLayoutAnimatedVisibleChangeOptions) =>
         (setState: Updater<LayoutAnimatedState>) =>
         (visible?: boolean) =>
                 setState(draft => {
@@ -77,7 +77,7 @@ export const updateLayoutAnimatedStatus =
                 })
 
 export const animateLayoutAnimated =
-        ({createEntrySharedValueAnimator, createExitSharedValueAnimator, animatedType}: AnimateLayoutAnimatedOptions) =>
+        ({entryAnimateSharedValueTo, exitAnimateSharedValueTo, animatedType}: AnimateLayoutAnimatedOptions) =>
         (containerSharedValue: SharedValue<number>) =>
         (visible?: boolean) => {
                 if (animatedType === LAYOUT_ANIMATED.STANDARD || typeof visible !== 'boolean') {
@@ -85,10 +85,10 @@ export const animateLayoutAnimated =
                 }
 
                 if (visible) {
-                        createEntrySharedValueAnimator({sharedValue: containerSharedValue})(1)
+                        entryAnimateSharedValueTo({sharedValue: containerSharedValue})(1)
 
                         return
                 }
 
-                createExitSharedValueAnimator({sharedValue: containerSharedValue})(0)
+                exitAnimateSharedValueTo({sharedValue: containerSharedValue})(0)
         }

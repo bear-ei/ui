@@ -3,25 +3,41 @@ import {emitter, MODAL_TYPE} from '@/contexts'
 import type {StateEvent} from '@/hooks'
 import {View, type MouseEvent, type PressableProps} from 'react-native'
 import type {Updater} from 'use-immer'
+import {ELEVATION, type ElevationLevel} from '../Elevation'
 import type {PopoverContentProps} from './Popover-content'
 import {POPOVER_TYPE} from './Popover.enum'
 import type {
         EmitPopoverOptions,
+        HandlePopoverContentAnimationFinishedOptions,
         HandlePopoverStateEventChangeOptions,
         PopoverState,
+        PopoverType,
         UpdatePopoverContextMenuLayoutOptions
 } from './Popover.interface'
 
-export const updatePopoverVisibility =
-        (onVisible?: (value?: boolean) => void) => (setState: Updater<PopoverState>) => (value?: boolean) =>
-                typeof value === 'boolean' &&
+export const updatePopoverVisible =
+        (onVisible?: (visible?: boolean) => void) => (setState: Updater<PopoverState>) => (visible?: boolean) =>
+                typeof visible === 'boolean' &&
                 setState(draft => {
-                        if (draft.popoverVisible !== value && onVisible) {
-                                draft.nextVisibilityEvent = () => onVisible?.(value)
+                        if (draft.visible !== visible && onVisible && visible) {
+                                draft.nextVisibleEvent = () => onVisible?.(visible)
                         }
 
-                        draft.popoverVisible = value
+                        if (visible) {
+                                draft.visible = visible
+                        }
                 })
+
+export const handleElevationAnimationFinished = (setState: Updater<PopoverState>) => (elevation?: ElevationLevel) =>
+        setState(draft => {
+                console.info(elevation, 'elevation========>2222')
+                // draft.visible = false
+        })
+
+export const updatePopoverElevation = (setState: Updater<PopoverState>) => (elevation?: ElevationLevel) =>
+        setState(draft => {
+                draft.elevation = elevation
+        })
 
 export const updatePopoverContextMenuLayout =
         (setState: Updater<PopoverState>) =>
@@ -38,47 +54,61 @@ export const updatePopoverContextMenuLayout =
                         draft.contextMenuLayout = {x, y}
 
                         if (onVisible) {
-                                draft.nextVisibilityEvent = () => onVisible?.(true)
+                                draft.nextVisibleEvent = () => onVisible?.(true)
                         }
                 })
         }
 
-export const handlePopoverStateChange = ({
-        childrenRef,
-        eventName,
-        onVisible,
-        triggerEvent = TRIGGER_ON.HOVER,
-        type
-}: HandlePopoverStateEventChangeOptions) => {
-        const trigger = {
-                [TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
-                [TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
-                [TRIGGER_ON.NONE]: [EVENT_NAME.NONE],
-                [TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
-        } as Record<TriggerOn, readonly EventName[]>
+export const handlePopoverStateChange =
+        (setState: Updater<PopoverState>) =>
+        ({
+                childrenRef,
+                eventName,
+                onVisible,
+                triggerEvent = TRIGGER_ON.HOVER,
+                type
+        }: HandlePopoverStateEventChangeOptions) => {
+                const trigger = {
+                        [TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
+                        [TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
+                        [TRIGGER_ON.NONE]: [EVENT_NAME.NONE],
+                        [TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
+                } as Record<TriggerOn, readonly EventName[]>
 
-        return (_event: StateEvent) => {
-                if (eventName === EVENT_NAME.LAYOUT || type === POPOVER_TYPE.CONTEXT_MENU) {
-                        return
-                }
+                return (_event: StateEvent) => {
+                        console.info(eventName, "typeof draft.visible !== 'boolean'======>")
 
-                const isFocus =
-                        type === POPOVER_TYPE.TEXT_INPUT_PICKER &&
-                        childrenRef?.current &&
-                        eventName &&
-                        ([EVENT_NAME.FOCUS, EVENT_NAME.PRESS_OUT] as readonly EventName[]).includes(eventName)
+                        if (eventName === EVENT_NAME.LAYOUT || type === POPOVER_TYPE.CONTEXT_MENU) {
+                                return
+                        }
 
-                if (isFocus) {
-                        childrenRef?.current?.focus()
-                }
+                        const isTextInputPickerTriggerEvent =
+                                eventName &&
+                                ([EVENT_NAME.FOCUS, EVENT_NAME.PRESS_OUT] as readonly EventName[]).includes(eventName)
 
-                const triggerEventNames = trigger[triggerEvent]
+                        const isFocus =
+                                type === POPOVER_TYPE.TEXT_INPUT_PICKER &&
+                                childrenRef?.current &&
+                                isTextInputPickerTriggerEvent
 
-                if (eventName && triggerEventNames?.includes(eventName)) {
-                        onVisible(eventName === triggerEventNames[0])
+                        if (isFocus) {
+                                childrenRef?.current?.focus()
+                        }
+
+                        const triggerEventNames = trigger[triggerEvent]
+
+                        if (eventName && triggerEventNames?.includes(eventName)) {
+                                onVisible(eventName === triggerEventNames[0])
+                        }
+
+                        setState(draft => {
+                                console.info(isTextInputPickerTriggerEvent, typeof draft.visible !== 'boolean')
+                                if (isTextInputPickerTriggerEvent && typeof draft.visible !== 'boolean') {
+                                        draft.visible = false
+                                }
+                        })
                 }
         }
-}
 
 export const emitPopoverContent =
         (id: string) =>
@@ -92,8 +122,7 @@ export const emitPopoverContent =
                         type: MODAL_TYPE.POPOVER
                 })
 
-export const unmountPopoverContent = (id: string) => (visible?: boolean) =>
-        !visible &&
+export const unmountPopoverContent = (id: string) => () =>
         emitter.emit('modal', {
                 id: `popoverContent--${id}`,
                 type: MODAL_TYPE.POPOVER,
@@ -118,12 +147,45 @@ export const unmountPopoverPressableLayout = (id: string) => () =>
         })
 
 export const handlePopoverContentAnimationFinished =
-        (onContentUnmount?: (visible?: boolean) => void) =>
-        (onAnimationFinished?: (visible?: boolean) => void) =>
+        ({
+                onAnimationFinished,
+                onContentUnmount,
+                onPressableLayoutUnmount,
+                type
+        }: HandlePopoverContentAnimationFinishedOptions) =>
+        (setState: Updater<PopoverState>) =>
         (visible?: boolean) => {
-                if (!visible) {
-                        onContentUnmount?.(visible)
+                const isMenuOrPicker =
+                        type &&
+                        (
+                                [POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]
+                        ).includes(type)
+
+                if (!isMenuOrPicker) {
+                        if (!visible) {
+                                onContentUnmount?.()
+                        }
+
+                        onAnimationFinished?.(visible)
+
+                        return
                 }
 
-                onAnimationFinished?.(visible)
+                setState(draft => {
+                        if (visible) {
+                                draft.elevation = ELEVATION.LEVEL_2
+                        }
+
+                        if (!visible && onContentUnmount) {
+                                draft.nextContentUnmountEvent = () => onContentUnmount?.()
+                        }
+
+                        if (!visible && onPressableLayoutUnmount && isMenuOrPicker) {
+                                draft.nextPressableLayoutUnmountEvent = () => onPressableLayoutUnmount?.()
+                        }
+
+                        if (onAnimationFinished) {
+                                draft.nextAnimationFinishedEvent = () => onAnimationFinished?.(visible)
+                        }
+                })
         }

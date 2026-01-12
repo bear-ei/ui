@@ -21,6 +21,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                         id,
                         interactionHandlers,
                         menuPosition,
+                        onElevationAnimationFinished,
                         onMaskPressOut,
                         popoverContentPosition = POPOVER_CONTENT_POSITION.VERTICAL_START,
                         shape = SHAPE.EXTRA_SMALL,
@@ -35,7 +36,6 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                 ref
         ) => {
                 const {onLayout, ...mainInteractionHandlers} = interactionHandlers
-
                 const theme = useTheme()
                 const {
                         height: containerHeight = 0,
@@ -126,7 +126,6 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                 }
 
                 const contentPosition = position[popoverContentPosition]()
-
                 const contentStyle = {
                         height: platformValue(height),
                         width: platformValue(width),
@@ -140,6 +139,8 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 
                 const elevationLayoutStyle = {
                         height: platformValue(height + containerHeight),
+                        left: platformValue(containerX),
+                        top: platformValue(containerY),
                         width: platformValue(width)
                 } as ViewStyle
 
@@ -246,7 +247,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                                         />
                                 )}
 
-                                {typeof elevation === 'number' && type === POPOVER_TYPE.TEXT_INPUT_PICKER && (
+                                {type === POPOVER_TYPE.TEXT_INPUT_PICKER && (
                                         <View
                                                 className={classesName('z-40', {
                                                         ['absolute']: Platform.OS !== 'web',
@@ -257,6 +258,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                                         >
                                                 <Elevation
                                                         level={elevation}
+                                                        onAnimationFinished={onElevationAnimationFinished}
                                                         shape={SHAPE.MEDIUM}
                                                         testID={`popoverContent_elevation--${id}`}
                                                 />

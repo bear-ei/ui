@@ -26,7 +26,7 @@ export const useLayoutAnimated = ({
         const theme = useTheme()
         const opacity = rawOpacity ?? theme.token.opacity.level10
         const animatedTiming = useAnimatedTiming({token: theme.token})
-        const createEntrySharedValueAnimator = useMemo(
+        const entryAnimateSharedValueTo = useMemo(
                 () =>
                         animatedTiming({
                                 ...entry,
@@ -35,7 +35,7 @@ export const useLayoutAnimated = ({
                 [animatedTiming, entry, onAnimationFinished]
         )
 
-        const createExitSharedValueAnimator = useMemo(
+        const exitAnimateSharedValueTo = useMemo(
                 () =>
                         animatedTiming({
                                 ...exit,
@@ -125,22 +125,16 @@ export const useLayoutAnimated = ({
                                 debounce(
                                         animateLayoutAnimated({
                                                 animatedType,
-                                                createEntrySharedValueAnimator,
-                                                createExitSharedValueAnimator
+                                                entryAnimateSharedValueTo,
+                                                exitAnimateSharedValueTo
                                         })(containerSharedValue)
                                 )(delay)
                         :       animateLayoutAnimated({
                                         animatedType,
-                                        createEntrySharedValueAnimator,
-                                        createExitSharedValueAnimator
+                                        entryAnimateSharedValueTo,
+                                        exitAnimateSharedValueTo
                                 })(containerSharedValue),
-                [
-                        animatedType,
-                        containerSharedValue,
-                        createEntrySharedValueAnimator,
-                        createExitSharedValueAnimator,
-                        delay
-                ]
+                [animatedType, containerSharedValue, entryAnimateSharedValueTo, exitAnimateSharedValueTo, delay]
         )
 
         useEffect(() => {

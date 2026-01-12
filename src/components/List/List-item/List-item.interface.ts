@@ -143,13 +143,13 @@ export interface RenderListItemTrailingProps
                 | 'trailingTriggerOn'
         > {
         interactionHandlers: InteractionHandlers
-        onTrailingVisibility?: (eventName: EventName) => void
+        onTrailingVisible?: (eventName: EventName) => void
 }
 
 export interface UseListItemAnimatedOptions {
         active?: boolean
         afterAffordanceVisible?: boolean
-        onVisibilityFinished?: (visible?: boolean) => false
+        onVisibleFinished?: (visible?: boolean) => false
         status: ComponentStatus
 }
 

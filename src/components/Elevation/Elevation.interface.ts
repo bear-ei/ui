@@ -8,6 +8,7 @@ export type ElevationLevel = (typeof ELEVATION)[keyof typeof ELEVATION]
 export interface ElevationProps extends ViewProps, RefAttributes<View>, CommonProps {
         defaultLevel?: ElevationLevel
         level?: ElevationLevel
+        onAnimationFinished?: (elevation?: ElevationLevel) => void
 }
 
 export interface RenderElevationProps extends Omit<ElevationProps, 'renderStyle'> {
@@ -15,7 +16,7 @@ export interface RenderElevationProps extends Omit<ElevationProps, 'renderStyle'
 }
 
 export type ElevationBaseProps = ElevationProps
-export type UseElevationAnimatedOptions = Pick<RenderElevationProps, 'level'>
+export type UseElevationAnimatedOptions = Pick<RenderElevationProps, 'level' | 'onAnimationFinished'>
 export type GetWebBoxShadowOptions = {
         color: string
         offsetX: number

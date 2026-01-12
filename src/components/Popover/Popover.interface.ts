@@ -41,8 +41,12 @@ export interface RenderPopoverLayoutProps
 export type PopoverBaseProps = PopoverProps
 export interface PopoverState {
         contextMenuLayout?: {x: number; y: number}
-        nextVisibilityEvent?: () => void
-        popoverVisible?: boolean
+        elevation?: ElevationLevel
+        nextAnimationFinishedEvent?: () => void
+        nextContentUnmountEvent?: () => void
+        nextPressableLayoutUnmountEvent?: () => void
+        nextVisibleEvent?: () => void
+        visible?: boolean
 }
 
 export interface HandlePopoverStateEventChangeOptions
@@ -59,3 +63,9 @@ export interface EmitPopoverOptions {
 }
 
 export type UpdatePopoverContextMenuLayoutOptions = Pick<RenderPopoverProps, 'disabled' | 'onVisible'>
+
+export interface HandlePopoverContentAnimationFinishedOptions
+        extends Pick<PopoverProps, 'onAnimationFinished' | 'type'> {
+        onContentUnmount?: () => void
+        onPressableLayoutUnmount?: () => void
+}

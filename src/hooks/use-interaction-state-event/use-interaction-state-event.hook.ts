@@ -5,7 +5,7 @@ import {
         createStableEventHandler,
         handleBlurEvent,
         handleFocusEvent,
-        handleHoverIntEvent,
+        handleHoverInEvent,
         handleHoverOutEvent,
         handleLayoutEvent,
         handleLongPressEvent,
@@ -53,7 +53,7 @@ export const useInteractionStateEvent = ({
         )
 
         const onHoverIn = useMemo(
-                () => createStableEventHandler(handleHoverIntEvent({interactionHandlers})(rawOnHoverIn)),
+                () => createStableEventHandler(handleHoverInEvent({interactionHandlers})(rawOnHoverIn)),
                 [interactionHandlers, rawOnHoverIn]
         )
 

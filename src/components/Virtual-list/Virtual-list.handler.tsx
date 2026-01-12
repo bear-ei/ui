@@ -21,7 +21,7 @@ import type {
         VirtualListState
 } from './Virtual-list.interface'
 
-const calculateVirtualListVisibilityRange =
+const calculateVirtualListVisibleRange =
         ({itemSize = 0, layoutType}: UpdateVirtualListLayoutOptions) =>
         (draft: WritableDraft<VirtualListState>) =>
         (scrollOffset?: number) => {
@@ -82,7 +82,7 @@ export const updateVirtualListLayout =
                                 draft.layout.height = height
                                 draft.layout.width = width
 
-                                calculateVirtualListVisibilityRange({itemSize, layoutType})(draft)()
+                                calculateVirtualListVisibleRange({itemSize, layoutType})(draft)()
                         }
                 })
         }
@@ -132,7 +132,7 @@ export const handleVirtualListScroll =
                                 draft.nextEndReachedEvent = () => onEndReached?.()
                         }
 
-                        calculateVirtualListVisibilityRange({itemSize, layoutType})(draft)(scrollOffset)
+                        calculateVirtualListVisibleRange({itemSize, layoutType})(draft)(scrollOffset)
                 })
         }
 
@@ -170,7 +170,7 @@ export const closeVirtualList =
                                 ?.filter(item => item.indexKey !== indexKey)
                                 .map((item, index) => ({...item, index}))
 
-                        calculateVirtualListVisibilityRange({itemSize, layoutType})(draft)()
+                        calculateVirtualListVisibleRange({itemSize, layoutType})(draft)()
                 })
         }
 
@@ -180,7 +180,7 @@ export const updateVirtualListData = (setState: Updater<VirtualListState>) => (d
                 draft.virtualListData = data?.map((item, index) => ({...item, index}))
         })
 
-export const updateVirtualListVisibilityRangeData =
+export const updateVirtualListVisibleRangeData =
         ({itemSize, layoutType}: UpdateVirtualListLayoutOptions) =>
         (setState: Updater<VirtualListState>) =>
         (virtualListData?: VirtualListData[]) =>
@@ -189,7 +189,7 @@ export const updateVirtualListVisibilityRangeData =
                         const isCalculate = (draft.layout.height || draft.layout.width) && !draft.dragging
 
                         if (isCalculate) {
-                                calculateVirtualListVisibilityRange({itemSize, layoutType})(draft)()
+                                calculateVirtualListVisibleRange({itemSize, layoutType})(draft)()
                         }
                 })
 

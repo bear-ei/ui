@@ -6,7 +6,7 @@ import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import {
         emitSheetModal,
         emitSheetModalUnmount,
-        setSheetVisibility,
+        setSheetVisible,
         updateSheetBackWithEvent,
         updateSheetClose
 } from './Sheet.handler'
@@ -20,7 +20,7 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
                         disabledClose,
                         onBack: rawOnBack,
                         onClose: rawOnClose,
-                        onVisibility,
+                        onVisible,
                         type = SIDE_SHEET_TYPE.MODAL,
                         visible,
                         ...renderSheetProps
@@ -40,7 +40,7 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
                 )
 
                 const onClose = useMemo(() => updateSheetClose(rawOnClose)(setState), [rawOnClose, setState])
-                const runSetVisibility = useMemo(() => setSheetVisibility(setState), [setState])
+                const runSetVisible = useMemo(() => setSheetVisible(setState), [setState])
                 const runEmitModalUnmount = useMemo(() => emitSheetModalUnmount(emitId), [emitId])
                 const renderProps = useMemo(
                         () => ({
@@ -49,12 +49,12 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
                                 id,
                                 onBack,
                                 onClose,
-                                onVisibility,
+                                onVisible,
                                 ref,
                                 type,
                                 visible: isSheetVisible
                         }),
-                        [disabledClose, id, isSheetVisible, onBack, onClose, onVisibility, ref, renderSheetProps, type]
+                        [disabledClose, id, isSheetVisible, onBack, onClose, onVisible, ref, renderSheetProps, type]
                 )
 
                 const runEmitSheetModal = useMemo(
@@ -63,8 +63,8 @@ export const SheetBase = forwardRef<View, SheetBaseProps>(
                 )
 
                 useEffect(() => {
-                        runSetVisibility(visible ?? defaultVisible)
-                }, [runSetVisibility, defaultVisible, visible])
+                        runSetVisible(visible ?? defaultVisible)
+                }, [runSetVisible, defaultVisible, visible])
 
                 useEffect(() => {
                         runEmitSheetModal(isSheetVisible)

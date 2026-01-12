@@ -32,7 +32,7 @@ export const updateSheetBackWithEvent =
                         }
                 })
 
-export const setSheetVisibility = (setState: Updater<SheetState>) => (visible?: boolean) =>
+export const setSheetVisible = (setState: Updater<SheetState>) => (visible?: boolean) =>
         typeof visible === 'boolean' &&
         setState(draft => {
                 draft.sheetVisible = visible

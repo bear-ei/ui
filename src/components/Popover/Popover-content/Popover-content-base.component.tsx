@@ -39,7 +39,6 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                         useImmer<PopoverContentState>({
                                 layout: {} as LayoutRectangle,
                                 menuPosition: {}
-                                // status: COMPONENT_STATUS.IDLE
                         })
 
                 useClearComponentEvent(setState)
@@ -75,11 +74,6 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                 )
 
                 const interactionHandlers = useInteractionStateEvent({...renderPopoverContentProps, onStateEventChange})
-                // const runUpdateStatus = useMemo(
-                //         () => updatePopoverContentStatus({setState, windowWidth}),
-                //         [setState, windowWidth]
-                // )
-
                 const runUpdatePosition = useMemo(
                         () =>
                                 updatePopoverContentPosition({
@@ -93,10 +87,6 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                 )
 
                 useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
-
-                // useEffect(() => {
-                //         runUpdateStatus(containerLayout)
-                // }, [containerLayout, runUpdateStatus, visible])
 
                 useEffect(() => {
                         runUpdatePosition({visible, windowHeight, windowWidth, layout})

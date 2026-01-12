@@ -92,6 +92,7 @@ export const handleTrailingTriggerEvent = (trailingTriggerOn?: TriggerOn) => {
         const trigger = {
                 [TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
                 [TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
+                [TRIGGER_ON.NONE]: [EVENT_NAME.NONE],
                 [TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
         } as Record<TriggerOn, readonly EventName[]>
 
@@ -218,13 +219,13 @@ export const updateListItemAfterAffordanceExpanded = (setState: Updater<ListItem
                 draft.afterAffordanceExpanded = visible
         })
 
-export const updateListItemTrailingVisibility = (setState: Updater<ListItemState>) => (eventName: EventName) =>
+export const updateListItemTrailingVisible = (setState: Updater<ListItemState>) => (eventName: EventName) =>
         eventName === EVENT_NAME.HOVER_IN &&
         setState(draft => {
                 draft.eventName = eventName
         })
 
-export const animateListItemAffordanceVisibility =
+export const animateListItemAffordanceVisible =
         (animateSharedValueTo: AnimateSharedValueTo) =>
         (contentTransformXSharedValue: SharedValue<number>) =>
         (visible?: boolean) =>

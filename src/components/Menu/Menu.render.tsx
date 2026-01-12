@@ -1,7 +1,6 @@
 import {SHAPE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import {ELEVATION} from '../Elevation'
 import {Popover, POPOVER_TYPE} from '../Popover'
 import {MenuList} from './Menu-list'
 import type {RenderMenuProps} from './Menu.interface'
@@ -14,7 +13,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                         children,
                         closeTrailing,
                         data,
-                        elevation = ELEVATION.LEVEL_2,
+                        elevation,
                         emptyElement,
                         focusedIndex,
                         id,

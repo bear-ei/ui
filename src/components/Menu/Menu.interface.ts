@@ -23,7 +23,7 @@ export interface MenuState {
         keyCode?: string
         nextActiveEvent?: () => void
         nextFocusKeyEvent?: () => void
-        nextVisibilityEvent?: () => void
+        nextVisibleEvent?: () => void
         visible?: boolean
 }
 
@@ -42,6 +42,6 @@ export type HandleMenuKeyDownEventOptions = Pick<
         'onFocusKey' | 'data' | 'onActives' | 'onActive'
 >
 
-export interface UpdateMenuVisibilityOptions extends Pick<MenuProps, 'type'> {
+export interface UpdateMenuVisibleOptions extends Pick<MenuProps, 'type'> {
         onVisible?: (value?: boolean) => void
 }

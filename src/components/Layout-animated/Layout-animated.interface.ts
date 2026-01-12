@@ -50,7 +50,7 @@ export interface LayoutAnimatedState {
 }
 
 export type LayoutAnimatedBaseProps = LayoutAnimatedProps
-export type FinalizeLayoutAnimatedVisibilityChangeOptions = Pick<
+export type FinalizeLayoutAnimatedVisibleChangeOptions = Pick<
         RenderLayoutAnimatedProps,
         'onUnmount' | 'unmount' | 'onAnimationFinished'
 >
@@ -71,6 +71,6 @@ export interface UseLayoutAnimatedOptions
 }
 
 export interface AnimateLayoutAnimatedOptions extends Pick<LayoutAnimatedProps, 'animatedType'> {
-        createEntrySharedValueAnimator: AnimateSharedValueTo
-        createExitSharedValueAnimator: AnimateSharedValueTo
+        entryAnimateSharedValueTo: AnimateSharedValueTo
+        exitAnimateSharedValueTo: AnimateSharedValueTo
 }
