@@ -10,5 +10,6 @@ export interface PopoverLayoutProps
         > {
         containerLayout?: Partial<LayoutRectangle>
 }
+
 export type PopoverLayoutBaseProps = PopoverLayoutProps
 export type RenderPopoverLayoutProps = PopoverLayoutProps

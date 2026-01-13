@@ -1,4 +1,4 @@
-import type {TriggerOn} from '@/constants'
+import type {EventName, TriggerOn} from '@/constants'
 import type {HandleStateEventChangeOptions} from '@/hooks'
 import type {ShapeType} from '@bearei/theme-token'
 import type {JSX, RefAttributes} from 'react'
@@ -31,11 +31,13 @@ export interface RenderPopoverProps extends PopoverProps {
 
 export type PopoverBaseProps = PopoverProps
 export interface PopoverState {
+        eventName?: EventName
         contextMenuLayout?: {x: number; y: number}
         elevation?: ElevationLevel
         nextAnimationFinishedEvent?: () => void
-        nextContentUnmountEvent?: () => void
-        nextPressableLayoutUnmountEvent?: () => void
+        nextEmitContentEvent?: () => void
+        nextUnmountContentEvent?: () => void
+        nextUnmountPressableLayoutEvent?: () => void
         nextVisibleEvent?: () => void
         visible?: boolean
 }
@@ -44,6 +46,10 @@ export interface HandlePopoverStateEventChangeOptions
         extends HandleStateEventChangeOptions,
                 Pick<PopoverProps, 'triggerEvent' | 'type'> {
         childrenRef: React.RefObject<TextInput | null>
+        containerRef: React.RefObject<View | null>
+        onEmitContent: (options: EmitPopoverOptions) => void
+        onUnmountContent: () => void
+        onUnmountPressableLayout: () => void
         onVisible: (value?: boolean) => void
 }
 
@@ -57,6 +63,6 @@ export type UpdatePopoverContextMenuLayoutOptions = Pick<RenderPopoverProps, 'di
 
 export interface HandlePopoverContentAnimationFinishedOptions
         extends Pick<PopoverProps, 'onAnimationFinished' | 'type'> {
-        onContentUnmount?: () => void
-        onPressableLayoutUnmount?: () => void
+        onUnmountContent?: () => void
+        onUnmountPressableLayout?: () => void
 }

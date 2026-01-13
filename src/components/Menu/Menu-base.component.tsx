@@ -67,17 +67,9 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                         [rawOnVisible, setState, type]
                 )
 
-                const runUpdateActive = useMemo(() => updateMenuActive(setState)(rawOnActive), [rawOnActive, setState])
-                const runUpdateActives = useMemo(
-                        () => updateMenuActives(setState)(rawOnActives),
-                        [rawOnActives, setState]
-                )
-
-                const runUpdateVisible = useMemo(
-                        () => updateMenuVisible({onVisible: rawOnVisible, type})(setState),
-                        [rawOnVisible, setState, type]
-                )
-
+                const runUpdateActive = onActive
+                const runUpdateActives = onActives
+                const runUpdateVisible = onVisible
                 const runKeyDown = useMemo(
                         () =>
                                 handleMenuKeyDown({

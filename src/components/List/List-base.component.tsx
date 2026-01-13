@@ -82,11 +82,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                 )
 
                 const onClose = useMemo(() => triggerListClose(rawOnClose)(setState), [rawOnClose, setState])
-                const runUpdateActiveState = useMemo(
-                        () => updateListActiveState({selectType})(setState),
-                        [selectType, setState]
-                )
-
+                const runUpdateActive = onActive
                 const renderItem = useMemo(
                         () =>
                                 createListItemRenderer({
@@ -152,8 +148,8 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
                 useImperativeHandle(ref, () => (listRef?.current ?? {}) as ScrollView, [listRef])
 
                 useEffect(() => {
-                        runUpdateActiveState(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
-                }, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActiveState])
+                        runUpdateActive(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
+                }, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActive])
 
                 useEffect(() => {
                         nextActiveEvent?.()

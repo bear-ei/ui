@@ -68,7 +68,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 )
 
                 const runUpdateValue = useMemo(() => updateSearchValue(setState), [setState])
-                const runUpdateVisible = useMemo(() => updateSearchListVisible(setState), [setState])
+                const runUpdateVisible = onVisible
 
                 useImperativeHandle(ref, () => (inputRef?.current ?? {}) as TextInput, [inputRef])
 

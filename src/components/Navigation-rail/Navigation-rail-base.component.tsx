@@ -36,7 +36,7 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
                 )
 
                 const runUpdateData = useMemo(() => updateNavigationRailData(setState), [setState])
-                const runUpdateActiveKey = useMemo(() => updateNavigationRailActiveKey()(setState), [setState])
+                const runUpdateActiveKey = onActive
                 const itemElements = (
                         <RenderNavigationRailItems
                                 activeKey={activeKey ?? defaultActiveKey}

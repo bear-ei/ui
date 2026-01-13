@@ -137,11 +137,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                         status
                 })
 
-                const runActive = useMemo(
-                        () => updateListItemActive(selectType)(rawOnActive),
-                        [rawOnActive, selectType]
-                )
-
+                const runActive = onActive
                 const runUpdateFocusState = useMemo(
                         () => updateListItemFocusState(setState)(itemIndex),
                         [itemIndex, setState]

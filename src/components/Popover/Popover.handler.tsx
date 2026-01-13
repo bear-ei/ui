@@ -74,7 +74,11 @@ export const handlePopoverStateChange =
         (setState: Updater<PopoverState>) =>
         ({
                 childrenRef,
+                containerRef,
                 eventName,
+                onEmitContent,
+                onUnmountContent,
+                onUnmountPressableLayout,
                 onVisible,
                 triggerEvent = TRIGGER_ON.HOVER,
                 type
@@ -106,13 +110,31 @@ export const handlePopoverStateChange =
 
                         const triggerEventNames = trigger[triggerEvent]
 
-                        if (eventName && triggerEventNames?.includes(eventName)) {
-                                onVisible(eventName === triggerEventNames[0])
-                        }
-
                         setState(draft => {
-                                if (isTextInputPickerTriggerEvent && typeof draft.visible !== 'boolean') {
-                                        draft.visible = false
+                                const isUnmount =
+                                        type === POPOVER_TYPE.TEXT_INPUT_PICKER &&
+                                        eventName === EVENT_NAME.BLUR &&
+                                        !draft.visible
+
+                                draft.eventName = eventName
+
+                                if (eventName && triggerEventNames?.includes(eventName)) {
+                                        draft.nextVisibleEvent = () => onVisible(eventName === triggerEventNames[0])
+                                }
+
+                                if (!draft.visible && isTextInputPickerTriggerEvent) {
+                                        draft.nextEmitContentEvent = () =>
+                                                containerRef.current?.measureInWindow((x, y, width, height) =>
+                                                        onEmitContent({
+                                                                containerLayout: {x, y, width, height},
+                                                                visible: false
+                                                        })
+                                                )
+                                }
+
+                                if (isUnmount) {
+                                        draft.nextUnmountContentEvent = () => onUnmountContent?.()
+                                        draft.nextUnmountPressableLayoutEvent = () => onUnmountPressableLayout?.()
                                 }
                         })
                 }
@@ -157,8 +179,8 @@ export const unmountPopoverPressableLayout = (id: string) => () =>
 export const handlePopoverContentAnimationFinished =
         ({
                 onAnimationFinished,
-                onContentUnmount,
-                onPressableLayoutUnmount,
+                onUnmountContent,
+                onUnmountPressableLayout,
                 type
         }: HandlePopoverContentAnimationFinishedOptions) =>
         (setState: Updater<PopoverState>) =>
@@ -171,7 +193,7 @@ export const handlePopoverContentAnimationFinished =
 
                 if (!isMenuOrPicker) {
                         if (!visible) {
-                                onContentUnmount?.()
+                                onUnmountContent?.()
                         }
 
                         onAnimationFinished?.(visible)
@@ -184,12 +206,12 @@ export const handlePopoverContentAnimationFinished =
                                 draft.elevation = ELEVATION.LEVEL_2
                         }
 
-                        if (!visible && onContentUnmount) {
-                                draft.nextContentUnmountEvent = () => onContentUnmount?.()
+                        if (!visible && onUnmountContent) {
+                                draft.nextUnmountContentEvent = () => onUnmountContent?.()
                         }
 
-                        if (!visible && onPressableLayoutUnmount && isMenuOrPicker) {
-                                draft.nextPressableLayoutUnmountEvent = () => onPressableLayoutUnmount?.()
+                        if (!visible && onUnmountPressableLayout && isMenuOrPicker) {
+                                draft.nextUnmountPressableLayoutEvent = () => onUnmountPressableLayout?.()
                         }
 
                         if (onAnimationFinished) {
