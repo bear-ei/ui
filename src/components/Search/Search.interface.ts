@@ -4,6 +4,7 @@ import type {RefAttributes} from 'react'
 import type {PressableProps, TextInput, TextInputProps} from 'react-native'
 import type {ListItemData} from '../List'
 import type {MenuProps} from '../Menu'
+import type {OnVirtualListCloseOptions} from '../Virtual-list'
 
 export interface SearchProps
         extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers & MenuProps>,
@@ -16,10 +17,9 @@ export interface SearchProps
 
 export interface RenderSearchProps extends SearchProps {
         expanded?: boolean
-        leadingElement?: React.JSX.Element
         listVisible?: boolean
+        onMenuClose: (options: OnVirtualListCloseOptions) => void
         textInputPicker?: boolean
-        trailingElement?: React.JSX.Element
 }
 
 export type SearchBaseProps = SearchProps
@@ -28,6 +28,7 @@ export interface SearchState {
         data?: ListItemData[]
         expanded?: boolean
         filterValue?: string
+        focusKey?: string
         listVisible?: boolean
         nextActiveEvent?: () => void
         nextChangeTextEvent?: () => void

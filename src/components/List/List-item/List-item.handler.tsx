@@ -153,7 +153,7 @@ export const handleListItemStateChange =
                         const activeEventNames = [EVENT_NAME.PRESS_OUT, EVENT_NAME.LONG_PRESS] as readonly EventName[]
 
                         if (eventName && activeEventNames.includes(eventName) && onActive) {
-                                draft.nextPressOutEvent = () => onActive?.(indexKey)
+                                draft.nextActiveEvent = () => onActive?.(indexKey)
                         }
                 })
 

@@ -18,6 +18,9 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                 {
                         accessibilityLabel,
                         activeIndicatorAnimatedStyle,
+                        autoCapitalize = 'none',
+                        autoComplete = 'off',
+                        autoCorrect = false,
                         content,
                         contentSize,
                         disabled,
@@ -232,6 +235,9 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                 >
                                                                         <AnimatedTextInput
                                                                                 {...inputProps}
+                                                                                autoCapitalize={autoCapitalize}
+                                                                                autoComplete={autoComplete}
+                                                                                autoCorrect={autoCorrect}
                                                                                 className={classesName(
                                                                                         'flex-1 self-stretch pb-0 pl-0 pr-0 pt-0 text-left outline-none',
                                                                                         typographyClasses(

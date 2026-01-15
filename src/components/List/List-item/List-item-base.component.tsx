@@ -61,9 +61,9 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                         {
                                 afterAffordanceExpanded: isAfterAffordanceExpanded,
                                 eventName,
+                                nextActiveEvent,
                                 nextLayoutEvent,
                                 nextPressInEvent,
-                                nextPressOutEvent,
                                 status,
                                 trailingVisible: isTrailingVisible
                         },
@@ -197,8 +197,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
                 }, [nextPressInEvent])
 
                 useEffect(() => {
-                        nextPressOutEvent?.()
-                }, [nextPressOutEvent])
+                        nextActiveEvent?.()
+                }, [nextActiveEvent])
 
                 useEffect(() => {
                         nextLayoutEvent?.()

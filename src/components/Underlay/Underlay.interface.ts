@@ -1,4 +1,4 @@
-import type {CommonProps, ComponentStatus, EventName, LayoutRectangle, ShapeType} from '@/constants'
+import type {CommonProps, ComponentStatus, EventName, LayoutRectangle, ShapeType, State} from '@/constants'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
@@ -30,6 +30,8 @@ export interface RenderUnderlayProps extends UnderlayProps {
 
 export type UnderlayBaseProps = UnderlayProps
 export interface UnderlayState {
+        state?: State
+        eventName?: EventName
         status: ComponentStatus
 }
 

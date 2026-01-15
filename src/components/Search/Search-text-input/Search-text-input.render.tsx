@@ -14,6 +14,9 @@ export const RenderSearchTextInput = forwardRef<TextInput, RenderSearchTextInput
         (
                 {
                         accessibilityLabel,
+                        autoCapitalize = 'none',
+                        autoComplete = 'off',
+                        autoCorrect = false,
                         contentAnimatedStyle,
                         disabled,
                         editable,
@@ -167,6 +170,9 @@ export const RenderSearchTextInput = forwardRef<TextInput, RenderSearchTextInput
                                                         >
                                                                 <AnimatedTextInput
                                                                         {...textInputProps}
+                                                                        autoCapitalize={autoCapitalize}
+                                                                        autoComplete={autoComplete}
+                                                                        autoCorrect={autoCorrect}
                                                                         editable={
                                                                                 typeof disabled === 'boolean' ?
                                                                                         !disabled

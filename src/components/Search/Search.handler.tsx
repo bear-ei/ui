@@ -31,7 +31,7 @@ export const updateSearchValue = (setState: Updater<SearchState>) => (value?: st
                 }
         })
 
-export const updateSearchListVisible = (setState: Updater<SearchState>) => (visible?: boolean) =>
+export const updateSearchMenuVisible = (setState: Updater<SearchState>) => (visible?: boolean) =>
         typeof visible === 'boolean' &&
         setState(draft => {
                 if (visible) {
@@ -55,22 +55,23 @@ export const updateSearchExpanded = (setState: Updater<SearchState>) => (visible
         )
 }
 
-export const handleSearchClose =
+export const handleSearchMenuClose =
         (ref?: React.RefObject<TextInput | null>) =>
-        (_onListClose?: (options: OnVirtualListCloseOptions) => void) =>
-        (_options: OnVirtualListCloseOptions) => {
+        (onMenuClose?: (options: OnVirtualListCloseOptions) => void) =>
+        (options: OnVirtualListCloseOptions) => {
                 ref?.current?.focus?.()
-
-                // setState(draft => {
-                //         draft.data = data as WritableDraft<ListItemData>[]
-                // })
-
-                // onListClose?.(options)
+                onMenuClose?.(options)
         }
 
 export const handleSearchFocusKey = (setState: Updater<SearchState>) => (key?: string) =>
         setState(draft => {
-                draft.value = draft.data?.find(({indexKey}) => indexKey === key)?.supporting as string
+                const {indexKey, supporting} = draft.data?.find(datum => datum.indexKey === key) ?? {}
+
+                draft.focusKey = indexKey
+
+                if (typeof supporting === 'string') {
+                        draft.value = supporting as string
+                }
         })
 
 export const handleSearchActiveKey =

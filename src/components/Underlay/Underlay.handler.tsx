@@ -1,4 +1,4 @@
-import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '@/constants'
+import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '@/constants'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '@/hooks'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
@@ -13,6 +13,25 @@ export const handleUnderlayStateChange =
                                 draft.status = COMPONENT_STATUS.SUCCEEDED
                         }
                 })
+
+export const updateUnderlayEventName = (setState: Updater<UnderlayState>) => (eventName?: EventName) =>
+        setState(draft => {
+                if (draft.eventName === EVENT_NAME.FOCUS) {
+                        draft.state = STATE.FOCUSED
+                }
+
+                if (draft.eventName === EVENT_NAME.BLUR) {
+                        draft.state = STATE.ENABLED
+                }
+
+                if (draft.state === STATE.FOCUSED && eventName === EVENT_NAME.HOVER_OUT) {
+                        draft.eventName = EVENT_NAME.FOCUS
+
+                        return
+                }
+
+                draft.eventName = eventName
+        })
 
 export const animateUnderlayHoverState = ({animateSharedValueTo, activeValue}: AnimateUnderlayHoverStateOptions) => {
         const event = {

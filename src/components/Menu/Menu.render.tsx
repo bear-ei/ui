@@ -21,6 +21,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                         multiple,
                         onActive,
                         onActives,
+                        onClose,
                         onKeyDown,
                         onVisible,
                         shape = SHAPE.SMALL,
@@ -46,6 +47,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                                 multiple={multiple}
                                 onActive={onActive}
                                 onActives={onActives}
+                                onClose={onClose}
                                 ref={ref}
                                 size={size}
                                 testID={`menu__list--${id}`}

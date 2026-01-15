@@ -5,9 +5,10 @@ import {useImmer} from 'use-immer'
 import {
         handleSearchActiveKey,
         handleSearchFocusKey,
+        handleSearchMenuClose,
         updateSearchData,
         updateSearchExpanded,
-        updateSearchListVisible,
+        updateSearchMenuVisible,
         updateSearchText,
         updateSearchValue
 } from './Search.handler'
@@ -21,10 +22,10 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         defaultValue,
                         disabled,
                         filter,
-                        leading,
+                        leading: rawLeading,
                         onActive: rawOnActive,
                         onChangeText: rawOnChangeText,
-                        trailing,
+                        onClose: rawOnClose,
                         value: rawValue,
                         ...renderSearchProps
                 },
@@ -36,6 +37,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 data,
                                 expanded: isExpanded,
                                 filterValue,
+                                focusKey,
                                 listVisible: isListVisible,
                                 nextActiveEvent,
                                 nextChangeTextEvent,
@@ -49,6 +51,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 
                 const id = useId()
                 const inputRef = useRef<TextInput>(null)
+                const leading = data?.find(({indexKey}) => indexKey === focusKey)?.leading ?? rawLeading
                 const onChangeText = useMemo(
                         () => updateSearchText(rawOnChangeText)(setState),
                         [rawOnChangeText, setState]
@@ -60,8 +63,9 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 )
 
                 const onFocusKey = useMemo(() => handleSearchFocusKey(setState), [setState])
+                const onMenuClose = useMemo(() => handleSearchMenuClose(inputRef)(rawOnClose), [rawOnClose])
                 const onUpdateExpanded = useMemo(() => updateSearchExpanded(setState), [setState])
-                const onVisible = useMemo(() => updateSearchListVisible(setState), [setState])
+                const onVisible = useMemo(() => updateSearchMenuVisible(setState), [setState])
                 const runUpdateSearchData = useMemo(
                         () => updateSearchData({data: rawData, filter})(setState),
                         [filter, rawData, setState]
@@ -104,16 +108,16 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 disabled={disabled}
                                 expanded={isExpanded}
                                 id={id}
-                                leadingElement={leading}
+                                leading={leading}
                                 listVisible={isListVisible}
                                 onActive={onActiveKey}
                                 onAnimationFinished={onUpdateExpanded}
                                 onChangeText={onChangeText}
                                 onFocusKey={onFocusKey}
+                                onMenuClose={onMenuClose}
                                 onVisible={onVisible}
                                 ref={inputRef}
                                 textInputPicker={!!rawData}
-                                trailingElement={trailing}
                                 value={value}
                         />
                 )

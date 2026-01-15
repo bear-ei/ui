@@ -1,9 +1,9 @@
 import {COMPONENT_STATUS, type State} from '@/constants'
 import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent} from '@/hooks'
-import {forwardRef, useCallback, useId} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
-import {handleUnderlayStateChange} from './Underlay.handler'
+import {handleUnderlayStateChange, updateUnderlayEventName} from './Underlay.handler'
 import type {UnderlayBaseProps, UnderlayState} from './Underlay.interface'
 import {RenderUnderlay} from './Underlay.render'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
@@ -15,13 +15,13 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
                         activeAnimatedType,
                         activeScale,
                         defaultActive,
-                        eventName,
+                        eventName: rawEventName,
                         opacities,
                         ...renderUnderlayProps
                 },
                 ref
         ) => {
-                const [{status}, setState] = useImmer<UnderlayState>({status: COMPONENT_STATUS.IDLE})
+                const [{status, eventName}, setState] = useImmer<UnderlayState>({status: COMPONENT_STATUS.IDLE})
                 const id = useId()
                 const isActive = rawActive ?? defaultActive
                 const onStateEventChange = useCallback(
@@ -39,6 +39,12 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
                         opacities,
                         status
                 })
+
+                const runUnderlayEventName = useMemo(() => updateUnderlayEventName(setState), [setState])
+
+                useEffect(() => {
+                        runUnderlayEventName(rawEventName)
+                }, [rawEventName, runUnderlayEventName])
 
                 return (
                         <RenderUnderlay

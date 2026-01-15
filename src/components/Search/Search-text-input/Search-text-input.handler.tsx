@@ -51,11 +51,7 @@ export const updateSearchTextInputText =
 
 export const updateSearchTextInputValue = (setState: Updater<SearchTextInputState>) => (value?: string) =>
         setState(draft => {
-                const nextValue = value ?? ''
-
-                if (nextValue !== draft.value) {
-                        draft.value = nextValue
-                }
+                draft.value = value ?? ''
 
                 if (draft.status === COMPONENT_STATUS.IDLE) {
                         draft.status = COMPONENT_STATUS.SUCCEEDED

@@ -113,9 +113,9 @@ export interface ListItemData
 export interface ListItemState {
         afterAffordanceExpanded?: boolean
         eventName?: EventName
+        nextActiveEvent?: () => void
         nextLayoutEvent?: () => void
         nextPressInEvent?: () => void
-        nextPressOutEvent?: () => void
         nextTrailingTriggerEvent?: () => void
         status: ComponentStatus
         trailingVisible?: boolean

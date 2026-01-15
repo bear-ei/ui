@@ -114,6 +114,10 @@ export const updateListAffordanceActiveState =
         ({activeKey, callback} = {} as UpdateListAffordanceActiveStateOptions) =>
                 selectType !== LIST_SELECT_TYPE.MULTIPLE &&
                 setState(draft => {
+                        if (onActive && draft.afterAffordanceActiveKey !== activeKey) {
+                                draft.nextAfterAffordanceActiveEvent = () => onActive?.(activeKey)
+                        }
+
                         if (draft.afterAffordanceActiveKey === activeKey) {
                                 draft.afterAffordanceActiveKey = undefined
 
@@ -121,10 +125,6 @@ export const updateListAffordanceActiveState =
                         }
 
                         draft.afterAffordanceActiveKey = activeKey
-
-                        if (onActive) {
-                                draft.nextAfterAffordanceActiveEvent = () => onActive?.(activeKey)
-                        }
 
                         if (activeKey) {
                                 draft.activeKey = activeKey
