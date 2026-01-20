@@ -7,7 +7,7 @@ import type {RenderLayoutProps} from './Layout.interface'
 
 export const RenderLayout = forwardRef<View, RenderLayoutProps>(
         ({children, id, style: rawStyle, testID, layoutType, className, ...containerProps}, ref) => {
-                const layoutAnimatedStyle = {
+                const layoutStyle = {
                         flexDirection: layoutType === LAYOUT.HORIZONTAL ? 'row' : 'column'
                 } as ViewStyle
 
@@ -20,7 +20,7 @@ export const RenderLayout = forwardRef<View, RenderLayoutProps>(
                                 )}
                                 defaultVisible={true}
                                 ref={ref}
-                                style={[rawStyle, layoutAnimatedStyle]}
+                                style={[rawStyle, layoutStyle]}
                                 testID={testID ?? `layout--${id}`}
                         >
                                 {children}

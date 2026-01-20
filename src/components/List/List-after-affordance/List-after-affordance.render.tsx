@@ -35,7 +35,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                 const checkIconElement = <Check testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`} />
                 const closeIconElement = <X testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`} />
                 const isDangerVisible = !secondaryButtonDisabled
-                const layoutAnimatedStyle = {flexDirection: 'row'} as ViewStyle
+                const listAfterAffordanceStyle = {flexDirection: 'row'} as ViewStyle
 
                 return (
                         <LayoutAnimated
@@ -47,7 +47,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
                                 entry={{duration: 0}}
                                 lazy={true}
                                 ref={ref}
-                                style={layoutAnimatedStyle}
+                                style={listAfterAffordanceStyle}
                                 testID={testID ?? `listAfterAffordance--${id}`}
                                 visible={visible}
                         >

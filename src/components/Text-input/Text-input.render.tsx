@@ -59,6 +59,9 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                 const shape = SHAPE.EXTRA_SMALL_TOP
                 const underlayColor = theme.token.scheme.onSurface
                 const underlayOpacities = [theme.token.opacity.level0, theme.token.opacity.level1] as [number, number]
+                const controlStyle = {
+                        minHeight: platformValue(contentSize?.height ?? theme.token.spacing.none)
+                } as ViewStyle
 
                 return (
                         <View
@@ -222,16 +225,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
                                                                 <View
                                                                         className='flex min-w-16 flex-1 flex-col justify-center self-stretch'
                                                                         testID={`textInput__control--${id}`}
-                                                                        style={[
-                                                                                {
-                                                                                        minHeight: platformValue(
-                                                                                                contentSize?.height ??
-                                                                                                        theme.token
-                                                                                                                .spacing
-                                                                                                                .none
-                                                                                        )
-                                                                                } as ViewStyle
-                                                                        ]}
+                                                                        style={[controlStyle]}
                                                                 >
                                                                         <AnimatedTextInput
                                                                                 {...inputProps}

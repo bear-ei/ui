@@ -23,6 +23,10 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                 ref
         ) => {
                 const isSVG = !!svgElement
+                const avatarStyle = {
+                        ...(backgroundColor && {backgroundColor}),
+                        ...(typeof size === 'number' && {width: platformValue(size), height: platformValue(size)})
+                } as ViewStyle
 
                 return (
                         <View
@@ -42,16 +46,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
                                         shapeClasses(shape)
                                 )}
                                 ref={ref}
-                                style={[
-                                        {...(backgroundColor && {backgroundColor})},
-                                        {
-                                                ...(typeof size === 'number' && {
-                                                        width: platformValue(size),
-                                                        height: platformValue(size)
-                                                })
-                                        } as ViewStyle,
-                                        style
-                                ]}
+                                style={[avatarStyle, style]}
                                 testID={testID ?? `avatar--${id}`}
                         >
                                 {isSVG && (

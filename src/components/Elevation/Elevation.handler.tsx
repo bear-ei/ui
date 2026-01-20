@@ -3,6 +3,9 @@ import {hexToRGBA} from '@bearei/theme-token'
 import type {SharedValue} from 'react-native-reanimated'
 import type {GetWebBoxShadowOptions} from './Elevation.interface'
 
+/**
+ * FIXME: Fix platform units
+ */
 export const getWebBoxShadow = ({offsetX, offsetY, radius, opacity, color}: GetWebBoxShadowOptions): string => {
         const r = Math.max(1, radius)
         const shadowColor = hexToRGBA(color)(opacity)

@@ -22,6 +22,9 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
                 ref
         ) => {
                 const theme = useTheme()
+                const maskStyle = {
+                        backgroundColor: hexToRGBA(backgroundColor ?? theme.token.scheme.scrim)(opacity)
+                }
 
                 return (
                         <LayoutAnimated
@@ -39,14 +42,7 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
                                 )}
                                 ref={ref}
                                 testID={testID ?? `mask--${id}`}
-                                style={[
-                                        style,
-                                        {
-                                                backgroundColor: hexToRGBA(backgroundColor ?? theme.token.scheme.scrim)(
-                                                        opacity
-                                                )
-                                        }
-                                ]}
+                                style={[style, maskStyle]}
                         >
                                 <Pressable
                                         {...interactionHandlers}

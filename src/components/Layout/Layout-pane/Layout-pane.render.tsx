@@ -8,7 +8,7 @@ import type {RenderLayoutPaneProps} from './Layout-pane.interface'
 
 export const RenderLayoutPane = forwardRef<View, RenderLayoutPaneProps>(
         ({children, id, layoutType, style, testID, className, ...containerProps}, ref) => {
-                const layoutAnimatedStyle = {
+                const layoutPaneStyle = {
                         flexDirection: layoutType === LAYOUT.HORIZONTAL ? 'row' : 'column'
                 } as ViewStyle
 
@@ -22,7 +22,7 @@ export const RenderLayoutPane = forwardRef<View, RenderLayoutPaneProps>(
                                 entry={{duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE}}
                                 exit={{duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}}
                                 ref={ref}
-                                style={[style, layoutAnimatedStyle]}
+                                style={[style, layoutPaneStyle]}
                                 testID={testID ?? `layoutPane--${id}`}
                         >
                                 {children}

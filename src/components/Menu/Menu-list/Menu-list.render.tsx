@@ -33,6 +33,7 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
 
                 const itemSize = theme.token.spacing.extraSmall * sizeDensity[size]
                 const height = dataNumber * itemSize + theme.token.spacing.medium
+                const menuListStyle = {height: platformValue(height)} as ViewStyle
 
                 return (
                         <View
@@ -42,7 +43,7 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
                                         ['w-[11.25rem]']: type === POPOVER_TYPE.CONTEXT_MENU
                                 })}
                                 ref={ref}
-                                style={[{height: platformValue(height)} as ViewStyle]}
+                                style={[menuListStyle]}
                                 tabIndex={-1}
                                 testID={testID ?? `menuList--${id}`}
                         >

@@ -20,29 +20,29 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
                         ...containerProps
                 },
                 ref
-        ) => (
-                <AnimatedView
-                        {...containerProps}
-                        {...interactionHandlers}
-                        className={classesName(
-                                'pointer-events-none absolute bg-[--color-on-surface]',
-                                shapeClasses(SHAPE.FULL)
-                        )}
-                        ref={ref}
-                        style={[
-                                style,
-                                {...(underlayColor && {backgroundColor: underlayColor})},
-                                {
-                                        height: platformValue(size),
-                                        left: platformValue(locationX),
-                                        top: platformValue(locationY),
-                                        width: platformValue(size)
-                                } as ViewStyle,
-                                containerAnimatedStyle
-                        ]}
-                        testID={testID ?? `touchableRipple--${id}`}
-                />
-        )
+        ) => {
+                const touchableRippleStyle = {
+                        ...(underlayColor && {backgroundColor: underlayColor}),
+                        height: platformValue(size),
+                        left: platformValue(locationX),
+                        top: platformValue(locationY),
+                        width: platformValue(size)
+                } as ViewStyle
+
+                return (
+                        <AnimatedView
+                                {...containerProps}
+                                {...interactionHandlers}
+                                className={classesName(
+                                        'pointer-events-none absolute bg-[--color-on-surface]',
+                                        shapeClasses(SHAPE.FULL)
+                                )}
+                                ref={ref}
+                                style={[style, touchableRippleStyle, containerAnimatedStyle]}
+                                testID={testID ?? `touchableRipple--${id}`}
+                        />
+                )
+        }
 )
 
 RenderTouchableRipple.displayName = 'RenderTouchableRipple'

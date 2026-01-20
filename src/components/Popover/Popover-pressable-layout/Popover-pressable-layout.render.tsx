@@ -12,7 +12,7 @@ export const RenderPopoverPressableLayout = forwardRef<View, RenderPopoverLayout
                         y: containerY = 0
                 } = containerLayout ?? {}
 
-                const layoutStyle = {
+                const pressableLayoutStyle = {
                         height: platformValue(containerHeight),
                         left: platformValue(containerX),
                         top: platformValue(containerY),
@@ -27,7 +27,7 @@ export const RenderPopoverPressableLayout = forwardRef<View, RenderPopoverLayout
                                         ['absolute']: Platform.OS !== 'web',
                                         ['fixed']: Platform.OS === 'web'
                                 })}
-                                style={[layoutStyle]}
+                                style={[pressableLayoutStyle]}
                                 testID={`popover__pressableLayout--${id}`}
                         />
                 )

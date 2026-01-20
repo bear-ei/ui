@@ -99,6 +99,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                 />
                         :       <></>
 
+                const activeIndicatorStyle = {...(linkColor && {backgroundColor: linkColor})}
+
                 return (
                         <View
                                 accessibilityLabel={accessibilityLabel ?? `Button: ${labelText}`}
@@ -187,9 +189,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
                                                 {type === BUTTON_TYPE.LINK && (
                                                         <LayoutAnimated
                                                                 className='absolute bottom-0 left-0 right-0 z-20 min-h-[0.0625rem] bg-[--color-primary]'
-                                                                style={[
-                                                                        {...(linkColor && {backgroundColor: linkColor})}
-                                                                ]}
+                                                                style={[activeIndicatorStyle]}
                                                                 testID={`button__activeIndicator--${id}`}
                                                                 visible={isActiveIndicatorVisible}
                                                         />

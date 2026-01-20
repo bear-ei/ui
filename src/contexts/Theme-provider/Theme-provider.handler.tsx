@@ -2,8 +2,8 @@ import type {Token} from '@bearei/theme-token'
 import {vars} from 'nativewind'
 
 export const processStyleVariables = (token: Token) => {
-        const toKebabCase = (str: string) =>
-                Array.from(str)
+        const toKebabCase = (value: string) =>
+                Array.from(value)
                         .map(char =>
                                 char === char.toUpperCase() && char !== char.toLowerCase() ?
                                         `-${char.toLowerCase()}`

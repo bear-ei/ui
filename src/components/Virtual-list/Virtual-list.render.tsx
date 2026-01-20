@@ -72,6 +72,13 @@ export const RenderVirtualListInner = <T,>(
         const isLayoutCompleted =
                 typeof containerLayout?.height === 'number' && (containerLayout.height > 0 || containerLayout.width > 0)
 
+        const contentContainerStyle = {
+                ...(layoutType === LAYOUT.VERTICAL && {minHeight: platformValue(contentSize)}),
+                ...(layoutType === LAYOUT.HORIZONTAL && {minWidth: platformValue(contentSize)}),
+                alignSelf: 'stretch',
+                flex: 1
+        } as ViewStyle
+
         return (
                 <View
                         className='relative flex-1 self-stretch'
@@ -86,18 +93,7 @@ export const RenderVirtualListInner = <T,>(
                                 >
                                         <Animated.ScrollView
                                                 {...containerProps}
-                                                contentContainerStyle={
-                                                        {
-                                                                ...(layoutType === LAYOUT.VERTICAL && {
-                                                                        minHeight: platformValue(contentSize)
-                                                                }),
-                                                                ...(layoutType === LAYOUT.HORIZONTAL && {
-                                                                        minWidth: platformValue(contentSize)
-                                                                }),
-                                                                alignSelf: 'stretch',
-                                                                flex: 1
-                                                        } as ViewStyle
-                                                }
+                                                contentContainerStyle={contentContainerStyle}
                                                 horizontal={layoutType === LAYOUT.HORIZONTAL}
                                                 ref={ref}
                                                 scrollEventThrottle={scrollEventThrottle}
