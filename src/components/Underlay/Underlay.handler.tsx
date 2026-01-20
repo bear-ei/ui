@@ -20,7 +20,9 @@ export const updateUnderlayEventName = (setState: Updater<UnderlayState>) => (ev
                         draft.state = STATE.FOCUSED
                 }
 
-                if (draft.eventName === EVENT_NAME.BLUR) {
+                const eventNames = [EVENT_NAME.BLUR, EVENT_NAME.PRESS_IN] as readonly EventName[]
+
+                if (draft.eventName && eventNames.includes(draft.eventName)) {
                         draft.state = STATE.ENABLED
                 }
 
