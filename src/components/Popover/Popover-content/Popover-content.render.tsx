@@ -138,7 +138,11 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                         :       {
                                         left: isMainLayoutCompleted ? platformValue(contentPosition.left) : -16384,
                                         top: isMainLayoutCompleted ? platformValue(contentPosition.top) : -16384,
-                                        ...(!isMainLayoutCompleted && {opacity: 0, zIndex: -4096})
+                                        ...(!isMainLayoutCompleted && {
+                                                opacity: 0,
+                                                pointerEvents: 'none',
+                                                zIndex: -4096
+                                        })
                                 })
                 } as ViewStyle
 
@@ -169,7 +173,6 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                 }
 
                 const {animatedType, outputRanges} = positionOutputRanges[popoverContentPosition]
-
                 const mainElement = (
                         <View
                                 {...(type === POPOVER_TYPE.TOOLTIP && {onLayout})}

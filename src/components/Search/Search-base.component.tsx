@@ -52,6 +52,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 const id = useId()
                 const inputRef = useRef<TextInput>(null)
                 const leading = data?.find(({indexKey}) => indexKey === focusKey)?.leading ?? rawLeading
+                const isTextInputPicker = !!rawData
                 const onChangeText = useMemo(
                         () => updateSearchText(rawOnChangeText)(setState),
                         [rawOnChangeText, setState]
@@ -85,8 +86,10 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 }, [runUpdateValue, defaultValue, rawValue])
 
                 useEffect(() => {
-                        runUpdateVisible(!!value)
-                }, [runUpdateVisible, value])
+                        if (isTextInputPicker) {
+                                runUpdateVisible(!!value)
+                        }
+                }, [isTextInputPicker, runUpdateVisible, value])
 
                 useEffect(() => {
                         nextActiveEvent?.()
@@ -117,7 +120,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 onMenuClose={onMenuClose}
                                 onVisible={onVisible}
                                 ref={inputRef}
-                                textInputPicker={!!rawData}
+                                textInputPicker={isTextInputPicker}
                                 value={value}
                         />
                 )
