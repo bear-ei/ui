@@ -19,6 +19,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                         listVisible,
                         onActive,
                         onAnimationFinished,
+                        onFocus,
                         onFocusKey,
                         onMenuClose,
                         onVisible,
@@ -31,6 +32,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                 const searchTextInputElement = (
                         <SearchTextInput
                                 {...textInputProps}
+                                {...(!isTextInputPicker && {onFocus})}
                                 id={id}
                                 ref={ref}
                         />
@@ -54,6 +56,7 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
                                                 onActive={onActive}
                                                 onAnimationFinished={onAnimationFinished}
                                                 onClose={onMenuClose}
+                                                onFocus={onFocus}
                                                 onFocusKey={onFocusKey}
                                                 onVisible={onVisible}
                                                 popoverContentPosition={POPOVER_CONTENT_POSITION.VERTICAL_END}

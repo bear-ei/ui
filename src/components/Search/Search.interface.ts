@@ -32,6 +32,7 @@ export interface SearchState {
         listVisible?: boolean
         nextActiveEvent?: () => void
         nextChangeTextEvent?: () => void
+        nextFocusEvent?: () => void
         nextListVisibleEvent?: () => void
         value?: string
 }

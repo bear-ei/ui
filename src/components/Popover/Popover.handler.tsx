@@ -24,7 +24,7 @@ export const updatePopoverVisible = ({onVisible, type}: UpdatePopoverVisibleOpti
         return (setState: Updater<PopoverState>) => (visible?: boolean) =>
                 typeof visible === 'boolean' &&
                 setState(draft => {
-                        if (draft.visible !== visible && onVisible && visible) {
+                        if (draft.visible !== visible && onVisible) {
                                 draft.nextVisibleEvent = () => onVisible?.(visible)
                         }
 

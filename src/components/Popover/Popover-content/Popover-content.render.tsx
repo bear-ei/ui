@@ -126,7 +126,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                 }
 
                 const contentPosition = position[popoverContentPosition]()
-                const isMainLayoutCompleted = isMenuOrPicker ? true : !!(height && width)
+                const isMainLayoutCompleted = type === POPOVER_TYPE.TEXT_INPUT_PICKER ? true : !!(height && width)
                 const contentStyle = {
                         height: platformValue(height),
                         width: platformValue(width),
@@ -148,27 +148,47 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 
                 const elevationLayoutStyle = {
                         height: platformValue(height + containerHeight),
-                        left: platformValue(containerX),
-                        top: platformValue(containerY),
-                        width: platformValue(width)
+                        width: platformValue(width),
+                        ...(type === POPOVER_TYPE.CONTEXT_MENU ?
+                                {
+                                        left: platformValue(menuPosition.left ?? theme.token.spacing.none),
+                                        top: platformValue(menuPosition.top ?? theme.token.spacing.none)
+                                }
+                        :       {left: platformValue(containerX), top: platformValue(containerY)})
                 } as ViewStyle
+
+                const verticalAnimatedType =
+                        isMenuOrPicker ? LAYOUT_ANIMATED.COLLAPSE_Y : LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE
+
+                const horizontalAnimatedType =
+                        isMenuOrPicker ? LAYOUT_ANIMATED.COLLAPSE_X : LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE
+
+                const endOutputRanges =
+                        type === POPOVER_TYPE.TOOLTIP ?
+                                [-theme.token.spacing.small, theme.token.spacing.none]
+                        :       undefined
+
+                const startOutputRanges =
+                        type === POPOVER_TYPE.TOOLTIP ?
+                                [theme.token.spacing.small, theme.token.spacing.none]
+                        :       undefined
 
                 const positionOutputRanges = {
                         [POPOVER_CONTENT_POSITION.VERTICAL_START]: {
-                                animatedType: LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE,
-                                outputRanges: [theme.token.spacing.small, theme.token.spacing.none]
+                                animatedType: verticalAnimatedType,
+                                outputRanges: startOutputRanges
                         },
                         [POPOVER_CONTENT_POSITION.VERTICAL_END]: {
-                                animatedType: LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE,
-                                outputRanges: [-theme.token.spacing.small, theme.token.spacing.none]
+                                animatedType: verticalAnimatedType,
+                                outputRanges: endOutputRanges
                         },
                         [POPOVER_CONTENT_POSITION.HORIZONTAL_START]: {
-                                animatedType: LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE,
-                                outputRanges: [theme.token.spacing.small, theme.token.spacing.none]
+                                animatedType: horizontalAnimatedType,
+                                outputRanges: startOutputRanges
                         },
                         [POPOVER_CONTENT_POSITION.HORIZONTAL_END]: {
-                                animatedType: LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE,
-                                outputRanges: [-theme.token.spacing.small, theme.token.spacing.none]
+                                animatedType: horizontalAnimatedType,
+                                outputRanges: endOutputRanges
                         }
                 }
 
@@ -262,7 +282,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                                         />
                                 )}
 
-                                {type === POPOVER_TYPE.TEXT_INPUT_PICKER && (
+                                {isMenuOrPicker && (
                                         <View
                                                 className={classesName('-z-20', {
                                                         ['absolute']: Platform.OS !== 'web',

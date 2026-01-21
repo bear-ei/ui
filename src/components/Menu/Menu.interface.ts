@@ -43,6 +43,6 @@ export type HandleMenuKeyDownEventOptions = Pick<
         'onFocusKey' | 'data' | 'onActives' | 'onActive'
 >
 
-export interface UpdateMenuVisibleOptions extends Pick<MenuProps, 'type'> {
+export interface UpdateMenuVisibleOptions extends Pick<RenderMenuProps, 'type'> {
         onVisible?: (value?: boolean) => void
 }

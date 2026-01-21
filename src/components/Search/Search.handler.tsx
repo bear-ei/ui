@@ -1,6 +1,6 @@
 import {textSearch} from '@/utils'
 import type {WritableDraft} from 'immer'
-import type {TextInput} from 'react-native'
+import type {FocusEvent, NativeSyntheticEvent, TargetedEvent, TextInput} from 'react-native'
 import type {Updater} from 'use-immer'
 import type {ListItemData} from '../List'
 import type {OnVirtualListCloseOptions} from '../Virtual-list'
@@ -31,17 +31,33 @@ export const updateSearchValue = (setState: Updater<SearchState>) => (value?: st
                 }
         })
 
+const syncVisible = (draft: WritableDraft<SearchState>) => (visible?: boolean) => {
+        if (visible) {
+                draft.expanded = true
+                draft.listVisible = visible
+
+                return
+        }
+
+        draft.listVisible = false
+}
+
+export const handleSearchFocus =
+        (onFocus?: ((event: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)) =>
+        (setState: Updater<SearchState>) =>
+        (event: FocusEvent | NativeSyntheticEvent<TargetedEvent>) =>
+                setState(draft => {
+                        syncVisible(draft)(!!draft.value)
+
+                        if (onFocus) {
+                                draft.nextFocusEvent = () => onFocus?.(event)
+                        }
+                })
+
 export const updateSearchMenuVisible = (setState: Updater<SearchState>) => (visible?: boolean) =>
         typeof visible === 'boolean' &&
         setState(draft => {
-                if (visible) {
-                        draft.expanded = true
-                        draft.listVisible = visible
-
-                        return
-                }
-
-                draft.listVisible = false
+                syncVisible(draft)(visible)
         })
 
 export const updateSearchExpanded = (setState: Updater<SearchState>) => (visible?: boolean) => {

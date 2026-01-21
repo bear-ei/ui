@@ -24,7 +24,7 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
                         onClose,
                         onKeyDown,
                         onVisible,
-                        shape = SHAPE.SMALL,
+                        shape = SHAPE.MEDIUM,
                         size,
                         testID,
                         trailingTriggerOn,

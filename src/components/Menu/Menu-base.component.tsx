@@ -2,6 +2,7 @@ import {useClearComponentEvent} from '@/hooks'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+import {POPOVER_TYPE} from '../Popover'
 import {
         handleMenuKeyDown,
         handleMenuKeyDownEvent,
@@ -27,7 +28,7 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
                         onActives: rawOnActives,
                         onFocusKey,
                         onVisible: rawOnVisible,
-                        type,
+                        type = POPOVER_TYPE.CONTEXT_MENU,
                         visible: rawIsVisible,
                         ...renderProps
                 },

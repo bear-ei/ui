@@ -4,6 +4,7 @@ import type {TextInput} from 'react-native'
 import {useImmer} from 'use-immer'
 import {
         handleSearchActiveKey,
+        handleSearchFocus,
         handleSearchFocusKey,
         handleSearchMenuClose,
         updateSearchData,
@@ -26,6 +27,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         onActive: rawOnActive,
                         onChangeText: rawOnChangeText,
                         onClose: rawOnClose,
+                        onFocus: rawOnFocus,
                         value: rawValue,
                         ...renderSearchProps
                 },
@@ -41,6 +43,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 listVisible: isListVisible,
                                 nextActiveEvent,
                                 nextChangeTextEvent,
+                                nextFocusEvent,
                                 nextListVisibleEvent,
                                 value
                         },
@@ -53,6 +56,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                 const inputRef = useRef<TextInput>(null)
                 const leading = data?.find(({indexKey}) => indexKey === focusKey)?.leading ?? rawLeading
                 const isTextInputPicker = !!rawData
+                const onFocus = useMemo(() => handleSearchFocus(rawOnFocus)(setState), [rawOnFocus, setState])
                 const onChangeText = useMemo(
                         () => updateSearchText(rawOnChangeText)(setState),
                         [rawOnChangeText, setState]
@@ -103,6 +107,10 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                         nextListVisibleEvent?.()
                 }, [nextListVisibleEvent])
 
+                useEffect(() => {
+                        nextFocusEvent?.()
+                }, [nextFocusEvent])
+
                 return (
                         <RenderSearch
                                 {...renderSearchProps}
@@ -116,6 +124,7 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
                                 onActive={onActiveKey}
                                 onAnimationFinished={onUpdateExpanded}
                                 onChangeText={onChangeText}
+                                onFocus={onFocus}
                                 onFocusKey={onFocusKey}
                                 onMenuClose={onMenuClose}
                                 onVisible={onVisible}

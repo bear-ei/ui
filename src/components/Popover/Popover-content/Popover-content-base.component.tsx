@@ -51,6 +51,7 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                         [POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]
                 ).includes(type)
 
+                const position = getPopoverContentPosition(popoverContentPosition)(isInvert)
                 const popoverWidth =
                         isMenuOrPicker ?
                                 type === POPOVER_TYPE.TEXT_INPUT_PICKER ?
@@ -64,7 +65,6 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
                 )
 
                 const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisible), [onVisible])
-                const position = getPopoverContentPosition(popoverContentPosition)(isInvert)
                 const onStateEventChange = useCallback(
                         (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                                 handlePopoverContentStateChange({...options, state, onVisible, triggerEvent})(setState)(
