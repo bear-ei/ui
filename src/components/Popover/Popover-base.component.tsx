@@ -52,7 +52,7 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
                         popoverContentPosition,
                         shape,
                         triggerEvent,
-                        type = POPOVER_TYPE.PLAIN,
+                        type = POPOVER_TYPE.TOOLTIP,
                         visible: rawVisible,
                         ...renderPopoverProps
                 },
@@ -86,8 +86,11 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
                 const id = useId()
                 const debounceVisibleDelay = type === POPOVER_TYPE.TEXT_INPUT_PICKER ? 0 : 150
                 const onVisible = useMemo(
-                        () => debounce(updatePopoverVisible(rawOnVisible)(setState))(debounceVisibleDelay),
-                        [debounceVisibleDelay, rawOnVisible, setState]
+                        () =>
+                                debounce(updatePopoverVisible({onVisible: rawOnVisible, type})(setState))(
+                                        debounceVisibleDelay
+                                ),
+                        [debounceVisibleDelay, rawOnVisible, setState, type]
                 )
 
                 const onElevationAnimationFinished = useMemo(
@@ -193,7 +196,10 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
                         }
 
                         containerRef.current?.measureInWindow((x, y, width, height) =>
-                                runEmitContent({containerLayout: {x, y, width, height}, visible: isVisible})
+                                runEmitContent({
+                                        containerLayout: {x, y, width, height},
+                                        visible: isVisible
+                                })
                         )
                 }, [contextMenuLayout, isVisible, runEmitContent])
 

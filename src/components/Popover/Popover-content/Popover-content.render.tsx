@@ -126,6 +126,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                 }
 
                 const contentPosition = position[popoverContentPosition]()
+                const isMainLayoutCompleted = isMenuOrPicker ? true : !!(height && width)
                 const contentStyle = {
                         height: platformValue(height),
                         width: platformValue(width),
@@ -134,7 +135,11 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                                         left: platformValue(menuPosition.left ?? theme.token.spacing.none),
                                         top: platformValue(menuPosition.top ?? theme.token.spacing.none)
                                 }
-                        :       {left: platformValue(contentPosition.left), top: platformValue(contentPosition.top)})
+                        :       {
+                                        left: isMainLayoutCompleted ? platformValue(contentPosition.left) : -16384,
+                                        top: isMainLayoutCompleted ? platformValue(contentPosition.top) : -16384,
+                                        ...(!isMainLayoutCompleted && {opacity: 0, zIndex: -4096})
+                                })
                 } as ViewStyle
 
                 const elevationLayoutStyle = {
@@ -144,31 +149,37 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                         width: platformValue(width)
                 } as ViewStyle
 
-                // const positionOutputRanges = {
-                //         [POPOVER_CONTENT_POSITION.VERTICAL_START]: [
-                //                 theme.token.spacing.small,
-                //                 theme.token.spacing.none
-                //         ],
-                //         [POPOVER_CONTENT_POSITION.VERTICAL_END]: [-theme.token.spacing.small, theme.token.spacing.none],
-                //         [POPOVER_CONTENT_POSITION.HORIZONTAL_START]: [
-                //                 theme.token.spacing.small,
-                //                 theme.token.spacing.none
-                //         ],
-                //         [POPOVER_CONTENT_POSITION.HORIZONTAL_END]: [
-                //                 -theme.token.spacing.small,
-                //                 theme.token.spacing.none
-                //         ]
-                // }
+                const positionOutputRanges = {
+                        [POPOVER_CONTENT_POSITION.VERTICAL_START]: {
+                                animatedType: LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE,
+                                outputRanges: [theme.token.spacing.small, theme.token.spacing.none]
+                        },
+                        [POPOVER_CONTENT_POSITION.VERTICAL_END]: {
+                                animatedType: LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE,
+                                outputRanges: [-theme.token.spacing.small, theme.token.spacing.none]
+                        },
+                        [POPOVER_CONTENT_POSITION.HORIZONTAL_START]: {
+                                animatedType: LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE,
+                                outputRanges: [theme.token.spacing.small, theme.token.spacing.none]
+                        },
+                        [POPOVER_CONTENT_POSITION.HORIZONTAL_END]: {
+                                animatedType: LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE,
+                                outputRanges: [-theme.token.spacing.small, theme.token.spacing.none]
+                        }
+                }
+
+                const {animatedType, outputRanges} = positionOutputRanges[popoverContentPosition]
 
                 const mainElement = (
                         <View
-                                {...(type === POPOVER_TYPE.PLAIN && {onLayout})}
+                                {...(type === POPOVER_TYPE.TOOLTIP && {onLayout})}
                                 className={classesName(
                                         'absolute bottom-0 top-0 overflow-hidden',
                                         {
-                                                ['m-h-6 bg-[--color-inverse-surface] pb-1 pl-2 pr-2 pt-1']:
-                                                        type === POPOVER_TYPE.PLAIN,
-                                                ['left-0 right-0']: isMenuOrPicker
+                                                ['min-h-6 bg-[--color-inverse-surface] pb-1 pl-2 pr-2 pt-1']:
+                                                        type === POPOVER_TYPE.TOOLTIP,
+                                                ['left-0 right-0']: isMenuOrPicker,
+                                                ['pointer-events-none']: !isMenuOrPicker
                                         },
                                         shapeClasses(
                                                 type === POPOVER_TYPE.TEXT_INPUT_PICKER ? SHAPE.MEDIUM_BOTTOM : shape
@@ -212,25 +223,26 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
                         <>
                                 <LayoutAnimated
                                         {...containerProps}
-                                        animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
+                                        animatedType={animatedType}
                                         contentSize={{height, width}}
                                         className={classesName('z-50 ', {
                                                 ['absolute']: Platform.OS !== 'web',
                                                 ['fixed']: Platform.OS === 'web',
                                                 ['min-h-6']: !isMenuOrPicker
                                         })}
+                                        outputRanges={outputRanges}
                                         ref={ref}
                                         style={[contentStyle]}
                                         testID={testID ?? `popoverContent__content--${id}`}
                                         translate={!isMenuOrPicker}
-                                        visible={visible}
+                                        visible={isMainLayoutCompleted ? visible : undefined}
                                 >
                                         {isMenuOrPicker ?
                                                 mainElement
                                         :       <Pressable
                                                         {...mainInteractionHandlers}
                                                         className='relative flex-1 self-stretch outline-none'
-                                                        testID={`popoverContent_contentMain--${id}`}
+                                                        testID={`popoverContent_pressable--${id}`}
                                                 >
                                                         {mainElement}
                                                 </Pressable>

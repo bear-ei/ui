@@ -1,4 +1,5 @@
 import {classesName} from '@/utils'
+import {isArray} from 'class-validator'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {AnimatedView} from '../Animated-component'
@@ -31,7 +32,12 @@ export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
                                 )}
                                 onLayout={onLayout}
                                 ref={ref}
-                                style={[style, containerAnimatedStyle]}
+                                style={[
+                                        style,
+                                        ...(isArray(containerAnimatedStyle) ? containerAnimatedStyle : (
+                                                [containerAnimatedStyle]
+                                        ))
+                                ]}
                                 testID={testID ?? `layoutAnimated--${id}`}
                         >
                                 {children}

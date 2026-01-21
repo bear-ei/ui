@@ -3,6 +3,7 @@ import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {Circle} from 'lucide-react-native'
 import {IconButton} from '../Icon-button'
 import {List} from './List.component'
+import {LIST_SELECT_TYPE} from './List.enum'
 import type {ListProps} from './List.interface'
 
 export const Leading: StoryObj<ListProps> = {
@@ -68,11 +69,12 @@ export const Trailing: StoryObj<ListProps> = {
 
 export const AfterAffordance: StoryObj<ListProps> = {
         args: {
-                size: SIZE.MEDIUM,
-                shape: SHAPE.MEDIUM,
-                defaultActiveKey: 'TitleB',
                 activeKey: 'TitleA',
                 afterAffordance: true,
+                defaultActiveKey: 'TitleB',
+                selectType: LIST_SELECT_TYPE.SINGLE,
+                shape: SHAPE.MEDIUM,
+                size: SIZE.MEDIUM,
                 data: [
                         {
                                 indexKey: 'TitleA',

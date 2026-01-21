@@ -12,15 +12,26 @@ import type {
         HandlePopoverStateEventChangeOptions,
         PopoverState,
         PopoverType,
-        UpdatePopoverContextMenuLayoutOptions
+        UpdatePopoverContextMenuLayoutOptions,
+        UpdatePopoverVisibleOptions
 } from './Popover.interface'
 
-export const updatePopoverVisible =
-        (onVisible?: (visible?: boolean) => void) => (setState: Updater<PopoverState>) => (visible?: boolean) =>
+export const updatePopoverVisible = ({onVisible, type}: UpdatePopoverVisibleOptions) => {
+        const isMenuOrPicker =
+                type &&
+                ([POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]).includes(type)
+
+        return (setState: Updater<PopoverState>) => (visible?: boolean) =>
                 typeof visible === 'boolean' &&
                 setState(draft => {
                         if (draft.visible !== visible && onVisible && visible) {
                                 draft.nextVisibleEvent = () => onVisible?.(visible)
+                        }
+
+                        if (!isMenuOrPicker) {
+                                draft.visible = visible
+
+                                return
                         }
 
                         if (visible) {
@@ -31,6 +42,7 @@ export const updatePopoverVisible =
 
                         draft.elevation = ELEVATION.LEVEL_0
                 })
+}
 
 export const handleElevationAnimationFinished =
         (onVisible?: (visible?: boolean) => void) =>
@@ -118,10 +130,6 @@ export const handlePopoverStateChange =
 
                                 draft.eventName = eventName
 
-                                if (eventName && triggerEventNames?.includes(eventName)) {
-                                        draft.nextVisibleEvent = () => onVisible(eventName === triggerEventNames[0])
-                                }
-
                                 if (!draft.visible && isTextInputPickerTriggerEvent) {
                                         draft.nextEmitContentEvent = () =>
                                                 containerRef.current?.measureInWindow((x, y, width, height) =>
@@ -135,6 +143,10 @@ export const handlePopoverStateChange =
                                 if (isUnmount) {
                                         draft.nextUnmountContentEvent = () => onUnmountContent?.()
                                         draft.nextUnmountPressableLayoutEvent = () => onUnmountPressableLayout?.()
+                                }
+
+                                if (eventName && triggerEventNames?.includes(eventName)) {
+                                        draft.nextVisibleEvent = () => onVisible(eventName === triggerEventNames[0])
                                 }
                         })
                 }

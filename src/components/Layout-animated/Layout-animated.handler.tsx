@@ -12,11 +12,11 @@ import type {
 } from './Layout-animated.interface'
 
 export const updateLayoutAnimatedSize =
-        (contentSize?: ContentSize) => (setState: Updater<LayoutAnimatedState>) => (layout: LayoutRectangle) => {
-                const {height, width} = layout
+        (contentSize?: ContentSize) => (setState: Updater<LayoutAnimatedState>) => (layout?: LayoutRectangle) => {
+                const {height, width} = contentSize ?? layout ?? {}
 
                 setState(draft => {
-                        if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+                        if (draft.status !== COMPONENT_STATUS.SUCCEEDED && (width || height)) {
                                 draft.status = COMPONENT_STATUS.SUCCEEDED
                         }
 
@@ -27,8 +27,8 @@ export const updateLayoutAnimatedSize =
                         const {width: prevWidth, height: prevHeight} = draft.layout
 
                         if (prevHeight !== height || prevWidth !== width) {
-                                draft.layout.height = height
-                                draft.layout.width = width
+                                draft.layout.height = height ?? 0
+                                draft.layout.width = width ?? 0
                         }
                 })
         }

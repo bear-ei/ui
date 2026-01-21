@@ -13,10 +13,10 @@ import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
 export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View> & CommonProps, 'style'> {
-        delay?: number
         animatedType?: LayoutAnimatedType
         contentSize?: ContentSize | number
         defaultVisible?: boolean
+        delay?: number
         duration?: Duration
         easing?: Easing
         entry?: AnimatedTimingOptions
@@ -27,6 +27,7 @@ export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View
         opacity?: number
 
         // [ These parameters are only effective when the animation type is Collapse.
+        outputRanges?: number[]
         scale?: boolean
         translate?: boolean
         // ]
@@ -37,7 +38,7 @@ export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View
 }
 
 export interface RenderLayoutAnimatedProps extends Omit<LayoutAnimatedProps, 'contentSize'> {
-        containerAnimatedStyle?: AnimatedStyle<ViewStyle>
+        containerAnimatedStyle?: AnimatedStyle<ViewStyle> | AnimatedStyle<ViewStyle>[]
         interactionHandlers: InteractionHandlers
         visible?: boolean
 }
@@ -62,7 +63,16 @@ export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEvent
 export interface UseLayoutAnimatedOptions
         extends Pick<
                 LayoutAnimatedProps,
-                'animatedType' | 'entry' | 'exit' | 'opacity' | 'scale' | 'unmount' | 'visible' | 'translate' | 'delay'
+                | 'animatedType'
+                | 'delay'
+                | 'entry'
+                | 'exit'
+                | 'opacity'
+                | 'outputRanges'
+                | 'scale'
+                | 'translate'
+                | 'unmount'
+                | 'visible'
         > {
         height?: number
         onAnimationFinished: (visible?: boolean) => void

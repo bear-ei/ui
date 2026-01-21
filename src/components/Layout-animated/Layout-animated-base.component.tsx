@@ -32,6 +32,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         onAnimationFinished: rawOnAnimationFinished,
                         onUnmount,
                         opacity,
+                        outputRanges,
                         scale = false,
                         translate,
                         unmount,
@@ -89,6 +90,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                         height: layout.height ?? contentSize?.height,
                         onAnimationFinished,
                         opacity,
+                        outputRanges,
                         scale,
                         status,
                         translate,
@@ -97,6 +99,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
                 })
 
                 const runUpdateStatus = useMemo(() => updateLayoutAnimatedStatus(lazy)(setState), [lazy, setState])
+                const runLayoutChange = onLayoutChange
+
+                useEffect(() => {
+                        if (contentSize) {
+                                runLayoutChange()
+                        }
+                }, [contentSize, runLayoutChange])
 
                 useEffect(() => {
                         runUpdateStatus(isVisible)

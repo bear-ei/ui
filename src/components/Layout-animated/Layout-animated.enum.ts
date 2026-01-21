@@ -1,5 +1,7 @@
 export const LAYOUT_ANIMATED = {
+        COLLAPSE_X_AND_FADE: 'COLLAPSE_X_AND_FADE',
         COLLAPSE_X: 'COLLAPSE_X',
+        COLLAPSE_Y_AND_FADE: 'COLLAPSE_Y_AND_FADE',
         COLLAPSE_Y: 'COLLAPSE_Y',
         FADE: 'FADE',
         SCALE: 'SCALE',

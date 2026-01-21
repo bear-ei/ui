@@ -56,6 +56,7 @@ export interface HandlePopoverStateEventChangeOptions
 export interface EmitPopoverOptions {
         children?: JSX.Element
         containerLayout?: Partial<LayoutRectangle>
+        defaultVisible?: boolean
         visible?: boolean
 }
 
@@ -66,3 +67,5 @@ export interface HandlePopoverContentAnimationFinishedOptions
         onUnmountContent?: () => void
         onUnmountPressableLayout?: () => void
 }
+
+export type UpdatePopoverVisibleOptions = Pick<RenderPopoverProps, 'type' | 'onVisible'>

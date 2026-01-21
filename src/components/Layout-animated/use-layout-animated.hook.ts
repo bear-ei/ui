@@ -16,6 +16,7 @@ export const useLayoutAnimated = ({
         height = 0,
         onAnimationFinished,
         opacity: rawOpacity,
+        outputRanges,
         scale,
         status,
         translate,
@@ -50,7 +51,7 @@ export const useLayoutAnimated = ({
         }))
 
         const widthOutputRanges = [theme.token.spacing.none, width]
-        const transformXOutputRanges = [width, theme.token.spacing.none]
+        const transformXOutputRanges = outputRanges ?? [width, theme.token.spacing.none]
         const collapseXAnimatedStyle = useAnimatedStyle(
                 () =>
                         ({
@@ -79,7 +80,7 @@ export const useLayoutAnimated = ({
         )
 
         const heightOutputRanges = [theme.token.spacing.none, height]
-        const transformYOutputRanges = [height, theme.token.spacing.none]
+        const transformYOutputRanges = outputRanges ?? [height, theme.token.spacing.none]
         const collapseYAnimatedStyle = useAnimatedStyle(
                 () =>
                         ({
@@ -112,7 +113,9 @@ export const useLayoutAnimated = ({
         }))
 
         const containerAnimatedTypeStyle = {
+                [LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE]: [collapseXAnimatedStyle, fadeAnimatedStyle],
                 [LAYOUT_ANIMATED.COLLAPSE_X]: collapseXAnimatedStyle,
+                [LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE]: [collapseYAnimatedStyle, fadeAnimatedStyle],
                 [LAYOUT_ANIMATED.COLLAPSE_Y]: collapseYAnimatedStyle,
                 [LAYOUT_ANIMATED.FADE]: fadeAnimatedStyle,
                 [LAYOUT_ANIMATED.SCALE]: scaleAnimatedStyle,
