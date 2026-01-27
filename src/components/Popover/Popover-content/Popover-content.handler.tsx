@@ -66,17 +66,6 @@ export const handlePopoverContentAnimationFinished =
                         }
                 })
 
-// export const updatePopoverContentStatus =
-//         ({setState, windowWidth}: UpdatePopoverContentStatusOptions) =>
-//         (containerLayout?: LayoutRectangle) =>
-//                 windowWidth &&
-//                 containerLayout &&
-//                 setState(draft => {
-//                         if (draft.status === COMPONENT_STATUS.IDLE) {
-//                                 draft.status = COMPONENT_STATUS.LOADING
-//                         }
-//                 })
-
 export const getSafeMenuPosition = ({
         height,
         margin = 8,

@@ -28,10 +28,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
                 },
                 ref
         ) => {
-                const [{elevation, eventName}, setState] = useImmer<ButtonState>({
-                        status: COMPONENT_STATUS.IDLE
-                })
-
+                const [{elevation, eventName}, setState] = useImmer<ButtonState>({status: COMPONENT_STATUS.IDLE})
                 const id = useId()
                 const isDisabled = loading || rawDisabled
                 const theme = useTheme()

@@ -2,7 +2,7 @@ import {useTheme} from '@/hooks'
 import {classesName} from '@/utils'
 import {hexToRGBA} from '@bearei/theme-token'
 import {forwardRef} from 'react'
-import {Pressable, View} from 'react-native'
+import {Pressable, View, type ViewStyle} from 'react-native'
 import {LayoutAnimated} from '../Layout-animated'
 import type {RenderMaskProps} from './Mask.interface'
 
@@ -24,7 +24,7 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
                 const theme = useTheme()
                 const maskStyle = {
                         backgroundColor: hexToRGBA(backgroundColor ?? theme.token.scheme.scrim)(opacity)
-                }
+                } as ViewStyle
 
                 return (
                         <LayoutAnimated
