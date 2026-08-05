@@ -40,12 +40,7 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
             [indeterminate, isActive, onActive, setState]
         )
 
-        const interactionHandlers = useInteractionStateEvent({
-            ...renderCheckboxProps,
-            disabled,
-            onStateEventChange
-        })
-
+        const interactionHandlers = useInteractionStateEvent({...renderCheckboxProps, disabled, onStateEventChange})
         const runUpdateStatus = useMemo(() => updateCheckboxStatus(setState), [setState])
         const runUpdateIndeterminate = useMemo(() => updateCheckboxIndeterminate(setState), [setState])
         const runUpdateActive = useMemo(

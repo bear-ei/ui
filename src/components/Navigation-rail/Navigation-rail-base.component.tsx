@@ -31,7 +31,6 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 
         const id = useId()
         const onActive = useMemo(() => updateNavigationRailActiveKey(rawOnActive)(setState), [rawOnActive, setState])
-
         const runUpdateData = useMemo(() => updateNavigationRailData(setState), [setState])
         const runUpdateActiveKey = onActive
         const itemElements = (
@@ -47,20 +46,11 @@ export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 
         const fabElement =
             fab ?
-                cloneElement<FABProps>(fab, {
-                    elevated: false,
-                    size: SIZE.MEDIUM,
-                    testID: `navigationRail__fab--${id}`
-                })
+                cloneElement<FABProps>(fab, {elevated: false, size: SIZE.MEDIUM, testID: `navigationRail__fab--${id}`})
             :   undefined
 
         const menuElement =
-            menu ?
-                cloneElement<FABProps>(menu, {
-                    size: SIZE.SMALL,
-                    testID: `navigationRail__menu--${id}`
-                })
-            :   undefined
+            menu ? cloneElement<FABProps>(menu, {size: SIZE.SMALL, testID: `navigationRail__menu--${id}`}) : undefined
 
         useEffect(() => {
             runUpdateActiveKey(rawActiveKey ?? defaultActiveKey)

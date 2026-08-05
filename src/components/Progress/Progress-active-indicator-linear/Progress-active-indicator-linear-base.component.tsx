@@ -13,10 +13,7 @@ import {useProgressActiveIndicatorLinearAnimated} from './use-progress-active-in
 
 export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActiveIndicatorLinearBaseProps>(
     ({defaultValue, value, ...renderProgressActiveIndicatorLinearProps}, ref) => {
-        const [{status}, setState] = useImmer<ProgressActiveIndicatorLinearState>({
-            status: COMPONENT_STATUS.IDLE
-        })
-
+        const [{status}, setState] = useImmer<ProgressActiveIndicatorLinearState>({status: COMPONENT_STATUS.IDLE})
         const id = useId()
         const onStateEventChange = useCallback(
             (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>

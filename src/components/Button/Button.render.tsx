@@ -74,7 +74,6 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 
         const buttonTypes = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]
         const isActiveIndicatorVisible = type === BUTTON_TYPE.LINK && eventName && eventNames.includes(eventName)
-
         const isLink = type === BUTTON_TYPE.LINK
         const loadingEventName = type && buttonTypes.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
         const shape = isLink ? SHAPE.EXTRA_SMALL_TOP : SHAPE.FULL

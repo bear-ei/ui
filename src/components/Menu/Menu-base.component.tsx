@@ -53,13 +53,7 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
         const onActive = useMemo(() => updateMenuActive(setState)(rawOnActive), [rawOnActive, setState])
         const onActives = useMemo(() => updateMenuActives(setState)(rawOnActives), [rawOnActives, setState])
         const onKeyDown = useMemo(
-            () =>
-                handleMenuKeyDownEvent({
-                    data,
-                    onFocusKey,
-                    onActive: rawOnActive,
-                    onActives: rawOnActives
-                })(setState),
+            () => handleMenuKeyDownEvent({data, onFocusKey, onActive: rawOnActive, onActives: rawOnActives})(setState),
             [data, onFocusKey, rawOnActive, rawOnActives, setState]
         )
 

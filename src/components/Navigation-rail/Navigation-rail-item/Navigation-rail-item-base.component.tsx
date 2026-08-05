@@ -42,13 +42,9 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
         const isActive = activeKey === indexKey
         const onStateEventChange = useCallback(
             (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleNavigationRailItemStateChange({
-                    ...options,
-                    indexKey,
-                    onActive,
-                    ref: pressableRef,
-                    state
-                })(setState)(event),
+                handleNavigationRailItemStateChange({...options, indexKey, onActive, ref: pressableRef, state})(
+                    setState
+                )(event),
             [indexKey, onActive, setState]
         )
 

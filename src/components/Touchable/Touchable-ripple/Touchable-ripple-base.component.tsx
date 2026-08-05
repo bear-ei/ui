@@ -27,7 +27,6 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
         const centerX = width / 2
         const centerY = height / 2
         const {locationX = 0, locationY = 0} = centered ? {locationX: centerX, locationY: centerY} : touchableLocation
-
         const offsetX = Math.abs(centerX - locationX)
         const offsetY = Math.abs(centerY - locationY)
         const radius = Math.sqrt(Math.pow(centerX + offsetX, 2) + Math.pow(centerY + offsetY, 2))
@@ -38,17 +37,8 @@ export const TouchableRippleBase = forwardRef<View, TouchableRippleBaseProps>(
             [setState]
         )
 
-        const interactionHandlers = useInteractionStateEvent({
-            ...renderTouchableRippleProps,
-            onStateEventChange
-        })
-
-        const {containerAnimatedStyle} = useTouchableRippleAnimated({
-            indexKey,
-            onAnimateFinished,
-            radius,
-            status
-        })
+        const interactionHandlers = useInteractionStateEvent({...renderTouchableRippleProps, onStateEventChange})
+        const {containerAnimatedStyle} = useTouchableRippleAnimated({indexKey, onAnimateFinished, radius, status})
 
         return (
             <RenderTouchableRipple

@@ -88,7 +88,6 @@ export const updateTranslate = ({
             const clampedY = clamp(minTranslateY)(maxTranslateY)(nextTranslationY)
 
             translateXSharedValue.value = layoutType === LAYOUT.HORIZONTAL ? clampedX - offsetX : minTranslateX
-
             translateYSharedValue.value = layoutType === LAYOUT.VERTICAL ? clampedY - offsetY : minTranslateY
 
             if (onUpdate) {

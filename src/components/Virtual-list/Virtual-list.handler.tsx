@@ -33,7 +33,6 @@ const calculateVirtualListVisibleRange =
         const baseStartIndex = Math.max(0, Math.floor(nextScrollOffset / itemSize))
         const dataSize = draft.virtualListData?.length ?? 0
         const windowSize = Math.max(layoutType === LAYOUT.VERTICAL ? draft.layout.height : draft.layout.width, 0)
-
         const visibleItemCount = Math.ceil(windowSize / itemSize)
         const bufferItemCount = Math.max(20, Math.floor(visibleItemCount / 2))
         const endIndex = Math.min(dataSize, baseStartIndex + visibleItemCount + bufferItemCount)
@@ -209,16 +208,13 @@ export const handleVirtualListDragUpdate =
             const scrollOffset = draft.scrollOffset ?? 0
             const virtualListData = draft.virtualListData
             const visibleRangeData = draft.visibleRangeData
-
             const updateVisibleRangeData = (itemIndexKey: string) => {
                 if (itemIndexKey === indexKey) {
                     return
                 }
 
                 const visibleRangeDraggedIndex = visibleRangeData.findIndex(item => item.indexKey === indexKey)
-
                 const visibleRangeOverIndex = visibleRangeData.findIndex(item => item.indexKey === itemIndexKey)
-
                 const isUpdateVisibleRangeData = visibleRangeDraggedIndex !== -1 && visibleRangeOverIndex !== -1
 
                 if (isUpdateVisibleRangeData) {
@@ -229,7 +225,6 @@ export const handleVirtualListDragUpdate =
                         ]
 
                     const virtualListDraggedIndex = virtualListData.findIndex(item => item.indexKey === indexKey)
-
                     const virtualListOverIndex = virtualListData.findIndex(item => item.indexKey === itemIndexKey)
 
                     ;[virtualListData[virtualListDraggedIndex].index, virtualListData[virtualListOverIndex].index] = [

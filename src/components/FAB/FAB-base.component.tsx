@@ -42,14 +42,9 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
             onStateEventChange
         })
 
-        const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
-            disabled: rawDisabled,
-            type
-        })
-
+        const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled: rawDisabled, type})
         const runUpdateStatus = useMemo(() => updateFABStatus(rawDisabled)(setState), [rawDisabled, setState])
         const runUpdateDisabledState = useMemo(() => updateFABDisabledState(elevated)(setState), [elevated, setState])
-
         const iconElement = icon && (
             <RenderFABIcon
                 disabled={rawDisabled}

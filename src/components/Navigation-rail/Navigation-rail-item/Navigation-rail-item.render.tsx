@@ -29,7 +29,6 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
     ) => {
         const theme = useTheme()
         const activeAnimatedType = type === NAVIGATION_RAIL_TYPE.BLOCK ? ACTIVE_ANIMATED.SCALE : ACTIVE_ANIMATED.SCALE_X
-
         const activeColor = theme.token.scheme.secondaryContainer
         const shape = type === NAVIGATION_RAIL_TYPE.BLOCK ? SHAPE.FULL : SHAPE.LARGE
         const underlayColor = theme.token.scheme.onSurface

@@ -82,12 +82,7 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
         const onClose = useMemo(() => maybeTriggerListItemClose(rawOnClose)(indexKey), [indexKey, rawOnClose])
         const onTrailingVisible = useMemo(() => updateListItemTrailingVisible(setState), [setState])
         const onConfirm = useMemo(
-            () =>
-                confirmListItemAffordanceAction({
-                    onActiveAfterAffordance,
-                    onClose,
-                    onConfirm: rawOnConfirm
-                }),
+            () => confirmListItemAffordanceAction({onActiveAfterAffordance, onClose, onConfirm: rawOnConfirm}),
             [onActiveAfterAffordance, onClose, rawOnConfirm]
         )
 
@@ -106,24 +101,14 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
         const onActive = useMemo(() => updateListItemActive(selectType)(rawOnActive), [rawOnActive, selectType])
         const onStateEventChange = useCallback(
             (options: HandleStateEventChangeOptions) => (_state: State) => (event: StateEvent) =>
-                handleListItemStateChange({
-                    ...options,
-                    indexKey,
-                    itemIndex,
-                    onActive,
-                    onLoadEnd,
-                    type
-                })(setState)(event),
+                handleListItemStateChange({...options, indexKey, itemIndex, onActive, onLoadEnd, type})(setState)(
+                    event
+                ),
             [indexKey, itemIndex, onActive, onLoadEnd, setState, type]
         )
 
         const handleActive = useCallback(() => onActive?.(indexKey), [indexKey, onActive])
-        const interactionHandlers = useInteractionStateEvent({
-            ...renderListItemProps,
-            disabled,
-            onStateEventChange
-        })
-
+        const interactionHandlers = useInteractionStateEvent({...renderListItemProps, disabled, onStateEventChange})
         const {contentAnimatedStyle, headlineTextAnimatedStyle} = useListItemAnimated({
             active: isActive,
             afterAffordanceVisible: isAfterAffordanceVisible,
@@ -132,7 +117,6 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 
         const runActive = onActive
         const runUpdateFocusState = useMemo(() => updateListItemFocusState(setState)(itemIndex), [itemIndex, setState])
-
         const runUpdateAfterAffordanceVisible = useMemo(
             () => debounce(updateListItemAfterAffordanceExpanded(setState))(300),
             [setState]

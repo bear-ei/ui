@@ -156,9 +156,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
         } as ViewStyle
 
         const verticalAnimatedType = isMenuOrPicker ? LAYOUT_ANIMATED.COLLAPSE_Y : LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE
-
         const horizontalAnimatedType = isMenuOrPicker ? LAYOUT_ANIMATED.COLLAPSE_X : LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE
-
         const endOutputRanges =
             type === POPOVER_TYPE.TOOLTIP ? [-theme.token.spacing.small, theme.token.spacing.none] : undefined
 

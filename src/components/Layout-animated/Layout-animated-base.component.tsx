@@ -65,18 +65,13 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
         )
 
         const onLayoutChange = useMemo(() => updateLayoutAnimatedSize(contentSize)(setState), [contentSize, setState])
-
         const onStateEventChange = useCallback(
             (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
                 handleLayoutAnimatedStateChange({...options, onLayoutChange, state})(event),
             [onLayoutChange]
         )
 
-        const interactionHandlers = useInteractionStateEvent({
-            ...renderLayoutAnimatedProps,
-            onStateEventChange
-        })
-
+        const interactionHandlers = useInteractionStateEvent({...renderLayoutAnimatedProps, onStateEventChange})
         const {containerAnimatedStyle} = useLayoutAnimated({
             animatedType,
             delay,

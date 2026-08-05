@@ -52,12 +52,7 @@ export const SearchTextInputBase = forwardRef<TextInput, SearchTextInputBaseProp
             [setState]
         )
 
-        const interactionHandlers = useInteractionStateEvent({
-            ...renderSearchProps,
-            disabled,
-            onStateEventChange
-        })
-
+        const interactionHandlers = useInteractionStateEvent({...renderSearchProps, disabled, onStateEventChange})
         const runUpdateValue = useMemo(() => updateSearchTextInputValue(setState), [setState])
         const {contentAnimatedStyle, inputAnimatedStyle} = useSearchTextInputAnimated({
             disabled,

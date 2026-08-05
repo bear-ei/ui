@@ -93,14 +93,7 @@ const VirtualListBaseInner = <T,>(
 
     const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
     const onClose = useMemo(
-        () =>
-            closeVirtualList({
-                activeKey,
-                enableAutoSelect,
-                itemSize,
-                layoutType,
-                onClose: rawOnClose
-            })(setState),
+        () => closeVirtualList({activeKey, enableAutoSelect, itemSize, layoutType, onClose: rawOnClose})(setState),
         [activeKey, enableAutoSelect, itemSize, layoutType, rawOnClose, setState]
     )
 
@@ -116,12 +109,7 @@ const VirtualListBaseInner = <T,>(
     )
 
     const onDragUpdate = useMemo(
-        () =>
-            handleVirtualListDragUpdate({
-                itemSize,
-                layoutType,
-                onDragUpdate: rawOnDragUpdate
-            })(setState),
+        () => handleVirtualListDragUpdate({itemSize, layoutType, onDragUpdate: rawOnDragUpdate})(setState),
         [itemSize, layoutType, rawOnDragUpdate, setState]
     )
 

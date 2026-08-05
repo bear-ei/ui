@@ -97,12 +97,9 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
         const onHeaderFocus = useMemo(() => focusTextInput(textInputRef), [])
         const onStateEventChange = useCallback(
             (options: HandleStateEventChangeOptions) => (changedState: State) => (event: StateEvent) =>
-                handleTextInputStateChange({
-                    ...options,
-                    content,
-                    ref: textInputRef,
-                    state: changedState
-                })(setState)(event),
+                handleTextInputStateChange({...options, content, ref: textInputRef, state: changedState})(setState)(
+                    event
+                ),
             [content, setState]
         )
 

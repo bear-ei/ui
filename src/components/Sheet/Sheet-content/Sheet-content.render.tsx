@@ -88,7 +88,6 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
         const theme = useTheme()
         const footerLayoutAnimatedContentSize = {height: theme.token.spacing.extraSmall * 20}
         const positionShape = position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.LARGE_END : SHAPE.LARGE_START
-
         const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.SIDEBAR ? SHAPE.LARGE : positionShape)
         const buttonTabIndex = footerVisible ? 0 : -1
 

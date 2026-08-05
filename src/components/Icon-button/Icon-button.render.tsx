@@ -32,7 +32,6 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 
     const disabledColor = hexToRGBA(theme.token.scheme.onSurface)(theme.token.opacity.level5)
     const iconColor = rawColor ?? (!loading ? color[type as keyof typeof color] : theme.token.scheme.onSurfaceVariant)
-
     const iconSize = processIconSize(theme)(size)
 
     return cloneElement(icon ?? <Circle />, {

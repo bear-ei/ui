@@ -70,7 +70,6 @@ export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
         })
 
         const runUpdateIndex = useMemo(() => updateVirtualListItemIndex(isDragging)(setState), [isDragging, setState])
-
         const runUpdateStatus = useMemo(() => updateVirtualListItemStatus(setState), [setState])
         const itemElement = !item ? <></> : renderItem?.({item: {...item, onClose, onLoadEnd, dragging: isDragging}})
 

@@ -37,7 +37,6 @@ export const useTextInputAnimated = ({
 
     const headerInnerBackgroundColorSharedValue = useSharedValue(disabledAnimatedValue)
     const colorSharedValue = useSharedValue(disabled ? disabledAnimatedValue : defaultAnimatedValue.colorSharedValue)
-
     const inputColorSharedValue = useSharedValue(
         disabled ? disabledAnimatedValue : defaultAnimatedValue.inputColorSharedValue
     )

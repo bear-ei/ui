@@ -58,7 +58,6 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
         const isTextInputPicker = !!rawData
         const onFocus = useMemo(() => handleSearchFocus(rawOnFocus)(setState), [rawOnFocus, setState])
         const onChangeText = useMemo(() => updateSearchText(rawOnChangeText)(setState), [rawOnChangeText, setState])
-
         const onActiveKey = useMemo(
             () => handleSearchActiveKey({onActive: rawOnActive, ref: inputRef})(setState),
             [rawOnActive, setState]

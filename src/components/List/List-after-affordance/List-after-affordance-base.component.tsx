@@ -32,11 +32,7 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
             [setState]
         )
 
-        const interactionHandlers = useInteractionStateEvent({
-            ...renderListAfterAffordanceProps,
-            onStateEventChange
-        })
-
+        const interactionHandlers = useInteractionStateEvent({...renderListAfterAffordanceProps, onStateEventChange})
         const onConfirm = useMemo(
             () =>
                 triggerListAfterAffordanceConfirm({
@@ -57,11 +53,7 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
             [indexKey, isDoubleConfirmed, rawOnCancel, setState]
         )
 
-        const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({
-            doubleConfirmed: isDoubleConfirmed,
-            status
-        })
-
+        const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed, status})
         const runResetConfirmationOnHide = useMemo(() => resetAffordanceConfirmationOnHide(setState), [setState])
 
         useEffect(() => {
