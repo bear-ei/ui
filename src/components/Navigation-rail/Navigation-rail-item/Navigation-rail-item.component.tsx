@@ -6,14 +6,14 @@ import {compareNavigationRailItemProps} from './Navigation-rail-item.handler'
 import type {NavigationRailItemProps} from './Navigation-rail-item.interface'
 
 const NavigationRailItemWithRef = forwardRef<PressableType, NavigationRailItemProps>((props, ref) => (
-        <NavigationRailItemBase
-                {...props}
-                ref={ref}
-        />
+    <NavigationRailItemBase
+        {...props}
+        ref={ref}
+    />
 ))
 
 NavigationRailItemWithRef.displayName = 'NavigationRailItemWithRef'
 
 export const NavigationRailItem = typedMemo(NavigationRailItemWithRef)((prevProps, nextProps) =>
-        compareNavigationRailItemProps(prevProps)(nextProps)
+    compareNavigationRailItemProps(prevProps)(nextProps)
 )

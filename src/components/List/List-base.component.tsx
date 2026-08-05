@@ -5,187 +5,187 @@ import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
 import {LIST_TYPE} from './List.enum'
 import {
-        createListItemRenderer,
-        createListItemSize,
-        triggerListClose,
-        updateListActiveState,
-        updateListAffordanceActiveState
+    createListItemRenderer,
+    createListItemSize,
+    triggerListClose,
+    updateListActiveState,
+    updateListAffordanceActiveState
 } from './List.handler'
 import type {ListBaseProps, ListState} from './List.interface'
 import {RenderList} from './List.render'
 
 export const ListBase = forwardRef<ScrollView, ListBaseProps>(
-        (
-                {
-                        activeKey: rawActiveKey,
-                        activeKeys: rawActiveKeys,
-                        afterAffordance,
-                        beforeAffordance,
-                        closeTrailing,
-                        defaultActiveKey,
-                        defaultActiveKeys,
-                        deselect,
-                        divider,
-                        enableUnderlay,
-                        enableUnderlayActive,
-                        focusedIndex,
-                        itemSize: rawItemSize,
-                        layoutType = LAYOUT.VERTICAL,
-                        loading,
-                        loadingElement,
-                        onActive: rawOnActive,
-                        onActives,
-                        onCancel,
-                        onClose: rawOnClose,
-                        onConfirm,
-                        onItemStateEvent,
-                        renderItem: rawRenderItem,
-                        selectType,
-                        shape,
-                        size,
-                        skeletonDuration = 0,
-                        skeletonElement,
-                        supportingTextNumberOfLines,
-                        trailingTriggerOn,
-                        type = LIST_TYPE.STANDARD,
-                        ...renderListProps
-                },
-                ref
-        ) => {
-                const [
-                        {
-                                activeKey,
-                                activeKeys,
-                                afterAffordanceActiveKey,
-                                nextActiveEvent,
-                                nextAfterAffordanceActiveEvent,
-                                nextAfterAffordanceEvent,
-                                nextCloseEvent
-                        },
-                        setState
-                ] = useImmer<ListState>({})
+    (
+        {
+            activeKey: rawActiveKey,
+            activeKeys: rawActiveKeys,
+            afterAffordance,
+            beforeAffordance,
+            closeTrailing,
+            defaultActiveKey,
+            defaultActiveKeys,
+            deselect,
+            divider,
+            enableUnderlay,
+            enableUnderlayActive,
+            focusedIndex,
+            itemSize: rawItemSize,
+            layoutType = LAYOUT.VERTICAL,
+            loading,
+            loadingElement,
+            onActive: rawOnActive,
+            onActives,
+            onCancel,
+            onClose: rawOnClose,
+            onConfirm,
+            onItemStateEvent,
+            renderItem: rawRenderItem,
+            selectType,
+            shape,
+            size,
+            skeletonDuration = 0,
+            skeletonElement,
+            supportingTextNumberOfLines,
+            trailingTriggerOn,
+            type = LIST_TYPE.STANDARD,
+            ...renderListProps
+        },
+        ref
+    ) => {
+        const [
+            {
+                activeKey,
+                activeKeys,
+                afterAffordanceActiveKey,
+                nextActiveEvent,
+                nextAfterAffordanceActiveEvent,
+                nextAfterAffordanceEvent,
+                nextCloseEvent
+            },
+            setState
+        ] = useImmer<ListState>({})
 
-                useClearComponentEvent(setState)
+        useClearComponentEvent(setState)
 
-                const listRef = useRef<ScrollView>(null)
-                const id = useId()
-                const theme = useTheme()
-                const itemSize = createListItemSize(size)(theme)(rawItemSize)
-                const onActive = useMemo(
-                        () => updateListActiveState({onActive: rawOnActive, selectType, onActives, deselect})(setState),
-                        [deselect, onActives, rawOnActive, selectType, setState]
-                )
+        const listRef = useRef<ScrollView>(null)
+        const id = useId()
+        const theme = useTheme()
+        const itemSize = createListItemSize(size)(theme)(rawItemSize)
+        const onActive = useMemo(
+            () => updateListActiveState({onActive: rawOnActive, selectType, onActives, deselect})(setState),
+            [deselect, onActives, rawOnActive, selectType, setState]
+        )
 
-                const onActiveAfterAffordance = useMemo(
-                        () => updateListAffordanceActiveState({onActive: rawOnActive, selectType})(setState),
-                        [rawOnActive, selectType, setState]
-                )
+        const onActiveAfterAffordance = useMemo(
+            () => updateListAffordanceActiveState({onActive: rawOnActive, selectType})(setState),
+            [rawOnActive, selectType, setState]
+        )
 
-                const onClose = useMemo(() => triggerListClose(rawOnClose)(setState), [rawOnClose, setState])
-                const runUpdateActive = onActive
-                const renderItem = useMemo(
-                        () =>
-                                createListItemRenderer({
-                                        ...onItemStateEvent,
-                                        activeKey: activeKey ?? defaultActiveKey,
-                                        activeKeys: activeKeys ?? defaultActiveKeys,
-                                        afterAffordance,
-                                        afterAffordanceActiveKey,
-                                        beforeAffordance,
-                                        closeTrailing,
-                                        divider,
-                                        enableUnderlay,
-                                        enableUnderlayActive,
-                                        focusedIndex,
-                                        id,
-                                        onActive,
-                                        onActiveAfterAffordance,
-                                        onCancel,
-                                        onConfirm,
-                                        renderItem: rawRenderItem,
-                                        selectType,
-                                        shape,
-                                        size,
-                                        skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
-                                        skeletonElement,
-                                        supportingTextNumberOfLines,
-                                        trailingTriggerOn,
-                                        type
-                                }),
-                        [
-                                activeKey,
-                                activeKeys,
-                                afterAffordance,
-                                afterAffordanceActiveKey,
-                                beforeAffordance,
-                                closeTrailing,
-                                defaultActiveKey,
-                                defaultActiveKeys,
-                                divider,
-                                enableUnderlay,
-                                enableUnderlayActive,
-                                focusedIndex,
-                                id,
-                                loading,
-                                loadingElement,
-                                onActive,
-                                onActiveAfterAffordance,
-                                onCancel,
-                                onConfirm,
-                                onItemStateEvent,
-                                rawRenderItem,
-                                selectType,
-                                shape,
-                                size,
-                                skeletonDuration,
-                                skeletonElement,
-                                supportingTextNumberOfLines,
-                                trailingTriggerOn,
-                                type
-                        ]
-                )
+        const onClose = useMemo(() => triggerListClose(rawOnClose)(setState), [rawOnClose, setState])
+        const runUpdateActive = onActive
+        const renderItem = useMemo(
+            () =>
+                createListItemRenderer({
+                    ...onItemStateEvent,
+                    activeKey: activeKey ?? defaultActiveKey,
+                    activeKeys: activeKeys ?? defaultActiveKeys,
+                    afterAffordance,
+                    afterAffordanceActiveKey,
+                    beforeAffordance,
+                    closeTrailing,
+                    divider,
+                    enableUnderlay,
+                    enableUnderlayActive,
+                    focusedIndex,
+                    id,
+                    onActive,
+                    onActiveAfterAffordance,
+                    onCancel,
+                    onConfirm,
+                    renderItem: rawRenderItem,
+                    selectType,
+                    shape,
+                    size,
+                    skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
+                    skeletonElement,
+                    supportingTextNumberOfLines,
+                    trailingTriggerOn,
+                    type
+                }),
+            [
+                activeKey,
+                activeKeys,
+                afterAffordance,
+                afterAffordanceActiveKey,
+                beforeAffordance,
+                closeTrailing,
+                defaultActiveKey,
+                defaultActiveKeys,
+                divider,
+                enableUnderlay,
+                enableUnderlayActive,
+                focusedIndex,
+                id,
+                loading,
+                loadingElement,
+                onActive,
+                onActiveAfterAffordance,
+                onCancel,
+                onConfirm,
+                onItemStateEvent,
+                rawRenderItem,
+                selectType,
+                shape,
+                size,
+                skeletonDuration,
+                skeletonElement,
+                supportingTextNumberOfLines,
+                trailingTriggerOn,
+                type
+            ]
+        )
 
-                useImperativeHandle(ref, () => (listRef?.current ?? {}) as ScrollView, [listRef])
+        useImperativeHandle(ref, () => (listRef?.current ?? {}) as ScrollView, [listRef])
 
-                useEffect(() => {
-                        runUpdateActive(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
-                }, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActive])
+        useEffect(() => {
+            runUpdateActive(rawActiveKey ?? defaultActiveKey ?? rawActiveKeys ?? defaultActiveKeys)
+        }, [defaultActiveKey, defaultActiveKeys, rawActiveKey, rawActiveKeys, runUpdateActive])
 
-                useEffect(() => {
-                        nextActiveEvent?.()
-                }, [nextActiveEvent])
+        useEffect(() => {
+            nextActiveEvent?.()
+        }, [nextActiveEvent])
 
-                useEffect(() => {
-                        nextAfterAffordanceActiveEvent?.()
-                }, [nextAfterAffordanceActiveEvent])
+        useEffect(() => {
+            nextAfterAffordanceActiveEvent?.()
+        }, [nextAfterAffordanceActiveEvent])
 
-                useEffect(() => {
-                        nextCloseEvent?.()
-                }, [nextCloseEvent])
+        useEffect(() => {
+            nextCloseEvent?.()
+        }, [nextCloseEvent])
 
-                useEffect(() => {
-                        nextAfterAffordanceEvent?.()
-                }, [nextAfterAffordanceEvent])
+        useEffect(() => {
+            nextAfterAffordanceEvent?.()
+        }, [nextAfterAffordanceEvent])
 
-                return (
-                        <RenderList
-                                {...renderListProps}
-                                activeKey={activeKey}
-                                activeKeys={activeKeys}
-                                afterAffordanceActiveKey={afterAffordanceActiveKey}
-                                focusedIndex={focusedIndex}
-                                id={id}
-                                itemSize={itemSize}
-                                layoutType={layoutType}
-                                loading={loading}
-                                loadingElement={loadingElement}
-                                onClose={onClose}
-                                ref={listRef}
-                                renderItem={renderItem}
-                                shape={shape}
-                        />
-                )
-        }
+        return (
+            <RenderList
+                {...renderListProps}
+                activeKey={activeKey}
+                activeKeys={activeKeys}
+                afterAffordanceActiveKey={afterAffordanceActiveKey}
+                focusedIndex={focusedIndex}
+                id={id}
+                itemSize={itemSize}
+                layoutType={layoutType}
+                loading={loading}
+                loadingElement={loadingElement}
+                onClose={onClose}
+                ref={listRef}
+                renderItem={renderItem}
+                shape={shape}
+            />
+        )
+    }
 )
 
 ListBase.displayName = 'ListBase'

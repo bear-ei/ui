@@ -9,40 +9,40 @@ import {RenderListAffordanceButton} from './List-affordance-button.render'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
 export const ListAffordanceButtonBase = forwardRef<PressableType, ListAffordanceButtonBaseProps>(
-        ({disabled, labelText = 'Label', backgroundVisible, ...renderListAffordanceButtonProps}, ref) => {
-                const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({})
-                const id = useId()
-                const onStateEventChange = useCallback(
-                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleListAffordanceButtonStateChange({...options, state})(setState)(event),
-                        [setState]
-                )
+    ({disabled, labelText = 'Label', backgroundVisible, ...renderListAffordanceButtonProps}, ref) => {
+        const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({})
+        const id = useId()
+        const onStateEventChange = useCallback(
+            (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                handleListAffordanceButtonStateChange({...options, state})(setState)(event),
+            [setState]
+        )
 
-                const interactionHandlers = useInteractionStateEvent({
-                        ...renderListAffordanceButtonProps,
-                        disabled,
-                        onStateEventChange
-                })
+        const interactionHandlers = useInteractionStateEvent({
+            ...renderListAffordanceButtonProps,
+            disabled,
+            onStateEventChange
+        })
 
-                const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({
-                        backgroundVisible,
-                        disabled
-                })
+        const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({
+            backgroundVisible,
+            disabled
+        })
 
-                return (
-                        <RenderListAffordanceButton
-                                {...renderListAffordanceButtonProps}
-                                backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
-                                disabled={disabled}
-                                eventName={eventName}
-                                id={id}
-                                interactionHandlers={interactionHandlers}
-                                labelText={labelText}
-                                labelTextAnimatedStyle={labelTextAnimatedStyle}
-                                ref={ref}
-                        />
-                )
-        }
+        return (
+            <RenderListAffordanceButton
+                {...renderListAffordanceButtonProps}
+                backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
+                disabled={disabled}
+                eventName={eventName}
+                id={id}
+                interactionHandlers={interactionHandlers}
+                labelText={labelText}
+                labelTextAnimatedStyle={labelTextAnimatedStyle}
+                ref={ref}
+            />
+        )
+    }
 )
 
 ListAffordanceButtonBase.displayName = 'ListAffordanceButtonBase'

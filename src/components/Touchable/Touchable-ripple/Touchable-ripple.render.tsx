@@ -6,43 +6,43 @@ import {View, type ViewStyle} from 'react-native'
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
 
 export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps>(
-        (
-                {
-                        containerAnimatedStyle,
-                        id,
-                        interactionHandlers,
-                        locationX = 0,
-                        locationY = 0,
-                        size = 0,
-                        style,
-                        testID,
-                        underlayColor,
-                        ...containerProps
-                },
-                ref
-        ) => {
-                const touchableRippleStyle = {
-                        ...(underlayColor && {backgroundColor: underlayColor}),
-                        height: platformValue(size),
-                        left: platformValue(locationX),
-                        top: platformValue(locationY),
-                        width: platformValue(size)
-                } as ViewStyle
+    (
+        {
+            containerAnimatedStyle,
+            id,
+            interactionHandlers,
+            locationX = 0,
+            locationY = 0,
+            size = 0,
+            style,
+            testID,
+            underlayColor,
+            ...containerProps
+        },
+        ref
+    ) => {
+        const touchableRippleStyle = {
+            ...(underlayColor && {backgroundColor: underlayColor}),
+            height: platformValue(size),
+            left: platformValue(locationX),
+            top: platformValue(locationY),
+            width: platformValue(size)
+        } as ViewStyle
 
-                return (
-                        <AnimatedView
-                                {...containerProps}
-                                {...interactionHandlers}
-                                className={classesName(
-                                        'pointer-events-none absolute bg-[--color-on-surface]',
-                                        shapeClasses(SHAPE.FULL)
-                                )}
-                                ref={ref}
-                                style={[style, touchableRippleStyle, containerAnimatedStyle]}
-                                testID={testID ?? `touchableRipple--${id}`}
-                        />
-                )
-        }
+        return (
+            <AnimatedView
+                {...containerProps}
+                {...interactionHandlers}
+                className={classesName(
+                    'pointer-events-none absolute bg-[--color-on-surface]',
+                    shapeClasses(SHAPE.FULL)
+                )}
+                ref={ref}
+                style={[style, touchableRippleStyle, containerAnimatedStyle]}
+                testID={testID ?? `touchableRipple--${id}`}
+            />
+        )
+    }
 )
 
 RenderTouchableRipple.displayName = 'RenderTouchableRipple'

@@ -6,21 +6,21 @@ import type {ELEVATION} from './Elevation.enum'
 
 export type ElevationLevel = (typeof ELEVATION)[keyof typeof ELEVATION]
 export interface ElevationProps extends ViewProps, RefAttributes<View>, CommonProps {
-        defaultLevel?: ElevationLevel
-        level?: ElevationLevel
-        onAnimationFinished?: (elevation?: ElevationLevel) => void
+    defaultLevel?: ElevationLevel
+    level?: ElevationLevel
+    onAnimationFinished?: (elevation?: ElevationLevel) => void
 }
 
 export interface RenderElevationProps extends Omit<ElevationProps, 'renderStyle'> {
-        shadowAnimatedStyle?: AnimatedStyle<ViewStyle>
+    shadowAnimatedStyle?: AnimatedStyle<ViewStyle>
 }
 
 export type ElevationBaseProps = ElevationProps
 export type UseElevationAnimatedOptions = Pick<RenderElevationProps, 'level' | 'onAnimationFinished'>
 export type GetWebBoxShadowOptions = {
-        color: string
-        offsetX: number
-        offsetY: number
-        opacity: number
-        radius: number
+    color: string
+    offsetX: number
+    offsetY: number
+    opacity: number
+    radius: number
 }

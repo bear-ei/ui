@@ -4,43 +4,43 @@ import {Checkbox} from './Checkbox.component'
 import type {CheckboxProps} from './Checkbox.interface'
 
 export const Selected: StoryObj<CheckboxProps> = {
-        args: {active: true, indeterminate: false}
+    args: {active: true, indeterminate: false}
 }
 
 export const Indeterminate: StoryObj<CheckboxProps> = {
-        args: {indeterminate: true}
+    args: {indeterminate: true}
 }
 
 export const Err: StoryObj<CheckboxProps> = {
-        args: {error: true}
+    args: {error: true}
 }
 
 export const Disabled: StoryObj<CheckboxProps> = {
-        args: {disabled: true}
+    args: {disabled: true}
 }
 
 export const ExtraLarge: StoryObj<CheckboxProps> = {
-        args: {size: SIZE.EXTRA_LARGE}
+    args: {size: SIZE.EXTRA_LARGE}
 }
 
 export const Large: StoryObj<CheckboxProps> = {
-        args: {size: SIZE.LARGE}
+    args: {size: SIZE.LARGE}
 }
 
 export const Medium: StoryObj<CheckboxProps> = {
-        args: {size: SIZE.MEDIUM}
+    args: {size: SIZE.MEDIUM}
 }
 
 export const Small: StoryObj<CheckboxProps> = {
-        args: {size: SIZE.SMALL}
+    args: {size: SIZE.SMALL}
 }
 
 export const ExtraSmall: StoryObj<CheckboxProps> = {
-        args: {size: SIZE.EXTRA_SMALL}
+    args: {size: SIZE.EXTRA_SMALL}
 }
 
 export default {
-        title: 'components/Checkbox',
-        argTypes: {onActive: {action: 'active'}},
-        component: Checkbox
+    title: 'components/Checkbox',
+    argTypes: {onActive: {action: 'active'}},
+    component: Checkbox
 } as Meta<typeof Checkbox>

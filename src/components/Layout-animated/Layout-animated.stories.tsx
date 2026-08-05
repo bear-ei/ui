@@ -6,31 +6,31 @@ import {LayoutAnimated} from './Layout-animated.component'
 import type {LayoutAnimatedProps} from './Layout-animated.interface'
 
 const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
-        const [isVisible, setIsVisible] = useState(false)
+    const [isVisible, setIsVisible] = useState(false)
 
-        return (
-                <View>
-                        <View className='h-60 w-80'>
-                                <LayoutAnimated
-                                        {...props}
-                                        visible={isVisible}
-                                        // unmount={true}
-                                >
-                                        <View className='h-60 w-80 bg-red-400' />
-                                </LayoutAnimated>
-                        </View>
+    return (
+        <View>
+            <View className='h-60 w-80'>
+                <LayoutAnimated
+                    {...props}
+                    visible={isVisible}
+                    // unmount={true}
+                >
+                    <View className='h-60 w-80 bg-red-400' />
+                </LayoutAnimated>
+            </View>
 
-                        <Button onPressOut={() => setIsVisible(!isVisible)} />
-                </View>
-        )
+            <Button onPressOut={() => setIsVisible(!isVisible)} />
+        </View>
+    )
 }
 
 export const Fade: StoryObj<LayoutAnimatedProps> = {
-        args: {}
+    args: {}
 }
 
 export default {
-        title: 'components/LayoutAnimated',
-        argTypes: {onPress: {action: 'pressed'}},
-        component: LayoutAnimatedComponent
+    title: 'components/LayoutAnimated',
+    argTypes: {onPress: {action: 'pressed'}},
+    component: LayoutAnimatedComponent
 } as Meta<typeof LayoutAnimated>

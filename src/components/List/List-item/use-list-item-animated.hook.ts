@@ -9,68 +9,64 @@ import {animateListItemActiveState, animateListItemAffordanceVisible} from './Li
 import type {UseListItemAnimatedOptions} from './List-item.interface'
 
 export const useListItemAnimated = ({active, afterAffordanceVisible, status}: UseListItemAnimatedOptions) => {
-        const theme = useTheme()
-        const {spacing, scheme, opacity} = theme.token
-        const animatedTiming = useAnimatedTiming({token: theme.token})
-        const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
-        const contentTransformXSharedValue = useSharedValue(0)
-        const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
-        const contentTranslateXOutputRanges = [spacing.none, -spacing.extraSmall * 32]
-        const contentAnimatedStyle = useAnimatedStyle(
-                () =>
-                        ({
-                                transform: [
-                                        {
-                                                translateX: platformValue(
-                                                        interpolate(
-                                                                contentTransformXSharedValue.value,
-                                                                [0, 1],
-                                                                contentTranslateXOutputRanges
-                                                        )
-                                                )
-                                        }
-                                ]
-                        }) as ViewStyle
-        )
+    const theme = useTheme()
+    const {spacing, scheme, opacity} = theme.token
+    const animatedTiming = useAnimatedTiming({token: theme.token})
+    const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
+    const contentTransformXSharedValue = useSharedValue(0)
+    const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
+    const contentTranslateXOutputRanges = [spacing.none, -spacing.extraSmall * 32]
+    const contentAnimatedStyle = useAnimatedStyle(
+        () =>
+            ({
+                transform: [
+                    {
+                        translateX: platformValue(
+                            interpolate(contentTransformXSharedValue.value, [0, 1], contentTranslateXOutputRanges)
+                        )
+                    }
+                ]
+            }) as ViewStyle
+    )
 
-        const headlineTextColorOutputRanges = [
-                hexToRGBA(scheme.onSurface)(opacity.level10),
-                hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
-        ]
+    const headlineTextColorOutputRanges = [
+        hexToRGBA(scheme.onSurface)(opacity.level10),
+        hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
+    ]
 
-        const headlineTextAnimatedStyle = useAnimatedStyle(() => ({
-                color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRanges)
-        }))
+    const headlineTextAnimatedStyle = useAnimatedStyle(() => ({
+        color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRanges)
+    }))
 
-        const runAnimateVisible = useMemo(
-                () => animateListItemAffordanceVisible(animateSharedValueTo)(contentTransformXSharedValue),
-                [animateSharedValueTo, contentTransformXSharedValue]
-        )
+    const runAnimateVisible = useMemo(
+        () => animateListItemAffordanceVisible(animateSharedValueTo)(contentTransformXSharedValue),
+        [animateSharedValueTo, contentTransformXSharedValue]
+    )
 
-        const runAnimateActiveState = useMemo(
-                () => animateListItemActiveState(animateSharedValueTo)(headlineTextSharedValue),
-                [animateSharedValueTo, headlineTextSharedValue]
-        )
+    const runAnimateActiveState = useMemo(
+        () => animateListItemActiveState(animateSharedValueTo)(headlineTextSharedValue),
+        [animateSharedValueTo, headlineTextSharedValue]
+    )
 
-        useEffect(() => {
-                if (status === COMPONENT_STATUS.SUCCEEDED) {
-                        runAnimateVisible(afterAffordanceVisible)
-                }
-        }, [afterAffordanceVisible, runAnimateVisible, status])
+    useEffect(() => {
+        if (status === COMPONENT_STATUS.SUCCEEDED) {
+            runAnimateVisible(afterAffordanceVisible)
+        }
+    }, [afterAffordanceVisible, runAnimateVisible, status])
 
-        useEffect(() => {
-                if (status === COMPONENT_STATUS.SUCCEEDED) {
-                        runAnimateActiveState(active)
-                }
-        }, [active, runAnimateActiveState, status])
+    useEffect(() => {
+        if (status === COMPONENT_STATUS.SUCCEEDED) {
+            runAnimateActiveState(active)
+        }
+    }, [active, runAnimateActiveState, status])
 
-        useEffect(
-                () => () => {
-                        cancelAnimation(contentTransformXSharedValue)
-                        cancelAnimation(headlineTextSharedValue)
-                },
-                [contentTransformXSharedValue, headlineTextSharedValue]
-        )
+    useEffect(
+        () => () => {
+            cancelAnimation(contentTransformXSharedValue)
+            cancelAnimation(headlineTextSharedValue)
+        },
+        [contentTransformXSharedValue, headlineTextSharedValue]
+    )
 
-        return {contentAnimatedStyle, headlineTextAnimatedStyle}
+    return {contentAnimatedStyle, headlineTextAnimatedStyle}
 }

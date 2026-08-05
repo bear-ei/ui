@@ -4,24 +4,24 @@ import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import type {SheetProps} from './Sheet.interface'
 
 export const Footer: StoryObj<SheetProps> = {
-        args: {footerVisible: true, visible: true, type: SIDE_SHEET_TYPE.SIDEBAR}
+    args: {footerVisible: true, visible: true, type: SIDE_SHEET_TYPE.SIDEBAR}
 }
 
 export const Sidebar: StoryObj<SheetProps> = {
-        args: {footerVisible: false, visible: true, type: SIDE_SHEET_TYPE.SIDEBAR}
+    args: {footerVisible: false, visible: true, type: SIDE_SHEET_TYPE.SIDEBAR}
 }
 
 export const Close: StoryObj<SheetProps> = {
-        args: {
-                back: true,
-                close: true,
-                footerVisible: true,
-                type: SIDE_SHEET_TYPE.SIDEBAR,
-                visible: true
-        }
+    args: {
+        back: true,
+        close: true,
+        footerVisible: true,
+        type: SIDE_SHEET_TYPE.SIDEBAR,
+        visible: true
+    }
 }
 
 export default {
-        title: 'components/Sheet',
-        component: Sheet
+    title: 'components/Sheet',
+    component: Sheet
 } as Meta<typeof Sheet>

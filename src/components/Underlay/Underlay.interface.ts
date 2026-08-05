@@ -7,44 +7,44 @@ import type {ACTIVE_ANIMATED} from './Underlay.enum'
 
 export type ActiveAnimatedType = (typeof ACTIVE_ANIMATED)[keyof typeof ACTIVE_ANIMATED]
 export interface UnderlayProps extends ViewProps, RefAttributes<View>, CommonProps {
-        active?: boolean
-        activeAnimatedType?: ActiveAnimatedType
-        activeColor?: string
-        activeShape?: ShapeType
-        defaultActive?: boolean
+    active?: boolean
+    activeAnimatedType?: ActiveAnimatedType
+    activeColor?: string
+    activeShape?: ShapeType
+    defaultActive?: boolean
 
-        /**
-         * When the active animation type is scale, set the x,y scaling factor of scale. Default 1.
-         */
-        activeScale?: {x?: number; y?: number}
-        eventName?: EventName
-        opacities?: [number, number, number] | [number, number]
-        underlayColor?: string
+    /**
+     * When the active animation type is scale, set the x,y scaling factor of scale. Default 1.
+     */
+    activeScale?: {x?: number; y?: number}
+    eventName?: EventName
+    opacities?: [number, number, number] | [number, number]
+    underlayColor?: string
 }
 
 export interface RenderUnderlayProps extends UnderlayProps {
-        activeLayerAnimatedStyle: AnimatedStyle<ViewStyle>
-        hoverLayerAnimatedStyle: AnimatedStyle<ViewStyle>
-        interactionHandlers: InteractionHandlers
+    activeLayerAnimatedStyle: AnimatedStyle<ViewStyle>
+    hoverLayerAnimatedStyle: AnimatedStyle<ViewStyle>
+    interactionHandlers: InteractionHandlers
 }
 
 export type UnderlayBaseProps = UnderlayProps
 export interface UnderlayState {
-        state?: State
-        eventName?: EventName
-        status: ComponentStatus
+    state?: State
+    eventName?: EventName
+    status: ComponentStatus
 }
 
 export interface UseUnderlayAnimatedOptions
-        extends Pick<RenderUnderlayProps, 'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'> {
-        status: ComponentStatus
+    extends Pick<RenderUnderlayProps, 'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'> {
+    status: ComponentStatus
 }
 
 export interface HandleUnderlayStateChangeOptions extends HandleStateEventChangeOptions {
-        onLayoutChange: (layout: LayoutRectangle) => void
+    onLayoutChange: (layout: LayoutRectangle) => void
 }
 
 export interface AnimateUnderlayHoverStateOptions {
-        activeValue: number
-        animateSharedValueTo: AnimateSharedValueTo
+    activeValue: number
+    animateSharedValueTo: AnimateSharedValueTo
 }

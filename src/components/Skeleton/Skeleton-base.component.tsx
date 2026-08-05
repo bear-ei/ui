@@ -8,30 +8,30 @@ import {RenderSkeleton} from './Skeleton.render'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
 export const SkeletonBase = forwardRef<View, SkeletonBaseProps>(
-        ({enableAnimated = true, duration, ...renderSkeletonProps}, ref) => {
-                const [{visible: isVisible}, setState] = useImmer<SkeletonState>({visible: true})
-                const id = useId()
-                const {containerAnimatedStyle} = useSkeletonAnimated({
-                        enableAnimated,
-                        visible: typeof duration === 'number' && duration ? isVisible : false
-                })
+    ({enableAnimated = true, duration, ...renderSkeletonProps}, ref) => {
+        const [{visible: isVisible}, setState] = useImmer<SkeletonState>({visible: true})
+        const id = useId()
+        const {containerAnimatedStyle} = useSkeletonAnimated({
+            enableAnimated,
+            visible: typeof duration === 'number' && duration ? isVisible : false
+        })
 
-                const runUpdateDuration = useMemo(() => debounce(updateSkeletonDuration(setState))(50), [setState])
+        const runUpdateDuration = useMemo(() => debounce(updateSkeletonDuration(setState))(50), [setState])
 
-                useEffect(() => {
-                        runUpdateDuration(duration)
-                }, [duration, runUpdateDuration])
+        useEffect(() => {
+            runUpdateDuration(duration)
+        }, [duration, runUpdateDuration])
 
-                return (
-                        <RenderSkeleton
-                                {...renderSkeletonProps}
-                                containerAnimatedStyle={containerAnimatedStyle}
-                                id={id}
-                                ref={ref}
-                                visible={isVisible}
-                        />
-                )
-        }
+        return (
+            <RenderSkeleton
+                {...renderSkeletonProps}
+                containerAnimatedStyle={containerAnimatedStyle}
+                id={id}
+                ref={ref}
+                visible={isVisible}
+            />
+        )
+    }
 )
 
 SkeletonBase.displayName = 'SkeletonBase'

@@ -5,10 +5,10 @@ import {TextInputBase} from './Text-input-base.component'
 import type {TextInputProps} from './Text-input.interface'
 
 const TextInputWithRef = forwardRef<RNTextInput, TextInputProps>((props, ref) => (
-        <TextInputBase
-                {...props}
-                ref={ref}
-        />
+    <TextInputBase
+        {...props}
+        ref={ref}
+    />
 ))
 
 TextInputWithRef.displayName = 'TextInputWithRef'

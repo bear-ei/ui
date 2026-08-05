@@ -11,88 +11,85 @@ import {RenderFAB, RenderFABIcon} from './FAB.render'
 import {useFABAnimated} from './use-fab-animated.hook'
 
 export const FABBase = forwardRef<PressableType, FABBaseProps>(
-        (
-                {
-                        disabled: rawDisabled,
-                        elevated = true,
-                        icon,
-                        labelText,
-                        loading,
-                        size = SIZE.MEDIUM,
-                        type = FAB_TYPE.PRIMARY,
-                        ...renderFABProps
-                },
-                ref
-        ) => {
-                const [{elevation, eventName}, setState] = useImmer<FABState>({status: COMPONENT_STATUS.IDLE})
-                const id = useId()
-                const theme = useTheme()
-                const isDisabled = loading || rawDisabled
-                const isExtended = !!labelText
-                const underlayColor = getFABUnderlayColor(theme)(type)
-                const onStateEventChange = useCallback(
-                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleFABStateChange({...options, state, elevated})(setState)(event),
-                        [elevated, setState]
-                )
+    (
+        {
+            disabled: rawDisabled,
+            elevated = true,
+            icon,
+            labelText,
+            loading,
+            size = SIZE.MEDIUM,
+            type = FAB_TYPE.PRIMARY,
+            ...renderFABProps
+        },
+        ref
+    ) => {
+        const [{elevation, eventName}, setState] = useImmer<FABState>({status: COMPONENT_STATUS.IDLE})
+        const id = useId()
+        const theme = useTheme()
+        const isDisabled = loading || rawDisabled
+        const isExtended = !!labelText
+        const underlayColor = getFABUnderlayColor(theme)(type)
+        const onStateEventChange = useCallback(
+            (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                handleFABStateChange({...options, state, elevated})(setState)(event),
+            [elevated, setState]
+        )
 
-                const interactionHandlers = useInteractionStateEvent({
-                        ...renderFABProps,
-                        disabled: isDisabled,
-                        onStateEventChange
-                })
+        const interactionHandlers = useInteractionStateEvent({
+            ...renderFABProps,
+            disabled: isDisabled,
+            onStateEventChange
+        })
 
-                const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
-                        disabled: rawDisabled,
-                        type
-                })
+        const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({
+            disabled: rawDisabled,
+            type
+        })
 
-                const runUpdateStatus = useMemo(() => updateFABStatus(rawDisabled)(setState), [rawDisabled, setState])
-                const runUpdateDisabledState = useMemo(
-                        () => updateFABDisabledState(elevated)(setState),
-                        [elevated, setState]
-                )
+        const runUpdateStatus = useMemo(() => updateFABStatus(rawDisabled)(setState), [rawDisabled, setState])
+        const runUpdateDisabledState = useMemo(() => updateFABDisabledState(elevated)(setState), [elevated, setState])
 
-                const iconElement = icon && (
-                        <RenderFABIcon
-                                disabled={rawDisabled}
-                                extended={isExtended}
-                                icon={icon}
-                                id={id}
-                                size={size}
-                                type={type}
-                        />
-                )
+        const iconElement = icon && (
+            <RenderFABIcon
+                disabled={rawDisabled}
+                extended={isExtended}
+                icon={icon}
+                id={id}
+                size={size}
+                type={type}
+            />
+        )
 
-                useEffect(() => {
-                        runUpdateStatus(isDisabled)
-                }, [runUpdateStatus, isDisabled])
+        useEffect(() => {
+            runUpdateStatus(isDisabled)
+        }, [runUpdateStatus, isDisabled])
 
-                useEffect(() => {
-                        runUpdateDisabledState(elevated)
-                }, [runUpdateDisabledState, elevated])
+        useEffect(() => {
+            runUpdateDisabledState(elevated)
+        }, [runUpdateDisabledState, elevated])
 
-                return (
-                        <RenderFAB
-                                {...renderFABProps}
-                                backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
-                                disabled={isDisabled}
-                                elevation={elevation}
-                                eventName={eventName}
-                                extended={isExtended}
-                                iconElement={iconElement}
-                                id={id}
-                                interactionHandlers={interactionHandlers}
-                                labelText={labelText}
-                                labelTextAnimatedStyle={labelTextAnimatedStyle}
-                                loading={loading}
-                                ref={ref}
-                                size={size}
-                                type={type}
-                                underlayColor={underlayColor}
-                        />
-                )
-        }
+        return (
+            <RenderFAB
+                {...renderFABProps}
+                backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
+                disabled={isDisabled}
+                elevation={elevation}
+                eventName={eventName}
+                extended={isExtended}
+                iconElement={iconElement}
+                id={id}
+                interactionHandlers={interactionHandlers}
+                labelText={labelText}
+                labelTextAnimatedStyle={labelTextAnimatedStyle}
+                loading={loading}
+                ref={ref}
+                size={size}
+                type={type}
+                underlayColor={underlayColor}
+            />
+        )
+    }
 )
 
 FABBase.displayName = 'FABBase'

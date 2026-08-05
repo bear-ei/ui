@@ -7,32 +7,32 @@ import {animateProgressActiveIndicatorLinear} from './Progress-active-indicator-
 import type {UseProgressActiveIndicatorLinearAnimatedOptions} from './Progress-active-indicator-linear.interface'
 
 export const useProgressActiveIndicatorLinearAnimated = ({
-        defaultValue = 0,
-        status,
-        value
+    defaultValue = 0,
+    status,
+    value
 }: UseProgressActiveIndicatorLinearAnimatedOptions) => {
-        const scaleXSharedValue = useSharedValue(defaultValue)
-        const theme = useTheme()
-        const animatedTiming = useAnimatedTiming({token: theme.token})
-        const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
-        const contentAnimatedStyle = useAnimatedStyle(() => ({transform: [{scaleX: scaleXSharedValue.value}]}))
-        const runAnimate = useMemo(
-                () => debounce(animateProgressActiveIndicatorLinear(animateSharedValueTo)(scaleXSharedValue))(50),
-                [animateSharedValueTo, scaleXSharedValue]
-        )
+    const scaleXSharedValue = useSharedValue(defaultValue)
+    const theme = useTheme()
+    const animatedTiming = useAnimatedTiming({token: theme.token})
+    const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
+    const contentAnimatedStyle = useAnimatedStyle(() => ({transform: [{scaleX: scaleXSharedValue.value}]}))
+    const runAnimate = useMemo(
+        () => debounce(animateProgressActiveIndicatorLinear(animateSharedValueTo)(scaleXSharedValue))(50),
+        [animateSharedValueTo, scaleXSharedValue]
+    )
 
-        useEffect(() => {
-                if (status === COMPONENT_STATUS.SUCCEEDED) {
-                        runAnimate(value)
-                }
-        }, [runAnimate, status, value])
+    useEffect(() => {
+        if (status === COMPONENT_STATUS.SUCCEEDED) {
+            runAnimate(value)
+        }
+    }, [runAnimate, status, value])
 
-        useEffect(
-                () => () => {
-                        cancelAnimation(scaleXSharedValue)
-                },
-                [scaleXSharedValue]
-        )
+    useEffect(
+        () => () => {
+            cancelAnimation(scaleXSharedValue)
+        },
+        [scaleXSharedValue]
+    )
 
-        return {contentAnimatedStyle}
+    return {contentAnimatedStyle}
 }

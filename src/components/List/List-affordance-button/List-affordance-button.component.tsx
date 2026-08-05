@@ -5,10 +5,10 @@ import {ListAffordanceButtonBase} from './List-affordance-button-base.component'
 import type {ListAffordanceButtonProps} from './List-affordance-button.interface'
 
 const ListAffordanceButtonWithRef = forwardRef<PressableType, ListAffordanceButtonProps>((props, ref) => (
-        <ListAffordanceButtonBase
-                {...props}
-                ref={ref}
-        />
+    <ListAffordanceButtonBase
+        {...props}
+        ref={ref}
+    />
 ))
 
 ListAffordanceButtonWithRef.displayName = 'ListAffordanceButtonWithRef'

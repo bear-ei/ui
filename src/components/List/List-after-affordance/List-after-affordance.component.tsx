@@ -5,10 +5,10 @@ import {ListAfterAffordanceBase} from './List-after-affordance-base.component'
 import type {ListAfterAffordanceProps} from './List-after-affordance.interface'
 
 export const ListAfterAffordanceWithRef = forwardRef<View, ListAfterAffordanceProps>((props, ref) => (
-        <ListAfterAffordanceBase
-                {...props}
-                ref={ref}
-        />
+    <ListAfterAffordanceBase
+        {...props}
+        ref={ref}
+    />
 ))
 
 ListAfterAffordanceWithRef.displayName = 'ListAfterAffordanceWithRef'

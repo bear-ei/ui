@@ -6,26 +6,26 @@ import type {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 export type ProgressType = (typeof PROGRESS_TYPE)[keyof typeof PROGRESS_TYPE]
 export type ProgressAnimated = (typeof PROGRESS_ANIMATED)[keyof typeof PROGRESS_ANIMATED]
 export interface ProgressProps extends ViewProps, RefAttributes<View>, CommonProps {
-        animatedType?: ProgressAnimated
-        content?: React.JSX.Element
-        defaultValue?: number
-        strokeWidth?: number
-        type?: ProgressType
-        value?: number
+    animatedType?: ProgressAnimated
+    content?: React.JSX.Element
+    defaultValue?: number
+    strokeWidth?: number
+    type?: ProgressType
+    value?: number
 
-        /**
-         * Mac OS
-         * In native iOS and macOS systems, animations that need to loop should be disabled by default for the
-         * ProgressActiveIndicatorCircular component to prevent abnormally high CPU usage.
-         * This is because the ProgressActiveIndicatorCircular component relies on SVG implementation,
-         * which frequently re-renders the SVG during looped animations.
-         * Animations should be explicitly enabled when needed and disabled when not in use.
-         */
-        enableAnimated?: boolean
+    /**
+     * Mac OS
+     * In native iOS and macOS systems, animations that need to loop should be disabled by default for the
+     * ProgressActiveIndicatorCircular component to prevent abnormally high CPU usage.
+     * This is because the ProgressActiveIndicatorCircular component relies on SVG implementation,
+     * which frequently re-renders the SVG during looped animations.
+     * Animations should be explicitly enabled when needed and disabled when not in use.
+     */
+    enableAnimated?: boolean
 }
 
 export type RenderProgressProps = ProgressProps
 export type ProgressBaseProps = ProgressProps
 export interface ProgressState {
-        layout: LayoutRectangle
+    layout: LayoutRectangle
 }

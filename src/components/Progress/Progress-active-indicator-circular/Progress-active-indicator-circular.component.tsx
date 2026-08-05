@@ -5,10 +5,10 @@ import {ProgressActiveIndicatorCircularBase} from './Progress-active-indicator-c
 import type {ProgressActiveIndicatorCircularProps} from './Progress-active-indicator-circular.interface'
 
 const ProgressActiveIndicatorCircularWithRef = forwardRef<View, ProgressActiveIndicatorCircularProps>((props, ref) => (
-        <ProgressActiveIndicatorCircularBase
-                {...props}
-                ref={ref}
-        />
+    <ProgressActiveIndicatorCircularBase
+        {...props}
+        ref={ref}
+    />
 ))
 
 ProgressActiveIndicatorCircularWithRef.displayName = 'ProgressActiveIndicatorCircularWithRef'

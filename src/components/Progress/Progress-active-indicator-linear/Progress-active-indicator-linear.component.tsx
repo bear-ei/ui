@@ -5,10 +5,10 @@ import {ProgressActiveIndicatorLinearBase} from './Progress-active-indicator-lin
 import type {ProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear.interface'
 
 const ProgressActiveIndicatorLinearWithRef = forwardRef<View, ProgressActiveIndicatorLinearProps>((props, ref) => (
-        <ProgressActiveIndicatorLinearBase
-                {...props}
-                ref={ref}
-        />
+    <ProgressActiveIndicatorLinearBase
+        {...props}
+        ref={ref}
+    />
 ))
 
 ProgressActiveIndicatorLinearWithRef.displayName = 'ProgressActiveIndicatorLinearWithRef'

@@ -4,34 +4,34 @@ import {Avatar} from './Avatar.component'
 import type {AvatarProps} from './Avatar.interface'
 
 export const NoneContentText: StoryObj<AvatarProps> = {
-        args: {}
+    args: {}
 }
 
 export const ContentText: StoryObj<AvatarProps> = {
-        args: {labelText: 'Bearei'}
+    args: {labelText: 'Bearei'}
 }
 
 export const Medium: StoryObj<AvatarProps> = {
-        args: {size: SIZE.MEDIUM}
+    args: {size: SIZE.MEDIUM}
 }
 
 export const ExtraLarge: StoryObj<AvatarProps> = {
-        args: {size: SIZE.EXTRA_LARGE}
+    args: {size: SIZE.EXTRA_LARGE}
 }
 
 export const Large: StoryObj<AvatarProps> = {
-        args: {size: SIZE.LARGE}
+    args: {size: SIZE.LARGE}
 }
 
 export const Small: StoryObj<AvatarProps> = {
-        args: {size: SIZE.SMALL}
+    args: {size: SIZE.SMALL}
 }
 
 export const ExtraSmall: StoryObj<AvatarProps> = {
-        args: {size: SIZE.EXTRA_SMALL}
+    args: {size: SIZE.EXTRA_SMALL}
 }
 
 export default {
-        component: Avatar,
-        title: 'components/Avatar'
+    component: Avatar,
+    title: 'components/Avatar'
 } as Meta<typeof Avatar>

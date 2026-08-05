@@ -3,22 +3,22 @@ import {scheduleOnRN} from 'react-native-worklets'
 import type {CreateAnimatedTimingOptions} from './use-animated-timing.interface'
 
 export const createAnimatedTiming =
-        ({duration, repeat, bezier, ...config}: CreateAnimatedTimingOptions) =>
-        (callback?: AnimationCallback) =>
-        (toValue: number) => {
+    ({duration, repeat, bezier, ...config}: CreateAnimatedTimingOptions) =>
+    (callback?: AnimationCallback) =>
+    (toValue: number) => {
+        'worklet'
+
+        const animation = withTiming(
+            toValue,
+            {...config, duration, easing: Easing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1)},
+            finished => {
                 'worklet'
 
-                const animation = withTiming(
-                        toValue,
-                        {...config, duration, easing: Easing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1)},
-                        finished => {
-                                'worklet'
+                if (callback) {
+                    scheduleOnRN(callback, finished)
+                }
+            }
+        )
 
-                                if (callback) {
-                                        scheduleOnRN(callback, finished)
-                                }
-                        }
-                )
-
-                return repeat !== undefined && typeof repeat === 'number' ? withRepeat(animation, repeat) : animation
-        }
+        return repeat !== undefined && typeof repeat === 'number' ? withRepeat(animation, repeat) : animation
+    }

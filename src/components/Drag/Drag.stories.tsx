@@ -4,16 +4,16 @@ import {Avatar} from '../Avatar'
 import {Drag} from './Drag.component'
 
 export const DragAvatar = () => (
-        <View className='h-80 w-80'>
-                <Drag>
-                        <View className='h-80 w-80'>
-                                <Avatar />
-                        </View>
-                </Drag>
-        </View>
+    <View className='h-80 w-80'>
+        <Drag>
+            <View className='h-80 w-80'>
+                <Avatar />
+            </View>
+        </Drag>
+    </View>
 )
 
 export default {
-        component: Drag,
-        title: 'components/Drag'
+    component: Drag,
+    title: 'components/Drag'
 } as Meta<typeof Drag>

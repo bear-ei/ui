@@ -5,10 +5,10 @@ import {ElevationBase} from './Elevation-base.component'
 import type {ElevationProps} from './Elevation.interface'
 
 const ElevationWithRef = forwardRef<View, ElevationProps>((props, ref) => (
-        <ElevationBase
-                {...props}
-                ref={ref}
-        />
+    <ElevationBase
+        {...props}
+        ref={ref}
+    />
 ))
 
 ElevationWithRef.displayName = 'ElevationWithRef'

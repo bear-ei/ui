@@ -10,85 +10,82 @@ import type {NavigationRailBaseProps, NavigationRailState} from './Navigation-ra
 import {RenderNavigationRail, RenderNavigationRailItems} from './Navigation-rail.render'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
-        (
-                {
-                        activeKey: rawActiveKey,
-                        animatedType,
-                        data: rawData,
-                        defaultActiveKey,
-                        destinationPosition = NAVIGATION_DESTINATION_POSITION.TOP,
-                        fab,
-                        menu,
-                        onActive: rawOnActive,
-                        type,
-                        ...renderNavigationRailProps
-                },
-                ref
-        ) => {
-                const [{activeKey, data, nextActiveEvent}, setState] = useImmer<NavigationRailState>({})
+    (
+        {
+            activeKey: rawActiveKey,
+            animatedType,
+            data: rawData,
+            defaultActiveKey,
+            destinationPosition = NAVIGATION_DESTINATION_POSITION.TOP,
+            fab,
+            menu,
+            onActive: rawOnActive,
+            type,
+            ...renderNavigationRailProps
+        },
+        ref
+    ) => {
+        const [{activeKey, data, nextActiveEvent}, setState] = useImmer<NavigationRailState>({})
 
-                useClearComponentEvent(setState)
+        useClearComponentEvent(setState)
 
-                const id = useId()
-                const onActive = useMemo(
-                        () => updateNavigationRailActiveKey(rawOnActive)(setState),
-                        [rawOnActive, setState]
-                )
+        const id = useId()
+        const onActive = useMemo(() => updateNavigationRailActiveKey(rawOnActive)(setState), [rawOnActive, setState])
 
-                const runUpdateData = useMemo(() => updateNavigationRailData(setState), [setState])
-                const runUpdateActiveKey = onActive
-                const itemElements = (
-                        <RenderNavigationRailItems
-                                activeKey={activeKey ?? defaultActiveKey}
-                                animatedType={animatedType}
-                                data={data}
-                                id={id}
-                                onActive={onActive}
-                                type={type}
-                        />
-                )
+        const runUpdateData = useMemo(() => updateNavigationRailData(setState), [setState])
+        const runUpdateActiveKey = onActive
+        const itemElements = (
+            <RenderNavigationRailItems
+                activeKey={activeKey ?? defaultActiveKey}
+                animatedType={animatedType}
+                data={data}
+                id={id}
+                onActive={onActive}
+                type={type}
+            />
+        )
 
-                const fabElement =
-                        fab ?
-                                cloneElement<FABProps>(fab, {
-                                        elevated: false,
-                                        size: SIZE.MEDIUM,
-                                        testID: `navigationRail__fab--${id}`
-                                })
-                        :       undefined
+        const fabElement =
+            fab ?
+                cloneElement<FABProps>(fab, {
+                    elevated: false,
+                    size: SIZE.MEDIUM,
+                    testID: `navigationRail__fab--${id}`
+                })
+            :   undefined
 
-                const menuElement =
-                        menu ?
-                                cloneElement<FABProps>(menu, {
-                                        size: SIZE.SMALL,
-                                        testID: `navigationRail__menu--${id}`
-                                })
-                        :       undefined
+        const menuElement =
+            menu ?
+                cloneElement<FABProps>(menu, {
+                    size: SIZE.SMALL,
+                    testID: `navigationRail__menu--${id}`
+                })
+            :   undefined
 
-                useEffect(() => {
-                        runUpdateActiveKey(rawActiveKey ?? defaultActiveKey)
-                }, [defaultActiveKey, rawActiveKey, runUpdateActiveKey])
+        useEffect(() => {
+            runUpdateActiveKey(rawActiveKey ?? defaultActiveKey)
+        }, [defaultActiveKey, rawActiveKey, runUpdateActiveKey])
 
-                useEffect(() => {
-                        runUpdateData(rawData)
-                }, [runUpdateData, rawData])
+        useEffect(() => {
+            runUpdateData(rawData)
+        }, [runUpdateData, rawData])
 
-                useEffect(() => {
-                        nextActiveEvent?.()
-                }, [nextActiveEvent])
+        useEffect(() => {
+            nextActiveEvent?.()
+        }, [nextActiveEvent])
 
-                return (
-                        <RenderNavigationRail
-                                {...renderNavigationRailProps}
-                                destinationPosition={destinationPosition}
-                                fabElement={fabElement}
-                                id={id}
-                                itemElements={itemElements}
-                                menuElement={menuElement}
-                                ref={ref}
-                        />
-                )
-        }
+        return (
+            <RenderNavigationRail
+                {...renderNavigationRailProps}
+                destinationPosition={destinationPosition}
+                fabElement={fabElement}
+                id={id}
+                itemElements={itemElements}
+                menuElement={menuElement}
+                ref={ref}
+            />
+        )
+    }
 )
 
 NavigationRailBase.displayName = 'NavigationRailBase'

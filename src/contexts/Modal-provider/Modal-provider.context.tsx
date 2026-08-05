@@ -9,47 +9,47 @@ import {updateModals} from './Modal-provider.handler'
 import type {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './Modal-provider.interface'
 
 const ModalItem: FC<ModalItemProps> = ({type, componentProps, testID}) => {
-        const component = {
-                [MODAL_TYPE.POPOVER]: PopoverContent,
-                [MODAL_TYPE.PRESSABLE_LAYOUT]: PopoverPressableLayout,
-                [MODAL_TYPE.SIDE_SHEET]: View
-        }
+    const component = {
+        [MODAL_TYPE.POPOVER]: PopoverContent,
+        [MODAL_TYPE.PRESSABLE_LAYOUT]: PopoverPressableLayout,
+        [MODAL_TYPE.SIDE_SHEET]: View
+    }
 
-        if (!type) {
-                return <></>
-        }
+    if (!type) {
+        return <></>
+    }
 
-        const ModalComponent = component[type] as unknown as FC<ViewProps & RefAttributes<View>>
+    const ModalComponent = component[type] as unknown as FC<ViewProps & RefAttributes<View>>
 
-        return (
-                <ModalComponent
-                        {...componentProps}
-                        testID={componentProps?.testID ?? testID}
-                />
-        )
+    return (
+        <ModalComponent
+            {...componentProps}
+            testID={componentProps?.testID ?? testID}
+        />
+    )
 }
 
 export const emitter = mitt<EmitterEvent>()
 export const ModalProvider: FC<ModalProps> = () => {
-        const [{modals}, setState] = useImmer<ModalState>({})
-        const runUpdateModals = useMemo(() => updateModals(setState), [setState])
+    const [{modals}, setState] = useImmer<ModalState>({})
+    const runUpdateModals = useMemo(() => updateModals(setState), [setState])
 
-        useEffect(() => {
-                emitter.on('modal', modal => runUpdateModals(modal))
+    useEffect(() => {
+        emitter.on('modal', modal => runUpdateModals(modal))
 
-                return () => emitter.all.clear()
-        }, [runUpdateModals])
+        return () => emitter.all.clear()
+    }, [runUpdateModals])
 
-        return (
-                <>
-                        {modals?.map(({type, props, id}) => (
-                                <ModalItem
-                                        componentProps={props}
-                                        key={id}
-                                        testID={`modal--${id}`}
-                                        type={type}
-                                />
-                        ))}
-                </>
-        )
+    return (
+        <>
+            {modals?.map(({type, props, id}) => (
+                <ModalItem
+                    componentProps={props}
+                    key={id}
+                    testID={`modal--${id}`}
+                    type={type}
+                />
+            ))}
+        </>
+    )
 }

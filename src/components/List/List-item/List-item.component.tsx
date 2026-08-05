@@ -5,10 +5,10 @@ import {compareListItemProps} from './List-item.handler'
 import type {ListItemProps, ListItemRef} from './List-item.interface'
 
 const ListItemWithRef = forwardRef<ListItemRef, ListItemProps>((props, ref) => (
-        <ListItemBase
-                {...props}
-                ref={ref}
-        />
+    <ListItemBase
+        {...props}
+        ref={ref}
+    />
 ))
 
 ListItemWithRef.displayName = 'ListItemWithRef'

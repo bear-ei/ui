@@ -5,10 +5,10 @@ import {SheetContentBase} from './Sheet-content-base.component'
 import type {SheetContentProps} from './Sheet-content.interface'
 
 const SheetContentWithRef = forwardRef<View, SheetContentProps>((props, ref) => (
-        <SheetContentBase
-                {...props}
-                ref={ref}
-        />
+    <SheetContentBase
+        {...props}
+        ref={ref}
+    />
 ))
 
 SheetContentWithRef.displayName = 'SheetContentWithRef'

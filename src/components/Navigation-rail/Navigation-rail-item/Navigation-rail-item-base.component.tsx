@@ -1,11 +1,11 @@
 import type {PressableType} from '@/components/Touchable'
 import {COMPONENT_STATUS, type State} from '@/constants'
 import {
-        type HandleStateEventChangeOptions,
-        type StateEvent,
-        useClearComponentEvent,
-        useInteractionStateEvent,
-        useTheme
+    type HandleStateEventChangeOptions,
+    type StateEvent,
+    useClearComponentEvent,
+    useInteractionStateEvent,
+    useTheme
 } from '@/hooks'
 import {platformValue} from '@/utils'
 import {Circle} from 'lucide-react-native'
@@ -18,85 +18,85 @@ import {RenderNavigationRailItem} from './Navigation-rail-item.render'
 import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
 
 export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailItemBaseProps>(
-        (
-                {
-                        activeKey,
-                        animatedType = NAVIGATION_RAIL_ANIMATED.STANDARD,
-                        icon,
-                        indexKey,
-                        onActive,
-                        type = NAVIGATION_RAIL_TYPE.SEGMENT,
-                        ...renderNavigationRailItemProps
-                },
-                ref
-        ) => {
-                const [{eventName, status, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({
-                        status: COMPONENT_STATUS.IDLE
-                })
+    (
+        {
+            activeKey,
+            animatedType = NAVIGATION_RAIL_ANIMATED.STANDARD,
+            icon,
+            indexKey,
+            onActive,
+            type = NAVIGATION_RAIL_TYPE.SEGMENT,
+            ...renderNavigationRailItemProps
+        },
+        ref
+    ) => {
+        const [{eventName, status, nextPressOutEvent}, setState] = useImmer<NavigationRailItemState>({
+            status: COMPONENT_STATUS.IDLE
+        })
 
-                useClearComponentEvent(setState)
+        useClearComponentEvent(setState)
 
-                const id = useId()
-                const theme = useTheme()
-                const pressableRef = useRef<PressableType>(null)
-                const isActive = activeKey === indexKey
-                const onStateEventChange = useCallback(
-                        (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                                handleNavigationRailItemStateChange({
-                                        ...options,
-                                        indexKey,
-                                        onActive,
-                                        ref: pressableRef,
-                                        state
-                                })(setState)(event),
-                        [indexKey, onActive, setState]
-                )
+        const id = useId()
+        const theme = useTheme()
+        const pressableRef = useRef<PressableType>(null)
+        const isActive = activeKey === indexKey
+        const onStateEventChange = useCallback(
+            (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+                handleNavigationRailItemStateChange({
+                    ...options,
+                    indexKey,
+                    onActive,
+                    ref: pressableRef,
+                    state
+                })(setState)(event),
+            [indexKey, onActive, setState]
+        )
 
-                const interactionHandlers = useInteractionStateEvent({
-                        ...renderNavigationRailItemProps,
-                        disabled: false,
-                        onStateEventChange
-                })
+        const interactionHandlers = useInteractionStateEvent({
+            ...renderNavigationRailItemProps,
+            disabled: false,
+            onStateEventChange
+        })
 
-                const {labelTextAnimatedStyle, contentAnimatedStyle} = useNavigationRailItemAnimated({
-                        active: isActive,
-                        status,
-                        type
-                })
+        const {labelTextAnimatedStyle, contentAnimatedStyle} = useNavigationRailItemAnimated({
+            active: isActive,
+            status,
+            type
+        })
 
-                const size =
-                        type === NAVIGATION_RAIL_TYPE.BLOCK ?
-                                theme.token.spacing.extraSmall * 6
-                        :       theme.token.spacing.extraSmall * 4
+        const size =
+            type === NAVIGATION_RAIL_TYPE.BLOCK ?
+                theme.token.spacing.extraSmall * 6
+            :   theme.token.spacing.extraSmall * 4
 
-                const iconElement = cloneElement(icon ?? <Circle />, {
-                        color: theme.token.scheme.onSurfaceVariant,
-                        size: platformValue(size),
-                        testID: `navigationRailItem__icon--${id}`
-                })
+        const iconElement = cloneElement(icon ?? <Circle />, {
+            color: theme.token.scheme.onSurfaceVariant,
+            size: platformValue(size),
+            testID: `navigationRailItem__icon--${id}`
+        })
 
-                useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
+        useImperativeHandle(ref, () => (pressableRef?.current ?? {}) as PressableType, [pressableRef])
 
-                useEffect(() => {
-                        nextPressOutEvent?.()
-                }, [nextPressOutEvent])
+        useEffect(() => {
+            nextPressOutEvent?.()
+        }, [nextPressOutEvent])
 
-                return (
-                        <RenderNavigationRailItem
-                                {...renderNavigationRailItemProps}
-                                active={isActive}
-                                animatedType={animatedType}
-                                contentAnimatedStyle={contentAnimatedStyle}
-                                eventName={eventName}
-                                iconElement={iconElement}
-                                id={id}
-                                interactionHandlers={interactionHandlers}
-                                labelTextAnimatedStyle={labelTextAnimatedStyle}
-                                ref={pressableRef}
-                                type={type}
-                        />
-                )
-        }
+        return (
+            <RenderNavigationRailItem
+                {...renderNavigationRailItemProps}
+                active={isActive}
+                animatedType={animatedType}
+                contentAnimatedStyle={contentAnimatedStyle}
+                eventName={eventName}
+                iconElement={iconElement}
+                id={id}
+                interactionHandlers={interactionHandlers}
+                labelTextAnimatedStyle={labelTextAnimatedStyle}
+                ref={pressableRef}
+                type={type}
+            />
+        )
+    }
 )
 
 NavigationRailItemBase.displayName = 'NavigationRailItemBase'

@@ -8,53 +8,53 @@ import {animateTouchableRipple} from './Touchable-ripple.handler'
 import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
 
 export const useTouchableRippleAnimated = ({
-        indexKey,
-        onAnimateFinished,
-        radius,
-        status
+    indexKey,
+    onAnimateFinished,
+    radius,
+    status
 }: UseTouchableRippleAnimatedOptions) => {
-        const opacitySharedValue = useSharedValue(1)
-        const scaleSharedValue = useSharedValue(0)
-        const theme = useTheme()
-        const animatedTiming = useAnimatedTiming({token: theme.token})
-        const containerAnimatedStyle = useAnimatedStyle(
-                () =>
-                        ({
-                                opacity: interpolate(
-                                        opacitySharedValue.value,
-                                        [0, 1],
-                                        [theme.token.opacity.level0, theme.token.opacity.level2]
-                                ),
-                                transform: [
-                                        {translateX: platformValue(-radius)},
-                                        {translateY: platformValue(-radius)},
-                                        {scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1])}
-                                ]
-                        }) as ViewStyle
-        )
+    const opacitySharedValue = useSharedValue(1)
+    const scaleSharedValue = useSharedValue(0)
+    const theme = useTheme()
+    const animatedTiming = useAnimatedTiming({token: theme.token})
+    const containerAnimatedStyle = useAnimatedStyle(
+        () =>
+            ({
+                opacity: interpolate(
+                    opacitySharedValue.value,
+                    [0, 1],
+                    [theme.token.opacity.level0, theme.token.opacity.level2]
+                ),
+                transform: [
+                    {translateX: platformValue(-radius)},
+                    {translateY: platformValue(-radius)},
+                    {scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1])}
+                ]
+            }) as ViewStyle
+    )
 
-        const runAnimate = useMemo(
-                () =>
-                        animateTouchableRipple({animatedTiming, onAnimateFinished})({
-                                opacitySharedValue,
-                                scaleSharedValue
-                        }),
-                [animatedTiming, onAnimateFinished, opacitySharedValue, scaleSharedValue]
-        )
+    const runAnimate = useMemo(
+        () =>
+            animateTouchableRipple({animatedTiming, onAnimateFinished})({
+                opacitySharedValue,
+                scaleSharedValue
+            }),
+        [animatedTiming, onAnimateFinished, opacitySharedValue, scaleSharedValue]
+    )
 
-        useEffect(() => {
-                if (status === COMPONENT_STATUS.SUCCEEDED) {
-                        runAnimate(indexKey)
-                }
-        }, [runAnimate, indexKey, status])
+    useEffect(() => {
+        if (status === COMPONENT_STATUS.SUCCEEDED) {
+            runAnimate(indexKey)
+        }
+    }, [runAnimate, indexKey, status])
 
-        useEffect(
-                () => () => {
-                        cancelAnimation(opacitySharedValue)
-                        cancelAnimation(scaleSharedValue)
-                },
-                [opacitySharedValue, scaleSharedValue]
-        )
+    useEffect(
+        () => () => {
+            cancelAnimation(opacitySharedValue)
+            cancelAnimation(scaleSharedValue)
+        },
+        [opacitySharedValue, scaleSharedValue]
+    )
 
-        return {containerAnimatedStyle}
+    return {containerAnimatedStyle}
 }

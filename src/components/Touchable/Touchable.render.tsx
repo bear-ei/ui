@@ -5,74 +5,73 @@ import {TouchableRipple} from './Touchable-ripple'
 import type {PressableType, RenderTouchableProps, RenderTouchableRippleProps} from './Touchable.interface'
 
 export const RenderTouchableRipples: FC<RenderTouchableRippleProps> = ({
-        centered,
-        containerLayout,
-        id,
-        rippleSequence,
-        ...props
+    centered,
+    containerLayout,
+    id,
+    rippleSequence,
+    ...props
 }) => (
-        <>
-                {Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
-                        const isCenteredTouchableRipple =
-                                typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
+    <>
+        {Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
+            const isCenteredTouchableRipple = typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
 
-                        return (
-                                <TouchableRipple
-                                        {...props}
-                                        centered={isCenteredTouchableRipple}
-                                        containerLayout={containerLayout}
-                                        indexKey={indexKey}
-                                        key={indexKey}
-                                        testID={`touchable__touchableRipple--${id}`}
-                                        touchableLocation={touchableLocation}
-                                />
-                        )
-                })}
-        </>
+            return (
+                <TouchableRipple
+                    {...props}
+                    centered={isCenteredTouchableRipple}
+                    containerLayout={containerLayout}
+                    indexKey={indexKey}
+                    key={indexKey}
+                    testID={`touchable__touchableRipple--${id}`}
+                    touchableLocation={touchableLocation}
+                />
+            )
+        })}
+    </>
 )
 
 export const RenderTouchable = forwardRef<PressableType, RenderTouchableProps>(
-        (
-                {
-                        backgroundUnderlay,
-                        children,
-                        elevationUnderlay,
-                        id,
-                        interactionHandlers,
-                        rippleElements,
-                        shape,
-                        testID,
-                        ...touchableProps
-                }: RenderTouchableProps,
-                ref
-        ) => (
-                <Pressable
-                        {...touchableProps}
-                        {...interactionHandlers}
-                        className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
-                        ref={ref}
-                        testID={testID ?? `touchable--${id}`}
+    (
+        {
+            backgroundUnderlay,
+            children,
+            elevationUnderlay,
+            id,
+            interactionHandlers,
+            rippleElements,
+            shape,
+            testID,
+            ...touchableProps
+        }: RenderTouchableProps,
+        ref
+    ) => (
+        <Pressable
+            {...touchableProps}
+            {...interactionHandlers}
+            className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
+            ref={ref}
+            testID={testID ?? `touchable--${id}`}
+        >
+            <View
+                className={classesName('relative z-30 flex-1 self-stretch', shapeClasses(shape))}
+                testID={`touchable__main--${id}`}
+            >
+                {children}
+                <View
+                    className={classesName(
+                        'absolute bottom-0 left-0 right-0 top-0 overflow-hidden',
+                        shapeClasses(shape)
+                    )}
+                    testID={`touchable__rippleLayout--${id}`}
                 >
-                        <View
-                                className={classesName('relative z-30 flex-1 self-stretch', shapeClasses(shape))}
-                                testID={`touchable__main--${id}`}
-                        >
-                                {children}
-                                <View
-                                        className={classesName(
-                                                'absolute bottom-0 left-0 right-0 top-0 overflow-hidden',
-                                                shapeClasses(shape)
-                                        )}
-                                        testID={`touchable__rippleLayout--${id}`}
-                                >
-                                        {rippleElements}
-                                </View>
+                    {rippleElements}
+                </View>
 
-                                {backgroundUnderlay}
-                                {elevationUnderlay}
-                        </View>
-                </Pressable>
-        )
+                {backgroundUnderlay}
+                {elevationUnderlay}
+            </View>
+        </Pressable>
+    )
 )
 
 RenderTouchable.displayName = 'RenderTouchable'

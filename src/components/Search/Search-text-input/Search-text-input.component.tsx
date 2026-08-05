@@ -5,10 +5,10 @@ import {SearchTextInputBase} from './Search-text-input-base.component'
 import type {SearchTextInputProps} from './Search-text-input.interface'
 
 const SearchTextInputWithRef = forwardRef<RNTextInput, SearchTextInputProps>((props, ref) => (
-        <SearchTextInputBase
-                {...props}
-                ref={ref}
-        />
+    <SearchTextInputBase
+        {...props}
+        ref={ref}
+    />
 ))
 
 SearchTextInputWithRef.displayName = 'SearchTextInputWithRef'

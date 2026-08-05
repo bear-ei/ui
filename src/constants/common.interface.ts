@@ -17,15 +17,15 @@ export type State = (typeof STATE)[keyof typeof STATE]
 export type TriggerOn = (typeof TRIGGER_ON)[keyof typeof TRIGGER_ON]
 export type TypographyType = keyof Typography
 export interface LayoutRectangle extends RNLayoutRectangle {
-        left?: number
-        pageX?: number
-        pageY?: number
-        top?: number
+    left?: number
+    pageX?: number
+    pageY?: number
+    top?: number
 }
 
 export interface CommonProps {
-        size?: Size
-        shape?: ShapeType
+    size?: Size
+    shape?: ShapeType
 }
 
 export type ContentSize = {width?: number; height?: number}

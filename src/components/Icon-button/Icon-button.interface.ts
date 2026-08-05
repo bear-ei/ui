@@ -7,39 +7,39 @@ import type {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
 export type IconButtonType = (typeof ICON_BUTTON_TYPE)[keyof typeof ICON_BUTTON_TYPE]
 export interface IconButtonProps extends TouchableProps, CommonProps {
-        active?: boolean
-        defaultActive?: boolean
-        icon?: React.JSX.Element
-        iconColor?: string
-        labelText?: string
-        loading?: boolean
-        type?: IconButtonType
+    active?: boolean
+    defaultActive?: boolean
+    icon?: React.JSX.Element
+    iconColor?: string
+    labelText?: string
+    loading?: boolean
+    type?: IconButtonType
 }
 
 export interface RenderIconButtonProps extends IconButtonProps {
-        backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
-        eventName?: EventName
-        iconElement?: React.JSX.Element
-        interactionHandlers: InteractionHandlers
+    backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
+    eventName?: EventName
+    iconElement?: React.JSX.Element
+    interactionHandlers: InteractionHandlers
 }
 
 export type IconButtonBaseProps = IconButtonProps
 export interface IconButtonState {
-        eventName?: EventName
+    eventName?: EventName
 }
 
 export interface RenderIconButtonIconProps
-        extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'iconColor' | 'loading' | 'id' | 'icon' | 'size'> {
-        eventName?: EventName
+    extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'iconColor' | 'loading' | 'id' | 'icon' | 'size'> {
+    eventName?: EventName
 }
 
 export type HandleIconButtonStateChangeOptions = HandleStateEventChangeOptions
 export type UseIconButtonAnimatedOptions = Pick<RenderIconButtonProps, 'disabled' | 'type'>
 export interface AnimateIconButtonOptions extends Pick<UseIconButtonAnimatedOptions, 'type'> {
-        animateSharedValueTo: AnimateSharedValueTo
+    animateSharedValueTo: AnimateSharedValueTo
 }
 
 export interface AnimateIconButtonSharedValues {
-        borderSharedValue: SharedValue<number>
-        colorSharedValue: SharedValue<number>
+    borderSharedValue: SharedValue<number>
+    colorSharedValue: SharedValue<number>
 }

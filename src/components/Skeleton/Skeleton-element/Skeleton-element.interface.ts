@@ -4,11 +4,11 @@ import type {View, ViewProps} from 'react-native'
 import type {RenderSkeletonProps} from '../Skeleton.interface'
 
 export interface SkeletonElementProps
-        extends ViewProps,
-                RefAttributes<View>,
-                Pick<RenderSkeletonProps, 'layoutType'>,
-                Pick<CommonProps, 'shape'> {
-        size?: number | {width?: number; height: number}
+    extends ViewProps,
+        RefAttributes<View>,
+        Pick<RenderSkeletonProps, 'layoutType'>,
+        Pick<CommonProps, 'shape'> {
+    size?: number | {width?: number; height: number}
 }
 
 export type RenderSkeletonElementProps = SkeletonElementProps

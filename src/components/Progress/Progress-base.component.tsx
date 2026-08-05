@@ -5,18 +5,18 @@ import type {ProgressBaseProps} from './Progress.interface'
 import {RenderProgress} from './Progress.render'
 
 export const ProgressBase = forwardRef<View, ProgressBaseProps>(
-        ({type = PROGRESS_TYPE.LINEAR, ...renderProgressProps}, ref) => {
-                const id = useId()
+    ({type = PROGRESS_TYPE.LINEAR, ...renderProgressProps}, ref) => {
+        const id = useId()
 
-                return (
-                        <RenderProgress
-                                {...renderProgressProps}
-                                id={id}
-                                ref={ref}
-                                type={type}
-                        />
-                )
-        }
+        return (
+            <RenderProgress
+                {...renderProgressProps}
+                id={id}
+                ref={ref}
+                type={type}
+            />
+        )
+    }
 )
 
 ProgressBase.displayName = 'ProgressBase'

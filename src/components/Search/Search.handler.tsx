@@ -7,114 +7,114 @@ import type {OnVirtualListCloseOptions} from '../Virtual-list'
 import type {HandleSearchActiveKeyOptions, SearchState, UpdateSearchDataOptions} from './Search.interface'
 
 export const updateSearchText =
-        (onChangeText?: (text: string) => void) => (setState: Updater<SearchState>) => (value: string) =>
-                setState(draft => {
-                        if (draft.value === value) {
-                                return
-                        }
-
-                        draft.value = value
-                        draft.filterValue = value
-
-                        if (onChangeText) {
-                                draft.nextChangeTextEvent = () => onChangeText?.(value)
-                        }
-                })
-
-export const updateSearchValue = (setState: Updater<SearchState>) => (value?: string) =>
+    (onChangeText?: (text: string) => void) => (setState: Updater<SearchState>) => (value: string) =>
         setState(draft => {
-                const nextValue = value ?? ''
+            if (draft.value === value) {
+                return
+            }
 
-                if (nextValue !== draft.value) {
-                        draft.value = nextValue
-                        draft.filterValue = nextValue
-                }
+            draft.value = value
+            draft.filterValue = value
+
+            if (onChangeText) {
+                draft.nextChangeTextEvent = () => onChangeText?.(value)
+            }
         })
 
-const syncVisible = (draft: WritableDraft<SearchState>) => (visible?: boolean) => {
-        if (visible) {
-                draft.expanded = true
-                draft.listVisible = visible
+export const updateSearchValue = (setState: Updater<SearchState>) => (value?: string) =>
+    setState(draft => {
+        const nextValue = value ?? ''
 
-                return
+        if (nextValue !== draft.value) {
+            draft.value = nextValue
+            draft.filterValue = nextValue
         }
+    })
 
-        draft.listVisible = false
+const syncVisible = (draft: WritableDraft<SearchState>) => (visible?: boolean) => {
+    if (visible) {
+        draft.expanded = true
+        draft.listVisible = visible
+
+        return
+    }
+
+    draft.listVisible = false
 }
 
 export const handleSearchFocus =
-        (onFocus?: ((event: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)) =>
-        (setState: Updater<SearchState>) =>
-        (event: FocusEvent | NativeSyntheticEvent<TargetedEvent>) =>
-                setState(draft => {
-                        syncVisible(draft)(!!draft.value)
-
-                        if (onFocus) {
-                                draft.nextFocusEvent = () => onFocus?.(event)
-                        }
-                })
-
-export const updateSearchMenuVisible = (setState: Updater<SearchState>) => (visible?: boolean) =>
-        typeof visible === 'boolean' &&
+    (onFocus?: ((event: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)) =>
+    (setState: Updater<SearchState>) =>
+    (event: FocusEvent | NativeSyntheticEvent<TargetedEvent>) =>
         setState(draft => {
-                syncVisible(draft)(visible)
+            syncVisible(draft)(!!draft.value)
+
+            if (onFocus) {
+                draft.nextFocusEvent = () => onFocus?.(event)
+            }
         })
 
+export const updateSearchMenuVisible = (setState: Updater<SearchState>) => (visible?: boolean) =>
+    typeof visible === 'boolean' &&
+    setState(draft => {
+        syncVisible(draft)(visible)
+    })
+
 export const updateSearchExpanded = (setState: Updater<SearchState>) => (visible?: boolean) => {
-        return (
-                typeof visible === 'boolean' &&
-                setState(draft => {
-                        if (!visible) {
-                                draft.expanded = false
-                        }
-                })
-        )
+    return (
+        typeof visible === 'boolean' &&
+        setState(draft => {
+            if (!visible) {
+                draft.expanded = false
+            }
+        })
+    )
 }
 
 export const handleSearchMenuClose =
-        (ref?: React.RefObject<TextInput | null>) =>
-        (onMenuClose?: (options: OnVirtualListCloseOptions) => void) =>
-        (options: OnVirtualListCloseOptions) => {
-                ref?.current?.focus?.()
-                onMenuClose?.(options)
-        }
+    (ref?: React.RefObject<TextInput | null>) =>
+    (onMenuClose?: (options: OnVirtualListCloseOptions) => void) =>
+    (options: OnVirtualListCloseOptions) => {
+        ref?.current?.focus?.()
+        onMenuClose?.(options)
+    }
 
 export const handleSearchFocusKey = (setState: Updater<SearchState>) => (key?: string) =>
-        setState(draft => {
-                const {indexKey, supporting} = draft.data?.find(datum => datum.indexKey === key) ?? {}
+    setState(draft => {
+        const {indexKey, supporting} = draft.data?.find(datum => datum.indexKey === key) ?? {}
 
-                draft.focusKey = indexKey
+        draft.focusKey = indexKey
 
-                if (typeof supporting === 'string') {
-                        draft.value = supporting as string
-                }
-        })
+        if (typeof supporting === 'string') {
+            draft.value = supporting as string
+        }
+    })
 
 export const handleSearchActiveKey =
-        ({onActive, ref}: HandleSearchActiveKeyOptions) =>
-        (setState: Updater<SearchState>) =>
-        (key?: string) => {
-                ref?.current?.focus?.()
+    ({onActive, ref}: HandleSearchActiveKeyOptions) =>
+    (setState: Updater<SearchState>) =>
+    (key?: string) => {
+        ref?.current?.focus?.()
 
-                setState(draft => {
-                        draft.activeKey = key
-                        draft.value = draft.data?.find(({indexKey}) => indexKey === key)?.supporting as string
+        setState(draft => {
+            draft.activeKey = key
+            draft.value = draft.data?.find(({indexKey}) => indexKey === key)?.supporting as string
 
-                        if (onActive) {
-                                draft.nextActiveEvent = () => onActive?.(key)
-                        }
-                })
-        }
+            if (onActive) {
+                draft.nextActiveEvent = () => onActive?.(key)
+            }
+        })
+    }
 
 export const updateSearchData =
-        ({data, filter}: UpdateSearchDataOptions) =>
-        (setState: Updater<SearchState>) =>
-        (value?: string) =>
-                filter &&
-                data &&
-                setState(draft => {
-                        draft.data = (
-                                value ?
-                                        textSearch(data)(['headline', 'supporting'])(value)
-                                :       []) as WritableDraft<ListItemData>[]
-                })
+    ({data, filter}: UpdateSearchDataOptions) =>
+    (setState: Updater<SearchState>) =>
+    (value?: string) =>
+        filter &&
+        data &&
+        setState(draft => {
+            draft.data = (
+                value ?
+                    textSearch(data)(['headline', 'supporting'])(value)
+                :   []) as WritableDraft<ListItemData>[]
+        })

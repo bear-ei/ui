@@ -7,37 +7,34 @@ import type {CircleProps} from 'react-native-svg'
 import type {ProgressProps} from '../Progress.interface'
 
 export interface ProgressActiveIndicatorCircularProps
-        extends ViewProps,
-                RefAttributes<View>,
-                CommonProps,
-                Pick<
-                        ProgressProps,
-                        'animatedType' | 'value' | 'defaultValue' | 'strokeWidth' | 'size' | 'enableAnimated'
-                > {
-        content?: React.JSX.Element
+    extends ViewProps,
+        RefAttributes<View>,
+        CommonProps,
+        Pick<ProgressProps, 'animatedType' | 'value' | 'defaultValue' | 'strokeWidth' | 'size' | 'enableAnimated'> {
+    content?: React.JSX.Element
 }
 
 export interface ProgressActiveIndicatorCircularState {
-        status: ComponentStatus
+    status: ComponentStatus
 }
 
 export interface RenderProgressActiveIndicatorCircularProps extends Omit<ProgressActiveIndicatorCircularProps, 'size'> {
-        circleAnimatedProps: AnimatedProps<CircleProps>['animatedProps']
-        circumference: number
-        containerAnimatedStyle: AnimatedStyle<ViewStyle>
-        interactionHandlers: InteractionHandlers
-        radius: number
-        size: number
-        strokeWidth: number
+    circleAnimatedProps: AnimatedProps<CircleProps>['animatedProps']
+    circumference: number
+    containerAnimatedStyle: AnimatedStyle<ViewStyle>
+    interactionHandlers: InteractionHandlers
+    radius: number
+    size: number
+    strokeWidth: number
 }
 
 export type ProgressActiveIndicatorCircularBaseProps = ProgressActiveIndicatorCircularProps
 export interface UseProgressActiveIndicatorCircularAnimatedOptions
-        extends Pick<RenderProgressActiveIndicatorCircularProps, 'circumference' | 'enableAnimated'> {
-        status: ComponentStatus
+    extends Pick<RenderProgressActiveIndicatorCircularProps, 'circumference' | 'enableAnimated'> {
+    status: ComponentStatus
 }
 
 export interface AnimateProgressActiveIndicatorCircularSharedValues {
-        circleSharedValue: SharedValue<number>
-        containerSharedValue: SharedValue<number>
+    circleSharedValue: SharedValue<number>
+    containerSharedValue: SharedValue<number>
 }
