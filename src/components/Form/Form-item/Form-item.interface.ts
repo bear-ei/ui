@@ -15,7 +15,8 @@ export interface FormItemControlProps {
 }
 
 export interface FormItemProps
-    extends Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>>,
+    extends
+        Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>>,
         Pick<FormProps, 'validatorOptions'> {
     initialValues?: Record<string, unknown>
     name?: string

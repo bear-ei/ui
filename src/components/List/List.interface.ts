@@ -21,7 +21,8 @@ export interface UpdateListAffordanceActiveStateOptions {
 }
 
 export interface ListProps
-    extends Omit<Partial<VirtualListProps<ListItemData> & RefAttributes<VirtualListComponent<ListItemData>>>, 'ref'>,
+    extends
+        Omit<Partial<VirtualListProps<ListItemData> & RefAttributes<VirtualListComponent<ListItemData>>>, 'ref'>,
         CommonProps {
     activeKey?: string
     activeKeys?: string[]

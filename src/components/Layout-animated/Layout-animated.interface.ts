@@ -60,20 +60,19 @@ export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEvent
     onLayoutChange: (layout: LayoutRectangle) => void
 }
 
-export interface UseLayoutAnimatedOptions
-    extends Pick<
-        LayoutAnimatedProps,
-        | 'animatedType'
-        | 'delay'
-        | 'entry'
-        | 'exit'
-        | 'opacity'
-        | 'outputRanges'
-        | 'scale'
-        | 'translate'
-        | 'unmount'
-        | 'visible'
-    > {
+export interface UseLayoutAnimatedOptions extends Pick<
+    LayoutAnimatedProps,
+    | 'animatedType'
+    | 'delay'
+    | 'entry'
+    | 'exit'
+    | 'opacity'
+    | 'outputRanges'
+    | 'scale'
+    | 'translate'
+    | 'unmount'
+    | 'visible'
+> {
     height?: number
     onAnimationFinished: (visible?: boolean) => void
     status: ComponentStatus

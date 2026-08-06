@@ -19,8 +19,10 @@ export interface UseHandleStateEventOptions extends Omit<InteractionHandlers, 'o
     onFocus?: ((e: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void) | null
 }
 
-export interface HandleStateEventChangeOptions
-    extends Pick<UseHandleStateEventOptions, 'disabled' | 'onStateEventChange'> {
+export interface HandleStateEventChangeOptions extends Pick<
+    UseHandleStateEventOptions,
+    'disabled' | 'onStateEventChange'
+> {
     callback?: () => void
     eventName?: EventName
     state?: State
@@ -31,8 +33,10 @@ export interface HandleStateEventOptions {
     interactionHandlers: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
 }
 
-export interface InteractionHandlers
-    extends Pick<PressableProps, 'onHoverIn' | 'onHoverOut' | 'onLayout' | 'onLongPress'> {
+export interface InteractionHandlers extends Pick<
+    PressableProps,
+    'onHoverIn' | 'onHoverOut' | 'onLayout' | 'onLongPress'
+> {
     onBlur?: ((event: BlurEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)
     onFocus?: ((event: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void)
     onPress?: ((event: NativeSyntheticEvent<NativeTouchEvent>) => void) | ((event: GestureResponderEvent) => void)

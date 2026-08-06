@@ -6,7 +6,8 @@ import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {RenderSearchProps} from '../Search.interface'
 
 export interface SearchTextInputProps
-    extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers>,
+    extends
+        Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers>,
         Pick<RenderSearchProps, 'expanded' | 'leading' | 'trailing' | 'listVisible'>,
         CommonProps {
     disabled?: boolean

@@ -6,7 +6,8 @@ import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ListItemProps} from '../List-item'
 
 export interface ListAfterAffordanceProps
-    extends ViewProps,
+    extends
+        ViewProps,
         RefAttributes<View>,
         Pick<
             ListItemProps,
@@ -26,8 +27,10 @@ export interface ListAfterAffordanceProps
     visible?: boolean
 }
 
-export interface RenderListAfterAffordanceProps
-    extends Omit<ListAfterAffordanceProps, 'indexKey' | 'onCancel' | 'onConfirm'> {
+export interface RenderListAfterAffordanceProps extends Omit<
+    ListAfterAffordanceProps,
+    'indexKey' | 'onCancel' | 'onConfirm'
+> {
     dangerAnimatedStyle: AnimatedStyle<ViewStyle>
     doubleConfirmed?: boolean
     interactionHandlers: InteractionHandlers

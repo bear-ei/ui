@@ -88,7 +88,8 @@ export interface VirtualListState {
 }
 
 export interface HandleVirtualListScrollOptions
-    extends Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'endReachedThreshold'>,
+    extends
+        Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'endReachedThreshold'>,
         Pick<VirtualListProps<unknown>, 'layoutType'> {
     onEndReached: () => void
 }
@@ -99,34 +100,34 @@ export interface HandleVirtualListLayoutChangeOptions {
 
 export type TriggerVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose' | 'activeKey'>
 export interface CloseVirtualListOptions
-    extends TriggerVirtualListCloseOptions,
-        Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layoutType'> {}
+    extends TriggerVirtualListCloseOptions, Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layoutType'> {}
 
 export interface HandleVirtualListContentVisibleOptions {
     loading?: boolean
     emptyList?: boolean
 }
 
-export interface UseVirtualListScrollAnimatedOptions
-    extends Pick<RenderVirtualListProps, 'focusedIndex' | 'itemSize' | 'layoutType'> {
+export interface UseVirtualListScrollAnimatedOptions extends Pick<
+    RenderVirtualListProps,
+    'focusedIndex' | 'itemSize' | 'layoutType'
+> {
     contentSize?: number
 }
 
-export interface RenderVirtualListItemOptions<T>
-    extends Pick<
-        RenderVirtualListProps<T>,
-        | 'containerLayout'
-        | 'data'
-        | 'dependencies'
-        | 'draggable'
-        | 'gap'
-        | 'id'
-        | 'itemSize'
-        | 'layoutType'
-        | 'onLoadEnd'
-        | 'renderItem'
-        | 'shape'
-    > {
+export interface RenderVirtualListItemOptions<T> extends Pick<
+    RenderVirtualListProps<T>,
+    | 'containerLayout'
+    | 'data'
+    | 'dependencies'
+    | 'draggable'
+    | 'gap'
+    | 'id'
+    | 'itemSize'
+    | 'layoutType'
+    | 'onLoadEnd'
+    | 'renderItem'
+    | 'shape'
+> {
     onClose?: (indexKey?: string) => void
     onDragEnd?: (options: HandleDragEndOptions) => void
     onDragStart?: (options: HandleDragStartOptions) => void

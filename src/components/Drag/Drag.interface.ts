@@ -42,8 +42,10 @@ export interface UpdatePrevTranslateSharedValueOptions extends Pick<UseDragAnima
     prevTranslateYSharedValue: SharedValue<number>
 }
 
-export interface UseDragAnimatedOptions
-    extends Pick<DragProps, 'height' | 'width' | 'onEnd' | 'onStart' | 'onUpdate' | 'layoutType' | 'offset'> {
+export interface UseDragAnimatedOptions extends Pick<
+    DragProps,
+    'height' | 'width' | 'onEnd' | 'onStart' | 'onUpdate' | 'layoutType' | 'offset'
+> {
     layout: LayoutRectangle
 }
 
@@ -52,14 +54,15 @@ export interface UpdateTranslateSharedValueOptions {
     translateYSharedValue: SharedValue<number>
 }
 
-export interface UpdateTranslateScreenOptions
-    extends Pick<UseDragAnimatedOptions, 'onUpdate' | 'layout' | 'layoutType' | 'offset'> {
+export interface UpdateTranslateScreenOptions extends Pick<
+    UseDragAnimatedOptions,
+    'onUpdate' | 'layout' | 'layoutType' | 'offset'
+> {
     height: number
     width: number
 }
 
 export interface UpdateTranslateOptions
-    extends UpdatePrevTranslateSharedValueOptions,
-        UpdateTranslateSharedValueOptions {}
+    extends UpdatePrevTranslateSharedValueOptions, UpdateTranslateSharedValueOptions {}
 
 export type AnimateDragOptions = UpdateTranslateSharedValueOptions

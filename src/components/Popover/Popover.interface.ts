@@ -43,8 +43,7 @@ export interface PopoverState {
 }
 
 export interface HandlePopoverStateEventChangeOptions
-    extends HandleStateEventChangeOptions,
-        Pick<PopoverProps, 'triggerEvent' | 'type'> {
+    extends HandleStateEventChangeOptions, Pick<PopoverProps, 'triggerEvent' | 'type'> {
     childrenRef: React.RefObject<TextInput | null>
     containerRef: React.RefObject<View | null>
     onEmitContent: (options: EmitPopoverOptions) => void
@@ -62,8 +61,10 @@ export interface EmitPopoverOptions {
 
 export type UpdatePopoverContextMenuLayoutOptions = Pick<RenderPopoverProps, 'disabled' | 'onVisible'>
 
-export interface HandlePopoverContentAnimationFinishedOptions
-    extends Pick<PopoverProps, 'onAnimationFinished' | 'type'> {
+export interface HandlePopoverContentAnimationFinishedOptions extends Pick<
+    PopoverProps,
+    'onAnimationFinished' | 'type'
+> {
     onUnmountContent?: () => void
     onUnmountPressableLayout?: () => void
 }

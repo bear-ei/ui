@@ -11,7 +11,8 @@ export interface ListItemRef extends PressableType {
 }
 
 export interface ListItemProps
-    extends TouchableProps,
+    extends
+        TouchableProps,
         Pick<
             ListProps,
             | 'activeKey'
@@ -87,26 +88,25 @@ export interface RenderListItemProps extends ListItemProps {
 }
 
 export type ListItemBaseProps = ListItemProps
-export interface ListItemData
-    extends Pick<
-        ListItemProps,
-        | 'contentStyle'
-        | 'dependencies'
-        | 'headline'
-        | 'leading'
-        | 'primaryButtonDisabled'
-        | 'primaryButtonLabelText'
-        | 'primaryButtonLoading'
-        | 'primaryButtonStyle'
-        | 'secondaryButtonDisabled'
-        | 'secondaryButtonLabelText'
-        | 'secondaryButtonLoading'
-        | 'secondaryButtonStyle'
-        | 'supporting'
-        | 'supportingTextNumberOfLines'
-        | 'trailing'
-        | 'trailingDisabled'
-    > {
+export interface ListItemData extends Pick<
+    ListItemProps,
+    | 'contentStyle'
+    | 'dependencies'
+    | 'headline'
+    | 'leading'
+    | 'primaryButtonDisabled'
+    | 'primaryButtonLabelText'
+    | 'primaryButtonLoading'
+    | 'primaryButtonStyle'
+    | 'secondaryButtonDisabled'
+    | 'secondaryButtonLabelText'
+    | 'secondaryButtonLoading'
+    | 'secondaryButtonStyle'
+    | 'supporting'
+    | 'supportingTextNumberOfLines'
+    | 'trailing'
+    | 'trailingDisabled'
+> {
     indexKey: string
 }
 
@@ -122,7 +122,8 @@ export interface ListItemState {
 }
 
 export interface HandleListItemStateChangeOptions
-    extends HandleStateEventChangeOptions,
+    extends
+        HandleStateEventChangeOptions,
         Pick<RenderListItemProps, 'itemIndex' | 'indexKey' | 'onActive' | 'onLoadEnd' | 'type'> {}
 
 export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
@@ -130,18 +131,17 @@ export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListI
     onClose: (indexKey?: boolean) => void
 }
 
-export interface RenderListItemTrailingProps
-    extends Pick<
-        RenderListItemProps,
-        | 'afterAffordance'
-        | 'closeTrailing'
-        | 'disabled'
-        | 'id'
-        | 'size'
-        | 'trailing'
-        | 'trailingDisabled'
-        | 'trailingTriggerOn'
-    > {
+export interface RenderListItemTrailingProps extends Pick<
+    RenderListItemProps,
+    | 'afterAffordance'
+    | 'closeTrailing'
+    | 'disabled'
+    | 'id'
+    | 'size'
+    | 'trailing'
+    | 'trailingDisabled'
+    | 'trailingTriggerOn'
+> {
     interactionHandlers: InteractionHandlers
     onTrailingVisible?: (eventName: EventName) => void
 }
@@ -153,8 +153,10 @@ export interface UseListItemAnimatedOptions {
     status: ComponentStatus
 }
 
-export interface TriggerListItemTrailingActionsOptions
-    extends Pick<ListItemProps, 'closeTrailing' | 'afterAffordance' | 'onActiveAfterAffordance' | 'onPressOut'> {
+export interface TriggerListItemTrailingActionsOptions extends Pick<
+    ListItemProps,
+    'closeTrailing' | 'afterAffordance' | 'onActiveAfterAffordance' | 'onPressOut'
+> {
     onClose: (close?: boolean) => void
 }
 

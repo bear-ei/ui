@@ -7,7 +7,8 @@ import type {MenuProps} from '../Menu'
 import type {OnVirtualListCloseOptions} from '../Virtual-list'
 
 export interface SearchProps
-    extends Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers & MenuProps>,
+    extends
+        Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers & MenuProps>,
         CommonProps {
     disabled?: boolean
     filter?: boolean

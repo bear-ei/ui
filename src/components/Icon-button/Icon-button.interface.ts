@@ -28,8 +28,10 @@ export interface IconButtonState {
     eventName?: EventName
 }
 
-export interface RenderIconButtonIconProps
-    extends Pick<RenderIconButtonProps, 'disabled' | 'type' | 'iconColor' | 'loading' | 'id' | 'icon' | 'size'> {
+export interface RenderIconButtonIconProps extends Pick<
+    RenderIconButtonProps,
+    'disabled' | 'type' | 'iconColor' | 'loading' | 'id' | 'icon' | 'size'
+> {
     eventName?: EventName
 }
 

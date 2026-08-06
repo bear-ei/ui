@@ -6,8 +6,10 @@ export interface UseAnimatedTimingOptions {
     token: Token
 }
 
-export interface CreateAnimatedTimingOptions
-    extends Omit<AnimatedTimingOptions, 'sharedValue' | 'callback' | 'duration'> {
+export interface CreateAnimatedTimingOptions extends Omit<
+    AnimatedTimingOptions,
+    'sharedValue' | 'callback' | 'duration'
+> {
     bezier: Bezier
     duration: number
 }

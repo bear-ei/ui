@@ -6,7 +6,8 @@ import type {TouchableRippleProps} from './Touchable-ripple'
 
 export type PressableType = typeof Pressable & View
 export interface TouchableProps
-    extends Omit<
+    extends
+        Omit<
             PressableProps & RefAttributes<PressableType> & InteractionHandlers,
             'children' | 'disabled' | 'hitSlop' | 'style'
         >,
@@ -39,7 +40,8 @@ export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, '
 }
 
 export interface HandleTouchableStateChangeOptions
-    extends Pick<TouchableRippleProps, 'touchableLocation'>,
+    extends
+        Pick<TouchableRippleProps, 'touchableLocation'>,
         HandleStateEventChangeOptions,
         Pick<TouchableProps, 'enableTouchableRipple'> {
     ref: React.RefObject<PressableType | null>

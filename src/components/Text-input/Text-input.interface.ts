@@ -8,8 +8,7 @@ import type {TEXT_INPUT_TYPE} from './Text-input.enum'
 export type TextInputType = (typeof TEXT_INPUT_TYPE)[keyof typeof TEXT_INPUT_TYPE]
 export interface InputProps extends RNTextInputProps, RefAttributes<TextInput> {}
 export interface TextInputProps
-    extends Partial<RNTextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers>,
-        CommonProps {
+    extends Partial<RNTextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers>, CommonProps {
     content?: React.ReactNode
     disabled?: boolean
     error?: boolean
@@ -52,8 +51,7 @@ export interface TextInputState {
 }
 
 export interface HandleTextInputStateChangeOptions
-    extends HandleStateEventChangeOptions,
-        Pick<TextInputProps, 'content'> {
+    extends HandleStateEventChangeOptions, Pick<TextInputProps, 'content'> {
     ref?: RefObject<TextInput | null>
 }
 

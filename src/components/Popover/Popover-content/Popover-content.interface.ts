@@ -13,7 +13,8 @@ import type {Updater} from 'use-immer'
 import type {PopoverContentPosition, PopoverProps} from '..'
 
 export interface PopoverContentProps
-    extends ViewProps,
+    extends
+        ViewProps,
         UseHandleStateEventOptions,
         Pick<
             PopoverProps,
@@ -85,8 +86,10 @@ export interface UpdatePopoverContentInvertOptions {
     y: number
 }
 
-export interface UpdatePopoverContentPositionOptions
-    extends Pick<PopoverContentProps, 'popoverContentPosition' | 'type' | 'containerLayout'> {
+export interface UpdatePopoverContentPositionOptions extends Pick<
+    PopoverContentProps,
+    'popoverContentPosition' | 'type' | 'containerLayout'
+> {
     setState: Updater<PopoverContentState>
     theme: Theme
 }

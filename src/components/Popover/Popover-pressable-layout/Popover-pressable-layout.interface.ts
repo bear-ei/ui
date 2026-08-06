@@ -3,11 +3,10 @@ import type {InteractionHandlers} from '@/hooks'
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, PressableProps} from 'react-native'
 
-export interface PopoverLayoutProps
-    extends Omit<
-        PressableProps & RefAttributes<PressableType> & InteractionHandlers,
-        'children' | 'disabled' | 'hitSlop' | 'style'
-    > {
+export interface PopoverLayoutProps extends Omit<
+    PressableProps & RefAttributes<PressableType> & InteractionHandlers,
+    'children' | 'disabled' | 'hitSlop' | 'style'
+> {
     containerLayout?: Partial<LayoutRectangle>
 }
 

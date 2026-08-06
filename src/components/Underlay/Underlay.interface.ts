@@ -35,8 +35,10 @@ export interface UnderlayState {
     status: ComponentStatus
 }
 
-export interface UseUnderlayAnimatedOptions
-    extends Pick<RenderUnderlayProps, 'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'> {
+export interface UseUnderlayAnimatedOptions extends Pick<
+    RenderUnderlayProps,
+    'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'
+> {
     status: ComponentStatus
 }
 

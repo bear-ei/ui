@@ -7,9 +7,7 @@ import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {TouchableProps} from '../Touchable.interface'
 
 export interface TouchableRippleProps
-    extends ViewProps,
-        RefAttributes<View>,
-        Pick<TouchableProps, 'centered' | 'underlayColor' | 'shape'> {
+    extends ViewProps, RefAttributes<View>, Pick<TouchableProps, 'centered' | 'underlayColor' | 'shape'> {
     containerLayout?: LayoutRectangle
     indexKey?: string
     onAnimateFinished?: (indexKey: string) => void
@@ -30,8 +28,7 @@ export interface TouchableRippleState {
 
 export type TouchableRippleBaseProps = TouchableRippleProps
 export interface UseTouchableRippleAnimatedOptions
-    extends Pick<RenderTouchableRippleProps, 'onAnimateFinished'>,
-        Pick<TouchableRippleProps, 'indexKey'> {
+    extends Pick<RenderTouchableRippleProps, 'onAnimateFinished'>, Pick<TouchableRippleProps, 'indexKey'> {
     radius: number
     status: ComponentStatus
 }
@@ -41,8 +38,10 @@ export interface AnimateTouchableRippleSharedValues {
     opacitySharedValue: SharedValue<number>
 }
 
-export interface AnimateTouchableRippleOptions
-    extends Pick<RenderTouchableRippleProps, 'onAnimateFinished' | 'containerLayout'> {
+export interface AnimateTouchableRippleOptions extends Pick<
+    RenderTouchableRippleProps,
+    'onAnimateFinished' | 'containerLayout'
+> {
     animatedTiming: AnimatedTiming
 }
 

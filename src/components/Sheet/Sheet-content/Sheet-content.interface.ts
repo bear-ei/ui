@@ -11,8 +11,10 @@ export interface RenderSheetContentProps extends SheetContentProps {
 
 export type HandleSheetWasVisibleOptions = Pick<SheetContentProps, 'onVisible'>
 export type UseSheetContentAnimatedOptions = Pick<RenderSheetContentProps, 'visible' | 'type'>
-export interface RenderSheetContentLeadingProps
-    extends Pick<SheetContentProps, 'headlineLeading' | 'back' | 'position' | 'id'> {
+export interface RenderSheetContentLeadingProps extends Pick<
+    SheetContentProps,
+    'headlineLeading' | 'back' | 'position' | 'id'
+> {
     onBack?: () => void
 }
 

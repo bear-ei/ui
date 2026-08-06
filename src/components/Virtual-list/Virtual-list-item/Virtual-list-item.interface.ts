@@ -26,7 +26,8 @@ export interface RenderVirtualListItemInfo<T> {
 }
 
 export interface VirtualListItemProps<T = Record<string, unknown>>
-    extends ViewProps,
+    extends
+        ViewProps,
         RefAttributes<View>,
         Pick<
             RenderVirtualListProps<T>,
@@ -43,8 +44,10 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
     scrollOffset?: number
 }
 
-export interface RenderVirtualListItemProps<T = Record<string, unknown>>
-    extends Omit<VirtualListItemProps<T>, 'onUnmount' | 'onDragUpdate' | 'onDragEnd' | 'onDragStart'> {
+export interface RenderVirtualListItemProps<T = Record<string, unknown>> extends Omit<
+    VirtualListItemProps<T>,
+    'onUnmount' | 'onDragUpdate' | 'onDragEnd' | 'onDragStart'
+> {
     containerAnimatedStyle?: AnimatedStyle<ViewStyle>
     dragging?: boolean
     dragOffset?: number

@@ -6,8 +6,7 @@ import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {NavigationRailProps} from '../Navigation-rail.interface'
 
 export interface NavigationRailItemProps
-    extends TouchableProps,
-        Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {
+    extends TouchableProps, Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {
     dependencies?: unknown[]
     icon?: React.JSX.Element
     indexKey?: string
@@ -31,8 +30,7 @@ export interface NavigationRailItemState {
 }
 
 export interface HandleNavigationRailItemStateChangeOptions
-    extends HandleStateEventChangeOptions,
-        Pick<NavigationRailItemProps, 'indexKey' | 'onActive'> {
+    extends HandleStateEventChangeOptions, Pick<NavigationRailItemProps, 'indexKey' | 'onActive'> {
     ref: React.RefObject<PressableType | null>
 }
 

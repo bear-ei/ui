@@ -7,7 +7,8 @@ import type {CircleProps} from 'react-native-svg'
 import type {ProgressProps} from '../Progress.interface'
 
 export interface ProgressActiveIndicatorCircularProps
-    extends ViewProps,
+    extends
+        ViewProps,
         RefAttributes<View>,
         CommonProps,
         Pick<ProgressProps, 'animatedType' | 'value' | 'defaultValue' | 'strokeWidth' | 'size' | 'enableAnimated'> {
@@ -29,8 +30,10 @@ export interface RenderProgressActiveIndicatorCircularProps extends Omit<Progres
 }
 
 export type ProgressActiveIndicatorCircularBaseProps = ProgressActiveIndicatorCircularProps
-export interface UseProgressActiveIndicatorCircularAnimatedOptions
-    extends Pick<RenderProgressActiveIndicatorCircularProps, 'circumference' | 'enableAnimated'> {
+export interface UseProgressActiveIndicatorCircularAnimatedOptions extends Pick<
+    RenderProgressActiveIndicatorCircularProps,
+    'circumference' | 'enableAnimated'
+> {
     status: ComponentStatus
 }
 
