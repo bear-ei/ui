@@ -18,12 +18,9 @@ export const TouchableBase = forwardRef<PressableType, TouchableBaseProps>(
         const onAnimateFinished = useMemo(() => deleteTouchableRippleByIndex(setState), [setState])
         const onStateEventChange = useCallback(
             (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleTouchableStateChange({
-                    ...options,
-                    enableTouchableRipple,
-                    ref: pressableRef,
-                    state
-                })(setState)(event),
+                handleTouchableStateChange({...options, enableTouchableRipple, ref: pressableRef, state})(setState)(
+                    event
+                ),
             [enableTouchableRipple, setState]
         )
 

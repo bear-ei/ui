@@ -30,13 +30,9 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
         const id = useId()
         const onStateEventChange = useCallback(
             (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleCheckboxStateChange({
-                    ...options,
-                    active: isActive,
-                    indeterminate,
-                    onActive,
-                    state
-                })(setState)(event),
+                handleCheckboxStateChange({...options, active: isActive, indeterminate, onActive, state})(setState)(
+                    event
+                ),
             [indeterminate, isActive, onActive, setState]
         )
 
