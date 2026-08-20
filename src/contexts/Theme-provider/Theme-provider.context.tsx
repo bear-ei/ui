@@ -13,10 +13,9 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken
     const id = useId()
     const token =
         rawToken ??
-        createToken({
-            contrast: CONTRAST.STANDARD,
-            scheme: colorScheme === 'light' ? SCHEME.LIGHT : SCHEME.DARK
-        })(PALETTE.NAVY)
+        createToken({contrast: CONTRAST.STANDARD, scheme: colorScheme === 'light' ? SCHEME.LIGHT : SCHEME.DARK})(
+            PALETTE.NAVY
+        )
 
     const theme = useMemo(() => ({theme: {colorScheme, token}}), [colorScheme, token])
     const styleVariables = processStyleVariables(token)

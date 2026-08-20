@@ -7,7 +7,7 @@
     "author": "bearei <bear_ei@outlook.com>",
     "description": "Bearei ui for React Native and Web",
     "readmeFilename": "README.md",
-    "license": "UNLICENSED",
+    "license": "MIT",
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
@@ -26,6 +26,7 @@
     "files": [
         "dist",
         "src",
+        "LICENSE",
         "!**/__snapshots__",
         "!**/*.stories.*",
         "!**/test.*"
