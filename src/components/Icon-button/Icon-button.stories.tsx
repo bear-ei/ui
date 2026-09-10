@@ -5,63 +5,63 @@ import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {IconButtonProps} from './Icon-button.interface'
 
 export const Filled: StoryObj<IconButtonProps> = {
-    args: {
-        type: ICON_BUTTON_TYPE.FILLED
-    }
+	args: {
+		type: ICON_BUTTON_TYPE.FILLED
+	}
 }
 
 export const Outlined: StoryObj<IconButtonProps> = {
-    args: {
-        type: ICON_BUTTON_TYPE.OUTLINED
-    }
+	args: {
+		type: ICON_BUTTON_TYPE.OUTLINED
+	}
 }
 
 export const Standard: StoryObj<IconButtonProps> = {
-    args: {
-        type: ICON_BUTTON_TYPE.STANDARD
-    }
+	args: {
+		type: ICON_BUTTON_TYPE.STANDARD
+	}
 }
 
 export const Tonal: StoryObj<IconButtonProps> = {
-    args: {
-        type: ICON_BUTTON_TYPE.TONAL
-    }
+	args: {
+		type: ICON_BUTTON_TYPE.TONAL
+	}
 }
 
 export const Active: StoryObj<IconButtonProps> = {
-    args: {
-        type: ICON_BUTTON_TYPE.ACTIVE
-    }
+	args: {
+		type: ICON_BUTTON_TYPE.ACTIVE
+	}
 }
 
 export const Loading: StoryObj<IconButtonProps> = {
-    args: {
-        loading: true
-    }
+	args: {
+		loading: true
+	}
 }
 
 export const ExtraLarge: StoryObj<IconButtonProps> = {
-    args: {size: SIZE.EXTRA_LARGE}
+	args: {size: SIZE.EXTRA_LARGE}
 }
 
 export const Large: StoryObj<IconButtonProps> = {
-    args: {size: SIZE.LARGE}
+	args: {size: SIZE.LARGE}
 }
 
 export const Medium: StoryObj<IconButtonProps> = {
-    args: {size: SIZE.MEDIUM}
+	args: {size: SIZE.MEDIUM}
 }
 
 export const Small: StoryObj<IconButtonProps> = {
-    args: {size: SIZE.SMALL}
+	args: {size: SIZE.SMALL}
 }
 
 export const ExtraSmall: StoryObj<IconButtonProps> = {
-    args: {size: SIZE.EXTRA_SMALL}
+	args: {size: SIZE.EXTRA_SMALL}
 }
 
 export default {
-    title: 'components/IconButton',
-    argTypes: {onPress: {action: 'pressed'}},
-    component: IconButton
+	title: 'components/IconButton',
+	argTypes: {onPress: {action: 'pressed'}},
+	component: IconButton
 } as Meta<typeof IconButton>

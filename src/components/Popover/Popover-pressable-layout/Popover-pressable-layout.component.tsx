@@ -5,10 +5,10 @@ import {PopoverPressableLayoutBase} from './Popover-pressable-layout-base.compon
 import type {PopoverLayoutProps} from './Popover-pressable-layout.interface'
 
 const PopoverPressableLayoutWithRef = forwardRef<PressableType, PopoverLayoutProps>((props, ref) => (
-    <PopoverPressableLayoutBase
-        {...props}
-        ref={ref}
-    />
+	<PopoverPressableLayoutBase
+		{...props}
+		ref={ref}
+	/>
 ))
 
 PopoverPressableLayoutWithRef.displayName = 'PopoverPressableLayoutWithRef'

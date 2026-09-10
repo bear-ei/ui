@@ -4,16 +4,16 @@ import type {AvatarBaseProps} from './Avatar.interface'
 import {RenderAvatar} from './Avatar.render'
 
 export const AvatarBase = forwardRef<View, AvatarBaseProps>(({labelText = 'A', ...renderAvatarProps}, ref) => {
-    const id = useId()
+	const id = useId()
 
-    return (
-        <RenderAvatar
-            {...renderAvatarProps}
-            id={id}
-            labelText={labelText[0]}
-            ref={ref}
-        />
-    )
+	return (
+		<RenderAvatar
+			{...renderAvatarProps}
+			id={id}
+			labelText={labelText[0]}
+			ref={ref}
+		/>
+	)
 })
 
 AvatarBase.displayName = 'AvatarBase'

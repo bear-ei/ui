@@ -8,67 +8,67 @@ import {animateVirtualListItemScale, animateVirtualListItemTranslate} from './Vi
 import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
 export const useVirtualListItemAnimated = ({
-    dragging,
-    layoutType,
-    offset = 0,
-    onAnimationFinished,
-    status
+	dragging,
+	layoutType,
+	offset = 0,
+	onAnimationFinished,
+	status
 }: UseVirtualListItemAnimatedOptions) => {
-    const theme = useTheme()
-    const animatedTiming = useAnimatedTiming({token: theme.token})
-    const animateTranslateYSharedValueTo = useMemo(
-        () => animatedTiming({callback: (finished?: boolean) => finished && onAnimationFinished?.()}),
-        [animatedTiming, onAnimationFinished]
-    )
+	const theme = useTheme()
+	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const animateTranslateYSharedValueTo = useMemo(
+		() => animatedTiming({callback: (finished?: boolean) => finished && onAnimationFinished?.()}),
+		[animatedTiming, onAnimationFinished]
+	)
 
-    const animateScaleSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
-    const translateSharedValue = useSharedValue(offset)
-    const scaleSharedValue = useSharedValue(0)
-    const containerAnimatedStyle = useAnimatedStyle(() => ({
-        ...(layoutType === LAYOUT.VERTICAL &&
-            ({
-                transform: [
-                    {translateY: platformValue(translateSharedValue.value)},
-                    {scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
-                ]
-            } as ViewStyle)),
-        ...(layoutType === LAYOUT.HORIZONTAL &&
-            ({
-                transform: [
-                    {translateX: platformValue(translateSharedValue.value)},
-                    {scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
-                ]
-            } as ViewStyle))
-    }))
+	const animateScaleSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
+	const translateSharedValue = useSharedValue(offset)
+	const scaleSharedValue = useSharedValue(0)
+	const containerAnimatedStyle = useAnimatedStyle(() => ({
+		...(layoutType === LAYOUT.VERTICAL &&
+			({
+				transform: [
+					{translateY: platformValue(translateSharedValue.value)},
+					{scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
+				]
+			} as ViewStyle)),
+		...(layoutType === LAYOUT.HORIZONTAL &&
+			({
+				transform: [
+					{translateX: platformValue(translateSharedValue.value)},
+					{scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
+				]
+			} as ViewStyle))
+	}))
 
-    const runAnimateTranslate = useMemo(
-        () => animateVirtualListItemTranslate(animateTranslateYSharedValueTo)(translateSharedValue),
-        [animateTranslateYSharedValueTo, translateSharedValue]
-    )
+	const runAnimateTranslate = useMemo(
+		() => animateVirtualListItemTranslate(animateTranslateYSharedValueTo)(translateSharedValue),
+		[animateTranslateYSharedValueTo, translateSharedValue]
+	)
 
-    const runAnimateScale = useMemo(
-        () => animateVirtualListItemScale(animateScaleSharedValueTo)(scaleSharedValue),
-        [animateScaleSharedValueTo, scaleSharedValue]
-    )
+	const runAnimateScale = useMemo(
+		() => animateVirtualListItemScale(animateScaleSharedValueTo)(scaleSharedValue),
+		[animateScaleSharedValueTo, scaleSharedValue]
+	)
 
-    useEffect(() => {
-        if (status === COMPONENT_STATUS.SUCCEEDED && !dragging) {
-            runAnimateTranslate(offset)
-        }
-    }, [dragging, offset, runAnimateTranslate, status])
+	useEffect(() => {
+		if (status === COMPONENT_STATUS.SUCCEEDED && !dragging) {
+			runAnimateTranslate(offset)
+		}
+	}, [dragging, offset, runAnimateTranslate, status])
 
-    useEffect(() => {
-        if (status === COMPONENT_STATUS.SUCCEEDED) {
-            runAnimateScale(dragging)
-        }
-    }, [dragging, runAnimateScale, status])
+	useEffect(() => {
+		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			runAnimateScale(dragging)
+		}
+	}, [dragging, runAnimateScale, status])
 
-    useEffect(
-        () => () => {
-            cancelAnimation(translateSharedValue)
-        },
-        [translateSharedValue]
-    )
+	useEffect(
+		() => () => {
+			cancelAnimation(translateSharedValue)
+		},
+		[translateSharedValue]
+	)
 
-    return {containerAnimatedStyle}
+	return {containerAnimatedStyle}
 }

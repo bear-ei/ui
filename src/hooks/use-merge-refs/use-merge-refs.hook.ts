@@ -1,12 +1,12 @@
 export const useMergeRefs =
-    <T>(refs: (React.Ref<T> | undefined)[]) =>
-    (value: T) =>
-        refs.forEach(ref => {
-            if (typeof ref === 'function') {
-                ref(value)
+	<T>(refs: (React.Ref<T> | undefined)[]) =>
+	(value: T) =>
+		refs.forEach(ref => {
+			if (typeof ref === 'function') {
+				ref(value)
 
-                return
-            }
+				return
+			}
 
-            ;(ref as React.RefObject<T | null>).current = value
-        })
+			;(ref as React.RefObject<T | null>).current = value
+		})

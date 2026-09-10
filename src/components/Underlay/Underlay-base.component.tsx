@@ -9,55 +9,55 @@ import {RenderUnderlay} from './Underlay.render'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
 
 export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
-    (
-        {
-            active: rawActive,
-            activeAnimatedType,
-            activeScale,
-            defaultActive,
-            eventName: rawEventName,
-            opacities,
-            ...renderUnderlayProps
-        },
-        ref
-    ) => {
-        const [{status, eventName}, setState] = useImmer<UnderlayState>({status: COMPONENT_STATUS.IDLE})
-        const id = useId()
-        const isActive = rawActive ?? defaultActive
-        const onStateEventChange = useCallback(
-            (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleUnderlayStateChange({...options, state})(setState)(event),
-            [setState]
-        )
+	(
+		{
+			active: rawActive,
+			activeAnimatedType,
+			activeScale,
+			defaultActive,
+			eventName: rawEventName,
+			opacities,
+			...renderUnderlayProps
+		},
+		ref
+	) => {
+		const [{status, eventName}, setState] = useImmer<UnderlayState>({status: COMPONENT_STATUS.IDLE})
+		const id = useId()
+		const isActive = rawActive ?? defaultActive
+		const onStateEventChange = useCallback(
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleUnderlayStateChange({...options, state})(setState)(event),
+			[setState]
+		)
 
-        const interactionHandlers = useInteractionStateEvent({...renderUnderlayProps, onStateEventChange})
-        const {hoverLayerAnimatedStyle, activeLayerAnimatedStyle} = useUnderlayAnimated({
-            active: isActive,
-            activeAnimatedType,
-            activeScale,
-            eventName,
-            opacities,
-            status
-        })
+		const interactionHandlers = useInteractionStateEvent({...renderUnderlayProps, onStateEventChange})
+		const {hoverLayerAnimatedStyle, activeLayerAnimatedStyle} = useUnderlayAnimated({
+			active: isActive,
+			activeAnimatedType,
+			activeScale,
+			eventName,
+			opacities,
+			status
+		})
 
-        const runUnderlayEventName = useMemo(() => updateUnderlayEventName(setState), [setState])
+		const runUnderlayEventName = useMemo(() => updateUnderlayEventName(setState), [setState])
 
-        useEffect(() => {
-            runUnderlayEventName(rawEventName)
-        }, [rawEventName, runUnderlayEventName])
+		useEffect(() => {
+			runUnderlayEventName(rawEventName)
+		}, [rawEventName, runUnderlayEventName])
 
-        return (
-            <RenderUnderlay
-                {...renderUnderlayProps}
-                active={isActive}
-                activeLayerAnimatedStyle={activeLayerAnimatedStyle}
-                hoverLayerAnimatedStyle={hoverLayerAnimatedStyle}
-                id={id}
-                interactionHandlers={interactionHandlers}
-                ref={ref}
-            />
-        )
-    }
+		return (
+			<RenderUnderlay
+				{...renderUnderlayProps}
+				active={isActive}
+				activeLayerAnimatedStyle={activeLayerAnimatedStyle}
+				hoverLayerAnimatedStyle={hoverLayerAnimatedStyle}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				ref={ref}
+			/>
+		)
+	}
 )
 
 UnderlayBase.displayName = 'UnderlayBase'

@@ -5,10 +5,10 @@ import {DividerBase} from './Divider-base.component'
 import type {DividerProps} from './Divider.interface'
 
 const DividerWithRef = forwardRef<View, DividerProps>((props, ref) => (
-    <DividerBase
-        {...props}
-        ref={ref}
-    />
+	<DividerBase
+		{...props}
+		ref={ref}
+	/>
 ))
 
 DividerWithRef.displayName = 'DividerWithRef'

@@ -13,19 +13,19 @@ const withStorybook = require('@storybook/react-native/metro/withStorybook')
 const defaultConfig = getDefaultConfig(__dirname)
 const {assetExts, sourceExts} = defaultConfig.resolver
 const config = {
-    transformer: {
-        babelTransformerPath: require.resolve('react-native-svg-transformer/react-native')
-    },
-    resolver: {
-        assetExts: assetExts.filter(ext => ext !== 'svg'),
-        sourceExts: [...sourceExts, 'svg']
-    }
+	transformer: {
+		babelTransformerPath: require.resolve('react-native-svg-transformer/react-native')
+	},
+	resolver: {
+		assetExts: assetExts.filter(ext => ext !== 'svg'),
+		sourceExts: [...sourceExts, 'svg']
+	}
 }
 
 const finalConfig = mergeConfig(defaultConfig, config)
 const withStorybookConfig = withStorybook(finalConfig, {
-    enabled: true,
-    configPath: path.resolve(__dirname, './.rnstorybook')
+	enabled: true,
+	configPath: path.resolve(__dirname, './.rnstorybook')
 })
 
 module.exports = withNativeWind(withStorybookConfig, {input: './global.css'})

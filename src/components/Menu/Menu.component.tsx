@@ -5,10 +5,10 @@ import {MenuBase} from './Menu-base.component'
 import type {MenuProps} from './Menu.interface'
 
 const MenuWithRef = forwardRef<View, MenuProps>((props, ref) => (
-    <MenuBase
-        {...props}
-        ref={ref}
-    />
+	<MenuBase
+		{...props}
+		ref={ref}
+	/>
 ))
 
 MenuWithRef.displayName = 'MenuWithRef'

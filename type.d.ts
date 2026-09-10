@@ -1,14 +1,14 @@
 declare module '*.svg' {
-    import React from 'react'
-    import {SvgProps} from 'react-native-svg'
+	import React from 'react'
+	import {SvgProps} from 'react-native-svg'
 
-    const content: React.FC<SvgProps>
+	const content: React.FC<SvgProps>
 
-    export default content
+	export default content
 }
 
 declare module '*.css' {
-    const classes: {readonly [key: string]: string}
+	const classes: {readonly [key: string]: string}
 
-    export default classes
+	export default classes
 }

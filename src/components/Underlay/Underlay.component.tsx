@@ -5,10 +5,10 @@ import {UnderlayBase} from './Underlay-base.component'
 import type {UnderlayProps} from './Underlay.interface'
 
 const UnderlayWithRef = forwardRef<View, UnderlayProps>((props, ref) => (
-    <UnderlayBase
-        {...props}
-        ref={ref}
-    />
+	<UnderlayBase
+		{...props}
+		ref={ref}
+	/>
 ))
 
 UnderlayWithRef.displayName = 'UnderlayWithRef'

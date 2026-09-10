@@ -1,4 +1,4 @@
 export interface TypographyClassesOptions {
-    colorClasses?: string
-    fontFamilyClasses?: string
+	colorClasses?: string
+	fontFamilyClasses?: string
 }

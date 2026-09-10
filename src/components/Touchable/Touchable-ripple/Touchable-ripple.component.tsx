@@ -6,14 +6,14 @@ import {compareTouchableRippleProps} from './Touchable-ripple.handler'
 import type {TouchableRippleProps} from './Touchable-ripple.interface'
 
 const TouchableRippleWithRef = forwardRef<View, TouchableRippleProps>((props, ref) => (
-    <TouchableRippleBase
-        {...props}
-        ref={ref}
-    />
+	<TouchableRippleBase
+		{...props}
+		ref={ref}
+	/>
 ))
 
 TouchableRippleWithRef.displayName = 'TouchableRippleWithRef'
 
 export const TouchableRipple = typedMemo(TouchableRippleWithRef)((prevProps, nextProps) =>
-    compareTouchableRippleProps(prevProps)(nextProps)
+	compareTouchableRippleProps(prevProps)(nextProps)
 )

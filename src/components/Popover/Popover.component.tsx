@@ -5,10 +5,10 @@ import {PopoverBase} from './Popover-base.component'
 import type {PopoverProps} from './Popover.interface'
 
 const PopoverWithRef = forwardRef<View, PopoverProps>((props, ref) => (
-    <PopoverBase
-        {...props}
-        ref={ref}
-    />
+	<PopoverBase
+		{...props}
+		ref={ref}
+	/>
 ))
 
 PopoverWithRef.displayName = 'PopoverWithRef'

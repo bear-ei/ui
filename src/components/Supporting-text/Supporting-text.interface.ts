@@ -4,14 +4,14 @@ import type {AnimatedStyle} from 'react-native-reanimated'
 import type {LayoutAnimatedProps} from '../Layout-animated'
 
 export interface SupportingTextProps extends LayoutAnimatedProps {
-    alignment?: Alignment
-    disabled?: boolean
-    error?: boolean
+	alignment?: Alignment
+	disabled?: boolean
+	error?: boolean
 }
 
 export type SupportingTextBaseProps = SupportingTextProps
 export interface RenderSupportingTextProps extends SupportingTextProps {
-    textAnimatedStyle: AnimatedStyle<TextStyle>
+	textAnimatedStyle: AnimatedStyle<TextStyle>
 }
 
 export type UseSupportingTextOptions = Pick<SupportingTextProps, 'disabled' | 'error'>

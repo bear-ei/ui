@@ -5,10 +5,10 @@ import {MaskBase} from './Mask-base.component'
 import type {MaskProps} from './Mask.interface'
 
 const MaskWithRef = forwardRef<View, MaskProps>((props, ref) => (
-    <MaskBase
-        {...props}
-        ref={ref}
-    />
+	<MaskBase
+		{...props}
+		ref={ref}
+	/>
 ))
 
 MaskWithRef.displayName = 'MaskWithRef'

@@ -5,10 +5,10 @@ import {SearchBase} from './Search-base.component'
 import type {SearchProps} from './Search.interface'
 
 const SearchWithRef = forwardRef<RNTextInput, SearchProps>((props, ref) => (
-    <SearchBase
-        {...props}
-        ref={ref}
-    />
+	<SearchBase
+		{...props}
+		ref={ref}
+	/>
 ))
 
 SearchWithRef.displayName = 'SearchWithRef'

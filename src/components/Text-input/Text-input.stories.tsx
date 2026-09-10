@@ -6,61 +6,61 @@ import {TextInput} from './Text-input.component'
 import type {TextInputProps} from './Text-input.interface'
 
 export const Filled: StoryObj<TextInputProps> = {
-    args: {}
+	args: {}
 }
 
 export const Leading: StoryObj<TextInputProps> = {
-    args: {
-        supportingText: 'supportingText',
-        leading: <Circle />
-    }
+	args: {
+		supportingText: 'supportingText',
+		leading: <Circle />
+	}
 }
 
 export const Trailing: StoryObj<TextInputProps> = {
-    args: {
-        supportingText: 'supportingText',
-        trailing: <IconButton />
-    }
+	args: {
+		supportingText: 'supportingText',
+		trailing: <IconButton />
+	}
 }
 
 export const Err: StoryObj<TextInputProps> = {
-    args: {
-        error: true,
-        supportingText: 'supportingText'
-    }
+	args: {
+		error: true,
+		supportingText: 'supportingText'
+	}
 }
 
 export const ExtraLarge: StoryObj<TextInputProps> = {
-    args: {
-        size: SIZE.EXTRA_LARGE
-    }
+	args: {
+		size: SIZE.EXTRA_LARGE
+	}
 }
 
 export const LARGE: StoryObj<TextInputProps> = {
-    args: {
-        size: SIZE.LARGE
-    }
+	args: {
+		size: SIZE.LARGE
+	}
 }
 
 export const MEDIUM: StoryObj<TextInputProps> = {
-    args: {
-        size: SIZE.MEDIUM
-    }
+	args: {
+		size: SIZE.MEDIUM
+	}
 }
 
 export const SMALL: StoryObj<TextInputProps> = {
-    args: {
-        size: SIZE.SMALL
-    }
+	args: {
+		size: SIZE.SMALL
+	}
 }
 
 export const EXTRA_SMALL: StoryObj<TextInputProps> = {
-    args: {
-        size: SIZE.EXTRA_SMALL
-    }
+	args: {
+		size: SIZE.EXTRA_SMALL
+	}
 }
 
 export default {
-    title: 'components/TextInput',
-    component: TextInput
+	title: 'components/TextInput',
+	component: TextInput
 } as Meta<typeof TextInput>

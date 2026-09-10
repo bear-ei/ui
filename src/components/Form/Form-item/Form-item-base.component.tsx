@@ -6,75 +6,75 @@ import {useImmer} from 'use-immer'
 import type {FormErrors} from '../Form.interface'
 import {useFormContext} from '../use-form-context.hook'
 import {
-    applyFormItemStatusInitToDraft,
-    triggerFormItemShouldUpdate,
-    updateFormFieldValueIfChanged,
-    validateFormFieldOnBlur
+	applyFormItemStatusInitToDraft,
+	triggerFormItemShouldUpdate,
+	updateFormFieldValueIfChanged,
+	validateFormFieldOnBlur
 } from './Form-item.handler'
 import type {FormItemBaseProps, FormItemState} from './Form-item.interface'
 import {RenderFormItem} from './Form-item.render'
 
 export const FormItemBase = forwardRef<View, FormItemBaseProps>(
-    ({labelText, name, renderControl, rule, validatorOptions, ...renderFormItemProps}, ref) => {
-        const [{signOutEvent, status}, setState] = useImmer<FormItemState>({
-            shouldUpdate: {},
-            status: COMPONENT_STATUS.IDLE
-        })
+	({labelText, name, renderControl, rule, validatorOptions, ...renderFormItemProps}, ref) => {
+		const [{signOutEvent, status}, setState] = useImmer<FormItemState>({
+			shouldUpdate: {},
+			status: COMPONENT_STATUS.IDLE
+		})
 
-        const id = useId()
-        const {getFieldsError, getFieldsValue, getInitialValues, setFieldsValue, signInField, validateFields} =
-            useFormContext()
+		const id = useId()
+		const {getFieldsError, getFieldsValue, getInitialValues, setFieldsValue, signInField, validateFields} =
+			useFormContext()
 
-        const errors = getFieldsError(name) as ValidationError[]
-        const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
-        const storeValue = getFieldsValue(name)
-        const value = storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue)
-        const onComponentUpdate = useMemo(() => triggerFormItemShouldUpdate(setState), [setState])
-        const onValueChange = useMemo(
-            () => updateFormFieldValueIfChanged({setFieldsValue, storeValue})(name),
-            [name, setFieldsValue, storeValue]
-        )
+		const errors = getFieldsError(name) as ValidationError[]
+		const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
+		const storeValue = getFieldsValue(name)
+		const value = storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue)
+		const onComponentUpdate = useMemo(() => triggerFormItemShouldUpdate(setState), [setState])
+		const onValueChange = useMemo(
+			() => updateFormFieldValueIfChanged({setFieldsValue, storeValue})(name),
+			[name, setFieldsValue, storeValue]
+		)
 
-        const onBlur = useMemo(
-            () => validateFormFieldOnBlur(validateFields as (name?: string) => Promise<FormErrors<unknown>>)(name),
-            [name, validateFields]
-        )
-        const runApplyStatusInitToDraft = useMemo(
-            () =>
-                applyFormItemStatusInitToDraft({
-                    onComponentUpdate,
-                    rule,
-                    signInField,
-                    validatorOptions
-                })(setState),
-            [onComponentUpdate, rule, setState, signInField, validatorOptions]
-        )
+		const onBlur = useMemo(
+			() => validateFormFieldOnBlur(validateFields as (name?: string) => Promise<FormErrors<unknown>>)(name),
+			[name, validateFields]
+		)
+		const runApplyStatusInitToDraft = useMemo(
+			() =>
+				applyFormItemStatusInitToDraft({
+					onComponentUpdate,
+					rule,
+					signInField,
+					validatorOptions
+				})(setState),
+			[onComponentUpdate, rule, setState, signInField, validatorOptions]
+		)
 
-        const controlElement = useMemo(
-            () => renderControl?.({errorMessage, labelText, onBlur, onValueChange, value}),
-            [errorMessage, labelText, onBlur, onValueChange, renderControl, value]
-        )
+		const controlElement = useMemo(
+			() => renderControl?.({errorMessage, labelText, onBlur, onValueChange, value}),
+			[errorMessage, labelText, onBlur, onValueChange, renderControl, value]
+		)
 
-        useEffect(() => {
-            runApplyStatusInitToDraft(name)
-        }, [runApplyStatusInitToDraft, name])
+		useEffect(() => {
+			runApplyStatusInitToDraft(name)
+		}, [runApplyStatusInitToDraft, name])
 
-        useEffect(
-            () => () => {
-                signOutEvent?.()
-            },
-            [signOutEvent]
-        )
+		useEffect(
+			() => () => {
+				signOutEvent?.()
+			},
+			[signOutEvent]
+		)
 
-        return (
-            <RenderFormItem
-                {...renderFormItemProps}
-                controlElement={controlElement}
-                id={id}
-                ref={ref}
-            />
-        )
-    }
+		return (
+			<RenderFormItem
+				{...renderFormItemProps}
+				controlElement={controlElement}
+				id={id}
+				ref={ref}
+			/>
+		)
+	}
 )
 
 FormItemBase.displayName = 'FormItemBase'

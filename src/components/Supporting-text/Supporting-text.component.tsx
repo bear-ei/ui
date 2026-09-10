@@ -5,10 +5,10 @@ import {SupportingTextBase} from './Supporting-text-base.component'
 import type {SupportingTextProps} from './Supporting-text.interface'
 
 const SupportingTextWithRef = forwardRef<View, SupportingTextProps>((props, ref) => (
-    <SupportingTextBase
-        {...props}
-        ref={ref}
-    />
+	<SupportingTextBase
+		{...props}
+		ref={ref}
+	/>
 ))
 
 SupportingTextWithRef.displayName = 'SupportingTextWithRef'

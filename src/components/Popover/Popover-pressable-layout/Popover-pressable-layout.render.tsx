@@ -4,34 +4,34 @@ import {Platform, Pressable, View, type ViewStyle} from 'react-native'
 import type {RenderPopoverLayoutProps} from './Popover-pressable-layout.interface'
 
 export const RenderPopoverPressableLayout = forwardRef<View, RenderPopoverLayoutProps>(
-    ({containerLayout, id, ...pressableProps}, ref) => {
-        const {
-            height: containerHeight = 0,
-            width: containerWidth = 0,
-            x: containerX = 0,
-            y: containerY = 0
-        } = containerLayout ?? {}
+	({containerLayout, id, ...pressableProps}, ref) => {
+		const {
+			height: containerHeight = 0,
+			width: containerWidth = 0,
+			x: containerX = 0,
+			y: containerY = 0
+		} = containerLayout ?? {}
 
-        const pressableLayoutStyle = {
-            height: platformValue(containerHeight),
-            left: platformValue(containerX),
-            top: platformValue(containerY),
-            width: platformValue(containerWidth)
-        } as ViewStyle
+		const pressableLayoutStyle = {
+			height: platformValue(containerHeight),
+			left: platformValue(containerX),
+			top: platformValue(containerY),
+			width: platformValue(containerWidth)
+		} as ViewStyle
 
-        return (
-            <Pressable
-                {...pressableProps}
-                ref={ref}
-                className={classesName('z-50 min-h-6', {
-                    ['absolute']: Platform.OS !== 'web',
-                    ['fixed']: Platform.OS === 'web'
-                })}
-                style={[pressableLayoutStyle]}
-                testID={`popover__pressableLayout--${id}`}
-            />
-        )
-    }
+		return (
+			<Pressable
+				{...pressableProps}
+				ref={ref}
+				className={classesName('z-50 min-h-6', {
+					['absolute']: Platform.OS !== 'web',
+					['fixed']: Platform.OS === 'web'
+				})}
+				style={[pressableLayoutStyle]}
+				testID={`popover__pressableLayout--${id}`}
+			/>
+		)
+	}
 )
 
 RenderPopoverPressableLayout.displayName = 'RenderPopoverPressableLayout'

@@ -5,14 +5,14 @@ import type {Updater} from 'use-immer'
 import type {ListAffordanceButtonState} from './List-affordance-button.interface'
 
 export const handleListAffordanceButtonStateChange =
-    ({eventName}: HandleStateEventChangeOptions) =>
-    (setState: Updater<ListAffordanceButtonState>) =>
-    (_event: StateEvent) =>
-        eventName !== EVENT_NAME.LAYOUT &&
-        setState(draft => {
-            draft.eventName = eventName
-        })
+	({eventName}: HandleStateEventChangeOptions) =>
+	(setState: Updater<ListAffordanceButtonState>) =>
+	(_event: StateEvent) =>
+		eventName !== EVENT_NAME.LAYOUT &&
+		setState(draft => {
+			draft.eventName = eventName
+		})
 
 export const animateListAffordanceButton =
-    (animateSharedValueTo: AnimateSharedValueTo) => (colorSharedValue: SharedValue<number>) => (value: number) =>
-        animateSharedValueTo({sharedValue: colorSharedValue})(value)
+	(animateSharedValueTo: AnimateSharedValueTo) => (colorSharedValue: SharedValue<number>) => (value: number) =>
+		animateSharedValueTo({sharedValue: colorSharedValue})(value)

@@ -5,10 +5,10 @@ import {FABBase} from './FAB-base.component'
 import type {FABProps} from './FAB.interface'
 
 const FABWithRef = forwardRef<PressableType, FABProps>((props, ref) => (
-    <FABBase
-        {...props}
-        ref={ref}
-    />
+	<FABBase
+		{...props}
+		ref={ref}
+	/>
 ))
 
 FABWithRef.displayName = 'FABWithRef'

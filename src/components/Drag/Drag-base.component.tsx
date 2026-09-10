@@ -9,42 +9,42 @@ import {RenderDrag} from './Drag.render'
 import {useDragAnimated} from './use-drag-animated.hook'
 
 export const DragBase = forwardRef<DragRef, DragBaseProps>(
-    ({width, height, onEnd, onStart, onUpdate, layoutType, offset, ...renderDragProps}, ref) => {
-        const [{layout}, setState] = useImmer<DragState>({layout: {} as LayoutRectangle})
-        const dragRef = useRef<DragRef>(null)
-        const id = useId()
-        const onLayoutChange = useMemo(() => updateDragLayout(setState), [setState])
-        const onStateEventChange = useCallback(
-            (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-                handleDragStateChange({...options, state})(onLayoutChange)(event),
-            [onLayoutChange]
-        )
+	({width, height, onEnd, onStart, onUpdate, layoutType, offset, ...renderDragProps}, ref) => {
+		const [{layout}, setState] = useImmer<DragState>({layout: {} as LayoutRectangle})
+		const dragRef = useRef<DragRef>(null)
+		const id = useId()
+		const onLayoutChange = useMemo(() => updateDragLayout(setState), [setState])
+		const onStateEventChange = useCallback(
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleDragStateChange({...options, state})(onLayoutChange)(event),
+			[onLayoutChange]
+		)
 
-        const interactionHandlers = useInteractionStateEvent({...renderDragProps, disabled: false, onStateEventChange})
-        const {animatedStyle, panGesture, runAnimate} = useDragAnimated({
-            height,
-            layout,
-            layoutType,
-            offset,
-            onEnd,
-            onStart,
-            onUpdate,
-            width
-        })
+		const interactionHandlers = useInteractionStateEvent({...renderDragProps, disabled: false, onStateEventChange})
+		const {animatedStyle, panGesture, runAnimate} = useDragAnimated({
+			height,
+			layout,
+			layoutType,
+			offset,
+			onEnd,
+			onStart,
+			onUpdate,
+			width
+		})
 
-        useImperativeHandle(ref, () => ({...(dragRef?.current ?? {}), reset: runAnimate}) as DragRef, [runAnimate])
+		useImperativeHandle(ref, () => ({...(dragRef?.current ?? {}), reset: runAnimate}) as DragRef, [runAnimate])
 
-        return (
-            <RenderDrag
-                {...renderDragProps}
-                animatedStyle={animatedStyle}
-                id={id}
-                interactionHandlers={interactionHandlers}
-                panGesture={panGesture}
-                ref={dragRef}
-            />
-        )
-    }
+		return (
+			<RenderDrag
+				{...renderDragProps}
+				animatedStyle={animatedStyle}
+				id={id}
+				interactionHandlers={interactionHandlers}
+				panGesture={panGesture}
+				ref={dragRef}
+			/>
+		)
+	}
 )
 
 DragBase.displayName = 'DragBase'

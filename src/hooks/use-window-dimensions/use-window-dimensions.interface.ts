@@ -1,3 +1,3 @@
 export interface UseWindowDimensionsOptions {
-    changeEventThrottle?: number
+	changeEventThrottle?: number
 }
