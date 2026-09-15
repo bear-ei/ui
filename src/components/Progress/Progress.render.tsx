@@ -1,4 +1,4 @@
-import {classesName} from '@/utils'
+import {classesName} from '../../utils'
 import {SIZE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {View} from 'react-native'

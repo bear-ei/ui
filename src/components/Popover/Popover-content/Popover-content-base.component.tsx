@@ -1,4 +1,4 @@
-import {type State} from '@/constants'
+import {type State} from '../../../constants'
 import {
 	type HandleStateEventChangeOptions,
 	type StateEvent,
@@ -6,7 +6,7 @@ import {
 	useInteractionStateEvent,
 	useTheme,
 	useWindowDimensions
-} from '@/hooks'
+} from '../../../hooks'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'

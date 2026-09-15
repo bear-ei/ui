@@ -1,5 +1,5 @@
-import {useAnimatedTiming, useTheme} from '@/hooks'
-import {platformValue} from '@/utils'
+import {useAnimatedTiming, useTheme} from '../../hooks'
+import {platformValue} from '../../utils'
 import {hexToRGBA} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'

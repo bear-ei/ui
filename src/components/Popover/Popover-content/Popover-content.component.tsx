@@ -1,4 +1,4 @@
-import {typedMemo} from '@/utils'
+import {typedMemo} from '../../../utils'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {PopoverContentBase} from './Popover-content-base.component'

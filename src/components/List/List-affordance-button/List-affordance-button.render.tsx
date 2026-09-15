@@ -1,13 +1,13 @@
-import {AnimatedText, AnimatedView} from '@/components/Animated-component'
-import {type PressableType, Touchable} from '@/components/Touchable'
-import {Underlay} from '@/components/Underlay'
-import {ICON_BUTTON_SIZE} from '@/constants'
-import {useTheme} from '@/hooks'
-import {classesName, platformValue, processIconSize, typographyClasses} from '@/utils'
+import {ICON_BUTTON_SIZE} from '../../../constants'
+import {useTheme} from '../../../hooks'
+import {classesName, platformValue, processIconSize, typographyClasses} from '../../../utils'
 import {SIZE, TYPOGRAPHY} from '@bearei/theme-token'
 import {cloneElement, forwardRef} from 'react'
 import {View} from 'react-native'
 import type {RenderListAffordanceButtonProps} from './List-affordance-button.interface'
+import {Touchable, type PressableType} from '../../Touchable'
+import {AnimatedText, AnimatedView} from '../../Animated-component'
+import {Underlay} from '../../Underlay'
 
 export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAffordanceButtonProps>(
 	(

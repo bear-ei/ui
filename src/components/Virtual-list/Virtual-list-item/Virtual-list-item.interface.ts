@@ -1,5 +1,4 @@
-import type {DragRef} from '@/components/Drag'
-import type {ComponentStatus} from '@/constants'
+import type {ComponentStatus} from '../../../constants'
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import type {
@@ -14,6 +13,7 @@ import type {
 	HandleDragUpdateOptions,
 	RenderVirtualListProps
 } from '../Virtual-list.interface'
+import type {DragRef} from '../../Drag'
 
 export interface Item {
 	dependencies?: string[]

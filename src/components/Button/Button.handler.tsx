@@ -1,9 +1,9 @@
-import {COMPONENT_STATUS, EVENT_NAME, type EventName, type State, STATE} from '@/constants'
-import type {Theme} from '@/contexts'
-import type {StateEvent} from '@/hooks'
 import type {WritableDraft} from 'immer'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName, type State, STATE} from '../../constants'
+import type {Theme} from '../../contexts'
+import type {StateEvent} from '../../hooks'
 import {ELEVATION, type ElevationLevel} from '../Elevation'
 import {BUTTON_TYPE} from './Button.enum'
 import type {

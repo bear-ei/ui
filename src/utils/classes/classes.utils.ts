@@ -1,4 +1,4 @@
-import type {ShapeType, TypographyType} from '@/constants'
+import type {ShapeType, TypographyType} from '../../constants'
 import {
 	createShape,
 	createTypography,

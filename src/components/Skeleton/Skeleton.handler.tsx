@@ -1,4 +1,4 @@
-import {debounce} from '@/utils'
+import {debounce} from '../../utils'
 import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {AnimateSkeletonOptions, SkeletonState} from './Skeleton.interface'

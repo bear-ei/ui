@@ -1,5 +1,5 @@
-import type {CommonProps, TriggerOn} from '@/constants'
-import type {InteractionHandlers} from '@/hooks'
+import type {CommonProps, TriggerOn} from '../../constants'
+import type {InteractionHandlers} from '../../hooks'
 import type {ForwardedRef, RefAttributes} from 'react'
 import type {ScrollView} from 'react-native'
 import type Animated from 'react-native-reanimated'

@@ -1,4 +1,4 @@
-import {LAYOUT} from '@/constants'
+import {LAYOUT} from '../../constants'
 import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
 import {LAYOUT_ANIMATED} from '../Layout-animated'

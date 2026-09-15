@@ -1,4 +1,4 @@
-import {textSearch} from '@/utils'
+import {textSearch} from '../../utils'
 import type {WritableDraft} from 'immer'
 import type {FocusEvent, NativeSyntheticEvent, TargetedEvent, TextInput} from 'react-native'
 import type {Updater} from 'use-immer'

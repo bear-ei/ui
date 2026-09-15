@@ -1,4 +1,4 @@
-import {useAnimatedTiming, useTheme} from '@/hooks'
+import {useAnimatedTiming, useTheme} from '../../hooks'
 import {EASING} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'

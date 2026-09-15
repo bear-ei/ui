@@ -1,7 +1,7 @@
-import {classesName, platformValue} from '@/utils'
 import {forwardRef} from 'react'
 import {Platform, Pressable, View, type ViewStyle} from 'react-native'
 import type {RenderPopoverLayoutProps} from './Popover-pressable-layout.interface'
+import {classesName, platformValue} from '../../../utils'
 
 export const RenderPopoverPressableLayout = forwardRef<View, RenderPopoverLayoutProps>(
 	({containerLayout, id, ...pressableProps}, ref) => {

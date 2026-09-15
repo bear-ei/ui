@@ -1,6 +1,5 @@
-import type {DragRef} from '@/components/Drag'
-import {COMPONENT_STATUS} from '@/constants'
-import {useClearComponentEvent} from '@/hooks'
+import {COMPONENT_STATUS} from '../../../constants'
+import {useClearComponentEvent} from '../../../hooks'
 import {forwardRef, useEffect, useId, useMemo, useRef} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
@@ -16,6 +15,7 @@ import {
 } from './Virtual-list-item.handler'
 import type {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
 import {RenderVirtualListItem} from './Virtual-list-item.render'
+import type {DragRef} from '../../Drag'
 
 export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
 	(

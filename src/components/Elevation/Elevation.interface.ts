@@ -1,7 +1,7 @@
-import type {CommonProps} from '@/constants'
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+import type {CommonProps} from '../../constants'
 import type {ELEVATION} from './Elevation.enum'
 
 export type ElevationLevel = (typeof ELEVATION)[keyof typeof ELEVATION]

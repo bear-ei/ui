@@ -1,4 +1,4 @@
-import {PopoverContent, PopoverPressableLayout} from '@/components'
+import {PopoverContent, PopoverPressableLayout} from '../../components'
 import mitt from 'mitt'
 import type {FC, RefAttributes} from 'react'
 import {useEffect, useMemo} from 'react'

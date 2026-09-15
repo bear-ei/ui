@@ -1,12 +1,12 @@
-import type {PressableType} from '@/components/Touchable'
-import type {State} from '@/constants'
-import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent} from '@/hooks'
+import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent} from '../../../hooks'
 import {forwardRef, useCallback, useId} from 'react'
 import {useImmer} from 'use-immer'
 import {handleListAffordanceButtonStateChange} from './List-affordance-button.handler'
 import type {ListAffordanceButtonBaseProps, ListAffordanceButtonState} from './List-affordance-button.interface'
 import {RenderListAffordanceButton} from './List-affordance-button.render'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
+import type {PressableType} from '../../Touchable'
+import type {State} from '../../../constants'
 
 export const ListAffordanceButtonBase = forwardRef<PressableType, ListAffordanceButtonBaseProps>(
 	({disabled, labelText = 'Label', backgroundVisible, ...renderListAffordanceButtonProps}, ref) => {

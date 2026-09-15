@@ -1,4 +1,4 @@
-import {LAYOUT} from '@/constants'
+import {LAYOUT} from '../../constants'
 import type {Meta} from '@storybook/react-native-web-vite'
 import {IsDefined, IsNotEmpty, IsNumberString} from 'class-validator'
 import {View} from 'react-native'

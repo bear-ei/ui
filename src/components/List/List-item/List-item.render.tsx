@@ -1,12 +1,3 @@
-import {AnimatedText, AnimatedView} from '@/components/Animated-component'
-import {Divider} from '@/components/Divider'
-import {ICON_BUTTON_TYPE, IconButton} from '@/components/Icon-button'
-import {LayoutAnimated} from '@/components/Layout-animated'
-import {Skeleton} from '@/components/Skeleton'
-import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
-import {EVENT_NAME, ICON_BUTTON_SIZE, LAYOUT, TRIGGER_ON} from '@/constants'
-import {useTheme} from '@/hooks'
-import {classesName, platformValue, processIconSize, shapeClasses, typographyClasses} from '@/utils'
 import {DURATION, EASING, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE, type Size} from '@bearei/theme-token'
 import {Ellipsis, X} from 'lucide-react-native'
 import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
@@ -15,6 +6,15 @@ import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import type {ListType} from '../List.interface'
 import type {ListItemRef, RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
+import {EVENT_NAME, ICON_BUTTON_SIZE, LAYOUT, TRIGGER_ON} from '../../../constants'
+import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
+import {useTheme} from '../../../hooks'
+import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
+import {classesName, platformValue, processIconSize, shapeClasses, typographyClasses} from '../../../utils'
+import {AnimatedText, AnimatedView} from '../../Animated-component'
+import {LayoutAnimated} from '../../Layout-animated'
+import {Divider} from '../../Divider'
+import {Skeleton} from '../../Skeleton'
 
 export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	afterAffordance,
@@ -235,11 +235,8 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 										['mr-2']: size === SIZE.MEDIUM,
 										['mr-3']: size === SIZE.EXTRA_LARGE,
 										['mr-[0.625rem]']: size === SIZE.LARGE,
-
 										['h-12 w-12']: size === SIZE.EXTRA_LARGE,
-
 										['h-10 w-10']: size === SIZE.LARGE,
-
 										['h-8 w-8']:
 											size && ([SIZE.MEDIUM, SIZE.SMALL] as readonly Size[]).includes(size),
 
@@ -297,9 +294,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 										['ml-3']: size === SIZE.EXTRA_LARGE,
 										['ml-[0.625rem]']: size === SIZE.LARGE,
 										['h-12 w-12']: size === SIZE.EXTRA_LARGE && trailingVisible,
-
 										['h-10 w-10']: size === SIZE.LARGE && trailingVisible,
-
 										['h-8 w-8']:
 											size &&
 											([SIZE.MEDIUM, SIZE.SMALL] as readonly Size[]).includes(size) &&
@@ -311,14 +306,8 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 								>
 									<LayoutAnimated
 										defaultVisible={!trailingTriggerOn}
-										entry={{
-											duration: DURATION.MEDIUM_1,
-											easing: EASING.EMPHASIZED_DECELERATE
-										}}
-										exit={{
-											duration: DURATION.SHORT_0,
-											easing: EASING.EMPHASIZED_ACCELERATE
-										}}
+										entry={{duration: DURATION.MEDIUM_1, easing: EASING.EMPHASIZED_DECELERATE}}
+										exit={{duration: DURATION.SHORT_0, easing: EASING.EMPHASIZED_ACCELERATE}}
 										lazy={closeTrailing}
 										testID={`listItem__trailing--${id}`}
 										unmount={true}

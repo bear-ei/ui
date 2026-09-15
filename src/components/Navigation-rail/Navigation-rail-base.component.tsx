@@ -1,4 +1,3 @@
-import {useClearComponentEvent} from '@/hooks'
 import {SIZE} from '@bearei/theme-token'
 import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
@@ -8,6 +7,7 @@ import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
 import {updateNavigationRailActiveKey, updateNavigationRailData} from './Navigation-rail.handler'
 import type {NavigationRailBaseProps, NavigationRailState} from './Navigation-rail.interface'
 import {RenderNavigationRail, RenderNavigationRailItems} from './Navigation-rail.render'
+import {useClearComponentEvent} from '../../hooks'
 
 export const NavigationRailBase = forwardRef<View, NavigationRailBaseProps>(
 	(

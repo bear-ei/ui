@@ -1,11 +1,11 @@
-import {LayoutAnimated} from '@/components/Layout-animated'
-import {classesName} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
 import {Check, X} from 'lucide-react-native'
 import {forwardRef} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
+import {classesName} from '../../../utils'
+import {LayoutAnimated} from '../../Layout-animated'
 
 export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAffordanceProps>(
 	(

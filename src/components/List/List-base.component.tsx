@@ -1,5 +1,5 @@
-import {LAYOUT} from '@/constants'
-import {useClearComponentEvent, useTheme} from '@/hooks'
+import {LAYOUT} from '../../constants'
+import {useClearComponentEvent, useTheme} from '../../hooks'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'

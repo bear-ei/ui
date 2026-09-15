@@ -1,5 +1,5 @@
-import {LAYOUT} from '@/constants'
-import {classesName} from '@/utils'
+import {LAYOUT} from '../../constants'
+import {classesName} from '../../utils'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {AnimatedView} from '../Animated-component'

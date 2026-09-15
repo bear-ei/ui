@@ -1,5 +1,5 @@
-import {TRIGGER_ON} from '@/constants'
-import {classesName} from '@/utils'
+import {TRIGGER_ON} from '../../constants'
+import {classesName} from '../../utils'
 import {SHAPE, SIZE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {TextInput} from 'react-native'

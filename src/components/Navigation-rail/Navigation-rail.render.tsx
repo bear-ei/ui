@@ -1,4 +1,4 @@
-import {classesName} from '@/utils'
+import {classesName} from '../../utils'
 import {forwardRef, type FC} from 'react'
 import {View} from 'react-native'
 import {NavigationRailItem} from './Navigation-rail-item'

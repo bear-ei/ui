@@ -1,6 +1,6 @@
-import {classesName, shapeClasses} from '@/utils'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+import {classesName, shapeClasses} from '../../utils'
 import {AnimatedView} from '../Animated-component'
 import type {RenderElevationProps} from './Elevation.interface'
 

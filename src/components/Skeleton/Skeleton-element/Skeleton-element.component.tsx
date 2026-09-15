@@ -1,4 +1,4 @@
-import {typedMemo} from '@/utils'
+import {typedMemo} from '../../../utils'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
 import {SkeletonElementBase} from './Skeleton-element-base.component'

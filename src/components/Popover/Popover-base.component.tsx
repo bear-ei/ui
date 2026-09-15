@@ -1,12 +1,12 @@
-import type {State} from '@/constants'
+import type {State} from '../../constants'
 import {
 	useClearComponentEvent,
 	useInteractionStateEvent,
 	useMergeRefs,
 	type HandleStateEventChangeOptions,
 	type StateEvent
-} from '@/hooks'
-import {debounce} from '@/utils'
+} from '../../hooks'
+import {debounce} from '../../utils'
 import {
 	cloneElement,
 	forwardRef,

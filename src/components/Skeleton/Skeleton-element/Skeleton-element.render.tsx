@@ -1,5 +1,5 @@
-import {LAYOUT} from '@/constants'
-import {classesName} from '@/utils'
+import {LAYOUT} from '../../../constants'
+import {classesName} from '../../../utils'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import type {RenderSkeletonElementProps} from './Skeleton-element.interface'

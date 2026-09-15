@@ -1,5 +1,5 @@
-import {useTheme} from '@/hooks'
-import {classesName} from '@/utils'
+import {useTheme} from '../../hooks'
+import {classesName} from '../../utils'
 import {hexToRGBA} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {Pressable, View, type ViewStyle} from 'react-native'

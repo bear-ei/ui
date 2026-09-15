@@ -1,16 +1,16 @@
-import type {ElevationLevel} from '@/components/Elevation'
-import type {ComponentStatus} from '@/constants'
-import type {Theme} from '@/contexts'
+import type {ComponentStatus} from '../../../constants'
+import type {Theme} from '../../../contexts'
 import type {
 	AnimateSharedValueTo,
 	HandleStateEventChangeOptions,
 	InteractionHandlers,
 	UseHandleStateEventOptions
-} from '@/hooks'
+} from '../../../hooks'
 import type {LayoutRectangle, ViewProps} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {PopoverContentPosition, PopoverProps} from '..'
+import type {ElevationLevel} from '../../Elevation'
 
 export interface PopoverContentProps
 	extends

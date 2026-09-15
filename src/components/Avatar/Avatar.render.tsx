@@ -1,7 +1,7 @@
-import {classesName, platformValue, shapeClasses, typographyClasses} from '@/utils'
 import {SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {cloneElement, forwardRef} from 'react'
 import {Image, Text, View, type ViewStyle} from 'react-native'
+import {classesName, platformValue, shapeClasses, typographyClasses} from '../../utils'
 import type {RenderAvatarProps} from './Avatar.interface'
 
 export const RenderAvatar = forwardRef<View, RenderAvatarProps>(

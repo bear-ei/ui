@@ -1,9 +1,9 @@
-import {POPOVER_TYPE} from '@/components/Popover'
-import {useTheme} from '@/hooks'
 import {forwardRef, useEffect, useId, useImperativeHandle, useRef} from 'react'
 import type {View} from 'react-native'
 import type {MenuListBaseProps} from './Menu-list.interface'
 import {RenderMenuList} from './Menu-list.render'
+import {useTheme} from '../../../hooks'
+import {POPOVER_TYPE} from '../../Popover'
 
 export const MenuListBase = forwardRef<View, MenuListBaseProps>(({visible, type, ...props}, ref) => {
 	const id = useId()

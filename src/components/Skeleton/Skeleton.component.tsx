@@ -1,4 +1,4 @@
-import {platformValue, typedMemo} from '@/utils'
+import {platformValue, typedMemo} from '../../utils'
 import {SHAPE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import type {View, ViewStyle} from 'react-native'

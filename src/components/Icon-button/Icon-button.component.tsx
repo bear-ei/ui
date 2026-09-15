@@ -1,4 +1,4 @@
-import {typedMemo} from '@/utils'
+import {typedMemo} from '../../utils'
 import {forwardRef} from 'react'
 import type {PressableType} from '../Touchable'
 import {IconButtonBase} from './Icon-button-base.component'

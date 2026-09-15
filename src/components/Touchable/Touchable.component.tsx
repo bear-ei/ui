@@ -1,4 +1,4 @@
-import {typedMemo} from '@/utils'
+import {typedMemo} from '../../utils'
 import {forwardRef} from 'react'
 import {TouchableBase} from './Touchable-base.component'
 import type {PressableType, TouchableProps} from './Touchable.interface'

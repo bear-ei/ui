@@ -1,4 +1,4 @@
-import {TRIGGER_ON} from '@/constants'
+import {TRIGGER_ON} from '../../constants'
 import {SIZE} from '@bearei/theme-token'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {Circle} from 'lucide-react-native'

@@ -1,4 +1,4 @@
-import {typedMemo} from '@/utils'
+import {typedMemo} from '../../../utils'
 import {forwardRef} from 'react'
 import {ListItemBase} from './List-item-base.component'
 import {compareListItemProps} from './List-item.handler'

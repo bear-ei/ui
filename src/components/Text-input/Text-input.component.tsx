@@ -1,4 +1,4 @@
-import {typedMemo} from '@/utils'
+import {typedMemo} from '../../utils'
 import {forwardRef} from 'react'
 import type {TextInput as RNTextInput} from 'react-native'
 import {TextInputBase} from './Text-input-base.component'

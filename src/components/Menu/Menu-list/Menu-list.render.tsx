@@ -1,10 +1,10 @@
-import {List, LIST_SELECT_TYPE, LIST_TYPE} from '@/components/List'
-import {POPOVER_TYPE} from '@/components/Popover'
-import {classesName, platformValue} from '@/utils'
 import {SIZE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {Platform, View, type ViewStyle} from 'react-native'
 import type {RenderMenuListProps} from './Menu-list.interface'
+import {List, LIST_SELECT_TYPE, LIST_TYPE} from '../../List'
+import {classesName, platformValue} from '../../../utils'
+import {POPOVER_TYPE} from '../../Popover'
 
 export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
 	(

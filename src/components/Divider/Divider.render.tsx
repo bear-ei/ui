@@ -1,8 +1,8 @@
-import {LAYOUT} from '@/constants'
-import {classesName, typographyClasses} from '@/utils'
 import {SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {Text, View} from 'react-native'
+import {LAYOUT} from '../../constants'
+import {classesName, typographyClasses} from '../../utils'
 import type {RenderDividerProps} from './Divider.interface'
 
 export const RenderDivider = forwardRef<View, RenderDividerProps>(

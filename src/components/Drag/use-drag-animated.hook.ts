@@ -1,8 +1,8 @@
-import {useAnimatedTiming, useTheme, useWindowDimensions} from '@/hooks'
-import {platformValue} from '@/utils'
 import {useEffect, useMemo} from 'react'
 import {Gesture, MouseButton} from 'react-native-gesture-handler'
 import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {useAnimatedTiming, useTheme, useWindowDimensions} from '../../hooks'
+import {platformValue} from '../../utils'
 import {animateDrag, handlePanGestureEnd, updatePrevTranslate, updateTranslate} from './Drag.handler'
 import type {UseDragAnimatedOptions} from './Drag.interface'
 

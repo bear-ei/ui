@@ -1,8 +1,8 @@
-import type {TouchableProps} from '@/components/Touchable'
-import type {CommonProps, EventName} from '@/constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '@/hooks'
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+import type {CommonProps, EventName} from '../../../constants'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
+import type {TouchableProps} from '../../Touchable'
 
 export interface ListAffordanceButtonProps extends TouchableProps, CommonProps {
 	backgroundVisible?: boolean

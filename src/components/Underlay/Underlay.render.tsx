@@ -1,4 +1,4 @@
-import {classesName, shapeClasses} from '@/utils'
+import {classesName, shapeClasses} from '../../utils'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {AnimatedView} from '../Animated-component'

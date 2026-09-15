@@ -1,11 +1,11 @@
-import {AnimatedView} from '@/components/Animated-component'
-import {Drag} from '@/components/Drag'
-import {Elevation} from '@/components/Elevation'
-import {LAYOUT} from '@/constants'
-import {platformValue} from '@/utils'
+import {LAYOUT} from '../../../constants'
+import {platformValue} from '../../../utils'
 import {forwardRef} from 'react'
 import {View, type ViewStyle} from 'react-native'
 import type {RenderVirtualListItemProps} from './Virtual-list-item.interface'
+import {AnimatedView} from '../../Animated-component'
+import {Drag} from '../../Drag'
+import {Elevation} from '../../Elevation'
 
 export const RenderVirtualListItem = forwardRef<View, RenderVirtualListItemProps>(
 	(

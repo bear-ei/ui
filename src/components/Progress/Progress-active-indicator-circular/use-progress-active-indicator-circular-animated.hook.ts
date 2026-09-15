@@ -1,5 +1,5 @@
-import {COMPONENT_STATUS} from '@/constants'
-import {useAnimatedTiming, useTheme} from '@/hooks'
+import {COMPONENT_STATUS} from '../../../constants'
+import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {EASING} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'

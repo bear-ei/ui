@@ -1,5 +1,5 @@
-import type {Theme} from '@/contexts'
-import {arrayEqual} from '@/utils'
+import type {Theme} from '../../contexts'
+import {arrayEqual} from '../../utils'
 import {type Size, SIZE} from '@bearei/theme-token'
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'

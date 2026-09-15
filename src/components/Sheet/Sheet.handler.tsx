@@ -1,4 +1,4 @@
-import {emitter, MODAL_TYPE} from '@/contexts'
+import {emitter, MODAL_TYPE} from '../../contexts'
 import type {Updater} from 'use-immer'
 import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import type {

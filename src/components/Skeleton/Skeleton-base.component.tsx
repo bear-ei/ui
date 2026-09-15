@@ -1,4 +1,4 @@
-import {debounce} from '@/utils'
+import {debounce} from '../../utils'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'

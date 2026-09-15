@@ -1,5 +1,5 @@
-import type {Theme} from '@/contexts'
 import {type Size, SIZE} from '@bearei/theme-token'
+import type {Theme} from '../../contexts'
 
 export const processIconSize = (theme: Theme) => (size: Size) => {
 	const iconSize = {

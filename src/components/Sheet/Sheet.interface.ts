@@ -1,4 +1,4 @@
-import type {CommonProps} from '@/constants'
+import type {CommonProps} from '../../constants'
 import type {RefAttributes} from 'react'
 import type {ModalProps, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import type {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from './Sheet.enum'

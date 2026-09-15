@@ -1,5 +1,5 @@
-import type {EventName, TriggerOn} from '@/constants'
-import type {HandleStateEventChangeOptions} from '@/hooks'
+import type {EventName, TriggerOn} from '../../constants'
+import type {HandleStateEventChangeOptions} from '../../hooks'
 import type {ShapeType} from '@bearei/theme-token'
 import type {JSX, RefAttributes} from 'react'
 import type {LayoutRectangle, MouseEvent, TextInput, View, ViewProps} from 'react-native'

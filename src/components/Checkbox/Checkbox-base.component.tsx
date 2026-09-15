@@ -1,12 +1,12 @@
-import {COMPONENT_STATUS, type State} from '@/constants'
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {useImmer} from 'use-immer'
+import {COMPONENT_STATUS, type State} from '../../constants'
 import {
 	type HandleStateEventChangeOptions,
 	type StateEvent,
 	useClearComponentEvent,
 	useInteractionStateEvent
-} from '@/hooks'
-import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
-import {useImmer} from 'use-immer'
+} from '../../hooks'
 import type {PressableType} from '../Touchable'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import {

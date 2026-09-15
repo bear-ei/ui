@@ -1,10 +1,10 @@
-import type {CommonProps, ComponentStatus, ContentSize, LayoutRectangle} from '@/constants'
+import type {CommonProps, ComponentStatus, ContentSize, LayoutRectangle} from '../../constants'
 import type {
 	AnimatedTimingOptions,
 	AnimateSharedValueTo,
 	HandleStateEventChangeOptions,
 	InteractionHandlers
-} from '@/hooks'
+} from '../../hooks'
 import type {Duration, Easing} from '@bearei/theme-token'
 import type {RefAttributes} from 'react'
 import type {StyleProp, View, ViewProps, ViewStyle} from 'react-native'

@@ -1,4 +1,4 @@
-import type {EventName, State} from '@/constants'
+import type {EventName, State} from '../../constants'
 import type {
 	BlurEvent,
 	FocusEvent,

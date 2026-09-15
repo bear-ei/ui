@@ -1,5 +1,5 @@
-import {COMPONENT_STATUS, STATE} from '@/constants'
-import {useAnimatedTiming, useTheme} from '@/hooks'
+import {COMPONENT_STATUS, STATE} from '../../constants'
+import {useAnimatedTiming, useTheme} from '../../hooks'
 import {hexToRGBA} from '@bearei/theme-token'
 import {useCallback, useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'

@@ -1,4 +1,4 @@
-import {LAYOUT} from '@/constants'
+import {LAYOUT} from '../../constants'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {Circle, Rectangular, Skeleton, Square} from './Skeleton.component'
 import type {SkeletonProps} from './Skeleton.interface'

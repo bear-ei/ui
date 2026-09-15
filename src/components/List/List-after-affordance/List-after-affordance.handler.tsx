@@ -1,5 +1,5 @@
-import {COMPONENT_STATUS, EVENT_NAME} from '@/constants'
-import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '@/hooks'
+import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'

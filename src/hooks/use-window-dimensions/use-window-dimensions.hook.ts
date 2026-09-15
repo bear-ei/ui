@@ -1,4 +1,4 @@
-import {debounce} from '@/utils'
+import {debounce} from '../../utils'
 import {useEffect, useMemo} from 'react'
 import type {ScaledSize} from 'react-native'
 import {Dimensions} from 'react-native'

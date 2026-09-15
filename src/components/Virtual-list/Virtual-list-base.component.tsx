@@ -1,12 +1,12 @@
-import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '@/constants'
+import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../../constants'
 import {
 	type HandleStateEventChangeOptions,
 	type StateEvent,
 	useClearComponentEvent,
 	useDesktopScrollEvent,
 	useInteractionStateEvent
-} from '@/hooks'
-import {debounce} from '@/utils'
+} from '../../hooks'
+import {debounce} from '../../utils'
 import type {ForwardedRef} from 'react'
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo} from 'react'
 import type {ScrollView} from 'react-native'

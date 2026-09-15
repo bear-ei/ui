@@ -1,6 +1,6 @@
-import {STATE, type State} from '@/constants'
 import {useCallback, useMemo} from 'react'
 import {Platform} from 'react-native'
+import {STATE, type State} from '../../constants'
 import {
 	createStableEventHandler,
 	handleBlurEvent,

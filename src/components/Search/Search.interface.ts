@@ -1,5 +1,5 @@
-import type {CommonProps} from '@/constants'
-import type {InteractionHandlers} from '@/hooks'
+import type {CommonProps} from '../../constants'
+import type {InteractionHandlers} from '../../hooks'
 import type {RefAttributes} from 'react'
 import type {PressableProps, TextInput, TextInputProps} from 'react-native'
 import type {ListItemData} from '../List'

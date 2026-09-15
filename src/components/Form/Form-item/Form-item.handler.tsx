@@ -1,6 +1,6 @@
-import {COMPONENT_STATUS} from '@/constants'
 import type {NativeSyntheticEvent, TargetedEvent} from 'react-native'
 import type {Updater} from 'use-immer'
+import {COMPONENT_STATUS} from '../../../constants'
 import type {FormErrors} from '../Form.interface'
 import type {
 	ApplyFormItemStatusInitToDraftOptions,

@@ -1,4 +1,4 @@
-import {typedMemo} from '@/utils'
+import {typedMemo} from '../../utils'
 import {forwardRef} from 'react'
 import type {ScrollView} from 'react-native'
 import {ListBase} from './List-base.component'

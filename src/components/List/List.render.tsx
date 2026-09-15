@@ -1,5 +1,5 @@
-import {LAYOUT} from '@/constants'
-import {classesName} from '@/utils'
+import {LAYOUT} from '../../constants'
+import {classesName} from '../../utils'
 import {forwardRef, type FC} from 'react'
 import {View, type ScrollView} from 'react-native'
 import {VirtualList} from '../Virtual-list'

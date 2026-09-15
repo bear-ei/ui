@@ -1,9 +1,9 @@
-import {AnimatedView} from '@/components/Animated-component'
-import {classesName, platformValue, shapeClasses} from '@/utils'
+import {classesName, platformValue, shapeClasses} from '../../../utils'
 import {SHAPE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {View, type ViewStyle} from 'react-native'
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
+import {AnimatedView} from '../../Animated-component'
 
 export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps>(
 	(

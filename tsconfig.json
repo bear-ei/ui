@@ -7,9 +7,6 @@
 		"experimentalDecorators": true,
 		"strictPropertyInitialization": false,
 		"verbatimModuleSyntax": true,
-		"paths": {
-			"@/*": ["./src/*"]
-		},
 		"types": ["nativewind/types"]
 	},
 	"include": ["**/*.ts", "**/*.tsx"],

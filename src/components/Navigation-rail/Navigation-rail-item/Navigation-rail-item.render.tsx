@@ -1,13 +1,13 @@
-import {AnimatedText, AnimatedView} from '@/components/Animated-component'
-import type {PressableType} from '@/components/Touchable'
-import {ACTIVE_ANIMATED, Underlay} from '@/components/Underlay'
-import {useTheme} from '@/hooks'
-import {classesName, typographyClasses} from '@/utils'
 import {SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {Pressable, View} from 'react-native'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
+import {classesName, typographyClasses} from '../../../utils'
+import {AnimatedText, AnimatedView} from '../../Animated-component'
+import type {PressableType} from '../../Touchable'
+import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
+import {useTheme} from '../../../hooks'
 
 export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigationRailItemProps>(
 	(
@@ -50,9 +50,7 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
 					testID={`navigationRailItem__touchable--${id}`}
 				>
 					<AnimatedView
-						{...(type !== NAVIGATION_RAIL_TYPE.BLOCK && {
-							style: [contentAnimatedStyle]
-						})}
+						{...(type !== NAVIGATION_RAIL_TYPE.BLOCK && {style: [contentAnimatedStyle]})}
 						className='flex flex-col items-center justify-center'
 						testID={`navigationRailItem__content--${id}`}
 					>

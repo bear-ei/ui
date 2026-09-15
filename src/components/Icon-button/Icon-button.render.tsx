@@ -1,5 +1,5 @@
-import {useTheme} from '@/hooks'
-import {classesName, platformValue, processIconSize, shapeClasses} from '@/utils'
+import {useTheme} from '../../hooks'
+import {classesName, platformValue, processIconSize, shapeClasses} from '../../utils'
 import {hexToRGBA, SHAPE, SIZE} from '@bearei/theme-token'
 import {Circle} from 'lucide-react-native'
 import {cloneElement, forwardRef, type FC} from 'react'
