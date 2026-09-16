@@ -1,3 +1,7 @@
+import type {ForwardedRef} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo} from 'react'
+import type {ScrollView} from 'react-native'
+import {useImmer} from 'use-immer'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../../constants'
 import {
 	type HandleStateEventChangeOptions,
@@ -7,10 +11,6 @@ import {
 	useInteractionStateEvent
 } from '../../hooks'
 import {debounce} from '../../utils'
-import type {ForwardedRef} from 'react'
-import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo} from 'react'
-import type {ScrollView} from 'react-native'
-import {useImmer} from 'use-immer'
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
 	closeVirtualList,

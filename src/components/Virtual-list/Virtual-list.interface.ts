@@ -1,5 +1,3 @@
-import type {ComponentStatus, LayoutRectangle, LayoutType, ShapeType} from '../../constants'
-import type {InteractionHandlers} from '../../hooks'
 import type {RefAttributes} from 'react'
 import type {ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
 import type {
@@ -9,6 +7,8 @@ import type {
 } from 'react-native-gesture-handler'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+import type {ComponentStatus, LayoutRectangle, LayoutType, ShapeType} from '../../constants'
+import type {InteractionHandlers} from '../../hooks'
 import type {RenderVirtualListItemInfo} from './Virtual-list-item'
 
 export type VirtualListData<T = Record<string, unknown>> = T & {
