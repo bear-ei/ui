@@ -1,5 +1,3 @@
-import {COMPONENT_STATUS} from '../../../constants'
-import type {AnimateSharedValueTo} from '../../../hooks'
 import type {
 	GestureStateChangeEvent,
 	GestureUpdateEvent,
@@ -7,6 +5,8 @@ import type {
 } from 'react-native-gesture-handler'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+import {COMPONENT_STATUS} from '../../../constants'
+import type {AnimateSharedValueTo} from '../../../hooks'
 import type {HandleDragUpdateOptions} from '../Virtual-list.interface'
 import type {
 	HandleVirtualListItemDragEndOptions,

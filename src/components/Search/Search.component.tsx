@@ -1,6 +1,6 @@
-import {typedMemo} from '../../utils'
 import {forwardRef} from 'react'
 import type {TextInput as RNTextInput} from 'react-native'
+import {typedMemo} from '../../utils'
 import {SearchBase} from './Search-base.component'
 import type {SearchProps} from './Search.interface'
 

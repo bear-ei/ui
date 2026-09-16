@@ -1,7 +1,7 @@
-import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {hexToRGBA} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {animateSearchBorderRadius, animateSearchColor} from './Search-text-input.handler'
 import type {UseSearchTextInputAnimatedOptions} from './Search-text-input.interface'
 

@@ -1,8 +1,8 @@
-import type {CommonProps, ComponentStatus, ContentSize, EventName, State} from '../../constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {RefAttributes, RefObject} from 'react'
 import type {PressableProps, TextInputProps as RNTextInputProps, TextInput, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {CommonProps, ComponentStatus, ContentSize, EventName, State} from '../../constants'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {TEXT_INPUT_TYPE} from './Text-input.enum'
 
 export type TextInputType = (typeof TEXT_INPUT_TYPE)[keyof typeof TEXT_INPUT_TYPE]

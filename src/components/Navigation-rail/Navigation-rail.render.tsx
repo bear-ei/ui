@@ -1,6 +1,6 @@
-import {classesName} from '../../utils'
 import {forwardRef, type FC} from 'react'
 import {View} from 'react-native'
+import {classesName} from '../../utils'
 import {NavigationRailItem} from './Navigation-rail-item'
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
 import type {RenderNavigationRailItemOptions, RenderNavigationRailProps} from './Navigation-rail.interface'

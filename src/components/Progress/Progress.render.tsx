@@ -1,7 +1,7 @@
-import {classesName} from '../../utils'
 import {SIZE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+import {classesName} from '../../utils'
 import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circular'
 import {ProgressActiveIndicatorLinear} from './Progress-active-indicator-linear'
 import {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'

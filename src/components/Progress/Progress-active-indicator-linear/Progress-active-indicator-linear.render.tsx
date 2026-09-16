@@ -1,10 +1,10 @@
-import {classesName, shapeClasses} from '../../../utils'
 import {SHAPE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+import {classesName, shapeClasses} from '../../../utils'
+import {AnimatedView} from '../../Animated-component'
 import {PROGRESS_ANIMATED} from '../Progress.enum'
 import type {RenderProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear.interface'
-import {AnimatedView} from '../../Animated-component'
 
 export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgressActiveIndicatorLinearProps>(
 	({animatedType, contentAnimatedStyle, id, interactionHandlers, testID, ...containerProps}, ref) => {

@@ -1,6 +1,6 @@
-import {classesName, shapeClasses} from '../../utils'
 import {forwardRef, type FC} from 'react'
 import {Pressable, View} from 'react-native'
+import {classesName, shapeClasses} from '../../utils'
 import {TouchableRipple} from './Touchable-ripple'
 import type {PressableType, RenderTouchableProps, RenderTouchableRippleProps} from './Touchable.interface'
 

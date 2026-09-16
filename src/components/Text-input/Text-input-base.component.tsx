@@ -1,3 +1,6 @@
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import type {TextInput} from 'react-native'
+import {useImmer} from 'use-immer'
 import {COMPONENT_STATUS, type ContentSize, type State, STATE} from '../../constants'
 import {
 	type HandleStateEventChangeOptions,
@@ -6,9 +9,6 @@ import {
 	useInteractionStateEvent
 } from '../../hooks'
 import {debounce} from '../../utils'
-import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import type {TextInput} from 'react-native'
-import {useImmer} from 'use-immer'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
 	blurTextInputIfEditable,

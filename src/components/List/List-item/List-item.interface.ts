@@ -1,9 +1,9 @@
 import type {GestureResponderEvent, PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {ListProps} from '../List.interface'
-import type {PressableType, TouchableProps} from '../../Touchable'
 import type {ComponentStatus, EventName, State} from '../../../constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
+import type {PressableType, TouchableProps} from '../../Touchable'
+import type {ListProps} from '../List.interface'
 
 export interface ListItemRef extends PressableType {
 	active: () => void

@@ -1,7 +1,7 @@
-import {classesName} from '../../utils'
 import {isArray} from 'class-validator'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
+import {classesName} from '../../utils'
 import {AnimatedView} from '../Animated-component'
 import type {RenderLayoutAnimatedProps} from './Layout-animated.interface'
 

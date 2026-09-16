@@ -1,12 +1,3 @@
-import type {State} from '../../constants'
-import {
-	useClearComponentEvent,
-	useInteractionStateEvent,
-	useMergeRefs,
-	type HandleStateEventChangeOptions,
-	type StateEvent
-} from '../../hooks'
-import {debounce} from '../../utils'
 import {
 	cloneElement,
 	forwardRef,
@@ -22,6 +13,15 @@ import {
 } from 'react'
 import {TextInput, View} from 'react-native'
 import {useImmer} from 'use-immer'
+import type {State} from '../../constants'
+import {
+	useClearComponentEvent,
+	useInteractionStateEvent,
+	useMergeRefs,
+	type HandleStateEventChangeOptions,
+	type StateEvent
+} from '../../hooks'
+import {debounce} from '../../utils'
 import {POPOVER_TYPE} from './Popover.enum'
 import {
 	emitPopoverContent,

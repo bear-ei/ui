@@ -1,14 +1,14 @@
-import {ICON_BUTTON_SIZE} from '../../../constants'
-import {useTheme} from '../../../hooks'
-import {classesName, platformValue, processIconSize, typographyClasses} from '../../../utils'
 import {hexToRGBA, SHAPE, SIZE, TYPOGRAPHY, type Size} from '@bearei/theme-token'
 import {Search} from 'lucide-react-native'
 import {cloneElement, forwardRef} from 'react'
 import {Pressable, TextInput, View} from 'react-native'
-import type {RenderSearchTextInputProps} from './Search-text-input.interface'
+import {ICON_BUTTON_SIZE} from '../../../constants'
+import {useTheme} from '../../../hooks'
+import {classesName, platformValue, processIconSize, typographyClasses} from '../../../utils'
 import {AnimatedTextInput, AnimatedView} from '../../Animated-component'
 import {ICON_BUTTON_TYPE} from '../../Icon-button'
 import {Underlay} from '../../Underlay'
+import type {RenderSearchTextInputProps} from './Search-text-input.interface'
 
 export const RenderSearchTextInput = forwardRef<TextInput, RenderSearchTextInputProps>(
 	(

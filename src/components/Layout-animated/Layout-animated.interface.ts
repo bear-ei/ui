@@ -1,3 +1,7 @@
+import type {Duration, Easing} from '@bearei/theme-token'
+import type {RefAttributes} from 'react'
+import type {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
+import type {AnimatedStyle} from 'react-native-reanimated'
 import type {CommonProps, ComponentStatus, ContentSize, LayoutRectangle} from '../../constants'
 import type {
 	AnimatedTimingOptions,
@@ -5,10 +9,6 @@ import type {
 	HandleStateEventChangeOptions,
 	InteractionHandlers
 } from '../../hooks'
-import type {Duration, Easing} from '@bearei/theme-token'
-import type {RefAttributes} from 'react'
-import type {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
-import type {AnimatedStyle} from 'react-native-reanimated'
 import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]

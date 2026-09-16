@@ -1,7 +1,7 @@
-import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import {cancelAnimation} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import type {
 	AnimateProgressActiveIndicatorCircularSharedValues,
 	ProgressActiveIndicatorCircularState

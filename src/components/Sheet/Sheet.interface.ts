@@ -1,6 +1,6 @@
-import type {CommonProps} from '../../constants'
 import type {RefAttributes} from 'react'
 import type {ModalProps, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
+import type {CommonProps} from '../../constants'
 import type {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from './Sheet.enum'
 
 export type SheetType = (typeof SIDE_SHEET_TYPE)[keyof typeof SIDE_SHEET_TYPE]

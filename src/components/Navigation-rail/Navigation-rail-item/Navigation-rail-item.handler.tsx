@@ -1,4 +1,6 @@
 import type {Updater} from 'use-immer'
+import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
+import type {StateEvent} from '../../../hooks'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 import type {
 	AnimateNavigationRailItemOptions,
@@ -7,8 +9,6 @@ import type {
 	NavigationRailItemProps,
 	NavigationRailItemState
 } from './Navigation-rail-item.interface'
-import type {StateEvent} from '../../../hooks'
-import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
 
 export const compareNavigationRailItemProps =
 	(prevProps: NavigationRailItemProps) => (nextProps: NavigationRailItemProps) => {

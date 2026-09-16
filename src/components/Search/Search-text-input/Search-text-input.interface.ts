@@ -1,8 +1,8 @@
-import type {CommonProps, ComponentStatus, EventName, State} from '../../../constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {RefAttributes, RefObject} from 'react'
 import type {PressableProps, TextInput, TextInputProps, TextStyle, View, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {CommonProps, ComponentStatus, EventName, State} from '../../../constants'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {RenderSearchProps} from '../Search.interface'
 
 export interface SearchTextInputProps

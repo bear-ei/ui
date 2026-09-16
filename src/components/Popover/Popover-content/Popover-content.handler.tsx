@@ -1,9 +1,9 @@
-import {EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '../../../constants'
-import type {StateEvent} from '../../../hooks'
 import type {WritableDraft} from 'immer'
 import type {LayoutChangeEvent, View} from 'react-native'
 import type {Updater} from 'use-immer'
 import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverContentPosition} from '..'
+import {EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '../../../constants'
+import type {StateEvent} from '../../../hooks'
 import type {
 	GetSafeMenuPositionOptions,
 	HandlePopoverContentPositionWindowOptions,

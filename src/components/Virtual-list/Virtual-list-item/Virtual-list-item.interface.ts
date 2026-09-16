@@ -1,4 +1,3 @@
-import type {ComponentStatus} from '../../../constants'
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
 import type {
@@ -7,13 +6,14 @@ import type {
 	PanGestureHandlerEventPayload
 } from 'react-native-gesture-handler'
 import type {AnimatedStyle} from 'react-native-reanimated'
+import type {ComponentStatus} from '../../../constants'
+import type {DragRef} from '../../Drag'
 import type {
 	HandleDragEndOptions,
 	HandleDragStartOptions,
 	HandleDragUpdateOptions,
 	RenderVirtualListProps
 } from '../Virtual-list.interface'
-import type {DragRef} from '../../Drag'
 
 export interface Item {
 	dependencies?: string[]

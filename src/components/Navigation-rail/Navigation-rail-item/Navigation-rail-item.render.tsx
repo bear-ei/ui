@@ -1,13 +1,13 @@
 import {SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import {Pressable, View} from 'react-native'
-import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
-import type {RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
+import {useTheme} from '../../../hooks'
 import {classesName, typographyClasses} from '../../../utils'
 import {AnimatedText, AnimatedView} from '../../Animated-component'
 import type {PressableType} from '../../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
-import {useTheme} from '../../../hooks'
+import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
+import type {RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
 
 export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigationRailItemProps>(
 	(

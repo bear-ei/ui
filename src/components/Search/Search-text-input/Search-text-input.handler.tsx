@@ -1,7 +1,7 @@
-import {COMPONENT_STATUS, EVENT_NAME, STATE} from '../../../constants'
-import type {AnimateSharedValueTo, StateEvent} from '../../../hooks'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+import {COMPONENT_STATUS, EVENT_NAME, STATE} from '../../../constants'
+import type {AnimateSharedValueTo, StateEvent} from '../../../hooks'
 import type {
 	AnimateSearchTextInputBorderRadiusOptions,
 	HandleSearchTextInputStateChangeOptions,

@@ -1,9 +1,9 @@
-import {COMPONENT_STATUS} from '../../../constants'
-import {useAnimatedTiming, useTheme} from '../../../hooks'
-import {platformValue} from '../../../utils'
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {COMPONENT_STATUS} from '../../../constants'
+import {useAnimatedTiming, useTheme} from '../../../hooks'
+import {platformValue} from '../../../utils'
 import {animateTouchableRipple} from './Touchable-ripple.handler'
 import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
 

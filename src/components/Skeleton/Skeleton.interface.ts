@@ -1,8 +1,8 @@
-import type {LayoutType} from '../../constants'
-import type {AnimateSharedValueTo, HandleStateEventChangeOptions} from '../../hooks'
 import type {FC, ReactNode} from 'react'
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+import type {LayoutType} from '../../constants'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions} from '../../hooks'
 import type {LayoutAnimatedProps} from '../Layout-animated'
 import type {SkeletonElementProps} from './Skeleton-element'
 

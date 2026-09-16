@@ -1,8 +1,8 @@
-import {COMPONENT_STATUS, type State} from '../../../constants'
-import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent} from '../../../hooks'
 import {forwardRef, useCallback, useId} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+import {COMPONENT_STATUS, type State} from '../../../constants'
+import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent} from '../../../hooks'
 import {handleProgressStateChange} from './Progress-active-indicator-linear.handler'
 import type {
 	ProgressActiveIndicatorLinearBaseProps,

@@ -1,7 +1,7 @@
-import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {hexToRGBA} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {SIDE_SHEET_TYPE} from '../Sheet.enum'
 import {animateSheetContent} from './Sheet-content.handler'
 import type {UseSheetContentAnimatedOptions} from './Sheet-content.interface'

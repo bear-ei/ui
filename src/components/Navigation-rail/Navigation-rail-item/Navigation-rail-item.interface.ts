@@ -1,9 +1,9 @@
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import type {NavigationRailProps} from '../Navigation-rail.interface'
-import type {PressableType, TouchableProps} from '../../Touchable'
 import type {ComponentStatus, EventName} from '../../../constants'
 import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
+import type {PressableType, TouchableProps} from '../../Touchable'
+import type {NavigationRailProps} from '../Navigation-rail.interface'
 
 export interface NavigationRailItemProps
 	extends TouchableProps, Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {

@@ -1,9 +1,9 @@
-import {COMPONENT_STATUS, type State} from '../../../constants'
-import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent, useTheme} from '../../../hooks'
 import {SIZE} from '@bearei/theme-token'
 import {forwardRef, useCallback, useId} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+import {COMPONENT_STATUS, type State} from '../../../constants'
+import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent, useTheme} from '../../../hooks'
 import {handleProgressStateChange} from './Progress-active-indicator-circular.handler'
 import type {
 	ProgressActiveIndicatorCircularBaseProps,

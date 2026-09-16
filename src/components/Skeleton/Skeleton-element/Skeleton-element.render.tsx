@@ -1,7 +1,7 @@
-import {LAYOUT} from '../../../constants'
-import {classesName} from '../../../utils'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+import {LAYOUT} from '../../../constants'
+import {classesName} from '../../../utils'
 import type {RenderSkeletonElementProps} from './Skeleton-element.interface'
 
 export const RenderSkeletonElement = forwardRef<View, RenderSkeletonElementProps>(

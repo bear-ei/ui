@@ -1,8 +1,8 @@
-import type {ComponentStatus} from '../../../constants'
-import type {InteractionHandlers} from '../../../hooks'
 import type {RefAttributes} from 'react'
 import type {GestureResponderEvent, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+import type {ComponentStatus} from '../../../constants'
+import type {InteractionHandlers} from '../../../hooks'
 import type {ListItemProps} from '../List-item'
 
 export interface ListAfterAffordanceProps

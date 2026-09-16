@@ -1,8 +1,8 @@
 import type {PressableProps} from 'react-native'
+import type {InteractionHandlers} from '../../hooks'
 import type {ListType} from '../List'
 import type {PopoverProps, PopoverType} from '../Popover'
 import type {MenuListProps} from './Menu-list'
-import type {InteractionHandlers} from '../../hooks'
 
 export interface MenuProps extends Omit<PressableProps & PopoverProps & MenuListProps & InteractionHandlers, 'type'> {
 	keyCode?: string

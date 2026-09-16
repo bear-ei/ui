@@ -1,12 +1,6 @@
 import {Circle} from 'lucide-react-native'
 import {cloneElement, forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef} from 'react'
 import {useImmer} from 'use-immer'
-import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
-import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
-import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
-import {RenderNavigationRailItem} from './Navigation-rail-item.render'
-import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
-import type {PressableType} from '../../Touchable'
 import {COMPONENT_STATUS, type State} from '../../../constants'
 import {
 	useClearComponentEvent,
@@ -16,6 +10,12 @@ import {
 	type StateEvent
 } from '../../../hooks'
 import {platformValue} from '../../../utils'
+import type {PressableType} from '../../Touchable'
+import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
+import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
+import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
+import {RenderNavigationRailItem} from './Navigation-rail-item.render'
+import {useNavigationRailItemAnimated} from './use-navigation-rail-item-animated.hook'
 
 export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailItemBaseProps>(
 	(

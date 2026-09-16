@@ -1,7 +1,7 @@
-import type {CommonProps, EventName} from '../../constants'
-import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {CommonProps, EventName} from '../../constants'
+import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {TouchableProps} from '../Touchable'
 import type {ICON_BUTTON_TYPE} from './Icon-button.enum'
 

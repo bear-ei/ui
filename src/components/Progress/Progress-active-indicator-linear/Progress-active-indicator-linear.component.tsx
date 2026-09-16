@@ -1,6 +1,6 @@
-import {typedMemo} from '../../../utils'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
+import {typedMemo} from '../../../utils'
 import {ProgressActiveIndicatorLinearBase} from './Progress-active-indicator-linear-base.component'
 import type {ProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear.interface'
 

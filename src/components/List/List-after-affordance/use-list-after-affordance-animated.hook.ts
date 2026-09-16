@@ -1,11 +1,11 @@
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
-import {animateListAfterAffordance} from './List-after-affordance.handler'
-import type {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
+import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {platformValue} from '../../../utils'
-import {COMPONENT_STATUS} from '../../../constants'
+import {animateListAfterAffordance} from './List-after-affordance.handler'
+import type {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
 
 export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseListAfterAffordanceAnimatedOptions) => {
 	const translateXSharedValue = useSharedValue(0)

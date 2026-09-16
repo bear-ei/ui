@@ -1,8 +1,8 @@
-import {debounce} from '../../utils'
 import {useEffect, useMemo} from 'react'
 import type {ScaledSize} from 'react-native'
 import {Dimensions} from 'react-native'
 import {useImmer} from 'use-immer'
+import {debounce} from '../../utils'
 import {createDimensionsChangeListener, updateWindowScaledSize} from './use-window-dimensions.handler'
 import type {UseWindowDimensionsOptions} from './use-window-dimensions.interface'
 

@@ -1,4 +1,3 @@
-import type {EventName, State} from '../../constants'
 import type {
 	BlurEvent,
 	FocusEvent,
@@ -10,6 +9,7 @@ import type {
 	PressableProps,
 	TargetedEvent
 } from 'react-native'
+import type {EventName, State} from '../../constants'
 
 export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
 export interface UseHandleStateEventOptions extends Omit<InteractionHandlers, 'onBlur' | 'onFocus'> {

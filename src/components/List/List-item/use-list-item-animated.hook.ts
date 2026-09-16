@@ -2,11 +2,11 @@ import {hexToRGBA} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
-import {animateListItemActiveState, animateListItemAffordanceVisible} from './List-item.handler'
-import type {UseListItemAnimatedOptions} from './List-item.interface'
+import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {platformValue} from '../../../utils'
-import {COMPONENT_STATUS} from '../../../constants'
+import {animateListItemActiveState, animateListItemAffordanceVisible} from './List-item.handler'
+import type {UseListItemAnimatedOptions} from './List-item.interface'
 
 export const useListItemAnimated = ({active, afterAffordanceVisible, status}: UseListItemAnimatedOptions) => {
 	const theme = useTheme()

@@ -1,6 +1,6 @@
-import {useInteractionStateEvent} from '../../hooks'
 import React, {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
+import {useInteractionStateEvent} from '../../hooks'
 import type {MaskBaseProps} from './Mask.interface'
 import {RenderMask} from './Mask.render'
 

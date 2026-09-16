@@ -1,9 +1,9 @@
 import {DURATION, EASING} from '@bearei/theme-token'
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import type {RenderLayoutNavigationProps} from './Layout-navigation.interface'
-import {LayoutAnimated} from '../../Layout-animated'
 import {classesName} from '../../../utils'
+import {LayoutAnimated} from '../../Layout-animated'
+import type {RenderLayoutNavigationProps} from './Layout-navigation.interface'
 
 export const RenderLayoutNavigation = forwardRef<View, RenderLayoutNavigationProps>(
 	({children, id, testID, className, ...containerProps}, ref) => (

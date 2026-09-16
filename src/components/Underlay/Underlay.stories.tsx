@@ -1,7 +1,7 @@
-import {EVENT_NAME, type EventName} from '../../constants'
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {useState} from 'react'
 import {Pressable} from 'react-native'
+import {EVENT_NAME, type EventName} from '../../constants'
 import {Underlay} from './Underlay.component'
 import type {UnderlayProps} from './Underlay.interface'
 

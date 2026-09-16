@@ -1,7 +1,7 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import type {RenderPopoverProps} from './Popover.interface'
 import {classesName} from '../../utils'
+import type {RenderPopoverProps} from './Popover.interface'
 
 export const RenderPopover = forwardRef<View, RenderPopoverProps>(
 	({children, className, id, testID, ...containerProps}, ref) => (

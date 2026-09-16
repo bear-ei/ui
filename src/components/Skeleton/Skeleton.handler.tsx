@@ -1,6 +1,6 @@
-import {debounce} from '../../utils'
 import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+import {debounce} from '../../utils'
 import type {AnimateSkeletonOptions, SkeletonState} from './Skeleton.interface'
 
 const updateSkeletonVisible = (setState: Updater<SkeletonState>) => (duration?: number) => {

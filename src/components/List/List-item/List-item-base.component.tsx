@@ -1,3 +1,5 @@
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {useImmer} from 'use-immer'
 import {COMPONENT_STATUS, type State} from '../../../constants'
 import {
 	type HandleStateEventChangeOptions,
@@ -6,8 +8,6 @@ import {
 	useInteractionStateEvent
 } from '../../../hooks'
 import {debounce} from '../../../utils'
-import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import {useImmer} from 'use-immer'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
 	confirmListItemAffordanceAction,

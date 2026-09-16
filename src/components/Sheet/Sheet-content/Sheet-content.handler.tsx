@@ -1,5 +1,5 @@
-import type {AnimateSharedValueTo} from '../../../hooks'
 import type {SharedValue} from 'react-native-reanimated'
+import type {AnimateSharedValueTo} from '../../../hooks'
 
 export const animateSheetContent =
 	(animateSharedValueTo: AnimateSharedValueTo) =>

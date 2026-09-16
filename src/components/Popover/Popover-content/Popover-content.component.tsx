@@ -1,6 +1,6 @@
-import {typedMemo} from '../../../utils'
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+import {typedMemo} from '../../../utils'
 import {PopoverContentBase} from './Popover-content-base.component'
 import type {PopoverContentProps} from './Popover-content.interface'
 

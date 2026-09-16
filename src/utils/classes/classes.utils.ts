@@ -1,4 +1,3 @@
-import type {ShapeType, TypographyType} from '../../constants'
 import {
 	createShape,
 	createTypography,
@@ -11,6 +10,7 @@ import {
 } from '@bearei/theme-token'
 import {clsx, type ClassValue} from 'clsx'
 import {twMerge} from 'tailwind-merge'
+import type {ShapeType, TypographyType} from '../../constants'
 import type {TypographyClassesOptions} from './classes.interface'
 
 export const shapeClasses = (shape = SHAPE.NONE as ShapeType) => createShape()[shape]

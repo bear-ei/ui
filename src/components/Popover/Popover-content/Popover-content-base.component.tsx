@@ -1,3 +1,7 @@
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import type {LayoutRectangle, View} from 'react-native'
+import {useImmer} from 'use-immer'
+import {POPOVER_TYPE, type PopoverType} from '..'
 import {type State} from '../../../constants'
 import {
 	type HandleStateEventChangeOptions,
@@ -7,10 +11,6 @@ import {
 	useTheme,
 	useWindowDimensions
 } from '../../../hooks'
-import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import type {LayoutRectangle, View} from 'react-native'
-import {useImmer} from 'use-immer'
-import {POPOVER_TYPE, type PopoverType} from '..'
 import {
 	getPopoverContentPosition,
 	handleMaskPressOut,

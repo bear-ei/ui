@@ -1,7 +1,7 @@
-import type {CommonProps, LayoutRectangle} from '../../constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {RefAttributes} from 'react'
 import type {NativeTouchEvent, Pressable, PressableProps, StyleProp, View, ViewStyle} from 'react-native'
+import type {CommonProps, LayoutRectangle} from '../../constants'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {TouchableRippleProps} from './Touchable-ripple'
 
 export type PressableType = typeof Pressable & View

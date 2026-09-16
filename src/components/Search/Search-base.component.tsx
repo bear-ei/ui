@@ -1,7 +1,7 @@
-import {useClearComponentEvent} from '../../hooks'
 import {forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {TextInput} from 'react-native'
 import {useImmer} from 'use-immer'
+import {useClearComponentEvent} from '../../hooks'
 import {
 	handleSearchActiveKey,
 	handleSearchFocus,

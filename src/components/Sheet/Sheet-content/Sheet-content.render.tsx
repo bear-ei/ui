@@ -4,17 +4,17 @@ import {forwardRef, type FC} from 'react'
 import {Text, View} from 'react-native'
 import {useTheme} from '../../../hooks'
 import {classesName, shapeClasses, typographyClasses} from '../../../utils'
+import {AnimatedView} from '../../Animated-component'
+import {Button, BUTTON_TYPE} from '../../Button'
+import {Divider} from '../../Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
+import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
 import type {
 	RenderSheetContentLeadingProps,
 	RenderSheetContentProps,
 	RenderSheetContentTrailingProps
 } from './Sheet-content.interface'
-import {AnimatedView} from '../../Animated-component'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
-import {Divider} from '../../Divider'
-import {Button, BUTTON_TYPE} from '../../Button'
 
 export const RenderSheetContentLeading: FC<RenderSheetContentLeadingProps> = ({
 	back,
