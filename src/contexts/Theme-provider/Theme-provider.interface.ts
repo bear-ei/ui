@@ -1,13 +1,13 @@
 import type {ReactNode} from 'react'
-import type {Theme} from '../../theme'
+import type {Token} from '../../theme'
 
 export interface ThemeProviderProps {
 	children?: ReactNode
 	story?: boolean
-	theme?: Theme
+	token?: Token
 }
 
 export interface ThemeContextOptions {
 	colorScheme: 'light' | 'dark'
-	theme: Theme
+	token: Token
 }

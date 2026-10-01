@@ -1,6 +1,6 @@
 export * from './animated'
 export * from './color'
-export * from './core'
+export * from './token'
 export * from './elevation'
 export * from './font'
 export * from './palette'

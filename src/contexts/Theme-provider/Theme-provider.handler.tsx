@@ -1,5 +1,5 @@
 import {vars} from 'nativewind'
-import {SHAPE, SIZE, type Theme} from '../../theme'
+import {SHAPE, SIZE, type Token} from '../../theme'
 import {platformValue} from '../../utils'
 
 const TYPOGRAPHY_PLATFORM_VALUE_KEYS = [
@@ -39,7 +39,7 @@ const createCssVariables =
 			{}
 		)
 
-export const processStyleVariables = ({scheme, font, density, shape, typography}: Theme) =>
+export const processStyleVariables = ({scheme, font, density, shape, typography}: Token) =>
 	vars({
 		...createCssVariables(density.control)('density-control')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.icon)('density-icon')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),

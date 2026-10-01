@@ -8,18 +8,18 @@ import type {Palette} from '../palette'
 import type {ColorScheme, Scheme} from '../scheme'
 import type {Shape} from '../shape'
 import type {Typography} from '../typography'
-import type {PLATFORM, SIZE} from './core.enum'
+import type {PLATFORM, SIZE} from './token.enum'
 
 export type Platform = (typeof PLATFORM)[keyof typeof PLATFORM]
 export type Size = (typeof SIZE)[keyof typeof SIZE]
-export interface CreateThemeOptions {
+export interface CreateTokenOptions {
 	codeFontFamily?: string
 	density?: UIDensity
 	fontFamily?: string
 	platform?: Platform
 }
 
-export interface Theme {
+export interface Token {
 	animated: ReturnType<typeof createAnimatedConfig>
 	elevation: Elevation
 	font: Font

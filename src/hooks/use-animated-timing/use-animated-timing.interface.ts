@@ -1,5 +1,5 @@
-import type {Bezier, Duration, Easing, Token} from '@bearei/theme-token'
 import type {AnimationCallback, SharedValue, WithTimingConfig} from 'react-native-reanimated'
+import type {Bezier, Duration, Easing, Token} from '../../theme'
 
 export interface UseAnimatedTimingOptions {
 	disabledAnimated?: boolean

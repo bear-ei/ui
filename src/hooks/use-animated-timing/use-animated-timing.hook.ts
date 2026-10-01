@@ -1,4 +1,3 @@
-import {DURATION, EASING} from '@bearei/theme-token'
 import {useCallback} from 'react'
 import {scheduleOnRN} from 'react-native-worklets'
 import {createAnimatedTiming} from './use-animated-timing.handler'
@@ -8,6 +7,7 @@ import type {
 	AnimateSharedValueToOptions,
 	UseAnimatedTimingOptions
 } from './use-animated-timing.interface'
+import {DURATION, EASING} from '../../theme'
 
 export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 	const animatedTiming = useCallback(

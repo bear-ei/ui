@@ -5,20 +5,20 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import {ModalProvider} from '../Modal-provider'
 import {processStyleVariables} from './Theme-provider.handler'
 import type {ThemeContextOptions, ThemeProviderProps} from './Theme-provider.interface'
-import {CONTRAST, createTheme, PALETTE, SCHEME, type Theme} from '../../theme'
+import {CONTRAST, createToken, PALETTE, SCHEME, type Token} from '../../theme'
 
-export const ThemeContext = createContext<ThemeContextOptions>({colorScheme: 'light', theme: {} as Theme})
-export const ThemeProvider: FC<ThemeProviderProps> = ({children, theme: rawTheme}) => {
+export const ThemeContext = createContext<ThemeContextOptions>({colorScheme: 'light', token: {} as Token})
+export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken}) => {
 	const {colorScheme = 'light'} = useColorScheme()
 	const id = useId()
-	const theme =
-		rawTheme ??
-		createTheme()({contrast: CONTRAST.STANDARD, scheme: colorScheme === 'light' ? SCHEME.LIGHT : SCHEME.DARK})(
+	const token =
+		rawToken ??
+		createToken()({contrast: CONTRAST.STANDARD, scheme: colorScheme === 'light' ? SCHEME.LIGHT : SCHEME.DARK})(
 			PALETTE.NAVY
 		)
 
-	const providerTheme = useMemo(() => ({colorScheme, theme}), [colorScheme, theme])
-	const styleVariables = processStyleVariables(theme)
+	const providerTheme = useMemo(() => ({colorScheme, token}), [colorScheme, token])
+	const styleVariables = processStyleVariables(token)
 
 	console.info(styleVariables)
 

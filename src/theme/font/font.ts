@@ -1,4 +1,4 @@
-import {PLATFORM, type Platform} from '../core'
+import {PLATFORM, type Platform} from '../token'
 import type {Font} from './font.interface'
 
 export const createFont =

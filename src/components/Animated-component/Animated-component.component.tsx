@@ -1,4 +1,4 @@
-import {cssInterop} from 'nativewind'
+// import {cssInterop} from 'nativewind'
 import {TextInput} from 'react-native'
 import Animated from 'react-native-reanimated'
 

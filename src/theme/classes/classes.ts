@@ -104,7 +104,7 @@ export const typographyClasses =
 	(rawSize: Exclude<Size, 'NONE'> = SIZE.MEDIUM) =>
 	(
 		{
-			colorClasses = 'color-[--color-on-surface]',
+			colorClasses = 'text-[--color-on-surface]',
 			fontFamilyClasses = 'font-[family-name:var(--font-family)]'
 		} = {} as TypographyClassesOptions
 	) => {

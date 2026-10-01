@@ -1,4 +1,4 @@
-import {SIZE} from '../core'
+import {SIZE} from '../token'
 import {UI_DENSITY, type UIDensity} from '../density'
 import type {Font, FontLineHeight} from '../font'
 import {TYPOGRAPHY} from './typography.enum'

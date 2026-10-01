@@ -67,7 +67,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 							/>
 						:	<Text
 								className={classesName(
-									'color-[--color-on-primary-container]',
+									'text-[--color-on-primary-container]',
 									typographyClasses(TYPOGRAPHY.TITLE)(typeof size === 'number' ? SIZE.MEDIUM : size)()
 								)}
 								ellipsizeMode='tail'

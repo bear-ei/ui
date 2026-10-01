@@ -1,4 +1,4 @@
-import type {SIZE} from '../core'
+import type {SIZE} from '../token'
 import type {Font, FontHeight, FontLetterSpacing, FontSize} from '../font'
 import type {TYPOGRAPHY} from './typography.enum'
 

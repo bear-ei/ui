@@ -6,5 +6,5 @@ module.exports = {
 	presets: [require('nativewind/preset')],
 	theme: {extend: {}},
 	plugins: [],
-	safelist: ['bg-[--color-primary-container]']
+	safelist: []
 }

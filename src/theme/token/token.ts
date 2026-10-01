@@ -9,19 +9,19 @@ import {createPalette, PALETTE} from '../palette'
 import {createColorScheme, SCHEME} from '../scheme'
 import {createShape} from '../shape'
 import {createTypography} from '../typography'
-import {PLATFORM} from './core.enum'
-import type {PaletteOptions, Theme, CreateThemeOptions} from './core.interface'
+import {PLATFORM} from './token.enum'
+import type {PaletteOptions, Token, CreateTokenOptions} from './token.interface'
 
-export const createTheme = ({
+export const createToken = ({
 	codeFontFamily,
 	density = UI_DENSITY.COMPACT,
 	fontFamily,
 	platform = PLATFORM.MACOS
-}: CreateThemeOptions = {}) => {
+}: CreateTokenOptions = {}) => {
 	const font = createFont(fontFamily)(codeFontFamily)(platform)
 
 	return ({scheme = SCHEME.LIGHT, contrast = CONTRAST.STANDARD}: PaletteOptions = {}) =>
-		(palette: PaletteType = PALETTE.NAVY): Theme => {
+		(palette: PaletteType = PALETTE.NAVY): Token => {
 			const createdPalette = createPalette(palette)
 			const colorScheme = createColorScheme(createdPalette)(scheme)(contrast)
 
