@@ -3,15 +3,15 @@ import type {FC, RefAttributes} from 'react'
 import {useEffect, useMemo} from 'react'
 import {View, type ViewProps} from 'react-native'
 import {useImmer} from 'use-immer'
-import {PopoverContent, PopoverPressableLayout} from '../../components'
+// import {PopoverContent, PopoverPressableLayout} from '../../components'
 import {MODAL_TYPE} from './Modal-provider.enum'
 import {updateModals} from './Modal-provider.handler'
 import type {EmitterEvent, ModalItemProps, ModalProps, ModalState} from './Modal-provider.interface'
 
 const ModalItem: FC<ModalItemProps> = ({type, componentProps, testID}) => {
 	const component = {
-		[MODAL_TYPE.POPOVER]: PopoverContent,
-		[MODAL_TYPE.PRESSABLE_LAYOUT]: PopoverPressableLayout,
+		[MODAL_TYPE.POPOVER]: View,
+		[MODAL_TYPE.PRESSABLE_LAYOUT]: View,
 		[MODAL_TYPE.SIDE_SHEET]: View
 	}
 

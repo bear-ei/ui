@@ -37,8 +37,7 @@ export type FontSize =
 	'size0' | 'size1' | 'size2' | 'size3' | 'size4' | 'size5' | 'size6' | 'size7' | 'size8' | 'size9' | 'size10'
 
 export interface Font {
-	codeFontFamily: string
-	fontFamily: string
+	family: {codeFamily: string; family: string}
 	height: Record<FontHeight, number>
 	letterSpacing: Record<FontLetterSpacing, number>
 	lineHeight: Record<FontLineHeight, number>

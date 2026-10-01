@@ -21,7 +21,7 @@ export const createTheme = ({
 	const font = createFont(fontFamily)(codeFontFamily)(platform)
 
 	return ({scheme = SCHEME.LIGHT, contrast = CONTRAST.STANDARD}: PaletteOptions = {}) =>
-		(palette = PALETTE.NAVY as PaletteType): Theme => {
+		(palette: PaletteType = PALETTE.NAVY): Theme => {
 			const createdPalette = createPalette(palette)
 			const colorScheme = createColorScheme(createdPalette)(scheme)(contrast)
 

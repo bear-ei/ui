@@ -1,8 +1,8 @@
-import {SHAPE, SIZE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '@bearei/theme-token'
 import {cloneElement, forwardRef} from 'react'
 import {Image, Text, View, type ViewStyle} from 'react-native'
-import {classesName, platformValue, shapeClasses, typographyClasses} from '../../utils'
+import {platformValue} from '../../utils'
 import type {RenderAvatarProps} from './Avatar.interface'
+import {classesName, densityClasses, SHAPE, shapeClasses, SIZE, TYPOGRAPHY, typographyClasses} from '../../theme'
 
 export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 	(
@@ -36,13 +36,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 				accessible={true}
 				className={classesName(
 					'pointer-events-none relative overflow-hidden bg-[--color-primary-container]',
-					{
-						['h-10 w-10']: size === SIZE.MEDIUM,
-						['h-12 w-12']: size === SIZE.LARGE,
-						['h-14 w-14']: size === SIZE.EXTRA_LARGE,
-						['h-6 w-6']: size === SIZE.EXTRA_SMALL,
-						['h-8 w-8']: size === SIZE.SMALL
-					},
+					densityClasses(size),
 					shapeClasses(shape)
 				)}
 				ref={ref}
@@ -74,9 +68,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 						:	<Text
 								className={classesName(
 									'color-[--color-on-primary-container]',
-									typographyClasses(TYPOGRAPHY.TITLE)(
-										typeof size === 'number' ? TYPOGRAPHY_SIZE.MEDIUM : size
-									)()
+									typographyClasses(TYPOGRAPHY.TITLE)(typeof size === 'number' ? SIZE.MEDIUM : size)()
 								)}
 								ellipsizeMode='tail'
 								numberOfLines={1}

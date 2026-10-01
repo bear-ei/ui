@@ -1,221 +1,233 @@
 import {SHAPE} from './shape.enum'
 import type {Shape} from './shape.interface'
 
+const SHAPE_SIZE = {
+	[SHAPE.EXTRA_LARGE]: 28,
+	[SHAPE.EXTRA_SMALL]: 4,
+	[SHAPE.FULL]: 9999,
+	[SHAPE.LARGE]: 16,
+	[SHAPE.MEDIUM]: 12,
+	[SHAPE.NONE]: 0,
+	[SHAPE.SMALL]: 8,
+	[SHAPE.TINY_SMALL]: 2
+}
+
 export const createShape = (): Shape => ({
+	size: SHAPE_SIZE,
 	[SHAPE.TINY_SMALL]: {
-		bottomLeft: 2,
-		bottomRight: 2,
-		topLeft: 2,
-		topRight: 2
+		bottomLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
+		bottomRight: SHAPE_SIZE[SHAPE.TINY_SMALL],
+		topLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
+		topRight: SHAPE_SIZE[SHAPE.TINY_SMALL]
 	},
 	[SHAPE.TINY_SMALL_BOTTOM]: {
-		bottomLeft: 2,
-		bottomRight: 2,
-		topLeft: 0,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
+		bottomRight: SHAPE_SIZE[SHAPE.TINY_SMALL],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.TINY_SMALL_END]: {
-		bottomLeft: 0,
-		bottomRight: 2,
-		topLeft: 0,
-		topRight: 2
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.TINY_SMALL],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.TINY_SMALL]
 	},
 	[SHAPE.TINY_SMALL_START]: {
-		bottomLeft: 2,
-		bottomRight: 0,
-		topLeft: 2,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.TINY_SMALL_TOP]: {
-		bottomLeft: 0,
-		bottomRight: 0,
-		topLeft: 2,
-		topRight: 2
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
+		topRight: SHAPE_SIZE[SHAPE.TINY_SMALL]
 	},
 	[SHAPE.EXTRA_SMALL]: {
-		bottomLeft: 4,
-		bottomRight: 4,
-		topLeft: 4,
-		topRight: 4
+		bottomLeft: SHAPE_SIZE[SHAPE.EXTRA_SMALL],
+		bottomRight: SHAPE_SIZE[SHAPE.EXTRA_SMALL],
+		topLeft: SHAPE_SIZE[SHAPE.EXTRA_SMALL],
+		topRight: SHAPE_SIZE[SHAPE.EXTRA_SMALL]
 	},
 	[SHAPE.EXTRA_SMALL_BOTTOM]: {
-		bottomLeft: 4,
-		bottomRight: 4,
-		topLeft: 0,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.EXTRA_SMALL],
+		bottomRight: SHAPE_SIZE[SHAPE.EXTRA_SMALL],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.EXTRA_SMALL_END]: {
-		bottomLeft: 0,
-		bottomRight: 4,
-		topLeft: 0,
-		topRight: 4
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.EXTRA_SMALL],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.EXTRA_SMALL]
 	},
 	[SHAPE.EXTRA_SMALL_START]: {
-		bottomLeft: 4,
-		bottomRight: 0,
-		topLeft: 4,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.EXTRA_SMALL],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.EXTRA_SMALL],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.EXTRA_SMALL_TOP]: {
-		bottomLeft: 0,
-		bottomRight: 0,
-		topLeft: 4,
-		topRight: 4
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.EXTRA_SMALL],
+		topRight: SHAPE_SIZE[SHAPE.EXTRA_SMALL]
 	},
 	[SHAPE.SMALL]: {
-		bottomLeft: 8,
-		bottomRight: 8,
-		topLeft: 8,
-		topRight: 8
+		bottomLeft: SHAPE_SIZE[SHAPE.SMALL],
+		bottomRight: SHAPE_SIZE[SHAPE.SMALL],
+		topLeft: SHAPE_SIZE[SHAPE.SMALL],
+		topRight: SHAPE_SIZE[SHAPE.SMALL]
 	},
 	[SHAPE.SMALL_BOTTOM]: {
-		bottomLeft: 8,
-		bottomRight: 8,
-		topLeft: 0,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.SMALL],
+		bottomRight: SHAPE_SIZE[SHAPE.SMALL],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.SMALL_END]: {
-		bottomLeft: 0,
-		bottomRight: 8,
-		topLeft: 0,
-		topRight: 8
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.SMALL],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.SMALL]
 	},
 	[SHAPE.SMALL_START]: {
-		bottomLeft: 8,
-		bottomRight: 0,
-		topLeft: 8,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.SMALL],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.SMALL],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.SMALL_TOP]: {
-		bottomLeft: 0,
-		bottomRight: 0,
-		topLeft: 8,
-		topRight: 8
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.SMALL],
+		topRight: SHAPE_SIZE[SHAPE.SMALL]
 	},
 	[SHAPE.MEDIUM]: {
-		bottomLeft: 12,
-		bottomRight: 12,
-		topLeft: 12,
-		topRight: 12
+		bottomLeft: SHAPE_SIZE[SHAPE.MEDIUM],
+		bottomRight: SHAPE_SIZE[SHAPE.MEDIUM],
+		topLeft: SHAPE_SIZE[SHAPE.MEDIUM],
+		topRight: SHAPE_SIZE[SHAPE.MEDIUM]
 	},
 	[SHAPE.MEDIUM_BOTTOM]: {
-		bottomLeft: 12,
-		bottomRight: 12,
-		topLeft: 0,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.MEDIUM],
+		bottomRight: SHAPE_SIZE[SHAPE.MEDIUM],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.MEDIUM_END]: {
-		bottomLeft: 0,
-		bottomRight: 12,
-		topLeft: 0,
-		topRight: 12
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.MEDIUM],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.MEDIUM]
 	},
 	[SHAPE.MEDIUM_START]: {
-		bottomLeft: 12,
-		bottomRight: 0,
-		topLeft: 12,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.MEDIUM],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.MEDIUM],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.MEDIUM_TOP]: {
-		bottomLeft: 0,
-		bottomRight: 0,
-		topLeft: 12,
-		topRight: 12
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.MEDIUM],
+		topRight: SHAPE_SIZE[SHAPE.MEDIUM]
 	},
 	[SHAPE.LARGE]: {
-		bottomLeft: 16,
-		bottomRight: 16,
-		topLeft: 16,
-		topRight: 16
+		bottomLeft: SHAPE_SIZE[SHAPE.LARGE],
+		bottomRight: SHAPE_SIZE[SHAPE.LARGE],
+		topLeft: SHAPE_SIZE[SHAPE.LARGE],
+		topRight: SHAPE_SIZE[SHAPE.LARGE]
 	},
 	[SHAPE.LARGE_BOTTOM]: {
-		bottomLeft: 16,
-		bottomRight: 16,
-		topLeft: 0,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.LARGE],
+		bottomRight: SHAPE_SIZE[SHAPE.LARGE],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.LARGE_END]: {
-		bottomLeft: 0,
-		bottomRight: 16,
-		topLeft: 0,
-		topRight: 16
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.LARGE],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.LARGE]
 	},
 	[SHAPE.LARGE_START]: {
-		bottomLeft: 16,
-		bottomRight: 0,
-		topLeft: 16,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.LARGE],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.LARGE],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.LARGE_TOP]: {
-		bottomLeft: 0,
-		bottomRight: 0,
-		topLeft: 16,
-		topRight: 16
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.LARGE],
+		topRight: SHAPE_SIZE[SHAPE.LARGE]
 	},
 	[SHAPE.EXTRA_LARGE]: {
-		bottomLeft: 28,
-		bottomRight: 28,
-		topLeft: 28,
-		topRight: 28
+		bottomLeft: SHAPE_SIZE[SHAPE.EXTRA_LARGE],
+		bottomRight: SHAPE_SIZE[SHAPE.EXTRA_LARGE],
+		topLeft: SHAPE_SIZE[SHAPE.EXTRA_LARGE],
+		topRight: SHAPE_SIZE[SHAPE.EXTRA_LARGE]
 	},
 	[SHAPE.EXTRA_LARGE_BOTTOM]: {
-		bottomLeft: 28,
-		bottomRight: 28,
-		topLeft: 0,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.EXTRA_LARGE],
+		bottomRight: SHAPE_SIZE[SHAPE.EXTRA_LARGE],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.EXTRA_LARGE_END]: {
-		bottomLeft: 0,
-		bottomRight: 28,
-		topLeft: 0,
-		topRight: 28
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.EXTRA_LARGE],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.EXTRA_LARGE]
 	},
 	[SHAPE.EXTRA_LARGE_START]: {
-		bottomLeft: 28,
-		bottomRight: 0,
-		topLeft: 28,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.EXTRA_LARGE],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.EXTRA_LARGE],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.EXTRA_LARGE_TOP]: {
-		bottomLeft: 0,
-		bottomRight: 0,
-		topLeft: 28,
-		topRight: 28
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.EXTRA_LARGE],
+		topRight: SHAPE_SIZE[SHAPE.EXTRA_LARGE]
 	},
 	[SHAPE.FULL]: {
-		bottomLeft: 9999,
-		bottomRight: 9999,
-		topLeft: 9999,
-		topRight: 9999
+		bottomLeft: SHAPE_SIZE[SHAPE.FULL],
+		bottomRight: SHAPE_SIZE[SHAPE.FULL],
+		topLeft: SHAPE_SIZE[SHAPE.FULL],
+		topRight: SHAPE_SIZE[SHAPE.FULL]
 	},
 	[SHAPE.FULL_BOTTOM]: {
-		bottomLeft: 9999,
-		bottomRight: 9999,
-		topLeft: 0,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.FULL],
+		bottomRight: SHAPE_SIZE[SHAPE.FULL],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.FULL_END]: {
-		bottomLeft: 0,
-		bottomRight: 9999,
-		topLeft: 0,
-		topRight: 9999
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.FULL],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.FULL]
 	},
 	[SHAPE.FULL_START]: {
-		bottomLeft: 9999,
-		bottomRight: 0,
-		topLeft: 9999,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.FULL],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.FULL],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	},
 	[SHAPE.FULL_TOP]: {
-		bottomLeft: 0,
-		bottomRight: 0,
-		topLeft: 9999,
-		topRight: 9999
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.FULL],
+		topRight: SHAPE_SIZE[SHAPE.FULL]
 	},
 	[SHAPE.NONE]: {
-		bottomLeft: 0,
-		bottomRight: 0,
-		topLeft: 0,
-		topRight: 0
+		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
+		bottomRight: SHAPE_SIZE[SHAPE.NONE],
+		topLeft: SHAPE_SIZE[SHAPE.NONE],
+		topRight: SHAPE_SIZE[SHAPE.NONE]
 	}
 })

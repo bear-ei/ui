@@ -1,5 +1,5 @@
-import {pxToRem} from '@bearei/theme-token'
 import {Platform} from 'react-native'
+import {pxToRem} from '../px-to-rem'
 
 export const platformValue = (value: number) => {
 	'worklet'

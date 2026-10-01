@@ -1,5 +1,6 @@
+import type {SIZE} from '../core'
 import type {Font, FontHeight, FontLetterSpacing, FontSize} from '../font'
-import type {TYPOGRAPHY, TYPOGRAPHY_SIZE} from './typography.enum'
+import type {TYPOGRAPHY} from './typography.enum'
 
 export type TypographyType = (typeof TYPOGRAPHY)[keyof typeof TYPOGRAPHY]
 export interface CreateBuildStyleOptions {
@@ -12,23 +13,23 @@ export interface CreateBuildStyleOptions {
 
 export interface GetStyleOptions {
 	type: keyof typeof TYPOGRAPHY
-	size: keyof typeof TYPOGRAPHY_SIZE
+	size: keyof typeof SIZE
 }
 
 export interface FontStyle {
 	height: number
 	letterSpacing: number
 	lineHeight: number
-	prominent?: {weight: number}
+	prominentWeight?: number
 	size: number
 	style: string
 	weight: number
 }
 
 export interface TypographyStyle {
-	[TYPOGRAPHY_SIZE.LARGE]: FontStyle
-	[TYPOGRAPHY_SIZE.MEDIUM]: FontStyle
-	[TYPOGRAPHY_SIZE.SMALL]: FontStyle
+	[SIZE.LARGE]: FontStyle
+	[SIZE.MEDIUM]: FontStyle
+	[SIZE.SMALL]: FontStyle
 }
 
 export interface Typography {

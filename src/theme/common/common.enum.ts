@@ -1,7 +1,0 @@
-export const SIZE = {
-	EXTRA_LARGE: 'EXTRA_LARGE',
-	EXTRA_SMALL: 'EXTRA_SMALL',
-	LARGE: 'LARGE',
-	MEDIUM: 'MEDIUM',
-	SMALL: 'SMALL'
-} as const

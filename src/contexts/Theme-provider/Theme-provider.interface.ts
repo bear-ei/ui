@@ -1,17 +1,13 @@
-import type {Token} from '@bearei/theme-token'
 import type {ReactNode} from 'react'
+import type {Theme} from '../../theme'
 
 export interface ThemeProviderProps {
 	children?: ReactNode
 	story?: boolean
-	token?: Token
-}
-
-export interface Theme {
-	colorScheme: 'light' | 'dark'
-	token: Token
+	theme?: Theme
 }
 
 export interface ThemeContextOptions {
+	colorScheme: 'light' | 'dark'
 	theme: Theme
 }

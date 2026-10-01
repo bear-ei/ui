@@ -9,21 +9,26 @@ export const createFont =
 			[PLATFORM.ANDROID]: 'System',
 			[PLATFORM.IOS]: 'System',
 			[PLATFORM.MACOS]: 'SF Mono',
-			[PLATFORM.WEB]: `"source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace"`,
+			[PLATFORM.WEB]:
+				'Source Code Pro, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
 			[PLATFORM.WINDOWS]: 'System'
 		}
 
 		const platformFontFamily = {
 			[PLATFORM.ANDROID]: 'System',
 			[PLATFORM.IOS]: 'System',
-			[PLATFORM.MACOS]: `"-apple-system, BlinkMacSystemFont, 'PingFang SC'"`,
-			[PLATFORM.WEB]: `"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'"`,
+			[PLATFORM.MACOS]:
+				'-apple-system, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji',
+			[PLATFORM.WEB]:
+				'-apple-system, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji',
 			[PLATFORM.WINDOWS]: 'System'
 		}
 
 		return {
-			codeFontFamily: codeFontFamily ?? platformCodeFontFamily[platform] ?? 'System',
-			fontFamily: fontFamily ?? platformFontFamily[platform] ?? 'System',
+			family: {
+				codeFamily: codeFontFamily ?? platformCodeFontFamily[platform] ?? 'System',
+				family: fontFamily ?? platformFontFamily[platform] ?? 'System'
+			},
 			letterSpacing: {
 				letterSpacing0: -0.25,
 				letterSpacing1: 0,

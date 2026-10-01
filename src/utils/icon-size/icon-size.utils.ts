@@ -1,13 +1,13 @@
-import {type Size, SIZE} from '@bearei/theme-token'
-import type {Theme} from '../../contexts'
+import {SIZE, type Size, type Theme} from '../../theme'
 
 export const processIconSize = (theme: Theme) => (size: Size) => {
 	const iconSize = {
-		[SIZE.EXTRA_LARGE]: theme.token.spacing.extraSmall * 7,
-		[SIZE.EXTRA_SMALL]: theme.token.spacing.medium,
-		[SIZE.LARGE]: theme.token.spacing.large,
-		[SIZE.MEDIUM]: theme.token.spacing.extraSmall * 5,
-		[SIZE.SMALL]: theme.token.spacing.medium
+		[SIZE.EXTRA_LARGE]: theme.density.icon.EXTRA_SMALL * 7,
+		[SIZE.EXTRA_SMALL]: theme.density.icon.MEDIUM,
+		[SIZE.LARGE]: theme.density.icon.LARGE,
+		[SIZE.MEDIUM]: theme.density.icon.EXTRA_SMALL * 5,
+		[SIZE.NONE]: theme.density.icon.NONE,
+		[SIZE.SMALL]: theme.density.icon.MEDIUM
 	}
 
 	return iconSize[size]

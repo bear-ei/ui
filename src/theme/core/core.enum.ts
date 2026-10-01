@@ -5,3 +5,12 @@ export const PLATFORM = {
 	WEB: 'WEB',
 	WINDOWS: 'WINDOWS'
 } as const
+
+export const SIZE = {
+	EXTRA_LARGE: 'EXTRA_LARGE',
+	EXTRA_SMALL: 'EXTRA_SMALL',
+	LARGE: 'LARGE',
+	MEDIUM: 'MEDIUM',
+	NONE: 'NONE',
+	SMALL: 'SMALL'
+} as const

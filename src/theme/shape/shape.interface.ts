@@ -1,3 +1,4 @@
+import type {Size} from '../core'
 import type {SHAPE} from './shape.enum'
 
 export type ShapeType = (typeof SHAPE)[keyof typeof SHAPE]
@@ -9,6 +10,7 @@ export interface BorderRadius {
 }
 
 export interface Shape {
+	size: Record<Size | 'TINY_SMALL', number>
 	[SHAPE.TINY_SMALL_BOTTOM]: BorderRadius
 	[SHAPE.TINY_SMALL_END]: BorderRadius
 	[SHAPE.TINY_SMALL_START]: BorderRadius

@@ -1,18 +1,19 @@
+import {SIZE} from '../core'
 import {UI_DENSITY, WINDOW_SIZE} from './density.enum'
 import type {Spacing, UIDensity, WindowSize} from './density.interface'
 
 const createLayoutDensity = (compact: boolean) => (spacing: Spacing) => {
 	const layoutDensity = {
-		[WINDOW_SIZE.COMPACT]: spacing.medium,
-		[WINDOW_SIZE.EXPANDED]: spacing.large,
-		[WINDOW_SIZE.EXTRA_LARGE]: spacing.large,
-		[WINDOW_SIZE.LARGE]: spacing.large,
-		[WINDOW_SIZE.MEDIUM]: spacing.large
+		[WINDOW_SIZE.COMPACT]: spacing[SIZE.MEDIUM],
+		[WINDOW_SIZE.EXPANDED]: spacing[SIZE.LARGE],
+		[WINDOW_SIZE.EXTRA_LARGE]: spacing[SIZE.LARGE],
+		[WINDOW_SIZE.LARGE]: spacing[SIZE.LARGE],
+		[WINDOW_SIZE.MEDIUM]: spacing[SIZE.LARGE]
 	}
 
 	return (windowSize: WindowSize) => {
 		if (compact) {
-			return spacing.small
+			return spacing[SIZE.SMALL]
 		}
 
 		return layoutDensity[windowSize]
@@ -22,47 +23,46 @@ const createLayoutDensity = (compact: boolean) => (spacing: Spacing) => {
 export const createDensity = (density: UIDensity = UI_DENSITY.COMPACT) => {
 	const isCompact = density === UI_DENSITY.COMPACT
 	const spacing = {
-		extraLarge: isCompact ? 24 : 32,
-		extraSmall: 4,
-		large: isCompact ? 16 : 24,
-		medium: isCompact ? 12 : 16,
-		none: 0,
-		small: 8
+		[SIZE.EXTRA_LARGE]: isCompact ? 24 : 32,
+		[SIZE.EXTRA_SMALL]: 4,
+		[SIZE.LARGE]: isCompact ? 16 : 24,
+		[SIZE.MEDIUM]: isCompact ? 12 : 16,
+		[SIZE.NONE]: 0,
+		[SIZE.SMALL]: 8
 	}
 
 	const inset = {
-		extraLarge: isCompact ? 20 : 24,
-		extraSmall: isCompact ? 4 : 8,
-		large: isCompact ? 16 : 20,
-		medium: isCompact ? 12 : 16,
-		none: 0,
-		small: isCompact ? 8 : 12
+		[SIZE.EXTRA_LARGE]: isCompact ? 20 : 24,
+		[SIZE.EXTRA_SMALL]: isCompact ? 4 : 8,
+		[SIZE.LARGE]: isCompact ? 16 : 20,
+		[SIZE.MEDIUM]: isCompact ? 12 : 16,
+		[SIZE.NONE]: 0,
+		[SIZE.SMALL]: isCompact ? 8 : 12
 	}
 
-	const size = {
-		control: {
-			none: 0,
-			extraLarge: isCompact ? 40 : 56,
-			extraSmall: isCompact ? 24 : 32,
-			large: isCompact ? 36 : 48,
-			medium: isCompact ? 32 : 40,
-			small: isCompact ? 28 : 36
-		},
-		layout: {
-			detailPanelWidth: isCompact ? 260 : 320,
-			navigationWidth: isCompact ? 44 : 64,
-			sidebarWidth: isCompact ? 220 : 280
-		}
+	const control = {
+		[SIZE.NONE]: 0,
+		[SIZE.EXTRA_LARGE]: isCompact ? 40 : 56,
+		[SIZE.EXTRA_SMALL]: isCompact ? 24 : 32,
+		[SIZE.LARGE]: isCompact ? 36 : 48,
+		[SIZE.MEDIUM]: isCompact ? 32 : 40,
+		[SIZE.SMALL]: isCompact ? 28 : 36
+	}
+
+	const layout = {
+		detailPanelWidth: isCompact ? 260 : 320,
+		navigationWidth: isCompact ? 44 : 64,
+		sidebarWidth: isCompact ? 220 : 280
 	}
 
 	const icon = {
-		extraLarge: isCompact ? 24 : 28,
-		extraSmall: isCompact ? 14 : 16,
-		large: isCompact ? 20 : 24,
-		medium: isCompact ? 18 : 20,
-		none: 0,
-		small: isCompact ? 16 : 18
+		[SIZE.EXTRA_LARGE]: isCompact ? 24 : 28,
+		[SIZE.EXTRA_SMALL]: isCompact ? 14 : 16,
+		[SIZE.LARGE]: isCompact ? 20 : 24,
+		[SIZE.MEDIUM]: isCompact ? 18 : 20,
+		[SIZE.NONE]: 0,
+		[SIZE.SMALL]: isCompact ? 16 : 18
 	}
 
-	return {spacing, inset, size, icon, layoutDensity: createLayoutDensity(isCompact)(spacing)}
+	return {spacing, inset, control, icon, layout, layoutDensity: createLayoutDensity(isCompact)(spacing)}
 }

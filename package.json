@@ -32,7 +32,6 @@
 		"!**/test.*"
 	],
 	"dependencies": {
-		"@bearei/theme-token": "^1.2.6",
 		"clsx": "^2.1.1",
 		"lucide-react-native": "^0.545.0",
 		"mitt": "^3.0.1",

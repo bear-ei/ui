@@ -8,10 +8,11 @@ import type {Palette} from '../palette'
 import type {ColorScheme, Scheme} from '../scheme'
 import type {Shape} from '../shape'
 import type {Typography} from '../typography'
-import type {PLATFORM} from './core.enum'
+import type {PLATFORM, SIZE} from './core.enum'
 
 export type Platform = (typeof PLATFORM)[keyof typeof PLATFORM]
-export interface TokenOptions {
+export type Size = (typeof SIZE)[keyof typeof SIZE]
+export interface CreateThemeOptions {
 	codeFontFamily?: string
 	density?: UIDensity
 	fontFamily?: string
