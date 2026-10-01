@@ -1,0 +1,12 @@
+export const WINDOW_SIZE = {
+	COMPACT: 'COMPACT',
+	EXPANDED: 'EXPANDED',
+	EXTRA_LARGE: 'EXTRA_LARGE',
+	LARGE: 'LARGE',
+	MEDIUM: 'MEDIUM'
+} as const
+
+export const UI_DENSITY = {
+	COMPACT: 'COMPACT',
+	COMFORTABLE: 'COMFORTABLE'
+} as const

@@ -13,8 +13,3 @@ export interface Animated {
 	bezier: Bezier
 	duration: number
 }
-
-export interface CreateAnimatedConfigOptions {
-	easing?: Easing
-	speedScale?: number
-}
