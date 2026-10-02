@@ -1,6 +1,6 @@
 import {SIZE} from '../token'
 import {UI_DENSITY, WINDOW_SIZE} from './density.enum'
-import type {Spacing, UIDensity, WindowSize} from './density.interface'
+import type {Density, Spacing, UIDensity, WindowSize} from './density.interface'
 
 const createLayoutDensity = (compact: boolean) => (spacing: Spacing) => {
 	const layoutDensity = {
@@ -20,7 +20,7 @@ const createLayoutDensity = (compact: boolean) => (spacing: Spacing) => {
 	}
 }
 
-export const createDensity = (density: UIDensity = UI_DENSITY.COMPACT) => {
+export const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => {
 	const isCompact = density === UI_DENSITY.COMPACT
 	const spacing = {
 		[SIZE.EXTRA_LARGE]: isCompact ? 24 : 32,
@@ -64,5 +64,14 @@ export const createDensity = (density: UIDensity = UI_DENSITY.COMPACT) => {
 		[SIZE.SMALL]: isCompact ? 16 : 18
 	}
 
-	return {spacing, inset, control, icon, layout, layoutDensity: createLayoutDensity(isCompact)(spacing)}
+	const inline = {
+		[SIZE.NONE]: 0,
+		[SIZE.EXTRA_LARGE]: isCompact ? 40 : 56,
+		[SIZE.EXTRA_SMALL]: isCompact ? 24 : 32,
+		[SIZE.LARGE]: isCompact ? 36 : 48,
+		[SIZE.MEDIUM]: isCompact ? 32 : 40,
+		[SIZE.SMALL]: isCompact ? 28 : 36
+	}
+
+	return {spacing, inset, control, icon, layout, inline, layoutDensity: createLayoutDensity(isCompact)(spacing)}
 }

@@ -35,7 +35,7 @@
 		"clsx": "^2.1.1",
 		"lucide-react-native": "^0.545.0",
 		"mitt": "^3.0.1",
-		"nativewind": "^4.2.1",
+		"nativewind": "^4.2.7",
 		"tailwind-merge": "^3.4.0"
 	},
 	"devDependencies": {

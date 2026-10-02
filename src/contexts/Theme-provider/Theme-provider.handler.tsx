@@ -45,6 +45,7 @@ export const processStyleVariables = ({scheme, font, density, shape, typography}
 		...createCssVariables(density.icon)('density-icon')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.inset)('density-inset')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.layout)('density-layout')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables(density.inline)('density-inline')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.spacing)('density-spacing')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(font.family)('font')(),
 		...createCssVariables(scheme)('color')(),

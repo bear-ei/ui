@@ -2,7 +2,16 @@ import {cloneElement, forwardRef} from 'react'
 import {Image, Text, View, type ViewStyle} from 'react-native'
 import {platformValue} from '../../utils'
 import type {RenderAvatarProps} from './Avatar.interface'
-import {classesName, densityClasses, SHAPE, shapeClasses, SIZE, TYPOGRAPHY, typographyClasses} from '../../theme'
+import {
+	classesName,
+	DENSITY_TYPE,
+	densityClasses,
+	SHAPE,
+	shapeClasses,
+	SIZE,
+	TYPOGRAPHY,
+	typographyClasses
+} from '../../theme'
 
 export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 	(
@@ -36,7 +45,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 				accessible={true}
 				className={classesName(
 					'pointer-events-none relative overflow-hidden bg-[--color-primary-container]',
-					densityClasses(size),
+					densityClasses(DENSITY_TYPE.INLINE)(size),
 					shapeClasses(shape)
 				)}
 				ref={ref}

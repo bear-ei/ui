@@ -1,7 +1,16 @@
 import {clsx, type ClassValue} from 'clsx'
 import {twMerge} from 'tailwind-merge'
 import type {TypographyClassesOptions} from './classes.interface'
-import {SHAPE, SIZE, TYPOGRAPHY, type ShapeType, type Size, type TypographyType} from '../../theme'
+import {
+	DENSITY_TYPE,
+	SHAPE,
+	SIZE,
+	TYPOGRAPHY,
+	type DensityType,
+	type ShapeType,
+	type Size,
+	type TypographyType
+} from '../../theme'
 
 const SHAPE_TYPE = {
 	[SHAPE.EXTRA_LARGE_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-extra-large]',
@@ -94,9 +103,29 @@ const DENSITY_CONTROL = {
 	[SIZE.SMALL]: 'h-[--density-control-small] w-[--density-control-small]'
 }
 
+const DENSITY_INLINE = {
+	[SIZE.NONE]: 'h-[--density-inline-none] w-[--density-inline-none]',
+	[SIZE.EXTRA_LARGE]: 'h-[--density-inline-extra-large] w-[--density-inline-extra-large]',
+	[SIZE.EXTRA_SMALL]: 'h-[--density-inline-extra-small] w-[--density-inline-extra-small]',
+	[SIZE.LARGE]: 'h-[--density-inline-large] w-[--density-inline-large]',
+	[SIZE.MEDIUM]: 'h-[--density-inline-medium] w-[--density-inline-medium]',
+	[SIZE.SMALL]: 'h-[--density-inline-small] w-[--density-inline-small]'
+}
+
+const DENSITY = {
+	[DENSITY_TYPE.CONTROL]: DENSITY_CONTROL,
+	[DENSITY_TYPE.ICON]: DENSITY_CONTROL,
+	[DENSITY_TYPE.INLINE]: DENSITY_INLINE,
+	[DENSITY_TYPE.INSET]: DENSITY_CONTROL,
+	[DENSITY_TYPE.LAYOUT]: DENSITY_CONTROL,
+	[DENSITY_TYPE.SPACING]: DENSITY_CONTROL
+}
+
 export const classesName = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
-export const densityClasses = (size: Size | number = SIZE.MEDIUM) =>
-	typeof size === 'number' ? '' : DENSITY_CONTROL[size]
+export const densityClasses =
+	(type: DensityType) =>
+	(size: Size | number = SIZE.MEDIUM) =>
+		typeof size === 'number' ? '' : DENSITY[type][size]
 
 export const shapeClasses = (shape: ShapeType = SHAPE.NONE) => SHAPE_TYPE[shape]
 export const typographyClasses =

@@ -1,4 +1,4 @@
-// import {cssInterop} from 'nativewind'
+import {cssInterop} from 'nativewind'
 import {TextInput} from 'react-native'
 import Animated from 'react-native-reanimated'
 
@@ -13,6 +13,6 @@ export const AnimatedView = Animated.View
  *
  * Temporarily trigger Animated to correctly handle nativewind style
  */
-// cssInterop(AnimatedText, {className: 'style'})
-// cssInterop(AnimatedTextInput, {className: 'style'})
-// cssInterop(AnimatedView, {className: 'style'})
+cssInterop(AnimatedText, {className: 'style'})
+cssInterop(AnimatedTextInput, {className: 'style'})
+cssInterop(AnimatedView, {className: 'style'})

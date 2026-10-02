@@ -1,4 +1,4 @@
-import {WINDOW_SIZE, type WindowSize} from '@bearei/theme-token'
+import {WINDOW_SIZE, type WindowSize} from '../../theme'
 import {useWindowDimensions} from '../use-window-dimensions'
 
 export const useWindowSize = () => {

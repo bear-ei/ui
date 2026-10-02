@@ -10,3 +10,12 @@ export const UI_DENSITY = {
 	COMPACT: 'COMPACT',
 	COMFORTABLE: 'COMFORTABLE'
 } as const
+
+export const DENSITY_TYPE = {
+	CONTROL: 'CONTROL',
+	ICON: 'ICON',
+	INLINE: 'INLINE',
+	INSET: 'INSET',
+	LAYOUT: 'LAYOUT',
+	SPACING: 'SPACING'
+} as const
