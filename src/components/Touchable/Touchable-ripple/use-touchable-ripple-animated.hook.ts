@@ -30,11 +30,7 @@ export const useTouchableRippleAnimated = ({
 	)
 
 	const runAnimate = useMemo(
-		() =>
-			animateTouchableRipple({animatedTiming, onAnimateFinished})({
-				opacitySharedValue,
-				scaleSharedValue
-			}),
+		() => animateTouchableRipple({animatedTiming, onAnimateFinished})({opacitySharedValue, scaleSharedValue}),
 		[animatedTiming, onAnimateFinished, opacitySharedValue, scaleSharedValue]
 	)
 

@@ -2,7 +2,12 @@ import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {CommonProps, ComponentStatus, EventName, LayoutRectangle, State} from '../../constants'
-import type {AnimateSharedValueTo, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {
+	AnimatedTimingOptions,
+	AnimateSharedValueTo,
+	HandleStateEventChangeOptions,
+	InteractionHandlers
+} from '../../hooks'
 import type {ShapeType} from '../../theme'
 import type {ACTIVE_ANIMATED} from './Underlay.enum'
 
@@ -49,5 +54,5 @@ export interface HandleUnderlayStateChangeOptions extends HandleStateEventChange
 
 export interface AnimateUnderlayHoverStateOptions {
 	activeValue: number
-	animateSharedValueTo: AnimateSharedValueTo
+	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
 }
