@@ -39,13 +39,14 @@ const createCssVariables =
 			{}
 		)
 
-export const processStyleVariables = ({scheme, font, density, shape, typography}: Token) =>
+export const processStyleVariables = ({scheme, font, density, shape, typography, border}: Token) =>
 	vars({
+		...createCssVariables(border)('border')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.control)('density-control')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.icon)('density-icon')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables(density.inline)('density-inline')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.inset)('density-inset')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.layout)('density-layout')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.inline)('density-inline')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.spacing)('density-spacing')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(font.family)('font')(),
 		...createCssVariables(scheme)('color')(),

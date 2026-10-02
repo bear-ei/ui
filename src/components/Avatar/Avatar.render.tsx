@@ -25,13 +25,12 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 	) => {
 		const {token} = useTheme()
 		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
+		const densityInlineClasses = densityClasses()(DENSITY_TYPE.INLINE)
 		const isSVG = !!svgElement
 		const avatarStyle = {
 			...(backgroundColor && {backgroundColor}),
 			...(typeof size === 'number' && {width: platformValue(size), height: platformValue(size)})
 		} as ViewStyle
-
-		const densityInlineClasses = densityClasses()(DENSITY_TYPE.INLINE)
 
 		return (
 			<View
