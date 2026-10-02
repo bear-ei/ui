@@ -36,7 +36,7 @@ export const handleTouchableStateChange =
 		return (event: StateEvent) => {
 			const nextEvent = {
 				[EVENT_NAME.PRESS_IN]: () => createTouchablePressInHandler(event as GestureResponderEvent)
-			} as Record<EventName, () => void>
+			} as Partial<Record<EventName, () => void>>
 
 			if (eventName) {
 				nextEvent[eventName]?.()

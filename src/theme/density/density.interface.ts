@@ -11,7 +11,7 @@ export interface Density {
 	icon: Spacing
 	inline: Spacing
 	inset: Spacing
-	layout: {navigationWidth: number; sidebarWidth: number; detailPanelWidth: number}
+	layout: {navigationWidth: number; sidebarWidth: number; detailPanelWidth: number} & Pick<Spacing, 'NONE'>
 	layoutDensity: (windowSize: WindowSize) => number
 	spacing: Spacing
 }

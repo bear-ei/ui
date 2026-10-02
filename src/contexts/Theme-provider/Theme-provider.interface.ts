@@ -7,7 +7,7 @@ export interface ThemeProviderProps {
 	token?: Token
 }
 
-export interface ThemeContextOptions {
+export interface Theme {
 	colorScheme: 'light' | 'dark'
 	token: Token
 }

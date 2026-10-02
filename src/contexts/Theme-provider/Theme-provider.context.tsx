@@ -4,10 +4,10 @@ import {View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import {ModalProvider} from '../Modal-provider'
 import {processStyleVariables} from './Theme-provider.handler'
-import type {ThemeContextOptions, ThemeProviderProps} from './Theme-provider.interface'
+import type {Theme, ThemeProviderProps} from './Theme-provider.interface'
 import {CONTRAST, createToken, PALETTE, SCHEME, type Token} from '../../theme'
 
-export const ThemeContext = createContext<ThemeContextOptions>({colorScheme: 'light', token: {} as Token})
+export const ThemeContext = createContext<Theme>({colorScheme: 'light', token: {} as Token})
 export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken}) => {
 	const {colorScheme = 'light'} = useColorScheme()
 	const id = useId()

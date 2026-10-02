@@ -50,6 +50,7 @@ export const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density 
 	}
 
 	const layout = {
+		[SIZE.NONE]: 0,
 		detailPanelWidth: isCompact ? 260 : 320,
 		navigationWidth: isCompact ? 44 : 64,
 		sidebarWidth: isCompact ? 220 : 280
