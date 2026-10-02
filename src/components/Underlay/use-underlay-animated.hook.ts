@@ -1,6 +1,6 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
-import {COMPONENT_STATUS} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {debounce} from '../../utils'
 import {ACTIVE_ANIMATED} from './Underlay.enum'
@@ -60,21 +60,34 @@ export const useUnderlayAnimated = ({
 		[ACTIVE_ANIMATED.SCALE]: activeLayerScaleAnimatedStyle
 	}
 
+	const runDebounceAnimateHoverState = useMemo(
+		() => debounce(animateUnderlayHoverState({activeValue, animateSharedValueTo})(hoverLayerSharedValue))(30),
+		[animateSharedValueTo, activeValue, hoverLayerSharedValue]
+	)
+
 	const runAnimateHoverState = useMemo(
-		() => debounce(animateUnderlayHoverState({activeValue, animateSharedValueTo})(hoverLayerSharedValue))(50),
+		() => animateUnderlayHoverState({activeValue, animateSharedValueTo})(hoverLayerSharedValue),
 		[animateSharedValueTo, activeValue, hoverLayerSharedValue]
 	)
 
 	const runAnimateActiveState = useMemo(
-		() => debounce(animateUnderlayActiveState(animateSharedValueTo)(activeLayerSharedValue))(50),
+		() => animateUnderlayActiveState(animateSharedValueTo)(activeLayerSharedValue),
 		[animateSharedValueTo, activeLayerSharedValue]
 	)
 
 	useEffect(() => {
-		if (status === COMPONENT_STATUS.SUCCEEDED) {
-			runAnimateHoverState(eventName)
+		if (status !== COMPONENT_STATUS.SUCCEEDED) {
+			return
 		}
-	}, [eventName, runAnimateHoverState, status])
+
+		if (eventName && ([EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT] as readonly EventName[]).includes(eventName)) {
+			runDebounceAnimateHoverState(eventName)
+
+			return
+		}
+
+		runAnimateHoverState(eventName)
+	}, [eventName, runAnimateHoverState, status, runDebounceAnimateHoverState])
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
