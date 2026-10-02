@@ -1,9 +1,9 @@
-import {Easing, withRepeat, withTiming, type AnimationCallback} from 'react-native-reanimated'
+import {Easing, withDelay, withRepeat, withTiming, type AnimationCallback} from 'react-native-reanimated'
 import {scheduleOnRN} from 'react-native-worklets'
 import type {CreateAnimatedTimingOptions} from './use-animated-timing.interface'
 
 export const createAnimatedTiming =
-	({duration, repeat, bezier, ...config}: CreateAnimatedTimingOptions) =>
+	({duration, repeat, bezier, delay, speedScale, ...config}: CreateAnimatedTimingOptions) =>
 	(callback?: AnimationCallback) =>
 	(toValue: number) => {
 		'worklet'
@@ -20,5 +20,13 @@ export const createAnimatedTiming =
 			}
 		)
 
-		return repeat !== undefined && typeof repeat === 'number' ? withRepeat(animation, repeat) : animation
+		if (typeof repeat === 'number') {
+			return withRepeat(animation, repeat)
+		}
+
+		if (typeof delay === 'number') {
+			return withDelay(Math.round(delay * speedScale), animation)
+		}
+
+		return animation
 	}

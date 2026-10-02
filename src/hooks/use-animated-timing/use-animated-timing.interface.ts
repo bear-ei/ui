@@ -12,14 +12,16 @@ export interface CreateAnimatedTimingOptions extends Omit<
 > {
 	bezier: Bezier
 	duration: number
+	speedScale: number
 }
 
 export interface AnimatedTimingOptions extends Omit<WithTimingConfig, 'duration' | 'easing'> {
 	callback?: AnimationCallback
+	delay?: number
 	duration?: Duration | number
 	easing?: Easing
-	repeat?: number
 	immediate?: boolean
+	repeat?: number
 }
 
 export type AnimateSharedValueTo = (options: AnimateSharedValueToOptions) => (toValue: number) => void

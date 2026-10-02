@@ -80,7 +80,10 @@ export const useUnderlayAnimated = ({
 			return
 		}
 
-		if (eventName && ([EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT] as readonly EventName[]).includes(eventName)) {
+		const isDebounce =
+			eventName && ([EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT] as readonly EventName[]).includes(eventName)
+
+		if (isDebounce) {
 			runDebounceAnimateHoverState(eventName)
 
 			return

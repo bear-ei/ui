@@ -12,4 +12,5 @@ export interface Bezier {
 export interface Animated {
 	bezier: Bezier
 	duration: number
+	speedScale: number
 }

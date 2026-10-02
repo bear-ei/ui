@@ -24,9 +24,10 @@ export const createToken = ({
 		(palette: PaletteType = PALETTE.NAVY): Token => {
 			const createdPalette = createPalette(palette)
 			const colorScheme = createColorScheme(createdPalette)(scheme)(contrast)
+			const speedScale = density === UI_DENSITY.COMPACT ? 0.7 : 1
 
 			return {
-				animated: createAnimatedConfig(density === UI_DENSITY.COMPACT ? 0.7 : 1),
+				animated: createAnimatedConfig(speedScale),
 				density: createDensity(density),
 				elevation: createElevation(scheme)(colorScheme.shadow),
 				font,
