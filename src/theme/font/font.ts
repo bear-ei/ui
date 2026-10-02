@@ -1,4 +1,5 @@
-import {PLATFORM, type Platform} from '../token'
+import {PLATFORM} from '../theme.enum'
+import type {Platform} from '../theme.interface'
 import type {Font} from './font.interface'
 
 export const createFont =

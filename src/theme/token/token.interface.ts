@@ -1,4 +1,6 @@
 import type {createAnimatedConfig} from '../animated'
+import type {Border} from '../border'
+import type {Classes} from '../classes'
 import type {Contrast} from '../color'
 import type {Density, UIDensity} from '../density'
 import type {Elevation} from '../elevation'
@@ -7,11 +9,9 @@ import type {Opacity} from '../opacity'
 import type {Palette} from '../palette'
 import type {ColorScheme, Scheme} from '../scheme'
 import type {Shape} from '../shape'
+import type {Platform} from '../theme.interface'
 import type {Typography} from '../typography'
-import type {PLATFORM, SIZE} from './token.enum'
 
-export type Platform = (typeof PLATFORM)[keyof typeof PLATFORM]
-export type Size = (typeof SIZE)[keyof typeof SIZE]
 export interface CreateTokenOptions {
 	codeFontFamily?: string
 	density?: UIDensity
@@ -21,13 +21,15 @@ export interface CreateTokenOptions {
 
 export interface Token {
 	animated: ReturnType<typeof createAnimatedConfig>
+	border: Border
+	classes: Classes
+	density: Density
 	elevation: Elevation
 	font: Font
 	opacity: Opacity
 	palette: Palette
 	scheme: ColorScheme
 	shape: Shape
-	density: Density
 	typography: Typography
 }
 

@@ -1,6 +1,6 @@
-import {SIZE} from '../token'
 import {UI_DENSITY, type UIDensity} from '../density'
 import type {Font, FontLineHeight} from '../font'
+import {SIZE} from '../theme.enum'
 import {TYPOGRAPHY} from './typography.enum'
 import type {CreateBuildStyleOptions, FontStyle, GetStyleOptions, Typography} from './typography.interface'
 

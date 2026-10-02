@@ -1,4 +1,6 @@
 import {createAnimatedConfig} from '../animated'
+import {createBorder} from '../border'
+import * as rawClasses from '../classes'
 import {CONTRAST} from '../color'
 import {createDensity, UI_DENSITY} from '../density'
 import {createElevation} from '../elevation'
@@ -8,9 +10,9 @@ import type {PaletteType} from '../palette'
 import {createPalette, PALETTE} from '../palette'
 import {createColorScheme, SCHEME} from '../scheme'
 import {createShape} from '../shape'
+import {PLATFORM} from '../theme.enum'
 import {createTypography} from '../typography'
-import {PLATFORM} from './token.enum'
-import type {PaletteOptions, Token, CreateTokenOptions} from './token.interface'
+import type {CreateTokenOptions, PaletteOptions, Token} from './token.interface'
 
 export const createToken = ({
 	codeFontFamily,
@@ -28,6 +30,8 @@ export const createToken = ({
 
 			return {
 				animated: createAnimatedConfig(speedScale),
+				border: createBorder(),
+				classes: rawClasses,
 				density: createDensity(density),
 				elevation: createElevation(scheme)(colorScheme.shadow),
 				font,

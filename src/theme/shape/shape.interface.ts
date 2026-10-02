@@ -1,4 +1,4 @@
-import type {Size} from '../token'
+import type {Size} from '../theme.interface'
 import type {SHAPE} from './shape.enum'
 
 export type ShapeType = (typeof SHAPE)[keyof typeof SHAPE]

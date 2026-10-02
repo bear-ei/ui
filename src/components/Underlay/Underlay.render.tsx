@@ -1,6 +1,6 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import {classesName, shapeClasses} from '../../theme'
+import {useTheme} from '../../hooks'
 import {AnimatedView} from '../Animated-component'
 import type {RenderUnderlayProps} from './Underlay.interface'
 
@@ -21,6 +21,8 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
 		},
 		ref
 	) => {
+		const {token} = useTheme()
+		const {classesName, shapeClasses} = token.classes
 		const activeLayerStyle = {...(activeColor && {backgroundColor: activeColor})}
 		const hoverLayerStyle = {...(underlayColor && {backgroundColor: underlayColor})}
 

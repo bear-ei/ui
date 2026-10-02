@@ -1,4 +1,4 @@
-import {SIZE} from '../token'
+import {SIZE} from '../theme.enum'
 import {UI_DENSITY, WINDOW_SIZE} from './density.enum'
 import type {Density, Spacing, UIDensity, WindowSize} from './density.interface'
 

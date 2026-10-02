@@ -1,16 +1,12 @@
 import {clsx, type ClassValue} from 'clsx'
 import {twMerge} from 'tailwind-merge'
+import {LAYOUT, type LayoutType} from '../../constants'
+import {DENSITY_TYPE, type DensityType} from '../density'
+import {SHAPE, type ShapeType} from '../shape'
+import {TYPOGRAPHY, type TypographyType} from '../typography'
 import type {TypographyClassesOptions} from './classes.interface'
-import {
-	DENSITY_TYPE,
-	SHAPE,
-	SIZE,
-	TYPOGRAPHY,
-	type DensityType,
-	type ShapeType,
-	type Size,
-	type TypographyType
-} from '../../theme'
+import {SIZE} from '../theme.enum'
+import type {Size} from '../theme.interface'
 
 const SHAPE_TYPE = {
 	[SHAPE.EXTRA_LARGE_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-extra-large]',
@@ -112,23 +108,52 @@ const DENSITY_INLINE = {
 	[SIZE.SMALL]: 'h-[--density-inline-small] w-[--density-inline-small]'
 }
 
+const DENSITY_INSET = {
+	[LAYOUT.HORIZONTAL]: {
+		[SIZE.NONE]: 'pl-[--density-inset-none] pr-[--density-inset-none]',
+		[SIZE.EXTRA_LARGE]: 'pl-[--density-inset-extra-large] pr-[--density-inset-extra-large]',
+		[SIZE.EXTRA_SMALL]: 'pl-[--density-inset-extra-small] pr-[--density-inset-extra-small]',
+		[SIZE.LARGE]: 'pl-[--density-inset-large] pr-[--density-inset-large]',
+		[SIZE.MEDIUM]: 'pl-[--density-inset-medium] pr-[--density-inset-medium]',
+		[SIZE.SMALL]: 'pl-[--density-inset-small] pr-[--density-inset-small]'
+	},
+	[LAYOUT.VERTICAL]: {
+		[SIZE.NONE]: 'pt-[--density-inset-none] pb-[--density-inset-none]',
+		[SIZE.EXTRA_LARGE]: 'pt-[--density-inset-extra-large] pb-[--density-inset-extra-large]',
+		[SIZE.EXTRA_SMALL]: 'pt-[--density-inset-extra-small] pb-[--density-inset-extra-small]',
+		[SIZE.LARGE]: 'pt-[--density-inset-large] pb-[--density-inset-large]',
+		[SIZE.MEDIUM]: 'pt-[--density-inset-medium] pb-[--density-inset-medium]',
+		[SIZE.SMALL]: 'pt-[--density-inset-small] pb-[--density-inset-small]'
+	}
+}
+
 const DENSITY = {
 	[DENSITY_TYPE.CONTROL]: DENSITY_CONTROL,
 	[DENSITY_TYPE.ICON]: DENSITY_CONTROL,
 	[DENSITY_TYPE.INLINE]: DENSITY_INLINE,
-	[DENSITY_TYPE.INSET]: DENSITY_CONTROL,
+	[DENSITY_TYPE.INSET]: DENSITY_INSET,
 	[DENSITY_TYPE.LAYOUT]: DENSITY_CONTROL,
 	[DENSITY_TYPE.SPACING]: DENSITY_CONTROL
 }
 
-export const classesName = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
-export const densityClasses =
+const classesName = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
+const densityClasses =
+	(layout: LayoutType = LAYOUT.HORIZONTAL) =>
 	(type: DensityType) =>
-	(size: Size | number = SIZE.MEDIUM) =>
-		typeof size === 'number' ? '' : DENSITY[type][size]
+	(size: Size | number = SIZE.MEDIUM) => {
+		if (typeof size === 'number') {
+			return ''
+		}
 
-export const shapeClasses = (shape: ShapeType = SHAPE.NONE) => SHAPE_TYPE[shape]
-export const typographyClasses =
+		if (type === DENSITY_TYPE.INSET) {
+			return DENSITY[type][layout][size]
+		}
+
+		return DENSITY[type][size]
+	}
+
+const shapeClasses = (shape: ShapeType = SHAPE.NONE) => SHAPE_TYPE[shape]
+const typographyClasses =
 	(typography: TypographyType = TYPOGRAPHY.BODY) =>
 	(rawSize: Exclude<Size, 'NONE'> = SIZE.MEDIUM) =>
 	(
@@ -149,3 +174,5 @@ export const typographyClasses =
 
 		return clsx(TYPOGRAPHY_TYPE[typography][size], fontFamilyClasses, colorClasses)
 	}
+
+export {classesName, densityClasses, shapeClasses, typographyClasses}

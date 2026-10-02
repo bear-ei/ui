@@ -1,8 +1,8 @@
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
-import {classesName} from '../../theme'
 import {AnimatedView} from '../Animated-component'
 import type {RenderLayoutAnimatedProps} from './Layout-animated.interface'
+import {useTheme} from '../../hooks'
 
 export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
 	(
@@ -19,6 +19,8 @@ export const RenderLayoutAnimated = forwardRef<View, RenderLayoutAnimatedProps>(
 		},
 		ref
 	) => {
+		const {token} = useTheme()
+		const {classesName} = token.classes
 		const {onLayout} = interactionHandlers
 
 		return (

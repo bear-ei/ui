@@ -1,5 +1,5 @@
-import type {SIZE} from '../token'
 import type {Font, FontHeight, FontLetterSpacing, FontSize} from '../font'
+import type {SIZE} from '../theme.enum'
 import type {TYPOGRAPHY} from './typography.enum'
 
 export type TypographyType = (typeof TYPOGRAPHY)[keyof typeof TYPOGRAPHY]

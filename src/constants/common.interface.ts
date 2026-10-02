@@ -15,7 +15,7 @@ export interface LayoutRectangle extends RNLayoutRectangle {
 }
 
 export interface CommonProps {
-	size?: Size
+	size?: Exclude<Size, 'NONE'>
 	shape?: ShapeType
 }
 

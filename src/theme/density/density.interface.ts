@@ -1,4 +1,4 @@
-import type {Size} from '../token'
+import type {Size} from '../theme.interface'
 import type {DENSITY_TYPE, UI_DENSITY, WINDOW_SIZE} from './density.enum'
 
 export type UIDensity = (typeof UI_DENSITY)[keyof typeof UI_DENSITY]

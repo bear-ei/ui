@@ -2,16 +2,8 @@ import {cloneElement, forwardRef} from 'react'
 import {Image, Text, View, type ViewStyle} from 'react-native'
 import {platformValue} from '../../utils'
 import type {RenderAvatarProps} from './Avatar.interface'
-import {
-	classesName,
-	DENSITY_TYPE,
-	densityClasses,
-	SHAPE,
-	shapeClasses,
-	SIZE,
-	TYPOGRAPHY,
-	typographyClasses
-} from '../../theme'
+import {DENSITY_TYPE, SHAPE, SIZE, TYPOGRAPHY} from '../../theme'
+import {useTheme} from '../../hooks'
 
 export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 	(
@@ -31,11 +23,15 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 		},
 		ref
 	) => {
+		const {token} = useTheme()
+		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
 		const isSVG = !!svgElement
 		const avatarStyle = {
 			...(backgroundColor && {backgroundColor}),
 			...(typeof size === 'number' && {width: platformValue(size), height: platformValue(size)})
 		} as ViewStyle
+
+		const densityInlineClasses = densityClasses()(DENSITY_TYPE.INLINE)
 
 		return (
 			<View
@@ -45,7 +41,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 				accessible={true}
 				className={classesName(
 					'pointer-events-none relative overflow-hidden bg-[--color-primary-container]',
-					densityClasses(DENSITY_TYPE.INLINE)(size),
+					densityInlineClasses(size),
 					shapeClasses(shape)
 				)}
 				ref={ref}

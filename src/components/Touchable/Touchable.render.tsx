@@ -1,8 +1,8 @@
 import {forwardRef, type FC} from 'react'
 import {Pressable, View} from 'react-native'
+import {useTheme} from '../../hooks'
 import {TouchableRipple} from './Touchable-ripple'
 import type {PressableType, RenderTouchableProps, RenderTouchableRippleProps} from './Touchable.interface'
-import {classesName, shapeClasses} from '../../theme'
 
 export const RenderTouchableRipples: FC<RenderTouchableRippleProps> = ({
 	centered,
@@ -44,34 +44,39 @@ export const RenderTouchable = forwardRef<PressableType, RenderTouchableProps>(
 			...touchableProps
 		}: RenderTouchableProps,
 		ref
-	) => (
-		<Pressable
-			{...touchableProps}
-			{...interactionHandlers}
-			className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
-			ref={ref}
-			testID={testID ?? `touchable--${id}`}
-		>
-			<View
-				className={classesName('relative z-30 flex-1 self-stretch', shapeClasses(shape))}
-				testID={`touchable__main--${id}`}
-			>
-				{children}
-				<View
-					className={classesName(
-						'absolute bottom-0 left-0 right-0 top-0 overflow-hidden',
-						shapeClasses(shape)
-					)}
-					testID={`touchable__rippleLayout--${id}`}
-				>
-					{rippleElements}
-				</View>
+	) => {
+		const {token} = useTheme()
+		const {classesName, shapeClasses} = token.classes
 
-				{backgroundUnderlay}
-				{elevationUnderlay}
-			</View>
-		</Pressable>
-	)
+		return (
+			<Pressable
+				{...touchableProps}
+				{...interactionHandlers}
+				className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
+				ref={ref}
+				testID={testID ?? `touchable--${id}`}
+			>
+				<View
+					className={classesName('relative z-30 flex-1 self-stretch', shapeClasses(shape))}
+					testID={`touchable__main--${id}`}
+				>
+					{children}
+					<View
+						className={classesName(
+							'absolute bottom-0 left-0 right-0 top-0 overflow-hidden',
+							shapeClasses(shape)
+						)}
+						testID={`touchable__rippleLayout--${id}`}
+					>
+						{rippleElements}
+					</View>
+
+					{backgroundUnderlay}
+					{elevationUnderlay}
+				</View>
+			</Pressable>
+		)
+	}
 )
 
 RenderTouchable.displayName = 'RenderTouchable'
