@@ -23,7 +23,7 @@ const ANIMATED_DURATION = {
 const ANIMATED_BEZIER = {
 	[EASING.EMPHASIZED]: {x0: 0.2, x1: 0, y0: 0, y1: 1},
 	[EASING.EMPHASIZED_ACCELERATE]: {x0: 0.3, x1: 0.8, y0: 0, y1: 0.15},
-	[EASING.EMPHASIZED_DECELERATE]: {x0: 0.05, x1: 0.1, y0: 0, y1: 1},
+	[EASING.EMPHASIZED_DECELERATE]: {x0: 0.05, x1: 0.1, y0: 0.7, y1: 1},
 	[EASING.LINEAR]: {x0: 0, x1: 1, y0: 0, y1: 1},
 	[EASING.STANDARD]: {x0: 0.4, x1: 0.2, y0: 0, y1: 1},
 	[EASING.STANDARD_ACCELERATE]: {x0: 0.4, x1: 1, y0: 0, y1: 1},

@@ -20,7 +20,7 @@ export const DragBase = forwardRef<DragRef, DragBaseProps>(
 			[onLayoutChange]
 		)
 
-		const interactionHandlers = useInteractionStateEvent({...renderDragProps, disabled: false, onStateEventChange})
+		const interactionHandlers = useInteractionStateEvent({...renderDragProps, onStateEventChange})
 		const {animatedStyle, panGesture, runAnimate} = useDragAnimated({
 			height,
 			layout,

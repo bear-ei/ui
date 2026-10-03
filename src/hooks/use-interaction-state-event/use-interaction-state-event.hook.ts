@@ -21,7 +21,7 @@ import type {
 } from './use-interaction-state-event.interface'
 
 export const useInteractionStateEvent = ({
-	disabled,
+	disabled = false,
 	onBlur: rawOnBlur,
 	onFocus: rawOnFocus,
 	onHoverIn: rawOnHoverIn,
