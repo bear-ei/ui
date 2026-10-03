@@ -106,12 +106,12 @@ export const handlePanGestureEnd =
 		}
 	}
 
-export const animateDrag =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	({translateXSharedValue, translateYSharedValue}: AnimateDragOptions) =>
-	() => {
-		const animateSharedValueTo = animatedTiming()
+export const animateDrag = (animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) => {
+	const animateSharedValueTo = animatedTiming()
 
-		animateSharedValueTo({sharedValue: translateXSharedValue})(0)
-		animateSharedValueTo({sharedValue: translateYSharedValue})(0)
-	}
+	return ({translateXSharedValue, translateYSharedValue}: AnimateDragOptions) =>
+		() => {
+			animateSharedValueTo({sharedValue: translateXSharedValue})(0)
+			animateSharedValueTo({sharedValue: translateYSharedValue})(0)
+		}
+}

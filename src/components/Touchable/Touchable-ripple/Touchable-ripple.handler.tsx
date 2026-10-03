@@ -1,6 +1,6 @@
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {AnimateSharedValueToOptions, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import type {
 	AnimateTouchableRippleOptions,
 	AnimateTouchableRippleSharedValues,
@@ -32,27 +32,32 @@ export const handleTouchableRippleStateChange =
 export const animateTouchableRipple = ({animatedTiming, onAnimateFinished}: AnimateTouchableRippleOptions) => {
 	const createAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
 	const createRippleAnimatedTiming =
-		({opacitySharedValue, scaleSharedValue, animatedTimingOptions}: AnimateTouchableRippleSharedValues) =>
+		({
+			sharedValue,
+			animatedTimingOptions
+		}: Pick<AnimateTouchableRippleSharedValues, 'animatedTimingOptions'> &
+			Pick<AnimateSharedValueToOptions, 'sharedValue'>) =>
 		(toValue: number) =>
 		(callback?: () => void) =>
 			animatedTiming({...animatedTimingOptions, callback: createAnimatedTimingCallback(callback)})({
-				sharedValue: toValue === 1 ? scaleSharedValue : opacitySharedValue
+				sharedValue
 			})(toValue)
 
-	return (sharedValues: AnimateTouchableRippleSharedValues) => (index?: string) => {
-		const entryAnimatedTiming = createRippleAnimatedTiming({
-			...sharedValues,
-			animatedTimingOptions: {easing: EASING.EMPHASIZED_DECELERATE, duration: DURATION.SHORT_2}
-		})(1)
+	return ({opacitySharedValue, scaleSharedValue}: AnimateTouchableRippleSharedValues) =>
+		(index?: string) => {
+			const entryAnimatedTiming = createRippleAnimatedTiming({
+				sharedValue: scaleSharedValue,
+				animatedTimingOptions: {easing: EASING.EMPHASIZED_DECELERATE, duration: DURATION.SHORT_2}
+			})(1)
 
-		const exitAnimatedTiming = createRippleAnimatedTiming({
-			...sharedValues,
-			animatedTimingOptions: {easing: EASING.LINEAR, duration: DURATION.MEDIUM_0, delay: 50}
-		})(0)
+			const exitAnimatedTiming = createRippleAnimatedTiming({
+				sharedValue: opacitySharedValue,
+				animatedTimingOptions: {easing: EASING.LINEAR, duration: DURATION.MEDIUM_0, delay: 50}
+			})(0)
 
-		const exitAnimatedFinished = () => index && onAnimateFinished?.(index)
+			const exitAnimatedFinished = () => index && onAnimateFinished?.(index)
 
-		entryAnimatedTiming()
-		exitAnimatedTiming(exitAnimatedFinished)
-	}
+			entryAnimatedTiming()
+			exitAnimatedTiming(exitAnimatedFinished)
+		}
 }

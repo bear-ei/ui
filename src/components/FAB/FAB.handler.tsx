@@ -68,19 +68,20 @@ export const updateFABDisabledState = (elevated?: boolean) => (setState: Updater
 		}
 	})
 
-export const getFABUnderlayColor = (theme: Theme) => {
+export const getFABUnderlayColor = ({token}: Theme) => {
 	const underlay = {
-		[FAB_TYPE.PRIMARY]: theme.token.scheme.onPrimaryContainer,
-		[FAB_TYPE.SECONDARY]: theme.token.scheme.onSecondaryContainer,
-		[FAB_TYPE.SURFACE]: theme.token.scheme.primary,
-		[FAB_TYPE.TERTIARY]: theme.token.scheme.onTertiaryContainer
+		[FAB_TYPE.PRIMARY]: token.scheme.onPrimaryContainer,
+		[FAB_TYPE.SECONDARY]: token.scheme.onSecondaryContainer,
+		[FAB_TYPE.SURFACE]: token.scheme.primary,
+		[FAB_TYPE.TERTIARY]: token.scheme.onTertiaryContainer
 	}
 
 	return (type: FABType) => underlay[type]
 }
 
-export const animateFAB =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	(colorSharedValue: SharedValue<number>) =>
-	(disabled?: boolean) =>
-		animatedTiming()({sharedValue: colorSharedValue})(disabled ? 0 : 1)
+export const animateFAB = (animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) => {
+	const animateSharedValueTo = animatedTiming()
+
+	return (colorSharedValue: SharedValue<number>) => (disabled?: boolean) =>
+		animateSharedValueTo({sharedValue: colorSharedValue})(disabled ? 0 : 1)
+}

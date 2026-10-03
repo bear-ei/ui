@@ -94,12 +94,13 @@ export const getButtonUnderlayColor =
 	}
 
 export const animateButton = ({animatedTiming, borderColorInputRanges, disabled, type}: AnimateButtonOptions) => {
+	const animateSharedValueTo = animatedTiming()
 	const toValue = disabled ? 0 : 1
 	const animateOutlinedButton = (borderSharedValue: SharedValue<number>) => {
 		const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]
 
 		return (eventName?: EventName) =>
-			animatedTiming()({sharedValue: borderSharedValue})(
+			animateSharedValueTo({sharedValue: borderSharedValue})(
 				eventName === EVENT_NAME.FOCUS ? borderColorInputRanges[2] : value
 			)
 	}
@@ -108,11 +109,11 @@ export const animateButton = ({animatedTiming, borderColorInputRanges, disabled,
 		(eventName?: EventName) => {
 			if (type === BUTTON_TYPE.OUTLINED) {
 				animateOutlinedButton(borderSharedValue)(eventName)
-				animatedTiming()({sharedValue: colorSharedValue})(toValue)
+				animateSharedValueTo({sharedValue: colorSharedValue})(toValue)
 
 				return
 			}
 
-			animatedTiming()({sharedValue: colorSharedValue})(toValue)
+			animateSharedValueTo({sharedValue: colorSharedValue})(toValue)
 		}
 }
