@@ -10,7 +10,6 @@ export type FABType = (typeof FAB_TYPE)[keyof typeof FAB_TYPE]
 export interface FABProps extends TouchableProps, CommonProps {
 	disabled?: boolean
 	elevated?: boolean
-	extended?: boolean
 	icon?: React.JSX.Element
 	labelText?: string
 	loading?: boolean
@@ -21,6 +20,7 @@ export interface RenderFABProps extends FABProps {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	elevation?: ElevationLevel
 	eventName?: EventName
+	extended?: boolean
 	iconElement?: React.JSX.Element
 	interactionHandlers: InteractionHandlers
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>

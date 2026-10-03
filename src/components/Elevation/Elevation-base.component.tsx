@@ -12,7 +12,12 @@ export const ElevationBase = forwardRef<View, ElevationBaseProps>(
 		const [{level, action, status}, setState] = useImmer<ElevationState>({status: COMPONENT_STATUS.IDLE})
 		const id = useId()
 		const runUpdateLevel = useMemo(() => updateElevationLevel(setState), [setState])
-		const {shadowAnimatedStyle} = useElevationAnimated({level, onAnimationFinished, action, status})
+		const {shadowAnimatedStyle} = useElevationAnimated({
+			action,
+			level: level ?? rawLevel,
+			onAnimationFinished,
+			status
+		})
 
 		useEffect(() => {
 			runUpdateLevel(rawLevel ?? defaultLevel)

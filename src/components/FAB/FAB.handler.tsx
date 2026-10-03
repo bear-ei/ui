@@ -64,7 +64,7 @@ export const updateFABDisabledState = (elevated?: boolean) => (setState: Updater
 		}
 
 		if (elevated) {
-			draft.elevation = disabled ? ELEVATION.LEVEL_0 : ELEVATION.LEVEL_1
+			draft.elevation = disabled ? ELEVATION.LEVEL_0 : ELEVATION.LEVEL_3
 		}
 	})
 

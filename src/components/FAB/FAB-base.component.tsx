@@ -9,6 +9,7 @@ import {getFABUnderlayColor, handleFABStateChange, updateFABDisabledState, updat
 import type {FABBaseProps, FABState} from './FAB.interface'
 import {RenderFAB, RenderFABIcon} from './FAB.render'
 import {useFABAnimated} from './use-fab-animated.hook'
+import {ELEVATION} from '../Elevation'
 
 export const FABBase = forwardRef<PressableType, FABBaseProps>(
 	(
@@ -24,7 +25,11 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
 		},
 		ref
 	) => {
-		const [{elevation, eventName}, setState] = useImmer<FABState>({status: COMPONENT_STATUS.IDLE})
+		const [{elevation, eventName}, setState] = useImmer<FABState>({
+			status: COMPONENT_STATUS.IDLE,
+			elevation: ELEVATION.LEVEL_3
+		})
+
 		const id = useId()
 		const theme = useTheme()
 		const isDisabled = loading || rawDisabled
@@ -42,7 +47,7 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
 			onStateEventChange
 		})
 
-		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled: rawDisabled, type})
+		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled: isDisabled, type})
 		const runUpdateStatus = useMemo(() => updateFABStatus(rawDisabled)(setState), [rawDisabled, setState])
 		const runUpdateDisabledState = useMemo(() => updateFABDisabledState(elevated)(setState), [elevated, setState])
 		const iconElement = icon && (
@@ -57,12 +62,12 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
 		)
 
 		useEffect(() => {
-			runUpdateStatus(isDisabled)
-		}, [runUpdateStatus, isDisabled])
+			runUpdateStatus(elevated)
+		}, [runUpdateStatus, elevated])
 
 		useEffect(() => {
-			runUpdateDisabledState(elevated)
-		}, [runUpdateDisabledState, elevated])
+			runUpdateDisabledState(isDisabled)
+		}, [runUpdateDisabledState, isDisabled])
 
 		return (
 			<RenderFAB

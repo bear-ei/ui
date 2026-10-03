@@ -3,12 +3,12 @@ import {View} from 'react-native'
 import {useTheme} from '../../hooks'
 import {hexToRGBA, platformValue, processIconSize} from '../../utils'
 import {AnimatedText, AnimatedView} from '../Animated-component'
-import {Elevation} from '../Elevation'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABType, RenderFABIconProps, RenderFABProps} from './FAB.interface'
-import {DENSITY_TYPE, SIZE, TYPOGRAPHY} from '../../theme'
+import {DENSITY_TYPE, SHAPE, SIZE, TYPOGRAPHY} from '../../theme'
+import {Elevation} from '../Elevation'
 
 export const RenderFABIcon: FC<RenderFABIconProps> = ({
 	disabled,
@@ -68,24 +68,34 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
 		const densityControlClasses = densityClasses()(DENSITY_TYPE.CONTROL)
 		const densityInsetClasses = densityClasses()(DENSITY_TYPE.INSET)
+		const shapeSize = {
+			[SIZE.EXTRA_LARGE]: SHAPE.LARGE,
+			[SIZE.EXTRA_SMALL]: SHAPE.SMALL,
+			[SIZE.LARGE]: SHAPE.LARGE,
+			[SIZE.MEDIUM]: SHAPE.MEDIUM,
+			[SIZE.SMALL]: SHAPE.MEDIUM
+		}
+
+		const shape = shapeSize[size]
 		const backgroundUnderlayElement = (
 			<AnimatedView
 				className={classesName(
 					'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
-					shapeClasses(size)
+					shapeClasses(shape)
 				)}
 				style={[backgroundUnderlayAnimatedStyle]}
 				testID={`fab__backgroundUnderlay--${id}`}
 			/>
 		)
 
-		const elevationUnderlayElement = (
-			<Elevation
-				level={elevation}
-				shape={size}
-				testID={`fab__elevation--${id}`}
-			/>
-		)
+		const elevationUnderlayElement =
+			typeof elevation === 'number' ?
+				<Elevation
+					level={elevation}
+					shape={shape}
+					testID={`button__elevation--${id}`}
+				/>
+			:	<></>
 
 		return (
 			<View
@@ -106,7 +116,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 					disabled={disabled}
 					elevationUnderlay={elevationUnderlayElement}
 					ref={ref}
-					shape={size}
+					shape={shape}
 					testID={`fab__touchable--${id}`}
 					underlayColor={underlayColor}
 				>
@@ -148,7 +158,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 
 						<Underlay
 							eventName={eventName}
-							shape={size}
+							shape={shape}
 							testID={`fab__underlay--${id}`}
 							underlayColor={underlayColor}
 						/>
