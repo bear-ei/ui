@@ -7,7 +7,7 @@ import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {RenderCheckboxProps} from './Checkbox.interface'
-import {DENSITY_TYPE, DURATION, SHAPE, SIZE} from '../../theme'
+import {DENSITY_TYPE, DURATION, EASING, SHAPE, SIZE} from '../../theme'
 import {hexToRGBA, platformValue, processIconSize} from '../../utils'
 
 export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
@@ -40,6 +40,8 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 		const disabledColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level5)
 		const underlayColor = error ? token.scheme.error : checkUnderlayColor
 		const iconSize = processIconSize(token)(size)
+		const entry = {duration: DURATION.SHORT_1, easing: EASING.STANDARD_DECELERATE}
+		const exit = {duration: DURATION.SHORT_1, easing: EASING.STANDARD_ACCELERATE}
 		const checked =
 			value === CHECKBOX_VALUE.SELECTED ? true
 			: value === CHECKBOX_VALUE.INDETERMINATE ? 'mixed'
@@ -75,8 +77,8 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 						>
 							<LayoutAnimated
 								className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-								entry={{duration: DURATION.SHORT_2}}
-								exit={{duration: DURATION.SHORT_1}}
+								entry={entry}
+								exit={exit}
 								testID={`checkbox__iconLayout--blank--${id}`}
 								visible={value === CHECKBOX_VALUE.UNSELECTED}
 							>
@@ -90,8 +92,8 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 
 							<LayoutAnimated
 								className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-								entry={{duration: DURATION.SHORT_2}}
-								exit={{duration: DURATION.SHORT_1}}
+								entry={entry}
+								exit={exit}
 								testID={`checkbox__iconLayout--selected--${id}`}
 								visible={value === CHECKBOX_VALUE.SELECTED}
 							>
@@ -105,8 +107,8 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 
 							<LayoutAnimated
 								className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-								entry={{duration: DURATION.SHORT_2}}
-								exit={{duration: DURATION.SHORT_1}}
+								entry={entry}
+								exit={exit}
 								testID={`checkbox__iconLayout--indeterminate--${id}`}
 								visible={value === CHECKBOX_VALUE.INDETERMINATE}
 							>

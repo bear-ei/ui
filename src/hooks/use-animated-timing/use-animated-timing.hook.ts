@@ -14,8 +14,8 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 		(
 			{
 				callback,
-				duration: rawDuration = DURATION.MEDIUM_1,
-				easing = EASING.EMPHASIZED,
+				duration: rawDuration = DURATION.MEDIUM_0,
+				easing = EASING.STANDARD,
 				...options
 			} = {} as AnimatedTimingOptions
 		): AnimateSharedValueTo => {

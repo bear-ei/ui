@@ -3,6 +3,7 @@ import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import type {AnimateUnderlayHoverStateOptions, UnderlayState} from './Underlay.interface'
+import {DURATION, EASING} from '../../theme'
 
 export const handleUnderlayStateChange =
 	({eventName}: HandleStateEventChangeOptions) =>
@@ -53,11 +54,16 @@ export const animateUnderlayHoverState = ({animatedTiming, activeValue}: Animate
 	return (hoverLayerSharedValue: SharedValue<number>) => (eventName?: EventName) =>
 		eventName &&
 		eventKeys.includes(eventName) &&
-		animatedTiming()({sharedValue: hoverLayerSharedValue})(event[eventName])
+		animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_1})({sharedValue: hoverLayerSharedValue})(
+			event[eventName]
+		)
 }
 
 export const animateUnderlayActiveState =
 	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
 	(activeLayerSharedValue: SharedValue<number>) =>
 	(active?: boolean) =>
-		typeof active === 'boolean' && animatedTiming()({sharedValue: activeLayerSharedValue})(active ? 1 : 0)
+		typeof active === 'boolean' &&
+		animatedTiming({easing: EASING.STANDARD_DECELERATE, duration: DURATION.SHORT_2})({
+			sharedValue: activeLayerSharedValue
+		})(active ? 1 : 0)

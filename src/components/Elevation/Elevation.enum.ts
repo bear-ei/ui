@@ -6,3 +6,8 @@ export const ELEVATION = {
 	LEVEL_4: 4,
 	LEVEL_5: 5
 } as const
+
+export const ELEVATION_ACTION = {
+	LIFT: 'LIFT',
+	FALL: 'FALL'
+} as const

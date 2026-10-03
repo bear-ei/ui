@@ -2,7 +2,7 @@ import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
 import {EVENT_NAME, type EventName} from '../../constants'
 import {useTheme} from '../../hooks'
-import {DENSITY_TYPE, SHAPE, SIZE, TYPOGRAPHY} from '../../theme'
+import {DENSITY_TYPE, DURATION, EASING, SHAPE, SIZE, TYPOGRAPHY} from '../../theme'
 import {hexToRGBA, platformValue, processIconSize} from '../../utils'
 import {AnimatedText, AnimatedView} from '../Animated-component'
 import {Elevation} from '../Elevation'
@@ -173,6 +173,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 						{isLink && (
 							<LayoutAnimated
 								className='absolute bottom-0 left-0 right-0 z-20 min-h-[--border-small] bg-[--color-primary]'
+								entry={{duration: DURATION.SHORT_1, easing: EASING.STANDARD_DECELERATE}}
+								exit={{duration: DURATION.SHORT_1, easing: EASING.STANDARD_ACCELERATE}}
 								style={[activeIndicatorStyle]}
 								testID={`button__activeIndicator--${id}`}
 								visible={isActiveIndicatorVisible}
