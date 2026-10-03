@@ -1,13 +1,13 @@
-import {SIZE, type Size, type Theme} from '../../theme'
+import {SIZE, type Size, type Token} from '../../theme'
 
-export const processIconSize = (theme: Theme) => (size: Size) => {
+export const processIconSize = (token: Token) => (size: Size) => {
 	const iconSize = {
-		[SIZE.EXTRA_LARGE]: theme.density.icon.EXTRA_SMALL * 7,
-		[SIZE.EXTRA_SMALL]: theme.density.icon.MEDIUM,
-		[SIZE.LARGE]: theme.density.icon.LARGE,
-		[SIZE.MEDIUM]: theme.density.icon.EXTRA_SMALL * 5,
-		[SIZE.NONE]: theme.density.icon.NONE,
-		[SIZE.SMALL]: theme.density.icon.MEDIUM
+		[SIZE.EXTRA_LARGE]: token.density.icon.LARGE,
+		[SIZE.EXTRA_SMALL]: Math.round(token.density.icon.EXTRA_SMALL * 0.85), // 0.85 scale: Desktop 14→12, Mobile 16→14
+		[SIZE.LARGE]: token.density.icon.MEDIUM,
+		[SIZE.MEDIUM]: token.density.icon.SMALL,
+		[SIZE.NONE]: token.density.icon.NONE,
+		[SIZE.SMALL]: token.density.icon.EXTRA_SMALL
 	}
 
 	return iconSize[size]

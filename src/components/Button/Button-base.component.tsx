@@ -24,6 +24,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 			linkColor,
 			loading,
 			type = BUTTON_TYPE.FILLED,
+			size,
 			...renderButtonProps
 		},
 		ref
@@ -60,6 +61,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 				disabled={rawDisabled}
 				icon={icon}
 				id={id}
+				size={size}
 				type={type}
 			/>
 		)
@@ -87,6 +89,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 				linkColor={linkColor}
 				loading={loading}
 				ref={ref}
+				size={size}
 				type={type}
 				underlayColor={underlayColor}
 			/>

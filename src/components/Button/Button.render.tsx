@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import {EVENT_NAME, type EventName} from '../../constants'
 import {useTheme} from '../../hooks'
 import {DENSITY_TYPE, SHAPE, SIZE, TYPOGRAPHY} from '../../theme'
-import {hexToRGBA, platformValue} from '../../utils'
+import {hexToRGBA, platformValue, processIconSize} from '../../utils'
 import {AnimatedText, AnimatedView} from '../Animated-component'
 import {Elevation} from '../Elevation'
 import {LayoutAnimated} from '../Layout-animated'
@@ -12,7 +12,13 @@ import {Underlay} from '../Underlay'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonType, RenderButtonIconProps, RenderButtonProps} from './Button.interface'
 
-export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, icon, id, type = BUTTON_TYPE.FILLED}) => {
+export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
+	disabled,
+	icon,
+	id,
+	size = SIZE.MEDIUM,
+	type = BUTTON_TYPE.FILLED
+}) => {
 	const {token} = useTheme()
 	const color = {
 		[BUTTON_TYPE.ELEVATED]: token.scheme.primary,
@@ -28,7 +34,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({disabled, icon, id,
 		return <></>
 	}
 
-	const iconSize = token.density.icon[SIZE.MEDIUM]
+	const iconSize = processIconSize(token)(size)
 
 	return cloneElement(icon, {
 		color: disabled ? disabledColor : color[type],
@@ -136,7 +142,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 					>
 						<View
 							className={classesName(
-								'z-10 flex flex-1 flex-row items-center justify-center gap-2 self-stretch',
+								'z-10 flex flex-1 flex-row items-center justify-center gap-[--density-spacing-small] self-stretch',
 								{[densityInsetClasses(size)]: !isLink}
 							)}
 							testID={`button__main--${id}`}
@@ -166,7 +172,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 
 						{isLink && (
 							<LayoutAnimated
-								className='absolute bottom-0 left-0 right-0 z-20 min-h-[0.0625rem] bg-[--color-primary]'
+								className='absolute bottom-0 left-0 right-0 z-20 min-h-[--border-small] bg-[--color-primary]'
 								style={[activeIndicatorStyle]}
 								testID={`button__activeIndicator--${id}`}
 								visible={isActiveIndicatorVisible}
