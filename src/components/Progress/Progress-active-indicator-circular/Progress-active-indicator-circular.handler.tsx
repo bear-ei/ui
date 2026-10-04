@@ -22,7 +22,7 @@ import {DURATION, EASING} from '../../../theme'
 export const animateProgressActiveIndicatorCircular = (
 	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
 ) => {
-	const indeterminateAnimation = {duration: DURATION.EXTRA_LONG_3, easing: EASING.LINEAR, repeat: -1}
+	const indeterminateAnimation = {duration: DURATION.LOOP_2, easing: EASING.LINEAR, repeat: -1}
 	const animateSharedValueTo = animatedTiming(indeterminateAnimation)
 
 	return ({containerSharedValue, circleSharedValue}: AnimateProgressActiveIndicatorCircularSharedValues) =>

@@ -6,7 +6,7 @@ import {DENSITY_TYPE, SHAPE, SIZE} from '../../theme'
 import {hexToRGBA, platformValue, processIconSize} from '../../utils'
 import {AnimatedView} from '../Animated-component'
 import {LayoutAnimated} from '../Layout-animated'
-// import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
+import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
 import {Touchable, type PressableType} from '../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../Underlay'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
@@ -98,14 +98,14 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 					testID={`iconButton__contentItemLayout--${id}`}
 					visible={loading}
 				>
-					{/*<Progress
+					<Progress
 						animatedType={PROGRESS_ANIMATED.INDETERMINATE}
 						content={iconElement}
 						enableAnimated={loading}
 						size={size}
 						testID={`iconButton__progress--${id}`}
 						type={PROGRESS_TYPE.CIRCULAR}
-					/>*/}
+					/>
 				</LayoutAnimated>
 
 				<LayoutAnimated

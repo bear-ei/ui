@@ -13,7 +13,7 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 	value = 0
 }: UseProgressActiveIndicatorLinearAnimatedOptions) => {
 	const widthSharedValue = useSharedValue(value)
-	const translateXSharedValue = useSharedValue(value)
+	const translateXSharedValue = useSharedValue(value > 0 ? 1 : 0)
 	const {token} = useTheme()
 	const animatedTiming = useAnimatedTiming({token})
 	const contentAnimatedStyle = useAnimatedStyle(() => ({width: `${widthSharedValue.value * 100}%`}))
@@ -52,8 +52,9 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 	useEffect(
 		() => () => {
 			cancelAnimation(widthSharedValue)
+			cancelAnimation(translateXSharedValue)
 		},
-		[widthSharedValue]
+		[widthSharedValue, translateXSharedValue]
 	)
 
 	return {contentAnimatedStyle, trackAnimatedStyle}

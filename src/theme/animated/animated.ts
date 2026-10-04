@@ -6,6 +6,16 @@ const ANIMATED_DURATION = {
 	[DURATION.EXTRA_LONG_1]: 800,
 	[DURATION.EXTRA_LONG_2]: 900,
 	[DURATION.EXTRA_LONG_3]: 1000,
+
+	// [
+	// LOOP series are dedicated to looping animations.
+	// The value represents the loop cycle duration, not a single playback duration.
+	[DURATION.LOOP_0]: 1500,
+	[DURATION.LOOP_1]: 1750,
+	[DURATION.LOOP_2]: 2000,
+	[DURATION.LOOP_3]: 2250,
+	// ]
+
 	[DURATION.LONG_0]: 450,
 	[DURATION.LONG_1]: 500,
 	[DURATION.LONG_2]: 550,

@@ -37,7 +37,6 @@ export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActive
 				interactionHandlers={interactionHandlers}
 				ref={ref}
 				trackAnimatedStyle={trackAnimatedStyle}
-				value={value}
 			/>
 		)
 	}
