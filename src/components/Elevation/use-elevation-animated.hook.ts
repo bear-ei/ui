@@ -15,7 +15,6 @@ export const useElevationAnimated = ({
 	onAnimationFinished,
 	status
 }: UseElevationAnimatedOptions) => {
-	console.info()
 	const shadowSharedValue = useSharedValue<number>(level)
 	const {token} = useTheme()
 	const {elevation} = token
