@@ -37,7 +37,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
 
 				<AnimatedView
 					className={classesName(
-						'absolute bottom-0 right-0 top-0 h-[--border-extra-large] origin-right  self-stretch bg-[--color-primary-container]',
+						'absolute bottom-0 right-0 top-0 h-[--border-extra-large] origin-right  self-stretch bg-[--color-secondary-container]',
 						shapeClasses(shape)
 					)}
 					style={[trackAnimatedStyle]}
