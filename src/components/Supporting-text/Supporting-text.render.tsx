@@ -2,7 +2,6 @@ import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {ALIGNMENT} from '../../constants'
 import {useTheme} from '../../hooks'
-
 import {AnimatedText} from '../Animated-component'
 import {LayoutAnimated} from '../Layout-animated'
 import type {RenderSupportingTextProps} from './Supporting-text.interface'
@@ -30,11 +29,7 @@ export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(
 			<LayoutAnimated
 				{...props}
 				visible={visible}
-				className={classesName(
-					'mb-[--density-spacing-extra-large] min-h-[--typography-body-medium-height]',
-					densityInsetClasses(size),
-					className
-				)}
+				className={classesName('min-h-[--typography-body-medium-height]', densityInsetClasses(size), className)}
 				contentSize={{height: token.typography[TYPOGRAPHY.BODY][SIZE.SMALL].height}}
 				testID={`supportingText__layoutAnimated--${id}`}
 				ref={ref}

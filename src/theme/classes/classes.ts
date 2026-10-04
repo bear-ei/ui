@@ -127,13 +127,32 @@ const DENSITY_INSET = {
 	}
 }
 
+const DENSITY_SPACING = {
+	[LAYOUT.HORIZONTAL]: {
+		[SIZE.NONE]: 'ml-[--density-spacing-none] mr-[--density-spacing-none]',
+		[SIZE.EXTRA_LARGE]: 'ml-[--density-spacing-extra-large] mr-[--density-spacing-extra-large]',
+		[SIZE.EXTRA_SMALL]: 'ml-[--density-spacing-extra-small] mr-[--density-spacing-extra-small]',
+		[SIZE.LARGE]: 'ml-[--density-spacing-large] mr-[--density-spacing-large]',
+		[SIZE.MEDIUM]: 'ml-[--density-spacing-medium] mr-[--density-spacing-medium]',
+		[SIZE.SMALL]: 'ml-[--density-spacing-small] mr-[--density-spacing-small]'
+	},
+	[LAYOUT.VERTICAL]: {
+		[SIZE.NONE]: 'mt-[--density-spacing-none] mb-[--density-spacing-none]',
+		[SIZE.EXTRA_LARGE]: 'mt-[--density-spacing-extra-large] mb-[--density-spacing-extra-large]',
+		[SIZE.EXTRA_SMALL]: 'mt-[--density-spacing-extra-small] mb-[--density-spacing-extra-small]',
+		[SIZE.LARGE]: 'mt-[--density-spacing-large] mb-[--density-inset-large]',
+		[SIZE.MEDIUM]: 'mt-[--density-spacing-medium] mb-[--density-inset-medium]',
+		[SIZE.SMALL]: 'mt-[--density-spacing-small] mb-[--density-inset-small]'
+	}
+}
+
 const DENSITY = {
 	[DENSITY_TYPE.CONTROL]: DENSITY_CONTROL,
 	[DENSITY_TYPE.ICON]: DENSITY_CONTROL,
 	[DENSITY_TYPE.INLINE]: DENSITY_INLINE,
 	[DENSITY_TYPE.INSET]: DENSITY_INSET,
 	[DENSITY_TYPE.LAYOUT]: DENSITY_CONTROL,
-	[DENSITY_TYPE.SPACING]: DENSITY_CONTROL
+	[DENSITY_TYPE.SPACING]: DENSITY_SPACING
 }
 
 const classesName = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
@@ -145,11 +164,11 @@ const densityClasses =
 			return ''
 		}
 
-		if (type === DENSITY_TYPE.INSET) {
-			return DENSITY[type][layout][size]
+		if (([DENSITY_TYPE.INSET, DENSITY_TYPE.SPACING] as readonly DensityType[]).includes(type)) {
+			return (DENSITY[type] as typeof DENSITY_SPACING)[layout][size]
 		}
 
-		return DENSITY[type][size]
+		return (DENSITY[type] as typeof DENSITY_CONTROL)[size]
 	}
 
 const shapeClasses = (shape: ShapeType = SHAPE.NONE) => SHAPE_TYPE[shape]
