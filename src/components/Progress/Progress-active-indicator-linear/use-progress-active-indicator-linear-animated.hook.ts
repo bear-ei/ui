@@ -1,24 +1,46 @@
 import {useEffect, useMemo} from 'react'
-import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
-import {debounce} from '../../../utils'
+import {debounce, platformValue} from '../../../utils'
 import {animateProgressActiveIndicatorLinear} from './Progress-active-indicator-linear.handler'
 import type {UseProgressActiveIndicatorLinearAnimatedOptions} from './Progress-active-indicator-linear.interface'
+import {SIZE} from '../../../theme'
+import type {ViewStyle} from 'react-native'
 
 export const useProgressActiveIndicatorLinearAnimated = ({
-	defaultValue = 0,
 	status,
-	value
+	value = 0
 }: UseProgressActiveIndicatorLinearAnimatedOptions) => {
-	const scaleXSharedValue = useSharedValue(defaultValue)
-	const theme = useTheme()
-	const animatedTiming = useAnimatedTiming({token: theme.token})
-	// const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
-	const contentAnimatedStyle = useAnimatedStyle(() => ({transform: [{scaleX: scaleXSharedValue.value}]}))
+	const widthSharedValue = useSharedValue(value)
+	const translateXSharedValue = useSharedValue(value)
+	const {token} = useTheme()
+	const animatedTiming = useAnimatedTiming({token})
+	const contentAnimatedStyle = useAnimatedStyle(() => ({width: `${widthSharedValue.value * 100}%`}))
+	const trackAnimatedStyle = useAnimatedStyle(
+		() =>
+			({
+				width: `${(1 - widthSharedValue.value) * 100}%`,
+				transform: [
+					{
+						translateX: platformValue(
+							interpolate(
+								translateXSharedValue.value,
+								[0, 1],
+								[token.density.spacing[SIZE.NONE], token.density.spacing[SIZE.EXTRA_SMALL]]
+							)
+						)
+					}
+				]
+			}) as ViewStyle
+	)
+
 	const runAnimate = useMemo(
-		() => debounce(animateProgressActiveIndicatorLinear(animatedTiming)(scaleXSharedValue))(30),
-		[animatedTiming, scaleXSharedValue]
+		() =>
+			debounce(animateProgressActiveIndicatorLinear(animatedTiming)({widthSharedValue, translateXSharedValue}))(
+				30
+			),
+		[animatedTiming, widthSharedValue, translateXSharedValue]
 	)
 
 	useEffect(() => {
@@ -29,10 +51,10 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 
 	useEffect(
 		() => () => {
-			cancelAnimation(scaleXSharedValue)
+			cancelAnimation(widthSharedValue)
 		},
-		[scaleXSharedValue]
+		[widthSharedValue]
 	)
 
-	return {contentAnimatedStyle}
+	return {contentAnimatedStyle, trackAnimatedStyle}
 }

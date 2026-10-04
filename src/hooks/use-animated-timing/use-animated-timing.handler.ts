@@ -20,13 +20,12 @@ export const createAnimatedTiming =
 			}
 		)
 
+		const withDelayedAnimation =
+			typeof delay === 'number' ? withDelay(Math.round(delay * speedScale), animation) : animation
+
 		if (typeof repeat === 'number') {
-			return withRepeat(animation, repeat)
+			return withRepeat(withDelayedAnimation, repeat)
 		}
 
-		if (typeof delay === 'number') {
-			return withDelay(Math.round(delay * speedScale), animation)
-		}
-
-		return animation
+		return withDelayedAnimation
 	}

@@ -26,16 +26,15 @@ export const RenderProgress = forwardRef<View, RenderProgressProps>(
 	) => {
 		const {token} = useTheme()
 		const {densityClasses, classesName} = token.classes
-		const densityControlClasses = densityClasses()(DENSITY_TYPE.CONTROL)
+		const densityInlineClasses = densityClasses()(DENSITY_TYPE.INLINE)
 
 		return (
 			<View
 				{...containerProps}
 				accessibilityRole='progressbar'
 				className={classesName('pointer-events-none flex flex-col self-stretch', {
-					['gap-[--density-spacing-extra-small]']: !!(value && value > 0) && type === PROGRESS_TYPE.LINEAR,
 					['h-[--border-extra-large] min-w-10']: type === PROGRESS_TYPE.LINEAR,
-					[densityControlClasses(size)]: type === PROGRESS_TYPE.CIRCULAR
+					[densityInlineClasses(size)]: type === PROGRESS_TYPE.CIRCULAR
 				})}
 				ref={ref}
 				testID={testID ?? `progress--${id}`}

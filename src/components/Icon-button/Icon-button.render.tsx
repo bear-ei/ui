@@ -64,12 +64,11 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 		},
 		ref
 	) => {
-		const theme = useTheme()
 		const {token} = useTheme()
 		const {densityClasses, classesName, shapeClasses} = token.classes
 		const densityControlClasses = densityClasses()(DENSITY_TYPE.CONTROL)
 		const shape = SHAPE.FULL
-		const activeColor = theme.token.scheme.secondaryContainer
+		const activeColor = token.scheme.secondaryContainer
 		const backgroundUnderlayElement = (
 			<AnimatedView
 				className={classesName(

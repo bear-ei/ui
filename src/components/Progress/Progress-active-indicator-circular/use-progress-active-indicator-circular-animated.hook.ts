@@ -1,4 +1,3 @@
-import {EASING} from '@bearei/theme-token'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {COMPONENT_STATUS} from '../../../constants'
@@ -8,19 +7,15 @@ import {
 	computeProgressStrokeDashoffset
 } from './Progress-active-indicator-circular.handler'
 import type {UseProgressActiveIndicatorCircularAnimatedOptions} from './Progress-active-indicator-circular.interface'
+import {platformValue} from '../../../utils'
 
 export const useProgressActiveIndicatorCircularAnimated = ({
 	circumference,
 	enableAnimated,
 	status
 }: UseProgressActiveIndicatorCircularAnimatedOptions) => {
-	const theme = useTheme()
-	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const animateSharedValueTo = useMemo(
-		() => animatedTiming({repeat: 0, duration: 2000, easing: EASING.LINEAR}),
-		[animatedTiming]
-	)
-
+	const {token} = useTheme()
+	const animatedTiming = useAnimatedTiming({token})
 	const circleSharedValue = useSharedValue(0)
 	const containerSharedValue = useSharedValue(0)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
@@ -34,16 +29,14 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 	]
 
 	const circleAnimatedProps = useAnimatedProps(() => ({
-		strokeDashoffset: interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRanges)
+		strokeDashoffset: platformValue(
+			interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRanges)
+		)
 	}))
 
 	const runAnimate = useMemo(
-		() =>
-			animateProgressActiveIndicatorCircular(animateSharedValueTo)({
-				circleSharedValue,
-				containerSharedValue
-			}),
-		[animateSharedValueTo, circleSharedValue, containerSharedValue]
+		() => animateProgressActiveIndicatorCircular(animatedTiming)({circleSharedValue, containerSharedValue}),
+		[animatedTiming, circleSharedValue, containerSharedValue]
 	)
 
 	useEffect(() => {

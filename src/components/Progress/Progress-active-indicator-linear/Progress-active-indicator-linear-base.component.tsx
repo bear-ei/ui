@@ -12,9 +12,10 @@ import {RenderProgressActiveIndicatorLinear} from './Progress-active-indicator-l
 import {useProgressActiveIndicatorLinearAnimated} from './use-progress-active-indicator-linear-animated.hook'
 
 export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActiveIndicatorLinearBaseProps>(
-	({defaultValue, value, ...renderProgressActiveIndicatorLinearProps}, ref) => {
+	({defaultValue, value: rawValue, ...renderProgressActiveIndicatorLinearProps}, ref) => {
 		const [{status}, setState] = useImmer<ProgressActiveIndicatorLinearState>({status: COMPONENT_STATUS.IDLE})
 		const id = useId()
+		const value = rawValue ?? defaultValue
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleProgressStateChange({...options, state})(setState)(event),
@@ -26,7 +27,7 @@ export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActive
 			onStateEventChange
 		})
 
-		const {contentAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({defaultValue, value, status})
+		const {contentAnimatedStyle, trackAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({value, status})
 
 		return (
 			<RenderProgressActiveIndicatorLinear
@@ -35,6 +36,8 @@ export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActive
 				id={id}
 				interactionHandlers={interactionHandlers}
 				ref={ref}
+				trackAnimatedStyle={trackAnimatedStyle}
+				value={value}
 			/>
 		)
 	}

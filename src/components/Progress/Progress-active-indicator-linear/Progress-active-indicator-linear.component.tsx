@@ -4,6 +4,9 @@ import {typedMemo} from '../../../utils'
 import {ProgressActiveIndicatorLinearBase} from './Progress-active-indicator-linear-base.component'
 import type {ProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear.interface'
 
+/**
+ * TODO: Add progress type INDETERMINATE
+ */
 const ProgressActiveIndicatorLinearWithRef = forwardRef<View, ProgressActiveIndicatorLinearProps>((props, ref) => (
 	<ProgressActiveIndicatorLinearBase
 		{...props}

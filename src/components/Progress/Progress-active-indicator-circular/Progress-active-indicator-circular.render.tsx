@@ -3,6 +3,7 @@ import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Circle, Svg} from 'react-native-svg'
 import {useTheme} from '../../../hooks'
+import {SIZE} from '../../../theme'
 import {platformValue} from '../../../utils'
 import {AnimatedView} from '../../Animated-component'
 import {PROGRESS_ANIMATED} from '../Progress.enum'
@@ -27,17 +28,17 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
 		},
 		ref
 	) => {
-		const theme = useTheme()
-		const activeIndicatorColor = theme.token.scheme.primary
+		const {token} = useTheme()
+		const activeIndicatorColor = token.scheme.primary
 		const cx = size / 2
 		const cy = size / 2
-		const trackColor = theme.token.scheme.primaryContainer
+		const trackColor = token.scheme.primaryContainer
 		const circleProps = {
 			cx: platformValue(cx),
 			cy: platformValue(cy),
 			r: platformValue(radius),
 			strokeDasharray: platformValue(circumference),
-			strokeDashoffset: platformValue(theme.token.spacing.none),
+			strokeDashoffset: platformValue(token.border[SIZE.NONE]),
 			strokeWidth: platformValue(strokeWidth)
 		}
 
@@ -49,12 +50,14 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
 				ref={ref}
 				testID={testID ?? `progressActiveIndicatorCircular--${id}`}
 			>
-				<View
-					className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-					testID={`progressActiveIndicatorCircular__content--${id}`}
-				>
-					{content}
-				</View>
+				{content && (
+					<View
+						className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
+						testID={`progressActiveIndicatorCircular__content--${id}`}
+					>
+						{content}
+					</View>
+				)}
 
 				<AnimatedView
 					style={[containerAnimatedStyle]}
@@ -63,7 +66,7 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
 					<Svg
 						fill='none'
 						testID={`progressActiveIndicatorCircular__svg--${id}`}
-						viewBox={`${theme.token.spacing.none} ${theme.token.spacing.none} ${size} ${size}`}
+						viewBox={`${token.density.inline[SIZE.NONE]} ${token.density.inline[SIZE.NONE]} ${size} ${size}`}
 					>
 						{animatedType === PROGRESS_ANIMATED.DETERMINATE && (
 							<Circle
@@ -80,7 +83,7 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
 							stroke={activeIndicatorColor}
 							strokeLinecap='round'
 							testID={`progressActiveIndicatorCircular__animatedCircle--${id}`}
-							transform={[{rotate: '180deg'}, {rotateX: `${cx}deg`}, {rotateY: `${cy}deg`}]}
+							transform={`rotate(-90, ${cx}, ${cy})`}
 						/>
 					</Svg>
 				</AnimatedView>

@@ -1,26 +1,43 @@
 import {cancelAnimation} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {
+	AnimatedTimingOptions,
+	AnimateSharedValueTo,
+	HandleStateEventChangeOptions,
+	StateEvent
+} from '../../../hooks'
 import type {
 	AnimateProgressActiveIndicatorCircularSharedValues,
 	ProgressActiveIndicatorCircularState
 } from './Progress-active-indicator-circular.interface'
+import {DURATION, EASING} from '../../../theme'
 
-export const animateProgressActiveIndicatorCircular =
-	(animateSharedValueTo: AnimateSharedValueTo) =>
-	({containerSharedValue, circleSharedValue}: AnimateProgressActiveIndicatorCircularSharedValues) =>
-	(enableAnimated?: boolean) => {
-		if (enableAnimated) {
-			animateSharedValueTo({sharedValue: circleSharedValue})(2)
-			animateSharedValueTo({sharedValue: containerSharedValue})(2)
+// TODO: DETERMINATE
+// const determinateAnimation = {
+// 	duration: DURATION.MEDIUM_1,
+// 	easing: EASING.STANDARD_DECELERATE
+// }
+//
+export const animateProgressActiveIndicatorCircular = (
+	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
+) => {
+	const indeterminateAnimation = {duration: DURATION.EXTRA_LONG_3, easing: EASING.LINEAR, repeat: -1}
+	const animateSharedValueTo = animatedTiming(indeterminateAnimation)
 
-			return
+	return ({containerSharedValue, circleSharedValue}: AnimateProgressActiveIndicatorCircularSharedValues) =>
+		(enableAnimated?: boolean) => {
+			if (enableAnimated) {
+				animateSharedValueTo({sharedValue: circleSharedValue})(2)
+				animateSharedValueTo({sharedValue: containerSharedValue})(2)
+
+				return
+			}
+
+			cancelAnimation(circleSharedValue)
+			cancelAnimation(containerSharedValue)
 		}
-
-		cancelAnimation(circleSharedValue)
-		cancelAnimation(containerSharedValue)
-	}
+}
 
 export const computeProgressStrokeDashoffset = (circumference: number) => (value: number) => circumference * (1 - value)
 export const handleProgressStateChange =
