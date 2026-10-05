@@ -1,5 +1,5 @@
 import {SIZE} from '../theme.enum'
-import {UI_DENSITY, WINDOW_SIZE} from './density.enum'
+import {LAYOUT_DENSITY, UI_DENSITY, WINDOW_SIZE} from './density.enum'
 import type {Density, Spacing, UIDensity, WindowSize} from './density.interface'
 
 const createLayoutDensity = (compact: boolean) => (spacing: Spacing) => {
@@ -51,9 +51,9 @@ export const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density 
 
 	const layout = {
 		[SIZE.NONE]: 0,
-		detailPanelWidth: isCompact ? 260 : 320,
-		navigationWidth: isCompact ? 44 : 64,
-		sidebarWidth: isCompact ? 220 : 280
+		[LAYOUT_DENSITY.DETAIL_PANEL]: isCompact ? 260 : 320,
+		[LAYOUT_DENSITY.NAVIGATION]: isCompact ? 44 : 64,
+		[LAYOUT_DENSITY.SIDEBAR]: isCompact ? 220 : 280
 	}
 
 	const icon = {

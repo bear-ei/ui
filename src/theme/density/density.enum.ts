@@ -19,3 +19,9 @@ export const DENSITY_TYPE = {
 	LAYOUT: 'LAYOUT',
 	SPACING: 'SPACING'
 } as const
+
+export const LAYOUT_DENSITY = {
+	DETAIL_PANEL: 'DETAIL_PANEL',
+	NAVIGATION: 'NAVIGATION',
+	SIDEBAR: 'SIDEBAR'
+} as const

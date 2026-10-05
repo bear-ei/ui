@@ -25,11 +25,7 @@ export const useTextInputAnimated = ({
 	const {token} = useTheme()
 	const {scheme, opacity} = token
 	const disabledAnimatedValue = disabled ? 0 : 1
-	const defaultAnimatedValue = {
-		activeIndicatorScaleYSharedValue: error ? 1 : 0,
-		colorSharedValue: error ? 3 : 1
-	}
-
+	const defaultAnimatedValue = {activeIndicatorScaleYSharedValue: error ? 1 : 0, colorSharedValue: error ? 3 : 1}
 	const activeIndicatorScaleYSharedValue = useSharedValue(
 		disabled ? disabledAnimatedValue : defaultAnimatedValue.activeIndicatorScaleYSharedValue
 	)
