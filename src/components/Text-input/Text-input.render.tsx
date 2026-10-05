@@ -172,7 +172,7 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 							)}
 
 							<AnimatedView
-								className='absolute bottom-0 left-0 right-0 z-20 h-[0.125rem] origin-bottom'
+								className='absolute bottom-0 left-0 right-0 z-20 h-[--border-medium] origin-bottom'
 								style={[activeIndicatorAnimatedStyle]}
 								testID={`textInput__animatedActiveIndicator--${id}`}
 							/>
