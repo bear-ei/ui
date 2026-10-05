@@ -69,8 +69,8 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 		const densityControlClasses = densityClasses()(DENSITY_TYPE.CONTROL)
 		const densityInsetClasses = densityClasses()(DENSITY_TYPE.INSET)
 		const shapeSize = {
-			[SIZE.EXTRA_LARGE]: SHAPE.LARGE,
-			[SIZE.EXTRA_SMALL]: SHAPE.SMALL,
+			[SIZE.X_LARGE]: SHAPE.LARGE,
+			[SIZE.X_SMALL]: SHAPE.SMALL,
 			[SIZE.LARGE]: SHAPE.LARGE,
 			[SIZE.MEDIUM]: SHAPE.MEDIUM,
 			[SIZE.SMALL]: SHAPE.MEDIUM

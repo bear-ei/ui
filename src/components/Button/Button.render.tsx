@@ -86,7 +86,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 		const isActiveIndicatorVisible = type === BUTTON_TYPE.LINK && eventName && eventNames.includes(eventName)
 		const isLink = type === BUTTON_TYPE.LINK
 		const loadingEventName = type && buttonTypes.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
-		const shape = isLink ? SHAPE.EXTRA_SMALL_TOP : SHAPE.FULL
+		const shape = isLink ? SHAPE.X_SMALL_TOP : SHAPE.FULL
 		const backgroundUnderlayElement = (
 			<AnimatedView
 				className={classesName(

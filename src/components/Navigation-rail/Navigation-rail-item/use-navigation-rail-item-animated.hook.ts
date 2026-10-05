@@ -21,7 +21,7 @@ export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigat
 	]
 
 	const contentTranslateYOutputRanges = [
-		token.density.spacing[SIZE.MEDIUM] + -1 * token.density.spacing[SIZE.EXTRA_SMALL],
+		token.density.spacing[SIZE.MEDIUM] + -1 * token.density.spacing[SIZE.X_SMALL],
 		token.density.spacing[SIZE.NONE]
 	]
 

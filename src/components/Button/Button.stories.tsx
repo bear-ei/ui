@@ -69,7 +69,7 @@ export const Err: StoryObj<ButtonProps> = {
 }
 
 export const ExtraLarge: StoryObj<ButtonProps> = {
-	args: {size: SIZE.EXTRA_LARGE}
+	args: {size: SIZE.X_LARGE}
 }
 
 export const Large: StoryObj<ButtonProps> = {
@@ -85,7 +85,7 @@ export const Small: StoryObj<ButtonProps> = {
 }
 
 export const ExtraSmall: StoryObj<ButtonProps> = {
-	args: {size: SIZE.EXTRA_SMALL}
+	args: {size: SIZE.X_SMALL}
 }
 
 export default {

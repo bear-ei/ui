@@ -61,7 +61,7 @@ export const NavigationRailItemBase = forwardRef<PressableType, NavigationRailIt
 			type
 		})
 
-		const size = token.density.icon[type === NAVIGATION_RAIL_TYPE.BLOCK ? SIZE.EXTRA_LARGE : SIZE.EXTRA_SMALL]
+		const size = token.density.icon[type === NAVIGATION_RAIL_TYPE.BLOCK ? SIZE.X_LARGE : SIZE.X_SMALL]
 		const iconElement = cloneElement(icon ?? <Circle />, {
 			color: token.scheme.onSurfaceVariant,
 			size: platformValue(size),

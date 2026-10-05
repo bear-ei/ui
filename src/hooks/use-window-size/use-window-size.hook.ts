@@ -20,7 +20,7 @@ export const useWindowSize = () => {
 			windowSize = WINDOW_SIZE.LARGE
 			break
 		case width >= 1600:
-			windowSize = WINDOW_SIZE.EXTRA_LARGE
+			windowSize = WINDOW_SIZE.X_LARGE
 			break
 
 		default:

@@ -16,7 +16,7 @@ export const Medium: StoryObj<AvatarProps> = {
 }
 
 export const ExtraLarge: StoryObj<AvatarProps> = {
-	args: {size: SIZE.EXTRA_LARGE}
+	args: {size: SIZE.X_LARGE}
 }
 
 export const Large: StoryObj<AvatarProps> = {
@@ -28,7 +28,7 @@ export const Small: StoryObj<AvatarProps> = {
 }
 
 export const ExtraSmall: StoryObj<AvatarProps> = {
-	args: {size: SIZE.EXTRA_SMALL}
+	args: {size: SIZE.X_SMALL}
 }
 
 export default {

@@ -27,7 +27,7 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 							interpolate(
 								translateXSharedValue.value,
 								[0, 1],
-								[token.density.spacing[SIZE.NONE], token.density.spacing[SIZE.EXTRA_SMALL]]
+								[token.density.spacing[SIZE.NONE], token.density.spacing[SIZE.X_SMALL]]
 							)
 						)
 					}

@@ -33,7 +33,7 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
 					[`h-[--border-small] ${densityHorizontalInsetClasses(size)} w-full`]:
 						!subheader && layoutType === LAYOUT.HORIZONTAL,
 
-					[`h-[--border-small] ${densityHorizontalInsetClasses(size)} ${densityInlineClasses(SIZE.EXTRA_SMALL)} w-full`]:
+					[`h-[--border-small] ${densityHorizontalInsetClasses(size)} ${densityInlineClasses(SIZE.X_SMALL)} w-full`]:
 						subheader && layoutType === LAYOUT.HORIZONTAL
 				})}
 				ref={ref}

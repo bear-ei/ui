@@ -7,10 +7,11 @@ export const PLATFORM = {
 } as const
 
 export const SIZE = {
-	EXTRA_LARGE: 'EXTRA_LARGE',
-	EXTRA_SMALL: 'EXTRA_SMALL',
 	LARGE: 'LARGE',
 	MEDIUM: 'MEDIUM',
 	NONE: 'NONE',
-	SMALL: 'SMALL'
+	SMALL: 'SMALL',
+	X_LARGE: 'X_LARGE',
+	X_SMALL: 'X_SMALL',
+	XX_LARGE: 'XX_LARGE'
 } as const

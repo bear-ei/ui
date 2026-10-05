@@ -32,7 +32,7 @@ export const Err: StoryObj<TextInputProps> = {
 
 export const ExtraLarge: StoryObj<TextInputProps> = {
 	args: {
-		size: SIZE.EXTRA_LARGE
+		size: SIZE.X_LARGE
 	}
 }
 
@@ -54,9 +54,9 @@ export const SMALL: StoryObj<TextInputProps> = {
 	}
 }
 
-export const EXTRA_SMALL: StoryObj<TextInputProps> = {
+export const X_SMALL: StoryObj<TextInputProps> = {
 	args: {
-		size: SIZE.EXTRA_SMALL
+		size: SIZE.X_SMALL
 	}
 }
 

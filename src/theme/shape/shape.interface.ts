@@ -26,11 +26,11 @@ export interface Shape {
 	 *      - Text fields
 	 */
 
-	[SHAPE.EXTRA_SMALL_BOTTOM]: BorderRadius
-	[SHAPE.EXTRA_SMALL_END]: BorderRadius
-	[SHAPE.EXTRA_SMALL_START]: BorderRadius
-	[SHAPE.EXTRA_SMALL_TOP]: BorderRadius
-	[SHAPE.EXTRA_SMALL]: BorderRadius
+	[SHAPE.X_SMALL_BOTTOM]: BorderRadius
+	[SHAPE.X_SMALL_END]: BorderRadius
+	[SHAPE.X_SMALL_START]: BorderRadius
+	[SHAPE.X_SMALL_TOP]: BorderRadius
+	[SHAPE.X_SMALL]: BorderRadius
 
 	/**
 	 *  Small
@@ -76,11 +76,11 @@ export interface Shape {
 	 *      - Time picker
 	 *      - Time input
 	 */
-	[SHAPE.EXTRA_LARGE_BOTTOM]: BorderRadius
-	[SHAPE.EXTRA_LARGE_END]: BorderRadius
-	[SHAPE.EXTRA_LARGE_START]: BorderRadius
-	[SHAPE.EXTRA_LARGE_TOP]: BorderRadius
-	[SHAPE.EXTRA_LARGE]: BorderRadius
+	[SHAPE.X_LARGE_BOTTOM]: BorderRadius
+	[SHAPE.X_LARGE_END]: BorderRadius
+	[SHAPE.X_LARGE_START]: BorderRadius
+	[SHAPE.X_LARGE_TOP]: BorderRadius
+	[SHAPE.X_LARGE]: BorderRadius
 
 	/**
 	 *  Full

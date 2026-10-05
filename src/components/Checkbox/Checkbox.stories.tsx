@@ -20,7 +20,7 @@ export const Disabled: StoryObj<CheckboxProps> = {
 }
 
 export const ExtraLarge: StoryObj<CheckboxProps> = {
-	args: {size: SIZE.EXTRA_LARGE}
+	args: {size: SIZE.X_LARGE}
 }
 
 export const Large: StoryObj<CheckboxProps> = {
@@ -36,7 +36,7 @@ export const Small: StoryObj<CheckboxProps> = {
 }
 
 export const ExtraSmall: StoryObj<CheckboxProps> = {
-	args: {size: SIZE.EXTRA_SMALL}
+	args: {size: SIZE.X_SMALL}
 }
 
 export default {

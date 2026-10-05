@@ -9,16 +9,16 @@ import {SIZE} from '../theme.enum'
 import type {Size} from '../theme.interface'
 
 const SHAPE_TYPE = {
-	[SHAPE.EXTRA_LARGE_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-extra-large]',
-	[SHAPE.EXTRA_LARGE_END]: 'rounded-l-[--shape-none] rounded-r-[--shape-extra-large]',
-	[SHAPE.EXTRA_LARGE_START]: 'rounded-l-[--shape-extra-large] rounded-r-[--shape-none]',
-	[SHAPE.EXTRA_LARGE_TOP]: 'rounded-t-[--shape-extra-large] rounded-b-[--shape-none]',
-	[SHAPE.EXTRA_LARGE]: 'rounded-[--shape-extra-large]',
-	[SHAPE.EXTRA_SMALL_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-extra-small]',
-	[SHAPE.EXTRA_SMALL_END]: 'rounded-l-none rounded-r-[--shape-extra-small]',
-	[SHAPE.EXTRA_SMALL_START]: 'rounded-l-[--shape-extra-small] rounded-r-[--shape-none]',
-	[SHAPE.EXTRA_SMALL_TOP]: 'rounded-t-[--shape-extra-small] rounded-b-[--shape-none]',
-	[SHAPE.EXTRA_SMALL]: 'rounded-[--shape-extra-small]',
+	[SHAPE.X_LARGE_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-extra-large]',
+	[SHAPE.X_LARGE_END]: 'rounded-l-[--shape-none] rounded-r-[--shape-extra-large]',
+	[SHAPE.X_LARGE_START]: 'rounded-l-[--shape-extra-large] rounded-r-[--shape-none]',
+	[SHAPE.X_LARGE_TOP]: 'rounded-t-[--shape-extra-large] rounded-b-[--shape-none]',
+	[SHAPE.X_LARGE]: 'rounded-[--shape-extra-large]',
+	[SHAPE.X_SMALL_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-extra-small]',
+	[SHAPE.X_SMALL_END]: 'rounded-l-none rounded-r-[--shape-extra-small]',
+	[SHAPE.X_SMALL_START]: 'rounded-l-[--shape-extra-small] rounded-r-[--shape-none]',
+	[SHAPE.X_SMALL_TOP]: 'rounded-t-[--shape-extra-small] rounded-b-[--shape-none]',
+	[SHAPE.X_SMALL]: 'rounded-[--shape-extra-small]',
 	[SHAPE.FULL_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-full]',
 	[SHAPE.FULL_END]: 'rounded-l-none rounded-r-[--shape-full]',
 	[SHAPE.FULL_START]: 'rounded-l-[--shape-full] rounded-r-[--shape-none]',
@@ -92,8 +92,8 @@ const TYPOGRAPHY_TYPE = {
 
 const DENSITY_CONTROL = {
 	[SIZE.NONE]: 'h-[--density-control-none] w-[--density-control-none]',
-	[SIZE.EXTRA_LARGE]: 'h-[--density-control-extra-large] w-[--density-control-extra-large]',
-	[SIZE.EXTRA_SMALL]: 'h-[--density-control-extra-small] w-[--density-control-extra-small]',
+	[SIZE.X_LARGE]: 'h-[--density-control-extra-large] w-[--density-control-extra-large]',
+	[SIZE.X_SMALL]: 'h-[--density-control-extra-small] w-[--density-control-extra-small]',
 	[SIZE.LARGE]: 'h-[--density-control-large] w-[--density-control-large]',
 	[SIZE.MEDIUM]: 'h-[--density-control-medium] w-[--density-control-medium]',
 	[SIZE.SMALL]: 'h-[--density-control-small] w-[--density-control-small]'
@@ -101,8 +101,8 @@ const DENSITY_CONTROL = {
 
 const DENSITY_INLINE = {
 	[SIZE.NONE]: 'h-[--density-inline-none] w-[--density-inline-none]',
-	[SIZE.EXTRA_LARGE]: 'h-[--density-inline-extra-large] w-[--density-inline-extra-large]',
-	[SIZE.EXTRA_SMALL]: 'h-[--density-inline-extra-small] w-[--density-inline-extra-small]',
+	[SIZE.X_LARGE]: 'h-[--density-inline-extra-large] w-[--density-inline-extra-large]',
+	[SIZE.X_SMALL]: 'h-[--density-inline-extra-small] w-[--density-inline-extra-small]',
 	[SIZE.LARGE]: 'h-[--density-inline-large] w-[--density-inline-large]',
 	[SIZE.MEDIUM]: 'h-[--density-inline-medium] w-[--density-inline-medium]',
 	[SIZE.SMALL]: 'h-[--density-inline-small] w-[--density-inline-small]'
@@ -111,16 +111,16 @@ const DENSITY_INLINE = {
 const DENSITY_INSET = {
 	[LAYOUT.HORIZONTAL]: {
 		[SIZE.NONE]: 'pl-[--density-inset-none] pr-[--density-inset-none]',
-		[SIZE.EXTRA_LARGE]: 'pl-[--density-inset-extra-large] pr-[--density-inset-extra-large]',
-		[SIZE.EXTRA_SMALL]: 'pl-[--density-inset-extra-small] pr-[--density-inset-extra-small]',
+		[SIZE.X_LARGE]: 'pl-[--density-inset-extra-large] pr-[--density-inset-extra-large]',
+		[SIZE.X_SMALL]: 'pl-[--density-inset-extra-small] pr-[--density-inset-extra-small]',
 		[SIZE.LARGE]: 'pl-[--density-inset-large] pr-[--density-inset-large]',
 		[SIZE.MEDIUM]: 'pl-[--density-inset-medium] pr-[--density-inset-medium]',
 		[SIZE.SMALL]: 'pl-[--density-inset-small] pr-[--density-inset-small]'
 	},
 	[LAYOUT.VERTICAL]: {
 		[SIZE.NONE]: 'pt-[--density-inset-none] pb-[--density-inset-none]',
-		[SIZE.EXTRA_LARGE]: 'pt-[--density-inset-extra-large] pb-[--density-inset-extra-large]',
-		[SIZE.EXTRA_SMALL]: 'pt-[--density-inset-extra-small] pb-[--density-inset-extra-small]',
+		[SIZE.X_LARGE]: 'pt-[--density-inset-extra-large] pb-[--density-inset-extra-large]',
+		[SIZE.X_SMALL]: 'pt-[--density-inset-extra-small] pb-[--density-inset-extra-small]',
 		[SIZE.LARGE]: 'pt-[--density-inset-large] pb-[--density-inset-large]',
 		[SIZE.MEDIUM]: 'pt-[--density-inset-medium] pb-[--density-inset-medium]',
 		[SIZE.SMALL]: 'pt-[--density-inset-small] pb-[--density-inset-small]'
@@ -130,16 +130,16 @@ const DENSITY_INSET = {
 const DENSITY_SPACING = {
 	[LAYOUT.HORIZONTAL]: {
 		[SIZE.NONE]: 'ml-[--density-spacing-none] mr-[--density-spacing-none]',
-		[SIZE.EXTRA_LARGE]: 'ml-[--density-spacing-extra-large] mr-[--density-spacing-extra-large]',
-		[SIZE.EXTRA_SMALL]: 'ml-[--density-spacing-extra-small] mr-[--density-spacing-extra-small]',
+		[SIZE.X_LARGE]: 'ml-[--density-spacing-extra-large] mr-[--density-spacing-extra-large]',
+		[SIZE.X_SMALL]: 'ml-[--density-spacing-extra-small] mr-[--density-spacing-extra-small]',
 		[SIZE.LARGE]: 'ml-[--density-spacing-large] mr-[--density-spacing-large]',
 		[SIZE.MEDIUM]: 'ml-[--density-spacing-medium] mr-[--density-spacing-medium]',
 		[SIZE.SMALL]: 'ml-[--density-spacing-small] mr-[--density-spacing-small]'
 	},
 	[LAYOUT.VERTICAL]: {
 		[SIZE.NONE]: 'mt-[--density-spacing-none] mb-[--density-spacing-none]',
-		[SIZE.EXTRA_LARGE]: 'mt-[--density-spacing-extra-large] mb-[--density-spacing-extra-large]',
-		[SIZE.EXTRA_SMALL]: 'mt-[--density-spacing-extra-small] mb-[--density-spacing-extra-small]',
+		[SIZE.X_LARGE]: 'mt-[--density-spacing-extra-large] mb-[--density-spacing-extra-large]',
+		[SIZE.X_SMALL]: 'mt-[--density-spacing-extra-small] mb-[--density-spacing-extra-small]',
 		[SIZE.LARGE]: 'mt-[--density-spacing-large] mb-[--density-inset-large]',
 		[SIZE.MEDIUM]: 'mt-[--density-spacing-medium] mb-[--density-inset-medium]',
 		[SIZE.SMALL]: 'mt-[--density-spacing-small] mb-[--density-inset-small]'
@@ -182,8 +182,8 @@ const typographyClasses =
 		} = {} as TypographyClassesOptions
 	) => {
 		const typographySize = {
-			[SIZE.EXTRA_LARGE]: SIZE.LARGE,
-			[SIZE.EXTRA_SMALL]: SIZE.SMALL,
+			[SIZE.X_LARGE]: SIZE.LARGE,
+			[SIZE.X_SMALL]: SIZE.SMALL,
 			[SIZE.LARGE]: SIZE.LARGE,
 			[SIZE.MEDIUM]: SIZE.MEDIUM,
 			[SIZE.SMALL]: SIZE.SMALL
