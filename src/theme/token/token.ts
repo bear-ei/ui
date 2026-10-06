@@ -26,14 +26,13 @@ export const createToken = ({
 		(palette: PaletteType = PALETTE.NAVY): Token => {
 			const createdPalette = createPalette(palette)
 			const colorScheme = createColorScheme(createdPalette)(scheme)(contrast)
-			const speedScale = density === UI_DENSITY.COMPACT ? 0.7 : 1
 
 			return {
-				animated: createAnimatedConfig(speedScale),
+				animated: createAnimatedConfig(density),
 				border: createBorder(),
 				classes: rawClasses,
 				density: createDensity(density),
-				elevation: createElevation(scheme)(colorScheme.shadow),
+				elevation: createElevation(density)(colorScheme.shadow),
 				font,
 				opacity: createOpacity(),
 				palette: createdPalette,

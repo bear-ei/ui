@@ -1,5 +1,3 @@
-import {SIZE} from '../theme.enum'
-
 export const WINDOW_SIZE = {
 	COMPACT: 'COMPACT',
 	EXPANDED: 'EXPANDED',
@@ -28,8 +26,14 @@ export const LAYOUT_DENSITY = {
 	SIDEBAR: 'SIDEBAR'
 } as const
 
-export const SPACING = {
-	...SIZE,
+export const DENSITY_SIZE = {
+	LARGE: 'LARGE',
+	MEDIUM: 'MEDIUM',
+	NONE: 'NONE',
+	SMALL: 'SMALL',
 	SNUG: 'SNUG',
-	TIGHT: 'TIGHT'
+	TIGHT: 'TIGHT',
+	X_LARGE: 'X_LARGE',
+	X_SMALL: 'X_SMALL',
+	XX_LARGE: 'XX_LARGE'
 } as const

@@ -56,7 +56,7 @@ export type ColorRole =
 	| 'tertiaryFixed'
 	| 'tertiaryFixedDim'
 
-export type CoreColor = 'primary' | 'secondary' | 'tertiary' | 'error' | 'neutral' | 'neutralVariant'
+export type CoreColor = 'primary' | 'tertiary' | 'error'
 export interface Palette {
 	[SCHEME.DARK]: Record<Contrast, Record<ColorRole, string>>
 	[SCHEME.LIGHT]: Record<Contrast, Record<ColorRole, string>>

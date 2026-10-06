@@ -3,7 +3,7 @@ import {twMerge} from 'tailwind-merge'
 import {LAYOUT, type LayoutType} from '../../constants'
 import {DENSITY_TYPE, type DensityType} from '../density'
 import {RADIUS, SHAPE, type RadiusType, type ShapeType} from '../shape'
-import {TYPOGRAPHY, type TypographyType} from '../typography'
+import {TYPOGRAPHY, type TypographySize, type TypographyType} from '../typography'
 import type {TypographyClassesOptions} from './classes.interface'
 import {SIZE} from '../theme.enum'
 import type {Size} from '../theme.interface'
@@ -118,58 +118,64 @@ const TYPOGRAPHY_TYPE = {
 }
 
 const DENSITY_CONTROL = {
-	[SIZE.NONE]: 'h-[--density-control-none] w-[--density-control-none]',
-	[SIZE.X_LARGE]: 'h-[--density-control-extra-large] w-[--density-control-extra-large]',
-	[SIZE.X_SMALL]: 'h-[--density-control-extra-small] w-[--density-control-extra-small]',
 	[SIZE.LARGE]: 'h-[--density-control-large] w-[--density-control-large]',
 	[SIZE.MEDIUM]: 'h-[--density-control-medium] w-[--density-control-medium]',
-	[SIZE.SMALL]: 'h-[--density-control-small] w-[--density-control-small]'
+	[SIZE.NONE]: 'h-[--density-control-none] w-[--density-control-none]',
+	[SIZE.SMALL]: 'h-[--density-control-small] w-[--density-control-small]',
+	[SIZE.X_LARGE]: 'h-[--density-control-x-large] w-[--density-control-x-large]',
+	[SIZE.X_SMALL]: 'h-[--density-control-x-small] w-[--density-control-x-small]',
+	[SIZE.XX_LARGE]: 'h-[--density-control-xx-large] w-[--density-control-xx-large]'
 }
 
 const DENSITY_INLINE = {
-	[SIZE.NONE]: 'h-[--density-inline-none] w-[--density-inline-none]',
-	[SIZE.X_LARGE]: 'h-[--density-inline-extra-large] w-[--density-inline-extra-large]',
-	[SIZE.X_SMALL]: 'h-[--density-inline-extra-small] w-[--density-inline-extra-small]',
 	[SIZE.LARGE]: 'h-[--density-inline-large] w-[--density-inline-large]',
 	[SIZE.MEDIUM]: 'h-[--density-inline-medium] w-[--density-inline-medium]',
-	[SIZE.SMALL]: 'h-[--density-inline-small] w-[--density-inline-small]'
+	[SIZE.NONE]: 'h-[--density-inline-none] w-[--density-inline-none]',
+	[SIZE.SMALL]: 'h-[--density-inline-small] w-[--density-inline-small]',
+	[SIZE.X_LARGE]: 'h-[--density-inline-x-large] w-[--density-inline-x-large]',
+	[SIZE.X_SMALL]: 'h-[--density-inline-x-small] w-[--density-inline-x-small]',
+	[SIZE.XX_LARGE]: 'h-[--density-inline-xx-large] w-[--density-inline-xx-large]'
 }
 
 const DENSITY_INSET = {
 	[LAYOUT.HORIZONTAL]: {
-		[SIZE.NONE]: 'pl-[--density-inset-none] pr-[--density-inset-none]',
-		[SIZE.X_LARGE]: 'pl-[--density-inset-extra-large] pr-[--density-inset-extra-large]',
-		[SIZE.X_SMALL]: 'pl-[--density-inset-extra-small] pr-[--density-inset-extra-small]',
 		[SIZE.LARGE]: 'pl-[--density-inset-large] pr-[--density-inset-large]',
 		[SIZE.MEDIUM]: 'pl-[--density-inset-medium] pr-[--density-inset-medium]',
-		[SIZE.SMALL]: 'pl-[--density-inset-small] pr-[--density-inset-small]'
+		[SIZE.NONE]: 'pl-[--density-inset-none] pr-[--density-inset-none]',
+		[SIZE.SMALL]: 'pl-[--density-inset-small] pr-[--density-inset-small]',
+		[SIZE.X_LARGE]: 'pl-[--density-inset-x-large] pr-[--density-inset-x-large]',
+		[SIZE.X_SMALL]: 'pl-[--density-inset-x-small] pr-[--density-inset-x-small]',
+		[SIZE.XX_LARGE]: 'pl-[--density-inset-xx-large] pr-[--density-inset-xx-large]'
 	},
 	[LAYOUT.VERTICAL]: {
-		[SIZE.NONE]: 'pt-[--density-inset-none] pb-[--density-inset-none]',
-		[SIZE.X_LARGE]: 'pt-[--density-inset-extra-large] pb-[--density-inset-extra-large]',
-		[SIZE.X_SMALL]: 'pt-[--density-inset-extra-small] pb-[--density-inset-extra-small]',
 		[SIZE.LARGE]: 'pt-[--density-inset-large] pb-[--density-inset-large]',
 		[SIZE.MEDIUM]: 'pt-[--density-inset-medium] pb-[--density-inset-medium]',
-		[SIZE.SMALL]: 'pt-[--density-inset-small] pb-[--density-inset-small]'
+		[SIZE.NONE]: 'pt-[--density-inset-none] pb-[--density-inset-none]',
+		[SIZE.SMALL]: 'pt-[--density-inset-small] pb-[--density-inset-small]',
+		[SIZE.X_LARGE]: 'pt-[--density-inset-x-large] pb-[--density-inset-x-large]',
+		[SIZE.X_SMALL]: 'pt-[--density-inset-x-small] pb-[--density-inset-x-small]',
+		[SIZE.XX_LARGE]: 'pt-[--density-inset-xx-large] pb-[--density-inset-xx-large]'
 	}
 }
 
 const DENSITY_SPACING = {
 	[LAYOUT.HORIZONTAL]: {
-		[SIZE.NONE]: 'ml-[--density-spacing-none] mr-[--density-spacing-none]',
-		[SIZE.X_LARGE]: 'ml-[--density-spacing-extra-large] mr-[--density-spacing-extra-large]',
-		[SIZE.X_SMALL]: 'ml-[--density-spacing-extra-small] mr-[--density-spacing-extra-small]',
 		[SIZE.LARGE]: 'ml-[--density-spacing-large] mr-[--density-spacing-large]',
 		[SIZE.MEDIUM]: 'ml-[--density-spacing-medium] mr-[--density-spacing-medium]',
-		[SIZE.SMALL]: 'ml-[--density-spacing-small] mr-[--density-spacing-small]'
+		[SIZE.NONE]: 'ml-[--density-spacing-none] mr-[--density-spacing-none]',
+		[SIZE.SMALL]: 'ml-[--density-spacing-small] mr-[--density-spacing-small]',
+		[SIZE.X_LARGE]: 'ml-[--density-spacing-x-large] mr-[--density-spacing-x-large]',
+		[SIZE.X_SMALL]: 'ml-[--density-spacing-x-small] mr-[--density-spacing-x-small]',
+		[SIZE.XX_LARGE]: 'ml-[--density-inset-xx-large] mr-[--density-inset-xx-large]'
 	},
 	[LAYOUT.VERTICAL]: {
-		[SIZE.NONE]: 'mt-[--density-spacing-none] mb-[--density-spacing-none]',
-		[SIZE.X_LARGE]: 'mt-[--density-spacing-extra-large] mb-[--density-spacing-extra-large]',
-		[SIZE.X_SMALL]: 'mt-[--density-spacing-extra-small] mb-[--density-spacing-extra-small]',
 		[SIZE.LARGE]: 'mt-[--density-spacing-large] mb-[--density-inset-large]',
 		[SIZE.MEDIUM]: 'mt-[--density-spacing-medium] mb-[--density-inset-medium]',
-		[SIZE.SMALL]: 'mt-[--density-spacing-small] mb-[--density-inset-small]'
+		[SIZE.NONE]: 'mt-[--density-spacing-none] mb-[--density-spacing-none]',
+		[SIZE.SMALL]: 'mt-[--density-spacing-small] mb-[--density-inset-small]',
+		[SIZE.X_LARGE]: 'mt-[--density-spacing-extra-large] mb-[--density-spacing-extra-large]',
+		[SIZE.X_SMALL]: 'mt-[--density-spacing-extra-small] mb-[--density-spacing-extra-small]',
+		[SIZE.XX_LARGE]: 'mt-[--density-inset-xx-large] mb-[--density-inset-xx-large]'
 	}
 }
 
@@ -205,24 +211,13 @@ const shapeClasses =
 
 const typographyClasses =
 	(typography: TypographyType = TYPOGRAPHY.BODY) =>
-	(rawSize: Exclude<Size, 'NONE'> = SIZE.MEDIUM) =>
+	(size: TypographySize = SIZE.MEDIUM) =>
 	(
 		{
 			colorClasses = 'text-[--color-on-surface]',
 			fontFamilyClasses = 'font-[family-name:var(--font-family)]'
 		} = {} as TypographyClassesOptions
-	) => {
-		const typographySize = {
-			[SIZE.X_LARGE]: SIZE.LARGE,
-			[SIZE.X_SMALL]: SIZE.SMALL,
-			[SIZE.LARGE]: SIZE.LARGE,
-			[SIZE.MEDIUM]: SIZE.MEDIUM,
-			[SIZE.SMALL]: SIZE.SMALL
-		}
-
-		const size = typographySize[rawSize]
-
-		return clsx(TYPOGRAPHY_TYPE[typography][size], fontFamilyClasses, colorClasses)
-	}
+	) =>
+		clsx(TYPOGRAPHY_TYPE[typography][size], fontFamilyClasses, colorClasses)
 
 export {classesName, densityClasses, shapeClasses, typographyClasses}
