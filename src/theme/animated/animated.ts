@@ -1,33 +1,59 @@
-import {DURATION, EASING} from './animated.enum'
-import type {Animated, Duration, Easing} from './animated.interface'
+import {UI_DENSITY, type UIDensity} from '../density'
+import {DURATION, EASING, LOOP} from './animated.enum'
+import type {Animated, AnimatedLoop, CreateAnimatedConfigOptions, Loop} from './animated.interface'
 
 const ANIMATED_DURATION = {
-	[DURATION.EXTRA_LONG_0]: 700,
-	[DURATION.EXTRA_LONG_1]: 800,
-	[DURATION.EXTRA_LONG_2]: 900,
-	[DURATION.EXTRA_LONG_3]: 1000,
+	[UI_DENSITY.COMPACT]: {
+		[DURATION.EXTRA_LONG_0]: 500,
+		[DURATION.EXTRA_LONG_1]: 600,
+		[DURATION.EXTRA_LONG_2]: 700,
+		[DURATION.EXTRA_LONG_3]: 800,
+		[DURATION.LONG_0]: 320,
+		[DURATION.LONG_1]: 360,
+		[DURATION.LONG_2]: 400,
+		[DURATION.LONG_3]: 450,
+		[DURATION.MEDIUM_0]: 180,
+		[DURATION.MEDIUM_1]: 220,
+		[DURATION.MEDIUM_2]: 260,
+		[DURATION.MEDIUM_3]: 300,
+		[DURATION.SHORT_0]: 50,
+		[DURATION.SHORT_1]: 80,
+		[DURATION.SHORT_2]: 120,
+		[DURATION.SHORT_3]: 150
+	},
+	[UI_DENSITY.COMFORTABLE]: {
+		[DURATION.EXTRA_LONG_0]: 700,
+		[DURATION.EXTRA_LONG_1]: 800,
+		[DURATION.EXTRA_LONG_2]: 900,
+		[DURATION.EXTRA_LONG_3]: 1000,
+		[DURATION.LONG_0]: 450,
+		[DURATION.LONG_1]: 500,
+		[DURATION.LONG_2]: 550,
+		[DURATION.LONG_3]: 600,
+		[DURATION.MEDIUM_0]: 250,
+		[DURATION.MEDIUM_1]: 300,
+		[DURATION.MEDIUM_2]: 350,
+		[DURATION.MEDIUM_3]: 400,
+		[DURATION.SHORT_0]: 50,
+		[DURATION.SHORT_1]: 100,
+		[DURATION.SHORT_2]: 150,
+		[DURATION.SHORT_3]: 200
+	}
+}
 
-	// [
-	// LOOP series are dedicated to looping animations.
-	// The value represents the loop cycle duration, not a single playback duration.
-	[DURATION.LOOP_0]: 1500,
-	[DURATION.LOOP_1]: 1750,
-	[DURATION.LOOP_2]: 2000,
-	[DURATION.LOOP_3]: 2250,
-	// ]
-
-	[DURATION.LONG_0]: 450,
-	[DURATION.LONG_1]: 500,
-	[DURATION.LONG_2]: 550,
-	[DURATION.LONG_3]: 600,
-	[DURATION.MEDIUM_0]: 250,
-	[DURATION.MEDIUM_1]: 300,
-	[DURATION.MEDIUM_2]: 350,
-	[DURATION.MEDIUM_3]: 400,
-	[DURATION.SHORT_0]: 50,
-	[DURATION.SHORT_1]: 100,
-	[DURATION.SHORT_2]: 150,
-	[DURATION.SHORT_3]: 200
+const ANIMATED_LOOP_DURATION = {
+	[UI_DENSITY.COMPACT]: {
+		[LOOP.LOOP_0]: 1200,
+		[LOOP.LOOP_1]: 1400,
+		[LOOP.LOOP_2]: 1600,
+		[LOOP.LOOP_3]: 1800
+	},
+	[UI_DENSITY.COMFORTABLE]: {
+		[LOOP.LOOP_0]: 1500,
+		[LOOP.LOOP_1]: 1750,
+		[LOOP.LOOP_2]: 2000,
+		[LOOP.LOOP_3]: 2250
+	}
 }
 
 const ANIMATED_BEZIER = {
@@ -41,10 +67,15 @@ const ANIMATED_BEZIER = {
 }
 
 export const createAnimatedConfig =
-	(speedScale = 1) =>
-	(easing: Easing = EASING.STANDARD) =>
-	(duration = DURATION.MEDIUM_1 as Duration | number): Animated => {
-		const baseDuration = typeof duration === 'number' ? duration : ANIMATED_DURATION[duration]
+	(density: UIDensity = UI_DENSITY.COMPACT) =>
+	({easing = EASING.STANDARD, duration = DURATION.MEDIUM_1}: CreateAnimatedConfigOptions): Animated => {
+		const baseDuration = typeof duration === 'number' ? duration : ANIMATED_DURATION[density][duration]
 
-		return {bezier: ANIMATED_BEZIER[easing], duration: Math.round(baseDuration * speedScale), speedScale}
+		return {bezier: ANIMATED_BEZIER[easing], duration: baseDuration}
 	}
+
+export const createAnimatedLoopConfig =
+	(density: UIDensity = UI_DENSITY.COMPACT) =>
+	(loop: Loop = LOOP.LOOP_0): AnimatedLoop => ({
+		duration: ANIMATED_LOOP_DURATION[density][loop]
+	})

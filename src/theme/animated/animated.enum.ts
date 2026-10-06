@@ -7,10 +7,6 @@ export const DURATION = {
 	LONG_1: 'LONG_1',
 	LONG_2: 'LONG_2',
 	LONG_3: 'LONG_3',
-	LOOP_0: 'LOOP_0',
-	LOOP_1: 'LOOP_1',
-	LOOP_2: 'LOOP_2',
-	LOOP_3: 'LOOP_3',
 	MEDIUM_0: 'MEDIUM_0',
 	MEDIUM_1: 'MEDIUM_1',
 	MEDIUM_2: 'MEDIUM_2',
@@ -19,6 +15,13 @@ export const DURATION = {
 	SHORT_1: 'SHORT_1',
 	SHORT_2: 'SHORT_2',
 	SHORT_3: 'SHORT_3'
+} as const
+
+export const LOOP = {
+	LOOP_0: 'LOOP_0',
+	LOOP_1: 'LOOP_1',
+	LOOP_2: 'LOOP_2',
+	LOOP_3: 'LOOP_3'
 } as const
 
 export const EASING = {

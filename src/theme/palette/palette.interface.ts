@@ -60,6 +60,6 @@ export type CoreColor = 'primary' | 'secondary' | 'tertiary' | 'error' | 'neutra
 export interface Palette {
 	[SCHEME.DARK]: Record<Contrast, Record<ColorRole, string>>
 	[SCHEME.LIGHT]: Record<Contrast, Record<ColorRole, string>>
-	coreColor: Record<CoreColor, string>
+	coreColor: Record<CoreColor, string | undefined>
 	seed: string
 }

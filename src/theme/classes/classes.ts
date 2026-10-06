@@ -2,49 +2,76 @@ import {clsx, type ClassValue} from 'clsx'
 import {twMerge} from 'tailwind-merge'
 import {LAYOUT, type LayoutType} from '../../constants'
 import {DENSITY_TYPE, type DensityType} from '../density'
-import {SHAPE, type ShapeType} from '../shape'
+import {RADIUS, SHAPE, type RadiusType, type ShapeType} from '../shape'
 import {TYPOGRAPHY, type TypographyType} from '../typography'
 import type {TypographyClassesOptions} from './classes.interface'
 import {SIZE} from '../theme.enum'
 import type {Size} from '../theme.interface'
 
 const SHAPE_TYPE = {
-	[SHAPE.X_LARGE_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-extra-large]',
-	[SHAPE.X_LARGE_END]: 'rounded-l-[--shape-none] rounded-r-[--shape-extra-large]',
-	[SHAPE.X_LARGE_START]: 'rounded-l-[--shape-extra-large] rounded-r-[--shape-none]',
-	[SHAPE.X_LARGE_TOP]: 'rounded-t-[--shape-extra-large] rounded-b-[--shape-none]',
-	[SHAPE.X_LARGE]: 'rounded-[--shape-extra-large]',
-	[SHAPE.X_SMALL_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-extra-small]',
-	[SHAPE.X_SMALL_END]: 'rounded-l-none rounded-r-[--shape-extra-small]',
-	[SHAPE.X_SMALL_START]: 'rounded-l-[--shape-extra-small] rounded-r-[--shape-none]',
-	[SHAPE.X_SMALL_TOP]: 'rounded-t-[--shape-extra-small] rounded-b-[--shape-none]',
-	[SHAPE.X_SMALL]: 'rounded-[--shape-extra-small]',
-	[SHAPE.FULL_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-full]',
-	[SHAPE.FULL_END]: 'rounded-l-none rounded-r-[--shape-full]',
-	[SHAPE.FULL_START]: 'rounded-l-[--shape-full] rounded-r-[--shape-none]',
-	[SHAPE.FULL_TOP]: 'rounded-t-[--shape-full] rounded-b-[--shape-none]',
-	[SHAPE.FULL]: 'rounded-[--shape-full]',
-	[SHAPE.LARGE_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-large]',
-	[SHAPE.LARGE_END]: 'rounded-l-[--shape-none] rounded-r-[--shape-large]',
-	[SHAPE.LARGE_START]: 'rounded-l-[--shape-large] rounded-r-[--shape-none]',
-	[SHAPE.LARGE_TOP]: 'rounded-t-[--shape-large] rounded-b-[--shape-none]',
-	[SHAPE.LARGE]: 'rounded-[--shape-large]',
-	[SHAPE.MEDIUM_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-medium]',
-	[SHAPE.MEDIUM_END]: 'rounded-l-[--shape-none] rounded-r-[--shape-medium]',
-	[SHAPE.MEDIUM_START]: 'rounded-l-[--shape-medium] rounded-r-[--shape-none]',
-	[SHAPE.MEDIUM_TOP]: 'rounded-t-[--shape-medium] rounded-b-[--shape-none]',
-	[SHAPE.MEDIUM]: 'rounded-[--shape-medium]',
-	[SHAPE.NONE]: 'rounded-[--shape-none]',
-	[SHAPE.SMALL_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-small]',
-	[SHAPE.SMALL_END]: 'rounded-l-[--shape-none] rounded-r-[--shape-small]',
-	[SHAPE.SMALL_START]: 'rounded-l-[--shape-small] rounded-r-[--shape-none]',
-	[SHAPE.SMALL_TOP]: 'rounded-t-[--shape-small] rounded-b-[--shape-none]',
-	[SHAPE.SMALL]: 'rounded-[--shape-small]',
-	[SHAPE.TINY_SMALL_BOTTOM]: 'rounded-t-[--shape-none] rounded-b-[--shape-tiny-small]',
-	[SHAPE.TINY_SMALL_END]: 'rounded-l-[--shape-none] rounded-r-[--shape-tiny-small]',
-	[SHAPE.TINY_SMALL_START]: 'rounded-l-[--shape-tiny-small] rounded-r-[--shape-none]',
-	[SHAPE.TINY_SMALL_TOP]: 'rounded-t-[--shape-tiny-small] rounded-b-[--shape-none]',
-	[SHAPE.TINY_SMALL]: 'rounded-[--shape-tiny-small]'
+	[RADIUS.XX_LARGE]: {
+		[SHAPE.ALL]: 'rounded-[--radius-xx-large]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-xx-large] rounded-b-[--radius-none]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-xx-large]',
+		[SHAPE.START]: 'rounded-l-[--radius-xx-large] rounded-r-[--radius-none]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-xx-large]'
+	},
+	[RADIUS.XX_SMALL]: {
+		[SHAPE.ALL]: 'rounded-[--radius-xx-small]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-xx-small] rounded-b-[--radius-none]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-xx-small]',
+		[SHAPE.START]: 'rounded-l-[--radius-xx-small] rounded-r-[--radius-none]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-xx-small]'
+	},
+	[RADIUS.FULL]: {
+		[SHAPE.ALL]: 'rounded-[--radius-full]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-full] rounded-b-[--radius-none]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-full]',
+		[SHAPE.START]: 'rounded-l-[--radius-full] rounded-r-[--radius-none]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-full]'
+	},
+	[RADIUS.X_LARGE]: {
+		[SHAPE.ALL]: 'rounded-[--radius-x-large]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-x-large] rounded-b-[--radius-none]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-x-large]',
+		[SHAPE.START]: 'rounded-l-[--radius-x-large] rounded-r-[--radius-none]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-x-large]'
+	},
+	[RADIUS.X_SMALL]: {
+		[SHAPE.ALL]: 'rounded-[--radius-x-small]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-x-small] rounded-b-[--radius-none]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-x-small]',
+		[SHAPE.START]: 'rounded-l-[--radius-x-small] rounded-r-[--radius-none]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-x-small]'
+	},
+	[RADIUS.LARGE]: {
+		[SHAPE.ALL]: 'rounded-[--radius-large]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-large] rounded-b-[--radius-none]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-large]',
+		[SHAPE.START]: 'rounded-l-[--radius-large] rounded-r-[--radius-none]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-large]'
+	},
+	[RADIUS.MEDIUM]: {
+		[SHAPE.ALL]: 'rounded-[--radius-medium]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-medium] rounded-b-[--radius-none]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-medium]',
+		[SHAPE.START]: 'rounded-l-[--radius-medium] rounded-r-[--radius-none]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-medium]'
+	},
+	[RADIUS.NONE]: {
+		[SHAPE.ALL]: 'rounded-[--radius-none]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-none] rounded-b-[--radius-none]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-none]',
+		[SHAPE.START]: 'rounded-l-[--radius-none] rounded-r-[--radius-none]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-none]'
+	},
+	[RADIUS.SMALL]: {
+		[SHAPE.ALL]: 'rounded-[--radius-small]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-small] rounded-b-[--radius-none]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-small]',
+		[SHAPE.START]: 'rounded-l-[--radius-small] rounded-r-[--radius-none]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-small]'
+	}
 }
 
 const TYPOGRAPHY_TYPE = {
@@ -171,7 +198,11 @@ const densityClasses =
 		return (DENSITY[type] as typeof DENSITY_CONTROL)[size]
 	}
 
-const shapeClasses = (shape: ShapeType = SHAPE.NONE) => SHAPE_TYPE[shape]
+const shapeClasses =
+	(radius: RadiusType = RADIUS.NONE) =>
+	(shape: ShapeType = SHAPE.ALL) =>
+		SHAPE_TYPE[radius][shape]
+
 const typographyClasses =
 	(typography: TypographyType = TYPOGRAPHY.BODY) =>
 	(rawSize: Exclude<Size, 'NONE'> = SIZE.MEDIUM) =>

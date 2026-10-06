@@ -1,20 +1,8 @@
 import {vars} from 'nativewind'
-import {SHAPE, SIZE, type Token} from '../../theme'
+import {SIZE, type Token} from '../../theme'
 import {platformValue} from '../../utils'
 
-const TYPOGRAPHY_PLATFORM_VALUE_KEYS = [
-	'height',
-	'lineHeight',
-	'size',
-	SHAPE.FULL,
-	SHAPE.TINY_SMALL,
-	SIZE.X_LARGE,
-	SIZE.X_SMALL,
-	SIZE.LARGE,
-	SIZE.MEDIUM,
-	SIZE.NONE,
-	SIZE.SMALL
-]
+const TYPOGRAPHY_PLATFORM_VALUE_KEYS = ['height', 'lineHeight', 'size', ...Object.keys(SIZE)]
 const toKebabCase = (value: string) =>
 	value
 		.replace(/_/g, '-')
@@ -50,7 +38,7 @@ export const processStyleVariables = ({scheme, font, density, shape, typography,
 		...createCssVariables(density.spacing)('density-spacing')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(font.family)('font')(),
 		...createCssVariables(scheme)('color')(),
-		...createCssVariables(shape.size)('shape')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		// ...createCssVariables(shape.size)('shape')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(typography.BODY.LARGE)('typography-body-large')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(typography.BODY.MEDIUM)('typography-body-medium')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(typography.BODY.SMALL)('typography-body-small')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),

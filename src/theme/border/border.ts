@@ -1,11 +1,11 @@
-import {SIZE} from '../theme.enum'
+import {BORDER} from './border.enum'
 import type {Border} from './border.interface'
 
 export const createBorder = (): Border => ({
-	[SIZE.X_LARGE]: 4,
-	[SIZE.X_SMALL]: 0.5,
-	[SIZE.LARGE]: 3,
-	[SIZE.MEDIUM]: 2,
-	[SIZE.NONE]: 0,
-	[SIZE.SMALL]: 1
+	[BORDER.X_LARGE]: 4,
+	[BORDER.X_SMALL]: 0.5,
+	[BORDER.LARGE]: 3,
+	[BORDER.MEDIUM]: 2,
+	[BORDER.NONE]: 0,
+	[BORDER.SMALL]: 1
 })

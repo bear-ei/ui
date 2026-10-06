@@ -7,13 +7,13 @@ export const RADIUS = {
 	X_LARGE: 'X_LARGE',
 	X_SMALL: 'X_SMALL',
 	XX_LARGE: 'XX_LARGE',
-	XX_SMALL: 'TINY_SMALL'
+	XX_SMALL: 'XX_SMALL'
 } as const
 
 export const SHAPE = {
 	ALL: 'ALL',
-	TOP: 'TOP',
 	BOTTOM: 'BOTTOM',
+	END: 'END',
 	START: 'START',
-	END: 'END'
+	TOP: 'TOP'
 } as const

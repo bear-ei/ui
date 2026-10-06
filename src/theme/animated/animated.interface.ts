@@ -1,7 +1,8 @@
-import {DURATION, EASING} from './animated.enum'
+import {DURATION, EASING, LOOP} from './animated.enum'
 
 export type Duration = (typeof DURATION)[keyof typeof DURATION]
 export type Easing = (typeof EASING)[keyof typeof EASING]
+export type Loop = (typeof LOOP)[keyof typeof LOOP]
 export interface Bezier {
 	x0: number
 	x1: number
@@ -12,5 +13,13 @@ export interface Bezier {
 export interface Animated {
 	bezier: Bezier
 	duration: number
-	speedScale: number
+}
+
+export interface AnimatedLoop {
+	duration: number
+}
+
+export interface CreateAnimatedConfigOptions {
+	easing?: Easing
+	duration?: Duration | number
 }
