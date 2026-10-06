@@ -1,4 +1,4 @@
-import type {BORDER} from './border.enum'
+import type {BORDER_SIZE} from './border.enum'
 
-export type BorderLevel = (typeof BORDER)[keyof typeof BORDER]
-export type Border = Record<BorderLevel, number>
+export type BorderSize = (typeof BORDER_SIZE)[keyof typeof BORDER_SIZE]
+export type Border = Record<BorderSize, number>

@@ -2,19 +2,33 @@ import {UI_DENSITY, type UIDensity} from '../density'
 import {RADIUS, SHAPE} from './shape.enum'
 import type {Shape} from './shape.interface'
 
-export const createShape = (density: UIDensity = UI_DENSITY.COMPACT): Shape => {
-	const isCompact = density === UI_DENSITY.COMPACT
-	const radius = {
+const RADIUS_SIZE = {
+	[UI_DENSITY.COMPACT]: {
 		[RADIUS.FULL]: 9999,
-		[RADIUS.LARGE]: isCompact ? 12 : 16,
-		[RADIUS.MEDIUM]: isCompact ? 8 : 12,
+		[RADIUS.LARGE]: 12,
+		[RADIUS.MEDIUM]: 8,
 		[RADIUS.NONE]: 0,
-		[RADIUS.SMALL]: isCompact ? 6 : 8,
-		[RADIUS.X_LARGE]: isCompact ? 16 : 24,
+		[RADIUS.SMALL]: 6,
+		[RADIUS.X_LARGE]: 16,
 		[RADIUS.X_SMALL]: 4,
-		[RADIUS.XX_LARGE]: isCompact ? 24 : 32,
+		[RADIUS.XX_LARGE]: 24,
+		[RADIUS.XX_SMALL]: 2
+	},
+	[UI_DENSITY.COMFORTABLE]: {
+		[RADIUS.FULL]: 9999,
+		[RADIUS.LARGE]: 16,
+		[RADIUS.MEDIUM]: 12,
+		[RADIUS.NONE]: 0,
+		[RADIUS.SMALL]: 8,
+		[RADIUS.X_LARGE]: 24,
+		[RADIUS.X_SMALL]: 4,
+		[RADIUS.XX_LARGE]: 32,
 		[RADIUS.XX_SMALL]: 2
 	}
+}
+
+export const createShape = (density: UIDensity = UI_DENSITY.COMPACT): Shape => {
+	const radius = RADIUS_SIZE[density]
 
 	return {
 		radius: radius,

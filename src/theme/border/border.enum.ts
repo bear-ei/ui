@@ -1,8 +1,8 @@
-export const BORDER = {
-	NONE: 'NONE',
-	X_SMALL: 'X_SMALL',
-	SMALL: 'SMALL',
-	MEDIUM: 'MEDIUM',
+export const BORDER_SIZE = {
 	LARGE: 'LARGE',
-	X_LARGE: 'X_LARGE'
+	MEDIUM: 'MEDIUM',
+	NONE: 'NONE',
+	SMALL: 'SMALL',
+	X_LARGE: 'X_LARGE',
+	X_SMALL: 'X_SMALL'
 } as const

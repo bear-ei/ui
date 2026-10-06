@@ -30,6 +30,7 @@ export interface Token {
 	palette: Palette
 	scheme: ColorScheme
 	shape: Shape
+	styleVariables?: Record<string, string>
 	typography: Typography
 }
 
