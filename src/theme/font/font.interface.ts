@@ -19,6 +19,8 @@ export type FontHeight =
 	| 'height8'
 	| 'height9'
 	| 'height10'
+	| 'height11'
+	| 'height12'
 
 export type FontLineHeight =
 	| 'lineHeight0'
@@ -32,9 +34,23 @@ export type FontLineHeight =
 	| 'lineHeight8'
 	| 'lineHeight9'
 	| 'lineHeight10'
+	| 'lineHeight11'
+	| 'lineHeight12'
 
 export type FontSize =
-	'size0' | 'size1' | 'size2' | 'size3' | 'size4' | 'size5' | 'size6' | 'size7' | 'size8' | 'size9' | 'size10'
+	| 'size0'
+	| 'size1'
+	| 'size2'
+	| 'size3'
+	| 'size4'
+	| 'size5'
+	| 'size6'
+	| 'size7'
+	| 'size8'
+	| 'size9'
+	| 'size10'
+	| 'size11'
+	| 'size12'
 
 export interface Font {
 	family: {codeFamily: string; family: string}

@@ -1,233 +1,310 @@
-import {SHAPE} from './shape.enum'
+import {UI_DENSITY, type UIDensity} from '../density'
+import {RADIUS, SHAPE} from './shape.enum'
 import type {Shape} from './shape.interface'
 
-const SHAPE_SIZE = {
-	[SHAPE.X_LARGE]: 28,
-	[SHAPE.X_SMALL]: 4,
-	[SHAPE.FULL]: 9999,
-	[SHAPE.LARGE]: 16,
-	[SHAPE.MEDIUM]: 12,
-	[SHAPE.NONE]: 0,
-	[SHAPE.SMALL]: 8,
-	[SHAPE.TINY_SMALL]: 2
-}
-
-export const createShape = (): Shape => ({
-	size: SHAPE_SIZE,
-	[SHAPE.TINY_SMALL]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
-		bottomRight: SHAPE_SIZE[SHAPE.TINY_SMALL],
-		topLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
-		topRight: SHAPE_SIZE[SHAPE.TINY_SMALL]
-	},
-	[SHAPE.TINY_SMALL_BOTTOM]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
-		bottomRight: SHAPE_SIZE[SHAPE.TINY_SMALL],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.TINY_SMALL_END]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.TINY_SMALL],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.TINY_SMALL]
-	},
-	[SHAPE.TINY_SMALL_START]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.TINY_SMALL_TOP]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.TINY_SMALL],
-		topRight: SHAPE_SIZE[SHAPE.TINY_SMALL]
-	},
-	[SHAPE.X_SMALL]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.X_SMALL],
-		bottomRight: SHAPE_SIZE[SHAPE.X_SMALL],
-		topLeft: SHAPE_SIZE[SHAPE.X_SMALL],
-		topRight: SHAPE_SIZE[SHAPE.X_SMALL]
-	},
-	[SHAPE.X_SMALL_BOTTOM]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.X_SMALL],
-		bottomRight: SHAPE_SIZE[SHAPE.X_SMALL],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.X_SMALL_END]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.X_SMALL],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.X_SMALL]
-	},
-	[SHAPE.X_SMALL_START]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.X_SMALL],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.X_SMALL],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.X_SMALL_TOP]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.X_SMALL],
-		topRight: SHAPE_SIZE[SHAPE.X_SMALL]
-	},
-	[SHAPE.SMALL]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.SMALL],
-		bottomRight: SHAPE_SIZE[SHAPE.SMALL],
-		topLeft: SHAPE_SIZE[SHAPE.SMALL],
-		topRight: SHAPE_SIZE[SHAPE.SMALL]
-	},
-	[SHAPE.SMALL_BOTTOM]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.SMALL],
-		bottomRight: SHAPE_SIZE[SHAPE.SMALL],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.SMALL_END]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.SMALL],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.SMALL]
-	},
-	[SHAPE.SMALL_START]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.SMALL],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.SMALL],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.SMALL_TOP]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.SMALL],
-		topRight: SHAPE_SIZE[SHAPE.SMALL]
-	},
-	[SHAPE.MEDIUM]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.MEDIUM],
-		bottomRight: SHAPE_SIZE[SHAPE.MEDIUM],
-		topLeft: SHAPE_SIZE[SHAPE.MEDIUM],
-		topRight: SHAPE_SIZE[SHAPE.MEDIUM]
-	},
-	[SHAPE.MEDIUM_BOTTOM]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.MEDIUM],
-		bottomRight: SHAPE_SIZE[SHAPE.MEDIUM],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.MEDIUM_END]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.MEDIUM],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.MEDIUM]
-	},
-	[SHAPE.MEDIUM_START]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.MEDIUM],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.MEDIUM],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.MEDIUM_TOP]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.MEDIUM],
-		topRight: SHAPE_SIZE[SHAPE.MEDIUM]
-	},
-	[SHAPE.LARGE]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.LARGE],
-		bottomRight: SHAPE_SIZE[SHAPE.LARGE],
-		topLeft: SHAPE_SIZE[SHAPE.LARGE],
-		topRight: SHAPE_SIZE[SHAPE.LARGE]
-	},
-	[SHAPE.LARGE_BOTTOM]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.LARGE],
-		bottomRight: SHAPE_SIZE[SHAPE.LARGE],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.LARGE_END]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.LARGE],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.LARGE]
-	},
-	[SHAPE.LARGE_START]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.LARGE],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.LARGE],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.LARGE_TOP]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.LARGE],
-		topRight: SHAPE_SIZE[SHAPE.LARGE]
-	},
-	[SHAPE.X_LARGE]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.X_LARGE],
-		bottomRight: SHAPE_SIZE[SHAPE.X_LARGE],
-		topLeft: SHAPE_SIZE[SHAPE.X_LARGE],
-		topRight: SHAPE_SIZE[SHAPE.X_LARGE]
-	},
-	[SHAPE.X_LARGE_BOTTOM]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.X_LARGE],
-		bottomRight: SHAPE_SIZE[SHAPE.X_LARGE],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.X_LARGE_END]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.X_LARGE],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.X_LARGE]
-	},
-	[SHAPE.X_LARGE_START]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.X_LARGE],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.X_LARGE],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.X_LARGE_TOP]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.X_LARGE],
-		topRight: SHAPE_SIZE[SHAPE.X_LARGE]
-	},
-	[SHAPE.FULL]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.FULL],
-		bottomRight: SHAPE_SIZE[SHAPE.FULL],
-		topLeft: SHAPE_SIZE[SHAPE.FULL],
-		topRight: SHAPE_SIZE[SHAPE.FULL]
-	},
-	[SHAPE.FULL_BOTTOM]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.FULL],
-		bottomRight: SHAPE_SIZE[SHAPE.FULL],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.FULL_END]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.FULL],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.FULL]
-	},
-	[SHAPE.FULL_START]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.FULL],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.FULL],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
-	},
-	[SHAPE.FULL_TOP]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.FULL],
-		topRight: SHAPE_SIZE[SHAPE.FULL]
-	},
-	[SHAPE.NONE]: {
-		bottomLeft: SHAPE_SIZE[SHAPE.NONE],
-		bottomRight: SHAPE_SIZE[SHAPE.NONE],
-		topLeft: SHAPE_SIZE[SHAPE.NONE],
-		topRight: SHAPE_SIZE[SHAPE.NONE]
+export const createShape = (density: UIDensity = UI_DENSITY.COMPACT): Shape => {
+	const isCompact = density === UI_DENSITY.COMPACT
+	const radius = {
+		[RADIUS.FULL]: 9999,
+		[RADIUS.LARGE]: isCompact ? 12 : 16,
+		[RADIUS.MEDIUM]: isCompact ? 8 : 12,
+		[RADIUS.NONE]: 0,
+		[RADIUS.SMALL]: isCompact ? 6 : 8,
+		[RADIUS.X_LARGE]: isCompact ? 16 : 24,
+		[RADIUS.X_SMALL]: 4,
+		[RADIUS.XX_LARGE]: isCompact ? 24 : 32,
+		[RADIUS.XX_SMALL]: 2
 	}
-})
+
+	return {
+		radius: radius,
+		[RADIUS.XX_LARGE]: {
+			[SHAPE.ALL]: {
+				bottomLeft: radius[RADIUS.XX_LARGE],
+				bottomRight: radius[RADIUS.XX_LARGE],
+				topLeft: radius[RADIUS.XX_LARGE],
+				topRight: radius[RADIUS.XX_LARGE]
+			},
+			[SHAPE.TOP]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.XX_LARGE],
+				topRight: radius[RADIUS.XX_LARGE]
+			},
+			[SHAPE.BOTTOM]: {
+				bottomLeft: radius[RADIUS.XX_LARGE],
+				bottomRight: radius[RADIUS.XX_LARGE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.START]: {
+				bottomLeft: radius[RADIUS.XX_LARGE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.XX_LARGE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.END]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.XX_LARGE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.XX_LARGE]
+			}
+		},
+		[RADIUS.X_LARGE]: {
+			[SHAPE.ALL]: {
+				bottomLeft: radius[RADIUS.X_LARGE],
+				bottomRight: radius[RADIUS.X_LARGE],
+				topLeft: radius[RADIUS.X_LARGE],
+				topRight: radius[RADIUS.X_LARGE]
+			},
+			[SHAPE.TOP]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.X_LARGE],
+				topRight: radius[RADIUS.X_LARGE]
+			},
+			[SHAPE.BOTTOM]: {
+				bottomLeft: radius[RADIUS.X_LARGE],
+				bottomRight: radius[RADIUS.X_LARGE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.START]: {
+				bottomLeft: radius[RADIUS.X_LARGE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.X_LARGE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.END]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.X_LARGE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.X_LARGE]
+			}
+		},
+		[RADIUS.X_SMALL]: {
+			[SHAPE.ALL]: {
+				bottomLeft: radius[RADIUS.X_SMALL],
+				bottomRight: radius[RADIUS.X_SMALL],
+				topLeft: radius[RADIUS.X_SMALL],
+				topRight: radius[RADIUS.X_SMALL]
+			},
+			[SHAPE.TOP]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.X_SMALL],
+				topRight: radius[RADIUS.X_SMALL]
+			},
+			[SHAPE.BOTTOM]: {
+				bottomLeft: radius[RADIUS.X_SMALL],
+				bottomRight: radius[RADIUS.X_SMALL],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.START]: {
+				bottomLeft: radius[RADIUS.X_SMALL],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.X_SMALL],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.END]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.X_SMALL],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.X_SMALL]
+			}
+		},
+		[RADIUS.FULL]: {
+			[SHAPE.ALL]: {
+				bottomLeft: radius[RADIUS.FULL],
+				bottomRight: radius[RADIUS.FULL],
+				topLeft: radius[RADIUS.FULL],
+				topRight: radius[RADIUS.FULL]
+			},
+			[SHAPE.TOP]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.FULL],
+				topRight: radius[RADIUS.FULL]
+			},
+			[SHAPE.BOTTOM]: {
+				bottomLeft: radius[RADIUS.FULL],
+				bottomRight: radius[RADIUS.FULL],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.START]: {
+				bottomLeft: radius[RADIUS.FULL],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.FULL],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.END]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.FULL],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.FULL]
+			}
+		},
+		[RADIUS.LARGE]: {
+			[SHAPE.ALL]: {
+				bottomLeft: radius[RADIUS.LARGE],
+				bottomRight: radius[RADIUS.LARGE],
+				topLeft: radius[RADIUS.LARGE],
+				topRight: radius[RADIUS.LARGE]
+			},
+			[SHAPE.TOP]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.LARGE],
+				topRight: radius[RADIUS.LARGE]
+			},
+			[SHAPE.BOTTOM]: {
+				bottomLeft: radius[RADIUS.LARGE],
+				bottomRight: radius[RADIUS.LARGE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.START]: {
+				bottomLeft: radius[RADIUS.LARGE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.LARGE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.END]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.LARGE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.LARGE]
+			}
+		},
+		[RADIUS.MEDIUM]: {
+			[SHAPE.ALL]: {
+				bottomLeft: radius[RADIUS.MEDIUM],
+				bottomRight: radius[RADIUS.MEDIUM],
+				topLeft: radius[RADIUS.MEDIUM],
+				topRight: radius[RADIUS.MEDIUM]
+			},
+			[SHAPE.TOP]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.MEDIUM],
+				topRight: radius[RADIUS.MEDIUM]
+			},
+			[SHAPE.BOTTOM]: {
+				bottomLeft: radius[RADIUS.MEDIUM],
+				bottomRight: radius[RADIUS.MEDIUM],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.START]: {
+				bottomLeft: radius[RADIUS.MEDIUM],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.MEDIUM],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.END]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.MEDIUM],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.MEDIUM]
+			}
+		},
+		[RADIUS.NONE]: {
+			[SHAPE.ALL]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.TOP]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.BOTTOM]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.START]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.END]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			}
+		},
+		[RADIUS.SMALL]: {
+			[SHAPE.ALL]: {
+				bottomLeft: radius[RADIUS.SMALL],
+				bottomRight: radius[RADIUS.SMALL],
+				topLeft: radius[RADIUS.SMALL],
+				topRight: radius[RADIUS.SMALL]
+			},
+			[SHAPE.TOP]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.SMALL],
+				topRight: radius[RADIUS.SMALL]
+			},
+			[SHAPE.BOTTOM]: {
+				bottomLeft: radius[RADIUS.SMALL],
+				bottomRight: radius[RADIUS.SMALL],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.START]: {
+				bottomLeft: radius[RADIUS.SMALL],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.SMALL],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.END]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.SMALL],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.SMALL]
+			}
+		},
+		[RADIUS.XX_SMALL]: {
+			[SHAPE.ALL]: {
+				bottomLeft: radius[RADIUS.XX_SMALL],
+				bottomRight: radius[RADIUS.XX_SMALL],
+				topLeft: radius[RADIUS.XX_SMALL],
+				topRight: radius[RADIUS.XX_SMALL]
+			},
+			[SHAPE.TOP]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.XX_SMALL],
+				topRight: radius[RADIUS.XX_SMALL]
+			},
+			[SHAPE.BOTTOM]: {
+				bottomLeft: radius[RADIUS.XX_SMALL],
+				bottomRight: radius[RADIUS.XX_SMALL],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.START]: {
+				bottomLeft: radius[RADIUS.XX_SMALL],
+				bottomRight: radius[RADIUS.NONE],
+				topLeft: radius[RADIUS.XX_SMALL],
+				topRight: radius[RADIUS.NONE]
+			},
+			[SHAPE.END]: {
+				bottomLeft: radius[RADIUS.NONE],
+				bottomRight: radius[RADIUS.XX_SMALL],
+				topLeft: radius[RADIUS.NONE],
+				topRight: radius[RADIUS.XX_SMALL]
+			}
+		}
+	}
+}

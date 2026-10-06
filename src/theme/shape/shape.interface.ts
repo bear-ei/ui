@@ -1,115 +1,13 @@
-import type {Size} from '../theme.interface'
-import type {SHAPE} from './shape.enum'
+import type {RADIUS, SHAPE} from './shape.enum'
 
+export type RadiusType = (typeof RADIUS)[keyof typeof RADIUS]
 export type ShapeType = (typeof SHAPE)[keyof typeof SHAPE]
-export interface BorderRadius {
+export interface Radius {
 	bottomLeft: number
 	bottomRight: number
 	topLeft: number
 	topRight: number
 }
 
-export interface Shape {
-	size: Record<Size | 'TINY_SMALL', number>
-	[SHAPE.TINY_SMALL_BOTTOM]: BorderRadius
-	[SHAPE.TINY_SMALL_END]: BorderRadius
-	[SHAPE.TINY_SMALL_START]: BorderRadius
-	[SHAPE.TINY_SMALL_TOP]: BorderRadius
-	[SHAPE.TINY_SMALL]: BorderRadius
-
-	/**
-	 *  Extra small
-	 *      - Autocomplete menu
-	 *      - Select menu
-	 *      - Snackbars
-	 *      - Standard menu
-	 *      - Text fields
-	 */
-
-	[SHAPE.X_SMALL_BOTTOM]: BorderRadius
-	[SHAPE.X_SMALL_END]: BorderRadius
-	[SHAPE.X_SMALL_START]: BorderRadius
-	[SHAPE.X_SMALL_TOP]: BorderRadius
-	[SHAPE.X_SMALL]: BorderRadius
-
-	/**
-	 *  Small
-	 *      - Chips
-	 *      - Rich tooltip
-	 */
-	[SHAPE.SMALL_BOTTOM]: BorderRadius
-	[SHAPE.SMALL_END]: BorderRadius
-	[SHAPE.SMALL_START]: BorderRadius
-	[SHAPE.SMALL_TOP]: BorderRadius
-	[SHAPE.SMALL]: BorderRadius
-
-	/**
-	 *  Medium
-	 *      - Cards
-	 *      - Small FABs
-	 */
-	[SHAPE.MEDIUM_BOTTOM]: BorderRadius
-	[SHAPE.MEDIUM_END]: BorderRadius
-	[SHAPE.MEDIUM_START]: BorderRadius
-	[SHAPE.MEDIUM_TOP]: BorderRadius
-	[SHAPE.MEDIUM]: BorderRadius
-
-	/**
-	 *  Large
-	 *      - Extended FABs
-	 *      - FABs
-	 *      - Navigation drawers
-	 */
-	[SHAPE.LARGE_BOTTOM]: BorderRadius
-	[SHAPE.LARGE_END]: BorderRadius
-	[SHAPE.LARGE_START]: BorderRadius
-	[SHAPE.LARGE_TOP]: BorderRadius
-	[SHAPE.LARGE]: BorderRadius
-
-	/**
-	 *  Extra large
-	 *      - Bottom sheets (docked)
-	 *      - Dialogs
-	 *      - Floating sheets
-	 *      - Large FABs
-	 *      - Search view (docked)
-	 *      - Time picker
-	 *      - Time input
-	 */
-	[SHAPE.X_LARGE_BOTTOM]: BorderRadius
-	[SHAPE.X_LARGE_END]: BorderRadius
-	[SHAPE.X_LARGE_START]: BorderRadius
-	[SHAPE.X_LARGE_TOP]: BorderRadius
-	[SHAPE.X_LARGE]: BorderRadius
-
-	/**
-	 *  Full
-	 *      - Badge
-	 *      - Buttons
-	 *      - Icon buttons
-	 *      - Sliders
-	 *      - Switches
-	 *      - Search bar
-	 */
-	[SHAPE.FULL_BOTTOM]: BorderRadius
-	[SHAPE.FULL_END]: BorderRadius
-	[SHAPE.FULL_START]: BorderRadius
-	[SHAPE.FULL_TOP]: BorderRadius
-	[SHAPE.FULL]: BorderRadius
-
-	/**
-	 *  None
-	 *      - Banners
-	 *      - Bottom app bars
-	 *      - Full-screen dialogs
-	 *      - Lists
-	 *      - Navigation bars
-	 *      - Navigation rails
-	 *      - Progress indicators
-	 *      - Search view (full-screen)
-	 *      - Side sheets (docked)
-	 *      - Tabs
-	 *      - Top app bars
-	 */
-	[SHAPE.NONE]: BorderRadius
-}
+export type ShapeRadius = Record<ShapeType, Radius>
+export type Shape = Record<RadiusType, ShapeRadius> & {radius: Record<RadiusType, number>}

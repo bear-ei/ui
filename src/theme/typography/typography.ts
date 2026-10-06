@@ -2,7 +2,13 @@ import {UI_DENSITY, type UIDensity} from '../density'
 import type {Font, FontLineHeight} from '../font'
 import {SIZE} from '../theme.enum'
 import {TYPOGRAPHY} from './typography.enum'
-import type {CreateBuildStyleOptions, FontStyle, GetStyleOptions, Typography} from './typography.interface'
+import type {
+	CreateBuildStyleOptions,
+	FontStyle,
+	Typography,
+	TypographySize,
+	TypographyType
+} from './typography.interface'
 
 const createBuildStyle =
 	(font: Font) =>
@@ -26,227 +32,243 @@ export const createTypography =
 	(density: UIDensity = UI_DENSITY.COMPACT): Typography => {
 		const isCompact = density === UI_DENSITY.COMPACT
 		const buildStyle = createBuildStyle(font)
-		const compactMap: Record<string, FontStyle> = {
-			[`${TYPOGRAPHY.DISPLAY}.${SIZE.LARGE}`]: buildStyle({
-				height: 'height8',
-				letterSpacing: 'letterSpacing1',
-				size: 'size8',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.DISPLAY}.${SIZE.MEDIUM}`]: buildStyle({
-				height: 'height7',
-				letterSpacing: 'letterSpacing1',
-				size: 'size7',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.DISPLAY}.${SIZE.SMALL}`]: buildStyle({
-				height: 'height6',
-				letterSpacing: 'letterSpacing1',
-				size: 'size6',
-				weight: 'regular'
-			}),
-
-			[`${TYPOGRAPHY.HEADLINE}.${SIZE.LARGE}`]: buildStyle({
-				height: 'height5',
-				letterSpacing: 'letterSpacing1',
-				size: 'size5',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.HEADLINE}.${SIZE.MEDIUM}`]: buildStyle({
-				height: 'height4',
-				letterSpacing: 'letterSpacing1',
-				size: 'size4',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.HEADLINE}.${SIZE.SMALL}`]: buildStyle({
-				height: 'height3',
-				letterSpacing: 'letterSpacing1',
-				size: 'size3',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.TITLE}.${SIZE.LARGE}`]: buildStyle({
-				height: 'height3',
-				letterSpacing: 'letterSpacing1',
-				size: 'size3',
-				weight: 'medium'
-			}),
-			[`${TYPOGRAPHY.TITLE}.${SIZE.MEDIUM}`]: buildStyle({
-				height: 'height2',
-				letterSpacing: 'letterSpacing4',
-				size: 'size2',
-				weight: 'medium'
-			}),
-			[`${TYPOGRAPHY.TITLE}.${SIZE.SMALL}`]: buildStyle({
-				height: 'height1',
-				letterSpacing: 'letterSpacing3',
-				size: 'size1',
-				weight: 'medium'
-			}),
-			[`${TYPOGRAPHY.BODY}.${SIZE.LARGE}`]: buildStyle({
-				height: 'height2',
-				letterSpacing: 'letterSpacing2',
-				size: 'size2',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.BODY}.${SIZE.MEDIUM}`]: buildStyle({
-				height: 'height1',
-				letterSpacing: 'letterSpacing6',
-				size: 'size1',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.BODY}.${SIZE.SMALL}`]: buildStyle({
-				height: 'height0',
-				letterSpacing: 'letterSpacing5',
-				size: 'size0',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.LABEL}.${SIZE.LARGE}`]: buildStyle({
-				height: 'height1',
-				letterSpacing: 'letterSpacing3',
-				prominent: 'bold',
-				size: 'size1',
-				weight: 'medium'
-			}),
-			[`${TYPOGRAPHY.LABEL}.${SIZE.MEDIUM}`]: buildStyle({
-				height: 'height0',
-				letterSpacing: 'letterSpacing6',
-				prominent: 'bold',
-				size: 'size0',
-				weight: 'medium'
-			}),
-			[`${TYPOGRAPHY.LABEL}.${SIZE.SMALL}`]: buildStyle({
-				height: 'height0',
-				letterSpacing: 'letterSpacing6',
-				size: 'size0',
-				weight: 'medium'
-			})
+		const compactMap: Record<TypographyType, Record<TypographySize, FontStyle>> = {
+			[TYPOGRAPHY.DISPLAY]: {
+				[SIZE.LARGE]: buildStyle({
+					height: 'height10',
+					letterSpacing: 'letterSpacing1',
+					size: 'size10',
+					weight: 'regular'
+				}),
+				[SIZE.MEDIUM]: buildStyle({
+					height: 'height9',
+					letterSpacing: 'letterSpacing1',
+					size: 'size9',
+					weight: 'regular'
+				}),
+				[SIZE.SMALL]: buildStyle({
+					height: 'height8',
+					letterSpacing: 'letterSpacing1',
+					size: 'size8',
+					weight: 'regular'
+				})
+			},
+			[TYPOGRAPHY.HEADLINE]: {
+				[SIZE.LARGE]: buildStyle({
+					height: 'height7',
+					letterSpacing: 'letterSpacing1',
+					size: 'size7',
+					weight: 'regular'
+				}),
+				[SIZE.MEDIUM]: buildStyle({
+					height: 'height6',
+					letterSpacing: 'letterSpacing1',
+					size: 'size6',
+					weight: 'regular'
+				}),
+				[SIZE.SMALL]: buildStyle({
+					height: 'height5',
+					letterSpacing: 'letterSpacing2',
+					size: 'size5',
+					weight: 'regular'
+				})
+			},
+			[TYPOGRAPHY.TITLE]: {
+				[SIZE.LARGE]: buildStyle({
+					height: 'height4',
+					letterSpacing: 'letterSpacing2',
+					size: 'size4',
+					weight: 'medium'
+				}),
+				[SIZE.MEDIUM]: buildStyle({
+					height: 'height3',
+					letterSpacing: 'letterSpacing2',
+					size: 'size3',
+					weight: 'medium'
+				}),
+				[SIZE.SMALL]: buildStyle({
+					height: 'height2',
+					letterSpacing: 'letterSpacing2',
+					size: 'size2',
+					weight: 'medium'
+				})
+			},
+			[TYPOGRAPHY.BODY]: {
+				[SIZE.LARGE]: buildStyle({
+					height: 'height3',
+					letterSpacing: 'letterSpacing2',
+					size: 'size3',
+					weight: 'regular'
+				}),
+				[SIZE.MEDIUM]: buildStyle({
+					height: 'height2',
+					letterSpacing: 'letterSpacing2',
+					size: 'size2',
+					weight: 'regular'
+				}),
+				[SIZE.SMALL]: buildStyle({
+					height: 'height1',
+					letterSpacing: 'letterSpacing2',
+					size: 'size1',
+					weight: 'regular'
+				})
+			},
+			[TYPOGRAPHY.LABEL]: {
+				[SIZE.LARGE]: buildStyle({
+					height: 'height2',
+					letterSpacing: 'letterSpacing2',
+					prominent: 'bold',
+					size: 'size2',
+					weight: 'medium'
+				}),
+				[SIZE.MEDIUM]: buildStyle({
+					height: 'height1',
+					letterSpacing: 'letterSpacing2',
+					prominent: 'bold',
+					size: 'size1',
+					weight: 'medium'
+				}),
+				[SIZE.SMALL]: buildStyle({
+					height: 'height0',
+					letterSpacing: 'letterSpacing2',
+					size: 'size0',
+					weight: 'medium'
+				})
+			}
 		}
 
-		const comfortableMap: Record<string, FontStyle> = {
-			[`${TYPOGRAPHY.DISPLAY}.${SIZE.LARGE}`]: buildStyle({
-				height: 'height10',
-				letterSpacing: 'letterSpacing0',
-				size: 'size10',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.DISPLAY}.${SIZE.MEDIUM}`]: buildStyle({
-				height: 'height9',
-				letterSpacing: 'letterSpacing1',
-				size: 'size9',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.DISPLAY}.${SIZE.SMALL}`]: buildStyle({
-				height: 'height8',
-				letterSpacing: 'letterSpacing1',
-				size: 'size8',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.HEADLINE}.${SIZE.LARGE}`]: buildStyle({
-				height: 'height7',
-				letterSpacing: 'letterSpacing1',
-				size: 'size7',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.HEADLINE}.${SIZE.MEDIUM}`]: buildStyle({
-				height: 'height6',
-				letterSpacing: 'letterSpacing1',
-				size: 'size6',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.HEADLINE}.${SIZE.SMALL}`]: buildStyle({
-				height: 'height5',
-				letterSpacing: 'letterSpacing1',
-				size: 'size5',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.TITLE}.${SIZE.LARGE}`]: buildStyle({
-				height: 'height4',
-				letterSpacing: 'letterSpacing1',
-				size: 'size4',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.TITLE}.${SIZE.MEDIUM}`]: buildStyle({
-				height: 'height3',
-				letterSpacing: 'letterSpacing4',
-				size: 'size3',
-				weight: 'medium'
-			}),
-			[`${TYPOGRAPHY.TITLE}.${SIZE.SMALL}`]: buildStyle({
-				height: 'height2',
-				letterSpacing: 'letterSpacing3',
-				size: 'size2',
-				weight: 'medium'
-			}),
-			[`${TYPOGRAPHY.BODY}.${SIZE.LARGE}`]: buildStyle({
-				height: 'height3',
-				letterSpacing: 'letterSpacing6',
-				size: 'size3',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.BODY}.${SIZE.MEDIUM}`]: buildStyle({
-				height: 'height2',
-				letterSpacing: 'letterSpacing2',
-				size: 'size2',
-				weight: 'regular'
-			}),
-			[`${TYPOGRAPHY.BODY}.${SIZE.SMALL}`]: buildStyle({
-				height: 'height1',
-				letterSpacing: 'letterSpacing5',
-				size: 'size1',
-				weight: 'regular'
-			}),
-
-			[`${TYPOGRAPHY.LABEL}.${SIZE.LARGE}`]: buildStyle({
-				height: 'height2',
-				letterSpacing: 'letterSpacing3',
-				prominent: 'bold',
-				size: 'size2',
-				weight: 'medium'
-			}),
-			[`${TYPOGRAPHY.LABEL}.${SIZE.MEDIUM}`]: buildStyle({
-				height: 'height1',
-				letterSpacing: 'letterSpacing6',
-				prominent: 'bold',
-				size: 'size1',
-				weight: 'medium'
-			}),
-			[`${TYPOGRAPHY.LABEL}.${SIZE.SMALL}`]: buildStyle({
-				height: 'height0',
-				letterSpacing: 'letterSpacing6',
-				size: 'size0',
-				weight: 'medium'
-			})
+		const comfortableMap: Record<TypographyType, Record<TypographySize, FontStyle>> = {
+			[TYPOGRAPHY.DISPLAY]: {
+				[SIZE.LARGE]: buildStyle({
+					height: 'height12',
+					letterSpacing: 'letterSpacing0',
+					size: 'size12',
+					weight: 'regular'
+				}),
+				[SIZE.MEDIUM]: buildStyle({
+					height: 'height11',
+					letterSpacing: 'letterSpacing1',
+					size: 'size11',
+					weight: 'regular'
+				}),
+				[SIZE.SMALL]: buildStyle({
+					height: 'height10',
+					letterSpacing: 'letterSpacing1',
+					size: 'size10',
+					weight: 'regular'
+				})
+			},
+			[TYPOGRAPHY.HEADLINE]: {
+				[SIZE.LARGE]: buildStyle({
+					height: 'height9',
+					letterSpacing: 'letterSpacing1',
+					size: 'size9',
+					weight: 'regular'
+				}),
+				[SIZE.MEDIUM]: buildStyle({
+					height: 'height8',
+					letterSpacing: 'letterSpacing1',
+					size: 'size8',
+					weight: 'regular'
+				}),
+				[SIZE.SMALL]: buildStyle({
+					height: 'height7',
+					letterSpacing: 'letterSpacing1',
+					size: 'size7',
+					weight: 'regular'
+				})
+			},
+			[TYPOGRAPHY.TITLE]: {
+				[SIZE.LARGE]: buildStyle({
+					height: 'height6',
+					letterSpacing: 'letterSpacing1',
+					size: 'size6',
+					weight: 'regular'
+				}),
+				[SIZE.MEDIUM]: buildStyle({
+					height: 'height3',
+					letterSpacing: 'letterSpacing2',
+					size: 'size3',
+					weight: 'medium'
+				}),
+				[SIZE.SMALL]: buildStyle({
+					height: 'height2',
+					letterSpacing: 'letterSpacing2',
+					size: 'size2',
+					weight: 'medium'
+				})
+			},
+			[TYPOGRAPHY.BODY]: {
+				[SIZE.LARGE]: buildStyle({
+					height: 'height3',
+					letterSpacing: 'letterSpacing2',
+					size: 'size3',
+					weight: 'regular'
+				}),
+				[SIZE.MEDIUM]: buildStyle({
+					height: 'height2',
+					letterSpacing: 'letterSpacing2',
+					size: 'size2',
+					weight: 'regular'
+				}),
+				[SIZE.SMALL]: buildStyle({
+					height: 'height1',
+					letterSpacing: 'letterSpacing2',
+					size: 'size1',
+					weight: 'regular'
+				})
+			},
+			[TYPOGRAPHY.LABEL]: {
+				[SIZE.LARGE]: buildStyle({
+					height: 'height2',
+					letterSpacing: 'letterSpacing2',
+					prominent: 'bold',
+					size: 'size2',
+					weight: 'medium'
+				}),
+				[SIZE.MEDIUM]: buildStyle({
+					height: 'height1',
+					letterSpacing: 'letterSpacing2',
+					prominent: 'bold',
+					size: 'size1',
+					weight: 'medium'
+				}),
+				[SIZE.SMALL]: buildStyle({
+					height: 'height0',
+					letterSpacing: 'letterSpacing2',
+					size: 'size0',
+					weight: 'medium'
+				})
+			}
 		}
 
 		const map = isCompact ? compactMap : comfortableMap
-		const getStyle = ({type, size}: GetStyleOptions): FontStyle =>
-			map[`${type}.${size}`] ?? map[`${type}.${SIZE.MEDIUM}`]
 
 		return {
 			[TYPOGRAPHY.DISPLAY]: {
-				[SIZE.LARGE]: getStyle({type: TYPOGRAPHY.DISPLAY, size: SIZE.LARGE}),
-				[SIZE.MEDIUM]: getStyle({type: TYPOGRAPHY.DISPLAY, size: SIZE.MEDIUM}),
-				[SIZE.SMALL]: getStyle({type: TYPOGRAPHY.DISPLAY, size: SIZE.SMALL})
+				[SIZE.LARGE]: map[TYPOGRAPHY.DISPLAY][SIZE.LARGE],
+				[SIZE.MEDIUM]: map[TYPOGRAPHY.DISPLAY][SIZE.MEDIUM],
+				[SIZE.SMALL]: map[TYPOGRAPHY.DISPLAY][SIZE.SMALL]
 			},
 			[TYPOGRAPHY.HEADLINE]: {
-				[SIZE.LARGE]: getStyle({type: TYPOGRAPHY.HEADLINE, size: SIZE.LARGE}),
-				[SIZE.MEDIUM]: getStyle({type: TYPOGRAPHY.HEADLINE, size: SIZE.MEDIUM}),
-				[SIZE.SMALL]: getStyle({type: TYPOGRAPHY.HEADLINE, size: SIZE.SMALL})
+				[SIZE.LARGE]: map[TYPOGRAPHY.HEADLINE][SIZE.LARGE],
+				[SIZE.MEDIUM]: map[TYPOGRAPHY.HEADLINE][SIZE.MEDIUM],
+				[SIZE.SMALL]: map[TYPOGRAPHY.HEADLINE][SIZE.SMALL]
 			},
 			[TYPOGRAPHY.TITLE]: {
-				[SIZE.LARGE]: getStyle({type: TYPOGRAPHY.TITLE, size: SIZE.LARGE}),
-				[SIZE.MEDIUM]: getStyle({type: TYPOGRAPHY.TITLE, size: SIZE.MEDIUM}),
-				[SIZE.SMALL]: getStyle({type: TYPOGRAPHY.TITLE, size: SIZE.SMALL})
+				[SIZE.LARGE]: map[TYPOGRAPHY.TITLE][SIZE.LARGE],
+				[SIZE.MEDIUM]: map[TYPOGRAPHY.TITLE][SIZE.MEDIUM],
+				[SIZE.SMALL]: map[TYPOGRAPHY.TITLE][SIZE.SMALL]
 			},
 			[TYPOGRAPHY.BODY]: {
-				[SIZE.LARGE]: getStyle({type: TYPOGRAPHY.BODY, size: SIZE.LARGE}),
-				[SIZE.MEDIUM]: getStyle({type: TYPOGRAPHY.BODY, size: SIZE.MEDIUM}),
-				[SIZE.SMALL]: getStyle({type: TYPOGRAPHY.BODY, size: SIZE.SMALL})
+				[SIZE.LARGE]: map[TYPOGRAPHY.BODY][SIZE.LARGE],
+				[SIZE.MEDIUM]: map[TYPOGRAPHY.BODY][SIZE.MEDIUM],
+				[SIZE.SMALL]: map[TYPOGRAPHY.BODY][SIZE.SMALL]
 			},
 			[TYPOGRAPHY.LABEL]: {
-				[SIZE.LARGE]: getStyle({type: TYPOGRAPHY.LABEL, size: SIZE.LARGE}),
-				[SIZE.MEDIUM]: getStyle({type: TYPOGRAPHY.LABEL, size: SIZE.MEDIUM}),
-				[SIZE.SMALL]: getStyle({type: TYPOGRAPHY.LABEL, size: SIZE.SMALL})
+				[SIZE.LARGE]: map[TYPOGRAPHY.LABEL][SIZE.LARGE],
+				[SIZE.MEDIUM]: map[TYPOGRAPHY.LABEL][SIZE.MEDIUM],
+				[SIZE.SMALL]: map[TYPOGRAPHY.LABEL][SIZE.SMALL]
 			}
 		}
 	}

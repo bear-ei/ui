@@ -38,7 +38,7 @@ export const createToken = ({
 				opacity: createOpacity(),
 				palette: createdPalette,
 				scheme: colorScheme,
-				shape: createShape(),
+				shape: createShape(density),
 				typography: createTypography(font)(density)
 			}
 		}
