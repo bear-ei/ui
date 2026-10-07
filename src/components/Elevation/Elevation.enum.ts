@@ -1,0 +1,15 @@
+import {ELEVATION_LEVEL} from '../../theme'
+
+export const ELEVATION_VALUE = {
+	[ELEVATION_LEVEL.LEVEL_0]: 0,
+	[ELEVATION_LEVEL.LEVEL_1]: 1,
+	[ELEVATION_LEVEL.LEVEL_2]: 2,
+	[ELEVATION_LEVEL.LEVEL_3]: 3,
+	[ELEVATION_LEVEL.LEVEL_4]: 4,
+	[ELEVATION_LEVEL.LEVEL_5]: 5
+} as const
+
+export const ELEVATION_ACTION = {
+	LIFT: 'LIFT',
+	FALL: 'FALL'
+} as const

@@ -3,7 +3,7 @@ import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {CommonProps, ComponentStatus, EventName, State} from '../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, InteractionHandlers} from '../../hooks'
-import type {RadiusType, ShapeType} from '../../theme'
+import type {RadiusType} from '../../theme'
 import type {ACTIVE_ANIMATED} from './Underlay.enum'
 
 export type ActiveAnimatedType = (typeof ACTIVE_ANIMATED)[keyof typeof ACTIVE_ANIMATED]
@@ -20,7 +20,6 @@ export interface UnderlayProps extends ViewProps, RefAttributes<View>, CommonPro
 	activeScale?: {x?: number; y?: number}
 	eventName?: EventName
 	opacities?: [number, number, number]
-	shape?: ShapeType
 	underlayColor?: string
 }
 

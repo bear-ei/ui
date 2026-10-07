@@ -1,6 +1,6 @@
 import {forwardRef} from 'react'
 import {View, type ViewStyle} from 'react-native'
-import {platformValue} from '../../../utils'
+import {platformValue} from '../../../theme'
 import {AnimatedView} from '../../Animated-component'
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
 import {classesName, RADIUS, SHAPE, shapeClasses} from '../../../theme'

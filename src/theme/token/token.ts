@@ -1,5 +1,4 @@
 import {vars} from 'nativewind'
-import {platformValue} from '../../utils'
 import {createAnimatedConfig} from '../animated'
 import {createBorder} from '../border'
 import * as rawClasses from '../classes'
@@ -15,6 +14,7 @@ import {createShape, RADIUS} from '../shape'
 import {PLATFORM} from '../theme.enum'
 import {createTypography} from '../typography'
 import type {CreateTokenOptions, PaletteOptions, Token} from './token.interface'
+import {platformValue} from '../platform-value'
 
 const TYPOGRAPHY_PLATFORM_VALUE_KEYS = ['height', 'lineHeight', 'size', RADIUS.FULL, ...Object.keys(DENSITY_SIZE)]
 const toKebabCase = (value: string) =>
@@ -87,7 +87,7 @@ export const createToken = ({
 				border: createBorder(),
 				classes: rawClasses,
 				density: createDensity(density),
-				elevation: createElevation(density)(colorScheme.shadow),
+				elevation: createElevation(density),
 				font,
 				opacity: createOpacity(),
 				palette: createdPalette,

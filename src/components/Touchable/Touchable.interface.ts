@@ -3,7 +3,6 @@ import type {NativeTouchEvent, Pressable, PressableProps, StyleProp, View, ViewS
 import type {CommonProps, LayoutRectangle} from '../../constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {TouchableRippleProps} from './Touchable-ripple'
-import type {ShapeType} from '../../theme'
 
 export type PressableType = typeof Pressable & View
 export interface TouchableProps
@@ -19,7 +18,6 @@ export interface TouchableProps
 	disabled?: boolean
 	elevationUnderlay?: React.JSX.Element
 	enableTouchableRipple?: boolean
-	shape?: ShapeType
 	style?: StyleProp<ViewStyle>
 	underlayColor?: string
 }
