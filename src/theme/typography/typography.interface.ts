@@ -1,3 +1,4 @@
+import type {DensitySizeScale} from '../density'
 import type {Font, FontHeight, FontLetterSpacing, FontSize} from '../font'
 import type {TYPOGRAPHY, TYPOGRAPHY_SIZE} from './typography.enum'
 
@@ -22,4 +23,6 @@ export interface FontStyle {
 }
 
 export type TypographyStyle = Record<TypographySize, FontStyle>
-export type Typography = Record<TypographyType, TypographyStyle>
+export interface Typography extends Record<TypographyType, TypographyStyle> {
+	densitySizeMapTypographySize: (size: DensitySizeScale) => TypographySize
+}

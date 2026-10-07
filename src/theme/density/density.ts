@@ -1,5 +1,5 @@
-import {LAYOUT_DENSITY, DENSITY_SIZE, UI_DENSITY, WINDOW_SIZE} from './density.enum'
-import type {Density, Spacing, UIDensity, WindowSize} from './density.interface'
+import {DENSITY_SIZE, LAYOUT_DENSITY, UI_DENSITY, WINDOW_SIZE} from './density.enum'
+import type {Density, DensitySizeScale, Spacing, UIDensity, WindowSize} from './density.interface'
 
 const SPACING = {
 	[DENSITY_SIZE.LARGE]: 16,
@@ -124,11 +124,25 @@ const createMobileGap = (spacing: Spacing) => {
 }
 
 export const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => ({
-	spacing: SPACING,
-	inset: INSET[density],
 	control: CONTROL[density],
+	densitySizeMapIconSize: processDensitySizeMapIconSize,
 	icon: ICON[density],
-	layout: LAYOUT[density],
 	inline: INLINE[density],
-	mobileGap: createMobileGap(SPACING)
+	inset: INSET[density],
+	layout: LAYOUT[density],
+	mobileGap: createMobileGap(SPACING),
+	spacing: SPACING
 })
+
+export const processDensitySizeMapIconSize = (size: DensitySizeScale) => {
+	const iconSize = {
+		[DENSITY_SIZE.LARGE]: DENSITY_SIZE.MEDIUM,
+		[DENSITY_SIZE.MEDIUM]: DENSITY_SIZE.SMALL,
+		[DENSITY_SIZE.SMALL]: DENSITY_SIZE.X_SMALL,
+		[DENSITY_SIZE.X_LARGE]: DENSITY_SIZE.LARGE,
+		[DENSITY_SIZE.X_SMALL]: DENSITY_SIZE.X_SMALL,
+		[DENSITY_SIZE.XX_LARGE]: DENSITY_SIZE.X_LARGE
+	}
+
+	return iconSize[size]
+}

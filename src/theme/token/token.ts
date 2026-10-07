@@ -11,12 +11,12 @@ import {createOpacity} from '../opacity'
 import type {PaletteType} from '../palette'
 import {createPalette, PALETTE} from '../palette'
 import {createColorScheme, SCHEME} from '../scheme'
-import {createShape} from '../shape'
+import {createShape, RADIUS} from '../shape'
 import {PLATFORM} from '../theme.enum'
 import {createTypography} from '../typography'
 import type {CreateTokenOptions, PaletteOptions, Token} from './token.interface'
 
-const TYPOGRAPHY_PLATFORM_VALUE_KEYS = ['height', 'lineHeight', 'size', ...Object.keys(DENSITY_SIZE)]
+const TYPOGRAPHY_PLATFORM_VALUE_KEYS = ['height', 'lineHeight', 'size', RADIUS.FULL, ...Object.keys(DENSITY_SIZE)]
 const toKebabCase = (value: string) =>
 	value
 		.replace(/_/g, '-')

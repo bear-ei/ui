@@ -1,7 +1,6 @@
 export * from './array-equal'
 export * from './debounce'
 export * from './hex-to-rgba'
-export * from './icon-size'
 export * from './name-path'
 export * from './platform-value'
 export * from './px-to-rem'

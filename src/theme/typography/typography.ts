@@ -1,4 +1,4 @@
-import {UI_DENSITY, type UIDensity} from '../density'
+import {DENSITY_SIZE, UI_DENSITY, type DensitySizeScale, type UIDensity} from '../density'
 import type {Font, FontLineHeight} from '../font'
 import {TYPOGRAPHY, TYPOGRAPHY_SIZE} from './typography.enum'
 import type {CreateBuildStyleOptions, FontStyle, Typography} from './typography.interface'
@@ -238,6 +238,7 @@ export const createTypography =
 		const map = densityMap[density]
 
 		return {
+			densitySizeMapTypographySize: processDensitySizeMapTypographySize,
 			[TYPOGRAPHY.DISPLAY]: {
 				[TYPOGRAPHY_SIZE.LARGE]: map[TYPOGRAPHY.DISPLAY][TYPOGRAPHY_SIZE.LARGE],
 				[TYPOGRAPHY_SIZE.MEDIUM]: map[TYPOGRAPHY.DISPLAY][TYPOGRAPHY_SIZE.MEDIUM],
@@ -265,3 +266,16 @@ export const createTypography =
 			}
 		}
 	}
+
+export const processDensitySizeMapTypographySize = (size: DensitySizeScale) => {
+	const typographySize = {
+		[DENSITY_SIZE.LARGE]: TYPOGRAPHY_SIZE.LARGE,
+		[DENSITY_SIZE.MEDIUM]: TYPOGRAPHY_SIZE.MEDIUM,
+		[DENSITY_SIZE.SMALL]: TYPOGRAPHY_SIZE.SMALL,
+		[DENSITY_SIZE.X_LARGE]: TYPOGRAPHY_SIZE.LARGE,
+		[DENSITY_SIZE.X_SMALL]: TYPOGRAPHY_SIZE.SMALL,
+		[DENSITY_SIZE.XX_LARGE]: TYPOGRAPHY_SIZE.LARGE
+	}
+
+	return typographySize[size]
+}
