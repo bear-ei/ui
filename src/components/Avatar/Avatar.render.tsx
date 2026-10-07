@@ -82,7 +82,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 								numberOfLines={1}
 								testID={`avatar__labelText--${id}`}
 							>
-								{labelText}
+								{labelText?.[0]}
 							</Text>
 						}
 					</View>

@@ -10,7 +10,7 @@ export const AvatarBase = forwardRef<View, AvatarBaseProps>(({labelText = 'A', .
 		<RenderAvatar
 			{...renderAvatarProps}
 			id={id}
-			labelText={labelText[0]}
+			labelText={labelText}
 			ref={ref}
 		/>
 	)
