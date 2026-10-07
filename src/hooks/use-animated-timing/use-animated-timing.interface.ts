@@ -12,7 +12,6 @@ export interface CreateAnimatedTimingOptions extends Omit<
 > {
 	bezier: Bezier
 	duration: number
-	speedScale: number
 }
 
 export interface AnimatedTimingOptions extends Omit<WithTimingConfig, 'duration' | 'easing'> {

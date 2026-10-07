@@ -16,6 +16,7 @@ export const useUnderlayAnimated = ({
 	status
 }: UseUnderlayAnimatedOptions) => {
 	const {token} = useTheme()
+
 	const {opacity} = token
 	const opacities = rawOpacities ?? [opacity.level0, opacity.level1, opacity.level2]
 	const {x: scaleX = 1.2, y: scaleY = 1.2} = activeScale ?? {}

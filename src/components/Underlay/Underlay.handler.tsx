@@ -61,8 +61,16 @@ export const animateUnderlayHoverState = ({animatedTiming, activeValue}: Animate
 export const animateUnderlayActiveState = (
 	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
 ) => {
-	const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD_DECELERATE, duration: DURATION.SHORT_2})
+	const enterAnimatedTiming = animatedTiming({easing: EASING.STANDARD_DECELERATE, duration: DURATION.SHORT_2})
+	const exitAnimatedTiming = animatedTiming({easing: EASING.STANDARD_ACCELERATE, duration: DURATION.SHORT_2})
 
-	return (activeLayerSharedValue: SharedValue<number>) => (active?: boolean) =>
-		typeof active === 'boolean' && animateSharedValueTo({sharedValue: activeLayerSharedValue})(active ? 1 : 0)
+	return (activeLayerSharedValue: SharedValue<number>) => (active?: boolean) => {
+		if (typeof active !== 'boolean') {
+			return
+		}
+
+		const animate = active ? enterAnimatedTiming : exitAnimatedTiming
+
+		animate({sharedValue: activeLayerSharedValue})(active ? 1 : 0)
+	}
 }

@@ -19,7 +19,7 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 				...options
 			} = {} as AnimatedTimingOptions
 		): AnimateSharedValueTo => {
-			const {bezier, duration, speedScale} = token.animated(easing)(rawDuration)
+			const {bezier, duration} = token.animated({easing, duration: rawDuration})
 
 			return ({sharedValue, immediate}: AnimateSharedValueToOptions) =>
 				(toValue: number) => {
@@ -39,9 +39,7 @@ export const useAnimatedTiming = ({token}: UseAnimatedTimingOptions) => {
 						return
 					}
 
-					sharedValue.value = createAnimatedTiming({...options, bezier, duration, speedScale})(callback)(
-						toValue
-					)
+					sharedValue.value = createAnimatedTiming({...options, bezier, duration})(callback)(toValue)
 				}
 		},
 		[token]

@@ -3,7 +3,7 @@ import {scheduleOnRN} from 'react-native-worklets'
 import type {CreateAnimatedTimingOptions} from './use-animated-timing.interface'
 
 export const createAnimatedTiming =
-	({duration, repeat, bezier, delay, speedScale, ...config}: CreateAnimatedTimingOptions) =>
+	({duration, repeat, bezier, delay, ...config}: CreateAnimatedTimingOptions) =>
 	(callback?: AnimationCallback) =>
 	(toValue: number) => {
 		'worklet'
@@ -20,8 +20,7 @@ export const createAnimatedTiming =
 			}
 		)
 
-		const withDelayedAnimation =
-			typeof delay === 'number' ? withDelay(Math.round(delay * speedScale), animation) : animation
+		const withDelayedAnimation = typeof delay === 'number' ? withDelay(delay, animation) : animation
 
 		if (typeof repeat === 'number') {
 			return withRepeat(withDelayedAnimation, repeat)
