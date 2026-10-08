@@ -42,7 +42,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		ref
 	) => {
 		const [{layout, nextUnmountEvent, nextAnimationFinishedEvent, status}, setState] =
-			useImmer<LayoutAnimatedState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE})
+			useImmer<LayoutAnimatedState>({
+				layout: {width: 0, height: 0} as LayoutRectangle,
+				status: COMPONENT_STATUS.IDLE
+			})
 
 		useClearComponentEvent(setState)
 

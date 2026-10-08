@@ -9,7 +9,7 @@ import {RenderTouchable, RenderTouchableRipples} from './Touchable.render'
 export const TouchableBase = forwardRef<PressableType, TouchableBaseProps>(
 	({centered, disabled, enableTouchableRipple = true, underlayColor, ...renderTouchableProps}, ref) => {
 		const [{rippleSequence, contentLayout}, setState] = useImmer<TouchableState>({
-			contentLayout: {} as LayoutRectangle,
+			contentLayout: {width: 0, height: 0} as LayoutRectangle,
 			rippleSequence: {} as TouchableRippleSequence
 		})
 
