@@ -101,7 +101,6 @@ export const useElevationAnimated = ({
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
-			console.info(level)
 			runAnimate(level)
 		}
 	}, [runAnimate, level, status])

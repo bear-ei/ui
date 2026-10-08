@@ -54,7 +54,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 			type
 		})
 
-		const runUpdateStatus = useMemo(() => updateButtonStatus(rawDisabled)(setState), [rawDisabled, setState])
+		const runUpdateStatus = useMemo(() => updateButtonStatus(isDisabled)(setState), [isDisabled, setState])
 		const runUpdateDisabledState = useMemo(() => updateButtonDisabledState(type)(setState), [setState, type])
 		const iconElement = icon && (
 			<RenderButtonIcon

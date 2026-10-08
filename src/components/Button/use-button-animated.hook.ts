@@ -113,17 +113,17 @@ export const useButtonAnimated = ({
 		hexToRGBA(scheme.primary)(opacity.level10)
 	]
 
-	const isNotBackgroundColor = ([BUTTON_TYPE.TEXT, BUTTON_TYPE.LINK] as readonly ButtonType[]).includes(type)
-	const isNotBorderColor = type !== BUTTON_TYPE.OUTLINED
+	const isBackgroundColorApplied = !([BUTTON_TYPE.TEXT, BUTTON_TYPE.LINK] as readonly ButtonType[]).includes(type)
+	const isBorderColorApplied = type === BUTTON_TYPE.OUTLINED
 	const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
-		...(!isNotBackgroundColor && {
+		...(isBackgroundColorApplied && {
 			backgroundColor: interpolateColor(
 				colorSharedValue.value,
 				backgroundColorType[type].inputRanges,
 				backgroundColorType[type].outputRanges
 			)
 		}),
-		...(!isNotBorderColor &&
+		...(isBorderColorApplied &&
 			({
 				borderColor: interpolateColor(borderSharedValue.value, borderColorInputRanges, borderColorOutputRanges),
 				borderStyle: 'solid',

@@ -71,10 +71,13 @@ export const updateButtonDisabledState =
 		setState(draft => {
 			if (disabled) {
 				draft.eventName = EVENT_NAME.NONE
+				draft.elevation = ELEVATION_VALUE.LEVEL_0
+
+				return
 			}
 
 			if (type === BUTTON_TYPE.ELEVATED) {
-				draft.elevation = disabled ? ELEVATION_VALUE.LEVEL_0 : ELEVATION_VALUE.LEVEL_1
+				draft.elevation = ELEVATION_VALUE.LEVEL_1
 			}
 		})
 
@@ -94,7 +97,7 @@ export const getButtonUnderlayColor =
 	}
 
 export const animateButton = ({animatedTiming, borderColorInputRanges, disabled, type}: AnimateButtonOptions) => {
-	const animateSharedValue = animatedTiming({duration: DURATION.MEDIUM_0, easing: EASING.STANDARD})
+	const animateSharedValue = animatedTiming({duration: DURATION.SHORT_2, easing: EASING.STANDARD})
 	const toValue = disabled ? 0 : 1
 	const animateOutlinedButton = (borderAnimateSharedValueTo: (toValue: number) => void) => {
 		const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]

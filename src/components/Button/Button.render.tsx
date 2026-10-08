@@ -36,6 +36,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 		[BUTTON_TYPE.ELEVATED]: token.scheme.primary,
 		[BUTTON_TYPE.FILLED]: token.scheme.onPrimary,
 		[BUTTON_TYPE.LINK]: token.scheme.primary,
+		[BUTTON_TYPE.OUTLINED]: token.scheme.primary,
 		[BUTTON_TYPE.TEXT]: token.scheme.primary,
 		[BUTTON_TYPE.TONAL]: token.scheme.onSecondaryContainer
 	} as Record<ButtonType, string>
@@ -125,7 +126,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 
 		return (
 			<View
-				accessibilityLabel={accessibilityLabel ?? `Button: ${labelText}`}
+				accessibilityLabel={accessibilityLabel ?? labelText}
 				accessibilityRole='button'
 				accessibilityState={{disabled}}
 				accessible={true}
@@ -157,7 +158,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 					>
 						<View
 							className={classesName(
-								'z-10 flex flex-1 flex-row items-center justify-center gap-[--density-spacing-small] self-stretch',
+								'z-10 flex flex-1 flex-row items-center justify-center gap-[--density-spacing-snug] self-stretch',
 								{[densityInsetClasses(size)]: !isLink}
 							)}
 							testID={`button__main--${id}`}
@@ -190,8 +191,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 						{isLink && (
 							<LayoutAnimated
 								className='absolute bottom-0 left-0 right-0 z-20 min-h-[--border-small] bg-[--color-primary]'
-								entry={{duration: DURATION.SHORT_1, easing: EASING.STANDARD_DECELERATE}}
-								exit={{duration: DURATION.SHORT_1, easing: EASING.STANDARD_ACCELERATE}}
+								entry={{duration: DURATION.SHORT_1, easing: EASING.STANDARD}}
+								exit={{duration: DURATION.SHORT_1, easing: EASING.STANDARD}}
 								style={[activeIndicatorStyle]}
 								testID={`button__activeIndicator--${id}`}
 								visible={isActiveIndicatorVisible}

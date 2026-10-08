@@ -18,8 +18,6 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken
 
 	const providerTheme = useMemo(() => ({colorScheme, token}), [colorScheme, token])
 
-	console.info(styleVariables)
-
 	return (
 		<ThemeContext.Provider value={providerTheme}>
 			<GestureHandlerRootView>
