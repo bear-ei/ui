@@ -177,8 +177,8 @@ const DENSITY_SPACING = {
 		[DENSITY_SIZE.SMALL]: 'mt-[--density-spacing-small] mb-[--density-inset-small]',
 		[DENSITY_SIZE.SNUG]: 'mt-[--density-spacing-snug] mb-[--density-spacing-snug]',
 		[DENSITY_SIZE.TIGHT]: 'mt-[--density-spacing-tight] mb-[--density-spacing-tight]',
-		[DENSITY_SIZE.X_LARGE]: 'mt-[--density-spacing-extra-large] mb-[--density-spacing-extra-large]',
-		[DENSITY_SIZE.X_SMALL]: 'mt-[--density-spacing-extra-small] mb-[--density-spacing-extra-small]',
+		[DENSITY_SIZE.X_LARGE]: 'mt-[--density-spacing-x-large] mb-[--density-spacing-x-large]',
+		[DENSITY_SIZE.X_SMALL]: 'mt-[--density-spacing-x-small] mb-[--density-spacing-x-small]',
 		[DENSITY_SIZE.XX_LARGE]: 'mt-[--density-inset-xx-large] mb-[--density-inset-xx-large]'
 	}
 }
