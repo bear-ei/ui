@@ -1,4 +1,4 @@
-import {cloneElement, forwardRef, type FC} from 'react'
+import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import {View} from 'react-native'
 import {EVENT_NAME, type EventName} from '../../constants'
 import {useTheme} from '../../hooks'
@@ -101,6 +101,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 		const loadingEventName = type && buttonTypes.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
 		const shape = isLink ? SHAPE.TOP : SHAPE.ALL
 		const radius = isLink ? RADIUS.X_SMALL : RADIUS.FULL
+		const layoutAnimatedTimingOptions = useMemo(() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD}), [])
 		const backgroundUnderlayElement = (
 			<AnimatedView
 				className={classesName(
@@ -191,8 +192,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 						{isLink && (
 							<LayoutAnimated
 								className='absolute bottom-0 left-0 right-0 z-20 min-h-[--border-small] bg-[--color-primary]'
-								entry={{duration: DURATION.SHORT_1, easing: EASING.STANDARD}}
-								exit={{duration: DURATION.SHORT_1, easing: EASING.STANDARD}}
+								entry={layoutAnimatedTimingOptions}
+								exit={layoutAnimatedTimingOptions}
 								style={[activeIndicatorStyle]}
 								testID={`button__activeIndicator--${id}`}
 								visible={isActiveIndicatorVisible}
