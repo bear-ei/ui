@@ -2,7 +2,7 @@ import {useEffect, useMemo} from 'react'
 import {Platform} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useAnimatedTiming, useTheme} from '../../hooks'
-import {ELEVATION_VALUE, ELEVATION_ACTION} from './Elevation.enum'
+import {ELEVATION_VALUE} from './Elevation.enum'
 import {animateElevation, getWebBoxShadow} from './Elevation.handler'
 import type {UseElevationAnimatedOptions} from './Elevation.interface'
 import {COMPONENT_STATUS} from '../../constants'
@@ -10,7 +10,6 @@ import {ELEVATION_LEVEL, hexToRGBA} from '../../theme'
 
 const INPUT_RANGES = [0, 1, 2, 3, 4, 5]
 export const useElevationAnimated = ({
-	action = ELEVATION_ACTION.LIFT,
 	level = ELEVATION_VALUE.LEVEL_0,
 	onAnimationFinished,
 	status
@@ -96,12 +95,13 @@ export const useElevationAnimated = ({
 	})
 
 	const runAnimate = useMemo(
-		() => animateElevation({animatedTiming, onAnimationFinished, action})(shadowSharedValue),
-		[animatedTiming, onAnimationFinished, shadowSharedValue, action]
+		() => animateElevation({animatedTiming, onAnimationFinished})(shadowSharedValue),
+		[animatedTiming, onAnimationFinished, shadowSharedValue]
 	)
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
+			console.info(level)
 			runAnimate(level)
 		}
 	}, [runAnimate, level, status])

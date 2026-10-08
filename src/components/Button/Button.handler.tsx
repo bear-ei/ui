@@ -1,5 +1,4 @@
 import type {WritableDraft} from 'immer'
-import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName, type State, STATE} from '../../constants'
 import type {Theme} from '../../contexts'
@@ -13,6 +12,7 @@ import type {
 	ButtonType,
 	HandleButtonStateChangeOptions
 } from './Button.interface'
+import {DURATION, EASING} from '../../theme'
 
 export const updateButtonStatus = (disabled?: boolean) => (setState: Updater<ButtonState>) => (type?: ButtonType) =>
 	setState(draft => {
@@ -94,26 +94,28 @@ export const getButtonUnderlayColor =
 	}
 
 export const animateButton = ({animatedTiming, borderColorInputRanges, disabled, type}: AnimateButtonOptions) => {
-	const animateSharedValueTo = animatedTiming()
+	const animateSharedValue = animatedTiming({duration: DURATION.MEDIUM_0, easing: EASING.STANDARD})
 	const toValue = disabled ? 0 : 1
-	const animateOutlinedButton = (borderSharedValue: SharedValue<number>) => {
+	const animateOutlinedButton = (borderAnimateSharedValueTo: (toValue: number) => void) => {
 		const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]
 
 		return (eventName?: EventName) =>
-			animateSharedValueTo({sharedValue: borderSharedValue})(
-				eventName === EVENT_NAME.FOCUS ? borderColorInputRanges[2] : value
-			)
+			borderAnimateSharedValueTo(eventName === EVENT_NAME.FOCUS ? borderColorInputRanges[2] : value)
 	}
 
-	return ({borderSharedValue, colorSharedValue}: AnimateButtonSharedValues) =>
-		(eventName?: EventName) => {
+	return ({borderSharedValue, colorSharedValue}: AnimateButtonSharedValues) => {
+		const colorAnimateSharedValueTo = animateSharedValue({sharedValue: colorSharedValue})
+		const borderAnimateSharedValueTo = animateSharedValue({sharedValue: borderSharedValue})
+
+		return (eventName?: EventName) => {
 			if (type === BUTTON_TYPE.OUTLINED) {
-				animateOutlinedButton(borderSharedValue)(eventName)
-				animateSharedValueTo({sharedValue: colorSharedValue})(toValue)
+				animateOutlinedButton(borderAnimateSharedValueTo)(eventName)
+				colorAnimateSharedValueTo(toValue)
 
 				return
 			}
 
-			animateSharedValueTo({sharedValue: colorSharedValue})(toValue)
+			colorAnimateSharedValueTo(toValue)
 		}
+	}
 }

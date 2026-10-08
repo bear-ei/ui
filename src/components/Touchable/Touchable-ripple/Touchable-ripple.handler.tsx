@@ -1,13 +1,13 @@
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import type {AnimateSharedValueToOptions, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import {DURATION, EASING} from '../../../theme'
 import type {
 	AnimateTouchableRippleOptions,
 	AnimateTouchableRippleSharedValues,
 	TouchableRippleProps,
 	TouchableRippleState
 } from './Touchable-ripple.interface'
-import {DURATION, EASING} from '../../../theme'
 
 export const compareTouchableRippleProps = (prevProps: TouchableRippleProps) => {
 	const {indexKey: prevIndexKey} = prevProps
@@ -25,35 +25,23 @@ export const handleTouchableRippleStateChange =
 			}
 		})
 
-export const animateTouchableRipple = ({animatedTiming, onAnimateFinished}: AnimateTouchableRippleOptions) => {
-	const createAnimatedTimingCallback = (callback?: () => void) => (finished?: boolean) => finished && callback?.()
-	const createRippleAnimatedTiming =
-		({
-			sharedValue,
-			animatedTimingOptions
-		}: Pick<AnimateTouchableRippleSharedValues, 'animatedTimingOptions'> &
-			Pick<AnimateSharedValueToOptions, 'sharedValue'>) =>
-		(toValue: number) =>
-		(callback?: () => void) =>
-			animatedTiming({...animatedTimingOptions, callback: createAnimatedTimingCallback(callback)})({
-				sharedValue
-			})(toValue)
+export const animateTouchableRipple =
+	({animatedTiming, onAnimateFinished, indexKey}: AnimateTouchableRippleOptions) =>
+	({opacitySharedValue, scaleSharedValue}: AnimateTouchableRippleSharedValues) => {
+		const entryAnimateSharedValueTo = animatedTiming({
+			duration: DURATION.SHORT_2,
+			easing: EASING.STANDARD_DECELERATE
+		})({sharedValue: scaleSharedValue})
 
-	return ({opacitySharedValue, scaleSharedValue}: AnimateTouchableRippleSharedValues) =>
-		(index?: string) => {
-			const entryAnimatedTiming = createRippleAnimatedTiming({
-				sharedValue: scaleSharedValue,
-				animatedTimingOptions: {easing: EASING.STANDARD_DECELERATE, duration: DURATION.SHORT_2}
-			})(1)
+		const exitAnimateSharedValueTo = animatedTiming({
+			delay: 50,
+			duration: DURATION.SHORT_3,
+			easing: EASING.STANDARD_ACCELERATE,
+			callback: (finished?: boolean) => finished && indexKey && onAnimateFinished?.(indexKey)
+		})({sharedValue: opacitySharedValue})
 
-			const exitAnimatedTiming = createRippleAnimatedTiming({
-				sharedValue: opacitySharedValue,
-				animatedTimingOptions: {easing: EASING.STANDARD_ACCELERATE, duration: DURATION.SHORT_3, delay: 50}
-			})(0)
-
-			const exitAnimatedFinished = () => index && onAnimateFinished?.(index)
-
-			entryAnimatedTiming()
-			exitAnimatedTiming(exitAnimatedFinished)
+		return () => {
+			entryAnimateSharedValueTo(1)
+			exitAnimateSharedValueTo(0)
 		}
-}
+	}

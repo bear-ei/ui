@@ -2,7 +2,6 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS} from '../../constants'
 import {DURATION, EASING, hexToRGBA, platformValue} from '../../theme'
-import {ELEVATION_ACTION} from './Elevation.enum'
 import type {
 	AnimateElevationOptions,
 	ElevationState,
@@ -38,12 +37,6 @@ export const getWebBoxShadow = ({offsetX, offsetY, blurRadius, opacity, color}: 
 export const updateElevationLevel = (setState: Updater<ElevationState>) => (level?: ElevationValue) =>
 	typeof level === 'number' &&
 	setState(draft => {
-		const currentLevel = draft.level ?? 0
-
-		if (currentLevel !== level) {
-			draft.action = currentLevel < level ? ELEVATION_ACTION.LIFT : ELEVATION_ACTION.FALL
-		}
-
 		draft.level = level
 
 		if (draft.status === COMPONENT_STATUS.IDLE) {
@@ -52,13 +45,13 @@ export const updateElevationLevel = (setState: Updater<ElevationState>) => (leve
 	})
 
 export const animateElevation =
-	({animatedTiming, onAnimationFinished, action}: AnimateElevationOptions) =>
-	(shadowSharedValue: SharedValue<number>) =>
-	(level: ElevationValue) =>
-		animatedTiming({
-			callback: (finished?: boolean) => finished && onAnimationFinished?.(level),
+	({animatedTiming, onAnimationFinished}: AnimateElevationOptions) =>
+	(shadowSharedValue: SharedValue<number>) => {
+		const animateSharedValueTo = animatedTiming({
+			callback: (finished?: boolean) => finished && onAnimationFinished?.(),
 			duration: DURATION.MEDIUM_0,
-			easing: action === ELEVATION_ACTION.FALL ? EASING.STANDARD_ACCELERATE : EASING.STANDARD_DECELERATE
-		})({
-			sharedValue: shadowSharedValue
-		})(level)
+			easing: EASING.STANDARD
+		})({sharedValue: shadowSharedValue})
+
+		return (level: ElevationValue) => animateSharedValueTo(level)
+	}

@@ -50,27 +50,29 @@ export const animateUnderlayHoverState = ({animatedTiming, activeValue}: Animate
 	} as Record<EventName, number>
 
 	const eventKeys = Object.keys(event)
-	const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_1})
 
-	return (hoverLayerSharedValue: SharedValue<number>) => (eventName?: EventName) =>
-		eventName &&
-		eventKeys.includes(eventName) &&
-		animateSharedValueTo({sharedValue: hoverLayerSharedValue})(event[eventName])
-}
+	return (hoverLayerSharedValue: SharedValue<number>) => {
+		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_1})({
+			sharedValue: hoverLayerSharedValue
+		})
 
-export const animateUnderlayActiveState = (
-	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
-) => {
-	const enterAnimatedTiming = animatedTiming({easing: EASING.STANDARD_DECELERATE, duration: DURATION.SHORT_2})
-	const exitAnimatedTiming = animatedTiming({easing: EASING.STANDARD_ACCELERATE, duration: DURATION.SHORT_2})
-
-	return (activeLayerSharedValue: SharedValue<number>) => (active?: boolean) => {
-		if (typeof active !== 'boolean') {
-			return
-		}
-
-		const animate = active ? enterAnimatedTiming : exitAnimatedTiming
-
-		animate({sharedValue: activeLayerSharedValue})(active ? 1 : 0)
+		return (eventName?: EventName) =>
+			eventName && eventKeys.includes(eventName) && animateSharedValueTo(event[eventName])
 	}
 }
+
+export const animateUnderlayActiveState =
+	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
+	(activeLayerSharedValue: SharedValue<number>) => {
+		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_2})({
+			sharedValue: activeLayerSharedValue
+		})
+
+		return (active?: boolean) => {
+			if (typeof active !== 'boolean') {
+				return
+			}
+
+			animateSharedValueTo(active ? 1 : 0)
+		}
+	}

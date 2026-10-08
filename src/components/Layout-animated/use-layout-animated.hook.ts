@@ -93,14 +93,14 @@ export const useLayoutAnimated = ({
 		[LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE]: [collapseYAnimatedStyle, fadeAnimatedStyle],
 		[LAYOUT_ANIMATED.FADE]: fadeAnimatedStyle,
 		[LAYOUT_ANIMATED.SCALE]: scaleAnimatedStyle,
-		[LAYOUT_ANIMATED.STANDARD]: undefined
+		[LAYOUT_ANIMATED.NONE]: undefined
 	}
 
 	// Debounce absorbs rapid `visible` toggles (e.g., parent re-renders causing flicker).
 	// 30ms is below the perceptual threshold for animation-start latency.
 	const runAnimate = useMemo(
 		() =>
-			animatedType !== LAYOUT_ANIMATED.STANDARD ?
+			animatedType !== LAYOUT_ANIMATED.NONE ?
 				debounce(animateLayoutAnimated(animateLayoutAnimatedOptions)(containerSharedValue))(delay)
 			:	animateLayoutAnimated(animateLayoutAnimatedOptions)(containerSharedValue),
 		[animateLayoutAnimatedOptions, containerSharedValue, delay, animatedType]

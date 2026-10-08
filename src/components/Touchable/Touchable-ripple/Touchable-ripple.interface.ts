@@ -13,7 +13,7 @@ export interface TouchableRippleProps
 	touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>
 }
 
-export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, 'indexKey'> {
+export interface RenderTouchableRippleProps extends TouchableRippleProps {
 	containerAnimatedStyle: AnimatedStyle<ViewStyle>
 	interactionHandlers: InteractionHandlers
 	locationX: number
@@ -38,6 +38,9 @@ export interface AnimateTouchableRippleSharedValues {
 	animatedTimingOptions?: AnimatedTimingOptions
 }
 
-export interface AnimateTouchableRippleOptions extends Pick<RenderTouchableRippleProps, 'onAnimateFinished'> {
+export interface AnimateTouchableRippleOptions extends Pick<
+	RenderTouchableRippleProps,
+	'onAnimateFinished' | 'indexKey'
+> {
 	animatedTiming: AnimatedTiming
 }

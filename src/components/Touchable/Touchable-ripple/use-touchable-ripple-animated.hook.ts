@@ -30,13 +30,17 @@ export const useTouchableRippleAnimated = ({
 	)
 
 	const runAnimate = useMemo(
-		() => animateTouchableRipple({animatedTiming, onAnimateFinished})({opacitySharedValue, scaleSharedValue}),
-		[animatedTiming, onAnimateFinished, opacitySharedValue, scaleSharedValue]
+		() =>
+			animateTouchableRipple({animatedTiming, onAnimateFinished, indexKey})({
+				opacitySharedValue,
+				scaleSharedValue
+			}),
+		[animatedTiming, onAnimateFinished, opacitySharedValue, scaleSharedValue, indexKey]
 	)
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
-			runAnimate(indexKey)
+			runAnimate()
 		}
 	}, [runAnimate, indexKey, status])
 

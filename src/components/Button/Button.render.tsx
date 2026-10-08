@@ -104,7 +104,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 			<AnimatedView
 				className={classesName(
 					'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
-					shapeClasses()(shape)
+					shapeClasses(radius)(shape)
 				)}
 				style={[backgroundUnderlayAnimatedStyle]}
 				testID={`button__backgroundUnderlay--${id}`}
@@ -115,6 +115,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 			typeof elevation === 'number' ?
 				<Elevation
 					level={elevation}
+					radius={radius}
 					shape={shape}
 					testID={`button__elevation--${id}`}
 				/>

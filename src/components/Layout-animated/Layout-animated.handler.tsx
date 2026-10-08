@@ -77,36 +77,32 @@ export const updateLayoutAnimatedStatus =
 			draft.status = lazy && !visible ? COMPONENT_STATUS.IDLE : COMPONENT_STATUS.LOADING
 		})
 
-export const animateLayoutAnimated = ({
-	animatedTiming,
-	animatedType,
-	entry,
-	exit,
-	onAnimationFinished
-}: AnimateLayoutAnimatedOptions) => {
-	const entryAnimatedTiming = animatedTiming({
-		easing: EASING.STANDARD_DECELERATE,
-		...entry,
-		callback: (finished?: boolean) => finished && onAnimationFinished?.(true)
-	})
+export const animateLayoutAnimated =
+	({animatedTiming, animatedType, entry, exit, onAnimationFinished}: AnimateLayoutAnimatedOptions) =>
+	(containerSharedValue: SharedValue<number>) => {
+		const entryAnimateSharedValueTo = animatedTiming({
+			easing: EASING.STANDARD_DECELERATE,
+			...entry,
+			callback: (finished?: boolean) => finished && onAnimationFinished?.(true)
+		})({sharedValue: containerSharedValue})
 
-	const exitAnimatedTiming = animatedTiming({
-		easing: EASING.STANDARD_ACCELERATE,
-		...exit,
-		callback: (finished?: boolean) => finished && onAnimationFinished?.(false)
-	})
+		const exitAnimateSharedValueTo = animatedTiming({
+			easing: EASING.STANDARD_ACCELERATE,
+			...exit,
+			callback: (finished?: boolean) => finished && onAnimationFinished?.(false)
+		})({sharedValue: containerSharedValue})
 
-	return (containerSharedValue: SharedValue<number>) => (visible?: boolean) => {
-		if (animatedType === LAYOUT_ANIMATED.STANDARD || typeof visible !== 'boolean') {
-			return
+		return (visible?: boolean) => {
+			if (animatedType === LAYOUT_ANIMATED.NONE || typeof visible !== 'boolean') {
+				return
+			}
+
+			if (visible) {
+				entryAnimateSharedValueTo(1)
+
+				return
+			}
+
+			exitAnimateSharedValueTo(0)
 		}
-
-		if (visible) {
-			entryAnimatedTiming({sharedValue: containerSharedValue})(1)
-
-			return
-		}
-
-		exitAnimatedTiming({sharedValue: containerSharedValue})(0)
 	}
-}
