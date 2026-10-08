@@ -22,7 +22,7 @@ export interface ButtonProps extends TouchableProps, CommonProps {
 	type?: ButtonType
 }
 
-export interface RenderButtonProps extends ButtonProps {
+export interface RenderButtonProps extends ButtonProps, Pick<ButtonState, 'status'> {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	elevation?: ElevationValue
 	eventName?: EventName

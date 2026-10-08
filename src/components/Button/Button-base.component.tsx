@@ -29,7 +29,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 		},
 		ref
 	) => {
-		const [{elevation, eventName}, setState] = useImmer<ButtonState>({status: COMPONENT_STATUS.IDLE})
+		const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: COMPONENT_STATUS.IDLE})
 		const id = useId()
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
@@ -90,6 +90,7 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 				loading={loading}
 				ref={ref}
 				size={size}
+				status={status}
 				type={type}
 				underlayColor={underlayColor}
 			/>

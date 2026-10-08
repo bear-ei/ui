@@ -67,84 +67,82 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 				tabIndex={-1}
 				testID={testID ?? `checkbox--${id}`}
 			>
-				<Touchable
-					{...touchableProps}
-					{...interactionHandlers}
-					centered={true}
-					disabled={disabled}
-					ref={ref}
-					shape={shape}
-					radius={radius}
-					testID={`checkbox__touchable--${id}`}
-					underlayColor={underlayColor}
-				>
-					<View
-						className='pointer-events-none relative z-10 flex flex-1 self-stretch overflow-hidden'
-						testID={`checkbox__content--${id}`}
+				{status === COMPONENT_STATUS.SUCCEEDED && (
+					<Touchable
+						{...touchableProps}
+						{...interactionHandlers}
+						centered={true}
+						disabled={disabled}
+						ref={ref}
+						shape={shape}
+						radius={radius}
+						testID={`checkbox__touchable--${id}`}
+						underlayColor={underlayColor}
 					>
 						<View
-							className='relative z-10 flex-1 self-stretch'
-							testID={`checkbox__main--${id}`}
+							className='pointer-events-none relative z-10 flex flex-1 self-stretch overflow-hidden'
+							testID={`checkbox__content--${id}`}
 						>
-							{status === COMPONENT_STATUS.SUCCEEDED && (
-								<>
-									<LayoutAnimated
-										className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-										entry={layoutAnimatedTimingOptions}
-										exit={layoutAnimatedTimingOptions}
-										testID={`checkbox__iconLayout--blank--${id}`}
-										visible={value === CHECKBOX_VALUE.UNSELECTED}
-									>
-										<Square
-											color={disabled ? disabledColor : checkBoxOutlineColor}
-											disabled={disabled}
-											size={platformValue(iconSize)}
-											testID={`checkbox__icon--blank--${id}`}
-										/>
-									</LayoutAnimated>
+							<View
+								className='relative z-10 flex-1 self-stretch'
+								testID={`checkbox__main--${id}`}
+							>
+								<LayoutAnimated
+									className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
+									entry={layoutAnimatedTimingOptions}
+									exit={layoutAnimatedTimingOptions}
+									testID={`checkbox__iconLayout--blank--${id}`}
+									visible={value === CHECKBOX_VALUE.UNSELECTED}
+								>
+									<Square
+										color={disabled ? disabledColor : checkBoxOutlineColor}
+										disabled={disabled}
+										size={platformValue(iconSize)}
+										testID={`checkbox__icon--blank--${id}`}
+									/>
+								</LayoutAnimated>
 
-									<LayoutAnimated
-										className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-										entry={layoutAnimatedTimingOptions}
-										exit={layoutAnimatedTimingOptions}
-										testID={`checkbox__iconLayout--selected--${id}`}
-										visible={value === CHECKBOX_VALUE.SELECTED}
-									>
-										<SquareCheckBig
-											color={disabled ? disabledColor : activeColor}
-											disabled={disabled}
-											size={platformValue(iconSize)}
-											testID={`checkbox__icon--selected--${id}`}
-										/>
-									</LayoutAnimated>
+								<LayoutAnimated
+									className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
+									entry={layoutAnimatedTimingOptions}
+									exit={layoutAnimatedTimingOptions}
+									testID={`checkbox__iconLayout--selected--${id}`}
+									visible={value === CHECKBOX_VALUE.SELECTED}
+								>
+									<SquareCheckBig
+										color={disabled ? disabledColor : activeColor}
+										disabled={disabled}
+										size={platformValue(iconSize)}
+										testID={`checkbox__icon--selected--${id}`}
+									/>
+								</LayoutAnimated>
 
-									<LayoutAnimated
-										className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-										entry={layoutAnimatedTimingOptions}
-										exit={layoutAnimatedTimingOptions}
-										testID={`checkbox__iconLayout--indeterminate--${id}`}
-										visible={value === CHECKBOX_VALUE.INDETERMINATE}
-									>
-										<SquareMinus
-											color={disabled ? disabledColor : activeColor}
-											disabled={disabled}
-											size={platformValue(iconSize)}
-											testID={`checkbox__icon--indeterminate--${id}`}
-										/>
-									</LayoutAnimated>
-								</>
-							)}
+								<LayoutAnimated
+									className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
+									entry={layoutAnimatedTimingOptions}
+									exit={layoutAnimatedTimingOptions}
+									testID={`checkbox__iconLayout--indeterminate--${id}`}
+									visible={value === CHECKBOX_VALUE.INDETERMINATE}
+								>
+									<SquareMinus
+										color={disabled ? disabledColor : activeColor}
+										disabled={disabled}
+										size={platformValue(iconSize)}
+										testID={`checkbox__icon--indeterminate--${id}`}
+									/>
+								</LayoutAnimated>
+							</View>
+
+							<Underlay
+								eventName={eventName}
+								radius={radius}
+								shape={shape}
+								testID={`checkbox__underlay--${id}`}
+								underlayColor={underlayColor}
+							/>
 						</View>
-
-						<Underlay
-							eventName={eventName}
-							radius={radius}
-							shape={shape}
-							testID={`checkbox__underlay--${id}`}
-							underlayColor={underlayColor}
-						/>
-					</View>
-				</Touchable>
+					</Touchable>
+				)}
 			</View>
 		)
 	}

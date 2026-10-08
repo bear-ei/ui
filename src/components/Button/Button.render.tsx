@@ -1,6 +1,6 @@
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import {View} from 'react-native'
-import {EVENT_NAME, type EventName} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
@@ -73,6 +73,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 			linkColor,
 			loading,
 			size = DENSITY_SIZE.MEDIUM,
+			status,
 			stretch,
 			style,
 			testID,
@@ -141,74 +142,76 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 				tabIndex={-1}
 				testID={testID ?? `button--${id}`}
 			>
-				<Touchable
-					{...touchableProps}
-					{...interactionHandlers}
-					backgroundUnderlay={backgroundUnderlayElement}
-					disabled={disabled}
-					elevationUnderlay={elevationUnderlayElement}
-					radius={radius}
-					ref={ref}
-					shape={shape}
-					testID={`button__touchable--${id}`}
-					underlayColor={underlayColor}
-				>
-					<View
-						className='pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center self-stretch overflow-hidden'
-						testID={`button__content--${id}`}
+				{status === COMPONENT_STATUS.SUCCEEDED && (
+					<Touchable
+						{...touchableProps}
+						{...interactionHandlers}
+						backgroundUnderlay={backgroundUnderlayElement}
+						disabled={disabled}
+						elevationUnderlay={elevationUnderlayElement}
+						radius={radius}
+						ref={ref}
+						shape={shape}
+						testID={`button__touchable--${id}`}
+						underlayColor={underlayColor}
 					>
 						<View
-							className={classesName(
-								'z-10 flex flex-1 flex-row items-center justify-center gap-[--density-spacing-snug] self-stretch',
-								{[densityInsetClasses(size)]: !isLink}
-							)}
-							testID={`button__main--${id}`}
+							className='pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center self-stretch overflow-hidden'
+							testID={`button__content--${id}`}
 						>
-							{iconElement && !isLink && (
-								<View
-									className='flex flex-col items-center justify-center overflow-hidden'
-									testID={`button__iconLayout--${id}`}
+							<View
+								className={classesName(
+									'z-10 flex flex-1 flex-row items-center justify-center gap-[--density-spacing-snug] self-stretch',
+									{[densityInsetClasses(size)]: !isLink}
+								)}
+								testID={`button__main--${id}`}
+							>
+								{iconElement && !isLink && (
+									<View
+										className='flex flex-col items-center justify-center overflow-hidden'
+										testID={`button__iconLayout--${id}`}
+									>
+										{iconElement}
+									</View>
+								)}
+
+								<AnimatedText
+									className={classesName(
+										'select-none text-center',
+										typographyClasses(isLink ? TYPOGRAPHY.BODY : TYPOGRAPHY.LABEL)(
+											densitySizeMapTypographySize(size)
+										)()
+									)}
+									ellipsizeMode='tail'
+									numberOfLines={1}
+									style={[labelTextAnimatedStyle]}
+									testID={`button__animatedLabelText--${id}`}
 								>
-									{iconElement}
-								</View>
+									{labelText}
+								</AnimatedText>
+							</View>
+
+							{isLink && (
+								<LayoutAnimated
+									className='absolute bottom-0 left-0 right-0 z-20 min-h-[--border-small] bg-[--color-primary]'
+									entry={layoutAnimatedTimingOptions}
+									exit={layoutAnimatedTimingOptions}
+									style={[activeIndicatorStyle]}
+									testID={`button__activeIndicator--${id}`}
+									visible={isActiveIndicatorVisible}
+								/>
 							)}
 
-							<AnimatedText
-								className={classesName(
-									'select-none text-center',
-									typographyClasses(isLink ? TYPOGRAPHY.BODY : TYPOGRAPHY.LABEL)(
-										densitySizeMapTypographySize(size)
-									)()
-								)}
-								ellipsizeMode='tail'
-								numberOfLines={1}
-								style={[labelTextAnimatedStyle]}
-								testID={`button__animatedLabelText--${id}`}
-							>
-								{labelText}
-							</AnimatedText>
-						</View>
-
-						{isLink && (
-							<LayoutAnimated
-								className='absolute bottom-0 left-0 right-0 z-20 min-h-[--border-small] bg-[--color-primary]'
-								entry={layoutAnimatedTimingOptions}
-								exit={layoutAnimatedTimingOptions}
-								style={[activeIndicatorStyle]}
-								testID={`button__activeIndicator--${id}`}
-								visible={isActiveIndicatorVisible}
+							<Underlay
+								radius={radius}
+								eventName={loading ? loadingEventName : eventName}
+								shape={shape}
+								testID={`button__underlay--${id}`}
+								underlayColor={underlayColor}
 							/>
-						)}
-
-						<Underlay
-							radius={radius}
-							eventName={loading ? loadingEventName : eventName}
-							shape={shape}
-							testID={`button__underlay--${id}`}
-							underlayColor={underlayColor}
-						/>
-					</View>
-				</Touchable>
+						</View>
+					</Touchable>
+				)}
 			</View>
 		)
 	}
