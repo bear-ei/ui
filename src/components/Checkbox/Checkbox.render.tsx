@@ -1,5 +1,5 @@
 import {Square, SquareCheckBig, SquareMinus} from 'lucide-react-native'
-import {forwardRef} from 'react'
+import {forwardRef, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from '../../hooks'
 import {
@@ -18,7 +18,7 @@ import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {RenderCheckboxProps} from './Checkbox.interface'
-import {useMemo} from 'storybook/internal/preview-api'
+import {COMPONENT_STATUS} from '../../constants'
 
 export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 	(
@@ -33,6 +33,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 			size = DENSITY_SIZE.MEDIUM,
 			testID,
 			value,
+			status,
 			...touchableProps
 		}: RenderCheckboxProps,
 		ref
@@ -85,50 +86,54 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 							className='relative z-10 flex-1 self-stretch'
 							testID={`checkbox__main--${id}`}
 						>
-							<LayoutAnimated
-								className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-								entry={layoutAnimatedTimingOptions}
-								exit={layoutAnimatedTimingOptions}
-								testID={`checkbox__iconLayout--blank--${id}`}
-								visible={value === CHECKBOX_VALUE.UNSELECTED}
-							>
-								<Square
-									color={disabled ? disabledColor : checkBoxOutlineColor}
-									disabled={disabled}
-									size={platformValue(iconSize)}
-									testID={`checkbox__icon--blank--${id}`}
-								/>
-							</LayoutAnimated>
+							{status === COMPONENT_STATUS.SUCCEEDED && (
+								<>
+									<LayoutAnimated
+										className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
+										entry={layoutAnimatedTimingOptions}
+										exit={layoutAnimatedTimingOptions}
+										testID={`checkbox__iconLayout--blank--${id}`}
+										visible={value === CHECKBOX_VALUE.UNSELECTED}
+									>
+										<Square
+											color={disabled ? disabledColor : checkBoxOutlineColor}
+											disabled={disabled}
+											size={platformValue(iconSize)}
+											testID={`checkbox__icon--blank--${id}`}
+										/>
+									</LayoutAnimated>
 
-							<LayoutAnimated
-								className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-								entry={layoutAnimatedTimingOptions}
-								exit={layoutAnimatedTimingOptions}
-								testID={`checkbox__iconLayout--selected--${id}`}
-								visible={value === CHECKBOX_VALUE.SELECTED}
-							>
-								<SquareCheckBig
-									color={disabled ? disabledColor : activeColor}
-									disabled={disabled}
-									size={platformValue(iconSize)}
-									testID={`checkbox__icon--selected--${id}`}
-								/>
-							</LayoutAnimated>
+									<LayoutAnimated
+										className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
+										entry={layoutAnimatedTimingOptions}
+										exit={layoutAnimatedTimingOptions}
+										testID={`checkbox__iconLayout--selected--${id}`}
+										visible={value === CHECKBOX_VALUE.SELECTED}
+									>
+										<SquareCheckBig
+											color={disabled ? disabledColor : activeColor}
+											disabled={disabled}
+											size={platformValue(iconSize)}
+											testID={`checkbox__icon--selected--${id}`}
+										/>
+									</LayoutAnimated>
 
-							<LayoutAnimated
-								className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-								entry={layoutAnimatedTimingOptions}
-								exit={layoutAnimatedTimingOptions}
-								testID={`checkbox__iconLayout--indeterminate--${id}`}
-								visible={value === CHECKBOX_VALUE.INDETERMINATE}
-							>
-								<SquareMinus
-									color={disabled ? disabledColor : activeColor}
-									disabled={disabled}
-									size={platformValue(iconSize)}
-									testID={`checkbox__icon--indeterminate--${id}`}
-								/>
-							</LayoutAnimated>
+									<LayoutAnimated
+										className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
+										entry={layoutAnimatedTimingOptions}
+										exit={layoutAnimatedTimingOptions}
+										testID={`checkbox__iconLayout--indeterminate--${id}`}
+										visible={value === CHECKBOX_VALUE.INDETERMINATE}
+									>
+										<SquareMinus
+											color={disabled ? disabledColor : activeColor}
+											disabled={disabled}
+											size={platformValue(iconSize)}
+											testID={`checkbox__icon--indeterminate--${id}`}
+										/>
+									</LayoutAnimated>
+								</>
+							)}
 						</View>
 
 						<Underlay

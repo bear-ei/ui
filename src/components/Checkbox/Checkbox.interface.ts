@@ -15,7 +15,7 @@ export interface CheckboxProps extends TouchableProps, CommonProps {
 	value?: CheckboxValue
 }
 
-export interface RenderCheckboxProps extends CheckboxProps {
+export interface RenderCheckboxProps extends CheckboxProps, Pick<CheckboxState, 'status'> {
 	eventName?: EventName
 	interactionHandlers: InteractionHandlers
 }

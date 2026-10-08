@@ -20,7 +20,7 @@ import {RenderCheckbox} from './Checkbox.render'
 
 export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 	({active: rawActive, defaultActive, disabled, error, indeterminate, onActive, ...renderCheckboxProps}, ref) => {
-		const [{active: isActive, eventName, value, nextActiveEvent}, setState] = useImmer<CheckboxState>({
+		const [{active: isActive, eventName, value, nextActiveEvent, status}, setState] = useImmer<CheckboxState>({
 			status: COMPONENT_STATUS.IDLE,
 			value: CHECKBOX_VALUE.UNSELECTED
 		})
@@ -66,6 +66,7 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 				id={id}
 				interactionHandlers={interactionHandlers}
 				ref={ref}
+				status={status}
 				value={value}
 			/>
 		)
