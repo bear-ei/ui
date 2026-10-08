@@ -7,7 +7,7 @@ import type {TouchableProps} from '../Touchable.interface'
 
 export interface TouchableRippleProps
 	extends ViewProps, RefAttributes<View>, Pick<TouchableProps, 'centered' | 'underlayColor' | 'shape'> {
-	containerLayout?: LayoutRectangle
+	containerLayout?: Omit<LayoutRectangle, 'x' | 'y'>
 	indexKey?: string
 	onAnimateFinished?: (indexKey: string) => void
 	touchableLocation?: Pick<NativeTouchEvent, 'locationX' | 'locationY'>

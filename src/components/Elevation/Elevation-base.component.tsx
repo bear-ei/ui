@@ -1,11 +1,11 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
-import type {ElevationBaseProps, ElevationState} from './Elevation.interface'
-import {RenderElevation} from './Elevation.render'
-import {useElevationAnimated} from './use-elevation-animated.hook'
 import {useImmer} from 'use-immer'
 import {COMPONENT_STATUS} from '../../constants'
 import {updateElevationLevel} from './Elevation.handler'
+import type {ElevationBaseProps, ElevationState} from './Elevation.interface'
+import {RenderElevation} from './Elevation.render'
+import {useElevationAnimated} from './use-elevation-animated.hook'
 
 export const ElevationBase = forwardRef<View, ElevationBaseProps>(
 	({defaultLevel, level: rawLevel, onAnimationFinished, ...renderElevationProps}, ref) => {

@@ -1,1 +1,1 @@
-export * from './use-clear-component-event.utils'
+export * from './use-clear-component-event.hook'

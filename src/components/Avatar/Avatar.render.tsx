@@ -1,7 +1,15 @@
 import {cloneElement, forwardRef} from 'react'
 import {Image, Text, View, type ViewStyle} from 'react-native'
 import {useTheme} from '../../hooks'
-import {DENSITY_SIZE, DENSITY_TYPE, RADIUS, SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
+import {
+	DENSITY_SIZE,
+	DENSITY_TYPE,
+	densitySizeMapTypographySize,
+	RADIUS,
+	SHAPE,
+	TYPOGRAPHY,
+	TYPOGRAPHY_SIZE
+} from '../../theme'
 import {platformValue} from '../../theme'
 import type {RenderAvatarProps} from './Avatar.interface'
 
@@ -75,7 +83,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 									typographyClasses(TYPOGRAPHY.TITLE)(
 										typeof size === 'number' ?
 											TYPOGRAPHY_SIZE.MEDIUM
-										:	token.typography.densitySizeMapTypographySize(size)
+										:	densitySizeMapTypographySize(size)
 									)()
 								)}
 								ellipsizeMode='tail'

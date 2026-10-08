@@ -20,7 +20,7 @@ const createBuildStyle =
 		}
 	}
 
-export const createTypography =
+const createTypography =
 	(font: Font) =>
 	(density: UIDensity = UI_DENSITY.COMPACT): Typography => {
 		const buildStyle = createBuildStyle(font)
@@ -238,7 +238,6 @@ export const createTypography =
 		const map = densityMap[density]
 
 		return {
-			densitySizeMapTypographySize: processDensitySizeMapTypographySize,
 			[TYPOGRAPHY.DISPLAY]: {
 				[TYPOGRAPHY_SIZE.LARGE]: map[TYPOGRAPHY.DISPLAY][TYPOGRAPHY_SIZE.LARGE],
 				[TYPOGRAPHY_SIZE.MEDIUM]: map[TYPOGRAPHY.DISPLAY][TYPOGRAPHY_SIZE.MEDIUM],
@@ -267,7 +266,7 @@ export const createTypography =
 		}
 	}
 
-export const processDensitySizeMapTypographySize = (size: DensitySizeScale) => {
+const densitySizeMapTypographySize = (size: DensitySizeScale) => {
 	const typographySize = {
 		[DENSITY_SIZE.LARGE]: TYPOGRAPHY_SIZE.LARGE,
 		[DENSITY_SIZE.MEDIUM]: TYPOGRAPHY_SIZE.MEDIUM,
@@ -279,3 +278,5 @@ export const processDensitySizeMapTypographySize = (size: DensitySizeScale) => {
 
 	return typographySize[size]
 }
+
+export {createTypography, densitySizeMapTypographySize}

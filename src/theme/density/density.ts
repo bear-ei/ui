@@ -1,3 +1,4 @@
+import {Platform} from 'react-native'
 import {DENSITY_SIZE, LAYOUT_DENSITY, UI_DENSITY, WINDOW_SIZE} from './density.enum'
 import type {Density, DensitySizeScale, Spacing, UIDensity, WindowSize} from './density.interface'
 
@@ -123,18 +124,7 @@ const createMobileGap = (spacing: Spacing) => {
 	return (windowSize: WindowSize) => gap[windowSize]
 }
 
-export const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => ({
-	control: CONTROL[density],
-	densitySizeMapIconSize: processDensitySizeMapIconSize,
-	icon: ICON[density],
-	inline: INLINE[density],
-	inset: INSET[density],
-	layout: LAYOUT[density],
-	mobileGap: createMobileGap(SPACING),
-	spacing: SPACING
-})
-
-export const processDensitySizeMapIconSize = (size: DensitySizeScale) => {
+const densitySizeMapIconSize = (size: DensitySizeScale) => {
 	const iconSize = {
 		[DENSITY_SIZE.LARGE]: DENSITY_SIZE.MEDIUM,
 		[DENSITY_SIZE.MEDIUM]: DENSITY_SIZE.SMALL,
@@ -146,3 +136,27 @@ export const processDensitySizeMapIconSize = (size: DensitySizeScale) => {
 
 	return iconSize[size]
 }
+
+const pxToRem =
+	(basePX = 16) =>
+	(px: number) =>
+		px / basePX
+
+const platformValue = (value: number) => {
+	'worklet'
+
+	return Platform.select<string | number>({default: value, web: `${pxToRem()(value)}rem`})
+}
+
+const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => ({
+	control: CONTROL[density],
+	icon: ICON[density],
+	inline: INLINE[density],
+	inset: INSET[density],
+	layout: LAYOUT[density],
+	spacing: SPACING
+})
+
+const mobileGap = createMobileGap(SPACING)
+
+export {platformValue, createDensity, mobileGap, densitySizeMapIconSize}

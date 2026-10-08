@@ -1,15 +1,14 @@
 import type {SharedValue} from 'react-native-reanimated'
-import {hexToRGBA, platformValue} from '../../theme'
+import type {Updater} from 'use-immer'
+import {COMPONENT_STATUS} from '../../constants'
+import {DURATION, EASING, hexToRGBA, platformValue} from '../../theme'
+import {ELEVATION_ACTION} from './Elevation.enum'
 import type {
 	AnimateElevationOptions,
-	ElevationValue,
 	ElevationState,
+	ElevationValue,
 	GetWebBoxShadowOptions
 } from './Elevation.interface'
-import {DURATION, EASING} from '../../theme'
-import type {Updater} from 'use-immer'
-import {ELEVATION_ACTION} from './Elevation.enum'
-import {COMPONENT_STATUS} from '../../constants'
 
 export const getWebBoxShadow = ({offsetX, offsetY, blurRadius, opacity, color}: GetWebBoxShadowOptions) => {
 	const shadowColor = hexToRGBA(color)(opacity)

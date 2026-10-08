@@ -10,11 +10,9 @@ export type Spacing = Record<DensitySize, number>
 export type SpacingScale = Omit<Spacing, 'SNUG' | 'TIGHT'>
 export interface Density {
 	control: SpacingScale
-	densitySizeMapIconSize: (size: DensitySizeScale) => DensitySizeScale
 	icon: SpacingScale
 	inline: SpacingScale
 	inset: SpacingScale
 	layout: Record<LayoutDensity, number> & Pick<Spacing, 'NONE'>
-	mobileGap: (windowSize: WindowSize) => number
 	spacing: Spacing
 }
