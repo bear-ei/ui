@@ -17,6 +17,14 @@ export interface IconButtonProps extends TouchableProps, CommonProps {
 	icon?: React.JSX.Element
 	iconColor?: string
 	labelText?: string
+
+	/**
+	 * Replaces the button content with a circular progress ring wrapping the icon.
+	 * Use this for time-consuming actions with clear semantics (export, download, sync, AI processing…).
+	 *
+	 * The icon is preserved inside the ring — pass a status-specific icon
+	 * (e.g., a "thinking" icon for AI analysis) to make the operation self-evident.
+	 */
 	loading?: boolean
 	type?: IconButtonType
 }
@@ -33,12 +41,10 @@ export interface IconButtonState {
 	eventName?: EventName
 }
 
-export interface RenderIconButtonIconProps extends Pick<
+export type RenderIconButtonIconProps = Pick<
 	RenderIconButtonProps,
-	'disabled' | 'type' | 'iconColor' | 'loading' | 'id' | 'icon' | 'size'
-> {
-	eventName?: EventName
-}
+	'disabled' | 'type' | 'iconColor' | 'id' | 'icon' | 'size'
+>
 
 export type HandleIconButtonStateChangeOptions = HandleStateEventChangeOptions
 export type UseIconButtonAnimatedOptions = Pick<RenderIconButtonProps, 'disabled' | 'type'>

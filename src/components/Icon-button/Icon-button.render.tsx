@@ -1,36 +1,47 @@
 import {Circle} from 'lucide-react-native'
-import {cloneElement, forwardRef, type FC} from 'react'
+import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import {View} from 'react-native'
 import {useTheme} from '../../hooks'
-import {DENSITY_SIZE, DENSITY_TYPE, densitySizeMapIconSize, hexToRGBA, platformValue, RADIUS, SHAPE} from '../../theme'
+import {
+	BORDER_SIZE,
+	DENSITY_SIZE,
+	DENSITY_TYPE,
+	densitySizeMapIconSize,
+	densitySizeMapInlineSize,
+	DURATION,
+	EASING,
+	hexToRGBA,
+	platformValue,
+	RADIUS,
+	SHAPE
+} from '../../theme'
 import {AnimatedView} from '../Animated-component'
 import {LayoutAnimated} from '../Layout-animated'
 import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
 import {Touchable, type PressableType} from '../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../Underlay'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
-import type {RenderIconButtonIconProps, RenderIconButtonProps} from './Icon-button.interface'
+import type {IconButtonType, RenderIconButtonIconProps, RenderIconButtonProps} from './Icon-button.interface'
 
 export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 	disabled,
 	icon,
 	iconColor: rawColor,
 	id,
-	loading,
 	size = DENSITY_SIZE.MEDIUM,
-	type
+	type = ICON_BUTTON_TYPE.STANDARD
 }) => {
 	const {token} = useTheme()
 	const color = {
-		[ICON_BUTTON_TYPE.ACTIVE]: token.scheme.onSurfaceVariant,
+		[ICON_BUTTON_TYPE.ACTIVE]: token.scheme.onSecondaryContainer,
 		[ICON_BUTTON_TYPE.FILLED]: token.scheme.onPrimary,
 		[ICON_BUTTON_TYPE.OUTLINED]: token.scheme.onSurfaceVariant,
 		[ICON_BUTTON_TYPE.STANDARD]: token.scheme.onSurfaceVariant,
 		[ICON_BUTTON_TYPE.TONAL]: token.scheme.onSecondaryContainer
-	}
+	} as Record<IconButtonType, string>
 
 	const disabledColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level5)
-	const iconColor = rawColor ?? (!loading ? color[type as keyof typeof color] : token.scheme.onSurfaceVariant)
+	const iconColor = rawColor ?? color[type]
 	const iconSize = token.density.icon[densitySizeMapIconSize(size)]
 
 	return cloneElement(icon ?? <Circle />, {
@@ -69,6 +80,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 		const radius = RADIUS.FULL
 		const shape = SHAPE.ALL
 		const activeColor = token.scheme.secondaryContainer
+		const layoutAnimatedTimingOptions = useMemo(() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD}), [])
 		const backgroundUnderlayElement = (
 			<AnimatedView
 				className={classesName(
@@ -93,7 +105,9 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				testID={testID ?? `iconButton--${id}`}
 			>
 				<LayoutAnimated
-					className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
+					className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center '
+					entry={layoutAnimatedTimingOptions}
+					exit={layoutAnimatedTimingOptions}
 					lazy={true}
 					testID={`iconButton__contentItemLayout--${id}`}
 					visible={loading}
@@ -102,7 +116,8 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 						animatedType={PROGRESS_ANIMATED.INDETERMINATE}
 						content={iconElement}
 						enableAnimated={loading}
-						size={size}
+						size={densitySizeMapInlineSize(size)}
+						strokeWidth={token.border[BORDER_SIZE.MEDIUM]}
 						testID={`iconButton__progress--${id}`}
 						type={PROGRESS_TYPE.CIRCULAR}
 					/>
@@ -110,6 +125,8 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 
 				<LayoutAnimated
 					className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
+					entry={layoutAnimatedTimingOptions}
+					exit={layoutAnimatedTimingOptions}
 					testID={`iconButton__contentItemLayout--${id}`}
 					visible={!loading}
 				>

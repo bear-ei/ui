@@ -4,7 +4,11 @@ import type {State} from '../../constants'
 import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent, useTheme} from '../../hooks'
 import type {PressableType} from '../Touchable'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
-import {getButtonUnderlayColor, handleIconButtonStateChange, updateIconButtonDisabledState} from './Icon-button.handler'
+import {
+	getIconButtonUnderlayColor,
+	handleIconButtonStateChange,
+	updateIconButtonDisabledState
+} from './Icon-button.handler'
 import type {IconButtonBaseProps, IconButtonState} from './Icon-button.interface'
 import {RenderIconButton, RenderIconButtonIcon} from './Icon-button.render'
 import {useIconButtonAnimated} from './use-icon-button-animated.hook'
@@ -17,7 +21,7 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
 			iconColor,
 			loading,
 			size,
-			type = ICON_BUTTON_TYPE.FILLED,
+			type = ICON_BUTTON_TYPE.STANDARD,
 			...renderIconButtonProps
 		},
 		ref
@@ -26,7 +30,7 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
 		const id = useId()
 		const isDisabled = loading || rawDisabled
 		const theme = useTheme()
-		const underlayColor = getButtonUnderlayColor(theme)(type)
+		const underlayColor = getIconButtonUnderlayColor(theme)(type)
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleIconButtonStateChange({...options, state})(setState)(event),
@@ -44,11 +48,9 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
 		const iconElement = (
 			<RenderIconButtonIcon
 				disabled={isDisabled}
-				eventName={eventName}
 				icon={icon}
 				iconColor={iconColor}
 				id={id}
-				loading={loading}
 				size={size}
 				type={type}
 			/>

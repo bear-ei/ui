@@ -32,8 +32,8 @@ export const RenderProgress = forwardRef<View, RenderProgressProps>(
 			<View
 				{...containerProps}
 				accessibilityRole='progressbar'
-				className={classesName('pointer-events-none flex flex-col self-stretch', {
-					['h-[--border-x-large] min-w-10']: type === PROGRESS_TYPE.LINEAR,
+				className={classesName('pointer-events-none flex flex-col', {
+					['h-[--border-x-large] min-w-10  self-stretch']: type === PROGRESS_TYPE.LINEAR,
 					[densityInlineClasses(size)]: type === PROGRESS_TYPE.CIRCULAR
 				})}
 				ref={ref}

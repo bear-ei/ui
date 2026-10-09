@@ -137,6 +137,19 @@ const densitySizeMapIconSize = (size: DensitySizeScale) => {
 	return iconSize[size]
 }
 
+const densitySizeMapInlineSize = (size: DensitySizeScale) => {
+	const inlineSize = {
+		[DENSITY_SIZE.LARGE]: DENSITY_SIZE.MEDIUM,
+		[DENSITY_SIZE.MEDIUM]: DENSITY_SIZE.SMALL,
+		[DENSITY_SIZE.SMALL]: DENSITY_SIZE.X_SMALL,
+		[DENSITY_SIZE.X_LARGE]: DENSITY_SIZE.MEDIUM,
+		[DENSITY_SIZE.X_SMALL]: DENSITY_SIZE.X_SMALL,
+		[DENSITY_SIZE.XX_LARGE]: DENSITY_SIZE.LARGE
+	}
+
+	return inlineSize[size]
+}
+
 const pxToRem =
 	(basePX = 16) =>
 	(px: number) =>
@@ -159,4 +172,4 @@ const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => ({
 
 const mobileGap = createMobileGap(SPACING)
 
-export {platformValue, createDensity, mobileGap, densitySizeMapIconSize}
+export {platformValue, createDensity, mobileGap, densitySizeMapIconSize, densitySizeMapInlineSize}

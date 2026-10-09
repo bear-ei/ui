@@ -2,7 +2,7 @@ import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {useAnimatedTiming, useTheme} from '../../hooks'
-import {DENSITY_SIZE, hexToRGBA, platformValue} from '../../theme'
+import {BORDER_SIZE, hexToRGBA, platformValue} from '../../theme'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import {animateIconButton} from './Icon-button.handler'
 import type {UseIconButtonAnimatedOptions} from './Icon-button.interface'
@@ -52,7 +52,7 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
 					[disabledBackgroundColor, scheme.outline]
 				),
 				borderStyle: 'solid',
-				borderWidth: platformValue(border[DENSITY_SIZE.SMALL])
+				borderWidth: platformValue(border[BORDER_SIZE.SMALL])
 			} as ViewStyle))
 	}))
 
