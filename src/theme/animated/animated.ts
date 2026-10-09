@@ -1,6 +1,6 @@
 import {UI_DENSITY, type UIDensity} from '../density'
 import {DURATION, EASING, LOOP} from './animated.enum'
-import type {Animated, AnimatedLoop, CreateAnimatedConfigOptions, Loop} from './animated.interface'
+import type {Animated, AnimatedLoop, CreateAnimatedConfigOptions, Duration, Loop} from './animated.interface'
 
 const ANIMATED_DURATION = {
 	[UI_DENSITY.COMPACT]: {
@@ -8,10 +8,6 @@ const ANIMATED_DURATION = {
 		[DURATION.EXTRA_LONG_1]: 600,
 		[DURATION.EXTRA_LONG_2]: 700,
 		[DURATION.EXTRA_LONG_3]: 800,
-		[DURATION.LONG_0]: 320,
-		[DURATION.LONG_1]: 360,
-		[DURATION.LONG_2]: 400,
-		[DURATION.LONG_3]: 450,
 		[DURATION.MEDIUM_0]: 180,
 		[DURATION.MEDIUM_1]: 220,
 		[DURATION.MEDIUM_2]: 260,
@@ -26,10 +22,6 @@ const ANIMATED_DURATION = {
 		[DURATION.EXTRA_LONG_1]: 800,
 		[DURATION.EXTRA_LONG_2]: 900,
 		[DURATION.EXTRA_LONG_3]: 1000,
-		[DURATION.LONG_0]: 450,
-		[DURATION.LONG_1]: 500,
-		[DURATION.LONG_2]: 550,
-		[DURATION.LONG_3]: 600,
 		[DURATION.MEDIUM_0]: 250,
 		[DURATION.MEDIUM_1]: 300,
 		[DURATION.MEDIUM_2]: 350,
@@ -69,7 +61,12 @@ const ANIMATED_BEZIER = {
 export const createAnimatedConfig =
 	(density: UIDensity = UI_DENSITY.COMPACT) =>
 	({easing = EASING.STANDARD, duration = DURATION.MEDIUM_1}: CreateAnimatedConfigOptions): Animated => {
-		const baseDuration = typeof duration === 'number' ? duration : ANIMATED_DURATION[density][duration]
+		const isLoop = typeof duration !== 'number' && Object.keys(ANIMATED_LOOP_DURATION[density]).includes(duration)
+
+		const baseDuration =
+			typeof duration === 'number' ? duration
+			: isLoop ? ANIMATED_LOOP_DURATION[density][duration as Loop]
+			: ANIMATED_DURATION[density][duration as Duration]
 
 		return {bezier: ANIMATED_BEZIER[easing], duration: baseDuration}
 	}

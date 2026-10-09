@@ -21,5 +21,6 @@ export interface AnimatedLoop {
 
 export interface CreateAnimatedConfigOptions {
 	easing?: Easing
-	duration?: Duration | number
+	duration?: Duration | Loop | number
+	loop?: boolean
 }

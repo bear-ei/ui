@@ -1,0 +1,32 @@
+import type {RefAttributes} from 'react'
+import type {View, ViewProps, ViewStyle} from 'react-native'
+import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {ComponentStatus} from '../../../constants'
+import type {InteractionHandlers} from '../../../hooks'
+import type {ProgressProps} from '../Progress.interface'
+
+export interface ProgressActiveIndicatorLinearProps
+	extends ViewProps, RefAttributes<View>, Pick<ProgressProps, 'animatedType' | 'value' | 'defaultValue'> {}
+
+export interface RenderProgressActiveIndicatorLinearProps extends ProgressActiveIndicatorLinearProps {
+	contentAnimatedStyle: AnimatedStyle<ViewStyle>
+	interactionHandlers: InteractionHandlers
+	trackAnimatedStyle: AnimatedStyle<ViewStyle>
+}
+
+export interface ProgressActiveIndicatorLinearState {
+	status: ComponentStatus
+}
+
+export type ProgressActiveIndicatorLinearBaseProps = ProgressActiveIndicatorLinearProps
+export interface UseProgressActiveIndicatorLinearAnimatedOptions extends Pick<
+	ProgressActiveIndicatorLinearProps,
+	'value'
+> {
+	status: ComponentStatus
+}
+
+export interface AnimateProgressActiveIndicatorLinearSharedValues {
+	widthSharedValue: SharedValue<number>
+	translateXSharedValue: SharedValue<number>
+}
