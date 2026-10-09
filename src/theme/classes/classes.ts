@@ -2,7 +2,7 @@ import {clsx, type ClassValue} from 'clsx'
 import {vars} from 'nativewind'
 import {twMerge} from 'tailwind-merge'
 import {LAYOUT, type LayoutType} from '../../constants'
-import {DENSITY_SIZE, DENSITY_TYPE, platformValue, type DensitySize, type DensityType} from '../density'
+import {DENSITY_SIZE, DENSITY_TYPE, LAYOUT_DENSITY, platformValue, type DensitySize, type DensityType} from '../density'
 import {RADIUS, SHAPE, type RadiusType, type ShapeType} from '../shape'
 import type {Token} from '../token'
 import {TYPOGRAPHY, TYPOGRAPHY_SIZE, type TypographySize, type TypographyType} from '../typography'
@@ -192,7 +192,14 @@ const DENSITY = {
 	[DENSITY_TYPE.SPACING]: DENSITY_SPACING
 }
 
-const TYPOGRAPHY_PLATFORM_VALUE_KEYS = ['height', 'lineHeight', 'size', RADIUS.FULL, ...Object.keys(DENSITY_SIZE)]
+const TYPOGRAPHY_PLATFORM_VALUE_KEYS = [
+	'height',
+	'lineHeight',
+	'size',
+	RADIUS.FULL,
+	...Object.keys(DENSITY_SIZE),
+	...Object.keys(LAYOUT_DENSITY)
+]
 const toKebabCase = (value: string) =>
 	value
 		.replace(/_/g, '-')

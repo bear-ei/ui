@@ -3,10 +3,10 @@ import {useState} from 'react'
 import {View} from 'react-native'
 import {LayoutAnimated} from './Layout-animated.component'
 import type {LayoutAnimatedProps} from './Layout-animated.interface'
-// import {Button} from '../Button'
+import {Button} from '../Button'
 
 const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
-	const [isVisible, _setIsVisible] = useState(true)
+	const [isVisible, setIsVisible] = useState(true)
 
 	return (
 		<View>
@@ -20,7 +20,7 @@ const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
 				</LayoutAnimated>
 			</View>
 
-			{/*<Button onPressOut={() => setIsVisible(!isVisible)} />*/}
+			<Button onPressOut={() => setIsVisible(!isVisible)} />
 		</View>
 	)
 }
