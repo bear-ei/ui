@@ -73,12 +73,16 @@ export const useDragAnimated = ({
 	)
 
 	const onPanGestureEnd = useMemo(() => handlePanGestureEnd(onEnd), [onEnd])
-	const panGesture = Gesture.Pan()
-		.minDistance(token.density.spacing[DENSITY_SIZE.SMALL])
-		.mouseButton(MouseButton.LEFT)
-		.onStart(onPanGestureStart)
-		.onUpdate(onPanGestureUpdate)
-		.onEnd(onPanGestureEnd)
+	const panGesture = useMemo(
+		() =>
+			Gesture.Pan()
+				.minDistance(token.density.spacing[DENSITY_SIZE.SMALL])
+				.mouseButton(MouseButton.LEFT)
+				.onStart(onPanGestureStart)
+				.onUpdate(onPanGestureUpdate)
+				.onEnd(onPanGestureEnd),
+		[token, onPanGestureStart, onPanGestureUpdate, onPanGestureEnd]
+	)
 
 	useEffect(() => {
 		if (typeof offset === 'number') {
