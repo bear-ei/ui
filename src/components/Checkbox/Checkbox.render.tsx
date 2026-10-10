@@ -40,7 +40,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 	) => {
 		const {token} = useTheme()
 		const {densityClasses} = token.classes
-		const densityControlClasses = densityClasses()(DENSITY_TYPE.CONTROL)
+		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
 		const activeColor = error ? token.scheme.error : token.scheme.primary
 		const unselectedColor =
 			value === CHECKBOX_VALUE.UNSELECTED ? token.scheme.onSurfaceVariant : token.scheme.primary

@@ -20,9 +20,9 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
 	) => {
 		const {token} = useTheme()
 		const {classesName, typographyClasses, densityClasses} = token.classes
-		const densityInlineClasses = densityClasses()(DENSITY_TYPE.INLINE)
-		const densityVerticalInsetClasses = densityClasses(LAYOUT.VERTICAL)(DENSITY_TYPE.INSET)
-		const densityHorizontalInsetClasses = densityClasses(LAYOUT.HORIZONTAL)(DENSITY_TYPE.INSET)
+		const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)()
+		const densityVerticalInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.VERTICAL)
+		const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
 		const layoutType = subheader ? LAYOUT.HORIZONTAL : rawLayoutType
 
 		return (

@@ -2,9 +2,9 @@ import {forwardRef, useMemo} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
+import {DURATION, EASING} from '../../theme'
 import {LayoutAnimated} from '../Layout-animated'
 import type {RenderLayoutProps} from './Layout.interface'
-import {DURATION, EASING} from '../../theme'
 
 export const RenderLayout = forwardRef<View, RenderLayoutProps>(
 	({children, id, style: rawStyle, testID, layoutType, className, ...containerProps}, ref) => {

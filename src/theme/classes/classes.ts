@@ -124,7 +124,8 @@ const DENSITY_CONTROL = {
 	[DENSITY_SIZE.SMALL]: 'h-[--density-control-small] w-[--density-control-small]',
 	[DENSITY_SIZE.X_LARGE]: 'h-[--density-control-x-large] w-[--density-control-x-large]',
 	[DENSITY_SIZE.X_SMALL]: 'h-[--density-control-x-small] w-[--density-control-x-small]',
-	[DENSITY_SIZE.XX_LARGE]: 'h-[--density-control-xx-large] w-[--density-control-xx-large]'
+	[DENSITY_SIZE.XX_LARGE]: 'h-[--density-control-xx-large] w-[--density-control-xx-large]',
+	[DENSITY_SIZE.XX_SMALL]: 'h-[--density-control-xx-small] w-[--density-control-xx-small]'
 }
 
 const DENSITY_INLINE = {
@@ -134,7 +135,19 @@ const DENSITY_INLINE = {
 	[DENSITY_SIZE.SMALL]: 'h-[--density-inline-small] w-[--density-inline-small]',
 	[DENSITY_SIZE.X_LARGE]: 'h-[--density-inline-x-large] w-[--density-inline-x-large]',
 	[DENSITY_SIZE.X_SMALL]: 'h-[--density-inline-x-small] w-[--density-inline-x-small]',
-	[DENSITY_SIZE.XX_LARGE]: 'h-[--density-inline-xx-large] w-[--density-inline-xx-large]'
+	[DENSITY_SIZE.XX_LARGE]: 'h-[--density-inline-xx-large] w-[--density-inline-xx-large]',
+	[DENSITY_SIZE.XX_SMALL]: 'h-[--density-inline-xx-small] w-[--density-inline-xx-small]'
+}
+
+const DENSITY_ICON = {
+	[DENSITY_SIZE.LARGE]: 'h-[--density-icon-large] w-[--density-icon-large]',
+	[DENSITY_SIZE.MEDIUM]: 'h-[--density-icon-medium] w-[--density-icon-medium]',
+	[DENSITY_SIZE.NONE]: 'h-[--density-icon-none] w-[--density-icon-none]',
+	[DENSITY_SIZE.SMALL]: 'h-[--density-icon-small] w-[--density-icon-small]',
+	[DENSITY_SIZE.X_LARGE]: 'h-[--density-icon-x-large] w-[--density-icon-x-large]',
+	[DENSITY_SIZE.X_SMALL]: 'h-[--density-icon-x-small] w-[--density-icon-x-small]',
+	[DENSITY_SIZE.XX_LARGE]: 'h-[--density-icon-xx-large] w-[--density-icon-xx-large]',
+	[DENSITY_SIZE.XX_SMALL]: 'h-[--density-icon-xx-small] w-[--density-icon-xx-small]'
 }
 
 const DENSITY_INSET = {
@@ -145,7 +158,8 @@ const DENSITY_INSET = {
 		[DENSITY_SIZE.SMALL]: 'pl-[--density-inset-small] pr-[--density-inset-small]',
 		[DENSITY_SIZE.X_LARGE]: 'pl-[--density-inset-x-large] pr-[--density-inset-x-large]',
 		[DENSITY_SIZE.X_SMALL]: 'pl-[--density-inset-x-small] pr-[--density-inset-x-small]',
-		[DENSITY_SIZE.XX_LARGE]: 'pl-[--density-inset-xx-large] pr-[--density-inset-xx-large]'
+		[DENSITY_SIZE.XX_LARGE]: 'pl-[--density-inset-xx-large] pr-[--density-inset-xx-large]',
+		[DENSITY_SIZE.XX_SMALL]: 'pl-[--density-inset-xx-small] pr-[--density-inset-xx-small]'
 	},
 	[LAYOUT.VERTICAL]: {
 		[DENSITY_SIZE.LARGE]: 'pt-[--density-inset-large] pb-[--density-inset-large]',
@@ -154,7 +168,8 @@ const DENSITY_INSET = {
 		[DENSITY_SIZE.SMALL]: 'pt-[--density-inset-small] pb-[--density-inset-small]',
 		[DENSITY_SIZE.X_LARGE]: 'pt-[--density-inset-x-large] pb-[--density-inset-x-large]',
 		[DENSITY_SIZE.X_SMALL]: 'pt-[--density-inset-x-small] pb-[--density-inset-x-small]',
-		[DENSITY_SIZE.XX_LARGE]: 'pt-[--density-inset-xx-large] pb-[--density-inset-xx-large]'
+		[DENSITY_SIZE.XX_LARGE]: 'pt-[--density-inset-xx-large] pb-[--density-inset-xx-large]',
+		[DENSITY_SIZE.XX_SMALL]: 'pt-[--density-inset-xx-small] pb-[--density-inset-xx-small]'
 	}
 }
 
@@ -168,24 +183,26 @@ const DENSITY_SPACING = {
 		[DENSITY_SIZE.TIGHT]: 'ml-[--density-spacing-tight] mr-[--density-spacing-tight]',
 		[DENSITY_SIZE.X_LARGE]: 'ml-[--density-spacing-x-large] mr-[--density-spacing-x-large]',
 		[DENSITY_SIZE.X_SMALL]: 'ml-[--density-spacing-x-small] mr-[--density-spacing-x-small]',
-		[DENSITY_SIZE.XX_LARGE]: 'ml-[--density-inset-xx-large] mr-[--density-inset-xx-large]'
+		[DENSITY_SIZE.XX_LARGE]: 'ml-[--density-spacing-xx-large] mr-[--density-spacing-xx-large]',
+		[DENSITY_SIZE.XX_SMALL]: 'ml-[--density-spacing-xx-small] mr-[--density-spacing-xx-small]'
 	},
 	[LAYOUT.VERTICAL]: {
-		[DENSITY_SIZE.LARGE]: 'mt-[--density-spacing-large] mb-[--density-inset-large]',
-		[DENSITY_SIZE.MEDIUM]: 'mt-[--density-spacing-medium] mb-[--density-inset-medium]',
+		[DENSITY_SIZE.LARGE]: 'mt-[--density-spacing-large] mb-[--density-spacing-large]',
+		[DENSITY_SIZE.MEDIUM]: 'mt-[--density-spacing-medium] mb-[--density-spacing-medium]',
 		[DENSITY_SIZE.NONE]: 'mt-[--density-spacing-none] mb-[--density-spacing-none]',
-		[DENSITY_SIZE.SMALL]: 'mt-[--density-spacing-small] mb-[--density-inset-small]',
+		[DENSITY_SIZE.SMALL]: 'mt-[--density-spacing-small] mb-[--density-spacing-small]',
 		[DENSITY_SIZE.SNUG]: 'mt-[--density-spacing-snug] mb-[--density-spacing-snug]',
 		[DENSITY_SIZE.TIGHT]: 'mt-[--density-spacing-tight] mb-[--density-spacing-tight]',
 		[DENSITY_SIZE.X_LARGE]: 'mt-[--density-spacing-x-large] mb-[--density-spacing-x-large]',
 		[DENSITY_SIZE.X_SMALL]: 'mt-[--density-spacing-x-small] mb-[--density-spacing-x-small]',
-		[DENSITY_SIZE.XX_LARGE]: 'mt-[--density-inset-xx-large] mb-[--density-inset-xx-large]'
+		[DENSITY_SIZE.XX_LARGE]: 'mt-[--density-spacing-xx-large] mb-[--density-spacing-xx-large]',
+		[DENSITY_SIZE.XX_SMALL]: 'mt-[--density-spacing-xx-small] mb-[--density-spacing-xx-small]'
 	}
 }
 
 const DENSITY = {
 	[DENSITY_TYPE.CONTROL]: DENSITY_CONTROL,
-	[DENSITY_TYPE.ICON]: DENSITY_CONTROL,
+	[DENSITY_TYPE.ICON]: DENSITY_ICON,
 	[DENSITY_TYPE.INLINE]: DENSITY_INLINE,
 	[DENSITY_TYPE.INSET]: DENSITY_INSET,
 	[DENSITY_TYPE.LAYOUT]: DENSITY_CONTROL,
@@ -255,8 +272,8 @@ const processStyleVariables = ({scheme, font, density, shape, typography, border
 
 const classesName = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
 const densityClasses =
-	(layout: LayoutType = LAYOUT.HORIZONTAL) =>
 	(type: DensityType) =>
+	(layout: LayoutType = LAYOUT.HORIZONTAL) =>
 	(size: DensitySize | number = DENSITY_SIZE.MEDIUM) => {
 		if (typeof size === 'number') {
 			return ''

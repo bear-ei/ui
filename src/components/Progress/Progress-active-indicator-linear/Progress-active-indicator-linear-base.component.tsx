@@ -27,7 +27,7 @@ export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActive
 			onStateEventChange
 		})
 
-		const {contentAnimatedStyle, trackAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({value, status})
+		const {contentAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({value, status})
 
 		return (
 			<RenderProgressActiveIndicatorLinear
@@ -36,7 +36,6 @@ export const ProgressActiveIndicatorLinearBase = forwardRef<View, ProgressActive
 				id={id}
 				interactionHandlers={interactionHandlers}
 				ref={ref}
-				trackAnimatedStyle={trackAnimatedStyle}
 			/>
 		)
 	}

@@ -11,7 +11,6 @@ export interface ProgressActiveIndicatorLinearProps
 export interface RenderProgressActiveIndicatorLinearProps extends ProgressActiveIndicatorLinearProps {
 	contentAnimatedStyle: AnimatedStyle<ViewStyle>
 	interactionHandlers: InteractionHandlers
-	trackAnimatedStyle: AnimatedStyle<ViewStyle>
 }
 
 export interface ProgressActiveIndicatorLinearState {
@@ -28,5 +27,4 @@ export interface UseProgressActiveIndicatorLinearAnimatedOptions extends Pick<
 
 export interface AnimateProgressActiveIndicatorLinearSharedValues {
 	widthSharedValue: SharedValue<number>
-	translateXSharedValue: SharedValue<number>
 }

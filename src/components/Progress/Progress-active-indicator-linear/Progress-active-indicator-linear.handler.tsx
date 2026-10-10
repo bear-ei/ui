@@ -19,12 +19,9 @@ import type {
 // }
 export const animateProgressActiveIndicatorLinear =
 	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	({widthSharedValue, translateXSharedValue}: AnimateProgressActiveIndicatorLinearSharedValues) => {
+	({widthSharedValue}: AnimateProgressActiveIndicatorLinearSharedValues) => {
 		const determinateAnimation = {duration: DURATION.MEDIUM_1, easing: EASING.STANDARD_DECELERATE}
 		const widthAnimateSharedValueTo = animatedTiming(determinateAnimation)({sharedValue: widthSharedValue})
-		const translateXAnimateSharedValueTo = animatedTiming(determinateAnimation)({
-			sharedValue: translateXSharedValue
-		})
 
 		return (value?: number) => {
 			if (typeof value !== 'number') {
@@ -32,7 +29,6 @@ export const animateProgressActiveIndicatorLinear =
 			}
 
 			widthAnimateSharedValueTo(value)
-			translateXAnimateSharedValueTo(value > 0 ? 1 : 0)
 		}
 	}
 

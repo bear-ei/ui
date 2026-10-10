@@ -1,6 +1,6 @@
 import {forwardRef, useMemo} from 'react'
 import {View} from 'react-native'
-import {ALIGNMENT} from '../../constants'
+import {ALIGNMENT, LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
 import {AnimatedText} from '../Animated-component'
 import {LayoutAnimated} from '../Layout-animated'
@@ -23,7 +23,7 @@ export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(
 	) => {
 		const {token} = useTheme()
 		const {densityClasses, classesName, typographyClasses} = token.classes
-		const densityInsetClasses = densityClasses()(DENSITY_TYPE.INSET)
+		const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
 		const layoutAnimatedTimingOptions = useMemo(() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD}), [])
 
 		return (

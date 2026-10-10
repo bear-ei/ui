@@ -18,7 +18,7 @@ import {
 	TYPOGRAPHY_SIZE
 } from '../../theme'
 import {Elevation} from '../Elevation'
-import {COMPONENT_STATUS} from '../../constants'
+import {COMPONENT_STATUS, LAYOUT} from '../../constants'
 
 export const RenderFABIcon: FC<RenderFABIconProps> = ({
 	disabled,
@@ -77,8 +77,8 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 	) => {
 		const {token} = useTheme()
 		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
-		const densityControlClasses = densityClasses()(DENSITY_TYPE.CONTROL)
-		const densityInsetClasses = densityClasses()(DENSITY_TYPE.INSET)
+		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
+		const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
 		const shape = SHAPE.ALL
 		const shapeSize = {
 			[DENSITY_SIZE.LARGE]: RADIUS.LARGE,
@@ -86,7 +86,8 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 			[DENSITY_SIZE.SMALL]: RADIUS.MEDIUM,
 			[DENSITY_SIZE.X_LARGE]: RADIUS.LARGE,
 			[DENSITY_SIZE.X_SMALL]: RADIUS.SMALL,
-			[DENSITY_SIZE.XX_LARGE]: RADIUS.LARGE
+			[DENSITY_SIZE.XX_LARGE]: RADIUS.X_LARGE,
+			[DENSITY_SIZE.XX_SMALL]: RADIUS.X_SMALL
 		}
 
 		const radius = shapeSize[size]

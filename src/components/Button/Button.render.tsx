@@ -1,6 +1,6 @@
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import {View} from 'react-native'
-import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type EventName} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
@@ -85,8 +85,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 	) => {
 		const {token} = useTheme()
 		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
-		const densityControlClasses = densityClasses()(DENSITY_TYPE.CONTROL)
-		const densityInsetClasses = densityClasses()(DENSITY_TYPE.INSET)
+		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
+		const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
 		const eventNames = [
 			EVENT_NAME.FOCUS,
 			EVENT_NAME.HOVER_IN,

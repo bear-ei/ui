@@ -7,10 +7,7 @@ import {PROGRESS_ANIMATED} from '../Progress.enum'
 import type {RenderProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear.interface'
 
 export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgressActiveIndicatorLinearProps>(
-	(
-		{animatedType, contentAnimatedStyle, trackAnimatedStyle, id, interactionHandlers, testID, ...containerProps},
-		ref
-	) => {
+	({animatedType, contentAnimatedStyle, id, interactionHandlers, testID, ...containerProps}, ref) => {
 		const {token} = useTheme()
 		const {classesName, shapeClasses} = token.classes
 		const shape = SHAPE.ALL
@@ -20,7 +17,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
 			<View
 				{...interactionHandlers}
 				className={classesName(
-					'relative flex flex-1 flex-row self-stretch overflow-hidden',
+					'relative flex flex-1 flex-row gap-[--density-spacing-x-small] self-stretch overflow-hidden',
 					shapeClasses(radius)(shape)
 				)}
 				ref={ref}
@@ -29,20 +26,19 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
 				<AnimatedView
 					{...containerProps}
 					className={classesName(
-						'pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-20 origin-left bg-[--color-primary]',
+						'pointer-events-none z-20 bg-[--color-primary]',
 						shapeClasses(radius)(shape)
 					)}
 					style={[contentAnimatedStyle]}
 					testID={`progressActiveIndicatorLinear__animatedContent--${id}`}
 				/>
 
-				<AnimatedView
+				<View
 					className={classesName(
-						'absolute bottom-0 right-0 top-0 h-[--border-x-large] origin-right self-stretch bg-[--color-secondary-container]',
+						'h-[--border-x-large] flex-1 self-stretch bg-[--color-secondary-container]',
 						shapeClasses(radius)(shape)
 					)}
-					style={[trackAnimatedStyle]}
-					testID={`progressActiveIndicatorLinear__animatedTrack--${id}`}
+					testID={`progressActiveIndicatorLinear__track--${id}`}
 				/>
 
 				{animatedType === PROGRESS_ANIMATED.DETERMINATE && (

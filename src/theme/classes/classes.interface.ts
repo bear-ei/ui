@@ -11,7 +11,7 @@ export interface TypographyClassesOptions {
 
 export interface Classes {
 	classesName: (...inputs: ClassValue[]) => string
-	densityClasses: (layout?: LayoutType) => (type: DensityType) => (size?: DensitySize | number) => string
+	densityClasses: (type: DensityType) => (layout?: LayoutType) => (size?: DensitySize | number) => string
 	shapeClasses: (radius?: RadiusType) => (shape?: ShapeType) => string
 	typographyClasses: (
 		typography?: TypographyType

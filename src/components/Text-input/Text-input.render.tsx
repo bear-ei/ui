@@ -17,6 +17,7 @@ import {
 	SHAPE,
 	TYPOGRAPHY
 } from '../../theme'
+import {LAYOUT} from '../../constants'
 
 /**
  * TODO: Support Multiline
@@ -56,8 +57,8 @@ export const RenderTextInput = forwardRef<TextInput, RenderTextInputProps>(
 	) => {
 		const {token} = useTheme()
 		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
-		const densityControlClasses = densityClasses()(DENSITY_TYPE.CONTROL)
-		const densityInsetClasses = densityClasses()(DENSITY_TYPE.INSET)
+		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
+		const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
 		const placeholderTextColor =
 			disabled ? hexToRGBA(token.scheme.onSurface)(token.opacity.level5) : token.scheme.onSurfaceVariant
 

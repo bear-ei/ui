@@ -26,7 +26,7 @@ export const RenderProgress = forwardRef<View, RenderProgressProps>(
 	) => {
 		const {token} = useTheme()
 		const {densityClasses, classesName} = token.classes
-		const densityInlineClasses = densityClasses()(DENSITY_TYPE.INLINE)
+		const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)()
 
 		return (
 			<View
