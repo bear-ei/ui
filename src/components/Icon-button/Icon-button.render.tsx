@@ -16,7 +16,7 @@ import {
 	SHAPE
 } from '../../theme'
 import {AnimatedView} from '../Animated-component'
-import {LayoutAnimated} from '../Layout-animated'
+import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
 import {Touchable, type PressableType} from '../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../Underlay'
@@ -105,6 +105,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				testID={testID ?? `iconButton--${id}`}
 			>
 				<LayoutAnimated
+					animatedType={LAYOUT_ANIMATED.FADE}
 					className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center '
 					entry={layoutAnimatedTimingOptions}
 					exit={layoutAnimatedTimingOptions}
@@ -124,6 +125,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				</LayoutAnimated>
 
 				<LayoutAnimated
+					animatedType={LAYOUT_ANIMATED.FADE}
 					className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
 					entry={layoutAnimatedTimingOptions}
 					exit={layoutAnimatedTimingOptions}

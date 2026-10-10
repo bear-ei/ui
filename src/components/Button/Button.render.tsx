@@ -18,7 +18,7 @@ import {
 } from '../../theme'
 import {AnimatedText, AnimatedView} from '../Animated-component'
 import {Elevation} from '../Elevation'
-import {LayoutAnimated} from '../Layout-animated'
+import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {BUTTON_TYPE} from './Button.enum'
@@ -193,6 +193,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 
 							{isLink && (
 								<LayoutAnimated
+									animatedType={LAYOUT_ANIMATED.FADE}
 									className='absolute bottom-0 left-0 right-0 z-20 min-h-[--border-small] bg-[--color-primary]'
 									entry={layoutAnimatedTimingOptions}
 									exit={layoutAnimatedTimingOptions}

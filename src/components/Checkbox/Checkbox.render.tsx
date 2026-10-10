@@ -13,7 +13,7 @@ import {
 	RADIUS,
 	SHAPE
 } from '../../theme'
-import {LayoutAnimated} from '../Layout-animated'
+import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
@@ -88,6 +88,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 								testID={`checkbox__main--${id}`}
 							>
 								<LayoutAnimated
+									animatedType={LAYOUT_ANIMATED.FADE}
 									className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
 									entry={layoutAnimatedTimingOptions}
 									exit={layoutAnimatedTimingOptions}
@@ -103,6 +104,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 								</LayoutAnimated>
 
 								<LayoutAnimated
+									animatedType={LAYOUT_ANIMATED.FADE}
 									className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
 									entry={layoutAnimatedTimingOptions}
 									exit={layoutAnimatedTimingOptions}
@@ -118,6 +120,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 								</LayoutAnimated>
 
 								<LayoutAnimated
+									animatedType={LAYOUT_ANIMATED.FADE}
 									className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
 									entry={layoutAnimatedTimingOptions}
 									exit={layoutAnimatedTimingOptions}
