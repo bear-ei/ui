@@ -1,7 +1,7 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
 import {COMPONENT_STATUS, type State} from '../../constants'
-import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent, useTheme} from '../../hooks'
+import {type HandleStateEventChangeOptions, type StateEvent, useTheme} from '../../hooks'
 import {DENSITY_SIZE} from '../../theme'
 import {ELEVATION_VALUE} from '../Elevation'
 import type {PressableType} from '../Touchable'
@@ -41,12 +41,6 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
 			[elevated, setState]
 		)
 
-		const interactionHandlers = useInteractionStateEvent({
-			...renderFABProps,
-			disabled: isDisabled,
-			onStateEventChange
-		})
-
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useFABAnimated({disabled: isDisabled, type})
 		const runUpdateStatus = useMemo(() => updateFABStatus(rawDisabled)(setState), [rawDisabled, setState])
 		const runUpdateDisabledState = useMemo(() => updateFABDisabledState(elevated)(setState), [elevated, setState])
@@ -79,10 +73,10 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
 				extended={isExtended}
 				iconElement={iconElement}
 				id={id}
-				interactionHandlers={interactionHandlers}
 				labelText={labelText}
 				labelTextAnimatedStyle={labelTextAnimatedStyle}
 				loading={loading}
+				onStateEventChange={onStateEventChange}
 				ref={ref}
 				size={size}
 				status={status}

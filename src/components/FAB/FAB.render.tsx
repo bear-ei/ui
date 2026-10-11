@@ -64,9 +64,9 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 			extended,
 			iconElement,
 			id,
-			interactionHandlers,
 			labelText,
 			labelTextAnimatedStyle,
+			onStateEventChange,
 			size = DENSITY_SIZE.MEDIUM,
 			status,
 			testID,
@@ -126,11 +126,11 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 			>
 				{status === COMPONENT_STATUS.SUCCEEDED && (
 					<Touchable
-						{...interactionHandlers}
 						{...touchableProps}
 						backgroundUnderlay={backgroundUnderlayElement}
 						disabled={disabled}
 						elevationUnderlay={elevationUnderlayElement}
+						onStateEventChange={onStateEventChange}
 						radius={radius}
 						ref={ref}
 						shape={shape}

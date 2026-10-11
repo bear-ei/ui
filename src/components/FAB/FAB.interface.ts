@@ -1,7 +1,7 @@
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {CommonProps, ComponentStatus, EventName} from '../../constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
+import type {HandleStateEventChangeOptions, StateEventChangeHandler} from '../../hooks'
 import type {ElevationValue} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
 import type {FAB_TYPE} from './FAB.enum'
@@ -22,8 +22,8 @@ export interface RenderFABProps extends FABProps, Pick<FABState, 'status'> {
 	eventName?: EventName
 	extended?: boolean
 	iconElement?: React.JSX.Element
-	interactionHandlers: InteractionHandlers
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
+	onStateEventChange: StateEventChangeHandler
 }
 
 export type FABBaseProps = FABProps
