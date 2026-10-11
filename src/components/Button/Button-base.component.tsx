@@ -32,8 +32,8 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 		const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: COMPONENT_STATUS.IDLE})
 		const id = useId()
 		const isDisabled = loading || rawDisabled
-		const theme = useTheme()
-		const underlayColor = getButtonUnderlayColor(theme)(linkColor)(type)
+		const {token} = useTheme()
+		const underlayColor = getButtonUnderlayColor(token)(linkColor)(type)
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
 				handleButtonStateChange({...options, state, type})(setState)(event),

@@ -241,7 +241,7 @@ const createCssVariables =
 			{}
 		)
 
-const processStyleVariables = ({scheme, font, density, shape, typography, border}: Token) =>
+const processStyleVariables = ({scheme, font, density, shape, typography, border, opacity}: Token) =>
 	vars({
 		...createCssVariables(border)('border')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.control)('density-control')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
@@ -251,6 +251,7 @@ const processStyleVariables = ({scheme, font, density, shape, typography, border
 		...createCssVariables(density.layout)('density-layout')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.spacing)('density-spacing')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(font.family)('font')(),
+		...createCssVariables(opacity)('opacity')(),
 		...createCssVariables(scheme)('color')(),
 		...createCssVariables(shape.radius)('radius')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(typography.BODY.LARGE)('typography-body-large')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),

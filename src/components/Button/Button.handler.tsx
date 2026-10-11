@@ -1,8 +1,8 @@
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName, type State, STATE} from '../../constants'
-import type {Theme} from '../../contexts'
 import type {StateEvent} from '../../hooks'
+import {DURATION, EASING, type Token} from '../../theme'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {BUTTON_TYPE} from './Button.enum'
 import type {
@@ -12,7 +12,6 @@ import type {
 	ButtonType,
 	HandleButtonStateChangeOptions
 } from './Button.interface'
-import {DURATION, EASING} from '../../theme'
 
 export const updateButtonStatus = (disabled?: boolean) => (setState: Updater<ButtonState>) => (type?: ButtonType) =>
 	setState(draft => {
@@ -81,20 +80,18 @@ export const updateButtonDisabledState =
 			}
 		})
 
-export const getButtonUnderlayColor =
-	({token}: Theme) =>
-	(linkColor?: string) => {
-		const underlay = {
-			[BUTTON_TYPE.ELEVATED]: token.scheme.primary,
-			[BUTTON_TYPE.FILLED]: token.scheme.onPrimary,
-			[BUTTON_TYPE.LINK]: linkColor ?? token.scheme.primary,
-			[BUTTON_TYPE.OUTLINED]: token.scheme.primary,
-			[BUTTON_TYPE.TEXT]: token.scheme.primary,
-			[BUTTON_TYPE.TONAL]: token.scheme.onSecondaryContainer
-		}
-
-		return (type: ButtonType) => underlay[type]
+export const getButtonUnderlayColor = (token: Token) => (linkColor?: string) => {
+	const underlay = {
+		[BUTTON_TYPE.ELEVATED]: token.scheme.primary,
+		[BUTTON_TYPE.FILLED]: token.scheme.onPrimary,
+		[BUTTON_TYPE.LINK]: linkColor ?? token.scheme.primary,
+		[BUTTON_TYPE.OUTLINED]: token.scheme.primary,
+		[BUTTON_TYPE.TEXT]: token.scheme.primary,
+		[BUTTON_TYPE.TONAL]: token.scheme.onSecondaryContainer
 	}
+
+	return (type: ButtonType) => underlay[type]
+}
 
 export const animateButton = ({animatedTiming, borderColorInputRanges, disabled, type}: AnimateButtonOptions) => {
 	const animateSharedValue = animatedTiming({duration: DURATION.SHORT_2, easing: EASING.STANDARD})

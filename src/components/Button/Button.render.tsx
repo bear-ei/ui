@@ -135,7 +135,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 				style={[style]}
 				className={classesName('cursor-pointer', {
 					[`${densityControlClasses(size)} min-w-20`]: !isLink,
-					[`${typographyClasses(TYPOGRAPHY.LABEL)(TYPOGRAPHY_SIZE.SMALL)} min-w-6`]: isLink,
+					[`${typographyClasses(TYPOGRAPHY.LABEL)(TYPOGRAPHY_SIZE.SMALL)} min-w-[--density-inline-xx-small]`]:
+						isLink,
 					['self-start']: !stretch,
 					['self-stretch']: stretch
 				})}

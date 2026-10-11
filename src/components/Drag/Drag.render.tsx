@@ -11,7 +11,7 @@ export const RenderDrag = forwardRef<View, RenderDragProps>(
 		return (
 			<View
 				{...containerProps}
-				className='pointer-events-box-none absolute bottom-0 left-0 right-0 top-0 z-40 min-h-4 min-w-4'
+				className='pointer-events-box-none absolute bottom-0 left-0 right-0 top-0 z-40 min-h-[--density-inline-xx-small] min-w-[--density-inline-xx-small]'
 				onLayout={onLayout}
 				ref={ref}
 				testID={testID ?? `drag--${id}`}
