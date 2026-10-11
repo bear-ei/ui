@@ -12,9 +12,12 @@ import type {
 import type {EventName, State} from '../../constants'
 
 export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
+export type StateEventChangeHandler = (
+	options: HandleStateEventChangeOptions
+) => (state: State) => (event: StateEvent) => void
 export interface UseHandleStateEventOptions extends Omit<InteractionHandlers, 'onBlur' | 'onFocus'> {
 	disabled?: boolean
-	onStateEventChange?: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
+	onStateEventChange?: StateEventChangeHandler
 	onBlur?: ((e: BlurEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void) | null
 	onFocus?: ((e: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void) | null
 }

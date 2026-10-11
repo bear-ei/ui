@@ -6,7 +6,14 @@ import type {AddTouchableRippleOptions, HandleTouchableStateChangeOptions, Touch
 import {nanoid} from 'nanoid'
 
 export const handleTouchableStateChange =
-	({eventName, enableTouchableRipple, ref}: HandleTouchableStateChangeOptions) =>
+	({
+		enableTouchableRipple,
+		eventName,
+		onStateEventChange,
+		ref,
+		state,
+		...options
+	}: HandleTouchableStateChangeOptions) =>
 	(setState: Updater<TouchableState>) => {
 		const addTouchableRipple = ({touchableLocation, contentLayout}: AddTouchableRippleOptions) => {
 			const {width, height} = contentLayout
@@ -17,7 +24,6 @@ export const handleTouchableStateChange =
 				draft.rippleSequence[nanoid()] = touchableLocation
 			})
 		}
-
 		const createTouchablePressInHandler = (event: GestureResponderEvent) => {
 			ref.current?.focus()
 
@@ -41,6 +47,8 @@ export const handleTouchableStateChange =
 			if (eventName) {
 				nextEvent[eventName]?.()
 			}
+
+			onStateEventChange?.({...options, eventName})(state)(event)
 		}
 	}
 
