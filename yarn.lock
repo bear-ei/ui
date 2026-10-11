@@ -11939,6 +11939,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-css-interop@patch:react-native-css-interop@npm%3A0.2.7#~/.yarn/patches/react-native-css-interop-npm-0.2.7-0a6fe523b8.patch":
+  version: 0.2.7
+  resolution: "react-native-css-interop@patch:react-native-css-interop@npm%3A0.2.7#~/.yarn/patches/react-native-css-interop-npm-0.2.7-0a6fe523b8.patch::version=0.2.7&hash=c47f3d"
+  dependencies:
+    "@babel/helper-module-imports": "npm:^7.22.15"
+    "@babel/traverse": "npm:^7.23.0"
+    "@babel/types": "npm:^7.23.0"
+    debug: "npm:^4.3.7"
+    lightningcss: "npm:~1.27.0"
+    semver: "npm:^7.6.3"
+  peerDependencies:
+    react: ">=18"
+    react-native: "*"
+    react-native-reanimated: ">=3.6.2"
+    tailwindcss: ~3
+  peerDependenciesMeta:
+    react-native-safe-area-context:
+      optional: true
+    react-native-svg:
+      optional: true
+  checksum: 10c0/c3a824de5b55c1d435ed26abb103bc8cf51523e121d6ae61786de435c0face26099c5fc042437654ec9b57dfa92b1051110c271fe43944dcd652cf73ee737259
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:^2.28.0":
   version: 2.32.0
   resolution: "react-native-gesture-handler@npm:2.32.0"

@@ -2,12 +2,12 @@ import {cloneElement, forwardRef, useMemo, type ForwardedRef} from 'react'
 import {ScrollView, Text, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {COMPONENT_STATUS, LAYOUT} from '../../constants'
+import {useTheme} from '../../hooks'
+import {DURATION, EASING, platformValue, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
 import {AnimatedView} from '../Animated-component'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {VirtualListItem, type RenderVirtualListItemInfo} from './Virtual-list-item'
 import type {RenderVirtualListItemOptions, RenderVirtualListProps} from './Virtual-list.interface'
-import {DURATION, EASING, platformValue, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
-import {useTheme} from '../../hooks'
 
 export const RenderVirtualListItem = <T,>({
 	containerLayout,
@@ -33,7 +33,7 @@ export const RenderVirtualListItem = <T,>({
 					{...(draggable && {containerLayout})}
 					draggable={draggable}
 					item={item}
-					key={`${(item?.indexKey as string) ?? index}`}
+					key={item.indexKey}
 					testID={`virtualList__virtualListItem--${id}`}
 					renderItem={
 						renderItem as (options: RenderVirtualListItemInfo<Record<string, unknown>>) => React.JSX.Element

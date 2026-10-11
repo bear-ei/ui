@@ -136,5 +136,9 @@
 		"storybook-generate": "sb-rn-get-stories",
 		"storybook": "storybook dev -p 6006",
 		"test": "jest"
+	},
+	"packageManager": "yarn@4.18.0+sha512.fcb8716fe7cd0eece141ffc18b92193a9df9204c1ba83189c288835223fc0bbe64af473bab0d5e9927a7daeb5caf2bb07eb2787cc9338ca040ea125f2a1f2f7e",
+	"resolutions": {
+		"react-native-css-interop@npm:0.2.7": "patch:react-native-css-interop@npm%3A0.2.7#~/.yarn/patches/react-native-css-interop-npm-0.2.7-0a6fe523b8.patch"
 	}
 }

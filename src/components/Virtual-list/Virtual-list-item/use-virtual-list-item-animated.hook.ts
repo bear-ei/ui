@@ -16,12 +16,6 @@ export const useVirtualListItemAnimated = ({
 }: UseVirtualListItemAnimatedOptions) => {
 	const theme = useTheme()
 	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const animateTranslateYSharedValueTo = useMemo(
-		() => animatedTiming({callback: (finished?: boolean) => finished && onAnimationFinished?.()}),
-		[animatedTiming, onAnimationFinished]
-	)
-
-	const animateScaleSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const translateSharedValue = useSharedValue(offset)
 	const scaleSharedValue = useSharedValue(0)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
@@ -42,13 +36,13 @@ export const useVirtualListItemAnimated = ({
 	}))
 
 	const runAnimateTranslate = useMemo(
-		() => animateVirtualListItemTranslate(animateTranslateYSharedValueTo)(translateSharedValue),
-		[animateTranslateYSharedValueTo, translateSharedValue]
+		() => animateVirtualListItemTranslate({animatedTiming, onAnimationFinished})(translateSharedValue),
+		[animatedTiming, translateSharedValue, onAnimationFinished]
 	)
 
 	const runAnimateScale = useMemo(
-		() => animateVirtualListItemScale(animateScaleSharedValueTo)(scaleSharedValue),
-		[animateScaleSharedValueTo, scaleSharedValue]
+		() => animateVirtualListItemScale(animatedTiming)(scaleSharedValue),
+		[animatedTiming, scaleSharedValue]
 	)
 
 	useEffect(() => {

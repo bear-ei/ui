@@ -1,5 +1,5 @@
 import type {ForwardedRef} from 'react'
-import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo} from 'react'
+import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../../constants'
@@ -25,6 +25,7 @@ import {
 } from './Virtual-list.handler'
 import type {VirtualListBaseProps, VirtualListData, VirtualListState} from './Virtual-list.interface'
 import {RenderVirtualList, RenderVirtualListItem} from './Virtual-list.render'
+import {rafSchedule} from '../../utils/raf-schedule/raf-schedule.utils'
 
 const VirtualListBaseInner = <T,>(
 	{
@@ -53,6 +54,7 @@ const VirtualListBaseInner = <T,>(
 ) => {
 	const [
 		{
+			dragScrollOffset,
 			emptyList: isEmptyList,
 			endIndex,
 			layout: containerLayout,
@@ -62,7 +64,6 @@ const VirtualListBaseInner = <T,>(
 			nextEndReachedEvent,
 			nextLoadEndEvent,
 			nextScrollEvent,
-			scrollOffset,
 			startIndex,
 			status,
 			virtualListData,
@@ -75,30 +76,35 @@ const VirtualListBaseInner = <T,>(
 
 	const id = useId()
 	const itemSize = rawItemSize + gap
+	const scrollOffsetRef = useRef<number>(0)
 	const contentSize = (virtualListData ?? data ?? []).length * itemSize - gap
 	const onEndReached = useMemo(() => debounce(rawOnEndReached)(150), [rawOnEndReached])
 	const onScroll = useMemo(
 		() =>
-			debounce(
+			rafSchedule(
 				handleVirtualListScroll({
 					endReachedThreshold,
 					itemSize,
 					layoutType,
 					onEndReached,
-					onScroll: rawOnScroll
+					onScroll: rawOnScroll,
+					scrollOffsetRef
 				})(setState)
-			)(50),
+			),
 		[endReachedThreshold, itemSize, layoutType, onEndReached, rawOnScroll, setState]
 	)
 
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
 	const onClose = useMemo(
-		() => closeVirtualList({activeKey, enableAutoSelect, itemSize, layoutType, onClose: rawOnClose})(setState),
+		() =>
+			closeVirtualList({activeKey, enableAutoSelect, itemSize, layoutType, onClose: rawOnClose, scrollOffsetRef})(
+				setState
+			),
 		[activeKey, enableAutoSelect, itemSize, layoutType, rawOnClose, setState]
 	)
 
 	const onLayoutChange = useMemo(
-		() => updateVirtualListLayout({itemSize, layoutType})(setState),
+		() => updateVirtualListLayout({itemSize, layoutType, scrollOffsetRef})(setState),
 		[itemSize, layoutType, setState]
 	)
 
@@ -113,7 +119,7 @@ const VirtualListBaseInner = <T,>(
 		[itemSize, layoutType, rawOnDragUpdate, setState]
 	)
 
-	const onDragStart = useMemo(() => handleVirtualListDragStart(setState), [setState])
+	const onDragStart = useMemo(() => handleVirtualListDragStart({scrollOffsetRef})(setState), [setState])
 	const onDragEnd = useMemo(
 		() => handleVirtualListDragEnd({startIndex, endIndex, setState})(rawOnDragEnd),
 		[endIndex, rawOnDragEnd, setState, startIndex]
@@ -133,7 +139,7 @@ const VirtualListBaseInner = <T,>(
 	})
 
 	const runUpdateVisibleRangeData = useMemo(
-		() => updateVirtualListVisibleRangeData({itemSize, layoutType})(setState),
+		() => updateVirtualListVisibleRangeData({itemSize, layoutType, scrollOffsetRef})(setState),
 		[itemSize, layoutType, setState]
 	)
 
@@ -154,13 +160,14 @@ const VirtualListBaseInner = <T,>(
 			onDragUpdate={onDragUpdate}
 			onLoadEnd={onLoadEnd}
 			renderItem={renderItem}
-			scrollOffset={scrollOffset}
+			scrollOffset={dragScrollOffset}
 			shape={shape}
 		/>
 	)
 
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as ScrollView, [animatedRef])
 
+	useEffect(() => () => onScroll.cancel(), [onScroll])
 	useEffect(() => {
 		runUpdateData(data)
 	}, [runUpdateData, data])

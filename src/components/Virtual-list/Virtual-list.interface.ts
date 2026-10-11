@@ -1,4 +1,4 @@
-import type {RefAttributes} from 'react'
+import type {RefAttributes, RefObject} from 'react'
 import type {ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
 import type {
 	GestureStateChangeEvent,
@@ -12,13 +12,13 @@ import type {InteractionHandlers} from '../../hooks'
 import type {RenderVirtualListItemInfo} from './Virtual-list-item'
 
 export type VirtualListData<T = Record<string, unknown>> = T & {
-	indexKey?: string
 	index?: number
+	indexKey: string
 }
 
 export interface OnVirtualListCloseOptions {
 	activeKey?: string
-	indexKey?: string
+	indexKey: string
 }
 
 export interface OnDragEndOptions {
@@ -69,6 +69,7 @@ export interface RenderVirtualListProps<T = Record<string, unknown>> extends Vir
 export type VirtualListBaseProps<T> = VirtualListProps<T>
 export interface VirtualListState {
 	dragging?: boolean
+	dragScrollOffset?: number
 	emptyList?: boolean
 	endIndex?: number
 	layout: LayoutRectangle
@@ -91,6 +92,7 @@ export interface HandleVirtualListScrollOptions
 		Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'endReachedThreshold'>,
 		Pick<VirtualListProps<unknown>, 'layoutType'> {
 	onEndReached: () => void
+	scrollOffsetRef?: RefObject<number>
 }
 
 export interface HandleVirtualListLayoutChangeOptions {
@@ -99,11 +101,17 @@ export interface HandleVirtualListLayoutChangeOptions {
 
 export type TriggerVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose' | 'activeKey'>
 export interface CloseVirtualListOptions
-	extends TriggerVirtualListCloseOptions, Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layoutType'> {}
+	extends TriggerVirtualListCloseOptions, Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layoutType'> {
+	scrollOffsetRef?: RefObject<number>
+}
+
+export interface HandleVirtualListDragStartConfig {
+	scrollOffsetRef?: RefObject<number>
+}
 
 export interface HandleVirtualListContentVisibleOptions {
-	loading?: boolean
 	emptyList?: boolean
+	loading?: boolean
 }
 
 export interface UseVirtualListScrollAnimatedOptions extends Pick<
@@ -135,7 +143,16 @@ export interface RenderVirtualListItemOptions<T> extends Pick<
 	scrollOffset?: number
 }
 
-export type UpdateVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layoutType'>
+export type UpdateVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layoutType'> & {
+	scrollOffsetRef?: RefObject<number>
+}
+
+export interface CalculateVirtualListVisibleRangeOptions {
+	force?: boolean
+	scrollDelta?: number
+	scrollOffset?: number
+}
+
 export interface HandleDragUpdateOptions {
 	event: GestureUpdateEvent<PanGestureHandlerEventPayload>
 	indexKey: string

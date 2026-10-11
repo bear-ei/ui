@@ -1,5 +1,6 @@
 export * from './array-equal'
 export * from './debounce'
 export * from './name-path'
+export * from './raf-schedule'
 export * from './text-search'
 export * from './typed-memo'

@@ -14,11 +14,12 @@ import type {
 	HandleDragUpdateOptions,
 	RenderVirtualListProps
 } from '../Virtual-list.interface'
+import type {AnimatedTimingOptions, AnimateSharedValueTo} from '../../../hooks'
 
 export interface Item {
 	dependencies?: string[]
 	index?: number
-	indexKey?: string
+	indexKey: string
 }
 
 export interface RenderVirtualListItemInfo<T> {
@@ -93,4 +94,11 @@ export interface HandleVirtualListItemDragEndOptions extends Pick<VirtualListIte
 
 export interface HandleVirtualListItemDragStartOptions extends Pick<VirtualListItemProps, 'onDragStart'> {
 	indexKey?: string
+}
+
+export interface AnimateVirtualListItemTranslateOptions extends Pick<
+	UseVirtualListItemAnimatedOptions,
+	'onAnimationFinished'
+> {
+	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
 }

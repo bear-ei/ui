@@ -6,14 +6,16 @@ import type {
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS} from '../../../constants'
-import type {AnimateSharedValueTo} from '../../../hooks'
+import type {AnimatedTimingOptions, AnimateSharedValueTo} from '../../../hooks'
 import type {HandleDragUpdateOptions} from '../Virtual-list.interface'
 import type {
+	AnimateVirtualListItemTranslateOptions,
 	HandleVirtualListItemDragEndOptions,
 	HandleVirtualListItemDragStartOptions,
 	VirtualListItemProps,
 	VirtualListItemState
 } from './Virtual-list-item.interface'
+import {DURATION, EASING} from '../../../theme'
 
 export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => {
 	const {
@@ -57,12 +59,27 @@ export const triggerVirtualListItemClose = (onClose?: (indexKey?: string) => voi
 	indexKey && onClose?.(indexKey)
 
 export const animateVirtualListItemTranslate =
-	(animateSharedValueTo: AnimateSharedValueTo) => (translateSharedValue: SharedValue<number>) => (offsetY: number) =>
-		animateSharedValueTo({sharedValue: translateSharedValue})(offsetY)
+	({animatedTiming, onAnimationFinished}: AnimateVirtualListItemTranslateOptions) =>
+	(translateSharedValue: SharedValue<number>) => {
+		const animateSharedValueTo = animatedTiming({
+			callback: (finished?: boolean) => finished && onAnimationFinished?.(),
+			duration: DURATION.SHORT_2,
+			easing: EASING.STANDARD
+		})({sharedValue: translateSharedValue})
+
+		return (offsetY: number) => animateSharedValueTo(offsetY)
+	}
 
 export const animateVirtualListItemScale =
-	(animateSharedValueTo: AnimateSharedValueTo) => (scaleSharedValue: SharedValue<number>) => (dragging?: boolean) =>
-		typeof dragging === 'boolean' && animateSharedValueTo({sharedValue: scaleSharedValue})(dragging ? 1 : 0)
+	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
+	(scaleSharedValue: SharedValue<number>) => {
+		const animateSharedValueTo = animatedTiming({
+			duration: DURATION.SHORT_2,
+			easing: EASING.STANDARD
+		})({sharedValue: scaleSharedValue})
+
+		return (dragging?: boolean) => typeof dragging === 'boolean' && animateSharedValueTo(dragging ? 1 : 0)
+	}
 
 export const updateVirtualListItemStatus = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {

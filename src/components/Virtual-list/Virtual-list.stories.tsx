@@ -6,7 +6,7 @@ import {Button} from '../Button'
 import {VirtualList} from './Virtual-list.component'
 
 export const BigVirtualList = () => {
-	const data = Array.from({length: 800}, (_, index) => ({
+	const data = Array.from({length: 10000}, (_, index) => ({
 		indexKey: `Item${index + 1}`,
 		headline: `Item${index + 1}`,
 		afterAffordance: true
