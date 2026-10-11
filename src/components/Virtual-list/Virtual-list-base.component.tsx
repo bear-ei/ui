@@ -70,7 +70,7 @@ const VirtualListBaseInner = <T,>(
 			visibleRangeData
 		},
 		setState
-	] = useImmer<VirtualListState>({layout: {} as LayoutRectangle, status: COMPONENT_STATUS.IDLE})
+	] = useImmer<VirtualListState>({layout: {} as Partial<LayoutRectangle>, status: COMPONENT_STATUS.IDLE})
 
 	useClearComponentEvent(setState)
 

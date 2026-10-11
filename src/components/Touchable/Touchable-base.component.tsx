@@ -19,7 +19,7 @@ export const TouchableBase = forwardRef<PressableType, TouchableBaseProps>(
 		ref
 	) => {
 		const [{rippleSequence, contentLayout}, setState] = useImmer<TouchableState>({
-			contentLayout: {width: 0, height: 0} as LayoutRectangle,
+			contentLayout: {} as Partial<LayoutRectangle>,
 			rippleSequence: {} as TouchableRippleSequence
 		})
 

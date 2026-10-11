@@ -43,7 +43,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 	) => {
 		const [{layout, nextUnmountEvent, nextAnimationFinishedEvent, status}, setState] =
 			useImmer<LayoutAnimatedState>({
-				layout: {width: 0, height: 0} as LayoutRectangle,
+				layout: {} as Partial<LayoutRectangle>,
 				status: COMPONENT_STATUS.IDLE
 			})
 

@@ -42,7 +42,7 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
 			| 'renderItem'
 			| 'shape'
 		> {
-	containerLayout?: LayoutRectangle
+	containerLayout?: Partial<LayoutRectangle>
 	index?: number
 	item?: T & Item
 	loading?: boolean

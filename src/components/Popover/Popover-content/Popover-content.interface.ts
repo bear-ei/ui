@@ -46,7 +46,7 @@ export interface RenderPopoverContentProps extends PopoverContentProps {
 export type PopoverContentBaseProps = PopoverContentProps
 export interface PopoverContentState {
 	invert?: boolean
-	layout: LayoutRectangle
+	layout: Partial<LayoutRectangle>
 	menuPosition: {top?: number; left?: number}
 	nextAnimationFinishedEvent?: () => void
 }
@@ -94,8 +94,7 @@ export interface UpdatePopoverContentPositionOptions extends Pick<
 	token: Token
 }
 
-export interface HandlePopoverContentPositionWindowOptions {
-	layout: LayoutRectangle
+export interface HandlePopoverContentPositionWindowOptions extends Pick<PopoverContentState, 'layout'> {
 	visible?: boolean
 	windowHeight: number
 	windowWidth: number

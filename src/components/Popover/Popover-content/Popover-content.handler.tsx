@@ -119,10 +119,10 @@ export const updatePopoverContentPosition =
 			if (type === POPOVER_TYPE.CONTEXT_MENU) {
 				setState(draft => {
 					const {left, top} = getSafeMenuPosition({
-						height: layout.height,
+						height: layout.height ?? 0,
 						margin: token.density.spacing[DENSITY_SIZE.MEDIUM],
 						offset: token.density.spacing[DENSITY_SIZE.XX_SMALL],
-						width: layout.width,
+						width: layout.width ?? 0,
 						windowHeight,
 						windowWidth,
 						x: containerLayout?.x,

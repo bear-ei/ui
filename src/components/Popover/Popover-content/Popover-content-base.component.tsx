@@ -38,7 +38,7 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 	) => {
 		const [{layout, invert: isInvert, menuPosition, nextAnimationFinishedEvent}, setState] =
 			useImmer<PopoverContentState>({
-				layout: {width: 0, height: 0} as LayoutRectangle,
+				layout: {} as Partial<LayoutRectangle>,
 				menuPosition: {}
 			})
 

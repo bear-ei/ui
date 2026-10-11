@@ -70,9 +70,8 @@ export const RenderVirtualListInner = <T,>(
 	const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
 	const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
 	const layoutAnimatedTimingOptions = useMemo(() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD}), [])
-	const isLayoutCompleted =
-		typeof containerLayout?.height === 'number' && (containerLayout.height > 0 || containerLayout.width > 0)
-
+	const {height = 0, width = 0} = containerLayout
+	const isLayoutCompleted = height > 0 || width > 0
 	const contentContainerStyle = {
 		...(layoutType === LAYOUT.VERTICAL && {minHeight: platformValue(contentSize)}),
 		...(layoutType === LAYOUT.HORIZONTAL && {minWidth: platformValue(contentSize)}),

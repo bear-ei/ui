@@ -30,7 +30,7 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
 				{...containerProps}
 				className={classesName({
 					[`h-full w-[--border-small] ${densityVerticalInsetClasses(size)}`]: layoutType === LAYOUT.VERTICAL,
-					[`h-[--border-small] ${densityHorizontalInsetClasses(size)} w-full`]:
+					[`h-[--border-small] ${densityHorizontalInsetClasses(size === DENSITY_SIZE.LARGE ? DENSITY_SIZE.NONE : size)} w-full`]:
 						!subheader && layoutType === LAYOUT.HORIZONTAL,
 
 					[`${densityHorizontalInsetClasses(size)} ${densityInlineClasses(DENSITY_SIZE.SMALL)} flex w-full flex-col justify-between`]:

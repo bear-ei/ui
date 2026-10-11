@@ -33,7 +33,11 @@ const calculateVirtualListVisibleRange =
 		const nextScrollOffset = scrollOffset ?? scrollOffsetRef?.current ?? draft.scrollOffset ?? 0
 		const baseStartIndex = Math.max(0, Math.floor(nextScrollOffset / itemSize))
 		const dataSize = draft.virtualListData?.length ?? 0
-		const windowSize = Math.max(layoutType === LAYOUT.VERTICAL ? draft.layout.height : draft.layout.width, 0)
+		const windowSize = Math.max(
+			layoutType === LAYOUT.VERTICAL ? (draft.layout.height ?? 0) : (draft.layout.width ?? 0),
+			0
+		)
+
 		const visibleItemCount = Math.ceil(windowSize / itemSize)
 		const bufferItemCount = Math.max(20, Math.floor(visibleItemCount / 2))
 		const deltaItemCount = itemSize > 0 ? Math.ceil((Math.abs(scrollDelta) / itemSize) * 2) : 0
@@ -78,7 +82,7 @@ const calculateVirtualListVisibleRange =
 export const updateVirtualListLayout =
 	({itemSize, layoutType, scrollOffsetRef}: UpdateVirtualListLayoutOptions) =>
 	(setState: Updater<VirtualListState>) =>
-	({width, height, left, top}: LayoutRectangle) => {
+	({width = 0, height = 0, left, top}: Partial<LayoutRectangle>) => {
 		setState(draft => {
 			if (!(width > 0 || height > 0)) {
 				return

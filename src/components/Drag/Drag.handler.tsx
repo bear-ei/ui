@@ -67,8 +67,8 @@ export const updateTranslate = ({
 	width
 }: UpdateTranslateScreenOptions) => {
 	const clamp = (min: number) => (max: number) => (value: number) => Math.min(Math.max(value, min), max)
-	const maxTranslateX = width - layout.width
-	const maxTranslateY = height - layout.height
+	const maxTranslateX = width - (layout.width ?? 0)
+	const maxTranslateY = height - (layout.height ?? 0)
 	const minTranslateX = 0
 	const minTranslateY = 0
 

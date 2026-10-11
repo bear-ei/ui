@@ -10,7 +10,7 @@ import {useDragAnimated} from './use-drag-animated.hook'
 
 export const DragBase = forwardRef<DragRef, DragBaseProps>(
 	({width, height, onEnd, onStart, onUpdate, layoutType, offset, ...renderDragProps}, ref) => {
-		const [{layout}, setState] = useImmer<DragState>({layout: {width: 0, height: 0} as LayoutRectangle})
+		const [{layout}, setState] = useImmer<DragState>({layout: {} as Partial<LayoutRectangle>})
 		const dragRef = useRef<DragRef>(null)
 		const id = useId()
 		const onLayoutChange = useMemo(() => updateDragLayout(setState), [setState])

@@ -57,7 +57,7 @@ export interface VirtualListProps<T> extends ScrollViewProps, RefAttributes<Scro
 }
 
 export interface RenderVirtualListProps<T = Record<string, unknown>> extends VirtualListProps<T> {
-	containerLayout: LayoutRectangle
+	containerLayout: Partial<LayoutRectangle>
 	contentAnimatedStyle?: AnimatedStyle<ViewStyle>
 	contentSize?: number
 	emptyList?: boolean
@@ -72,7 +72,7 @@ export interface VirtualListState {
 	dragScrollOffset?: number
 	emptyList?: boolean
 	endIndex?: number
-	layout: LayoutRectangle
+	layout: Partial<LayoutRectangle>
 	loading?: boolean
 	nextCloseEvent?: () => void
 	nextDragEndEvent?: () => void

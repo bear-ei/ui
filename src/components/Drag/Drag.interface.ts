@@ -34,7 +34,7 @@ export interface RenderDragProps extends DragProps {
 }
 
 export interface DragState {
-	layout: LayoutRectangle
+	layout: Partial<LayoutRectangle>
 }
 
 export interface UpdatePrevTranslateSharedValueOptions extends Pick<UseDragAnimatedOptions, 'onStart'> {
@@ -46,7 +46,7 @@ export interface UseDragAnimatedOptions extends Pick<
 	DragProps,
 	'height' | 'width' | 'onEnd' | 'onStart' | 'onUpdate' | 'layoutType' | 'offset'
 > {
-	layout: LayoutRectangle
+	layout: Partial<LayoutRectangle>
 }
 
 export interface UpdateTranslateSharedValueOptions {

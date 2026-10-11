@@ -32,7 +32,7 @@ export type TouchableBaseProps = TouchableProps
 export type TouchableRipple = TouchableRippleProps['touchableLocation']
 export type TouchableRippleSequence = Record<string, TouchableRipple>
 export interface TouchableState {
-	contentLayout: Omit<LayoutRectangle, 'x' | 'y'>
+	contentLayout: Partial<Omit<LayoutRectangle, 'x' | 'y'>>
 	rippleSequence: TouchableRippleSequence
 }
 
