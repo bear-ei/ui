@@ -28,12 +28,12 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 			error,
 			eventName,
 			id,
-			interactionHandlers,
 			labelText,
+			onStateEventChange,
 			size = DENSITY_SIZE.MEDIUM,
+			status,
 			testID,
 			value,
-			status,
 			...touchableProps
 		}: RenderCheckboxProps,
 		ref
@@ -70,12 +70,12 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 				{status === COMPONENT_STATUS.SUCCEEDED && (
 					<Touchable
 						{...touchableProps}
-						{...interactionHandlers}
 						centered={true}
 						disabled={disabled}
+						onStateEventChange={onStateEventChange}
+						radius={radius}
 						ref={ref}
 						shape={shape}
-						radius={radius}
 						testID={`checkbox__touchable--${id}`}
 						underlayColor={underlayColor}
 					>

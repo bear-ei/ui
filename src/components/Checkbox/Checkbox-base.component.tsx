@@ -1,12 +1,7 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
 import {COMPONENT_STATUS, type State} from '../../constants'
-import {
-	type HandleStateEventChangeOptions,
-	type StateEvent,
-	useClearComponentEvent,
-	useInteractionStateEvent
-} from '../../hooks'
+import {type HandleStateEventChangeOptions, type StateEvent, useClearComponentEvent} from '../../hooks'
 import type {PressableType} from '../Touchable'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import {
@@ -36,7 +31,6 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 			[indeterminate, isActive, onActive, setState]
 		)
 
-		const interactionHandlers = useInteractionStateEvent({...renderCheckboxProps, disabled, onStateEventChange})
 		const runUpdateStatus = useMemo(() => updateCheckboxStatus(setState), [setState])
 		const runUpdateIndeterminate = useMemo(() => updateCheckboxIndeterminate(setState), [setState])
 		const runUpdateActive = useMemo(
@@ -64,7 +58,7 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 				error={error}
 				eventName={eventName}
 				id={id}
-				interactionHandlers={interactionHandlers}
+				onStateEventChange={onStateEventChange}
 				ref={ref}
 				status={status}
 				value={value}
