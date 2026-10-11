@@ -1,7 +1,7 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
 import {COMPONENT_STATUS, type State} from '../../constants'
-import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent, useTheme} from '../../hooks'
+import {type HandleStateEventChangeOptions, type StateEvent, useTheme} from '../../hooks'
 import type {PressableType} from '../Touchable'
 import {BUTTON_TYPE} from './Button.enum'
 import {
@@ -40,12 +40,6 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 			[setState, type]
 		)
 
-		const interactionHandlers = useInteractionStateEvent({
-			...renderButtonProps,
-			disabled: isDisabled,
-			onStateEventChange
-		})
-
 		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
 			disabled: rawDisabled,
 			error,
@@ -83,11 +77,11 @@ export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
 				eventName={eventName}
 				iconElement={iconElement}
 				id={id}
-				interactionHandlers={interactionHandlers}
 				labelText={labelText}
 				labelTextAnimatedStyle={labelTextAnimatedStyle}
 				linkColor={linkColor}
 				loading={loading}
+				onStateEventChange={onStateEventChange}
 				ref={ref}
 				size={size}
 				status={status}

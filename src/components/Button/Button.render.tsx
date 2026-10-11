@@ -67,11 +67,11 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 			eventName,
 			iconElement,
 			id,
-			interactionHandlers,
 			labelText,
 			labelTextAnimatedStyle,
 			linkColor,
 			loading,
+			onStateEventChange,
 			size = DENSITY_SIZE.MEDIUM,
 			status,
 			stretch,
@@ -145,10 +145,10 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 				{status === COMPONENT_STATUS.SUCCEEDED && (
 					<Touchable
 						{...touchableProps}
-						{...interactionHandlers}
 						backgroundUnderlay={backgroundUnderlayElement}
 						disabled={disabled}
 						elevationUnderlay={elevationUnderlayElement}
+						onStateEventChange={onStateEventChange}
 						radius={radius}
 						ref={ref}
 						shape={shape}

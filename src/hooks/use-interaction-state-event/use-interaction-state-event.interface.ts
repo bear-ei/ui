@@ -15,6 +15,7 @@ export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent 
 export type StateEventChangeHandler = (
 	options: HandleStateEventChangeOptions
 ) => (state: State) => (event: StateEvent) => void
+
 export interface UseHandleStateEventOptions extends Omit<InteractionHandlers, 'onBlur' | 'onFocus'> {
 	disabled?: boolean
 	onStateEventChange?: StateEventChangeHandler

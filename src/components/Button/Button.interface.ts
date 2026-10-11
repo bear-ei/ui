@@ -5,7 +5,7 @@ import type {
 	AnimatedTimingOptions,
 	AnimateSharedValueTo,
 	HandleStateEventChangeOptions,
-	InteractionHandlers
+	StateEventChangeHandler
 } from '../../hooks'
 import type {ElevationValue} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
@@ -27,8 +27,8 @@ export interface RenderButtonProps extends ButtonProps, Pick<ButtonState, 'statu
 	elevation?: ElevationValue
 	eventName?: EventName
 	iconElement?: React.JSX.Element
-	interactionHandlers: InteractionHandlers
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
+	onStateEventChange: StateEventChangeHandler
 }
 
 export type ButtonBaseProps = ButtonProps
