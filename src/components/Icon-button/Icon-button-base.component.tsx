@@ -1,7 +1,7 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
 import type {State} from '../../constants'
-import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent, useTheme} from '../../hooks'
+import {type HandleStateEventChangeOptions, type StateEvent, useTheme} from '../../hooks'
 import type {PressableType} from '../Touchable'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import {
@@ -37,12 +37,6 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
 			[setState]
 		)
 
-		const interactionHandlers = useInteractionStateEvent({
-			...renderIconButtonProps,
-			disabled: isDisabled,
-			onStateEventChange
-		})
-
 		const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})
 		const runUpdateDisabledState = useMemo(() => updateIconButtonDisabledState(setState), [setState])
 		const iconElement = (
@@ -68,8 +62,8 @@ export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
 				eventName={eventName}
 				iconElement={iconElement}
 				id={id}
-				interactionHandlers={interactionHandlers}
 				loading={loading}
+				onStateEventChange={onStateEventChange}
 				ref={ref}
 				size={size}
 				type={type}

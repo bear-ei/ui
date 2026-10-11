@@ -63,9 +63,9 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 			eventName,
 			iconElement,
 			id,
-			interactionHandlers,
 			labelText,
 			loading,
+			onStateEventChange,
 			size = DENSITY_SIZE.MEDIUM,
 			testID,
 			type,
@@ -134,11 +134,11 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				>
 					<Touchable
 						{...touchableProps}
-						{...interactionHandlers}
 						backgroundUnderlay={backgroundUnderlayElement}
 						centered={true}
 						disabled={disabled}
 						enableTouchableRipple={type !== ICON_BUTTON_TYPE.ACTIVE}
+						onStateEventChange={onStateEventChange}
 						radius={radius}
 						ref={ref}
 						shape={shape}

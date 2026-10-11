@@ -5,7 +5,7 @@ import type {
 	AnimatedTimingOptions,
 	AnimateSharedValueTo,
 	HandleStateEventChangeOptions,
-	InteractionHandlers
+	StateEventChangeHandler
 } from '../../hooks'
 import type {TouchableProps} from '../Touchable'
 import type {ICON_BUTTON_TYPE} from './Icon-button.enum'
@@ -33,7 +33,7 @@ export interface RenderIconButtonProps extends IconButtonProps {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
 	iconElement?: React.JSX.Element
-	interactionHandlers: InteractionHandlers
+	onStateEventChange: StateEventChangeHandler
 }
 
 export type IconButtonBaseProps = IconButtonProps
