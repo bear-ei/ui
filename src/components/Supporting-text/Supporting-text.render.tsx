@@ -24,7 +24,13 @@ export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(
 		const {token} = useTheme()
 		const {densityClasses, classesName, typographyClasses} = token.classes
 		const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
-		const layoutAnimatedTimingOptions = useMemo(() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD}), [])
+		const {entry, exit} = useMemo(
+			() => ({
+				entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+				exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+			}),
+			[]
+		)
 
 		return (
 			<LayoutAnimated
@@ -32,8 +38,8 @@ export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(
 				animatedType={LAYOUT_ANIMATED.FADE}
 				className={classesName('min-h-[--typography-body-small-height]', densityInsetClasses(size), className)}
 				contentSize={{height: token.typography[TYPOGRAPHY.BODY][TYPOGRAPHY_SIZE.SMALL].height}}
-				entry={layoutAnimatedTimingOptions}
-				exit={layoutAnimatedTimingOptions}
+				entry={entry}
+				exit={exit}
 				ref={ref}
 				testID={`supportingText__layoutAnimated--${id}`}
 				visible={visible}

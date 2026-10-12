@@ -9,10 +9,10 @@ const SkeletonComponent = (props: SkeletonProps) => {
 			<Square />
 			<Rectangular
 				layoutType={LAYOUT.VERTICAL}
-				size={56}
+				size={{width: 56, height: 48}}
 			>
-				<Rectangular size={24} />
-				<Rectangular size={24} />
+				<Rectangular size={{height: 24}} />
+				<Rectangular size={{height: 24}} />
 			</Rectangular>
 			<Circle />
 		</>
@@ -21,7 +21,7 @@ const SkeletonComponent = (props: SkeletonProps) => {
 	return (
 		<Skeleton
 			{...props}
-			className='h-14 gap-4'
+			className='h-14 gap-2'
 			duration={-1}
 			skeleton={skeleton}
 		/>

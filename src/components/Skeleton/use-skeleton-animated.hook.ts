@@ -12,7 +12,7 @@ export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimat
 		opacity: interpolate(
 			opacitySharedValue.value,
 			[0, 1, 2],
-			[theme.token.opacity.level4, theme.token.opacity.level10, theme.token.opacity.level4]
+			[theme.token.opacity.level4, theme.token.opacity.level7, theme.token.opacity.level4]
 		)
 	}))
 

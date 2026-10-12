@@ -12,8 +12,14 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
 	) => {
 		const {token} = useTheme()
 		const {classesName} = token.classes
-		const entryAnimatedTimingOptions = useMemo(() => ({duration: DURATION.MEDIUM_0, easing: EASING.STANDARD}), [])
-		const exitAnimatedTimingOptions = useMemo(() => ({duration: DURATION.SHORT_3, easing: EASING.STANDARD}), [])
+		const {entry, exit} = useMemo(
+			() => ({
+				entry: {duration: DURATION.MEDIUM_0, easing: EASING.STANDARD_DECELERATE},
+				exit: {duration: DURATION.SHORT_3, easing: EASING.STANDARD_ACCELERATE}
+			}),
+			[]
+		)
+
 		const maskStyle = {
 			backgroundColor: hexToRGBA(backgroundColor ?? token.scheme.scrim)(opacity)
 		} as ViewStyle
@@ -24,8 +30,8 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
 				accessibilityElementsHidden={true}
 				importantForAccessibility='no-hide-descendants'
 				animatedType={LAYOUT_ANIMATED.FADE}
-				entry={entryAnimatedTimingOptions}
-				exit={exitAnimatedTimingOptions}
+				entry={entry}
+				exit={exit}
 				visible={visible}
 				className={classesName(
 					'absolute bottom-0 left-0 right-0 top-0 cursor-default',

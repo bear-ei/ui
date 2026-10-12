@@ -1,0 +1,421 @@
+import {Ellipsis, X} from 'lucide-react-native'
+import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
+import {Pressable, Text, View} from 'react-native'
+import {EVENT_NAME, LAYOUT, TRIGGER_ON} from '../../../constants'
+import {useTheme} from '../../../hooks'
+import {
+	DENSITY_SIZE,
+	DENSITY_TYPE,
+	densitySizeMapIconButtonSize,
+	densitySizeMapIconSize,
+	densitySizeMapTypographySize,
+	DURATION,
+	EASING,
+	platformValue,
+	TYPOGRAPHY,
+	type DensitySizeScale
+} from '../../../theme'
+import {AnimatedText, AnimatedView} from '../../Animated-component'
+import {Divider} from '../../Divider'
+import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
+import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
+import {Skeleton} from '../../Skeleton'
+import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
+import {ListAfterAffordance} from '../List-after-affordance'
+import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
+import type {ListType} from '../List.interface'
+import type {ListItemRef, RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
+import {useMemo} from 'storybook/internal/preview-api'
+
+export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
+	afterAffordance,
+	closeTrailing,
+	disabled,
+	id,
+	interactionHandlers,
+	onTrailingVisible,
+	size = DENSITY_SIZE.MEDIUM,
+	trailing,
+	trailingDisabled: isTrailingDisabled,
+	trailingTriggerOn
+}) => {
+	const onHoverIn = useCallback(() => onTrailingVisible?.(EVENT_NAME.HOVER_IN), [onTrailingVisible])
+	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
+	const trailingSize = densitySizeMapIconButtonSize(size)
+	const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
+	const trailingProps = {
+		...interactionHandlers,
+		...(trailingTriggerOn === TRIGGER_ON.HOVER && {onHoverIn}),
+		disabled: isTrailingDisabled ?? disabled,
+		size: trailingSize,
+		type: ICON_BUTTON_TYPE.STANDARD
+	}
+
+	const trailingElement = {
+		afterAffordance: cloneElement(
+			trailing ?? (
+				<IconButton
+					testID={`listItem__trailingIconButton--${id}`}
+					icon={<Ellipsis testID={`listItem__trailingIconMoreHoriz--${id}`} />}
+				/>
+			),
+			trailingProps
+		),
+		closeTrailing: cloneElement(
+			trailing ?? (
+				<IconButton
+					testID={`listItem__trailingIconButton--${id}`}
+					icon={<X testID={`listItem__trailingIconMoreHoriz--${id}`} />}
+				/>
+			),
+			trailingProps
+		),
+		standard: trailing ? cloneElement(trailing, trailingProps) : undefined
+	}
+
+	return trailingElement[trailingType]
+}
+
+/**
+ * TODO: Support Multiline
+ */
+export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
+	(
+		{
+			accessibilityLabel,
+			active,
+			afterAffordance,
+			afterAffordanceExpanded,
+			afterAffordanceVisible,
+			beforeAffordance,
+			className,
+			closeTrailing,
+			contentAnimatedStyle,
+			contentStyle,
+			disabled,
+			divider,
+			enableUnderlay,
+			enableUnderlayActive,
+			eventName,
+			headline,
+			headlineTextAnimatedStyle,
+			id,
+			indexKey,
+			interactionHandlers,
+			leadingElement,
+			onCancel,
+			onConfirm,
+			panResponder,
+			primaryButtonDisabled,
+			primaryButtonLabelText,
+			primaryButtonLoading,
+			primaryButtonStyle,
+			radius,
+			secondaryButtonDisabled,
+			secondaryButtonLabelText,
+			secondaryButtonLoading,
+			secondaryButtonStyle,
+			selectType,
+			shape,
+			size = DENSITY_SIZE.MEDIUM,
+			skeletonDuration = 300,
+			skeletonElement,
+			supporting,
+			supportingTextNumberOfLines,
+			testID,
+			trailingElement,
+			trailingTriggerOn,
+			trailingVisible,
+			type = LIST_TYPE.STANDARD,
+			...touchableProps
+		},
+		ref
+	) => {
+		const {token} = useTheme()
+		const {classesName, typographyClasses, densityClasses, shapeClasses} = token.classes
+		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
+		const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
+		const densityHorizontalSpacingClasses = densityClasses(DENSITY_TYPE.SPACING)(LAYOUT.HORIZONTAL)
+		const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)()
+		const densityVerticalInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.VERTICAL)
+		const activeColor = token.scheme.secondaryContainer
+		const isSupportingTextShow = !!supporting
+		const isTrailingShow = !!trailingElement
+		const isLeadingShow = !!leadingElement
+		const underlayColor = active ? token.scheme.onSecondaryContainer : token.scheme.onSurface
+		const underlayProps = selectType &&
+			[LIST_SELECT_TYPE.SINGLE, LIST_SELECT_TYPE.MULTIPLE].includes(selectType) &&
+			enableUnderlayActive && {
+				active,
+				activeAnimatedType: ACTIVE_ANIMATED.SCALE_X,
+				activeColor
+			}
+
+		const isMultiline = (supportingTextNumberOfLines ?? 0) > 1
+		const iconSize = token.density.icon[densitySizeMapIconSize(densitySizeMapIconButtonSize(size))]
+		const typographyType =
+			type && ([LIST_TYPE.MENU, LIST_TYPE.LABEL] as readonly ListType[]).includes(type) ?
+				TYPOGRAPHY.LABEL
+			:	TYPOGRAPHY.BODY
+
+		const typographySize = densitySizeMapTypographySize(
+			type && ([LIST_TYPE.MENU, LIST_TYPE.LABEL] as readonly ListType[]).includes(type) ?
+				DENSITY_SIZE.MEDIUM
+			:	size
+		)
+
+		const entryAnimatedTimingOptions = useMemo(
+			() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE}),
+			[]
+		)
+
+		const exitAnimatedTimingOptions = useMemo(
+			() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}),
+			[]
+		)
+
+		/**TODO: */
+		const mainElement = (
+			<>
+				{beforeAffordance && (
+					<View
+						className='flex flex-row items-center justify-center'
+						testID={`listItem__beforeAffordanceContainer--${id}`}
+					>
+						{beforeAffordance}
+					</View>
+				)}
+
+				<AnimatedView
+					style={[contentStyle, contentAnimatedStyle]}
+					testID={`listItem__animatedContent--${id}`}
+					className={classesName('absolute bottom-0 left-0 right-0 top-0 z-20', {
+						['bg-[--color-surface-container]']: type !== LIST_TYPE.STANDARD,
+						['bg-[--color-surface]']: type === LIST_TYPE.STANDARD
+					})}
+				>
+					<Pressable
+						{...touchableProps}
+						{...interactionHandlers}
+						className={classesName(
+							'flex flex-1 flex-col items-center justify-center self-stretch outline-none',
+							className
+						)}
+						disabled={disabled}
+						ref={ref}
+						testID={`listItem__touchable--${id}`}
+					>
+						<View
+							className={classesName(
+								'relative z-10 flex flex-1 flex-row items-center justify-start self-stretch',
+								densityHorizontalInsetClasses(size),
+								{
+									['pl-[--density-inset-large]']: isLeadingShow && size === DENSITY_SIZE.X_LARGE,
+									['pl-[--density-inset-small]']: isLeadingShow && size === DENSITY_SIZE.LARGE,
+									['pl-[--density-inset-snug]']: isLeadingShow && size === DENSITY_SIZE.MEDIUM,
+									['pl-[--density-inset-x-small]']: isLeadingShow && size === DENSITY_SIZE.SMALL,
+									['pl-[--density-inset-xx-small]']: isLeadingShow && size === DENSITY_SIZE.X_SMALL,
+									['pr-[--density-inset-large]']: isTrailingShow && size === DENSITY_SIZE.X_LARGE,
+									['pr-[--density-inset-small]']: isTrailingShow && size === DENSITY_SIZE.LARGE,
+									['pr-[--density-inset-snug]']: isTrailingShow && size === DENSITY_SIZE.MEDIUM,
+									['pr-[--density-inset-x-small]']: isTrailingShow && size === DENSITY_SIZE.SMALL,
+									['pr-[--density-inset-xx-small]']: isTrailingShow && size === DENSITY_SIZE.X_SMALL,
+									[densityVerticalInsetClasses(DENSITY_SIZE.X_SMALL)]:
+										isSupportingTextShow && !isMultiline,
+									[densityVerticalInsetClasses(DENSITY_SIZE.MEDIUM)]:
+										isSupportingTextShow && isMultiline
+								}
+							)}
+							testID={`listItem__main--${id}`}
+						>
+							{leadingElement && (
+								<View
+									testID={`listItem__leading--${id}`}
+									className={classesName(
+										'flex flex-col items-center justify-center',
+										densityInlineClasses(densitySizeMapIconButtonSize(size)),
+										{
+											['justify-start']: isMultiline,
+											[densityHorizontalSpacingClasses(DENSITY_SIZE.XX_SMALL)]: (
+												[
+													DENSITY_SIZE.X_SMALL,
+													DENSITY_SIZE.SMALL,
+													DENSITY_SIZE.MEDIUM
+												] as readonly DensitySizeScale[]
+											).includes(size),
+											[densityHorizontalSpacingClasses(DENSITY_SIZE.X_SMALL)]:
+												size === DENSITY_SIZE.LARGE,
+											[densityHorizontalSpacingClasses(DENSITY_SIZE.SMALL)]:
+												size === DENSITY_SIZE.X_LARGE
+										},
+										'ml-auto'
+									)}
+								>
+									{cloneElement(leadingElement, {
+										color: token.scheme.onSurfaceVariant,
+										size: platformValue(iconSize),
+										testID: `listItem__leadingIcon--${id}`
+									})}
+								</View>
+							)}
+
+							<View
+								testID={`listItem__mainInner--${id}`}
+								className={classesName('pointer-events-none flex flex-1 flex-col justify-center', {
+									['min-h-[--density-inline-medium]']: isSupportingTextShow
+								})}
+							>
+								{headline &&
+									(isValidElement(headline) ?
+										cloneElement(headline, {...{active}})
+									:	<AnimatedText
+											className={typographyClasses(typographyType)(typographySize)()}
+											ellipsizeMode='tail'
+											numberOfLines={1}
+											style={[headlineTextAnimatedStyle]}
+											testID={`listItem__animatedHeadlineText--${id}`}
+										>
+											{headline}
+										</AnimatedText>)}
+
+								{supporting &&
+									(isValidElement(supporting) ? supporting : (
+										<Text
+											className={typographyClasses(TYPOGRAPHY.BODY)(typographySize)({
+												colorClasses: 'color-[--color-on-surface-variant]'
+											})}
+											ellipsizeMode='tail'
+											numberOfLines={supportingTextNumberOfLines}
+											testID={`listItem__supportingText--${id}`}
+										>
+											{supporting}
+										</Text>
+									))}
+							</View>
+
+							{trailingElement && (
+								<View
+									className={classesName(
+										'flex flex-col items-center justify-center',
+										densityInlineClasses(densitySizeMapIconButtonSize(size)),
+										{
+											['justify-start']: isMultiline,
+											[densityHorizontalSpacingClasses(DENSITY_SIZE.XX_SMALL)]: (
+												[
+													DENSITY_SIZE.X_SMALL,
+													DENSITY_SIZE.SMALL,
+													DENSITY_SIZE.MEDIUM
+												] as readonly DensitySizeScale[]
+											).includes(size),
+											[densityHorizontalSpacingClasses(DENSITY_SIZE.X_SMALL)]:
+												size === DENSITY_SIZE.LARGE,
+											[densityHorizontalSpacingClasses(DENSITY_SIZE.SMALL)]:
+												size === DENSITY_SIZE.X_LARGE
+										},
+										'mr-auto'
+									)}
+									testID={`listItem__trailingLayout--${id}`}
+								>
+									<LayoutAnimated
+										animatedType={LAYOUT_ANIMATED.FADE}
+										defaultVisible={!trailingTriggerOn}
+										entry={entryAnimatedTimingOptions}
+										exit={exitAnimatedTimingOptions}
+										lazy={closeTrailing}
+										testID={`listItem__trailing--${id}`}
+										unmount={true}
+										visible={trailingVisible}
+									>
+										{trailingElement}
+									</LayoutAnimated>
+								</View>
+							)}
+						</View>
+					</Pressable>
+
+					{enableUnderlay && (
+						<Underlay
+							{...underlayProps}
+							eventName={eventName}
+							testID={`listItem__underlay--${id}`}
+							underlayColor={underlayColor}
+						/>
+					)}
+				</AnimatedView>
+
+				{afterAffordance && (
+					<View
+						className={classesName('flex flex-1 flex-row justify-center self-end', {
+							['z-10']: afterAffordanceExpanded
+						})}
+						testID={`listItem__afterAffordanceLayout--${id}`}
+					>
+						{typeof afterAffordance === 'boolean' ?
+							<ListAfterAffordance
+								indexKey={indexKey}
+								onCancel={onCancel}
+								onConfirm={onConfirm}
+								primaryButtonDisabled={primaryButtonDisabled}
+								primaryButtonLabelText={primaryButtonLabelText}
+								primaryButtonLoading={primaryButtonLoading}
+								primaryButtonStyle={primaryButtonStyle}
+								secondaryButtonDisabled={secondaryButtonDisabled}
+								secondaryButtonLabelText={secondaryButtonLabelText}
+								secondaryButtonLoading={secondaryButtonLoading}
+								secondaryButtonStyle={secondaryButtonStyle}
+								size={size}
+								testID={`listItem__listAfterAffordance--${id}`}
+								visible={afterAffordanceVisible}
+							/>
+						:	afterAffordance}
+					</View>
+				)}
+
+				{divider && (
+					<View
+						testID={`listItem__dividerLayout--${id}`}
+						className='absolute bottom-0 left-0 right-0 z-20 h-[0.0625rem]'
+					>
+						<Divider
+							layoutType={LAYOUT.HORIZONTAL}
+							size={DENSITY_SIZE.LARGE}
+							testID={`listItem__divider--${id}`}
+						/>
+					</View>
+				)}
+			</>
+		)
+
+		return (
+			<View
+				{...panResponder?.panHandlers}
+				accessibilityLabel={accessibilityLabel ?? (typeof headline === 'string' ? headline : 'headline')}
+				accessibilityRole='menuitem'
+				tabIndex={-1}
+				testID={testID ?? `listItem--${id}`}
+				className={classesName(
+					'relative flex min-w-20 flex-col self-stretch overflow-hidden ',
+					`${densityControlClasses(size)} w-auto`,
+					shapeClasses(radius)(shape)
+				)}
+			>
+				{skeletonElement ?
+					<Skeleton
+						duration={skeletonDuration}
+						layoutType={LAYOUT.HORIZONTAL}
+						skeleton={skeletonElement}
+						testID={`listItem__skeleton--${id}`}
+					>
+						{mainElement}
+					</Skeleton>
+				:	<View
+						className='flex-1 self-stretch'
+						testID={`listItem__mainLayout--${id}`}
+					>
+						{mainElement}
+					</View>
+				}
+			</View>
+		)
+	}
+)

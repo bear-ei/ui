@@ -35,7 +35,7 @@ export interface SkeletonCircleProps extends SkeletonElementProps {
 
 export type SkeletonSquareProps = SkeletonCircleProps
 export interface SkeletonRectangularProps extends SkeletonElementProps {
-	size?: {width: number; height: number}
+	size?: {width?: number; height: number}
 }
 
 export interface SkeletonComponent extends FC<SkeletonProps> {

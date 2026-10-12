@@ -102,7 +102,14 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 		const loadingEventName = type && buttonTypes.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
 		const shape = isLink ? SHAPE.TOP : SHAPE.ALL
 		const radius = isLink ? RADIUS.X_SMALL : RADIUS.FULL
-		const layoutAnimatedTimingOptions = useMemo(() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD}), [])
+		const {entry, exit} = useMemo(
+			() => ({
+				entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+				exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+			}),
+			[]
+		)
+
 		const backgroundUnderlayElement = (
 			<AnimatedView
 				className={classesName(
@@ -134,7 +141,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 				accessible={true}
 				style={[style]}
 				className={classesName('cursor-pointer', {
-					[`${densityControlClasses(size)} min-w-20`]: !isLink,
+					[`${densityControlClasses(size)} w-auto min-w-20`]: !isLink,
 					[`${typographyClasses(TYPOGRAPHY.LABEL)(TYPOGRAPHY_SIZE.SMALL)} min-w-[--density-inline-xx-small]`]:
 						isLink,
 					['self-start']: !stretch,
@@ -196,8 +203,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 								<LayoutAnimated
 									animatedType={LAYOUT_ANIMATED.FADE}
 									className='absolute bottom-0 left-0 right-0 z-20 min-h-[--border-small] bg-[--color-primary]'
-									entry={layoutAnimatedTimingOptions}
-									exit={layoutAnimatedTimingOptions}
+									entry={entry}
+									exit={exit}
 									style={[activeIndicatorStyle]}
 									testID={`button__activeIndicator--${id}`}
 									visible={isActiveIndicatorVisible}

@@ -1,11 +1,12 @@
-import {forwardRef} from 'react'
+import {forwardRef, useMemo} from 'react'
 import type {View} from 'react-native'
 import {LAYOUT} from '../../constants'
 
 import {AnimatedView} from '../Animated-component'
-import {LayoutAnimated} from '../Layout-animated'
+import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import type {RenderSkeletonProps} from './Skeleton.interface'
 import {useTheme} from '../../hooks'
+import {DURATION, EASING} from '../../theme'
 
 export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
 	(
@@ -25,12 +26,22 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
 		const {token} = useTheme()
 		const {classesName} = token.classes
 		const isSkeletonVisible = !!(skeleton && visible)
+		const {entry, exit} = useMemo(
+			() => ({
+				entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+				exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+			}),
+			[]
+		)
 
 		return (
 			<>
 				{skeleton && (
 					<LayoutAnimated
+						animatedType={LAYOUT_ANIMATED.FADE}
 						className='absolute bottom-0 left-0 right-0 top-0'
+						entry={entry}
+						exit={exit}
 						lazy={true}
 						testID={`skeleton__contentItemLayoutVisible--${id}`}
 						unmount={true}
@@ -55,7 +66,10 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
 				)}
 
 				<LayoutAnimated
+					animatedType={LAYOUT_ANIMATED.FADE}
 					className='absolute bottom-0 left-0 right-0 top-0'
+					entry={entry}
+					exit={exit}
 					lazy={true}
 					ref={ref}
 					testID={`skeleton__contentItemLayoutNotVisible--${id}`}

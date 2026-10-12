@@ -69,7 +69,6 @@ export const RenderVirtualListInner = <T,>(
 	const {onLayout} = interactionHandlers
 	const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
 	const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
-	const layoutAnimatedTimingOptions = useMemo(() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD}), [])
 	const {height = 0, width = 0} = containerLayout
 	const isLayoutCompleted = height > 0 || width > 0
 	const contentContainerStyle = {
@@ -78,6 +77,14 @@ export const RenderVirtualListInner = <T,>(
 		alignSelf: 'stretch',
 		flex: 1
 	} as ViewStyle
+
+	const {entry, exit} = useMemo(
+		() => ({
+			entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+			exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+		}),
+		[]
+	)
 
 	return (
 		<View
@@ -89,8 +96,8 @@ export const RenderVirtualListInner = <T,>(
 				<LayoutAnimated
 					animatedType={LAYOUT_ANIMATED.FADE}
 					className='absolute bottom-0 left-0 right-0 top-0'
-					entry={layoutAnimatedTimingOptions}
-					exit={layoutAnimatedTimingOptions}
+					entry={entry}
+					exit={exit}
 					testID={`virtualList__contentLayout--${id}`}
 					visible={isContentVisible}
 				>
@@ -116,8 +123,8 @@ export const RenderVirtualListInner = <T,>(
 			<LayoutAnimated
 				animatedType={LAYOUT_ANIMATED.FADE}
 				className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
-				entry={layoutAnimatedTimingOptions}
-				exit={layoutAnimatedTimingOptions}
+				entry={entry}
+				exit={exit}
 				lazy={true}
 				testID={`virtualList__emptyContentLayout--${id}`}
 				visible={isEmptyContentVisible}
@@ -137,8 +144,8 @@ export const RenderVirtualListInner = <T,>(
 			<LayoutAnimated
 				animatedType={LAYOUT_ANIMATED.FADE}
 				className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
-				entry={layoutAnimatedTimingOptions}
-				exit={layoutAnimatedTimingOptions}
+				entry={entry}
+				exit={exit}
 				lazy={true}
 				testID={`virtualList__loadingContentLayout--${id}`}
 				visible={loading}

@@ -109,13 +109,11 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 		const positionShape = position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.END : SHAPE.START
 		const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.SIDEBAR ? SHAPE.ALL : positionShape)
 		const buttonTabIndex = footerVisible ? 0 : -1
-		const entryAnimatedTimingOptions = useMemo(
-			() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE}),
-			[]
-		)
-
-		const exitAnimatedTimingOptions = useMemo(
-			() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}),
+		const {entry, exit} = useMemo(
+			() => ({
+				entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+				exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+			}),
 			[]
 		)
 
@@ -203,8 +201,8 @@ export const RenderSheetContent = forwardRef<View, RenderSheetContentProps>(
 						animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
 						className='absolute bottom-0 left-0 right-0 origin-bottom'
 						contentSize={footerLayoutAnimatedContentSize}
-						entry={entryAnimatedTimingOptions}
-						exit={exitAnimatedTimingOptions}
+						entry={entry}
+						exit={exit}
 						testID={`sheetContent__footerLayout--${id}`}
 						translate={true}
 						visible={footerVisible}

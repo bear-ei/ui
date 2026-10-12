@@ -131,7 +131,21 @@ const densitySizeMapIconSize = (size: DensitySizeScale) => {
 		[DENSITY_SIZE.MEDIUM]: DENSITY_SIZE.SMALL,
 		[DENSITY_SIZE.SMALL]: DENSITY_SIZE.X_SMALL,
 		[DENSITY_SIZE.X_LARGE]: DENSITY_SIZE.LARGE,
-		[DENSITY_SIZE.X_SMALL]: DENSITY_SIZE.X_SMALL,
+		[DENSITY_SIZE.X_SMALL]: DENSITY_SIZE.XX_SMALL,
+		[DENSITY_SIZE.XX_LARGE]: DENSITY_SIZE.X_LARGE,
+		[DENSITY_SIZE.XX_SMALL]: DENSITY_SIZE.XX_SMALL
+	}
+
+	return iconSize[size]
+}
+
+const densitySizeMapIconButtonSize = (size: DensitySizeScale) => {
+	const iconSize = {
+		[DENSITY_SIZE.LARGE]: DENSITY_SIZE.MEDIUM,
+		[DENSITY_SIZE.MEDIUM]: DENSITY_SIZE.SMALL,
+		[DENSITY_SIZE.SMALL]: DENSITY_SIZE.X_SMALL,
+		[DENSITY_SIZE.X_LARGE]: DENSITY_SIZE.LARGE,
+		[DENSITY_SIZE.X_SMALL]: DENSITY_SIZE.XX_SMALL,
 		[DENSITY_SIZE.XX_LARGE]: DENSITY_SIZE.X_LARGE,
 		[DENSITY_SIZE.XX_SMALL]: DENSITY_SIZE.XX_SMALL
 	}
@@ -175,4 +189,11 @@ const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => ({
 
 const mobileGap = createMobileGap(SPACING[UI_DENSITY.COMFORTABLE])
 
-export {platformValue, createDensity, mobileGap, densitySizeMapIconSize, densitySizeMapInlineSize}
+export {
+	createDensity,
+	densitySizeMapIconButtonSize,
+	densitySizeMapIconSize,
+	densitySizeMapInlineSize,
+	mobileGap,
+	platformValue
+}

@@ -51,7 +51,14 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 		const disabledColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level5)
 		const underlayColor = error ? token.scheme.error : unselectedColor
 		const iconSize = token.density.icon[densitySizeMapIconSize(size)]
-		const layoutAnimatedTimingOptions = useMemo(() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD}), [])
+		const {entry, exit} = useMemo(
+			() => ({
+				entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+				exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+			}),
+			[]
+		)
+
 		const checked =
 			value === CHECKBOX_VALUE.SELECTED ? true
 			: value === CHECKBOX_VALUE.INDETERMINATE ? 'mixed'
@@ -90,8 +97,8 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 								<LayoutAnimated
 									animatedType={LAYOUT_ANIMATED.FADE}
 									className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-									entry={layoutAnimatedTimingOptions}
-									exit={layoutAnimatedTimingOptions}
+									entry={entry}
+									exit={exit}
 									testID={`checkbox__iconLayout--blank--${id}`}
 									visible={value === CHECKBOX_VALUE.UNSELECTED}
 								>
@@ -106,8 +113,8 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 								<LayoutAnimated
 									animatedType={LAYOUT_ANIMATED.FADE}
 									className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-									entry={layoutAnimatedTimingOptions}
-									exit={layoutAnimatedTimingOptions}
+									entry={entry}
+									exit={exit}
 									testID={`checkbox__iconLayout--selected--${id}`}
 									visible={value === CHECKBOX_VALUE.SELECTED}
 								>
@@ -122,8 +129,8 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 								<LayoutAnimated
 									animatedType={LAYOUT_ANIMATED.FADE}
 									className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
-									entry={layoutAnimatedTimingOptions}
-									exit={layoutAnimatedTimingOptions}
+									entry={entry}
+									exit={exit}
 									testID={`checkbox__iconLayout--indeterminate--${id}`}
 									visible={value === CHECKBOX_VALUE.INDETERMINATE}
 								>

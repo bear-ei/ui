@@ -80,7 +80,14 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 		const radius = RADIUS.FULL
 		const shape = SHAPE.ALL
 		const activeColor = token.scheme.secondaryContainer
-		const layoutAnimatedTimingOptions = useMemo(() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD}), [])
+		const {entry, exit} = useMemo(
+			() => ({
+				entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+				exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+			}),
+			[]
+		)
+
 		const backgroundUnderlayElement = (
 			<AnimatedView
 				className={classesName(
@@ -107,8 +114,8 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				<LayoutAnimated
 					animatedType={LAYOUT_ANIMATED.FADE}
 					className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center '
-					entry={layoutAnimatedTimingOptions}
-					exit={layoutAnimatedTimingOptions}
+					entry={entry}
+					exit={exit}
 					lazy={true}
 					testID={`iconButton__contentItemLayout--${id}`}
 					visible={loading}
@@ -127,8 +134,8 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 				<LayoutAnimated
 					animatedType={LAYOUT_ANIMATED.FADE}
 					className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
-					entry={layoutAnimatedTimingOptions}
-					exit={layoutAnimatedTimingOptions}
+					entry={entry}
+					exit={exit}
 					testID={`iconButton__contentItemLayout--${id}`}
 					visible={!loading}
 				>
