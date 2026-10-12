@@ -2,11 +2,10 @@ import {Check, X} from 'lucide-react-native'
 import {forwardRef, useMemo} from 'react'
 import type {View, ViewStyle} from 'react-native'
 import {useTheme} from '../../../hooks'
-import {DENSITY_SIZE, DURATION, EASING} from '../../../theme'
+import {DENSITY_SIZE, DURATION, EASING, UI_DENSITY} from '../../../theme'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
-import {Platform} from 'react-native'
 
 export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAffordanceProps>(
 	(
@@ -32,7 +31,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 		}: RenderListAfterAffordanceProps,
 		ref
 	) => {
-		const {token} = useTheme()
+		const {token, uiDensity} = useTheme()
 		const {classesName} = token.classes
 		const buttonTabIndex = visible ? 0 : -1
 		const checkIconElement = <Check testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`} />
@@ -55,13 +54,11 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 				{...containerProps}
 				{...interactionHandlers}
 				animatedType={LAYOUT_ANIMATED.FADE}
-				className={classesName(
-					'relative flex self-stretch',
-					{
-						['bg-[--color-primary]']: isDangerVisible
-					},
-					Platform.select({default: 'w-32', web: 'w-24'})
-				)}
+				className={classesName('relative flex self-stretch', {
+					['bg-[--color-primary]']: isDangerVisible,
+					['w-24']: uiDensity === UI_DENSITY.COMPACT,
+					['w-32']: uiDensity === UI_DENSITY.COMFORTABLE
+				})}
 				entry={entry}
 				exit={exit}
 				lazy={true}

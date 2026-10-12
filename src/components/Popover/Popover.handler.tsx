@@ -212,7 +212,7 @@ export const handlePopoverContentAnimationFinished =
 				draft.nextUnmountContentEvent = () => onUnmountContent?.()
 			}
 
-			if (!visible && onUnmountPressableLayout && isMenuOrPicker) {
+			if (!visible && onUnmountPressableLayout) {
 				draft.nextUnmountPressableLayoutEvent = () => onUnmountPressableLayout?.()
 			}
 

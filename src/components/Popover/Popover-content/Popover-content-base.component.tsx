@@ -1,16 +1,17 @@
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
-import type {LayoutRectangle, View} from 'react-native'
+import {type LayoutRectangle, type View} from 'react-native'
 import {useImmer} from 'use-immer'
 import {POPOVER_TYPE, type PopoverType} from '..'
 import {type State} from '../../../constants'
 import {
-	type HandleStateEventChangeOptions,
-	type StateEvent,
 	useClearComponentEvent,
 	useInteractionStateEvent,
 	useTheme,
-	useWindowDimensions
+	useWindowDimensions,
+	type HandleStateEventChangeOptions,
+	type StateEvent
 } from '../../../hooks'
+import {DENSITY_SIZE, UI_DENSITY} from '../../../theme'
 import {
 	getPopoverContentPosition,
 	handleMaskPressOut,
@@ -20,7 +21,6 @@ import {
 } from './Popover-content.handler'
 import type {PopoverContentBaseProps, PopoverContentState} from './Popover-content.interface'
 import {RenderPopoverContent} from './Popover-content.render'
-import {DENSITY_SIZE} from '../../../theme'
 
 export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 	(
@@ -47,17 +47,20 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 		const {width: windowWidth, height: windowHeight} = useWindowDimensions()
 		const containerRef = useRef<View>(null)
 		const id = useId()
-		const {token} = useTheme()
+		const {token, uiDensity} = useTheme()
 		const isMenuOrPicker = (
 			[POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]
 		).includes(type)
 
 		const position = getPopoverContentPosition(popoverContentPosition)(isInvert)
+
+		// Menu width targets 192px on both densities:
+		// desktop (inline.XX_LARGE = 48) × 4, mobile (64) × 3.
 		const popoverWidth =
 			isMenuOrPicker ?
 				type === POPOVER_TYPE.TEXT_INPUT_PICKER ?
 					containerLayout?.width
-				:	token.density.spacing[DENSITY_SIZE.XX_SMALL] * 45
+				:	token.density.inline[DENSITY_SIZE.XX_LARGE] * (uiDensity === UI_DENSITY.COMPACT ? 4 : 3)
 			:	layout.width
 
 		const onAnimationFinished = useMemo(

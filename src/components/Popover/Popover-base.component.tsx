@@ -84,11 +84,16 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 		])
 
 		const id = useId()
-		const debounceVisibleDelay = type === POPOVER_TYPE.TEXT_INPUT_PICKER ? 0 : 150
-		const onVisible = useMemo(
-			() => debounce(updatePopoverVisible({onVisible: rawOnVisible, type})(setState))(debounceVisibleDelay),
-			[debounceVisibleDelay, rawOnVisible, setState, type]
-		)
+		const debounceVisibleDelay = type === POPOVER_TYPE.TEXT_INPUT_PICKER ? 0 : 100
+		const onVisible = useMemo(() => {
+			const delayedVisible = debounce(updatePopoverVisible({onVisible: rawOnVisible, type})(setState))(
+				debounceVisibleDelay
+			)
+
+			const immediateVisible = updatePopoverVisible({onVisible: rawOnVisible, type})(setState)
+
+			return (visible?: boolean) => (visible ? delayedVisible(visible) : immediateVisible(visible))
+		}, [debounceVisibleDelay, rawOnVisible, setState, type])
 
 		const onElevationAnimationFinished = useMemo(
 			() => handleElevationAnimationFinished(rawOnVisible)(setState),

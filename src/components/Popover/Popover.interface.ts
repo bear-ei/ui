@@ -1,6 +1,6 @@
 import type {JSX, RefAttributes} from 'react'
 import type {LayoutRectangle, MouseEvent, TextInput, View, ViewProps} from 'react-native'
-import type {EventName, TriggerOn} from '../../constants'
+import type {CommonProps, EventName, TriggerOn} from '../../constants'
 import type {HandleStateEventChangeOptions} from '../../hooks'
 import type {LayoutAnimatedProps} from '../Layout-animated'
 import type {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from './Popover.enum'
@@ -8,19 +8,23 @@ import type {ElevationValue} from '../Elevation'
 
 export type PopoverContentPosition = (typeof POPOVER_CONTENT_POSITION)[keyof typeof POPOVER_CONTENT_POSITION]
 export type PopoverType = (typeof POPOVER_TYPE)[keyof typeof POPOVER_TYPE]
-export interface PopoverProps extends ViewProps, RefAttributes<View>, Omit<LayoutAnimatedProps, 'style'> {
+export interface PopoverProps
+	extends ViewProps, RefAttributes<View>, Pick<LayoutAnimatedProps, 'defaultVisible' | 'visible'>, CommonProps {
 	children?: JSX.Element
 	content?: string | JSX.Element
-	defaultVisible?: boolean
-	delay?: number
 	disabled?: boolean
 	elevation?: ElevationValue
+
+	/**
+	 * Called when the popover content's show/hide animation completes.
+	 * This is the animation of the popover content itself, not the trigger.
+	 */
+	onAnimationFinished?: (visible?: boolean) => void
 	onKeyDown?: (event: React.KeyboardEvent) => void
 	onVisible?: (value?: boolean) => void
 	popoverContentPosition?: PopoverContentPosition
 	triggerEvent?: TriggerOn
 	type?: PopoverType
-	visible?: boolean
 }
 
 export interface RenderPopoverProps extends PopoverProps {

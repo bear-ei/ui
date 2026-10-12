@@ -1,14 +1,7 @@
 import type {LayoutRectangle, ViewProps} from 'react-native'
-import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
-import type {PopoverContentPosition, PopoverProps} from '..'
-import type {ComponentStatus} from '../../../constants'
-import type {
-	AnimateSharedValueTo,
-	HandleStateEventChangeOptions,
-	InteractionHandlers,
-	UseHandleStateEventOptions
-} from '../../../hooks'
+import type {PopoverProps} from '..'
+import type {HandleStateEventChangeOptions, InteractionHandlers, UseHandleStateEventOptions} from '../../../hooks'
 import type {Token} from '../../../theme'
 import type {ElevationValue} from '../../Elevation'
 
@@ -53,29 +46,6 @@ export interface PopoverContentState {
 
 export type HandlePopoverContentStateEventChangeOptions = HandleStateEventChangeOptions &
 	Pick<PopoverContentProps, 'onVisible' | 'triggerEvent'>
-
-export interface UsePopoverContentAnimatedOptions extends Pick<RenderPopoverContentProps, 'type' | 'visible'> {
-	height?: number
-	onClose?: (value?: boolean) => void
-	position?: PopoverContentPosition
-	status?: ComponentStatus
-}
-
-export interface UpdatePopoverContentStatusOptions {
-	setState: Updater<PopoverContentState>
-	windowWidth: number
-}
-
-export interface AnimatePopoverContentOptions extends UsePopoverContentAnimatedOptions {
-	entryAnimateSharedValueTo: AnimateSharedValueTo
-	exitAnimateSharedValueTo: AnimateSharedValueTo
-}
-
-export interface AnimatePopoverContentSharedValues {
-	heightSharedValue: SharedValue<number>
-	opacitySharedValue: SharedValue<number>
-	transformSharedValue: SharedValue<number>
-}
 
 export interface UpdatePopoverContentInvertOptions {
 	height: number

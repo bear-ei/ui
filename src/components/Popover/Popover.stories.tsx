@@ -8,7 +8,7 @@ import {POPOVER_CONTENT_POSITION} from './Popover.enum'
 export const PlainVerticalEnd = () => (
 	<View className='flex h-[800px] w-[800px] items-center justify-center'>
 		<Popover
-			className='h-10 w-10'
+			className='h-8 w-8'
 			content='2222222'
 			defaultVisible={true}
 			popoverContentPosition={POPOVER_CONTENT_POSITION.VERTICAL_END}
@@ -24,7 +24,7 @@ export const PlainVerticalEnd = () => (
 export const PlainVerticalStart = () => (
 	<View className='flex h-[800px] w-[800px] items-center justify-center'>
 		<Popover
-			className='h-10 w-10'
+			className='h-8 w-8'
 			content='2222222'
 			defaultVisible={true}
 			popoverContentPosition={POPOVER_CONTENT_POSITION.VERTICAL_START}
@@ -40,10 +40,9 @@ export const PlainVerticalStart = () => (
 export const PlainHorizontalStart = () => (
 	<View className='flex h-[800px] w-[800px] items-center justify-center'>
 		<Popover
-			className='h-10 w-10'
+			className='h-8 w-8'
 			content='Supporting Text'
 			defaultVisible={true}
-			delay={2000}
 			popoverContentPosition={POPOVER_CONTENT_POSITION.HORIZONTAL_START}
 		>
 			<IconButton
@@ -57,7 +56,7 @@ export const PlainHorizontalStart = () => (
 export const PlainHorizontalEnd = () => (
 	<View className='flex h-[800px] w-[800px] items-center justify-center'>
 		<Popover
-			className='h-10 w-10'
+			className='h-8 w-8'
 			content='Supporting Text'
 			defaultVisible={true}
 			popoverContentPosition={POPOVER_CONTENT_POSITION.HORIZONTAL_END}

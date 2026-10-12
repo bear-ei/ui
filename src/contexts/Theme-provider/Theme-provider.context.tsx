@@ -2,25 +2,41 @@ import {useColorScheme} from 'nativewind'
 import {createContext, useId, useMemo, type FC} from 'react'
 import {View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
+import {CONTRAST, createToken, PALETTE, SCHEME, UI_DENSITY, type Token} from '../../theme'
 import {ModalProvider} from '../Modal-provider'
 import type {Theme, ThemeProviderProps} from './Theme-provider.interface'
-import {CONTRAST, createToken, PALETTE, SCHEME, type Token} from '../../theme'
 
-export const ThemeContext = createContext<Theme>({colorScheme: 'light', token: {} as Token})
-export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken}) => {
+/**
+ * Default value returned by useContext when no ThemeProvider is present.
+ * Shared with use-theme.hook.ts to detect the "outside Provider" case
+ * via reference equality.
+ */
+export const EMPTY_THEME: Theme = {
+	colorScheme: 'light',
+	token: {} as Token,
+	uiDensity: UI_DENSITY.COMPACT
+}
+
+export const ThemeContext = createContext<Theme>(EMPTY_THEME)
+const GESTURE_ROOT_STYLE = {flex: 1}
+export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken, uiDensity = UI_DENSITY.COMPACT}) => {
 	const {colorScheme = 'light'} = useColorScheme()
 	const id = useId()
-	const {styleVariables, ...token} =
-		rawToken ??
-		createToken()({contrast: CONTRAST.STANDARD, scheme: colorScheme === 'light' ? SCHEME.LIGHT : SCHEME.DARK})(
-			PALETTE.NAVY
-		)
+	const {styleVariables, ...token} = useMemo(
+		() =>
+			rawToken ??
+			createToken({density: uiDensity})({
+				contrast: CONTRAST.STANDARD,
+				scheme: colorScheme === 'dark' ? SCHEME.DARK : SCHEME.LIGHT
+			})(PALETTE.NAVY),
+		[rawToken, uiDensity, colorScheme]
+	)
 
-	const providerTheme = useMemo(() => ({colorScheme, token}), [colorScheme, token])
+	const providerTheme = useMemo(() => ({colorScheme, token, uiDensity}), [colorScheme, token, uiDensity])
 
 	return (
 		<ThemeContext.Provider value={providerTheme}>
-			<GestureHandlerRootView>
+			<GestureHandlerRootView style={GESTURE_ROOT_STYLE}>
 				<View
 					className='flex-1'
 					style={styleVariables}
