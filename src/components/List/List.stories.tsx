@@ -4,7 +4,7 @@ import {IconButton} from '../Icon-button'
 import {List} from './List.component'
 import {LIST_SELECT_TYPE} from './List.enum'
 import type {ListProps} from './List.interface'
-import {DENSITY_SIZE, RADIUS} from '../../theme'
+import {DENSITY_SIZE, RADIUS, SHAPE} from '../../theme'
 
 export const Leading: StoryObj<ListProps> = {
 	args: {
@@ -73,6 +73,7 @@ export const AfterAffordance: StoryObj<ListProps> = {
 		afterAffordance: true,
 		defaultActiveKey: 'TitleB',
 		selectType: LIST_SELECT_TYPE.SINGLE,
+		shape: SHAPE.ALL,
 		radius: RADIUS.MEDIUM,
 		size: DENSITY_SIZE.MEDIUM,
 		data: [

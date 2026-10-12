@@ -2,7 +2,7 @@ import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '../../../constants'
-import type {AnimateSharedValueTo, StateEvent} from '../../../hooks'
+import type {AnimatedTimingOptions, AnimateSharedValueTo, StateEvent} from '../../../hooks'
 import type {ListItemAfterAffordancePressOutOptions} from '../List-after-affordance'
 import {LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
@@ -13,6 +13,7 @@ import type {
 	ListItemState,
 	TriggerListItemTrailingActionsOptions
 } from './List-item.interface'
+import {DURATION, EASING} from '../../../theme'
 
 export const compareListItemProps = (prevProps: ListItemProps) => {
 	const {
@@ -122,10 +123,10 @@ export const handleListItemStateChange =
 			}
 
 			const prevEventName = draft.eventName
-			const eventNames = [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT] as readonly EventName[]
+			// const eventNames = [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT] as readonly EventName[]
 			const isMenuFocus =
 				eventName === EVENT_NAME.BLUR &&
-				eventNames.includes(eventName) &&
+				// eventNames.includes(eventName) &&
 				prevEventName === EVENT_NAME.FOCUS &&
 				type === LIST_TYPE.MENU
 
@@ -225,13 +226,32 @@ export const updateListItemTrailingVisible = (setState: Updater<ListItemState>) 
 	})
 
 export const animateListItemAffordanceVisible =
-	(animateSharedValueTo: AnimateSharedValueTo) =>
-	(contentTransformXSharedValue: SharedValue<number>) =>
-	(visible?: boolean) =>
-		animateSharedValueTo({sharedValue: contentTransformXSharedValue})(visible ? 1 : 0)
+	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
+	(contentTransformXSharedValue: SharedValue<number>) => {
+		const entryAnimateSharedValueTo = animatedTiming({
+			duration: DURATION.SHORT_2,
+			easing: EASING.STANDARD_DECELERATE
+		})({
+			sharedValue: contentTransformXSharedValue
+		})
+
+		const exitAnimateSharedValueTo = animatedTiming({
+			duration: DURATION.SHORT_2,
+			easing: EASING.STANDARD_ACCELERATE
+		})({
+			sharedValue: contentTransformXSharedValue
+		})
+
+		return (visible?: boolean) =>
+			typeof visible === 'boolean' && (visible ? entryAnimateSharedValueTo(1) : exitAnimateSharedValueTo(0))
+	}
 
 export const animateListItemActiveState =
-	(animateSharedValueTo: AnimateSharedValueTo) =>
-	(headlineTextSharedValue: SharedValue<number>) =>
-	(active?: boolean) =>
-		animateSharedValueTo({sharedValue: headlineTextSharedValue})(active ? 1 : 0)
+	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
+	(headlineTextSharedValue: SharedValue<number>) => {
+		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_2})({
+			sharedValue: headlineTextSharedValue
+		})
+
+		return (active?: boolean) => typeof active === 'boolean' && animateSharedValueTo(active ? 1 : 0)
+	}

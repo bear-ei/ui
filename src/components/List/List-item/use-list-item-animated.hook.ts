@@ -8,15 +8,13 @@ import type {UseListItemAnimatedOptions} from './List-item.interface'
 import {DENSITY_SIZE, hexToRGBA, platformValue} from '../../../theme'
 
 export const useListItemAnimated = ({active, afterAffordanceVisible, status}: UseListItemAnimatedOptions) => {
-	const theme = useTheme()
-	const {density, scheme, opacity} = theme.token
-	const animatedTiming = useAnimatedTiming({token: theme.token})
-	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
+	const {token} = useTheme()
+	const animatedTiming = useAnimatedTiming({token})
 	const contentTransformXSharedValue = useSharedValue(0)
 	const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
 	const contentTranslateXOutputRanges = [
-		density.spacing[DENSITY_SIZE.NONE],
-		-density.spacing[DENSITY_SIZE.XX_SMALL] * 32
+		token.density.spacing[DENSITY_SIZE.NONE],
+		-token.density.control[DENSITY_SIZE.XX_LARGE] * 2
 	]
 
 	const contentAnimatedStyle = useAnimatedStyle(
@@ -33,8 +31,8 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 	)
 
 	const headlineTextColorOutputRanges = [
-		hexToRGBA(scheme.onSurface)(opacity.level10),
-		hexToRGBA(scheme.onSecondaryContainer)(opacity.level10)
+		hexToRGBA(token.scheme.onSurface)(token.opacity.level10),
+		hexToRGBA(token.scheme.onSecondaryContainer)(token.opacity.level10)
 	]
 
 	const headlineTextAnimatedStyle = useAnimatedStyle(() => ({
@@ -42,13 +40,13 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 	}))
 
 	const runAnimateVisible = useMemo(
-		() => animateListItemAffordanceVisible(animateSharedValueTo)(contentTransformXSharedValue),
-		[animateSharedValueTo, contentTransformXSharedValue]
+		() => animateListItemAffordanceVisible(animatedTiming)(contentTransformXSharedValue),
+		[animatedTiming, contentTransformXSharedValue]
 	)
 
 	const runAnimateActiveState = useMemo(
-		() => animateListItemActiveState(animateSharedValueTo)(headlineTextSharedValue),
-		[animateSharedValueTo, headlineTextSharedValue]
+		() => animateListItemActiveState(animatedTiming)(headlineTextSharedValue),
+		[animatedTiming, headlineTextSharedValue]
 	)
 
 	useEffect(() => {

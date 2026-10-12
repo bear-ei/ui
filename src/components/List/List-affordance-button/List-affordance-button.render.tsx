@@ -7,6 +7,8 @@ import {Underlay} from '../../Underlay'
 import type {RenderListAffordanceButtonProps} from './List-affordance-button.interface'
 import {
 	DENSITY_SIZE,
+	DENSITY_TYPE,
+	densitySizeMapIconButtonSize,
 	densitySizeMapIconSize,
 	densitySizeMapTypographySize,
 	platformValue,
@@ -32,9 +34,10 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 		ref
 	) => {
 		const {token} = useTheme()
-		const {classesName, typographyClasses} = token.classes
+		const {classesName, typographyClasses, densityClasses} = token.classes
+		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
 		const underlayColor = token.scheme.onPrimary
-		const iconSize = token.density.icon[densitySizeMapIconSize(size)]
+		const iconSize = token.density.icon[densitySizeMapIconSize(densitySizeMapIconButtonSize(size))]
 		const color = token.scheme.onPrimary
 		const backgroundUnderlayElement = (
 			<AnimatedView
@@ -48,7 +51,10 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 			<View
 				accessibilityLabel={accessibilityLabel ?? labelText}
 				accessibilityRole='button'
-				className='flex w-16 cursor-pointer flex-col'
+				className={classesName(
+					'flex cursor-pointer flex-col',
+					`${densityControlClasses(DENSITY_SIZE.XX_LARGE)} h-auto`
+				)}
 				tabIndex={-1}
 				testID={testID ?? `listAffordanceButton--${id}`}
 			>

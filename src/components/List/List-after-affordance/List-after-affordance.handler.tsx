@@ -2,12 +2,18 @@ import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {
+	AnimatedTimingOptions,
+	AnimateSharedValueTo,
+	HandleStateEventChangeOptions,
+	StateEvent
+} from '../../../hooks'
 import type {
 	ListAfterAffordanceState,
 	TriggerListAfterAffordanceConfirmOptions,
 	UpdateListAffordanceCancelStateOptions
 } from './List-after-affordance.interface'
+import {DURATION, EASING} from '../../../theme'
 
 export const triggerListAfterAffordanceConfirm =
 	({onConfirm, doubleConfirmed, indexKey}: TriggerListAfterAffordanceConfirmOptions) =>
@@ -33,8 +39,17 @@ export const resetAffordanceConfirmationOnHide = (setState: Updater<ListAfterAff
 	})
 
 export const animateListAfterAffordance =
-	(animateSharedValueTo: AnimateSharedValueTo) => (sharedValue: SharedValue<number>) => (value?: boolean) =>
-		typeof value === 'boolean' && animateSharedValueTo({sharedValue: sharedValue})(value ? 1 : 0)
+	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
+	(translateXSharedValue: SharedValue<number>) => {
+		const animateSharedValueTo = animatedTiming({
+			easing: EASING.STANDARD_DECELERATE,
+			duration: DURATION.SHORT_2
+		})({
+			sharedValue: translateXSharedValue
+		})
+
+		return (value?: boolean) => typeof value === 'boolean' && animateSharedValueTo(value ? 1 : 0)
+	}
 
 export const handleAffordanceStateChange =
 	({eventName}: HandleStateEventChangeOptions) =>

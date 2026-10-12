@@ -91,6 +91,7 @@ export type CreateRenderListItemOptions = Pick<
 	| 'onActiveAfterAffordance'
 	| 'onCancel'
 	| 'onConfirm'
+	| 'radius'
 	| 'renderItem'
 	| 'selectType'
 	| 'shape'

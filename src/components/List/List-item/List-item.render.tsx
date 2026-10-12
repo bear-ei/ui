@@ -1,5 +1,5 @@
 import {Ellipsis, X} from 'lucide-react-native'
-import {cloneElement, forwardRef, isValidElement, useCallback, type FC} from 'react'
+import {cloneElement, forwardRef, isValidElement, useCallback, useMemo, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
 import {EVENT_NAME, LAYOUT, TRIGGER_ON} from '../../../constants'
 import {useTheme} from '../../../hooks'
@@ -25,7 +25,6 @@ import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import type {ListType} from '../List.interface'
 import type {ListItemRef, RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
-import {useMemo} from 'storybook/internal/preview-api'
 
 export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	afterAffordance,
@@ -40,9 +39,9 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	trailingTriggerOn
 }) => {
 	const onHoverIn = useCallback(() => onTrailingVisible?.(EVENT_NAME.HOVER_IN), [onTrailingVisible])
-	const standardTrailing = closeTrailing ? 'closeTrailing' : 'standard'
+	const defaultTrailingType = closeTrailing ? 'closeTrailing' : 'standard'
 	const trailingSize = densitySizeMapIconButtonSize(size)
-	const trailingType = afterAffordance ? 'afterAffordance' : standardTrailing
+	const trailingType = afterAffordance ? 'afterAffordance' : defaultTrailingType
 	const trailingProps = {
 		...interactionHandlers,
 		...(trailingTriggerOn === TRIGGER_ON.HOVER && {onHoverIn}),
@@ -110,12 +109,12 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			primaryButtonLabelText,
 			primaryButtonLoading,
 			primaryButtonStyle,
-			radius,
 			secondaryButtonDisabled,
 			secondaryButtonLabelText,
 			secondaryButtonLoading,
 			secondaryButtonStyle,
 			selectType,
+			radius,
 			shape,
 			size = DENSITY_SIZE.MEDIUM,
 			skeletonDuration = 300,
@@ -153,28 +152,17 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 
 		const isMultiline = (supportingTextNumberOfLines ?? 0) > 1
 		const iconSize = token.density.icon[densitySizeMapIconSize(densitySizeMapIconButtonSize(size))]
-		const typographyType =
-			type && ([LIST_TYPE.MENU, LIST_TYPE.LABEL] as readonly ListType[]).includes(type) ?
-				TYPOGRAPHY.LABEL
-			:	TYPOGRAPHY.BODY
-
-		const typographySize = densitySizeMapTypographySize(
-			type && ([LIST_TYPE.MENU, LIST_TYPE.LABEL] as readonly ListType[]).includes(type) ?
-				DENSITY_SIZE.MEDIUM
-			:	size
-		)
-
-		const entryAnimatedTimingOptions = useMemo(
-			() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE}),
+		const isLabelType = type && ([LIST_TYPE.MENU, LIST_TYPE.LABEL] as readonly ListType[]).includes(type)
+		const typographyType = isLabelType ? TYPOGRAPHY.LABEL : TYPOGRAPHY.BODY
+		const typographySize = densitySizeMapTypographySize(isLabelType ? DENSITY_SIZE.MEDIUM : size)
+		const {entry, exit} = useMemo(
+			() => ({
+				entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+				exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+			}),
 			[]
 		)
 
-		const exitAnimatedTimingOptions = useMemo(
-			() => ({duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}),
-			[]
-		)
-
-		/**TODO: */
 		const mainElement = (
 			<>
 				{beforeAffordance && (
@@ -248,7 +236,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 											[densityHorizontalSpacingClasses(DENSITY_SIZE.SMALL)]:
 												size === DENSITY_SIZE.X_LARGE
 										},
-										'ml-auto'
+										'ml-0'
 									)}
 								>
 									{cloneElement(leadingElement, {
@@ -312,15 +300,15 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 											[densityHorizontalSpacingClasses(DENSITY_SIZE.SMALL)]:
 												size === DENSITY_SIZE.X_LARGE
 										},
-										'mr-auto'
+										'mr-0'
 									)}
 									testID={`listItem__trailingLayout--${id}`}
 								>
 									<LayoutAnimated
 										animatedType={LAYOUT_ANIMATED.FADE}
 										defaultVisible={!trailingTriggerOn}
-										entry={entryAnimatedTimingOptions}
-										exit={exitAnimatedTimingOptions}
+										entry={entry}
+										exit={exit}
 										lazy={closeTrailing}
 										testID={`listItem__trailing--${id}`}
 										unmount={true}
@@ -374,7 +362,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 				{divider && (
 					<View
 						testID={`listItem__dividerLayout--${id}`}
-						className='absolute bottom-0 left-0 right-0 z-20 h-[0.0625rem]'
+						className='absolute bottom-0 left-0 right-0 z-20 h-[--border-small]'
 					>
 						<Divider
 							layoutType={LAYOUT.HORIZONTAL}

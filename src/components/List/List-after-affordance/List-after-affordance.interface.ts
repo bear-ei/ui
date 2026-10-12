@@ -52,8 +52,6 @@ export type UpdateListAffordanceCancelStateOptions = Pick<ListAfterAffordancePro
 	Pick<ListAfterAffordanceState, 'doubleConfirmed' | 'nextCancelEvent'>
 
 export interface UseListAfterAffordanceAnimatedOptions extends Pick<RenderListAfterAffordanceProps, 'doubleConfirmed'> {
-	dangerDisabled?: boolean
-	layoutWidth?: number
 	status: ComponentStatus
 }
 

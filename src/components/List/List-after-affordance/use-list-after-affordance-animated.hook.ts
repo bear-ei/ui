@@ -11,11 +11,11 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseLis
 	const translateXSharedValue = useSharedValue(0)
 	const {token} = useTheme()
 	const animatedTiming = useAnimatedTiming({token})
-	const animateSharedValueTo = useMemo(() => animatedTiming(), [animatedTiming])
 	const dangerTranslateXOutputRanges = [
 		token.density.spacing[DENSITY_SIZE.NONE],
-		-((token.density.spacing[DENSITY_SIZE.XX_SMALL] * 32) / 2)
+		-token.density.control[DENSITY_SIZE.XX_LARGE]
 	]
+
 	const dangerAnimatedStyle = useAnimatedStyle(
 		() =>
 			({
@@ -30,8 +30,8 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseLis
 	)
 
 	const runTranslateXAnimate = useMemo(
-		() => animateListAfterAffordance(animateSharedValueTo)(translateXSharedValue),
-		[animateSharedValueTo, translateXSharedValue]
+		() => animateListAfterAffordance(animatedTiming)(translateXSharedValue),
+		[animatedTiming, translateXSharedValue]
 	)
 
 	useEffect(() => {
