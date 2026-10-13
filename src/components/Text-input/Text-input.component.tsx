@@ -11,6 +11,6 @@ const TextInputWithRef = forwardRef<RNTextInput, TextInputProps>((props, ref) =>
 	/>
 ))
 
-TextInputWithRef.displayName = 'TextInputWithRef'
+TextInputWithRef.displayName = 'TextInput'
 
-export const TextInput = typedMemo(TextInputWithRef)()
+export const TextInput = typedMemo(TextInputWithRef)

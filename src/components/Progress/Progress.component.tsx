@@ -11,6 +11,6 @@ const ProgressWithRef = forwardRef<View, ProgressProps>((props, ref) => (
 	/>
 ))
 
-ProgressWithRef.displayName = 'ProgressWithRef'
+ProgressWithRef.displayName = 'Progress'
 
-export const Progress = typedMemo(ProgressWithRef)()
+export const Progress = typedMemo(ProgressWithRef)

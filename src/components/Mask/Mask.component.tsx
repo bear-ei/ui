@@ -11,6 +11,6 @@ const MaskWithRef = forwardRef<View, MaskProps>((props, ref) => (
 	/>
 ))
 
-MaskWithRef.displayName = 'MaskWithRef'
+MaskWithRef.displayName = 'Mask'
 
-export const Mask = typedMemo(MaskWithRef)()
+export const Mask = typedMemo(MaskWithRef)

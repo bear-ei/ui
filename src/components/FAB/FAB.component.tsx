@@ -11,6 +11,6 @@ const FABWithRef = forwardRef<PressableType, FABProps>((props, ref) => (
 	/>
 ))
 
-FABWithRef.displayName = 'FABWithRef'
+FABWithRef.displayName = 'FAB'
 
-export const Fab = typedMemo(FABWithRef)()
+export const Fab = typedMemo(FABWithRef)

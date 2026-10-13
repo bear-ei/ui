@@ -11,6 +11,6 @@ const SkeletonElementWithRef = forwardRef<View, SkeletonElementProps>((props, re
 	/>
 ))
 
-export const SkeletonElement = typedMemo(SkeletonElementWithRef)()
+SkeletonElementWithRef.displayName = 'SkeletonElement'
 
-SkeletonElementWithRef.displayName = 'SkeletonElementWithRef'
+export const SkeletonElement = typedMemo(SkeletonElementWithRef)

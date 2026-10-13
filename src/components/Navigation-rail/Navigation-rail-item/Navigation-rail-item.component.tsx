@@ -12,8 +12,8 @@ const NavigationRailItemWithRef = forwardRef<PressableType, NavigationRailItemPr
 	/>
 ))
 
-NavigationRailItemWithRef.displayName = 'NavigationRailItemWithRef'
+NavigationRailItemWithRef.displayName = 'NavigationRailItem'
 
-export const NavigationRailItem = typedMemo(NavigationRailItemWithRef)((prevProps, nextProps) =>
+export const NavigationRailItem = typedMemo(NavigationRailItemWithRef, (prevProps, nextProps) =>
 	compareNavigationRailItemProps(prevProps)(nextProps)
 )

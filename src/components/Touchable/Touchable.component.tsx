@@ -10,6 +10,6 @@ const TouchableWithRef = forwardRef<PressableType, TouchableProps>((props, ref) 
 	/>
 ))
 
-TouchableWithRef.displayName = 'TouchableWithRef'
+TouchableWithRef.displayName = 'Touchable'
 
-export const Touchable = typedMemo(TouchableWithRef)()
+export const Touchable = typedMemo(TouchableWithRef)

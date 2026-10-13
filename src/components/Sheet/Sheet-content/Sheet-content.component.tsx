@@ -11,6 +11,6 @@ const SheetContentWithRef = forwardRef<View, SheetContentProps>((props, ref) => 
 	/>
 ))
 
-SheetContentWithRef.displayName = 'SheetContentWithRef'
+SheetContentWithRef.displayName = 'SheetContent'
 
-export const SheetContent = typedMemo(SheetContentWithRef)()
+export const SheetContent = typedMemo(SheetContentWithRef)

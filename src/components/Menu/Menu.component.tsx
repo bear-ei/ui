@@ -11,6 +11,6 @@ const MenuWithRef = forwardRef<View, MenuProps>((props, ref) => (
 	/>
 ))
 
-MenuWithRef.displayName = 'MenuWithRef'
+MenuWithRef.displayName = 'Menu'
 
-export const Menu = typedMemo(MenuWithRef)()
+export const Menu = typedMemo(MenuWithRef)

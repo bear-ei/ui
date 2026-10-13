@@ -11,6 +11,6 @@ const SheetWithRef = forwardRef<View, SheetProps>((props, ref) => (
 	/>
 ))
 
-SheetWithRef.displayName = 'SheetWithRef'
+SheetWithRef.displayName = 'Sheet'
 
-export const Sheet = typedMemo(SheetWithRef)()
+export const Sheet = typedMemo(SheetWithRef)

@@ -11,6 +11,6 @@ const IconButtonWithRef = forwardRef<PressableType, IconButtonProps>((props, ref
 	/>
 ))
 
-IconButtonWithRef.displayName = 'IconButtonWithRef'
+IconButtonWithRef.displayName = 'IconButton'
 
-export const IconButton = typedMemo(IconButtonWithRef)()
+export const IconButton = typedMemo(IconButtonWithRef)

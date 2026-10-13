@@ -11,6 +11,6 @@ const NavigationRailWithRef = forwardRef<View, NavigationRailProps>((props, ref)
 	/>
 ))
 
-NavigationRailWithRef.displayName = 'NavigationRailWithRef'
+NavigationRailWithRef.displayName = 'NavigationRail'
 
-export const NavigationRail = typedMemo(NavigationRailWithRef)()
+export const NavigationRail = typedMemo(NavigationRailWithRef)

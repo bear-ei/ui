@@ -11,6 +11,6 @@ const SearchTextInputWithRef = forwardRef<RNTextInput, SearchTextInputProps>((pr
 	/>
 ))
 
-SearchTextInputWithRef.displayName = 'SearchTextInputWithRef'
+SearchTextInputWithRef.displayName = 'SearchTextInput'
 
-export const SearchTextInput = typedMemo(SearchTextInputWithRef)()
+export const SearchTextInput = typedMemo(SearchTextInputWithRef)

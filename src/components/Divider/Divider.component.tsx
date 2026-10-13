@@ -11,6 +11,6 @@ const DividerWithRef = forwardRef<View, DividerProps>((props, ref) => (
 	/>
 ))
 
-DividerWithRef.displayName = 'DividerWithRef'
+DividerWithRef.displayName = 'Divider'
 
-export const Divider = typedMemo(DividerWithRef)()
+export const Divider = typedMemo(DividerWithRef)

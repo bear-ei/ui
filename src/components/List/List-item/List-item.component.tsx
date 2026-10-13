@@ -11,6 +11,6 @@ const ListItemWithRef = forwardRef<ListItemRef, ListItemProps>((props, ref) => (
 	/>
 ))
 
-ListItemWithRef.displayName = 'ListItemWithRef'
+ListItemWithRef.displayName = 'ListItem'
 
-export const ListItem = typedMemo(ListItemWithRef)((prevProps, nextProps) => compareListItemProps(prevProps)(nextProps))
+export const ListItem = typedMemo(ListItemWithRef, (prevProps, nextProps) => compareListItemProps(prevProps)(nextProps))

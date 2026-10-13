@@ -11,6 +11,6 @@ const AvatarWithRef = forwardRef<View, AvatarProps>((props, ref) => (
 	/>
 ))
 
-AvatarWithRef.displayName = 'AvatarWithRef'
+AvatarWithRef.displayName = 'Avatar'
 
-export const Avatar = typedMemo(AvatarWithRef)()
+export const Avatar = typedMemo(AvatarWithRef)

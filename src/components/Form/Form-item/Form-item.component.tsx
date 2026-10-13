@@ -11,6 +11,6 @@ const FormItemWithRef = forwardRef<View, FormItemProps>((props, ref) => (
 	/>
 ))
 
-FormItemWithRef.displayName = 'FormItemWithRef'
+FormItemWithRef.displayName = 'FormItem'
 
-export const FormItem = typedMemo(FormItemWithRef)()
+export const FormItem = typedMemo(FormItemWithRef)

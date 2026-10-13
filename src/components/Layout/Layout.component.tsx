@@ -11,6 +11,6 @@ const LayoutWithRef = forwardRef<View, LayoutProps>((props, ref) => (
 	/>
 ))
 
-LayoutWithRef.displayName = 'LayoutWithRef'
+LayoutWithRef.displayName = 'Layout'
 
-export const Layout = typedMemo(LayoutWithRef)()
+export const Layout = typedMemo(LayoutWithRef)

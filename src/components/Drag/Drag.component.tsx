@@ -10,6 +10,6 @@ const DragWithRef = forwardRef<DragRef, DragProps>((props, ref) => (
 	/>
 ))
 
-DragWithRef.displayName = 'DragWithRef'
+DragWithRef.displayName = 'Drag'
 
-export const Drag = typedMemo(DragWithRef)()
+export const Drag = typedMemo(DragWithRef)

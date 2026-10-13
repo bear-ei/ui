@@ -19,7 +19,7 @@ const SkeletonWithRef = forwardRef<View, SkeletonProps>((props, ref) => (
 	/>
 ))
 
-export const Circle = forwardRef<View, SkeletonCircleProps>(({style, size, ...props}: SkeletonCircleProps, ref) => {
+const CircleWithRef = forwardRef<View, SkeletonCircleProps>(({style, size, ...props}: SkeletonCircleProps, ref) => {
 	const {token} = useTheme()
 	const {densityClasses} = token.classes
 	const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)()
@@ -39,7 +39,7 @@ export const Circle = forwardRef<View, SkeletonCircleProps>(({style, size, ...pr
 	)
 })
 
-export const Square = forwardRef<View, SkeletonSquareProps>(({style, size, ...props}: SkeletonSquareProps, ref) => {
+const SquareWithRef = forwardRef<View, SkeletonSquareProps>(({style, size, ...props}: SkeletonSquareProps, ref) => {
 	const {token} = useTheme()
 	const {densityClasses} = token.classes
 	const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)()
@@ -59,7 +59,7 @@ export const Square = forwardRef<View, SkeletonSquareProps>(({style, size, ...pr
 	)
 })
 
-export const Rectangular = forwardRef<View, SkeletonRectangularProps>(
+const RectangularWithRef = forwardRef<View, SkeletonRectangularProps>(
 	({style, size, ...props}: SkeletonRectangularProps, ref) => {
 		const {token} = useTheme()
 		const {densityClasses, classesName} = token.classes
@@ -90,9 +90,12 @@ export const Rectangular = forwardRef<View, SkeletonRectangularProps>(
 	}
 )
 
-Circle.displayName = 'Circle'
-Rectangular.displayName = 'Rectangular'
-SkeletonWithRef.displayName = 'SkeletonWithRef'
-Square.displayName = 'Square'
+CircleWithRef.displayName = 'Circle'
+RectangularWithRef.displayName = 'Rectangular'
+SkeletonWithRef.displayName = 'Skeleton'
+SquareWithRef.displayName = 'Square'
 
-export const Skeleton = typedMemo(SkeletonWithRef)()
+export const Skeleton = typedMemo(SkeletonWithRef)
+export const Circle = typedMemo(CircleWithRef)
+export const Square = typedMemo(SquareWithRef)
+export const Rectangular = typedMemo(RectangularWithRef)

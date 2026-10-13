@@ -13,8 +13,12 @@ const FormInner = <T,>(props: FormProps<T>, ref: ForwardedRef<View>) => (
 	/>
 )
 
+const FormInnerWithRef = forwardRef(FormInner)
+
+FormInnerWithRef.displayName = 'Form'
+
 export const Form = Object.assign(
-	typedMemo(forwardRef(FormInner))() as <T>(
+	typedMemo(FormInnerWithRef) as <T>(
 		props: FormProps<T> & {ref?: ForwardedRef<View>}
 	) => ReturnType<typeof FormInner>,
 	{useForm}

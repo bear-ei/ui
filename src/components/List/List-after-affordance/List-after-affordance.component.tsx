@@ -11,6 +11,6 @@ export const ListAfterAffordanceWithRef = forwardRef<View, ListAfterAffordancePr
 	/>
 ))
 
-ListAfterAffordanceWithRef.displayName = 'ListAfterAffordanceWithRef'
+ListAfterAffordanceWithRef.displayName = 'ListAfterAffordance'
 
-export const ListAfterAffordance = typedMemo(ListAfterAffordanceWithRef)()
+export const ListAfterAffordance = typedMemo(ListAfterAffordanceWithRef)

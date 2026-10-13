@@ -11,6 +11,6 @@ const LayoutAnimatedWithRef = forwardRef<View, LayoutAnimatedProps>((props, ref)
 	/>
 ))
 
-LayoutAnimatedWithRef.displayName = 'LayoutAnimatedWithRef'
+LayoutAnimatedWithRef.displayName = 'LayoutAnimated'
 
-export const LayoutAnimated = typedMemo(LayoutAnimatedWithRef)()
+export const LayoutAnimated = typedMemo(LayoutAnimatedWithRef)

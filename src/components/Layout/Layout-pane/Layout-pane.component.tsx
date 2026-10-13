@@ -13,4 +13,4 @@ const LayoutPaneWithRef = forwardRef<View, LayoutPaneProps>((props, ref) => (
 
 LayoutPaneWithRef.displayName = 'LayoutPaneWithRef'
 
-export const LayoutPane = typedMemo(LayoutPaneWithRef)()
+export const LayoutPane = typedMemo(LayoutPaneWithRef)

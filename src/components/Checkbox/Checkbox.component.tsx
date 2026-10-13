@@ -11,6 +11,6 @@ const CheckboxWithRef = forwardRef<PressableType, CheckboxProps>((props, ref) =>
 	/>
 ))
 
-CheckboxWithRef.displayName = 'CheckboxWithRef'
+CheckboxWithRef.displayName = 'Checkbox'
 
-export const Checkbox = typedMemo(CheckboxWithRef)()
+export const Checkbox = typedMemo(CheckboxWithRef)

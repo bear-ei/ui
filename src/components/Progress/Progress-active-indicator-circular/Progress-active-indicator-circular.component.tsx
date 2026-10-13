@@ -14,6 +14,6 @@ const ProgressActiveIndicatorCircularWithRef = forwardRef<View, ProgressActiveIn
 	/>
 ))
 
-ProgressActiveIndicatorCircularWithRef.displayName = 'ProgressActiveIndicatorCircularWithRef'
+ProgressActiveIndicatorCircularWithRef.displayName = 'ProgressActiveIndicatorCircular'
 
-export const ProgressActiveIndicatorCircular = typedMemo(ProgressActiveIndicatorCircularWithRef)()
+export const ProgressActiveIndicatorCircular = typedMemo(ProgressActiveIndicatorCircularWithRef)

@@ -11,6 +11,6 @@ const UnderlayWithRef = forwardRef<View, UnderlayProps>((props, ref) => (
 	/>
 ))
 
-UnderlayWithRef.displayName = 'UnderlayWithRef'
+UnderlayWithRef.displayName = 'Underlay'
 
-export const Underlay = typedMemo(UnderlayWithRef)()
+export const Underlay = typedMemo(UnderlayWithRef)

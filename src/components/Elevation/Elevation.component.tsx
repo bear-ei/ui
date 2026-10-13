@@ -11,6 +11,6 @@ const ElevationWithRef = forwardRef<View, ElevationProps>((props, ref) => (
 	/>
 ))
 
-ElevationWithRef.displayName = 'ElevationWithRef'
+ElevationWithRef.displayName = 'Elevation'
 
-export const Elevation = typedMemo(ElevationWithRef)()
+export const Elevation = typedMemo(ElevationWithRef)

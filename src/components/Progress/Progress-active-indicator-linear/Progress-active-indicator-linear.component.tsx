@@ -14,6 +14,6 @@ const ProgressActiveIndicatorLinearWithRef = forwardRef<View, ProgressActiveIndi
 	/>
 ))
 
-ProgressActiveIndicatorLinearWithRef.displayName = 'ProgressActiveIndicatorLinearWithRef'
+ProgressActiveIndicatorLinearWithRef.displayName = 'ProgressActiveIndicatorLinear'
 
-export const ProgressActiveIndicatorLinear = typedMemo(ProgressActiveIndicatorLinearWithRef)()
+export const ProgressActiveIndicatorLinear = typedMemo(ProgressActiveIndicatorLinearWithRef)

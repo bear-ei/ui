@@ -11,6 +11,6 @@ const ListWithRef = forwardRef<ScrollView, ListProps>((props, ref) => (
 	/>
 ))
 
-ListWithRef.displayName = 'ListWithRef'
+ListWithRef.displayName = 'List'
 
-export const List = typedMemo(ListWithRef)()
+export const List = typedMemo(ListWithRef)

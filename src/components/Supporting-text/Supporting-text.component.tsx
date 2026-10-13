@@ -11,6 +11,6 @@ const SupportingTextWithRef = forwardRef<View, SupportingTextProps>((props, ref)
 	/>
 ))
 
-SupportingTextWithRef.displayName = 'SupportingTextWithRef'
+SupportingTextWithRef.displayName = 'SupportingText'
 
-export const SupportingText = typedMemo(SupportingTextWithRef)()
+export const SupportingText = typedMemo(SupportingTextWithRef)

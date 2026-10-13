@@ -11,6 +11,6 @@ const LayoutNavigationWithRef = forwardRef<View, LayoutNavigationProps>((props, 
 	/>
 ))
 
-LayoutNavigationWithRef.displayName = 'LayoutNavigationWithRef'
+LayoutNavigationWithRef.displayName = 'LayoutNavigation'
 
-export const LayoutNavigation = typedMemo(LayoutNavigationWithRef)()
+export const LayoutNavigation = typedMemo(LayoutNavigationWithRef)
