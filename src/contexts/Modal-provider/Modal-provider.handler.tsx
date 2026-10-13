@@ -6,19 +6,20 @@ export const updateModals = (setState: Updater<ModalState>) => (modal: Modal) =>
 
 	setState(draft => {
 		if (isUnmount) {
-			draft.modals = draft.modals?.filter(item => item.id !== id)
+			draft.modals = draft.modals.filter(item => item.id !== id)
 
 			return
 		}
 
-		const existingIndex = draft.modals?.findIndex(item => item.id === id)
+		const existingIndex = draft.modals.findIndex(item => item.id === id)
 
-		if (typeof existingIndex === 'number' && existingIndex !== -1 && draft.modals) {
+		if (existingIndex !== -1) {
+			// Existing modals: props-only update. Type change requires unmount + remount.
 			draft.modals[existingIndex] = {...draft.modals[existingIndex], props}
 
 			return
 		}
 
-		draft.modals = [...(draft.modals ?? []), modal]
+		draft.modals = [...draft.modals, modal]
 	})
 }

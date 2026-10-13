@@ -3,9 +3,8 @@ import type {Token, UIDensity} from '../../theme'
 
 export interface ThemeProviderProps {
 	children?: ReactNode
-	story?: boolean
 	token?: Token
-	uiDensity: UIDensity
+	uiDensity?: UIDensity
 }
 
 export interface Theme extends Pick<ThemeProviderProps, 'uiDensity'> {

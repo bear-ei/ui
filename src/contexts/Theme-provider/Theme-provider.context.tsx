@@ -7,9 +7,9 @@ import {ModalProvider} from '../Modal-provider'
 import type {Theme, ThemeProviderProps} from './Theme-provider.interface'
 
 /**
- * Default value returned by useContext when no ThemeProvider is present.
- * Shared with use-theme.hook.ts to detect the "outside Provider" case
- * via reference equality.
+ * Sentinel value used to detect "used outside ThemeProvider".
+ * MUST never be mutated — its reference identity is the entire mechanism.
+ * See use-theme.hook.ts for the check.
  */
 export const EMPTY_THEME: Theme = {
 	colorScheme: 'light',
