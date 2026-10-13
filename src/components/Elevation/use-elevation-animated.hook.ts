@@ -71,11 +71,7 @@ export const useElevationAnimated = ({
 		const shadowOffsetY = interpolate(shadowSharedValue.value, INPUT_RANGES, shadowOffsetYOutputRanges)
 		const shadowOpacity = interpolate(shadowSharedValue.value, INPUT_RANGES, shadowOpacityOutputRanges)
 		const shadowRadius = interpolate(shadowSharedValue.value, INPUT_RANGES, shadowRadiusOutputRanges)
-		const shadowColor = Platform.select({
-			web: hexToRGBA(shadow)(shadowOpacity),
-			default: shadow
-		})
-
+		const shadowColor = Platform.select({web: hexToRGBA(shadow)(shadowOpacity), default: shadow})
 		return Platform.select({
 			default: {
 				elevation: interpolate(shadowSharedValue.value, INPUT_RANGES, elevationOutputRanges),
