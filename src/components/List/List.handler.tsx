@@ -74,11 +74,9 @@ export const updateListActiveState = ({
 				return
 			}
 
-			const isAreArraysEqual =
-				Array.isArray(callbackValue) && arrayEqual([...(preActiveKeys ?? [])])(callbackValue)
-
+			const isArrayEqual = Array.isArray(callbackValue) && arrayEqual(preActiveKeys, callbackValue)
 			const isUpdateMultipleNextActiveEvent =
-				selectType === LIST_SELECT_TYPE.MULTIPLE && !isAreArraysEqual && onActives
+				selectType === LIST_SELECT_TYPE.MULTIPLE && !isArrayEqual && onActives
 
 			if (isUpdateMultipleNextActiveEvent) {
 				draft.nextActiveEvent = () => onActives?.(callbackValue as string[] | undefined)

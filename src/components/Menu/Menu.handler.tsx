@@ -145,9 +145,9 @@ export const updateMenuActives =
 	(setState: Updater<MenuState>) => (onActives?: (values?: string[]) => void) => (values?: string[]) =>
 		typeof values !== 'undefined' &&
 		setState(draft => {
-			const isAreArraysEqual = arrayEqual([...(draft.activeKeys ?? [])])(values)
+			const isArrayEqual = arrayEqual([...(draft.activeKeys ?? [])], values)
 
-			if (!isAreArraysEqual && onActives) {
+			if (!isArrayEqual && onActives) {
 				draft.nextActiveEvent = () => onActives?.(values)
 			}
 
