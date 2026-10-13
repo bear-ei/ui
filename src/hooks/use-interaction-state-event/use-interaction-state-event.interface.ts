@@ -11,6 +11,12 @@ import type {
 } from 'react-native'
 import type {EventName, State} from '../../constants'
 
+/**
+ * Union of all event types that flow through the interaction state machine.
+ * The union exists because RN and RNW use different event types for the
+ * same logical event (e.g. onPress fires GestureResponderEvent on native
+ * and NativeSyntheticEvent<NativeTouchEvent> on web).
+ */
 export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
 export type StateEventChangeHandler = (
 	options: HandleStateEventChangeOptions
@@ -28,8 +34,7 @@ export interface HandleStateEventChangeOptions extends Pick<
 	'disabled' | 'onStateEventChange'
 > {
 	callback?: () => void
-	eventName?: EventName
-	state?: State
+	eventName: EventName
 }
 
 export interface HandleStateEventOptions {

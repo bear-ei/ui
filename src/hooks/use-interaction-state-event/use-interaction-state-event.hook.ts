@@ -1,6 +1,6 @@
 import {useCallback, useMemo} from 'react'
 import {Platform} from 'react-native'
-import {STATE, type State} from '../../constants'
+import {type State} from '../../constants'
 import {
 	createStableEventHandler,
 	handleBlurEvent,
@@ -20,6 +20,7 @@ import type {
 	UseHandleStateEventOptions
 } from './use-interaction-state-event.interface'
 
+const IS_MOBILE_DEVICE = ['ios', 'android'].includes(Platform.OS)
 export const useInteractionStateEvent = ({
 	disabled = false,
 	onBlur: rawOnBlur,
@@ -33,12 +34,9 @@ export const useInteractionStateEvent = ({
 	onPressOut: rawOnPressOut,
 	onStateEventChange
 }: UseHandleStateEventOptions) => {
-	const isMobileDevice = ['ios', 'android'].includes(Platform.OS)
 	const interactionHandlers = useCallback(
 		(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-			handleStateEventChange({...options, disabled, onStateEventChange})(disabled ? STATE.DISABLED : state)(
-				event
-			),
+			handleStateEventChange({...options, disabled, onStateEventChange})(state)(event),
 		[disabled, onStateEventChange]
 	)
 
@@ -69,8 +67,10 @@ export const useInteractionStateEvent = ({
 
 	const onPress = useMemo(
 		() =>
-			createStableEventHandler(handlePressEvent({interactionHandlers, mobileDevice: isMobileDevice})(rawOnPress)),
-		[interactionHandlers, isMobileDevice, rawOnPress]
+			createStableEventHandler(
+				handlePressEvent({interactionHandlers, mobileDevice: IS_MOBILE_DEVICE})(rawOnPress)
+			),
+		[interactionHandlers, rawOnPress]
 	)
 
 	const onPressIn = useMemo(
@@ -81,9 +81,9 @@ export const useInteractionStateEvent = ({
 	const onPressOut = useMemo(
 		() =>
 			createStableEventHandler(
-				handlePressOutEvent({interactionHandlers, mobileDevice: isMobileDevice})(rawOnPressOut)
+				handlePressOutEvent({interactionHandlers, mobileDevice: IS_MOBILE_DEVICE})(rawOnPressOut)
 			),
-		[interactionHandlers, isMobileDevice, rawOnPressOut]
+		[interactionHandlers, rawOnPressOut]
 	)
 
 	const onLayout = useMemo(
@@ -93,7 +93,7 @@ export const useInteractionStateEvent = ({
 
 	const result = useMemo(
 		() => ({
-			mobileDevice: isMobileDevice,
+			mobileDevice: IS_MOBILE_DEVICE,
 			onBlur,
 			onFocus,
 			onHoverIn,
@@ -104,7 +104,7 @@ export const useInteractionStateEvent = ({
 			onPressIn,
 			onPressOut
 		}),
-		[isMobileDevice, onBlur, onFocus, onHoverIn, onHoverOut, onLayout, onLongPress, onPress, onPressIn, onPressOut]
+		[onBlur, onFocus, onHoverIn, onHoverOut, onLayout, onLongPress, onPress, onPressIn, onPressOut]
 	)
 
 	return result

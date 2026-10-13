@@ -48,7 +48,12 @@ const configs = [
 			],
 			'@typescript-eslint/naming-convention': [
 				'error',
-				{selector: 'variable', format: ['PascalCase', 'camelCase'], prefix: ['is', 'IS_'], types: ['boolean']}
+				{
+					selector: 'variable',
+					format: ['PascalCase', 'camelCase', 'UPPER_CASE'],
+					prefix: ['is', 'IS_'],
+					types: ['boolean']
+				}
 			]
 		}
 	},

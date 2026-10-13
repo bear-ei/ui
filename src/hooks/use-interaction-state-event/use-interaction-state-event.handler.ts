@@ -7,11 +7,18 @@ import type {
 	UseHandleStateEventOptions
 } from './use-interaction-state-event.interface'
 
+/**
+ * Wrap a handler to (a) stop propagation and (b) stabilize identity.
+ *
+ * ⚠️ stopPropagation is applied to ALL interaction events.
+ * This is intentional — nested touchables (e.g. Button inside Popover)
+ * should only respond at the innermost level. If a parent needs to
+ * observe child events, this wrapper must not be used for that event.
+ */
 export const createStableEventHandler =
 	<T extends StateEvent>(handler: (event: T) => void) =>
 	(event: T) => {
-		if (event && typeof event.persist === 'function') {
-			event.persist()
+		if (event) {
 			event.stopPropagation?.()
 		}
 
@@ -22,12 +29,11 @@ export const handleStateEventChange =
 	({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
 	(state: State) =>
 	(event: StateEvent) => {
-		if (disabled && eventName !== EVENT_NAME.LAYOUT) {
-			return
-		}
+		onStateEventChange?.({eventName})(disabled && eventName !== EVENT_NAME.LAYOUT ? STATE.DISABLED : state)(event)
 
-		onStateEventChange?.({eventName})(state)(event)
-		callback?.()
+		if (!disabled || eventName === EVENT_NAME.LAYOUT) {
+			callback?.()
+		}
 	}
 
 export const handlePressInEvent =
@@ -48,9 +54,9 @@ export const handleLongPressEvent =
 	({interactionHandlers}: HandleStateEventOptions) =>
 	(onLongPress?: UseHandleStateEventOptions['onLongPress']) =>
 	(event: GestureResponderEvent) =>
-		interactionHandlers({callback: () => onLongPress?.(event), eventName: EVENT_NAME.LONG_PRESS})(
-			STATE.LONG_PRESS_IN
-		)(event)
+		interactionHandlers({callback: () => onLongPress?.(event), eventName: EVENT_NAME.LONG_PRESS})(STATE.LONG_PRESS)(
+			event
+		)
 
 export const handlePressOutEvent =
 	({interactionHandlers, mobileDevice}: HandleStateEventOptions) =>
