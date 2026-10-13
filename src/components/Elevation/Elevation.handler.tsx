@@ -45,13 +45,35 @@ export const updateElevationLevel = (setState: Updater<ElevationState>) => (leve
 	})
 
 export const animateElevation =
-	({animatedTiming, onAnimationFinished}: AnimateElevationOptions) =>
+	({animatedTiming, onAnimationFinished, entry, exit}: AnimateElevationOptions) =>
 	(shadowSharedValue: SharedValue<number>) => {
+		const entryAnimateSharedValueTo = animatedTiming({
+			easing: EASING.STANDARD_DECELERATE,
+			...entry,
+			callback: (finished?: boolean) => finished && onAnimationFinished?.(true)
+		})({sharedValue: shadowSharedValue})
+
+		const exitAnimateSharedValueTo = animatedTiming({
+			easing: EASING.STANDARD_ACCELERATE,
+			...exit,
+			callback: (finished?: boolean) => finished && onAnimationFinished?.(false)
+		})({sharedValue: shadowSharedValue})
+
 		const animateSharedValueTo = animatedTiming({
 			callback: (finished?: boolean) => finished && onAnimationFinished?.(),
-			duration: DURATION.MEDIUM_0,
+			duration: DURATION.SHORT_2,
 			easing: EASING.STANDARD
 		})({sharedValue: shadowSharedValue})
 
-		return (level: ElevationValue) => animateSharedValueTo(level)
+		return (level: ElevationValue) => {
+			if (entry) {
+				const runAnimateSharedValueTo = level !== 0 ? entryAnimateSharedValueTo : exitAnimateSharedValueTo
+
+				runAnimateSharedValueTo(level)
+
+				return
+			}
+
+			animateSharedValueTo(level)
+		}
 	}

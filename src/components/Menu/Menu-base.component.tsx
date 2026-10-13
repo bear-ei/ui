@@ -73,9 +73,10 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 					data,
 					multiple,
 					onActive: rawOnActive,
-					onActives: rawOnActives
+					onActives: rawOnActives,
+					onFocusKey
 				})(setState),
-			[activeKey, activeKeys, data, multiple, rawOnActive, rawOnActives, setState]
+			[activeKey, activeKeys, data, multiple, rawOnActive, rawOnActives, setState, onFocusKey]
 		)
 
 		useEffect(() => {

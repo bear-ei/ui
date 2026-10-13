@@ -3,7 +3,6 @@ import type {Updater} from 'use-immer'
 import type {PopoverProps} from '..'
 import type {HandleStateEventChangeOptions, InteractionHandlers, UseHandleStateEventOptions} from '../../../hooks'
 import type {Token} from '../../../theme'
-import type {ElevationValue} from '../../Elevation'
 
 export interface PopoverContentProps
 	extends
@@ -23,7 +22,7 @@ export interface PopoverContentProps
 			| 'visible'
 		> {
 	containerLayout?: LayoutRectangle
-	onElevationAnimationFinished?: (elevation?: ElevationValue) => void
+	onElevationAnimationFinished?: (visible?: boolean) => void
 }
 
 export interface RenderPopoverContentProps extends PopoverContentProps {

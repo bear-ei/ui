@@ -39,13 +39,16 @@ export const updatePopoverVisible = ({onVisible, type}: UpdatePopoverVisibleOpti
 				return
 			}
 
-			draft.elevation = ELEVATION_VALUE.LEVEL_0
+			if (!visible) {
+				draft.elevation = ELEVATION_VALUE.LEVEL_0
+			}
 		})
 }
 
 export const handleElevationAnimationFinished =
-	(onVisible?: (visible?: boolean) => void) => (setState: Updater<PopoverState>) => (elevation?: ElevationValue) =>
-		elevation === ELEVATION_VALUE.LEVEL_0 &&
+	(onVisible?: (visible?: boolean) => void) => (setState: Updater<PopoverState>) => (visible?: boolean) =>
+		typeof visible === 'boolean' &&
+		!visible &&
 		setState(draft => {
 			draft.visible = false
 

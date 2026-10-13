@@ -24,8 +24,8 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
 			onClose,
 			onKeyDown,
 			onVisible,
-			shape = SHAPE.ALL,
 			radius = RADIUS.MEDIUM,
+			shape = SHAPE.ALL,
 			size,
 			testID,
 			trailingTriggerOn,
@@ -68,8 +68,8 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
 					elevation={elevation}
 					onKeyDown={onKeyDown}
 					onVisible={onVisible}
-					shape={shape}
 					radius={radius}
+					shape={shape}
 					type={type}
 					visible={visible}
 				>

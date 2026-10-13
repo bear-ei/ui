@@ -1,13 +1,11 @@
 import {forwardRef, useEffect, useId, useImperativeHandle, useRef} from 'react'
 import type {View} from 'react-native'
-import {useTheme} from '../../../hooks'
 import {POPOVER_TYPE} from '../../Popover'
 import type {MenuListBaseProps} from './Menu-list.interface'
 import {RenderMenuList} from './Menu-list.render'
 
 export const MenuListBase = forwardRef<View, MenuListBaseProps>(({visible, type, ...props}, ref) => {
 	const id = useId()
-	const theme = useTheme()
 	const containerRef = useRef<View>(null)
 
 	useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
@@ -23,7 +21,6 @@ export const MenuListBase = forwardRef<View, MenuListBaseProps>(({visible, type,
 			{...props}
 			id={id}
 			ref={containerRef}
-			theme={theme}
 			type={type}
 		/>
 	)

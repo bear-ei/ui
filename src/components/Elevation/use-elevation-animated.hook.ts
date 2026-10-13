@@ -10,6 +10,8 @@ import {ELEVATION_LEVEL, hexToRGBA} from '../../theme'
 
 const INPUT_RANGES = [0, 1, 2, 3, 4, 5]
 export const useElevationAnimated = ({
+	entry,
+	exit,
 	level = ELEVATION_VALUE.LEVEL_0,
 	onAnimationFinished,
 	status
@@ -95,8 +97,8 @@ export const useElevationAnimated = ({
 	})
 
 	const runAnimate = useMemo(
-		() => animateElevation({animatedTiming, onAnimationFinished})(shadowSharedValue),
-		[animatedTiming, onAnimationFinished, shadowSharedValue]
+		() => animateElevation({animatedTiming, onAnimationFinished, entry, exit})(shadowSharedValue),
+		[animatedTiming, onAnimationFinished, shadowSharedValue, entry, exit]
 	)
 
 	useEffect(() => {

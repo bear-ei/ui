@@ -217,8 +217,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 					{
 						[`${densityHorizontalInsetClasses(DENSITY_SIZE.SMALL)} min-h-[--density-spacing-x-large] bg-[--color-inverse-surface]`]:
 							type === POPOVER_TYPE.TOOLTIP,
-						['left-0 right-0']: isMenuOrPicker,
-						['pointer-events-none']: !isMenuOrPicker
+						['left-0 right-0']: isMenuOrPicker
 					},
 					shapeClasses(radius)(type === POPOVER_TYPE.TEXT_INPUT_PICKER ? SHAPE.BOTTOM : shape)
 				)}
@@ -253,18 +252,34 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 			</View>
 		)
 
+		const popoverContentElement =
+			type !== POPOVER_TYPE.TOOLTIP ?
+				<Pressable
+					{...mainInteractionHandlers}
+					className='relative flex-1 self-stretch outline-none'
+					testID={`popoverContent_pressable--${id}`}
+				>
+					{mainElement}
+				</Pressable>
+			:	<View
+					className='relative flex-1 self-stretch outline-none'
+					testID={`popoverContent--${id}`}
+				>
+					{mainElement}
+				</View>
+
 		return (
 			<>
 				<LayoutAnimated
 					{...containerProps}
 					animatedType={animatedType}
+					contentSize={contentSize}
 					entry={entry}
 					exit={exit}
-					contentSize={contentSize}
 					className={classesName('z-50 ', {
 						['absolute']: Platform.OS !== 'web',
 						['fixed']: Platform.OS === 'web',
-						['min-h-[--typography-body-small-height]']: !isMenuOrPicker
+						['min-h-[--typography-body-large-height]']: !isMenuOrPicker
 					})}
 					outputRanges={outputRanges}
 					ref={ref}
@@ -273,16 +288,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 					translate={!isMenuOrPicker}
 					visible={isMainLayoutCompleted ? visible : undefined}
 				>
-					{isMenuOrPicker ?
-						mainElement
-					:	<Pressable
-							{...mainInteractionHandlers}
-							className='relative flex-1 self-stretch outline-none'
-							testID={`popoverContent_pressable--${id}`}
-						>
-							{mainElement}
-						</Pressable>
-					}
+					{isMenuOrPicker ? mainElement : popoverContentElement}
 				</LayoutAnimated>
 
 				{isMenuOrPicker && (
@@ -310,6 +316,8 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 							radius={RADIUS.MEDIUM}
 							shape={shape}
 							testID={`popoverContent_elevation--${id}`}
+							entry={entry}
+							exit={exit}
 						/>
 					</View>
 				)}

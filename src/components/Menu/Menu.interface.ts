@@ -7,7 +7,7 @@ import type {MenuListProps} from './Menu-list'
 export interface MenuProps extends Omit<PressableProps & PopoverProps & MenuListProps & InteractionHandlers, 'type'> {
 	keyCode?: string
 	listType?: ListType
-	onContextMenu?: React.MouseEventHandler<HTMLDivElement>
+	onContextMenu?: (event: MouseEvent) => void
 	onFocusKey?: (key?: string) => void
 	type?: PopoverType
 }

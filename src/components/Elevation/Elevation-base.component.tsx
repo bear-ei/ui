@@ -8,11 +8,17 @@ import {RenderElevation} from './Elevation.render'
 import {useElevationAnimated} from './use-elevation-animated.hook'
 
 export const ElevationBase = forwardRef<View, ElevationBaseProps>(
-	({defaultLevel, level: rawLevel, onAnimationFinished, ...renderElevationProps}, ref) => {
+	({defaultLevel, level: rawLevel, onAnimationFinished, entry, exit, ...renderElevationProps}, ref) => {
 		const [{level, status}, setState] = useImmer<ElevationState>({status: COMPONENT_STATUS.IDLE})
 		const id = useId()
 		const runUpdateLevel = useMemo(() => updateElevationLevel(setState), [setState])
-		const {shadowAnimatedStyle} = useElevationAnimated({level: level ?? rawLevel, onAnimationFinished, status})
+		const {shadowAnimatedStyle} = useElevationAnimated({
+			entry,
+			exit,
+			level: level ?? rawLevel,
+			onAnimationFinished,
+			status
+		})
 
 		useEffect(() => {
 			runUpdateLevel(rawLevel ?? defaultLevel)

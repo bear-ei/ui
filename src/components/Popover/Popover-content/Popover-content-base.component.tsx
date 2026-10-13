@@ -54,13 +54,13 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 
 		const position = getPopoverContentPosition(popoverContentPosition)(isInvert)
 
-		// Menu width targets 192px on both densities:
-		// desktop (inline.XX_LARGE = 48) × 4, mobile (64) × 3.
+		// Menu width targets 180px on both densities:
+		// desktop (spacing.XX_SMALL = 2) × 90, mobile (4) × 45.
 		const popoverWidth =
 			isMenuOrPicker ?
 				type === POPOVER_TYPE.TEXT_INPUT_PICKER ?
 					containerLayout?.width
-				:	token.density.inline[DENSITY_SIZE.XX_LARGE] * (uiDensity === UI_DENSITY.COMPACT ? 4 : 3)
+				:	token.density.spacing[DENSITY_SIZE.XX_SMALL] * (uiDensity === UI_DENSITY.COMPACT ? 90 : 45)
 			:	layout.width
 
 		const onAnimationFinished = useMemo(

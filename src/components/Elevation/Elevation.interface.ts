@@ -8,8 +8,10 @@ import type {AnimatedTimingOptions, AnimateSharedValueTo} from '../../hooks'
 export type ElevationValue = (typeof ELEVATION_VALUE)[keyof typeof ELEVATION_VALUE]
 export interface ElevationProps extends ViewProps, RefAttributes<View>, CommonProps {
 	defaultLevel?: ElevationValue
+	entry?: AnimatedTimingOptions
+	exit?: AnimatedTimingOptions
 	level?: ElevationValue
-	onAnimationFinished?: (elevation?: ElevationValue) => void
+	onAnimationFinished?: (visible?: boolean) => void
 }
 
 export interface RenderElevationProps extends ElevationProps {
@@ -22,7 +24,10 @@ export interface ElevationState {
 }
 
 export type ElevationBaseProps = ElevationProps
-export type UseElevationAnimatedOptions = Pick<RenderElevationProps, 'level' | 'onAnimationFinished'> &
+export type UseElevationAnimatedOptions = Pick<
+	RenderElevationProps,
+	'level' | 'onAnimationFinished' | 'entry' | 'exit'
+> &
 	Pick<ElevationState, 'status'>
 
 export type GetWebBoxShadowOptions = {
@@ -33,6 +38,9 @@ export type GetWebBoxShadowOptions = {
 	opacity: number
 }
 
-export interface AnimateElevationOptions extends Pick<UseElevationAnimatedOptions, 'onAnimationFinished'> {
+export interface AnimateElevationOptions extends Pick<
+	UseElevationAnimatedOptions,
+	'onAnimationFinished' | 'entry' | 'exit'
+> {
 	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
 }

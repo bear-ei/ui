@@ -29,7 +29,7 @@ export const Select = () => {
 					afterAffordance={true}
 					data={data}
 					listType={LIST_TYPE.LABEL}
-					loading={true}
+					// loading={true}
 					onActive={onActiveKey}
 					selectType={LIST_SELECT_TYPE.SINGLE}
 				>
