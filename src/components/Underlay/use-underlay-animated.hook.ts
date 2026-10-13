@@ -85,6 +85,8 @@ export const useUnderlayAnimated = ({
 		}
 
 		runAnimateHoverState(eventName)
+
+		return () => runDebounceAnimateHoverState.cancel()
 	}, [eventName, runAnimateHoverState, status, runDebounceAnimateHoverState])
 
 	useEffect(() => {

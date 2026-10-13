@@ -78,7 +78,11 @@ const VirtualListBaseInner = <T,>(
 	const itemSize = rawItemSize + gap
 	const scrollOffsetRef = useRef<number>(0)
 	const contentSize = (virtualListData ?? data ?? []).length * itemSize - gap
-	const onEndReached = useMemo(() => debounce(rawOnEndReached)(150), [rawOnEndReached])
+	const onEndReached = useMemo(
+		() => (rawOnEndReached ? debounce(rawOnEndReached)(150) : undefined),
+		[rawOnEndReached]
+	)
+
 	const onScroll = useMemo(
 		() =>
 			rafSchedule(
@@ -167,7 +171,14 @@ const VirtualListBaseInner = <T,>(
 
 	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as ScrollView, [animatedRef])
 
-	useEffect(() => () => onScroll.cancel(), [onScroll])
+	useEffect(
+		() => () => {
+			onEndReached?.cancel()
+			onScroll.cancel()
+		},
+		[onScroll, onEndReached]
+	)
+
 	useEffect(() => {
 		runUpdateData(data)
 	}, [runUpdateData, data])

@@ -8,14 +8,25 @@ import type {UseWindowDimensionsOptions} from './use-window-dimensions.interface
 
 export const useWindowDimensions = ({changeEventThrottle = 50}: UseWindowDimensionsOptions = {}) => {
 	const [scaledSize, setState] = useImmer<ScaledSize>({fontScale: 0, height: 0, scale: 0, width: 0})
+	const onUpdateWindowScaledSize = useMemo(
+		() => debounce(updateWindowScaledSize(setState))(changeEventThrottle),
+		[setState, changeEventThrottle]
+	)
+
 	const runEmitterSubscription = useMemo(
-		() => createDimensionsChangeListener(debounce(updateWindowScaledSize(setState))(changeEventThrottle)),
-		[changeEventThrottle, setState]
+		() => createDimensionsChangeListener(onUpdateWindowScaledSize),
+		[onUpdateWindowScaledSize]
 	)
 
 	const runUpdateWindowScaledSize = useMemo(() => updateWindowScaledSize(setState), [setState])
 
-	useEffect(() => () => runEmitterSubscription.remove(), [runEmitterSubscription])
+	useEffect(
+		() => () => {
+			runEmitterSubscription.remove()
+			onUpdateWindowScaledSize.cancel()
+		},
+		[runEmitterSubscription, onUpdateWindowScaledSize]
+	)
 	useEffect(() => {
 		const initialWindow = Dimensions.get('window')
 

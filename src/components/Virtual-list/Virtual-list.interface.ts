@@ -89,9 +89,8 @@ export interface VirtualListState {
 
 export interface HandleVirtualListScrollOptions
 	extends
-		Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'endReachedThreshold'>,
+		Pick<RenderVirtualListProps, 'onScroll' | 'itemSize' | 'endReachedThreshold' | 'onEndReached'>,
 		Pick<VirtualListProps<unknown>, 'layoutType'> {
-	onEndReached: () => void
 	scrollOffsetRef?: RefObject<number>
 }
 

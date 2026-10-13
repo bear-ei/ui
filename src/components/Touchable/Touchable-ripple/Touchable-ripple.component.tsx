@@ -12,8 +12,8 @@ const TouchableRippleWithRef = forwardRef<View, TouchableRippleProps>((props, re
 	/>
 ))
 
-TouchableRippleWithRef.displayName = 'TouchableRippleWithRef'
+TouchableRippleWithRef.displayName = 'TouchableRipple'
 
-export const TouchableRipple = typedMemo(TouchableRippleWithRef)((prevProps, nextProps) =>
+export const TouchableRipple = typedMemo(TouchableRippleWithRef, (prevProps, nextProps) =>
 	compareTouchableRippleProps(prevProps)(nextProps)
 )

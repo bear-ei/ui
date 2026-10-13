@@ -126,6 +126,7 @@ export const TextInputBase = forwardRef<TextInput, TextInputBaseProps>(
 		const runBlurIfEditable = useMemo(() => blurTextInputIfEditable(textInputRef), [textInputRef])
 		const runUpdateValue = useMemo(() => updateTextInputValue(setState), [setState])
 
+		useEffect(() => () => onSupportingTextClose.cancel(), [onSupportingTextClose])
 		useEffect(() => {
 			runBlurIfEditable(editable)
 		}, [runBlurIfEditable, editable])

@@ -7,7 +7,6 @@ import {
 	useClearComponentEvent,
 	useInteractionStateEvent
 } from '../../../hooks'
-import {debounce} from '../../../utils'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import {
 	confirmListItemAffordanceAction,
@@ -118,12 +117,12 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		const runActive = onActive
 		const runUpdateFocusState = useMemo(() => updateListItemFocusState(setState)(itemIndex), [itemIndex, setState])
 		const runUpdateAfterAffordanceVisible = useMemo(
-			() => debounce(updateListItemAfterAffordanceExpanded(setState))(300),
+			() => updateListItemAfterAffordanceExpanded(setState),
 			[setState]
 		)
 
 		const runTrailingTriggerEvent = useMemo(
-			() => debounce(handleTrailingTriggerEvent(trailingTriggerOn)(setState))(50),
+			() => handleTrailingTriggerEvent(trailingTriggerOn)(setState),
 			[setState, trailingTriggerOn]
 		)
 

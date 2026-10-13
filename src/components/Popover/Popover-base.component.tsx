@@ -91,8 +91,11 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 			)
 
 			const immediateVisible = updatePopoverVisible({onVisible: rawOnVisible, type})(setState)
+			const func = (visible?: boolean) => (visible ? delayedVisible(visible) : immediateVisible(visible))
 
-			return (visible?: boolean) => (visible ? delayedVisible(visible) : immediateVisible(visible))
+			func.cancel = delayedVisible.cancel
+
+			return func
 		}, [debounceVisibleDelay, rawOnVisible, setState, type])
 
 		const onElevationAnimationFinished = useMemo(
@@ -100,7 +103,7 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 			[rawOnVisible, setState]
 		)
 
-		const onUnmountContent = useMemo(() => debounce(unmountPopoverContent(id))(150), [id])
+		const onUnmountContent = useMemo(() => unmountPopoverContent(id), [id])
 		const onUnmountPressableLayout = useMemo(() => unmountPopoverPressableLayout(id), [id])
 		const onContentAnimationFinished = useMemo(
 			() =>
@@ -209,6 +212,8 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 
 		useEffect(() => {
 			runUpdateVisible(rawVisible ?? defaultVisible)
+
+			return () => runUpdateVisible.cancel()
 		}, [defaultVisible, rawVisible, runUpdateVisible])
 
 		useEffect(() => {

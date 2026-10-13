@@ -100,9 +100,12 @@ export const useLayoutAnimated = ({
 	// 30ms is below the perceptual threshold for animation-start latency.
 	const runAnimate = useMemo(
 		() =>
-			animatedType !== LAYOUT_ANIMATED.NONE ?
+			(animatedType !== LAYOUT_ANIMATED.NONE ?
 				debounce(animateLayoutAnimated(animateLayoutAnimatedOptions)(containerSharedValue))(delay)
-			:	animateLayoutAnimated(animateLayoutAnimatedOptions)(containerSharedValue),
+			:	animateLayoutAnimated(animateLayoutAnimatedOptions)(containerSharedValue)) as {
+				(visible?: boolean | undefined): void
+				cancel?: () => void
+			},
 		[animateLayoutAnimatedOptions, containerSharedValue, delay, animatedType]
 	)
 
@@ -110,14 +113,11 @@ export const useLayoutAnimated = ({
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
 			runAnimate(visible)
 		}
+
+		return () => runAnimate.cancel?.()
 	}, [animatedType, runAnimate, status, visible])
 
-	useEffect(
-		() => () => {
-			cancelAnimation(containerSharedValue)
-		},
-		[containerSharedValue]
-	)
+	useEffect(() => () => cancelAnimation(containerSharedValue), [containerSharedValue])
 
 	return {containerAnimatedStyle: containerAnimatedTypeStyle[animatedType]}
 }

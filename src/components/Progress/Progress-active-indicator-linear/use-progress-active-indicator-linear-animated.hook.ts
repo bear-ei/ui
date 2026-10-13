@@ -23,14 +23,11 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
 			runAnimate(value)
 		}
+
+		return () => runAnimate.cancel()
 	}, [runAnimate, status, value])
 
-	useEffect(
-		() => () => {
-			cancelAnimation(widthSharedValue)
-		},
-		[widthSharedValue]
-	)
+	useEffect(() => () => cancelAnimation(widthSharedValue), [widthSharedValue])
 
 	return {contentAnimatedStyle}
 }
