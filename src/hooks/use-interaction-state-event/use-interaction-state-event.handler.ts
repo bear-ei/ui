@@ -8,17 +8,22 @@ import type {
 } from './use-interaction-state-event.interface'
 
 /**
- * Wrap a handler to (a) stop propagation and (b) stabilize identity.
+ * Wrap a handler to stop event propagation.
  *
- * ⚠️ stopPropagation is applied to ALL interaction events.
- * This is intentional — nested touchables (e.g. Button inside Popover)
- * should only respond at the innermost level. If a parent needs to
- * observe child events, this wrapper must not be used for that event.
+ * ⚠️ Applied to ALL interaction events. This is intentional —
+ * nested touchables (e.g. Button inside Popover) should only
+ * respond at the innermost level. If a parent needs to observe
+ * child events, this wrapper must not be used for that event.
+ *
+ * Identity stability is the caller's responsibility (via useMemo).
  */
-export const createStableEventHandler =
+export const createPropagationStoppedHandler =
 	<T extends StateEvent>(handler: (event: T) => void) =>
 	(event: T) => {
-		event.stopPropagation()
+		// RNW's event objects do not always implement stopPropagation,
+		// despite the React.BaseSyntheticEvent type claiming it exists.
+		// Local cast keeps the workaround from leaking into StateEvent.
+		;(event as {stopPropagation?: () => void}).stopPropagation?.()
 
 		return handler(event)
 	}
