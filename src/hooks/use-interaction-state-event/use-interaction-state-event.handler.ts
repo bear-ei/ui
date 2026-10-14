@@ -18,9 +18,7 @@ import type {
 export const createStableEventHandler =
 	<T extends StateEvent>(handler: (event: T) => void) =>
 	(event: T) => {
-		if (event) {
-			event.stopPropagation?.()
-		}
+		event.stopPropagation()
 
 		return handler(event)
 	}

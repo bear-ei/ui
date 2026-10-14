@@ -15,5 +15,5 @@ export const handleDesktopScroll =
 			momentumScrollEndTimer.current = null
 		}
 
-		momentumScrollEndTimer.current = setTimeout(() => onMomentumScrollEnd?.(event), 150)
+		momentumScrollEndTimer.current = setTimeout(() => onMomentumScrollEnd(event), 150)
 	}
