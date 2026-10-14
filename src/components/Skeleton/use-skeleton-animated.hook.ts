@@ -6,13 +6,13 @@ import type {UseSkeletonAnimatedOptions} from './Skeleton.interface'
 
 export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimatedOptions) => {
 	const opacitySharedValue = useSharedValue(0)
-	const theme = useTheme()
-	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const {token} = useTheme()
+	const animatedTiming = useAnimatedTiming()
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
 		opacity: interpolate(
 			opacitySharedValue.value,
 			[0, 1, 2],
-			[theme.token.opacity.level4, theme.token.opacity.level7, theme.token.opacity.level4]
+			[token.opacity.level4, token.opacity.level7, token.opacity.level4]
 		)
 	}))
 

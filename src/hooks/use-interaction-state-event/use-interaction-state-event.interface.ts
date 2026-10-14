@@ -35,6 +35,7 @@ export interface HandleStateEventChangeOptions extends Pick<
 > {
 	callback?: () => void
 	eventName: EventName
+	state?: State
 }
 
 export interface HandleStateEventOptions {

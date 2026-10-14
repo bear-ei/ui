@@ -1,13 +1,14 @@
 {
 	"extends": "@react-native/typescript-config",
 	"compilerOptions": {
-		"lib": ["ES2020", "DOM", "DOM.Iterable"],
 		"emitDecoratorMetadata": true,
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"strictNullChecks": true,
 		"strictPropertyInitialization": false,
-		"verbatimModuleSyntax": true,
-		"types": ["nativewind/types"]
+		"types": ["nativewind/types"],
+		"verbatimModuleSyntax": true
 	},
 	"include": ["**/*.ts", "**/*.tsx"],
 	"exclude": ["**/node_modules", "**/Pods"]
