@@ -5,7 +5,7 @@ export type ModalType = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE]
 export interface Modal {
 	id: string
 	props?: Record<string, unknown>
-	type?: ModalType
+	type: ModalType
 	unmount?: boolean
 }
 
@@ -19,5 +19,5 @@ export interface ModalState {
 
 export interface ModalItemProps extends Pick<ViewProps, 'testID'> {
 	componentProps?: ViewProps
-	type?: ModalType
+	type: ModalType
 }
