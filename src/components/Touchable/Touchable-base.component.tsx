@@ -1,4 +1,4 @@
-import {forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef} from 'react'
+import {forwardRef, useCallback, useId, useMemo, useRef} from 'react'
 import {useImmer} from 'use-immer'
 import type {LayoutRectangle, State} from '../../constants'
 import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent, useMergeRefs} from '../../hooks'

@@ -1,0 +1,89 @@
+import type {SharedValue} from 'react-native-reanimated'
+import type {Updater} from 'use-immer'
+import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../constants'
+import type {AnimatedTimingOptions, AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import type {AnimateUnderlayHoverStateOptions, UnderlayState} from './Underlay.interface'
+import {DURATION, EASING} from '../../theme'
+
+export const handleUnderlayStateChange =
+	({eventName}: HandleStateEventChangeOptions) =>
+	(setState: Updater<UnderlayState>) =>
+	(_event: StateEvent) => {
+		if (eventName !== EVENT_NAME.LAYOUT) {
+			return
+		}
+
+		setState(draft => {
+			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
+			}
+		})
+	}
+
+const EVENT_NAMES = [EVENT_NAME.BLUR, EVENT_NAME.PRESS_IN] as readonly EventName[]
+export const updateUnderlayEventName = (setState: Updater<UnderlayState>) => (eventName?: EventName) =>
+	setState(draft => {
+		if (draft.eventName === EVENT_NAME.FOCUS) {
+			draft.state = STATE.FOCUSED
+		}
+
+		if (draft.eventName && EVENT_NAMES.includes(draft.eventName)) {
+			draft.state = STATE.ENABLED
+		}
+
+		if (draft.state === STATE.FOCUSED && eventName === EVENT_NAME.HOVER_OUT) {
+			draft.eventName = EVENT_NAME.FOCUS
+
+			return
+		}
+
+		draft.eventName = eventName
+	})
+
+export const animateUnderlayHoverState = ({animatedTiming, activeValue}: AnimateUnderlayHoverStateOptions) => {
+	const event: Partial<Record<EventName, number>> = {
+		[EVENT_NAME.BLUR]: 0,
+		[EVENT_NAME.FOCUS]: activeValue,
+		[EVENT_NAME.HOVER_IN]: 1,
+		[EVENT_NAME.HOVER_OUT]: 0,
+		[EVENT_NAME.LONG_PRESS]: activeValue,
+		[EVENT_NAME.NONE]: 0,
+		[EVENT_NAME.PRESS]: 1,
+		[EVENT_NAME.PRESS_IN]: activeValue,
+		[EVENT_NAME.PRESS_OUT]: 1
+	}
+
+	return (hoverLayerSharedValue: SharedValue<number>) => {
+		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_1})({
+			sharedValue: hoverLayerSharedValue
+		})
+
+		return (eventName?: EventName) => {
+			if (!eventName) {
+				return
+			}
+
+			const value = event[eventName]
+
+			if (typeof value === 'number') {
+				animateSharedValueTo(value)
+			}
+		}
+	}
+}
+
+export const animateUnderlayActiveState =
+	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
+	(activeLayerSharedValue: SharedValue<number>) => {
+		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_2})({
+			sharedValue: activeLayerSharedValue
+		})
+
+		return (active?: boolean) => {
+			if (typeof active !== 'boolean') {
+				return
+			}
+
+			animateSharedValueTo(active ? 1 : 0)
+		}
+	}
