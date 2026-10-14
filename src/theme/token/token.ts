@@ -1,6 +1,12 @@
 import {createAnimatedConfig} from '../animated'
 import {createBorder} from '../border'
-import * as rawClasses from '../classes'
+import {
+	classesName,
+	densityClasses,
+	processStyleVariables as rawProcessStyleVariables,
+	shapeClasses,
+	typographyClasses
+} from '../classes'
 import {CONTRAST} from '../color'
 import {createDensity, UI_DENSITY} from '../density'
 import {createElevation} from '../elevation'
@@ -12,21 +18,42 @@ import {createColorScheme, SCHEME} from '../scheme'
 import {createShape} from '../shape'
 import {PLATFORM} from '../theme.enum'
 import {createTypography} from '../typography'
-import type {CreateTokenOptions, PaletteOptions, Token} from './token.interface'
+import type {CreateTokenOptions, ColorSchemeOptions, Token} from './token.interface'
 
+/**
+ * Token factory — curried in three layers by change frequency:
+ *
+ *   Layer 1 (CreateTokenOptions): app-level config — fonts, platform, density.
+ *                                 Changes rarely.
+ *   Layer 2 (ColorSchemeOptions): user preference — light/dark, contrast.
+ *                                 Changes on theme switch.
+ *   Layer 3 (PaletteType):        brand palette selection.
+ *                                 Nearly never changes.
+ *
+ * The layering separates concerns, NOT for partial-application reuse.
+ */
 export const createToken = ({
 	codeFontFamily,
 	density = UI_DENSITY.COMPACT,
 	fontFamily,
+	// Default to macOS — the product's primary desktop target.
+	// Windows / Linux support (future) must pass `platform` explicitly.
 	platform = PLATFORM.MACOS
 }: CreateTokenOptions = {}) => {
 	const font = createFont(fontFamily)(codeFontFamily)(platform)
 
-	return ({scheme = SCHEME.LIGHT, contrast = CONTRAST.STANDARD}: PaletteOptions = {}) =>
+	return ({scheme = SCHEME.LIGHT, contrast = CONTRAST.STANDARD}: ColorSchemeOptions = {}) =>
 		(palette: PaletteType = PALETTE.NAVY): Token => {
 			const createdPalette = createPalette(palette)
 			const colorScheme = createColorScheme(createdPalette)(scheme)(contrast)
-			const {processStyleVariables, ...classes} = rawClasses
+			const {processStyleVariables, ...classes} = {
+				classesName,
+				densityClasses,
+				processStyleVariables: rawProcessStyleVariables,
+				shapeClasses,
+				typographyClasses
+			}
+
 			const token = {
 				animated: createAnimatedConfig(density),
 				border: createBorder(),

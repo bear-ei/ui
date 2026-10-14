@@ -217,6 +217,7 @@ const TYPOGRAPHY_PLATFORM_VALUE_KEYS = [
 	...Object.keys(DENSITY_SIZE),
 	...Object.keys(LAYOUT_DENSITY)
 ]
+
 const toKebabCase = (value: string) =>
 	value
 		.replace(/_/g, '-')
@@ -241,7 +242,15 @@ const createCssVariables =
 			{}
 		)
 
-const processStyleVariables = ({scheme, font, density, shape, typography, border, opacity}: Token) =>
+const processStyleVariables = ({
+	scheme,
+	font,
+	density,
+	shape,
+	typography,
+	border,
+	opacity
+}: Omit<Token, 'styleVariables'>) =>
 	vars({
 		...createCssVariables(border)('border')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables(density.control)('density-control')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
@@ -283,7 +292,7 @@ const densityClasses =
 		const isWithLayout = ([DENSITY_TYPE.INSET, DENSITY_TYPE.SPACING] as readonly DensityType[]).includes(type)
 
 		if (isWithLayout) {
-			return (DENSITY[type] as typeof DENSITY_SPACING)[layout][size] ?? ''
+			return (DENSITY[type] as typeof DENSITY_SPACING)[layout][size] || ''
 		}
 
 		return (DENSITY[type] as typeof DENSITY_CONTROL)[size as Exclude<DensitySize, 'TIGHT' | 'SNUG'>]

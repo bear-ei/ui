@@ -3,7 +3,7 @@ import type {Token, UIDensity} from '../../theme'
 
 export interface ThemeProviderProps {
 	children?: ReactNode
-	token?: Token
+	token?: Omit<Token, 'styleVariables'>
 	uiDensity?: UIDensity
 }
 
