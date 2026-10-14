@@ -16,7 +16,7 @@ export const typedMemo = <T extends ComponentType<object>>(
 	const memoized = memo(component, propsAreEqual)
 
 	if (process.env.NODE_ENV !== 'production') {
-		memoized.displayName = `Memo(${component.displayName ?? component.name ?? 'Anonymous'})`
+		memoized.displayName = `Memo(${component.displayName || component.name || 'Anonymous'})`
 	}
 
 	return memoized

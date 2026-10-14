@@ -13,7 +13,7 @@ export const throttle =
 	<T extends (...args: any[]) => unknown>(func: T) =>
 	(wait: number) => {
 		let lastTime = 0
-		let timeoutId: ReturnType<typeof setTimeout> | undefined
+		let timeoutId: ReturnType<typeof setTimeout> | number | undefined
 		let lastArgs: Parameters<T> | undefined
 
 		const invoke = () => {
@@ -36,7 +36,7 @@ export const throttle =
 			const remaining = wait - (now - lastTime)
 
 			if (remaining <= 0) {
-				if (timeoutId) {
+				if (timeoutId !== undefined) {
 					clearTimeout(timeoutId)
 					timeoutId = undefined
 				}
@@ -46,13 +46,13 @@ export const throttle =
 				return
 			}
 
-			if (!timeoutId) {
+			if (timeoutId === undefined) {
 				timeoutId = setTimeout(invoke, remaining)
 			}
 		}
 
 		throttledFn.cancel = () => {
-			if (timeoutId) {
+			if (timeoutId !== undefined) {
 				clearTimeout(timeoutId)
 				timeoutId = undefined
 			}

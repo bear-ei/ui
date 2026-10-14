@@ -4,7 +4,7 @@ export const debounce =
 		let timeoutId: ReturnType<typeof setTimeout> | number | undefined
 
 		const cancel = () => {
-			if (timeoutId) {
+			if (timeoutId !== undefined) {
 				clearTimeout(timeoutId)
 				timeoutId = undefined
 			}
