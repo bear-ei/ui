@@ -217,6 +217,10 @@ const TYPOGRAPHY_PLATFORM_VALUE_KEYS = [
 	...Object.keys(DENSITY_SIZE),
 	...Object.keys(LAYOUT_DENSITY)
 ]
+
+// Widened to `readonly DensityType[]` (not `as const`) so `.includes()`
+// accepts any DensityType — the intent is a runtime membership check,
+// not a type-level narrowing.
 const LAYOUT_AWARE_DENSITY_TYPES = [DENSITY_TYPE.INSET, DENSITY_TYPE.SPACING] as readonly DensityType[]
 const toKebabCase = (value: string) =>
 	value
