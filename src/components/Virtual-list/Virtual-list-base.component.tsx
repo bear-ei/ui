@@ -169,7 +169,7 @@ const VirtualListBaseInner = <T,>(
 		/>
 	)
 
-	useImperativeHandle(ref, () => (animatedRef?.current ?? {}) as ScrollView, [animatedRef])
+	useImperativeHandle(ref, () => (animatedRef.current ?? {}) as ScrollView, [animatedRef])
 
 	useEffect(
 		() => () => {

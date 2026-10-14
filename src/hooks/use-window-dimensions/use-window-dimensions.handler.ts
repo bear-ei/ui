@@ -1,4 +1,4 @@
-import {Dimensions, type ScaledSize} from 'react-native'
+import {type ScaledSize} from 'react-native'
 import type {Updater} from 'use-immer'
 
 export const updateWindowScaledSize =
@@ -13,6 +13,3 @@ export const updateWindowScaledSize =
 			draft.width = width
 		})
 	}
-
-export const createDimensionsChangeListener = (onWindowScaledSize: ({window}: {window: ScaledSize}) => void) =>
-	Dimensions.addEventListener('change', onWindowScaledSize)

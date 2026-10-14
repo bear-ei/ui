@@ -5,7 +5,10 @@ export const useTheme = () => {
 	const theme = useContext(ThemeContext)
 
 	if (theme === EMPTY_THEME) {
-		throw new Error('useTheme must be used within ThemeProvider')
+		throw new Error(
+			`[useTheme] ThemeProvider not found. Wrap your component tree with <ThemeProvider>
+			or check that this hook is not called outside the provider subtree.`
+		)
 	}
 
 	return theme

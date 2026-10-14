@@ -6,7 +6,11 @@ export const useFormContext = () => {
 	const contextValue = useContext(FormContext)
 
 	if (!contextValue) {
-		throw new Error('useFormContext must be used within a FormProvider.')
+		throw new Error(
+			`[useFormContext] Form context not found.
+			This hook must be called inside a <Form> that has reached SUCCEEDED status
+			(i.e. from a FormItem rendered by Form, not standalone).`
+		)
 	}
 
 	return contextValue

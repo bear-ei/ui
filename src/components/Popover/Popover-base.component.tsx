@@ -183,7 +183,7 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 			...interactionHandlers
 		})
 
-		useImperativeHandle(ref, () => (containerRef?.current ?? {}) as View, [])
+		useImperativeHandle(ref, () => (containerRef.current ?? {}) as View, [])
 
 		useEffect(() => {
 			if (contextMenuLayout) {

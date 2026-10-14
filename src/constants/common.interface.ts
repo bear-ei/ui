@@ -1,5 +1,4 @@
 import type {LayoutRectangle as RNLayoutRectangle} from 'react-native'
-import type {DensitySizeScale, RadiusType, ShapeType} from '../theme'
 import type {ALIGNMENT, COMPONENT_STATUS, EVENT_NAME, LAYOUT, STATE, TRIGGER_ON} from './common.enum'
 export type Alignment = (typeof ALIGNMENT)[keyof typeof ALIGNMENT]
 export type ComponentStatus = (typeof COMPONENT_STATUS)[keyof typeof COMPONENT_STATUS]
@@ -14,10 +13,4 @@ export interface LayoutRectangle extends RNLayoutRectangle {
 	top?: number
 }
 
-export interface CommonProps {
-	radius?: RadiusType
-	shape?: ShapeType
-	size?: DensitySizeScale
-}
-
-export type ContentSize = {width?: number; height?: number}
+export type PartialSize = {width?: number; height?: number}

@@ -1,6 +1,7 @@
 import {useEffect} from 'react'
 import type {Updater} from 'use-immer'
 
+// DEL
 export const useClearComponentEvent = <T = Record<string, unknown>>(setState: Updater<T>) => {
 	useEffect(
 		() => () => {
