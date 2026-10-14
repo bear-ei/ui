@@ -1,6 +1,6 @@
 import type {Opacity} from './opacity.interface'
 
-export const createOpacity = (): Opacity => ({
+const OPACITY = {
 	level0: 0,
 	level1: 0.05,
 	level2: 0.1,
@@ -12,4 +12,6 @@ export const createOpacity = (): Opacity => ({
 	level8: 0.7,
 	level9: 0.85,
 	level10: 1
-})
+}
+
+export const createOpacity = (): Opacity => OPACITY

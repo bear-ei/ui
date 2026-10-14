@@ -27,298 +27,34 @@ const RADIUS_SIZE = {
 	}
 }
 
-export const createShape = (density: UIDensity = UI_DENSITY.COMPACT): Shape => {
-	const radius = RADIUS_SIZE[density]
+const buildShapeRadius = (radius: number) => ({
+	bottomLeft: radius,
+	bottomRight: radius,
+	topLeft: radius,
+	topRight: radius
+})
+
+const buildShapeRadiusSet = (value: number) => ({
+	[SHAPE.ALL]: buildShapeRadius(value),
+	[SHAPE.TOP]: {bottomLeft: 0, bottomRight: 0, topLeft: value, topRight: value},
+	[SHAPE.BOTTOM]: {bottomLeft: value, bottomRight: value, topLeft: 0, topRight: 0},
+	[SHAPE.START]: {bottomLeft: value, bottomRight: 0, topLeft: value, topRight: 0},
+	[SHAPE.END]: {bottomLeft: 0, bottomRight: value, topLeft: 0, topRight: value}
+})
+
+export const createShape = (uiDensity: UIDensity = UI_DENSITY.COMPACT): Shape => {
+	const radius = RADIUS_SIZE[uiDensity]
 
 	return {
 		radius: radius,
-		[RADIUS.XX_LARGE]: {
-			[SHAPE.ALL]: {
-				bottomLeft: radius[RADIUS.XX_LARGE],
-				bottomRight: radius[RADIUS.XX_LARGE],
-				topLeft: radius[RADIUS.XX_LARGE],
-				topRight: radius[RADIUS.XX_LARGE]
-			},
-			[SHAPE.TOP]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.XX_LARGE],
-				topRight: radius[RADIUS.XX_LARGE]
-			},
-			[SHAPE.BOTTOM]: {
-				bottomLeft: radius[RADIUS.XX_LARGE],
-				bottomRight: radius[RADIUS.XX_LARGE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.START]: {
-				bottomLeft: radius[RADIUS.XX_LARGE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.XX_LARGE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.END]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.XX_LARGE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.XX_LARGE]
-			}
-		},
-		[RADIUS.X_LARGE]: {
-			[SHAPE.ALL]: {
-				bottomLeft: radius[RADIUS.X_LARGE],
-				bottomRight: radius[RADIUS.X_LARGE],
-				topLeft: radius[RADIUS.X_LARGE],
-				topRight: radius[RADIUS.X_LARGE]
-			},
-			[SHAPE.TOP]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.X_LARGE],
-				topRight: radius[RADIUS.X_LARGE]
-			},
-			[SHAPE.BOTTOM]: {
-				bottomLeft: radius[RADIUS.X_LARGE],
-				bottomRight: radius[RADIUS.X_LARGE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.START]: {
-				bottomLeft: radius[RADIUS.X_LARGE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.X_LARGE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.END]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.X_LARGE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.X_LARGE]
-			}
-		},
-		[RADIUS.X_SMALL]: {
-			[SHAPE.ALL]: {
-				bottomLeft: radius[RADIUS.X_SMALL],
-				bottomRight: radius[RADIUS.X_SMALL],
-				topLeft: radius[RADIUS.X_SMALL],
-				topRight: radius[RADIUS.X_SMALL]
-			},
-			[SHAPE.TOP]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.X_SMALL],
-				topRight: radius[RADIUS.X_SMALL]
-			},
-			[SHAPE.BOTTOM]: {
-				bottomLeft: radius[RADIUS.X_SMALL],
-				bottomRight: radius[RADIUS.X_SMALL],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.START]: {
-				bottomLeft: radius[RADIUS.X_SMALL],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.X_SMALL],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.END]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.X_SMALL],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.X_SMALL]
-			}
-		},
-		[RADIUS.FULL]: {
-			[SHAPE.ALL]: {
-				bottomLeft: radius[RADIUS.FULL],
-				bottomRight: radius[RADIUS.FULL],
-				topLeft: radius[RADIUS.FULL],
-				topRight: radius[RADIUS.FULL]
-			},
-			[SHAPE.TOP]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.FULL],
-				topRight: radius[RADIUS.FULL]
-			},
-			[SHAPE.BOTTOM]: {
-				bottomLeft: radius[RADIUS.FULL],
-				bottomRight: radius[RADIUS.FULL],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.START]: {
-				bottomLeft: radius[RADIUS.FULL],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.FULL],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.END]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.FULL],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.FULL]
-			}
-		},
-		[RADIUS.LARGE]: {
-			[SHAPE.ALL]: {
-				bottomLeft: radius[RADIUS.LARGE],
-				bottomRight: radius[RADIUS.LARGE],
-				topLeft: radius[RADIUS.LARGE],
-				topRight: radius[RADIUS.LARGE]
-			},
-			[SHAPE.TOP]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.LARGE],
-				topRight: radius[RADIUS.LARGE]
-			},
-			[SHAPE.BOTTOM]: {
-				bottomLeft: radius[RADIUS.LARGE],
-				bottomRight: radius[RADIUS.LARGE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.START]: {
-				bottomLeft: radius[RADIUS.LARGE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.LARGE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.END]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.LARGE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.LARGE]
-			}
-		},
-		[RADIUS.MEDIUM]: {
-			[SHAPE.ALL]: {
-				bottomLeft: radius[RADIUS.MEDIUM],
-				bottomRight: radius[RADIUS.MEDIUM],
-				topLeft: radius[RADIUS.MEDIUM],
-				topRight: radius[RADIUS.MEDIUM]
-			},
-			[SHAPE.TOP]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.MEDIUM],
-				topRight: radius[RADIUS.MEDIUM]
-			},
-			[SHAPE.BOTTOM]: {
-				bottomLeft: radius[RADIUS.MEDIUM],
-				bottomRight: radius[RADIUS.MEDIUM],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.START]: {
-				bottomLeft: radius[RADIUS.MEDIUM],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.MEDIUM],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.END]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.MEDIUM],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.MEDIUM]
-			}
-		},
-		[RADIUS.NONE]: {
-			[SHAPE.ALL]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.TOP]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.BOTTOM]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.START]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.END]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			}
-		},
-		[RADIUS.SMALL]: {
-			[SHAPE.ALL]: {
-				bottomLeft: radius[RADIUS.SMALL],
-				bottomRight: radius[RADIUS.SMALL],
-				topLeft: radius[RADIUS.SMALL],
-				topRight: radius[RADIUS.SMALL]
-			},
-			[SHAPE.TOP]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.SMALL],
-				topRight: radius[RADIUS.SMALL]
-			},
-			[SHAPE.BOTTOM]: {
-				bottomLeft: radius[RADIUS.SMALL],
-				bottomRight: radius[RADIUS.SMALL],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.START]: {
-				bottomLeft: radius[RADIUS.SMALL],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.SMALL],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.END]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.SMALL],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.SMALL]
-			}
-		},
-		[RADIUS.XX_SMALL]: {
-			[SHAPE.ALL]: {
-				bottomLeft: radius[RADIUS.XX_SMALL],
-				bottomRight: radius[RADIUS.XX_SMALL],
-				topLeft: radius[RADIUS.XX_SMALL],
-				topRight: radius[RADIUS.XX_SMALL]
-			},
-			[SHAPE.TOP]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.XX_SMALL],
-				topRight: radius[RADIUS.XX_SMALL]
-			},
-			[SHAPE.BOTTOM]: {
-				bottomLeft: radius[RADIUS.XX_SMALL],
-				bottomRight: radius[RADIUS.XX_SMALL],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.START]: {
-				bottomLeft: radius[RADIUS.XX_SMALL],
-				bottomRight: radius[RADIUS.NONE],
-				topLeft: radius[RADIUS.XX_SMALL],
-				topRight: radius[RADIUS.NONE]
-			},
-			[SHAPE.END]: {
-				bottomLeft: radius[RADIUS.NONE],
-				bottomRight: radius[RADIUS.XX_SMALL],
-				topLeft: radius[RADIUS.NONE],
-				topRight: radius[RADIUS.XX_SMALL]
-			}
-		}
+		[RADIUS.XX_LARGE]: buildShapeRadiusSet(radius[RADIUS.XX_LARGE]),
+		[RADIUS.X_LARGE]: buildShapeRadiusSet(radius[RADIUS.X_LARGE]),
+		[RADIUS.X_SMALL]: buildShapeRadiusSet(radius[RADIUS.X_SMALL]),
+		[RADIUS.FULL]: buildShapeRadiusSet(radius[RADIUS.FULL]),
+		[RADIUS.LARGE]: buildShapeRadiusSet(radius[RADIUS.LARGE]),
+		[RADIUS.MEDIUM]: buildShapeRadiusSet(radius[RADIUS.MEDIUM]),
+		[RADIUS.NONE]: buildShapeRadiusSet(radius[RADIUS.NONE]),
+		[RADIUS.SMALL]: buildShapeRadiusSet(radius[RADIUS.SMALL]),
+		[RADIUS.XX_SMALL]: buildShapeRadiusSet(radius[RADIUS.XX_SMALL])
 	}
 }

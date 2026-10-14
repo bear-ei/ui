@@ -10,4 +10,6 @@ export interface Radius {
 }
 
 export type ShapeRadius = Record<ShapeType, Radius>
-export type Shape = Record<RadiusType, ShapeRadius> & {radius: Record<RadiusType, number>}
+export interface Shape extends Record<RadiusType, ShapeRadius> {
+	radius: Record<RadiusType, number>
+}

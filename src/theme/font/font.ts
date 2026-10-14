@@ -26,8 +26,8 @@ export const createFont =
 	(codeFontFamily?: string) =>
 	(platform: Platform = PLATFORM.IOS): Font => ({
 		family: {
-			codeFamily: codeFontFamily ?? PLATFORM_CODE_FONT_FAMILY[platform] ?? 'System',
-			family: fontFamily ?? PLATFORM_FONT_FAMILY[platform] ?? 'System'
+			codeFamily: codeFontFamily || PLATFORM_CODE_FONT_FAMILY[platform] || 'System',
+			family: fontFamily || PLATFORM_FONT_FAMILY[platform] || 'System'
 		},
 		letterSpacing: {
 			letterSpacing0: -0.5,

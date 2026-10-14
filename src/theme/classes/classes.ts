@@ -2,11 +2,12 @@ import {clsx, type ClassValue} from 'clsx'
 import {vars} from 'nativewind'
 import {twMerge} from 'tailwind-merge'
 import {LAYOUT, type LayoutType} from '../../constants'
-import {DENSITY_SIZE, DENSITY_TYPE, LAYOUT_DENSITY, platformValue, type DensitySize, type DensityType} from '../density'
+import {DENSITY_SIZE, DENSITY_TYPE, LAYOUT_DENSITY, type DensitySize, type DensityType} from '../density'
 import {RADIUS, SHAPE, type RadiusType, type ShapeType} from '../shape'
 import type {Token} from '../token'
-import {TYPOGRAPHY, TYPOGRAPHY_SIZE, type TypographySize, type TypographyType} from '../typography'
+import {TYPOGRAPHY, TYPOGRAPHY_SIZE, type Typography, type TypographySize, type TypographyType} from '../typography'
 import type {TypographyClassesOptions} from './classes.interface'
+import {platformValue} from '../../utils'
 
 const SHAPE_TYPE = {
 	[RADIUS.XX_LARGE]: {
@@ -205,7 +206,6 @@ const DENSITY = {
 	[DENSITY_TYPE.ICON]: DENSITY_ICON,
 	[DENSITY_TYPE.INLINE]: DENSITY_INLINE,
 	[DENSITY_TYPE.INSET]: DENSITY_INSET,
-	[DENSITY_TYPE.LAYOUT]: DENSITY_CONTROL,
 	[DENSITY_TYPE.SPACING]: DENSITY_SPACING
 }
 
@@ -217,7 +217,7 @@ const TYPOGRAPHY_PLATFORM_VALUE_KEYS = [
 	...Object.keys(DENSITY_SIZE),
 	...Object.keys(LAYOUT_DENSITY)
 ]
-
+const LAYOUT_AWARE_DENSITY_TYPES = [DENSITY_TYPE.INSET, DENSITY_TYPE.SPACING] as readonly DensityType[]
 const toKebabCase = (value: string) =>
 	value
 		.replace(/_/g, '-')
@@ -242,6 +242,15 @@ const createCssVariables =
 			{}
 		)
 
+const buildTypographyStyleVariables = (typography: Typography) =>
+	Object.entries(typography).flatMap(([type, sizes]) =>
+		Object.entries(sizes).map(([size, style]) =>
+			createCssVariables(style)(`typography-${toKebabCase(type)}-${toKebabCase(size)}`)(
+				TYPOGRAPHY_PLATFORM_VALUE_KEYS
+			)
+		)
+	)
+
 const processStyleVariables = ({
 	scheme,
 	font,
@@ -263,39 +272,25 @@ const processStyleVariables = ({
 		...createCssVariables(opacity)('opacity')(),
 		...createCssVariables(scheme)('color')(),
 		...createCssVariables(shape.radius)('radius')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.BODY.LARGE)('typography-body-large')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.BODY.MEDIUM)('typography-body-medium')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.BODY.SMALL)('typography-body-small')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.DISPLAY.LARGE)('typography-display-large')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.DISPLAY.MEDIUM)('typography-display-medium')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.DISPLAY.SMALL)('typography-display-small')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.HEADLINE.LARGE)('typography-headline-large')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.HEADLINE.MEDIUM)('typography-headline-medium')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.HEADLINE.SMALL)('typography-headline-small')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.LABEL.LARGE)('typography-label-large')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.LABEL.MEDIUM)('typography-label-medium')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.LABEL.SMALL)('typography-label-small')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.TITLE.LARGE)('typography-title-large')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.TITLE.MEDIUM)('typography-title-medium')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(typography.TITLE.SMALL)('typography-title-small')(TYPOGRAPHY_PLATFORM_VALUE_KEYS)
+		...buildTypographyStyleVariables(typography)
 	})
 
 const classesName = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
 const densityClasses =
-	(type: DensityType) =>
+	(type: Exclude<DensityType, 'LAYOUT'>) =>
 	(layout: LayoutType = LAYOUT.HORIZONTAL) =>
-	(size: DensitySize | number = DENSITY_SIZE.MEDIUM) => {
+	(size: Exclude<DensitySize, 'TIGHT' | 'SNUG'> | number = DENSITY_SIZE.MEDIUM) => {
 		if (typeof size === 'number') {
 			return ''
 		}
 
-		const isWithLayout = ([DENSITY_TYPE.INSET, DENSITY_TYPE.SPACING] as readonly DensityType[]).includes(type)
+		const isWithLayout = LAYOUT_AWARE_DENSITY_TYPES.includes(type)
 
 		if (isWithLayout) {
 			return (DENSITY[type] as typeof DENSITY_SPACING)[layout][size] || ''
 		}
 
-		return (DENSITY[type] as typeof DENSITY_CONTROL)[size as Exclude<DensitySize, 'TIGHT' | 'SNUG'>]
+		return (DENSITY[type] as typeof DENSITY_CONTROL)[size]
 	}
 
 const shapeClasses =

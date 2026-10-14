@@ -1,8 +1,3 @@
-export interface OpacityStyle {
-	classes: string
-	opacity: number
-}
-
 export interface Opacity {
 	level0: number
 	level1: number

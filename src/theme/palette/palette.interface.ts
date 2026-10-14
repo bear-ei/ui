@@ -10,8 +10,6 @@ export type ColorRole =
 	| 'inverseOnSurface'
 	| 'inversePrimary'
 	| 'inverseSurface'
-	| 'neutralVariant100'
-	| 'neutralVariant99'
 	| 'onBackground'
 	| 'onError'
 	| 'onErrorContainer'
@@ -58,8 +56,8 @@ export type ColorRole =
 
 export type CoreColor = 'primary' | 'tertiary' | 'error'
 export interface Palette {
-	[SCHEME.DARK]: Record<Contrast, Record<ColorRole, string>>
 	[SCHEME.LIGHT]: Record<Contrast, Record<ColorRole, string>>
-	coreColor: Record<CoreColor, string | undefined>
+	[SCHEME.DARK]: Record<Contrast, Record<ColorRole, string>>
+	coreColor: Record<CoreColor, string>
 	seed: string
 }

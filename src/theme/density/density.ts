@@ -1,4 +1,3 @@
-import {Platform} from 'react-native'
 import {DENSITY_SIZE, LAYOUT_DENSITY, UI_DENSITY, WINDOW_SIZE} from './density.enum'
 import type {Density, DensitySizeScale, Spacing, UIDensity, WindowSize} from './density.interface'
 
@@ -29,6 +28,9 @@ const SPACING = {
 	}
 }
 
+// INSET shares the same values as SPACING — semantically distinct
+// (INSET: padding inside a container; SPACING: gap between elements),
+// but the numeric scale is identical by design.
 const INSET = SPACING
 const CONTROL = {
 	[UI_DENSITY.COMPACT]: {
@@ -112,6 +114,16 @@ const INLINE = {
 	}
 }
 
+const ICON_SIZE_MAP = {
+	[DENSITY_SIZE.LARGE]: DENSITY_SIZE.MEDIUM,
+	[DENSITY_SIZE.MEDIUM]: DENSITY_SIZE.SMALL,
+	[DENSITY_SIZE.SMALL]: DENSITY_SIZE.X_SMALL,
+	[DENSITY_SIZE.X_LARGE]: DENSITY_SIZE.LARGE,
+	[DENSITY_SIZE.X_SMALL]: DENSITY_SIZE.XX_SMALL,
+	[DENSITY_SIZE.XX_LARGE]: DENSITY_SIZE.X_LARGE,
+	[DENSITY_SIZE.XX_SMALL]: DENSITY_SIZE.XX_SMALL
+}
+
 const createMobileGap = (spacing: Spacing) => {
 	const gap = {
 		[WINDOW_SIZE.COMPACT]: spacing[DENSITY_SIZE.MEDIUM],
@@ -125,34 +137,7 @@ const createMobileGap = (spacing: Spacing) => {
 	return (windowSize: WindowSize) => gap[windowSize]
 }
 
-const densitySizeMapIconSize = (size: DensitySizeScale) => {
-	const iconSize = {
-		[DENSITY_SIZE.LARGE]: DENSITY_SIZE.MEDIUM,
-		[DENSITY_SIZE.MEDIUM]: DENSITY_SIZE.SMALL,
-		[DENSITY_SIZE.SMALL]: DENSITY_SIZE.X_SMALL,
-		[DENSITY_SIZE.X_LARGE]: DENSITY_SIZE.LARGE,
-		[DENSITY_SIZE.X_SMALL]: DENSITY_SIZE.XX_SMALL,
-		[DENSITY_SIZE.XX_LARGE]: DENSITY_SIZE.X_LARGE,
-		[DENSITY_SIZE.XX_SMALL]: DENSITY_SIZE.XX_SMALL
-	}
-
-	return iconSize[size]
-}
-
-const densitySizeMapIconButtonSize = (size: DensitySizeScale) => {
-	const iconSize = {
-		[DENSITY_SIZE.LARGE]: DENSITY_SIZE.MEDIUM,
-		[DENSITY_SIZE.MEDIUM]: DENSITY_SIZE.SMALL,
-		[DENSITY_SIZE.SMALL]: DENSITY_SIZE.X_SMALL,
-		[DENSITY_SIZE.X_LARGE]: DENSITY_SIZE.LARGE,
-		[DENSITY_SIZE.X_SMALL]: DENSITY_SIZE.XX_SMALL,
-		[DENSITY_SIZE.XX_LARGE]: DENSITY_SIZE.X_LARGE,
-		[DENSITY_SIZE.XX_SMALL]: DENSITY_SIZE.XX_SMALL
-	}
-
-	return iconSize[size]
-}
-
+const densitySizeMapIconSize = (size: DensitySizeScale) => ICON_SIZE_MAP[size]
 const densitySizeMapInlineSize = (size: DensitySizeScale) => {
 	const inlineSize = {
 		[DENSITY_SIZE.LARGE]: DENSITY_SIZE.MEDIUM,
@@ -167,17 +152,6 @@ const densitySizeMapInlineSize = (size: DensitySizeScale) => {
 	return inlineSize[size]
 }
 
-const pxToRem =
-	(basePX = 16) =>
-	(px: number) =>
-		px / basePX
-
-const platformValue = (value: number) => {
-	'worklet'
-
-	return Platform.select<string | number>({default: value, web: `${pxToRem()(value)}rem`})
-}
-
 const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => ({
 	control: CONTROL[density],
 	icon: ICON[density],
@@ -189,11 +163,4 @@ const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => ({
 
 const mobileGap = createMobileGap(SPACING[UI_DENSITY.COMFORTABLE])
 
-export {
-	createDensity,
-	densitySizeMapIconButtonSize,
-	densitySizeMapIconSize,
-	densitySizeMapInlineSize,
-	mobileGap,
-	platformValue
-}
+export {createDensity, densitySizeMapIconSize, densitySizeMapInlineSize, mobileGap}
