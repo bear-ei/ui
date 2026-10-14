@@ -22,7 +22,7 @@ export const createAnimatedTiming =
 
 		const withDelayedAnimation = typeof delay === 'number' ? withDelay(delay, animation) : animation
 
-		if (typeof repeat === 'number') {
+		if (typeof repeat === 'number' && repeat !== 0) {
 			return withRepeat(withDelayedAnimation, repeat)
 		}
 

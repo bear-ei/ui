@@ -12,7 +12,7 @@ export const useProgressActiveIndicatorLinearAnimated = ({
 }: UseProgressActiveIndicatorLinearAnimatedOptions) => {
 	const {token} = useTheme()
 	const widthSharedValue = useSharedValue(value)
-	const animatedTiming = useAnimatedTiming({token})
+	const animatedTiming = useAnimatedTiming()
 	const contentAnimatedStyle = useAnimatedStyle(() => ({width: `${widthSharedValue.value * 100}%`}))
 	const runAnimate = useMemo(
 		() => debounce(animateProgressActiveIndicatorLinear(animatedTiming)({widthSharedValue}))(30),

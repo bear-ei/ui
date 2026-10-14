@@ -16,7 +16,7 @@ export const useTouchableRippleAnimated = ({
 	const opacitySharedValue = useSharedValue(1)
 	const scaleSharedValue = useSharedValue(0)
 	const {token} = useTheme()
-	const animatedTiming = useAnimatedTiming({token})
+	const animatedTiming = useAnimatedTiming()
 	const containerAnimatedStyle = useAnimatedStyle(
 		() =>
 			({

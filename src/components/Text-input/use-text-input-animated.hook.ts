@@ -23,7 +23,6 @@ export const useTextInputAnimated = ({
 	type = TEXT_INPUT_TYPE.FILLED
 }: UseTextInputAnimatedOptions) => {
 	const {token} = useTheme()
-	const {scheme, opacity} = token
 	const disabledAnimatedValue = disabled ? 0 : 1
 	const defaultAnimatedValue = {activeIndicatorScaleYSharedValue: error ? 1 : 0, colorSharedValue: error ? 3 : 1}
 	const activeIndicatorScaleYSharedValue = useSharedValue(
@@ -32,19 +31,28 @@ export const useTextInputAnimated = ({
 
 	const headerInnerBackgroundColorSharedValue = useSharedValue(disabledAnimatedValue)
 	const colorSharedValue = useSharedValue(disabled ? disabledAnimatedValue : defaultAnimatedValue.colorSharedValue)
-	const animatedTiming = useAnimatedTiming({token})
-	const disabledBackgroundColor = hexToRGBA(scheme.onSurface)(opacity.level1)
-	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
-	const backgroundColorType = {
-		[TEXT_INPUT_TYPE.FILLED]: {
-			inputRanges: [0, 1],
-			outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerHighest)(opacity.level10)]
-		},
-		[TEXT_INPUT_TYPE.OUTLINED]: {
-			inputRanges: [0, 1],
-			outputRanges: [hexToRGBA(scheme.surface)(opacity.level0), hexToRGBA(scheme.surface)(opacity.level0)]
-		}
-	}
+	const animatedTiming = useAnimatedTiming()
+	const disabledBackgroundColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level1)
+	const disabledColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level5)
+	const backgroundColorType = useMemo(
+		() => ({
+			[TEXT_INPUT_TYPE.FILLED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledBackgroundColor,
+					hexToRGBA(token.scheme.surfaceContainerHighest)(token.opacity.level10)
+				]
+			},
+			[TEXT_INPUT_TYPE.OUTLINED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					hexToRGBA(token.scheme.surface)(token.opacity.level0),
+					hexToRGBA(token.scheme.surface)(token.opacity.level0)
+				]
+			}
+		}),
+		[disabledBackgroundColor, token]
+	)
 
 	const headerAnimatedStyle = useAnimatedStyle(() => ({
 		backgroundColor: interpolateColor(
@@ -54,17 +62,23 @@ export const useTextInputAnimated = ({
 		)
 	}))
 
-	const inputColorOutputRanges = [disabledColor, hexToRGBA(scheme.onSurface)(opacity.level10)]
+	const inputColorOutputRanges = useMemo(
+		() => [disabledColor, hexToRGBA(token.scheme.onSurface)(token.opacity.level10)],
+		[disabledColor, token]
+	)
 	const inputAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(colorSharedValue.value, [0, 1], inputColorOutputRanges)
 	}))
 
-	const activeIndicatorBackgroundColorOutputRanges = [
-		disabledColor,
-		hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-		hexToRGBA(scheme.primary)(opacity.level10),
-		hexToRGBA(scheme.error)(opacity.level10)
-	]
+	const activeIndicatorBackgroundColorOutputRanges = useMemo(
+		() => [
+			disabledColor,
+			hexToRGBA(token.scheme.onSurfaceVariant)(token.opacity.level10),
+			hexToRGBA(token.scheme.primary)(token.opacity.level10),
+			hexToRGBA(token.scheme.error)(token.opacity.level10)
+		],
+		[disabledColor, token]
+	)
 
 	const activeIndicatorAnimatedStyle = useAnimatedStyle(() => ({
 		backgroundColor: interpolateColor(

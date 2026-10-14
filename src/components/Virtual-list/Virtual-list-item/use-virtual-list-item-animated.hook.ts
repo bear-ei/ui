@@ -2,7 +2,7 @@ import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 import {COMPONENT_STATUS, LAYOUT} from '../../../constants'
-import {useAnimatedTiming, useTheme} from '../../../hooks'
+import {useAnimatedTiming} from '../../../hooks'
 import {platformValue} from '../../../theme'
 import {animateVirtualListItemScale, animateVirtualListItemTranslate} from './Virtual-list-item.handler'
 import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
@@ -14,8 +14,7 @@ export const useVirtualListItemAnimated = ({
 	onAnimationFinished,
 	status
 }: UseVirtualListItemAnimatedOptions) => {
-	const theme = useTheme()
-	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const animatedTiming = useAnimatedTiming()
 	const translateSharedValue = useSharedValue(offset)
 	const scaleSharedValue = useSharedValue(0)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({

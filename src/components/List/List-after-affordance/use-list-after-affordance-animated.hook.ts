@@ -10,11 +10,11 @@ import type {UseListAfterAffordanceAnimatedOptions} from './List-after-affordanc
 export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseListAfterAffordanceAnimatedOptions) => {
 	const translateXSharedValue = useSharedValue(0)
 	const {token} = useTheme()
-	const animatedTiming = useAnimatedTiming({token})
-	const dangerTranslateXOutputRanges = [
-		token.density.spacing[DENSITY_SIZE.NONE],
-		-token.density.control[DENSITY_SIZE.XX_LARGE]
-	]
+	const animatedTiming = useAnimatedTiming()
+	const dangerTranslateXOutputRanges = useMemo(
+		() => [token.density.spacing[DENSITY_SIZE.NONE], -token.density.control[DENSITY_SIZE.XX_LARGE]],
+		[token]
+	)
 
 	const dangerAnimatedStyle = useAnimatedStyle(
 		() =>

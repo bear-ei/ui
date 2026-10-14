@@ -15,18 +15,21 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 	status
 }: UseProgressActiveIndicatorCircularAnimatedOptions) => {
 	const {token} = useTheme()
-	const animatedTiming = useAnimatedTiming({token})
+	const animatedTiming = useAnimatedTiming()
 	const circleSharedValue = useSharedValue(0)
 	const containerSharedValue = useSharedValue(0)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
 		transform: [{rotate: `${interpolate(containerSharedValue.value, [0, 1, 2], [0, 360, 720])}deg`}]
 	}))
 
-	const circleStrokeDashoffsetOutputRanges = [
-		computeProgressStrokeDashoffset(circumference)(0.1),
-		computeProgressStrokeDashoffset(circumference)(0.8),
-		computeProgressStrokeDashoffset(circumference)(0.1)
-	]
+	const circleStrokeDashoffsetOutputRanges = useMemo(
+		() => [
+			computeProgressStrokeDashoffset(circumference)(0.1),
+			computeProgressStrokeDashoffset(circumference)(0.8),
+			computeProgressStrokeDashoffset(circumference)(0.1)
+		],
+		[circumference]
+	)
 
 	const circleAnimatedProps = useAnimatedProps(() => ({
 		strokeDashoffset: platformValue(

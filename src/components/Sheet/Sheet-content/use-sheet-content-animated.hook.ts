@@ -7,16 +7,18 @@ import {animateSheetContent} from './Sheet-content.handler'
 import type {UseSheetContentAnimatedOptions} from './Sheet-content.interface'
 
 export const useSheetContentAnimated = ({type = SIDE_SHEET_TYPE.SIDEBAR, visible}: UseSheetContentAnimatedOptions) => {
-	const theme = useTheme()
-	const {scheme, opacity} = theme.token
-	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const {token} = useTheme()
+	const animatedTiming = useAnimatedTiming()
 	const backgroundColorSharedValue = useSharedValue(visible ? 1 : 0)
-	const containerBackgroundColorOutputRanges = [
-		hexToRGBA(scheme.scrim)(opacity.level0),
-		type === SIDE_SHEET_TYPE.SIDEBAR ?
-			hexToRGBA(scheme.scrim)(opacity.level0)
-		:	hexToRGBA(scheme.scrim)(opacity.level4)
-	]
+	const containerBackgroundColorOutputRanges = useMemo(
+		() => [
+			hexToRGBA(token.scheme.scrim)(token.opacity.level0),
+			type === SIDE_SHEET_TYPE.SIDEBAR ?
+				hexToRGBA(token.scheme.scrim)(token.opacity.level0)
+			:	hexToRGBA(token.scheme.scrim)(token.opacity.level4)
+		],
+		[token, type]
+	)
 
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
 		backgroundColor: interpolateColor(

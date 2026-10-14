@@ -9,19 +9,21 @@ import type {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.
 
 export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigationRailItemAnimatedOptions) => {
 	const {token} = useTheme()
-	const {scheme, opacity} = token
-	const animatedTiming = useAnimatedTiming({token})
+	const animatedTiming = useAnimatedTiming()
 	const contentTranslateYSharedValue = useSharedValue(active ? 1 : 0)
 	const labelTextSharedValue = useSharedValue(active ? 1 : 0)
-	const labelTextColorOutputRanges = [
-		hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-		hexToRGBA(scheme.onSurface)(opacity.level10)
-	]
+	const labelTextColorOutputRanges = useMemo(
+		() => [
+			hexToRGBA(token.scheme.onSurfaceVariant)(token.opacity.level10),
+			hexToRGBA(token.scheme.onSurface)(token.opacity.level10)
+		],
+		[token]
+	)
 
-	const contentTranslateYOutputRanges = [
-		token.density.spacing[DENSITY_SIZE.MEDIUM],
-		token.density.spacing[DENSITY_SIZE.NONE]
-	]
+	const contentTranslateYOutputRanges = useMemo(
+		() => [token.density.spacing[DENSITY_SIZE.MEDIUM], token.density.spacing[DENSITY_SIZE.NONE]],
+		[token]
+	)
 
 	const labelTextAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(labelTextSharedValue.value, [0, 1], labelTextColorOutputRanges),

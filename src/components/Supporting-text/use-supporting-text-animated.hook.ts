@@ -7,7 +7,6 @@ import type {UseSupportingTextOptions} from './Supporting-text.interface'
 
 export const useSupportingTextAnimated = ({disabled, error}: UseSupportingTextOptions) => {
 	const {token} = useTheme()
-	const {scheme, opacity} = token
 	const defaultAnimatedValue = error ? 2 : 1
 	const value =
 		disabled ?
@@ -16,13 +15,16 @@ export const useSupportingTextAnimated = ({disabled, error}: UseSupportingTextOp
 		:	defaultAnimatedValue
 
 	const supportingTextSharedValue = useSharedValue(value)
-	const animatedTiming = useAnimatedTiming({token})
-	const disabledColor = hexToRGBA(scheme.onSurface)(opacity.level5)
-	const supportingTextSharedValueColorOutputRanges = [
-		disabledColor,
-		hexToRGBA(scheme.onSurfaceVariant)(opacity.level10),
-		hexToRGBA(scheme.error)(opacity.level10)
-	]
+	const animatedTiming = useAnimatedTiming()
+	const disabledColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level5)
+	const supportingTextSharedValueColorOutputRanges = useMemo(
+		() => [
+			disabledColor,
+			hexToRGBA(token.scheme.onSurfaceVariant)(token.opacity.level10),
+			hexToRGBA(token.scheme.error)(token.opacity.level10)
+		],
+		[disabledColor, token]
+	)
 
 	const textAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(supportingTextSharedValue.value, [0, 1, 2], supportingTextSharedValueColorOutputRanges)

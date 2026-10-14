@@ -9,13 +9,13 @@ import {DENSITY_SIZE, hexToRGBA, platformValue} from '../../../theme'
 
 export const useListItemAnimated = ({active, afterAffordanceVisible, status}: UseListItemAnimatedOptions) => {
 	const {token} = useTheme()
-	const animatedTiming = useAnimatedTiming({token})
+	const animatedTiming = useAnimatedTiming()
 	const contentTransformXSharedValue = useSharedValue(0)
 	const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
-	const contentTranslateXOutputRanges = [
-		token.density.spacing[DENSITY_SIZE.NONE],
-		-token.density.control[DENSITY_SIZE.XX_LARGE] * 2
-	]
+	const contentTranslateXOutputRanges = useMemo(
+		() => [token.density.spacing[DENSITY_SIZE.NONE], -token.density.control[DENSITY_SIZE.XX_LARGE] * 2],
+		[token]
+	)
 
 	const contentAnimatedStyle = useAnimatedStyle(
 		() =>
@@ -30,10 +30,13 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 			}) as ViewStyle
 	)
 
-	const headlineTextColorOutputRanges = [
-		hexToRGBA(token.scheme.onSurface)(token.opacity.level10),
-		hexToRGBA(token.scheme.onSecondaryContainer)(token.opacity.level10)
-	]
+	const headlineTextColorOutputRanges = useMemo(
+		() => [
+			hexToRGBA(token.scheme.onSurface)(token.opacity.level10),
+			hexToRGBA(token.scheme.onSecondaryContainer)(token.opacity.level10)
+		],
+		[token]
+	)
 
 	const headlineTextAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(headlineTextSharedValue.value, [0, 1], headlineTextColorOutputRanges)

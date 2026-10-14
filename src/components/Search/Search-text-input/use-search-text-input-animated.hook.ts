@@ -7,20 +7,28 @@ import {hexToRGBA, RADIUS} from '../../../theme'
 
 export const useSearchTextInputAnimated = ({disabled, expanded}: UseSearchTextInputAnimatedOptions) => {
 	const {token} = useTheme()
-	const animatedTiming = useAnimatedTiming({token})
+	const animatedTiming = useAnimatedTiming()
 	const animatedValue = disabled ? 0 : 1
 	const borderBottomRadiusSharedValue = useSharedValue(1)
 	const borderTopRadiusSharedValue = useSharedValue(1)
 	const colorSharedValue = useSharedValue(animatedValue)
 	const disabledBackgroundColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level2)
 	const disabledColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level5)
-	const backgroundSharedValueOutputRanges = [
-		disabledBackgroundColor,
-		hexToRGBA(token.scheme.surfaceContainerHigh)(token.opacity.level10)
-	]
+	const backgroundSharedValueOutputRanges = useMemo(
+		() => [disabledBackgroundColor, hexToRGBA(token.scheme.surfaceContainerHigh)(token.opacity.level10)],
+		[disabledBackgroundColor, token]
+	)
 
-	const borderBottomRadiusOutputRanges = [token.shape.radius[RADIUS.NONE], token.shape.radius[RADIUS.XX_LARGE]]
-	const borderTopRadiusOutputRanges = [token.shape.radius[RADIUS.MEDIUM], token.shape.radius[RADIUS.XX_LARGE]]
+	const borderBottomRadiusOutputRanges = useMemo(
+		() => [token.shape.radius[RADIUS.NONE], token.shape.radius[RADIUS.XX_LARGE]],
+		[token]
+	)
+
+	const borderTopRadiusOutputRanges = useMemo(
+		() => [token.shape.radius[RADIUS.MEDIUM], token.shape.radius[RADIUS.XX_LARGE]],
+		[token]
+	)
+
 	const contentAnimatedStyle = useAnimatedStyle(() => ({
 		backgroundColor: interpolateColor(colorSharedValue.value, [0, 1], backgroundSharedValueOutputRanges),
 		borderBottomLeftRadius: interpolate(
@@ -37,7 +45,11 @@ export const useSearchTextInputAnimated = ({disabled, expanded}: UseSearchTextIn
 		borderTopRightRadius: interpolate(borderTopRadiusSharedValue.value, [0, 1], borderTopRadiusOutputRanges)
 	}))
 
-	const inputColorSharedValueOutputRanges = [disabledColor, hexToRGBA(token.scheme.onSurface)(token.opacity.level10)]
+	const inputColorSharedValueOutputRanges = useMemo(
+		() => [disabledColor, hexToRGBA(token.scheme.onSurface)(token.opacity.level10)],
+		[disabledColor, token]
+	)
+
 	const inputAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(colorSharedValue.value, [0, 1], inputColorSharedValueOutputRanges)
 	}))

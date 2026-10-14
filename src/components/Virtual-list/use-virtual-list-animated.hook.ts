@@ -3,13 +3,14 @@ import type {ViewStyle} from 'react-native'
 import Animated, {
 	cancelAnimation,
 	scrollTo,
+	useAnimatedReaction,
 	useAnimatedRef,
 	useAnimatedStyle,
 	useDerivedValue,
 	useSharedValue
 } from 'react-native-reanimated'
 import {LAYOUT} from '../../constants'
-import {useAnimatedTiming, useTheme} from '../../hooks'
+import {useAnimatedTiming} from '../../hooks'
 import {platformValue} from '../../theme'
 import {animateVirtualList} from './Virtual-list.handler'
 import type {UseVirtualListScrollAnimatedOptions} from './Virtual-list.interface'
@@ -20,12 +21,10 @@ export const useVirtualListAnimated = ({
 	itemSize = 0,
 	layoutType
 }: UseVirtualListScrollAnimatedOptions) => {
-	const theme = useTheme()
 	const animatedRef = useAnimatedRef<Animated.ScrollView>()
-	const animatedTiming = useAnimatedTiming({token: theme.token})
+	const animatedTiming = useAnimatedTiming()
 	const contentSharedValue = useSharedValue(contentSize)
 	const lastScrollTo = useSharedValue(-1)
-	const scrollSharedValue = useSharedValue(0)
 	const contentAnimatedStyle = useAnimatedStyle(() => ({
 		...(layoutType === LAYOUT.VERTICAL && ({minHeight: platformValue(contentSharedValue.value)} as ViewStyle)),
 		...(layoutType === LAYOUT.HORIZONTAL && ({minWidth: platformValue(contentSharedValue.value)} as ViewStyle))
@@ -36,27 +35,30 @@ export const useVirtualListAnimated = ({
 		[animatedTiming, contentSharedValue]
 	)
 
-	useDerivedValue(() => {
-		if (!animatedRef.current) {
-			return
+	useAnimatedReaction(
+		() => ({focusedIndex, itemSize, layoutType}),
+		({focusedIndex: nextFocusedIndex, itemSize: nextItemSize, layoutType: nextLayoutType}) => {
+			if (!animatedRef.current) {
+				return
+			}
+
+			const scrollToValue = nextFocusedIndex * nextItemSize
+
+			if (lastScrollTo.value === scrollToValue) {
+				return
+			}
+
+			lastScrollTo.value = scrollToValue
+
+			if (nextLayoutType === LAYOUT.VERTICAL) {
+				scrollTo(animatedRef, 0, scrollToValue, true)
+
+				return
+			}
+
+			scrollTo(animatedRef, scrollToValue, 0, true)
 		}
-
-		const scrollToValue = focusedIndex * itemSize
-
-		if (lastScrollTo.value === scrollToValue) {
-			return
-		}
-
-		lastScrollTo.value = scrollToValue
-
-		if (layoutType === LAYOUT.VERTICAL) {
-			scrollTo(animatedRef, 0, scrollToValue, true)
-
-			return
-		}
-
-		scrollTo(animatedRef, scrollToValue, 0, true)
-	})
+	)
 
 	useEffect(() => {
 		runAnimate(contentSize)
@@ -65,9 +67,8 @@ export const useVirtualListAnimated = ({
 	useEffect(
 		() => () => {
 			cancelAnimation(contentSharedValue)
-			cancelAnimation(scrollSharedValue)
 		},
-		[contentSharedValue, scrollSharedValue]
+		[contentSharedValue]
 	)
 
 	return {animatedRef, contentAnimatedStyle}

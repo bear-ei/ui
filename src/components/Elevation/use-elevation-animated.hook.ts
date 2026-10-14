@@ -19,52 +19,67 @@ export const useElevationAnimated = ({
 	const shadowSharedValue = useSharedValue<number>(level)
 	const {token} = useTheme()
 	const {elevation} = token
-	const animatedTiming = useAnimatedTiming({token})
+	const animatedTiming = useAnimatedTiming()
 	const shadow = token.scheme.shadow
-	const shadowOpacityOutputRanges = [
-		elevation[ELEVATION_LEVEL.LEVEL_0].shadowOpacity,
-		elevation[ELEVATION_LEVEL.LEVEL_1].shadowOpacity,
-		elevation[ELEVATION_LEVEL.LEVEL_2].shadowOpacity,
-		elevation[ELEVATION_LEVEL.LEVEL_3].shadowOpacity,
-		elevation[ELEVATION_LEVEL.LEVEL_4].shadowOpacity,
-		elevation[ELEVATION_LEVEL.LEVEL_5].shadowOpacity
-	]
+	const shadowOpacityOutputRanges = useMemo(
+		() => [
+			elevation[ELEVATION_LEVEL.LEVEL_0].shadowOpacity,
+			elevation[ELEVATION_LEVEL.LEVEL_1].shadowOpacity,
+			elevation[ELEVATION_LEVEL.LEVEL_2].shadowOpacity,
+			elevation[ELEVATION_LEVEL.LEVEL_3].shadowOpacity,
+			elevation[ELEVATION_LEVEL.LEVEL_4].shadowOpacity,
+			elevation[ELEVATION_LEVEL.LEVEL_5].shadowOpacity
+		],
+		[elevation]
+	)
 
-	const elevationOutputRanges = [
-		elevation[ELEVATION_LEVEL.LEVEL_0].elevation,
-		elevation[ELEVATION_LEVEL.LEVEL_1].elevation,
-		elevation[ELEVATION_LEVEL.LEVEL_2].elevation,
-		elevation[ELEVATION_LEVEL.LEVEL_3].elevation,
-		elevation[ELEVATION_LEVEL.LEVEL_4].elevation,
-		elevation[ELEVATION_LEVEL.LEVEL_5].elevation
-	]
+	const elevationOutputRanges = useMemo(
+		() => [
+			elevation[ELEVATION_LEVEL.LEVEL_0].elevation,
+			elevation[ELEVATION_LEVEL.LEVEL_1].elevation,
+			elevation[ELEVATION_LEVEL.LEVEL_2].elevation,
+			elevation[ELEVATION_LEVEL.LEVEL_3].elevation,
+			elevation[ELEVATION_LEVEL.LEVEL_4].elevation,
+			elevation[ELEVATION_LEVEL.LEVEL_5].elevation
+		],
+		[elevation]
+	)
 
-	const shadowRadiusOutputRanges = [
-		elevation[ELEVATION_LEVEL.LEVEL_0].shadowRadius,
-		elevation[ELEVATION_LEVEL.LEVEL_1].shadowRadius,
-		elevation[ELEVATION_LEVEL.LEVEL_2].shadowRadius,
-		elevation[ELEVATION_LEVEL.LEVEL_3].shadowRadius,
-		elevation[ELEVATION_LEVEL.LEVEL_4].shadowRadius,
-		elevation[ELEVATION_LEVEL.LEVEL_5].shadowRadius
-	]
+	const shadowRadiusOutputRanges = useMemo(
+		() => [
+			elevation[ELEVATION_LEVEL.LEVEL_0].shadowRadius,
+			elevation[ELEVATION_LEVEL.LEVEL_1].shadowRadius,
+			elevation[ELEVATION_LEVEL.LEVEL_2].shadowRadius,
+			elevation[ELEVATION_LEVEL.LEVEL_3].shadowRadius,
+			elevation[ELEVATION_LEVEL.LEVEL_4].shadowRadius,
+			elevation[ELEVATION_LEVEL.LEVEL_5].shadowRadius
+		],
+		[elevation]
+	)
 
-	const shadowOffsetXOutputRanges = [
-		elevation[ELEVATION_LEVEL.LEVEL_0].shadowOffset.width,
-		elevation[ELEVATION_LEVEL.LEVEL_1].shadowOffset.width,
-		elevation[ELEVATION_LEVEL.LEVEL_2].shadowOffset.width,
-		elevation[ELEVATION_LEVEL.LEVEL_3].shadowOffset.width,
-		elevation[ELEVATION_LEVEL.LEVEL_4].shadowOffset.width,
-		elevation[ELEVATION_LEVEL.LEVEL_5].shadowOffset.width
-	]
+	const shadowOffsetXOutputRanges = useMemo(
+		() => [
+			elevation[ELEVATION_LEVEL.LEVEL_0].shadowOffset.width,
+			elevation[ELEVATION_LEVEL.LEVEL_1].shadowOffset.width,
+			elevation[ELEVATION_LEVEL.LEVEL_2].shadowOffset.width,
+			elevation[ELEVATION_LEVEL.LEVEL_3].shadowOffset.width,
+			elevation[ELEVATION_LEVEL.LEVEL_4].shadowOffset.width,
+			elevation[ELEVATION_LEVEL.LEVEL_5].shadowOffset.width
+		],
+		[elevation]
+	)
 
-	const shadowOffsetYOutputRanges = [
-		elevation[ELEVATION_LEVEL.LEVEL_0].shadowOffset.height,
-		elevation[ELEVATION_LEVEL.LEVEL_1].shadowOffset.height,
-		elevation[ELEVATION_LEVEL.LEVEL_2].shadowOffset.height,
-		elevation[ELEVATION_LEVEL.LEVEL_3].shadowOffset.height,
-		elevation[ELEVATION_LEVEL.LEVEL_4].shadowOffset.height,
-		elevation[ELEVATION_LEVEL.LEVEL_5].shadowOffset.height
-	]
+	const shadowOffsetYOutputRanges = useMemo(
+		() => [
+			elevation[ELEVATION_LEVEL.LEVEL_0].shadowOffset.height,
+			elevation[ELEVATION_LEVEL.LEVEL_1].shadowOffset.height,
+			elevation[ELEVATION_LEVEL.LEVEL_2].shadowOffset.height,
+			elevation[ELEVATION_LEVEL.LEVEL_3].shadowOffset.height,
+			elevation[ELEVATION_LEVEL.LEVEL_4].shadowOffset.height,
+			elevation[ELEVATION_LEVEL.LEVEL_5].shadowOffset.height
+		],
+		[elevation]
+	)
 
 	const shadowAnimatedStyle = useAnimatedStyle(() => {
 		const shadowOffsetX = interpolate(shadowSharedValue.value, INPUT_RANGES, shadowOffsetXOutputRanges)

@@ -16,36 +16,39 @@ export const useUnderlayAnimated = ({
 	status
 }: UseUnderlayAnimatedOptions) => {
 	const {token} = useTheme()
-	const {opacity} = token
-	const opacities = rawOpacities ?? [opacity.level0, opacity.level1, opacity.level2]
+	const opacities = useMemo(
+		() => rawOpacities ?? [token.opacity.level0, token.opacity.level1, token.opacity.level2],
+		[rawOpacities, token]
+	)
+
 	const {x: scaleX = 1.2, y: scaleY = 1.2} = activeScale ?? {}
 	const defaultScaleValue = active ? 1 : 0
 	const activeValue = opacities.length - 1
 	const hoverLayerSharedValue = useSharedValue(0)
 	const activeLayerSharedValue = useSharedValue(typeof active === 'boolean' ? defaultScaleValue : 0)
-	const animatedTiming = useAnimatedTiming({token})
-	const opacityInputRanges = opacities.map((_value, index) => index)
+	const animatedTiming = useAnimatedTiming()
+	const opacityInputRanges = useMemo(() => opacities.map((_value, index) => index), [opacities])
 	const hoverLayerAnimatedStyle = useAnimatedStyle(() => ({
 		opacity: interpolate(hoverLayerSharedValue.value, opacityInputRanges, opacities)
 	}))
 
 	const activeLayerFadeAnimatedStyle = useAnimatedStyle(() => ({
-		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [opacity.level0, opacity.level10])
+		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level10])
 	}))
 
 	const activeLayerScaleXAnimatedStyle = useAnimatedStyle(() => ({
 		transform: [{scaleX: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleX])}],
-		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [opacity.level0, opacity.level10])
+		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level10])
 	}))
 
 	const activeLayerScaleYAnimatedStyle = useAnimatedStyle(() => ({
 		transform: [{scaleY: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY])}],
-		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [opacity.level0, opacity.level10])
+		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level10])
 	}))
 
 	const activeLayerScaleAnimatedStyle = useAnimatedStyle(() => ({
 		transform: [{scale: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY])}],
-		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [opacity.level0, opacity.level10])
+		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level10])
 	}))
 
 	const activeLayerAnimated = {

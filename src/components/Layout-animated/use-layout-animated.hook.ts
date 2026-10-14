@@ -27,19 +27,23 @@ export const useLayoutAnimated = ({
 	const containerSharedValue = useSharedValue(visible ? 1 : 0)
 	const {token} = useTheme()
 	const opacity = rawOpacity ?? token.opacity.level10
-	const animatedTiming = useAnimatedTiming({token})
+	const animatedTiming = useAnimatedTiming()
 	const animateLayoutAnimatedOptions = useMemo(
 		() => ({animatedType, animatedTiming, entry, exit, onAnimationFinished}),
 		[animatedTiming, entry, exit, onAnimationFinished, animatedType]
 	)
 
-	const opacityOutputRanges = [token.opacity.level0, opacity]
+	const opacityOutputRanges = useMemo(() => [token.opacity.level0, opacity], [opacity, token])
 	const fadeAnimatedStyle = useAnimatedStyle(() => ({
 		opacity: interpolate(containerSharedValue.value, [0, 1], opacityOutputRanges)
 	}))
 
-	const widthOutputRanges = [token.density.layout[DENSITY_SIZE.NONE], width]
-	const transformXOutputRanges = outputRanges ?? [width, token.density.layout[DENSITY_SIZE.NONE]]
+	const widthOutputRanges = useMemo(() => [token.density.layout[DENSITY_SIZE.NONE], width], [token, width])
+	const transformXOutputRanges = useMemo(
+		() => outputRanges ?? [width, token.density.layout[DENSITY_SIZE.NONE]],
+		[outputRanges, token, width]
+	)
+
 	const collapseXAnimatedStyle = useAnimatedStyle(() => {
 		const transforms = []
 
@@ -59,8 +63,12 @@ export const useLayoutAnimated = ({
 		} as ViewStyle
 	})
 
-	const heightOutputRanges = [token.density.layout[DENSITY_SIZE.NONE], height]
-	const transformYOutputRanges = outputRanges ?? [height, token.density.layout[DENSITY_SIZE.NONE]]
+	const heightOutputRanges = useMemo(() => [token.density.layout[DENSITY_SIZE.NONE], height], [height, token])
+	const transformYOutputRanges = useMemo(
+		() => outputRanges ?? [height, token.density.layout[DENSITY_SIZE.NONE]],
+		[height, outputRanges, token]
+	)
+
 	const collapseYAnimatedStyle = useAnimatedStyle(() => {
 		const transforms = []
 
