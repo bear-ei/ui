@@ -46,7 +46,7 @@ export const createToken = ({
 		(palette: PaletteType = PALETTE.NAVY): Token => {
 			const createdPalette = createPalette(palette)
 			const colorScheme = createColorScheme(createdPalette)(scheme)(contrast)
-			const {processStyleVariables, ...classes} = {
+			const classes = {
 				classesName,
 				densityClasses,
 				processStyleVariables: rawProcessStyleVariables,
@@ -54,7 +54,7 @@ export const createToken = ({
 				typographyClasses
 			}
 
-			const token = {
+			return {
 				animated: createAnimatedConfig(density),
 				border: createBorder(),
 				classes,
@@ -67,7 +67,5 @@ export const createToken = ({
 				shape: createShape(density),
 				typography: createTypography(font)(density)
 			}
-
-			return {...token, styleVariables: processStyleVariables(token)}
 		}
 }

@@ -2,7 +2,7 @@ import {useColorScheme} from 'nativewind'
 import {createContext, useId, useMemo, type FC} from 'react'
 import {View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
-import {CONTRAST, createToken, PALETTE, SCHEME, UI_DENSITY, type Token} from '../../theme'
+import {CONTRAST, createToken, PALETTE, processStyleVariables, SCHEME, UI_DENSITY, type Token} from '../../theme'
 import {ModalProvider} from '../Modal-provider'
 import type {Theme, ThemeProviderProps} from './Theme-provider.interface'
 
@@ -22,7 +22,7 @@ const GESTURE_ROOT_STYLE = {flex: 1}
 export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken, uiDensity = UI_DENSITY.COMPACT}) => {
 	const {colorScheme = 'light'} = useColorScheme()
 	const id = useId()
-	const {styleVariables, ...token} = useMemo(
+	const token = useMemo(
 		() =>
 			rawToken ??
 			createToken({density: uiDensity})({
@@ -33,6 +33,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken
 	)
 
 	const providerTheme = useMemo(() => ({colorScheme, token, uiDensity}), [colorScheme, token, uiDensity])
+	const styleVariables = useMemo(() => processStyleVariables(token), [token])
 
 	return (
 		<ThemeContext.Provider value={providerTheme}>

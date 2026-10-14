@@ -256,13 +256,13 @@ const buildTypographyStyleVariables = (typography: Typography) =>
 	)
 
 const processStyleVariables = ({
-	scheme,
-	font,
-	density,
-	shape,
-	typography,
 	border,
-	opacity
+	density,
+	font,
+	opacity,
+	scheme,
+	shape,
+	typography
 }: Omit<Token, 'styleVariables'>) =>
 	vars({
 		...createCssVariables(border)('border')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
