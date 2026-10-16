@@ -10,7 +10,7 @@ export const debounce =
 			}
 		}
 
-		const debouncedFn = (...args: Parameters<T>) => {
+		const debouncedFunc = (...args: Parameters<T>) => {
 			cancel()
 
 			timeoutId = setTimeout(() => {
@@ -19,7 +19,7 @@ export const debounce =
 			}, delay)
 		}
 
-		debouncedFn.cancel = cancel
+		debouncedFunc.cancel = cancel
 
-		return debouncedFn
+		return debouncedFunc
 	}

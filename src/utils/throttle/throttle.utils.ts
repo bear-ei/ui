@@ -29,7 +29,7 @@ export const throttle =
 			}
 		}
 
-		const throttledFn = (...args: Parameters<T>) => {
+		const throttledFunc = (...args: Parameters<T>) => {
 			lastArgs = args
 
 			const now = Date.now()
@@ -51,7 +51,7 @@ export const throttle =
 			}
 		}
 
-		throttledFn.cancel = () => {
+		throttledFunc.cancel = () => {
 			if (timeoutId !== undefined) {
 				clearTimeout(timeoutId)
 				timeoutId = undefined
@@ -61,5 +61,5 @@ export const throttle =
 			lastTime = 0
 		}
 
-		return throttledFn
+		return throttledFunc
 	}

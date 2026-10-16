@@ -53,7 +53,11 @@ const configs = [
 					selector: 'variable',
 					format: ['PascalCase', 'camelCase', 'UPPER_CASE'],
 					prefix: ['is', 'IS_'],
-					types: ['boolean']
+					types: ['boolean'],
+					filter: {
+						regex: '^(next|pending)',
+						match: false
+					}
 				}
 			]
 		}

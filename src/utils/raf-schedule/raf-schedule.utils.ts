@@ -27,7 +27,7 @@ export const rafSchedule = <T extends (...args: any[]) => unknown>(func: T) => {
 		lastArgs = undefined
 	}
 
-	const rafScheduleFn = (...args: Parameters<T>) => {
+	const rafScheduleFunc = (...args: Parameters<T>) => {
 		lastArgs = args
 
 		if (frameId !== undefined) {
@@ -47,7 +47,7 @@ export const rafSchedule = <T extends (...args: any[]) => unknown>(func: T) => {
 		})
 	}
 
-	rafScheduleFn.cancel = cancel
+	rafScheduleFunc.cancel = cancel
 
-	return rafScheduleFn
+	return rafScheduleFunc
 }
