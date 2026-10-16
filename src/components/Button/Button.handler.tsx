@@ -59,8 +59,11 @@ export const updateButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
 export const handleButtonStateChange =
 	({eventName, type, state}: HandleButtonStateChangeOptions) =>
 	(setState: Updater<ButtonState>) =>
-	(_event: StateEvent) =>
-		eventName !== EVENT_NAME.LAYOUT &&
+	(_event: StateEvent) => {
+		if (eventName === EVENT_NAME.LAYOUT) {
+			return
+		}
+
 		setState(draft => {
 			if (draft.eventName === eventName) {
 				return
@@ -70,10 +73,14 @@ export const handleButtonStateChange =
 
 			updateButtonElevation(draft)(type)(state)
 		})
+	}
 
 export const updateButtonDisabledState =
-	(type?: ButtonType) => (setState: Updater<ButtonState>) => (disabled?: boolean) =>
-		typeof disabled === 'boolean' &&
+	(type?: ButtonType) => (setState: Updater<ButtonState>) => (disabled?: boolean) => {
+		if (typeof disabled !== 'boolean') {
+			return
+		}
+
 		setState(draft => {
 			if (disabled) {
 				draft.eventName = EVENT_NAME.NONE
@@ -86,6 +93,7 @@ export const updateButtonDisabledState =
 				draft.elevation = ELEVATION_VALUE.LEVEL_1
 			}
 		})
+	}
 
 export const getButtonUnderlayColor = (token: Token) => (linkColor?: string) => {
 	const underlay = {

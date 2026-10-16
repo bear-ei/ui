@@ -37,9 +37,11 @@ export const updateLayoutAnimatedSize =
 export const handleLayoutAnimatedStateChange =
 	({eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions) =>
 	(event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
-			onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout as LayoutRectangle)
+		if (eventName !== EVENT_NAME.LAYOUT) {
+			return
 		}
+
+		onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout as LayoutRectangle)
 	}
 
 export const finalizeLayoutAnimatedVisibleChange =

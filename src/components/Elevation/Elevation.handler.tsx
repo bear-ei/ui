@@ -35,8 +35,11 @@ export const getWebBoxShadow = ({offsetX, offsetY, blurRadius, opacity, color}: 
 	]
 }
 
-export const updateElevationLevel = (setState: Updater<ElevationState>) => (level?: ElevationValue) =>
-	typeof level === 'number' &&
+export const updateElevationLevel = (setState: Updater<ElevationState>) => (level?: ElevationValue) => {
+	if (typeof level !== 'number') {
+		return
+	}
+
 	setState(draft => {
 		if (draft.level === level) {
 			return
@@ -48,6 +51,7 @@ export const updateElevationLevel = (setState: Updater<ElevationState>) => (leve
 			draft.status = COMPONENT_STATUS.SUCCEEDED
 		}
 	})
+}
 
 /**
  * Build an `animate(level)` function that drives the shadow SharedValue.
