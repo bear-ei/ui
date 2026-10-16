@@ -20,30 +20,31 @@ export const updateCheckboxStatus = (setState: Updater<CheckboxState>) => (indet
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
-const applyCheckboxActiveStateToDraft =
-	(draft: WritableDraft<CheckboxState>) =>
-	({indeterminate, onActive, triggerEvent = true}: UpdateCheckboxActiveOptions) =>
-	(active?: boolean) => {
-		if (typeof active !== 'boolean') {
-			return
-		}
-
-		const activeValue = indeterminate ? CHECKBOX_VALUE.INDETERMINATE : CHECKBOX_VALUE.SELECTED
-		const nextValue = active ? activeValue : CHECKBOX_VALUE.UNSELECTED
-
-		draft.value = nextValue
-
-		if (draft.active !== active && onActive && triggerEvent) {
-			draft.pendingActiveEvent = active
-		}
-
-		draft.active = active
+const applyCheckboxActiveStateToDraft = (
+	draft: WritableDraft<CheckboxState>,
+	{indeterminate, onActive, triggerEvent = true}: UpdateCheckboxActiveOptions,
+	active?: boolean
+) => {
+	if (typeof active !== 'boolean') {
+		return
 	}
+
+	const activeValue = indeterminate ? CHECKBOX_VALUE.INDETERMINATE : CHECKBOX_VALUE.SELECTED
+	const nextValue = active ? activeValue : CHECKBOX_VALUE.UNSELECTED
+
+	draft.value = nextValue
+
+	if (draft.active !== active && onActive && triggerEvent) {
+		draft.pendingActiveEvent = active
+	}
+
+	draft.active = active
+}
 
 export const updateCheckboxActive =
 	(options: UpdateCheckboxActiveOptions) => (setState: Updater<CheckboxState>) => (active?: boolean) =>
 		setState(draft => {
-			applyCheckboxActiveStateToDraft(draft)({...options, triggerEvent: false})(active)
+			applyCheckboxActiveStateToDraft(draft, {...options, triggerEvent: false}, active)
 		})
 
 export const handleCheckboxStateChange =
@@ -58,7 +59,7 @@ export const handleCheckboxStateChange =
 			draft.eventName = eventName
 
 			if (eventName === EVENT_NAME.PRESS_OUT) {
-				applyCheckboxActiveStateToDraft(draft)({indeterminate, onActive})(!active)
+				applyCheckboxActiveStateToDraft(draft, {indeterminate, onActive}, !active)
 			}
 		})
 	}
