@@ -10,7 +10,6 @@ import {
 	DURATION,
 	EASING,
 	hexToRGBA,
-	platformValue,
 	RADIUS,
 	SHAPE,
 	TYPOGRAPHY,
@@ -23,6 +22,7 @@ import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonType, RenderButtonIconProps, RenderButtonProps} from './Button.interface'
+import {platformValue} from '../../utils'
 
 export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 	disabled,
@@ -49,6 +49,10 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 
 	const iconSize = token.density.icon[densitySizeMapIconSize(size)]
 
+	// Intentional override: the parent Button's semantic props (type, disabled)
+	// win over anything the caller set on the icon element. This guarantees
+	// the icon's color/size/disabled state stays in sync with the Button's
+	// state machine instead of drifting from it.
 	return cloneElement(icon, {
 		color: disabled ? disabledColor : color[type],
 		disabled,
@@ -56,6 +60,16 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 		testID: `button__icon--${id}`
 	})
 }
+
+const LOADING_SUPPRESSED_TYPES = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]
+const ACTIVE_INDICATOR_EVENT_NAMES = [
+	EVENT_NAME.FOCUS,
+	EVENT_NAME.HOVER_IN,
+	EVENT_NAME.LONG_PRESS,
+	EVENT_NAME.PRESS_IN,
+	EVENT_NAME.PRESS_OUT,
+	EVENT_NAME.PRESS
+] as readonly EventName[]
 
 export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 	(
@@ -87,19 +101,16 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
 		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
 		const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
-		const eventNames = [
-			EVENT_NAME.FOCUS,
-			EVENT_NAME.HOVER_IN,
-			EVENT_NAME.LONG_PRESS,
-			EVENT_NAME.PRESS_IN,
-			EVENT_NAME.PRESS_OUT,
-			EVENT_NAME.PRESS
-		] as readonly EventName[]
+		const isActiveIndicatorVisible =
+			type === BUTTON_TYPE.LINK && eventName && ACTIVE_INDICATOR_EVENT_NAMES.includes(eventName) && !disabled
 
-		const buttonTypes = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]
-		const isActiveIndicatorVisible = type === BUTTON_TYPE.LINK && eventName && eventNames.includes(eventName)
 		const isLink = type === BUTTON_TYPE.LINK
-		const loadingEventName = type && buttonTypes.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
+		const loadingEventName = LOADING_SUPPRESSED_TYPES.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
+		const underlayEventName =
+			disabled ? EVENT_NAME.NONE
+			: loading ? loadingEventName
+			: eventName
+
 		const shape = isLink ? SHAPE.TOP : SHAPE.ALL
 		const radius = isLink ? RADIUS.X_SMALL : RADIUS.FULL
 		const {entry, exit} = useMemo(
@@ -212,8 +223,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 							)}
 
 							<Underlay
+								eventName={underlayEventName}
 								radius={radius}
-								eventName={loading ? loadingEventName : eventName}
 								shape={shape}
 								testID={`button__underlay--${id}`}
 								underlayColor={underlayColor}

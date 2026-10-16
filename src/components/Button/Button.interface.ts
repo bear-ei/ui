@@ -1,12 +1,13 @@
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
-import type {CommonProps, ComponentStatus, EventName} from '../../constants'
+import type {ComponentStatus, EventName} from '../../constants'
 import type {
 	AnimatedTimingOptions,
 	AnimateSharedValueTo,
 	HandleStateEventChangeOptions,
 	StateEventChangeHandler
 } from '../../hooks'
+import type {CommonProps} from '../../theme'
 import type {ElevationValue} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
 import type {BUTTON_TYPE} from './Button.enum'

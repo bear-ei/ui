@@ -26,22 +26,22 @@ export const updateButtonStatus = (disabled?: boolean) => (setState: Updater<But
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
+const ELEVATED_BUTTON_TYPES = [BUTTON_TYPE.ELEVATED, BUTTON_TYPE.FILLED, BUTTON_TYPE.TONAL] as readonly ButtonType[]
+const ELEVATION_VALUE_MAP = {
+	[STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.ENABLED]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.ERROR]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.FOCUSED]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.HOVERED]: ELEVATION_VALUE.LEVEL_1,
+	[STATE.LONG_PRESS]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
+}
+
 export const updateButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
-	const isElevated =
-		type && ([BUTTON_TYPE.ELEVATED, BUTTON_TYPE.FILLED, BUTTON_TYPE.TONAL] as readonly ButtonType[]).includes(type)
+	const isElevated = type && ELEVATED_BUTTON_TYPES.includes(type)
 
 	if (!isElevated) {
 		return
-	}
-
-	const level = {
-		[STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
-		[STATE.ENABLED]: ELEVATION_VALUE.LEVEL_0,
-		[STATE.ERROR]: ELEVATION_VALUE.LEVEL_0,
-		[STATE.FOCUSED]: ELEVATION_VALUE.LEVEL_0,
-		[STATE.HOVERED]: ELEVATION_VALUE.LEVEL_1,
-		[STATE.LONG_PRESS]: ELEVATION_VALUE.LEVEL_0,
-		[STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
 	}
 
 	const correctionCoefficient = type === BUTTON_TYPE.ELEVATED ? ELEVATION_VALUE.LEVEL_1 : ELEVATION_VALUE.LEVEL_0
@@ -50,7 +50,10 @@ export const updateButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
 		return
 	}
 
-	draft.elevation = (state === STATE.DISABLED ? level[state] : level[state] + correctionCoefficient) as ElevationValue
+	draft.elevation = (
+		state === STATE.DISABLED ?
+			ELEVATION_VALUE_MAP[state]
+		:	ELEVATION_VALUE_MAP[state] + correctionCoefficient) as ElevationValue
 }
 
 export const handleButtonStateChange =

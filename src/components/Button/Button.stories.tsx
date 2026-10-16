@@ -50,7 +50,8 @@ export const Elevated: StoryObj<ButtonProps> = {
 export const Link: StoryObj<ButtonProps> = {
 	args: {
 		labelText: 'Label',
-		type: BUTTON_TYPE.LINK
+		type: BUTTON_TYPE.LINK,
+		disabled: true
 	}
 }
 
