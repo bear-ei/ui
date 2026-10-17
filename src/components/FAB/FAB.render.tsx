@@ -107,7 +107,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 					'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
 					shapeClasses(radius)(shape)
 				)}
-				style={[backgroundUnderlayAnimatedStyle]}
+				style={backgroundUnderlayAnimatedStyle}
 				testID={`fab__backgroundUnderlay--${id}`}
 			/>
 		)
@@ -176,7 +176,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 										)}
 										ellipsizeMode='tail'
 										numberOfLines={1}
-										style={[labelTextAnimatedStyle]}
+										style={labelTextAnimatedStyle}
 										testID={`fab__animatedLabelText--${id}`}
 									>
 										{labelText}

@@ -104,7 +104,7 @@ export const RenderIconButton = forwardRef<PressableType, RenderIconButtonProps>
 					'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
 					shapeClasses(radius)(shape)
 				)}
-				style={[backgroundUnderlayAnimatedStyle]}
+				style={backgroundUnderlayAnimatedStyle}
 				testID={`iconButton__backgroundUnderlay--${id}`}
 			/>
 		)

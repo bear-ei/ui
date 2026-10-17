@@ -1,9 +1,10 @@
-import {forwardRef} from 'react'
+import {forwardRef, useMemo} from 'react'
 import {View, type ViewStyle} from 'react-native'
 import {classesName, RADIUS, SHAPE, shapeClasses} from '../../../theme'
 import {platformValue} from '../../../utils'
 import {AnimatedView} from '../../Animated'
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
+import type {AnimatedStyle} from 'react-native-reanimated'
 
 export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps>(
 	(
@@ -22,13 +23,20 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
 		ref
 	) => {
 		const {onLayout} = interactionHandlers
-		const touchableRippleStyle = {
-			...(underlayColor && {backgroundColor: underlayColor}),
-			height: platformValue(size),
-			left: platformValue(locationX),
-			top: platformValue(locationY),
-			width: platformValue(size)
-		} as ViewStyle
+		const animatedViewStyle = useMemo(
+			() => [
+				style,
+				{
+					...(underlayColor && {backgroundColor: underlayColor}),
+					height: platformValue(size),
+					left: platformValue(locationX),
+					top: platformValue(locationY),
+					width: platformValue(size)
+				} as ViewStyle,
+				containerAnimatedStyle
+			],
+			[style, size, locationX, locationY, underlayColor, containerAnimatedStyle]
+		)
 
 		return (
 			<AnimatedView
@@ -39,7 +47,7 @@ export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps
 					shapeClasses(RADIUS.FULL)(SHAPE.ALL)
 				)}
 				ref={ref}
-				style={[style, touchableRippleStyle, containerAnimatedStyle]}
+				style={animatedViewStyle}
 				testID={testID ?? `touchableRipple--${id}`}
 			/>
 		)

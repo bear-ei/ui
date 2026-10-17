@@ -1,4 +1,4 @@
-import {forwardRef} from 'react'
+import {forwardRef, useMemo} from 'react'
 import {View} from 'react-native'
 import {useTheme} from '../../hooks'
 import {RADIUS, SHAPE} from '../../theme'
@@ -26,8 +26,15 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
 		const {token} = useTheme()
 		const {classesName, shapeClasses} = token.classes
 		const {onLayout} = interactionHandlers
-		const activeLayerStyle = {...(activeColor && {backgroundColor: activeColor})}
-		const hoverLayerStyle = {...(underlayColor && {backgroundColor: underlayColor})}
+		const activeLayerStyle = useMemo(
+			() => [{...(activeColor && {backgroundColor: activeColor})}, activeLayerAnimatedStyle],
+			[activeColor, activeLayerAnimatedStyle]
+		)
+
+		const hoverLayerStyle = useMemo(
+			() => [{...(underlayColor && {backgroundColor: underlayColor})}, hoverLayerAnimatedStyle],
+			[underlayColor, hoverLayerAnimatedStyle]
+		)
 
 		return (
 			<View
@@ -42,7 +49,7 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
 			>
 				<AnimatedView
 					className='absolute bottom-0 left-0 right-0 top-0 z-20'
-					style={[hoverLayerStyle, hoverLayerAnimatedStyle]}
+					style={hoverLayerStyle}
 					testID={`underlay__hoverLayer--${id}`}
 				/>
 
@@ -52,7 +59,7 @@ export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(
 							'absolute bottom-0 left-0 right-0 top-0 z-10',
 							shapeClasses(activeRadius ?? radius)(shape)
 						)}
-						style={[activeLayerStyle, activeLayerAnimatedStyle]}
+						style={activeLayerStyle}
 						testID={`underlay__activeLayer--${id}`}
 					/>
 				)}

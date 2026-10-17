@@ -127,7 +127,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 					'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
 					shapeClasses(radius)(shape)
 				)}
-				style={[backgroundUnderlayAnimatedStyle]}
+				style={backgroundUnderlayAnimatedStyle}
 				testID={`button__backgroundUnderlay--${id}`}
 			/>
 		)
@@ -142,7 +142,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 				/>
 			:	<></>
 
-		const activeIndicatorStyle = {...(linkColor && {backgroundColor: linkColor})}
+		const activeIndicatorStyle = useMemo(() => ({...(linkColor && {backgroundColor: linkColor})}), [linkColor])
 
 		return (
 			<View
@@ -150,7 +150,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 				accessibilityRole='button'
 				accessibilityState={{disabled}}
 				accessible={true}
-				style={[style]}
+				style={style}
 				className={classesName('cursor-pointer', {
 					[`${densityControlClasses(size)} w-auto min-w-20`]: !isLink,
 					[`${typographyClasses(TYPOGRAPHY.LABEL)(TYPOGRAPHY_SIZE.SMALL)} min-w-[--density-inline-xx-small]`]:
@@ -204,7 +204,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 									)}
 									ellipsizeMode='tail'
 									numberOfLines={1}
-									style={[labelTextAnimatedStyle]}
+									style={labelTextAnimatedStyle}
 									testID={`button__animatedLabelText--${id}`}
 								>
 									{labelText}
@@ -217,7 +217,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 									className='absolute bottom-0 left-0 right-0 z-20 min-h-[--border-small] bg-[--color-primary]'
 									entry={entry}
 									exit={exit}
-									style={[activeIndicatorStyle]}
+									style={activeIndicatorStyle}
 									testID={`button__activeIndicator--${id}`}
 									visible={isActiveIndicatorVisible}
 								/>

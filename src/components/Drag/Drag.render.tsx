@@ -19,7 +19,7 @@ export const RenderDrag = forwardRef<View, RenderDragProps>(
 				<GestureDetector gesture={panGesture}>
 					<AnimatedView
 						className='absolute bottom-0 left-0 right-0 top-0 z-40'
-						style={[animatedStyle]}
+						style={animatedStyle}
 						testID={`drag__content--${id}`}
 					>
 						{children}

@@ -60,7 +60,7 @@ export const RenderProgressActiveIndicatorCircular = forwardRef<View, RenderProg
 				)}
 
 				<AnimatedView
-					style={[containerAnimatedStyle]}
+					style={containerAnimatedStyle}
 					testID={`progressActiveIndicatorCircular__animatedMain--${id}`}
 				>
 					<Svg

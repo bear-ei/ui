@@ -22,7 +22,7 @@ export const RenderElevation = forwardRef<View, RenderElevationProps>(
 			>
 				<AnimatedView
 					className={classesName('flex-1 self-stretch', shapeClasses(radius)(shape))}
-					style={[shadowAnimatedStyle]}
+					style={shadowAnimatedStyle}
 					testID={`elevation__shadow--${id}`}
 				/>
 			</View>

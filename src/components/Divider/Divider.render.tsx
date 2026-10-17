@@ -48,7 +48,7 @@ export const RenderDivider = forwardRef<View, RenderDividerProps>(
 					className={classesName('flex-1 self-stretch bg-[--color-outline-variant]', {
 						['max-h-[--border-small]']: subheader
 					})}
-					style={[style]}
+					style={style}
 					testID={`divider__content--${id}`}
 				/>
 

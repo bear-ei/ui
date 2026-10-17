@@ -29,7 +29,7 @@ export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgre
 						'pointer-events-none z-20 bg-[--color-primary]',
 						shapeClasses(radius)(shape)
 					)}
-					style={[contentAnimatedStyle]}
+					style={contentAnimatedStyle}
 					testID={`progressActiveIndicatorLinear__animatedContent--${id}`}
 				/>
 

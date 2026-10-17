@@ -1,4 +1,4 @@
-import {cloneElement, forwardRef} from 'react'
+import {cloneElement, forwardRef, useMemo} from 'react'
 import {Image, Text, View, type ViewStyle} from 'react-native'
 import {useTheme} from '../../hooks'
 import {
@@ -35,10 +35,16 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
 		const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)()
 		const isSVG = !!svgElement
-		const avatarStyle = {
-			...(backgroundColor && {backgroundColor}),
-			...(typeof size === 'number' && {width: platformValue(size), height: platformValue(size)})
-		} as ViewStyle
+		const avatarStyle = useMemo(
+			() => [
+				{
+					...(backgroundColor && {backgroundColor}),
+					...(typeof size === 'number' && {width: platformValue(size), height: platformValue(size)})
+				} as ViewStyle,
+				style
+			],
+			[backgroundColor, size, style]
+		)
 
 		return (
 			<View
@@ -52,7 +58,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 					shapeClasses(radius)(SHAPE.ALL)
 				)}
 				ref={ref}
-				style={[avatarStyle, style]}
+				style={avatarStyle}
 				testID={testID ?? `avatar--${id}`}
 			>
 				{isSVG && (
