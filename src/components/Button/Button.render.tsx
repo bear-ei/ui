@@ -156,7 +156,8 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 					[`${typographyClasses(TYPOGRAPHY.LABEL)(TYPOGRAPHY_SIZE.SMALL)} min-w-[--density-inline-xx-small]`]:
 						isLink,
 					['self-start']: !stretch,
-					['self-stretch']: stretch
+					['self-stretch']: stretch,
+					['pointer-events-none']: disabled
 				})}
 				tabIndex={-1}
 				testID={testID ?? `button--${id}`}

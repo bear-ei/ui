@@ -39,7 +39,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 		ref
 	) => {
 		const {token} = useTheme()
-		const {densityClasses} = token.classes
+		const {densityClasses, classesName} = token.classes
 		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
 		const activeColor = error ? token.scheme.error : token.scheme.primary
 		const unselectedColor =
@@ -71,7 +71,7 @@ export const RenderCheckbox = forwardRef<PressableType, RenderCheckboxProps>(
 				accessibilityRole='checkbox'
 				accessibilityState={{disabled, checked}}
 				accessible={true}
-				className={densityControlClasses(size)}
+				className={classesName(densityControlClasses(size), {['pointer-events-none']: disabled})}
 				tabIndex={-1}
 				testID={testID ?? `checkbox--${id}`}
 			>

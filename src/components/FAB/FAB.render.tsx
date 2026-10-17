@@ -45,6 +45,10 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
 	const iconSize =
 		extended ? token.density.icon[DENSITY_SIZE.MEDIUM] : token.density.icon[densitySizeMapIconSize(rawSize)]
 
+	// Intentional override: the parent Fab's semantic props (type, disabled)
+	// win over anything the caller set on the icon element. This guarantees
+	// the icon's color, size, and disabled state stay in sync with the Fab's
+	// appearance instead of drifting from it.
 	return cloneElement(icon, {
 		color: disabled ? disabledColor : color[type],
 		disabled,
@@ -125,7 +129,8 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 				accessibilityState={{disabled}}
 				className={classesName('cursor-pointer', {
 					[densityControlClasses(size)]: !extended,
-					[`${densityControlClasses(size)} min-w-24 self-start`]: extended
+					[`${densityControlClasses(size)} min-w-24 self-start`]: extended,
+					['pointer-events-none']: disabled
 				})}
 				tabIndex={-1}
 				testID={testID ?? `fab--${id}`}

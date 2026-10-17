@@ -1,0 +1,76 @@
+import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {useImmer} from 'use-immer'
+import type {State} from '../../constants'
+import {type HandleStateEventChangeOptions, type StateEvent, useTheme} from '../../hooks'
+import type {PressableType} from '../Touchable'
+import {ICON_BUTTON_TYPE} from './Icon-button.enum'
+import {
+	getIconButtonUnderlayColor,
+	handleIconButtonStateChange,
+	updateIconButtonDisabledState
+} from './Icon-button.handler'
+import type {IconButtonBaseProps, IconButtonState} from './Icon-button.interface'
+import {RenderIconButton, RenderIconButtonIcon} from './Icon-button.render'
+import {useIconButtonAnimated} from './use-icon-button-animated.hook'
+
+export const IconButtonBase = forwardRef<PressableType, IconButtonBaseProps>(
+	(
+		{
+			disabled: rawDisabled = false,
+			icon,
+			iconColor,
+			loading,
+			size,
+			type = ICON_BUTTON_TYPE.STANDARD,
+			...renderIconButtonProps
+		},
+		ref
+	) => {
+		const [{eventName}, setState] = useImmer<IconButtonState>({})
+		const id = useId()
+		const isDisabled = loading || rawDisabled
+		const theme = useTheme()
+		const underlayColor = getIconButtonUnderlayColor(theme)(type)
+		const onStateEventChange = useCallback(
+			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
+				handleIconButtonStateChange({...options, state})(setState)(event),
+			[setState]
+		)
+
+		const {backgroundUnderlayAnimatedStyle} = useIconButtonAnimated({disabled: rawDisabled, type})
+		const runUpdateDisabledState = useMemo(() => updateIconButtonDisabledState(setState), [setState])
+		const iconElement = (
+			<RenderIconButtonIcon
+				disabled={isDisabled}
+				icon={icon}
+				iconColor={iconColor}
+				id={id}
+				size={size}
+				type={type}
+			/>
+		)
+
+		useEffect(() => {
+			runUpdateDisabledState(isDisabled)
+		}, [runUpdateDisabledState, isDisabled])
+
+		return (
+			<RenderIconButton
+				{...renderIconButtonProps}
+				backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
+				disabled={isDisabled}
+				eventName={eventName}
+				iconElement={iconElement}
+				id={id}
+				loading={loading}
+				onStateEventChange={onStateEventChange}
+				ref={ref}
+				size={size}
+				type={type}
+				underlayColor={underlayColor}
+			/>
+		)
+	}
+)
+
+IconButtonBase.displayName = 'IconButtonBase'
