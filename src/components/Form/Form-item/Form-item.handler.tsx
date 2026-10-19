@@ -19,9 +19,10 @@ export const applyFormItemStatusInitToDraft =
 				return
 			}
 
-			draft.signOutEvent = signOut
 			draft.status = COMPONENT_STATUS.SUCCEEDED
 		})
+
+		return signOut
 	}
 
 export const updateFormFieldValueIfChanged =
