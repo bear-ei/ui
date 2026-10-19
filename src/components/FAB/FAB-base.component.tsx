@@ -27,7 +27,7 @@ export const FABBase = forwardRef<PressableType, FABBaseProps>(
 	) => {
 		const [{elevation, eventName, status}, setState] = useImmer<FABState>({
 			status: COMPONENT_STATUS.IDLE,
-			elevation: ELEVATION_VALUE.LEVEL_3
+			elevation: elevated ? ELEVATION_VALUE.LEVEL_3 : ELEVATION_VALUE.LEVEL_0
 		})
 
 		const id = useId()

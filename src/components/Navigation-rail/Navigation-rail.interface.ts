@@ -37,7 +37,6 @@ export interface RenderNavigationRailProps extends NavigationRailProps {
 	fabElement?: React.JSX.Element
 	itemElements?: React.JSX.Element
 	menuElement?: React.JSX.Element
-	onActiveSource?: (activeKey?: string) => void
 }
 
 export type NavigationRailBaseProps = NavigationRailProps

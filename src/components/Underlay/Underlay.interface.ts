@@ -38,6 +38,7 @@ export interface RenderUnderlayProps extends UnderlayProps {
 
 export type UnderlayBaseProps = UnderlayProps
 export interface UnderlayState {
+	active?: boolean
 	eventName?: EventName
 	state?: State
 	status: ComponentStatus

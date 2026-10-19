@@ -48,6 +48,7 @@ export interface LayoutAnimatedState {
 	pendingAnimationFinishedEvent?: boolean
 	pendingUnmountEvent?: boolean
 	status: ComponentStatus
+	visible?: boolean
 }
 
 export type LayoutAnimatedBaseProps = LayoutAnimatedProps
