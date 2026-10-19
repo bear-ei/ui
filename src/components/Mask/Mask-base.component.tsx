@@ -4,22 +4,18 @@ import {useInteractionStateEvent} from '../../hooks'
 import type {MaskBaseProps} from './Mask.interface'
 import {RenderMask} from './Mask.render'
 
-export const MaskBase = forwardRef<View, MaskBaseProps>(
-	({visible, defaultVisible, onPress, onPressIn, onPressOut, ...renderMaskProps}, ref) => {
-		const id = useId()
-		const interactionHandlers = useInteractionStateEvent({...renderMaskProps, onPress, onPressIn, onPressOut})
-		const isVisible = visible ?? defaultVisible
+export const MaskBase = forwardRef<View, MaskBaseProps>(({onPress, onPressIn, onPressOut, ...renderMaskProps}, ref) => {
+	const id = useId()
+	const interactionHandlers = useInteractionStateEvent({...renderMaskProps, onPress, onPressIn, onPressOut})
 
-		return (
-			<RenderMask
-				{...renderMaskProps}
-				id={id}
-				interactionHandlers={interactionHandlers}
-				ref={ref}
-				visible={isVisible}
-			/>
-		)
-	}
-)
+	return (
+		<RenderMask
+			{...renderMaskProps}
+			id={id}
+			interactionHandlers={interactionHandlers}
+			ref={ref}
+		/>
+	)
+})
 
 MaskBase.displayName = 'MaskBase'

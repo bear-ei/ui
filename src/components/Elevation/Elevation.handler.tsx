@@ -41,15 +41,15 @@ export const updateElevationLevel = (setState: Updater<ElevationState>) => (leve
 	}
 
 	setState(draft => {
+		if (draft.status === COMPONENT_STATUS.IDLE) {
+			draft.status = COMPONENT_STATUS.SUCCEEDED
+		}
+
 		if (draft.level === level) {
 			return
 		}
 
 		draft.level = level
-
-		if (draft.status === COMPONENT_STATUS.IDLE) {
-			draft.status = COMPONENT_STATUS.SUCCEEDED
-		}
 	})
 }
 

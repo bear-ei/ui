@@ -1,5 +1,5 @@
 import {forwardRef, useMemo} from 'react'
-import {Pressable, View, type ViewStyle} from 'react-native'
+import {Pressable, View} from 'react-native'
 import {useTheme} from '../../hooks'
 import {DURATION, EASING, hexToRGBA} from '../../theme'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
@@ -7,7 +7,18 @@ import type {RenderMaskProps} from './Mask.interface'
 
 export const RenderMask = forwardRef<View, RenderMaskProps>(
 	(
-		{backgroundColor, className, id, interactionHandlers, opacity = 0.2, style, testID, visible, ...containerProps},
+		{
+			backgroundColor,
+			className,
+			defaultVisible,
+			id,
+			interactionHandlers,
+			opacity = 0.2,
+			style,
+			testID,
+			visible,
+			...containerProps
+		},
 		ref
 	) => {
 		const {token} = useTheme()
@@ -33,9 +44,10 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
 				animatedType={LAYOUT_ANIMATED.FADE}
 				entry={entry}
 				exit={exit}
+				defaultVisible={defaultVisible}
 				visible={visible}
 				className={classesName('absolute bottom-0 left-0 right-0 top-0 cursor-default', className, {
-					['z-40']: visible
+					['z-40']: visible ?? defaultVisible
 				})}
 				ref={ref}
 				testID={testID ?? `mask--${id}`}

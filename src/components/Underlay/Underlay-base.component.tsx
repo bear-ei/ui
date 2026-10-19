@@ -22,8 +22,8 @@ export const UnderlayBase = forwardRef<View, UnderlayBaseProps>(
 		ref
 	) => {
 		const [{status, eventName, active: isActive}, setState] = useImmer<UnderlayState>({
-			status: COMPONENT_STATUS.IDLE,
-			active: rawActive ?? defaultActive
+			active: rawActive ?? defaultActive,
+			status: COMPONENT_STATUS.IDLE
 		})
 
 		const id = useId()

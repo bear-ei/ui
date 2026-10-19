@@ -15,6 +15,7 @@ export interface RenderProgressActiveIndicatorLinearProps extends ProgressActive
 
 export interface ProgressActiveIndicatorLinearState {
 	status: ComponentStatus
+	value?: number
 }
 
 export type ProgressActiveIndicatorLinearBaseProps = ProgressActiveIndicatorLinearProps

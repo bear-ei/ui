@@ -32,6 +32,20 @@ export const animateProgressActiveIndicatorLinear =
 		}
 	}
 
+export const updateProgressValue = (setState: Updater<ProgressActiveIndicatorLinearState>) => (value?: number) => {
+	if (typeof value !== 'number') {
+		return
+	}
+
+	setState(draft => {
+		if (draft.value === value) {
+			return
+		}
+
+		draft.value = value
+	})
+}
+
 export const handleProgressStateChange =
 	({eventName}: HandleStateEventChangeOptions) =>
 	(setState: Updater<ProgressActiveIndicatorLinearState>) =>

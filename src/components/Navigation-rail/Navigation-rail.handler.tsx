@@ -18,11 +18,11 @@ export const updateNavigationRailActiveKey =
 				return
 			}
 
+			draft.activeKey = activeKey
+
 			if (onActive && triggerEvent) {
 				draft.pendingActiveEvent = activeKey
 			}
-
-			draft.activeKey = activeKey
 		})
 	}
 
