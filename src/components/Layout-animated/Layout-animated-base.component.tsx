@@ -109,12 +109,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		}, [contentSize, runLayoutChange])
 
 		useEffect(() => {
-			runUpdateVisible(isVisible)
-		}, [isVisible, runUpdateVisible])
+			runUpdateVisible(rawVisible)
+		}, [rawVisible, runUpdateVisible])
 
 		useEffect(() => {
-			runUpdateStatus(isVisible)
-		}, [isVisible, runUpdateStatus])
+			runUpdateStatus(rawVisible)
+		}, [rawVisible, runUpdateStatus])
 
 		if (status === COMPONENT_STATUS.IDLE && (lazy || unmount)) {
 			return <></>
