@@ -16,6 +16,7 @@ import {RenderCheckbox} from './Checkbox.render'
 export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 	({active: rawActive, defaultActive, disabled, error, indeterminate, onActive, ...renderCheckboxProps}, ref) => {
 		const [{active: isActive, eventName, value, pendingActiveEvent, status}, setState] = useImmer<CheckboxState>({
+			active: rawActive ?? defaultActive,
 			status: COMPONENT_STATUS.IDLE,
 			value: CHECKBOX_VALUE.UNSELECTED
 		})
@@ -48,8 +49,8 @@ export const CheckboxBase = forwardRef<PressableType, CheckboxBaseProps>(
 		}, [indeterminate, runUpdateIndeterminate, runUpdateStatus])
 
 		useEffect(() => {
-			runUpdateActive(rawActive ?? defaultActive)
-		}, [runUpdateActive, defaultActive, rawActive])
+			runUpdateActive(rawActive)
+		}, [runUpdateActive, rawActive])
 
 		return (
 			<RenderCheckbox

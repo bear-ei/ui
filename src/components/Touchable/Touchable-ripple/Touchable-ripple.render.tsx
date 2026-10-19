@@ -4,7 +4,6 @@ import {classesName, RADIUS, SHAPE, shapeClasses} from '../../../theme'
 import {platformValue} from '../../../utils'
 import {AnimatedView} from '../../Animated'
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
-import type {AnimatedStyle} from 'react-native-reanimated'
 
 export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps>(
 	(
