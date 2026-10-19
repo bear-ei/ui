@@ -13,7 +13,8 @@ import {
 	finalizeLayoutAnimatedVisibleChange,
 	handleLayoutAnimatedStateChange,
 	updateLayoutAnimatedSize,
-	updateLayoutAnimatedStatus
+	updateLayoutAnimatedStatus,
+	updateLayoutAnimatedVisible
 } from './Layout-animated.handler'
 import type {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
 import {RenderLayoutAnimated} from './Layout-animated.render'
@@ -36,15 +37,16 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			scale = false,
 			translate,
 			unmount,
-			visible,
+			visible: rawVisible,
 			...renderLayoutAnimatedProps
 		},
 		ref
 	) => {
-		const [{layout, pendingAnimationFinishedEvent, pendingUnmountEvent, status}, setState] =
+		const [{layout, pendingAnimationFinishedEvent, pendingUnmountEvent, status, visible: isVisible}, setState] =
 			useImmer<LayoutAnimatedState>({
 				layout: {} as Partial<LayoutRectangle>,
-				status: COMPONENT_STATUS.IDLE
+				status: COMPONENT_STATUS.IDLE,
+				visible: rawVisible ?? defaultVisible
 			})
 
 		usePendingEvent({func: onUnmount, eventKey: 'pendingUnmountEvent', setState, pendingEvent: pendingUnmountEvent})
@@ -56,7 +58,6 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		})
 
 		const id = useId()
-		const isVisible = visible ?? defaultVisible
 		const contentSize = useMemo(
 			() =>
 				typeof rawContentSize === 'number' ? {width: rawContentSize, height: rawContentSize} : rawContentSize,
@@ -98,6 +99,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		})
 
 		const runUpdateStatus = useMemo(() => updateLayoutAnimatedStatus(lazy)(setState), [lazy, setState])
+		const runUpdateVisible = useMemo(() => updateLayoutAnimatedVisible(setState), [setState])
 		const runLayoutChange = onLayoutChange
 
 		useEffect(() => {
@@ -105,6 +107,10 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 				runLayoutChange()
 			}
 		}, [contentSize, runLayoutChange])
+
+		useEffect(() => {
+			runUpdateVisible(isVisible)
+		}, [isVisible, runUpdateVisible])
 
 		useEffect(() => {
 			runUpdateStatus(isVisible)

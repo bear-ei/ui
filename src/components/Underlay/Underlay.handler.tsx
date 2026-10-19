@@ -72,6 +72,20 @@ export const animateUnderlayHoverState = ({animatedTiming, activeValue}: Animate
 	}
 }
 
+export const updateUnderlayActive = (setState: Updater<UnderlayState>) => (active?: boolean) => {
+	if (typeof active !== 'boolean') {
+		return
+	}
+
+	setState(draft => {
+		if (draft.active === active) {
+			return
+		}
+
+		draft.active = active
+	})
+}
+
 export const animateUnderlayActiveState =
 	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
 	(activeLayerSharedValue: SharedValue<number>) => {
