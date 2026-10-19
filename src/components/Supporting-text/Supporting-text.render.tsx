@@ -23,12 +23,20 @@ export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(
 			[]
 		)
 
+		const contentSize = useMemo(
+			() => ({
+				height: token.typography[TYPOGRAPHY.BODY][TYPOGRAPHY_SIZE.SMALL].height
+			}),
+			[token]
+		)
+
 		return (
 			<LayoutAnimated
 				{...props}
 				animatedType={LAYOUT_ANIMATED.FADE}
 				className={classesName('min-h-[--typography-body-small-height]', densityInsetClasses(size), className)}
-				contentSize={{height: token.typography[TYPOGRAPHY.BODY][TYPOGRAPHY_SIZE.SMALL].height}}
+				contentSize={contentSize}
+				defaultVisible={true}
 				entry={entry}
 				exit={exit}
 				ref={ref}
@@ -43,7 +51,7 @@ export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(
 						},
 						typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.SMALL)()
 					)}
-					style={[textAnimatedStyle]}
+					style={textAnimatedStyle}
 					testID={`supportingText__animatedText--${id}`}
 				>
 					{children}

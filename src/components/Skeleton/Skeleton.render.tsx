@@ -33,6 +33,8 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
 			[]
 		)
 
+		const animatedViewStyle = useMemo(() => [style, containerAnimatedStyle], [style, containerAnimatedStyle])
+
 		return (
 			<>
 				{skeleton && (
@@ -63,7 +65,7 @@ export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
 								},
 								className
 							)}
-							style={[style, containerAnimatedStyle]}
+							style={animatedViewStyle}
 							testID={`skeleton__animatedSkeletonLayout--${id}`}
 						>
 							{skeleton}

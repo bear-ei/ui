@@ -26,7 +26,7 @@ export interface UnderlayProps extends ViewProps, RefAttributes<View>, CommonPro
 	 */
 	activeScale?: {scaleX?: number; scaleY?: number; scale?: number}
 	eventName?: EventName
-	opacities?: [number, number, number]
+	opacities?: [number, number, number] | [number, number]
 	underlayColor?: string
 }
 

@@ -126,7 +126,7 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
 									)}
 									ellipsizeMode='tail'
 									numberOfLines={1}
-									style={[labelTextAnimatedStyle]}
+									style={labelTextAnimatedStyle}
 									testID={`navigationRailItem__animatedLabelText--${id}`}
 								>
 									{labelText}
