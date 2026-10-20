@@ -1,4 +1,4 @@
-import type {GestureResponderEvent, PanResponderInstance, StyleProp, TextStyle, ViewStyle} from 'react-native'
+import type {GestureResponderEvent, PanResponderInstance, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ComponentStatus, EventName, State} from '../../../constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
@@ -45,7 +45,7 @@ export interface ListItemProps
 	 * ripple is always one z-index level below the main container. This property is used to specify the background
 	 * color when ripples are enabled.
 	 */
-	contentStyle?: StyleProp<ViewStyle>
+	contentStyle?: ViewStyle
 	dependencies?: unknown[]
 	dragging?: boolean
 	headline?: React.ReactNode
@@ -60,11 +60,11 @@ export interface ListItemProps
 	primaryButtonDisabled?: boolean
 	primaryButtonLabelText?: string
 	primaryButtonLoading?: boolean
-	primaryButtonStyle?: StyleProp<ViewStyle>
+	primaryButtonStyle?: ViewStyle
 	secondaryButtonDisabled?: boolean
 	secondaryButtonLabelText?: string
 	secondaryButtonLoading?: boolean
-	secondaryButtonStyle?: StyleProp<ViewStyle>
+	secondaryButtonStyle?: ViewStyle
 	supporting?: string | React.JSX.Element
 	trailingDisabled?: boolean
 }

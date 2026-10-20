@@ -1,5 +1,5 @@
 import type {RefAttributes} from 'react'
-import type {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
+import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ComponentStatus, LayoutRectangle, PartialSize} from '../../constants'
 import type {
@@ -8,7 +8,7 @@ import type {
 	HandleStateEventChangeOptions,
 	InteractionHandlers
 } from '../../hooks'
-import type {ThemeProps, Duration, Easing} from '../../theme'
+import type {Duration, Easing, ThemeProps} from '../../theme'
 import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
@@ -32,7 +32,7 @@ export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View
 	translate?: boolean
 	// ]
 
-	style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>
+	style?: AnimatedStyle<ViewStyle>
 	unmount?: boolean
 	visible?: boolean
 }
