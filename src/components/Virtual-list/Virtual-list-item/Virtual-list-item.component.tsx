@@ -15,5 +15,5 @@ const VirtualListItemWithRef = forwardRef<View, VirtualListItemProps>((props, re
 VirtualListItemWithRef.displayName = 'VirtualListItem'
 
 export const VirtualListItem = typedMemo(VirtualListItemWithRef, (prevProps, nextProps) =>
-	compareVirtualListItemProps(prevProps)(nextProps)
+	compareVirtualListItemProps(prevProps, nextProps)
 )

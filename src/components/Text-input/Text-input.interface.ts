@@ -3,7 +3,7 @@ import type {PressableProps, TextInputProps as RNTextInputProps, TextInput, Text
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {ComponentStatus, EventName, PartialSize, State} from '../../constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
-import type {CommonProps} from '../../theme'
+import type {ThemeProps} from '../../theme'
 import type {TEXT_INPUT_TYPE} from './Text-input.enum'
 
 export type TextInputType = (typeof TEXT_INPUT_TYPE)[keyof typeof TEXT_INPUT_TYPE]
@@ -15,7 +15,7 @@ export interface TextInputProps
 				RefAttributes<TextInput> &
 				InteractionHandlers
 		>,
-		CommonProps {
+		ThemeProps {
 	content?: React.ReactNode
 	disabled?: boolean
 	error?: boolean

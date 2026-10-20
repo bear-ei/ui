@@ -4,7 +4,7 @@ import type {PLATFORM} from './theme.enum'
 
 export type Platform = (typeof PLATFORM)[keyof typeof PLATFORM]
 
-export interface CommonProps {
+export interface ThemeProps {
 	radius?: RadiusType
 	shape?: ShapeType
 	size?: DensitySizeScale

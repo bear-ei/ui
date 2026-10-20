@@ -1,8 +1,8 @@
 import type {RefAttributes} from 'react'
-import type {NativeTouchEvent, Pressable, PressableProps, StyleProp, View, ViewStyle} from 'react-native'
+import type {NativeTouchEvent, Pressable, PressableProps, View, ViewStyle} from 'react-native'
 import type {LayoutRectangle, State} from '../../constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers, StateEventChangeHandler} from '../../hooks'
-import type {CommonProps} from '../../theme'
+import type {ThemeProps} from '../../theme'
 import type {TouchableRippleProps} from './Touchable-ripple'
 
 export type PressableType = typeof Pressable & View
@@ -12,7 +12,7 @@ export interface TouchableProps
 			PressableProps & RefAttributes<PressableType> & InteractionHandlers,
 			'children' | 'disabled' | 'hitSlop' | 'style'
 		>,
-		CommonProps {
+		ThemeProps {
 	backgroundUnderlay?: React.JSX.Element
 	centered?: boolean
 	children?: React.JSX.Element
@@ -20,7 +20,7 @@ export interface TouchableProps
 	elevationUnderlay?: React.JSX.Element
 	enableTouchableRipple?: boolean
 	onStateEventChange?: StateEventChangeHandler
-	style?: StyleProp<ViewStyle>
+	style?: ViewStyle
 	underlayColor?: string
 }
 

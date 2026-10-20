@@ -5,7 +5,7 @@ import type {AnimatedStyle} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 import type {ComponentStatus, LayoutRectangle, LayoutType} from '../../constants'
 import type {InteractionHandlers} from '../../hooks'
-import type {CommonProps} from '../../theme'
+import type {ThemeProps} from '../../theme'
 import type {NativeScrollEvent} from 'react-native'
 
 export interface Item {
@@ -35,7 +35,7 @@ export interface NativeDragEvent extends PanGestureHandlerEventPayload {
 	targetKey?: string
 }
 
-export interface VirtualListProps<T> extends Omit<ScrollViewProps, 'onScroll'>, RefAttributes<ScrollView>, CommonProps {
+export interface VirtualListProps<T> extends Omit<ScrollViewProps, 'onScroll'>, RefAttributes<ScrollView>, ThemeProps {
 	activeKey?: string
 	data?: VirtualListData<T>[]
 	dependencies?: unknown[]

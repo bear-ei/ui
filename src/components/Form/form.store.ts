@@ -8,9 +8,9 @@ import type {
 	FormStoreOptions,
 	FormValidateRule,
 	FormValidatorOptions,
-	OnValuesChangeOptions,
 	SetFieldsValueOptions,
-	SignInFieldOptions
+	SignInFieldOptions,
+	ValuesChangeEvent
 } from './Form.interface'
 
 const createFormContext = <T>() => ({
@@ -168,7 +168,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		}
 
 	const updateStoreWithCallback =
-		(onStoreChange?: (options: OnValuesChangeOptions<T>) => void) =>
+		(onStoreChange?: (event: ValuesChangeEvent<T>) => void) =>
 		(values = {} as T) => {
 			store = {...store, ...values}
 

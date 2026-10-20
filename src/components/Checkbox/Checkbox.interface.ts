@@ -1,11 +1,11 @@
 import type {ComponentStatus, EventName} from '../../constants'
 import type {HandleStateEventChangeOptions, StateEventChangeHandler} from '../../hooks'
-import type {CommonProps} from '../../theme'
+import type {ThemeProps} from '../../theme'
 import type {TouchableProps} from '../Touchable'
 import type {CHECKBOX_VALUE} from './Checkbox.enum'
 
 export type CheckboxValue = (typeof CHECKBOX_VALUE)[keyof typeof CHECKBOX_VALUE]
-export interface CheckboxProps extends TouchableProps, CommonProps {
+export interface CheckboxProps extends TouchableProps, ThemeProps {
 	active?: boolean
 	defaultActive?: boolean
 	disabled?: boolean

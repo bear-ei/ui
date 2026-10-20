@@ -8,11 +8,11 @@ import type {
 	HandleStateEventChangeOptions,
 	InteractionHandlers
 } from '../../hooks'
-import type {CommonProps, Duration, Easing} from '../../theme'
+import type {ThemeProps, Duration, Easing} from '../../theme'
 import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
-export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View> & CommonProps, 'style'> {
+export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View> & ThemeProps, 'style'> {
 	animatedType?: LayoutAnimatedType
 	contentSize?: PartialSize | number
 	defaultVisible?: boolean

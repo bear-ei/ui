@@ -1,9 +1,9 @@
+import {nanoid} from 'nanoid'
 import type {GestureResponderEvent} from 'react-native'
 import type {Updater} from 'use-immer'
-import {EVENT_NAME, type EventName} from '../../constants'
+import {EVENT_NAME} from '../../constants'
 import type {StateEvent} from '../../hooks'
 import type {AddTouchableRippleOptions, HandleTouchableStateChangeOptions, TouchableState} from './Touchable.interface'
-import {nanoid} from 'nanoid'
 
 export const handleTouchableStateChange =
 	({
@@ -17,13 +17,15 @@ export const handleTouchableStateChange =
 	(setState: Updater<TouchableState>) => {
 		const addTouchableRipple = ({touchableLocation, contentLayout}: AddTouchableRippleOptions) => {
 			const {width, height} = contentLayout
+			const indexKey = nanoid()
 
 			setState(draft => {
 				draft.contentLayout.height = height
 				draft.contentLayout.width = width
-				draft.rippleSequence[nanoid()] = touchableLocation
+				draft.rippleSequence[indexKey] = touchableLocation
 			})
 		}
+
 		const createTouchablePressInHandler = (event: GestureResponderEvent) => {
 			ref.current?.focus()
 
@@ -40,11 +42,9 @@ export const handleTouchableStateChange =
 		}
 
 		return (event: StateEvent) => {
-			const nextEvent = {
-				[EVENT_NAME.PRESS_IN]: () => createTouchablePressInHandler(event as GestureResponderEvent)
-			} as Partial<Record<EventName, () => void>>
-
-			nextEvent[eventName]?.()
+			if (eventName === EVENT_NAME.PRESS_IN) {
+				createTouchablePressInHandler(event as GestureResponderEvent)
+			}
 
 			onStateEventChange?.({...options, eventName})(state)(event)
 		}

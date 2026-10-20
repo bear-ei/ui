@@ -2,13 +2,13 @@ import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ComponentStatus, EventName} from '../../constants'
 import type {HandleStateEventChangeOptions, StateEventChangeHandler} from '../../hooks'
-import type {CommonProps} from '../../theme'
+import type {ThemeProps} from '../../theme'
 import type {ElevationValue} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
 import type {FAB_TYPE} from './FAB.enum'
 
 export type FABType = (typeof FAB_TYPE)[keyof typeof FAB_TYPE]
-export interface FABProps extends TouchableProps, CommonProps {
+export interface FABProps extends TouchableProps, ThemeProps {
 	disabled?: boolean
 	elevated?: boolean
 	icon?: React.JSX.Element

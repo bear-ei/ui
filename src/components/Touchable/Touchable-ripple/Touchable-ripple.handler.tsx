@@ -9,10 +9,35 @@ import type {
 	TouchableRippleState
 } from './Touchable-ripple.interface'
 
+// Re-render the ripple when the container resizes so its center / radius
+// stay accurate. Ripples are typically short-lived, so the extra renders
+// are negligible — and if the button lives in a dynamic layout (collapsing
+// panel, responsive sidebar), a stale position would be visibly wrong.
 export const compareTouchableRippleProps = (prevProps: TouchableRippleProps, nextProps: TouchableRippleProps) => {
-	const {indexKey: prevIndexKey} = prevProps
+	const {
+		centered: isPrevCentered,
+		containerLayout: prevContainerLayout,
+		indexKey: prevIndexKey,
+		shape: prevShape,
+		underlayColor: prevUnderlayColor
+	} = prevProps
 
-	return prevIndexKey === nextProps.indexKey
+	const {
+		centered: isNextPrevCentered,
+		containerLayout: nextContainerLayout,
+		indexKey: nextIndexKey,
+		shape: nextShape,
+		underlayColor: nextUnderlayColor
+	} = nextProps
+
+	return ![
+		prevIndexKey !== nextIndexKey,
+		prevContainerLayout?.width !== nextContainerLayout?.width,
+		prevContainerLayout?.height !== nextContainerLayout?.height,
+		isPrevCentered !== isNextPrevCentered,
+		prevShape !== nextShape,
+		prevUnderlayColor !== nextUnderlayColor
+	].some(Boolean)
 }
 
 export const handleTouchableRippleStateChange =

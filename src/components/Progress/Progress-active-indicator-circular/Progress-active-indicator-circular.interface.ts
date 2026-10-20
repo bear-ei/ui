@@ -4,14 +4,14 @@ import type {AnimatedProps, AnimatedStyle, SharedValue} from 'react-native-reani
 import type {CircleProps} from 'react-native-svg'
 import type {ComponentStatus} from '../../../constants'
 import type {InteractionHandlers} from '../../../hooks'
-import type {CommonProps} from '../../../theme'
+import type {ThemeProps} from '../../../theme'
 import type {ProgressProps} from '../Progress.interface'
 
 export interface ProgressActiveIndicatorCircularProps
 	extends
 		ViewProps,
 		RefAttributes<View>,
-		CommonProps,
+		ThemeProps,
 		Pick<ProgressProps, 'animatedType' | 'value' | 'defaultValue' | 'strokeWidth' | 'size' | 'enableAnimated'> {
 	content?: React.JSX.Element
 }

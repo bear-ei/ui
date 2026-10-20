@@ -10,7 +10,7 @@ export type FormErrors<T> = Partial<Record<keyof T, ValidationError[] | undefine
 export type FormValidateRule<T> = Partial<Record<keyof T, ValidationRule | undefined>>
 export type FormValidatorOptions = ValidatorOptions & {delay?: number}
 export type ValidationRule = new (...args: any[]) => object
-export interface OnValuesChangeOptions<T> {
+export interface ValuesChangeEvent<T> {
 	changedValues: T
 	values: T
 }
@@ -18,7 +18,7 @@ export interface OnValuesChangeOptions<T> {
 export interface FormCallbacks<T = Record<string, unknown>> {
 	onFinish?: (values: T) => void
 	onFinishFailed?: (errors: FormErrors<T>) => void
-	onValuesChange?: (options: OnValuesChangeOptions<T>) => void
+	onValuesChange?: (event: ValuesChangeEvent<T>) => void
 }
 
 export interface FormFieldEntity<T = Record<string, unknown>> {

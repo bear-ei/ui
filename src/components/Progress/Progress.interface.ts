@@ -1,12 +1,12 @@
 import type {RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 import type {LayoutRectangle} from '../../constants'
-import type {CommonProps} from '../../theme'
+import type {ThemeProps} from '../../theme'
 import type {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 
 export type ProgressType = (typeof PROGRESS_TYPE)[keyof typeof PROGRESS_TYPE]
 export type ProgressAnimated = (typeof PROGRESS_ANIMATED)[keyof typeof PROGRESS_ANIMATED]
-export interface ProgressProps extends ViewProps, RefAttributes<View>, CommonProps {
+export interface ProgressProps extends ViewProps, RefAttributes<View>, ThemeProps {
 	/**
 	 * @remarks
 	 * Not all combinations are implemented yet.

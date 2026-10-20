@@ -18,7 +18,7 @@ import type {
 	VirtualListItemState
 } from './Virtual-list-item.interface'
 
-export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => {
+export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nextProps: VirtualListItemProps) => {
 	const {
 		containerLayout: prevContainerLayout,
 		dependencies: prevDependencies,
@@ -38,55 +38,53 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps) => 
 		shape: prevShape
 	} = prevProps
 
-	return (nextProps: VirtualListItemProps) => {
-		const {
-			containerLayout: nextContainerLayout,
-			dependencies: nextDependencies,
-			draggable: isNextDraggable,
-			gap: nextGap,
-			item: nextItem,
-			itemSize: nextItemSize,
-			layoutType: nextLayoutType,
-			onClose: nextOnClose,
-			onDragEnd: nextOnDragEnd,
-			onDragStart: nextOnDragStart,
-			onDragUpdate: nextOnDragUpdate,
-			onLoadEnd: nextOnLoadEnd,
-			radius: nextRadius,
-			renderItem: nextRenderItem,
-			scrollOffset: nextScrollOffset,
-			shape: nextShape
-		} = nextProps
+	const {
+		containerLayout: nextContainerLayout,
+		dependencies: nextDependencies,
+		draggable: isNextDraggable,
+		gap: nextGap,
+		item: nextItem,
+		itemSize: nextItemSize,
+		layoutType: nextLayoutType,
+		onClose: nextOnClose,
+		onDragEnd: nextOnDragEnd,
+		onDragStart: nextOnDragStart,
+		onDragUpdate: nextOnDragUpdate,
+		onLoadEnd: nextOnLoadEnd,
+		radius: nextRadius,
+		renderItem: nextRenderItem,
+		scrollOffset: nextScrollOffset,
+		shape: nextShape
+	} = nextProps
 
-		const isDependenciesChanged =
-			prevDependencies?.length !== nextDependencies?.length ||
-			prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
+	const isDependenciesChanged =
+		prevDependencies?.length !== nextDependencies?.length ||
+		prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
 
-		const isItemDependenciesChanged =
-			prevItem?.dependencies?.length !== nextItem?.dependencies?.length ||
-			prevItem?.dependencies?.some((dependence, index) => dependence !== nextItem?.dependencies?.[index])
+	const isItemDependenciesChanged =
+		prevItem?.dependencies?.length !== nextItem?.dependencies?.length ||
+		prevItem?.dependencies?.some((dependence, index) => dependence !== nextItem?.dependencies?.[index])
 
-		return ![
-			isDependenciesChanged,
-			isItemDependenciesChanged,
-			prevContainerLayout?.width !== nextContainerLayout?.width,
-			prevContainerLayout?.height !== nextContainerLayout?.height,
-			isPrevDraggable !== isNextDraggable,
-			prevGap !== nextGap,
-			prevItem?.index !== nextItem?.index,
-			prevItemSize !== nextItemSize,
-			prevLayoutType !== nextLayoutType,
-			prevOnClose !== nextOnClose,
-			prevOnDragEnd !== nextOnDragEnd,
-			prevOnDragStart !== nextOnDragStart,
-			prevOnDragUpdate !== nextOnDragUpdate,
-			prevOnLoadEnd !== nextOnLoadEnd,
-			prevRadius !== nextRadius,
-			prevRenderItem !== nextRenderItem,
-			prevScrollOffset !== nextScrollOffset,
-			prevShape !== nextShape
-		].some(Boolean)
-	}
+	return ![
+		isDependenciesChanged,
+		isItemDependenciesChanged,
+		prevContainerLayout?.width !== nextContainerLayout?.width,
+		prevContainerLayout?.height !== nextContainerLayout?.height,
+		isPrevDraggable !== isNextDraggable,
+		prevGap !== nextGap,
+		prevItem?.index !== nextItem?.index,
+		prevItemSize !== nextItemSize,
+		prevLayoutType !== nextLayoutType,
+		prevOnClose !== nextOnClose,
+		prevOnDragEnd !== nextOnDragEnd,
+		prevOnDragStart !== nextOnDragStart,
+		prevOnDragUpdate !== nextOnDragUpdate,
+		prevOnLoadEnd !== nextOnLoadEnd,
+		prevRadius !== nextRadius,
+		prevRenderItem !== nextRenderItem,
+		prevScrollOffset !== nextScrollOffset,
+		prevShape !== nextShape
+	].some(Boolean)
 }
 
 export const triggerVirtualListItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => () =>

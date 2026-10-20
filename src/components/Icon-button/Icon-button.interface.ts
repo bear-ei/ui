@@ -7,12 +7,12 @@ import type {
 	HandleStateEventChangeOptions,
 	StateEventChangeHandler
 } from '../../hooks'
-import type {CommonProps} from '../../theme'
+import type {ThemeProps} from '../../theme'
 import type {TouchableProps} from '../Touchable'
 import type {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
 export type IconButtonType = (typeof ICON_BUTTON_TYPE)[keyof typeof ICON_BUTTON_TYPE]
-export interface IconButtonProps extends TouchableProps, CommonProps {
+export interface IconButtonProps extends TouchableProps, ThemeProps {
 	active?: boolean
 	defaultActive?: boolean
 	icon?: React.JSX.Element

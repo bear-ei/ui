@@ -1,6 +1,6 @@
 import {memo, type ComponentProps, type ComponentType, type MemoExoticComponent} from 'react'
 
-export const typedMemo = <T extends ComponentType<object>>(
+export const typedMemo = <T extends ComponentType<Record<string, unknown>>>(
 	component: T,
 
 	/**
