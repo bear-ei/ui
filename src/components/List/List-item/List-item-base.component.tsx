@@ -33,7 +33,6 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			afterAffordanceActiveKey,
 			closeTrailing,
 			disabled,
-			dragging,
 			enableUnderlay = true,
 			enableUnderlayActive = true,
 			focusedIndex,
@@ -43,7 +42,6 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			onActive: rawOnActive,
 			onActiveAfterAffordance,
 			onClose: rawOnClose,
-			onConfirm: rawOnConfirm,
 			onLoadEnd,
 			onTrailingPressOut: rawOnTrailingPressOut,
 			selectType,
@@ -94,8 +92,8 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		const onClose = useMemo(() => maybeTriggerListItemClose(rawOnClose)(indexKey), [indexKey, rawOnClose])
 		const onTrailingVisible = useMemo(() => updateListItemTrailingVisible(setState), [setState])
 		const onConfirm = useMemo(
-			() => confirmListItemAffordanceAction({onActiveAfterAffordance, onClose, onConfirm: rawOnConfirm}),
-			[onActiveAfterAffordance, onClose, rawOnConfirm]
+			() => confirmListItemAffordanceAction({onActiveAfterAffordance, onClose}),
+			[onActiveAfterAffordance, onClose]
 		)
 
 		const onTrailingPressOut = useMemo(
@@ -127,7 +125,6 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			status
 		})
 
-		const runActive = onActive
 		const runUpdateFocusState = useMemo(() => updateListItemFocusState(setState)(itemIndex), [itemIndex, setState])
 		const runUpdateAfterAffordanceVisible = useMemo(
 			() => updateListItemAfterAffordanceExpanded(setState),
@@ -158,12 +155,6 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 			handleActive,
 			onClose
 		])
-
-		useEffect(() => {
-			if (dragging) {
-				runActive(indexKey)
-			}
-		}, [dragging, indexKey, runActive])
 
 		useEffect(() => {
 			runUpdateAfterAffordanceVisible(isAfterAffordanceVisible)

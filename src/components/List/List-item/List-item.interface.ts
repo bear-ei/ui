@@ -28,8 +28,7 @@ export interface ListItemProps
 			| 'gap'
 			| 'onActive'
 			| 'onActiveAfterAffordance'
-			| 'onCancel'
-			| 'onConfirm'
+			| 'onSecondaryAction'
 			| 'selectType'
 			| 'shape'
 			| 'size'
@@ -47,13 +46,10 @@ export interface ListItemProps
 	 */
 	contentStyle?: ViewStyle
 	dependencies?: unknown[]
-	dragging?: boolean
 	headline?: React.ReactNode
 	indexKey?: string
 	itemIndex?: number
-	itemLayout?: {width?: number; height?: number}
 	leading?: React.JSX.Element
-	onActives?: (activeKeys?: string[]) => void
 	onClose?: (indexKey?: string) => void
 	onLoadEnd?: (indexKey?: string) => void
 	onTrailingPressOut?: (event: GestureResponderEvent) => void
@@ -66,10 +62,9 @@ export interface ListItemProps
 	secondaryButtonLoading?: boolean
 	secondaryButtonStyle?: ViewStyle
 	supporting?: string | React.JSX.Element
-	trailingDisabled?: boolean
 }
 
-export interface RenderListItemProps extends ListItemProps {
+export interface RenderListItemProps extends ListItemProps, Pick<ListProps, 'onConfirm'> {
 	active?: boolean
 	affordanceVisible?: boolean
 	afterAffordanceExpanded?: boolean
@@ -105,7 +100,6 @@ export interface ListItemData extends Pick<
 	| 'supporting'
 	| 'supportingTextNumberOfLines'
 	| 'trailing'
-	| 'trailingDisabled'
 > {
 	indexKey: string
 }
@@ -130,14 +124,7 @@ export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListI
 
 export interface RenderListItemTrailingProps extends Pick<
 	RenderListItemProps,
-	| 'afterAffordance'
-	| 'closeTrailing'
-	| 'disabled'
-	| 'id'
-	| 'size'
-	| 'trailing'
-	| 'trailingDisabled'
-	| 'trailingTriggerOn'
+	'afterAffordance' | 'closeTrailing' | 'disabled' | 'id' | 'size' | 'trailing' | 'trailingTriggerOn'
 > {
 	interactionHandlers: InteractionHandlers
 	onTrailingVisible?: (eventName: EventName) => void

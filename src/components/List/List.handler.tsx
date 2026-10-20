@@ -85,7 +85,7 @@ export const updateListActiveState = ({
 				selectType === LIST_SELECT_TYPE.MULTIPLE && !isArrayEqual && onActives
 
 			if (isUpdateMultipleNextActiveEvent) {
-				draft.pendingActiveEvent = callbackValue
+				draft.pendingActivesEvent = callbackValue as string[]
 			}
 		})
 	}
@@ -105,7 +105,7 @@ export const createListItemSize =
 export const updateListAffordanceActiveState =
 	({onActive, selectType}: UpdateListActiveStateOptions) =>
 	(setState: Updater<ListState>) =>
-	({activeKey, callback}: ListAffordanceActiveStateEvent = {}) => {
+	({activeKey, callbackEvent}: ListAffordanceActiveStateEvent = {}) => {
 		if (selectType === LIST_SELECT_TYPE.MULTIPLE) {
 			return
 		}
@@ -127,9 +127,9 @@ export const updateListAffordanceActiveState =
 				draft.activeKey = activeKey
 			}
 
-			// if (callback) {
-			// 	draft.nextAfterAffordanceEvent = () => callback?.()
-			// }
+			if (callbackEvent) {
+				draft.pendingAfterAffordanceEvent = callbackEvent
+			}
 		})
 	}
 

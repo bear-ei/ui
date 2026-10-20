@@ -8,7 +8,7 @@ import {platformValue} from '../../../utils'
 import {animateListAfterAffordance} from './List-after-affordance.handler'
 import type {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
 
-export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseListAfterAffordanceAnimatedOptions) => {
+export const useListAfterAffordanceAnimated = ({phase, status}: UseListAfterAffordanceAnimatedOptions) => {
 	const translateXSharedValue = useSharedValue(0)
 	const {token} = useTheme()
 	const animatedTiming = useAnimatedTiming()
@@ -37,9 +37,9 @@ export const useListAfterAffordanceAnimated = ({doubleConfirmed, status}: UseLis
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
-			runTranslateXAnimate(doubleConfirmed)
+			runTranslateXAnimate(phase)
 		}
-	}, [doubleConfirmed, runTranslateXAnimate, status])
+	}, [phase, runTranslateXAnimate, status])
 
 	useEffect(
 		() => () => {

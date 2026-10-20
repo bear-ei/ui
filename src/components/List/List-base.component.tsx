@@ -35,7 +35,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			loadingElement,
 			onActive: rawOnActive,
 			onActives,
-			onCancel,
+			onSecondaryAction,
 			onClose: rawOnClose,
 			onConfirm,
 			onItemStateEvent,
@@ -61,6 +61,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 				pendingActiveEvent,
 				pendingAfterAffordanceActiveEvent,
 				pendingAfterAffordanceEvent,
+				pendingActivesEvent,
 				pendingCloseEvent
 			},
 			setState
@@ -72,7 +73,14 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		usePendingEvent({
 			eventKey: 'pendingActiveEvent',
 			func: rawOnActive,
-			pendingEvent: pendingActiveEvent as string,
+			pendingEvent: pendingActiveEvent,
+			setState
+		})
+
+		usePendingEvent({
+			eventKey: 'pendingActivesEvent',
+			func: onActives,
+			pendingEvent: pendingActivesEvent,
 			setState
 		})
 
@@ -113,7 +121,11 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		)
 
 		const onClose = useMemo(() => triggerListClose(rawOnClose)(setState), [rawOnClose, setState])
-		const runUpdateActive = onActive
+		const runUpdateActive = useMemo(
+			() => updateListActiveState({selectType, deselect})(setState),
+			[deselect, selectType, setState]
+		)
+
 		const renderItem = useMemo(
 			() =>
 				createListItemRenderer({
@@ -131,8 +143,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 					id,
 					onActive,
 					onActiveAfterAffordance,
-					onCancel,
-					onConfirm,
+					onSecondaryAction,
 					radius,
 					renderItem: rawRenderItem,
 					selectType,
@@ -160,8 +171,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 				loadingElement,
 				onActive,
 				onActiveAfterAffordance,
-				onCancel,
-				onConfirm,
+				onSecondaryAction,
 				onItemStateEvent,
 				radius,
 				rawRenderItem,

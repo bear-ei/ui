@@ -12,21 +12,33 @@ import {
 	handleAffordanceStateChange,
 	resetAffordanceConfirmationOnHide,
 	triggerListAfterAffordanceConfirm,
-	updateListAffordanceCancelState
+	updateListAffordanceSecondaryActionState
 } from './List-after-affordance.handler'
 import type {ListAfterAffordanceBaseProps, ListAfterAffordanceState} from './List-after-affordance.interface'
 import {RenderListAfterAffordance} from './List-after-affordance.render'
 import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animated.hook'
+import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
 
 export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseProps>(
-	({indexKey, onCancel: rawOnCancel, visible, onConfirm: rawOnConfirm, ...renderListAfterAffordanceProps}, ref) => {
-		const [{doubleConfirmed: isDoubleConfirmed, pendingCancelEvent, status}, setState] =
-			useImmer<ListAfterAffordanceState>({status: COMPONENT_STATUS.IDLE})
+	(
+		{
+			indexKey,
+			onConfirm: rawOnConfirm,
+			onSecondaryAction: rawOnSecondaryAction,
+			visible,
+			...renderListAfterAffordanceProps
+		},
+		ref
+	) => {
+		const [{phase, pendingSecondaryActionEvent, status}, setState] = useImmer<ListAfterAffordanceState>({
+			phase: LIST_AFTER_AFFORDANCE_PHASE.IDLE,
+			status: COMPONENT_STATUS.IDLE
+		})
 
 		usePendingEvent({
-			eventKey: 'pendingCancelEvent',
-			func: rawOnCancel,
-			pendingEvent: pendingCancelEvent,
+			eventKey: 'pendingSecondaryActionEvent',
+			func: rawOnSecondaryAction,
+			pendingEvent: pendingSecondaryActionEvent,
 			setState
 		})
 
@@ -41,24 +53,24 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 		const onConfirm = useMemo(
 			() =>
 				triggerListAfterAffordanceConfirm({
-					doubleConfirmed: isDoubleConfirmed,
 					indexKey,
-					onConfirm: rawOnConfirm
+					onConfirm: rawOnConfirm,
+					phase
 				}),
-			[indexKey, isDoubleConfirmed, rawOnConfirm]
+			[indexKey, phase, rawOnConfirm]
 		)
 
-		const onCancel = useMemo(
+		const onSecondaryAction = useMemo(
 			() =>
-				updateListAffordanceCancelState({
-					doubleConfirmed: isDoubleConfirmed,
+				updateListAffordanceSecondaryActionState({
 					indexKey,
-					onCancel: rawOnCancel
+					onSecondaryAction: rawOnSecondaryAction,
+					phase
 				})(setState),
-			[indexKey, isDoubleConfirmed, rawOnCancel, setState]
+			[indexKey, phase, rawOnSecondaryAction, setState]
 		)
 
-		const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({doubleConfirmed: isDoubleConfirmed, status})
+		const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({phase, status})
 		const runResetConfirmationOnHide = useMemo(() => resetAffordanceConfirmationOnHide(setState), [setState])
 
 		useEffect(() => {
@@ -69,11 +81,11 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 			<RenderListAfterAffordance
 				{...renderListAfterAffordanceProps}
 				dangerAnimatedStyle={dangerAnimatedStyle}
-				doubleConfirmed={isDoubleConfirmed}
 				id={id}
 				interactionHandlers={interactionHandlers}
-				onCancel={onCancel}
 				onConfirm={onConfirm}
+				onSecondaryAction={onSecondaryAction}
+				phase={phase}
 				ref={ref}
 				visible={visible}
 			/>

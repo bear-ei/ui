@@ -13,6 +13,7 @@ import {
 	TYPOGRAPHY
 } from '../../../theme'
 import {platformValue} from '../../../utils'
+import {EVENT_NAME} from '../../../constants'
 
 export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAffordanceButtonProps>(
 	(
@@ -33,6 +34,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 		ref
 	) => {
 		const {token} = useTheme()
+		const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
 		const {classesName, typographyClasses, densityClasses} = token.classes
 		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
 		const underlayColor = token.scheme.onPrimary
@@ -89,7 +91,7 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 						}
 
 						<Underlay
-							eventName={eventName}
+							eventName={underlayEventName}
 							testID={`listAffordanceButton__underlay--${id}`}
 							underlayColor={underlayColor}
 						/>

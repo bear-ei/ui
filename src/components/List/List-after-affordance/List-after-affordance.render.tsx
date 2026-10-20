@@ -6,15 +6,16 @@ import {DENSITY_SIZE, DURATION, EASING, UI_DENSITY} from '../../../theme'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {ListAffordanceButton} from '../List-affordance-button'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
+import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
 
 export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAffordanceProps>(
 	(
 		{
 			dangerAnimatedStyle,
-			doubleConfirmed,
+			phase,
 			id,
 			interactionHandlers,
-			onCancel,
+			onSecondaryAction,
 			onConfirm,
 			primaryButtonDisabled,
 			primaryButtonLabelText = 'Edit',
@@ -68,7 +69,7 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 				visible={visible}
 			>
 				<ListAffordanceButton
-					{...(doubleConfirmed && {icon: checkIconElement})}
+					{...(phase === LIST_AFTER_AFFORDANCE_PHASE.DANGER && {icon: checkIconElement})}
 					backgroundVisible={!isDangerVisible}
 					disabled={primaryButtonDisabled}
 					labelText={primaryButtonLabelText}
@@ -81,14 +82,14 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 				/>
 
 				<ListAffordanceButton
-					{...(doubleConfirmed && {icon: closeIconElement})}
-					style={secondaryButtonStyle}
+					{...(phase === LIST_AFTER_AFFORDANCE_PHASE.DANGER && {icon: closeIconElement})}
 					backgroundVisible={false}
 					disabled={secondaryButtonDisabled}
 					labelText={secondaryButtonLabelText}
 					loading={secondaryButtonLoading}
-					onPressOut={onCancel}
+					onPressOut={onSecondaryAction}
 					size={size}
+					style={secondaryButtonStyle}
 					tabIndex={buttonTabIndex}
 					testID={`listAfterAffordance__listAffordanceButton--close--${id}`}
 				/>

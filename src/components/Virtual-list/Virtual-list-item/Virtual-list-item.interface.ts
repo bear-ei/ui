@@ -28,9 +28,7 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
 			| 'shape'
 		> {
 	containerLayout?: Partial<LayoutRectangle>
-	index?: number
 	item?: T & Item
-	loading?: boolean
 	onDragEnd?: (event: NativeDragEvent) => void
 	onDragStart?: (event: NativeDragEvent) => void
 	onDragUpdate?: (event: NativeDragEvent) => void

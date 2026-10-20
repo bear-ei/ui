@@ -13,19 +13,92 @@ import type {
 
 export const compareNavigationRailItemProps =
 	(prevProps: NavigationRailItemProps) => (nextProps: NavigationRailItemProps) => {
-		const {activeKey: prevActiveKey, indexKey: prevIndexKey, dependencies: prevDependencies} = prevProps
-		const {activeKey: nextActiveKey, indexKey: nextIndexKey, dependencies: nextDependencies} = nextProps
+		const {
+			activeKey: prevActiveKey,
+			animatedType: prevAnimatedType,
+			backgroundUnderlay: prevBackgroundUnderlay,
+			centered: isPrevCentered,
+			dependencies: prevDependencies,
+			disabled: isPrevDisabled,
+			elevationUnderlay: prevElevationUnderlay,
+			enableTouchableRipple: isPrevEnableTouchableRipple,
+			icon: prevIcon,
+			indexKey: prevIndexKey,
+			labelText: prevLabelText,
+			onActive: prevOnActive,
+			onBlur: prevOnBlur,
+			onFocus: prevOnFocus,
+			onHoverIn: prevOnHoverIn,
+			onHoverOut: prevOnHoverOut,
+			onLayout: prevOnLayout,
+			onLongPress: prevOnLongPress,
+			onPress: prevOnPress,
+			onPressIn: prevOnPressIn,
+			onPressOut: prevOnPressOut,
+			onStateEventChange: prevOnStateEventChange,
+			type: prevType,
+			underlayColor: prevUnderlayColor
+		} = prevProps
+
+		const {
+			activeKey: nextActiveKey,
+			animatedType: nextAnimatedType,
+			backgroundUnderlay: nextBackgroundUnderlay,
+			centered: isNextCentered,
+			dependencies: nextDependencies,
+			disabled: isNextDisabled,
+			elevationUnderlay: nextElevationUnderlay,
+			enableTouchableRipple: isNextEnableTouchableRipple,
+			icon: nextIcon,
+			indexKey: nextIndexKey,
+			labelText: nextLabelText,
+			onActive: nextOnActive,
+			onBlur: nextOnBlur,
+			onFocus: nextOnFocus,
+			onHoverIn: nextOnHoverIn,
+			onHoverOut: nextOnHoverOut,
+			onLayout: nextOnLayout,
+			onLongPress: nextOnLongPress,
+			onPress: nextOnPress,
+			onPressIn: nextOnPressIn,
+			onPressOut: nextOnPressOut,
+			onStateEventChange: nextOnStateEventChange,
+			type: nextType,
+			underlayColor: nextUnderlayColor
+		} = nextProps
+
 		const isActiveChange =
 			prevActiveKey !== nextActiveKey && (nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
 
-		const isIconChanged = prevProps.icon !== nextProps.icon
-		const isLabelTextChanged = prevProps.labelText !== nextProps.labelText
-		const isTypeChanged = prevProps.type !== nextProps.type
 		const isDependenciesChanged =
 			prevDependencies?.length !== nextDependencies?.length ||
 			prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
 
-		return ![isActiveChange, isDependenciesChanged, isIconChanged, isLabelTextChanged, isTypeChanged].some(Boolean)
+		return ![
+			isActiveChange,
+			isDependenciesChanged,
+			prevAnimatedType !== nextAnimatedType,
+			prevBackgroundUnderlay !== nextBackgroundUnderlay,
+			isPrevCentered !== isNextCentered,
+			isPrevDisabled !== isNextDisabled,
+			prevElevationUnderlay !== nextElevationUnderlay,
+			isPrevEnableTouchableRipple !== isNextEnableTouchableRipple,
+			prevIcon !== nextIcon,
+			prevLabelText !== nextLabelText,
+			prevOnActive !== nextOnActive,
+			prevOnBlur !== nextOnBlur,
+			prevOnFocus !== nextOnFocus,
+			prevOnHoverIn !== nextOnHoverIn,
+			prevOnHoverOut !== nextOnHoverOut,
+			prevOnLayout !== nextOnLayout,
+			prevOnLongPress !== nextOnLongPress,
+			prevOnPress !== nextOnPress,
+			prevOnPressIn !== nextOnPressIn,
+			prevOnPressOut !== nextOnPressOut,
+			prevOnStateEventChange !== nextOnStateEventChange,
+			prevType !== nextType,
+			prevUnderlayColor !== nextUnderlayColor
+		].some(Boolean)
 	}
 
 export const handleNavigationRailItemStateChange =

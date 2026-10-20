@@ -10,25 +10,30 @@ import type {
 } from '../../../hooks'
 import {DURATION, EASING} from '../../../theme'
 import type {
+	ListAfterAffordancePhase,
 	ListAfterAffordanceState,
 	TriggerListAfterAffordanceConfirmOptions,
-	UpdateListAffordanceCancelStateOptions
+	UpdateListAffordanceSecondaryActionStateOptions
 } from './List-after-affordance.interface'
+import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
 
 export const triggerListAfterAffordanceConfirm =
-	({onConfirm, doubleConfirmed, indexKey}: TriggerListAfterAffordanceConfirmOptions) =>
+	({onConfirm, phase, indexKey}: TriggerListAfterAffordanceConfirmOptions) =>
 	(_event: GestureResponderEvent) =>
-		onConfirm?.({indexKey, doubleConfirmed})
+		onConfirm?.({indexKey, phase})
 
-export const updateListAffordanceCancelState =
-	({onCancel, doubleConfirmed, indexKey}: UpdateListAffordanceCancelStateOptions) =>
+export const updateListAffordanceSecondaryActionState =
+	({onSecondaryAction, phase, indexKey}: UpdateListAffordanceSecondaryActionStateOptions) =>
 	(setState: Updater<ListAfterAffordanceState>) =>
 	(_event: GestureResponderEvent) =>
 		setState(draft => {
-			draft.doubleConfirmed = !doubleConfirmed
+			draft.phase =
+				phase === LIST_AFTER_AFFORDANCE_PHASE.DANGER ?
+					LIST_AFTER_AFFORDANCE_PHASE.IDLE
+				:	LIST_AFTER_AFFORDANCE_PHASE.DANGER
 
-			if (onCancel) {
-				draft.pendingCancelEvent = {indexKey, doubleConfirmed}
+			if (onSecondaryAction) {
+				draft.pendingSecondaryActionEvent = {indexKey, phase}
 			}
 		})
 
@@ -39,30 +44,37 @@ export const resetAffordanceConfirmationOnHide =
 		}
 
 		setState(draft => {
-			draft.doubleConfirmed = false
+			draft.phase = LIST_AFTER_AFFORDANCE_PHASE.IDLE
 		})
 	}
 
 export const animateListAfterAffordance =
 	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
 	(translateXSharedValue: SharedValue<number>) => {
-		const animateSharedValueTo = animatedTiming({
-			easing: EASING.STANDARD_DECELERATE,
-			duration: DURATION.SHORT_2
-		})({
+		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD_DECELERATE, duration: DURATION.SHORT_2})({
 			sharedValue: translateXSharedValue
 		})
 
-		return (value?: boolean) => typeof value === 'boolean' && animateSharedValueTo(value ? 1 : 0)
+		return (phase?: ListAfterAffordancePhase) => {
+			if (!phase) {
+				return
+			}
+
+			animateSharedValueTo(phase === LIST_AFTER_AFFORDANCE_PHASE.DANGER ? 1 : 0)
+		}
 	}
 
 export const handleAffordanceStateChange =
 	({eventName}: HandleStateEventChangeOptions) =>
 	(setState: Updater<ListAfterAffordanceState>) =>
-	(_event: StateEvent) =>
-		eventName === EVENT_NAME.LAYOUT &&
-		setState(draft => {
+	(_event: StateEvent) => {
+		if (eventName !== EVENT_NAME.LAYOUT) {
+			return
+		}
+
+		return setState(draft => {
 			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
 				draft.status = COMPONENT_STATUS.SUCCEEDED
 			}
 		})
+	}

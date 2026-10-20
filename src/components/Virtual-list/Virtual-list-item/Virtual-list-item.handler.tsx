@@ -87,8 +87,13 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nex
 	].some(Boolean)
 }
 
-export const triggerVirtualListItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => () =>
-	indexKey && onClose?.(indexKey)
+export const triggerVirtualListItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => () => {
+	if (!indexKey) {
+		return
+	}
+
+	onClose?.(indexKey)
+}
 
 export const animateVirtualListItemTranslate =
 	({animatedTiming, onAnimationFinished}: AnimateVirtualListItemTranslateOptions) =>

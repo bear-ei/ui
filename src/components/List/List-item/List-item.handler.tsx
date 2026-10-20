@@ -14,79 +14,158 @@ import type {
 } from './List-item.interface'
 import {DURATION, EASING} from '../../../theme'
 import type {ListAfterAffordancePressOutEvent} from '../List-after-affordance'
+import {LIST_AFTER_AFFORDANCE_PHASE} from '../List-after-affordance/List-after-affordance.enum'
 
-export const compareListItemProps = (prevProps: ListItemProps) => {
+export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListItemProps) => {
 	const {
 		activeKey: prevActiveKey,
 		activeKeys: prevActiveKeys,
+		afterAffordance: prevAfterAffordance,
 		afterAffordanceActiveKey: prevAfterAffordanceActiveKey,
+		beforeAffordance: prevBeforeAffordance,
+		closeTrailing: isPrevCloseTrailing,
 		dependencies: prevDependencies,
 		disabled: isPrevDisabled,
-		dragging: isPrevDragging,
+		divider: isPrevDivider,
+		enableUnderlay: isPrevEnableUnderlay,
+		enableUnderlayActive: isPrevEnableUnderlayActive,
 		focusedIndex: prevFocusedIndex,
+		gap: prevGap,
 		indexKey: prevIndexKey,
 		itemIndex: prevItemIndex,
-		skeletonDuration: prevSkeletonMinDuration
+		onActive: prevOnActive,
+		onActiveAfterAffordance: prevOnActiveAfterAffordance,
+		onClose: prevOnClose,
+		onLoadEnd: prevOnLoadEnd,
+		onSecondaryAction: prevOnSecondaryAction,
+		onTrailingPressOut: prevOnTrailingPressOut,
+		primaryButtonDisabled: isPrevPrimaryButtonDisabled,
+		primaryButtonLabelText: prevPrimaryButtonLabelText,
+		primaryButtonLoading: isPrevPrimaryButtonLoading,
+		primaryButtonStyle: prevPrimaryButtonStyle,
+		secondaryButtonDisabled: isPrevSecondaryButtonDisabled,
+		secondaryButtonLabelText: prevSecondaryButtonLabelText,
+		secondaryButtonLoading: isPrevSecondaryButtonLoading,
+		secondaryButtonStyle: prevSecondaryButtonStyle,
+		selectType: prevSelectType,
+		shape: prevShape,
+		size: prevSize,
+		skeletonDuration: prevSkeletonDuration,
+		skeletonElement: prevSkeletonElement,
+		supportingTextNumberOfLines: prevSupportingTextNumberOfLines,
+		trailingTriggerOn: prevTrailingTriggerOn,
+		type: prevType
 	} = prevProps
 
-	return (nextProps: ListItemProps) => {
-		const {
-			activeKey: nextActiveKey,
-			activeKeys: nextActiveKeys,
-			afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
-			dependencies: nextDependencies,
-			disabled: isNextDisabled,
-			dragging: isNextDragging,
-			focusedIndex: nextFocusedIndex,
-			indexKey: nextIndexKey,
-			itemIndex: nextItemIndex,
-			skeletonDuration: nextSkeletonMinDuration
-		} = nextProps
+	const {
+		activeKey: nextActiveKey,
+		activeKeys: nextActiveKeys,
+		afterAffordance: nextAfterAffordance,
+		afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
+		beforeAffordance: nextBeforeAffordance,
+		closeTrailing: isNextCloseTrailing,
+		dependencies: nextDependencies,
+		disabled: isNextDisabled,
+		divider: isNextDivider,
+		enableUnderlay: isNextEnableUnderlay,
+		enableUnderlayActive: isNextEnableUnderlayActive,
+		focusedIndex: nextFocusedIndex,
+		gap: nextGap,
+		indexKey: nextIndexKey,
+		itemIndex: nextItemIndex,
+		onActive: nextOnActive,
+		onActiveAfterAffordance: nextOnActiveAfterAffordance,
+		onClose: nextOnClose,
+		onLoadEnd: nextOnLoadEnd,
+		onSecondaryAction: nextOnSecondaryAction,
+		onTrailingPressOut: nextOnTrailingPressOut,
+		primaryButtonDisabled: isNextPrimaryButtonDisabled,
+		primaryButtonLabelText: nextPrimaryButtonLabelText,
+		primaryButtonLoading: isNextPrimaryButtonLoading,
+		primaryButtonStyle: nextPrimaryButtonStyle,
+		secondaryButtonDisabled: isNextSecondaryButtonDisabled,
+		secondaryButtonLabelText: nextSecondaryButtonLabelText,
+		secondaryButtonLoading: isNextSecondaryButtonLoading,
+		secondaryButtonStyle: nextSecondaryButtonStyle,
+		selectType: nextSelectType,
+		shape: nextShape,
+		size: nextSize,
+		skeletonDuration: nextSkeletonDuration,
+		skeletonElement: nextSkeletonElement,
+		supportingTextNumberOfLines: nextSupportingTextNumberOfLines,
+		trailingTriggerOn: nextTrailingTriggerOn,
+		type: nextType
+	} = nextProps
 
-		const isActiveKeyChange =
-			prevActiveKey !== nextActiveKey && (nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
+	const isActiveKeyChange =
+		prevActiveKey !== nextActiveKey && (nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
 
-		const isNextActive = nextIndexKey && nextActiveKeys?.includes(nextIndexKey)
-		const isPrevActive = prevIndexKey && prevActiveKeys?.includes(prevIndexKey)
-		const isAreArraysEqual =
-			nextActiveKeys?.length === prevActiveKeys?.length &&
-			nextActiveKeys?.every((key, index) => key === prevActiveKeys?.[index])
+	const isNextActive = nextIndexKey && nextActiveKeys?.includes(nextIndexKey)
+	const isPrevActive = prevIndexKey && prevActiveKeys?.includes(prevIndexKey)
+	const isAreArraysEqual =
+		nextActiveKeys?.length === prevActiveKeys?.length &&
+		nextActiveKeys?.every((key, index) => key === prevActiveKeys?.[index])
 
-		const isActiveKeysChange =
-			!isAreArraysEqual && ((isNextActive && !isPrevActive) || (isPrevActive && !isNextActive))
+	const isActiveKeysChange = !isAreArraysEqual && ((isNextActive && !isPrevActive) || (isPrevActive && !isNextActive))
+	const isAfterAffordanceActiveChange =
+		prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
+		(nextAfterAffordanceActiveKey === nextIndexKey || prevAfterAffordanceActiveKey === prevIndexKey)
 
-		const isAfterAffordanceActiveChange =
-			prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
-			(nextAfterAffordanceActiveKey === nextIndexKey || prevAfterAffordanceActiveKey === prevIndexKey)
+	const isFocusedIndexChange =
+		nextFocusedIndex !== prevFocusedIndex &&
+		(nextFocusedIndex === nextItemIndex || prevFocusedIndex === prevItemIndex)
 
-		const isFocusedIndexChange =
-			nextFocusedIndex !== prevFocusedIndex &&
-			(nextFocusedIndex === nextItemIndex || prevFocusedIndex === prevItemIndex)
+	const isDependenciesChanged =
+		prevDependencies?.length !== nextDependencies?.length ||
+		prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
 
-		const isDependenciesChanged =
-			prevDependencies?.length !== nextDependencies?.length ||
-			prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
-
-		return ![
-			isActiveKeyChange,
-			isActiveKeysChange,
-			isAfterAffordanceActiveChange,
-			isDependenciesChanged,
-			isFocusedIndexChange,
-			isPrevDisabled !== isNextDisabled,
-			isPrevDragging !== isNextDragging,
-			prevSkeletonMinDuration !== nextSkeletonMinDuration
-		].some(Boolean)
-	}
+	return ![
+		isActiveKeyChange,
+		isActiveKeysChange,
+		isAfterAffordanceActiveChange,
+		isDependenciesChanged,
+		isFocusedIndexChange,
+		isPrevCloseTrailing !== isNextCloseTrailing,
+		isPrevDisabled !== isNextDisabled,
+		isPrevDivider !== isNextDivider,
+		isPrevEnableUnderlay !== isNextEnableUnderlay,
+		isPrevEnableUnderlayActive !== isNextEnableUnderlayActive,
+		isPrevPrimaryButtonDisabled !== isNextPrimaryButtonDisabled,
+		isPrevPrimaryButtonLoading !== isNextPrimaryButtonLoading,
+		isPrevSecondaryButtonDisabled !== isNextSecondaryButtonDisabled,
+		isPrevSecondaryButtonLoading !== isNextSecondaryButtonLoading,
+		prevAfterAffordance !== nextAfterAffordance,
+		prevBeforeAffordance !== nextBeforeAffordance,
+		prevGap !== nextGap,
+		prevOnActive !== nextOnActive,
+		prevOnActiveAfterAffordance !== nextOnActiveAfterAffordance,
+		prevOnClose !== nextOnClose,
+		prevOnLoadEnd !== nextOnLoadEnd,
+		prevOnSecondaryAction !== nextOnSecondaryAction,
+		prevOnTrailingPressOut !== nextOnTrailingPressOut,
+		prevPrimaryButtonLabelText !== nextPrimaryButtonLabelText,
+		prevPrimaryButtonStyle !== nextPrimaryButtonStyle,
+		prevSecondaryButtonLabelText !== nextSecondaryButtonLabelText,
+		prevSecondaryButtonStyle !== nextSecondaryButtonStyle,
+		prevSelectType !== nextSelectType,
+		prevShape !== nextShape,
+		prevSize !== nextSize,
+		prevSkeletonDuration !== nextSkeletonDuration,
+		prevSkeletonElement !== nextSkeletonElement,
+		prevSupportingTextNumberOfLines !== nextSupportingTextNumberOfLines,
+		prevTrailingTriggerOn !== nextTrailingTriggerOn,
+		prevType !== nextType
+	].some(Boolean)
 }
 
 export const updateListItemActive =
-	(selectType?: ListSelectType) => (onActive?: (indexKey?: string) => void) => (indexKey?: string) =>
-		selectType && indexKey && onActive?.(indexKey)
+	(selectType?: ListSelectType) => (onActive?: (indexKey?: string) => void) => (indexKey?: string) => {
+		if (!(selectType && indexKey)) {
+			return
+		}
 
-export const updateListItemTrailing =
-	(selectType?: ListSelectType) => (onActive?: (indexKey?: string) => void) => (indexKey?: string) =>
-		selectType && indexKey && onActive?.(indexKey)
+		onActive?.(indexKey)
+	}
 
 export const handleTrailingTriggerEvent = (trailingTriggerOn?: TriggerOn) => {
 	const trigger = {
@@ -181,9 +260,9 @@ export const triggerListItemTrailingActions =
 export const confirmListItemAffordanceAction =
 	({onActiveAfterAffordance, onClose}: ConfirmListItemAffordanceActionOptions) =>
 	({indexKey, ...options}: ListAfterAffordancePressOutEvent) => {
-		const {doubleConfirmed: isDoubleConfirmed} = options
+		const {phase} = options
 
-		if (isDoubleConfirmed) {
+		if (phase === LIST_AFTER_AFFORDANCE_PHASE.DANGER) {
 			onClose()
 
 			return

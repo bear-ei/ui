@@ -34,20 +34,22 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	onTrailingVisible,
 	size = DENSITY_SIZE.MEDIUM,
 	trailing,
-	trailingDisabled: isTrailingDisabled,
 	trailingTriggerOn
 }) => {
 	const onHoverIn = useCallback(() => onTrailingVisible?.(EVENT_NAME.HOVER_IN), [onTrailingVisible])
 	const defaultTrailingType = closeTrailing ? 'closeTrailing' : 'standard'
 	const trailingSize = densitySizeMapIconSize(size)
 	const trailingType = afterAffordance ? 'afterAffordance' : defaultTrailingType
-	const trailingProps = {
-		...interactionHandlers,
-		...(trailingTriggerOn === TRIGGER_ON.HOVER && {onHoverIn}),
-		disabled: isTrailingDisabled ?? disabled,
-		size: trailingSize,
-		type: ICON_BUTTON_TYPE.STANDARD
-	}
+	const trailingProps = useMemo(
+		() => ({
+			...interactionHandlers,
+			...(trailingTriggerOn === TRIGGER_ON.HOVER && {onHoverIn}),
+			disabled,
+			size: trailingSize,
+			type: ICON_BUTTON_TYPE.STANDARD
+		}),
+		[disabled, interactionHandlers, onHoverIn, trailingSize, trailingTriggerOn]
+	)
 
 	const trailingElement = {
 		afterAffordance: cloneElement(
@@ -101,7 +103,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 			indexKey,
 			interactionHandlers,
 			leadingElement,
-			onCancel,
+			onSecondaryAction,
 			onConfirm,
 			panResponder,
 			primaryButtonDisabled,
@@ -131,6 +133,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 	) => {
 		const {token} = useTheme()
 		const {classesName, typographyClasses, densityClasses, shapeClasses} = token.classes
+		const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
 		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
 		const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
 		const densityHorizontalSpacingClasses = densityClasses(DENSITY_TYPE.SPACING)(LAYOUT.HORIZONTAL)
@@ -328,7 +331,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 					{enableUnderlay && (
 						<Underlay
 							{...underlayProps}
-							eventName={eventName}
+							eventName={underlayEventName}
 							testID={`listItem__underlay--${id}`}
 							underlayColor={underlayColor}
 						/>
@@ -345,7 +348,7 @@ export const RenderListItem = forwardRef<ListItemRef, RenderListItemProps>(
 						{typeof afterAffordance === 'boolean' ?
 							<ListAfterAffordance
 								indexKey={indexKey}
-								onCancel={onCancel}
+								onSecondaryAction={onSecondaryAction}
 								onConfirm={onConfirm}
 								primaryButtonDisabled={primaryButtonDisabled}
 								primaryButtonLabelText={primaryButtonLabelText}

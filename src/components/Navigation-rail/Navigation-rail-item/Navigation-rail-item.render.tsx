@@ -1,6 +1,6 @@
 import {forwardRef, useMemo} from 'react'
 import {Pressable, View} from 'react-native'
-import {LAYOUT} from '../../../constants'
+import {EVENT_NAME, LAYOUT} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {
 	DENSITY_SIZE,
@@ -31,11 +31,13 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
 			labelTextAnimatedStyle,
 			testID,
 			type,
+			disabled,
 			...touchableProps
 		},
 		ref
 	) => {
 		const {token} = useTheme()
+		const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
 		const {classesName, densityClasses} = token.classes
 		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
 		const densityIconClasses = densityClasses(DENSITY_TYPE.ICON)()
@@ -97,7 +99,7 @@ export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigati
 								activeAnimatedType={activeAnimatedType}
 								activeColor={activeColor}
 								activeRadius={radius}
-								eventName={eventName}
+								eventName={underlayEventName}
 								radius={radius}
 								shape={shape}
 								testID={`navigationRailItem__underlay--${id}`}
