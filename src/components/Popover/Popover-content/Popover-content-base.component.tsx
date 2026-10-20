@@ -105,6 +105,7 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 				height={layout.height}
 				id={id}
 				interactionHandlers={interactionHandlers}
+				menuOrPicker={isMenuOrPicker}
 				menuPosition={menuPosition}
 				onAnimationFinished={onAnimationFinished}
 				onMaskPressOut={onMaskPressOut}

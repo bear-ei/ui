@@ -1,6 +1,6 @@
 import {cloneElement, forwardRef, isValidElement, useMemo} from 'react'
 import {Platform, Pressable, Text, View, type ViewStyle} from 'react-native'
-import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverType} from '..'
+import {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from '..'
 import {LAYOUT, OFF_SCREEN_LAYOUT} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE, DURATION, EASING, RADIUS, SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../../theme'
@@ -21,6 +21,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 			height = 0,
 			id,
 			interactionHandlers,
+			menuOrPicker,
 			menuPosition,
 			onElevationAnimationFinished,
 			onMaskPressOut,
@@ -47,10 +48,6 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 			x: containerX = 0,
 			y: containerY = 0
 		} = containerLayout ?? {}
-
-		const isMenuOrPicker =
-			type &&
-			([POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]).includes(type)
 
 		const position = useMemo(
 			() => ({
@@ -189,8 +186,8 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 			[containerHeight, menuPosition, token, containerX, containerY, height, type, width]
 		)
 
-		const verticalAnimatedType = isMenuOrPicker ? LAYOUT_ANIMATED.COLLAPSE_Y : LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE
-		const horizontalAnimatedType = isMenuOrPicker ? LAYOUT_ANIMATED.COLLAPSE_X : LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE
+		const verticalAnimatedType = menuOrPicker ? LAYOUT_ANIMATED.COLLAPSE_Y : LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE
+		const horizontalAnimatedType = menuOrPicker ? LAYOUT_ANIMATED.COLLAPSE_X : LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE
 		const endOutputRanges = useMemo(
 			() =>
 				type === POPOVER_TYPE.TOOLTIP ?
@@ -247,7 +244,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 					{
 						[`${densityHorizontalInsetClasses(DENSITY_SIZE.SMALL)} min-h-[--density-spacing-x-large] bg-[--color-inverse-surface]`]:
 							type === POPOVER_TYPE.TOOLTIP,
-						['left-0 right-0']: isMenuOrPicker
+						['left-0 right-0']: menuOrPicker
 					},
 					shapeClasses(radius)(type === POPOVER_TYPE.TEXT_INPUT_PICKER ? SHAPE.BOTTOM : shape)
 				)}
@@ -255,14 +252,14 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 			>
 				{isValidElement(content) && type !== POPOVER_TYPE.TOOLTIP ?
 					<View
-						{...(isMenuOrPicker && {onLayout})}
+						{...(menuOrPicker && {onLayout})}
 						testID={`popoverContent__supporting--${id}`}
 					>
 						{/* Intentional override: the Menu inside a Popover receives the popover's
 							interaction handlers (except onLayout, which is handled separately) and
 							mirrors the popover's visibility. User-provided handlers on the Menu are
 							ignored — the popover owns the interaction state machine. */}
-						{isMenuOrPicker ?
+						{menuOrPicker ?
 							cloneElement<MenuProps>(
 								content as React.ReactElement<MenuProps, string | React.JSXElementConstructor<unknown>>,
 								{...mainInteractionHandlers, visible}
@@ -313,19 +310,19 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 					className={classesName('z-50 ', {
 						['absolute']: Platform.OS !== 'web',
 						['fixed']: Platform.OS === 'web',
-						['min-h-[--typography-body-large-height]']: !isMenuOrPicker
+						['min-h-[--typography-body-large-height]']: !menuOrPicker
 					})}
 					outputRanges={outputRanges}
 					ref={ref}
 					style={contentStyle}
 					testID={testID ?? `popoverContent__content--${id}`}
-					translate={!isMenuOrPicker}
+					translate={!menuOrPicker}
 					visible={isMainLayoutCompleted ? visible : undefined}
 				>
-					{isMenuOrPicker ? mainElement : popoverContentElement}
+					{menuOrPicker ? mainElement : popoverContentElement}
 				</LayoutAnimated>
 
-				{isMenuOrPicker && (
+				{menuOrPicker && (
 					<Mask
 						backgroundColor={token.scheme.scrim}
 						onPressOut={onMaskPressOut}
@@ -335,7 +332,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 					/>
 				)}
 
-				{isMenuOrPicker && (
+				{menuOrPicker && (
 					<View
 						className={classesName('-z-20', {
 							['absolute']: Platform.OS !== 'web',

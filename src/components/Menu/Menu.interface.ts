@@ -2,9 +2,9 @@ import type {PressableProps} from 'react-native'
 import type {InteractionHandlers} from '../../hooks'
 import type {ListType} from '../List'
 import type {PopoverProps, PopoverType} from '../Popover'
-// import type {MenuListProps} from './Menu-list'
+import type {MenuListProps} from './Menu-list'
 
-export interface MenuProps extends Omit<PressableProps & PopoverProps & InteractionHandlers, 'type'> {
+export interface MenuProps extends Omit<PressableProps & PopoverProps & MenuListProps & InteractionHandlers, 'type'> {
 	keyCode?: string
 	listType?: ListType
 	onContextMenu?: (event: MouseEvent) => void
@@ -21,21 +21,28 @@ export interface MenuState {
 	activeKey?: string
 	activeKeys?: string[]
 	focusedIndex?: number
-	keyCode?: string
-	nextActiveEvent?: () => void
-	nextFocusKeyEvent?: () => void
-	nextVisibleEvent?: () => void
+	pendingActiveEvent?: string
+	pendingActivesEvent?: string[]
+	pendingFocusKeyEvent?: string
+	pendingVisibleEvent?: boolean
 	visible?: boolean
 }
 
-export type HandleMenuKeyDownOptions = MenuProps
+export type HandleMenuKeyDownOptions = Pick<
+	MenuProps,
+	'data' | 'multiple' | 'onActives' | 'onActive' | 'activeKeys' | 'activeKey' | 'onFocusKey'
+>
 
 export interface HandleNextActivesEventOptions {
 	activeKeys: string[]
 	indexKey: string
 }
 
-export type HandleMenuKeyDownEventOptions = HandleMenuKeyDownOptions
+export type HandleMenuKeyDownEventOptions = Pick<
+	HandleMenuKeyDownOptions,
+	'onFocusKey' | 'data' | 'onActives' | 'onActive'
+>
+
 export interface UpdateMenuVisibleOptions extends Pick<RenderMenuProps, 'type'> {
 	onVisible?: (value?: boolean) => void
 }

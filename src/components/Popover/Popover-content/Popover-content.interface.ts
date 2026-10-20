@@ -28,6 +28,7 @@ export interface PopoverContentProps
 export interface RenderPopoverContentProps extends PopoverContentProps {
 	height?: number
 	interactionHandlers: InteractionHandlers
+	menuOrPicker?: boolean
 	menuPosition: {top?: number; left?: number}
 	onMaskPressOut?: () => void
 	width?: number
