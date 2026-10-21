@@ -25,6 +25,7 @@ export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View
 	onAnimationFinished?: (visible?: boolean) => void
 	onUnmount?: () => void
 	opacity?: number
+	onVisible?: (visible?: boolean) => void
 
 	// [ These parameters are only effective when the animation type is Collapse.
 	outputRanges?: number[]
@@ -47,6 +48,7 @@ export interface LayoutAnimatedState {
 	layout: Partial<LayoutRectangle>
 	pendingAnimationFinishedEvent?: boolean
 	pendingUnmountEvent?: boolean
+	pendingVisibleEvent?: boolean
 	status: ComponentStatus
 	visible?: boolean
 }

@@ -20,7 +20,7 @@ export const useLayoutAnimated = ({
 	outputRanges,
 	scale,
 	status,
-	translate,
+	translate = true,
 	visible,
 	width = 0
 }: UseLayoutAnimatedOptions) => {

@@ -72,19 +72,24 @@ export const updateLayoutAnimatedStatus =
 			draft.status = lazy && !visible ? COMPONENT_STATUS.IDLE : COMPONENT_STATUS.LOADING
 		})
 
-export const updateLayoutAnimatedVisible = (setState: Updater<LayoutAnimatedState>) => (visible?: boolean) => {
-	if (typeof visible !== 'boolean') {
-		return
-	}
-
-	setState(draft => {
-		if (draft.visible === visible) {
+export const updateLayoutAnimatedVisible =
+	(onVisible?: (visible?: boolean) => void) => (setState: Updater<LayoutAnimatedState>) => (visible?: boolean) => {
+		if (typeof visible !== 'boolean') {
 			return
 		}
 
-		draft.visible = visible
-	})
-}
+		setState(draft => {
+			if (draft.visible === visible) {
+				return
+			}
+
+			draft.visible = visible
+
+			if (onVisible) {
+				draft.pendingVisibleEvent = visible
+			}
+		})
+	}
 
 export const animateLayoutAnimated =
 	({animatedTiming, animatedType, entry, exit, onAnimationFinished}: AnimateLayoutAnimatedOptions) =>

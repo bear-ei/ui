@@ -176,8 +176,7 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 			]
 		)
 
-		const emitContentRef = useRef(onEmitContent)
-		emitContentRef.current = onEmitContent
+		const runEmitContent = onEmitContent
 
 		usePendingEvent({
 			eventKey: 'pendingEmitContentEvent',
@@ -222,15 +221,15 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 
 		useEffect(() => {
 			if (contextMenuLayout) {
-				emitContentRef.current({containerLayout: contextMenuLayout, visible: isVisible})
+				runEmitContent({containerLayout: contextMenuLayout, visible: isVisible})
 
 				return
 			}
 
 			containerRef.current?.measureInWindow((x, y, width, height) =>
-				emitContentRef.current({containerLayout: {x, y, width, height}, visible: isVisible})
+				runEmitContent({containerLayout: {x, y, width, height}, visible: isVisible})
 			)
-		}, [contextMenuLayout, isVisible])
+		}, [contextMenuLayout, isVisible, runEmitContent])
 
 		useEffect(() => {
 			if (type === POPOVER_TYPE.TEXT_INPUT_PICKER && isVisible) {

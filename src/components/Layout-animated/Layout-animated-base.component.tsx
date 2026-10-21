@@ -32,23 +32,34 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 			lazy = false,
 			onAnimationFinished: rawOnAnimationFinished,
 			onUnmount,
+			onVisible,
 			opacity,
 			outputRanges,
-			scale = false,
+			scale,
 			translate,
 			unmount,
-			visible: rawVisible,
+			visible,
 			...renderLayoutAnimatedProps
 		},
 		ref
 	) => {
-		const [{layout, pendingAnimationFinishedEvent, pendingUnmountEvent, status, visible: isVisible}, setState] =
-			useImmer<LayoutAnimatedState>({
-				layout: {} as Partial<LayoutRectangle>,
-				status: COMPONENT_STATUS.IDLE,
-				visible: rawVisible ?? defaultVisible
-			})
+		const [
+			{
+				layout,
+				pendingAnimationFinishedEvent,
+				pendingUnmountEvent,
+				pendingVisibleEvent,
+				status,
+				visible: isVisible
+			},
+			setState
+		] = useImmer<LayoutAnimatedState>({
+			layout: {} as Partial<LayoutRectangle>,
+			status: COMPONENT_STATUS.IDLE,
+			visible: visible ?? defaultVisible
+		})
 
+		usePendingEvent({func: onVisible, eventKey: 'pendingVisibleEvent', setState, pendingEvent: pendingVisibleEvent})
 		usePendingEvent({func: onUnmount, eventKey: 'pendingUnmountEvent', setState, pendingEvent: pendingUnmountEvent})
 		usePendingEvent({
 			eventKey: 'pendingAnimationFinishedEvent',
@@ -99,7 +110,7 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		})
 
 		const runUpdateStatus = useMemo(() => updateLayoutAnimatedStatus(lazy)(setState), [lazy, setState])
-		const runUpdateVisible = useMemo(() => updateLayoutAnimatedVisible(setState), [setState])
+		const runUpdateVisible = useMemo(() => updateLayoutAnimatedVisible(onVisible)(setState), [setState, onVisible])
 		const runLayoutChange = onLayoutChange
 
 		useEffect(() => {
@@ -109,12 +120,12 @@ export const LayoutAnimatedBase = forwardRef<View, LayoutAnimatedBaseProps>(
 		}, [contentSize, runLayoutChange])
 
 		useEffect(() => {
-			runUpdateVisible(rawVisible)
-		}, [rawVisible, runUpdateVisible])
+			runUpdateVisible(visible)
+		}, [visible, runUpdateVisible])
 
 		useEffect(() => {
-			runUpdateStatus(rawVisible)
-		}, [rawVisible, runUpdateStatus])
+			runUpdateStatus(visible)
+		}, [visible, runUpdateStatus])
 
 		if (status === COMPONENT_STATUS.IDLE && (lazy || unmount)) {
 			return <></>
